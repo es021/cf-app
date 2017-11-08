@@ -22,6 +22,9 @@ export default class LeftBarLayout extends React.Component {
             profile = <div className="left_bar_profile">
                 <ProfileCard user={user}></ProfileCard>
             </div>;
+        } else {
+
+            profile = <br></br>;
         }
 
         var nav = <div className="left_bar_nav">

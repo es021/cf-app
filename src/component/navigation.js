@@ -47,35 +47,35 @@ export function getBar(path) {
         {
             url: "/about",
             label: "About",
-            icon: "",
+            icon: "question-circle",
             app: true,
             auth: true
         },
         {
             url: "/users",
             label: "Users",
-            icon: "",
+            icon: "user",
             app: true,
             auth: true
         },
         {
             url: "/hall",
             label: "Hall",
-            icon: "",
+            icon: "comments",
             app: true,
             auth: true
         },
         {
             url: "/login",
             label: "Login",
-            icon: "",
+            icon: "sign-in",
             app: false,
             auth: true
         },
         {
             url: "/logout",
             label: "Logout",
-            icon: "",
+            icon: "sign-out",
             app: true,
             auth: false
         }

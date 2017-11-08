@@ -40,6 +40,7 @@ module.exports = {
                 'NODE_ENV': JSON.stringify((process.env.NODE_ENV))
             }
         })
+        ,new webpack.optimize.CommonsChunkPlugin('vendors')
     ],
     module: {
         loaders: [
@@ -58,7 +59,7 @@ module.exports = {
     output: {
         path: BUILD_DIR,
         publicPath: '/',
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
     devServer: {
         // this is for react-router-dom
