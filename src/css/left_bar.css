@@ -1,0 +1,30 @@
+left_bar{
+    background: green;
+}
+
+left_bar .left_bar_nav ul{
+    padding: 0;
+    list-style: none;
+}
+
+left_bar .left_bar_nav ul li{
+    padding: 10px;
+    background-color: blue;
+    color:white;
+}
+
+left_bar .left_bar_nav ul a.active li{
+    background-color: red;
+}
+
+left_bar .left_bar_nav ul a{
+    text-decoration: none !important;
+}
+
+left_bar .left_bar_nav ul li:hover{
+    background-color: red;
+}
+
+left_bar .left_bar_nav ul li:active{
+    background-color: darkred;
+}

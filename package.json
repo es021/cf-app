@@ -1,0 +1,50 @@
+{
+  "name": "react-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "set NODE_ENV=development&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+    "serve-api": "set NODE_ENV=development&& node ./server/server.js",
+    "build": "set NODE_ENV=production&& webpack -p --progress",
+    "serve": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-2"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.17.0",
+    "express": "^4.15.4",
+    "history": "^4.7.2",
+    "mysql": "^2.14.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^4.4.1",
+    "redux-thunk": "^2.2.0",
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "file-loader": "^0.11.2",
+    "react-hot-loader": "^1.3.1",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9"
+  }
+}

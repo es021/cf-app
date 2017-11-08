@@ -1,0 +1,52 @@
+html {
+    height: 100%;
+}
+
+body, footer{
+    background: red;
+}
+
+#app .primary-layout{
+    position: relative;
+    text-align: center;
+}
+
+header, content, left_bar, footer{
+    /*    border: 1px dotted gray;*/
+}
+
+header{
+    height: 50px;
+    position: fixed;
+    width: 100%;
+    top:0;
+    background: white;
+
+}
+
+.content{
+    background: blue;
+    margin-top: 50px;
+    min-height: 65vh;
+}
+
+footer{
+    height: 50px;
+    width: 100%;
+    min-height: 10%;
+}
+
+left_bar{
+    width: 150px;
+    left: 0;
+    top:0;
+    position: fixed;
+    height: 100%;
+    z-index: 5;
+}
+
+
+header, .content, footer{
+    padding-left: 150px;
+
+}
