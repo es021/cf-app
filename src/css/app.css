@@ -3,7 +3,7 @@ html {
 }
 
 body, footer{
-    background: red;
+    background: #465363;
 }
 
 #app .primary-layout{
@@ -25,7 +25,7 @@ header{
 }
 
 .content{
-    background: blue;
+    background: whitesmoke;
     margin-top: 50px;
     min-height: 65vh;
 }

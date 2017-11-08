@@ -1,5 +1,6 @@
 left_bar{
-    background: green;
+    text-align: left;
+    background: #333D49;
 }
 
 left_bar .left_bar_nav ul{
@@ -8,23 +9,25 @@ left_bar .left_bar_nav ul{
 }
 
 left_bar .left_bar_nav ul li{
-    padding: 10px;
-    background-color: blue;
-    color:white;
+    padding: 5px 10px;
+    color: #8292ad;
 }
 
-left_bar .left_bar_nav ul a.active li{
-    background-color: red;
+left_bar .left_bar_nav ul li .fa{
+    padding-right: 7px;
 }
+
 
 left_bar .left_bar_nav ul a{
     text-decoration: none !important;
 }
 
+left_bar .left_bar_nav ul a.active li,
 left_bar .left_bar_nav ul li:hover{
-    background-color: red;
+    background-color: #1a202d;
 }
 
+
 left_bar .left_bar_nav ul li:active{
-    background-color: darkred;
+    background-color: #10141e;
 }
