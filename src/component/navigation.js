@@ -11,28 +11,30 @@ import UserPage from '../page/user';
 import UsersPage from '../page/users';
 import HallPage from '../page/hall';
 
-export function getRoute(isApp,path){
-    
-        var route = (isApp) 
-        ?   <Switch>
-                <Route path={`${path}/`} exact component={HomePage} />
-                <Route path={`${path}/about`} component={AboutPage} />
-                <Route path={`${path}/logout`} component={LogoutPage} />
-                <Route path={`${path}/users`} component={UsersPage} />
-                <Route path={`${path}/user/:id`} component={UserPage} />
-            </Switch>
-        :   <Switch>
-                <Route path={`${path}/`} exact component={HomePage} />
-                <Route path={`${path}/hall`} component={HallPage} />
-                <Route path={`${path}/login`} component={LoginPage} />
-                <Route path={`${path}/about`} component={AboutPage} />
-            </Switch>
-        ;
-        
-        return route;
+import {isAuthorized} from '../redux/actions/auth-actions';
 
+export function getRoute(path){  
+        var isAuth = isAuthorized();
+
+    var route = (isAuth) 
+    ?   <Switch>
+            <Route path={`${path}/`} exact component={HomePage} />
+            <Route path={`${path}/about`} component={AboutPage} />
+            <Route path={`${path}/logout`} component={LogoutPage} />
+            <Route path={`${path}/users`} component={UsersPage} />
+            <Route path={`${path}/user/:id`} component={UserPage} />
+        </Switch>
+    :   <Switch>
+            <Route path={`${path}/`} exact component={HomePage} />
+            <Route path={`${path}/hall`} component={HallPage} />
+            <Route path={`${path}/login`} component={LoginPage} />
+            <Route path={`${path}/about`} component={AboutPage} />
+        </Switch>
+    ;
+    
+    return route;
 }
-export function getBar(isApp, path) {
+export function getBar(path) {
 
     var menuItem = [
         {
@@ -79,13 +81,15 @@ export function getBar(isApp, path) {
         }
     ];
 
+    var isAuth = isAuthorized();
+
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
-        if (isApp && !d.app) {
+        if (isAuth && !d.app) {
             return;
         }
 
-        if (!isApp && !d.auth) {
+        if (!isAuth && !d.auth) {
             return;
         }
 

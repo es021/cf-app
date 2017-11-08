@@ -8,32 +8,65 @@ const authReducerInitState = {
     error: null
 };
 
-export default function authReducer(state = authReducerInitState, action) {
+const AUTH_LOCAL_STORAGE = "auth";
+
+function setAuthLocalStorage(newItem) {
+    var auth = JSON.parse(window.localStorage.getItem(AUTH_LOCAL_STORAGE));
+    if (auth !== null) {
+        for (var k in newItem) {
+            auth[k] = newItem[k];
+        }
+    } else {
+        auth = newItem;
+    }
+    window.localStorage.setItem(AUTH_LOCAL_STORAGE, JSON.stringify(auth));
+}
+
+
+var auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
+if (auth !== null) {
+    auth = JSON.parse(auth);
+} else {
+    auth = authReducerInitState;
+    setAuthLocalStorage(authReducerInitState);
+}
+
+export default function authReducer(state = auth, action) {
     switch (action.type) {
         case authActions.DO_LOGOUT:
         {
+            window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
             return getNewState(state, authReducerInitState);
         }
         case authActions.DO_LOGIN + '_PENDING':
         {
-            return getNewState(state, {
+            var newState = {
                 fetching: true
-            });
+            };
+
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
         }
         case authActions.DO_LOGIN + '_FULFILLED':
         {
-            return getNewState(state, {
+            var newState = {
                 fetching: false,
                 isAuthorized: true
-            });
+            };
+
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
         }
         case authActions.DO_LOGIN + '_REJECTED':
         {
-            return getNewState(state, {
+            var newState = {
                 fetching: false,
                 isAuthorized: false,
                 error: action.payload.message
-            });
+            };
+
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
         }
     }
 

@@ -1,4 +1,9 @@
 import axios from 'axios';
+import {store} from '../store.js';
+
+export function isAuthorized() {
+    return store.getState().auth.isAuthorized;
+}
 
 export const DO_LOGIN = "DO_LOGIN";
 export function login(username, password) {
