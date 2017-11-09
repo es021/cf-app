@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {store} from '../store.js';
+import {AppConfig} from '../../config';
 
 export function isAuthorized() {
     return store.getState().auth.isAuthorized;
@@ -10,7 +11,7 @@ export function login(username, password) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.get("https://jsonplaceholder.typicode.com/users")
+            payload: axios.post(AppConfig.Api + "/login", {username: username, password: password})
         });
     };
 }

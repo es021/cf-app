@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as hallAction from '../redux/actions/hall-actions';
-
 class CompanyLine extends React.Component {
     constructor(props) {
         super(props);
@@ -68,11 +67,13 @@ class HallPage extends React.Component {
         super(props);
         this.page = 1;
         this.refreshTraffic = this.refreshTraffic.bind(this);
+        console.log("Hall","HallPage");
 
         this.traffic = {};
     }
 
     componentWillMount() {
+        console.log("Hall","componentWillMount");
         this.props.loadCompanies();
 
         this.props.loadTraffic();

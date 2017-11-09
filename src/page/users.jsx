@@ -36,6 +36,8 @@ class UsersPage extends React.Component {
     }
 
     componentWillMount() {
+        console.log("UsersPage", "componentWillMount");
+
         this.props.loadUser(this.page);
     }
 

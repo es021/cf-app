@@ -10,81 +10,125 @@ import LogoutPage from '../page/logout';
 import UserPage from '../page/user';
 import UsersPage from '../page/users';
 import HallPage from '../page/hall';
+import NotFoundPage from '../page/not-found';
+
 
 import {isAuthorized} from '../redux/actions/auth-actions';
 
-export function getRoute(path){  
-        var isAuth = isAuthorized();
+const menuItem = [
+    {
+        url: "/",
+        label: "Home",
+        icon: "home",
+        component: HomePage,
+        app: true,
+        auth: true
+    },
+    {
+        url: "/about",
+        label: "About",
+        icon: "question-circle",
+        component: AboutPage,
+        app: true,
+        auth: true
+    },
+    {
+        url: "/users",
+        label: "Users",
+        icon: "user",
+        component: UsersPage,
+        app: true,
+        auth: false
+    },
+    {
+        url: "/user/:id",
+        component: UserPage,
+        app: true,
+        auth: true,
+        routeOnly: true
+    },
+    {
+        url: "/hall",
+        label: "Hall",
+        icon: "comments",
+        component: HallPage,
+        app: true,
+        auth: true
+    },
+    {
+        url: "/login",
+        label: "Login",
+        icon: "sign-in",
+        component: LoginPage,
+        app: false,
+        auth: true
+    },
+    {
+        url: "/logout",
+        label: "Logout",
+        icon: "sign-out",
+        component: LogoutPage,
+        app: true,
+        auth: false
+    }
+];
 
-    var route = (isAuth) 
-    ?   <Switch>
-            <Route path={`${path}/`} exact component={HomePage} />
-            <Route path={`${path}/about`} component={AboutPage} />
-            <Route path={`${path}/logout`} component={LogoutPage} />
-            <Route path={`${path}/users`} component={UsersPage} />
-            <Route path={`${path}/user/:id`} component={UserPage} />
-        </Switch>
-    :   <Switch>
-            <Route path={`${path}/`} exact component={HomePage} />
-            <Route path={`${path}/hall`} component={HallPage} />
-            <Route path={`${path}/login`} component={LoginPage} />
-            <Route path={`${path}/about`} component={AboutPage} />
-        </Switch>
-    ;
-    
-    return route;
-}
-export function getBar(path) {
 
-    var menuItem = [
-        {
-            url: "/",
-            label: "Home",
-            icon: "home",
-            app: true,
-            auth: true
-        },
-        {
-            url: "/about",
-            label: "About",
-            icon: "question-circle",
-            app: true,
-            auth: true
-        },
-        {
-            url: "/users",
-            label: "Users",
-            icon: "user",
-            app: true,
-            auth: true
-        },
-        {
-            url: "/hall",
-            label: "Hall",
-            icon: "comments",
-            app: true,
-            auth: true
-        },
-        {
-            url: "/login",
-            label: "Login",
-            icon: "sign-in",
-            app: false,
-            auth: true
-        },
-        {
-            url: "/logout",
-            label: "Logout",
-            icon: "sign-out",
-            app: true,
-            auth: false
+
+export function getRoute(path) {
+    var isAuth = isAuthorized();
+
+    var routes = menuItem.map(function (d, i) {
+        var exact = (d.url === "/") ? true : false;
+        if (isAuth && !d.app) {
+            return;
         }
-    ];
+
+        if (!isAuth && !d.auth) {
+            return;
+        }
+
+        return(<Route path={`${path}${d.url}`} exact={exact} key={i}  component={d.component}></Route>);
+    });
+
+    return (<Switch>
+            {routes}
+            <Route path="*" component={NotFoundPage}/>
+            </Switch>);
+    
+    /*
+     var route = (isAuth) 
+     ?   <Switch>
+     <Route path={`${path}/`} exact component={HomePage} />
+     <Route path={`${path}/about`} component={AboutPage} />
+     <Route path={`${path}/hall`} component={HallPage} />
+     <Route path={`${path}/logout`} component={LogoutPage} />
+     <Route path={`${path}/users`} component={UsersPage} />
+     <Route path={`${path}/user/:id`} component={UserPage} />
+     </Switch>
+     :   <Switch>
+     <Route path={`${path}/`} exact component={HomePage} />
+     <Route path={`${path}/hall`} component={HallPage} />
+     <Route path={`${path}/login`} component={LoginPage} />
+     <Route path={`${path}/about`} component={AboutPage} />
+     </Switch>
+     ;
+     
+     return route;
+     */
+}
+
+export function getBar(path) {
 
     var isAuth = isAuthorized();
 
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
+
+        if (d.routeOnly === true) {
+            return;
+        }
+
         if (isAuth && !d.app) {
             return;
         }
