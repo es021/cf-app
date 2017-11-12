@@ -22,7 +22,8 @@ const menuItem = [
         icon: "home",
         component: HomePage,
         app: true,
-        auth: true
+        auth: true,
+        header: true
     },
     {
         url: "/about",
@@ -30,7 +31,22 @@ const menuItem = [
         icon: "question-circle",
         component: AboutPage,
         app: true,
-        auth: true
+        auth: true,
+        header: true
+    },
+    {
+        url: "/faq",
+        label: "FAQ",
+        icon: "question",
+        component: HomePage,
+        header: true
+    },
+    {
+        url: "/contact",
+        label: "Contact Us",
+        icon: "contact",
+        component: HomePage,
+        header: true
     },
     {
         url: "/users",
@@ -61,7 +77,8 @@ const menuItem = [
         icon: "sign-in",
         component: LoginPage,
         app: false,
-        auth: true
+        auth: true,
+        header: true
     },
     {
         url: "/logout",
@@ -70,7 +87,15 @@ const menuItem = [
         component: LogoutPage,
         app: true,
         auth: false
-    }
+    },
+    {
+        url: "/sign-up",
+        label: "Sign Up",
+        icon: "question",
+        component: HomePage,
+        header: true,
+        app:false
+    },
 ];
 
 
@@ -92,10 +117,10 @@ export function getRoute(path) {
     });
 
     return (<Switch>
-            {routes}
-            <Route path="*" component={NotFoundPage}/>
-            </Switch>);
-    
+{routes}
+<Route path="*" component={NotFoundPage}/>
+</Switch>);
+
     /*
      var route = (isAuth) 
      ?   <Switch>
@@ -118,28 +143,36 @@ export function getRoute(path) {
      */
 }
 
-export function getBar(path) {
+export function getBar(path, isHeader = false) {
 
     var isAuth = isAuthorized();
 
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
 
-        if (d.routeOnly === true) {
-            return;
-        }
+        if (isHeader) {
+            if(!d.header){
+                return;
+            }else if(isAuth && d.app === false){
+                return;
+            }
+        } else {
+            if (d.routeOnly === true) {
+                return;
+            }
 
-        if (isAuth && !d.app) {
-            return;
-        }
+            if (isAuth && !d.app) {
+                return;
+            }
 
-        if (!isAuth && !d.auth) {
-            return;
+            if (!isAuth && !d.auth) {
+                return;
+            }
         }
 
         return(<NavLink to={`${path}${d.url}`} exact={exact} key={i}  activeClassName="active">
             <li>
-                <i className={`fa fa-${d.icon}`}></i>
+                {(isHeader) ? "" : <i className={`fa fa-${d.icon}`}></i>}
                 {d.label}
             </li>
         </NavLink>);

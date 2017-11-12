@@ -8,7 +8,17 @@ export default class HeaderLayout extends React.Component {
 
     render() {
         return(<header>
-            {AppConfig.Name} {AppConfig.Desc}
+            <div className="img">
+                <img src={AppConfig.Icon}></img>
+            </div>
+            <div className="title">
+                <b>{AppConfig.Name}</b>
+                <br></br>
+                <small>{AppConfig.Desc}</small>
+            </div>
+            <div className="menu">
+                {this.props.menuList}
+            </div>
         </header>);
     }
 }

@@ -21,12 +21,13 @@ import RightBarLayout from './layout/right-bar-layout';
 class PrimaryLayout extends React.Component {
     render() {
         var path = this.props.match.path;
-        var menuBar = Navigation.getBar(path);
+        var headerMenu = Navigation.getBar(path, true);
+        var sideMenu = Navigation.getBar(path);
         var route = Navigation.getRoute(path);
 
         return(<div className="primary-layout">
-            <HeaderLayout></HeaderLayout>
-            <LeftBarLayout menuList={menuBar}></LeftBarLayout>        
+            <HeaderLayout menuList={headerMenu}></HeaderLayout>
+            <LeftBarLayout menuList={sideMenu}></LeftBarLayout>        
             <div className="content">
                 <div className="main">
                     {route}
