@@ -7,11 +7,13 @@ import promise from 'redux-promise-middleware';
 import userReducer from './reducer/user-reducer';
 import authReducer from './reducer/auth-reducer';
 import hallReducer from './reducer/hall-reducer';
+import layoutReducer from './reducer/layout-reducer';
 
 const allReducers = {
     user: userReducer,
     auth: authReducer,
-    hall: hallReducer
+    hall: hallReducer,
+    layout: layoutReducer
 };
 
 const rootReducer = combineReducers(allReducers);

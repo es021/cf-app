@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as userActions from '../redux/actions/user-actions';
 import {NavLink} from 'react-router-dom';
+import {ButtonLink} from '../component/buttons';
 
 //state is from redux reducer
 // with multiple objects
@@ -18,15 +19,7 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-class ButtonLink extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
-    render() {
-        return(<a onClick={this.props.onClick} className="btn_link">{this.props.label}</a>);
-    }
-}
 
 class UsersPage extends React.Component {
     constructor(props) {
