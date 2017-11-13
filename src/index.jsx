@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import {store} from './redux/store.js';
 
 require("./css/app.css");
+require("./css/buttons.css");
 require("./css/header.css");
 require("./css/footer.css");
 require("./css/left_bar.css");

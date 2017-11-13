@@ -5,6 +5,10 @@ import * as userActions from '../redux/actions/user-actions';
 import {NavLink} from 'react-router-dom';
 import {ButtonLink} from '../component/buttons';
 
+import * as layoutActions from '../redux/actions/layout-actions';
+import {store} from '../redux/store.js';
+import UserPage from './user';
+
 //state is from redux reducer
 // with multiple objects
 function mapStateToProps(state, ownProps) {
@@ -46,28 +50,28 @@ class UsersPage extends React.Component {
 
         if (data) {
             var dataItems = data.map((d, i) =>
-                <li key={i}><NavLink to={`/app/user/${d.ID}`} activeClassName="active">{d.first_name} {d.last_name}</NavLink></li>
-            );
+                //<li key={i}><NavLink to={`/app/user/${d.ID}`} activeClassName="active">{d.first_name} {d.last_name}</NavLink></li>
+                <li key={i}>
+                <ButtonLink onClick={() => store.dispatch(layoutActions.updateFocusCard(UserPage, {id: d.ID}))} 
+                            label={`${d.first_name} ${d.last_name}`}></ButtonLink>
+                </li>
+                );
+            }
+
+            var title = <h6>Users</h6>;
+            var loading = <div>Loading..</div>;
+
+            var content = <div>
+                <ul>{dataItems}</ul>
+                <ButtonLink onClick={this.loadNext} label="Next"></ButtonLink>
+            </div>;
+
+            return(<div> 
+                {title}
+                {(fetching) ? loading : content} 
+            </div>);
+
         }
-
-        var title = <h6>Users</h6>;
-        var loading = <div>Loading..</div>;
-
-        var content = <div>
-            <ul>{dataItems}</ul>
-            <ButtonLink onClick={this.loadNext} label="Next"></ButtonLink>
-        </div>;
-
-        return(<div> 
-            {title}
-            {(fetching) ? loading : content} 
-        </div>);
-
     }
-}
 
-UsersPage.propTypes = {
-    //cats: PropTypes.array.isRequired
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);
+    export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);

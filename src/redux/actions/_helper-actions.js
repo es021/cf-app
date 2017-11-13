@@ -1,6 +1,7 @@
+import axios from 'axios';
 import {AppConfig} from '../../config';
 
-export function getAxiosGraphQLQuery(axios, queryString) {
+export function getAxiosGraphQLQuery(queryString) {
     var requestUrl = AppConfig.Api+ "/graphql?";
 
     //queryString = queryString.replace(/ /g,'');

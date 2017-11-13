@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {getAxiosGraphQLQuery} from './_helper-actions';
 
 export const TRAFFIC = "HALL_TRAFFIC";
@@ -6,8 +5,8 @@ export function loadTraffic() {
     return function (dispatch) {
         dispatch({
             type: TRAFFIC,
-            payload: getAxiosGraphQLQuery(axios
-                    , `query{
+            payload: getAxiosGraphQLQuery(
+                     `query{
                         companies {
                             ID
                             active_queues {
@@ -30,8 +29,8 @@ export function loadCompanies() {
     return function (dispatch) {
         dispatch({
             type: FETCH_COMPANIES,
-            payload: getAxiosGraphQLQuery(axios
-                    , `query{
+            payload: getAxiosGraphQLQuery(
+                     `query{
                         companies {
                             ID
                             name

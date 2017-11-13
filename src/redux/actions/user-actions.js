@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {getAxiosGraphQLQuery} from './_helper-actions';
 
 export const FETCH_USER = "FETCH_USER";
@@ -9,8 +8,8 @@ export function loadUser(page) {
     return function (dispatch) {
         dispatch({
             type: FETCH_USER,
-            payload: getAxiosGraphQLQuery(axios
-                    , `query{
+            payload: getAxiosGraphQLQuery(
+                     `query{
                             users(role:"student", page:${page}, offset:${offset}){
                                 ID
                                 first_name
