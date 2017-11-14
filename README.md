@@ -1,2 +1,6 @@
-## React Routing V4 Setup
-Setup taken from Scotch React Router
+## Career Fair App ##
+
+Stack:
+# React
+# Redux
+# GraphQL
