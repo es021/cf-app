@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
-import {Config} from '../config';
 
 export default class ProfileCard extends React.Component {
     constructor(props) {

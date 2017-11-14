@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {store} from '../store.js';
-import {AppConfig} from '../../config';
+import {AppConfig} from '../../../config/app-config';
 
 export function isAuthorized() {
     return store.getState().auth.isAuthorized;

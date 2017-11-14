@@ -3,10 +3,16 @@ const expressGraphQL = require('express-graphql');
 const app = express();
 const PORT = 4000;
 const path = require('path');
+
+const axios = require('axios');
 //Use Career Fair Schema
 const schemaCF = require('./server/schema/_schema_cf.js');
 
+const {AuthAPI} = require('./server/api/auth-api');
+
+
 /*
+// body parser used in post argument
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -38,6 +44,9 @@ app.listen(PORT, () => {
 //});
 
 app.post('/login', function (req, res, next) {
+    
+    
+    AuthAPI.login("","");
     //console.log(req);
     res.send("auth");
     //var user_id = req.body.id;

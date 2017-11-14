@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AppConfig} from '../config';
+import {AppConfig} from '../../config/app-config';
 
 export default class HeaderLayout extends React.Component {
     constructor(props) {

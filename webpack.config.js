@@ -9,7 +9,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const BUILD_DIR = path.resolve(__dirname, 'public');
-const APP_DIR = path.resolve(__dirname, 'src');
+const APP_DIR = path.resolve(__dirname, 'app');
 
 var isProd = false;
 if (process.env.NODE_ENV === "production") {
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === "production") {
 
 var entry;
 if (isProd) {
-    entry = ['./src/index.jsx'];
+    entry = ['./app/index.jsx'];
 } else {
     entry = [
         'webpack-dev-server/client?http://localhost:8080',
