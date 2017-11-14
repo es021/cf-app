@@ -4,6 +4,11 @@ import {BrowserRouter, Route, NavLink, Switch, Redirect} from 'react-router-dom'
 import {Provider} from 'react-redux';
 import {store} from './redux/store.js';
 
+
+//import {User} from '../config/db-config';
+
+//console.log(User);
+
 require("./css/app.css");
 require("./css/buttons.css");
 require("./css/header.css");
