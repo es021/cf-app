@@ -1,4 +1,4 @@
-# Career Fair App
+# CF App
 
 Stacks:
 - React
