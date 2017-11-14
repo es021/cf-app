@@ -3,9 +3,10 @@ const DB = require('./DB.js');
 const {User} = require('../../config/db-config.js');
 
 class UserQuery {
-
-    getUser(id, role, page, offset) {
+    
+    getUser(id, email, role, page, offset) {
         var id_condition = (typeof id !== "undefined") ? `u.ID = ${id}` : `1=1`;
+        var email_condition = (typeof email !== "undefined") ? `u.user_email = '${email}'` : `1=1`;
         var role_condition = (typeof role !== "undefined") ? `(${this.selectMetaMain("u.ID", User.ROLE)}) LIKE '%${role}%' ` : `1=1`;
 
         var limit = DB.prepareLimit(page, offset);
@@ -29,8 +30,8 @@ class UserQuery {
            ,${this.selectMeta("u.ID", User.MAJOR)}
            ,${this.selectMeta("u.ID", User.MINOR)}
            ,${this.selectMeta("u.ID", User.COMPANY_ID, "company_id")}
-           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${role_condition} ${limit}`;
-
+           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
+        
         return sql;
     }
     
@@ -66,9 +67,9 @@ class UserExec {
         var isSingle = (type === "single");
         var sql = "";
         if (isSingle) {
-            sql = UserQuery.getUser(params.ID);
+            sql = UserQuery.getUser(params.ID, params.user_email);
         } else {
-            sql = UserQuery.getUser(undefined, params.role, params.page, params.offset);
+            sql = UserQuery.getUser(undefined, undefined, params.role, params.page, params.offset);
         }
 
         var toRet = DB.con.query(sql).then(function (res) {

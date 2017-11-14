@@ -2,6 +2,7 @@
 include_once 'lib/class-phpass.php';
 
 $hasher = new PasswordHash(8, true);
+//print_r($_POST);
 
 switch ($_POST["action"]) {
     case 'check_password':

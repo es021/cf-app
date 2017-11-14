@@ -32,7 +32,8 @@ const RootQuery = new GraphQLObjectType({
         user: {
             type: UserType,
             args: {
-                ID: {type: GraphQLInt}
+                ID: {type: GraphQLInt},
+                user_email: {type: GraphQLString}
             },
             resolve(parentValue, arg) {
                 return UserExec.user(arg);

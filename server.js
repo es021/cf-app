@@ -44,11 +44,13 @@ app.listen(PORT, () => {
 //});
 
 app.post('/login', function (req, res, next) {
-    
-    
-    AuthAPI.login("","");
+   
+    AuthAPI.login("","").then((response)=>{
+        console.log(response);
+        res.send(response);
+    });
     //console.log(req);
-    res.send("auth");
+    
     //var user_id = req.body.id;
     //res.sendFile(__dirname + '/public/index.html');
 });
