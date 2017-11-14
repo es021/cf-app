@@ -1,6 +1,6 @@
-## Career Fair App ##
+#Career Fair App
 
-Stack:
-# React
-# Redux
-# GraphQL
+Stacks:
+- React
+- Redux
+- GraphQL
