@@ -7,11 +7,11 @@ export function isAuthorized() {
 }
 
 export const DO_LOGIN = "DO_LOGIN";
-export function login(username, password) {
+export function login(email, password) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.post(AppConfig.Api + "/login", {username: username, password: password})
+            payload: axios.post(AppConfig.Api + "/login", {email: email, password: password})
         });
     };
 }

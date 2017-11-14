@@ -2,9 +2,9 @@ import {getNewState} from './_helper';
 import * as authActions from '../actions/auth-actions';
 
 const authReducerInitState = {
+    user: null,
     isAuthorized: false,
     fetching: false,
-    username: null,
     error: null
 };
 
@@ -41,7 +41,8 @@ export default function authReducer(state = auth, action) {
         case authActions.DO_LOGIN + '_PENDING':
         {
             var newState = {
-                fetching: true
+                fetching: true,
+                error: null
             };
 
             setAuthLocalStorage(newState);
@@ -51,7 +52,9 @@ export default function authReducer(state = auth, action) {
         {
             var newState = {
                 fetching: false,
-                isAuthorized: true
+                isAuthorized: true,
+                user: action.payload.data,
+                error: null
             };
 
             setAuthLocalStorage(newState);
@@ -62,7 +65,7 @@ export default function authReducer(state = auth, action) {
             var newState = {
                 fetching: false,
                 isAuthorized: false,
-                error: action.payload.message
+                error: action.payload.response.data
             };
 
             setAuthLocalStorage(newState);
