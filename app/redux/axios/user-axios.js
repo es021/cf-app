@@ -1,4 +1,4 @@
-import {getAxiosGraphQLQuery} from '../actions/_helper-actions';
+import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
 
 export function loadUser(id){
     return getAxiosGraphQLQuery(`

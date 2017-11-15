@@ -1,5 +1,7 @@
 const axios = require('axios');
-const {getAxiosGraphQLQuery, getPHPApiAxios} = require('./_helper-api');
+//const {getAxiosGraphQLQuery, getPHPApiAxios} = require('./_helper-api');
+
+const {getAxiosGraphQLQuery, getPHPApiAxios} = require('../../helper/api-helper');
 
 class AuthAPI {
     login(user_email, password) {

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {AppConfig} = require('../../config/app-config');
+const {AppConfig} = require('../config/app-config');
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 

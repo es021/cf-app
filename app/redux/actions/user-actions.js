@@ -1,4 +1,4 @@
-import {getAxiosGraphQLQuery} from './_helper-actions';
+import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
 
 export const FETCH_USER = "FETCH_USER";
 
