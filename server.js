@@ -36,7 +36,8 @@ app.use('/graphql', expressGraphQL({
 const {AuthAPI} = require('./server/api/auth-api');
 app.post('/login', function (req, res, next) {
     AuthAPI.login(req.body.email, req.body.password).then((response)=>{
-        //console.log(response);
+        console.log("/login");
+        console.log(response);
         if (typeof response !== "object"){
             res.status(401).send(response);
         } else{

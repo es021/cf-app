@@ -6,6 +6,7 @@ const AppConfig = {
     Url: "http://localhost:8080",
     Api: "http://localhost:4000",
     PHPApi : "http://localhost:88",
+    //PHPApi : "http://localhost",
     Icon: SiteUrl + "/asset/image/icon.png"
 };
 

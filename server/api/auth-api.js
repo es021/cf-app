@@ -11,7 +11,7 @@ class AuthAPI {
                 first_name,
                 last_name
             }}`;
-        
+
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var user = res.data.data.user;
             if (user !== null) {
@@ -19,16 +19,20 @@ class AuthAPI {
                 var pass_params = {action: "check_password", password: password, hashed: user.user_pass};
                 return getPHPApiAxios("password_hash", pass_params).then((res) => {
                     //password match -- cannot use === operator
-                    if(res.data == "1"){
+                    if (res.data == "1") {
                         delete(user["user_pass"]);
                         return user;
-                    } else{
+                    } else {
                         return `Wrong password`;
                     }
+                }, (err) => {
+                    return err;
                 });
             } else {
                 return `User ${user_email} Does Not Exist`;
             }
+        },(err) => {
+            return err;
         });
 
     }
