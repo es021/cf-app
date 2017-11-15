@@ -30,6 +30,10 @@
     "mysql": "^2.14.1",
     "nodemon": "^1.12.0",
     "promise-mysql": "^3.0.2",
+<<<<<<< HEAD
+=======
+    "qs": "^6.5.1",
+>>>>>>> 65ded205cab58a37d3c5cedd33f7a8a37ea40f44
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",

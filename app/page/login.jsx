@@ -23,13 +23,12 @@ function mapDispatchToProps(dispatch) {
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-
         this.login = this.login.bind(this);
     }
 
     login() {
         console.log("do login");
-        this.props.login('wzs21', "1234");
+        this.props.login('zulsarhan.shaari@gmail.com', "Gundamseed@21");
     }
 
     render() {
@@ -45,7 +44,7 @@ class LoginPage extends React.Component {
         
         var redirectToReferrer = this.props.redux.isAuthorized;
         var fetching = this.props.redux.fetching;
-
+        var error = this.props.redux.error;
 
         if (redirectToReferrer) {
             return (
@@ -57,6 +56,7 @@ class LoginPage extends React.Component {
                         <p>You must log in to view the page at {from.pathname}</p>
                         <button onClick={this.login}>Log in</button>
                         {(fetching) ? "Logging In" : ""}
+                        {(error !== null) ? error : ""}
                     </div>
                     );
         }
