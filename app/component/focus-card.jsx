@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as layoutActions from '../redux/actions/layout-actions';
 
+require("../css/focus-card.css");
+
 //state is from redux reducer
 // with multiple objects
 function mapStateToProps(state, ownProps) {
@@ -39,7 +41,7 @@ class FocusCard extends React.Component {
             component = React.createElement(focusCardComponent, props);
         }
 
-        return(<div className="focus-card">
+        return(<div id="focus-card">
             {component}
         </div>);
 
