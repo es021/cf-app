@@ -26,7 +26,7 @@ export default function userReducer(state = userReducerInitState, action) {
         {
             return getNewState(state, {
                 fetching: false,
-                error: action.payload.message
+                error: action.payload
             });
         }
     }

@@ -51,7 +51,7 @@ export default function hallReducer(state = hallReducerInitState, action) {
     else if (action.type.indexOf('_REJECTED') > -1) {
         var newState = getNewState(state[key], {
             fetching: false,
-            error: action.payload.message
+            error: action.payload
         });
 
         newObj[key] = newState;

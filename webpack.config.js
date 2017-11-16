@@ -14,8 +14,6 @@ const APP_DIR = path.resolve(__dirname, 'app');
 var isProd = false;
 if (process.env.NODE_ENV === "production") {
     isProd = true;
-} else if (process.env.NODE_ENV === "development") {
-    isProd = false;
 }
 
 var entry;

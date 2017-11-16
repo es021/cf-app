@@ -9,9 +9,7 @@ axios.interceptors.response.use(response =>
         return response;
     }, error =>
     {
-        //console.log("default ERROR");
         //console.log(error);
-        
         try{
             // error in query -- getAxiosGraphQLQuery
             if(error.response.config.url == graphQLUrl){
@@ -19,7 +17,12 @@ axios.interceptors.response.use(response =>
             }
         } catch(e){
             // no connection -- getPHPApiAxios
-            return Promise.reject(`[Server Error] ${error.code}`);
+            //console.log(error);
+            var retErr = "";
+            if(error.code === undefined){
+                retErr = error.message; //network error
+            }
+            return Promise.reject(`[Server Error] ${retErr}`);
         }
         
         return Promise.reject(error);

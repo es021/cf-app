@@ -65,7 +65,7 @@ export default function authReducer(state = auth, action) {
             var newState = {
                 fetching: false,
                 isAuthorized: false,
-                error: action.payload.response.data
+                error: action.payload
             };
 
             setAuthLocalStorage(newState);
