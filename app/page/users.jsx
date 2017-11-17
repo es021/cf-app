@@ -52,8 +52,9 @@ class UsersPage extends React.Component {
             var dataItems = data.map((d, i) =>
                 //<li key={i}><NavLink to={`/app/user/${d.ID}`} activeClassName="active">{d.first_name} {d.last_name}</NavLink></li>
                 <li key={i}>
-                <ButtonLink onClick={() => store.dispatch(layoutActions.updateFocusCard(UserPage, {id: d.ID}))} 
-                            label={`${d.first_name} ${d.last_name}`}></ButtonLink>
+                <ButtonLink 
+                    onClick={() => store.dispatch(layoutActions.updateFocusCard("Student Profile", UserPage, {id: d.ID}))} 
+                    label={`${d.first_name} ${d.last_name}`}></ButtonLink>
                 </li>
                 );
             }

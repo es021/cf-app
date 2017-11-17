@@ -1,6 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { bindActionCreators } from 'redux';
+//import React, {PropTypes} from 'react';
+
+import {connect}from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as layoutActions from '../redux/actions/layout-actions';
 import {store} from '../redux/store';
 import {ButtonIcon} from './buttons';
@@ -34,28 +36,44 @@ class FocusCard extends React.Component {
     }
 
     render() {
-        var focusCardComponent = this.props.redux.focusCardComponent;
+        var focus = this.props.redux.focusCard;
+
         var component = null;
-        
-        if (focusCardComponent !== null) {
-            var props = this.props.redux.focusCardProps;
+        if (focus.component !== null) {
+
             //this to force the child component to re-render
-            props["key"] = (new Date()).getTime();
-            component = React.createElement(focusCardComponent, props);
+            focus.props["key"] = (new Date()).getTime();
+            component = React.createElement(focus.component, focus.props);
         }
 
-        var display = (this.props.redux.focusCardShow) ? "initial" : "none";
+        var display = (focus.show) ? "flow-root" : "none";
         var style = {
             display: display
         };
-        
+
         return(<div style={style} id="focus-card">
-            <ButtonIcon onClick={() => store.dispatch(layoutActions.hideFocusCard())} size="md" icon="close"></ButtonIcon>
-            <h3>Card Title</h3>
-            {component}
-        </div>);
+            <div className="fc-content">
+                <div className="header">
+                    <div className="close-btn">
+                        <ButtonIcon 
+                            onClick={() => store.dispatch(layoutActions.hideFocusCard())} 
+                            size="18px" icon="close"></ButtonIcon>
+                    </div>
+                    <div className="title">
+                        {focus.title}
+                    </div>
+                </div>
+                {component}
+            </div>
+            <div onClick={() => store.dispatch(layoutActions.hideFocusCard())} className="background"></div>
+            </div>);
 
     }
 }
+
+
+//FocusCard.propTypes = {
+//  title: PropTypes.string
+//};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FocusCard);

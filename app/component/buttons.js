@@ -20,6 +20,9 @@ export class ButtonIcon extends React.Component {
             case 'md':
                 fontSize = "1em";
                 break;
+            default:
+                fontSize = this.props.size;
+                break;
         }
 
         var style = {
