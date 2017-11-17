@@ -33,7 +33,7 @@ class LoginPage extends React.Component {
 
     render() {
         console.log("from login render");
-        //console.log(this.props.redux);
+        console.log(this.props.redux);
 
         var {from} = this.props.location.state || {from: {pathname: '/app'}};
         
@@ -45,7 +45,7 @@ class LoginPage extends React.Component {
         var redirectToReferrer = this.props.redux.isAuthorized;
         var fetching = this.props.redux.fetching;
         var error = this.props.redux.error;
-
+        console.log(from.pathname);
         if (redirectToReferrer) {
             return (
                     <Redirect to={from}/>

@@ -17,10 +17,11 @@ axios.interceptors.response.use(response =>
             }
         } catch(e){
             // no connection -- getPHPApiAxios
-            //console.log(error);
             var retErr = "";
             if(error.code === undefined){
                 retErr = error.message; //network error
+            }else{
+                retErr = error.code;
             }
             return Promise.reject(`[Server Error] ${retErr}`);
         }
@@ -45,6 +46,7 @@ function getAxiosGraphQLQuery(queryString) {
 
 function getPHPApiAxios(script, params) {
     var requestUrl = AppConfig.PHPApi + `/cf-app/server/php-api/${script}.php`;
+    console.log(requestUrl);
     return axios.post(requestUrl, qs.stringify(params));
 }
 

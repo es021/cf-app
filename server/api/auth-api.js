@@ -31,6 +31,7 @@ class AuthAPI {
                 return `User ${user_email} Does Not Exist`;
             }
         },(err) => {
+            console.log("here");
             return err;
         });
 

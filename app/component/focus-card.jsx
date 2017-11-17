@@ -42,6 +42,7 @@ class FocusCard extends React.Component {
         }
 
         return(<div id="focus-card">
+            <h3>Card Title</h3>
             {component}
         </div>);
 
