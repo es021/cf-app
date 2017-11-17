@@ -8,7 +8,6 @@
 @media only screen and (max-width: 860px){
 
     #focus-card{
-        display: none;
         
         position:fixed;
         top:0;

@@ -32,7 +32,6 @@ if (auth !== null) {
 }
 
 auth["error"] = null;
-console.log(auth);
 
 export default function authReducer(state = auth, action) {
     switch (action.type) {
@@ -65,7 +64,6 @@ export default function authReducer(state = auth, action) {
         }
         case authActions.DO_LOGIN + '_REJECTED':
         {
-            console.log(action.payload.response.data);
             var err = action.payload.response.data;
             
             var newState = {

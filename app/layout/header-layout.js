@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import {AppConfig} from '../../config/app-config';
+import {ButtonIcon} from '../component/buttons';
 
-class ButtonIcon extends React.Component {
-    render() {
-
-        var style = {
-            fontSize: "2em"
-        };
-
-        return(<a style={style} className="button-icon"><i className={`fa fa-${this.props.icon}`}></i></a>);
-    }
-}
 
 export default class HeaderLayout extends React.Component {
     constructor(props) {
