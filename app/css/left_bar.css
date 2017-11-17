@@ -17,7 +17,6 @@ left_bar .left_bar_nav ul li .fa{
     padding-right: 7px;
 }
 
-
 left_bar .left_bar_nav ul a{
     text-decoration: none !important;
 }
@@ -30,4 +29,11 @@ left_bar .left_bar_nav ul li:hover{
 
 left_bar .left_bar_nav ul li:active{
     background-color: #10141e;
+}
+
+
+@media only screen and (max-width: 680px){
+    left_bar .left_bar_nav ul li .menu_label{
+        display: none;
+    }
 }

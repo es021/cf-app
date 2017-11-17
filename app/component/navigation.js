@@ -94,7 +94,7 @@ const menuItem = [
         icon: "question",
         component: HomePage,
         header: true,
-        app:false
+        app: false
     },
 ];
 
@@ -151,9 +151,9 @@ export function getBar(path, isHeader = false) {
         var exact = (d.url === "/") ? true : false;
 
         if (isHeader) {
-            if(!d.header){
+            if (!d.header) {
                 return;
-            }else if(isAuth && d.app === false){
+            } else if (isAuth && d.app === false) {
                 return;
             }
         } else {
@@ -173,7 +173,7 @@ export function getBar(path, isHeader = false) {
         return(<NavLink to={`${path}${d.url}`} exact={exact} key={i}  activeClassName="active">
             <li>
                 {(isHeader) ? "" : <i className={`fa fa-${d.icon}`}></i>}
-                {d.label}
+                <span className="menu_label">{d.label}</span>
             </li>
         </NavLink>);
     });

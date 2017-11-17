@@ -1,3 +1,10 @@
+/*
+860
+680
+360
+@media only screen and (max-width: 680px)
+*/
+
 /*this stylesheet is strictly for layout only */
 
 html {
@@ -7,7 +14,7 @@ html {
 body, footer{
     background: #465363;
 }
- 
+
 #app .primary-layout{
     position: relative;
     text-align: center;
@@ -59,8 +66,23 @@ left_bar{
     z-index: 5;
 }
 
-
+/*padding for left_bar*/
 header, .content, footer{
     padding-left: 150px;
-
 }
+
+/**Layout for Medium Size 680px */
+@media only screen and (max-width: 680px){
+    header, .content, footer{
+        padding-left: 35px;
+    }
+
+    left_bar{
+        width: 35px;
+        position: fixed;
+        height: 100%;
+        z-index: 5;
+    }
+}
+
+/**Layout for Small Size 360px */

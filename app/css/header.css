@@ -7,6 +7,7 @@ header{
 header .img{
     height: 100%;
     margin-left:10px;
+    margin-right:10px;
     padding:2px;
 }
 
@@ -14,16 +15,21 @@ header .img img{
     height: 100%;
 }
 
-header .menu{
+header .menu,
+header .menu-small{
     flex-grow:2;
     padding: 0 10px;
 }
 
-header .menu ul{
+header .menu ul,
+header .menu-small ul{
     margin:0;
-    display: flex;
-    padding: 0;
     list-style: none;
+    padding: 0;
+}
+
+header .menu ul{
+    display: flex;
     align-items: center;
     flex-flow: row wrap;
     justify-content: flex-end;
@@ -33,3 +39,48 @@ header .menu ul li{
     margin-right:35px;
 }
 
+/*menu small*/
+header .menu-small{
+    display: none;
+    text-align: right;
+}
+
+header .menu-small .button-icon{
+    height: 100%;
+}
+
+header .menu-small .button-icon:hover + ul,
+header .menu-small ul:hover{
+    display: initial;
+    right: 0;
+}
+
+header .menu-small ul{
+    position: absolute;
+    
+    right: -100px;
+    width: 100px;
+    
+    transition: right 0.2s ease-out;
+    
+    height: 100vh;
+    background: white;
+    
+    top:40px;
+    padding:10px 0;
+}
+
+header .menu-small li{
+    padding:0 10px;
+}
+
+@media only screen and (max-width: 860px){
+    /*Change Menu to button*/
+    header .menu{
+        display: none;
+    }
+
+    header .menu-small{
+        display: initial;
+    }
+}

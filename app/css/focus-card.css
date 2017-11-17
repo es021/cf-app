@@ -6,6 +6,7 @@
 
 /*make popup*/
 @media only screen and (max-width: 680px){
+    /*
     #focus-card{
         position:fixed;
         left:0;
@@ -17,4 +18,5 @@
         min-height: 90vh;
         background: green;
     }
+    */
 }
