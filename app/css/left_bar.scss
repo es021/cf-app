@@ -1,16 +1,13 @@
+@import "define/variable.scss";
+
 left_bar{
     text-align: left;
-    background: #333D49;
-}
-
-left_bar .left_bar_nav ul{
-    padding: 0;
-    list-style: none;
+    background: $COLOR_DARKER;
 }
 
 left_bar .left_bar_nav ul li{
     padding: 5px 10px;
-    color: #8292ad;
+    color: $COLOR_DARKER_TEXT;
 }
 
 left_bar .left_bar_nav ul li .fa{
@@ -23,16 +20,16 @@ left_bar .left_bar_nav ul a{
 
 left_bar .left_bar_nav ul a.active li,
 left_bar .left_bar_nav ul li:hover{
-    background-color: #1a202d;
+    background-color: $COLOR_DARKEST;
 }
 
 
 left_bar .left_bar_nav ul li:active{
-    background-color: #10141e;
+    background-color: darken($COLOR_DARKEST,5);
 }
 
 
-@media only screen and (max-width: 680px){
+@media only screen and (max-width: $LAYOUT_MD){
     left_bar .left_bar_nav ul li .menu_label{
         display: none;
     }

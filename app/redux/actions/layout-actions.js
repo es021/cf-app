@@ -16,3 +16,9 @@ export function hideFocusCard() {
         });
     };
 }
+
+
+import {store} from '../store.js';
+export function storeUpdateFocusCard(title, component, props) {
+    store.dispatch(updateFocusCard(title, component, props));
+}

@@ -1,18 +1,10 @@
-/*
-860
-680
-360
-@media only screen and (max-width: 680px)
-*/
-
-/*this stylesheet is strictly for layout only */
-
+@import "define/variable.scss";
 html {
     height: 100%;
 }
 
 body, footer{
-    background: #465363;
+    background: $COLOR_DARK;
 }
 
 #app .primary-layout{
@@ -71,8 +63,7 @@ header, .content, footer{
     padding-left: 150px;
 }
 
-/**Layout for Medium Size 680px */
-@media only screen and (max-width: 680px){
+@media only screen and (max-width: $LAYOUT_MD){
     header, .content, footer{
         padding-left: 35px;
     }

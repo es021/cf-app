@@ -6,6 +6,10 @@ export function isAuthorized() {
     return store.getState().auth.isAuthorized;
 }
 
+export function getAuthUser() {
+    return store.getState().auth.user;
+}
+
 export const DO_LOGIN = "DO_LOGIN";
 export function login(email, password) {
     return function (dispatch) {

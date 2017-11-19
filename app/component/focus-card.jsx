@@ -7,7 +7,8 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import {store} from '../redux/store';
 import {ButtonIcon} from './buttons';
 
-require("../css/focus-card.css");
+//require("../css/focus-card.css");
+require("../css/focus-card.scss");
 
 //state is from redux reducer
 // with multiple objects
@@ -63,11 +64,12 @@ class FocusCard extends React.Component {
                         {focus.title}
                     </div>
                 </div>
-                {component}
+                <div className="body">
+                    {component}
+                </div>
             </div>
             <div onClick={() => store.dispatch(layoutActions.hideFocusCard())} className="background"></div>
-            </div>);
-
+        </div>);
     }
 }
 

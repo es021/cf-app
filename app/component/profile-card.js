@@ -1,49 +1,72 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
+import {ImgConfig} from '../../config/app-config';
 
+require("../css/profile-card.scss");
+
+/*
+ * displayOnly : bool
+ * data : dataObject
+ * type : student | recruiter | company
+ */
 export default class ProfileCard extends React.Component {
     constructor(props) {
         super(props);
+        this.TYPE_STUDENT = "student";
+        this.TYPE_RECRUITER = "recruiter";
+        this.TYPE_COMPANY = "company";
+        this.getDefaultProfileImg = this.getDefaultProfileImg.bind(this);
     }
-    render() {
-        var user = this.props.user;
-        console.log(user);
-        var styleParent = {
-            color: (this.props.theme == "dark") ? "black" : "white",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            wordBreak: "break-all",
-            margin: "20px 5px",
-            lineHeight: "20px"
-        };
 
-
-        var dimension = "100px";
-        var stylePicture = {
-            height: dimension,
-            width: dimension,
-            backgroundImage: `url('${user.img_url}')`,
-            backgroundSize: user.img_size,
-            backgroundPosition: user.img_pos,
-            backgroundColor: "white",
-            borderRadius: "100%"
+    getDefaultProfileImg() {
+        var url = "";
+        switch (this.props.type) {
+            case this.TYPE_STUDENT:
+                url = ImgConfig.DefUser;
+                break;
+            case this.TYPE_RECRUITER:
+                url = ImgConfig.DefUser;
+                break;
+            case this.TYPE_COMPANY:
+                url = ImgConfig.DefCompany;
+                break;
         }
 
-        var style_h1 = {
-            marginTop: "3px",
-            fontSize: "16px"
+        return {
+            backgroundImage: `url('${url}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "50% 50%"
+        };
+    }
+
+    render() {
+        var data = this.props.data;
+        console.log(data);
+        var styleParent = {
+            color: (this.props.theme == "dark") ? "black" : "white",
+
         };
 
-        var style_h2 = {
-            fontSize: "13px",
-            opacity: "0.80"
-        };
+        var stylePicture = {};
+        if (typeof data.img_url === "undefined" || data.img_url == null || data.img_url == "") {
+            stylePicture = this.getDefaultProfileImg();
+        } else {
+            stylePicture = {
+                backgroundImage: `url('${data.img_url}')`,
+                backgroundSize: data.img_size,
+                backgroundPosition: data.img_pos
+            }
+        }
+
+        var dimension = "100px";
+        stylePicture["height"] = dimension;
+        stylePicture["width"] = dimension;
+
         //activeClassName="active"
-        return(<div style={styleParent}>
-            <div style={stylePicture}></div>
-            <div style={style_h1}>{user.first_name}</div>
-            <div style={style_h2}>{user.last_name}</div>
+        return(<div className="profile-card" style={styleParent}>
+            <div className="picture" style={stylePicture}></div>
+            <div className="title">{data.first_name}</div>
+            <div className="subtitle">{data.last_name}</div>
             {(this.props.displayOnly) ? "" : <small><NavLink  to={`/app/profile_edit`} >Edit Profile</NavLink></small>}
         </div>);
     }
