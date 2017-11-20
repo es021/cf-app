@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 import ProfileCard from '../component/profile-card';
-import {isAuthorized} from '../redux/actions/auth-actions';
+import {isAuthorized, getAuthUser} from '../redux/actions/auth-actions';
+
+import store from '../redux/store';
 
 export default class LeftBarLayout extends React.Component {
     constructor(props) {
@@ -9,18 +11,11 @@ export default class LeftBarLayout extends React.Component {
     }
 
     render() {
-        var user = {
-            email: "zulsarhan.shaari@gmail.com",
-            first_name: "Zulsarhan",
-            last_name: "Shaari"
-        };
-
-
         var isAuth = isAuthorized();
         var profile = "";
         if (isAuth) {
             profile = <div className="left_bar_profile">
-                <ProfileCard user={user}></ProfileCard>
+                <ProfileCard type="student" data={getAuthUser()}></ProfileCard>
             </div>;
         } else {
 

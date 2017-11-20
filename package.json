@@ -12,7 +12,7 @@
     "build": "set NODE_ENV=production&& webpack -p --progress",
     "serve": "node server.js"
   },
-  "author": "Wan Zulsarhan",
+  "author": "",
   "license": "ISC",
   "babel": {
     "presets": [
@@ -26,14 +26,12 @@
     "body-parser": "^1.18.2",
     "express": "^4.15.4",
     "express-graphql": "^0.6.11",
-    "graphql": "https://registry.npmjs.org/graphql/-/graphql-0.11.3.tgz",
+    "graphql": "^0.11.7",
     "history": "^4.7.2",
-    "json-server": "^0.12.0",
-    "mysql": "^2.14.1",
+    "mysql": "^2.15.0",
     "node-sass": "^4.7.1",
-    "nodemon": "^1.12.0",
-    "promise-mysql": "^3.0.2",
-    "qs": "^6.5.1",
+    "nodemon": "^1.12.1",
+    "promise-mysql": "^3.1.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
@@ -44,7 +42,6 @@
     "redux-promise-middleware": "^4.4.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
-    "sequelize": "^4.8.2",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
   },
@@ -58,7 +55,6 @@
     "file-loader": "^0.11.2",
     "react-hot-loader": "^1.3.1",
     "style-loader": "^0.18.2",
-    "url-loader": "^0.5.9",
-    "html-webpack-plugin": "^2.30.1"
+    "url-loader": "^0.5.9"
   }
 }

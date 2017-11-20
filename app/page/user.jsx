@@ -9,8 +9,9 @@ export default class UserPage extends Component {
 
         this.state = {
             data: null,
-            loading: true
+            loading: true,
         }
+        
     }
 
     componentWillMount() {
@@ -42,7 +43,7 @@ export default class UserPage extends Component {
                 <div>"Loading..."</div>
                 :
                 <div>
-                    <ProfileCard displayOnly={true} theme='dark' user={user}></ProfileCard>
+                    <ProfileCard type="student" displayOnly={true} theme='dark' data={user}></ProfileCard>
                     User : {user.ID}
                     , {user.first_name}
                     , {user.last_name}

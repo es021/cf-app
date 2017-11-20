@@ -8,11 +8,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        var line = <div>Line <br></br></div>;
-        var lines = []
-        for (var i = 0; i < 100; i++) {
-            lines.push(line);
-        }
+
         return (
                 <div>
                     Home Page New

@@ -3,7 +3,7 @@ import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
 export const FETCH_USER = "FETCH_USER";
 
 export function loadUser(page) {
-    var offset = 10;
+    var offset = 50;
     console.log("load page ",page);
     return function (dispatch) {
         dispatch({

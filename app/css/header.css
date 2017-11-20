@@ -2,6 +2,9 @@ header{
     text-align: left;
     display:flex;
     align-items: center;
+    z-index: 3;
+
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
 }
 
 header .img{
@@ -57,15 +60,15 @@ header .menu-small ul:hover{
 
 header .menu-small ul{
     position: absolute;
-    
+
     right: -100px;
     width: 100px;
-    
+
     transition: right 0.2s ease-out;
-    
+
     height: 100vh;
     background: white;
-    
+
     top:40px;
     padding:10px 0;
 }

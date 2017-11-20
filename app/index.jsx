@@ -9,11 +9,12 @@ import {store} from './redux/store.js';
 
 //console.log(User);
 
-require("./css/app.css");
+require("./css/app.scss");
+require("./css/general.scss");
 require("./css/buttons.css");
 require("./css/header.css");
 require("./css/footer.css");
-require("./css/left_bar.css");
+require("./css/left_bar.scss");
 require("./css/right_bar.css");
 require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
@@ -22,7 +23,7 @@ import HeaderLayout from './layout/header-layout';
 import FooterLayout from './layout/footer-layout';
 import LeftBarLayout from './layout/left-bar-layout';
 import RightBarLayout from './layout/right-bar-layout';
-
+import FocusCard from './component/focus-card';
 
 class PrimaryLayout extends React.Component {
     render() {
@@ -32,6 +33,7 @@ class PrimaryLayout extends React.Component {
         var route = Navigation.getRoute(path);
 
         return(<div className="primary-layout">
+            <FocusCard></FocusCard>
             <HeaderLayout menuList={headerMenu}></HeaderLayout>
             <LeftBarLayout menuList={sideMenu}></LeftBarLayout>        
             <div className="content">

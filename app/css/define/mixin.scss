@@ -1,0 +1,5 @@
+@mixin center_horizontal($width) {
+    width: $width;
+    margin-left: -($width/2);
+    left: 50%;
+}

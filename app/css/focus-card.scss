@@ -1,0 +1,63 @@
+@import "define/variable.scss";
+@import "define/mixin.scss";
+
+$fc_width : 500px;
+
+#focus-card {    
+    .background{
+        display: block;
+        background: rgba(0,0,0,0.5);
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9;
+    }
+
+    .fc-content{
+        width: 100%;
+        background: whitesmoke;
+        position:fixed;
+        top:0;
+        z-index: 10;
+
+        @include center_horizontal($fc_width);
+
+        .header{
+            width: 100%;
+            background: $COLOR_DARKER;
+            color:$COLOR_DARKER_TEXT;
+            border-bottom: grey 1px solid;
+            padding: 5px 2px;
+        }
+
+        .body{
+            max-height: 85vh;
+            min-height: 50vh;
+            margin-bottom: 25px;
+            overflow-y: auto;
+        }
+
+        .close-btn{
+            position: absolute;
+            right: 5px;
+            top: 2px;
+        }
+
+        .title{
+            font-size:15px;
+            font-style: oblique;
+        }
+    } 
+}
+
+@media only screen and (max-width: $fc_width){
+    #focus-card {
+        .fc-content{
+            width: 100%;
+            margin-left: 0px;
+            left: 0;
+        }
+    }
+}

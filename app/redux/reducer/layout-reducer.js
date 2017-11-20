@@ -2,9 +2,13 @@ import {getNewState} from './_helper';
 import * as layoutAction from '../actions/layout-actions';
 
 const layoutReducerInitState = {
-    focusCardComponent: null,
-    focusCardProps: null,
-    focusCardShow: false
+    focusCard: {
+        component: null,
+        props: null,
+        title: null,
+        show: false
+    }
+
 };
 
 export default function userReducer(state = layoutReducerInitState, action) {
@@ -12,11 +16,8 @@ export default function userReducer(state = layoutReducerInitState, action) {
     switch (action.type) {
         case layoutAction.UPDATE_FOCUS_CARD:
         {
-
             return getNewState(state, {
-                focusCardComponent: action.payload.component,
-                focusCardProps: action.payload.props,
-                focusCardShow: action.payload.show
+                focusCard: action.payload
             });
         }
     }
