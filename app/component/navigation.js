@@ -95,7 +95,7 @@ const menuItem = [
         component: HomePage,
         header: true,
         app: false
-    },
+    }
 ];
 
 

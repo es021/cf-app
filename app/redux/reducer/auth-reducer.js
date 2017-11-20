@@ -65,7 +65,7 @@ export default function authReducer(state = auth, action) {
         case authActions.DO_LOGIN + '_REJECTED':
         {
             var err = action.payload.response.data;
-            
+
             var newState = {
                 fetching: false,
                 isAuthorized: false,

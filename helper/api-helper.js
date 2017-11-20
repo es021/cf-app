@@ -5,29 +5,34 @@ const graphQLUrl = AppConfig.Api + "/graphql?";
 
 // Add a response interceptor
 axios.interceptors.response.use(response =>
-    {
-        return response;
-    }, error =>
-    {
-        //console.log(error);
-        try{
-            // error in query -- getAxiosGraphQLQuery
-            if(error.response.config.url == graphQLUrl){
-              return Promise.reject(`[GraphQL Error] ${error.response.data.errors[0].message}`); 
+        {
+            return response;
+        }, error =>
+        {
+            //console.log("error from axios");
+            //console.log(error);
+            try {
+                // error in query -- getAxiosGraphQLQuery
+                if (error.response.config.url == graphQLUrl) {
+                    error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
+                    return Promise.reject(error);
+                }
+            } catch (e) {
+                // no connection -- getPHPApiAxios
+                var retErr = "";
+                if (error.code === undefined) {
+                    retErr = error.message; //network error
+                } else {
+                    retErr = error.code;
+                }
+
+                error["response"] = {};
+                error.response["data"] = `[Server Error] ${retErr}`;
+                return Promise.reject(error);
             }
-        } catch(e){
-            // no connection -- getPHPApiAxios
-            var retErr = "";
-            if(error.code === undefined){
-                retErr = error.message; //network error
-            }else{
-                retErr = error.code;
-            }
-            return Promise.reject(`[Server Error] ${retErr}`);
+
+            return Promise.reject(error);
         }
-        
-        return Promise.reject(error);
-    }
 );
 
 function getAxiosGraphQLQuery(queryString) {
