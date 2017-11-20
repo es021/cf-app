@@ -74,9 +74,9 @@ class LoginPage extends React.Component {
         } else {
             return (
                     <div><h3>Login</h3>
-                        <Form className="row-form" items={this.formItems} onSubmit={this.formOnSubmit}>
-                        </Form>
                         <p>You must log in to view the page at {from.pathname}</p>
+                    
+                        <Form className="row-form" items={this.formItems} disableSubmit={fetching} onSubmit={this.formOnSubmit}></Form>
                     
                         {(fetching) ? "Logging In" : ""}
                         {(error !== null) ? error : ""}
