@@ -8,7 +8,6 @@
     "dev:server": "nodemon server.js",
     "dev:app-wp": "set NODE_ENV=development-wp&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
     "dev:server-wp": "set NODE_ENV=development-wp&& nodemon server.js",
-        
     "serve-api": "set NODE_ENV=development&& node ./server/server.js",
     "build": "set NODE_ENV=production&& webpack -p --progress",
     "serve": "node server.js"
@@ -31,6 +30,7 @@
     "history": "^4.7.2",
     "json-server": "^0.12.0",
     "mysql": "^2.14.1",
+    "node-sass": "^4.7.1",
     "nodemon": "^1.12.0",
     "promise-mysql": "^3.0.2",
     "qs": "^6.5.1",
@@ -43,6 +43,7 @@
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^4.4.1",
     "redux-thunk": "^2.2.0",
+    "sass-loader": "^6.0.6",
     "sequelize": "^4.8.2",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
