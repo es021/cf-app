@@ -1,5 +1,8 @@
 const SiteUrl = "http://localhost:4000";
+
 const PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
+
+const isProd = (process.env.NODE_ENV === "production");
 //
 //console.log(process.env.NODE_ENV);
 //console.log(PHPApi);
@@ -7,8 +10,8 @@ const PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" 
 const AppConfig = {
     Name: "Virtual Career Fair 2017",
     Desc: "Powered by Seeds Job Fair",
-    Url: "http://localhost:8080",
-    Api: "http://localhost:4000",
+    Url: (isProd) ? PHPApi : "http://localhost:8080",
+    Api: SiteUrl,
     PHPApi: PHPApi
 };
 

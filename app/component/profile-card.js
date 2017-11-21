@@ -40,14 +40,13 @@ export default class ProfileCard extends React.Component {
     }
 
     render() {
+        console.log("Render ProfileCard");
         var data = this.props.data;
-        console.log(data);
         var styleParent = {
             color: (this.props.theme == "dark") ? "black" : "white",
-
         };
 
-        var stylePicture = {};
+        var stylePicture = null;
         if (typeof data.img_url === "undefined" || data.img_url == null || data.img_url == "") {
             stylePicture = this.getDefaultProfileImg();
         } else {
@@ -67,7 +66,9 @@ export default class ProfileCard extends React.Component {
             <div className="picture" style={stylePicture}></div>
             <div className="title">{data.first_name}</div>
             <div className="subtitle">{data.last_name}</div>
-            {(this.props.displayOnly) ? "" : <small><NavLink  to={`/app/profile_edit`} >Edit Profile</NavLink></small>}
+            <div className="body">
+                {(this.props.displayOnly) ? "" : <small><NavLink  to={`/app/profile_edit`} >Edit Profile</NavLink></small>}
+            </div>
         </div>);
     }
 }

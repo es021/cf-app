@@ -4,7 +4,7 @@ class AuthAPI {
     login(user_email, password) {
         var user_query = `query{
             user(user_email:"${user_email}"){
-                ID,
+                ID, 
                 user_email,
                 user_pass,
                 first_name,
@@ -25,14 +25,15 @@ class AuthAPI {
                         return `Wrong password`;
                     }
                 }, (err) => {
-                    return err;
+                    //console.log("Error Auth Api getPHPApiAxios");
+                    return err.response.data;
                 });
             } else {
                 return `User ${user_email} Does Not Exist`;
             }
         },(err) => {
-            console.log("here");
-            return err;
+            //console.log("Error Auth Api getAxiosGraphQLQuery");
+            return err.response.data;
         });
 
     }

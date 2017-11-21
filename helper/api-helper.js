@@ -3,37 +3,66 @@ const {AppConfig} = require('../config/app-config');
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 
-// Add a response interceptor
-axios.interceptors.response.use(response =>
-        {
-            return response;
-        }, error =>
-        {
-            //console.log("error from axios");
-            //console.log(error);
-            try {
-                // error in query -- getAxiosGraphQLQuery
-                if (error.response.config.url == graphQLUrl) {
-                    error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
-                    return Promise.reject(error);
-                }
-            } catch (e) {
-                // no connection -- getPHPApiAxios
-                var retErr = "";
-                if (error.code === undefined) {
-                    retErr = error.message; //network error
-                } else {
-                    retErr = error.code;
-                }
-
-                error["response"] = {};
-                error.response["data"] = `[Server Error] ${retErr}`;
-                return Promise.reject(error);
-            }
-
-            return Promise.reject(error);
+// add errMes in responseObj.response.data
+const rejectPromiseError = function (responseObj, errMes) {
+    if (errMes !== null) {
+        if (typeof responseObj["response"] === "undefined") {
+            responseObj["response"] = {};
         }
-);
+        responseObj.response["data"] = errMes;
+        return Promise.reject(responseObj);
+    }
+
+    return false;
+};
+
+// Add a response interceptor
+axios.interceptors.response.use(response => {
+    //graphql can return error in response as well
+    var retErr = null;
+    if (response.config.url == graphQLUrl && response.data.errors) {
+        //console.log("error from axios graphQLUrl");
+        retErr = `[GraphQL Error] ${response.data.errors[0].message}`;
+    }
+
+    if (retErr !== null) {
+        return rejectPromiseError(response, retErr);
+    }
+
+    return response;
+
+}, error => {
+    var retErr = null;
+    try {
+        // error in query -- getAxiosGraphQLQuery
+        //console.log("error from axios try");
+        if (error.response.config.url == graphQLUrl) {
+            //error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
+            retErr = `[GraphQL Error] ${error.response.data.errors[0].message}`;
+        }
+
+    } catch (e) {
+        // no connection -- getPHPApiAxios
+        //console.log("error from axios catch");
+        if (error.code === undefined) {
+            retErr = error.message; //network error
+        } else {
+            // ECONNREFUSED
+            retErr = `${error.code} ${error.address}:${error.port}`;
+        }
+
+        retErr = `[Server Error] ${retErr}`;
+    }
+
+    if (retErr !== null) {
+        return rejectPromiseError(error, retErr);
+    }
+
+    //console.log("error from axios finish");
+    return Promise.reject(error);
+});
+
+//Export functions ------------------------------------------------------------------------------//
 
 function getAxiosGraphQLQuery(queryString) {
     var config = {

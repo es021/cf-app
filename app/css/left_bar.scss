@@ -3,34 +3,70 @@
 left_bar{
     text-align: left;
     background: $COLOR_DARKER;
-}
 
-left_bar .left_bar_nav ul li{
-    padding: 5px 10px;
-    color: $COLOR_DARKER_TEXT;
-}
+    .left_bar_nav {
+        ul li{
+            padding: 5px 10px;
+            color: $COLOR_DARKER_TEXT;
+        }
 
-left_bar .left_bar_nav ul li .fa{
-    padding-right: 7px;
-}
+        ul li .fa{
+            padding-right: 7px;
+        }
 
-left_bar .left_bar_nav ul a{
-    text-decoration: none !important;
-}
+        ul a{
+            text-decoration: none !important;
+        }
 
-left_bar .left_bar_nav ul a.active li,
-left_bar .left_bar_nav ul li:hover{
-    background-color: $COLOR_DARKEST;
-}
+        ul a.active li,
+        ul li:hover{
+            background-color: $COLOR_DARKEST;
+        }
 
+        ul li:active{
+            background-color: darken($COLOR_DARKEST,5);
+        }
+    }
 
-left_bar .left_bar_nav ul li:active{
-    background-color: darken($COLOR_DARKEST,5);
+    .left_bar_profile .profile-card {
+    
+        .picture{
+            cursor:pointer;
+            width: ($LEFTBAR_LG_WIDTH / 1.5) !important;
+            height: ($LEFTBAR_LG_WIDTH / 1.5) !important;
+        }
+
+        .picture:hover{
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+    }
+    
 }
 
 
 @media only screen and (max-width: $LAYOUT_MD){
-    left_bar .left_bar_nav ul li .menu_label{
-        display: none;
+    left_bar {
+
+        .left_bar_nav{
+            ul li .menu_label{
+                display: none;
+            }
+        }
+
+        .left_bar_profile .profile-card {
+
+            margin : 10px 0;
+            margin-bottom: 7px;
+            
+            .picture{
+                width: ($LEFTBAR_MD_WIDTH - 10) !important;
+                height: ($LEFTBAR_MD_WIDTH - 10) !important;
+                border-radius: 0;
+            }
+
+            .title, .subtitle, .body{
+                display: none;
+            }
+        }
     }
 }

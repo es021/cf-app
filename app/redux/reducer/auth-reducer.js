@@ -22,16 +22,26 @@ function setAuthLocalStorage(newItem) {
     window.localStorage.setItem(AUTH_LOCAL_STORAGE, JSON.stringify(auth));
 }
 
+function fixLocalStorageAuth(auth) {
+    if (typeof auth["user"] === "undefined" || typeof auth["isAuthorized"] === "undefined") {
+        return authReducerInitState;
+    }
+
+    // clear all possible error
+    auth["error"] = null;
+    auth["fetching"] = false;
+
+    return auth;
+}
 
 var auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
 if (auth !== null) {
     auth = JSON.parse(auth);
+    auth = fixLocalStorageAuth(auth);
 } else {
     auth = authReducerInitState;
     setAuthLocalStorage(authReducerInitState);
 }
-
-auth["error"] = null;
 
 export default function authReducer(state = auth, action) {
     switch (action.type) {

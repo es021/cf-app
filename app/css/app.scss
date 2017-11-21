@@ -50,7 +50,7 @@ footer{
 }
 
 left_bar{
-    width: 150px;
+    width: $LEFTBAR_LG_WIDTH;
     left: 0;
     top:0;
     position: fixed;
@@ -60,16 +60,16 @@ left_bar{
 
 /*padding for left_bar*/
 header, .content, footer{
-    padding-left: 150px;
+    padding-left: $LEFTBAR_LG_WIDTH;
 }
 
 @media only screen and (max-width: $LAYOUT_MD){
     header, .content, footer{
-        padding-left: 35px;
+        padding-left: $LEFTBAR_MD_WIDTH;
     }
 
     left_bar{
-        width: 35px;
+        width: $LEFTBAR_MD_WIDTH;
         position: fixed;
         height: 100%;
         z-index: 5;
