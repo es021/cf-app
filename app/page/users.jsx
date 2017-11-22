@@ -13,8 +13,9 @@ const offset = 10;
 const loadData = function (page, offset) {
     return getAxiosGraphQLQuery(`
     query{
-        users(role:"recruiter", page:${page}, offset:${offset}){
+        users(role:"student", page:${page}, offset:${offset}){
             ID
+            user_email
             first_name
             last_name
         }
@@ -23,10 +24,13 @@ const loadData = function (page, offset) {
 
 const renderList = function (d, i) {
     var param = {id: d.ID};
+    
+    var label = <span>{d.first_name} {d.last_name}<br></br>
+        <small>{d.user_email}</small></span>;
     return(<li key={i}>
     <ButtonLink 
         onClick={() => layoutActions.storeUpdateFocusCard("Student Profile", UserPage, param)} 
-        label={`${d.first_name} ${d.last_name}`}></ButtonLink>
+        label={label}></ButtonLink>
     </li>);
 };
 

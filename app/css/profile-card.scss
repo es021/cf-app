@@ -1,4 +1,4 @@
-$pc : "pc-";
+@import "define/variable.scss";
 
 .profile-card{
     display: flex;
@@ -8,18 +8,18 @@ $pc : "pc-";
     margin: 20px 5px;
     line-height: 20px;
 
-    .#{$pc}picture{
+    .#{$PROFILE_CARD}picture{
         background-color: white;
         border-radius: 100%;
     }
 
-    .#{$pc}title{
+    .#{$PROFILE_CARD}title{
         margin-top: 3px;
         font-size: 16px;
 
     }
     
-    .#{$pc}subtitle{
+    .#{$PROFILE_CARD}subtitle{
         font-size: 13px;
         opacity: 0.80;
     }
