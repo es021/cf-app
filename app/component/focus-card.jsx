@@ -37,6 +37,7 @@ class FocusCard extends React.Component {
     }
 
     render() {
+
         var focus = this.props.redux.focusCard;
         var component = null;
         if (focus.component !== null) {
@@ -51,23 +52,25 @@ class FocusCard extends React.Component {
             display: display
         };
 
+        var fc = "fc-";
         return(<div style={style} id="focus-card">
-            <div className="fc-content">
-                <div className="header">
-                    <div className="close-btn">
+            <div className={`${fc}content`}>
+                <div className={`${fc}header`}>
+                    <div className={`${fc}close-btn`}>
                         <ButtonIcon 
                             onClick={() => store.dispatch(layoutActions.hideFocusCard())} 
                             size="18px" icon="close"></ButtonIcon>
                     </div>
-                    <div className="title">
+                    <div className={`${fc}title`}>
                         {focus.title}
                     </div>
                 </div>
-                <div className="body">
+                <div className={`${fc}body`}>
                     {component}
                 </div>
             </div>
-            <div onClick={() => store.dispatch(layoutActions.hideFocusCard())} className="background"></div>
+            <div onClick={() => store.dispatch(layoutActions.hideFocusCard())} 
+                 className={`${fc}background`}></div>
         </div>);
     }
 }
