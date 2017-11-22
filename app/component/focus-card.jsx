@@ -38,7 +38,6 @@ class FocusCard extends React.Component {
 
     render() {
         var focus = this.props.redux.focusCard;
-
         var component = null;
         if (focus.component !== null) {
 

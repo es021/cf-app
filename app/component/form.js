@@ -4,6 +4,7 @@ import React, { Component } from 'react';
  * onSubmit : function(data_form)
  * items : [{name,type,required,placeholder}]
  * className :
+ * disableSubmit: boolean
  */
 export default class Form extends React.Component {
     constructor(props) {
@@ -52,7 +53,7 @@ export default class Form extends React.Component {
 
         return (<form className={this.props.className} onSubmit={this.onSubmit}>
             {formItems}
-            <input type="submit" value="Submit" />
+            <input type="submit" disabled={this.props.disableSubmit} value="Submit" />
         </form>);
     }
 }

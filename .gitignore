@@ -1,3 +1,5 @@
 node_modules
 compress
 nbproject
+npm-debug.log
+package.json

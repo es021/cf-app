@@ -11,7 +11,7 @@ const schemaCF = require('./server/schema/_schema_cf.js');
 // body parser used in post argument
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 
 // Express Middleware for serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,12 +35,12 @@ app.use('/graphql', expressGraphQL({
 
 const {AuthAPI} = require('./server/api/auth-api');
 app.post('/login', function (req, res, next) {
-    AuthAPI.login(req.body.email, req.body.password).then((response)=>{
+    AuthAPI.login(req.body.email, req.body.password).then((response) => {
         console.log("/login");
         console.log(response);
-        if (typeof response !== "object"){
+        if (typeof response !== "object") {
             res.status(401).send(response);
-        } else{
+        } else {
             res.send(response);
         }
     });
