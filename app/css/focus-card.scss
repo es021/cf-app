@@ -2,9 +2,10 @@
 @import "define/mixin.scss";
 
 $fc_width : 500px;
+$fc : "fc-";
 
 #focus-card {    
-    .background{
+    .#{$fc}background{
         display: block;
         background: rgba(0,0,0,0.5);
         height: 100vh;
@@ -15,7 +16,7 @@ $fc_width : 500px;
         z-index: 9;
     }
 
-    .fc-content{
+    .#{$fc}content{
         width: 100%;
         background: whitesmoke;
         position:fixed;
@@ -24,7 +25,7 @@ $fc_width : 500px;
 
         @include center_horizontal($fc_width);
 
-        .header{
+        .#{$fc}header{
             width: 100%;
             background: $COLOR_DARKER;
             color:$COLOR_DARKER_TEXT;
@@ -32,20 +33,20 @@ $fc_width : 500px;
             padding: 5px 2px;
         }
 
-        .body{
+        .#{$fc}body{
             max-height: 85vh;
             min-height: 50vh;
             margin-bottom: 25px;
             overflow-y: auto;
         }
 
-        .close-btn{
+        .#{$fc}close-btn{
             position: absolute;
             right: 5px;
             top: 2px;
         }
 
-        .title{
+        .#{$fc}title{
             font-size:15px;
             font-style: oblique;
         }
@@ -54,7 +55,7 @@ $fc_width : 500px;
 
 @media only screen and (max-width: $fc_width){
     #focus-card {
-        .fc-content{
+        .#{$fc}content{
             width: 100%;
             margin-left: 0px;
             left: 0;

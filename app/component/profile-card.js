@@ -62,11 +62,12 @@ export default class ProfileCard extends React.Component {
         stylePicture["width"] = dimension;
 
         //activeClassName="active"
+        var pc = "pc-";
         return(<div className="profile-card" style={styleParent}>
-            <div className="picture" style={stylePicture}></div>
-            <div className="title">{data.first_name}</div>
-            <div className="subtitle">{data.last_name}</div>
-            <div className="body">
+            <div className={`${pc}picture`} style={stylePicture}></div>
+            <div className={`${pc}title`}>{data.first_name}</div>
+            <div className={`${pc}subtitle`}>{data.last_name}</div>
+            <div className={`${pc}body`}>
                 {(this.props.displayOnly) ? "" : <small><NavLink  to={`/app/profile_edit`} >Edit Profile</NavLink></small>}
             </div>
         </div>);

@@ -29,18 +29,18 @@ left_bar{
     }
 
     .left_bar_profile .profile-card {
-    
-        .picture{
+
+        .#{$PROFILE_CARD}picture{
             cursor:pointer;
             width: ($LEFTBAR_LG_WIDTH / 1.5) !important;
             height: ($LEFTBAR_LG_WIDTH / 1.5) !important;
         }
 
-        .picture:hover{
+        .#{$PROFILE_CARD}picture:hover{
             box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
     }
-    
+
 }
 
 
@@ -57,14 +57,14 @@ left_bar{
 
             margin : 10px 0;
             margin-bottom: 7px;
-            
-            .picture{
+
+            .#{$PROFILE_CARD}picture{
                 width: ($LEFTBAR_MD_WIDTH - 10) !important;
                 height: ($LEFTBAR_MD_WIDTH - 10) !important;
                 border-radius: 0;
             }
 
-            .title, .subtitle, .body{
+            .#{$PROFILE_CARD}title, .#{$PROFILE_CARD}subtitle, .#{$PROFILE_CARD}body{
                 display: none;
             }
         }

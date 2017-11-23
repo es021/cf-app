@@ -1,0 +1,35 @@
+@import "define/variable.scss";
+
+footer{
+    text-align: center;
+    color:lightgray;
+    
+    .title{
+        color: darkgray;
+        font-size: 90%;
+
+        //top side bottom
+        //margin: 15px 0 5px;
+    }
+
+
+    .brand{
+        padding-bottom: 20px;
+        
+        .copyright{
+            margin: 10px 0 5px;
+            font-size: 85%;
+        }
+    }
+
+}
+
+@media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP){
+    footer{
+        .orgs{
+            text-align: center;
+        }
+    }
+
+}
+
