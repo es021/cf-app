@@ -3,7 +3,8 @@
 footer{
     text-align: center;
     color:lightgray;
-    
+    font-size:13px;
+
     .title{
         color: darkgray;
         font-size: 90%;
@@ -15,9 +16,15 @@ footer{
 
     .brand{
         padding-bottom: 20px;
-        
+
+        .social{            
+            .button-icon{
+                margin:0 7px;
+            }
+        }
+
         .copyright{
-            margin: 10px 0 5px;
+            margin-bottom: 5px;
             font-size: 85%;
         }
     }

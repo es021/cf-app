@@ -77,9 +77,10 @@ class LoginPage extends React.Component {
                         <p>You must log in to view the page at {from.pathname}</p>
                     
                         <Form className="row-form" items={this.formItems} disableSubmit={fetching} onSubmit={this.formOnSubmit}></Form>
-                    
-                        {(fetching) ? "Logging In" : ""}
-                        {(error !== null) ? error : ""}
+                        <div className="message">
+                            {(fetching) ? "Logging In" : ""}
+                            {(error !== null) ? error : ""}
+                        </div>
                     </div>
                     );
         }

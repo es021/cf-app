@@ -44,13 +44,13 @@ if (isProd) {
         main: buildDevEntryPoint(entryPoint.main),
         loading: buildDevEntryPoint(entryPoint.loading)
     };
-/*
-    entry = [
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/only-dev-server',
-        //APP_DIR + '/index.jsx'
-    ];
-*/
+    /*
+     entry = [
+     'webpack-dev-server/client?http://localhost:8080',
+     'webpack/hot/only-dev-server',
+     //APP_DIR + '/index.jsx'
+     ];
+     */
 
 }
 
@@ -65,7 +65,7 @@ const productionPlugins = [
     new ExtractTextPlugin("[name].css", {allChunks: false}),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         mangle: true,
         compress: {
@@ -84,7 +84,7 @@ const productionPlugins = [
     new CompressionPlugin({
         asset: "[path].gz[query]",
         algorithm: "gzip",
-        test: /\.js$|\.css$|\.html$/,
+        test: /\.js$|\.css$|\.html$|\.woff$|\.svg$|\.eot$|\.ttf$/,
         threshold: 10240,
         minRatio: 0
     })

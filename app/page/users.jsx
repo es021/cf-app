@@ -24,7 +24,7 @@ const loadData = function (page, offset) {
 
 const renderList = function (d, i) {
     var param = {id: d.ID};
-    
+
     var label = <span>{d.first_name} {d.last_name}<br></br>
         <small>{d.user_email}</small></span>;
     return(<li key={i}>
@@ -44,13 +44,12 @@ class UsersPage extends React.Component {
 
         var loadingList = <div>Custom Loading</div>;
         return(<div> USERS
-            <List className="test" 
-                  loading = {loadingList}
+            <List listClass="test" 
+                  customLoading = {loadingList}
                   dataKey ="users"
                   loadData={loadData} 
                   offset={offset} 
-                  renderList={renderList} 
-                  ></List>
+                  renderList={renderList}></List>
         </div>);
 
     }

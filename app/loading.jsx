@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import {Loader} from './component/loader';
 
 require("./css/app-loading.scss");
-const AppLoading = () => (
-            <div>Loading</div>
-            );
+
+class AppLoading extends React.Component {
+    render() {
+        return(<div>
+            <Loader text="Please Hold On" size="2"></Loader>
+        </div>);
+    }
+}
 
 //show loading until the main bundle finish load
 function loadScript(url, callback) {
@@ -15,7 +21,7 @@ function loadScript(url, callback) {
             if (script.readyState === "loaded" || script.readyState === "complete") {
                 script.onreadystatechange = null;
                 callback();
-            } 
+            }
         };
     } else {  //Others
         script.onload = function () {
@@ -28,12 +34,13 @@ function loadScript(url, callback) {
 }
 
 const app_load = document.getElementById('app-loading');
-
 var main = "asset/js/main.bundle.js";
 loadScript(main, function () {
-    console.log('script ready!');
-    //hide the loading
-    app_load.style["display"] = "none";
+    // hide the loading
+    app_load.style["opacity"] = "0";
+    setTimeout(() => {
+        app_load.style["display"] = "none";
+    }, 500);
 });
 
 render(<AppLoading/>, app_load);
