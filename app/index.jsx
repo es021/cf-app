@@ -15,7 +15,7 @@ require("./css/buttons.scss");
 require("./css/header.scss");
 require("./css/left_bar.scss");
 require("./css/right_bar.css");
-require("./lib/font-awesome-4.7.0/css/font-awesome.css");
+//require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
 import * as Navigation from './component/navigation';
 import HeaderLayout from './layout/header-layout';
