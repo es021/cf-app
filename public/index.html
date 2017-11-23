@@ -5,16 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <base href="/"/>
         <title>Test</title>
+
         <!--Stylesheet-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-        <link rel="stylesheet" href="asset/css/main.bundle.css" >
-        <!--        <link rel="stylesheet" href="style.css">-->
+        <link rel="stylesheet" href="asset/css/vendors.bundle.css" >
+        <link rel="stylesheet" href="asset/css/loading.bundle.css">
+        <link rel="stylesheet" href="asset/css/main.bundle.css">
     </head>
     <body>
         <!--Container for React rendering-->
+        <div id="app-loading"></div>
         <div id="app"></div>
         <!--Bundled file-->
         <script src="asset/js/vendors.bundle.js"></script>
-        <script src="asset/js/main.bundle.js"></script>
+        <script src="asset/js/loading.bundle.js"></script>
+        <!-- main.bundle.js is loaded inside loading.bundle.js -->
+        <!-- <script src="asset/js/vendors.bundle.js"></script>-->
     </body>
 </html>

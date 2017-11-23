@@ -6,6 +6,7 @@
  * 
  */
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin")
 const webpack = require('webpack');
 const path = require('path');
 const BUILD_DIR = path.resolve(__dirname, 'public');
@@ -18,20 +19,82 @@ if (process.env.NODE_ENV === "production") {
     isProd = true;
 }
 
+
+// Entry Helpers
+var buildDevEntryPoint = function (entryPoint) {
+    return [
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/only-dev-server',
+        entryPoint
+    ];
+};
+
+
+const entryPoint = {
+    main: APP_DIR + "/index.jsx",
+    loading: APP_DIR + "/loading.jsx"
+};
+
+// create Entry
 var entry;
 if (isProd) {
-    entry = ['./app/index.jsx'];
+    entry = entryPoint;
 } else {
+    entry = {
+        main: buildDevEntryPoint(entryPoint.main),
+        loading: buildDevEntryPoint(entryPoint.loading)
+    };
+/*
     entry = [
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server',
-        APP_DIR + '/index.jsx'
+        //APP_DIR + '/index.jsx'
     ];
+*/
+
 }
+
+
+const productionPlugins = [
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify((process.env.NODE_ENV))
+        }
+    }),
+    //new ExtractTextPlugin("bundle.css", {allChunks: false}),
+    new ExtractTextPlugin("[name].css", {allChunks: false}),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+        mangle: true,
+        compress: {
+            warnings: false, // Suppress uglification warnings
+            pure_getters: true,
+            unsafe: true,
+            unsafe_comps: true,
+            screw_ie8: true
+        },
+        output: {
+            comments: false
+        },
+        exclude: [/\.min\.js$/gi] // skip pre-minified libs
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]), //https://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
+    new CompressionPlugin({
+        asset: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0
+    })
+];
+
 
 module.exports = {
     entry: entry,
-    devtool: (false && isProd) ? false : 'source-map', // false
+    //devtool: (false && isProd) ? false : 'source-map', // false
+    devtool: (isProd) ? false : 'source-map', // false -- bigger
 
     plugins: [
         new webpack.DefinePlugin({
@@ -41,7 +104,33 @@ module.exports = {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin('vendors'),
-        new ExtractTextPlugin(CSS_DIR + "[name].bundle.css")
+        new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", {allChunks: false}),
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        //new webpack.optimize.DedupePlugin(), //deprecated
+        new webpack.optimize.UglifyJsPlugin({
+            mangle: true,
+            compress: {
+                warnings: false, // Suppress uglification warnings
+                pure_getters: true,
+                unsafe: true,
+                unsafe_comps: true,
+                screw_ie8: true
+            },
+            output: {
+                comments: false
+            },
+            exclude: [/\.min\.js$/gi] // skip pre-minified libs
+        }),
+        new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+        //need to configure express
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0
+        })
     ],
     module: {
         loaders: [
@@ -72,3 +161,4 @@ module.exports = {
         hot: true
     }
 };
+

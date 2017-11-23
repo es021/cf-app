@@ -13,8 +13,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 
-// Express Middleware for serving static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 //allow CORS
 app.use(function (req, res, next) {
@@ -24,15 +22,34 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+// intercept to serve compress file
+// this has to put before Express Middleware for serving static files 
+const hasGz = ["/asset/js/main.bundle.js"
+            , "/asset/js/vendors.bundle.js"
+            //, "/asset/css/main.bundle.css"
+];
+
+app.get('/asset/*', function (req, res, next) {
+    if (hasGz.indexOf(req.url) >= 0) {
+        req.url = req.url + '.gz';
+        res.set('Content-Encoding', 'gzip');
+        console.log("serve gzip", req.url);
+    }
+    next();
+});
+
+
+// Express Middleware for serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Graphql route
 app.use('/graphql', expressGraphQL({
     schema: schemaCF,
     graphiql: true //set able to use the graphQL web IDE to true
 }));
 
-//app.get('/', function (req, res, next) {
-//    res.sendFile(__dirname + '/www/index.html');
-//});
-
+// Login Route
 const {AuthAPI} = require('./server/api/auth-api');
 app.post('/login', function (req, res, next) {
     AuthAPI.login(req.body.email, req.body.password).then((response) => {
@@ -47,8 +64,15 @@ app.post('/login', function (req, res, next) {
 });
 
 app.get('*', function (req, res, next) {
+    console.log(req.url);
     res.sendFile(__dirname + '/public/index.html');
 });
+
+//app.get('/', function (req, res, next) {
+//    res.sendFile(__dirname + '/www/index.html');
+//});
+
+
 
 app.listen(PORT, () => {
     console.log("React, Redux and GraphQL Server is now running on port " + PORT);
