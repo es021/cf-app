@@ -21,46 +21,49 @@ const menuItem = [
         label: "Home",
         icon: "home",
         component: HomePage,
-        app: true,
-        auth: true,
-        header: true
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true
     },
     {
         url: "/about",
         label: "About",
-        icon: "question-circle",
-        component: AboutPage,
-        app: true,
-        auth: true,
-        header: true
-    },
-    {
-        url: "/faq",
-        label: "FAQ",
         icon: "question",
-        component: HomePage,
-        header: true
+        component: AboutPage,
+        bar_app: false,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true
     },
+
     {
         url: "/contact",
         label: "Contact Us",
-        icon: "contact",
-        component: HomePage,
-        header: true
+        icon: "envelope",
+        component: NotFoundPage,
+        bar_app: false,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: true
     },
     {
         url: "/users",
         label: "Users",
         icon: "user",
         component: UsersPage,
-        app: true,
-        auth: false
+        bar_app: true,
+        bar_auth: false,
+        hd_app: false,
+        hd_auth: false
     },
     {
         url: "/user/:id",
         component: UserPage,
-        app: true,
-        auth: true,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false,
         routeOnly: true
     },
     {
@@ -68,48 +71,66 @@ const menuItem = [
         label: "Hall",
         icon: "comments",
         component: HallPage,
-        app: true,
-        auth: true
+        bar_app: true,
+        bar_auth: false,
+        hd_app: false,
+        hd_auth: false
+    },
+    {
+        url: "/faq",
+        label: "FAQ",
+        icon: "question-circle",
+        component: NotFoundPage,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true
     },
     {
         url: "/login",
         label: "Login",
         icon: "sign-in",
         component: LoginPage,
-        app: false,
-        auth: true,
-        header: true
+        bar_app: false,
+        bar_auth: true,
+        hd_app: false,
+        hd_auth: true
     },
     {
         url: "/logout",
         label: "Logout",
         icon: "sign-out",
         component: LogoutPage,
-        app: true,
-        auth: false
+        bar_app: false,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false
     },
     {
         url: "/sign-up",
         label: "Sign Up",
-        icon: "question",
-        component: HomePage,
-        header: true,
-        app: false
+        icon: "user-plus",
+        component: NotFoundPage,
+        bar_app: false,
+        bar_auth: true,
+        hd_app: false,
+        hd_auth: true
     }
 ];
 
 
 
 export function getRoute(path) {
-    var isAuth = isAuthorized();
+    var isLog = isAuthorized();
 
     var routes = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
-        if (isAuth && !d.app) {
+
+        if (isLog && !(d.hd_app || d.bar_app)) {
             return;
         }
 
-        if (!isAuth && !d.auth) {
+        if (!isLog && !(d.hd_auth || d.bar_auth)) {
             return;
         }
 
@@ -143,31 +164,44 @@ export function getRoute(path) {
      */
 }
 
+function isRouteValid(isHeader, isLog, d) {
+    // Header and is logged in
+    if (isHeader && isLog && !d.hd_app) {
+        return false;
+    }
+
+    // Header and is logged out
+    if (isHeader && !isLog && !d.hd_auth) {
+        return false;
+    }
+
+    // Bar and is logged in
+    if (!isHeader && isLog && !d.bar_app) {
+        return false;
+    }
+
+    // Bar and is logged out
+    if (!isHeader && !isLog && !d.bar_auth) {
+        return false;
+    }
+
+    return true;
+
+}
+
 export function getBar(path, isHeader = false) {
 
-    var isAuth = isAuthorized();
+    var isLog = isAuthorized();
 
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
 
-        if (isHeader) {
-            if (!d.header) {
-                return;
-            } else if (isAuth && d.app === false) {
-                return;
-            }
-        } else {
-            if (d.routeOnly === true) {
-                return;
-            }
+        if (d.routeOnly) {
+            return;
+        }
 
-            if (isAuth && !d.app) {
-                return;
-            }
-
-            if (!isAuth && !d.auth) {
-                return;
-            }
+        if (!isRouteValid(isHeader, isLog, d)) {
+            return;
         }
 
         return(<NavLink to={`${path}${d.url}`} exact={exact} key={i}  activeClassName="active">

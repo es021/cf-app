@@ -23,7 +23,7 @@ export default class HeaderLayout extends React.Component {
             </div>
             <div className="menu-small">
                 <ButtonIcon size="lg" icon="bars"></ButtonIcon>
-                {this.props.menuList}
+                {this.props.menuList}  
             </div>
         </header>);
     }

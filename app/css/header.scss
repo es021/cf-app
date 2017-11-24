@@ -1,5 +1,7 @@
 @import "define/variable.scss";
 
+$MENU_SMALL_WIDTH : 100px;
+
 header {
     text-align: left;
     display:flex;
@@ -67,8 +69,8 @@ header {
         ul{
             position: absolute;
 
-            right: -100px;
-            width: 100px;
+            right: -$MENU_SMALL_WIDTH;
+            width: $MENU_SMALL_WIDTH;
 
             transition: right 0.2s ease-out;
 
@@ -97,3 +99,13 @@ header {
         }
     }
 }
+
+@media only screen and (max-width: $LAYOUT_SM){
+    //Change Menu to button
+    header {
+        .title{
+            display: none;
+        }
+    }
+}
+

@@ -51,6 +51,7 @@ left_bar{
             ul li .menu_label{
                 display: none;
             }
+
         }
 
         .left_bar_profile .profile-card {
@@ -68,5 +69,31 @@ left_bar{
                 display: none;
             }
         }
+    }
+}
+
+
+
+/**Layout for Small Size 360px */
+@media only screen and (max-width: $LAYOUT_SM){
+
+    left_bar {
+        .left_bar_nav{
+            ul{
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            ul li .fa{
+                padding-right: 0;
+            }
+        }
+
+        .left_bar_profile .profile-card {
+            margin : 5px;
+        }
+
     }
 }

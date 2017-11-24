@@ -13,8 +13,8 @@ require("./css/app.scss");
 require("./css/general.scss");
 require("./css/buttons.scss");
 require("./css/header.scss");
-require("./css/left_bar.scss");
-require("./css/right_bar.css");
+require("./css/left-bar.scss");
+require("./css/right-bar.scss");
 //require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
 import * as Navigation from './component/navigation';
@@ -26,6 +26,9 @@ import FocusCard from './component/focus-card';
 
 class PrimaryLayout extends React.Component {
     render() {
+        //scroll to top
+        window.scrollTo(0, 0);
+
         var path = this.props.match.path;
         var headerMenu = Navigation.getBar(path, true);
         var sideMenu = Navigation.getBar(path);

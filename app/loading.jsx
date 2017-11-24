@@ -6,14 +6,14 @@ require("./css/app-loading.scss");
 
 class AppLoading extends React.Component {
     render() {
-        return(<div>
+        return(<div>  
             <Loader text="Please Hold On" size="2"></Loader>
         </div>);
-    }
-}
-
+    } 
+}     
+ 
 //show loading until the main bundle finish load
-function loadScript(url, callback) {
+function loadScript(url, callback) {   
     var script = document.createElement("script");
     script.type = "text/javascript";
     if (script.readyState) {  //IE
@@ -27,11 +27,11 @@ function loadScript(url, callback) {
         script.onload = function () {
             callback();
         };
-    }
+    } 
 
     script.src = url;
     document.getElementsByTagName("body")[0].appendChild(script);
-}
+} 
 
 const app_load = document.getElementById('app-loading');
 var main = "asset/js/main.bundle.js";
