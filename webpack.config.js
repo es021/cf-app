@@ -44,13 +44,13 @@ if (isProd) {
         main: buildDevEntryPoint(entryPoint.main),
         loading: buildDevEntryPoint(entryPoint.loading)
     };
-/*
-    entry = [
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/only-dev-server',
-        //APP_DIR + '/index.jsx'
-    ];
-*/
+    /*
+     entry = [
+     'webpack-dev-server/client?http://localhost:8080',
+     'webpack/hot/only-dev-server',
+     //APP_DIR + '/index.jsx'
+     ];
+     */
 
 }
 
@@ -65,7 +65,7 @@ const productionPlugins = [
     new ExtractTextPlugin("[name].css", {allChunks: false}),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         mangle: true,
         compress: {
@@ -141,9 +141,9 @@ module.exports = {
             //{test: /\.js$/, loader: "babel?presets[]=es2015&presets[]=react", exclude: /node_modules/},
             {test: /\.css$/, loader: "style-loader!css-loader"},
             //{test: /\.scss$/, loader:  "style-loader!css-loader!sass-loader"},
-            {test: /\.scss$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"},
-            {test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
+            {test: /\.scss$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])}
+            //,{test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"}
+            //,{test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
         ]
     },
     resolve: {

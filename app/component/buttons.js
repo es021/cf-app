@@ -9,7 +9,13 @@ export class ButtonLink extends React.Component {
         return(<a onClick={this.props.onClick} className="btn_link">{this.props.label}</a>);
     }
 }
-
+  
+/*
+ * onClick
+ * icon
+ * size : lg | md | [any string]
+ * theme : dark | empty
+ */
 export class ButtonIcon extends React.Component {
     render() {
         var fontSize = "";
@@ -29,6 +35,7 @@ export class ButtonIcon extends React.Component {
             fontSize: fontSize
         };
 
-        return(<a style={style} onClick={this.props.onClick} className="button-icon"><i className={`fa fa-${this.props.icon}`}></i></a>);
+        var theme = (this.props.theme) ? this.props.theme : "";
+        return(<a style={style} onClick={this.props.onClick} className={`button-icon ${theme}`}><i className={`fa fa-${this.props.icon}`}></i></a>);
     }
 }

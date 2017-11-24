@@ -2,7 +2,20 @@
     position: fixed;
     width: 100%;
     min-height: 100vh;
-    background: blue;
+    background: whitesmoke;
     z-index: 1000;
     top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    transition: opacity 0.5s ease-out;
+}
+
+#app-loading.hide{
+    display: none;
+}
+
+.loader{
+    text-align: center;
 }

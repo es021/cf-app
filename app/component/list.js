@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import {ButtonLink} from '../component/buttons';
-/*
- * props
- * loadData: function (page)
- * renderList: function (data)
- * className:
- * offset:
- * query: string of graphql query
- * dataKey: key for query response
- */
+import PropTypes from 'prop-types';
+
+
 export default class List extends React.Component {
     constructor(props) {
         super(props);
@@ -91,7 +85,7 @@ export default class List extends React.Component {
 
     render() {
 
-        var loading = (this.props.loading) ? this.props.loading : <div>Loading..</div>;
+        var loading = (this.props.customLoading) ? this.props.customLoading : <div>Loading..</div>;
 
         var paging = <div>
             Page <b>{this.page}</b>
@@ -109,7 +103,7 @@ export default class List extends React.Component {
         </div>;
 
         var content = <div>
-            <ul className={`${this.props.className}`}>
+            <ul className={`${this.props.listClass}`}>
                 {this.state.listItem}
             </ul>
             {paging}
@@ -118,3 +112,12 @@ export default class List extends React.Component {
         return (this.state.fetching) ? loading : content;
     }
 }
+
+List.propTypes = {
+    loadData: PropTypes.func.isRequired, // function (page)
+    renderList: PropTypes.func.isRequired, // function (data)
+    offset: PropTypes.number.isRequired,
+    dataKey: PropTypes.string.isRequired, // key for query response
+    customLoading: PropTypes.element,
+    listClass: PropTypes.string
+};

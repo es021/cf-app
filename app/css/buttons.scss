@@ -1,0 +1,10 @@
+@import "define/variable.scss";
+
+a{
+    cursor:pointer;   
+}
+
+a.dark:hover,
+.button-icon.dark:hover{
+    color:lighten($COLOR_LINK, 20);
+}
