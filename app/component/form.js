@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
+import {PropTypes} from 'prop-types';
 
-/*
- * onSubmit : function(data_form)
- * items : [{name,type,required,placeholder}]
- * className :
- * disableSubmit: boolean
- */
+require('../css/form.scss');
+
 export default class Form extends React.Component {
     constructor(props) {
         super(props);
 
         this.form = {};
 
-        this.onChange = this.onChange.bind(this);
+        //this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onChange(event) {
-        return;
-        console.log("handleChange");
-        var name = event.target.name;
-        var newState = {};
-        newState[name] = event.target.value;
-    }
+    /*
+     onChange(event) {
+     console.log("handleChange");
+     var name = event.target.name;
+     var newState = {};
+     newState[name] = event.target.value;
+     }
+     */
 
     onSubmit(event) {
         var data_form = {};
@@ -36,20 +34,48 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
+    renderItem(d) {
+
+        switch (d.type) {
+
+            case 'textarea':
+                return(<textarea 
+                    name={d.name}
+                    rows={(d.rows) ? d.rows : 4}
+                    required={d.required}
+                    placeholder={d.placeholder}
+                    ref={(v) => this.form[d.name] = v}>
+                    {d.defaultValue}
+                </textarea>);
+                break;
+
+            default:
+                //onChange={this.onChange}
+                return(<input 
+                    name={d.name}
+                    type={d.type}
+                    required={d.required}
+                    placeholder={d.placeholder}
+                    value={d.defaultValue}
+                    ref={(v) => this.form[d.name] = v} />);
+                break;
+        }
+    }
+
     render() {
+
         var formItems = this.props.items.map((d, i) =>
-            <div className="form-item" key={i}>
-                <div className="form-label">{d.label}</div>
-                <div className="form-input">           
-                    <input 
-                        name={d.name}
-                        type={d.type}
-                        required={d.required}
-                        placeholder={d.placeholder}
-                        onChange={this.onChange}
-                        ref={(v) => this.form[d.name] = v} />
-                </div>
-            </div>);
+            (d.header)
+                    ?
+                    <div className="form-header" key={i}>{d.header}</div>
+                    :
+                    <div className="form-item" key={i}>
+                        <div className="form-label">{d.label}</div>
+                        <div className="form-input">           
+                            {this.renderItem(d)}
+                        </div>
+                    </div>
+        );
 
         return (<form className={this.props.className} onSubmit={this.onSubmit}>
             {formItems}
@@ -58,3 +84,10 @@ export default class Form extends React.Component {
     }
 }
 
+Form.propTypes = {
+    onSubmit: PropTypes.func.isRequired, //function(data_form)
+    //[{header} | {name,type,required,placeholder,rows,defaultValue}]
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    className: PropTypes.oneOf(['form-row', 'form-col']),
+    disableSubmit: PropTypes.bool
+};

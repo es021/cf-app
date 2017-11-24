@@ -1,5 +1,13 @@
+
 const User = {
-    // all roles
+    EMAIL: "user_email",
+    PASSWORD: "user_pass",
+    ACTIVATION_KEY: "user_activation_key",
+    REGISTER_AT: "user_registered"
+};
+
+const UserMeta = {
+    // all roles usermeta
     FIRST_NAME: "first_name",
     LAST_NAME: "last_name",
     DESCRIPTION: "description",
@@ -21,12 +29,13 @@ const User = {
     MINOR: "minor",
 
     // rec only
-    COMPANY_ID: "rec_company",
+    COMPANY_ID: "rec_company"
+};
 
-    // Enum
+const UserEnum = {
     ROLE_STUDENT: "student",
     ROLE_RECRUITER: "recruiter",
     ROLE_ADMIN: "administrator"
 };
 
-module.exports = {User};
+module.exports = {User, UserMeta, UserEnum};

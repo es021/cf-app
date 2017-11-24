@@ -5,6 +5,7 @@ from 'react-router-dom';
 
 import HomePage from '../page/home';
 import LoginPage from '../page/login';
+import SignUpPage from '../page/sign-up';
 import AboutPage from '../page/about';
 import LogoutPage from '../page/logout';
 import UserPage from '../page/user';
@@ -110,7 +111,7 @@ const menuItem = [
         url: "/sign-up",
         label: "Sign Up",
         icon: "user-plus",
-        component: NotFoundPage,
+        component: SignUpPage,
         bar_app: false,
         bar_auth: true,
         hd_app: false,

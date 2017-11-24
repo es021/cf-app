@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- TODO: Change the title bar text -->
+    <title>Katalon Automation Recorder</title>
+
+    <link href="./SignUp_files/css" rel="stylesheet">
+
+    <link rel="stylesheet" href="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/codemirror-5.31.0/lib/codemirror.css">
+    <link rel="stylesheet" href="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/css/layout.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/css/font-awesome.min.css">
+    
+    <!-- to hide right button feature -->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="panel/css/ie.css" type="text/css" media="screen" />
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/utils.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/atoms.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/selenium-api.js"></script>
+
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/hideshow.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/jquery.equalHeight.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/jquery.tabletab.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/colResizable-1.5.min.js"></script><style type="text/css">  .JColResizer{table-layout:fixed;} .JColResizer td, .JColResizer th{overflow:hidden;padding-left:0!important; padding-right:0!important;}  .JCLRgrips{ height:0px; position:relative;} .JCLRgrip{margin-left:-5px; position:absolute; z-index:5; } .JCLRgrip .JColResizer{position:absolute;background-color:red;filter:alpha(opacity=1);opacity:0;width:10px;height:100%;cursor: e-resize;top:0px} .JCLRLastGrip{position:absolute; width:1px; } .JCLRgripDrag{ 	} .JCLRFlex{width:auto!important;}</style>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/panelSetting.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/sortable-ui.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/codemirror-5.31.0/lib/codemirror.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/codemirror-5.31.0/mode/clike/clike.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/codemirror-5.31.0/mode/groovy/groovy.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/codemirror-5.31.0/mode/python/python.js"></script>
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/codemirror-5.31.0/mode/ruby/ruby.js"></script>
+
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/testCase.js"></script>
+<script id="formatter-script-language-id-katalon-0" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/formatCommandOnlyAdapter.js"></script><script id="formatter-script-language-id-katalon-1" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/remoteControl.js"></script><script id="formatter-script-language-id-katalon-2" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/format/java/java-rc.js"></script><script id="formatter-script-language-id-katalon-3" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/format/java/java-rc-junit4.js"></script><script id="formatter-script-language-id-katalon-4" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/format/java/java-rc-testng.js"></script><script id="formatter-script-language-id-katalon-5" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/format/java/java-backed-junit4.js"></script><script id="formatter-script-language-id-katalon-6" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/selenium-ide/format/katalon/katalon.js"></script></head>
+<!-- TODO: Make whole panel size flexible -->
+
+<body>
+    <header id="header" style="display:none">
+        <hgroup>
+            <img class="logo_img" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/icons/logo_16@2x.png">
+            <span class="title">Katalon Automation Recorder</span>
+        </hgroup>
+    </header>
+    <!-- end of header bar -->
+    <!-- right button feature -->
+
+    <section id="main" class="column">
+        <div id="toolbar-container" class="submit_link no-select d-flex justify-content-between align-items-center">
+            <div class="d-none">
+                <!-- hidden, because it has default style -->
+                <input id="load-testSuite-hidden" type="file" multiple="" accept="text/*" style="display: none">
+                <input id="load-testSuite-show" type="button" value="OpenSuite" style="display: none">
+                <button id="save-testSuite" style="display: none">SaveSuite</button>
+                <button id="close-testSuite" style="display: none">CloseSuite</button>
+                <button id="add-testSuite" style="display: none">+Suite</button>
+                <button id="add-testCase" style="display: none">+Case</button>
+                <button id="delete-testCase" style="display: none">-Case</button>
+                <a download="info.html" id="downloadlink" style="display: none">Download</a>
+                <button id="playSuite" class="sub_btn" style="display: none; width: 21%"><i class="" aria-hidden="true"></i> PlayThisSuite</button>
+
+                
+            </div>
+
+            <ul class="toolbar-items">
+                <li id="new" title="New Test Case">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/new-icon.svg"> New
+                    </div>
+                </li>
+                <li id="record" title="Click and navigate to the desired browser tab and record your tests. If the tab has been opened before Katalon Recorder was installed, please refresh it.">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/record-icon.svg"> Record</div>
+                </li>
+                <li id="playback" title="Run selected test case on the active tab, any interference may stop the process. If the tab has been opened before Katalon Recorder was installed, please refresh it." style="">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/play-icon.svg"> Play
+                    </div>
+                </li>
+                <li id="stop" style="display: none;">
+                    <div>
+                        <img class="img_btn stop-btn-pulse" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/stop-icon.svg"> Stop
+                    </div>
+                </li>
+                <li id="pause" style="display: none;">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/pause-icon.svg"> Pause
+                    </div>
+                </li>
+                <li id="resume" style="display: none;">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/resume-icon.svg"> Resume
+                    </div>
+                </li>
+                <li id="playSuites" style="display: none;">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/play-icon.svg"> Play All TestSuites
+                    </div>
+                </li>
+                <li id="export">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/export-icon.svg"> Export
+                    </div>
+                </li>
+            </ul>
+            <ul class="toolbar-items" id="right-toolbar-items">
+                <li id="settings" title="Settings">
+                    <div>
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/setting-icon.svg">
+                    </div>
+                </li>
+                <li id="help" class="link-button" title="Help">
+                    <a id="help-link" href="https://www.katalon.com/automation-recorder" target="_blank">
+                        <img class="img_btn" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/help-icon.svg">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="module_all">
+            <div class="module_middle">
+                <article class="width_quarter module_right">
+                    <div id="middle-container" class="module">
+                        <header class="no-select d-flex justify-content-between align-items-center">
+                            <h3 class="d-flex">Test case</h3>
+                            <div class="btn-more-dropdown">
+                                <button id="test-case-more" class="btn-more">
+                                    <img src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/ic_more_vert_black_18px.svg" alt="More" title="More">
+                                </button>
+                                <div id="test-case-more-content" class="btn-more-dropdown-content" style="display: none;">
+                                    <a href="javascript:void(0);" data-ref="load-testSuite-show">Open Test Suites</a>
+                                    <hr>
+                                    <a href="javascript:void(0);" data-ref="add-testSuite">New Test Suite</a>
+                                    <a href="javascript:void(0);" data-ref="add-testCase">New Test Case</a>
+                                </div>
+                            </div>
+                            <!--<a id="test-case-more" class="d-flex btn-more" href="javascript:void(0);"><img src="panel/images/ic_more_vert_black_18px.svg" alt="More" title="More"></a>-->
+                        </header>
+                        <div id="testCase-container" class="case_list ui-sortable">
+                            <div id="suite-grid-menu" class="menu" style="display: none;">
+                                <ul>
+                                    <li id="load-testSuite-show-menu"><a href="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel.html#">Open Test Suites</a></li>
+                                    <li id="add-testSuite-menu"><a href="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel.html#">New Test Suite</a></li>
+                                </ul>
+                            </div>
+                            <!-- Sug: Add animation when dragdrop -->
+                            <div id="testCase-grid" class="module_content" style="pointer-events: auto;">
+                                <!--<div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                    <p class="modified">Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>-->
+                            <div id="suite0" contextmenu="menusuite0" class="message ui-sortable selectedSuite" style=""><strong class="modified">Untitled Test Suite<span></span><div class="btn-more-dropdown"><button type="button" class="btn-more"><img src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/ic_more_vert_black_18px.svg" alt="More" title="More"></button><div id="menusuite0" class="btn-more-dropdown-content" style="display: none;"><a href="javascript:void(0);">Play</a><a href="javascript:void(0);">Save as...</a><a href="javascript:void(0);">Rename</a><a href="javascript:void(0);">Close</a><hr><a href="javascript:void(0);">New Test Case</a></div></div></strong><p id="case0" contextmenu="menucase0" class="">Login<span></span><div class="btn-more-dropdown"><button type="button" class="btn-more"><img src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/ic_more_vert_black_18px.svg" alt="More" title="More"></button><div id="menucase0" class="btn-more-dropdown-content" style="display: none;"><a href="javascript:void(0);">Play</a><a href="javascript:void(0);">Rename</a><a href="javascript:void(0);">Delete</a></div></div></p><p id="case1" contextmenu="menucase1" class="modified selectedCase success" title="Passed">Sign Up<span></span><div class="btn-more-dropdown"><button type="button" class="btn-more"><img src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/ic_more_vert_black_18px.svg" alt="More" title="More"></button><div id="menucase1" class="btn-more-dropdown-content" style="display: none;"><a href="javascript:void(0);">Play</a><a href="javascript:void(0);">Rename</a><a href="javascript:void(0);">Delete</a></div></div></p></div></div>
+                        </div>
+                    </div>
+                    <!-- end of messages article -->
+                    <article id="result-container" class="module">
+                        <div class="fieldset">
+                            <div class="result-row" title="Passed Test Run">
+                                <label id="result1">P: </label>
+                                <span id="result-runs" class="runs">1</span>
+                            </div>
+                            <div class="result-row" title="Failed Test Run">
+                                <label id="result2">F: </label>
+                                <span id="result-failures" class="failures">0</span>
+                            </div>
+                        </div>
+                    </article>
+                </article>
+                <article class="module width_3_quarter">
+                    <div id="command-container" class="tab_content case_hight" style="pointer-events: auto;">
+                        <div class="smallSection">
+                            <div class="JCLRgrips" style="width: 535px;"><div class="JCLRgrip" style="left: 125px; height: 38px;"><div class="JColResizer"></div></div><div class="JCLRgrip" style="left: 339px; height: 38px;"><div class="JColResizer"></div></div><div class="JCLRgrip JCLRLastGrip" style="left: 536px; height: 38px;"></div></div><table id="command-grid" class="tablesorter JColResizer" cellspacing="0">
+                                <!-- TODO: Make the width flexible -->
+                                <thead class="position-fixed">
+                                    <tr>
+                                        <th style="width: 123px;" class="header">Command<div class="border"></div></th>
+                                        <th style="width: 213px;" class="header">Target<div class="border"></div></th>
+                                        <th style="width: 197px;" class="header">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="records-grid" class="ui-sortable"><input id="records-count" type="hidden" value="4">
+<tr class="success" style="" id="records-1">
+    <td><div style="display: none;">type</div><div>type</div></td>
+    <td><div style="display: none;">name=user_email</div><div>name=user_email</div><datalist><option>name=user_email</option></datalist></td>
+    <td><div style="display: none;">test@gmail.com</div><div>test@gmail.com</div></td>
+</tr>
+<tr class="success" style="" id="records-2">
+    <td><div style="display: none;">type</div><div>type</div></td>
+    <td><div style="display: none;">name=user_pass</div><div>name=user_pass</div><datalist><option>name=user_pass</option></datalist></td>
+    <td><div style="display: none;">12345</div><div>12345</div></td>
+</tr>
+<tr class="success" style="" id="records-3">
+    <td><div style="display: none;">type</div><div>type</div></td>
+    <td><div style="display: none;">name=user_pass-confirm</div><div>name=user_pass-confirm</div><datalist><option>name=user_pass-confirm</option></datalist></td>
+    <td><div style="display: none;">wzs21</div><div>wzs21</div></td>
+</tr>
+<tr class="success" style="" id="records-4">
+    <td><div style="display: none;">click</div><div>click</div></td>
+    <td><div style="display: none;">//input[@value='Submit']</div><div>//input[@value='Submit']</div><datalist><option>//input[@value='Submit']</option><option>//div[@id='app']/div/div[2]/div/div/form/input</option><option>//form/input</option></datalist></td>
+    <td><div style="display: none;"></div><div></div></td>
+</tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="command-toolbar">
+                        <div id="command-grid-menu">
+                            <ul>
+                                <li id="grid-add" title="Add new test step">
+                                    <a href="javascript:void(0);">Add</a>
+                                </li>
+                                <li id="grid-delete" title="Delete the current test step">
+                                    <a href="javascript:void(0);">Delete</a>
+                                </li>
+                                <li id="grid-deleteAll" title="Delete all test steps">
+                                    <a href="javascript:void(0);">Delete All</a>
+                                </li>
+                            <li id="tempChild" title="Execute current selected test step"><a href="javascript:void(0);">Execute</a></li></ul>
+                            <ul>
+                                <li id="selectElementButton" title="Select a target element for the current command">
+                                    <a href="javascript:void(0);">Select</a>
+                                </li>
+                                <li id="showElementButton" title="Find and highlight the curent target element of the current command">
+                                    <a href="javascript:void(0);">Find</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="fieldset">
+                            <!-- TODO: make (command &) target selectable -->
+                            <div class="command-row">
+                                <label for="command-command">Command</label>
+                                <input id="command-command" list="command-command-list" type="text">
+                                <i id="command-" class="fa fa-chevron-down" aria-hidden="true"></i>
+                                <div id="command-dropdown" class="w3-dropdown-content w3-bar-block" style="width: 444.5px;"><option value="addLocationStrategy">addLocationStrategy</option>
+<option value="addLocationStrategyAndWait">addLocationStrategyAndWait</option>
+<option value="addScript">addScript</option>
+<option value="addScriptAndWait">addScriptAndWait</option>
+<option value="addSelection">addSelection</option>
+<option value="addSelectionAndWait">addSelectionAndWait</option>
+<option value="ajaxWait">ajaxWait</option>
+<option value="ajaxWaitAndWait">ajaxWaitAndWait</option>
+<option value="allowNativeXpath">allowNativeXpath</option>
+<option value="allowNativeXpathAndWait">allowNativeXpathAndWait</option>
+<option value="altKeyDown">altKeyDown</option>
+<option value="altKeyDownAndWait">altKeyDownAndWait</option>
+<option value="altKeyUp">altKeyUp</option>
+<option value="altKeyUpAndWait">altKeyUpAndWait</option>
+<option value="answerOnNextPrompt">answerOnNextPrompt</option>
+<option value="assertAlert">assertAlert</option>
+<option value="assertAlertAndWait">assertAlertAndWait</option>
+<option value="assertAlertNotPresent">assertAlertNotPresent</option>
+<option value="assertAlertPresent">assertAlertPresent</option>
+<option value="assertAllButtons">assertAllButtons</option>
+<option value="assertAllFields">assertAllFields</option>
+<option value="assertAllLinks">assertAllLinks</option>
+<option value="assertAllWindowIds">assertAllWindowIds</option>
+<option value="assertAllWindowNames">assertAllWindowNames</option>
+<option value="assertAllWindowTitles">assertAllWindowTitles</option>
+<option value="assertAttribute">assertAttribute</option>
+<option value="assertAttributeFromAllWindows">assertAttributeFromAllWindows</option>
+<option value="assertBodyText">assertBodyText</option>
+<option value="assertChecked">assertChecked</option>
+<option value="assertConfirmation">assertConfirmation</option>
+<option value="assertConfirmationAndWait">assertConfirmationAndWait</option>
+<option value="assertConfirmationNotPresent">assertConfirmationNotPresent</option>
+<option value="assertConfirmationPresent">assertConfirmationPresent</option>
+<option value="assertCookie">assertCookie</option>
+<option value="assertCookieByName">assertCookieByName</option>
+<option value="assertCookieNotPresent">assertCookieNotPresent</option>
+<option value="assertCookiePresent">assertCookiePresent</option>
+<option value="assertCssCount">assertCssCount</option>
+<option value="assertCursorPosition">assertCursorPosition</option>
+<option value="assertEditable">assertEditable</option>
+<option value="assertElementHeight">assertElementHeight</option>
+<option value="assertElementIndex">assertElementIndex</option>
+<option value="assertElementNotPresent">assertElementNotPresent</option>
+<option value="assertElementPositionLeft">assertElementPositionLeft</option>
+<option value="assertElementPositionTop">assertElementPositionTop</option>
+<option value="assertElementPresent">assertElementPresent</option>
+<option value="assertElementWidth">assertElementWidth</option>
+<option value="assertEval">assertEval</option>
+<option value="assertExpression">assertExpression</option>
+<option value="assertHtmlSource">assertHtmlSource</option>
+<option value="assertLocation">assertLocation</option>
+<option value="assertMouseSpeed">assertMouseSpeed</option>
+<option value="assertNotAlert">assertNotAlert</option>
+<option value="assertNotAllButtons">assertNotAllButtons</option>
+<option value="assertNotAllFields">assertNotAllFields</option>
+<option value="assertNotAllLinks">assertNotAllLinks</option>
+<option value="assertNotAllWindowIds">assertNotAllWindowIds</option>
+<option value="assertNotAllWindowNames">assertNotAllWindowNames</option>
+<option value="assertNotAllWindowTitles">assertNotAllWindowTitles</option>
+<option value="assertNotAttribute">assertNotAttribute</option>
+<option value="assertNotAttributeFromAllWindows">assertNotAttributeFromAllWindows</option>
+<option value="assertNotBodyText">assertNotBodyText</option>
+<option value="assertNotChecked">assertNotChecked</option>
+<option value="assertNotConfirmation">assertNotConfirmation</option>
+<option value="assertNotCookie">assertNotCookie</option>
+<option value="assertNotCookieByName">assertNotCookieByName</option>
+<option value="assertNotCssCount">assertNotCssCount</option>
+<option value="assertNotCursorPosition">assertNotCursorPosition</option>
+<option value="assertNotEditable">assertNotEditable</option>
+<option value="assertNotElementHeight">assertNotElementHeight</option>
+<option value="assertNotElementIndex">assertNotElementIndex</option>
+<option value="assertNotElementPositionLeft">assertNotElementPositionLeft</option>
+<option value="assertNotElementPositionTop">assertNotElementPositionTop</option>
+<option value="assertNotElementWidth">assertNotElementWidth</option>
+<option value="assertNotEval">assertNotEval</option>
+<option value="assertNotExpression">assertNotExpression</option>
+<option value="assertNotHtmlSource">assertNotHtmlSource</option>
+<option value="assertNotLocation">assertNotLocation</option>
+<option value="assertNotMouseSpeed">assertNotMouseSpeed</option>
+<option value="assertNotOrdered">assertNotOrdered</option>
+<option value="assertNotPrompt">assertNotPrompt</option>
+<option value="assertNotSelectOptions">assertNotSelectOptions</option>
+<option value="assertNotSelectedId">assertNotSelectedId</option>
+<option value="assertNotSelectedIds">assertNotSelectedIds</option>
+<option value="assertNotSelectedIndex">assertNotSelectedIndex</option>
+<option value="assertNotSelectedIndexes">assertNotSelectedIndexes</option>
+<option value="assertNotSelectedLabel">assertNotSelectedLabel</option>
+<option value="assertNotSelectedLabels">assertNotSelectedLabels</option>
+<option value="assertNotSelectedValue">assertNotSelectedValue</option>
+<option value="assertNotSelectedValues">assertNotSelectedValues</option>
+<option value="assertNotSomethingSelected">assertNotSomethingSelected</option>
+<option value="assertNotSpeed">assertNotSpeed</option>
+<option value="assertNotTable">assertNotTable</option>
+<option value="assertNotText">assertNotText</option>
+<option value="assertNotTitle">assertNotTitle</option>
+<option value="assertNotValue">assertNotValue</option>
+<option value="assertNotVisible">assertNotVisible</option>
+<option value="assertNotWhetherThisFrameMatchFrameExpression">assertNotWhetherThisFrameMatchFrameExpression</option>
+<option value="assertNotWhetherThisWindowMatchWindowExpression">assertNotWhetherThisWindowMatchWindowExpression</option>
+<option value="assertNotXpathCount">assertNotXpathCount</option>
+<option value="assertOrdered">assertOrdered</option>
+<option value="assertPrompt">assertPrompt</option>
+<option value="assertPromptAndWait">assertPromptAndWait</option>
+<option value="assertPromptNotPresent">assertPromptNotPresent</option>
+<option value="assertPromptPresent">assertPromptPresent</option>
+<option value="assertSelectOptions">assertSelectOptions</option>
+<option value="assertSelectedId">assertSelectedId</option>
+<option value="assertSelectedIds">assertSelectedIds</option>
+<option value="assertSelectedIndex">assertSelectedIndex</option>
+<option value="assertSelectedIndexes">assertSelectedIndexes</option>
+<option value="assertSelectedLabel">assertSelectedLabel</option>
+<option value="assertSelectedLabels">assertSelectedLabels</option>
+<option value="assertSelectedValue">assertSelectedValue</option>
+<option value="assertSelectedValues">assertSelectedValues</option>
+<option value="assertSomethingSelected">assertSomethingSelected</option>
+<option value="assertSpeed">assertSpeed</option>
+<option value="assertTable">assertTable</option>
+<option value="assertText">assertText</option>
+<option value="assertTextAndWait">assertTextAndWait</option>
+<option value="assertTextNotPresent">assertTextNotPresent</option>
+<option value="assertTextPresent">assertTextPresent</option>
+<option value="assertTitle">assertTitle</option>
+<option value="assertTitleAndWait">assertTitleAndWait</option>
+<option value="assertValue">assertValue</option>
+<option value="assertVisible">assertVisible</option>
+<option value="assertWhetherThisFrameMatchFrameExpression">assertWhetherThisFrameMatchFrameExpression</option>
+<option value="assertWhetherThisWindowMatchWindowExpression">assertWhetherThisWindowMatchWindowExpression</option>
+<option value="assertXpathCount">assertXpathCount</option>
+<option value="assignId">assignId</option>
+<option value="assignIdAndWait">assignIdAndWait</option>
+<option value="break">break</option>
+<option value="captureEntirePageScreenshot">captureEntirePageScreenshot</option>
+<option value="captureEntirePageScreenshotAndWait">captureEntirePageScreenshotAndWait</option>
+<option value="check">check</option>
+<option value="checkAndWait">checkAndWait</option>
+<option value="chooseCancelOnNextConfirmation">chooseCancelOnNextConfirmation</option>
+<option value="chooseCancelOnNextPrompt">chooseCancelOnNextPrompt</option>
+<option value="chooseCancelOnNextPromptAndWait">chooseCancelOnNextPromptAndWait</option>
+<option value="chooseOkOnNextConfirmation">chooseOkOnNextConfirmation</option>
+<option value="chooseOkOnNextConfirmationAndWait">chooseOkOnNextConfirmationAndWait</option>
+<option value="click">click</option>
+<option value="clickAndWait">clickAndWait</option>
+<option value="clickAt">clickAt</option>
+<option value="clickAtAndWait">clickAtAndWait</option>
+<option value="close">close</option>
+<option value="contextMenu">contextMenu</option>
+<option value="contextMenuAndWait">contextMenuAndWait</option>
+<option value="contextMenuAt">contextMenuAt</option>
+<option value="contextMenuAtAndWait">contextMenuAtAndWait</option>
+<option value="controlKeyDown">controlKeyDown</option>
+<option value="controlKeyDownAndWait">controlKeyDownAndWait</option>
+<option value="controlKeyUp">controlKeyUp</option>
+<option value="controlKeyUpAndWait">controlKeyUpAndWait</option>
+<option value="createCookie">createCookie</option>
+<option value="createCookieAndWait">createCookieAndWait</option>
+<option value="deleteAllVisibleCookies">deleteAllVisibleCookies</option>
+<option value="deleteAllVisibleCookiesAndWait">deleteAllVisibleCookiesAndWait</option>
+<option value="deleteCookie">deleteCookie</option>
+<option value="deleteCookieAndWait">deleteCookieAndWait</option>
+<option value="deselectPopUp">deselectPopUp</option>
+<option value="deselectPopUpAndWait">deselectPopUpAndWait</option>
+<option value="domWait">domWait</option>
+<option value="domWaitAndWait">domWaitAndWait</option>
+<option value="doubleClick">doubleClick</option>
+<option value="doubleClickAndWait">doubleClickAndWait</option>
+<option value="doubleClickAt">doubleClickAt</option>
+<option value="doubleClickAtAndWait">doubleClickAtAndWait</option>
+<option value="dragAndDrop">dragAndDrop</option>
+<option value="dragAndDropAndWait">dragAndDropAndWait</option>
+<option value="dragAndDropToObject">dragAndDropToObject</option>
+<option value="dragAndDropToObjectAndWait">dragAndDropToObjectAndWait</option>
+<option value="echo">echo</option>
+<option value="echoAndWait">echoAndWait</option>
+<option value="editContent">editContent</option>
+<option value="editContentAndWait">editContentAndWait</option>
+<option value="fireEvent">fireEvent</option>
+<option value="fireEventAndWait">fireEventAndWait</option>
+<option value="focus">focus</option>
+<option value="focusAndWait">focusAndWait</option>
+<option value="goBack">goBack</option>
+<option value="goBackAndWait">goBackAndWait</option>
+<option value="highlight">highlight</option>
+<option value="highlightAndWait">highlightAndWait</option>
+<option value="ignoreAttributesWithoutValue">ignoreAttributesWithoutValue</option>
+<option value="ignoreAttributesWithoutValueAndWait">ignoreAttributesWithoutValueAndWait</option>
+<option value="keyDown">keyDown</option>
+<option value="keyDownAndWait">keyDownAndWait</option>
+<option value="keyPress">keyPress</option>
+<option value="keyPressAndWait">keyPressAndWait</option>
+<option value="keyUp">keyUp</option>
+<option value="keyUpAndWait">keyUpAndWait</option>
+<option value="metaKeyDown">metaKeyDown</option>
+<option value="metaKeyDownAndWait">metaKeyDownAndWait</option>
+<option value="metaKeyUp">metaKeyUp</option>
+<option value="metaKeyUpAndWait">metaKeyUpAndWait</option>
+<option value="mouseDown">mouseDown</option>
+<option value="mouseDownAndWait">mouseDownAndWait</option>
+<option value="mouseDownAt">mouseDownAt</option>
+<option value="mouseDownAtAndWait">mouseDownAtAndWait</option>
+<option value="mouseDownRight">mouseDownRight</option>
+<option value="mouseDownRightAndWait">mouseDownRightAndWait</option>
+<option value="mouseDownRightAt">mouseDownRightAt</option>
+<option value="mouseDownRightAtAndWait">mouseDownRightAtAndWait</option>
+<option value="mouseMove">mouseMove</option>
+<option value="mouseMoveAndWait">mouseMoveAndWait</option>
+<option value="mouseMoveAt">mouseMoveAt</option>
+<option value="mouseMoveAtAndWait">mouseMoveAtAndWait</option>
+<option value="mouseOut">mouseOut</option>
+<option value="mouseOutAndWait">mouseOutAndWait</option>
+<option value="mouseOver">mouseOver</option>
+<option value="mouseOverAndWait">mouseOverAndWait</option>
+<option value="mouseUp">mouseUp</option>
+<option value="mouseUpAndWait">mouseUpAndWait</option>
+<option value="mouseUpAt">mouseUpAt</option>
+<option value="mouseUpAtAndWait">mouseUpAtAndWait</option>
+<option value="mouseUpRight">mouseUpRight</option>
+<option value="mouseUpRightAndWait">mouseUpRightAndWait</option>
+<option value="mouseUpRightAt">mouseUpRightAt</option>
+<option value="mouseUpRightAtAndWait">mouseUpRightAtAndWait</option>
+<option value="open">open</option>
+<option value="openWindow">openWindow</option>
+<option value="openWindowAndWait">openWindowAndWait</option>
+<option value="pageWait">pageWait</option>
+<option value="pageWaitAndWait">pageWaitAndWait</option>
+<option value="pause">pause</option>
+<option value="prePageWait">prePageWait</option>
+<option value="prePageWaitAndWait">prePageWaitAndWait</option>
+<option value="refresh">refresh</option>
+<option value="refreshAndWait">refreshAndWait</option>
+<option value="removeAllSelections">removeAllSelections</option>
+<option value="removeAllSelectionsAndWait">removeAllSelectionsAndWait</option>
+<option value="removeScript">removeScript</option>
+<option value="removeScriptAndWait">removeScriptAndWait</option>
+<option value="removeSelection">removeSelection</option>
+<option value="removeSelectionAndWait">removeSelectionAndWait</option>
+<option value="rollup">rollup</option>
+<option value="rollupAndWait">rollupAndWait</option>
+<option value="runScript">runScript</option>
+<option value="runScriptAndWait">runScriptAndWait</option>
+<option value="select">select</option>
+<option value="selectAndWait">selectAndWait</option>
+<option value="selectFrame">selectFrame</option>
+<option value="selectPopUp">selectPopUp</option>
+<option value="selectPopUpAndWait">selectPopUpAndWait</option>
+<option value="selectWindow">selectWindow</option>
+<option value="sendKeys">sendKeys</option>
+<option value="sendKeysAndWait">sendKeysAndWait</option>
+<option value="setCursorPosition">setCursorPosition</option>
+<option value="setCursorPositionAndWait">setCursorPositionAndWait</option>
+<option value="setMouseSpeed">setMouseSpeed</option>
+<option value="setMouseSpeedAndWait">setMouseSpeedAndWait</option>
+<option value="setSpeed">setSpeed</option>
+<option value="setSpeedAndWait">setSpeedAndWait</option>
+<option value="setTimeout">setTimeout</option>
+<option value="shiftKeyDown">shiftKeyDown</option>
+<option value="shiftKeyDownAndWait">shiftKeyDownAndWait</option>
+<option value="shiftKeyUp">shiftKeyUp</option>
+<option value="shiftKeyUpAndWait">shiftKeyUpAndWait</option>
+<option value="showElement">showElement</option>
+<option value="showElementAndWait">showElementAndWait</option>
+<option value="store">store</option>
+<option value="storeAlert">storeAlert</option>
+<option value="storeAlertPresent">storeAlertPresent</option>
+<option value="storeAllButtons">storeAllButtons</option>
+<option value="storeAllFields">storeAllFields</option>
+<option value="storeAllLinks">storeAllLinks</option>
+<option value="storeAllWindowIds">storeAllWindowIds</option>
+<option value="storeAllWindowNames">storeAllWindowNames</option>
+<option value="storeAllWindowTitles">storeAllWindowTitles</option>
+<option value="storeAndWait">storeAndWait</option>
+<option value="storeAttribute">storeAttribute</option>
+<option value="storeAttributeFromAllWindows">storeAttributeFromAllWindows</option>
+<option value="storeBodyText">storeBodyText</option>
+<option value="storeChecked">storeChecked</option>
+<option value="storeConfirmation">storeConfirmation</option>
+<option value="storeConfirmationPresent">storeConfirmationPresent</option>
+<option value="storeCookie">storeCookie</option>
+<option value="storeCookieByName">storeCookieByName</option>
+<option value="storeCookiePresent">storeCookiePresent</option>
+<option value="storeCssCount">storeCssCount</option>
+<option value="storeCursorPosition">storeCursorPosition</option>
+<option value="storeEditable">storeEditable</option>
+<option value="storeElementHeight">storeElementHeight</option>
+<option value="storeElementIndex">storeElementIndex</option>
+<option value="storeElementPositionLeft">storeElementPositionLeft</option>
+<option value="storeElementPositionTop">storeElementPositionTop</option>
+<option value="storeElementPresent">storeElementPresent</option>
+<option value="storeElementWidth">storeElementWidth</option>
+<option value="storeEval">storeEval</option>
+<option value="storeExpression">storeExpression</option>
+<option value="storeHtmlSource">storeHtmlSource</option>
+<option value="storeLocation">storeLocation</option>
+<option value="storeMouseSpeed">storeMouseSpeed</option>
+<option value="storeOrdered">storeOrdered</option>
+<option value="storePrompt">storePrompt</option>
+<option value="storePromptPresent">storePromptPresent</option>
+<option value="storeSelectOptions">storeSelectOptions</option>
+<option value="storeSelectedId">storeSelectedId</option>
+<option value="storeSelectedIds">storeSelectedIds</option>
+<option value="storeSelectedIndex">storeSelectedIndex</option>
+<option value="storeSelectedIndexes">storeSelectedIndexes</option>
+<option value="storeSelectedLabel">storeSelectedLabel</option>
+<option value="storeSelectedLabels">storeSelectedLabels</option>
+<option value="storeSelectedValue">storeSelectedValue</option>
+<option value="storeSelectedValues">storeSelectedValues</option>
+<option value="storeSomethingSelected">storeSomethingSelected</option>
+<option value="storeSpeed">storeSpeed</option>
+<option value="storeTable">storeTable</option>
+<option value="storeText">storeText</option>
+<option value="storeTextAndWait">storeTextAndWait</option>
+<option value="storeTextPresent">storeTextPresent</option>
+<option value="storeTitle">storeTitle</option>
+<option value="storeTitleAndWait">storeTitleAndWait</option>
+<option value="storeValue">storeValue</option>
+<option value="storeVisible">storeVisible</option>
+<option value="storeWhetherThisFrameMatchFrameExpression">storeWhetherThisFrameMatchFrameExpression</option>
+<option value="storeWhetherThisWindowMatchWindowExpression">storeWhetherThisWindowMatchWindowExpression</option>
+<option value="storeXpathCount">storeXpathCount</option>
+<option value="submit">submit</option>
+<option value="submitAndWait">submitAndWait</option>
+<option value="type">type</option>
+<option value="typeAndWait">typeAndWait</option>
+<option value="typeKeys">typeKeys</option>
+<option value="typeKeysAndWait">typeKeysAndWait</option>
+<option value="uncheck">uncheck</option>
+<option value="uncheckAndWait">uncheckAndWait</option>
+<option value="useXpathLibrary">useXpathLibrary</option>
+<option value="useXpathLibraryAndWait">useXpathLibraryAndWait</option>
+<option value="verifyAlert">verifyAlert</option>
+<option value="verifyAlertNotPresent">verifyAlertNotPresent</option>
+<option value="verifyAlertPresent">verifyAlertPresent</option>
+<option value="verifyAllButtons">verifyAllButtons</option>
+<option value="verifyAllFields">verifyAllFields</option>
+<option value="verifyAllLinks">verifyAllLinks</option>
+<option value="verifyAllWindowIds">verifyAllWindowIds</option>
+<option value="verifyAllWindowNames">verifyAllWindowNames</option>
+<option value="verifyAllWindowTitles">verifyAllWindowTitles</option>
+<option value="verifyAttribute">verifyAttribute</option>
+<option value="verifyAttributeFromAllWindows">verifyAttributeFromAllWindows</option>
+<option value="verifyBodyText">verifyBodyText</option>
+<option value="verifyChecked">verifyChecked</option>
+<option value="verifyConfirmation">verifyConfirmation</option>
+<option value="verifyConfirmationNotPresent">verifyConfirmationNotPresent</option>
+<option value="verifyConfirmationPresent">verifyConfirmationPresent</option>
+<option value="verifyCookie">verifyCookie</option>
+<option value="verifyCookieByName">verifyCookieByName</option>
+<option value="verifyCookieNotPresent">verifyCookieNotPresent</option>
+<option value="verifyCookiePresent">verifyCookiePresent</option>
+<option value="verifyCssCount">verifyCssCount</option>
+<option value="verifyCursorPosition">verifyCursorPosition</option>
+<option value="verifyEditable">verifyEditable</option>
+<option value="verifyElementHeight">verifyElementHeight</option>
+<option value="verifyElementIndex">verifyElementIndex</option>
+<option value="verifyElementNotPresent">verifyElementNotPresent</option>
+<option value="verifyElementPositionLeft">verifyElementPositionLeft</option>
+<option value="verifyElementPositionTop">verifyElementPositionTop</option>
+<option value="verifyElementPresent">verifyElementPresent</option>
+<option value="verifyElementWidth">verifyElementWidth</option>
+<option value="verifyEval">verifyEval</option>
+<option value="verifyExpression">verifyExpression</option>
+<option value="verifyHtmlSource">verifyHtmlSource</option>
+<option value="verifyLocation">verifyLocation</option>
+<option value="verifyMouseSpeed">verifyMouseSpeed</option>
+<option value="verifyNotAlert">verifyNotAlert</option>
+<option value="verifyNotAllButtons">verifyNotAllButtons</option>
+<option value="verifyNotAllFields">verifyNotAllFields</option>
+<option value="verifyNotAllLinks">verifyNotAllLinks</option>
+<option value="verifyNotAllWindowIds">verifyNotAllWindowIds</option>
+<option value="verifyNotAllWindowNames">verifyNotAllWindowNames</option>
+<option value="verifyNotAllWindowTitles">verifyNotAllWindowTitles</option>
+<option value="verifyNotAttribute">verifyNotAttribute</option>
+<option value="verifyNotAttributeFromAllWindows">verifyNotAttributeFromAllWindows</option>
+<option value="verifyNotBodyText">verifyNotBodyText</option>
+<option value="verifyNotChecked">verifyNotChecked</option>
+<option value="verifyNotConfirmation">verifyNotConfirmation</option>
+<option value="verifyNotCookie">verifyNotCookie</option>
+<option value="verifyNotCookieByName">verifyNotCookieByName</option>
+<option value="verifyNotCssCount">verifyNotCssCount</option>
+<option value="verifyNotCursorPosition">verifyNotCursorPosition</option>
+<option value="verifyNotEditable">verifyNotEditable</option>
+<option value="verifyNotElementHeight">verifyNotElementHeight</option>
+<option value="verifyNotElementIndex">verifyNotElementIndex</option>
+<option value="verifyNotElementPositionLeft">verifyNotElementPositionLeft</option>
+<option value="verifyNotElementPositionTop">verifyNotElementPositionTop</option>
+<option value="verifyNotElementWidth">verifyNotElementWidth</option>
+<option value="verifyNotEval">verifyNotEval</option>
+<option value="verifyNotExpression">verifyNotExpression</option>
+<option value="verifyNotHtmlSource">verifyNotHtmlSource</option>
+<option value="verifyNotLocation">verifyNotLocation</option>
+<option value="verifyNotMouseSpeed">verifyNotMouseSpeed</option>
+<option value="verifyNotOrdered">verifyNotOrdered</option>
+<option value="verifyNotPrompt">verifyNotPrompt</option>
+<option value="verifyNotSelectOptions">verifyNotSelectOptions</option>
+<option value="verifyNotSelectedId">verifyNotSelectedId</option>
+<option value="verifyNotSelectedIds">verifyNotSelectedIds</option>
+<option value="verifyNotSelectedIndex">verifyNotSelectedIndex</option>
+<option value="verifyNotSelectedIndexes">verifyNotSelectedIndexes</option>
+<option value="verifyNotSelectedLabel">verifyNotSelectedLabel</option>
+<option value="verifyNotSelectedLabels">verifyNotSelectedLabels</option>
+<option value="verifyNotSelectedValue">verifyNotSelectedValue</option>
+<option value="verifyNotSelectedValues">verifyNotSelectedValues</option>
+<option value="verifyNotSomethingSelected">verifyNotSomethingSelected</option>
+<option value="verifyNotSpeed">verifyNotSpeed</option>
+<option value="verifyNotTable">verifyNotTable</option>
+<option value="verifyNotText">verifyNotText</option>
+<option value="verifyNotTitle">verifyNotTitle</option>
+<option value="verifyNotValue">verifyNotValue</option>
+<option value="verifyNotVisible">verifyNotVisible</option>
+<option value="verifyNotWhetherThisFrameMatchFrameExpression">verifyNotWhetherThisFrameMatchFrameExpression</option>
+<option value="verifyNotWhetherThisWindowMatchWindowExpression">verifyNotWhetherThisWindowMatchWindowExpression</option>
+<option value="verifyNotXpathCount">verifyNotXpathCount</option>
+<option value="verifyOrdered">verifyOrdered</option>
+<option value="verifyPrompt">verifyPrompt</option>
+<option value="verifyPromptNotPresent">verifyPromptNotPresent</option>
+<option value="verifyPromptPresent">verifyPromptPresent</option>
+<option value="verifySelectOptions">verifySelectOptions</option>
+<option value="verifySelectedId">verifySelectedId</option>
+<option value="verifySelectedIds">verifySelectedIds</option>
+<option value="verifySelectedIndex">verifySelectedIndex</option>
+<option value="verifySelectedIndexes">verifySelectedIndexes</option>
+<option value="verifySelectedLabel">verifySelectedLabel</option>
+<option value="verifySelectedLabels">verifySelectedLabels</option>
+<option value="verifySelectedValue">verifySelectedValue</option>
+<option value="verifySelectedValues">verifySelectedValues</option>
+<option value="verifySomethingSelected">verifySomethingSelected</option>
+<option value="verifySpeed">verifySpeed</option>
+<option value="verifyTable">verifyTable</option>
+<option value="verifyText">verifyText</option>
+<option value="verifyTextAndWait">verifyTextAndWait</option>
+<option value="verifyTextNotPresent">verifyTextNotPresent</option>
+<option value="verifyTextPresent">verifyTextPresent</option>
+<option value="verifyTitle">verifyTitle</option>
+<option value="verifyTitleAndWait">verifyTitleAndWait</option>
+<option value="verifyValue">verifyValue</option>
+<option value="verifyVisible">verifyVisible</option>
+<option value="verifyWhetherThisFrameMatchFrameExpression">verifyWhetherThisFrameMatchFrameExpression</option>
+<option value="verifyWhetherThisWindowMatchWindowExpression">verifyWhetherThisWindowMatchWindowExpression</option>
+<option value="verifyXpathCount">verifyXpathCount</option>
+<option value="waitForAlert">waitForAlert</option>
+<option value="waitForAlertNotPresent">waitForAlertNotPresent</option>
+<option value="waitForAlertPresent">waitForAlertPresent</option>
+<option value="waitForAllButtons">waitForAllButtons</option>
+<option value="waitForAllFields">waitForAllFields</option>
+<option value="waitForAllLinks">waitForAllLinks</option>
+<option value="waitForAllWindowIds">waitForAllWindowIds</option>
+<option value="waitForAllWindowNames">waitForAllWindowNames</option>
+<option value="waitForAllWindowTitles">waitForAllWindowTitles</option>
+<option value="waitForAttribute">waitForAttribute</option>
+<option value="waitForAttributeFromAllWindows">waitForAttributeFromAllWindows</option>
+<option value="waitForBodyText">waitForBodyText</option>
+<option value="waitForChecked">waitForChecked</option>
+<option value="waitForCondition">waitForCondition</option>
+<option value="waitForConfirmation">waitForConfirmation</option>
+<option value="waitForConfirmationNotPresent">waitForConfirmationNotPresent</option>
+<option value="waitForConfirmationPresent">waitForConfirmationPresent</option>
+<option value="waitForCookie">waitForCookie</option>
+<option value="waitForCookieByName">waitForCookieByName</option>
+<option value="waitForCookieNotPresent">waitForCookieNotPresent</option>
+<option value="waitForCookiePresent">waitForCookiePresent</option>
+<option value="waitForCssCount">waitForCssCount</option>
+<option value="waitForCursorPosition">waitForCursorPosition</option>
+<option value="waitForEditable">waitForEditable</option>
+<option value="waitForElementHeight">waitForElementHeight</option>
+<option value="waitForElementIndex">waitForElementIndex</option>
+<option value="waitForElementNotPresent">waitForElementNotPresent</option>
+<option value="waitForElementPositionLeft">waitForElementPositionLeft</option>
+<option value="waitForElementPositionTop">waitForElementPositionTop</option>
+<option value="waitForElementPresent">waitForElementPresent</option>
+<option value="waitForElementWidth">waitForElementWidth</option>
+<option value="waitForEval">waitForEval</option>
+<option value="waitForExpression">waitForExpression</option>
+<option value="waitForFrameToLoad">waitForFrameToLoad</option>
+<option value="waitForHtmlSource">waitForHtmlSource</option>
+<option value="waitForLocation">waitForLocation</option>
+<option value="waitForMouseSpeed">waitForMouseSpeed</option>
+<option value="waitForNotAlert">waitForNotAlert</option>
+<option value="waitForNotAllButtons">waitForNotAllButtons</option>
+<option value="waitForNotAllFields">waitForNotAllFields</option>
+<option value="waitForNotAllLinks">waitForNotAllLinks</option>
+<option value="waitForNotAllWindowIds">waitForNotAllWindowIds</option>
+<option value="waitForNotAllWindowNames">waitForNotAllWindowNames</option>
+<option value="waitForNotAllWindowTitles">waitForNotAllWindowTitles</option>
+<option value="waitForNotAttribute">waitForNotAttribute</option>
+<option value="waitForNotAttributeFromAllWindows">waitForNotAttributeFromAllWindows</option>
+<option value="waitForNotBodyText">waitForNotBodyText</option>
+<option value="waitForNotChecked">waitForNotChecked</option>
+<option value="waitForNotConfirmation">waitForNotConfirmation</option>
+<option value="waitForNotCookie">waitForNotCookie</option>
+<option value="waitForNotCookieByName">waitForNotCookieByName</option>
+<option value="waitForNotCssCount">waitForNotCssCount</option>
+<option value="waitForNotCursorPosition">waitForNotCursorPosition</option>
+<option value="waitForNotEditable">waitForNotEditable</option>
+<option value="waitForNotElementHeight">waitForNotElementHeight</option>
+<option value="waitForNotElementIndex">waitForNotElementIndex</option>
+<option value="waitForNotElementPositionLeft">waitForNotElementPositionLeft</option>
+<option value="waitForNotElementPositionTop">waitForNotElementPositionTop</option>
+<option value="waitForNotElementWidth">waitForNotElementWidth</option>
+<option value="waitForNotEval">waitForNotEval</option>
+<option value="waitForNotExpression">waitForNotExpression</option>
+<option value="waitForNotHtmlSource">waitForNotHtmlSource</option>
+<option value="waitForNotLocation">waitForNotLocation</option>
+<option value="waitForNotMouseSpeed">waitForNotMouseSpeed</option>
+<option value="waitForNotOrdered">waitForNotOrdered</option>
+<option value="waitForNotPrompt">waitForNotPrompt</option>
+<option value="waitForNotSelectOptions">waitForNotSelectOptions</option>
+<option value="waitForNotSelectedId">waitForNotSelectedId</option>
+<option value="waitForNotSelectedIds">waitForNotSelectedIds</option>
+<option value="waitForNotSelectedIndex">waitForNotSelectedIndex</option>
+<option value="waitForNotSelectedIndexes">waitForNotSelectedIndexes</option>
+<option value="waitForNotSelectedLabel">waitForNotSelectedLabel</option>
+<option value="waitForNotSelectedLabels">waitForNotSelectedLabels</option>
+<option value="waitForNotSelectedValue">waitForNotSelectedValue</option>
+<option value="waitForNotSelectedValues">waitForNotSelectedValues</option>
+<option value="waitForNotSomethingSelected">waitForNotSomethingSelected</option>
+<option value="waitForNotSpeed">waitForNotSpeed</option>
+<option value="waitForNotTable">waitForNotTable</option>
+<option value="waitForNotText">waitForNotText</option>
+<option value="waitForNotTitle">waitForNotTitle</option>
+<option value="waitForNotValue">waitForNotValue</option>
+<option value="waitForNotVisible">waitForNotVisible</option>
+<option value="waitForNotWhetherThisFrameMatchFrameExpression">waitForNotWhetherThisFrameMatchFrameExpression</option>
+<option value="waitForNotWhetherThisWindowMatchWindowExpression">waitForNotWhetherThisWindowMatchWindowExpression</option>
+<option value="waitForNotXpathCount">waitForNotXpathCount</option>
+<option value="waitForOrdered">waitForOrdered</option>
+<option value="waitForPageToLoad">waitForPageToLoad</option>
+<option value="waitForPopUp">waitForPopUp</option>
+<option value="waitForPrompt">waitForPrompt</option>
+<option value="waitForPromptNotPresent">waitForPromptNotPresent</option>
+<option value="waitForPromptPresent">waitForPromptPresent</option>
+<option value="waitForSelectOptions">waitForSelectOptions</option>
+<option value="waitForSelectedId">waitForSelectedId</option>
+<option value="waitForSelectedIds">waitForSelectedIds</option>
+<option value="waitForSelectedIndex">waitForSelectedIndex</option>
+<option value="waitForSelectedIndexes">waitForSelectedIndexes</option>
+<option value="waitForSelectedLabel">waitForSelectedLabel</option>
+<option value="waitForSelectedLabels">waitForSelectedLabels</option>
+<option value="waitForSelectedValue">waitForSelectedValue</option>
+<option value="waitForSelectedValues">waitForSelectedValues</option>
+<option value="waitForSomethingSelected">waitForSomethingSelected</option>
+<option value="waitForSpeed">waitForSpeed</option>
+<option value="waitForTable">waitForTable</option>
+<option value="waitForText">waitForText</option>
+<option value="waitForTextNotPresent">waitForTextNotPresent</option>
+<option value="waitForTextPresent">waitForTextPresent</option>
+<option value="waitForTitle">waitForTitle</option>
+<option value="waitForValue">waitForValue</option>
+<option value="waitForVisible">waitForVisible</option>
+<option value="waitForWhetherThisFrameMatchFrameExpression">waitForWhetherThisFrameMatchFrameExpression</option>
+<option value="waitForWhetherThisWindowMatchWindowExpression">waitForWhetherThisWindowMatchWindowExpression</option>
+<option value="waitForXpathCount">waitForXpathCount</option>
+<option value="waitPreparation">waitPreparation</option>
+<option value="waitPreparationAndWait">waitPreparationAndWait</option>
+<option value="windowFocus">windowFocus</option>
+<option value="windowFocusAndWait">windowFocusAndWait</option>
+<option value="windowMaximize">windowMaximize</option>
+<option value="windowMaximizeAndWait">windowMaximizeAndWait</option>
+</div>
+                                <datalist id="command-command-list"><option value="addLocationStrategy">addLocationStrategy</option>
+<option value="addLocationStrategyAndWait">addLocationStrategyAndWait</option>
+<option value="addScript">addScript</option>
+<option value="addScriptAndWait">addScriptAndWait</option>
+<option value="addSelection">addSelection</option>
+<option value="addSelectionAndWait">addSelectionAndWait</option>
+<option value="ajaxWait">ajaxWait</option>
+<option value="ajaxWaitAndWait">ajaxWaitAndWait</option>
+<option value="allowNativeXpath">allowNativeXpath</option>
+<option value="allowNativeXpathAndWait">allowNativeXpathAndWait</option>
+<option value="altKeyDown">altKeyDown</option>
+<option value="altKeyDownAndWait">altKeyDownAndWait</option>
+<option value="altKeyUp">altKeyUp</option>
+<option value="altKeyUpAndWait">altKeyUpAndWait</option>
+<option value="answerOnNextPrompt">answerOnNextPrompt</option>
+<option value="assertAlert">assertAlert</option>
+<option value="assertAlertAndWait">assertAlertAndWait</option>
+<option value="assertAlertNotPresent">assertAlertNotPresent</option>
+<option value="assertAlertPresent">assertAlertPresent</option>
+<option value="assertAllButtons">assertAllButtons</option>
+<option value="assertAllFields">assertAllFields</option>
+<option value="assertAllLinks">assertAllLinks</option>
+<option value="assertAllWindowIds">assertAllWindowIds</option>
+<option value="assertAllWindowNames">assertAllWindowNames</option>
+<option value="assertAllWindowTitles">assertAllWindowTitles</option>
+<option value="assertAttribute">assertAttribute</option>
+<option value="assertAttributeFromAllWindows">assertAttributeFromAllWindows</option>
+<option value="assertBodyText">assertBodyText</option>
+<option value="assertChecked">assertChecked</option>
+<option value="assertConfirmation">assertConfirmation</option>
+<option value="assertConfirmationAndWait">assertConfirmationAndWait</option>
+<option value="assertConfirmationNotPresent">assertConfirmationNotPresent</option>
+<option value="assertConfirmationPresent">assertConfirmationPresent</option>
+<option value="assertCookie">assertCookie</option>
+<option value="assertCookieByName">assertCookieByName</option>
+<option value="assertCookieNotPresent">assertCookieNotPresent</option>
+<option value="assertCookiePresent">assertCookiePresent</option>
+<option value="assertCssCount">assertCssCount</option>
+<option value="assertCursorPosition">assertCursorPosition</option>
+<option value="assertEditable">assertEditable</option>
+<option value="assertElementHeight">assertElementHeight</option>
+<option value="assertElementIndex">assertElementIndex</option>
+<option value="assertElementNotPresent">assertElementNotPresent</option>
+<option value="assertElementPositionLeft">assertElementPositionLeft</option>
+<option value="assertElementPositionTop">assertElementPositionTop</option>
+<option value="assertElementPresent">assertElementPresent</option>
+<option value="assertElementWidth">assertElementWidth</option>
+<option value="assertEval">assertEval</option>
+<option value="assertExpression">assertExpression</option>
+<option value="assertHtmlSource">assertHtmlSource</option>
+<option value="assertLocation">assertLocation</option>
+<option value="assertMouseSpeed">assertMouseSpeed</option>
+<option value="assertNotAlert">assertNotAlert</option>
+<option value="assertNotAllButtons">assertNotAllButtons</option>
+<option value="assertNotAllFields">assertNotAllFields</option>
+<option value="assertNotAllLinks">assertNotAllLinks</option>
+<option value="assertNotAllWindowIds">assertNotAllWindowIds</option>
+<option value="assertNotAllWindowNames">assertNotAllWindowNames</option>
+<option value="assertNotAllWindowTitles">assertNotAllWindowTitles</option>
+<option value="assertNotAttribute">assertNotAttribute</option>
+<option value="assertNotAttributeFromAllWindows">assertNotAttributeFromAllWindows</option>
+<option value="assertNotBodyText">assertNotBodyText</option>
+<option value="assertNotChecked">assertNotChecked</option>
+<option value="assertNotConfirmation">assertNotConfirmation</option>
+<option value="assertNotCookie">assertNotCookie</option>
+<option value="assertNotCookieByName">assertNotCookieByName</option>
+<option value="assertNotCssCount">assertNotCssCount</option>
+<option value="assertNotCursorPosition">assertNotCursorPosition</option>
+<option value="assertNotEditable">assertNotEditable</option>
+<option value="assertNotElementHeight">assertNotElementHeight</option>
+<option value="assertNotElementIndex">assertNotElementIndex</option>
+<option value="assertNotElementPositionLeft">assertNotElementPositionLeft</option>
+<option value="assertNotElementPositionTop">assertNotElementPositionTop</option>
+<option value="assertNotElementWidth">assertNotElementWidth</option>
+<option value="assertNotEval">assertNotEval</option>
+<option value="assertNotExpression">assertNotExpression</option>
+<option value="assertNotHtmlSource">assertNotHtmlSource</option>
+<option value="assertNotLocation">assertNotLocation</option>
+<option value="assertNotMouseSpeed">assertNotMouseSpeed</option>
+<option value="assertNotOrdered">assertNotOrdered</option>
+<option value="assertNotPrompt">assertNotPrompt</option>
+<option value="assertNotSelectOptions">assertNotSelectOptions</option>
+<option value="assertNotSelectedId">assertNotSelectedId</option>
+<option value="assertNotSelectedIds">assertNotSelectedIds</option>
+<option value="assertNotSelectedIndex">assertNotSelectedIndex</option>
+<option value="assertNotSelectedIndexes">assertNotSelectedIndexes</option>
+<option value="assertNotSelectedLabel">assertNotSelectedLabel</option>
+<option value="assertNotSelectedLabels">assertNotSelectedLabels</option>
+<option value="assertNotSelectedValue">assertNotSelectedValue</option>
+<option value="assertNotSelectedValues">assertNotSelectedValues</option>
+<option value="assertNotSomethingSelected">assertNotSomethingSelected</option>
+<option value="assertNotSpeed">assertNotSpeed</option>
+<option value="assertNotTable">assertNotTable</option>
+<option value="assertNotText">assertNotText</option>
+<option value="assertNotTitle">assertNotTitle</option>
+<option value="assertNotValue">assertNotValue</option>
+<option value="assertNotVisible">assertNotVisible</option>
+<option value="assertNotWhetherThisFrameMatchFrameExpression">assertNotWhetherThisFrameMatchFrameExpression</option>
+<option value="assertNotWhetherThisWindowMatchWindowExpression">assertNotWhetherThisWindowMatchWindowExpression</option>
+<option value="assertNotXpathCount">assertNotXpathCount</option>
+<option value="assertOrdered">assertOrdered</option>
+<option value="assertPrompt">assertPrompt</option>
+<option value="assertPromptAndWait">assertPromptAndWait</option>
+<option value="assertPromptNotPresent">assertPromptNotPresent</option>
+<option value="assertPromptPresent">assertPromptPresent</option>
+<option value="assertSelectOptions">assertSelectOptions</option>
+<option value="assertSelectedId">assertSelectedId</option>
+<option value="assertSelectedIds">assertSelectedIds</option>
+<option value="assertSelectedIndex">assertSelectedIndex</option>
+<option value="assertSelectedIndexes">assertSelectedIndexes</option>
+<option value="assertSelectedLabel">assertSelectedLabel</option>
+<option value="assertSelectedLabels">assertSelectedLabels</option>
+<option value="assertSelectedValue">assertSelectedValue</option>
+<option value="assertSelectedValues">assertSelectedValues</option>
+<option value="assertSomethingSelected">assertSomethingSelected</option>
+<option value="assertSpeed">assertSpeed</option>
+<option value="assertTable">assertTable</option>
+<option value="assertText">assertText</option>
+<option value="assertTextAndWait">assertTextAndWait</option>
+<option value="assertTextNotPresent">assertTextNotPresent</option>
+<option value="assertTextPresent">assertTextPresent</option>
+<option value="assertTitle">assertTitle</option>
+<option value="assertTitleAndWait">assertTitleAndWait</option>
+<option value="assertValue">assertValue</option>
+<option value="assertVisible">assertVisible</option>
+<option value="assertWhetherThisFrameMatchFrameExpression">assertWhetherThisFrameMatchFrameExpression</option>
+<option value="assertWhetherThisWindowMatchWindowExpression">assertWhetherThisWindowMatchWindowExpression</option>
+<option value="assertXpathCount">assertXpathCount</option>
+<option value="assignId">assignId</option>
+<option value="assignIdAndWait">assignIdAndWait</option>
+<option value="break">break</option>
+<option value="captureEntirePageScreenshot">captureEntirePageScreenshot</option>
+<option value="captureEntirePageScreenshotAndWait">captureEntirePageScreenshotAndWait</option>
+<option value="check">check</option>
+<option value="checkAndWait">checkAndWait</option>
+<option value="chooseCancelOnNextConfirmation">chooseCancelOnNextConfirmation</option>
+<option value="chooseCancelOnNextPrompt">chooseCancelOnNextPrompt</option>
+<option value="chooseCancelOnNextPromptAndWait">chooseCancelOnNextPromptAndWait</option>
+<option value="chooseOkOnNextConfirmation">chooseOkOnNextConfirmation</option>
+<option value="chooseOkOnNextConfirmationAndWait">chooseOkOnNextConfirmationAndWait</option>
+<option value="click">click</option>
+<option value="clickAndWait">clickAndWait</option>
+<option value="clickAt">clickAt</option>
+<option value="clickAtAndWait">clickAtAndWait</option>
+<option value="close">close</option>
+<option value="contextMenu">contextMenu</option>
+<option value="contextMenuAndWait">contextMenuAndWait</option>
+<option value="contextMenuAt">contextMenuAt</option>
+<option value="contextMenuAtAndWait">contextMenuAtAndWait</option>
+<option value="controlKeyDown">controlKeyDown</option>
+<option value="controlKeyDownAndWait">controlKeyDownAndWait</option>
+<option value="controlKeyUp">controlKeyUp</option>
+<option value="controlKeyUpAndWait">controlKeyUpAndWait</option>
+<option value="createCookie">createCookie</option>
+<option value="createCookieAndWait">createCookieAndWait</option>
+<option value="deleteAllVisibleCookies">deleteAllVisibleCookies</option>
+<option value="deleteAllVisibleCookiesAndWait">deleteAllVisibleCookiesAndWait</option>
+<option value="deleteCookie">deleteCookie</option>
+<option value="deleteCookieAndWait">deleteCookieAndWait</option>
+<option value="deselectPopUp">deselectPopUp</option>
+<option value="deselectPopUpAndWait">deselectPopUpAndWait</option>
+<option value="domWait">domWait</option>
+<option value="domWaitAndWait">domWaitAndWait</option>
+<option value="doubleClick">doubleClick</option>
+<option value="doubleClickAndWait">doubleClickAndWait</option>
+<option value="doubleClickAt">doubleClickAt</option>
+<option value="doubleClickAtAndWait">doubleClickAtAndWait</option>
+<option value="dragAndDrop">dragAndDrop</option>
+<option value="dragAndDropAndWait">dragAndDropAndWait</option>
+<option value="dragAndDropToObject">dragAndDropToObject</option>
+<option value="dragAndDropToObjectAndWait">dragAndDropToObjectAndWait</option>
+<option value="echo">echo</option>
+<option value="echoAndWait">echoAndWait</option>
+<option value="editContent">editContent</option>
+<option value="editContentAndWait">editContentAndWait</option>
+<option value="fireEvent">fireEvent</option>
+<option value="fireEventAndWait">fireEventAndWait</option>
+<option value="focus">focus</option>
+<option value="focusAndWait">focusAndWait</option>
+<option value="goBack">goBack</option>
+<option value="goBackAndWait">goBackAndWait</option>
+<option value="highlight">highlight</option>
+<option value="highlightAndWait">highlightAndWait</option>
+<option value="ignoreAttributesWithoutValue">ignoreAttributesWithoutValue</option>
+<option value="ignoreAttributesWithoutValueAndWait">ignoreAttributesWithoutValueAndWait</option>
+<option value="keyDown">keyDown</option>
+<option value="keyDownAndWait">keyDownAndWait</option>
+<option value="keyPress">keyPress</option>
+<option value="keyPressAndWait">keyPressAndWait</option>
+<option value="keyUp">keyUp</option>
+<option value="keyUpAndWait">keyUpAndWait</option>
+<option value="metaKeyDown">metaKeyDown</option>
+<option value="metaKeyDownAndWait">metaKeyDownAndWait</option>
+<option value="metaKeyUp">metaKeyUp</option>
+<option value="metaKeyUpAndWait">metaKeyUpAndWait</option>
+<option value="mouseDown">mouseDown</option>
+<option value="mouseDownAndWait">mouseDownAndWait</option>
+<option value="mouseDownAt">mouseDownAt</option>
+<option value="mouseDownAtAndWait">mouseDownAtAndWait</option>
+<option value="mouseDownRight">mouseDownRight</option>
+<option value="mouseDownRightAndWait">mouseDownRightAndWait</option>
+<option value="mouseDownRightAt">mouseDownRightAt</option>
+<option value="mouseDownRightAtAndWait">mouseDownRightAtAndWait</option>
+<option value="mouseMove">mouseMove</option>
+<option value="mouseMoveAndWait">mouseMoveAndWait</option>
+<option value="mouseMoveAt">mouseMoveAt</option>
+<option value="mouseMoveAtAndWait">mouseMoveAtAndWait</option>
+<option value="mouseOut">mouseOut</option>
+<option value="mouseOutAndWait">mouseOutAndWait</option>
+<option value="mouseOver">mouseOver</option>
+<option value="mouseOverAndWait">mouseOverAndWait</option>
+<option value="mouseUp">mouseUp</option>
+<option value="mouseUpAndWait">mouseUpAndWait</option>
+<option value="mouseUpAt">mouseUpAt</option>
+<option value="mouseUpAtAndWait">mouseUpAtAndWait</option>
+<option value="mouseUpRight">mouseUpRight</option>
+<option value="mouseUpRightAndWait">mouseUpRightAndWait</option>
+<option value="mouseUpRightAt">mouseUpRightAt</option>
+<option value="mouseUpRightAtAndWait">mouseUpRightAtAndWait</option>
+<option value="open">open</option>
+<option value="openWindow">openWindow</option>
+<option value="openWindowAndWait">openWindowAndWait</option>
+<option value="pageWait">pageWait</option>
+<option value="pageWaitAndWait">pageWaitAndWait</option>
+<option value="pause">pause</option>
+<option value="prePageWait">prePageWait</option>
+<option value="prePageWaitAndWait">prePageWaitAndWait</option>
+<option value="refresh">refresh</option>
+<option value="refreshAndWait">refreshAndWait</option>
+<option value="removeAllSelections">removeAllSelections</option>
+<option value="removeAllSelectionsAndWait">removeAllSelectionsAndWait</option>
+<option value="removeScript">removeScript</option>
+<option value="removeScriptAndWait">removeScriptAndWait</option>
+<option value="removeSelection">removeSelection</option>
+<option value="removeSelectionAndWait">removeSelectionAndWait</option>
+<option value="rollup">rollup</option>
+<option value="rollupAndWait">rollupAndWait</option>
+<option value="runScript">runScript</option>
+<option value="runScriptAndWait">runScriptAndWait</option>
+<option value="select">select</option>
+<option value="selectAndWait">selectAndWait</option>
+<option value="selectFrame">selectFrame</option>
+<option value="selectPopUp">selectPopUp</option>
+<option value="selectPopUpAndWait">selectPopUpAndWait</option>
+<option value="selectWindow">selectWindow</option>
+<option value="sendKeys">sendKeys</option>
+<option value="sendKeysAndWait">sendKeysAndWait</option>
+<option value="setCursorPosition">setCursorPosition</option>
+<option value="setCursorPositionAndWait">setCursorPositionAndWait</option>
+<option value="setMouseSpeed">setMouseSpeed</option>
+<option value="setMouseSpeedAndWait">setMouseSpeedAndWait</option>
+<option value="setSpeed">setSpeed</option>
+<option value="setSpeedAndWait">setSpeedAndWait</option>
+<option value="setTimeout">setTimeout</option>
+<option value="shiftKeyDown">shiftKeyDown</option>
+<option value="shiftKeyDownAndWait">shiftKeyDownAndWait</option>
+<option value="shiftKeyUp">shiftKeyUp</option>
+<option value="shiftKeyUpAndWait">shiftKeyUpAndWait</option>
+<option value="showElement">showElement</option>
+<option value="showElementAndWait">showElementAndWait</option>
+<option value="store">store</option>
+<option value="storeAlert">storeAlert</option>
+<option value="storeAlertPresent">storeAlertPresent</option>
+<option value="storeAllButtons">storeAllButtons</option>
+<option value="storeAllFields">storeAllFields</option>
+<option value="storeAllLinks">storeAllLinks</option>
+<option value="storeAllWindowIds">storeAllWindowIds</option>
+<option value="storeAllWindowNames">storeAllWindowNames</option>
+<option value="storeAllWindowTitles">storeAllWindowTitles</option>
+<option value="storeAndWait">storeAndWait</option>
+<option value="storeAttribute">storeAttribute</option>
+<option value="storeAttributeFromAllWindows">storeAttributeFromAllWindows</option>
+<option value="storeBodyText">storeBodyText</option>
+<option value="storeChecked">storeChecked</option>
+<option value="storeConfirmation">storeConfirmation</option>
+<option value="storeConfirmationPresent">storeConfirmationPresent</option>
+<option value="storeCookie">storeCookie</option>
+<option value="storeCookieByName">storeCookieByName</option>
+<option value="storeCookiePresent">storeCookiePresent</option>
+<option value="storeCssCount">storeCssCount</option>
+<option value="storeCursorPosition">storeCursorPosition</option>
+<option value="storeEditable">storeEditable</option>
+<option value="storeElementHeight">storeElementHeight</option>
+<option value="storeElementIndex">storeElementIndex</option>
+<option value="storeElementPositionLeft">storeElementPositionLeft</option>
+<option value="storeElementPositionTop">storeElementPositionTop</option>
+<option value="storeElementPresent">storeElementPresent</option>
+<option value="storeElementWidth">storeElementWidth</option>
+<option value="storeEval">storeEval</option>
+<option value="storeExpression">storeExpression</option>
+<option value="storeHtmlSource">storeHtmlSource</option>
+<option value="storeLocation">storeLocation</option>
+<option value="storeMouseSpeed">storeMouseSpeed</option>
+<option value="storeOrdered">storeOrdered</option>
+<option value="storePrompt">storePrompt</option>
+<option value="storePromptPresent">storePromptPresent</option>
+<option value="storeSelectOptions">storeSelectOptions</option>
+<option value="storeSelectedId">storeSelectedId</option>
+<option value="storeSelectedIds">storeSelectedIds</option>
+<option value="storeSelectedIndex">storeSelectedIndex</option>
+<option value="storeSelectedIndexes">storeSelectedIndexes</option>
+<option value="storeSelectedLabel">storeSelectedLabel</option>
+<option value="storeSelectedLabels">storeSelectedLabels</option>
+<option value="storeSelectedValue">storeSelectedValue</option>
+<option value="storeSelectedValues">storeSelectedValues</option>
+<option value="storeSomethingSelected">storeSomethingSelected</option>
+<option value="storeSpeed">storeSpeed</option>
+<option value="storeTable">storeTable</option>
+<option value="storeText">storeText</option>
+<option value="storeTextAndWait">storeTextAndWait</option>
+<option value="storeTextPresent">storeTextPresent</option>
+<option value="storeTitle">storeTitle</option>
+<option value="storeTitleAndWait">storeTitleAndWait</option>
+<option value="storeValue">storeValue</option>
+<option value="storeVisible">storeVisible</option>
+<option value="storeWhetherThisFrameMatchFrameExpression">storeWhetherThisFrameMatchFrameExpression</option>
+<option value="storeWhetherThisWindowMatchWindowExpression">storeWhetherThisWindowMatchWindowExpression</option>
+<option value="storeXpathCount">storeXpathCount</option>
+<option value="submit">submit</option>
+<option value="submitAndWait">submitAndWait</option>
+<option value="type">type</option>
+<option value="typeAndWait">typeAndWait</option>
+<option value="typeKeys">typeKeys</option>
+<option value="typeKeysAndWait">typeKeysAndWait</option>
+<option value="uncheck">uncheck</option>
+<option value="uncheckAndWait">uncheckAndWait</option>
+<option value="useXpathLibrary">useXpathLibrary</option>
+<option value="useXpathLibraryAndWait">useXpathLibraryAndWait</option>
+<option value="verifyAlert">verifyAlert</option>
+<option value="verifyAlertNotPresent">verifyAlertNotPresent</option>
+<option value="verifyAlertPresent">verifyAlertPresent</option>
+<option value="verifyAllButtons">verifyAllButtons</option>
+<option value="verifyAllFields">verifyAllFields</option>
+<option value="verifyAllLinks">verifyAllLinks</option>
+<option value="verifyAllWindowIds">verifyAllWindowIds</option>
+<option value="verifyAllWindowNames">verifyAllWindowNames</option>
+<option value="verifyAllWindowTitles">verifyAllWindowTitles</option>
+<option value="verifyAttribute">verifyAttribute</option>
+<option value="verifyAttributeFromAllWindows">verifyAttributeFromAllWindows</option>
+<option value="verifyBodyText">verifyBodyText</option>
+<option value="verifyChecked">verifyChecked</option>
+<option value="verifyConfirmation">verifyConfirmation</option>
+<option value="verifyConfirmationNotPresent">verifyConfirmationNotPresent</option>
+<option value="verifyConfirmationPresent">verifyConfirmationPresent</option>
+<option value="verifyCookie">verifyCookie</option>
+<option value="verifyCookieByName">verifyCookieByName</option>
+<option value="verifyCookieNotPresent">verifyCookieNotPresent</option>
+<option value="verifyCookiePresent">verifyCookiePresent</option>
+<option value="verifyCssCount">verifyCssCount</option>
+<option value="verifyCursorPosition">verifyCursorPosition</option>
+<option value="verifyEditable">verifyEditable</option>
+<option value="verifyElementHeight">verifyElementHeight</option>
+<option value="verifyElementIndex">verifyElementIndex</option>
+<option value="verifyElementNotPresent">verifyElementNotPresent</option>
+<option value="verifyElementPositionLeft">verifyElementPositionLeft</option>
+<option value="verifyElementPositionTop">verifyElementPositionTop</option>
+<option value="verifyElementPresent">verifyElementPresent</option>
+<option value="verifyElementWidth">verifyElementWidth</option>
+<option value="verifyEval">verifyEval</option>
+<option value="verifyExpression">verifyExpression</option>
+<option value="verifyHtmlSource">verifyHtmlSource</option>
+<option value="verifyLocation">verifyLocation</option>
+<option value="verifyMouseSpeed">verifyMouseSpeed</option>
+<option value="verifyNotAlert">verifyNotAlert</option>
+<option value="verifyNotAllButtons">verifyNotAllButtons</option>
+<option value="verifyNotAllFields">verifyNotAllFields</option>
+<option value="verifyNotAllLinks">verifyNotAllLinks</option>
+<option value="verifyNotAllWindowIds">verifyNotAllWindowIds</option>
+<option value="verifyNotAllWindowNames">verifyNotAllWindowNames</option>
+<option value="verifyNotAllWindowTitles">verifyNotAllWindowTitles</option>
+<option value="verifyNotAttribute">verifyNotAttribute</option>
+<option value="verifyNotAttributeFromAllWindows">verifyNotAttributeFromAllWindows</option>
+<option value="verifyNotBodyText">verifyNotBodyText</option>
+<option value="verifyNotChecked">verifyNotChecked</option>
+<option value="verifyNotConfirmation">verifyNotConfirmation</option>
+<option value="verifyNotCookie">verifyNotCookie</option>
+<option value="verifyNotCookieByName">verifyNotCookieByName</option>
+<option value="verifyNotCssCount">verifyNotCssCount</option>
+<option value="verifyNotCursorPosition">verifyNotCursorPosition</option>
+<option value="verifyNotEditable">verifyNotEditable</option>
+<option value="verifyNotElementHeight">verifyNotElementHeight</option>
+<option value="verifyNotElementIndex">verifyNotElementIndex</option>
+<option value="verifyNotElementPositionLeft">verifyNotElementPositionLeft</option>
+<option value="verifyNotElementPositionTop">verifyNotElementPositionTop</option>
+<option value="verifyNotElementWidth">verifyNotElementWidth</option>
+<option value="verifyNotEval">verifyNotEval</option>
+<option value="verifyNotExpression">verifyNotExpression</option>
+<option value="verifyNotHtmlSource">verifyNotHtmlSource</option>
+<option value="verifyNotLocation">verifyNotLocation</option>
+<option value="verifyNotMouseSpeed">verifyNotMouseSpeed</option>
+<option value="verifyNotOrdered">verifyNotOrdered</option>
+<option value="verifyNotPrompt">verifyNotPrompt</option>
+<option value="verifyNotSelectOptions">verifyNotSelectOptions</option>
+<option value="verifyNotSelectedId">verifyNotSelectedId</option>
+<option value="verifyNotSelectedIds">verifyNotSelectedIds</option>
+<option value="verifyNotSelectedIndex">verifyNotSelectedIndex</option>
+<option value="verifyNotSelectedIndexes">verifyNotSelectedIndexes</option>
+<option value="verifyNotSelectedLabel">verifyNotSelectedLabel</option>
+<option value="verifyNotSelectedLabels">verifyNotSelectedLabels</option>
+<option value="verifyNotSelectedValue">verifyNotSelectedValue</option>
+<option value="verifyNotSelectedValues">verifyNotSelectedValues</option>
+<option value="verifyNotSomethingSelected">verifyNotSomethingSelected</option>
+<option value="verifyNotSpeed">verifyNotSpeed</option>
+<option value="verifyNotTable">verifyNotTable</option>
+<option value="verifyNotText">verifyNotText</option>
+<option value="verifyNotTitle">verifyNotTitle</option>
+<option value="verifyNotValue">verifyNotValue</option>
+<option value="verifyNotVisible">verifyNotVisible</option>
+<option value="verifyNotWhetherThisFrameMatchFrameExpression">verifyNotWhetherThisFrameMatchFrameExpression</option>
+<option value="verifyNotWhetherThisWindowMatchWindowExpression">verifyNotWhetherThisWindowMatchWindowExpression</option>
+<option value="verifyNotXpathCount">verifyNotXpathCount</option>
+<option value="verifyOrdered">verifyOrdered</option>
+<option value="verifyPrompt">verifyPrompt</option>
+<option value="verifyPromptNotPresent">verifyPromptNotPresent</option>
+<option value="verifyPromptPresent">verifyPromptPresent</option>
+<option value="verifySelectOptions">verifySelectOptions</option>
+<option value="verifySelectedId">verifySelectedId</option>
+<option value="verifySelectedIds">verifySelectedIds</option>
+<option value="verifySelectedIndex">verifySelectedIndex</option>
+<option value="verifySelectedIndexes">verifySelectedIndexes</option>
+<option value="verifySelectedLabel">verifySelectedLabel</option>
+<option value="verifySelectedLabels">verifySelectedLabels</option>
+<option value="verifySelectedValue">verifySelectedValue</option>
+<option value="verifySelectedValues">verifySelectedValues</option>
+<option value="verifySomethingSelected">verifySomethingSelected</option>
+<option value="verifySpeed">verifySpeed</option>
+<option value="verifyTable">verifyTable</option>
+<option value="verifyText">verifyText</option>
+<option value="verifyTextAndWait">verifyTextAndWait</option>
+<option value="verifyTextNotPresent">verifyTextNotPresent</option>
+<option value="verifyTextPresent">verifyTextPresent</option>
+<option value="verifyTitle">verifyTitle</option>
+<option value="verifyTitleAndWait">verifyTitleAndWait</option>
+<option value="verifyValue">verifyValue</option>
+<option value="verifyVisible">verifyVisible</option>
+<option value="verifyWhetherThisFrameMatchFrameExpression">verifyWhetherThisFrameMatchFrameExpression</option>
+<option value="verifyWhetherThisWindowMatchWindowExpression">verifyWhetherThisWindowMatchWindowExpression</option>
+<option value="verifyXpathCount">verifyXpathCount</option>
+<option value="waitForAlert">waitForAlert</option>
+<option value="waitForAlertNotPresent">waitForAlertNotPresent</option>
+<option value="waitForAlertPresent">waitForAlertPresent</option>
+<option value="waitForAllButtons">waitForAllButtons</option>
+<option value="waitForAllFields">waitForAllFields</option>
+<option value="waitForAllLinks">waitForAllLinks</option>
+<option value="waitForAllWindowIds">waitForAllWindowIds</option>
+<option value="waitForAllWindowNames">waitForAllWindowNames</option>
+<option value="waitForAllWindowTitles">waitForAllWindowTitles</option>
+<option value="waitForAttribute">waitForAttribute</option>
+<option value="waitForAttributeFromAllWindows">waitForAttributeFromAllWindows</option>
+<option value="waitForBodyText">waitForBodyText</option>
+<option value="waitForChecked">waitForChecked</option>
+<option value="waitForCondition">waitForCondition</option>
+<option value="waitForConfirmation">waitForConfirmation</option>
+<option value="waitForConfirmationNotPresent">waitForConfirmationNotPresent</option>
+<option value="waitForConfirmationPresent">waitForConfirmationPresent</option>
+<option value="waitForCookie">waitForCookie</option>
+<option value="waitForCookieByName">waitForCookieByName</option>
+<option value="waitForCookieNotPresent">waitForCookieNotPresent</option>
+<option value="waitForCookiePresent">waitForCookiePresent</option>
+<option value="waitForCssCount">waitForCssCount</option>
+<option value="waitForCursorPosition">waitForCursorPosition</option>
+<option value="waitForEditable">waitForEditable</option>
+<option value="waitForElementHeight">waitForElementHeight</option>
+<option value="waitForElementIndex">waitForElementIndex</option>
+<option value="waitForElementNotPresent">waitForElementNotPresent</option>
+<option value="waitForElementPositionLeft">waitForElementPositionLeft</option>
+<option value="waitForElementPositionTop">waitForElementPositionTop</option>
+<option value="waitForElementPresent">waitForElementPresent</option>
+<option value="waitForElementWidth">waitForElementWidth</option>
+<option value="waitForEval">waitForEval</option>
+<option value="waitForExpression">waitForExpression</option>
+<option value="waitForFrameToLoad">waitForFrameToLoad</option>
+<option value="waitForHtmlSource">waitForHtmlSource</option>
+<option value="waitForLocation">waitForLocation</option>
+<option value="waitForMouseSpeed">waitForMouseSpeed</option>
+<option value="waitForNotAlert">waitForNotAlert</option>
+<option value="waitForNotAllButtons">waitForNotAllButtons</option>
+<option value="waitForNotAllFields">waitForNotAllFields</option>
+<option value="waitForNotAllLinks">waitForNotAllLinks</option>
+<option value="waitForNotAllWindowIds">waitForNotAllWindowIds</option>
+<option value="waitForNotAllWindowNames">waitForNotAllWindowNames</option>
+<option value="waitForNotAllWindowTitles">waitForNotAllWindowTitles</option>
+<option value="waitForNotAttribute">waitForNotAttribute</option>
+<option value="waitForNotAttributeFromAllWindows">waitForNotAttributeFromAllWindows</option>
+<option value="waitForNotBodyText">waitForNotBodyText</option>
+<option value="waitForNotChecked">waitForNotChecked</option>
+<option value="waitForNotConfirmation">waitForNotConfirmation</option>
+<option value="waitForNotCookie">waitForNotCookie</option>
+<option value="waitForNotCookieByName">waitForNotCookieByName</option>
+<option value="waitForNotCssCount">waitForNotCssCount</option>
+<option value="waitForNotCursorPosition">waitForNotCursorPosition</option>
+<option value="waitForNotEditable">waitForNotEditable</option>
+<option value="waitForNotElementHeight">waitForNotElementHeight</option>
+<option value="waitForNotElementIndex">waitForNotElementIndex</option>
+<option value="waitForNotElementPositionLeft">waitForNotElementPositionLeft</option>
+<option value="waitForNotElementPositionTop">waitForNotElementPositionTop</option>
+<option value="waitForNotElementWidth">waitForNotElementWidth</option>
+<option value="waitForNotEval">waitForNotEval</option>
+<option value="waitForNotExpression">waitForNotExpression</option>
+<option value="waitForNotHtmlSource">waitForNotHtmlSource</option>
+<option value="waitForNotLocation">waitForNotLocation</option>
+<option value="waitForNotMouseSpeed">waitForNotMouseSpeed</option>
+<option value="waitForNotOrdered">waitForNotOrdered</option>
+<option value="waitForNotPrompt">waitForNotPrompt</option>
+<option value="waitForNotSelectOptions">waitForNotSelectOptions</option>
+<option value="waitForNotSelectedId">waitForNotSelectedId</option>
+<option value="waitForNotSelectedIds">waitForNotSelectedIds</option>
+<option value="waitForNotSelectedIndex">waitForNotSelectedIndex</option>
+<option value="waitForNotSelectedIndexes">waitForNotSelectedIndexes</option>
+<option value="waitForNotSelectedLabel">waitForNotSelectedLabel</option>
+<option value="waitForNotSelectedLabels">waitForNotSelectedLabels</option>
+<option value="waitForNotSelectedValue">waitForNotSelectedValue</option>
+<option value="waitForNotSelectedValues">waitForNotSelectedValues</option>
+<option value="waitForNotSomethingSelected">waitForNotSomethingSelected</option>
+<option value="waitForNotSpeed">waitForNotSpeed</option>
+<option value="waitForNotTable">waitForNotTable</option>
+<option value="waitForNotText">waitForNotText</option>
+<option value="waitForNotTitle">waitForNotTitle</option>
+<option value="waitForNotValue">waitForNotValue</option>
+<option value="waitForNotVisible">waitForNotVisible</option>
+<option value="waitForNotWhetherThisFrameMatchFrameExpression">waitForNotWhetherThisFrameMatchFrameExpression</option>
+<option value="waitForNotWhetherThisWindowMatchWindowExpression">waitForNotWhetherThisWindowMatchWindowExpression</option>
+<option value="waitForNotXpathCount">waitForNotXpathCount</option>
+<option value="waitForOrdered">waitForOrdered</option>
+<option value="waitForPageToLoad">waitForPageToLoad</option>
+<option value="waitForPopUp">waitForPopUp</option>
+<option value="waitForPrompt">waitForPrompt</option>
+<option value="waitForPromptNotPresent">waitForPromptNotPresent</option>
+<option value="waitForPromptPresent">waitForPromptPresent</option>
+<option value="waitForSelectOptions">waitForSelectOptions</option>
+<option value="waitForSelectedId">waitForSelectedId</option>
+<option value="waitForSelectedIds">waitForSelectedIds</option>
+<option value="waitForSelectedIndex">waitForSelectedIndex</option>
+<option value="waitForSelectedIndexes">waitForSelectedIndexes</option>
+<option value="waitForSelectedLabel">waitForSelectedLabel</option>
+<option value="waitForSelectedLabels">waitForSelectedLabels</option>
+<option value="waitForSelectedValue">waitForSelectedValue</option>
+<option value="waitForSelectedValues">waitForSelectedValues</option>
+<option value="waitForSomethingSelected">waitForSomethingSelected</option>
+<option value="waitForSpeed">waitForSpeed</option>
+<option value="waitForTable">waitForTable</option>
+<option value="waitForText">waitForText</option>
+<option value="waitForTextNotPresent">waitForTextNotPresent</option>
+<option value="waitForTextPresent">waitForTextPresent</option>
+<option value="waitForTitle">waitForTitle</option>
+<option value="waitForValue">waitForValue</option>
+<option value="waitForVisible">waitForVisible</option>
+<option value="waitForWhetherThisFrameMatchFrameExpression">waitForWhetherThisFrameMatchFrameExpression</option>
+<option value="waitForWhetherThisWindowMatchWindowExpression">waitForWhetherThisWindowMatchWindowExpression</option>
+<option value="waitForXpathCount">waitForXpathCount</option>
+<option value="waitPreparation">waitPreparation</option>
+<option value="waitPreparationAndWait">waitPreparationAndWait</option>
+<option value="windowFocus">windowFocus</option>
+<option value="windowFocusAndWait">windowFocusAndWait</option>
+<option value="windowMaximize">windowMaximize</option>
+<option value="windowMaximizeAndWait">windowMaximizeAndWait</option>
+</datalist>
+                            </div>
+                            <div class="command-row">
+                                <label for="command-target">Target</label>
+                                <input id="command-target" list="command-target-list" type="text">
+                                <i id="target-" class="fa fa-chevron-down" aria-hidden="true"></i>
+                                <div id="target-dropdown" class="w3-dropdown-content w3-bar-block" style="width: 444.5px;"></div>
+                                <datalist id="command-target-list"></datalist>
+                            </div>
+                            <div class="command-row">
+                                <label for="command-value">Value</label>
+                                <input id="command-value" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of #command-container -->
+                </article>
+            </div>
+            <article class="module width_full">
+                <header class="tabs_involved no-select d-flex justify-content-between align-items-center">
+                    <ul class="tabs">
+                        <li id="show-log" class="active"><a>Console</a></li>
+                        <li id="show-reference" class=""><a>Reference</a></li>
+                    </ul>
+                    <ul class="tab-buttons">
+                        <li id="clear-log" title="Clear console" style="">
+                            <a href="javascript:void(0);">
+                                <svg class="bg-icon-clear" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 16h4v2h-4zm0-8h7v2h-7zm0 4h6v2h-6zM3 18c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V8H3v10zM14 5h-3l-1-1H6L5 5H2v2h12z"></path>
+                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li title="Hide">
+                            <a href="javascript:void(0);" id="show-hide-bottom-panel">
+                                <img src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/images/ic_keyboard_arrow_down_black_18px.svg" data-show="./panel/images/ic_keyboard_arrow_up_black_18px.svg" data-hide="./panel/images/ic_keyboard_arrow_down_black_18px.svg" alt="Show/Hide">
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <div id="tab4" class="tab_content case_roll">
+                    <div class="module_content">
+                        <div id="logcontainer" style="">
+                        <h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=email | zulsarhan@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=password | gundamseed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | User zulsarhan@gmail.com Does Not Exist</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=email | zulsarhan.shaari@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=password | Gundamseed21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | Wrong password</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=password | Gundamseed@21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Login" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=email | zulsarhan@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=password | gundamseed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | User zulsarhan@gmail.com Does Not Exist</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=email | zulsarhan.shaari@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=password | Gundamseed21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | Wrong password</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=password | Gundamseed@21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Login" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=email | zulsarhan@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Wait until the element is found</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Stop executing</h4><h4 class="log-error"><span class="log-type">[ERROR]</span> Implicit Wait timed out after 30000ms</h4><h4 class="log-error"><span class="log-type">[ERROR]</span> Element name=email not found</h4><h4 class="log-failed"><span class="log-type">[FAILED]</span> Test case "Login" failed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | zulsarhan@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | gundamseed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | User zulsarhan@gmail.com Does Not Exist</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | zulsarhan.shaari@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | Gundamseed21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | Wrong password</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | Gundamseed@21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Login" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | test@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | 12345</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass-confirm | wzs21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Sign Up" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | test@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | 12345</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass-confirm | wzs21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Sign Up" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | test@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | 12345</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass-confirm | wzs21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Sign Up" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | test@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | 12345</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass-confirm | wzs21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Sign Up" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | zulsarhan@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | gundamseed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | User zulsarhan@gmail.com Does Not Exist</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | zulsarhan.shaari@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | Gundamseed21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: waitForText | //div[@id='app']/div/div[2]/div/div/div | Wrong password</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | Gundamseed@21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Login" passed</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_email | test@gmail.com</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass | 12345</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: type | name=user_pass-confirm | wzs21</h4><h4 class="log-info"><span class="log-type">[INFO]</span> Executing: click | //input[@value='Submit'] | </h4><h4 class="log-passed"><span class="log-type">[PASSED]</span> Test case "Sign Up" passed</h4></div>
+                        <div id="reference-container" style="display: none;"><dl><dt><strong>click(locator)</strong></dt><dd><div>Arguments:</div><ul><li>locator - an element locator</li></ul>Clicks on a link, button, checkbox or radio button. If the click action
+causes a new page to load (like a link usually does), call
+waitForPageToLoad.</dd></dl></div>
+                    </div>
+                </div>
+            </article>
+            <!-- end of styles article -->
+        </div>
+        <!--<div class="spacer"></div>-->
+    </section>
+    <!-- script -->
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/browser-polyfill.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/IO/load_file.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/IO/save_file.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/context_menu.js"></script><div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable ui-resizable" aria-describedby="generateToScriptsDialog" aria-labelledby="ui-id-1" style="position: absolute; height: auto; width: 90%; top: 44.508px; left: 35.703px; z-index: 101; display: none;"><div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle"><span id="ui-id-1" class="ui-dialog-title">Export Test Case as Script</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button></div><div id="generateToScriptsDialog" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 0px; max-height: none; height: 490.437px;">
+                    <label for="select-script-language-id">Language &amp; Framework </label>
+                    <select id="select-script-language-id" class="select-script-language">
+                        <option value="cs-wd-nunit">C# (WebDriver + NUnit)</option>
+                        <option value="java-wd-testng">Java (WebDriver + TestNG)</option>
+                        <option value="java-wd-junit">Java (WebDriver + JUnit)</option>
+                        <option value="java-rc-junit">Java (WebDriver-backed Remote Control + JUnit)</option>
+                        <option value="katalon" selected="">Katalon Studio</option>
+                        <option value="python2-wd-unittest">Python 2 (WebDriver + unittest)</option>
+                        <option value="robot">Robot Framework</option>
+                        <option value="ruby-wd-rspec">Ruby (WebDriver + RSpec)</option>
+                    </select>
+                    <div class="kat clear" style="display: block;">Katalon Studio is a Free Automation tool includes all required features to makes Selenium and Appium automation easy for teams with limited coding capability to apply GUI, Mobile and API testings.</div>
+                    <textarea id="txt-script-id" class="txt-script" style="display: none;">scripts</textarea><div class="CodeMirror cm-s-default CodeMirror-wrap kat-75"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 35px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;" tabindex="0"></textarea></div><div class="CodeMirror-vscrollbar" cm-not-content="true" style="display: block; bottom: 0px;"><div style="min-width: 1px; height: 848px;"></div></div><div class="CodeMirror-hscrollbar" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 30px; margin-bottom: -17px; border-right-width: 13px; min-height: 848px; padding-right: 17px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors"><div class="CodeMirror-cursor" style="left: 4px; top: 0px; height: 14px;">&nbsp;</div></div><div class="CodeMirror-code" role="presentation" style=""><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">static</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">checkpoint</span>.<span class="cm-property">CheckpointFactory</span>.<span class="cm-property">findCheckpoint</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">static</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testcase</span>.<span class="cm-property">TestCaseFactory</span>.<span class="cm-property">findTestCase</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">static</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testdata</span>.<span class="cm-property">TestDataFactory</span>.<span class="cm-property">findTestData</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">static</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testobject</span>.<span class="cm-property">ObjectRepository</span>.<span class="cm-property">findTestObject</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">checkpoint</span>.<span class="cm-property">Checkpoint</span> <span class="cm-keyword">as</span> <span class="cm-variable">Checkpoint</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">checkpoint</span>.<span class="cm-property">CheckpointFactory</span> <span class="cm-keyword">as</span> <span class="cm-variable">CheckpointFactory</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">mobile</span>.<span class="cm-property">keyword</span>.<span class="cm-property">MobileBuiltInKeywords</span> <span class="cm-keyword">as</span> <span class="cm-variable">MobileBuiltInKeywords</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">model</span>.<span class="cm-property">FailureHandling</span> <span class="cm-keyword">as</span> <span class="cm-variable">FailureHandling</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testcase</span>.<span class="cm-property">TestCase</span> <span class="cm-keyword">as</span> <span class="cm-variable">TestCase</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testcase</span>.<span class="cm-property">TestCaseFactory</span> <span class="cm-keyword">as</span> <span class="cm-variable">TestCaseFactory</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testdata</span>.<span class="cm-property">TestData</span> <span class="cm-keyword">as</span> <span class="cm-variable">TestData</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testdata</span>.<span class="cm-property">TestDataFactory</span> <span class="cm-keyword">as</span> <span class="cm-variable">TestDataFactory</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testobject</span>.<span class="cm-property">ObjectRepository</span> <span class="cm-keyword">as</span> <span class="cm-variable">ObjectRepository</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">testobject</span>.<span class="cm-property">TestObject</span> <span class="cm-keyword">as</span> <span class="cm-variable">TestObject</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">webservice</span>.<span class="cm-property">keyword</span>.<span class="cm-property">WSBuiltInKeywords</span> <span class="cm-keyword">as</span> <span class="cm-variable">WSBuiltInKeywords</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">webui</span>.<span class="cm-property">driver</span>.<span class="cm-property">DriverFactory</span> <span class="cm-keyword">as</span> <span class="cm-variable">DriverFactory</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">webui</span>.<span class="cm-property">keyword</span>.<span class="cm-property">WebUiBuiltInKeywords</span> <span class="cm-keyword">as</span> <span class="cm-variable">WebUiBuiltInKeywords</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">internal</span>.<span class="cm-property">GlobalVariable</span> <span class="cm-keyword">as</span> <span class="cm-variable">GlobalVariable</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">webui</span>.<span class="cm-property">keyword</span>.<span class="cm-property">WebUiBuiltInKeywords</span> <span class="cm-keyword">as</span> <span class="cm-variable">WebUI</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">mobile</span>.<span class="cm-property">keyword</span>.<span class="cm-property">MobileBuiltInKeywords</span> <span class="cm-keyword">as</span> <span class="cm-variable">Mobile</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">kms</span>.<span class="cm-property">katalon</span>.<span class="cm-property">core</span>.<span class="cm-property">webservice</span>.<span class="cm-property">keyword</span>.<span class="cm-property">WSBuiltInKeywords</span> <span class="cm-keyword">as</span> <span class="cm-variable">WS</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">thoughtworks</span>.<span class="cm-property">selenium</span>.<span class="cm-property">Selenium</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">org</span>.<span class="cm-property">openqa</span>.<span class="cm-property">selenium</span>.<span class="cm-property">firefox</span>.<span class="cm-property">FirefoxDriver</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">org</span>.<span class="cm-property">openqa</span>.<span class="cm-property">selenium</span>.<span class="cm-property">WebDriver</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">com</span>.<span class="cm-property">thoughtworks</span>.<span class="cm-property">selenium</span>.<span class="cm-property">webdriven</span>.<span class="cm-property">WebDriverBackedSelenium</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">26</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">static</span> <span class="cm-variable">org</span>.<span class="cm-property">junit</span>.<span class="cm-property">Assert</span>.<span class="cm-operator">*</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">27</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">java</span>.<span class="cm-property">util</span>.<span class="cm-property">regex</span>.<span class="cm-property">Pattern</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">28</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">static</span> <span class="cm-variable">org</span>.<span class="cm-property">apache</span>.<span class="cm-property">commons</span>.<span class="cm-property">lang3</span>.<span class="cm-property">StringUtils</span>.<span class="cm-property">join</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">29</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">30</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">WebUI</span>.<span class="cm-property">openBrowser</span>(<span class="cm-string">'https://www.katalon.com/'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">31</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">def</span> <span class="cm-variable">driver</span> <span class="cm-operator">=</span> <span class="cm-variable">DriverFactory</span>.<span class="cm-property">getWebDriver</span>()</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">32</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">String</span> <span class="cm-variable">baseUrl</span> <span class="cm-operator">=</span> <span class="cm-string">"https://www.katalon.com/"</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">33</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">WebDriverBackedSelenium</span>(<span class="cm-variable">driver</span>, <span class="cm-variable">baseUrl</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">34</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">click</span>(<span class="cm-string">"//input[@value='Submit']"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">35</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">type</span>(<span class="cm-string">"name=user_email"</span>, <span class="cm-string">"zulsarhan@gmail.com"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">36</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">type</span>(<span class="cm-string">"name=user_pass"</span>, <span class="cm-string">"gundamseed"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">37</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">click</span>(<span class="cm-string">"//input[@value='Submit']"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">38</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> (<span class="cm-keyword">int</span> <span class="cm-variable">second</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>;; <span class="cm-variable">second</span><span class="cm-operator">++</span>) {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">39</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">if</span> (<span class="cm-variable">second</span> <span class="cm-operator">&gt;=</span> <span class="cm-number">60</span>) <span class="cm-variable">fail</span>(<span class="cm-string">"timeout"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">40</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">try</span> { <span class="cm-keyword">if</span> (<span class="cm-string">"User zulsarhan@gmail.com Does Not Exist"</span>.<span class="cm-property">equals</span>(<span class="cm-variable">selenium</span>.<span class="cm-property">getText</span>(<span class="cm-string">"//div[@id='app']/div/div[2]/div/div/div"</span>))) <span class="cm-keyword">break</span>; } <span class="cm-keyword">catch</span> (<span class="cm-variable">Exception</span> <span class="cm-variable">e</span>) {}</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">41</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-variable">Thread</span>.<span class="cm-property">sleep</span>(<span class="cm-number">1000</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">42</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">43</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">44</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">type</span>(<span class="cm-string">"name=user_email"</span>, <span class="cm-string">"zulsarhan.shaari@gmail.com"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">45</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">type</span>(<span class="cm-string">"name=user_pass"</span>, <span class="cm-string">"Gundamseed21"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">46</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">click</span>(<span class="cm-string">"//input[@value='Submit']"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">47</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> (<span class="cm-keyword">int</span> <span class="cm-variable">second</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>;; <span class="cm-variable">second</span><span class="cm-operator">++</span>) {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">48</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">if</span> (<span class="cm-variable">second</span> <span class="cm-operator">&gt;=</span> <span class="cm-number">60</span>) <span class="cm-variable">fail</span>(<span class="cm-string">"timeout"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">49</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">try</span> { <span class="cm-keyword">if</span> (<span class="cm-string">"Wrong password"</span>.<span class="cm-property">equals</span>(<span class="cm-variable">selenium</span>.<span class="cm-property">getText</span>(<span class="cm-string">"//div[@id='app']/div/div[2]/div/div/div"</span>))) <span class="cm-keyword">break</span>; } <span class="cm-keyword">catch</span> (<span class="cm-variable">Exception</span> <span class="cm-variable">e</span>) {}</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">50</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-variable">Thread</span>.<span class="cm-property">sleep</span>(<span class="cm-number">1000</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">51</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">52</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">53</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">type</span>(<span class="cm-string">"name=user_pass"</span>, <span class="cm-string">"Gundamseed@21"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">54</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">selenium</span>.<span class="cm-property">click</span>(<span class="cm-string">"//input[@value='Submit']"</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -30px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">55</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 848px;"></div><div class="CodeMirror-gutters" style="height: 861px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 29px;"></div></div></div></div>
+                </div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-corner-all ui-widget">Copy to Clipboard</button><button type="button" class="ui-button ui-corner-all ui-widget">Save As File...</button><button type="button" class="ui-button ui-corner-all ui-widget">Close</button></div></div><div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-w" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90;"></div></div>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/command_grid.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/command_grid_toolbar.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/testcase_grid.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/log.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/panel/js/settings.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/ext-command.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/initial.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/escape.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/editor.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/locatorBuilders.js"></script>
+    <script src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/formatCommand.js"></script>
+    <!-- playback -->
+    <script type="text/javascript" src="chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/playback-api.js"></script>
+
+
+
+</body></html>

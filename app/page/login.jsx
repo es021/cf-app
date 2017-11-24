@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import * as authActions from '../redux/actions/auth-actions';
+import {User}  from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
 import { Redirect} from 'react-router-dom';
@@ -24,30 +25,33 @@ function mapDispatchToProps(dispatch) {
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
+        this.formOnSubmit = this.formOnSubmit.bind(this);
     }
 
     componentWillMount() {
         this.formItems = [
             {
                 label: "Email *",
-                name: "email",
+                name: User.EMAIL,
                 type: "email",
                 placeholder: "john.doe@gmail.com",
                 required: true
             },
             {
                 label: "Password *",
-                name: "password",
+                name: User.PASSWORD,
                 type: "password",
                 placeholder: "*****",
                 required: true
             }
         ];
 
-        this.formOnSubmit = (data) => {
-            //console.log("login", data);
-            this.props.login(data.email, data.password);
-        };
+
+    }
+
+    formOnSubmit(d) {
+        //console.log("login", data);
+        this.props.login(d[User.EMAIL], d[User.PASSWORD]);
     }
 
     render() {
@@ -76,7 +80,11 @@ class LoginPage extends React.Component {
                     <div><h3>Login</h3>
                         <p>You must log in to view the page at {from.pathname}</p>
                     
-                        <Form className="row-form" items={this.formItems} disableSubmit={fetching} onSubmit={this.formOnSubmit}></Form>
+                        <Form className="form-row" 
+                              items={this.formItems} 
+                              disableSubmit={fetching} 
+                              onSubmit={this.formOnSubmit}></Form>
+                    
                         <div className="message">
                             {(fetching) ? "Logging In" : ""}
                             {(error !== null) ? error : ""}

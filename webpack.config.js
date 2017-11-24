@@ -19,8 +19,7 @@ if (process.env.NODE_ENV === "production") {
     isProd = true;
 }
 
-
-// Entry Helpers
+// create Entry --------------------------------------
 var buildDevEntryPoint = function (entryPoint) {
     return [
         'webpack-dev-server/client?http://localhost:8080',
@@ -29,13 +28,11 @@ var buildDevEntryPoint = function (entryPoint) {
     ];
 };
 
-
 const entryPoint = {
     main: APP_DIR + "/index.jsx",
     loading: APP_DIR + "/loading.jsx"
 };
 
-// create Entry
 var entry;
 if (isProd) {
     entry = entryPoint;
@@ -44,67 +41,23 @@ if (isProd) {
         main: buildDevEntryPoint(entryPoint.main),
         loading: buildDevEntryPoint(entryPoint.loading)
     };
-    /*
-     entry = [
-     'webpack-dev-server/client?http://localhost:8080',
-     'webpack/hot/only-dev-server',
-     //APP_DIR + '/index.jsx'
-     ];
-     */
-
 }
 
-
-const productionPlugins = [
+// create Plugins --------------------------------------
+var plugins = [
     new webpack.DefinePlugin({
         'process.env': {
+            // 'NODE_ENV': JSON.stringify((isProd) ? 'production' : 'development')
             'NODE_ENV': JSON.stringify((process.env.NODE_ENV))
         }
     }),
-    //new ExtractTextPlugin("bundle.css", {allChunks: false}),
-    new ExtractTextPlugin("[name].css", {allChunks: false}),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    // new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-        mangle: true,
-        compress: {
-            warnings: false, // Suppress uglification warnings
-            pure_getters: true,
-            unsafe: true,
-            unsafe_comps: true,
-            screw_ie8: true
-        },
-        output: {
-            comments: false
-        },
-        exclude: [/\.min\.js$/gi] // skip pre-minified libs
-    }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]), //https://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
-    new CompressionPlugin({
-        asset: "[path].gz[query]",
-        algorithm: "gzip",
-        test: /\.js$|\.css$|\.html$/,
-        threshold: 10240,
-        minRatio: 0
-    })
+    new webpack.optimize.CommonsChunkPlugin('vendors'),
+    new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", {allChunks: false})
 ];
 
-
-module.exports = {
-    entry: entry,
-    //devtool: (false && isProd) ? false : 'source-map', // false
-    devtool: (isProd) ? false : 'source-map', // false -- bigger
-
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                // 'NODE_ENV': JSON.stringify((isProd) ? 'production' : 'development')
-                'NODE_ENV': JSON.stringify((process.env.NODE_ENV))
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin('vendors'),
-        new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", {allChunks: false}),
+// Optimize and Minimize for Production
+if (isProd) {
+    plugins = plugins.concat([
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         //new webpack.optimize.DedupePlugin(), //deprecated
@@ -131,7 +84,14 @@ module.exports = {
             threshold: 10240,
             minRatio: 0
         })
-    ],
+    ]);
+}
+
+// create Moduile --------------------------------------
+module.exports = {
+    entry: entry,
+    devtool: (isProd) ? false : 'source-map', // false -- bigger
+    plugins: plugins,
     module: {
         loaders: [
             {test: /\.jsx?$/,

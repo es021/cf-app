@@ -1,35 +1,35 @@
 const DB = require('./DB.js');
 
-const {User} = require('../../config/db-config.js');
+const {UserMeta} = require('../../config/db-config.js');
 
 class UserQuery {
     
     getUser(id, email, role, page, offset) {
         var id_condition = (typeof id !== "undefined") ? `u.ID = ${id}` : `1=1`;
         var email_condition = (typeof email !== "undefined") ? `u.user_email = '${email}'` : `1=1`;
-        var role_condition = (typeof role !== "undefined") ? `(${this.selectMetaMain("u.ID", User.ROLE)}) LIKE '%${role}%' ` : `1=1`;
+        var role_condition = (typeof role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${role}%' ` : `1=1`;
 
         var limit = DB.prepareLimit(page, offset);
 
         var sql = `SELECT u.* 
-           ,${this.selectMeta("u.ID", User.FIRST_NAME)}
-           ,${this.selectMeta("u.ID", User.LAST_NAME)}
-           ,${this.selectMeta("u.ID", User.DESCRIPTION)}
-           ,${this.selectMeta("u.ID", User.ROLE, "role")}
-           ,${this.selectMeta("u.ID", User.IMG_URL, "img_url")}
-           ,${this.selectMeta("u.ID", User.IMG_POS, "img_pos")}
-           ,${this.selectMeta("u.ID", User.IMG_SIZE, "img_size")}
-           ,${this.selectMeta("u.ID", User.FEEDBACK)}
-           ,${this.selectMeta("u.ID", User.IS_ACTIVATED)}
-           ,${this.selectMeta("u.ID", User.UNIVERSITY)}
-           ,${this.selectMeta("u.ID", User.PHONE_NUMBER)}
-           ,${this.selectMeta("u.ID", User.GRAD_MONTH, "grad_month")}
-           ,${this.selectMeta("u.ID", User.GRAD_YEAR, "grad_year")}
-           ,${this.selectMeta("u.ID", User.SPONSOR)}
-           ,${this.selectMeta("u.ID", User.CGPA)}
-           ,${this.selectMeta("u.ID", User.MAJOR)}
-           ,${this.selectMeta("u.ID", User.MINOR)}
-           ,${this.selectMeta("u.ID", User.COMPANY_ID, "company_id")}
+           ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
+           ,${this.selectMeta("u.ID", UserMeta.LAST_NAME)}
+           ,${this.selectMeta("u.ID", UserMeta.DESCRIPTION)}
+           ,${this.selectMeta("u.ID", UserMeta.ROLE, "role")}
+           ,${this.selectMeta("u.ID", UserMeta.IMG_URL, "img_url")}
+           ,${this.selectMeta("u.ID", UserMeta.IMG_POS, "img_pos")}
+           ,${this.selectMeta("u.ID", UserMeta.IMG_SIZE, "img_size")}
+           ,${this.selectMeta("u.ID", UserMeta.FEEDBACK)}
+           ,${this.selectMeta("u.ID", UserMeta.IS_ACTIVATED)}
+           ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
+           ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
+           ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH, "grad_month")}
+           ,${this.selectMeta("u.ID", UserMeta.GRAD_YEAR, "grad_year")}
+           ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
+           ,${this.selectMeta("u.ID", UserMeta.CGPA)}
+           ,${this.selectMeta("u.ID", UserMeta.MAJOR)}
+           ,${this.selectMeta("u.ID", UserMeta.MINOR)}
+           ,${this.selectMeta("u.ID", UserMeta.COMPANY_ID, "company_id")}
            FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
         
         return sql;
@@ -46,7 +46,7 @@ class UserQuery {
     selectMeta(user_id, meta_key, as) {
         as = (typeof as === "undefined") ? meta_key : as;
 
-        if (meta_key === User.ROLE) {
+        if (meta_key === UserMeta.ROLE) {
             return this.selectRole(user_id, meta_key, as);
         }
 
@@ -104,4 +104,4 @@ class UserExec {
 }
 UserExec = new UserExec();
 
-module.exports = {User, UserExec};
+module.exports = {UserExec};

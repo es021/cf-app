@@ -1,0 +1,20 @@
+form{
+    text-align: left;
+
+    .form-header{
+        border-bottom: solid gray 1px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-item {
+        .form-input {
+            margin-bottom: 10px;
+            *{
+                width: 100%;
+            }
+        }
+    }
+
+}

@@ -36,6 +36,7 @@ header{
     flex-flow: row;
 
     .main{
+        padding: 20px;
         flex: 3; 
     }
 
@@ -79,6 +80,7 @@ header, .content, footer{
         flex-flow: column;
 
         .main{
+            padding: 15px;
             flex: 1; 
         }
 
@@ -108,5 +110,9 @@ header, .content, footer{
 
     .content{
         margin-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
+
+        .main{
+            padding: 10px;
+        }
     }
 }
