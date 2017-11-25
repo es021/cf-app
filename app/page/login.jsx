@@ -83,12 +83,9 @@ class LoginPage extends React.Component {
                         <Form className="form-row" 
                               items={this.formItems} 
                               disableSubmit={fetching} 
-                              onSubmit={this.formOnSubmit}></Form>
-                    
-                        <div className="message">
-                            {(fetching) ? "Logging In" : ""}
-                            {(error !== null) ? error : ""}
-                        </div>
+                              submitText="Log In"
+                              onSubmit={this.formOnSubmit}
+                              error={error}></Form>
                     </div>
                     );
         }

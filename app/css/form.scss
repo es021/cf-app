@@ -1,5 +1,7 @@
 form{
     text-align: left;
+    max-width: 400px;
+    margin: auto;
 
     .form-header{
         border-bottom: solid gray 1px;
@@ -15,6 +17,16 @@ form{
                 width: 100%;
             }
         }
+    }
+
+    .form-submit {
+        text-align: center;
+    }
+
+    .form-error{
+        margin: 10px 0;
+        padding:7px 15px;
+        text-align: center;
     }
 
 }

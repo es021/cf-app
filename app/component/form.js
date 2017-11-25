@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {PropTypes} from 'prop-types';
+import {Loader} from './loader';
 
 require('../css/form.scss');
 
@@ -63,7 +64,7 @@ export default class Form extends React.Component {
     }
 
     render() {
-
+        // 1. form items ---------
         var formItems = this.props.items.map((d, i) =>
             (d.header)
                     ?
@@ -77,10 +78,35 @@ export default class Form extends React.Component {
                     </div>
         );
 
+        // 2. form submit ---------
+        var disableSubmit = this.props.disableSubmit;
+
+        var submitText = (this.props.submitText) ? this.props.submitText : "Submit";
+        if (disableSubmit) {
+            submitText = <Loader text_pos="right" text="Please Wait"></Loader>;
+        }
+
+        var formSubmit =
+                <div className="form-submit">
+                    <button type="submit" 
+                            className="btn btn-sm btn-primary" 
+                            disabled={disableSubmit}>
+                        {submitText}
+                    </button>
+                </div>;
+
+        // 3. form error ---------
+        var formError = (this.props.error) ?
+                <div className="form-error alert alert-danger">
+                    {this.props.error} </div>
+                : null;
+
+
         return (<form className={this.props.className} onSubmit={this.onSubmit}>
-            {formItems}
-            <input type="submit" disabled={this.props.disableSubmit} value="Submit" />
-        </form>);
+        {formItems}
+        {formSubmit}
+        {formError}
+    </form>);
     }
 }
 
@@ -89,5 +115,7 @@ Form.propTypes = {
     //[{header} | {name,type,required,placeholder,rows,defaultValue}]
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
     className: PropTypes.oneOf(['form-row', 'form-col']),
-    disableSubmit: PropTypes.bool
+    disableSubmit: PropTypes.bool.isRequired,
+    submitText: PropTypes.string,
+    error: PropTypes.string
 };

@@ -77,11 +77,9 @@ export default class SignUpPage extends React.Component {
             <Form className="form-row" 
                   items={this.formItems} 
                   disableSubmit={false} 
-                  onSubmit={this.formOnSubmit}></Form>
-        
-            <div className="message">
-                This is message
-            </div>
+                  onSubmit={this.formOnSubmit}
+                  submitText='Sign Me Up !'>
+            </Form>
         </div>);
     }
 }
