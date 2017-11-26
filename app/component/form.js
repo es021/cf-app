@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {PropTypes} from 'prop-types';
 import {Loader} from './loader';
+import {ButtonLink} from './buttons';
 require('../css/form.scss');
 export default class Form extends React.Component {
     constructor(props) {
@@ -9,6 +10,9 @@ export default class Form extends React.Component {
         //this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.getSelectOptions = this.getSelectOptions.bind(this);
+        this.state = {
+            multiple: {}
+        }
     }
 
     /*
@@ -34,10 +38,61 @@ export default class Form extends React.Component {
 
     getSelectOptions(data) {
         return(data.map((d, i) =>
-            <option value={d}>{d}</option>));
+            <option key={i} value={d}>{d}</option>));
     }
 
-    renderItem(d) {
+    addMultiple(d) {
+        if (!d.multiple) {
+            return null;
+        }
+
+        const onClickAdd = () => {
+            this.setState((prevState) => {
+                var multis = prevState.multiple[d.name];
+
+                var newData = Object.assign({}, d);
+
+                newData.name += "::" + (multis.length + 1);
+
+                prevState.multiple[d.name].push(this.renderItem(newData, true));
+                return (prevState);
+            });
+        }
+
+        const onClickRemove = () => {
+            this.setState((prevState) => {
+                prevState.multiple[d.name].pop();
+                return (prevState);
+            });
+        }
+
+        if (!this.state.multiple[d.name]) {
+            this.state.multiple[d.name] = [];
+        }
+
+
+
+        console.log("state multiple");
+        console.log(this.state.multiple);
+        var multi = this.state.multiple[d.name].map((d, i) => {
+            var style = {marginTop: "5px"};
+            return <div style={style}>{d}</div>;
+        });
+
+        return(<div>{multi}
+            <ButtonLink onClick={onClickAdd}
+                        label={`Add`}>
+            </ButtonLink>{" "}
+            {(this.state.multiple[d.name].length <= 0) ? null :
+                            <ButtonLink onClick={onClickRemove}
+                                        label={`Remove`}>
+                            </ButtonLink>}
+        </div>);
+    }
+
+    renderItem(d, isAdded = false) {
+
+        d.required = (!isAdded) ? d.required : false;
 
         switch (d.type) {
 
@@ -69,7 +124,7 @@ export default class Form extends React.Component {
                     value={d.defaultValue}
                     ref={(v) => this.form[d.name] = v} />);
                 break;
-        }
+    }
     }
 
     render() {
@@ -80,9 +135,13 @@ export default class Form extends React.Component {
                     <div className="form-header" key={i}>{d.header}</div>
                     :
                     <div className="form-item" key={i}>
-                        <div className="form-label">{d.label}</div>
+                        <div className="form-label">
+                            {d.label}{(d.required) ? " *" : null}
+                        </div>
+                        {(d.sublabel) ? <div className="form-sublabel">{d.sublabel}</div> : null}
                         <div className="form-input">           
                             {this.renderItem(d)}
+                            {this.addMultiple(d)}
                         </div>
                     </div>
         );

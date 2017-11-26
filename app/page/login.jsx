@@ -31,14 +31,14 @@ class LoginPage extends React.Component {
     componentWillMount() {
         this.formItems = [
             {
-                label: "Email *",
+                label: "Email",
                 name: User.EMAIL,
                 type: "email",
                 placeholder: "john.doe@gmail.com",
                 required: true
             },
             {
-                label: "Password *",
+                label: "Password",
                 name: User.PASSWORD,
                 type: "password",
                 placeholder: "*****",

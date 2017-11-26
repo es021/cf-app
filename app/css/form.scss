@@ -11,6 +11,11 @@ form{
     }
 
     .form-item {
+        .form-sublabel{
+            font-size:80%;
+            color:gray;
+            font-style: italic;
+        }
         .form-input {
             margin-bottom: 10px;
             *{

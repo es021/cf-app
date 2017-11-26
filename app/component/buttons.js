@@ -6,10 +6,14 @@ export class ButtonLink extends React.Component {
     }
 
     render() {
-        return(<a onClick={this.props.onClick} className="btn_link">{this.props.label}</a>);
+        if (this.props.href) {
+            return(<a target={`${this.props.target}`} href={`${this.props.href}`} className="btn_link">{this.props.label}</a>);
+        } else {
+            return(<a onClick={this.props.onClick} className="btn_link">{this.props.label}</a>);
+        }
     }
 }
-  
+
 /*
  * onClick
  * icon
@@ -36,6 +40,15 @@ export class ButtonIcon extends React.Component {
         };
 
         var theme = (this.props.theme) ? this.props.theme : "";
-        return(<a style={style} onClick={this.props.onClick} className={`button-icon ${theme}`}><i className={`fa fa-${this.props.icon}`}></i></a>);
+        var icon = <i className={`fa fa-${this.props.icon}`}></i>;
+        if (this.props.href) {
+            return(<a style={style} 
+               target={`${this.props.target}`} href={`${this.props.href}`} 
+               className={`button-icon ${theme}`}>{icon}</a>);
+        } else {
+            return(<a style={style} 
+           onClick={this.props.onClick} 
+           className={`button-icon ${theme}`}>{icon}</a>);
+        }
     }
 }

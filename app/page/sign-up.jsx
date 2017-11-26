@@ -3,7 +3,7 @@ import { Redirect} from 'react-router-dom';
 import Form from '../component/form';
 import {UserMeta, User}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
-
+import {ButtonLink} from '../component/buttons';
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
@@ -15,33 +15,78 @@ export default class SignUpPage extends React.Component {
         this.formItems = [
             {header: "Basic Information"},
             {
-                label: "Email *",
+                label: "Email",
                 name: User.EMAIL,
                 type: "email",
                 placeholder: "john.doe@gmail.com",
                 required: true
             }, {
-                label: "Password *",
+                label: "Password",
                 name: User.PASSWORD,
                 type: "password",
                 placeholder: "*****",
                 required: true
             }, {
-                label: "Confirm Password *",
+                label: "Confirm Password",
                 name: `${User.PASSWORD}-confirm`,
                 type: "password",
                 placeholder: "*****",
                 required: true
+            }, {
+                label: "First Name",
+                name: UserMeta.FIRST_NAME,
+                type: "text",
+                placeholder: "John",
+                required: true
+            }, {
+                label: "Last Name",
+                name: UserMeta.LAST_NAME,
+                type: "text",
+                placeholder: "Doe",
+                required: true
+            }, {
+                label: "Phone Number",
+                name: UserMeta.PHONE_NUMBER,
+                type: "text",
+                placeholder: "XXX-XXXXXXX",
+                required: true
             },
             {header: "Additional Information"},
             {
-                label: "Sponsor *",
+                label: "Major",
+                name: UserMeta.MAJOR,
+                type: "text",
+                multiple: true,
+                required: true
+            }, {
+                label: "Minor",
+                name: UserMeta.MINOR,
+                type: "text",
+                multiple: true,
+                required: false
+            }, {
+                label: "University",
+                name: UserMeta.UNIVERSITY,
+                type: "text",
+                required: true
+            }, {
+                label: "Current CGPA",
+                name: UserMeta.CGPA,
+                type: "number",
+                required: true,
+                sublabel: <ButtonLink label="Don't Use CGPA system?" 
+                            target='_blank'
+                            href="https://www.foreigncredits.com/resources/gpa-calculator/">
+                </ButtonLink>
+            }, {
+                label: "Sponsor",
                 name: UserMeta.SPONSOR,
                 type: "select",
                 data: Sponsor,
-                required: true
-            },
-            {
+                required: true,
+                sublabel: "This information will not be displayed in your profile."
+
+            }, {
                 label: "Description",
                 name: UserMeta.DESCRIPTION,
                 type: "textarea",

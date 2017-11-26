@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {AppConfig, ImgConfig, OrgConfig} from '../../config/app-config';
 import {ButtonIcon} from '../component/buttons';
-import {openNewTab} from '../lib/util';
+//import {openNewTab} from '../lib/util';
 
 require("../css/footer.scss");
 
@@ -11,7 +11,7 @@ class FixedImg extends React.Component {
             backgroundImage: `url(${this.props.url})`,
             width: this.props.width + "px",
             height: this.props.height + "px",
-            backgroundSize: "cover", 
+            backgroundSize: "cover",
             margin: "auto"
         };
 
@@ -58,9 +58,12 @@ export default class Footer extends React.Component {
         
             <FixedImg url={ImgConfig.IsIconInverse} height="66" width="145"></FixedImg>
             <div className="social"> 
-                <ButtonIcon onClick={() => openNewTab(AppConfig.FbUrl)} 
+                <ButtonIcon href={AppConfig.FbUrl}
+                            target="_blank"
                             theme="dark" icon="facebook-square" size={btn_size}></ButtonIcon>
-                <ButtonIcon  onClick={() => openNewTab(AppConfig.WwwUrl)} 
+                            
+                <ButtonIcon  href={AppConfig.WwwUrl} 
+                             target="_blank"
                              theme="dark" icon="globe" size={btn_size}></ButtonIcon>
             </div>
             <div className="copyright"> 
