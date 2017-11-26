@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Redirect} from 'react-router-dom';
 import Form from '../component/form';
 import {UserMeta, User}  from '../../config/db-config';
+import {Month, Year, Sponsor} from '../../config/data-config';
+
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
@@ -32,6 +34,13 @@ export default class SignUpPage extends React.Component {
                 required: true
             },
             {header: "Additional Information"},
+            {
+                label: "Sponsor *",
+                name: UserMeta.SPONSOR,
+                type: "select",
+                data: Sponsor,
+                required: true
+            },
             {
                 label: "Description",
                 name: UserMeta.DESCRIPTION,

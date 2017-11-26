@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import {PropTypes} from 'prop-types';
 import {Loader} from './loader';
-
 require('../css/form.scss');
-
 export default class Form extends React.Component {
     constructor(props) {
         super(props);
-
         this.form = {};
-
         //this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.getSelectOptions = this.getSelectOptions.bind(this);
     }
 
     /*
@@ -35,6 +32,11 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
+    getSelectOptions(data) {
+        return(data.map((d, i) =>
+            <option value={d}>{d}</option>));
+    }
+
     renderItem(d) {
 
         switch (d.type) {
@@ -49,7 +51,14 @@ export default class Form extends React.Component {
                     {d.defaultValue}
                 </textarea>);
                 break;
-
+            case 'select':
+                return(<select
+                    name={d.name}
+                    required={d.required}
+                    ref={(v) => this.form[d.name] = v}>
+                    {this.getSelectOptions(d.data)}
+                </select>)
+                break;
             default:
                 //onChange={this.onChange}
                 return(<input 
@@ -77,10 +86,8 @@ export default class Form extends React.Component {
                         </div>
                     </div>
         );
-
         // 2. form submit ---------
         var disableSubmit = this.props.disableSubmit;
-
         var submitText = (this.props.submitText) ? this.props.submitText : "Submit";
         if (disableSubmit) {
             submitText = <Loader text_pos="right" text="Please Wait"></Loader>;
@@ -94,14 +101,11 @@ export default class Form extends React.Component {
                         {submitText}
                     </button>
                 </div>;
-
         // 3. form error ---------
         var formError = (this.props.error) ?
                 <div className="form-error alert alert-danger">
                     {this.props.error} </div>
                 : null;
-
-
         return (<form className={this.props.className} onSubmit={this.onSubmit}>
         {formItems}
         {formSubmit}
