@@ -62,7 +62,6 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
-//Export functions ------------------------------------------------------------------------------//
 
 function getAxiosGraphQLQuery(queryString) {
     var config = {
@@ -84,4 +83,28 @@ function getPHPApiAxios(script, params) {
     return axios.post(requestUrl, qs.stringify(params));
 }
 
-module.exports = {getAxiosGraphQLQuery, getPHPApiAxios};
+// only in ajax_external -- response is fixed here
+function getWpAjaxAxios(action, data, successInterceptor = null) {
+    var params = {};
+    params["action"] = action;
+    params["data"] = data;
+
+    return axios.post(AppConfig.WPAjaxApi, qs.stringify(params)).then((res) => {
+        if (res.data.err) {
+            return res.data.err;
+        } else {
+            
+            var retData = res.data.data;
+            if (successInterceptor !== null) {
+                successInterceptor(retData);
+            }
+
+            return retData;
+        }
+    }, (err) => {
+        return err.response.data;
+    });
+}
+
+//Export functions 
+module.exports = {getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios};

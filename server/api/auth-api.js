@@ -1,4 +1,5 @@
-const {getAxiosGraphQLQuery, getPHPApiAxios} = require('../../helper/api-helper');
+const {getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios} = require('../../helper/api-helper');
+const {User} = require('../../config/db-config');
 
 class AuthAPI {
     login(user_email, password) {
@@ -31,15 +32,33 @@ class AuthAPI {
             } else {
                 return `User ${user_email} Does Not Exist`;
             }
-        },(err) => {
+        }, (err) => {
             //console.log("Error Auth Api getAxiosGraphQLQuery");
             return err.response.data;
         });
 
     }
 
+    //raw form from sign up page 
     register(user) {
+        //separate userdata and usermeta
+        var userdata = user;
+        var usermeta = user;
+        
+        //need to serialize array of multiple entry
 
+        userdata[User.LOGIN] = userdata[User.EMAIL];
+
+        var data = {};
+        data["userdata"] = userdata;
+        data["usermeta"] = usermeta;
+        
+        //send Email here
+        const successInterceptor = function (data) {
+            console.log("intercept", data);
+        };
+        
+        return getWpAjaxAxios("app_register_user", data, successInterceptor);
     }
 }
 

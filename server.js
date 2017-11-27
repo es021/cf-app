@@ -63,6 +63,19 @@ app.post('/login', function (req, res, next) {
     });
 });
 
+
+app.post('/register', function (req, res, next) {
+    AuthAPI.register(req.body.user).then((response) => {
+        console.log("/register");
+        console.log(response);
+        if (typeof response !== "object") {
+            res.status(400).send(response);
+        } else {
+            res.send(response);
+        }
+    });
+});
+
 app.get('*', function (req, res, next) {
     console.log(req.url);
     res.sendFile(__dirname + '/public/index.html');
@@ -78,3 +91,23 @@ app.listen(PORT, () => {
     console.log("React, Redux and GraphQL Server is now running on port " + PORT);
 });
 
+/*
+
+var user = {
+    user_email: "zul2@gmail.com",
+    user_pass: "1234",
+    first_name: "John",
+    major: "AAA"
+};
+
+AuthAPI.register(user).then((response) => {
+    console.log("/register");
+    console.log(response);
+    if (typeof response !== "object") {
+        res.status(400).send(response);
+    } else {
+        res.send(response);
+    }
+
+});
+*/
