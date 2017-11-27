@@ -28,3 +28,7 @@ export function logout() {
         });
     };
 }
+
+export function register(user){
+   return axios.post(AppConfig.Api + "/register", {user: user});
+}

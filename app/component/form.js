@@ -3,6 +3,14 @@ import {PropTypes} from 'prop-types';
 import {Loader} from './loader';
 import {ButtonLink} from './buttons';
 require('../css/form.scss');
+
+export function toggleSubmit(obj, newState = {}) {
+    obj.setState((prevState) => {
+        newState.disableSubmit = !prevState.disableSubmit;
+        return newState;
+    });
+}
+
 export default class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -25,15 +33,41 @@ export default class Form extends React.Component {
      */
 
     onSubmit(event) {
+        event.preventDefault();
+
+        var ignore = [];
         var data_form = {};
         for (var i in this.form) {
+
             var name = this.form[i].name;
             var value = this.form[i].value;
+
+            // ignore the multiple
+            if (ignore.indexOf(name) >= 0) {
+                continue;
+            }
+
+            // handle multiple input
+            if (this.state.multiple[name]) {
+
+                value = [value];
+
+                this.state.multiple[name].map((d, i) => {
+                    var multiName = `${name}::${i + 1}`;
+                    var multiValue = this.form[multiName].value;
+                    if (multiValue != "") {
+                        value.push(multiValue);
+                    }
+
+                    ignore.push(multiName);
+                });
+            }
+
             data_form[name] = value;
         }
 
         this.props.onSubmit(data_form);
-        event.preventDefault();
+
     }
 
     getSelectOptions(data) {
@@ -72,8 +106,8 @@ export default class Form extends React.Component {
 
 
 
-        console.log("state multiple");
-        console.log(this.state.multiple);
+        //console.log("state multiple");
+        //console.log(this.state.multiple);
         var multi = this.state.multiple[d.name].map((d, i) => {
             var style = {marginTop: "5px"};
             return <div style={style}>{d}</div>;
@@ -119,6 +153,9 @@ export default class Form extends React.Component {
                 return(<input 
                     name={d.name}
                     type={d.type}
+                    min={d.min}
+                    max={d.max}
+                    step={d.step}
                     required={d.required}
                     placeholder={d.placeholder}
                     value={d.defaultValue}
@@ -167,8 +204,8 @@ export default class Form extends React.Component {
                 : null;
         return (<form className={this.props.className} onSubmit={this.onSubmit}>
         {formItems}
-        {formSubmit}
         {formError}
+        {formSubmit}
     </form>);
     }
 }

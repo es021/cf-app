@@ -1,5 +1,6 @@
 
 const User = {
+    ID: "ID",
     EMAIL: "user_email",
     LOGIN: "user_login",
     PASSWORD: "user_pass",
@@ -17,6 +18,7 @@ const UserMeta = {
     IMG_POS: "profile_image_position",
     IMG_SIZE: "profile_image_size",
     FEEDBACK: "feedback",
+    STATUS: "user_status",
     IS_ACTIVATED: "is_activated",
 
     // student only
@@ -36,7 +38,9 @@ const UserMeta = {
 const UserEnum = {
     ROLE_STUDENT: "student",
     ROLE_RECRUITER: "recruiter",
-    ROLE_ADMIN: "administrator"
+    ROLE_ADMIN: "administrator",
+    STATUS_ACT: "Active",
+    STATUS_NOT_ACT: "Not Activated"
 };
 
 module.exports = {User, UserMeta, UserEnum};

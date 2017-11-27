@@ -24,7 +24,7 @@ const UserType = new GraphQLObjectType({
             img_pos: {type: GraphQLString},
             img_size: {type: GraphQLString},
             feedback: {type: GraphQLString},
-            is_activated: {type: GraphQLString},
+            status: {type: GraphQLString},
             
             // student only
             university: {type: GraphQLString},

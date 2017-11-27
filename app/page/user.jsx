@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as axiosUser from '../redux/axios/user-axios';
+import {loadUser} from '../redux/actions/user-actions';
 
 import ProfileCard from '../component/profile-card';
 
@@ -11,7 +11,7 @@ export default class UserPage extends Component {
             data: null,
             loading: true,
         }
-        
+
     }
 
     componentWillMount() {
@@ -25,7 +25,7 @@ export default class UserPage extends Component {
 
         console.log("UserPage", "componentWillMount");
 
-        axiosUser.loadUser(id).then((res) => {
+        loadUser(id).then((res) => {
             this.setState(() => {
                 return {data: res.data.data.user, loading: false}
             })
@@ -34,7 +34,6 @@ export default class UserPage extends Component {
 
     render() {
         var id = null;
-        console.log("render", "UserPage");
 
         var user = this.state.data;
         var view =

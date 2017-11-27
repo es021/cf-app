@@ -4,8 +4,12 @@ import * as authActions from '../redux/actions/auth-actions';
 import {User}  from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
-import { Redirect} from 'react-router-dom';
+import { Redirect, NavLink} from 'react-router-dom';
 import Form from '../component/form';
+
+import {ButtonLink} from '../component/buttons';
+import {AuthAPIErr} from '../../server/api/auth-api';
+console.log(AuthAPIErr);
 
 //state is from redux reducer
 // with multiple objects
@@ -69,7 +73,29 @@ class LoginPage extends React.Component {
         var fetching = this.props.redux.fetching;
         var error = this.props.redux.error;
 
-        //console.log(from.pathname);
+        switch (error) {
+            case AuthAPIErr.INVALID_EMAIL :
+                error = <span>
+                    User does not exist. 
+                    <br></br>
+                    <small><NavLink to={`/auth/sign-up`}>Sign Up Now</NavLink></small>
+                </span>;
+                break;
+            case AuthAPIErr.NOT_ACTIVE :
+                error = <span>
+                    This account is not active yet.<br></br>Please check your email for the activation link.
+                    <br></br>
+                    <small><NavLink to={`/auth/activation-link`}>Did Not Received Email?</NavLink></small>
+                </span>;
+                break;
+            case AuthAPIErr.WRONG_PASS :
+                error = <span>
+                    Password Incorrect
+                    <br></br>
+                    <small><NavLink to={`/auth/forgot-password`}>Forgot Your Password?</NavLink></small>
+                </span>;
+                break;
+        }
 
         if (redirectToReferrer) {
             return (
