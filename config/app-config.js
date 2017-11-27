@@ -9,6 +9,7 @@ const AppConfig = {
     Url: (isProd) ? PHPApi : "http://localhost:8080",
     Api: SiteUrl,
     PHPApi: PHPApi,
+    WPAjaxApi: PHPApi + "/career-fair/wp-admin/admin-ajax.php",
     FbUrl: "https://www.fb.com/innovaseedssolutions",
     WwwUrl: "https://seedsjobfair.com"
 };

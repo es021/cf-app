@@ -1,6 +1,7 @@
 
 const User = {
     EMAIL: "user_email",
+    LOGIN: "user_login",
     PASSWORD: "user_pass",
     ACTIVATION_KEY: "user_activation_key",
     REGISTER_AT: "user_registered"
