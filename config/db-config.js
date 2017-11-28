@@ -1,5 +1,6 @@
 
 const User = {
+    TABLE: "wp_cf_users",
     ID: "ID",
     EMAIL: "user_email",
     LOGIN: "user_login",
@@ -9,6 +10,7 @@ const User = {
 };
 
 const UserMeta = {
+    TABLE: "wp_cf_usermeta",
     // all roles usermeta
     FIRST_NAME: "first_name",
     LAST_NAME: "last_name",
@@ -20,6 +22,7 @@ const UserMeta = {
     FEEDBACK: "feedback",
     STATUS: "user_status",
     IS_ACTIVATED: "is_activated",
+    ACTIVATION_KEY: "activation_key",
 
     // student only
     UNIVERSITY: "university",

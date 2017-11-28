@@ -78,6 +78,7 @@ DB.prototype.update = function (table, data) {
     key_val = key_val.substring(-1, key_val.length - 1);
 
     var sql = `UPDATE ${table} SET ${key_val} WHERE ID = ${ID}`;
+    console.log(sql);
     return this.con.query(sql).then(function (res) {
         return DB.getByID(table, ID);
     });

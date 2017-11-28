@@ -49,32 +49,36 @@ app.use('/graphql', expressGraphQL({
     graphiql: true //set able to use the graphQL web IDE to true
 }));
 
-// Login Route
+// Auth Route
 const {AuthAPI} = require('./server/api/auth-api');
-app.post('/login', function (req, res, next) {
-    AuthAPI.login(req.body.email, req.body.password).then((response) => {
-        console.log("/login");
-        console.log(response);
-        if (typeof response !== "object") {
-            res.status(401).send(response);
-        } else {
-            res.send(response);
-        }
-    });
-});
+app.post('/auth/:action', function (req, res, next) {
+    var action = req.params.action;
+    var errStatus = 400;
+    console.log(action);
 
-
-app.post('/register', function (req, res, next) {
-    AuthAPI.register(req.body.user).then((response) => {
-        console.log("/register");
+    const resHandler = (response) => {
         console.log(response);
         if (typeof response !== "object") {
             res.status(400).send(response);
         } else {
             res.send(response);
         }
-    });
+    };
+
+    switch (action) {
+        case 'login':
+            AuthAPI.login(req.body.email, req.body.password).then(resHandler);
+            break;
+        case 'register':
+            AuthAPI.register(req.body.user).then(resHandler);
+            break;
+        case 'activate-account':
+            AuthAPI.activateAccount(req.body.key, req.body.user_id).then(resHandler);
+            break;
+    }
+
 });
+
 
 app.get('*', function (req, res, next) {
     console.log(req.url);
@@ -92,22 +96,22 @@ app.listen(PORT, () => {
 });
 
 /*
-
-var user = {
-    user_email: "zul2@gmail.com",
-    user_pass: "1234",
-    first_name: "John",
-    major: "AAA"
-};
-
-AuthAPI.register(user).then((response) => {
-    console.log("/register");
-    console.log(response);
-    if (typeof response !== "object") {
-        res.status(400).send(response);
-    } else {
-        res.send(response);
-    }
-
-});
-*/
+ 
+ var user = {
+ user_email: "zul2@gmail.com",
+ user_pass: "1234",
+ first_name: "John",
+ major: "AAA"
+ };
+ 
+ AuthAPI.register(user).then((response) => {
+ console.log("/register");
+ console.log(response);
+ if (typeof response !== "object") {
+ res.status(400).send(response);
+ } else {
+ res.send(response);
+ }
+ 
+ });
+ */

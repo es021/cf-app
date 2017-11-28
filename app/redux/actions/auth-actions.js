@@ -15,7 +15,7 @@ export function login(email, password) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.post(AppConfig.Api + "/login", {email: email, password: password})
+            payload: axios.post(AppConfig.Api + "/auth/login", {email: email, password: password})
         });
     };
 }
@@ -29,6 +29,11 @@ export function logout() {
     };
 }
 
-export function register(user){
-   return axios.post(AppConfig.Api + "/register", {user: user});
+
+export function register(user) {
+    return axios.post(AppConfig.Api + "/auth/register", {user: user});
+}
+
+export function activateAccount(key, user_id) {
+    return axios.post(AppConfig.Api + "/auth/activate-account", {key: key, user_id: user_id});
 }

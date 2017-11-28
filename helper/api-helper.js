@@ -12,7 +12,14 @@ const rejectPromiseError = function (responseObj, errMes) {
         responseObj.response["data"] = errMes;
 
         //maybe log this error in db?
-        alert(errMes);
+        if (typeof alert !== "undefined") {
+            //in browser
+            alert(errMes);
+        } else {
+            // in node server
+            console.error(errMes);
+        }
+
         return Promise.reject(responseObj);
     }
 

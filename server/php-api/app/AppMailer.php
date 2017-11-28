@@ -1,12 +1,16 @@
 <?php
+
+define("APP_AJAX_PATH", str_replace("\\", "/", plugin_dir_path(__FILE__)));
+
 class AppMailer {
 
     const TYPE_STUDENT_REGISTRATION = "STUDENT_REGISTRATION";
     const TYPE_RESET_PASSWORD = "RESET_PASSWORD";
     const TYPE_NEW_RECRUITER = "NEW_RECRUITER";
-    const EMAIL_TEMPLATE = MYP_ROOT_PATH . "/ajax/app/email_template";
+    const EMAIL_TEMPLATE = APP_AJAX_PATH . "email_template";
 
     public static function send_mail($to_email, $email_data, $type) {
+
         //** filter set to html **/
         function app_set_html_mail_content_type() {
             return 'text/html';
@@ -15,7 +19,7 @@ class AppMailer {
         add_filter('wp_mail_content_type', 'app_set_html_mail_content_type');
 
         $apps_name = get_bloginfo("name");
-        $content = file_get_contents(EMAIL_TEMPLATE . "/$type.html");
+        $content = file_get_contents(self::EMAIL_TEMPLATE . "/$type.html");
         $title = "";
 
         //** title and content generation using $user_data ***//
@@ -25,8 +29,8 @@ class AppMailer {
 
                 //replace constant from template
                 $search = array("{#first_name}", "{#last_name}", "{#activation_link}");
-                $replace = array($email_data[SiteInfo::USERMETA_FIRST_NAME]
-                    , $email_data[SiteInfo::USERMETA_LAST_NAME]
+                $replace = array($email_data["first_name"]
+                    , $email_data["last_name"]
                     , $email_data["activation_link"]);
                 $content = str_replace($search, $replace, $content);
                 break;
@@ -50,10 +54,18 @@ class AppMailer {
                 break;
         }
 
+        //X($to_email);
+        //X($title);
+        //X($content);
+
         $ret = wp_mail($to_email, $title, $content);
         remove_filter('wp_mail_content_type', 'app_set_html_mail_content_type');
         return $ret;
     }
+
 }
+
+//AppMailer::send_mail("zulsarhan.shaari@gmail.com", array("first_name" => "Wan", "last_name" => "Zul", "activation_link" => "Asads"), AppMailer::TYPE_STUDENT_REGISTRATION);
+//exit();
 ?>
 
