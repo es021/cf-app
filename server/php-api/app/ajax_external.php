@@ -1,5 +1,7 @@
 <?php
 
+include_once 'AppMailer.php';
+
 // if error than return res.error
 // if success than return res.data
 
@@ -80,7 +82,6 @@ function app_register_user() {
     app_return_res($resData, $resErr);
 
 
-
     // return here?
     // we might need to skip this ...
     //** Send activation email ***//
@@ -93,12 +94,14 @@ function app_register_user() {
       $email_data["activation_link"] = $activation_link;
       $email_data[SiteInfo::USERMETA_FIRST_NAME] = $usermeta[SiteInfo::USERMETA_FIRST_NAME];
       $email_data[SiteInfo::USERMETA_LAST_NAME] = $usermeta[SiteInfo::USERMETA_LAST_NAME];
-      myp_send_email($userdata[SiteInfo::USERS_EMAIL], $email_data, SiteInfo::EMAIL_TYPE_USER_ACTIVATION);
-
+      //myp_send_email($userdata[SiteInfo::USERS_EMAIL], $email_data, SiteInfo::EMAIL_TYPE_USER_ACTIVATION);
+     
+      AppMailer::send_mail($to_email, $email_data, AppMailer::TYPE_STUDENT_REGISTRATION);
+ 
+      
       $res['status'] = SiteInfo::STATUS_SUCCESS;
       $res['data'] = $user_id;
       return $res;
      */
 }
 ?>
-
