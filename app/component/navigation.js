@@ -95,7 +95,8 @@ const menuItem = [
         bar_app: false,
         bar_auth: true,
         hd_app: false,
-        hd_auth: true
+        hd_auth: true,
+        allRoute: true
     },
     {
         url: "/logout",
@@ -126,13 +127,15 @@ export function getRoute(path) {
 
     var routes = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
+        
+        if (!d.allRoute) {
+            if (isLog && !(d.hd_app || d.bar_app)) {
+                return;
+            }
 
-        if (isLog && !(d.hd_app || d.bar_app)) {
-            return;
-        }
-
-        if (!isLog && !(d.hd_auth || d.bar_auth)) {
-            return;
+            if (!isLog && !(d.hd_auth || d.bar_auth)) {
+                return;
+            }
         }
 
         return(<Route path={`${path}${d.url}`} exact={exact} key={i}  component={d.component}></Route>);

@@ -10,6 +10,9 @@ const rejectPromiseError = function (responseObj, errMes) {
             responseObj["response"] = {};
         }
         responseObj.response["data"] = errMes;
+
+        //maybe log this error in db?
+        alert(errMes);
         return Promise.reject(responseObj);
     }
 
@@ -35,7 +38,7 @@ axios.interceptors.response.use(response => {
     var retErr = null;
     try {
         // error in query -- getAxiosGraphQLQuery
-        //console.log("error from axios try");
+
         if (error.response.config.url == graphQLUrl) {
             //error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
             retErr = `[GraphQL Error] ${error.response.data.errors[0].message}`;
@@ -93,7 +96,7 @@ function getWpAjaxAxios(action, data, successInterceptor = null) {
         if (res.data.err) {
             return res.data.err;
         } else {
-            
+
             var retData = res.data.data;
             if (successInterceptor !== null) {
                 successInterceptor(retData);

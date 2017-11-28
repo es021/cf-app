@@ -35,7 +35,7 @@ export function loadUser(id){
                 img_pos
                 img_size
                 feedback
-                is_activated
+                status
                 university
                 phone_number
                 grad_month

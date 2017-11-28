@@ -11,7 +11,6 @@ export default class UserPage extends Component {
             data: null,
             loading: true,
         }
-
     }
 
     componentWillMount() {
@@ -34,19 +33,24 @@ export default class UserPage extends Component {
 
     render() {
         var id = null;
-
         var user = this.state.data;
-        var view =
-                (this.state.loading)
-                ?
-                <div>"Loading..."</div>
-                :
-                <div>
-                    <ProfileCard type="student" displayOnly={true} theme='dark' data={user}></ProfileCard>
-                    User : {user.ID}
-                    , {user.first_name}
-                    , {user.last_name}
-                </div>
+        var view = null;
+
+        if (this.state.loading) {
+            view = <div>Loading...</div>
+        } else {
+            var pcBody = <div>
+                User : {user.ID}
+                , {user.first_name}
+                , {user.last_name}
+            </div>;
+            view = <div>
+                <ProfileCard type="student"
+                             title={user.first_name} subtitle={user.last_name}
+                             img_url={user.img_url} img_pos={user.img_pos} img_size={user.img_size}
+                             body={pcBody}></ProfileCard>
+            </div>;
+        }
 
         return (view);
     }

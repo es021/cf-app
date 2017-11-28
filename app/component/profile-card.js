@@ -1,33 +1,36 @@
 import React, { Component } from 'react';
-import {NavLink} from 'react-router-dom';
 import {ImgConfig} from '../../config/app-config';
+import PropTypes from 'prop-types';
 
 require("../css/profile-card.scss");
 
 /*
- * displayOnly : bool
- * data : dataObject
- * type : student | recruiter | company
+ This Component will create a standardize circle picture and title and subtitle and also some children to be append to body
  */
+
+export const PCType = {
+    STUDENT: "student",
+    RECRUITER: "recruiter",
+    COMPANY: "company"
+};
+
+
 export default class ProfileCard extends React.Component {
     constructor(props) {
         super(props);
-        this.TYPE_STUDENT = "student";
-        this.TYPE_RECRUITER = "recruiter";
-        this.TYPE_COMPANY = "company";
         this.getDefaultProfileImg = this.getDefaultProfileImg.bind(this);
     }
 
     getDefaultProfileImg() {
         var url = "";
         switch (this.props.type) {
-            case this.TYPE_STUDENT:
+            case PCType.STUDENT:
                 url = ImgConfig.DefUser;
                 break;
-            case this.TYPE_RECRUITER:
+            case PCType.TYPE_RECRUITER:
                 url = ImgConfig.DefUser;
                 break;
-            case this.TYPE_COMPANY:
+            case PCType.TYPE_COMPANY:
                 url = ImgConfig.DefCompany;
                 break;
         }
@@ -41,35 +44,45 @@ export default class ProfileCard extends React.Component {
 
     render() {
         console.log("Render ProfileCard");
-        var data = this.props.data;
         var styleParent = {
-            color: (this.props.theme == "dark") ? "black" : "white",
+            color: (this.props.theme == "dark") ? "white" : "black",
         };
 
         var stylePicture = null;
-        if (typeof data.img_url === "undefined" || data.img_url == null || data.img_url == "") {
+        if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
             stylePicture = this.getDefaultProfileImg();
         } else {
             stylePicture = {
-                backgroundImage: `url('${data.img_url}')`,
-                backgroundSize: data.img_size,
-                backgroundPosition: data.img_pos
+                backgroundImage: `url('${this.props.img_url}')`,
+                backgroundSize: this.props.img_size,
+                backgroundPosition: this.props.img_pos
             }
         }
 
-        var dimension = "100px";
+        var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
         stylePicture["height"] = dimension;
         stylePicture["width"] = dimension;
 
-        //activeClassName="active"
         var pc = "pc-";
         return(<div className="profile-card" style={styleParent}>
             <div className={`${pc}picture`} style={stylePicture}></div>
-            <div className={`${pc}title`}>{data.first_name}</div>
-            <div className={`${pc}subtitle`}>{data.last_name}</div>
+            <div className={`${pc}title`}>{this.props.title}</div>
+            {(this.props.subtitle) ? <div className={`${pc}subtitle`}>{this.props.subtitle}</div> : null}
             <div className={`${pc}body`}>
-                {(this.props.displayOnly) ? "" : <small><NavLink  to={`/app/profile_edit`} >Edit Profile</NavLink></small>}
+                {(this.props.body) ? this.props.body : null}
             </div>
         </div>);
     }
 }
+
+ProfileCard.propTypes = {
+    type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    img_url: PropTypes.string,
+    img_pos: PropTypes.string,
+    img_size: PropTypes.string,
+    img_dimension: PropTypes.string,
+    theme: PropTypes.oneOf(["dark"]),
+    body: PropTypes.element // append to pc-body
+};
