@@ -12,6 +12,7 @@ import UserPage from '../page/user';
 import UsersPage from '../page/users';
 import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
+import EditProfilePage from '../page/edit-profile';
 import NotFoundPage from '../page/not-found';
 
 
@@ -62,6 +63,15 @@ const menuItem = [
     {
         url: "/user/:id",
         component: UserPage,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false,
+        routeOnly: true
+    },
+    {
+        url: "/edit-profile",
+        component: EditProfilePage,
         bar_app: true,
         bar_auth: false,
         hd_app: true,

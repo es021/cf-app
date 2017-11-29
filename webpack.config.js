@@ -29,8 +29,8 @@ var buildDevEntryPoint = function (entryPoint) {
 };
 
 const entryPoint = {
-    main: APP_DIR + "/index.jsx",
-    loading: APP_DIR + "/loading.jsx"
+    main: APP_DIR + "/index.jsx"
+    //,loading: APP_DIR + "/loading.jsx"
 };
 
 var entry;
@@ -38,8 +38,8 @@ if (isProd) {
     entry = entryPoint;
 } else {
     entry = {
-        main: buildDevEntryPoint(entryPoint.main),
-        loading: buildDevEntryPoint(entryPoint.loading)
+        main: buildDevEntryPoint(entryPoint.main)
+        //,loading: buildDevEntryPoint(entryPoint.loading)
     };
 }
 

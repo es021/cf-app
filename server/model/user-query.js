@@ -61,10 +61,14 @@ class UserExec {
     updateUserMeta(user_id, data) {
         var meta_key_in = "";
         var meta_pair_case = "";
-
+        
+        var userMetaVal = Object.keys(UserMeta).map(function (key) {
+            return UserMeta[key];
+        });
+        
         for (var k in data) {
 
-            if (Object.values(UserMeta).indexOf(k) > -1) {
+            if (userMetaVal.indexOf(k) > -1) {
                 meta_key_in += `'${k}',`;
                 meta_pair_case += ` WHEN '${k}' THEN '${data[k]}' `;
             }
@@ -81,10 +85,15 @@ class UserExec {
 
     editUser(arg) {
         var ID = arg.ID;
-        
+
         //update User table
         var updateUser = {};
-        var userVal = Object.values(User);
+        console.log(User);
+
+        var userVal = Object.keys(User).map(function (key) {
+            return User[key];
+        });
+
 
         for (var k in arg) {
             if (userVal.indexOf(k) > -1) {
@@ -94,7 +103,7 @@ class UserExec {
 
         //if there is nothing to update from user table,
         //update user meta
-        if (Object.values(updateUser).length < 2) { // include ID
+        if (Object.keys(updateUser).length < 2) { // include ID
             return this.updateUserMeta(ID, arg);
         } else {
             return DB.update(User.TABLE, updateUser).then((res) => {

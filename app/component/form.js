@@ -71,24 +71,28 @@ export default class Form extends React.Component {
     }
 
     getSelectOptions(data) {
-        return(data.map((d, i) =>
-            <option key={i} value={d}>{d}</option>));
+        return(data.map((d, i) => {
+            return <option key={i}  value={d}>{d}</option>;
+        }));
     }
 
-    addMultiple(d) {
+    getNewChildItem(d, index) {
+        var newData = Object.assign({}, d);
+        newData.name += "::" + index;
+        return this.renderItem(newData, true);
+    }
+
+    addMultiple(d, defArray = null) {
         if (!d.multiple) {
             return null;
         }
 
+
         const onClickAdd = () => {
             this.setState((prevState) => {
                 var multis = prevState.multiple[d.name];
-
-                var newData = Object.assign({}, d);
-
-                newData.name += "::" + (multis.length + 1);
-
-                prevState.multiple[d.name].push(this.renderItem(newData, true));
+                var newItem = this.getNewChildItem(d, multis.length + 1);
+                prevState.multiple[d.name].push(newItem);
                 return (prevState);
             });
         }
@@ -103,8 +107,6 @@ export default class Form extends React.Component {
         if (!this.state.multiple[d.name]) {
             this.state.multiple[d.name] = [];
         }
-
-
 
         //console.log("state multiple");
         //console.log(this.state.multiple);
@@ -124,9 +126,59 @@ export default class Form extends React.Component {
         </div>);
     }
 
+    getDefaultVal(d) {
+
+    }
+
     renderItem(d, isAdded = false) {
 
+        // from multiple
         d.required = (!isAdded) ? d.required : false;
+
+        //default value
+        var defaultVal = this.props.defaultValues[d.name];
+
+        console.log(d.name);
+        console.log(defaultVal);
+
+        //default value for multiple 
+        if (d.multiple && false) {
+            try {
+                var defArray = JSON.parse(defaultVal);
+                defaultVal = defArray[0];
+
+                //parent
+                if (!isAdded) {
+
+                    //if have def array then add new item
+                    if (defArray !== null) {
+                        var newState = [];
+                        defArray.map((d, i) => {
+                            newState.push(this.getNewChildItem(i + 1));
+                        });
+
+                        console.log("add new stuff", defArray);
+//            
+//            this.setState((prevState) => {
+//                prevState.multiple[d.name] = newState;
+//                return (prevState);
+//            })
+                    }
+                }
+
+            } catch (err) {
+                console.log(err);
+                defaultVal = defaultVal;
+            }
+
+        }
+
+
+
+        if (typeof defaultVal === "undefined" || defaultVal == null) {
+            defaultVal = "";
+        }
+
 
         switch (d.type) {
 
@@ -136,15 +188,16 @@ export default class Form extends React.Component {
                     rows={(d.rows) ? d.rows : 4}
                     required={d.required}
                     placeholder={d.placeholder}
-                    ref={(v) => this.form[d.name] = v}>
-                    {d.defaultValue}
+                    ref={(v) => this.form[d.name] = v}
+                    defaultValue={defaultVal}>
                 </textarea>);
                 break;
             case 'select':
                 return(<select
                     name={d.name}
                     required={d.required}
-                    ref={(v) => this.form[d.name] = v}>
+                    ref={(v) => this.form[d.name] = v}
+                    defaultValue={defaultVal}>
                     {this.getSelectOptions(d.data)}
                 </select>)
                 break;
@@ -158,7 +211,7 @@ export default class Form extends React.Component {
                     step={d.step}
                     required={d.required}
                     placeholder={d.placeholder}
-                    value={d.defaultValue}
+                    defaultValue={defaultVal}
                     ref={(v) => this.form[d.name] = v} />);
                 break;
     }
@@ -217,5 +270,6 @@ Form.propTypes = {
     className: PropTypes.oneOf(['form-row', 'form-col']),
     disableSubmit: PropTypes.bool.isRequired,
     submitText: PropTypes.string,
+    defaultValues: PropTypes.object,
     error: PropTypes.string
 };

@@ -7,7 +7,8 @@
         <title>Test</title>
 
         <!--Stylesheet-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >-->
+        <link rel="stylesheet" href="asset/lib/bootstrap-3.3.7/bootstrap.min.css" >
         <link rel="stylesheet" href="asset/lib/font-awesome-4.7.0/css/font-awesome.min.css" >
         <link rel="stylesheet" href="asset/css/vendors.bundle.css" >
         <link rel="stylesheet" href="asset/css/loading.bundle.css">
@@ -15,12 +16,16 @@
     </head>
     <body>
         <!--Container for React rendering-->
-        <div id="app-loading"></div>
+        <div id="app-loading">
+            <div class="text-center">
+                <i class="fa fa-spinner fa-pulse fa-4x"></i>
+                <br>Loading Page
+            </div>
+        </div>
         <div id="app"></div>
+        <script src="asset/load-asset.js"></script>
         <!--Bundled file-->
-        <script src="asset/js/vendors.bundle.js"></script>
-        <script src="asset/js/loading.bundle.js"></script>
-        <!-- main.bundle.js is loaded inside loading.bundle.js -->
-         <script src="asset/js/main.bundle.js"></script>
+        <!--        <script src="asset/js/vendors.bundle.js"></script>
+                <script src="asset/js/main.bundle.js"></script>-->
     </body>
 </html>
