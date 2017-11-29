@@ -21,8 +21,18 @@ var DB = function (env) {
     }
 
     this.con = Mysql.createPool(config);
+//    var obj = this;
+//    (function () {
+//        // An anonymous function wrapper helps you keep oldSomeFunction private
+//        var realQueryFunction = obj.con.query;
+//
+//        obj.con.query = function () {
+//            console.log("intercepted!");
+//            return realQueryFunction();
+//        };
+//    })();
 
-    /*this.con.query('SELECT * FROM wp_cf_users').then(function (rows) {
+    /*this.query('SELECT * FROM wp_cf_users').then(function (rows) {
      console.log(rows);
      });*/
 
@@ -37,10 +47,39 @@ var DB = function (env) {
      */
 };
 
+DB.prototype.query = function (query) {
+    return this.con.query(query);
+};
+
+DB.prototype.escStr = function (str) {
+    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+        switch (char) {
+            case "\0":
+                return "\\0";
+            case "\x08":
+                return "\\b";
+            case "\x09":
+                return "\\t";
+            case "\x1a":
+                return "\\z";
+            case "\n":
+                return "\\n";
+            case "\r":
+                return "\\r";
+            case "\"":
+            case "'":
+            case "\\":
+            case "%":
+                return "\\" + char; // prepends a backslash to backslash, percent,
+                // and double/single quotes
+        }
+    });
+};
+
 DB.prototype.getByID = function (table, ID) {
     var sql = `select * from ${table} where ID = ${ID}`;
 
-    return this.con.query(sql).then(function (res) {
+    return this.query(sql).then(function (res) {
         return res[0];
     });
 };
@@ -58,7 +97,7 @@ DB.prototype.insert = function (table, data) {
     val = val.substring(-1, val.length - 1) + ')';
 
     var sql = `INSERT INTO ${table} ${key} VALUES ${val}`;
-    return this.con.query(sql).then(function (res) {
+    return this.query(sql).then(function (res) {
         return DB.getByID(table, res.insertId);
     });
 };
@@ -79,7 +118,7 @@ DB.prototype.update = function (table, data) {
 
     var sql = `UPDATE ${table} SET ${key_val} WHERE ID = ${ID}`;
     console.log(sql);
-    return this.con.query(sql).then(function (res) {
+    return this.query(sql).then(function (res) {
         return DB.getByID(table, ID);
     });
 };
@@ -116,7 +155,7 @@ module.exports = new DB("DEV");
 
 
 //DB.prototype.query = function (sql, success, error) {
-//    this.con.query(sql, function (err, res) {
+//    this.query(sql, function (err, res) {
 //        if (err) {
 //            error(err);
 //        } else {

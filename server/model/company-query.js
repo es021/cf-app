@@ -39,7 +39,7 @@ class CompanyExec {
             sql = CompanyQuery.getAll(params);
         }
 
-        return DB.con.query(sql).then(function (res) {
+        return DB.query(sql).then(function (res) {
 
             for (var i in res) {
 

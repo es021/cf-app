@@ -61,26 +61,53 @@ class UserExec {
     updateUserMeta(user_id, data) {
         var meta_key_in = "";
         var meta_pair_case = "";
-        
-        var userMetaVal = Object.keys(UserMeta).map(function (key) {
-            return UserMeta[key];
-        });
-        
-        for (var k in data) {
 
-            if (userMetaVal.indexOf(k) > -1) {
-                meta_key_in += `'${k}',`;
-                meta_pair_case += ` WHEN '${k}' THEN '${data[k]}' `;
-            }
+        //to check not exist user meta
+        var meta_key = [];
+
+        for (var k in data) {
+            meta_key.push(k);
+            meta_key_in += `'${k}',`;
+            meta_pair_case += ` WHEN '${k}' THEN '${DB.escStr(data[k])}' `;
         }
 
-        var sql = `UPDATE wp_cf_usermeta
+        var where = `WHERE meta_key IN (${meta_key_in.slice(0, -1)}) and user_id = '${user_id}'`;
+
+        var check_sql = `SELECT * FROM wp_cf_usermeta ${where}`;
+
+        var update_sql = `UPDATE wp_cf_usermeta
             SET meta_value = CASE meta_key 
             ${meta_pair_case} 
-            END
-          WHERE meta_key IN (${meta_key_in.slice(0, -1)}) and user_id = '${user_id}'`;
+            END ${where}`;
 
-        return DB.con.query(sql);
+        console.log(check_sql);
+
+        //check what does not exist
+        return DB.query(check_sql).then((res) => {
+
+            var key_check = res.map((d, i) => d["meta_key"]);
+
+            //insert what does not exist
+            var insert_val = "";
+            meta_key.map((d, i) => {
+                if (key_check.indexOf(d) <= -1) {
+                    insert_val += `('${user_id}','${d}','${DB.escStr(data[d])}'),`;
+                }
+            });
+
+            if (insert_val !== "") {
+                var insert_sql = `INSERT INTO wp_cf_usermeta (user_id,meta_key,meta_value) VALUES ${insert_val.slice(0, -1)}`;
+
+                return DB.query(insert_sql).then((res) => {
+                    //only then update what's left
+                    return DB.query(update_sql);
+                });
+            } 
+            // if not need to insert just update
+            else {
+                return DB.query(update_sql);
+            }
+        });
     }
 
     editUser(arg) {
@@ -88,29 +115,46 @@ class UserExec {
 
         //update User table
         var updateUser = {};
-        console.log(User);
+        var updateUserMeta = {};
+        console.log(arg);
 
         var userVal = Object.keys(User).map(function (key) {
             return User[key];
         });
 
+        var userMetaVal = Object.keys(UserMeta).map(function (key) {
+            return UserMeta[key];
+        });
 
         for (var k in arg) {
             if (userVal.indexOf(k) > -1) {
                 updateUser[k] = arg[k];
             }
+
+            if (userMetaVal.indexOf(k) > -1) {
+                updateUserMeta[k] = arg[k];
+            }
         }
 
         //if there is nothing to update from user table,
-        //update user meta
+        //update user meta only
         if (Object.keys(updateUser).length < 2) { // include ID
-            return this.updateUserMeta(ID, arg);
-        } else {
-            return DB.update(User.TABLE, updateUser).then((res) => {
-                //update user meta
-                this.updateUserMeta(ID, arg);
-            });
+            console.log("update user meta only");
+            return this.updateUserMeta(ID, updateUserMeta);
         }
+
+        //update user only
+        if (Object.keys(updateUserMeta).length < 2) {
+            console.log("update user only");
+            return this.update(User.TABLE, updateUser);
+        }
+
+        //update both
+        console.log("update both");
+        return DB.update(User.TABLE, updateUser).then((res) => {
+            return this.updateUserMeta(ID, updateUserMeta);
+        });
+
     }
 
     getUserHelper(type, params, discard = []) {
@@ -126,7 +170,7 @@ class UserExec {
             sql = UserQuery.getUser(undefined, undefined, params.role, params.page, params.offset);
         }
 
-        var toRet = DB.con.query(sql).then(function (res) {
+        var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
                 if (discard.indexOf("users") <= -1) {
                     var user_id = res[i]["ID"];

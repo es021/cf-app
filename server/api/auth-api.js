@@ -1,6 +1,7 @@
 const {getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios} = require('../../helper/api-helper');
 const {User, UserMeta, UserEnum} = require('../../config/db-config');
 const {SiteUrl} = require('../../config/app-config');
+const {AuthUserKey} = require('../../config/auth-config');
 const obj2arg = require('graphql-obj2arg');
 
 const AuthAPIErr = {
@@ -11,15 +12,17 @@ const AuthAPIErr = {
 };
 
 class AuthAPI {
+
     login(user_email, password) {
+        var field = "";
+        AuthUserKey.map((d, i) => {
+            field += `${d},`;
+        });
+        field = field.slice(0, -1);
+        console.log(field);
         var user_query = `query{
             user(user_email:"${user_email}"){
-                ID, 
-                user_email,
-                user_pass,
-                first_name,
-                last_name,
-                user_status
+                ${field}
             }}`;
 
         return getAxiosGraphQLQuery(user_query).then((res) => {
@@ -88,7 +91,7 @@ class AuthAPI {
                           user_status
                         }
                       }`;
-                    
+
                     return getAxiosGraphQLQuery(edit_query).then((res) => {
                         var user = res.data.data.edit_user;
                         return {user_email: user.user_email};

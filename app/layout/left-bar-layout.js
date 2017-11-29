@@ -17,7 +17,6 @@ export default class LeftBarLayout extends React.Component {
         var isAuth = isAuthorized();
         var authUser = getAuthUser();
 
-        console.log(authUser);
         var profile = "";
         if (isAuth) {
             var pcBody = <small><NavLink  to={`/app/edit-profile`} >Edit Profile</NavLink></small>;

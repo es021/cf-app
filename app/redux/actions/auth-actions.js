@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {store} from '../store.js';
 import {AppConfig} from '../../../config/app-config';
+import {AuthUserKey} from '../../../config/auth-config';
 
 export function isAuthorized() {
     return store.getState().auth.isAuthorized;
@@ -9,6 +10,24 @@ export function isAuthorized() {
 export function getAuthUser() {
     return store.getState().auth.user;
 }
+
+export const UPDATE_USER = "UPDATE_USER";
+export function updateAuthUser(user) {
+
+    //filter out not auth related
+    var auth = {};
+    for (var k in user) {
+        if (AuthUserKey.indexOf(k) >= 0) {
+            auth[k] = user[k];
+        }
+    }
+
+    store.dispatch({
+        type: UPDATE_USER,
+        payload: auth
+    });
+}
+
 
 export const DO_LOGIN = "DO_LOGIN";
 export function login(email, password) {

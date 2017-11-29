@@ -27,6 +27,7 @@ import FocusCard from './component/focus-card';
 class PrimaryLayout extends React.Component {
     render() {
         //scroll to top
+        console.log("PrimaryLayout");
         window.scrollTo(0, 0);
 
         var path = this.props.match.path;

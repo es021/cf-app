@@ -26,7 +26,7 @@ class PrescreenExec {
 
     prescreens(params, discard = []) {
         var sql = PrescreenQuery.getPrescreen(params);
-        var toRet = DB.con.query(sql).then(function (res) {
+        var toRet = DB.query(sql).then(function (res) {
             //for (var i in res) {}
             return res;
         });

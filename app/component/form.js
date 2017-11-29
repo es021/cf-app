@@ -19,8 +19,11 @@ export default class Form extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.getSelectOptions = this.getSelectOptions.bind(this);
         this.state = {
+            isInit: true,
             multiple: {}
         }
+
+        this.hasInit = false;
     }
 
     /*
@@ -76,22 +79,24 @@ export default class Form extends React.Component {
         }));
     }
 
-    getNewChildItem(d, index) {
+    //called in renderItem and addMultiple::onClickAdd
+    getChildMultipleItem(d, index, defaultVal = "") {
         var newData = Object.assign({}, d);
         newData.name += "::" + index;
-        return this.renderItem(newData, true);
+        newData.required = false;
+        return this.getInputElement(newData, defaultVal);
     }
 
-    addMultiple(d, defArray = null) {
+    //called in render
+    addMultiple(d) {
         if (!d.multiple) {
             return null;
         }
 
-
         const onClickAdd = () => {
             this.setState((prevState) => {
                 var multis = prevState.multiple[d.name];
-                var newItem = this.getNewChildItem(d, multis.length + 1);
+                var newItem = this.getChildMultipleItem(d, multis.length + 1);
                 prevState.multiple[d.name].push(newItem);
                 return (prevState);
             });
@@ -104,82 +109,27 @@ export default class Form extends React.Component {
             });
         }
 
+        //init multi into state
         if (!this.state.multiple[d.name]) {
             this.state.multiple[d.name] = [];
         }
 
-        //console.log("state multiple");
-        //console.log(this.state.multiple);
+        // create multi element from state
         var multi = this.state.multiple[d.name].map((d, i) => {
             var style = {marginTop: "5px"};
             return <div style={style}>{d}</div>;
         });
 
-        return(<div>{multi}
-            <ButtonLink onClick={onClickAdd}
-                        label={`Add`}>
-            </ButtonLink>{" "}
+        return(<div>
+            {multi}
+            <ButtonLink onClick={onClickAdd} label={`Add`}></ButtonLink>
+            {" "}
             {(this.state.multiple[d.name].length <= 0) ? null :
-                            <ButtonLink onClick={onClickRemove}
-                                        label={`Remove`}>
-                            </ButtonLink>}
+                            <ButtonLink onClick={onClickRemove}label={`Remove`}></ButtonLink>}
         </div>);
     }
 
-    getDefaultVal(d) {
-
-    }
-
-    renderItem(d, isAdded = false) {
-
-        // from multiple
-        d.required = (!isAdded) ? d.required : false;
-
-        //default value
-        var defaultVal = this.props.defaultValues[d.name];
-
-        console.log(d.name);
-        console.log(defaultVal);
-
-        //default value for multiple 
-        if (d.multiple && false) {
-            try {
-                var defArray = JSON.parse(defaultVal);
-                defaultVal = defArray[0];
-
-                //parent
-                if (!isAdded) {
-
-                    //if have def array then add new item
-                    if (defArray !== null) {
-                        var newState = [];
-                        defArray.map((d, i) => {
-                            newState.push(this.getNewChildItem(i + 1));
-                        });
-
-                        console.log("add new stuff", defArray);
-//            
-//            this.setState((prevState) => {
-//                prevState.multiple[d.name] = newState;
-//                return (prevState);
-//            })
-                    }
-                }
-
-            } catch (err) {
-                console.log(err);
-                defaultVal = defaultVal;
-            }
-
-        }
-
-
-
-        if (typeof defaultVal === "undefined" || defaultVal == null) {
-            defaultVal = "";
-        }
-
-
+    getInputElement(d, defaultVal) {
         switch (d.type) {
 
             case 'textarea':
@@ -214,7 +164,57 @@ export default class Form extends React.Component {
                     defaultValue={defaultVal}
                     ref={(v) => this.form[d.name] = v} />);
                 break;
+        }
     }
+
+    //called in render
+    renderItem(d) {
+        //default value
+        var defaultVal = "";
+
+        if (this.props.defaultValues) {
+            defaultVal = this.props.defaultValues[d.name];
+            //default value for multiple 
+            if (d.multiple) {
+                try {
+                    var defArray = JSON.parse(defaultVal);
+
+                    //the first item is parent
+                    defaultVal = defArray[0];
+
+                    //if have def array then add new item
+                    if (defArray !== null) {
+                        var newState = [];
+                        defArray.map((data, i) => {
+                            if (i > 0) {
+                                newState.push(this.getChildMultipleItem(d, i, data));
+                            }
+                        });
+
+
+                        if (this.state.isInit) {
+                            this.setState((prevState) => {
+                                prevState.multiple[d.name] = newState;
+                                prevState.isInit = false;
+                                return (prevState);
+                            })
+                        }
+                    }
+                } catch (err) {
+                    console.log("Failed to parse multiple default value");
+                    console.log(err);
+                    defaultVal = defaultVal;
+                }
+
+            }
+
+            if (typeof defaultVal === "undefined" || defaultVal == null) {
+                defaultVal = "";
+            }
+        }
+
+        return this.getInputElement(d, defaultVal);
+
     }
 
     render() {
@@ -235,6 +235,7 @@ export default class Form extends React.Component {
                         </div>
                     </div>
         );
+
         // 2. form submit ---------
         var disableSubmit = this.props.disableSubmit;
         var submitText = (this.props.submitText) ? this.props.submitText : "Submit";
@@ -250,12 +251,24 @@ export default class Form extends React.Component {
                         {submitText}
                     </button>
                 </div>;
+
         // 3. form error ---------
         var formError = (this.props.error) ?
                 <div className="form-error alert alert-danger">
                     {this.props.error} </div>
                 : null;
+
+        // 4. form success ---------
+        if (this.props.success) {
+            window.scrollTo(0, 0);
+        }
+        var formSuccess = (this.props.success) ?
+                <div className="form-error alert alert-success">
+                    {this.props.success} </div>
+                : null;
+
         return (<form className={this.props.className} onSubmit={this.onSubmit}>
+        {formSuccess}
         {formItems}
         {formError}
         {formSubmit}
@@ -271,5 +284,6 @@ Form.propTypes = {
     disableSubmit: PropTypes.bool.isRequired,
     submitText: PropTypes.string,
     defaultValues: PropTypes.object,
-    error: PropTypes.string
+    error: PropTypes.string,
+    success: PropTypes.string
 };

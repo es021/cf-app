@@ -29,7 +29,7 @@ class QueueExec {
 
         var sql = QueueQuery.getQueue(params);
         //console.log(sql);
-        var toRet = DB.con.query(sql).then(function (res) {
+        var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
 
                 if (discard.indexOf("users") <= -1) {

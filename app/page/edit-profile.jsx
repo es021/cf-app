@@ -7,8 +7,9 @@ import {ButtonLink} from '../component/buttons';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import {loadUser} from '../redux/actions/user-actions';
-import {getAuthUser} from '../redux/actions/auth-actions';
+import {getAuthUser, updateAuthUser} from '../redux/actions/auth-actions';
 import {Loader} from '../component/loader';
+import ProfileCard from '../component/profile-card';
 
 export default class EditProfilePage extends React.Component {
     constructor(props) {
@@ -19,42 +20,26 @@ export default class EditProfilePage extends React.Component {
             error: null,
             disableSubmit: false,
             init: true,
-            user: null
+            user: null,
+            success: null
         };
+
     }
 
     componentWillMount() {
-        console.log("componentWillMount");
 
-        const authUser = getAuthUser();
+        this.authUser = getAuthUser();
 
-        loadUser(authUser[User.ID]).then((res) => {
+        loadUser(this.authUser[User.ID]).then((res) => {
             this.setState(() => {
-                return {user: res.data.data.user, init: false}
+                var user = res.data.data.user;
+                return {user: user, init: false}
             })
         });
 
         this.formItems = [
             {header: "Basic Information"},
             {
-                label: "Email",
-                name: User.EMAIL,
-                type: "email",
-                placeholder: "john.doe@gmail.com",
-                required: true
-            }, /*{
-             label: "Password",
-             name: User.PASSWORD,
-             type: "password",
-             placeholder: "*****",
-             required: true
-             }, {
-             label: "Confirm Password",
-             name: `${User.PASSWORD}-confirm`,
-             type: "password",
-             placeholder: "*****",
-             required: true
-             },*/ {
                 label: "First Name",
                 name: UserMeta.FIRST_NAME,
                 type: "text",
@@ -125,7 +110,7 @@ export default class EditProfilePage extends React.Component {
     //return string if there is error
     filterForm(d) {
 
-      
+
         return 0;
 
     }
@@ -134,26 +119,42 @@ export default class EditProfilePage extends React.Component {
 
         var err = this.filterForm(d)
         if (err === 0) {
+            toggleSubmit(this, {error: null, success: null});
 
             //prepare data for edit
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
 
+            var update = {};
+            update[User.ID] = this.authUser[User.ID];
+            var hasDiff = false;
+
+            //get differences
+            for (var k in d) {
+                if (d[k] !== this.state.user[k]) {
+                    hasDiff = true;
+                    update[k] = d[k];
+                }
+            }
+            console.log(update);
+
+            if (!hasDiff) {
+                toggleSubmit(this, {error: "No Changes Has Been Made"});
+                return;
+            }
 
             var edit_query = `mutation{
-                        edit_user(${obj2arg(d, {noOuterBraces: true})}) {
+                        edit_user(${obj2arg(update, {noOuterBraces: true})}) {
                           ID
                         }
                       }`;
 
             console.log(edit_query);
 
-            return;
-            toggleSubmit(this, {error: null});
-
             getAxiosGraphQLQuery(edit_query).then((res) => {
                 console.log(res.data);
-                toggleSubmit(this, {user: d, success: true});
+                updateAuthUser(d);
+                toggleSubmit(this, {user: d, error: null, success: "Your Change Has Been Saved!"});
             }, (err) => {
                 toggleSubmit(this, {error: err.response.data});
             });
@@ -167,19 +168,24 @@ export default class EditProfilePage extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         var content = null;
         if (this.state.init) {
             content = <Loader size="2" text="Loading User Information"></Loader>
         } else {
-            content = <div>
+            content = <div> 
+            <ProfileCard type="student"
+                         title={this.authUser.user_email} subtitle={""}
+                         img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}    
+                         ></ProfileCard>
+        
             <Form className="form-row" 
                   items={this.formItems} 
                   onSubmit={this.formOnSubmit}
                   submitText='Save Changes'
                   defaultValues={this.state.user}
                   disableSubmit={this.state.disableSubmit} 
-                  error={this.state.error}>
+                  error={this.state.error}
+                  success={this.state.success}>
             </Form>
         </div>;
         }

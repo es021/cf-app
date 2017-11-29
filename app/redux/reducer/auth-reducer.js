@@ -45,6 +45,18 @@ if (auth !== null) {
 
 export default function authReducer(state = auth, action) {
     switch (action.type) {
+        case authActions.UPDATE_USER:
+        {
+
+            var newUser = getNewState(state.user, action.payload);
+
+            var newState = {
+                user: newUser
+            };
+
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
+        }
         case authActions.DO_LOGOUT:
         {
             window.localStorage.removeItem(AUTH_LOCAL_STORAGE);

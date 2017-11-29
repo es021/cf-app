@@ -81,6 +81,8 @@ const Mutation = new GraphQLObjectType({
                 return UserExec.editUser(arg).then(function (res) {
                     console.log("finish editUser", ID);
                     return UserExec.user({ID: ID});
+                }, (err) => {
+                    return err;
                 });
             }
         }
