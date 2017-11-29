@@ -11,6 +11,7 @@ import LogoutPage from '../page/logout';
 import UserPage from '../page/user';
 import UsersPage from '../page/users';
 import HallPage from '../page/hall';
+import ActAccountPage from '../page/activate-account';
 import NotFoundPage from '../page/not-found';
 
 
@@ -65,6 +66,15 @@ const menuItem = [
         bar_auth: false,
         hd_app: true,
         hd_auth: false,
+        routeOnly: true
+    },
+    {
+        url: "/activate-account/:key/:user_id",
+        component: ActAccountPage,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
         routeOnly: true
     },
     {
@@ -127,7 +137,7 @@ export function getRoute(path) {
 
     var routes = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
-        
+
         if (!d.allRoute) {
             if (isLog && !(d.hd_app || d.bar_app)) {
                 return;

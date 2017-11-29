@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink} from 'react-router-dom';
 import Form, {toggleSubmit} from '../component/form';
-import {UserMeta, User}  from '../../config/db-config';
+import {UserMeta, User, UserEnum}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
 import {ButtonLink} from '../component/buttons';
 import {register} from '../redux/actions/auth-actions';
@@ -125,6 +125,13 @@ export default class SignUpPage extends React.Component {
 
         var err = this.filterForm(d)
         if (err === 0) {
+
+            //prepare data for registration
+            d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
+            d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
+            d[User.LOGIN] = d[User.EMAIL];
+            d[UserMeta.STATUS] = UserEnum.STATUS_NOT_ACT;
+
             toggleSubmit(this, {error: null});
             register(d).then((res) => {
                 console.log(res.data);
@@ -146,7 +153,7 @@ export default class SignUpPage extends React.Component {
         if (this.state.success) {
             //scroll to top
             window.scrollTo(0, 0);
-            
+
             console.log(this.state.user);
             var user = this.state.user;
             content = <div>

@@ -8,14 +8,21 @@ export class Loader extends React.Component {
             fa_size = `fa-${this.props.size}x`;
         }
 
+        var text_pos = "";
+        if (this.props.text_pos) {
+            text_pos = this.props.text_pos;
+        } else {
+            text_pos = "bottom";
+        }
+
         //set text
         var text = null;
         if (this.props.text) {
             text = this.props.text;
-            if (this.props.text_pos === "bottom") {
+            if (text_pos === "bottom") {
                 text = <div><small>{text}</small></div>;
-            } else if (this.props.text_pos === "right") {
-                text = <small>{" "+text}</small>;
+            } else if (text_pos === "right") {
+                text = <small>{" " + text}</small>;
             }
         }
 

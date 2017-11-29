@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
 
-const {UserMeta} = require('../../config/db-config.js');
+const {User, UserMeta} = require('../../config/db-config.js');
 
 class UserQuery {
 
@@ -20,12 +20,13 @@ class UserQuery {
            ,${this.selectMeta("u.ID", UserMeta.IMG_POS, "img_pos")}
            ,${this.selectMeta("u.ID", UserMeta.IMG_SIZE, "img_size")}
            ,${this.selectMeta("u.ID", UserMeta.FEEDBACK)}
-           ,${this.selectMeta("u.ID", UserMeta.STATUS, "status")}
+           ,${this.selectMeta("u.ID", UserMeta.STATUS, "user_status")}
            ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
            ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
            ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH, "grad_month")}
            ,${this.selectMeta("u.ID", UserMeta.GRAD_YEAR, "grad_year")}
            ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
+           ,${this.selectMeta("u.ID", UserMeta.ACTIVATION_KEY)}
            ,${this.selectMeta("u.ID", UserMeta.CGPA)}
            ,${this.selectMeta("u.ID", UserMeta.MAJOR)}
            ,${this.selectMeta("u.ID", UserMeta.MINOR)}
@@ -56,8 +57,52 @@ class UserQuery {
 }
 UserQuery = new UserQuery();
 
-
 class UserExec {
+    updateUserMeta(user_id, data) {
+        var meta_key_in = "";
+        var meta_pair_case = "";
+
+        for (var k in data) {
+
+            if (Object.values(UserMeta).indexOf(k) > -1) {
+                meta_key_in += `'${k}',`;
+                meta_pair_case += ` WHEN '${k}' THEN '${data[k]}' `;
+            }
+        }
+
+        var sql = `UPDATE wp_cf_usermeta
+            SET meta_value = CASE meta_key 
+            ${meta_pair_case} 
+            END
+          WHERE meta_key IN (${meta_key_in.slice(0, -1)}) and user_id = '${user_id}'`;
+
+        return DB.con.query(sql);
+    }
+
+    editUser(arg) {
+        var ID = arg.ID;
+        
+        //update User table
+        var updateUser = {};
+        var userVal = Object.values(User);
+
+        for (var k in arg) {
+            if (userVal.indexOf(k) > -1) {
+                updateUser[k] = arg[k];
+            }
+        }
+
+        //if there is nothing to update from user table,
+        //update user meta
+        if (Object.values(updateUser).length < 2) { // include ID
+            return this.updateUserMeta(ID, arg);
+        } else {
+            return DB.update(User.TABLE, updateUser).then((res) => {
+                //update user meta
+                this.updateUserMeta(ID, arg);
+            });
+        }
+    }
 
     getUserHelper(type, params, discard = []) {
 

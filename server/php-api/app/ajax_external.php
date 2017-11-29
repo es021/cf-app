@@ -1,5 +1,7 @@
 <?php
 
+///should not use any constant from SiteInfo
+
 include_once 'AppMailer.php';
 
 // if error than return res.error
@@ -64,8 +66,7 @@ function app_register_user() {
         $key = sha1($user_id . time());
 
         //insert to meta users table
-        $usermeta[SiteInfo::USERMETA_STATUS] = SiteInfo::USERMETA_STAT_NOT_ACTIVATED;
-        $usermeta[SiteInfo::USERMETA_ACTIVATION_KEY] = $key;
+        $usermeta["activation_key"] = $key;
 
         if (is_array($usermeta)) {
             foreach ($usermeta as $k => $v) {
@@ -74,8 +75,8 @@ function app_register_user() {
         }
 
         $resData = array(
-            SiteInfo::USERS_ID => $user_id,
-            SiteInfo::USERMETA_ACTIVATION_KEY => $key
+            "ID" => $user_id,
+            "activation_key" => $key
         );
     }
 
@@ -95,13 +96,35 @@ function app_register_user() {
       $email_data[SiteInfo::USERMETA_FIRST_NAME] = $usermeta[SiteInfo::USERMETA_FIRST_NAME];
       $email_data[SiteInfo::USERMETA_LAST_NAME] = $usermeta[SiteInfo::USERMETA_LAST_NAME];
       //myp_send_email($userdata[SiteInfo::USERS_EMAIL], $email_data, SiteInfo::EMAIL_TYPE_USER_ACTIVATION);
-     
-      AppMailer::send_mail($to_email, $email_data, AppMailer::TYPE_STUDENT_REGISTRATION);
- 
-      
+
+      AppMailer::send_mail($userdata[SiteInfo::USERS_EMAIL], $email_data, AppMailer::TYPE_STUDENT_REGISTRATION);
+
+
       $res['status'] = SiteInfo::STATUS_SUCCESS;
       $res['data'] = $user_id;
       return $res;
+
      */
 }
+
+add_action('wp_ajax_app_send_email', 'app_send_email');
+add_action('wp_ajax_nopriv_app_send_email', 'app_send_email');
+
+function app_send_email() {
+    app_filter_err_param(array("to", "params", "type"));
+    $resData = null;
+    $resErr = null;
+    
+    $to = $_POST["data"]["to"];
+    $params = $_POST["data"]["params"];
+    $type = $_POST["data"]["type"];
+
+    if (AppMailer::send_mail($to, $params, $type)) {
+        $resData = "Successfully sent email $type to $to";
+    } else {
+        $resErr = "Failed to send email $type to $to";
+    }
+    app_return_res($resData, $resErr);
+}
+
 ?>

@@ -1,10 +1,13 @@
 const {getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios} = require('../../helper/api-helper');
-const {User, UserEnum} = require('../../config/db-config');
+const {User, UserMeta, UserEnum} = require('../../config/db-config');
+const {SiteUrl} = require('../../config/app-config');
+const obj2arg = require('graphql-obj2arg');
 
 const AuthAPIErr = {
     WRONG_PASS: "WRONG_PASS",
     INVALID_EMAIL: "INVALID_EMAIL",
-    NOT_ACTIVE: "NOT_ACTIVE"
+    NOT_ACTIVE: "NOT_ACTIVE",
+    INVALID_ACTIVATION: "INVALID_ACTIVATION"
 };
 
 class AuthAPI {
@@ -16,14 +19,14 @@ class AuthAPI {
                 user_pass,
                 first_name,
                 last_name,
-                status
+                user_status
             }}`;
 
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var user = res.data.data.user;
             if (user !== null) {
                 //check if active
-                if (user.status === UserEnum.STATUS_NOT_ACT) {
+                if (user.user_status === UserEnum.STATUS_NOT_ACT) {
                     return AuthAPIErr.NOT_ACTIVE;
                 }
 
@@ -51,23 +54,78 @@ class AuthAPI {
 
     }
 
+    createActivationLink(act_key, user_id) {
+        return `${SiteUrl}/auth/activate-account/${act_key}/${user_id}`;
+    }
+
+    activateAccount(act_key, user_id)
+    {
+        var user_query = `query{
+            user(ID:${user_id}){
+                user_email
+                activation_key
+                user_status
+            }}`;
+
+        return getAxiosGraphQLQuery(user_query).then((res) => {
+            var user = res.data.data.user;
+            if (user === null) {
+                return AuthAPIErr.INVALID_ACTIVATION;
+            } else {
+
+                if (user.user_status === UserEnum.STATUS_ACT) {
+                    return `User ${user.user_email} already active.`;
+                }
+                if (act_key === user.activation_key) {
+                    var update = {};
+                    update[User.ID] = Number.parseInt(user_id);
+                    update[UserMeta.STATUS] = UserEnum.STATUS_ACT;
+
+                    var edit_query = `mutation{
+                        edit_user(${obj2arg(update, {noOuterBraces: true})}) {
+                          ID
+                          user_email
+                          user_status
+                        }
+                      }`;
+                    
+                    return getAxiosGraphQLQuery(edit_query).then((res) => {
+                        var user = res.data.data.edit_user;
+                        return {user_email: user.user_email};
+                    });
+
+                } else {
+                    return AuthAPIErr.INVALID_ACTIVATION;
+                }
+            }
+        });
+    }
+
     //raw form from sign up page 
     register(user) {
         //separate userdata and usermeta
         var userdata = user;
         var usermeta = user;
 
-        //need to serialize array of multiple entry
-
-        userdata[User.LOGIN] = userdata[User.EMAIL];
-
         var data = {};
         data["userdata"] = userdata;
         data["usermeta"] = usermeta;
 
         //send Email here
-        const successInterceptor = function (data) {
-            console.log("intercept", data);
+        const successInterceptor = (data) => {
+            var act_link = this.createActivationLink(data[UserMeta.ACTIVATION_KEY], data[User.ID]);
+
+            var email_data = {
+                to: user[User.EMAIL],
+                params: {first_name: user[UserMeta.FIRST_NAME],
+                    last_name: user[UserMeta.LAST_NAME],
+                    activation_link: act_link},
+                type: "STUDENT_REGISTRATION"
+            };
+
+            console.log("send STUDENT_REGISTRATION email", email_data);
+
+            getWpAjaxAxios("app_send_email", email_data);
         };
 
         return getWpAjaxAxios("app_register_user", data, successInterceptor);
