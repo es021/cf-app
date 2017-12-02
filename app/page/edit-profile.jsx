@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink} from 'react-router-dom';
-import Form, {toggleSubmit} from '../component/form';
+import Form, {toggleSubmit, checkDiff} from '../component/form';
 import {UserMeta, User, UserEnum}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
 import {ButtonLink} from '../component/buttons';
@@ -136,23 +136,30 @@ export default class EditProfilePage extends React.Component {
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
 
-            var update = {};
-            update[User.ID] = this.authUser[User.ID];
-            var hasDiff = false;
-
-            //get differences
-            for (var k in d) {
-                if (d[k] !== this.state.user[k]) {
-                    hasDiff = true;
-                    update[k] = d[k];
-                }
-            }
-            console.log(update);
-            //return;
-            if (!hasDiff) {
-                toggleSubmit(this, {error: "No Changes Has Been Made"});
+            var update = checkDiff(this, this.state.user, d);
+            if (update === false) {
                 return;
             }
+            update[User.ID] = this.authUser[User.ID];
+
+            /*
+             var update = {};
+             update[User.ID] = this.authUser[User.ID];
+             var hasDiff = false;
+             
+             //get differences
+             for (var k in d) {
+             if (d[k] !== this.state.user[k]) {
+             hasDiff = true;
+             update[k] = d[k];
+             }
+             }
+             console.log(update);
+             //return;
+             if (!hasDiff) {
+             toggleSubmit(this, {error: "No Changes Has Been Made"});
+             return;
+             }*/
 
             var edit_query = `mutation{
                         edit_user(${obj2arg(update, {noOuterBraces: true})}) {
@@ -184,22 +191,23 @@ export default class EditProfilePage extends React.Component {
             content = <Loader size="2" text="Loading User Information"></Loader>
         } else {
             content = <div> 
-            <ProfileCard type="student"
-                         add_img_ops ={true}
-                         title={this.authUser.user_email} subtitle={""}
-                         img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}    
-                         ></ProfileCard>
-        
-            <Form className="form-row" 
-                  items={this.formItems} 
-                  onSubmit={this.formOnSubmit}
-                  submitText='Save Changes'
-                  defaultValues={this.state.user}
-                  disableSubmit={this.state.disableSubmit} 
-                  error={this.state.error}
-                  success={this.state.success}>
-            </Form>
-        </div>;
+                <ProfileCard type="student"
+                             id ={this.authUser.ID}
+                             add_img_ops ={true}
+                             title={this.authUser.user_email} subtitle={""}
+                             img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}    
+                             ></ProfileCard>
+            
+                <Form className="form-row" 
+                      items={this.formItems} 
+                      onSubmit={this.formOnSubmit}
+                      submitText='Save Changes'
+                      defaultValues={this.state.user}
+                      disableSubmit={this.state.disableSubmit} 
+                      error={this.state.error}
+                      success={this.state.success}>
+                </Form>
+            </div>;
         }
 
         return <div><h3>Edit Profile</h3>{content}</div>;

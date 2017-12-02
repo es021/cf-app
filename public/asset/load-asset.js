@@ -1,8 +1,10 @@
 function LoadAsset() {
     var JS_PATH = "asset/js/";
 
-    var needToLoad = [JS_PATH + "vendors.bundle.js"
-                , JS_PATH + "main.bundle.js"];
+    var needToLoad = [
+        JS_PATH + "vendors.bundle.js"
+                , JS_PATH + "main.bundle.js"
+            ];
 
     var app_load = document.getElementById('app-loading');
     var loaded = 0;

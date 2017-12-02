@@ -25,8 +25,9 @@ app.use(function (req, res, next) {
 
 // intercept to serve compress file
 // this has to put before Express Middleware for serving static files 
-const hasGz = ["/asset/js/main.bundle.js"
-            , "/asset/js/vendors.bundle.js"
+const hasGz = [
+    "/asset/js/main.bundle.js"
+    //        , "/asset/js/vendors.bundle.js"
             //, "/asset/css/main.bundle.css"
 ];
 

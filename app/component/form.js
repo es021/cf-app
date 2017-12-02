@@ -11,6 +11,26 @@ export function toggleSubmit(obj, newState = {}) {
     });
 }
 
+export function checkDiff(obj, original, d) {
+    var hasDiff = false;
+    var update = {};
+    //get differences
+    for (var k in d) {
+        if (d[k] !== original[k]) {
+            hasDiff = true;
+            update[k] = d[k];
+        }
+    }
+    console.log(update);
+    //return;
+    if (!hasDiff) {
+        toggleSubmit(obj, {error: "No Changes Has Been Made"});
+        return false;
+    } else {
+        return update;
+    }
+}
+
 export default class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -143,6 +163,7 @@ export default class Form extends React.Component {
 
             case 'textarea':
                 return(<textarea 
+                    hidden={d.hidden}
                     name={d.name}
                     rows={(d.rows) ? d.rows : 4}
                     required={d.required}
@@ -153,6 +174,7 @@ export default class Form extends React.Component {
                 break;
             case 'select':
                 return(<select
+                    hidden={d.hidden}
                     name={d.name}
                     required={d.required}
                     ref={(v) => this.form[d.name] = v}
@@ -163,6 +185,7 @@ export default class Form extends React.Component {
             default:
                 //onChange={this.onChange}
                 return(<input 
+                    hidden={d.hidden}
                     name={d.name}
                     type={d.type}
                     min={d.min}
@@ -227,6 +250,7 @@ export default class Form extends React.Component {
     }
 
     render() {
+        console.log("render form", this.props.defaultValues);
         // 1. form items ---------
         var formItems = this.props.items.map((d, i) => {
             // a. label ------

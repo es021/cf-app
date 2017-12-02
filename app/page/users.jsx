@@ -8,7 +8,7 @@ import UserPage from './user';
 import List from '../component/list';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
 
-const offset = 10;
+const offset = 10; 
 
 const loadData = function (page, offset) {
     return getAxiosGraphQLQuery(`
