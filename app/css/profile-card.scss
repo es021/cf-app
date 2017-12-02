@@ -11,6 +11,20 @@
     .#{$PROFILE_CARD}picture{
         background-color: white;
         border-radius: 100%;
+        position: relative;
+        background-repeat: no-repeat;
+
+        .#{$PROFILE_CARD}picture-ops{
+            position: absolute;
+            bottom: 4px;
+            right: 0;
+            .button-icon{
+                background: whitesmoke;
+                padding: 5px;
+                border: solid 1px;
+                border-radius: 100%;
+            }
+        }
     }
 
     .#{$PROFILE_CARD}title{
@@ -18,7 +32,7 @@
         font-size: 16px;
 
     }
-    
+
     .#{$PROFILE_CARD}subtitle{
         font-size: 13px;
         opacity: 0.80;

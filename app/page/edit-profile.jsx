@@ -88,6 +88,20 @@ export default class EditProfilePage extends React.Component {
                             href="https://www.foreigncredits.com/resources/gpa-calculator/">
                 </ButtonLink>
             }, {
+                label: "Expected Graduation",
+                name: UserMeta.GRAD_MONTH,
+                type: "select",
+                data: Month,
+                required: true
+
+            }, {
+                label: null,
+                name: UserMeta.GRAD_YEAR,
+                type: "select",
+                data: Year,
+                required: true
+
+            }, {
                 label: "Sponsor",
                 name: UserMeta.SPONSOR,
                 type: "select",
@@ -109,10 +123,7 @@ export default class EditProfilePage extends React.Component {
 
     //return string if there is error
     filterForm(d) {
-
-
         return 0;
-
     }
 
     formOnSubmit(d) {
@@ -137,7 +148,7 @@ export default class EditProfilePage extends React.Component {
                 }
             }
             console.log(update);
-
+            //return;
             if (!hasDiff) {
                 toggleSubmit(this, {error: "No Changes Has Been Made"});
                 return;
@@ -174,6 +185,7 @@ export default class EditProfilePage extends React.Component {
         } else {
             content = <div> 
             <ProfileCard type="student"
+                         add_img_ops ={true}
                          title={this.authUser.user_email} subtitle={""}
                          img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}    
                          ></ProfileCard>

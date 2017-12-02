@@ -23,8 +23,8 @@ class UserQuery {
            ,${this.selectMeta("u.ID", UserMeta.STATUS, "user_status")}
            ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
            ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
-           ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH, "grad_month")}
-           ,${this.selectMeta("u.ID", UserMeta.GRAD_YEAR, "grad_year")}
+           ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH)}
+           ,${this.selectMeta("u.ID", UserMeta.GRAD_YEAR)}
            ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
            ,${this.selectMeta("u.ID", UserMeta.ACTIVATION_KEY)}
            ,${this.selectMeta("u.ID", UserMeta.CGPA)}

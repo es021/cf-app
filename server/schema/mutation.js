@@ -46,7 +46,7 @@ const Mutation = new GraphQLObjectType({
         },
 
         edit_user: {
-            type: UserType,
+            type: UserType, 
             args: {
                 // all roles
                 ID: {type: new GraphQLNonNull(GraphQLInt)},
@@ -66,8 +66,8 @@ const Mutation = new GraphQLObjectType({
                 // student only
                 university: {type: GraphQLString},
                 phone_number: {type: GraphQLString},
-                grad_month: {type: GraphQLString},
-                grad_year: {type: GraphQLString},
+                graduation_month: {type: GraphQLString},
+                graduation_year: {type: GraphQLString},
                 sponsor: {type: GraphQLString},
                 cgpa: {type: GraphQLString},
                 major: {type: GraphQLString},

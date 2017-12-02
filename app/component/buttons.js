@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class ButtonLink extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export class ButtonLink extends React.Component {
         }
     }
 }
+
 
 /*
  * onClick
@@ -37,7 +39,7 @@ export class ButtonIcon extends React.Component {
 
         var style = {
             fontSize: fontSize
-        };
+        };  
 
         var theme = (this.props.theme) ? this.props.theme : "";
         var icon = <i className={`fa fa-${this.props.icon}`}></i>;
@@ -51,4 +53,11 @@ export class ButtonIcon extends React.Component {
            className={`button-icon ${theme}`}>{icon}</a>);
         }
     }
-}
+}  
+
+ButtonIcon.propsType = {
+    onClick: PropTypes.func.isRequired,
+    size: PropTypes.oneOf(["lg", "md", PropTypes.string]).isRequired,
+    icon: PropTypes.string.isRequired,
+    theme: PropTypes.oneOf(["dark"])
+};

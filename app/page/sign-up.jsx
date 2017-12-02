@@ -89,6 +89,20 @@ export default class SignUpPage extends React.Component {
                             href="https://www.foreigncredits.com/resources/gpa-calculator/">
                 </ButtonLink>
             }, {
+                label: "Expected Graduation",
+                name: UserMeta.GRAD_MONTH,
+                type: "select",
+                data: Month,
+                required: true
+
+            }, {
+                label: null,
+                name: UserMeta.GRAD_YEAR,
+                type: "select",
+                data: Year,
+                required: true
+
+            }, {
                 label: "Sponsor",
                 name: UserMeta.SPONSOR,
                 type: "select",

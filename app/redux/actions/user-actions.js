@@ -4,12 +4,12 @@ export const FETCH_USER = "FETCH_USER";
 // not used
 export function loadUsers(page) {
     var offset = 50;
-    console.log("load page ",page);
+    console.log("load page ", page);
     return function (dispatch) {
         dispatch({
             type: FETCH_USER,
             payload: getAxiosGraphQLQuery(
-                     `query{
+                    `query{
                             users(role:"student", page:${page}, offset:${offset}){
                                 ID
                                 first_name
@@ -20,7 +20,7 @@ export function loadUsers(page) {
     };
 }
 
-export function loadUser(id){
+export function loadUser(id) {
     return getAxiosGraphQLQuery(`
             query {
               user(ID:${id}) {
@@ -38,8 +38,8 @@ export function loadUser(id){
                 user_status
                 university
                 phone_number
-                grad_month
-                grad_year
+                graduation_month
+                graduation_year
                 sponsor
                 cgpa
                 major
