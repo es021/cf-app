@@ -5,10 +5,31 @@ import Form, {toggleSubmit, checkDiff} from './form';
 import {User, UserMeta}  from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
+import {updateAuthUser} from '../redux/actions/auth-actions';
 
 require("../css/profile-card.scss");
 
 const pc = "pc-";
+
+//default is 100px
+export function getPositionStr(dimension, posStr, unit = "px") {
+    const def = 100;
+    var ret = {};
+    try {
+        var temp = posStr.split(unit);
+        ret.x = Number(temp[0]);
+        ret.y = Number(temp[1].split(" ")[1]);
+    } catch (err) {
+        ret.x = 0;
+        ret.y = 0;
+    }
+
+    ret.x = ret.x / (def / dimension);
+    ret.y = ret.y / (def / dimension);
+    console.log(ret);
+    return ret;
+}
+
 
 export default class ProfileCardImg extends  React.Component {
     constructor(props) {
@@ -16,13 +37,13 @@ export default class ProfileCardImg extends  React.Component {
 
         var fixedSize = this.props.stylePicture.backgroundSize.replace("100%", "101%");
 
-        var dimension = "100px";
+        this.DIMENSION = 100;
         this.state = {
             backgroundImage: this.props.stylePicture.backgroundImage,
             backgroundSize: fixedSize, //default : cover
             backgroundPosition: this.props.stylePicture.backgroundPosition, // default : 50% 50%
-            height: dimension,
-            width: dimension,
+            height: this.DIMENSION + "px",
+            width: this.DIMENSION + "px",
 
             error: null,
             disableSubmit: false,
@@ -69,16 +90,19 @@ export default class ProfileCardImg extends  React.Component {
                 label: "Img Url",
                 name: "backgroundImage",
                 type: "text",
+                hidden: true,
                 required: true
             }, {
                 label: "Img Pos",
                 name: "backgroundPosition",
                 type: "text",
+                hidden: true,
                 required: true
             }, {
                 label: "Img Size",
                 name: "backgroundSize",
                 type: "text",
+                hidden: true,
                 required: true
             }
         ];
@@ -205,11 +229,9 @@ export default class ProfileCardImg extends  React.Component {
             }
 
             //var unit = "%";
-            var temp = prevState["backgroundPosition"];
-            temp = temp.split(unit);
-
-            var temp_POS_X = Number(temp[0]);
-            var temp_POS_Y = Number(temp[1].split(" ")[1]);
+            var ob = getPositionStr(100, prevState["backgroundPosition"], unit);
+            var temp_POS_X = ob.x;
+            var temp_POS_Y = ob.y;
 
             var offset = (direction === '-') ? this.POS_OFFSET : -1 * this.POS_OFFSET;
 
@@ -308,28 +330,31 @@ export default class ProfileCardImg extends  React.Component {
         //standardize prop 
         // handle diff in backend
         var update = {};
-        update["ID"] = this.props.entity_id;
+        update["ID"] = this.props.id;
         update["img_url"] = updateTemp.backgroundImage;
         update["img_pos"] = updateTemp.backgroundPosition;
         update["img_size"] = updateTemp.backgroundSize;
-
+        console.log(update);
         var edit_query = "";
         if (this.props.type == "user") {
             edit_query = `mutation{
                         edit_user(${obj2arg(update, {noOuterBraces: true})}) {
-                          ID
+                          img_url
+                          img_pos
+                          img_size
                         }
                       }`;
         }
 
         console.log(edit_query);
 
-        toggleSubmit(this, {error: null, success: "Your Change Has Been Saved!"});
-        return;
+        //toggleSubmit(this, {error: null, success: "Your Change Has Been Saved!"});
+        //return;
         getAxiosGraphQLQuery(edit_query).then((res) => {
-            console.log(res.data);
-            updateAuthUser(d);
-            toggleSubmit(this, {user: d, error: null, success: "Your Change Has Been Saved!"});
+            console.log(res.data.data.edit_user);
+            updateAuthUser(res.data.data.edit_user);
+            toggleSubmit(this, {error: null, success: "Your Change Has Been Saved!"});
+            location.reload();
         }, (err) => {
             toggleSubmit(this, {error: err.response.data});
         });
@@ -353,15 +378,19 @@ export default class ProfileCardImg extends  React.Component {
             <div style={stylePictureBack}></div>
             <div className={`${pc}picture`} style={stylePicture} 
                  onMouseMove={this.mouseMovePos} onMouseLeave={this.mouseUpPos}
-                 onMouseUp={this.mouseUpPos} onMouseDown={this.mouseDownPos}></div>
-            <ButtonIcon size={btn_size} icon="search-plus" theme="dark" onClick={() => this.editSize(this.ZOOM_IN)}></ButtonIcon>
-            <ButtonIcon  size={btn_size} icon="search-minus" theme="dark" onClick={() => this.editSize(this.ZOOM_OUT)}></ButtonIcon>
+                 onMouseUp={this.mouseUpPos} onMouseDown={this.mouseDownPos}>
         
-            <ButtonIcon size={btn_size} icon="arrow-up" theme="dark" onClick={() => this.editPos(this.UP)}></ButtonIcon>
-            <ButtonIcon  size={btn_size} icon="arrow-right" theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
-            <ButtonIcon size={btn_size} icon="arrow-down" theme="dark" onClick={() => this.editPos(this.DOWN)}></ButtonIcon>
-            <ButtonIcon  size={btn_size} icon="arrow-left" theme="dark" onClick={() => this.editPos(this.LEFT)}></ButtonIcon>
+                <ButtonIcon style={{right: 0, position: "absolute"}} size={btn_size} icon="search-plus" theme="dark" onClick={() => this.editSize(this.ZOOM_IN)}></ButtonIcon>
+                <ButtonIcon style={{left: 0, position: "absolute"}}  size={btn_size} icon="search-minus" theme="dark" onClick={() => this.editSize(this.ZOOM_OUT)}></ButtonIcon>
+            </div>
         
+            <small>Drag To Reposition</small>
+            <div className="arrows">
+                <ButtonIcon size={btn_size} icon="arrow-left" theme="dark" onClick={() => this.editPos(this.LEFT)}></ButtonIcon>
+                <ButtonIcon size={btn_size} icon="arrow-up" theme="dark" onClick={() => this.editPos(this.UP)}></ButtonIcon>
+                <ButtonIcon size={btn_size} icon="arrow-down" theme="dark" onClick={() => this.editPos(this.DOWN)}></ButtonIcon>
+                <ButtonIcon size={btn_size} icon="arrow-right" theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
+            </div>
         
             <Form className="form-row" 
                   items={this.formItems} 
@@ -373,12 +402,12 @@ export default class ProfileCardImg extends  React.Component {
                   success={this.state.success}>
             </Form>
         </div>);
-    }
-}
+            }
+        }
 
-ProfileCardImg.propsType = {
-    img_url: PropTypes.string.isRequired, // to get image dimension
-    id: PropTypes.number.isRequired,
-    type: PropTypes.oneOf(["user", "company"]).isRequired,
-    stylePicture: PropTypes.object.isRequired
-};
+        ProfileCardImg.propsType = {
+            img_url: PropTypes.string.isRequired, // to get image dimension
+            id: PropTypes.number.isRequired,
+            type: PropTypes.oneOf(["user", "company"]).isRequired,
+            stylePicture: PropTypes.object.isRequired
+        };

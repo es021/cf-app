@@ -11,6 +11,7 @@ export function toggleSubmit(obj, newState = {}) {
     });
 }
 
+
 export function checkDiff(obj, original, d) {
     var hasDiff = false;
     var update = {};
@@ -255,7 +256,8 @@ export default class Form extends React.Component {
         var formItems = this.props.items.map((d, i) => {
             // a. label ------
             var label = null;
-            if (d.label != null) {
+
+            if (d.label != null && d.hidden !== true) {
                 label = <div className="form-label">
                     {d.label}{(d.required) ? " *" : null}
                 </div>;

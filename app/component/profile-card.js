@@ -49,7 +49,6 @@ export default class ProfileCard extends React.Component {
     }
 
     openPictureOps(stylePicture) {
-
         var type = (this.props.type == PCType.COMPANY) ? "company" : "user";
 
         layoutActions.storeUpdateFocusCard("Edit Image", ProfileCardImg,
@@ -79,10 +78,13 @@ export default class ProfileCard extends React.Component {
         var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
         stylePicture["height"] = dimension;
         stylePicture["width"] = dimension;
+
+        // only for edit profile and edit company
         var img_ops = null;
         if (this.props.add_img_ops) {
             img_ops = <div className={`${pc}picture-ops`}>
-                <ButtonIcon icon="edit" theme="dark" onClick={() => this.openPictureOps(stylePicture)}></ButtonIcon>
+                <ButtonIcon icon="edit" theme="dark" 
+                            onClick={() => this.openPictureOps(stylePicture)}></ButtonIcon>
             </div>
         }
 

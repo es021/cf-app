@@ -1,5 +1,15 @@
 @import "define/variable.scss";
 
+.profile-card.edit-img{
+
+    .#{$PROFILE_CARD}picture{
+        cursor: move;
+    }
+    .arrows{
+        display: flex;
+    }
+}
+
 .profile-card{
     display: flex;
     flex-direction: column;
@@ -13,10 +23,12 @@
         border-radius: 100%;
         position: relative;
         background-repeat:no-repeat;
+
         .#{$PROFILE_CARD}picture-ops{
             position: absolute;
             bottom: 4px;
             right: 0;
+
             .button-icon{
                 background: whitesmoke;
                 padding: 5px;

@@ -36,11 +36,9 @@ export class ButtonIcon extends React.Component {
                 fontSize = this.props.size;
                 break;
         }
-
-        var style = {
-            fontSize: fontSize
-        };  
-
+        var style = (this.props.style) ? this.props.style : {};
+        style["fontSize"] = fontSize;
+        
         var theme = (this.props.theme) ? this.props.theme : "";
         var icon = <i className={`fa fa-${this.props.icon}`}></i>;
         if (this.props.href) {
@@ -53,11 +51,12 @@ export class ButtonIcon extends React.Component {
            className={`button-icon ${theme}`}>{icon}</a>);
         }
     }
-}  
+}
 
 ButtonIcon.propsType = {
     onClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(["lg", "md", PropTypes.string]).isRequired,
     icon: PropTypes.string.isRequired,
-    theme: PropTypes.oneOf(["dark"])
+    theme: PropTypes.oneOf(["dark"]),
+    style: PropTypes.object
 };
