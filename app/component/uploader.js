@@ -119,7 +119,7 @@ export class Uploader extends React.Component {
 
 Uploader.propTypes = {
     name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(["img", "doc"]),
+    type: PropTypes.oneOf([FileType.IMG, FileType.DOC]),
     required: PropTypes.bool,
     onChange: PropTypes.func,
     onSuccess: PropTypes.func,

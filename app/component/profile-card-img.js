@@ -28,7 +28,7 @@ export function getPositionStr(dimension, posStr, unit = "px") {
 
     ret.x = ret.x / (def / dimension);
     ret.y = ret.y / (def / dimension);
-    console.log(ret);
+    //console.log(ret);
     return ret;
 }
 
@@ -130,7 +130,7 @@ export default class ProfileCardImg extends  React.Component {
         this.POS_X = this.state.backgroundPosition.split(" ")[0];
         this.POS_Y = this.state.backgroundPosition.split(" ")[1];
 
-        this.debug();
+        //this.debug();
     }
 
     getImageDimension(url) {
@@ -325,6 +325,7 @@ export default class ProfileCardImg extends  React.Component {
         });
     }
 
+    /* props for Uploader --Start */
     uploaderOnChange(file) {
         console.log("uploaderOnChange");
         toggleSubmit(this, {error: null, newImage: null});
@@ -345,7 +346,9 @@ export default class ProfileCardImg extends  React.Component {
         }
         reader.readAsDataURL(file);
     }
+    /* props for Uploader --End */
 
+    /* props for Form */
     formOnSubmit(d) {
         if (this.state.newImage !== null) {
             console.log("handle new image");
@@ -443,7 +446,7 @@ export default class ProfileCardImg extends  React.Component {
                 <ButtonIcon size={btn_size} icon="arrow-right" theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
             </div>
         
-            <Uploader name="new-picture" type="img" onSuccess={this.uploaderOnSuccess} 
+            <Uploader name="new-picture" type={FileType.IMG} onSuccess={this.uploaderOnSuccess} 
                       onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
         
             <Form className="form-row" 

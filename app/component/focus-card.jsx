@@ -50,7 +50,7 @@ class FocusCard extends React.Component {
         var display = (focus.show) ? "flow-root" : "none";
         var style = {
             display: display
-        };
+        }; 
 
         var fc = "fc-";
         return(<div style={style} id="focus-card">

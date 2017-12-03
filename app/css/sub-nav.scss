@@ -1,0 +1,63 @@
+@import "define/variable.scss";
+
+$act_col: $COLOR_LINK;
+$bck_col : white;
+.sub-nav{
+
+    .#{$SUB_NAV}header{
+        height: 40px;
+        background: $bck_col;
+        // this is content padding
+        margin: -20px;
+        margin-bottom: 10px;
+
+        ul{
+            margin: 0 10px;
+            display: flex;
+            height: 100%;
+            align-items: flex-end;
+
+            li{
+                margin: 0 10px;
+                cursor: pointer;
+                padding-bottom: 5px;
+
+                .fa{
+                    padding-right: 5px;
+                }
+            }
+
+
+            li:hover{
+                color:$act_col;
+            }
+
+            li.active{
+                color:$act_col;
+                border-bottom: solid $act_col 2px;
+            }
+        }
+
+
+    }
+
+    .#{$SUB_NAV}body{
+
+    }
+}
+
+
+@media only screen and (max-width: $LAYOUT_SM){
+    .sub-nav{
+        .#{$SUB_NAV}header{
+            ul li{
+                font-size: 75%;
+                margin: 0 3px;
+
+                .fa{
+                    display:none;
+                }
+            }
+        }
+    }
+}

@@ -10,16 +10,23 @@ import {loadUser} from '../redux/actions/user-actions';
 import {getAuthUser, updateAuthUser} from '../redux/actions/auth-actions';
 import {Loader} from '../component/loader';
 import ProfileCard from '../component/profile-card';
-import SubNav from '../component/sub-nav';
 
-
-class Documents extends React.Component {
+class SubNav extends React.Component {
     render() {
-        return <h3>Document</h3>;
+
+        var view = <div className="sub-nav">
+            <ul>
+                <li>Profile</li>
+                <li>Link</li>
+                <li>Document</li>
+            </ul>
+        </div>;
+
+        return view;
     }
 }
 
-class EditProfile extends React.Component {
+export default class EditProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
@@ -129,7 +136,7 @@ class EditProfile extends React.Component {
 
     }
 
-//return string if there is error
+    //return string if there is error
     filterForm(d) {
         return 0;
     }
@@ -140,7 +147,7 @@ class EditProfile extends React.Component {
         if (err === 0) {
             toggleSubmit(this, {error: null, success: null});
 
-//prepare data for edit
+            //prepare data for edit
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
 
@@ -172,8 +179,8 @@ class EditProfile extends React.Component {
             var edit_query = `mutation{
                         edit_user(${obj2arg(update, {noOuterBraces: true})}) {
                           ID
-}
-}`;
+                        }
+                      }`;
 
             console.log(edit_query);
 
@@ -222,31 +229,4 @@ class EditProfile extends React.Component {
     }
 }
 
- 
 
-export default class EditProfilePage extends React.Component {
-    componentWillMount() {
-        this.defaultItem = "ep"
-        this.item = {
-            "ep": {
-                label: "My Profile",
-                component: EditProfile,
-                icon: "user"
-            },
-            "doc": {
-                label: "Documents",
-                component: Documents,
-                icon: "file-text"
-            },
-            "act": {
-                label: "Activity",
-                component: Documents,
-                icon: "user"
-            }
-        }
-    }
-
-    render() {
-        return <SubNav items={this.item} defaultItem={this.defaultItem}></SubNav>;
-    }
-}
