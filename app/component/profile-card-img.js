@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {ButtonIcon} from './buttons';
+import {Uploader, uploadFile, FileType} from './uploader';
 import Form, {toggleSubmit, checkDiff} from './form';
 import {User, UserMeta}  from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
 import {updateAuthUser} from '../redux/actions/auth-actions';
+import {UploadUrl} from '../../config/app-config.js';
 
 require("../css/profile-card.scss");
 
@@ -44,7 +46,7 @@ export default class ProfileCardImg extends  React.Component {
             backgroundPosition: this.props.stylePicture.backgroundPosition, // default : 50% 50%
             height: this.DIMENSION + "px",
             width: this.DIMENSION + "px",
-
+            newImage: null,
             error: null,
             disableSubmit: false,
             success: null
@@ -56,6 +58,9 @@ export default class ProfileCardImg extends  React.Component {
         this.mouseUpPos = this.mouseUpPos.bind(this);
         this.formOnSubmit = this.formOnSubmit.bind(this);
         this.mouseMovePos = this.mouseMovePos.bind(this);
+        this.uploaderOnChange = this.uploaderOnChange.bind(this);
+        this.uploaderOnError = this.uploaderOnError.bind(this);
+        this.uploaderOnSuccess = this.uploaderOnSuccess.bind(this);
 
         this.ZOOM_IN = "ZI";
         this.ZOOM_OUT = "ZO";
@@ -86,6 +91,14 @@ export default class ProfileCardImg extends  React.Component {
     componentWillMount() {
 
         this.formItems = [
+
+            {
+                label: "Img Size",
+                name: "backgroundSize",
+                type: "text",
+                hidden: true,
+                required: true
+            },
             {
                 label: "Img Url",
                 name: "backgroundImage",
@@ -95,12 +108,6 @@ export default class ProfileCardImg extends  React.Component {
             }, {
                 label: "Img Pos",
                 name: "backgroundPosition",
-                type: "text",
-                hidden: true,
-                required: true
-            }, {
-                label: "Img Size",
-                name: "backgroundSize",
                 type: "text",
                 hidden: true,
                 required: true
@@ -318,23 +325,66 @@ export default class ProfileCardImg extends  React.Component {
         });
     }
 
-    formOnSubmit(d) {
+    uploaderOnChange(file) {
+        console.log("uploaderOnChange");
+        toggleSubmit(this, {error: null, newImage: null});
+    }
+
+    uploaderOnError(err) {
+        console.log("uploaderOnError");
+        toggleSubmit(this, {error: err, newImage: null});
+    }
+
+    uploaderOnSuccess(file) {
         toggleSubmit(this, {error: null});
-        console.log("save current state", this.imgVal);
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState(() => {
+                return {backgroundImage: "url(" + e.target.result + ")", newImage: file};
+            });
+        }
+        reader.readAsDataURL(file);
+    }
+
+    formOnSubmit(d) {
+        if (this.state.newImage !== null) {
+            console.log("handle new image");
+            var fileName = `${this.props.type}-${this.props.id}`;
+            uploadFile(this.state.newImage, FileType.IMG, fileName).then((res)=>{
+               console.log(res.data.url); 
+               if(res.data.url !== null){
+                   this.saveToDb(d, res.data.url);
+               } 
+            });              
+        }else{
+            this.saveToDb(d);
+        }
+    }
+    
+    saveToDb(d, newImage = null){
+        toggleSubmit(this, {error: null});
 
         var updateTemp = checkDiff(this, d, this.imgVal);
         if (updateTemp === false) {
             return;
         }
-
+     
         //standardize prop 
         // handle diff in backend
         var update = {};
         update["ID"] = this.props.id;
-        update["img_url"] = updateTemp.backgroundImage;
+        
+        if(newImage !== null){
+             update["img_url"] = `${UploadUrl}/${newImage}`;
+        } else{
+            update["img_url"] = updateTemp.backgroundImage;
+        }
+        
         update["img_pos"] = updateTemp.backgroundPosition;
         update["img_size"] = updateTemp.backgroundSize;
-        console.log(update);
+        
+        console.log("save current state", update);
+
         var edit_query = "";
         if (this.props.type == "user") {
             edit_query = `mutation{
@@ -357,8 +407,9 @@ export default class ProfileCardImg extends  React.Component {
             location.reload();
         }, (err) => {
             toggleSubmit(this, {error: err.response.data});
-        });
+        });  
     }
+
 
     render() {
         var stylePicture = this.state;
@@ -391,6 +442,9 @@ export default class ProfileCardImg extends  React.Component {
                 <ButtonIcon size={btn_size} icon="arrow-down" theme="dark" onClick={() => this.editPos(this.DOWN)}></ButtonIcon>
                 <ButtonIcon size={btn_size} icon="arrow-right" theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
             </div>
+        
+            <Uploader name="new-picture" type="img" onSuccess={this.uploaderOnSuccess} 
+                      onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
         
             <Form className="form-row" 
                   items={this.formItems} 
