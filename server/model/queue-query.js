@@ -1,13 +1,6 @@
 const DB = require('./DB.js');
+const {Queue} = require('../../config/db-config');
 
-const Queue = {
-    TABLE: "in_queues",
-    STUDENT_ID: "student_id",
-    CREATED_AT: "created_at",
-    STATUS_QUEUING: "Queuing",
-    STATUS_CANCELED: "Canceled",
-    STATUS_DONE: "Done"
-};
 
 class QueueQuery {
     getQueue(params) {
@@ -24,17 +17,16 @@ QueueQuery = new QueueQuery();
 
 class QueueExec {
 
-    queues(params, discard = []) {
+    queues(params, field) {
         var {UserExec} = require('./user-query.js');
 
         var sql = QueueQuery.getQueue(params);
-        //console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
 
-                if (discard.indexOf("users") <= -1) {
+                if (typeof field["student"] !== "undefined") {
                     var student_id = res[i]["student_id"];
-                    res[i]["student"] = UserExec.user({ID: student_id}, ["queues"]);
+                    res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
                 }
             }
 
@@ -46,6 +38,6 @@ class QueueExec {
 }
 QueueExec = new QueueExec();
 
-module.exports = {Queue, QueueExec, QueueQuery};
+module.exports = {QueueExec, QueueQuery};
 
 

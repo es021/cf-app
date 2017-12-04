@@ -82,7 +82,7 @@ class AuthAPI {
                 if (act_key === user.activation_key) {
                     var update = {};
                     update[User.ID] = Number.parseInt(user_id);
-                    update[UserMeta.STATUS] = UserEnum.STATUS_ACT;
+                    update[UserMeta.USER_STATUS] = UserEnum.STATUS_ACT;
 
                     var edit_query = `mutation{
                         edit_user(${obj2arg(update, {noOuterBraces: true})}) {

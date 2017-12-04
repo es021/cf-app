@@ -4,9 +4,10 @@
 const {UserType
     , CompanyType
     , QueueType
+    , DocLinkType
             //, PrescreenType
 } = require('./all-type.js');
-
+const graphqlFields = require('graphql-fields');
 //import all action for type
 const {UserExec} = require('../model/user-query.js');
 const {Queue, QueueExec} = require('../model/queue-query.js');
@@ -35,8 +36,10 @@ const RootQuery = new GraphQLObjectType({
                 ID: {type: GraphQLInt},
                 user_email: {type: GraphQLString}
             },
-            resolve(parentValue, arg) {
-                return UserExec.user(arg);
+            resolve(parentValue, arg, context, info) {
+                console.log(graphqlFields(info));
+
+                return UserExec.user(arg, graphqlFields(info));
             }
         },
         users: {
@@ -46,7 +49,7 @@ const RootQuery = new GraphQLObjectType({
                 page: {type: GraphQLInt},
                 offset: {type: GraphQLInt}
             },
-            resolve(parentValue, arg) {
+            resolve(parentValue, arg, context, info) {
                 return UserExec.users(arg);
             }
         },
@@ -56,8 +59,8 @@ const RootQuery = new GraphQLObjectType({
                 student_id: {type: GraphQLInt},
                 status: {type: GraphQLString}
             },
-            resolve(parentValue, arg) {
-                return QueueExec.queues(arg);
+            resolve(parentValue, arg, context, info) {
+                return QueueExec.queues(arg, graphqlFields(info));
             }
         },
         company: {
@@ -65,7 +68,7 @@ const RootQuery = new GraphQLObjectType({
             args: {
                 ID: {type: GraphQLInt}
             },
-            resolve(parentValue, arg) {
+            resolve(parentValue, arg, context, info) {
                 return CompanyExec.company(arg.ID);
             }
         },
@@ -74,7 +77,7 @@ const RootQuery = new GraphQLObjectType({
             args: {
                 type: {type: GraphQLInt}
             },
-            resolve(parentValue, arg) {
+            resolve(parentValue, arg, context, info) {
                 return CompanyExec.companies(arg.type);
             }
         }

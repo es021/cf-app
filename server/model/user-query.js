@@ -1,16 +1,28 @@
 const DB = require('./DB.js');
 
 const {User, UserMeta} = require('../../config/db-config.js');
+const {DocLinkExec} = require('./doclink-query.js');
 
 class UserQuery {
 
-    getUser(id, email, role, page, offset) {
+    getUser(field, id, email, role, page, offset) {
         var id_condition = (typeof id !== "undefined") ? `u.ID = ${id}` : `1=1`;
         var email_condition = (typeof email !== "undefined") ? `u.user_email = '${email}'` : `1=1`;
         var role_condition = (typeof role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${role}%' ` : `1=1`;
 
         var limit = DB.prepareLimit(page, offset);
 
+        var meta_sel = "";
+        for (var k in UserMeta) {
+            var meta_key = k.toLowerCase();
+            if (typeof field[meta_key] !== "undefined") {
+                meta_sel += `, ${this.selectMeta("u.ID", UserMeta[k], meta_key)}`;
+            }
+        }
+       var sql = `SELECT u.* ${meta_sel}
+           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
+        
+        /*
         var sql = `SELECT u.* 
            ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
            ,${this.selectMeta("u.ID", UserMeta.LAST_NAME)}
@@ -20,7 +32,7 @@ class UserQuery {
            ,${this.selectMeta("u.ID", UserMeta.IMG_POS, "img_pos")}
            ,${this.selectMeta("u.ID", UserMeta.IMG_SIZE, "img_size")}
            ,${this.selectMeta("u.ID", UserMeta.FEEDBACK)}
-           ,${this.selectMeta("u.ID", UserMeta.STATUS, "user_status")}
+           ,${this.selectMeta("u.ID", UserMeta.USER_STATUS, "user_status")}
            ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
            ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
            ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH)}
@@ -32,7 +44,7 @@ class UserQuery {
            ,${this.selectMeta("u.ID", UserMeta.MINOR)}
            ,${this.selectMeta("u.ID", UserMeta.COMPANY_ID, "company_id")}
            FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
-
+           */
         return sql;
     }
 
@@ -116,7 +128,7 @@ class UserExec {
         //update User table
         var updateUser = {};
         var updateUserMeta = {};
-        console.log(arg);
+        //console.log(arg);
 
         var userVal = Object.keys(User).map(function (key) {
             return User[key];
@@ -153,46 +165,55 @@ class UserExec {
         //if there is nothing to update from user table,
         //update user meta only
         if (Object.keys(updateUser).length < 2) { // include ID
-            console.log("update user meta only");
+            //console.log("update user meta only");
             return this.updateUserMeta(ID, updateUserMeta);
         }
 
         //update user only
         if (Object.keys(updateUserMeta).length < 2) {
-            console.log("update user only");
+            //console.log("update user only");
             return this.update(User.TABLE, updateUser);
         }
 
         //update both
-        console.log("update both");
+        //console.log("update both");
         return DB.update(User.TABLE, updateUser).then((res) => {
             return this.updateUserMeta(ID, updateUserMeta);
         });
 
     }
 
-    getUserHelper(type, params, discard = []) {
-
+    getUserHelper(type, params, field) {
         const {CompanyExec} = require('./company-query.js');
         const {QueueExec} = require('./queue-query.js');
 
         var isSingle = (type === "single");
         var sql = "";
         if (isSingle) {
-            sql = UserQuery.getUser(params.ID, params.user_email);
+            sql = UserQuery.getUser(field, params.ID, params.user_email);
         } else {
-            sql = UserQuery.getUser(undefined, undefined, params.role, params.page, params.offset);
+            sql = UserQuery.getUser(field, undefined, undefined, params.role, params.page, params.offset);
         }
+
+        console.log("getUserHelper", params);
 
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
-                if (discard.indexOf("users") <= -1) {
+
+                if (typeof field["queues"] !== "undefined") {
                     var user_id = res[i]["ID"];
-                    res[i]["queues"] = QueueExec.queues({student_id: user_id}, ["users"]);
+                    res[i]["queues"] = QueueExec.queues({student_id: user_id}, field["queues"]);
                 }
 
-                var company_id = res[i]["company_id"];
-                res[i]["company"] = CompanyExec.company(company_id);
+                if (typeof field["company"] !== "undefined") {
+                    var company_id = res[i]["company_id"];
+                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
+                }
+
+                if (typeof field["doc_links"] !== "undefined") {
+                    var user_id = res[i]["ID"];
+                    res[i]["doc_links"] = DocLinkExec.doc_links({user_id: user_id});
+                }
             }
 
             if (type === "single") {
@@ -206,8 +227,8 @@ class UserExec {
         return toRet;
     }
 
-    user(params, discard) {
-        return this.getUserHelper("single", params, discard);
+    user(params, field) {
+        return this.getUserHelper("single", params, field);
     }
 
     users(params) {
