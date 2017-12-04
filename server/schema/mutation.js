@@ -1,10 +1,12 @@
 //import all type
-const {QueueType, UserType} = require('./all-type.js');
+const {QueueType, UserType, DocLinkType} = require('./all-type.js');
+const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const {Queue} = require('../model/queue-query.js');
+const {Queue, DocLink} = require('../../config/db-config');
 const {UserExec} = require('../model/user-query.js');
 const DB = require('../model/DB.js');
+
 
 const {
     GraphQLObjectType,
@@ -26,7 +28,7 @@ const Mutation = new GraphQLObjectType({
                 company_id: {type: new GraphQLNonNull(GraphQLInt)},
                 status: {type: new GraphQLNonNull(GraphQLString)}
             },
-            resolve(parentValue, arg) {
+            resolve(parentValue, arg, context, info) {
                 return DB.insert(Queue.TABLE, arg).then(function (res) {
                     return res;
                 });
@@ -38,7 +40,7 @@ const Mutation = new GraphQLObjectType({
                 ID: {type: new GraphQLNonNull(GraphQLInt)},
                 status: {type: GraphQLString}
             },
-            resolve(parentValue, arg) {
+            resolve(parentValue, arg, context, info) {
                 return DB.update(Queue.TABLE, arg).then(function (res) {
                     return res;
                 });
@@ -46,7 +48,7 @@ const Mutation = new GraphQLObjectType({
         },
 
         edit_user: {
-            type: UserType, 
+            type: UserType,
             args: {
                 // all roles
                 ID: {type: new GraphQLNonNull(GraphQLInt)},
@@ -76,41 +78,48 @@ const Mutation = new GraphQLObjectType({
                 // rec only
                 company_id: {type: GraphQLInt}
             },
-            resolve(parentValue, arg) {
+            resolve(parentValue, arg, context, info) {
                 var ID = arg.ID;
                 return UserExec.editUser(arg).then(function (res) {
-                    console.log("finish editUser", ID);
-                    return UserExec.user({ID: ID});
+                    return UserExec.user({ID: ID}, graphqlFields(info));
                 }, (err) => {
                     return err;
                 });
             }
-        }
+        },
 
-        /*,
-         
-         editCustomer: {
-         type: CustomerType,
-         args: {
-         id: {type: new GraphQLNonNull(GraphQLString)},
-         name: {type: GraphQLString},
-         email: {type: GraphQLString},
-         age: {type: GraphQLInt}
-         },
-         resolve(parentValue, args) {
-         return axios.patch(jsonServer + "/customers/" + args.id, args)
-         .then(res => res.data);
-         }
-         },
-         deleteCustomer: {
-         type: CustomerType,
-         args: {
-         id: {type: new GraphQLNonNull(GraphQLString)}
-         },
-         resolve(parentValue, args) {
-         return axios.delete(jsonServer + "/customers/" + args.id).then(res => res.data);
-         }
-         }*/
+        add_doc_link: {
+            type: DocLinkType,
+            args: {
+                user_id: {type: GraphQLInt},
+                company_id: {type: GraphQLInt},
+                type: {type: new GraphQLNonNull(GraphQLString)},
+                label: {type: new GraphQLNonNull(GraphQLString)},
+                url: {type: new GraphQLNonNull(GraphQLString)},
+                description: {type: GraphQLString}
+            },
+            resolve(parentValue, arg, context, info) {
+                return DB.insert(DocLink.TABLE, arg).then(function (res) {
+                    return res;
+                });
+            }
+        },
+
+        edit_doc_link: {
+            type: DocLinkType,
+            args: {
+                ID: {type: new GraphQLNonNull(GraphQLInt)},
+                type: {type: GraphQLString},
+                label: {type: GraphQLString},
+                url: {type: GraphQLString},
+                description: {type: GraphQLString}
+            },
+            resolve(parentValue, arg, context, info) {
+                return DB.update(DocLink.TABLE, arg).then(function (res) {
+                    return res;
+                });
+            }
+        }
     }
 });
 

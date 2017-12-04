@@ -1,12 +1,5 @@
 const DB = require('./DB.js');
 
-const Prescreen = {
-    STUDENT_ID: "student_id",
-    CREATED_AT: "created_at",
-    STATUS_PENDING: "Pending",
-    STATUS_APPROVED: "Approved",
-    STATUS_DONE: "Done"
-};
 
 class PrescreenQuery {
     getPrescreen(params) {
@@ -24,10 +17,9 @@ PrescreenQuery = new PrescreenQuery();
 
 class PrescreenExec {
 
-    prescreens(params, discard = []) {
+    prescreens(params, field) {
         var sql = PrescreenQuery.getPrescreen(params);
         var toRet = DB.query(sql).then(function (res) {
-            //for (var i in res) {}
             return res;
         });
 
@@ -36,6 +28,6 @@ class PrescreenExec {
 }
 PrescreenExec = new PrescreenExec();
 
-module.exports = {Prescreen, PrescreenExec, PrescreenQuery};
+module.exports = {PrescreenExec, PrescreenQuery};
 
 

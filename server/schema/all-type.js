@@ -7,7 +7,6 @@ const {
     GraphQLNonNull
 } = require('graphql');
 
-
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
@@ -37,6 +36,7 @@ const UserType = new GraphQLObjectType({
             major: {type: GraphQLString},
             minor: {type: GraphQLString},
             queues: {type: new GraphQLList(QueueType)},
+            doc_links: {type: new GraphQLList(DocLinkType)},
 
             // rec only
             company_id: {type: GraphQLInt},
@@ -90,9 +90,23 @@ const CompanyType = new GraphQLObjectType({
         })
 });
 
+const DocLinkType = new GraphQLObjectType({
+    name: 'DocLink',
+    fields: () => ({
+            ID: {type: GraphQLInt},
+            user_id: {type: GraphQLInt},
+            company_id: {type: GraphQLInt},
+            type: {type: GraphQLString},
+            label: {type: GraphQLString},
+            url: {type: GraphQLString},
+            description: {type: GraphQLString}
+        })
+});
+
 
 module.exports = {UserType
     , CompanyType
     , QueueType
     , PrescreenType
+    , DocLinkType
 };

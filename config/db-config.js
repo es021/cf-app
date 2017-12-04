@@ -20,7 +20,7 @@ const UserMeta = {
     IMG_POS: "profile_image_position",
     IMG_SIZE: "profile_image_size",
     FEEDBACK: "feedback",
-    STATUS: "user_status",
+    USER_STATUS: "user_status",
     IS_ACTIVATED: "is_activated",
     ACTIVATION_KEY: "activation_key",
 
@@ -46,4 +46,73 @@ const UserEnum = {
     STATUS_NOT_ACT: "Not Activated"
 };
 
-module.exports = {User, UserMeta, UserEnum};
+
+const DocLink = {
+    TABLE: "doc_link",
+    USER_ID: "user_id",
+    COMPANY_ID: "company_id",
+    TYPE: "type",
+    LABEL: "label",
+    URL: "url",
+    DESCRIPTION: "description"
+};
+
+const DocLinkEnum = {
+    TYPE_DOC: "document",
+    TYPE_LINK: "link"
+};
+
+
+const Prescreen = {
+    STUDENT_ID: "student_id",
+    CREATED_AT: "created_at",
+    STATUS: "status"
+};
+
+const PrescreenEnum = {
+    STATUS_PENDING: "Pending",
+    STATUS_APPROVED: "Approved",
+    STATUS_DONE: "Done"
+};
+
+
+const Queue = {
+    TABLE: "in_queues",
+    STUDENT_ID: "student_id",
+    CREATED_AT: "created_at",
+    STATUS: "status"
+};
+
+const QueueEnum = {
+    STATUS_QUEUING: "Queuing",
+    STATUS_CANCELED: "Canceled",
+    STATUS_DONE: "Done"
+};
+
+
+const Company = {
+    TABLE: "companies",
+    ID: "ID",
+    NAME: "name",
+    TAGLINE: "tagline",
+    DESCRIPTION: "description",
+    MORE_INFO: "more_info",
+    IMG_URL: "img_url",
+    IMG_SIZE: "img_size",
+    IMG_POSITION: "img_position",
+    TYPE: "type",
+    ACCEPT_PRESCREEN: "accept_prescreen"
+};
+
+const CompanyEnum = {
+    TYPE_GOLD: 1,
+    TYPE_SILVER: 2,
+    TYPE_BRONZE: 3,
+    TYPE_NORMAL: 4
+};
+
+module.exports = {User, UserMeta, UserEnum
+    , DocLink, DocLinkEnum
+    , Prescreen, PrescreenEnum
+    , Company, CompanyEnum
+    , Queue, QueueEnum};

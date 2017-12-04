@@ -144,7 +144,7 @@ export default class SignUpPage extends React.Component {
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
             d[User.LOGIN] = d[User.EMAIL];
-            d[UserMeta.STATUS] = UserEnum.STATUS_NOT_ACT;
+            d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
 
             toggleSubmit(this, {error: null});
             register(d).then((res) => {
