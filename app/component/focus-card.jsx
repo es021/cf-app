@@ -36,7 +36,7 @@ class FocusCard extends React.Component {
         console.log("componentWillMount", "focus");
     }
 
-    render() {
+    render() { 
 
         var focus = this.props.redux.focusCard;
         var component = null;
@@ -50,7 +50,7 @@ class FocusCard extends React.Component {
         var display = (focus.show) ? "flow-root" : "none";
         var style = {
             display: display
-        };
+        }; 
 
         var fc = "fc-";
         return(<div style={style} id="focus-card">

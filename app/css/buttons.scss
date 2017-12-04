@@ -4,7 +4,12 @@ a{
     cursor:pointer;   
 }
 
+a.dark,
+a.button-icon.dark{
+    color:lighten($COLOR_LINK, 10);
+}
+
 a.dark:hover,
-.button-icon.dark:hover{
+a.button-icon.dark:hover{
     color:lighten($COLOR_LINK, 20);
 }

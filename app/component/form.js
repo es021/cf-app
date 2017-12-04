@@ -11,6 +11,27 @@ export function toggleSubmit(obj, newState = {}) {
     });
 }
 
+
+export function checkDiff(obj, original, d) {
+    var hasDiff = false;
+    var update = {};
+    //get differences
+    for (var k in d) {
+        if (d[k] !== original[k]) {
+            hasDiff = true;
+            update[k] = d[k];
+        }
+    }
+    console.log(update);
+    //return;
+    if (!hasDiff) {
+        toggleSubmit(obj, {error: "No Changes Has Been Made"});
+        return false;
+    } else {
+        return update;
+    }
+}
+
 export default class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -38,49 +59,58 @@ export default class Form extends React.Component {
     onSubmit(event) {
         event.preventDefault();
 
-        var ignore = [];
+        var ignore = []; // to ignore multiple if any
         var data_form = {};
+
         for (var i in this.form) {
+            var formObj = this.form[i];
 
-            var name = this.form[i].name;
-            var value = this.form[i].value;
+            if (formObj != null) {
+                var name = formObj.name;
+                var value = formObj.value;
 
-            // ignore the multiple
-            if (ignore.indexOf(name) >= 0) {
-                continue;
-            }
+                // ignore the multiple
+                if (ignore.indexOf(name) >= 0) {
+                    continue;
+                }
 
-            // handle multiple input
-            if (this.state.multiple[name]) {
+                // handle multiple input
+                if (this.state.multiple[name]) {
+                    // if the parent of multiple is not empty,
+                    // search for child input as well
+                    if (value !== "") {
+                        value = [value];
 
-                value = [value];
+                        this.state.multiple[name].map((d, i) => {
+                            var multiName = `${name}::${i + 1}`;
+                            var multiValue = this.form[multiName].value;
+                            if (multiValue != "") {
+                                value.push(multiValue);
+                            }
 
-                this.state.multiple[name].map((d, i) => {
-                    var multiName = `${name}::${i + 1}`;
-                    var multiValue = this.form[multiName].value;
-                    if (multiValue != "") {
-                        value.push(multiValue);
+                            ignore.push(multiName);
+                        });
                     }
+                }
 
-                    ignore.push(multiName);
-                });
+                data_form[name] = value;
             }
-
-            data_form[name] = value;
         }
 
         this.props.onSubmit(data_form);
 
     }
 
-    getSelectOptions(data) {
+    getSelectOptions(data)
+    {
         return(data.map((d, i) => {
             return <option key={i}  value={d}>{d}</option>;
         }));
     }
 
     //called in renderItem and addMultiple::onClickAdd
-    getChildMultipleItem(d, index, defaultVal = "") {
+    getChildMultipleItem(d, index, defaultVal = "")
+    {
         var newData = Object.assign({}, d);
         newData.name += "::" + index;
         newData.required = false;
@@ -134,6 +164,7 @@ export default class Form extends React.Component {
 
             case 'textarea':
                 return(<textarea 
+                    hidden={d.hidden}
                     name={d.name}
                     rows={(d.rows) ? d.rows : 4}
                     required={d.required}
@@ -144,6 +175,7 @@ export default class Form extends React.Component {
                 break;
             case 'select':
                 return(<select
+                    hidden={d.hidden}
                     name={d.name}
                     required={d.required}
                     ref={(v) => this.form[d.name] = v}
@@ -154,6 +186,7 @@ export default class Form extends React.Component {
             default:
                 //onChange={this.onChange}
                 return(<input 
+                    hidden={d.hidden}
                     name={d.name}
                     type={d.type}
                     min={d.min}
@@ -218,23 +251,35 @@ export default class Form extends React.Component {
     }
 
     render() {
+        console.log("render form", this.props.defaultValues);
         // 1. form items ---------
-        var formItems = this.props.items.map((d, i) =>
-            (d.header)
+        var formItems = this.props.items.map((d, i) => {
+            // a. label ------
+            var label = null;
+
+            if (d.label != null && d.hidden !== true) {
+                label = <div className="form-label">
+                    {d.label}{(d.required) ? " *" : null}
+                </div>;
+            }
+
+            //b. sublabel ----
+            var sublabel = (d.sublabel) ? <div className="form-sublabel">{d.sublabel}</div> : null;
+
+
+            return (d.header)
                     ?
                     <div className="form-header" key={i}>{d.header}</div>
                     :
                     <div className="form-item" key={i}>
-                        <div className="form-label">
-                            {d.label}{(d.required) ? " *" : null}
-                        </div>
-                        {(d.sublabel) ? <div className="form-sublabel">{d.sublabel}</div> : null}
+                        {label}
+                        {sublabel} 
                         <div className="form-input">           
                             {this.renderItem(d)}
                             {this.addMultiple(d)}
                         </div>
                     </div>
-        );
+        });
 
         // 2. form submit ---------
         var disableSubmit = this.props.disableSubmit;

@@ -1,4 +1,5 @@
 const SiteUrl = "http://localhost:4000";
+const UploadUrl = SiteUrl + "/upload";
 const PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 const isProd = (process.env.NODE_ENV === "production");
 
@@ -65,4 +66,4 @@ const OrgConfig = {
     ]
 };
 
-module.exports = {SiteUrl, AppConfig, ImgConfig, OrgConfig};
+module.exports = {SiteUrl, UploadUrl, AppConfig, ImgConfig, OrgConfig};

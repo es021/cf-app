@@ -23,8 +23,8 @@ class UserQuery {
            ,${this.selectMeta("u.ID", UserMeta.STATUS, "user_status")}
            ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
            ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
-           ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH, "grad_month")}
-           ,${this.selectMeta("u.ID", UserMeta.GRAD_YEAR, "grad_year")}
+           ,${this.selectMeta("u.ID", UserMeta.GRAD_MONTH)}
+           ,${this.selectMeta("u.ID", UserMeta.GRAD_YEAR)}
            ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
            ,${this.selectMeta("u.ID", UserMeta.ACTIVATION_KEY)}
            ,${this.selectMeta("u.ID", UserMeta.CGPA)}
@@ -80,7 +80,7 @@ class UserExec {
             ${meta_pair_case} 
             END ${where}`;
 
-        console.log(check_sql);
+        console.log(update_sql);
 
         //check what does not exist
         return DB.query(check_sql).then((res) => {
@@ -102,7 +102,7 @@ class UserExec {
                     //only then update what's left
                     return DB.query(update_sql);
                 });
-            } 
+            }
             // if not need to insert just update
             else {
                 return DB.query(update_sql);
@@ -127,12 +127,26 @@ class UserExec {
         });
 
         for (var k in arg) {
+            var v = arg[k];
+
+            //change key here
+            //handle for image props
+            if (k === "img_url") {
+                k = UserMeta.IMG_URL;
+            }
+            if (k === "img_size") {
+                k = UserMeta.IMG_SIZE;
+            }
+            if (k === "img_pos") {
+                k = UserMeta.IMG_POS;
+            }
+
             if (userVal.indexOf(k) > -1) {
-                updateUser[k] = arg[k];
+                updateUser[k] = v;
             }
 
             if (userMetaVal.indexOf(k) > -1) {
-                updateUserMeta[k] = arg[k];
+                updateUserMeta[k] = v;
             }
         }
 
