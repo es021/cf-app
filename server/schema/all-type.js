@@ -74,7 +74,9 @@ const CompanyType = new GraphQLObjectType({
     name: 'Company',
     fields: () => ({
             active_queues: {type: new GraphQLList(QueueType)},
+            active_queues_count: {type: GraphQLInt},
             active_prescreens: {type: new GraphQLList(PrescreenType)},
+            active_prescreens_count: {type: GraphQLInt},
             ID: {type: GraphQLInt},
             name: {type: GraphQLString},
             tagline: {type: GraphQLString},

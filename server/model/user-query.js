@@ -194,9 +194,9 @@ class UserExec {
         } else {
             sql = UserQuery.getUser(field, undefined, undefined, params.role, params.page, params.offset);
         }
-
         console.log("getUserHelper", params);
-
+        console.log(sql);
+        
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
 
@@ -231,8 +231,8 @@ class UserExec {
         return this.getUserHelper("single", params, field);
     }
 
-    users(params) {
-        return this.getUserHelper(false, params);
+    users(params,field) {
+        return this.getUserHelper(false, params,field);
     }
 }
 UserExec = new UserExec();

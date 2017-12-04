@@ -36,20 +36,36 @@ class CompanyExec {
 
                 var company_id = res[i]["ID"];
 
+                //Add queue ***********************************
+                var act_q = {
+                    company_id: company_id
+                    , status: QueueEnum.STATUS_QUEUING
+                    , order_by: `${Queue.CREATED_AT} DESC`
+                };
+
                 if (typeof field["active_queues"] !== "undefined") {
-                    res[i]["active_queues"] = QueueExec.queues({
-                        company_id: company_id
-                        , status: QueueEnum.STATUS_QUEUING
-                        , order_by: `${Queue.CREATED_AT} DESC`
-                    }, field["active_queues"]);
+                    res[i]["active_queues"] = QueueExec.queues(act_q, field["active_queues"]);
                 }
 
+                if (typeof field["active_queues_count"] !== "undefined") {
+                    delete(act_q["order_by"]);
+                    res[i]["active_queues_count"] = QueueExec.queues(act_q, {}, {count: true});
+                }
+
+                //Add prescreens ***********************************
+                var act_ps = {
+                    company_id: company_id
+                    , status: PrescreenEnum.STATUS_APPROVED
+                    , order_by: `${Prescreen.CREATED_AT} DESC`
+                };
+
                 if (typeof field["active_prescreens"] !== "undefined") {
-                    res[i]["active_prescreens"] = PrescreenExec.prescreens({
-                        company_id: company_id
-                        , status: PrescreenEnum.STATUS_APPROVED
-                        , order_by: `${Prescreen.CREATED_AT} DESC`
-                    }, field["active_prescreens"]);
+                    res[i]["active_prescreens"] = PrescreenExec.prescreens(act_ps, field["active_prescreens"]);
+                }
+
+                if (typeof field["active_prescreens_count"] !== "undefined") {
+                    delete(act_ps["order_by"]);
+                    res[i]["active_prescreens_count"] = PrescreenExec.prescreens(act_ps, {}, {count: true});
                 }
             }
 

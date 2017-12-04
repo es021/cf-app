@@ -21,20 +21,6 @@ var DB = function (env) {
     }
 
     this.con = Mysql.createPool(config);
-//    var obj = this;
-//    (function () {
-//        // An anonymous function wrapper helps you keep oldSomeFunction private
-//        var realQueryFunction = obj.con.query;
-//
-//        obj.con.query = function () {
-//            console.log("intercepted!");
-//            return realQueryFunction();
-//        };
-//    })();
-
-    /*this.query('SELECT * FROM wp_cf_users').then(function (rows) {
-     console.log(rows);
-     });*/
 
     /*
      this.con.connect(function (err) {
@@ -110,6 +96,10 @@ DB.prototype.update = function (table, data) {
     var DB = this;
     var ID = data.ID;
 
+    if (ID === null || ID == "" || typeof ID === "undefined" || ID <= 0) {
+        return;
+    }
+
     var key_val = "";
 
     for (var k in data) {
@@ -126,6 +116,21 @@ DB.prototype.update = function (table, data) {
     });
 };
 
+// only works with table with primary key of is ID
+// return affected rows
+DB.prototype.delete = function (table, ID) {
+    if (ID === null || ID == "" || typeof ID === "undefined" || ID <= 0) {
+        return;
+    }
+
+    var sql = `DELETE FROM ${table} WHERE ID = ${ID}`;
+    console.log(sql);
+
+    return this.query(sql).then(function (res) {
+        //console.log("finish delete", res);
+        return res.affectedRows;
+    });
+};
 
 DB.prototype.prepareLimit = function (page, offset) {
     var start = (page - 1) * offset;
