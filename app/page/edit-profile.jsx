@@ -129,18 +129,18 @@ class EditProfile extends React.Component {
 
     }
 
-//return string if there is error
+    //return string if there is error
     filterForm(d) {
         return 0;
     }
 
     formOnSubmit(d) {
 
-        var err = this.filterForm(d)
+        var err = this.filterForm(d);
         if (err === 0) {
             toggleSubmit(this, {error: null, success: null});
 
-//prepare data for edit
+            //prepare data for edit
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
 
@@ -169,11 +169,7 @@ class EditProfile extends React.Component {
              return;
              }*/
 
-            var edit_query = `mutation{
-                        edit_user(${obj2arg(update, {noOuterBraces: true})}) {
-                          ID
-}
-}`;
+            var edit_query = `mutation{edit_user(${obj2arg(update, {noOuterBraces: true})}) {ID}}`;
 
             console.log(edit_query);
 
@@ -222,7 +218,7 @@ class EditProfile extends React.Component {
     }
 }
 
- 
+
 
 export default class EditProfilePage extends React.Component {
     componentWillMount() {
