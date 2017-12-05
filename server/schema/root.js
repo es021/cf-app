@@ -2,6 +2,7 @@
 const {UserType
     , CompanyType
     , QueueType
+    , VacancyType
     , DocLinkType} = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
@@ -10,6 +11,7 @@ const graphqlFields = require('graphql-fields');
 const {UserExec} = require('../model/user-query.js');
 const {Queue, QueueExec} = require('../model/queue-query.js');
 const {CompanyExec} = require('../model/company-query.js');
+const {VacancyExec} = require('../model/vacancy-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -86,6 +88,29 @@ fields["companies"] = {
     },
     resolve(parentValue, arg, context, info) {
         return CompanyExec.companies(arg.type, graphqlFields(info));
+    }
+};
+
+/*******************************************/
+/* vacancy ******************/
+fields["vacancy"] = {
+    type: VacancyType,
+    args: {
+        ID: {type: GraphQLInt}
+    },
+    resolve(parentValue, arg, context, info) {
+        return VacancyExec.vacancy(arg, graphqlFields(info));
+    }
+};
+
+fields["vacancies"] = {
+    type: new GraphQLList(VacancyType),
+    args: {
+        title: {type: GraphQLString},
+        type: {type: GraphQLString}
+    },
+    resolve(parentValue, arg, context, info) {
+        return VacancyExec.vacancies(arg, graphqlFields(info));
     }
 };
 

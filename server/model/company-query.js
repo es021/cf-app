@@ -1,5 +1,5 @@
 const DB = require('./DB.js');
-const {Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum} = require('../../config/db-config');
+const {Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacancy} = require('../../config/db-config');
 
 class CompanyQuery {
     getById(id) {
@@ -14,11 +14,14 @@ class CompanyQuery {
 CompanyQuery = new CompanyQuery();
 
 
+const {VacancyExec} = require('./vacancy-query.js');
+const {PrescreenExec} = require('./prescreen-query.js');
+
 class CompanyExec {
     getCompanyHelper(type, params, field) {
 
+        // for cross dependecy need to init here
         const {QueueExec} = require('./queue-query.js');
-        const {PrescreenExec} = require('./prescreen-query.js');
 
         var isSingle = (type === "single");
         var sql = "";
@@ -66,6 +69,21 @@ class CompanyExec {
                 if (typeof field["active_prescreens_count"] !== "undefined") {
                     delete(act_ps["order_by"]);
                     res[i]["active_prescreens_count"] = PrescreenExec.prescreens(act_ps, {}, {count: true});
+                }
+
+                //Add vacancies ***********************************
+                var vc = {
+                    company_id: company_id
+                    , order_by: `${Vacancy.UPDATED_AT} DESC`
+                };
+
+                if (typeof field["vacancies"] !== "undefined") {
+                    res[i]["vacancies"] = VacancyExec.vacancies(vc, field["vacancies"]);
+                }
+
+                if (typeof field["vacancies_count"] !== "undefined") {
+                    delete(act_ps["order_by"]);
+                    res[i]["vacancies_count"] = VacancyExec.vacancies(vc, {}, {count: true});
                 }
             }
 

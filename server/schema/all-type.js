@@ -77,6 +77,8 @@ const CompanyType = new GraphQLObjectType({
             active_queues_count: {type: GraphQLInt},
             active_prescreens: {type: new GraphQLList(PrescreenType)},
             active_prescreens_count: {type: GraphQLInt},
+            vacancies: {type: new GraphQLList(VacancyType)},
+            vacancies_count: {type: GraphQLInt},
             ID: {type: GraphQLInt},
             name: {type: GraphQLString},
             tagline: {type: GraphQLString},
@@ -105,10 +107,25 @@ const DocLinkType = new GraphQLObjectType({
         })
 });
 
+const VacancyType = new GraphQLObjectType({
+    name: 'Vacancy',
+    fields: () => ({
+            ID: {type: GraphQLInt},
+            company_id: {type: GraphQLInt},
+            title: {type: GraphQLString},
+            description: {type: GraphQLString},
+            requirement: {type: GraphQLString},
+            type: {type: GraphQLString},
+            application_url: {type: GraphQLString},
+            updated_at: {type: GraphQLString}
+        })
+});
+
 
 module.exports = {UserType
     , CompanyType
     , QueueType
     , PrescreenType
     , DocLinkType
+    , VacancyType
 };

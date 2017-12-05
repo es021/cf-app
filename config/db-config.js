@@ -111,8 +111,28 @@ const CompanyEnum = {
     TYPE_NORMAL: 4
 };
 
+
+const Vacancy = {
+    TABLE: "vacancies",
+    ID: "ID",
+    COMPANY_ID: "company_id",
+    TITLE: "title",
+    DESCRIPTION: "description",
+    REQUIREMENT: "requirement",
+    TYPE: "type",
+    APPLICATION_URL: "application_url",
+    UPDATED_AT: "updated_at"
+};
+
+const VacancyEnum = {
+    TYPE_FULL_TIME: "Full Time",
+    TYPE_INTERN: "Intern",
+    TYPE_PART_TIME: "Part Time"
+};
+
 module.exports = {User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
+    , Vacancy, VacancyEnum
     , Prescreen, PrescreenEnum
     , Company, CompanyEnum
     , Queue, QueueEnum};
