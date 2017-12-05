@@ -1,5 +1,6 @@
 import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
 
+// this is real time
 export const TRAFFIC = "HALL_TRAFFIC";
 export function loadTraffic() {
     return function (dispatch) {
@@ -9,17 +10,9 @@ export function loadTraffic() {
                      `query{
                         companies {
                             ID
-                            active_queues {
-                                student_id
-                                created_at
-                            }
-                            active_prescreens {
-                                student_id
-                                created_at
-                                appointment_time
-                            }
-                        }
-                }`)
+                            active_queues_count
+                            active_prescreens_count
+                        }}`)
         });
     };
 }
@@ -33,8 +26,13 @@ export function loadCompanies() {
                      `query{
                         companies {
                             ID
+                            img_url
+                            img_size
+                            img_position
                             name
                             tagline
+                            type
+                            vacancies_count
                         }
                 }`)
         });

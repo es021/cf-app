@@ -1,4 +1,9 @@
 @import "define/variable.scss";
+
+*{
+    word-break: keep-all !important;
+}
+
 html {
     height: 100%;
 }

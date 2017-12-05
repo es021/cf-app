@@ -8,7 +8,8 @@ class CompanyQuery {
 
     getAll(params) {
         var type_where = (typeof params.type === "undefined") ? "1=1" : `${Company.TYPE} LIKE '%${params.type}%'`;
-        return `select * from ${Company.TABLE} where 1=1 and ${type_where}`;
+        var order_by = `order by ${Company.TYPE} asc`;
+        return `select * from ${Company.TABLE} where 1=1 and ${type_where} ${order_by}`;
     }
 }
 CompanyQuery = new CompanyQuery();
@@ -30,7 +31,6 @@ class CompanyExec {
         } else {
             sql = CompanyQuery.getAll(params);
         }
-
         console.log("getCompanyHelper", params);
 
         return DB.query(sql).then(function (res) {

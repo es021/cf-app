@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {loadUser} from '../redux/actions/user-actions';
+import PropTypes from 'prop-types';
 
 import ProfileCard from '../component/profile-card';
 
@@ -54,4 +55,8 @@ export default class UserPage extends Component {
 
         return (view);
     }
+};
+
+UserPage.propTypes = {
+    id: PropTypes.number
 };

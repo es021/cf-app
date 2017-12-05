@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ButtonLink} from '../component/buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
-import UserPage from './user';
+import UserPage from './user'; 
 
 //importing for list
 import List from '../component/list';

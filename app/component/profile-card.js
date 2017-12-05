@@ -89,7 +89,7 @@ export default class ProfileCard extends React.Component {
         }
 
         //this.openPictureOps(stylePicture);
-        return(<div className="profile-card" style={styleParent}>
+        return(<div onClick={this.props.onClick} className="profile-card" style={styleParent}>
             {(this.props.header) ? this.props.header : null}
             <div className={`${pc}picture`} style={stylePicture}>
                 {img_ops}
@@ -108,6 +108,7 @@ ProfileCard.propTypes = {
     id: PropTypes.number, // id to adjust save profile image
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
+    onClick: PropTypes.func,
     img_url: PropTypes.string,
     img_pos: PropTypes.string,
     img_size: PropTypes.string,
