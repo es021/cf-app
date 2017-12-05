@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {store} from './redux/store.js';
 
 //console.log(process.env.NODE_ENV);
-//import {User} from '../config/db-config';
+//import {User} from '../config/db-config'; 
 
 //console.log(User);
 

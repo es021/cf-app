@@ -22,7 +22,7 @@ function LoadAsset() {
                 }
             };
         } else {  //Others
-            script.onload = function () {
+            script.onload = function () { 
                 callback();
             };
         }
@@ -43,10 +43,8 @@ function LoadAsset() {
             }, 500);
         }
     };
-
     needToLoad.map(function (d, i) {
         loadScript(d, finishLoad);
     });
 }
-
 LoadAsset();
