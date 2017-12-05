@@ -7,6 +7,7 @@ function LoadAsset() {
             ];
 
     var app_load = document.getElementById('app-loading');
+    var app_load_img = document.getElementById('app-loading-img');
     var loaded = 0;
 
     //show loading until the main bundle finish load
@@ -36,6 +37,7 @@ function LoadAsset() {
         if (loaded >= needToLoad.length) {
             // hide the loading
             app_load.style["opacity"] = "0";
+            app_load_img.style["opacity"] = "0";
             setTimeout(function () {
                 app_load.style["display"] = "none";
             }, 500);

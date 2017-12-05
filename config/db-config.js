@@ -27,8 +27,8 @@ const UserMeta = {
     // student only
     UNIVERSITY: "university",
     PHONE_NUMBER: "phone_number",
-    GRAD_MONTH: "graduation_month",
-    GRAD_YEAR: "graduation_year",
+    GRADUATION_MONTH: "graduation_month",
+    GRADUATION_YEAR: "graduation_year",
     SPONSOR: "sponsor",
     CGPA: "cgpa",
     MAJOR: "major",

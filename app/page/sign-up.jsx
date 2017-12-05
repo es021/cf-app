@@ -90,14 +90,14 @@ export default class SignUpPage extends React.Component {
                 </ButtonLink>
             }, {
                 label: "Expected Graduation",
-                name: UserMeta.GRAD_MONTH,
+                name: UserMeta.GRADUATION_MONTH,
                 type: "select",
                 data: Month,
                 required: true
 
             }, {
                 label: null,
-                name: UserMeta.GRAD_YEAR,
+                name: UserMeta.GRADUATION_YEAR,
                 type: "select",
                 data: Year,
                 required: true

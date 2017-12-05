@@ -8,12 +8,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     transition: opacity 0.5s ease-out;
+
+    img{
+        transition: opacity 0.5s ease-out; 
+    }
 }
 
 #app-loading.hide{
     display: none;
+
+    img{
+        display: none;
+    }
 }
 
 .loader{

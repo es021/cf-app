@@ -39,7 +39,8 @@ export default class LeftBarLayout extends React.Component {
         console.log("Render Left Bar");
         var isAuth = isAuthorized();
         var authUser = Object.assign({}, getAuthUser());
-        if (this.state.isMdWin) {
+        console.log(authUser);
+        if (this.state.isMdWin && typeof authUser["img_pos"] !== "undefined") {
             if (authUser["img_pos"].indexOf("px") > -1) {
                 var ob = getPositionStr(25, authUser["img_pos"]);
                 authUser["img_pos"] = `${ob.x}px ${ob.y}px`;
