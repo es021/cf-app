@@ -2,13 +2,13 @@ import React, {PropTypes} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ButtonLink} from '../component/buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
-import UserPage from './user'; 
+import UserPopup from './partial/popup/user-popup';
 
 //importing for list
 import List from '../component/list';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
 
-const offset = 10; 
+const offset = 10;
 
 const loadData = function (page, offset) {
     return getAxiosGraphQLQuery(`
@@ -29,7 +29,7 @@ const renderList = function (d, i) {
         <small>{d.user_email}</small></span>;
     return(<li key={i}>
     <ButtonLink 
-        onClick={() => layoutActions.storeUpdateFocusCard("Student Profile", UserPage, param)} 
+        onClick={() => layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name, UserPopup, param)} 
         label={label}></ButtonLink>
     </li>);
 };

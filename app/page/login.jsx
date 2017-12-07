@@ -104,7 +104,6 @@ class LoginPage extends React.Component {
         } else {
             return (
                     <div><h3>Login</h3>
-                        <p>You must log in to view the page at {from.pathname}</p>
                     
                         <Form className="form-row" 
                               items={this.formItems} 
@@ -117,6 +116,9 @@ class LoginPage extends React.Component {
         }
     }
 }
+
+//                        <div>You must log in to view the page at {from.pathname}</div>
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

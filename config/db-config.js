@@ -105,6 +105,7 @@ const Company = {
 };
 
 const CompanyEnum = {
+    TYPE_SPECIAL: 0,
     TYPE_GOLD: 1,
     TYPE_SILVER: 2,
     TYPE_BRONZE: 3,

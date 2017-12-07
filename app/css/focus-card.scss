@@ -34,10 +34,15 @@ $fc : "fc-";
         }
 
         .#{$fc}body{
+            padding: 0 10px;
             max-height: 85vh;
             min-height: 50vh;
             margin-bottom: 25px;
             overflow-y: auto;
+            
+            .loader{
+                padding-top: 100px;
+            }
         }
 
         .#{$fc}close-btn{

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {loadUser} from '../redux/actions/user-actions';
+import {loadUser} from '../../../redux/actions/user-actions';
 import PropTypes from 'prop-types';
+import {Loader} from '../../../component/loader';
 
-import ProfileCard from '../component/profile-card';
+import ProfileCard from '../../../component/profile-card';
 
-export default class UserPage extends Component {
+export default class UserPopup extends Component {
     constructor(props) {
         super(props)
 
@@ -38,13 +39,13 @@ export default class UserPage extends Component {
         var view = null;
 
         if (this.state.loading) {
-            view = <div>Loading...</div>
+            view = <Loader size='3' text='Loading Student Information...'></Loader>
         } else {
             var pcBody = <div>
-                User : {user.ID}
-                , {user.first_name}
-                , {user.last_name}
-            </div>;
+            User : {user.ID}
+            , {user.first_name}
+            , {user.last_name}
+        </div>;
             view = <div>
                 <ProfileCard type="student"
                              title={user.first_name} subtitle={user.last_name}
@@ -57,6 +58,6 @@ export default class UserPage extends Component {
     }
 };
 
-UserPage.propTypes = {
+UserPopup.propTypes = {
     id: PropTypes.number
 };

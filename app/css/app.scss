@@ -33,7 +33,7 @@ header{
 }
 
 .content{
-    background: whitesmoke;
+    background: $COLOR_BACKGROUND;
     margin-top: $HEADER_HEIGHT;
     min-height: 65vh;
     width: 100%;
@@ -47,7 +47,7 @@ header{
 
     right_bar{
         flex: 1; 
-        background: darken(whitesmoke,10);
+        background: darken($COLOR_BACKGROUND,10);
     }
 }
 

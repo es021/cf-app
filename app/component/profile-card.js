@@ -87,9 +87,13 @@ export default class ProfileCard extends React.Component {
                             onClick={() => this.openPictureOps(stylePicture)}></ButtonIcon>
             </div>
         }
-
+        var className = "profile-card";
+        if(this.props.className){
+            className += " "+this.props.className;
+        }
+        
         //this.openPictureOps(stylePicture);
-        return(<div onClick={this.props.onClick} className="profile-card" style={styleParent}>
+        return(<div onClick={this.props.onClick} className={className} style={styleParent}>
             {(this.props.header) ? this.props.header : null}
             <div className={`${pc}picture`} style={stylePicture}>
                 {img_ops}
@@ -114,6 +118,7 @@ ProfileCard.propTypes = {
     img_size: PropTypes.string,
     add_img_ops: PropTypes.bool,
     img_dimension: PropTypes.string,
+    className: PropTypes.string,
     theme: PropTypes.oneOf(["dark"]),
     header: PropTypes.element, // put as the first child of profile card,
     body: PropTypes.element // append to pc-body

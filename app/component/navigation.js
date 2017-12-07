@@ -8,7 +8,6 @@ import LoginPage from '../page/login';
 import SignUpPage from '../page/sign-up';
 import AboutPage from '../page/about';
 import LogoutPage from '../page/logout';
-import UserPage from '../page/user';
 import UsersPage from '../page/users';
 import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
@@ -60,15 +59,15 @@ const menuItem = [
         hd_app: false,
         hd_auth: false
     },
-    {
-        url: "/user/:id",
-        component: UserPage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: false,
-        routeOnly: true
-    },
+    /*    {
+     url: "/user/:id",
+     component: UserPage,
+     bar_app: true,
+     bar_auth: false,
+     hd_app: true,
+     hd_auth: false,
+     routeOnly: true
+     },*/
     {
         url: "/edit-profile",
         component: EditProfilePage,

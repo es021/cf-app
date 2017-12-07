@@ -121,3 +121,23 @@ List.propTypes = {
     customLoading: PropTypes.element,
     listClass: PropTypes.string
 };
+
+
+export class SimpleListItem extends Component {
+    render() {
+
+        var desc = (this.props.description) ? <div className="sili-description">{this.props.description}</div> : null;
+
+        return <div className="simple-li">
+            <div className="sili-title">{this.props.title}</div>
+            <div className="sili-subtitle">{this.props.subtitle}</div>
+            {desc}
+        </div>
+    }
+}
+
+SimpleListItem.propTypes = {
+    title: PropTypes.any.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    description: PropTypes.string
+};

@@ -1,0 +1,101 @@
+@import 'define/variable.scss';
+@import 'define/mixin.scss';
+
+// page section ---------------------
+
+
+
+// companies section ---------------------
+$com-sec : "com-sec";
+
+$COLOR_GOLD : #faeaa9;
+$COLOR_SILVER : #D6D7DB;
+$COLOR_BRONZE : #ffe0c6;
+$COLOR_BLUE : #9ec7ea;
+
+
+.#{$com-sec}{ 
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    .profile-card{
+        margin: 8px 8px;
+        width: 180px;
+        padding: 10px 7px; 
+        background: white;
+        border-radius: 10px;
+        cursor: pointer;
+        border: darken($COLOR_BACKGROUND,10) 1px solid;
+
+        .pc-title{
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pc-picture{
+            border: darken($COLOR_BACKGROUND,10) 1px solid;
+        }
+
+        ul.#{$com-sec}-status{
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            margin-top: 5px;
+            margin: 0;
+
+            li{
+                opacity: 0.75;
+                width: 48px;
+                padding: 2px 0px;
+                margin: 1px 3px; 
+
+                .#{$com-sec}-count{
+                    font-size: 25px;
+                }
+
+                .#{$com-sec}-label{
+                    text-align: center;
+                    font-size: 9px;
+                    line-height: 12px;
+                    word-break: keep-all;
+                }
+            }
+        }
+    }
+
+    .profile-card:hover{
+        background: $COLOR_BACKGROUND;
+    }
+
+
+    @mixin company-card($type,$color) {
+        .profile-card.#{$type}{
+            border-color: darken($color, 10);
+
+            @include background-gradient($color,white);
+
+            .pc-title{
+                color:darken($color, 50);
+            }
+
+            .pc-picture{
+                border-color: darken($color,10);
+            }
+        }
+
+        .profile-card.#{$type}:hover{
+            @include background-gradient(darken($color, 5),white);
+        }
+        .profile-card.#{$type}:active{
+            @include background-gradient(darken($color, 10),white);
+        }
+    }
+
+    @include company-card("blue",$COLOR_BLUE);
+    @include company-card("gold",$COLOR_GOLD);
+    @include company-card("silver",$COLOR_SILVER);
+    @include company-card("bronze",$COLOR_BRONZE);
+
+}
