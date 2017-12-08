@@ -44,6 +44,5 @@ export function loadUser(id) {
                 cgpa
                 major
                 minor
-                company_id
               }}`);
 }

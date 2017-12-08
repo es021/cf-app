@@ -1,0 +1,23 @@
+.simple-li{
+    margin-bottom: 25px;
+    text-align:justify;
+    border-bottom : whitesmoke 1px solid;
+    
+    .sili-title{
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .sili-subtitle{
+        color: gray;
+    }
+
+    .sili-description{
+        height: 60px;
+        overflow-y: hidden;
+    }
+}
+
+.simple-li:last-of-type{
+    margin-bottom: 0;
+}

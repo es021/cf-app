@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {ButtonLink} from '../component/buttons';
 import PropTypes from 'prop-types';
-
+ 
+require("../css/list.scss");
 
 export default class List extends React.Component {
     constructor(props) {
@@ -122,6 +123,7 @@ List.propTypes = {
     listClass: PropTypes.string
 };
 
+/*******************************************************************************************/
 
 export class SimpleListItem extends Component {
     render() {

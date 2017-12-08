@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+require("../css/buttons.scss");
+
+
 export class ButtonLink extends React.Component {
     constructor(props) {
         super(props);

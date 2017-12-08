@@ -41,6 +41,7 @@ class UsersPage extends React.Component {
     }
 
     render() {
+        document.setTitle("Users");
 
         var loadingList = <div>Custom Loading</div>;
         return(<div> USERS

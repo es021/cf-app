@@ -243,6 +243,8 @@ export default class EditProfilePage extends React.Component {
     }
 
     render() {
+        document.setTitle("Edit Profile");
+
         return <SubNav items={this.item} defaultItem={this.defaultItem}></SubNav>;
     }
 }

@@ -8,6 +8,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
+        document.setTitle("Home");
 
         return (
                 <div>

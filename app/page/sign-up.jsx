@@ -163,6 +163,8 @@ export default class SignUpPage extends React.Component {
     }
 
     render() {
+        document.setTitle("Sign Up");
+
         var content = null;
         if (this.state.success) {
             //scroll to top

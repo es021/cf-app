@@ -5,6 +5,8 @@ export default class AboutPage extends React.Component {
         browserHistory.push('/');
     }
     render() {
+        document.setTitle("About");
+
         return (
                 <div>About Page SOME</div>
                 );

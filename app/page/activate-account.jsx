@@ -47,9 +47,7 @@ export default class ActAccountPage extends React.Component {
     }
 
     render() {
-
-
-
+        document.setTitle("Activate Account");
         var view = null;
         if (this.state.loading) {
             view = <Loader size="2" text="Activating Your Account"></Loader>;

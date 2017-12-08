@@ -59,6 +59,8 @@ class LoginPage extends React.Component {
     }
 
     render() {
+        document.setTitle("Login");
+
         //console.log("from login render");
         //console.log(this.props.redux);
 

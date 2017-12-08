@@ -12,7 +12,6 @@ import {store} from './redux/store.js';
 require("./css/app.scss");
 require("./css/content.scss");
 require("./css/general.scss");
-require("./css/buttons.scss");
 require("./css/header.scss");
 require("./css/left-bar.scss");
 require("./css/right-bar.scss");
