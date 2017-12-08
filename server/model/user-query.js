@@ -5,13 +5,34 @@ const {DocLinkExec} = require('./doclink-query.js');
 
 class UserQuery {
 
-    getUser(field, id, email, role, page, offset) {
+    // meta_cons = {
+    //  key: "value"
+    //  } 
+    getUser(field, id, email, role, meta_cons, page, offset) {
+
+        // create basic conditions
         var id_condition = (typeof id !== "undefined") ? `u.ID = ${id}` : `1=1`;
         var email_condition = (typeof email !== "undefined") ? `u.user_email = '${email}'` : `1=1`;
         var role_condition = (typeof role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${role}%' ` : `1=1`;
 
+        // add meta condition
+        var meta_condition = " 1=1 ";
+        var i = 0;
+        if (typeof meta_cons !== "undefined") {
+            meta_condition = "";
+            for (var key in meta_cons) {
+                if (i > 0) {
+                    meta_condition += " AND ";
+                }
+                meta_condition += `(${this.selectMetaMain("u.ID", key)}) = '${meta_cons[key]}' `;
+                i++;
+            }
+        }
+
+        // set limit 
         var limit = DB.prepareLimit(page, offset);
 
+        // create meta selection
         var meta_sel = "";
         for (var k in UserMeta) {
             var meta_key = k.toLowerCase();
@@ -19,36 +40,37 @@ class UserQuery {
                 meta_sel += `, ${this.selectMeta("u.ID", UserMeta[k], meta_key)}`;
             }
         }
-       var sql = `SELECT u.* ${meta_sel}
-           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
-        
+        var sql = `SELECT u.* ${meta_sel}
+           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
+
         /*
-        var sql = `SELECT u.* 
-           ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
-           ,${this.selectMeta("u.ID", UserMeta.LAST_NAME)}
-           ,${this.selectMeta("u.ID", UserMeta.DESCRIPTION)}
-           ,${this.selectMeta("u.ID", UserMeta.ROLE, "role")}
-           ,${this.selectMeta("u.ID", UserMeta.IMG_URL, "img_url")}
-           ,${this.selectMeta("u.ID", UserMeta.IMG_POS, "img_pos")}
-           ,${this.selectMeta("u.ID", UserMeta.IMG_SIZE, "img_size")}
-           ,${this.selectMeta("u.ID", UserMeta.FEEDBACK)}
-           ,${this.selectMeta("u.ID", UserMeta.USER_STATUS, "user_status")}
-           ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
-           ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
-           ,${this.selectMeta("u.ID", UserMeta.GRADUATION_MONTH)}
-           ,${this.selectMeta("u.ID", UserMeta.GRADUATION_YEAR)}
-           ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
-           ,${this.selectMeta("u.ID", UserMeta.ACTIVATION_KEY)}
-           ,${this.selectMeta("u.ID", UserMeta.CGPA)}
-           ,${this.selectMeta("u.ID", UserMeta.MAJOR)}
-           ,${this.selectMeta("u.ID", UserMeta.MINOR)}
-           ,${this.selectMeta("u.ID", UserMeta.COMPANY_ID, "company_id")}
-           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
-           */
+         var sql = `SELECT u.* 
+         ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
+         ,${this.selectMeta("u.ID", UserMeta.LAST_NAME)}
+         ,${this.selectMeta("u.ID", UserMeta.DESCRIPTION)}
+         ,${this.selectMeta("u.ID", UserMeta.ROLE, "role")}
+         ,${this.selectMeta("u.ID", UserMeta.IMG_URL, "img_url")}
+         ,${this.selectMeta("u.ID", UserMeta.IMG_POS, "img_pos")}
+         ,${this.selectMeta("u.ID", UserMeta.IMG_SIZE, "img_size")}
+         ,${this.selectMeta("u.ID", UserMeta.FEEDBACK)}
+         ,${this.selectMeta("u.ID", UserMeta.USER_STATUS, "user_status")}
+         ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
+         ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
+         ,${this.selectMeta("u.ID", UserMeta.GRADUATION_MONTH)}
+         ,${this.selectMeta("u.ID", UserMeta.GRADUATION_YEAR)}
+         ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
+         ,${this.selectMeta("u.ID", UserMeta.ACTIVATION_KEY)}
+         ,${this.selectMeta("u.ID", UserMeta.CGPA)}
+         ,${this.selectMeta("u.ID", UserMeta.MAJOR)}
+         ,${this.selectMeta("u.ID", UserMeta.MINOR)}
+         ,${this.selectMeta("u.ID", UserMeta.COMPANY_ID, "company_id")}
+         FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
+         */
         return sql;
     }
 
-    selectRole(user_id, meta_key, as) {
+    selectRole(user_id, meta_key, as)
+    {
         return `(select SUBSTRING_INDEX(SUBSTRING_INDEX((${this.selectMetaMain(user_id, meta_key)}),'\"',2),'\"',-1)) as ${as}`;
     }
 
@@ -91,8 +113,6 @@ class UserExec {
             SET meta_value = CASE meta_key 
             ${meta_pair_case} 
             END ${where}`;
-
-        console.log(update_sql);
 
         //check what does not exist
         return DB.query(check_sql).then((res) => {
@@ -183,20 +203,20 @@ class UserExec {
 
     }
 
-    getUserHelper(type, params, field) {
+    getUserHelper(type, params, field, metaCons) {
         const {CompanyExec} = require('./company-query.js');
         const {QueueExec} = require('./queue-query.js');
 
         var isSingle = (type === "single");
         var sql = "";
         if (isSingle) {
-            sql = UserQuery.getUser(field, params.ID, params.user_email);
+            sql = UserQuery.getUser(field, params.ID, params.user_email, undefined, metaCons);
         } else {
-            sql = UserQuery.getUser(field, undefined, undefined, params.role, params.page, params.offset);
+            sql = UserQuery.getUser(field, undefined, undefined, params.role, metaCons, params.page, params.offset);
         }
         console.log("getUserHelper", params);
         console.log(sql);
-        
+
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
 
@@ -206,7 +226,7 @@ class UserExec {
                 }
 
                 if (typeof field["company"] !== "undefined") {
-                    var company_id = res[i]["company_id"];
+                    var company_id = res[i]["rec_company"];
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
 
@@ -227,12 +247,18 @@ class UserExec {
         return toRet;
     }
 
+    recruiters(company_id, field) {
+        var metaCons = {};
+        metaCons[UserMeta.REC_COMPANY] = company_id;
+        return this.getUserHelper(false, {}, field, metaCons);
+    }
+
     user(params, field) {
         return this.getUserHelper("single", params, field);
     }
 
-    users(params,field) {
-        return this.getUserHelper(false, params,field);
+    users(params, field) {
+        return this.getUserHelper(false, params, field);
     }
 }
 UserExec = new UserExec();

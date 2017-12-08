@@ -35,7 +35,7 @@ const UserMeta = {
     MINOR: "minor",
 
     // rec only
-    COMPANY_ID: "rec_company"
+    REC_COMPANY: "rec_company"
 };
 
 const UserEnum = {

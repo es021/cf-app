@@ -39,7 +39,7 @@ const UserType = new GraphQLObjectType({
             doc_links: {type: new GraphQLList(DocLinkType)},
 
             // rec only
-            company_id: {type: GraphQLInt},
+            rec_company: {type: GraphQLInt},
             company: {type: CompanyType}
 
         })
@@ -79,6 +79,7 @@ const CompanyType = new GraphQLObjectType({
             active_prescreens_count: {type: GraphQLInt},
             vacancies: {type: new GraphQLList(VacancyType)},
             vacancies_count: {type: GraphQLInt},
+            recruiters: {type: new GraphQLList(UserType)},
             ID: {type: GraphQLInt},
             name: {type: GraphQLString},
             tagline: {type: GraphQLString},

@@ -17,6 +17,7 @@ CompanyQuery = new CompanyQuery();
 
 const {VacancyExec} = require('./vacancy-query.js');
 const {PrescreenExec} = require('./prescreen-query.js');
+const {UserExec} = require('./user-query.js');
 
 class CompanyExec {
     getCompanyHelper(type, params, field) {
@@ -39,12 +40,18 @@ class CompanyExec {
 
                 var company_id = res[i]["ID"];
 
-                //Add queue ***********************************
+                //Add recruiters ***********************************
+                if (typeof field["recruiters"] !== "undefined") {
+                    res[i]["recruiters"] = UserExec.recruiters(company_id, field["recruiters"]);
+                }
+                
+                 //Add queue ***********************************
                 var act_q = {
                     company_id: company_id
                     , status: QueueEnum.STATUS_QUEUING
                     , order_by: `${Queue.CREATED_AT} DESC`
                 };
+                
 
                 if (typeof field["active_queues"] !== "undefined") {
                     res[i]["active_queues"] = QueueExec.queues(act_q, field["active_queues"]);
