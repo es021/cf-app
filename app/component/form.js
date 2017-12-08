@@ -291,7 +291,7 @@ export default class Form extends React.Component {
         var formSubmit =
                 <div className="form-submit">
                     <button type="submit" 
-                            className="btn btn-sm btn-primary" 
+                            className="btn btn-md btn-primary" 
                             disabled={disableSubmit}>
                         {submitText}
                     </button>

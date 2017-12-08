@@ -2,7 +2,7 @@
     margin-bottom: 25px;
     text-align:justify;
     border-bottom : whitesmoke 1px solid;
-    
+
     .sili-title{
         font-weight: bold;
         font-size: 15px;
@@ -12,7 +12,7 @@
         color: gray;
     }
 
-    .sili-description{
+    .sili-body{
         height: 60px;
         overflow-y: hidden;
     }
@@ -20,4 +20,29 @@
 
 .simple-li:last-of-type{
     margin-bottom: 0;
+}
+
+
+.profile-card.profile-li{
+    display: grid;
+    text-align: left;
+    grid-template-columns : 1fr 4fr;
+    grid-template-rows : 1fr 1fr;
+    grid-template-areas: 
+        "img title"
+        "img subtitle";
+
+    .pc-picture{
+        grid-area : img;
+    }
+
+    .pc-title{
+        align-self: end;
+        grid-area : title;
+    }
+
+    .pc-subtitle{
+        align-self: start;
+        grid-area : subtitle;
+    }
 }

@@ -1,3 +1,4 @@
+@import "define/mixin.scss";
 @import "define/variable.scss";
 
 a{
@@ -13,3 +14,10 @@ a.dark:hover,
 a.button-icon.dark:hover{
     color:lighten($COLOR_LINK, 20);
 }
+
+.btn{
+    border-radius: 0 !important;
+}
+
+@include button_color("btn-primary",$COLOR_DARK);
+

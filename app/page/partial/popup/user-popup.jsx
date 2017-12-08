@@ -17,7 +17,7 @@ export default class UserPopup extends Component {
 
     componentWillMount() {
         var id = null;
-
+ 
         if (this.props.match) {
             id = this.props.match.params.id
         } else {

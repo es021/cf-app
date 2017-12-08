@@ -40,6 +40,7 @@ const UserType = new GraphQLObjectType({
 
             // rec only
             rec_company: {type: GraphQLInt},
+            rec_position: {type: GraphQLString},
             company: {type: CompanyType}
 
         })

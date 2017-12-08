@@ -33,14 +33,14 @@ export default class ProfileCard extends React.Component {
             case PCType.STUDENT:
                 url = ImgConfig.DefUser;
                 break;
-            case PCType.TYPE_RECRUITER:
+            case PCType.RECRUITER:
                 url = ImgConfig.DefUser;
                 break;
-            case PCType.TYPE_COMPANY:
+            case PCType.COMPANY:
                 url = ImgConfig.DefCompany;
                 break;
         }
-
+        
         return {
             backgroundImage: `url('${url}')`,
             backgroundSize: "cover",
@@ -65,6 +65,7 @@ export default class ProfileCard extends React.Component {
             color: (this.props.theme == "dark") ? "white" : "black",
         };
         var stylePicture = null;
+        
         if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
             stylePicture = this.getDefaultProfileImg();
         } else {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {ButtonLink} from '../component/buttons';
 import PropTypes from 'prop-types';
- 
+
 require("../css/list.scss");
 
 export default class List extends React.Component {
@@ -124,22 +124,42 @@ List.propTypes = {
 };
 
 /*******************************************************************************************/
+import ProfileCard, {PCType} from './profile-card';
+
+export class ProfileListItem extends Component {
+    render() {
+        return <ProfileCard {...this.props} img_dimension="75px" className="profile-li"></ProfileCard>;
+    }
+}
+
+ProfileListItem.propTypes = {
+    title: PropTypes.any.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    img_url: PropTypes.string,
+    img_pos: PropTypes.string,
+    img_size: PropTypes.string,
+    type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
+    body: PropTypes.any
+};
+
+
+/*******************************************************************************************/
 
 export class SimpleListItem extends Component {
     render() {
 
-        var desc = (this.props.description) ? <div className="sili-description">{this.props.description}</div> : null;
+        var body = (this.props.body) ? <div className="sili-body">{this.props.body}</div> : null;
 
-        return <div className="simple-li">
+        return (<div className="simple-li">
             <div className="sili-title">{this.props.title}</div>
             <div className="sili-subtitle">{this.props.subtitle}</div>
-            {desc}
-        </div>
+            {body}
+        </div>);
     }
 }
 
 SimpleListItem.propTypes = {
     title: PropTypes.any.isRequired,
     subtitle: PropTypes.string.isRequired,
-    description: PropTypes.string
+    body: PropTypes.any
 };

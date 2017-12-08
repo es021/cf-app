@@ -143,7 +143,7 @@ export default class ProfileCardImg extends  React.Component {
             return;
         }
 
-        // new image
+        // new image 
         var img = new Image();
         img.onload = () => {
             var height = img.height;
