@@ -30,7 +30,6 @@ export function loadCompanies() {
                             img_size
                             img_position
                             name
-                            tagline
                             type
                             vacancies_count
                         }

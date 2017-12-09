@@ -40,9 +40,14 @@ class CompanyBooth extends React.Component {
             }, {
                 count: (this.props.traffic !== null) ? this.props.traffic.active_queues_count : 0,
                 label: "Students Queueing"
-            }, {
+            }
+            /*, {
                 count: (this.props.traffic !== null) ? this.props.traffic.active_prescreens_count : 0,
                 label: "Students PreScreen"
+            }*/
+            , {
+                count: this.props.company.vacancies_count,
+                label: "Open Vacancy"
             }];
 
         countItem = countItem.map((d, i) => {

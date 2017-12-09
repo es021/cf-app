@@ -93,14 +93,7 @@ export default class CompanyPopup extends Component {
                              type="recruiter" key={i}></ProfileListItem>;
         });
 
-        var style = {
-            "display": "flex",
-            "flexWrap": "wrap",
-            "justifyContent": "center"
-        };
-
-        style = {};
-        return <div style={style}>{view}</div>;
+        return <div>{view}</div>;
     }
 
     render() {
