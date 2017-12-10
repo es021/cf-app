@@ -15,7 +15,7 @@ class DocLinkQuery {
 DocLinkQuery = new DocLinkQuery();
 
 class DocLinkExec {
-    doc_links(params) {
+    doc_links(params, field) {
         var sql = DocLinkQuery.getDocLink(params);
         var toRet = DB.query(sql).then(function (res) {
             return res;

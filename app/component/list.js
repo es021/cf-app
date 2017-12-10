@@ -163,3 +163,59 @@ SimpleListItem.propTypes = {
     subtitle: PropTypes.string.isRequired,
     body: PropTypes.any
 };
+ 
+
+export class CustomList extends Component {
+
+    getLabelLi(d, i) {
+        var labels = ["primary", "default", "success", "danger"];
+        var index = i % labels.length;
+        var liClassName = `label label-${labels[index]}`;
+        console.log(d);
+        return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
+
+    }
+
+    getIconLi(d, i) {
+        return (<li onClick={this.props.onClick} className={`li-${this.props.className}`} key={i}>
+    
+        {(d.label) ? <div className="cli-label">
+            {(d.icon) ? <i className={`fa fa-${d.icon}`}></i> : null}
+            {d.label}
+        </div> : null}
+        {(d.value) ? <div className="cli-value">{d.value}</div> : null}
+    </li>);
+    }
+
+    render() {
+
+        if (this.props.items.length === 0) {
+            return <div className="text-muted">Nothing To Show Here</div>;
+        }
+
+        var view = this.props.items.map((d, i) => {
+            switch (this.props.className) {
+                case "empty":
+                    return <li onClick={this.props.onClick} key={i}>{d}</li>;
+                    break;
+                case "label":
+                    return this.getLabelLi(d, i);
+                    break;
+                case "icon":
+                    return this.getIconLi(d, i);
+                    break;
+            }
+        });
+
+        return (<ul 
+        className={`custom-list-${this.props.className} ${(this.props.ux) ? "li-ux" : ""}`}>
+        {view}</ul>);
+    }
+}
+
+CustomList.propTypes = {
+    items: PropTypes.array.isRequired,
+    className: PropTypes.oneOf(["empty", "icon", "label"]),
+    onClick: PropTypes.func,
+    ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
+};

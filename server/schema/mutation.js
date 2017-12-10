@@ -1,9 +1,9 @@
 //import all type
-const {QueueType, UserType, DocLinkType} = require('./all-type.js');
+const {QueueType, UserType, DocLinkType, SkillType} = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const {Queue, DocLink} = require('../../config/db-config');
+const {Queue, DocLink, Skill} = require('../../config/db-config');
 const {UserExec} = require('../model/user-query.js');
 const DB = require('../model/DB.js');
 
@@ -107,6 +107,33 @@ fields["delete_doc_link"] = {
         return DB.delete(DocLink.TABLE, arg.ID);
     }
 };
+
+
+/*******************************************/
+/* skills ******************/
+fields["add_skill"] = {
+    type: SkillType,
+    args: {
+        user_id: {type: new GraphQLNonNull(GraphQLInt)},
+        label: {type: new GraphQLNonNull(GraphQLString)}
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(Skill.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["delete_skill"] = {
+    type: GraphQLInt,
+    args: {
+        ID: {type: new GraphQLNonNull(GraphQLInt)}
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.delete(Skill.TABLE, arg.ID);
+    }
+};
+
 
 /*******************************************/
 /* queue ******************/

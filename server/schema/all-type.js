@@ -7,6 +7,15 @@ const {
     GraphQLNonNull
 } = require('graphql');
 
+const SkillType = new GraphQLObjectType({
+    name: 'Skill',
+    fields: () => ({
+            ID: {type: GraphQLInt},
+            user_id: {type: GraphQLInt},
+            label: {type: GraphQLString}
+        })
+});
+
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
@@ -37,6 +46,7 @@ const UserType = new GraphQLObjectType({
             minor: {type: GraphQLString},
             queues: {type: new GraphQLList(QueueType)},
             doc_links: {type: new GraphQLList(DocLinkType)},
+            skills: {type: new GraphQLList(SkillType)},
 
             // rec only
             rec_company: {type: GraphQLInt},
@@ -130,4 +140,5 @@ module.exports = {UserType
     , PrescreenType
     , DocLinkType
     , VacancyType
+    , SkillType
 };

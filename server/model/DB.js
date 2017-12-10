@@ -38,6 +38,10 @@ DB.prototype.query = function (query) {
 };
 
 DB.prototype.escStr = function (str) {
+    if (typeof str !== "string") {
+        return str;
+    }
+
     return str.replace(
             /[\0\x08\x09\x1a\n\r"'\\\%]/g
             , function (char) {
@@ -80,12 +84,13 @@ DB.prototype.insert = function (table, data) {
     var val = "(";
     for (var k in data) {
         key += `${k},`;
-        val += `'${data[k]}',`;
+        val += `'${this.escStr(data[k])}',`;
     }
     key = key.substring(-1, key.length - 1) + ')';
     val = val.substring(-1, val.length - 1) + ')';
 
     var sql = `INSERT INTO ${table} ${key} VALUES ${val}`;
+
     return this.query(sql).then(function (res) {
         return DB.getByID(table, res.insertId);
     });
@@ -104,7 +109,7 @@ DB.prototype.update = function (table, data) {
 
     for (var k in data) {
         if (k !== "ID") {
-            key_val += `${k} = '${data[k]}',`;
+            key_val += `${k} = '${this.escStr(data[k])}',`;
         }
     }
     key_val = key_val.substring(-1, key_val.length - 1);

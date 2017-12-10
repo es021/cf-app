@@ -1,11 +1,11 @@
 import React from 'react';
-//import React, {PropTypes} from 'react';
 
 import {connect}from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as layoutActions from '../redux/actions/layout-actions';
 import {store} from '../redux/store';
 import {ButtonIcon} from './buttons';
+import PropTypes from 'prop-types';
 
 //require("../css/focus-card.css");
 require("../css/focus-card.scss");
@@ -36,9 +36,12 @@ class FocusCard extends React.Component {
         console.log("componentWillMount", "focus");
     }
 
-    render() { 
-
+    render() {
+       
         var focus = this.props.redux.focusCard;
+         console.log("render focus card");
+        console.log(focus.props);
+        
         var component = null;
         if (focus.component !== null) {
 
@@ -50,10 +53,10 @@ class FocusCard extends React.Component {
         var display = (focus.show) ? "flow-root" : "none";
         var style = {
             display: display
-        }; 
+        };
 
         var fc = "fc-";
-        return(<div style={style} id="focus-card">
+        return(<div style={style} id="focus-card" className={focus.className}>
             <div className={`${fc}content`}>
                 <div className={`${fc}header`}>
                     <div className={`${fc}close-btn`}>
@@ -76,8 +79,12 @@ class FocusCard extends React.Component {
 }
 
 
-//FocusCard.propTypes = {
-//  title: PropTypes.string
-//};
+FocusCard.propTypes = {
+    title: PropTypes.string,
+    component: PropTypes.func,
+    props: PropTypes.object,
+    show: PropTypes.bool,
+    className: PropTypes.oneOf(["small"])
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FocusCard);

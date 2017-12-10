@@ -11,7 +11,7 @@ $page-sec : "page-sec";
     .#{$page-sec}-title{
         color:$COLOR_TITLE;
     }
-    
+
     .#{$page-sec}-body{
         padding-bottom: 15px;
     }
@@ -22,5 +22,18 @@ $page-sec : "page-sec";
     .line {
         border: 0;
         height: 0;
+    }
+}
+
+// Left
+.#{$page-sec}.left{
+    text-align:left;
+
+    .#{$page-sec}-title{
+        border-bottom: 1px darkgray solid;
+    }
+    
+    .line{
+        display: none;
     }
 }

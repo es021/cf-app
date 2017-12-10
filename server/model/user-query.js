@@ -2,6 +2,7 @@ const DB = require('./DB.js');
 
 const {User, UserMeta} = require('../../config/db-config.js');
 const {DocLinkExec} = require('./doclink-query.js');
+const {SkillExec} = require('./skill-query.js');
 
 class UserQuery {
 
@@ -232,7 +233,12 @@ class UserExec {
 
                 if (typeof field["doc_links"] !== "undefined") {
                     var user_id = res[i]["ID"];
-                    res[i]["doc_links"] = DocLinkExec.doc_links({user_id: user_id});
+                    res[i]["doc_links"] = DocLinkExec.doc_links({user_id: user_id}, field["doc_links"]);
+                }
+
+                if (typeof field["skills"] !== "undefined") {
+                    var user_id = res[i]["ID"];
+                    res[i]["skills"] = SkillExec.skills({user_id: user_id}, field["skills"]);
                 }
             }
 

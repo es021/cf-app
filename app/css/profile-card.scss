@@ -48,4 +48,9 @@
         font-size: 13px;
         opacity: 0.80;
     }
+
+    .#{$PROFILE_CARD}body{
+        text-align: center;
+        width: 100%;
+    }
 }

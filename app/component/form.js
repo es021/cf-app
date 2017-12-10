@@ -159,7 +159,18 @@ export default class Form extends React.Component {
         </div>);
     }
 
+    emptyForm() {
+        for (var i in this.form) {
+            this.form[i].value = "";
+        }
+    }
+
     getInputElement(d, defaultVal) {
+        if (this.props.success && this.props.emptyOnSuccess) {
+            defaultVal = "";
+            this.emptyForm();
+        }
+
         switch (d.type) {
 
             case 'textarea':
@@ -330,5 +341,6 @@ Form.propTypes = {
     submitText: PropTypes.string,
     defaultValues: PropTypes.object,
     error: PropTypes.string,
+    emptyOnSuccess: PropTypes.bool,
     success: PropTypes.string
 };

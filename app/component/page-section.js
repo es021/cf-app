@@ -12,7 +12,7 @@ export default class PageSection extends React.Component {
         if (typeof body === "function") {
             body = React.createElement(body, {});
         }
-        return(<div className={`${sec}`}>
+        return(<div className={`${sec} ${this.props.className}`}>
             <h3 className={`${sec}-title`}>{this.props.title}</h3>
             <div className={`${sec}-body`}>
                 {body}
@@ -24,7 +24,8 @@ export default class PageSection extends React.Component {
 
 PageSection.propTypes = {
     title: PropTypes.string.isRequired,
-    body: PropTypes.element.isRequired
+    body: PropTypes.element.isRequired,
+    className: PropTypes.oneOf(["left"])
 };
 
 //                

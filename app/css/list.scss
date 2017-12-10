@@ -1,3 +1,5 @@
+// Simple List Item
+// -- used in company-popup
 .simple-li{
     margin-bottom: 25px;
     text-align:justify;
@@ -22,7 +24,8 @@
     margin-bottom: 0;
 }
 
-
+// Profile Card List Item
+// -- used in company-popup
 .profile-card.profile-li{
     display: grid;
     text-align: left;
@@ -44,5 +47,77 @@
     .pc-subtitle{
         align-self: start;
         grid-area : subtitle;
+    }
+}
+
+// Custom List (Icon)
+// -- used student popup
+.custom-list-icon{
+    font-size: 15px;
+
+    .li-icon{
+        margin-bottom: 10px;
+
+        .cli-label{
+            font-size: 80%;
+            opacity:0.65;
+            .fa {
+                margin-right: 7px;
+            }
+        }
+
+        .cli-value{
+
+        }
+    }
+}
+
+// Custom List (Label)
+// -- used student popup
+.custom-list-label{
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 20px;
+
+    li{
+        margin: 3px;
+        border-radius: 8px;
+        padding: 7px;
+        font-weight: 100;
+
+        .badge{
+            background: rgba(0,0,0,0.3);
+            border-radius: 100%;
+            font-size: 10px;
+            height: 15px;
+            width: 15px;
+            display: inline-flex;
+            justify-content: center;
+            margin-bottom: 3px;
+            cursor: pointer;
+        }
+
+        .badge:hover{
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .badge:active{
+            background: rgba(0,0,0,0.5);
+        }
+    }
+}
+
+.custom-list-label.li-ux{
+    li{
+        cursor: pointer;
+    }
+
+    li:hover{
+        opacity: 0.8;
+    }
+
+    li:active{
+        opacity: 1;
     }
 }

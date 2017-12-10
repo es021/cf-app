@@ -69,7 +69,7 @@ const menuItem = [
      routeOnly: true
      },*/
     {
-        url: "/edit-profile",
+        url: "/edit-profile/:current",
         component: EditProfilePage,
         bar_app: true,
         bar_auth: false,

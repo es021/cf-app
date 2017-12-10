@@ -39,7 +39,7 @@ $fc : "fc-";
             min-height: 50vh;
             margin-bottom: 25px;
             overflow-y: auto;
-            
+
             .loader{
                 padding-top: 100px;
             }
@@ -64,6 +64,17 @@ $fc : "fc-";
             width: 100%;
             margin-left: 0px;
             left: 0;
+        }
+    }
+}
+
+
+#focus-card.small{
+    .#{$fc}body{
+        min-height: 0;
+        
+        .loader{
+            padding-top: 10px;
         }
     }
 }

@@ -8,7 +8,7 @@ export default class ActAccountPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
             loading: true,
             error: null,
             success: false

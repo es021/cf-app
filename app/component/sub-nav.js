@@ -1,47 +1,50 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import {NavLink} from 'react-router-dom';
 require("../css/sub-nav.scss");
 
 export default class SubNav extends React.Component {
     constructor(props) {
         super(props);
         console.log(props);
+        console.log( );
+        
         this.state = {
             current: this.props.defaultItem
         };
-
-        this.changeItem = this.changeItem.bind(this);
+        
     }
 
     getCurComponent() {
-        var com = this.props.items[this.state.current].component;
+        var com = this.props.items[this.props.defaultItem].component;
         return  React.createElement(com);
     }
-
-    changeItem(e) {
+    
+    changeItem(e){
         var k = e.currentTarget.id;
-        this.setState(() => {
-            return{current: k};
-        })
-
+        this.setState(()=>{return{current:k};});
     }
 
     getNavList() {
         var li = [];
         for (var k in this.props.items) {
-            var active = (k === this.state.current) ? "active" : "";
+            var active = (k === this.props.defaultItem) ? "active" : "";
             var item = this.props.items[k];
-            // this is how to handle onclick in for loop element
-            li.push(<li id={k} className={active}  onClick={this.changeItem.bind(this)}>
-                <i className={`fa fa-${item.icon}`}></i>{item.label}
-            </li>);
+            
+            li.push(<NavLink  to={`/app/edit-profile/${k}`}>
+                <li id={k} className={active}
+                onClick={this.changeItem.bind(this)}>
+                <i className={`fa fa-${item.icon}`}></i>
+                {item.label}
+                </li>
+            </NavLink>);
         }
 
         return <ul>{li}</ul>
     }
 
     render() {
+        console.log("render");
         const sn = "sn-";
         var view = <div className="sub-nav">
             <div className={`${sn}header`}>

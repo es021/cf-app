@@ -10,14 +10,19 @@ $bck_col : white;
         // this is content padding
         margin: -20px;
         margin-bottom: 10px;
-
+        
         ul{
             margin: 0 10px;
             display: flex;
             height: 100%;
             align-items: flex-end;
-
+            
+            a:focus, a:hover, a:active{
+                text-decoration:none; 
+            }
+            
             li{
+                color : black;
                 margin: 0 10px;
                 cursor: pointer;
                 padding-bottom: 5px;
@@ -31,7 +36,7 @@ $bck_col : white;
             li:hover{
                 color:$act_col;
             }
-
+           
             li.active{
                 color:$act_col;
                 border-bottom: solid $act_col 2px;

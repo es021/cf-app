@@ -111,9 +111,9 @@ export default class CompanyPopup extends Component {
 
             var pcBody = <div>
                 <div>
-                    <PageSection title="About" body={about}></PageSection>
-                    <PageSection title="Vacancies" body={vacancies}></PageSection>
-                    <PageSection title="Recruiters" body={recs}></PageSection>
+                    <PageSection className="left" title="About" body={about}></PageSection>
+                    <PageSection className="left" title="Vacancies" body={vacancies}></PageSection>
+                    <PageSection className="left" title="Recruiters" body={recs}></PageSection>
                 </div>
                 <div className="btn-group btn-group-justified">
                     <div className="btn btn-lg btn-primary">Queue Now</div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink} from 'react-router-dom';
 import Form, {toggleSubmit, checkDiff} from '../component/form';
-import {UserMeta, User, UserEnum}  from '../../config/db-config';
+import {UserMeta, User, UserEnum, Skill}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
 import {ButtonLink} from '../component/buttons';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
@@ -11,11 +11,113 @@ import {getAuthUser, updateAuthUser} from '../redux/actions/auth-actions';
 import {Loader} from '../component/loader';
 import ProfileCard from '../component/profile-card';
 import SubNav from '../component/sub-nav';
+import {CustomList} from '../component/list';
+import * as layoutActions from '../redux/actions/layout-actions';
+import ConfirmPopup from './partial/popup/confirm-popup';
+import {store} from '../redux/store';
 
+class Skills extends React.Component {
+    constructor(props) {
+        super(props);
+        this.formOnSubmit = this.formOnSubmit.bind(this);
+        this.state = {
+            error: null,
+            disableSubmit: false,
+            success: null,
+            loading: true,
+            skills: [],
+            loadingDelete: false
+        };
+    }
 
-class Documents extends React.Component {
+    loadSkills() {
+        var query = `query{user(ID:${getAuthUser().ID}){skills{ID label}}}`;
+        getAxiosGraphQLQuery(query).then((res) => {
+            this.setState(() => {
+                return {skills: res.data.data.user.skills, loading: false};
+            });
+        });
+    }
+
+    componentWillMount() {
+        this.loadSkills();
+        this.formItems = [
+            {
+                name: Skill.LABEL,
+                type: "text",
+                placeholder: "Web Development",
+                required: true
+            }];
+    }
+
+    formOnSubmit(d) {
+        var ins = {
+            user_id: getAuthUser().ID,
+            label: d.label
+        };
+
+        toggleSubmit(this, {error: null, success: null});
+        var edit_query = `mutation{add_skill(${obj2arg(ins, {noOuterBraces: true})}) {ID label}}`;
+        getAxiosGraphQLQuery(edit_query).then((res) => {
+            var prevSkill = this.state.skills;
+            prevSkill.unshift(res.data.data.add_skill);
+            toggleSubmit(this, {error: null, skill: prevSkill, success: "Successfully Added New Skill"});
+
+        }, (err) => {
+            toggleSubmit(this, {error: err.response.data});
+        });
+
+    }
+
+    deletePopup(e) {
+        var id = e.currentTarget.id;
+        
+        const onYes = () => {
+            var del_query = `mutation{delete_skill(ID:${id})}`;
+            store.dispatch(layoutActions.updateProps({loading:true}));
+            getAxiosGraphQLQuery(del_query).then((res) => {
+                window.location.reload();
+            }, (err) => {
+                alert(err.response.data);
+            });
+        };
+
+        var value = e.currentTarget.attributes.getNamedItem("label").value;
+        layoutActions.storeUpdateFocusCard("Confirm Delete Item",
+                ConfirmPopup,
+                {title: `Continue delete skill '${value}'?`, onYes: onYes},
+                "small");
+    }
+
     render() {
-        return <h3>Document</h3>;
+        var view = null;
+        var skills = <div className="text-muted">Nothing To Show Here</div>;
+        if (!this.state.loading && this.state.skills.length > 0) {
+
+            var skillItems = this.state.skills.map((d, i) => {
+                return <span>{`${d.label} `} 
+                    <span className="badge" id={d.ID} label={d.label}
+                          onClick={this.deletePopup.bind(this)}
+                          >X</span>
+                </span>;
+            });
+            skills = <CustomList className="label" items={skillItems}></CustomList>;
+        }
+
+        var form = <Form className="form-row" 
+          items={this.formItems} 
+          onSubmit={this.formOnSubmit}
+          submitText='Add Skill'
+          disableSubmit={this.state.disableSubmit} 
+          error={this.state.error}
+          emptyOnSuccess={true}
+          success={this.state.success}></Form>;
+
+        return (<div>
+        <h3>Add New Skill</h3>
+        {form}<br></br>
+        <h3>My Skills</h3>
+        <div>{skills}</div></div>);
     }
 }
 
@@ -41,8 +143,8 @@ class EditProfile extends React.Component {
         loadUser(this.authUser[User.ID]).then((res) => {
             this.setState(() => {
                 var user = res.data.data.user;
-                return {user: user, init: false}
-            })
+                return {user: user, init: false};
+            });
         });
 
         this.formItems = [
@@ -92,9 +194,9 @@ class EditProfile extends React.Component {
                 min: "0",
                 required: true,
                 sublabel: <ButtonLink label="Don't Use CGPA system?" 
-                            target='_blank'
-                            href="https://www.foreigncredits.com/resources/gpa-calculator/">
-                </ButtonLink>
+                        target='_blank'
+                        href="https://www.foreigncredits.com/resources/gpa-calculator/">
+            </ButtonLink>
             }, {
                 label: "Expected Graduation",
                 name: UserMeta.GRADUATION_MONTH,
@@ -184,7 +286,7 @@ class EditProfile extends React.Component {
         } else {
             //console.log("Err", err);
             this.setState(() => {
-                return {error: err}
+                return {error: err};
             });
         }
     }
@@ -222,29 +324,25 @@ class EditProfile extends React.Component {
 
 export default class EditProfilePage extends React.Component {
     componentWillMount() {
-        this.defaultItem = "ep"
         this.item = {
-            "ep": {
+            "profile": {
                 label: "My Profile",
                 component: EditProfile,
                 icon: "user"
             },
-            "doc": {
-                label: "Documents",
-                component: Documents,
+            "skills": {
+                label: "Skills",
+                component: Skills,
                 icon: "file-text"
-            },
-            "act": {
-                label: "Activity",
-                component: Documents,
-                icon: "user"
             }
         }
     }
 
     render() {
-        document.setTitle("Edit Profile");
+        
+        var title = this.item[this.props.match.params.current].label;
+        document.setTitle(title);
 
-        return <SubNav items={this.item} defaultItem={this.defaultItem}></SubNav>;
+        return <SubNav items={this.item} defaultItem={this.props.match.params.current}></SubNav>;
     }
 }

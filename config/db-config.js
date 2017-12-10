@@ -132,9 +132,18 @@ const VacancyEnum = {
     TYPE_PART_TIME: "Part Time"
 };
 
+const Skill = {
+    TABLE: "skills",
+    ID: "ID",
+    USER_ID: "user_id",
+    LABEL: "label"
+};
+
 module.exports = {User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
     , Vacancy, VacancyEnum
     , Prescreen, PrescreenEnum
     , Company, CompanyEnum
-    , Queue, QueueEnum};
+    , Queue, QueueEnum
+    , Skill
+};
