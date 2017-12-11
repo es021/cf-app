@@ -15,7 +15,7 @@ const CSS_DIR = "asset/css/";
 const JS_DIR = "asset/js/";
 
 var isProd = false;
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local" ) {
     isProd = true;
 }
 
