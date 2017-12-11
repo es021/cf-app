@@ -1,5 +1,6 @@
 function LoadAsset() {
-    var JS_PATH = "asset/js/";
+    //var JS_PATH = "asset/js/";
+    var JS_PATH = "public/asset/js/";
 
     var needToLoad = [
         JS_PATH + "vendors.bundle.js"

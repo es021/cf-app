@@ -8,8 +8,8 @@ const formidable = require('formidable');
 const fs = require('fs');
 const {UploadUrl} = require('./config/app-config.js');
 
-//var root = "/cf";
-var root = "";
+var root = "/cf";
+//var root = "";
 
 //Use Career Fair Schema
 const schemaCF = require('./server/schema/_schema_cf.js');
@@ -149,20 +149,16 @@ app.post(root + '/upload/:type/:name', function (req, res) {
     });
 });
 
-if (root !== "") {
-    root += "/";
-}
-app.get(root + '*', function (req, res, next) {
-    console.log("All");
-    console.log(req.url);
 
+app.get(root, function (req, res, next) {
+    console.log("root");
+    console.log(req.url);
     res.sendFile(__dirname + '/public/index.html');
 });
 
-//app.get('/', function (req, res, next) {
-//    res.sendFile(__dirname + '/www/index.html');
-//});
-
+app.get('*', function (req, res, next) {
+    res.sendFile(__dirname + '/public/index.html');
+});
 
 
 app.listen(PORT, () => {

@@ -7,24 +7,30 @@
         <title>Test</title>
 
         <!--Stylesheet-->
-        <!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >-->
-        <link rel="stylesheet" href="asset/lib/bootstrap-3.3.7/bootstrap.min.css" >
+        <!-- Development -->
+<!--        <link rel="stylesheet" href="asset/lib/bootstrap-3.3.7/bootstrap.min.css" >
         <link rel="stylesheet" href="asset/lib/font-awesome-4.7.0/css/font-awesome.min.css" >
         <link rel="stylesheet" href="asset/css/vendors.bundle.css" >
         <link rel="stylesheet" href="asset/css/loading.css">
-        <link rel="stylesheet" href="asset/css/main.bundle.css">
+        <link rel="stylesheet" href="asset/css/main.bundle.css">-->
+      
+        <!-- Production -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <link rel="stylesheet" href="public/asset/lib/font-awesome-4.7.0/css/font-awesome.min.css" >
+        <link rel="stylesheet" href="public/asset/css/vendors.bundle.css" >
+        <link rel="stylesheet" href="public/asset/css/loading.css">
+        <link rel="stylesheet" href="public/asset/css/main.bundle.css">
     </head>
     <body>
         <!--Container for React rendering-->
         <div id="app-loading">
             <div class="text-center">
-                <img id="app-loading-img" src="asset/image/loader.gif" alt="" />
+<!--                <img id="app-loading-img" src="asset/image/loader.gif" alt="" />-->
+                <img id="app-loading-img" src="public/asset/image/loader.gif" alt="" />
             </div>
         </div>
         <div id="app"></div>
-        <script src="asset/load-asset.js"></script>
-        <!--Bundled file-->
-        <!--        <script src="asset/js/vendors.bundle.js"></script>
-                <script src="asset/js/main.bundle.js"></script>-->
+<!--        <script src="asset/load-asset.js"></script>-->
+        <script src="public/asset/load-asset.js"></script>
     </body>
 </html>
