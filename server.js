@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Graphql route
 app.use(root + '/graphql', expressGraphQL({
     schema: schemaCF,
-    graphiql: true //set able to use the graphQL web IDE to true
+    graphiql: (process.env.NODE_ENV === "production") ? false : true //set able to use the graphQL web IDE to true
 }));
 
 // Auth Route
@@ -151,8 +151,6 @@ app.post(root + '/upload/:type/:name', function (req, res) {
 
 
 app.get(root, function (req, res, next) {
-    console.log("root");
-    console.log(req.url);
     res.sendFile(__dirname + '/public/index.html');
 });
 

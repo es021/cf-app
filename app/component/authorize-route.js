@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect} from 'react-router-dom';
+import {RootPath} from '../../config/app-config';
 
 //state is from redux reducer
 // with multiple objects
@@ -23,7 +24,7 @@ class AuthorizedRoute extends React.Component {
             const { component: Component} = this.props;
             return (<Component {...this.props} match={this.props.computedMatch} />);
         } else {
-            to = {pathname: '/auth/login', state: {from: this.props.location}};
+            to = {pathname: `${RootPath}/auth/login`, state: {from: this.props.location}};
             return(<Redirect to={to} />);
         }
     }

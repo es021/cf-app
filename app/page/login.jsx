@@ -65,11 +65,11 @@ class LoginPage extends React.Component {
         //console.log("from login render");
         //console.log(this.props.redux);
 
-        var {from} = this.props.location.state || {from: {pathname: '/app'}};
+        var {from} = this.props.location.state || {from: {pathname: `${RootPath}/app`}};
 
         //handle from logout
-        if (from.pathname == "/app/logout") {
-            from.pathname = "/app";
+        if (from.pathname == `${RootPath}/app/logout`) {
+            from.pathname = `${RootPath}/app`;
         }
 
         var redirectToReferrer = this.props.redux.isAuthorized;
@@ -101,6 +101,8 @@ class LoginPage extends React.Component {
         }
 
         if (redirectToReferrer) {
+            console.log("from");
+            console.log(from);
             return (
                     <Redirect to={from}/>
                     );

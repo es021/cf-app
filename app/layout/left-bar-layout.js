@@ -12,7 +12,8 @@ import store from '../redux/store';
 export default class LeftBarLayout extends React.Component {
     constructor(props) {
         super(props);
-
+        console.log("root path");
+        console.log(RootPath);
         this.state = {
             isMdWin: (getWindowWidth() <= 680)
         }
@@ -53,7 +54,7 @@ export default class LeftBarLayout extends React.Component {
             var pcBody = <small><NavLink  to={`${RootPath}/app/edit-profile/profile`} >Edit Profile</NavLink></small>;
             profile =
                     (<div className="left_bar_profile">
-                <NavLink  to={`/app/edit-profile/profile`} >
+                <NavLink  to={`${RootPath}/app/edit-profile/profile`} >
                     <ProfileCard type="student" theme="dark"
                                  title={authUser.first_name} subtitle={authUser.last_name}
                                  img_url={authUser.img_url} img_pos={authUser.img_pos} img_size={authUser.img_size}    
