@@ -1,7 +1,10 @@
-const SiteUrl = "http://localhost:4000";
-const UploadUrl = SiteUrl + "/upload";
-const PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
-const isProd = (process.env.NODE_ENV === "production");
+var isProd = (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local");
+
+var SiteUrl = (process.env.NODE_ENV === "production") ? "https://seedsjobfair.com/app" : "http://localhost:4000";
+
+var UploadUrl = SiteUrl + "/upload";
+var PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
+
 
 const AppConfig = {
     Name: "Virtual Career Fair 2017",
