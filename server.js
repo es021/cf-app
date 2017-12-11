@@ -8,6 +8,8 @@ const formidable = require('formidable');
 const fs = require('fs');
 const {UploadUrl} = require('./config/app-config.js');
 
+var root = "/app";
+
 //Use Career Fair Schema
 const schemaCF = require('./server/schema/_schema_cf.js');
 
@@ -30,11 +32,11 @@ app.use(function (req, res, next) {
 // this has to put before Express Middleware for serving static files 
 const hasGz = [
     "/asset/js/main.bundle.js"
-    //        , "/asset/js/vendors.bundle.js"
+            //        , "/asset/js/vendors.bundle.js"
             //, "/asset/css/main.bundle.css"
 ];
 
-app.get('/asset/*', function (req, res, next) {
+app.get(root + '/asset/*', function (req, res, next) {
     if (hasGz.indexOf(req.url) >= 0) {
         req.url = req.url + '.gz';
         res.set('Content-Encoding', 'gzip');
@@ -48,14 +50,14 @@ app.get('/asset/*', function (req, res, next) {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Graphql route
-app.use('/graphql', expressGraphQL({
+app.use(root + '/graphql', expressGraphQL({
     schema: schemaCF,
     graphiql: true //set able to use the graphQL web IDE to true
 }));
 
 // Auth Route
 const {AuthAPI} = require('./server/api/auth-api');
-app.post('/auth/:action', function (req, res, next) {
+app.post(root + '/auth/:action', function (req, res, next) {
     var action = req.params.action;
     var errStatus = 400;
     console.log(action);
@@ -84,13 +86,13 @@ app.post('/auth/:action', function (req, res, next) {
 });
 
 
-app.post('/upload/:type/:name', function(req, res) {
+app.post(root + '/upload/:type/:name', function (req, res) {
     var type = req.params.type;
     var fileName = req.params.name;
     console.log("upload");
     console.log(type);
     var form = new formidable.IncomingForm();
-    form.parse(req, function(err, fields, files) {
+    form.parse(req, function (err, fields, files) {
         console.log(files);
         // `type` is the name of the <input> field of type `type`
 
@@ -100,36 +102,36 @@ app.post('/upload/:type/:name', function(req, res) {
         var d = new Date();
         var y = d.getYear() + 1900;
         uploadDir += `/${y}`;
-        if (!fs.existsSync(uploadDir)){
+        if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir);
         }
-        
+
         var m = d.getMonth() + 1;
-        uploadDir +=  `/${m}`;        
-        if (!fs.existsSync(uploadDir)){
+        uploadDir += `/${m}`;
+        if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir);
         }
-        
+
         //get file ext
         var fileExt = files[type].name.split('.').pop();
-        
+
         // start create path
         // temp folder
         var old_path = files[type].path;
         // upload dir
         var subpath = `${type}/${y}/${m}/${fileName}_${d.getTime()}.${fileExt}`;
-        var new_path = path.join(process.env.PWD, `public/upload/`,subpath);
+        var new_path = path.join(process.env.PWD, `public/upload/`, subpath);
         // public upload url
-        var url =  subpath;
-        
+        var url = subpath;
+
         console.log(new_path);
         console.log(url);
-        
-        fs.readFile(old_path, function(err, data) {
-            fs.writeFile(new_path, data, function(err) {
 
-                
-                fs.unlink(old_path, function(err) {
+        fs.readFile(old_path, function (err, data) {
+            fs.writeFile(new_path, data, function (err) {
+
+
+                fs.unlink(old_path, function (err) {
                     if (err) {
                         res.status(500);
                         res.json({'url': null});
@@ -141,12 +143,13 @@ app.post('/upload/:type/:name', function(req, res) {
                 });
             });
         });
-        
-        
+
+
     });
 });
 
-app.get('*', function (req, res, next) {
+root += "/";
+app.get(root + '*', function (req, res, next) {
     console.log(req.url);
     res.sendFile(__dirname + '/public/index.html');
 });
