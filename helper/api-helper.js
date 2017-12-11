@@ -74,6 +74,7 @@ axios.interceptors.response.use(response => {
 
 
 function getAxiosGraphQLQuery(queryString) {
+    console.log(graphQLUrl);
     var config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -88,7 +89,7 @@ function getAxiosGraphQLQuery(queryString) {
 }
 
 function getPHPApiAxios(script, params) {
-    var requestUrl = AppConfig.PHPApi + `/cf-app/server/php-api/${script}.php`;
+    var requestUrl = AppConfig.PHPApi + `${script}.php`;
     console.log(requestUrl);
     return axios.post(requestUrl, qs.stringify(params));
 }

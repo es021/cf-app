@@ -5,6 +5,7 @@ import {UserMeta, User, UserEnum}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
 import {ButtonLink} from '../component/buttons';
 import {register} from '../redux/actions/auth-actions';
+import {RootPath} from '../../config/app-config';
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
@@ -182,7 +183,7 @@ export default class SignUpPage extends React.Component {
         } else {
             content = <div>
                 <h3>Student Registration</h3>
-                <NavLink to={`/auth/sign-up-recruiter`}>Not A Student?</NavLink>
+                <NavLink to={`${RootPath}/auth/sign-up-recruiter`}>Not A Student?</NavLink>
                 <Form className="form-row" 
                       items={this.formItems} 
                       onSubmit={this.formOnSubmit}

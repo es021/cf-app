@@ -1,15 +1,27 @@
-var isProd = (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local");
+const RootPath = "/cf";
 
-var SiteUrl = (process.env.NODE_ENV === "production") ? "https://seedsjobfair.com/cf" : "http://localhost:4000";
+console.log("environment");
+console.log(process.env.NODE_ENV);
+
+var isProd = (process.env.NODE_ENV === "production");
+var isProdLocal = (process.env.NODE_ENV === "production-local");
+
+var SiteUrl = (process.env.NODE_ENV === "production") ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
+var AssetUrl = (process.env.NODE_ENV === "production") ? `https://seedsjobfair.com/public` : SiteUrl;
 
 var UploadUrl = SiteUrl + "/upload";
-var PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 
+var PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
+if (isProd) {
+    PHPApi = `https://seedsjobfair.com/php-api/`;
+} else {
+    PHPApi += `/cf-app/server/php-api/`;
+}
 
 const AppConfig = {
     Name: "Virtual Career Fair 2017",
     Desc: "Powered by Seeds Job Fair",
-    Url: (isProd) ? PHPApi : "http://localhost:8080",
+    Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
     Api: SiteUrl,
     PHPApi: PHPApi,
     WPAjaxApi: PHPApi + "/career-fair/wp-admin/admin-ajax.php",
@@ -18,11 +30,11 @@ const AppConfig = {
 };
 
 const ImgConfig = {
-    AppIcon: SiteUrl + "/asset/image/icon.png",
-    IsIcon: SiteUrl + "/asset/image/innovaseed.png",
-    IsIconInverse: SiteUrl + "/asset/image/innovaseed_inverse.png",
-    DefUser: SiteUrl + "/asset/image/default-user.png",
-    DefCompany: SiteUrl + "/asset/image/default-company.jpg"
+    AppIcon: AssetUrl + "/asset/image/icon.png",
+    IsIcon: AssetUrl + "/asset/image/innovaseed.png",
+    IsIconInverse: AssetUrl + "/asset/image/innovaseed_inverse.png",
+    DefUser: AssetUrl + "/asset/image/default-user.png",
+    DefCompany: AssetUrl + "/asset/image/default-company.jpg"
 };
 
 const OrgConfig = {
@@ -69,4 +81,4 @@ const OrgConfig = {
     ]
 };
 
-module.exports = {SiteUrl, UploadUrl, AppConfig, ImgConfig, OrgConfig};
+module.exports = {RootPath, SiteUrl, UploadUrl, AppConfig, ImgConfig, OrgConfig};

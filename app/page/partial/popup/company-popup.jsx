@@ -7,6 +7,7 @@ import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';
 import ProfileCard from '../../../component/profile-card';
 import {SimpleListItem, ProfileListItem} from '../../../component/list';
 import {Loader} from '../../../component/loader';
+import {RootPath} from '../../../../config/app-config';
 
 export default class CompanyPopup extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ export default class CompanyPopup extends Component {
         }
 
         var view = list.map((d, i) => {
-            var title = <NavLink target='_blank' to={`/app/vacancy/${d.ID}`}>{d.title}</NavLink>;
+            var title = <NavLink target='_blank' to={`${RootPath}/app/vacancy/${d.ID}`}>{d.title}</NavLink>;
             return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
         });
 

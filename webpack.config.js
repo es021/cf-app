@@ -56,7 +56,7 @@ var plugins = [
 ];
 
 // Optimize and Minimize for Production
-if (isProd && false) {
+if (isProd) {
     plugins = plugins.concat([
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -90,8 +90,8 @@ if (isProd && false) {
 // create Moduile --------------------------------------
 module.exports = {
     entry: entry,
-    //devtool: (isProd) ? false : 'source-map', // false -- bigger
-    devtool: 'source-map', // false -- bigger
+    devtool: (isProd) ? false : 'source-map', // false -- bigger
+    //devtool: 'source-map', // false -- bigger
     plugins: plugins,
     module: {
         loaders: [

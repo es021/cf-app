@@ -11,7 +11,7 @@
     "serve-api": "set NODE_ENV=development&& node ./server/server.js",
     "build": "set NODE_ENV=production&& webpack -p --progress",
     "build-local": "set NODE_ENV=production-local&& webpack -p --progress",
-    "serve": "node server.js"
+    "serve": "NODE_ENV=production node server.js"
   },
   "author": "",
   "license": "ISC",

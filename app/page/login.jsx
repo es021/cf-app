@@ -6,6 +6,7 @@ import {User}  from '../../config/db-config';
 import { bindActionCreators } from 'redux';
 import { Redirect, NavLink} from 'react-router-dom';
 import Form from '../component/form';
+import {RootPath} from '../../config/app-config';
 
 import {ButtonLink} from '../component/buttons';
 import {AuthAPIErr} from '../../server/api/auth-api';
@@ -80,21 +81,21 @@ class LoginPage extends React.Component {
                 error = <span>
                     User does not exist. 
                     <br></br>
-                    <small><NavLink to={`/auth/sign-up`}>Sign Up Now</NavLink></small>
+                    <small><NavLink to={`${RootPath}/auth/sign-up`}>Sign Up Now</NavLink></small>
                 </span>;
                 break;
             case AuthAPIErr.NOT_ACTIVE :
                 error = <span>
                     This account is not active yet.<br></br>Please check your email for the activation link.
                     <br></br>
-                    <small><NavLink to={`/auth/activation-link`}>Did Not Received Email?</NavLink></small>
+                    <small><NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink></small>
                 </span>;
                 break;
             case AuthAPIErr.WRONG_PASS :
                 error = <span>
                     Password Incorrect
                     <br></br>
-                    <small><NavLink to={`/auth/forgot-password`}>Forgot Your Password?</NavLink></small>
+                    <small><NavLink to={`${RootPath}/auth/forgot-password`}>Forgot Your Password?</NavLink></small>
                 </span>;
                 break;
         }

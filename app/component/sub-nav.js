@@ -2,27 +2,30 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom';
 require("../css/sub-nav.scss");
+import {RootPath} from '../../config/app-config';
 
 export default class SubNav extends React.Component {
     constructor(props) {
         super(props);
         console.log(props);
         console.log( );
-        
+
         this.state = {
             current: this.props.defaultItem
         };
-        
+
     }
 
     getCurComponent() {
         var com = this.props.items[this.props.defaultItem].component;
         return  React.createElement(com);
     }
-    
-    changeItem(e){
+
+    changeItem(e) {
         var k = e.currentTarget.id;
-        this.setState(()=>{return{current:k};});
+        this.setState(() => {
+            return{current: k};
+        });
     }
 
     getNavList() {
@@ -30,12 +33,12 @@ export default class SubNav extends React.Component {
         for (var k in this.props.items) {
             var active = (k === this.props.defaultItem) ? "active" : "";
             var item = this.props.items[k];
-            
-            li.push(<NavLink  to={`/app/edit-profile/${k}`}>
+
+            li.push(<NavLink  to={`${RootPath}/app/edit-profile/${k}`}>
                 <li id={k} className={active}
-                onClick={this.changeItem.bind(this)}>
-                <i className={`fa fa-${item.icon}`}></i>
-                {item.label}
+                    onClick={this.changeItem.bind(this)}>
+                    <i className={`fa fa-${item.icon}`}></i>
+                    {item.label}
                 </li>
             </NavLink>);
         }

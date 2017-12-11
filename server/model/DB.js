@@ -15,7 +15,7 @@ var DB = function (env) {
             connectionLimit: 100,
             host: 'localhost',
             user: 'root',
-            password: '',
+            password: 'gundamseed21',
             database: 'wp_career_fair'
         };
     }
@@ -144,8 +144,11 @@ DB.prototype.prepareLimit = function (page, offset) {
     return limit;
 };
 
-module.exports = new DB("DEV");
-//module.exports = new DB("PROD");
+if (process.env.NODE_ENV === "production") {
+    module.exports = new DB("PROD");
+} else {
+    module.exports = new DB("DEV");
+}
 //helper function
 
 

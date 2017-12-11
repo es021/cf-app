@@ -5,6 +5,7 @@ import ProfileCard from '../component/profile-card';
 import {isAuthorized, getAuthUser} from '../redux/actions/auth-actions';
 import {getWindowWidth} from '../lib/util';
 import {getPositionStr} from '../component/profile-card-img';
+import {RootPath} from '../../config/app-config';
 
 import store from '../redux/store';
 
@@ -49,7 +50,7 @@ export default class LeftBarLayout extends React.Component {
 
         var profile = "";
         if (isAuth) {
-            var pcBody = <small><NavLink  to={`/app/edit-profile/profile`} >Edit Profile</NavLink></small>;
+            var pcBody = <small><NavLink  to={`${RootPath}/app/edit-profile/profile`} >Edit Profile</NavLink></small>;
             profile =
                     (<div className="left_bar_profile">
                 <NavLink  to={`/app/edit-profile/profile`} >

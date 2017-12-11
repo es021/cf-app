@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {NavLink} from 'react-router-dom';
 import {ButtonLink} from '../component/buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
 import UserPopup from './partial/popup/user-popup';

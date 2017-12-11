@@ -4,6 +4,8 @@ import {Loader} from '../component/loader';
 import {activateAccount} from '../redux/actions/auth-actions';
 import {AuthAPIErr} from '../../server/api/auth-api';
 import {NavLink} from 'react-router-dom';
+import {RootPath} from '../../config/app-config';
+
 export default class ActAccountPage extends React.Component {
 
     constructor(props) {
@@ -57,7 +59,7 @@ export default class ActAccountPage extends React.Component {
                 view = <div>{this.state.error}</div>;
             } else {
                 view = <div>Your account has been successfully activated.<br></br>
-                    Please <NavLink to={`/auth/login`}>login </NavLink> 
+                    Please <NavLink to={`${RootPath}/auth/login`}>login </NavLink> 
                     using email <b>{this.state.success}</b>
                 </div>;
             }

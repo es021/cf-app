@@ -4,7 +4,7 @@ import {BrowserRouter, Route, NavLink, Switch, Redirect} from 'react-router-dom'
 import {Provider} from 'react-redux';
 import {store} from './redux/store.js';
 
-//console.log(process.env.NODE_ENV); 
+console.log(process.env.NODE_ENV);
 //import {User} from '../config/db-config'; 
 
 //console.log(User);
@@ -53,15 +53,17 @@ class PrimaryLayout extends React.Component {
 
 
 import AuthorizedRoute from './component/authorize-route';
+import {RootPath} from '../config/app-config';
+
 const App = () => (
             <Provider store={store}>
                 <BrowserRouter>
                     <Switch>
-                    <AuthorizedRoute path="/app" component={PrimaryLayout} />
-                    <Route path="/auth" component={PrimaryLayout} />
+                    <AuthorizedRoute path={`${RootPath}/app`} component={PrimaryLayout} />
+                    <Route path={`${RootPath}/auth`} component={PrimaryLayout} />
                     </Switch>
                 </BrowserRouter>
             </Provider>
             );
-
+console.log("render app");
 render(<App />, document.getElementById('app'));
