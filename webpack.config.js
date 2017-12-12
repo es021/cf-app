@@ -14,6 +14,7 @@ const APP_DIR = path.resolve(__dirname, 'app');
 const CSS_DIR = "asset/css/";
 const JS_DIR = "asset/js/";
 
+var allowProdMap = false;
 var isProd = false;
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local") {
     isProd = true;
@@ -33,6 +34,7 @@ const entryPoint = {
     main: APP_DIR + "/index.jsx"
             //,loading: APP_DIR + "/loading.jsx"
 };
+
 
 var entry;
 if (isProd) {
@@ -57,7 +59,7 @@ var plugins = [
 ];
 
 // Optimize and Minimize for Production
-if (isProd) {
+if (isProd && !allowProdMap) {
     plugins = plugins.concat([
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -102,7 +104,7 @@ if (isProd) {
 // create Moduile --------------------------------------
 module.exports = {
     entry: entry,
-    devtool: (isProd) ? false : 'source-map', // false -- bigger
+    devtool: (isProd && !allowProdMap) ? false : 'source-map', // false -- bigger
     //devtool: 'source-map', // false -- bigger
     plugins: plugins,
     module: {

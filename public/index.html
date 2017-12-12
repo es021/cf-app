@@ -13,7 +13,7 @@
             </div>
         </div>
         <div id="app"></div>
-        
+
         <script>
             function MainLoadAsset(js_version, css_version) {
                 console.log("Start Load Asset");
@@ -28,7 +28,7 @@
                 var head = document.getElementsByTagName("head")[0];
                 var app_load = document.getElementById('app-loading');
                 var app_load_img = document.getElementById('app-loading-img');
-                
+
                 // load loading image
                 app_load_img.src = ASSET_ROOT + "/image/loader.gif";
 
@@ -100,18 +100,19 @@
                     }
 
                     if (type === 'js') {
-                        asset.src = url;
+                        asset.src = url + "?v=" + js_version;
                         body.appendChild(asset);
 
                     } else if (type === 'css') {
-                        asset.href = url;
+                        asset.href = url + "?v=" + css_version;
                         head.appendChild(asset);
                     }
 
                 }
             }
-
-            MainLoadAsset();
+            var js_version = "3";
+            var css_version = "2";
+            MainLoadAsset(js_version, css_version);
         </script>
     </body>
 </html>

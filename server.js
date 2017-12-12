@@ -23,13 +23,13 @@ app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 
 
 //allow CORS
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-    next();
-});
-
+if (!isProd) {
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
+}
 
 // intercept to serve compress file
 // this has to put before Express Middleware for serving static files 

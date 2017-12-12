@@ -37,9 +37,9 @@ class FocusCard extends React.Component {
     }
 
     render() {
-       
+        
         var focus = this.props.redux.focusCard;
-         console.log("render focus card");
+        console.log("render focus card");
         console.log(focus.props);
         
         var component = null;
@@ -49,8 +49,10 @@ class FocusCard extends React.Component {
             focus.props["key"] = (new Date()).getTime();
             component = React.createElement(focus.component, focus.props);
         }
-
-        var display = (focus.show) ? "flow-root" : "none";
+        console.log(focus);
+        console.log(focus.show);
+        //var display = (focus.show == true) ? "flow-root" : "none";
+        var display = (focus.show == true) ? "block" : "none";
         var style = {
             display: display
         };

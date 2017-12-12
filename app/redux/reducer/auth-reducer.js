@@ -8,9 +8,25 @@ const authReducerInitState = {
     error: null
 };
 
+var auth = null;
+var hasLocalStorageSupport;
+
+try {
+    window.localStorage.setItem("testKey", 'foo');
+    window.localStorage.removeItem("testKey");
+    hasLocalStorageSupport = true;
+} catch (e) {
+    console.log(e);
+    hasLocalStorageSupport = false;
+}
+
+
 const AUTH_LOCAL_STORAGE = "auth";
 
 function setAuthLocalStorage(newItem) {
+    if (!hasLocalStorageSupport) {
+        return;
+    }
     var auth = JSON.parse(window.localStorage.getItem(AUTH_LOCAL_STORAGE));
     if (auth !== null) {
         for (var k in newItem) {
@@ -23,6 +39,9 @@ function setAuthLocalStorage(newItem) {
 }
 
 function fixLocalStorageAuth(auth) {
+    if (!hasLocalStorageSupport) {
+        return;
+    }
     if (typeof auth["user"] === "undefined" || typeof auth["isAuthorized"] === "undefined") {
         return authReducerInitState;
     }
@@ -34,14 +53,39 @@ function fixLocalStorageAuth(auth) {
     return auth;
 }
 
-var auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
-if (auth !== null) {
-    auth = JSON.parse(auth);
-    auth = fixLocalStorageAuth(auth);
-} else {
-    auth = authReducerInitState;
-    setAuthLocalStorage(authReducerInitState);
+if (hasLocalStorageSupport) {
+    auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
+    if (auth !== null) {
+        auth = JSON.parse(auth);
+        auth = fixLocalStorageAuth(auth);
+    } else {
+        auth = authReducerInitState;
+        setAuthLocalStorage(authReducerInitState);
+    }
 }
+// need to find a fallback for safari
+else {
+//    auth = {
+//
+//        user: {
+//            ID: 136,
+//            user_status: "Active",
+//            first_name: "Student",
+//            last_name: "For Test",
+//            img_url: "http://seedsjobfair.com/wp-content/uploads/2017/07/user_136_profile_image.jpeg",
+//            img_pos: "18% 29%",
+//            img_size: "195% auto"
+//        },
+//
+//        isAuthorized: true,
+//        fetching: false,
+//        error: null
+//    };
+
+    auth = authReducerInitState;
+}
+
+
 
 export default function authReducer(state = auth, action) {
     switch (action.type) {
@@ -59,7 +103,9 @@ export default function authReducer(state = auth, action) {
         }
         case authActions.DO_LOGOUT:
         {
-            window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
+            if (hasLocalStorageSupport) {
+                window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
+            }
             return getNewState(state, authReducerInitState);
         }
         case authActions.DO_LOGIN + '_PENDING':

@@ -8,7 +8,7 @@ const RootPath = (isProd) ? "/cf" : "";
 var SiteUrl = (isProd) ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
 var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
 
-var UploadUrl = SiteUrl + "/upload";
+var UploadUrl = AssetUrl + "/upload";
 
 var PHPApi = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {
