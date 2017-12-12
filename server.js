@@ -8,7 +8,9 @@ const formidable = require('formidable');
 const fs = require('fs');
 const {UploadUrl} = require('./config/app-config.js');
 
-var root = "/cf";
+const isProd = (process.env.NODE_ENV === "production");
+
+var root = (isProd) ? "/cf" : "";
 //var root = "";
 
 //Use Career Fair Schema

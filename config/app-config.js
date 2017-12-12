@@ -1,13 +1,12 @@
-const RootPath = "/cf";
+console.log("environment - " + process.env.NODE_ENV);
 
-console.log("environment");
-console.log(process.env.NODE_ENV);
+var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
+var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
 
-var isProd = (process.env.NODE_ENV === "production");
-var isProdLocal = (process.env.NODE_ENV === "production-local");
+const RootPath = (isProd) ? "/cf" : "";
 
-var SiteUrl = (process.env.NODE_ENV === "production") ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
-var AssetUrl = (process.env.NODE_ENV === "production") ? `https://seedsjobfair.com/public` : SiteUrl;
+var SiteUrl = (isProd) ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
+var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
 
 var UploadUrl = SiteUrl + "/upload";
 
