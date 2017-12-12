@@ -15,7 +15,7 @@ const CSS_DIR = "asset/css/";
 const JS_DIR = "asset/js/";
 
 var isProd = false;
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local" ) {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local") {
     isProd = true;
 }
 
@@ -29,8 +29,9 @@ var buildDevEntryPoint = function (entryPoint) {
 };
 
 const entryPoint = {
+    //main: ['babel-core/polyfill', APP_DIR + "/index.jsx"] 
     main: APP_DIR + "/index.jsx"
-    //,loading: APP_DIR + "/loading.jsx"
+            //,loading: APP_DIR + "/loading.jsx"
 };
 
 var entry;
@@ -39,7 +40,7 @@ if (isProd) {
 } else {
     entry = {
         main: buildDevEntryPoint(entryPoint.main)
-        //,loading: buildDevEntryPoint(entryPoint.loading)
+                //,loading: buildDevEntryPoint(entryPoint.loading)
     };
 }
 
@@ -97,7 +98,8 @@ module.exports = {
         loaders: [
             {test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: (isProd) ? 'babel-loader' : 'react-hot-loader!babel-loader'
+                loader: (isProd) ? 'babel-loader' : 'react-hot-loader!babel-loader',
+                query: {presets: ["es2015", "react", "modern-browsers"]}
             },
             //{test: /\.js$/, loader: "babel?presets[]=es2015&presets[]=react", exclude: /node_modules/},
             {test: /\.css$/, loader: "style-loader!css-loader"},
