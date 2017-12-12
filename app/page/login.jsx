@@ -10,7 +10,6 @@ import {RootPath} from '../../config/app-config';
 
 import {ButtonLink} from '../component/buttons';
 import {AuthAPIErr} from '../../server/api/auth-api';
-console.log(AuthAPIErr);
 
 //state is from redux reducer
 // with multiple objects

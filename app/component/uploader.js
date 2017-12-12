@@ -37,13 +37,13 @@ export class Uploader extends React.Component {
     }
 
     validateUpload(file) {
-
+        console.log(this.props.type);
         var allowable_format;
         switch (this.props.type) {
-            case "img":
+            case FileType.IMG:
                 allowable_format = this.VALID_IMG;
                 break;
-            case "doc":
+            case FileType.DOC:
                 allowable_format = this.VALID_DOC;
                 break;
         }

@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV === "production")  {
+    console.log = function (mes) {
+        return;
+    };
+}
+
 export function openNewTab(url) {
     var win = window.open(url, '_blank');
     win.focus();
@@ -19,3 +25,4 @@ document.setTitle = function (title) {
     document.title = `Test | ${title}`;
     //document.title = `VICAF | ${title}`;
 };
+

@@ -9,6 +9,8 @@ console.log(process.env.NODE_ENV);
 
 //console.log(User);
 
+require("./lib/util.js");
+
 require("./css/app.scss");
 require("./css/content.scss");
 require("./css/general.scss");
