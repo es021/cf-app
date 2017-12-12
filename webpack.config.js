@@ -88,6 +88,17 @@ if (isProd) {
     ]);
 }
 
+var jsxLoader = {test: /\.jsx?$/, exclude: /node_modules/};
+if (isProd) {
+    jsxLoader.loader = 'babel-loader';
+    jsxLoader.query = {
+        presets: ["es2015", "react", "modern-browsers"],
+        plugins: ["transform-es2015-modules-commonjs"]
+    };
+} else {
+    jsxLoader.loader = 'react-hot-loader!babel-loader';
+}
+
 // create Moduile --------------------------------------
 module.exports = {
     entry: entry,
@@ -95,12 +106,13 @@ module.exports = {
     //devtool: 'source-map', // false -- bigger
     plugins: plugins,
     module: {
-        loaders: [
-            {test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: (isProd) ? 'babel-loader' : 'react-hot-loader!babel-loader',
-                query: {presets: ["es2015", "react", "modern-browsers"]}
-            },
+        loaders: [jsxLoader,
+            /*{test: /\.jsx?$/,
+             exclude: /node_modules/,
+             loader: (isProd) ? 'babel-loader' : 'react-hot-loader!babel-loader',
+             query: {}
+             //query: {presets: ["es2015", "react", "modern-browsers"]}
+             },*/
             //{test: /\.js$/, loader: "babel?presets[]=es2015&presets[]=react", exclude: /node_modules/},
             {test: /\.css$/, loader: "style-loader!css-loader"},
             //{test: /\.scss$/, loader:  "style-loader!css-loader!sass-loader"},
