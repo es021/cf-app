@@ -11,6 +11,10 @@ console.log(process.env.NODE_ENV);
 
 require("./lib/util.js");
 
+//require("./lib/AutoComplete.js");
+
+
+
 require("./css/app.scss");
 require("./css/content.scss");
 require("./css/general.scss");
