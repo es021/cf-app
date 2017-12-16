@@ -22,6 +22,14 @@ form{
                 width: 100%;
             }
         }
+
+        .form-warning {
+            margin-top: -10px;
+            margin-bottom: 10px;
+            color: red;
+            font-style: oblique;
+            opacity: 0.8;
+        }
     }
 
     .form-submit {

@@ -38,29 +38,82 @@ export default class Form extends React.Component {
         this.form = {};
         //this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onBlur = this.onBlur.bind(this);
         this.getSelectOptions = this.getSelectOptions.bind(this);
         this.state = {
             isInit: true,
-            multiple: {}
+            multiple: {},
+            warning: {}
         }
 
         this.hasInit = false;
     }
 
-    /*
-     onChange(event) {
-     console.log("handleChange");
-     var name = event.target.name;
-     var newState = {};
-     newState[name] = event.target.value;
-     }
-     */
+    onBlur(event) {
+        var name = event.target.name;
+        if(Object.keys(this.state.warning).length > 0){
+            this.hasError(name);
+        }
+    }
+
+    hasError(defName = null) {
+        // check if has warning
+        var warning = {};
+        var doHas = false;
+        var toFocus = null;
+        for (var i in this.form) {
+            var w = "";
+            var formObj = this.form[i];
+            var name = formObj.name;
+            var value = formObj.value;
+            
+            if(defName !== null && name != name){
+                continue;
+            }
+            
+            if (formObj.type == "number" && value == "") {
+                w = "Please enter a number";
+            }
+            else if(formObj.type == "email" && value != ""){
+                var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(!regex.test(value)){
+                    w = "Please enter a valid email";
+                }
+            }
+            else if (formObj.required && value == "") {
+                w = "This field is required";
+            }
+            
+
+            if(w !== ""){
+                doHas = true;
+                warning[name] = w;
+                if (toFocus === null) {
+                    toFocus = formObj;
+                }
+            }
+        }
+        
+        this.setState((prevState) => {
+            return {warning: warning};
+        });
+            
+        if (doHas && toFocus !== null) {
+            toFocus.focus();
+        }
+
+        return doHas;
+
+    }
 
     onSubmit(event) {
         event.preventDefault();
-
         var ignore = []; // to ignore multiple if any
         var data_form = {};
+
+        if (this.hasError()) {
+            return;
+        }
 
         for (var i in this.form) {
             var formObj = this.form[i];
@@ -98,7 +151,6 @@ export default class Form extends React.Component {
         }
 
         this.props.onSubmit(data_form);
-
     }
 
     getSelectOptions(data)
@@ -170,11 +222,13 @@ export default class Form extends React.Component {
             defaultVal = "";
             this.emptyForm();
         }
-
+        var item = null;
+        var formClass = "form-control input-sm";
         switch (d.type) {
 
             case 'textarea':
-                return(<textarea 
+                item = <textarea 
+                    className={formClass}
                     hidden={d.hidden}
                     name={d.name}
                     rows={(d.rows) ? d.rows : 4}
@@ -182,21 +236,24 @@ export default class Form extends React.Component {
                     placeholder={d.placeholder}
                     ref={(v) => this.form[d.name] = v}
                     defaultValue={defaultVal}>
-                </textarea>);
+                </textarea>;
                 break;
             case 'select':
-                return(<select
+                item = <select
+                    className={formClass}
                     hidden={d.hidden}
                     name={d.name}
                     required={d.required}
                     ref={(v) => this.form[d.name] = v}
                     defaultValue={defaultVal}>
                     {this.getSelectOptions(d.data)}
-                </select>)
+                </select>;
                 break;
             default:
                 //onChange={this.onChange}
-                return(<input 
+                item = <input 
+                    className={formClass}
+                    onBlur={this.onBlur}
                     hidden={d.hidden}
                     name={d.name}
                     type={d.type}
@@ -206,9 +263,28 @@ export default class Form extends React.Component {
                     required={d.required}
                     placeholder={d.placeholder}
                     defaultValue={defaultVal}
-                    ref={(v) => this.form[d.name] = v} />);
+                    ref={(v) => this.form[d.name] = v} />
                 break;
         }
+
+        if (item !== null) {
+            return item;
+        } else {
+            return null;
+        }
+    }
+
+    //called in render
+    getWarning(d) {
+
+        if (!this.state.warning[d.name]) {
+            return null
+        }
+
+        return (<div className="form-warning"> 
+            {this.state.warning[d.name]}
+        </div>);
+
     }
 
     //called in render
@@ -275,19 +351,27 @@ export default class Form extends React.Component {
             }
 
             //b. sublabel ----
-            var sublabel = (d.sublabel) ? <div className="form-sublabel">{d.sublabel}</div> : null;
+            var sublabel = (d.sublabel) ? <div className="form-sublabel">{
+                                d.sublabel}</div> : null;
 
+            // bootstrap form class
+            //var formClass = "form-item form-group";
+            var formClass = "form-group";
+            if ((this.state.warning[d.name])) {
+                formClass += " has-feedback has-error";
+            }
 
-            return (d.header)
-                    ?
+            return (d.header) ?
                     <div className="form-header" key={i}>{d.header}</div>
                     :
-                    <div className="form-item" key={i}>
-                        {label}
-                        {sublabel} 
-                        <div className="form-input">           
-                            {this.renderItem(d)}
-                            {this.addMultiple(d)}
+                    <div className="form-item">
+                        {label}{sublabel}
+                        <div className={formClass} key={i}>
+                            <div className="form-input">           
+                                {this.renderItem(d)}
+                                {this.addMultiple(d)}
+                            </div>
+                            {this.getWarning(d)}
                         </div>
                     </div>
         });
@@ -303,7 +387,8 @@ export default class Form extends React.Component {
                 <div className="form-submit">
                     <button type="submit" 
                             className="btn btn-md btn-primary" 
-                            disabled={disableSubmit}>
+                            disabled={
+                    disableSubmit}>
                         {submitText}
                     </button>
                 </div>;
@@ -320,10 +405,12 @@ export default class Form extends React.Component {
         }
         var formSuccess = (this.props.success) ?
                 <div className="form-error alert alert-success">
-                    {this.props.success} </div>
+                    {
+                        this.props.success} </div>
                 : null;
 
-        return (<form className={this.props.className} onSubmit={this.onSubmit}>
+        return (<form noValidate  className={
+                    this.props.className} onSubmit={this.onSubmit}>
         {formSuccess}
         {formItems}
         {formError}
