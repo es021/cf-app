@@ -51,7 +51,7 @@ export default class Form extends React.Component {
 
     onBlur(event) {
         var name = event.target.name;
-        if(Object.keys(this.state.warning).length > 0){
+        if (Object.keys(this.state.warning).length > 0) {
             this.hasError(name);
         }
     }
@@ -66,26 +66,24 @@ export default class Form extends React.Component {
             var formObj = this.form[i];
             var name = formObj.name;
             var value = formObj.value;
-            
-            if(defName !== null && name != name){
+
+            if (defName !== null && name != name) {
                 continue;
             }
-            
+
             if (formObj.type == "number" && value == "") {
                 w = "Please enter a number";
-            }
-            else if(formObj.type == "email" && value != ""){
+            } else if (formObj.type == "email" && value != "") {
                 var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if(!regex.test(value)){
+                if (!regex.test(value)) {
                     w = "Please enter a valid email";
                 }
-            }
-            else if (formObj.required && value == "") {
+            } else if (formObj.required && value == "") {
                 w = "This field is required";
             }
-            
 
-            if(w !== ""){
+
+            if (w !== "") {
                 doHas = true;
                 warning[name] = w;
                 if (toFocus === null) {
@@ -93,11 +91,11 @@ export default class Form extends React.Component {
                 }
             }
         }
-        
+
         this.setState((prevState) => {
             return {warning: warning};
         });
-            
+
         if (doHas && toFocus !== null) {
             toFocus.focus();
         }
@@ -153,16 +151,14 @@ export default class Form extends React.Component {
         this.props.onSubmit(data_form);
     }
 
-    getSelectOptions(data)
-    {
+    getSelectOptions(data) {
         return(data.map((d, i) => {
             return <option key={i}  value={d}>{d}</option>;
         }));
     }
 
     //called in renderItem and addMultiple::onClickAdd
-    getChildMultipleItem(d, index, defaultVal = "")
-    {
+    getChildMultipleItem(d, index, defaultVal = "") {
         var newData = Object.assign({}, d);
         newData.name += "::" + index;
         newData.required = false;
@@ -409,13 +405,12 @@ export default class Form extends React.Component {
                         this.props.success} </div>
                 : null;
 
-        return (<form noValidate  className={
+        return (<form noValidate="novalidate"  className={
                     this.props.className} onSubmit={this.onSubmit}>
         {formSuccess}
         {formItems}
         {formError}
-        {formSubmit}
-    </form>);
+        {formSubmit}</form>);
     }
 }
 
