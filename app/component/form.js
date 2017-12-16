@@ -96,7 +96,7 @@ export default class Form extends React.Component {
             return {warning: warning};
         });
 
-        if (doHas && toFocus !== null) {
+        if (doHas && toFocus !== null && defName === null) {
             toFocus.focus();
         }
 
