@@ -3,6 +3,10 @@ form{
     max-width: 400px;
     margin: auto;
 
+    .loader{
+        padding-top:0 !important;
+    }
+
     .form-header{
         border-bottom: solid gray 1px;
         margin-top: 15px;

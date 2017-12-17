@@ -35,6 +35,11 @@ const UserType = new GraphQLObjectType({
             activation_key: {type: GraphQLString},
             role: {type: GraphQLString},
 
+            //active activity
+            queues: {type: new GraphQLList(QueueType)},
+            prescreens: {type: new GraphQLList(PrescreenType)},
+            sessions: {type: new GraphQLList(SessionType)},
+
             // student only
             university: {type: GraphQLString},
             phone_number: {type: GraphQLString},
@@ -44,7 +49,6 @@ const UserType = new GraphQLObjectType({
             cgpa: {type: GraphQLString},
             major: {type: GraphQLString},
             minor: {type: GraphQLString},
-            queues: {type: new GraphQLList(QueueType)},
             doc_links: {type: new GraphQLList(DocLinkType)},
             skills: {type: new GraphQLList(SkillType)},
 
@@ -56,15 +60,32 @@ const UserType = new GraphQLObjectType({
         })
 });
 
+const SessionType = new GraphQLObjectType({
+    name: 'Session',
+    fields: () => ({
+            ID: {type: GraphQLInt},
+            host_id: {type: GraphQLInt},
+            participant_id: {type: GraphQLInt},
+            company_id: {type: GraphQLInt},
+            status: {type: GraphQLString},
+            created_at: {type: GraphQLString},
+            
+            student: {type: UserType},
+            company: {type: CompanyType}
+        })
+});
+
 const QueueType = new GraphQLObjectType({
     name: 'Queue',
     fields: () => ({
             ID: {type: GraphQLInt},
             student_id: {type: GraphQLInt},
-            student: {type: UserType},
             company_id: {type: GraphQLInt},
             status: {type: GraphQLString},
-            created_at: {type: GraphQLString}
+            created_at: {type: GraphQLString},
+
+            student: {type: UserType},
+            company: {type: CompanyType}
         })
 });
 
@@ -77,7 +98,10 @@ const PrescreenType = new GraphQLObjectType({
             status: {type: GraphQLString},
             special_type: {type: GraphQLString},
             appointment_time: {type: GraphQLInt},
-            created_at: {type: GraphQLString}
+            created_at: {type: GraphQLString},
+
+            student: {type: UserType},
+            company: {type: CompanyType}
         })
 });
 
@@ -141,4 +165,5 @@ module.exports = {UserType
     , DocLinkType
     , VacancyType
     , SkillType
+    , SessionType
 };

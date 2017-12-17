@@ -128,7 +128,13 @@ import ProfileCard, {PCType} from './profile-card';
 
 export class ProfileListItem extends Component {
     render() {
-        return <ProfileCard {...this.props} img_dimension="75px" className="profile-li"></ProfileCard>;
+        var className = "profile-li";
+        if (this.props.body) {
+            className += "-with-body";
+        }
+        var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px"; 
+        return <ProfileCard {...this.props} img_dimension={img_dimension} 
+            className={className}></ProfileCard>;
     }
 }
 
@@ -138,6 +144,7 @@ ProfileListItem.propTypes = {
     img_url: PropTypes.string,
     img_pos: PropTypes.string,
     img_size: PropTypes.string,
+    img_dimension: PropTypes.string,
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     body: PropTypes.any
 };
@@ -163,7 +170,7 @@ SimpleListItem.propTypes = {
     subtitle: PropTypes.string.isRequired,
     body: PropTypes.any
 };
- 
+
 
 export class CustomList extends Component {
 

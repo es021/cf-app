@@ -65,6 +65,7 @@ const DocLinkEnum = {
 
 
 const Prescreen = {
+    TABLE: "pre_screens",
     STUDENT_ID: "student_id",
     CREATED_AT: "created_at",
     STATUS: "status"
@@ -90,6 +91,22 @@ const QueueEnum = {
     STATUS_DONE: "Done"
 };
 
+
+const Session = {
+    TABLE: "sessions",
+    ID: "id",
+    H_ID: "host_id",
+    P_ID: "participant_id",
+    CREATED_AT: "created_at",
+    STATUS: "status"
+};
+
+const SessionEnum = {
+    STATUS_NEW: "New",
+    STATUS_EXPIRED: "Expired",
+    STATUS_LEFT: "Left",
+    STATUS_ACTIVE: "Active"
+};
 
 const Company = {
     TABLE: "companies",
@@ -141,6 +158,7 @@ const Skill = {
 
 module.exports = {User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
+    , Session, SessionEnum
     , Vacancy, VacancyEnum
     , Prescreen, PrescreenEnum
     , Company, CompanyEnum

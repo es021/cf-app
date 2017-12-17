@@ -3,8 +3,17 @@ ul{
     list-style: none;
 }
 
+[hidden]{
+    display:none !important;
+}
+
 p{
     text-align: justify;
     margin: 0;
+}
+
+
+.no-padding{
+    padding: 0;
 }
 

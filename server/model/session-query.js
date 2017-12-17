@@ -1,0 +1,82 @@
+const DB = require('./DB.js');
+const {Session} = require('../../config/db-config');
+const {UserQuery} = require('./user-query');
+
+class SessionQuery {
+    getSession(params, extra) {
+        var participant_where = (typeof params.participant_id === "undefined") ? "1=1" : `q.participant_id = ${params.participant_id}`;
+
+        var status_where = "1=1";
+        if (typeof params.status !== "undefined") {
+
+            console.log(typeof params.status);
+
+            if (typeof params.status === "string") {
+                params.status = [params.status];
+            }
+
+            console.log(params.status);
+            status_where = "q.status in ( ";
+            params.status.map((d, i) => {
+                status_where += `'${d}',`;
+            });
+            status_where = status_where.slice(0, -1) + ")";
+        }
+
+        //var status_where = (typeof params.status === "undefined") ? "1=1" : `q.status like '%${params.status}%'`;
+
+        var host_where = (typeof params.host_id === "undefined") ? "1=1" : `q.host_id = '${params.host_id}'`;
+
+        var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
+
+        var sql = `from ${Session.TABLE} q where ${participant_where} and ${status_where} and ${host_where} ${order_by}`;
+        if (extra.count) {
+            return `select count(*) as cnt ${sql}`;
+        } else {
+            return `select q.*,
+            ${UserQuery.selectMeta("q.host_id", "rec_company", "company_id")}
+            ${sql}`;
+        }
+    }
+}
+SessionQuery = new SessionQuery();
+
+class SessionExec {
+
+    sessions(params, field, extra = {}) {
+
+        var {CompanyExec} = require('./company-query.js');
+        var {UserExec} = require('./user-query.js');
+
+        var sql = SessionQuery.getSession(params, extra);
+        console.log(sql);
+        
+        var toRet = DB.query(sql).then(function (res) {
+            if (extra.count) {
+                return res[0]["cnt"];
+            }
+
+            for (var i in res) {
+                var student_id = res[i]["participant_id"];
+                var company_id = res[i]["company_id"];
+
+                if (typeof field["student"] !== "undefined") {
+                    res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
+                }
+
+                if (typeof field["company"] !== "undefined") {
+                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
+                }
+            }
+
+            return res;
+        });
+
+        return toRet;
+    }
+}
+SessionExec = new SessionExec();
+
+module.exports = {SessionExec, SessionQuery};
+
+

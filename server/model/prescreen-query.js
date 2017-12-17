@@ -22,11 +22,27 @@ PrescreenQuery = new PrescreenQuery();
 class PrescreenExec {
 
     prescreens(params, field, extra = {}) {
+        const {CompanyExec} = require('./company-query.js');
+        const {UserExec} = require('./user-query.js');
+
         var sql = PrescreenQuery.getPrescreen(params, extra);
         var toRet = DB.query(sql).then(function (res) {
 
             if (extra.count) {
                 return res[0]["cnt"];
+            }
+
+            for (var i in res) {
+                var student_id = res[i]["student_id"];
+                var company_id = res[i]["company_id"];
+
+                if (typeof field["student"] !== "undefined") {
+                    res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
+                }
+                
+                if (typeof field["company"] !== "undefined") {
+                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
+                }
             }
 
             return res;

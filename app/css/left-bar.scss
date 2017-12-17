@@ -12,6 +12,8 @@ left_bar{
 
         ul li .fa{
             padding-right: 7px;
+            width: 24px;
+            text-align: center;
         }
 
         ul a{
@@ -43,7 +45,6 @@ left_bar{
 
 }
 
-
 @media only screen and (max-width: $LAYOUT_MD){
     left_bar {
 
@@ -51,7 +52,9 @@ left_bar{
             ul li .menu_label{
                 display: none;
             }
-
+            ul li .fa{
+                width: auto;
+            }
         }
 
         .left_bar_profile .profile-card {

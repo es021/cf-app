@@ -22,7 +22,10 @@ QueueQuery = new QueueQuery();
 class QueueExec {
 
     queues(params, field, extra = {}) {
+
+        var {CompanyExec} = require('./company-query.js');
         var {UserExec} = require('./user-query.js');
+
         var sql = QueueQuery.getQueue(params, extra);
 
         var toRet = DB.query(sql).then(function (res) {
@@ -31,10 +34,15 @@ class QueueExec {
             }
 
             for (var i in res) {
+                var student_id = res[i]["student_id"];
+                var company_id = res[i]["company_id"];
 
                 if (typeof field["student"] !== "undefined") {
-                    var student_id = res[i]["student_id"];
                     res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
+                }
+
+                if (typeof field["company"] !== "undefined") {
+                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
             }
 

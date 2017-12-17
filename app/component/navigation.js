@@ -87,9 +87,19 @@ const menuItem = [
         routeOnly: true
     },
     {
-        url: "/hall",
-        label: "Hall",
-        icon: "comments",
+        url: "/auditorium",
+        label: "Auditorium",
+        icon: "microphone",
+        component: HallPage,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: false,
+        hd_auth: false
+    },
+    {
+        url: "/job-fair",
+        label: "Job Fair",
+        icon: "suitcase",
         component: HallPage,
         bar_app: true,
         bar_auth: false,

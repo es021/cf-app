@@ -1,3 +1,5 @@
+@import 'define/variable.scss';
+
 // Simple List Item
 // -- used in company-popup
 .simple-li{
@@ -12,11 +14,13 @@
 
     .sili-subtitle{
         color: gray;
+        font-size: 85%;
     }
 
     .sili-body{
         height: 60px;
-        overflow-y: hidden;
+        overflow: hidden;
+        font-size: 90%;
     }
 }
 
@@ -32,8 +36,8 @@
     grid-template-columns : 1fr 4fr;
     grid-template-rows : 1fr 1fr;
     grid-template-areas: 
-        "img title"
-        "img subtitle";
+        "img title body"
+        "img subtitle body";
 
     .pc-picture{
         grid-area : img;
@@ -47,6 +51,43 @@
     .pc-subtitle{
         align-self: start;
         grid-area : subtitle;
+    }
+
+}
+
+// -- used in activity-section
+.profile-card.profile-li-with-body{
+    background-color: white;
+    box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
+    width: 120px;
+    margin: 8px 5px;
+    
+    .pc-title{
+        font-size: 15px;
+        padding: 0px 5px;
+        height: 40px;
+        line-height: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .pc-subtitle{
+        font-size: 12px;
+        line-height: 12px;
+        padding: 0px 5px;
+        margin: 5px;
+    }
+
+    .pc-body{
+        margin-top:5px;
+        .btn{
+            width: 100%;
+        }
+    }
+
+    .pc-picture{
+        margin-top: 10px;
+        border: darken($COLOR_BACKGROUND,10) 1px solid;
     }
 }
 
@@ -101,7 +142,7 @@
         .badge:hover{
             background: rgba(0,0,0,0.4);
         }
-        
+
         .badge:active{
             background: rgba(0,0,0,0.5);
         }

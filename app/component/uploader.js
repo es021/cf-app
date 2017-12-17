@@ -7,7 +7,7 @@ import {AppConfig} from '../../config/app-config';
 export const FileType = {
     IMG : "image",
     DOC : "document"
-}
+};
 
 export function uploadFile(file, type, name){
     var data = new FormData();
@@ -15,7 +15,7 @@ export function uploadFile(file, type, name){
     
     var config = {
         headers: { 'content-type': 'multipart/form-data' }
-    }
+    };
     
     return axios.post(`${AppConfig.Api}/upload/${type}/${name}`, data, config);
 }
@@ -104,6 +104,7 @@ export class Uploader extends React.Component {
     render() {
 
         return(<form>
+        <label>{this.props.label}</label>
                 <input 
                     name={this.props.name}
                     type="file"
@@ -119,6 +120,7 @@ export class Uploader extends React.Component {
 
 Uploader.propTypes = {
     name: PropTypes.string.isRequired,
+    label: PropTypes.string,
     type: PropTypes.oneOf([FileType.IMG, FileType.DOC]),
     required: PropTypes.bool,
     onChange: PropTypes.func,

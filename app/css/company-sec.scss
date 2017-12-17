@@ -1,10 +1,6 @@
 @import 'define/variable.scss';
 @import 'define/mixin.scss';
 
-// page section ---------------------
-
-
-
 // companies section ---------------------
 $com-sec : "com-sec";
 
@@ -24,7 +20,7 @@ $COLOR_BLUE : #9ec7ea;
         width: 180px;
         padding: 10px 7px; 
         background: white;
-        border-radius: 10px;
+        box-shadow: 2px 4px 6px -3px rgba(0,0,0,0.7);
         cursor: pointer;
         border: darken($COLOR_BACKGROUND,10) 1px solid;
 

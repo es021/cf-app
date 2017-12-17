@@ -369,7 +369,7 @@ export default class Form extends React.Component {
                             </div>
                             {this.getWarning(d)}
                         </div>
-                    </div>
+                    </div> 
         });
 
         // 2. form submit ---------

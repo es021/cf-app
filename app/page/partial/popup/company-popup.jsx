@@ -8,7 +8,7 @@ import ProfileCard from '../../../component/profile-card';
 import {SimpleListItem, ProfileListItem} from '../../../component/list';
 import {Loader} from '../../../component/loader';
 import {RootPath} from '../../../../config/app-config';
-
+ 
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)

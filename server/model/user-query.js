@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
 
-const {User, UserMeta} = require('../../config/db-config.js');
+const {User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, SessionEnum} = require('../../config/db-config.js');
 const {DocLinkExec} = require('./doclink-query.js');
 const {SkillExec} = require('./skill-query.js');
 
@@ -207,6 +207,12 @@ class UserExec {
     getUserHelper(type, params, field, metaCons) {
         const {CompanyExec} = require('./company-query.js');
         const {QueueExec} = require('./queue-query.js');
+        const {PrescreenExec} = require('./prescreen-query.js');
+        const {SessionExec} = require('./session-query.js');
+
+        if (field["sessions"] !== "undefined" || field["queues"] !== "undefined" || field["prescreens"] !== "undefined") {
+            field["role"] = 1;
+        }
 
         var isSingle = (type === "single");
         var sql = "";
@@ -221,23 +227,55 @@ class UserExec {
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
 
+                var user_id = res[i]["ID"];
+                var company_id = res[i]["rec_company"];
+                var role = res[i]["role"];
+
+                if (typeof field["sessions"] !== "undefined") {
+                    var par = {status: [SessionEnum.STATUS_ACTIVE, SessionEnum.STATUS_NEW]};
+                    if (role === UserEnum.ROLE_STUDENT) {
+                        par["participant_id"] = user_id;
+                    }
+                    if (role === UserEnum.ROLE_RECRUITER) {
+                        par["host_id"] = user_id;
+                    }
+
+                    res[i]["sessions"] = SessionExec.sessions(par, field["sessions"]);
+                }
+
                 if (typeof field["queues"] !== "undefined") {
-                    var user_id = res[i]["ID"];
-                    res[i]["queues"] = QueueExec.queues({student_id: user_id}, field["queues"]);
+                    var par = {status: QueueEnum.STATUS_QUEUING};
+                    if (role === UserEnum.ROLE_STUDENT) {
+                        par["student_id"] = user_id;
+                    }
+                    if (role === UserEnum.ROLE_RECRUITER) {
+                        par["company_id"] = company_id;
+                    }
+
+                    res[i]["queues"] = QueueExec.queues(par, field["queues"]);
+                }
+
+                if (typeof field["prescreens"] !== "undefined") {
+                    var par = {status: PrescreenEnum.STATUS_APPROVED};
+                    if (role === UserEnum.ROLE_STUDENT) {
+                        par["student_id"] = user_id;
+                    }
+                    if (role === UserEnum.ROLE_RECRUITER) {
+                        par["company_id"] = company_id;
+                    }
+
+                    res[i]["prescreens"] = PrescreenExec.prescreens(par, field["prescreens"]);
                 }
 
                 if (typeof field["company"] !== "undefined") {
-                    var company_id = res[i]["rec_company"];
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
 
                 if (typeof field["doc_links"] !== "undefined") {
-                    var user_id = res[i]["ID"];
                     res[i]["doc_links"] = DocLinkExec.doc_links({user_id: user_id}, field["doc_links"]);
                 }
 
                 if (typeof field["skills"] !== "undefined") {
-                    var user_id = res[i]["ID"];
                     res[i]["skills"] = SkillExec.skills({user_id: user_id}, field["skills"]);
                 }
             }
@@ -269,4 +307,4 @@ class UserExec {
 }
 UserExec = new UserExec();
 
-module.exports = {UserExec};
+module.exports = {UserExec, UserQuery};
