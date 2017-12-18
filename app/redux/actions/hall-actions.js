@@ -12,7 +12,7 @@ export const ActivityType = {
 function getEntitySelect(role) {
     return (role === UserEnum.ROLE_STUDENT)
             ? " company{ID name img_url img_position img_size} "
-            : " student{ID first_name last_name} ";
+            : " student{ID first_name last_name img_url img_pos img_size} ";
 
 }
 export const ACTIVITY = "ACTIVITY";
@@ -31,22 +31,22 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
         type += ":" + d;
         switch (d) {
             case ActivityType.SESSION:
-                select += ` sessions { ID ${getEntitySelect(role)}} `;
+                select += ` sessions { ID created_at ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.QUEUE:
-                select += ` queues { ID ${getEntitySelect(role)}} `;
+                select += ` queues { ID created_at ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.PRESCREEN:
-                select += ` prescreens { ID ${getEntitySelect(role)}} `;
+                select += ` prescreens { ID appointment_time ${getEntitySelect(role)}} `;
                 break;
         }
     });
-
+    
+    var query = `query{user(ID:${user_id}){${select}}}`;
     return function (dispatch) {
         dispatch({
             type: ACTIVITY + type,
-            payload: getAxiosGraphQLQuery(
-                    `query{user(ID:${user_id}){${select}}}`)
+            payload: getAxiosGraphQLQuery(query)
         });
     };
 }

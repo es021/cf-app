@@ -2,6 +2,7 @@ import axios from 'axios';
 import {store} from '../store.js';
 import {AppConfig} from '../../../config/app-config';
 import {AuthUserKey} from '../../../config/auth-config';
+import {UserEnum} from '../../../config/db-config';
 
 export function isAuthorized() {
     return store.getState().auth.isAuthorized;
@@ -9,6 +10,10 @@ export function isAuthorized() {
 
 export function getAuthUser() {
     return store.getState().auth.user;
+}
+
+export function isRoleRec(){
+    return getAuthUser().role === UserEnum.ROLE_RECRUITER;
 }
 
 export const UPDATE_USER = "UPDATE_USER";

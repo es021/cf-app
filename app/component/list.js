@@ -129,16 +129,17 @@ import ProfileCard, {PCType} from './profile-card';
 export class ProfileListItem extends Component {
     render() {
         var className = "profile-li";
-        if (this.props.body) {
-            className += "-with-body";
+        if (this.props.list_type) {
+            className += "-" + this.props.list_type;
         }
-        var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px"; 
+        var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
         return <ProfileCard {...this.props} img_dimension={img_dimension} 
             className={className}></ProfileCard>;
     }
 }
 
 ProfileListItem.propTypes = {
+    list_type: PropTypes.oneOf(["card"]),
     title: PropTypes.any.isRequired,
     subtitle: PropTypes.string.isRequired,
     img_url: PropTypes.string,

@@ -7,7 +7,7 @@ $page-sec : "page-sec";
         height: 1px;
         background-image: linear-gradient(to right, white, darkgray, white);
     }
-
+    
     .#{$page-sec}-title{
         color:$COLOR_TITLE;
     }
@@ -32,7 +32,7 @@ $page-sec : "page-sec";
     .#{$page-sec}-title{
         border-bottom: 1px darkgray solid;
     }
-    
+
     .line{
         display: none;
     }

@@ -2,17 +2,21 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as hallAction from '../../../redux/actions/hall-actions';
-import {getAuthUser} from '../../../redux/actions/auth-actions';
 import PropTypes from 'prop-types';
 import {Loader} from '../../../component/loader';
 import ProfileCard from '../../../component/profile-card';
 import {CompanyEnum, UserEnum}  from '../../../../config/db-config';
 import {ButtonLink} from '../../../component/buttons';
 import {ProfileListItem} from '../../../component/list';
+import {Time} from '../../../lib/time';
+import {RootPath} from '../../../../config/app-config';
+import {NavLink} from 'react-router-dom';
+
+import UserPopup from '../popup/user-popup';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
 
-const user_role = getAuthUser().role;
+import {isRoleRec} from '../../../redux/actions/auth-actions';
 
 class ActvityList extends React.Component {
 
@@ -21,32 +25,49 @@ class ActvityList extends React.Component {
         if (this.props.fetching) {
             body = <Loader size="2"></Loader>;
         } else {
-            body = this.props.list.map((d, i) => {
-                var obj = d.company;
-                console.log(d);
-                var title = (user_role === UserEnum.ROLE_STUDENT) ? obj.name : obj.first_name;
 
+            body = this.props.list.map((d, i) => {
+
+                var obj = (isRoleRec()) ? d.student : d.company;
+
+                // 1. title
+                var title = null;
+                if (isRoleRec()) {
+                    var params = {id: obj.ID};
+                    title = <ButtonLink label={obj.first_name + " " + obj.last_name}
+                            onClick={() => layoutActions.storeUpdateFocusCard(obj.first_name + " " + obj.last_name, UserPopup, params)}></ButtonLink>;
+                } else {
+                    title = obj.name;
+                }
+
+                // 2. subtitle and body
                 var subtitle = null;
                 var body = null;
+
+                var btnCreate = <div className="btn btn-sm btn-primary">Create Session</div>;
                 switch (this.props.type) {
                     case hallAction.ActivityType.SESSION:
-                        subtitle = "Started a minute ago";
-                        body = <div className="btn btn-sm btn-success">Go To Session</div>;
-                        break;
-                    case hallAction.ActivityType.QUEUE:
-                        subtitle = "Queuing since 3 hours ago";
-                        body = <div className="btn btn-sm btn-danger">Cancel Queue</div>;
+                        subtitle = `${Time.getAgo(d.created_at)}`;
 
+                        body = <NavLink to={`${RootPath}/app/session/${d.ID}`}>
+                            <div className="btn btn-sm btn-success">Go To Session</div>
+                        </NavLink>;
                         break;
+                        
+                    case hallAction.ActivityType.QUEUE:
+                        subtitle = `${Time.getAgo(d.created_at)}`;
+                        body = (isRoleRec()) ? btnCreate : <div className="btn btn-sm btn-danger">Cancel Queue</div>;
+                        break;
+                        
                     case hallAction.ActivityType.PRESCREEN:
-                        subtitle = "Appointment at bla bla bla";
+                        subtitle = `${Time.getString(d.appointment_time)}`;
                         //body = <div style={{height:"30px"}}></div>;
-                        body = <div></div>;
+                        body = (isRoleRec()) ? btnCreate : <div></div>;
                         break;
                 }
 
-                var img_position = (user_role === UserEnum.ROLE_STUDENT) ? obj.img_position : obj.img_pos;
-                return <ProfileListItem className="" title={title} 
+                var img_position = (isRoleRec()) ? obj.img_pos : obj.img_position;
+                return <ProfileListItem className="" title={title} list_type="card"
                                  img_url={obj.img_url}
                                  img_pos={img_position}
                                  img_size={obj.img_size}
@@ -66,12 +87,13 @@ class ActvityList extends React.Component {
         var style = {
             display: "flex",
             flexFlow: "row wrap",
-            justifyContent: "center"
+            justifyContent: "center",
+            marginBottom: "15px"
         };
 
-        return (<div><h4>{this.props.title}</h4>
-        <div style={style}>{body}</div>
-    </div>);
+        return (<div><h3>{this.props.title}</h3>
+            <div style={style}>{body}</div>
+        </div>);
     }
 
 }
@@ -106,25 +128,27 @@ class ActivitySection extends React.Component {
         var title_s = <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>;
         var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
         var title_p = <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Pre-Screen</a>;
-        return (
-                <div className="row">
-                    <div className="col-sm-3 no-padding">    
-                        <ActvityList fetching={d.fetching.sessions} 
-                                     type={hallAction.ActivityType.SESSION}
-                                     title={title_s} list={d.sessions}></ActvityList>
-                    </div>
-                    <div className="col-sm-6 no-padding">    
-                        <ActvityList fetching={d.fetching.queues} 
-                                     type={hallAction.ActivityType.QUEUE}
-                                     title={title_q} list={d.queues}></ActvityList>
-                    </div>
-                    <div className="col-sm-3 no-padding">    
-                        <ActvityList fetching={d.fetching.prescreens} 
-                                     type={hallAction.ActivityType.PRESCREEN}
-                                     title={title_p} list={d.prescreens}></ActvityList>
-                    </div>
-                
-                </div>);
+
+        var size_s = (isRoleRec()) ? "12" : "3";
+        var size_q = (isRoleRec()) ? "12" : "6";
+        var size_p = (isRoleRec()) ? "12" : "3";
+
+        var s = <div className={`col-sm-${size_s} no-padding`}>
+            <ActvityList fetching={d.fetching.sessions} 
+                         type={hallAction.ActivityType.SESSION}
+                         title={title_s} list={d.sessions}></ActvityList></div>;
+
+        var q = <div className={`col-sm-${size_q} no-padding`}>    
+    <ActvityList fetching={d.fetching.queues} 
+                 type={hallAction.ActivityType.QUEUE}
+                 title={title_q} list={d.queues}></ActvityList></div>;
+
+        var p = <div className={`col-sm-${size_p} no-padding`}>    
+    <ActvityList fetching={d.fetching.prescreens} 
+                 type={hallAction.ActivityType.PRESCREEN}
+                 title={title_p} list={d.prescreens}></ActvityList></div>;
+
+        return (isRoleRec()) ? <div className="row">{s}{p}{q}</div> : <div className="row">{s}{q}{p}</div>;
     }
 }
 
