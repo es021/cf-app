@@ -22,7 +22,7 @@ $COLOR_BLUE : #9ec7ea;
         background: white;
         box-shadow: 2px 4px 6px -3px rgba(0,0,0,0.7);
         cursor: pointer;
-        border: darken($COLOR_BACKGROUND,10) 1px solid;
+        //border: darken($COLOR_BACKGROUND,10) 1px solid;
 
         .pc-title{
             min-height: 40px;
@@ -62,13 +62,13 @@ $COLOR_BLUE : #9ec7ea;
     }
 
     .profile-card:hover{
-        background: $COLOR_BACKGROUND;
+        background: whitesmoke;
     }
 
 
     @mixin company-card($type,$color) {
         .profile-card.#{$type}{
-            border-color: darken($color, 10);
+            //border-color: darken($color, 10);
 
             @include background-gradient($color,white);
 
@@ -82,10 +82,10 @@ $COLOR_BLUE : #9ec7ea;
         }
 
         .profile-card.#{$type}:hover{
-            @include background-gradient(darken($color, 5),white);
+            @include background-gradient(darken($color, 7),white);
         }
         .profile-card.#{$type}:active{
-            @include background-gradient(darken($color, 10),white);
+            @include background-gradient(darken($color, 13),white);
         }
     }
 
