@@ -12,11 +12,14 @@ export function toggleSubmit(obj, newState = {}) {
 }
 
 
-export function checkDiff(obj, original, d) {
+export function checkDiff(obj, original, d, discard = []) {
     var hasDiff = false;
     var update = {};
     //get differences
     for (var k in d) {
+        if (discard.indexOf(k) >= 0) {
+            continue;
+        }
         if (d[k] !== original[k]) {
             hasDiff = true;
             update[k] = d[k];
@@ -29,7 +32,7 @@ export function checkDiff(obj, original, d) {
         return false;
     } else {
         return update;
-    }
+}
 }
 
 export default class Form extends React.Component {

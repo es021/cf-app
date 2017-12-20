@@ -36,6 +36,12 @@ export default class DocLinkForm extends React.Component {
             this.formDefault[DocLink.USER_ID] = 0;
         }
 
+        if (this.props.edit) {
+            this.formDefault[DocLink.URL] = this.props.edit[DocLink.URL];
+            this.formDefault[DocLink.LABEL] = this.props.edit[DocLink.LABEL];
+            this.formDefault[DocLink.DESCRIPTION] = this.props.edit[DocLink.DESCRIPTION];
+        }
+
         this.formItem = this.getFormItem(this.props.type);
     }
 
@@ -63,26 +69,29 @@ export default class DocLinkForm extends React.Component {
             }, {
                 label: "Url",
                 name: DocLink.URL,
+                placeholder: "https://www.linkedin.com/in/john-doe",
                 type: "text",
-                hidden: (type === DocLinkEnum.TYPE_LINK) ? false : true,
-                required: (type === DocLinkEnum.TYPE_LINK) ? true : false
+                disabled: (this.props.edit && type === DocLinkEnum.TYPE_DOC) ? true : false,
+                hidden: (type === DocLinkEnum.TYPE_LINK || this.props.edit) ? false : true,
+                required: (type === DocLinkEnum.TYPE_LINK || this.props.edit) ? true : false
             }, {
                 label: "Label",
+                placeholder: (type === DocLinkEnum.TYPE_DOC) ? "Resume" : "LinkedIn",
                 name: DocLink.LABEL,
                 type: "text",
                 required: true
             }, {
                 label: "Description",
                 name: DocLink.DESCRIPTION,
-                type: "textarea"
+                type: "textarea",
+                rows: 2
             }
         ];
 
     }
 
     formOnSubmit(d) {
-        console.log(d);
-        if (this.props.type === DocLinkEnum.TYPE_DOC) {
+        if (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit) {
             if (this.state.currentFile === null) {
                 this.setState(() => {
                     return{error: "Please Select A File First"};
@@ -91,7 +100,6 @@ export default class DocLinkForm extends React.Component {
                 var fileName = `${this.props.entity}-${this.props.id}`;
                 toggleSubmit(this, {error: null});
                 uploadFile(this.state.currentFile, FileType.DOC, fileName).then((res) => {
-                    console.log(res.data.url);
                     if (res.data.url !== null) {
                         d.url = `${UploadUrl}/${res.data.url}`;
                         this.saveToDb(d);
@@ -105,37 +113,42 @@ export default class DocLinkForm extends React.Component {
     }
 
     saveToDb(d) {
-        //console.log("save to db", d);
-        d[DocLink.USER_ID] = Number.parseInt(d[DocLink.USER_ID]);
-        d[DocLink.COMPANY_ID] = Number.parseInt(d[DocLink.COMPANY_ID]);
 
-        if (d[DocLink.USER_ID] == 0) {
-            delete(d[DocLink.USER_ID]);
+        if (this.props.edit) {
+            var update = checkDiff(this, this.props.edit, d, [DocLink.USER_ID, DocLink.COMPANY_ID]);
+            if (update === false) {
+                return;
+            }
+            update[DocLink.ID] = this.props.edit[DocLink.ID];
+            d = update;
+
+        } else {
+            d[DocLink.USER_ID] = Number.parseInt(d[DocLink.USER_ID]);
+            d[DocLink.COMPANY_ID] = Number.parseInt(d[DocLink.COMPANY_ID]);
+
+            if (d[DocLink.USER_ID] == 0) {
+                delete(d[DocLink.USER_ID]);
+            }
+
+            if (d[DocLink.COMPANY_ID] == 0) {
+                delete(d[DocLink.COMPANY_ID]);
+            }
+
+            if (d[DocLink.DESCRIPTION] == "") {
+                delete(d[DocLink.DESCRIPTION]);
+            }
         }
 
-        if (d[DocLink.COMPANY_ID] == 0) {
-            delete(d[DocLink.COMPANY_ID]);
-        }
+        var query = `mutation{${(this.props.edit) ? "edit" : "add"}_doc_link 
+            (${obj2arg(d, {noOuterBraces: true})}){ID}}`
 
-        if (d[DocLink.DESCRIPTION] == "") {
-            delete(d[DocLink.DESCRIPTION]);
-        }
+        getAxiosGraphQLQuery(query).then((res) => {
 
-        var insert = d;
-        var insert_query = `mutation{
-                     add_doc_link(${obj2arg(insert, {noOuterBraces: true})}) {
-                       ID
-                     }
-                   }`;
-
-        getAxiosGraphQLQuery(insert_query).then((res) => {
-            //console.log(res.data.data.add_doc_link);
-            toggleSubmit(this, {error: null, success: `Successfully Added New ${this.props.type.capitalize()}!`});
-            
-            if(this.props.onSuccessNew){
+            var mes = (this.props.edit) ? `Successfully Edit ${this.props.type.capitalize()}!` : `Successfully Added New ${this.props.type.capitalize()}!`;
+            toggleSubmit(this, {error: null, success: mes});
+            if (this.props.onSuccessNew) {
                 this.props.onSuccessNew();
             }
-            
         }, (err) => {
             toggleSubmit(this, {error: err.response.data});
         });
@@ -164,7 +177,7 @@ export default class DocLinkForm extends React.Component {
 
     render() {
 
-        var uploader = (this.props.type === DocLinkEnum.TYPE_DOC) ? <Uploader label="Upload Document" name="new-document" type={FileType.DOC} onSuccess={this.uploaderOnSuccess} 
+        var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit) ? <Uploader label="Upload Document" name="new-document" type={FileType.DOC} onSuccess={this.uploaderOnSuccess} 
                   onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader> : null;
 
         var form = <Form className="form-row" 
@@ -184,6 +197,7 @@ export default class DocLinkForm extends React.Component {
 
 DocLinkForm.propTypes = {
     id: PropTypes.number.isRequired,
+    edit: PropTypes.obj,
     entity: PropTypes.oneOf(["user", "company"]).isRequired,
     type: PropTypes.oneOf([DocLinkEnum.TYPE_DOC, DocLinkEnum.TYPE_LINK]).isRequired,
     onSuccessNew: PropTypes.func

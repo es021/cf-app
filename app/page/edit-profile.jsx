@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink} from 'react-router-dom';
 import Form, {toggleSubmit, checkDiff} from '../component/form';
-import {UserMeta, User, UserEnum, Skill, DocLinkEnum}  from '../../config/db-config';
+import {UserMeta, User, UserEnum, Skill, DocLink, DocLinkEnum}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
 import {ButtonLink} from '../component/buttons';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
@@ -22,8 +22,10 @@ class StudentDocLink extends React.Component {
     constructor(props) {
         super(props);
         this.user_id = getAuthUser().ID;
+
         this.state = {
             data: [],
+            map: {}, // for edit
             fetching: true
         };
 
@@ -31,6 +33,11 @@ class StudentDocLink extends React.Component {
     }
 
     componentWillMount() {
+        this.refresh();
+    }
+
+    closeFocusCardAndRefresh() {
+        layoutActions.storeHideFocusCard();
         this.refresh();
     }
 
@@ -48,36 +55,104 @@ class StudentDocLink extends React.Component {
 
         getAxiosGraphQLQuery(query).then((res) => {
             //console.log(res.data.data.user.doc_links);
+            var datas = res.data.data.user.doc_links;
+            var map = {};
+            for (var i in datas) {
+                map[datas[i].ID] = i;
+            }
+            console.log(map);
             this.setState(() => {
-                return {data: res.data.data.user.doc_links, fetching: false};
+                return {map: map, data: datas, fetching: false};
             });
         }, (err) => {
             alert(err);
         });
     }
 
+    deletePopup(e) {
+        console.log(e);
+
+        var id = e.currentTarget.id;
+        console.log(e.currentTarget);
+        const onYes = () => {
+            var del_query = `mutation{delete_doc_link(ID:${id})}`;
+            store.dispatch(layoutActions.updateProps({loading: true}));
+            getAxiosGraphQLQuery(del_query).then((res) => {
+                this.closeFocusCardAndRefresh();
+            }, (err) => {
+                alert(err.response.data);
+            });
+        };
+        var value = e.currentTarget.attributes.getNamedItem("label").value;
+        layoutActions.storeUpdateFocusCard("Confirm Delete Item",
+                ConfirmPopup,
+                {title: `Continue delete document '${value}'?`, onYes: onYes},
+                "small");
+    }
+
+    getItemById(id) {
+        return this.state.data[this.state.map[id]];
+    }
+
+    editPopup(e) {
+        var id = e.currentTarget.id;
+        var item = this.getItemById(id);
+        var label = e.currentTarget.attributes.getNamedItem("label").value;
+
+        const onYes = () => {
+            var del_query = `mutation{delete_doc_link(ID:${id})}`;
+            store.dispatch(layoutActions.updateProps({loading: true}));
+            getAxiosGraphQLQuery(del_query).then((res) => {
+                window.location.reload();
+            }, (err) => {
+                alert(err.response.data);
+            });
+        };
+
+        layoutActions.storeUpdateFocusCard(`Editing ${label}`,
+                DocLinkForm,
+                {id: this.user_id, type: item[DocLink.TYPE], edit: item, entity: "user",
+                    onSuccessNew: () => {
+                        this.closeFocusCardAndRefresh();
+                    }}, "small");
+    }
+
     render() {
 
-        var items = this.state.data.map((d, i) => {
-            var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
-            return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
-        });
+        var items = (this.state.data.length <= 0)
+                ? <div className="text-muted">Nothing To Show Here</div>
+                : this.state.data.map((d, i) => {
+                    var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
+                    var onDelete = {label: d.label, id: d.ID, onClick: this.deletePopup.bind(this)};
+                    var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
 
+                    return <SimpleListItem title={title}
+                                    id={d.ID}
+                                    onDelete={onDelete}
+                                    onEdit={onEdit}
+                                    subtitle={d.type} 
+                                    body={d.description} key={i}></SimpleListItem>;
+                });
 
         return <div className="row">
         <div className="col-sm-6">
-            <h3>Add New Document</h3>
+            <h3 className="left">Add New Document</h3>
             <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
         </div>
         <div className="col-sm-6">
-            <h3>Add New Link</h3>
+            <h3 className="left">Add New Link</h3>
             <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
         </div>
-        <div className="col-sm-12">
-            <h3>My Document & Link</h3>
-            { (this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+        <div className="row">
+            <div className="col-sm-2"></div>
+            <div className="col-sm-8 text-left">
+                <h3 className="left">My Document & Link</h3>
+                {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+            </div>
+            <div className="col-sm-2"></div>
         </div>
     </div>;
+
     }
 }
 
@@ -120,23 +195,19 @@ class Skills extends React.Component {
             user_id: getAuthUser().ID,
             label: d.label
         };
-
         toggleSubmit(this, {error: null, success: null});
         var edit_query = `mutation{add_skill(${obj2arg(ins, {noOuterBraces: true})}) {ID label}}`;
         getAxiosGraphQLQuery(edit_query).then((res) => {
             var prevSkill = this.state.skills;
             prevSkill.unshift(res.data.data.add_skill);
             toggleSubmit(this, {error: null, skill: prevSkill, success: "Successfully Added New Skill"});
-
         }, (err) => {
             toggleSubmit(this, {error: err.response.data});
         });
-
     }
 
     deletePopup(e) {
         var id = e.currentTarget.id;
-
         const onYes = () => {
             var del_query = `mutation{delete_skill(ID:${id})}`;
             store.dispatch(layoutActions.updateProps({loading: true}));
@@ -146,7 +217,6 @@ class Skills extends React.Component {
                 alert(err.response.data);
             });
         };
-
         var value = e.currentTarget.attributes.getNamedItem("label").value;
         layoutActions.storeUpdateFocusCard("Confirm Delete Item",
                 ConfirmPopup,
@@ -177,12 +247,11 @@ class Skills extends React.Component {
           error={this.state.error}
           emptyOnSuccess={true}
           success={this.state.success}></Form>;
-
         return (<div>
-        <h3>Add New Skill</h3>
-        {form}<br></br>
-        <h3>My Skills</h3>
-        <div>{skills}</div></div>);
+            <h3>Add New Skill</h3>
+            {form}<br></br>
+            <h3>My Skills</h3>
+            <div>{skills}</div></div>);
     }
 }
 
@@ -190,7 +259,6 @@ class EditProfile extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
-
         this.state = {
             error: null,
             disableSubmit: false,
@@ -198,19 +266,16 @@ class EditProfile extends React.Component {
             user: null,
             success: null
         };
-
     }
 
     componentWillMount() {
         this.authUser = getAuthUser();
-
         loadUser(this.authUser[User.ID]).then((res) => {
             this.setState(() => {
                 var user = res.data.data.user;
                 return {user: user, init: false};
             });
         });
-
         this.formItems = [
             {header: "Basic Information"},
             {
@@ -292,7 +357,6 @@ class EditProfile extends React.Component {
                 rows: 5
             }
         ];
-
     }
 
     //return string if there is error
@@ -305,17 +369,14 @@ class EditProfile extends React.Component {
         var err = this.filterForm(d);
         if (err === 0) {
             toggleSubmit(this, {error: null, success: null});
-
             //prepare data for edit
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
-
             var update = checkDiff(this, this.state.user, d);
             if (update === false) {
                 return;
             }
             update[User.ID] = this.authUser[User.ID];
-
             /*
              var update = {};
              update[User.ID] = this.authUser[User.ID];
@@ -336,9 +397,7 @@ class EditProfile extends React.Component {
              }*/
 
             var edit_query = `mutation{edit_user(${obj2arg(update, {noOuterBraces: true})}) {ID}}`;
-
             console.log(edit_query);
-
             getAxiosGraphQLQuery(edit_query).then((res) => {
                 console.log(res.data);
                 updateAuthUser(d);
@@ -346,9 +405,8 @@ class EditProfile extends React.Component {
             }, (err) => {
                 toggleSubmit(this, {error: err.response.data});
             });
-
         } else {
-            //console.log("Err", err);
+//console.log("Err", err);
             this.setState(() => {
                 return {error: err};
             });
@@ -358,7 +416,7 @@ class EditProfile extends React.Component {
     render() {
         var content = null;
         if (this.state.init) {
-            content = <Loader size="2" text="Loading User Information"></Loader>
+            content = <Loader size="2" text="Loading User Information"></Loader>;
         } else {
             content = <div> 
             <ProfileCard type="student"
@@ -395,7 +453,7 @@ export default class EditProfilePage extends React.Component {
             "skills": {
                 label: "Skills",
                 component: Skills,
-                icon: "file-text"
+                icon: "th-list"
             },
             "doc-link": {
                 label: "Document & Link",
@@ -409,7 +467,6 @@ export default class EditProfilePage extends React.Component {
 
         var title = this.item[this.props.match.params.current].label;
         document.setTitle(title);
-
         return <SubNav items={this.item} defaultItem={this.props.match.params.current}></SubNav>;
     }
 }

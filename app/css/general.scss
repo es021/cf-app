@@ -16,3 +16,22 @@ p{
     padding: 0;
 }
 
+h3.left{
+    border-bottom: solid 2px darkgray;
+    text-align: left;
+}
+
+.flex-wrap{
+    display: flex;
+    flex-wrap: wrap;
+
+    .flex-wrap-item{
+        margin: 5px;
+        background: white;
+        width: 150px;
+        padding: 5px 10px;
+        box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
+
+    }
+
+}

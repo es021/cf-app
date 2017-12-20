@@ -50,6 +50,7 @@ const UserEnum = {
 
 const DocLink = {
     TABLE: "doc_link",
+    ID : "ID",
     USER_ID: "user_id",
     COMPANY_ID: "company_id",
     TYPE: "type",

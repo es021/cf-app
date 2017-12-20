@@ -8,8 +8,8 @@ export function updateFocusCard(title, component, props, className = "") {
     };
 }
 
-export function updateProps(props){
-      return function (dispatch) {
+export function updateProps(props) {
+    return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
             payload: {props: props}
@@ -26,6 +26,9 @@ export function hideFocusCard() {
     };
 }
 
+export function storeHideFocusCard() {
+    store.dispatch(hideFocusCard());
+}
 
 import {store} from '../store.js';
 export function storeUpdateFocusCard(title, component, props, className = "") {

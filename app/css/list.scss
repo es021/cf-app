@@ -6,15 +6,20 @@
     margin-bottom: 25px;
     text-align:justify;
     border-bottom : whitesmoke 1px solid;
-
+    font-size: 15px;
+    
     .sili-title{
-        font-weight: bold;
-        font-size: 15px;
+        font-weight: bold;    
+    }
+
+    .sili-operation{
+        font-size: 85%;
+        margin-left:10px;
     }
 
     .sili-subtitle{
         color: gray;
-        font-size: 85%;
+        font-size: 90%;
     }
 
     .sili-body{
@@ -61,7 +66,7 @@
     box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
     width: 120px;
     margin: 8px 5px;
-    
+
     .pc-title{
         font-size: 15px;
         padding: 0px 5px;

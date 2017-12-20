@@ -149,19 +149,31 @@ ProfileListItem.propTypes = {
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     body: PropTypes.any
 };
-
+ 
 
 /*******************************************************************************************/
-
-export class SimpleListItem extends Component {
+ 
+export class SimpleListItem extends Component {  
     render() {
 
         var body = (this.props.body) ? <div className="sili-body">{this.props.body}</div> : null;
+        var onDelete = (!this.props.onDelete) ? null :
+                <a className="sili-operation" id={this.props.onDelete.id}
+                   label={this.props.onDelete.label}
+                   onClick={this.props.onDelete.onClick}
+                   >Delete</a>;
+
+        var onEdit = (!this.props.onEdit) ? null :
+                <a className="sili-operation" id={this.props.onEdit.id}
+                   label={this.props.onEdit.label}
+                   onClick={this.props.onEdit.onClick}
+                   >Edit</a>;
 
         return (<div className="simple-li">
             <div className="sili-title">{this.props.title}</div>
-            <div className="sili-subtitle">{this.props.subtitle}</div>
-            {body}
+            <div className="sili-subtitle">{this.props.subtitle}{onEdit}{onDelete}</div>
+        
+            {body} 
         </div>);
     }
 }
@@ -169,7 +181,9 @@ export class SimpleListItem extends Component {
 SimpleListItem.propTypes = {
     title: PropTypes.any.isRequired,
     subtitle: PropTypes.string.isRequired,
-    body: PropTypes.any
+    body: PropTypes.any,
+    onDelete: PropTypes.obj,
+    onEdit: PropTypes.obj
 };
 
 
