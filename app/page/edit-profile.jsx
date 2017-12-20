@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink} from 'react-router-dom';
 import Form, {toggleSubmit, checkDiff} from '../component/form';
-import {UserMeta, User, UserEnum, Skill}  from '../../config/db-config';
+import {UserMeta, User, UserEnum, Skill, DocLinkEnum}  from '../../config/db-config';
 import {Month, Year, Sponsor} from '../../config/data-config';
 import {ButtonLink} from '../component/buttons';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
@@ -15,6 +15,71 @@ import {CustomList} from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from './partial/popup/confirm-popup';
 import {store} from '../redux/store';
+import DocLinkForm from '../component/doc-link-form';
+import {SimpleListItem} from '../component/list';
+
+class StudentDocLink extends React.Component {
+    constructor(props) {
+        super(props);
+        this.user_id = getAuthUser().ID;
+        this.state = {
+            data: [],
+            fetching: true
+        };
+
+        this.refresh = this.refresh.bind(this);
+    }
+
+    componentWillMount() {
+        this.refresh();
+    }
+
+    refresh() {
+        var query = `query{user(ID:${this.user_id}){
+        doc_links{
+            ID
+            user_id
+            company_id
+            type
+            label
+            url
+            description
+          }}}`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
+            //console.log(res.data.data.user.doc_links);
+            this.setState(() => {
+                return {data: res.data.data.user.doc_links, fetching: false};
+            });
+        }, (err) => {
+            alert(err);
+        });
+    }
+
+    render() {
+
+        var items = this.state.data.map((d, i) => {
+            var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
+            return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
+        });
+
+
+        return <div className="row">
+        <div className="col-sm-6">
+            <h3>Add New Document</h3>
+            <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
+        </div>
+        <div className="col-sm-6">
+            <h3>Add New Link</h3>
+            <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
+        </div>
+        <div className="col-sm-12">
+            <h3>My Document & Link</h3>
+            { (this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+        </div>
+    </div>;
+    }
+}
 
 class Skills extends React.Component {
     constructor(props) {
@@ -71,10 +136,10 @@ class Skills extends React.Component {
 
     deletePopup(e) {
         var id = e.currentTarget.id;
-        
+
         const onYes = () => {
             var del_query = `mutation{delete_skill(ID:${id})}`;
-            store.dispatch(layoutActions.updateProps({loading:true}));
+            store.dispatch(layoutActions.updateProps({loading: true}));
             getAxiosGraphQLQuery(del_query).then((res) => {
                 window.location.reload();
             }, (err) => {
@@ -137,7 +202,6 @@ class EditProfile extends React.Component {
     }
 
     componentWillMount() {
-
         this.authUser = getAuthUser();
 
         loadUser(this.authUser[User.ID]).then((res) => {
@@ -320,8 +384,6 @@ class EditProfile extends React.Component {
     }
 }
 
-
-
 export default class EditProfilePage extends React.Component {
     componentWillMount() {
         this.item = {
@@ -334,12 +396,17 @@ export default class EditProfilePage extends React.Component {
                 label: "Skills",
                 component: Skills,
                 icon: "file-text"
+            },
+            "doc-link": {
+                label: "Document & Link",
+                component: StudentDocLink,
+                icon: "file-text"
             }
         }
     }
 
     render() {
-        
+
         var title = this.item[this.props.match.params.current].label;
         document.setTitle(title);
 

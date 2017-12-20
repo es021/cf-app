@@ -53,11 +53,17 @@ export class Uploader extends React.Component {
         var nameSplit = file.name.split(".");
         var type = (file.type !== '') ? file.type.split("/")[1] : nameSplit[nameSplit.length - 1];
         if (file.size > this.MAX_SIZE * this.MB_TO_B) {
+            if(error === true){
+                error = "";
+            }
             error += "File is too big\n";
             error += "Maximum file size allowed is " + (this.MAX_SIZE) + " MB\n";
         }
 
         if (allowable_format.indexOf(type) < 0) {
+             if(error === true){
+                error = "";
+            }
             error += "File of type " + type + " is not supported. \n";
             error += 'Supported File : ' + JSON.stringify(allowable_format) + "\n";
         }

@@ -55,7 +55,9 @@ const DocLink = {
     TYPE: "type",
     LABEL: "label",
     URL: "url",
-    DESCRIPTION: "description"
+    DESCRIPTION: "description",
+    CREATED_AT :"created_at",
+    UPDATED_AT :"updated_at"
 };
 
 const DocLinkEnum = {

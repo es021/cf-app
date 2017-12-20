@@ -71,7 +71,7 @@ export default class Form extends React.Component {
                 continue;
             }
 
-            if (formObj.type == "number" && value == "") {
+            if (formObj.type == "number" && value == "" && formObj.required) {
                 w = "Please enter a number";
             } else if (formObj.type == "email" && value != "") {
                 var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -209,7 +209,9 @@ export default class Form extends React.Component {
 
     emptyForm() {
         for (var i in this.form) {
-            this.form[i].value = "";
+            if (this.form[i].disabled !== true) {
+                this.form[i].value = "";
+            }
         }
     }
 
@@ -226,6 +228,8 @@ export default class Form extends React.Component {
                 item = <textarea 
                     className={formClass}
                     hidden={d.hidden}
+                    onChange={d.onChange}
+                    disabled={d.disabled}
                     name={d.name}
                     rows={(d.rows) ? d.rows : 4}
                     required={d.required}
@@ -238,6 +242,8 @@ export default class Form extends React.Component {
                 item = <select
                     className={formClass}
                     hidden={d.hidden}
+                    onChange={d.onChange}
+                    disabled={d.disabled}
                     name={d.name}
                     required={d.required}
                     ref={(v) => this.form[d.name] = v}
@@ -250,6 +256,8 @@ export default class Form extends React.Component {
                 item = <input 
                     className={formClass}
                     onBlur={this.onBlur}
+                    onChange={d.onChange}
+                    disabled={d.disabled}
                     hidden={d.hidden}
                     name={d.name}
                     type={d.type}
@@ -369,7 +377,7 @@ export default class Form extends React.Component {
                             </div>
                             {this.getWarning(d)}
                         </div>
-                    </div> 
+                    </div>
         });
 
         // 2. form submit ---------
@@ -408,8 +416,9 @@ export default class Form extends React.Component {
         return (<form noValidate="novalidate"  className={
                     this.props.className} onSubmit={this.onSubmit}>
         {formSuccess}
+        {(this.props.errorPosition === "top") ? formError : null}
         {formItems}
-        {formError}
+        {(this.props.errorPosition !== "top") ? formError : null}
         {formSubmit}</form>);
     }
 }
@@ -422,6 +431,7 @@ Form.propTypes = {
     disableSubmit: PropTypes.bool.isRequired,
     submitText: PropTypes.string,
     defaultValues: PropTypes.object,
+    errorPosition: PropTypes.oneOf(['top']),
     error: PropTypes.string,
     emptyOnSuccess: PropTypes.bool,
     success: PropTypes.string
