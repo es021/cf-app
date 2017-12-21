@@ -7,7 +7,7 @@
     text-align:justify;
     border-bottom : whitesmoke 1px solid;
     font-size: 15px;
-    
+
     .sili-title{
         font-weight: bold;    
     }
@@ -31,6 +31,22 @@
 
 .simple-li:last-of-type{
     margin-bottom: 0;
+}
+
+.simple-li-card{
+    border-bottom: none;
+    margin:10px;
+    width:200px;
+    background: white;
+    box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+
+    .sili-body{
+        word-break: break-all !important;
+    }
+}
+.simple-li-card:last-of-type{
+    margin:10px;
 }
 
 // Profile Card List Item

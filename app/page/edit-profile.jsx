@@ -117,8 +117,8 @@ class StudentDocLink extends React.Component {
                     }}, "small");
     }
 
-    render() {
-
+    render() { 
+  
         var items = (this.state.data.length <= 0)
                 ? <div className="text-muted">Nothing To Show Here</div>
                 : this.state.data.map((d, i) => {
@@ -128,30 +128,35 @@ class StudentDocLink extends React.Component {
 
                     return <SimpleListItem title={title}
                                     id={d.ID}
+                                    type="card"
                                     onDelete={onDelete}
                                     onEdit={onEdit}
                                     subtitle={d.type} 
                                     body={d.description} key={i}></SimpleListItem>;
                 });
 
-        return <div className="row">
-        <div className="col-sm-6">
-            <h3 className="left">Add New Document</h3>
-            <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
-        </div>
-        <div className="col-sm-6">
-            <h3 className="left">Add New Link</h3>
-            <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
-        </div>
-        <div className="row">
-            <div className="col-sm-2"></div>
-            <div className="col-sm-8 text-left">
-                <h3 className="left">My Document & Link</h3>
-                {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+        if (this.state.data.length > 0) {
+            items = <div className="flex-wrap">{items}</div>;
+        }
+
+        return <div className="row container-fluid">
+            <div className="col-sm-6">
+                <h3 className="left">Add New Document</h3>
+                <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
             </div>
-            <div className="col-sm-2"></div>
-        </div>
-    </div>;
+            <div className="col-sm-6">
+                <h3 className="left">Add New Link</h3>
+                <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
+            </div>
+            <div className="row">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-8 text-left">
+                    <h3 className="left">My Document & Link</h3>
+                    {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+                </div>
+                <div className="col-sm-2"></div>
+            </div>
+        </div>;
 
     }
 }
