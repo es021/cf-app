@@ -14,6 +14,7 @@ import SubNav from '../component/sub-nav';
 import {CustomList} from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from './partial/popup/confirm-popup';
+import UserPopup from './partial/popup/user-popup';
 import {store} from '../redux/store';
 import DocLinkForm from '../component/doc-link-form';
 import {SimpleListItem} from '../component/list';
@@ -117,46 +118,61 @@ class StudentDocLink extends React.Component {
                     }}, "small");
     }
 
-    render() { 
-  
+    render() {
+        /*
+         var items = (this.state.data.length <= 0)
+         ? <div className="text-muted">Nothing To Show Here</div>
+         : this.state.data.map((d, i) => {
+         var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
+         var onDelete = {label: d.label, id: d.ID, onClick: this.deletePopup.bind(this)};
+         var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
+         
+         return <SimpleListItem title={title}
+         id={d.ID}
+         type="card"
+         onDelete={onDelete}
+         onEdit={onEdit}
+         subtitle={d.type} 
+         body={d.description} key={i}></SimpleListItem>;
+         });
+         */
         var items = (this.state.data.length <= 0)
                 ? <div className="text-muted">Nothing To Show Here</div>
                 : this.state.data.map((d, i) => {
-                    var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
-                    var onDelete = {label: d.label, id: d.ID, onClick: this.deletePopup.bind(this)};
-                    var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
-
-                    return <SimpleListItem title={title}
-                                    id={d.ID}
-                                    type="card"
-                                    onDelete={onDelete}
-                                    onEdit={onEdit}
-                                    subtitle={d.type} 
-                                    body={d.description} key={i}></SimpleListItem>;
+                    //var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
+                    //var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
+                    var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+                    return <span><i className={`fa left fa-${icon}`}></i>
+                        <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+                        <span className="badge" id={d.ID} label={d.label}
+                              onClick={this.editPopup.bind(this)}><i className="fa fa-edit"></i></span>
+                        <span className="badge" id={d.ID} label={d.label}
+                              onClick={this.deletePopup.bind(this)}><i className="fa fa-times"></i></span>
+                    </span>;
                 });
 
+
+
         if (this.state.data.length > 0) {
-            items = <div className="flex-wrap">{items}</div>;
+            items = <CustomList className="label" items={items}></CustomList>;
         }
 
         return <div className="row container-fluid">
-            <div className="col-sm-6">
-                <h3 className="left">Add New Document</h3>
-                <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
-            </div>
-            <div className="col-sm-6">
-                <h3 className="left">Add New Link</h3>
-                <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
-            </div>
-            <div className="row">
-                <div className="col-sm-2"></div>
-                <div className="col-sm-8 text-left">
-                    <h3 className="left">My Document & Link</h3>
-                    {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
-                </div>
-                <div className="col-sm-2"></div>
-            </div>
-        </div>;
+        <div className="col-sm-6">
+            <h3 className="left">Add New Document</h3>
+            <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
+        </div>
+        <div className="col-sm-6">
+            <h3 className="left">Add New Link</h3>
+            <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
+        </div>
+        <div className="col-sm-12">
+            <br></br>
+            <h3 className="left">My Document & Link</h3>
+            {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+            <br></br>
+        </div>
+    </div>;
 
     }
 }
@@ -451,19 +467,27 @@ export default class EditProfilePage extends React.Component {
     componentWillMount() {
         this.item = {
             "profile": {
-                label: "My Profile",
+                label: "Edit Profile",
                 component: EditProfile,
-                icon: "user"
+                icon: "edit"
+            },
+            "doc-link": {
+                label: "Document & Link",
+                component: StudentDocLink,
+                icon: "file-text"
             },
             "skills": {
                 label: "Skills",
                 component: Skills,
                 icon: "th-list"
             },
-            "doc-link": {
-                label: "Document & Link",
+            "view": {
+                label: "View Profile",
+                onClick: () => {
+                    layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {id: getAuthUser().ID});
+                },
                 component: StudentDocLink,
-                icon: "file-text"
+                icon: "user"
             }
         }
     }

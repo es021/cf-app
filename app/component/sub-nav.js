@@ -33,14 +33,21 @@ export default class SubNav extends React.Component {
         for (var k in this.props.items) {
             var active = (k === this.props.defaultItem) ? "active" : "";
             var item = this.props.items[k];
-
-            li.push(<NavLink  to={`${RootPath}/app/edit-profile/${k}`}>
+            if (item.onClick) {
+                li.push(<a><li id={k} className={active}
+                       onClick={item.onClick}>
+                        <i className={`fa fa-${item.icon}`}></i>
+                        {item.label}
+                    </li></a>);
+            } else {
+                li.push(<NavLink  to={`${RootPath}/app/edit-profile/${k}`}>
                 <li id={k} className={active}
                     onClick={this.changeItem.bind(this)}>
                     <i className={`fa fa-${item.icon}`}></i>
                     {item.label}
                 </li>
             </NavLink>);
+            }
         }
 
         return <ul>{li}</ul>

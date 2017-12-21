@@ -80,12 +80,13 @@ export default class DocLinkForm extends React.Component {
                 name: DocLink.LABEL,
                 type: "text",
                 required: true
-            }, {
+            }
+            /*, {
                 label: "Description",
                 name: DocLink.DESCRIPTION,
                 type: "textarea",
                 rows: 2
-            }
+            }*/
         ];
 
     }
