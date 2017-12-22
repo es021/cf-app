@@ -7,14 +7,13 @@ import {store} from '../redux/store';
 import {ButtonIcon} from './buttons';
 import PropTypes from 'prop-types';
 
-//require("../css/focus-card.css");
 require("../css/focus-card.scss");
 
 //state is from redux reducer
 // with multiple objects
 function mapStateToProps(state, ownProps) {
     return {
-        redux: state.layout
+        redux: state.layout.focusCard
     };
 }
 
@@ -33,14 +32,14 @@ class FocusCard extends React.Component {
     }
 
     componentWillMount() {
-        console.log("componentWillMount", "focus");
+        //console.log("componentWillMount", "focus");
     }
 
     render() {
         
-        var focus = this.props.redux.focusCard;
-        console.log("render focus card");
-        console.log(focus.props);
+        var focus = this.props.redux;
+        //console.log("render focus card");
+        //console.log(focus.props);
         
         var component = null;
         if (focus.component !== null) {
@@ -49,8 +48,8 @@ class FocusCard extends React.Component {
             focus.props["key"] = (new Date()).getTime();
             component = React.createElement(focus.component, focus.props);
         }
-        console.log(focus);
-        console.log(focus.show);
+        //console.log(focus);
+        //console.log(focus.show);
         //var display = (focus.show == true) ? "flow-root" : "none";
         var display = (focus.show == true) ? "block" : "none";
         var style = {

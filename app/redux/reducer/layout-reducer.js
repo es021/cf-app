@@ -8,16 +8,25 @@ const layoutReducerInitState = {
         title: null,
         show: false,
         className: null
+    },
+    blockLoader: {
+        loading: null,
+        success: null,
+        error: null,
+        show: false
     }
-
 };
 
-export default function userReducer(state = layoutReducerInitState, action) {
-
+export default function layoutReducer(state = layoutReducerInitState, action) {
+    console.log(action.type);
     switch (action.type) {
         case layoutAction.UPDATE_FOCUS_CARD:
-        {   
-            return getNewState(state, {focusCard:getNewState(state.focusCard, action.payload)});
+        {
+            return getNewState(state, {focusCard: getNewState(state.focusCard, action.payload)});
+        }
+        case layoutAction.UPDATE_BLOCK_LOADER:
+        {
+            return getNewState(state, {blockLoader: getNewState(state.blockLoader, action.payload)});
         }
     }
 

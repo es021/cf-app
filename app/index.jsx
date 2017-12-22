@@ -28,7 +28,10 @@ import HeaderLayout from './layout/header-layout';
 import FooterLayout from './layout/footer-layout';
 import LeftBarLayout from './layout/left-bar-layout';
 import RightBarLayout from './layout/right-bar-layout';
+
+//singleton
 import FocusCard from './component/focus-card';
+import BlockLoader from './component/block-loader';
 
 class PrimaryLayout extends React.Component {
     render() {
@@ -43,6 +46,7 @@ class PrimaryLayout extends React.Component {
 
         return(<div className="primary-layout">
             <FocusCard></FocusCard>
+            <BlockLoader></BlockLoader>
             <HeaderLayout menuList={headerMenu}></HeaderLayout>
             <LeftBarLayout menuList={sideMenu}></LeftBarLayout>        
             <div className="content">

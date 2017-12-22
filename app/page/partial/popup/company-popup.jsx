@@ -8,18 +8,26 @@ import ProfileCard from '../../../component/profile-card';
 import {SimpleListItem, ProfileListItem} from '../../../component/list';
 import {Loader} from '../../../component/loader';
 import {RootPath} from '../../../../config/app-config';
- 
+import * as activityActions from '../../../redux/actions/activity-actions';
+import * as layoutActions from '../../../redux/actions/layout-actions';
+import {getAuthUser} from '../../../redux/actions/auth-actions';
+
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)
-
+        console.log("constructor");
         this.state = {
             data: null,
             loading: true,
+
         }
+
+        this.startQueue = this.startQueue.bind(this);
     }
 
     componentWillMount() {
+
+        console.log("componentWillMount");
         var id = null;
 
         if (this.props.match) {
@@ -55,6 +63,25 @@ export default class CompanyPopup extends Component {
             this.setState(() => {
                 return {data: res.data.data.company, loading: false}
             })
+        });
+    }
+
+    startQueue() {
+        var stu_id = getAuthUser().ID;
+        var com_id = this.props.id;
+        
+        var invalid = activityActions.invalidQueue(com_id);
+        if (invalid !== false) {
+            layoutActions.errorBlockLoader(invalid);
+            return false;
+        }
+
+        layoutActions.loadingBlockLoader("Start Queuing");
+        
+        activityActions.startQueue(stu_id, com_id).then((res) => {
+            layoutActions.successBlockLoader("Successfully Join Queue");
+        }, (err) => {
+            layoutActions.errorBlockLoader(err);
         });
     }
 
@@ -101,7 +128,7 @@ export default class CompanyPopup extends Component {
         var id = null;
         var data = this.state.data;
         var view = null;
-
+        console.log("cp ", this.state);
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Company Information...'></Loader>
         } else {
@@ -117,7 +144,7 @@ export default class CompanyPopup extends Component {
                     <PageSection className="left" title="Recruiters" body={recs}></PageSection>
                 </div>
                 <div className="btn-group btn-group-justified">
-                    <div className="btn btn-lg btn-primary">Queue Now</div>
+                    <div className="btn btn-lg btn-primary" onClick={this.startQueue}>Queue Now</div>
                     <div className="btn btn-lg btn-default">Drop Resume</div>
                 </div>
             </div>;

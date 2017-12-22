@@ -39,8 +39,6 @@ Time.prototype.getAgo = function (unixtimestamp) {
 
     var previous = new Date(unixtimestamp * 1000);
     var elapsed = current - previous;
-    console.log(current);
-    console.log(previous);
 
     if (elapsed < msPerMinute) {
         var sec = Math.round(elapsed / 1000);
@@ -127,7 +125,6 @@ Time.prototype.getTimezone = function (date) {
 
 Time.prototype.getUnixFromDateTimeInput = function (date_input, time_input) {
     var datetime = date_input + "T" + time_input + ":00";
-    console.log(datetime);
     var d = new Date(datetime);
     return Math.floor(d.getTime() / 1000);
 };
