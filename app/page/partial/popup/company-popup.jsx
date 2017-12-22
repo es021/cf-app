@@ -8,9 +8,11 @@ import ProfileCard from '../../../component/profile-card';
 import {SimpleListItem, ProfileListItem} from '../../../component/list';
 import {Loader} from '../../../component/loader';
 import {RootPath} from '../../../../config/app-config';
+import {getAuthUser} from '../../../redux/actions/auth-actions';
+
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
-import {getAuthUser} from '../../../redux/actions/auth-actions';
+import * as hallAction from '../../../redux/actions/hall-actions';
 
 export default class CompanyPopup extends Component {
     constructor(props) {
@@ -19,7 +21,6 @@ export default class CompanyPopup extends Component {
         this.state = {
             data: null,
             loading: true,
-
         }
 
         this.startQueue = this.startQueue.bind(this);
@@ -69,7 +70,7 @@ export default class CompanyPopup extends Component {
     startQueue() {
         var stu_id = getAuthUser().ID;
         var com_id = this.props.id;
-        
+
         var invalid = activityActions.invalidQueue(com_id);
         if (invalid !== false) {
             layoutActions.errorBlockLoader(invalid);
@@ -77,9 +78,16 @@ export default class CompanyPopup extends Component {
         }
 
         layoutActions.loadingBlockLoader("Start Queuing");
-        
+
         activityActions.startQueue(stu_id, com_id).then((res) => {
-            layoutActions.successBlockLoader("Successfully Join Queue");
+            var mes = <div>
+                Successfully joined queue for 
+                <br></br><b>{this.state.data.name}</b>
+                <br></br>Your queue number is <b>{res.queue_num}</b>
+            </div>;
+
+            layoutActions.successBlockLoader(mes);
+            hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
         }, (err) => {
             layoutActions.errorBlockLoader(err);
         });

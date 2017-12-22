@@ -69,7 +69,7 @@ const SessionType = new GraphQLObjectType({
             company_id: {type: GraphQLInt},
             status: {type: GraphQLString},
             created_at: {type: GraphQLString},
-            
+
             student: {type: UserType},
             company: {type: CompanyType}
         })
@@ -83,6 +83,7 @@ const QueueType = new GraphQLObjectType({
             company_id: {type: GraphQLInt},
             status: {type: GraphQLString},
             created_at: {type: GraphQLString},
+            queue_num: {type: GraphQLInt},
 
             student: {type: UserType},
             company: {type: CompanyType}

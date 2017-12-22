@@ -1,6 +1,7 @@
 import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
 import {Session, Queue, Prescreen, UserEnum} from '../../../config/db-config';
 import {getAuthUser} from './auth-actions';
+import {store} from '../store.js';
 
 /***** ACTIVITY ***************************/
 export const ActivityType = {
@@ -34,14 +35,14 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
                 select += ` sessions { ID created_at ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.QUEUE:
-                select += ` queues { ID created_at ${getEntitySelect(role)}} `;
+                select += ` queues { ID queue_num created_at ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.PRESCREEN:
                 select += ` prescreens { ID appointment_time ${getEntitySelect(role)}} `;
                 break;
         }
     });
-    
+
     var query = `query{user(ID:${user_id}){${select}}}`;
     return function (dispatch) {
         dispatch({
@@ -49,6 +50,10 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
             payload: getAxiosGraphQLQuery(query)
         });
     };
+}
+
+export function storeLoadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN]) {
+    store.dispatch(loadActivity(types));
 }
 
 /***** COMPANY and TRAFFIC ***************************/

@@ -20,11 +20,11 @@ $prefix : "bl-";
 
     .#{$prefix}content{
         width: 100%;
-        background: gainsboro;
+        background: whitesmoke;
         position:fixed;
         z-index: 30;
         overflow-x: hidden;
-
+        border-radius: 10px;
         @include center_horizontal($width);
         @include center_vertical($height);
 

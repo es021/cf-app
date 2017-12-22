@@ -1,12 +1,16 @@
+// only for action that need server side validation
+
 const formidable = require('formidable');
 const fs = require('fs');
 const {UploadUrl} = require('../../config/app-config.js');
 const path = require('path');
 
 const initializeAllRoute = function (app, root) {
+    // server error in node server no need to be return to client
+    // we will just log the error in intercepter
 
+    // only custom legitemate error will be returned in form of string (not object)
     const routeResHandler = (res, response) => {
-        console.log(response);
         if (typeof response !== "object") {
             res.status(400).send(response);
         } else {
@@ -15,18 +19,33 @@ const initializeAllRoute = function (app, root) {
     };
 
     // Activity Route ----------------------------------------------------------------
+
     const {ActivityAPI} = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {
         var action = req.params.action;
         console.log(action);
 
         switch (action) {
-            case 'start-queue':
-                ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
+            case 'create-session':
+                ActivityAPI.createSession(req.body.host_id, req.body.participant_id, req.body.entity, req.body.entity_id)
                         .then((response) => {
                             routeResHandler(res, response);
                         });
                 break;
+                /*
+                 case 'start-queue':
+                 ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
+                 .then((response) => {
+                 routeResHandler(res, response);
+                 });
+                 break;
+                 case 'cancel-queue':
+                 ActivityAPI.cancelQueue(req.body.id)
+                 .then((response) => {
+                 routeResHandler(res, response);
+                 });
+                 break;
+                 */
         }
     });
 
@@ -35,7 +54,6 @@ const initializeAllRoute = function (app, root) {
     const {AuthAPI} = require('./auth-api');
     app.post(root + '/auth/:action', function (req, res, next) {
         var action = req.params.action;
-        console.log(action);
 
         switch (action) {
             case 'login':
