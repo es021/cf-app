@@ -67,6 +67,11 @@ Time.prototype.getString = function (unixtimestamp, include_timezone) {
         return "";
     }
 
+    if (typeof unixtimestamp === "string") {
+        unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+    }
+
+
     include_timezone = (typeof include_timezone === "undefined") ? false : include_timezone;
 
     var newDate = new Date(unixtimestamp * 1000);

@@ -12,6 +12,7 @@ import UsersPage from '../page/users';
 import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
 import EditProfilePage from '../page/edit-profile';
+import ResumeDropPage from '../page/resume-drop';
 import NotFoundPage from '../page/not-found';
 
 
@@ -58,33 +59,6 @@ const menuItem = [
         bar_auth: false,
         hd_app: false,
         hd_auth: false
-    },
-    /*    {
-     url: "/user/:id",
-     component: UserPage,
-     bar_app: true,
-     bar_auth: false,
-     hd_app: true,
-     hd_auth: false,
-     routeOnly: true
-     },*/
-    {
-        url: "/edit-profile/:current",
-        component: EditProfilePage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: false,
-        routeOnly: true
-    },
-    {
-        url: "/activate-account/:key/:user_id",
-        component: ActAccountPage,
-        bar_app: true,
-        bar_auth: true,
-        hd_app: true,
-        hd_auth: true,
-        routeOnly: true
     },
     {
         url: "/auditorium",
@@ -149,7 +123,36 @@ const menuItem = [
     }
 ];
 
-
+/**** ROUTE ONLY *******/
+menuItem.push(...[
+    {
+        url: "/edit-profile/:current",
+        component: EditProfilePage,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false,
+        routeOnly: true
+    },
+    {
+        url: "/activate-account/:key/:user_id",
+        component: ActAccountPage,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+    },
+    {
+        url: "/resume-drop/:company_id",
+        component: ResumeDropPage,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false,
+        routeOnly: true
+    }
+]);
 
 export function getRoute(path) {
     var isLog = isAuthorized();

@@ -2,10 +2,19 @@
 @import "define/mixin.scss";
 
 $width : 250px;
-$height : 250px;
+$height : 150px;
 $prefix : "bl-";
 
 #block-loader {    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 30;
+    top: 0;
+    margin: 0;
 
     .#{$prefix}background{
         display: block;
@@ -15,28 +24,29 @@ $prefix : "bl-";
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 29;
+        z-index: 31;
     }
 
     .#{$prefix}content{
         width: 100%;
         background: whitesmoke;
-        position:fixed;
-        z-index: 30;
-        overflow-x: hidden;
-        border-radius: 10px;
-        @include center_horizontal($width);
-        @include center_vertical($height);
 
-        .#{$prefix}body{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-flow: column;
-            padding: 0 10px;
-            min-height: $height;
-            padding-bottom: 5px;
-        }
+        position:fixed;
+        z-index: 32;
+
+        overflow-x: hidden;
+
+        border-radius: 10px;
+        min-height:$height;
+        width:$width;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+        padding: 5px 10px;
+        margin-bottom: 80px;
+        padding-bottom: 20px;
     } 
 }
 

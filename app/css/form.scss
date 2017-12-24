@@ -22,8 +22,12 @@ form{
         }
         .form-input {
             margin-bottom: 10px;
-            *{
+            div{
                 width: 100%;
+            }
+            
+            .checkbox{
+                width: auto;
             }
         }
 

@@ -26,22 +26,26 @@ class ActvityList extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.cancelQueue = this.cancelQueue.bind(this);
-        
     }
 
     cancelQueue(e) {
-        layoutActions.loadingBlockLoader("Canceling Queue..");
-        activityActions.cancelQueue(e.currentTarget.id).then((res) => {
-            layoutActions.successBlockLoader("Queue Canceled");
-            hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
-        }, (err) => {
-            layoutActions.errorBlockLoader(err);
-        });
+        var company_name = e.currentTarget.dataset.company_name;
+        const id = e.currentTarget.id;
+        const confirmCancelQueue = () => {
+            layoutActions.loadingBlockLoader("Canceling Queue..");
+            activityActions.cancelQueue(id).then((res) => {
+                hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
+                layoutActions.storeHideBlockLoader();
+            }, (err) => {
+                layoutActions.errorBlockLoader(err);
+            });
+        };
+            
+        layoutActions.confirmBlockLoader(`Canceling Queue for ${company_name}`
+        ,confirmCancelQueue);
     }
 
-    //TODO
     createSession(e) {
         var invalid = activityActions.invalidSession();
         
@@ -133,7 +137,7 @@ class ActvityList extends React.Component {
                         }
 
                         body = (isRoleRec()) ? crtSession
-                                : <div id={d.ID} onClick={(e) => this.cancelQueue(e)} 
+                                : <div id={d.ID} data-company_name={obj.name} onClick={this.cancelQueue.bind(this)} 
                                      className="btn btn-sm btn-danger">Cancel Queue</div>;
                         break;
 

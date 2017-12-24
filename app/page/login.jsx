@@ -4,9 +4,10 @@ import * as authActions from '../redux/actions/auth-actions';
 import {User}  from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
-import { Redirect, NavLink} from 'react-router-dom';
 import Form from '../component/form';
+
 import {RootPath} from '../../config/app-config';
+import { Redirect, NavLink} from 'react-router-dom';
 
 import {ButtonLink} from '../component/buttons';
 import {AuthAPIErr} from '../../server/api/auth-api';

@@ -6,29 +6,37 @@ export function hideBlockLoader() {
     return function (dispatch) {
         dispatch({
             type: UPDATE_BLOCK_LOADER,
-            payload: {loading: null, success: null, error: null, show: false}
+            payload: {loading: null, success: null, error: null, confirm: null, show: false}
         });
     };
 }
 
-function updateBlockLoader(loading, success, error) {
+export function  storeHideBlockLoader() {
+    store.dispatch(hideBlockLoader());
+}
+
+function updateBlockLoader(loading, success, error, confirm) {
     store.dispatch({
         type: UPDATE_BLOCK_LOADER,
-        payload: {loading: loading, success: success, error: error, show: true}
+        payload: {loading: loading, success: success, error: error, confirm: confirm, show: true}
     });
 }
 
 
 export function loadingBlockLoader(m) {
-    updateBlockLoader(m, null, null);
+    updateBlockLoader(m, null, null, null);
 }
 
 export function successBlockLoader(m) {
-    updateBlockLoader(null, m, null);
+    updateBlockLoader(null, m, null, null);
 }
 
 export function errorBlockLoader(m) {
-    updateBlockLoader(null, null, m);
+    updateBlockLoader(null, null, m, null);
+}
+
+export function confirmBlockLoader(title, yesHandler) {
+    updateBlockLoader(null, null, null, {title: title, yesHandler: yesHandler});
 }
 
 

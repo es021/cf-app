@@ -13,6 +13,7 @@ const layoutReducerInitState = {
         loading: null,
         success: null,
         error: null,
+        confirm: null,
         show: false
     }
 };

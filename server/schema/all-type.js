@@ -158,6 +158,21 @@ const VacancyType = new GraphQLObjectType({
         })
 });
 
+const ResumeDropType = new GraphQLObjectType({
+    name: 'ResumeDrop',
+    fields: () => ({
+            ID: {type: GraphQLInt},
+            student_id: {type: GraphQLInt},
+            company_id: {type: GraphQLInt},
+            message: {type: GraphQLString},
+            created_at: {type: GraphQLString},
+            updated_at: {type: GraphQLString},
+            doc_links: {type: new GraphQLList(DocLinkType)},
+            student: {type: UserType},
+            company: {type: CompanyType}
+        })
+});
+
 
 module.exports = {UserType
     , CompanyType
@@ -167,4 +182,5 @@ module.exports = {UserType
     , VacancyType
     , SkillType
     , SessionType
+    , ResumeDropType
 };

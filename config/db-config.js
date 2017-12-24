@@ -50,15 +50,15 @@ const UserEnum = {
 
 const DocLink = {
     TABLE: "doc_link",
-    ID : "ID",
+    ID: "ID",
     USER_ID: "user_id",
     COMPANY_ID: "company_id",
     TYPE: "type",
     LABEL: "label",
     URL: "url",
     DESCRIPTION: "description",
-    CREATED_AT :"created_at",
-    UPDATED_AT :"updated_at"
+    CREATED_AT: "created_at",
+    UPDATED_AT: "updated_at"
 };
 
 const DocLinkEnum = {
@@ -155,8 +155,17 @@ const VacancyEnum = {
 const Skill = {
     TABLE: "skills",
     ID: "ID",
-    USER_ID: "user_id",
+    USER_ID: "user_id", 
     LABEL: "label"
+};
+
+const ResumeDrop = {
+    TABLE: "resume_drops",
+    ID: "ID",
+    DOC_LINKS: "doc_links", 
+    STUDENT_ID: "student_id",
+    COMPANY_ID: "company_id", 
+    MESSAGE: "message"
 };
 
 module.exports = {User, UserMeta, UserEnum
@@ -167,4 +176,5 @@ module.exports = {User, UserMeta, UserEnum
     , Company, CompanyEnum
     , Queue, QueueEnum
     , Skill
+    , ResumeDrop
 };

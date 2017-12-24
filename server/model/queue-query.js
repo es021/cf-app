@@ -57,6 +57,7 @@ class QueueExec {
                 }
             }
 
+            // only if there is custom field
             if (extra.single) {
                 return res[0];
             }

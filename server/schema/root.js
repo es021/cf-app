@@ -2,6 +2,7 @@
 const {UserType
     , CompanyType
     , QueueType
+    , ResumeDropType
     , VacancyType
     , DocLinkType} = require('./all-type.js');
 
@@ -12,6 +13,7 @@ const {UserExec} = require('../model/user-query.js');
 const {Queue, QueueExec} = require('../model/queue-query.js');
 const {CompanyExec} = require('../model/company-query.js');
 const {VacancyExec} = require('../model/vacancy-query.js');
+const {ResumeDropExec} = require('../model/resume-drop-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -111,6 +113,32 @@ fields["vacancies"] = {
     },
     resolve(parentValue, arg, context, info) {
         return VacancyExec.vacancies(arg, graphqlFields(info));
+    }
+};
+
+/*******************************************/
+/* vacancy ******************/
+fields["resume_drop"] = {
+    type: ResumeDropType,
+    args: {
+        ID: {type: GraphQLInt},
+        company_id: {type: GraphQLInt},
+        student_id: {type: GraphQLInt}
+    },
+    resolve(parentValue, arg, context, info) {
+        return ResumeDropExec.resume_drops(arg, graphqlFields(info), {single: true});
+    }
+};
+
+fields["resume_drops"] = {
+    type: new GraphQLList(ResumeDropType),
+    args: {
+        ID: {type: GraphQLInt},
+        company_id: {type: GraphQLInt},
+        student_id: {type: GraphQLInt}
+    },
+    resolve(parentValue, arg, context, info) {
+        return ResumeDropExec.resume_drops(arg, graphqlFields(info));
     }
 };
 

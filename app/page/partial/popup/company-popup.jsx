@@ -152,9 +152,19 @@ export default class CompanyPopup extends Component {
                     <PageSection className="left" title="Recruiters" body={recs}></PageSection>
                 </div>
                 <div className="btn-group btn-group-justified">
-                    <div className="btn btn-lg btn-primary" onClick={this.startQueue}>Queue Now</div>
-                    <div className="btn btn-lg btn-default">Drop Resume</div>
+                    <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
+                        <i className="fa fa-sign-in left"></i>
+                        Queue Now</div>
+            
+            
+                    <NavLink target="_blank"
+                             to={`${RootPath}/app/resume-drop/${this.props.id}`} className="btn btn-lg btn-default">
+                        <i className="fa fa-download left"></i>    
+                        Drop Resume</NavLink>
+            
                 </div>
+                <br></br>
+                <a onClick={layoutActions.storeHideFocusCard}>Close</a>
             </div>;
 
 

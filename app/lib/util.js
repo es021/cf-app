@@ -26,7 +26,6 @@ String.prototype.capitalize = function () {
 };
 
 document.setTitle = function (title) {
-    document.title = `Test | ${title}`;
-    //document.title = `VICAF | ${title}`;
+    document.title = `${title}`;
 };
 
