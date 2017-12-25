@@ -4,6 +4,7 @@ import {getAxiosGraphQLQuery} from '../../helper/api-helper';
 import {ResumeDrop}  from '../../config/db-config';
 import Form, {toggleSubmit, checkDiff} from '../component/form';
 import {Loader} from '../component/loader';
+import PropTypes from 'prop-types';
 
 import {RootPath} from '../../config/app-config';
 import {NavLink} from 'react-router-dom';
@@ -152,7 +153,10 @@ export default class ResumeDropPage extends React.Component {
     }
 
     render() {
-        document.setTitle(`Resume Drop`);
+        if(!this.props.company_id){
+            document.setTitle(`Resume Drop`);
+        }
+        
         var view = null
         if (this.state.loading) {
             view = <Loader text="Loading information..." size="3"></Loader>;
@@ -199,15 +203,21 @@ export default class ResumeDropPage extends React.Component {
                       error={this.state.error}
                       success={this.state.success}></Form>;
             }
-
-            document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
-            view = <div><h4>{this.state.data.company.name}</h4>{existed}
+            
+            var title = (this.props.company_id) ? <br></br> : <h4>{this.state.data.company.name}</h4>;
+            
+            if(!this.props.company_id){
+                document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
+            }
+            
+            view = <div>{title}
+                {existed}
                 {v}
             </div>;
         }
 
         return (<div>
-            <h3>Resume Drop</h3>
+            {(this.props.company_id) ? null : <h3>Resume Drop</h3>}
             {view}
         </div>);
 
@@ -216,3 +226,6 @@ export default class ResumeDropPage extends React.Component {
 }
 
 
+ResumeDrop.propTypes = {
+    company_id: PropTypes.number
+};

@@ -30,9 +30,13 @@ $fc : "fc-";
             background: $COLOR_DARKER;
             color:$COLOR_DARKER_TEXT;
             border-bottom: grey 1px solid;
-            padding: 5px 2px;
+            padding:2px;
         }
 
+        .#{$fc}header.previous{
+            padding-top: 22px;
+        }
+        
         .#{$fc}body{
             padding: 0 10px;
             max-height: 85vh;
@@ -45,6 +49,12 @@ $fc : "fc-";
             }
         }
 
+        .#{$fc}previous-btn{
+            position: absolute;
+            left: 5px;
+            top: 2px;
+        }
+
         .#{$fc}close-btn{
             position: absolute;
             right: 5px;
@@ -52,8 +62,7 @@ $fc : "fc-";
         }
 
         .#{$fc}title{
-            font-size:15px;
-            font-style: oblique;
+            font-size:18px;
         }
     } 
 }
@@ -72,7 +81,7 @@ $fc : "fc-";
 #focus-card.small{
     .#{$fc}body{
         min-height: 0;
-        
+
         .loader{
             padding-top: 10px;
         }

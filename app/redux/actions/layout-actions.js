@@ -41,6 +41,17 @@ export function confirmBlockLoader(title, yesHandler) {
 
 
 // Focus Card ----------------------------------------------
+export const PREVIOUS_FOCUS_CARD = "PREVIOUS_FOCUS_CARD";
+
+export function previousFocusCard() {
+    return function (dispatch) {
+        dispatch({
+            type: PREVIOUS_FOCUS_CARD,
+            payload: {}
+        });
+    };
+}
+
 export const UPDATE_FOCUS_CARD = "UPDATE_FOCUS_CARD";
 export function updateFocusCard(title, component, props, className = "") {
     return function (dispatch) {

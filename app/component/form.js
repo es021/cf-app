@@ -277,7 +277,7 @@ export default class Form extends React.Component {
                     if (this.props.defaultValues[d.name]) {
                         checked = (this.props.defaultValues[d.name].indexOf(data.key) >= 0);
                     }
-                    return <div className="checkbox"><label className="checkbox-inline">
+                    return <div key={i} className="checkbox"><label className="checkbox-inline">
                             <input onBlur={this.onBlur}
                                    onChange={d.onChange}
                                    disabled={d.disabled}
@@ -386,7 +386,7 @@ export default class Form extends React.Component {
     }
 
     render() {
-        console.log("render form", this.props.defaultValues);
+        //console.log("render form", this.props.defaultValues);
         // 1. form items ---------
         var formItems = this.props.items.map((d, i) => {
             // a. label ------

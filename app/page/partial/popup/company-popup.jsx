@@ -7,17 +7,19 @@ import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';
 import ProfileCard from '../../../component/profile-card';
 import {SimpleListItem, ProfileListItem} from '../../../component/list';
 import {Loader} from '../../../component/loader';
-import {RootPath} from '../../../../config/app-config';
 import {getAuthUser} from '../../../redux/actions/auth-actions';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 
+import VacancyPopup from './vacancy-popup';
+import ResumeDropPopup from './resume-drop-popup';
+
+
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)
-        console.log("constructor");
         this.state = {
             data: null,
             loading: true,
@@ -27,8 +29,6 @@ export default class CompanyPopup extends Component {
     }
 
     componentWillMount() {
-
-        console.log("componentWillMount");
         var id = null;
 
         if (this.props.match) {
@@ -99,7 +99,11 @@ export default class CompanyPopup extends Component {
         }
 
         var view = list.map((d, i) => {
-            var title = <NavLink target='_blank' to={`${RootPath}/app/vacancy/${d.ID}`}>{d.title}</NavLink>;
+            var param = {id: d.ID, company: this.state.data};
+            var title = <a 
+                onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)} 
+                >{d.title}</a>;
+
             return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
         });
 
@@ -136,7 +140,7 @@ export default class CompanyPopup extends Component {
         var id = null;
         var data = this.state.data;
         var view = null;
-        console.log("cp ", this.state);
+
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Company Information...'></Loader>
         } else {
@@ -155,21 +159,21 @@ export default class CompanyPopup extends Component {
                     <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
                         <i className="fa fa-sign-in left"></i>
                         Queue Now</div>
-            
-            
-                    <NavLink target="_blank"
-                             to={`${RootPath}/app/resume-drop/${this.props.id}`} className="btn btn-lg btn-default">
+          
+                    <a target="_blank"
+                              onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+                              , ResumeDropPopup, {company_id:data.ID})} 
+                              className="btn btn-lg btn-default">
                         <i className="fa fa-download left"></i>    
-                        Drop Resume</NavLink>
+                        Drop Resume</a>
             
                 </div>
                 <br></br>
                 <a onClick={layoutActions.storeHideFocusCard}>Close</a>
             </div>;
-
-
+         
             view = <div>
-                <ProfileCard type="student"
+                <ProfileCard type="company"
                              title={data.name} subtitle={data.tagline}
                              img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
                              body={pcBody}></ProfileCard>

@@ -60,7 +60,6 @@ export default class ProfileCard extends React.Component {
     }
 
     render() {
-        console.log("Render ProfileCard");
         var styleParent = {
             color: (this.props.theme == "dark") ? "white" : "black",
         };
@@ -126,7 +125,7 @@ ProfileCard.propTypes = {
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     id: PropTypes.number, // id to adjust save profile image
     title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string,
+    subtitle: PropTypes.any,
     badge: PropTypes.string,
     badge_tooltip: PropTypes.string,
     onClick: PropTypes.func,

@@ -74,7 +74,7 @@ axios.interceptors.response.use(response => {
 
 
 function getAxiosGraphQLQuery(queryString) {
-    console.log(graphQLUrl);
+    //console.log(graphQLUrl);
     var config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

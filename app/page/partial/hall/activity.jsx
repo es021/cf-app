@@ -206,8 +206,9 @@ class ActivitySection extends React.Component {
     }
 
     render() {
-        console.log("FROM ACTIVITY SECTION");
-        console.log(this.props.activity);
+        //console.log("FROM ACTIVITY SECTION");
+        //console.log(this.props.activity);
+        
         var d = this.props.activity;
         var title_s = <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>;
         var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;

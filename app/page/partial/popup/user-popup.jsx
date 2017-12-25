@@ -67,7 +67,7 @@ export default class UserPopup extends Component {
                 value: "1234566"
             }];
 
-// major --------------------------------
+        // major --------------------------------
         var major = null;
         try {
             var list = JSON.parse(d.major);
@@ -85,7 +85,7 @@ export default class UserPopup extends Component {
             });
         }
 
-// minor --------------------------------
+        // minor --------------------------------
         var minor = null;
         try {
             var list = JSON.parse(d.minor);
