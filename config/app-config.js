@@ -15,7 +15,7 @@ if (isProd) {
     PHPApi = `https://seedsjobfair.com/php-api/`;
 } else {
     PHPApi += `/cf-app/server/php-api/`;
-}
+}  
 
 const AppConfig = {
     Name: "Virtual Career Fair 2017",

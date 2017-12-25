@@ -21,7 +21,6 @@ export default class ResumeDropPage extends React.Component {
             disableSubmit: false,
             success: null,
             loading: true,
-            original: null,
             data: {
                 resume_drop: null,
                 company: null,
@@ -146,6 +145,9 @@ export default class ResumeDropPage extends React.Component {
             data.resume_drop = (this.isEdit) ? res.data.data.edit_resume_drop : res.data.data.add_resume_drop;
 
             var m = "Successfully " + ((this.isEdit) ? "Edit" : "Added New") + " Record";
+            
+            this.isEdit = true;
+            
             toggleSubmit(this, {error: null, data: data, success: m});
         }, (err) => {
             toggleSubmit(this, {error: err.response.data});

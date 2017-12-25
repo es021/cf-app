@@ -84,7 +84,7 @@ export default class VacancyPage extends React.Component {
                         <a target="_blank" href={vacan.application_url}>{vacan.application_url}</a></span>
                 ];
 
-                var share_url = `${SiteUrl}${RootPath}/auth/vacancy/${vacan.ID}`;
+                var share_url = `${SiteUrl}/auth/vacancy/${vacan.ID}`;
                 //var share_url = window.location.href;
                 console.log(share_url);
 
