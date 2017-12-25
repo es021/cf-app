@@ -154,7 +154,9 @@ const VacancyType = new GraphQLObjectType({
             requirement: {type: GraphQLString},
             type: {type: GraphQLString},
             application_url: {type: GraphQLString},
-            updated_at: {type: GraphQLString}
+            updated_at: {type: GraphQLString},
+
+            company: {type: CompanyType}
         })
 });
 

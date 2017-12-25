@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import VacancyPage from '../../vacancy';
+
+export default class VacancyPopup extends Component {
+    render(){
+        return <VacancyPage id={this.props.id} isPopup={true}></VacancyPage>
+    }
+}
+
+VacancyPopup.propTypes = {
+    id: PropTypes.number
+};
+
+/*
 import {Loader} from '../../../component/loader';
 import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';
 import {DocLinkEnum} from '../../../../config/db-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
 import {CustomList} from '../../../component/list';
-
-export default class VacancyPopup extends Component {
+class VacancyPopu111p extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             data: null,
-            loading: true,
+            loading: true
         }
     }
 
@@ -79,8 +91,4 @@ export default class VacancyPopup extends Component {
         return (view);
     }
 };
-
-VacancyPopup.propTypes = {
-    id: PropTypes.number,
-    company: PropTypes.any
-};
+*/

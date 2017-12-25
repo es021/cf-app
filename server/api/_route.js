@@ -18,8 +18,28 @@ const initializeAllRoute = function (app, root) {
         }
     };
 
-    // Activity Route ----------------------------------------------------------------
+    // Facebook Route ----------------------------------------------------------------
+    /*
+    const {FBApi} = require('./fb-api');
+    app.post(root + '/fb/:action', function (req, res, next) {
+        var action = req.params.action;
 
+        switch (action) {
+            case 'get-feed':
+                FBApi.getFeed().then((response) => {
+                    console.log("from __route");
+                    console.log(response);
+                    routeResHandler(res, response);
+                });
+
+                break;
+        }
+
+
+    });
+    */
+
+    // Activity Route ----------------------------------------------------------------
     const {ActivityAPI} = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {
         var action = req.params.action;

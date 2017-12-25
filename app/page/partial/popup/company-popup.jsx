@@ -99,7 +99,7 @@ export default class CompanyPopup extends Component {
         }
 
         var view = list.map((d, i) => {
-            var param = {id: d.ID, company: this.state.data};
+            var param = {id: d.ID};
             var title = <a 
                 onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)} 
                 >{d.title}</a>;

@@ -21,10 +21,20 @@ VacancyQuery = new VacancyQuery();
 
 class VacancyExec {
     getVacancyHelper(type, params, field, extra = {}) {
+
+        const {CompanyExec} = require('./company-query.js');
+
         var sql = VacancyQuery.getVacancy(params, extra);
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];
+            }
+
+            for (var i in res) {
+                if (typeof field["company"] !== "undefined") {
+                    var company_id = res[i]["company_id"];
+                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
+                }
             }
 
             if (type === "single") {

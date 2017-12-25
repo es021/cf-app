@@ -13,6 +13,7 @@ import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
 import EditProfilePage from '../page/edit-profile';
 import ResumeDropPage from '../page/resume-drop';
+import VacancyPage from '../page/vacancy';
 import NotFoundPage from '../page/not-found';
 
 
@@ -150,6 +151,15 @@ menuItem.push(...[
         bar_auth: false,
         hd_app: true,
         hd_auth: false,
+        routeOnly: true
+    },
+    {
+        url: "/vacancy/:id",
+        component: VacancyPage,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
         routeOnly: true
     }
 ]);
