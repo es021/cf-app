@@ -4,7 +4,11 @@ footer{
     text-align: center;
     color:lightgray;
     font-size:13px;
-
+    
+    .container-fluid{
+        background: $COLOR_DARK;
+    }
+    
     .title{
         color: darkgray;
         font-size: 90%;

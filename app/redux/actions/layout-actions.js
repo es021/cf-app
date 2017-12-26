@@ -1,3 +1,57 @@
+import {store} from '../store.js';
+
+// Block Loader ----------------------------------------------
+export const UPDATE_BLOCK_LOADER = "UPDATE_BLOCK_LOADER";
+export function hideBlockLoader() {
+    return function (dispatch) {
+        dispatch({
+            type: UPDATE_BLOCK_LOADER,
+            payload: {loading: null, success: null, error: null, confirm: null, show: false}
+        });
+    };
+}
+
+export function  storeHideBlockLoader() {
+    store.dispatch(hideBlockLoader());
+}
+
+function updateBlockLoader(loading, success, error, confirm) {
+    store.dispatch({
+        type: UPDATE_BLOCK_LOADER,
+        payload: {loading: loading, success: success, error: error, confirm: confirm, show: true}
+    });
+}
+
+
+export function loadingBlockLoader(m) {
+    updateBlockLoader(m, null, null, null);
+}
+
+export function successBlockLoader(m) {
+    updateBlockLoader(null, m, null, null);
+}
+
+export function errorBlockLoader(m) {
+    updateBlockLoader(null, null, m, null);
+}
+
+export function confirmBlockLoader(title, yesHandler) {
+    updateBlockLoader(null, null, null, {title: title, yesHandler: yesHandler});
+}
+
+
+// Focus Card ----------------------------------------------
+export const PREVIOUS_FOCUS_CARD = "PREVIOUS_FOCUS_CARD";
+
+export function previousFocusCard() {
+    return function (dispatch) {
+        dispatch({
+            type: PREVIOUS_FOCUS_CARD,
+            payload: {}
+        });
+    };
+}
+
 export const UPDATE_FOCUS_CARD = "UPDATE_FOCUS_CARD";
 export function updateFocusCard(title, component, props, className = "") {
     return function (dispatch) {
@@ -30,7 +84,6 @@ export function storeHideFocusCard() {
     store.dispatch(hideFocusCard());
 }
 
-import {store} from '../store.js';
 export function storeUpdateFocusCard(title, component, props, className = "") {
     store.dispatch(updateFocusCard(title, component, props, className));
 }

@@ -1,7 +1,7 @@
 ul{
     padding: 0;
     list-style: none;
-}
+} 
 
 [hidden]{
     display:none !important;
@@ -10,6 +10,10 @@ ul{
 p{
     text-align: justify;
     margin: 0;
+}
+
+.fa.left{
+    margin-right: 5px;
 }
 
 .no-padding{

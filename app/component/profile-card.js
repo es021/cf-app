@@ -40,7 +40,7 @@ export default class ProfileCard extends React.Component {
                 url = ImgConfig.DefCompany;
                 break;
         }
-        
+
         return {
             backgroundImage: `url('${url}')`,
             backgroundSize: "cover",
@@ -60,16 +60,15 @@ export default class ProfileCard extends React.Component {
     }
 
     render() {
-        console.log("Render ProfileCard");
         var styleParent = {
             color: (this.props.theme == "dark") ? "white" : "black",
         };
         var stylePicture = null;
-        
+
         if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
             stylePicture = this.getDefaultProfileImg();
         } else {
-            stylePicture = {
+            stylePicture = { 
                 backgroundImage: `url('${this.props.img_url}')`,
                 backgroundSize: this.props.img_size,
                 backgroundPosition: this.props.img_pos
@@ -80,6 +79,19 @@ export default class ProfileCard extends React.Component {
         stylePicture["height"] = dimension;
         stylePicture["width"] = dimension;
 
+        // bagde used in queue card
+        var badge = null;
+        if (this.props.badge) {
+            badge = <div className={`${pc}badge`}>
+                {(this.props.badge_tooltip) ?
+                                    <span>
+                                        <div className={`${pc}badge-tooltip-arrow`}></div>
+                                        <div className={`${pc}badge-tooltip`}>{this.props.badge_tooltip}</div>
+                                    </span> : null}
+                {this.props.badge}
+            </div>;
+        }
+
         // only for edit profile and edit company
         var img_ops = null;
         if (this.props.add_img_ops) {
@@ -89,13 +101,14 @@ export default class ProfileCard extends React.Component {
             </div>
         }
         var className = "profile-card";
-        if(this.props.className){
-            className += " "+this.props.className;
+        if (this.props.className) {
+            className += " " + this.props.className;
         }
-        
+
         //this.openPictureOps(stylePicture);
         return(<div onClick={this.props.onClick} className={className} style={styleParent}>
             {(this.props.header) ? this.props.header : null}
+            {badge}
             <div className={`${pc}picture`} style={stylePicture}>
                 {img_ops}
             </div>
@@ -112,7 +125,9 @@ ProfileCard.propTypes = {
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     id: PropTypes.number, // id to adjust save profile image
     title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string,
+    subtitle: PropTypes.any,
+    badge: PropTypes.string,
+    badge_tooltip: PropTypes.string,
     onClick: PropTypes.func,
     img_url: PropTypes.string,
     img_pos: PropTypes.string,

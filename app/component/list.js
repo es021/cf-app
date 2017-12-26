@@ -142,6 +142,8 @@ ProfileListItem.propTypes = {
     list_type: PropTypes.oneOf(["card"]),
     title: PropTypes.any.isRequired,
     subtitle: PropTypes.string.isRequired,
+    badge: PropTypes.string,
+    badge_tooltip: PropTypes.string,
     img_url: PropTypes.string,
     img_pos: PropTypes.string,
     img_size: PropTypes.string,

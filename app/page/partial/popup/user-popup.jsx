@@ -3,6 +3,7 @@ import {loadUser} from '../../../redux/actions/user-actions';
 import PropTypes from 'prop-types';
 import {Loader} from '../../../component/loader';
 import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';
+import {DocLinkEnum} from '../../../../config/db-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
 import {CustomList} from '../../../component/list';
@@ -36,6 +37,7 @@ export default class UserPopup extends Component {
                 description
                 role
                 skills{label}
+                doc_links{label url type}
                 img_url
                 img_pos
                 img_size
@@ -65,7 +67,7 @@ export default class UserPopup extends Component {
                 value: "1234566"
             }];
 
-// major --------------------------------
+        // major --------------------------------
         var major = null;
         try {
             var list = JSON.parse(d.major);
@@ -83,7 +85,7 @@ export default class UserPopup extends Component {
             });
         }
 
-// minor --------------------------------
+        // minor --------------------------------
         var minor = null;
         try {
             var list = JSON.parse(d.minor);
@@ -123,15 +125,26 @@ export default class UserPopup extends Component {
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Student Information...'></Loader>
         } else {
-
+            //about
             const basic = this.getBasicInfo(user);
-            var s = user.skills.map((d,i)=>d.label);
+
+            //document and link
+            var dl = user.doc_links.map((d, i) => {
+                var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+                return <span><i className={`fa left fa-${icon}`}></i>
+                <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+            </span>;
+            });
+            const doc_link = <CustomList className="label" items={dl}></CustomList>;
+
+            // skill
+            var s = user.skills.map((d, i) => d.label);
             const skills = <CustomList className="label" items={s}></CustomList>;
 
-            //const dl = this.getDocLink(user);
             var dl = null;
             var pcBody = <div>
             <PageSection title="About" body={basic}></PageSection>
+            <PageSection title="Document & Link" body={doc_link}></PageSection>
             <PageSection title="Skills" body={skills}></PageSection>
         </div>;
 

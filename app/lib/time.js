@@ -39,8 +39,6 @@ Time.prototype.getAgo = function (unixtimestamp) {
 
     var previous = new Date(unixtimestamp * 1000);
     var elapsed = current - previous;
-    console.log(current);
-    console.log(previous);
 
     if (elapsed < msPerMinute) {
         var sec = Math.round(elapsed / 1000);
@@ -68,6 +66,11 @@ Time.prototype.getString = function (unixtimestamp, include_timezone) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
+
+    if (typeof unixtimestamp === "string") {
+        unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+    }
+
 
     include_timezone = (typeof include_timezone === "undefined") ? false : include_timezone;
 
@@ -127,7 +130,6 @@ Time.prototype.getTimezone = function (date) {
 
 Time.prototype.getUnixFromDateTimeInput = function (date_input, time_input) {
     var datetime = date_input + "T" + time_input + ":00";
-    console.log(datetime);
     var d = new Date(datetime);
     return Math.floor(d.getTime() / 1000);
 };

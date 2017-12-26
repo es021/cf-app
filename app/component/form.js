@@ -118,6 +118,8 @@ export default class Form extends React.Component {
 
         for (var i in this.form) {
             var formObj = this.form[i];
+            console.log(formObj);
+            console.log(formObj.checked);
 
             if (formObj != null) {
                 var name = formObj.name;
@@ -125,6 +127,19 @@ export default class Form extends React.Component {
 
                 // ignore the multiple
                 if (ignore.indexOf(name) >= 0) {
+                    continue;
+                }
+
+                // handle checkbox
+                if (formObj.type == "checkbox") {
+                    var checkboxName = name.split("::")[0];
+                    console.log(checkboxName)
+                    if (formObj.checked) {
+                        if (!data_form[checkboxName]) {
+                            data_form[checkboxName] = [];
+                        }
+                        data_form[checkboxName].push(value);
+                    }
                     continue;
                 }
 
@@ -254,23 +269,49 @@ export default class Form extends React.Component {
                     {this.getSelectOptions(d.data)}
                 </select>;
                 break;
+            case 'checkbox':
+                //onChange={this.onChange}
+                item = d.data.map((data, i) => {
+                    var name = `${d.name}::${i + 1}`;
+                    var checked = false;
+                    if (this.props.defaultValues[d.name]) {
+                        checked = (this.props.defaultValues[d.name].indexOf(data.key) >= 0);
+                    }
+                    return <div key={i} className="checkbox"><label className="checkbox-inline">
+                            <input onBlur={this.onBlur}
+                                   onChange={d.onChange}
+                                   disabled={d.disabled}
+                                   hidden={d.hidden}
+                                   name={name}
+                                   type={d.type}
+                                   value={data.key}
+                                   defaultChecked={checked}
+                                   min={d.min}
+                                   max={d.max}
+                                   step={d.step}
+                                   required={d.required}
+                                   placeholder={d.placeholder}
+                                   defaultValue={defaultVal}
+                                   ref={(v) => this.form[name] = v}/>{data.label}</label></div>
+                });
+                break;
             default:
                 //onChange={this.onChange}
                 item = <input 
-                    className={formClass}
-                    onBlur={this.onBlur}
-                    onChange={d.onChange}
-                    disabled={d.disabled}
-                    hidden={d.hidden}
-                    name={d.name}
-                    type={d.type}
-                    min={d.min}
-                    max={d.max}
-                    step={d.step}
-                    required={d.required}
-                    placeholder={d.placeholder}
-                    defaultValue={defaultVal}
-                    ref={(v) => this.form[d.name] = v} />
+            className={formClass}
+            onBlur={this.onBlur}
+            onChange={d.onChange}
+            disabled={d.disabled}
+            hidden={d.hidden}
+            name={d.name}
+            type={d.type}
+            min={d.min}
+            max={d.max}
+            step={d.step}
+            required={d.required}
+            placeholder={d.placeholder}
+            defaultValue={defaultVal}
+            ref={(v) => this.form[d.name] = v} />
                 break;
         }
 
@@ -345,7 +386,7 @@ export default class Form extends React.Component {
     }
 
     render() {
-        console.log("render form", this.props.defaultValues);
+        //console.log("render form", this.props.defaultValues);
         // 1. form items ---------
         var formItems = this.props.items.map((d, i) => {
             // a. label ------

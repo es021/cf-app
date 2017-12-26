@@ -44,7 +44,12 @@ header {
             flex-flow: row wrap;
             justify-content: flex-end;
 
-            li{
+            .active{
+                border-bottom: #337ab7 solid 2px;
+                font-weight: bold;
+            }
+
+            a{
                 margin-right:35px;
             }
         }

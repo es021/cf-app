@@ -4,9 +4,11 @@ import * as authActions from '../redux/actions/auth-actions';
 import {User}  from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
-import { Redirect, NavLink} from 'react-router-dom';
 import Form from '../component/form';
+
 import {RootPath} from '../../config/app-config';
+import { Redirect, NavLink} from 'react-router-dom';
+//<NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink>
 
 import {ButtonLink} from '../component/buttons';
 import {AuthAPIErr} from '../../server/api/auth-api';
@@ -60,15 +62,21 @@ class LoginPage extends React.Component {
 
     render() {
         document.setTitle("Login");
+        const defaultPath = `${RootPath}/app/job-fair`;
 
         //console.log("from login render");
         //console.log(this.props.redux);
+        var from = {};
+        if (typeof this.props.location !== "undefined" && typeof this.props.location.state !== "undefined") {
+            from = this.props.location.state;
+        } else {
+            from = {pathname: defaultPath};
+        }
 
-        var {from} = this.props.location.state || {from: {pathname: `${RootPath}/app`}};
 
         //handle from logout
         if (from.pathname == `${RootPath}/app/logout`) {
-            from.pathname = `${RootPath}/app`;
+            from.pathname = defaultPath;
         }
 
         var redirectToReferrer = this.props.redux.isAuthorized;

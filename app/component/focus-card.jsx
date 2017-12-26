@@ -7,21 +7,22 @@ import {store} from '../redux/store';
 import {ButtonIcon} from './buttons';
 import PropTypes from 'prop-types';
 
-//require("../css/focus-card.css");
 require("../css/focus-card.scss");
 
 //state is from redux reducer
 // with multiple objects
 function mapStateToProps(state, ownProps) {
     return {
-        redux: state.layout
+        focusCard: state.layout.focusCard,
+        focusCardPrevious: state.layout.focusCardPrevious
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         updateFocusCard: layoutActions.updateFocusCard,
-        hideFocusCard: layoutActions.hideFocusCard
+        hideFocusCard: layoutActions.hideFocusCard,
+        previousFocusCard: layoutActions.previousFocusCard
     }, dispatch);
 }
 
@@ -33,15 +34,15 @@ class FocusCard extends React.Component {
     }
 
     componentWillMount() {
-        console.log("componentWillMount", "focus");
+        //console.log("componentWillMount", "focus");
     }
 
     render() {
-        
-        var focus = this.props.redux.focusCard;
-        console.log("render focus card");
-        console.log(focus.props);
-        
+
+        var focus = this.props.focusCard;
+        //console.log("render focus card");
+        //console.log(focus.props);
+
         var component = null;
         if (focus.component !== null) {
 
@@ -49,18 +50,32 @@ class FocusCard extends React.Component {
             focus.props["key"] = (new Date()).getTime();
             component = React.createElement(focus.component, focus.props);
         }
-        console.log(focus);
-        console.log(focus.show);
+        //console.log(focus);
+        //console.log(focus.show);
         //var display = (focus.show == true) ? "flow-root" : "none";
         var display = (focus.show == true) ? "block" : "none";
         var style = {
             display: display
         };
 
+
         var fc = "fc-";
+
+        // get previous btn
+        var prev = this.props.focusCardPrevious;
+        var prevBtn = (prev.length <= 0) ? null :
+                <div className={`${fc}previous-btn`}>
+                    <a 
+                        onClick={() => store.dispatch(layoutActions.previousFocusCard())} 
+                        size="18px" ><i className="fa fa-arrow-left left"></i>
+                        {prev[prev.length - 1].title}                    
+                    </a>
+                </div>;
+
         return(<div style={style} id="focus-card" className={focus.className}>
             <div className={`${fc}content`}>
-                <div className={`${fc}header`}>
+                <div className={`${fc}header${(prev.length > 0) ? " previous" : ""}`}>
+                    {prevBtn}
                     <div className={`${fc}close-btn`}>
                         <ButtonIcon 
                             onClick={() => store.dispatch(layoutActions.hideFocusCard())} 

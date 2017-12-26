@@ -10,7 +10,7 @@ import {isRoleRec} from '../redux/actions/auth-actions';
 
 export default class HallPage extends React.Component {
     render() {
-        document.setTitle("Hall");
+        document.setTitle("Job Fair");
         return(<div>
             <PageSection title="Welcome To Virtual Career Fair 2017" body={ActivitySection}></PageSection>
             {(isRoleRec()) ? null : <PageSection title="Companies" body={CompaniesSection}></PageSection>}

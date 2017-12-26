@@ -2,6 +2,12 @@
     width: $width;
     margin-left: -($width/2);
     left: 50%;
+}  
+
+@mixin center_vertical($height) {
+    height: $height;
+    margin-top: -($width/2 + 50);
+    top: 50%;
 } 
 
 @mixin background-gradient($top,$bottom){

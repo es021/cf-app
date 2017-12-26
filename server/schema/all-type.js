@@ -69,7 +69,7 @@ const SessionType = new GraphQLObjectType({
             company_id: {type: GraphQLInt},
             status: {type: GraphQLString},
             created_at: {type: GraphQLString},
-            
+
             student: {type: UserType},
             company: {type: CompanyType}
         })
@@ -83,6 +83,7 @@ const QueueType = new GraphQLObjectType({
             company_id: {type: GraphQLInt},
             status: {type: GraphQLString},
             created_at: {type: GraphQLString},
+            queue_num: {type: GraphQLInt},
 
             student: {type: UserType},
             company: {type: CompanyType}
@@ -153,7 +154,24 @@ const VacancyType = new GraphQLObjectType({
             requirement: {type: GraphQLString},
             type: {type: GraphQLString},
             application_url: {type: GraphQLString},
-            updated_at: {type: GraphQLString}
+            updated_at: {type: GraphQLString},
+
+            company: {type: CompanyType}
+        })
+});
+
+const ResumeDropType = new GraphQLObjectType({
+    name: 'ResumeDrop',
+    fields: () => ({
+            ID: {type: GraphQLInt},
+            student_id: {type: GraphQLInt},
+            company_id: {type: GraphQLInt},
+            message: {type: GraphQLString},
+            created_at: {type: GraphQLString},
+            updated_at: {type: GraphQLString},
+            doc_links: {type: new GraphQLList(DocLinkType)},
+            student: {type: UserType},
+            company: {type: CompanyType}
         })
 });
 
@@ -166,4 +184,5 @@ module.exports = {UserType
     , VacancyType
     , SkillType
     , SessionType
+    , ResumeDropType
 };

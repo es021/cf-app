@@ -15,7 +15,7 @@ if (isProd) {
     PHPApi = `https://seedsjobfair.com/php-api/`;
 } else {
     PHPApi += `/cf-app/server/php-api/`;
-}
+}  
 
 const AppConfig = {
     Name: "Virtual Career Fair 2017",
@@ -23,6 +23,7 @@ const AppConfig = {
     Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
     Api: SiteUrl,
     PHPApi: PHPApi,
+    FbAppId: "315194262317447",
     WPAjaxApi: PHPApi + "/career-fair/wp-admin/admin-ajax.php",
     FbUrl: "https://www.fb.com/innovaseedssolutions",
     WwwUrl: "https://seedsjobfair.com"
