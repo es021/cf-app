@@ -7,7 +7,7 @@ import {ButtonLink} from '../component/buttons';
 import {getAxiosGraphQLQuery} from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import {loadUser} from '../redux/actions/user-actions';
-import {getAuthUser, updateAuthUser} from '../redux/actions/auth-actions';
+import {getAuthUser, isRoleRec, updateAuthUser} from '../redux/actions/auth-actions';
 import {Loader} from '../component/loader';
 import ProfileCard from '../component/profile-card';
 import SubNav from '../component/sub-nav';
@@ -291,7 +291,7 @@ class EditProfile extends React.Component {
 
     componentWillMount() {
         this.authUser = getAuthUser();
-        loadUser(this.authUser[User.ID]).then((res) => {
+        loadUser(this.authUser.ID, this.authUser.role).then((res) => {
             this.setState(() => {
                 var user = res.data.data.user;
                 return {user: user, init: false};
@@ -311,73 +311,85 @@ class EditProfile extends React.Component {
                 type: "text",
                 placeholder: "Doe",
                 required: true
-            }, {
-                label: "Phone Number",
-                name: UserMeta.PHONE_NUMBER,
-                type: "text",
-                placeholder: "XXX-XXXXXXX",
-                required: true
-            },
-            {header: "Additional Information"},
-            {
-                label: "Major",
-                name: UserMeta.MAJOR,
-                type: "text",
-                multiple: true,
-                required: true
-            }, {
-                label: "Minor",
-                name: UserMeta.MINOR,
-                type: "text",
-                multiple: true,
-                required: false
-            }, {
-                label: "University",
-                name: UserMeta.UNIVERSITY,
-                type: "text",
-                required: true
-            }, {
-                label: "Current CGPA",
-                name: UserMeta.CGPA,
-                type: "number",
-                step: "0.01",
-                min: "0",
-                required: true,
-                sublabel: <ButtonLink label="Don't Use CGPA system?" 
-                        target='_blank'
-                        href="https://www.foreigncredits.com/resources/gpa-calculator/">
-            </ButtonLink>
-            }, {
-                label: "Expected Graduation",
-                name: UserMeta.GRADUATION_MONTH,
-                type: "select",
-                data: Month,
-                required: true
+            }];
 
-            }, {
-                label: null,
-                name: UserMeta.GRADUATION_YEAR,
-                type: "select",
-                data: Year,
-                required: true
+        // for student
+        if (!isRoleRec()) {
+            this.formItems.push(...[{
+                    label: "Phone Number",
+                    name: UserMeta.PHONE_NUMBER,
+                    type: "text",
+                    placeholder: "XXX-XXXXXXX",
+                    required: true
+                },
+                {header: "Additional Information"},
+                {
+                    label: "Major",
+                    name: UserMeta.MAJOR,
+                    type: "text",
+                    multiple: true,
+                    required: true
+                }, {
+                    label: "Minor",
+                    name: UserMeta.MINOR,
+                    type: "text",
+                    multiple: true,
+                    required: false
+                }, {
+                    label: "University",
+                    name: UserMeta.UNIVERSITY,
+                    type: "text",
+                    required: true
+                }, {
+                    label: "Current CGPA",
+                    name: UserMeta.CGPA,
+                    type: "number",
+                    step: "0.01",
+                    min: "0",
+                    required: true,
+                    sublabel: <ButtonLink label="Don't Use CGPA system?" 
+                            target='_blank'
+                            href="https://www.foreigncredits.com/resources/gpa-calculator/">
+                </ButtonLink>
+                }, {
+                    label: "Expected Graduation",
+                    name: UserMeta.GRADUATION_MONTH,
+                    type: "select",
+                    data: Month,
+                    required: true
 
-            }, {
-                label: "Sponsor",
-                name: UserMeta.SPONSOR,
-                type: "select",
-                data: Sponsor,
-                required: true,
-                sublabel: "This information will not be displayed in your profile."
+                }, {
+                    label: null,
+                    name: UserMeta.GRADUATION_YEAR,
+                    type: "select",
+                    data: Year,
+                    required: true
 
-            }, {
-                label: "Description",
-                name: UserMeta.DESCRIPTION,
-                type: "textarea",
-                placeholder: "Tell More About Yourself",
-                required: false,
-                rows: 5
-            }
-        ];
+                }, {
+                    label: "Sponsor",
+                    name: UserMeta.SPONSOR,
+                    type: "select",
+                    data: Sponsor,
+                    required: true,
+                    sublabel: "This information will not be displayed in your profile."
+
+                }, {
+                    label: "Description",
+                    name: UserMeta.DESCRIPTION,
+                    type: "textarea",
+                    placeholder: "Tell More About Yourself",
+                    required: false,
+                    rows: 5
+                }
+            ]);
+        } else {
+            this.formItems.push(...[{
+                    label: "Position",
+                    name: UserMeta.REC_POSITION,
+                    type: "text",
+                    placeholder: "HR Manager"
+                }]);
+        }
     }
 
     //return string if there is error
@@ -463,6 +475,9 @@ class EditProfile extends React.Component {
     }
 }
 
+
+// For Recruiter ------------------------------------------------------/
+
 export default class EditProfilePage extends React.Component {
     componentWillMount() {
         this.item = {
@@ -470,25 +485,31 @@ export default class EditProfilePage extends React.Component {
                 label: "Edit Profile",
                 component: EditProfile,
                 icon: "edit"
-            },
-            "doc-link": {
+            }};
+
+        if (!isRoleRec()) {
+
+            this.item["doc-link"] = {
                 label: "Document & Link",
                 component: StudentDocLink,
                 icon: "file-text"
-            },
-            "skills": {
+            };
+            this.item["skills"] = {
                 label: "Skills",
                 component: Skills,
                 icon: "th-list"
+            };
+        }
+        
+        const authUser = getAuthUser();
+        this.item["view"] = {
+            label: "View Profile",
+            onClick: () => {
+                layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {id: authUser.ID
+                    , role: authUser.role});
             },
-            "view": {
-                label: "View Profile",
-                onClick: () => {
-                    layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {id: getAuthUser().ID});
-                },
-                component: StudentDocLink,
-                icon: "user"
-            }
+            component: null,
+            icon: "user"
         }
     }
 
