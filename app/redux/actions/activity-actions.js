@@ -48,7 +48,7 @@ export function startQueue(student_id, company_id) {
     });
 }
 
-//** QUEUE ***************************************************/
+//** Session ***************************************************/
 export function invalidSession() {
     var sessions = store.getState().hall.activity.sessions;
 

@@ -36,7 +36,7 @@ const UserMeta = {
 
     // rec only
     REC_COMPANY: "rec_company",
-    REC_POSITION: "rec_position",
+    REC_POSITION: "rec_position"
 };
 
 const UserEnum = {
@@ -105,7 +105,6 @@ const Session = {
 };
 
 const SessionEnum = {
-    STATUS_NEW: "New",
     STATUS_EXPIRED: "Expired",
     STATUS_LEFT: "Left",
     STATUS_ACTIVE: "Active"
