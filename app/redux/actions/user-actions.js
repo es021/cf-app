@@ -1,4 +1,5 @@
 import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
+import {UserEnum} from '../../../config/db-config';
 
 export const FETCH_USER = "FETCH_USER";
 // not used
@@ -20,9 +21,11 @@ export function loadUsers(page) {
     };
 }
 
-export function loadUser(id) {
-    return getAxiosGraphQLQuery(`
-            query {
+export function loadUser(id, role) {
+    var query = null;
+    console.log(role);
+    if (role === UserEnum.ROLE_STUDENT) {
+        query = `query {
               user(ID:${id}) {
                 ID
                 user_email
@@ -44,5 +47,27 @@ export function loadUser(id) {
                 cgpa
                 major
                 minor
-              }}`);
+              }}`;
+    }
+
+    if (role === UserEnum.ROLE_RECRUITER) {
+        query = `query {
+              user(ID:${id}) {
+                ID
+                user_email
+                user_pass
+                first_name
+                last_name
+                description
+                role
+                img_url
+                img_pos
+                img_size
+                feedback
+                rec_position
+                rec_company
+              }}`;
+    }
+
+    return getAxiosGraphQLQuery(query);
 }

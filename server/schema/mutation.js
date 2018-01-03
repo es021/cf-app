@@ -53,7 +53,8 @@ fields["edit_user"] = {
         minor: {type: GraphQLString},
 
         // rec only
-        company_id: {type: GraphQLInt}
+        company_id: {type: GraphQLInt},
+        rec_position: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         var ID = arg.ID;

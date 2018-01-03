@@ -36,11 +36,15 @@ export default class ProfileCardImg extends  React.Component {
     constructor(props) {
         super(props);
         var fixedSize = this.props.stylePicture.backgroundSize.replace("100%", "101%");
+        var pos = (this.props.stylePicture.backgroundPosition === null || this.props.stylePicture.backgroundPosition == "")
+                ? "50% 50%"
+                : this.state.backgroundPosition = this.props.stylePicture.backgroundPosition;
+
         this.DIMENSION = 100;
         this.state = {
             backgroundImage: this.props.stylePicture.backgroundImage,
             backgroundSize: fixedSize, //default : cover
-            backgroundPosition: this.props.stylePicture.backgroundPosition, // default : 50% 50%
+            backgroundPosition: pos, // default : 50% 50%
             height: this.DIMENSION + "px",
             width: this.DIMENSION + "px",
             newImage: null,
