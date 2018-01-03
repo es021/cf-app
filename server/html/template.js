@@ -3,7 +3,9 @@ const path = require('path');
 // https://medium.com/front-end-hacking/server-side-rendering-with-react-and-express-382591bfc77c
 // to increase SEO
 const template = (url) => {
-    var templateFile = path.join(process.env.PWD, `server/html/index.html`);
+
+    var pwd = (process.env.PWD) ? process.env.PWD : process.env.INIT_CWD;
+    var templateFile = path.join(pwd, `server/html/index.html`);
     var content = fs.readFileSync(templateFile, 'utf8');
 
     // create title and description based on url
