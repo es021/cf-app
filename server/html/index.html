@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base href="/"/>
+        <link rel="icon" href="https://seedsjobfair.com/wp-content/uploads/2017/04/cropped-icon-32x32.png" sizes="32x32" />
+        <link rel="icon" href="https://seedsjobfair.com/wp-content/uploads/2017/04/cropped-icon-192x192.png" sizes="192x192" />
+        <link rel="apple-touch-icon-precomposed" href="https://seedsjobfair.com/wp-content/uploads/2017/04/cropped-icon-180x180.png" />
+        <meta name="msapplication-TileImage" content="https://seedsjobfair.com/wp-content/uploads/2017/04/cropped-icon-270x270.png" />
+        <meta name="description" content="{{description}}" />
+        <title>{{title}}</title>
+    </head>    
+    <body>
+        <div id="app-loading">
+            <div class="text-center">
+                <img id="app-loading-img" src="" alt="" hidden />
+            </div>
+        </div>
+        <div id="app"></div>
+
+        <script>
+            function MainLoadAsset(js_version, css_version) {
+                console.log("Start Load Asset");
+                console.log(window.location.host);
+
+                // init configuration
+                var isProd = (window.location.host === "seedsjobfair.com");
+                var ASSET_ROOT = (isProd) ? "/public/asset" : "/asset";
+
+                // init dom
+                var body = document.getElementsByTagName("body")[0];
+                var head = document.getElementsByTagName("head")[0];
+                var app_load = document.getElementById('app-loading');
+                var app_load_img = document.getElementById('app-loading-img');
+
+                // load loading image
+                app_load_img.src = ASSET_ROOT + "/image/loader.gif";
+
+                // load css -------------------------------------------------------------------------
+                // https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+                var cssToLoad = [ASSET_ROOT + "/css/loading.css"
+                            , ASSET_ROOT + "/lib/font-awesome-4.7.0/css/font-awesome.min.css"
+                            , ASSET_ROOT + "/lib/bootstrap-3.3.7/bootstrap.min.css"
+                            , ASSET_ROOT + "/css/vendors.bundle.css"
+                            , ASSET_ROOT + "/css/main.bundle.css"];
+
+                cssToLoad.map(function (d, i) {
+                    var callback = null;
+                    if (i === 0) {
+                        // once loading css finish show the loader gif
+                        callback = function () {
+                            app_load_img.removeAttribute("hidden");
+                        };
+                    }
+                    loadAsset("css", d, callback);
+                });
+
+
+                // load Javascript -------------------------------------------------------------------------
+                var jsToLoad = [ASSET_ROOT + "/js/vendors.bundle.js"
+                            , ASSET_ROOT + "/js/main.bundle.js"];
+                var jsLoaded = 0;
+                jsToLoad.map(function (d, i) {
+                    loadAsset("js", d, function () {
+                        jsLoaded++;
+                        if (jsLoaded >= jsToLoad.length) {
+                            // hide the loading
+                            app_load.style["opacity"] = "0";
+                            app_load_img.style["opacity"] = "0";
+                            setTimeout(function () {
+                                app_load.style["display"] = "none";
+                            }, 500);
+                        }
+                    });
+                });
+
+                //show loading until the main bundle finish load
+                function loadAsset(type, url, callback) {
+                    var asset = null;
+                    if (type === 'js') {
+                        asset = document.createElement("script");
+                        asset.type = "text/javascript";
+                    } else if (type === 'css') {
+                        asset = document.createElement("link");
+                        asset.rel = "stylesheet";
+                    }
+
+
+                    if (asset.readyState) {  //IE
+                        asset.onreadystatechange = function () {
+                            if (asset.readyState === "loaded" || asset.readyState === "complete") {
+                                asset.onreadystatechange = null;
+                                if (callback !== null) {
+                                    callback();
+                                }
+                            }
+                        };
+                    } else {  //Others
+                        asset.onload = function () {
+                            if (callback !== null) {
+                                callback();
+                            }
+                        };
+                    }
+
+                    if (type === 'js') {
+                        asset.src = url + "?v=" + js_version;
+                        body.appendChild(asset);
+
+                    } else if (type === 'css') {
+                        asset.href = url + "?v=" + css_version;
+                        head.appendChild(asset);
+                    }
+
+                }
+            }
+            var js_version = "3";
+            var css_version = "2";
+            MainLoadAsset(js_version, css_version);
+        </script>
+    </body>
+</html>

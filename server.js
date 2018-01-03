@@ -4,7 +4,6 @@ const app = express();
 const PORT = 4000;
 const path = require('path');
 const axios = require('axios');
-
 const {initializeAllRoute} = require('./server/api/_route.js');
 const isProd = (process.env.NODE_ENV === "production");
 
@@ -58,12 +57,18 @@ app.use(root + '/graphql', expressGraphQL({
 
 initializeAllRoute(app, root);
 
+const {template} = require('./server/html/template.js');
+
 app.get(root, function (req, res, next) {
+    console.log("root");
+    template("Test");
+
     res.sendFile(__dirname + '/public/index.html');
 });
 
 app.get('*', function (req, res, next) {
-    res.sendFile(__dirname + '/public/index.html');
+    res.send(template(req.url));
+    //res.sendFile(__dirname + '/public/index.html');
 });
 
 
