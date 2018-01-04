@@ -1,19 +1,30 @@
 import axios from 'axios';
-import {store} from '../store.js';
-import {AppConfig} from '../../../config/app-config';
-import {AuthUserKey} from '../../../config/auth-config';
-import {UserEnum} from '../../../config/db-config';
+import { store } from '../store.js';
+import { AppConfig } from '../../../config/app-config';
+import { AuthUserKey } from '../../../config/auth-config';
+import { UserEnum } from '../../../config/db-config';
 
 export function isAuthorized() {
     return store.getState().auth.isAuthorized;
 }
 
 export function getAuthUser() {
+    if(!isAuthorized()){
+        return {};
+    }
     return store.getState().auth.user;
 }
 
-export function isRoleRec(){
+export function isRoleStudent() {
+    return getAuthUser().role === UserEnum.ROLE_STUDENT;
+}
+
+export function isRoleRec() {
     return getAuthUser().role === UserEnum.ROLE_RECRUITER;
+}
+
+export function isRoleAdmin() {
+    return getAuthUser().role === UserEnum.ROLE_ADMIN;
 }
 
 export const UPDATE_USER = "UPDATE_USER";
@@ -39,7 +50,7 @@ export function login(email, password) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.post(AppConfig.Api + "/auth/login", {email: email, password: password})
+            payload: axios.post(AppConfig.Api + "/auth/login", { email: email, password: password })
         });
     };
 }
@@ -55,9 +66,9 @@ export function logout() {
 
 
 export function register(user) {
-    return axios.post(AppConfig.Api + "/auth/register", {user: user});
+    return axios.post(AppConfig.Api + "/auth/register", { user: user });
 }
 
 export function activateAccount(key, user_id) {
-    return axios.post(AppConfig.Api + "/auth/activate-account", {key: key, user_id: user_id});
+    return axios.post(AppConfig.Api + "/auth/activate-account", { key: key, user_id: user_id });
 }

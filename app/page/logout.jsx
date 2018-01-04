@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as authActions from '../redux/actions/auth-actions';
 
 import { bindActionCreators } from 'redux';
-import { Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 //state is from redux reducer
 // with multiple objects
@@ -19,20 +19,18 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-class LoginPage extends React.Component {
+class LogoutPage extends React.Component {
     constructor(props) {
         super(props);
     }
-    
-    componentWillMount(){
-        console.log("logout");
+
+    componentWillMount() {
         this.props.logout();
     }
 
     render() {
-        return(<div>Logging Out</div>);
+        return (<div>Logging Out</div>);
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
-//export default LoginPage;
+export default connect(mapStateToProps, mapDispatchToProps)(LogoutPage);

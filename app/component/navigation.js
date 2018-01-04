@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { BrowserRouter, Route, NavLink, Switch, Redirect}
-from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Switch, Redirect }
+    from 'react-router-dom';
 
 import HomePage from '../page/home';
 import LoginPage from '../page/login';
@@ -12,12 +12,11 @@ import UsersPage from '../page/users';
 import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
 import EditProfilePage from '../page/edit-profile';
+import ManageCompanyPage from '../page/manage-company';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import NotFoundPage from '../page/not-found';
-
-
-import {isAuthorized} from '../redux/actions/auth-actions';
+import { isAuthorized, isRoleStudent, isRoleRec, isRoleAdmin } from '../redux/actions/auth-actions';
 
 const menuItem = [
     {
@@ -40,7 +39,6 @@ const menuItem = [
         hd_app: true,
         hd_auth: true
     },
-
     {
         url: "/contact",
         label: "Contact Us",
@@ -52,6 +50,18 @@ const menuItem = [
         hd_auth: true
     },
     {
+        url: "/manage-company/:current",
+        label: "My Company",
+        icon: "building",
+        component: ManageCompanyPage,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: false,
+        hd_auth: false,
+        default_param: { current: "about" },
+        disabled: !isRoleRec()
+    },
+    {
         url: "/users",
         label: "Users",
         icon: "user",
@@ -59,7 +69,8 @@ const menuItem = [
         bar_app: true,
         bar_auth: false,
         hd_app: false,
-        hd_auth: false
+        hd_auth: false,
+        disabled: !isRoleAdmin()
     },
     {
         url: "/auditorium",
@@ -69,7 +80,8 @@ const menuItem = [
         bar_app: true,
         bar_auth: false,
         hd_app: false,
-        hd_auth: false
+        hd_auth: false,
+        disabled: !isRoleStudent()
     },
     {
         url: "/job-fair",
@@ -124,6 +136,7 @@ const menuItem = [
     }
 ];
 
+// ############################################################################/
 /**** ROUTE ONLY *******/
 menuItem.push(...[
     {
@@ -164,10 +177,19 @@ menuItem.push(...[
     }
 ]);
 
+
+// ############################################################################/
+/**** HELPER FUNCTION *******/
+
 export function getRoute(path) {
     var isLog = isAuthorized();
 
     var routes = menuItem.map(function (d, i) {
+        //restricted
+        if (d.disabled) {
+            return false;
+        }
+
         var exact = (d.url === "/") ? true : false;
 
         if (!d.allRoute) {
@@ -180,37 +202,23 @@ export function getRoute(path) {
             }
         }
 
-        return(<Route path={`${path}${d.url}`} exact={exact} key={i}  component={d.component}></Route>);
+        return (<Route path={`${path}${d.url}`} exact={exact} key={i} component={d.component}></Route>);
     });
 
     return (<Switch>
-{routes}
-<Route path="*" component={NotFoundPage}/>
-</Switch>);
-
-    /*
-     var route = (isAuth) 
-     ?   <Switch>
-     <Route path={`${path}/`} exact component={HomePage} />
-     <Route path={`${path}/about`} component={AboutPage} />
-     <Route path={`${path}/hall`} component={HallPage} />
-     <Route path={`${path}/logout`} component={LogoutPage} />
-     <Route path={`${path}/users`} component={UsersPage} />
-     <Route path={`${path}/user/:id`} component={UserPage} />
-     </Switch>
-     :   <Switch>
-     <Route path={`${path}/`} exact component={HomePage} />
-     <Route path={`${path}/hall`} component={HallPage} />
-     <Route path={`${path}/login`} component={LoginPage} />
-     <Route path={`${path}/about`} component={AboutPage} />
-     </Switch>
-     ;
-     
-     return route;
-     */
+        {routes}
+        <Route path="*" component={NotFoundPage} />
+    </Switch>);
 }
 
-function isRouteValid(isHeader, isLog, d) {
+
+// strictly for getBar only
+// wont work for getRoute
+function isBarValid(isHeader, isLog, d) {
+    if (d.disabled) {
+        return false;
+    }
+
     // Header and is logged in
     if (isHeader && isLog && !d.hd_app) {
         return false;
@@ -230,10 +238,9 @@ function isRouteValid(isHeader, isLog, d) {
     if (!isHeader && !isLog && !d.bar_auth) {
         return false;
     }
-
     return true;
-
 }
+
 
 export function getBar(path, isHeader = false) {
 
@@ -246,11 +253,18 @@ export function getBar(path, isHeader = false) {
             return;
         }
 
-        if (!isRouteValid(isHeader, isLog, d)) {
+        if (!isBarValid(isHeader, isLog, d)) {
             return;
         }
 
-        return(<NavLink to={`${path}${d.url}`} exact={exact} key={i}  activeClassName="active">
+        var url = d.url;
+        if (d.default_param) {
+            for (var key in d.default_param) {
+                url = url.replace(`:${key}`, d.default_param[key]);
+            }
+        }
+
+        return (<NavLink to={`${path}${url}`} exact={exact} key={i} activeClassName="active">
             <li>
                 {(isHeader) ? "" : <i className={`fa fa-${d.icon}`}></i>}
                 <span className="menu_label">{d.label}</span>

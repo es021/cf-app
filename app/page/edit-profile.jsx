@@ -517,6 +517,6 @@ export default class EditProfilePage extends React.Component {
 
         var title = this.item[this.props.match.params.current].label;
         document.setTitle(title);
-        return <SubNav items={this.item} defaultItem={this.props.match.params.current}></SubNav>;
+        return <SubNav route="edit-profile" items={this.item} defaultItem={this.props.match.params.current}></SubNav>;
     }
 }

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import {loadUser} from '../../../redux/actions/user-actions';
+import { loadUser } from '../../../redux/actions/user-actions';
 import PropTypes from 'prop-types';
 import PageSection from '../../../component/page-section';
-import {NavLink} from 'react-router-dom';
-import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';
+import { NavLink } from 'react-router-dom';
+import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import ProfileCard from '../../../component/profile-card';
-import {SimpleListItem, ProfileListItem} from '../../../component/list';
-import {Loader} from '../../../component/loader';
-import {getAuthUser} from '../../../redux/actions/auth-actions';
+import { SimpleListItem, ProfileListItem } from '../../../component/list';
+import { Loader } from '../../../component/loader';
+import { getAuthUser, isRoleRec } from '../../../redux/actions/auth-actions';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
@@ -62,7 +62,7 @@ export default class CompanyPopup extends Component {
 
         getAxiosGraphQLQuery(query).then((res) => {
             this.setState(() => {
-                return {data: res.data.data.company, loading: false}
+                return { data: res.data.data.company, loading: false }
             })
         });
     }
@@ -81,7 +81,7 @@ export default class CompanyPopup extends Component {
 
         activityActions.startQueue(stu_id, com_id).then((res) => {
             var mes = <div>
-                Successfully joined queue for 
+                Successfully joined queue for
                 <br></br><b>{this.state.data.name}</b>
                 <br></br>Your queue number is <b>{res.queue_num}</b>
             </div>;
@@ -99,10 +99,10 @@ export default class CompanyPopup extends Component {
         }
 
         var view = list.map((d, i) => {
-            var param = {id: d.ID};
-            var title = <a 
-                onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)} 
-                >{d.title}</a>;
+            var param = { id: d.ID };
+            var title = <a
+                onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)}
+            >{d.title}</a>;
 
             return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
         });
@@ -125,12 +125,12 @@ export default class CompanyPopup extends Component {
                 d.rec_position = <div className="text-muted">Position Not Available</div>;
             }
 
-            return <ProfileListItem title={name} 
-                             img_url={d.img_url}
-                             img_pos={d.img_pos}
-                             img_size={d.img_size}
-                             subtitle={d.rec_position} 
-                             type="recruiter" key={i}></ProfileListItem>;
+            return <ProfileListItem title={name}
+                img_url={d.img_url}
+                img_pos={d.img_pos}
+                img_size={d.img_size}
+                subtitle={d.rec_position}
+                type="recruiter" key={i}></ProfileListItem>;
         });
 
         return <div>{view}</div>;
@@ -149,34 +149,36 @@ export default class CompanyPopup extends Component {
             const vacancies = this.getVacancies(data.vacancies);
             const recs = this.getRecs(data.recruiters);
 
+            var action = (isRoleRec()) ? null :
+                <div className="btn-group btn-group-justified">
+                    <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
+                        <i className="fa fa-sign-in left"></i>
+                        Queue Now</div>
+
+                    <a target="_blank"
+                        onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+                            , ResumeDropPopup, { company_id: data.ID })}
+                        className="btn btn-lg btn-default">
+                        <i className="fa fa-download left"></i>
+                        Drop Resume</a>
+                </div>;
+
             var pcBody = <div>
                 <div>
                     <PageSection className="left" title="About" body={about}></PageSection>
                     <PageSection className="left" title="Vacancies" body={vacancies}></PageSection>
                     <PageSection className="left" title="Recruiters" body={recs}></PageSection>
                 </div>
-                <div className="btn-group btn-group-justified">
-                    <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
-                        <i className="fa fa-sign-in left"></i>
-                        Queue Now</div>
-          
-                    <a target="_blank"
-                              onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
-                              , ResumeDropPopup, {company_id:data.ID})} 
-                              className="btn btn-lg btn-default">
-                        <i className="fa fa-download left"></i>    
-                        Drop Resume</a>
-            
-                </div>
+                {action}
                 <br></br>
                 <a onClick={layoutActions.storeHideFocusCard}>Close</a>
             </div>;
-         
+
             view = <div>
                 <ProfileCard type="company"
-                             title={data.name} subtitle={data.tagline}
-                             img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
-                             body={pcBody}></ProfileCard>
+                    title={data.name} subtitle={data.tagline}
+                    img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
+                    body={pcBody}></ProfileCard>
             </div>;
         }
 

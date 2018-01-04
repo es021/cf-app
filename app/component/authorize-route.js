@@ -14,8 +14,8 @@ function mapStateToProps(state, ownProps) {
 
 class AuthorizedRoute extends React.Component {
     render() {
-        //console.log("from AuthorizedRoute");
-        //console.log(this.props);
+        console.log("from AuthorizedRoute");
+        console.log(this.props);
 
         var to = {};
         if (this.props.redux.isAuthorized) {
