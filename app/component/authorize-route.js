@@ -24,6 +24,7 @@ class AuthorizedRoute extends React.Component {
             const { component: Component} = this.props;
             return (<Component {...this.props} match={this.props.computedMatch} />);
         } else {
+            //location.reload();
             to = {pathname: `${RootPath}/auth`, state: {from: this.props.location}};
             return(<Redirect to={to} />);
         }

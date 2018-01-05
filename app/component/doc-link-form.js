@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import Form, {toggleSubmit, checkDiff} from '../component/form';
-import {DocLink, DocLinkEnum}  from '../../config/db-config';
-import {getAxiosGraphQLQuery} from '../../helper/api-helper';
+import Form, { toggleSubmit, checkDiff } from './form';
+import { DocLink, DocLinkEnum } from '../../config/db-config';
+import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import PropTypes from 'prop-types';
-import {Uploader, uploadFile, FileType} from '../component/uploader';
-import {UploadUrl} from '../../config/app-config.js';
+import { Uploader, uploadFile, FileType } from './uploader';
+import { UploadUrl } from '../../config/app-config.js';
+import { Loader } from './loader';
+import { CustomList } from './list';
+import * as layoutActions from '../redux/actions/layout-actions';
+import ConfirmPopup from '../page/partial/popup/confirm-popup';
+import { store } from '../redux/store';
 
-export default class DocLinkForm extends React.Component {
+
+class DocLinkForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,6 +52,11 @@ export default class DocLinkForm extends React.Component {
     }
 
     getFormItem(type) {
+
+        var labelPlaceholder = (type === DocLinkEnum.TYPE_DOC)
+            ? ((this.props.entity === "user") ? "Resume" : "Brochure")
+            : ((this.props.entity === "user") ? "LinkedIn" : "Website");
+
         return [
             {
                 label: "Type",
@@ -69,14 +80,14 @@ export default class DocLinkForm extends React.Component {
             }, {
                 label: "Url",
                 name: DocLink.URL,
-                placeholder: "https://www.linkedin.com/in/john-doe",
+                placeholder: (this.props.entity === "user") ? "https://www.linkedin.com/in/john-doe" : "https://www.company.com",
                 type: "text",
                 disabled: (this.props.edit && type === DocLinkEnum.TYPE_DOC) ? true : false,
                 hidden: (type === DocLinkEnum.TYPE_LINK || this.props.edit) ? false : true,
                 required: (type === DocLinkEnum.TYPE_LINK || this.props.edit) ? true : false
             }, {
                 label: "Label",
-                placeholder: (type === DocLinkEnum.TYPE_DOC) ? "Resume" : "LinkedIn",
+                placeholder: labelPlaceholder,
                 name: DocLink.LABEL,
                 type: "text",
                 required: true
@@ -95,11 +106,11 @@ export default class DocLinkForm extends React.Component {
         if (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit) {
             if (this.state.currentFile === null) {
                 this.setState(() => {
-                    return{error: "Please Select A File First"};
+                    return { error: "Please Select A File First" };
                 });
             } else {
                 var fileName = `${this.props.entity}-${this.props.id}`;
-                toggleSubmit(this, {error: null});
+                toggleSubmit(this, { error: null });
                 uploadFile(this.state.currentFile, FileType.DOC, fileName).then((res) => {
                     if (res.data.url !== null) {
                         d.url = `${UploadUrl}/${res.data.url}`;
@@ -108,7 +119,7 @@ export default class DocLinkForm extends React.Component {
                 });
             }
         } else {
-            toggleSubmit(this, {error: null});
+            toggleSubmit(this, { error: null });
             this.saveToDb(d);
         }
     }
@@ -128,30 +139,30 @@ export default class DocLinkForm extends React.Component {
             d[DocLink.COMPANY_ID] = Number.parseInt(d[DocLink.COMPANY_ID]);
 
             if (d[DocLink.USER_ID] == 0) {
-                delete(d[DocLink.USER_ID]);
+                delete (d[DocLink.USER_ID]);
             }
 
             if (d[DocLink.COMPANY_ID] == 0) {
-                delete(d[DocLink.COMPANY_ID]);
+                delete (d[DocLink.COMPANY_ID]);
             }
 
             if (d[DocLink.DESCRIPTION] == "") {
-                delete(d[DocLink.DESCRIPTION]);
+                delete (d[DocLink.DESCRIPTION]);
             }
         }
 
         var query = `mutation{${(this.props.edit) ? "edit" : "add"}_doc_link 
-            (${obj2arg(d, {noOuterBraces: true})}){ID}}`
+            (${obj2arg(d, { noOuterBraces: true })}){ID}}`
 
         getAxiosGraphQLQuery(query).then((res) => {
 
             var mes = (this.props.edit) ? `Successfully Edit ${this.props.type.capitalize()}!` : `Successfully Added New ${this.props.type.capitalize()}!`;
-            toggleSubmit(this, {error: null, success: mes});
+            toggleSubmit(this, { error: null, success: mes });
             if (this.props.onSuccessNew) {
                 this.props.onSuccessNew();
             }
         }, (err) => {
-            toggleSubmit(this, {error: err.response.data});
+            toggleSubmit(this, { error: err.response.data });
         });
 
     }
@@ -164,35 +175,35 @@ export default class DocLinkForm extends React.Component {
     uploaderOnError(err) {
         console.log("uploaderOnError", err);
         this.setState(() => {
-            return{error: err, currentFile: null};
+            return { error: err, currentFile: null };
         });
     }
 
     uploaderOnSuccess(file) {
         console.log("uploaderOnSuccess", file);
         this.setState(() => {
-            return{error: null, currentFile: file};
+            return { error: null, currentFile: file };
         });
 
     }
 
     render() {
 
-        var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit) ? <Uploader label="Upload Document" name="new-document" type={FileType.DOC} onSuccess={this.uploaderOnSuccess} 
-                  onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader> : null;
+        var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit) ? <Uploader label="Upload Document" name="new-document" type={FileType.DOC} onSuccess={this.uploaderOnSuccess}
+            onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader> : null;
 
-        var form = <Form className="form-row" 
-          items={this.formItem} 
-          onSubmit={this.formOnSubmit}
-          submitText='Save'
-          defaultValues={this.formDefault}
-          disableSubmit={this.state.disableSubmit} 
-          error={this.state.error}
-          errorPosition="top"
-          emptyOnSuccess={true}
-          success={this.state.success}></Form>;
+        var form = <Form className="form-row"
+            items={this.formItem}
+            onSubmit={this.formOnSubmit}
+            submitText='Save'
+            defaultValues={this.formDefault}
+            disableSubmit={this.state.disableSubmit}
+            error={this.state.error}
+            errorPosition="top"
+            emptyOnSuccess={true}
+            success={this.state.success}></Form>;
 
-        return(<div>{uploader}{form}</div>);
+        return (<div>{uploader}{form}</div>);
     }
 }
 
@@ -203,3 +214,158 @@ DocLinkForm.propTypes = {
     type: PropTypes.oneOf([DocLinkEnum.TYPE_DOC, DocLinkEnum.TYPE_LINK]).isRequired,
     onSuccessNew: PropTypes.func
 };
+
+
+
+// refactor so that it works for user and company
+// TODO
+export default class DocLinkPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: [],
+            map: {}, // for edit
+            fetching: true
+        };
+
+        this.refresh = this.refresh.bind(this);
+    }
+
+    componentWillMount() {
+        this.refresh();
+    }
+
+    closeFocusCardAndRefresh() {
+        layoutActions.storeHideFocusCard();
+        this.refresh();
+    }
+
+    refresh() {
+        var query = `query{${this.props.entity}(ID:${this.props.id}){
+        doc_links{
+            ID
+            user_id
+            company_id
+            type
+            label
+            url
+            description
+        }}}`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
+            //console.log(res.data.data.user.doc_links);
+            var datas = res.data.data[this.props.entity].doc_links;
+            var map = {};
+            for (var i in datas) {
+                map[datas[i].ID] = i;
+            }
+            console.log(map);
+            this.setState(() => {
+                return { map: map, data: datas, fetching: false };
+            });
+        }, (err) => {
+            alert(err);
+        });
+    }
+
+    deletePopup(e) {
+        console.log(e);
+
+        var id = e.currentTarget.id;
+        console.log(e.currentTarget);
+        const onYes = () => {
+            var del_query = `mutation{delete_doc_link(ID:${id})}`;
+            store.dispatch(layoutActions.updateProps({ loading: true }));
+            getAxiosGraphQLQuery(del_query).then((res) => {
+                this.closeFocusCardAndRefresh();
+            }, (err) => {
+                alert(err.response.data);
+            });
+        };
+        var value = e.currentTarget.attributes.getNamedItem("label").value;
+        layoutActions.storeUpdateFocusCard("Confirm Delete Item",
+            ConfirmPopup,
+            { title: `Continue delete document '${value}'?`, onYes: onYes },
+            "small");
+    }
+
+    getItemById(id) {
+        return this.state.data[this.state.map[id]];
+    }
+
+    editPopup(e) {
+        var id = e.currentTarget.id;
+        var item = this.getItemById(id);
+        var label = e.currentTarget.attributes.getNamedItem("label").value;
+
+        const onYes = () => {
+            var del_query = `mutation{delete_doc_link(ID:${id})}`;
+            store.dispatch(layoutActions.updateProps({ loading: true }));
+            getAxiosGraphQLQuery(del_query).then((res) => {
+                window.location.reload();
+            }, (err) => {
+                alert(err.response.data);
+            });
+        };
+
+        layoutActions.storeUpdateFocusCard(`Editing ${label}`,
+            DocLinkForm,
+            {
+                id: this.props.id, type: item[DocLink.TYPE], edit: item, entity: this.props.entity,
+                onSuccessNew: () => {
+                    this.closeFocusCardAndRefresh();
+                }
+            }, "small");
+    }
+
+    render() {
+
+        var items = (this.state.data.length <= 0)
+            ? <div className="text-muted">Nothing To Show Here</div>
+            : this.state.data.map((d, i) => {
+                //var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
+                //var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
+                var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+                return <span><i className={`fa left fa-${icon}`}></i>
+                    <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+                    <span className="badge" id={d.ID} label={d.label}
+                        onClick={this.editPopup.bind(this)}><i className="fa fa-edit"></i></span>
+                    <span className="badge" id={d.ID} label={d.label}
+                        onClick={this.deletePopup.bind(this)}><i className="fa fa-times"></i></span>
+                </span>;
+            });
+
+
+
+        if (this.state.data.length > 0) {
+            items = <CustomList className="label" items={items}></CustomList>;
+        }
+
+        var titleList = ((this.props.entity == "user") ? "My " : "") + "Document & Link";
+
+        return <div className="row container-fluid">
+            <div className="col-sm-6">
+                <h3 className="left">Add New Document</h3>
+                <DocLinkForm id={this.props.id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity={this.props.entity}></DocLinkForm>
+            </div>
+            <div className="col-sm-6">
+                <h3 className="left">Add New Link</h3>
+                <DocLinkForm id={this.props.id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity={this.props.entity}></DocLinkForm>
+            </div>
+            <div className="col-sm-12">
+                <br></br>
+                <h3 className="left">{titleList}</h3>
+                {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+                <br></br>
+            </div>
+        </div>;
+
+    }
+}
+
+DocLinkPage.propTypes = {
+    id: PropTypes.number.isRequired,
+    entity: PropTypes.oneOf(["user", "company"]).isRequired
+}
+

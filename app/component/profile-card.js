@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {ImgConfig} from '../../config/app-config';
+import { ImgConfig } from '../../config/app-config';
 import PropTypes from 'prop-types';
-import {ButtonIcon} from './buttons';
+import { ButtonIcon } from './buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
 
-import ProfileCardImg from '../component/profile-card-img';
-import Form, {toggleSubmit} from '../component/form';
+import ProfileCardImg, { getPositionStr } from '../component/profile-card-img';
+import Form, { toggleSubmit } from '../component/form';
 
 require("../css/profile-card.scss");
 /*
@@ -52,10 +52,12 @@ export default class ProfileCard extends React.Component {
         var type = (this.props.type == PCType.COMPANY) ? "company" : "user";
 
         layoutActions.storeUpdateFocusCard("Edit Image", ProfileCardImg,
-                {img_url: this.props.img_url,
-                    id: this.props.id,
-                    type: type,
-                    stylePicture: stylePicture}
+            {
+                img_url: this.props.img_url,
+                id: this.props.id,
+                type: type,
+                stylePicture: stylePicture
+            }
         );
     }
 
@@ -64,18 +66,18 @@ export default class ProfileCard extends React.Component {
             color: (this.props.theme == "dark") ? "white" : "black",
         };
         var stylePicture = null;
+        var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
 
         if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
             stylePicture = this.getDefaultProfileImg();
         } else {
-            stylePicture = { 
+            stylePicture = {
                 backgroundImage: `url('${this.props.img_url}')`,
                 backgroundSize: this.props.img_size,
-                backgroundPosition: this.props.img_pos
+                backgroundPosition: getPositionStr(dimension, this.props.img_pos, "px", true)
             }
         }
 
-        var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
         stylePicture["height"] = dimension;
         stylePicture["width"] = dimension;
 
@@ -84,10 +86,10 @@ export default class ProfileCard extends React.Component {
         if (this.props.badge) {
             badge = <div className={`${pc}badge`}>
                 {(this.props.badge_tooltip) ?
-                                    <span>
-                                        <div className={`${pc}badge-tooltip-arrow`}></div>
-                                        <div className={`${pc}badge-tooltip`}>{this.props.badge_tooltip}</div>
-                                    </span> : null}
+                    <span>
+                        <div className={`${pc}badge-tooltip-arrow`}></div>
+                        <div className={`${pc}badge-tooltip`}>{this.props.badge_tooltip}</div>
+                    </span> : null}
                 {this.props.badge}
             </div>;
         }
@@ -96,8 +98,8 @@ export default class ProfileCard extends React.Component {
         var img_ops = null;
         if (this.props.add_img_ops) {
             img_ops = <div className={`${pc}picture-ops`}>
-                <ButtonIcon icon="edit" theme="dark" 
-                            onClick={() => this.openPictureOps(stylePicture)}></ButtonIcon>
+                <ButtonIcon icon="edit" theme="dark"
+                    onClick={() => this.openPictureOps(stylePicture)}></ButtonIcon>
             </div>
         }
         var className = "profile-card";
@@ -106,7 +108,7 @@ export default class ProfileCard extends React.Component {
         }
 
         //this.openPictureOps(stylePicture);
-        return(<div onClick={this.props.onClick} className={className} style={styleParent}>
+        return (<div onClick={this.props.onClick} className={className} style={styleParent}>
             {(this.props.header) ? this.props.header : null}
             {badge}
             <div className={`${pc}picture`} style={stylePicture}>

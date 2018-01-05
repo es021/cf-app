@@ -8,6 +8,8 @@ import ProfileCard from '../../../component/profile-card';
 import { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec } from '../../../redux/actions/auth-actions';
+import { DocLinkEnum } from '../../../../config/db-config';
+import {CustomList} from '../../../component/list';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
@@ -46,6 +48,7 @@ export default class CompanyPopup extends Component {
                 img_url
                 img_position
                 img_size
+                doc_links{label url type}
                 recruiters{
                     first_name
                     last_name
@@ -143,11 +146,22 @@ export default class CompanyPopup extends Component {
 
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Company Information...'></Loader>
-        } else {
+        } else { 
 
+            //const about = <p>{data.description.replaceAll("\n","<br></br>")}</p>;
             const about = <p>{data.description}</p>;
             const vacancies = this.getVacancies(data.vacancies);
             const recs = this.getRecs(data.recruiters);
+
+            //document and link
+            var dl = data.doc_links.map((d, i) => {
+                var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+                return <span><i className={`fa left fa-${icon}`}></i>
+                    <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+                </span>;
+            });
+
+            const doc_link = <CustomList className="label" items={dl}></CustomList>;
 
             var action = (isRoleRec()) ? null :
                 <div className="btn-group btn-group-justified">
@@ -167,6 +181,7 @@ export default class CompanyPopup extends Component {
                 <div>
                     <PageSection className="left" title="About" body={about}></PageSection>
                     <PageSection className="left" title="Vacancies" body={vacancies}></PageSection>
+                    <PageSection className="left" title="Document & Link" body={doc_link}></PageSection>
                     <PageSection className="left" title="Recruiters" body={recs}></PageSection>
                 </div>
                 {action}

@@ -1,5 +1,5 @@
 const DB = require('./DB.js');
-const {Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacancy} = require('../../config/db-config');
+const { Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacancy } = require('../../config/db-config');
 
 class CompanyQuery {
     getById(id) {
@@ -15,15 +15,16 @@ class CompanyQuery {
 CompanyQuery = new CompanyQuery();
 
 
-const {VacancyExec} = require('./vacancy-query.js');
-const {PrescreenExec} = require('./prescreen-query.js');
-const {UserExec} = require('./user-query.js');
+const { VacancyExec } = require('./vacancy-query.js');
+const { PrescreenExec } = require('./prescreen-query.js');
+const { UserExec } = require('./user-query.js');
+const { DocLinkExec } = require('./doclink-query.js');
 
 class CompanyExec {
     getCompanyHelper(type, params, field) {
 
         // for cross dependecy need to init here
-        const {QueueExec} = require('./queue-query.js');
+        const { QueueExec } = require('./queue-query.js');
 
         var isSingle = (type === "single");
         var sql = "";
@@ -44,22 +45,21 @@ class CompanyExec {
                 if (typeof field["recruiters"] !== "undefined") {
                     res[i]["recruiters"] = UserExec.recruiters(company_id, field["recruiters"]);
                 }
-                
-                 //Add queue ***********************************
+
+                //Add queue ***********************************
                 var act_q = {
                     company_id: company_id
                     , status: QueueEnum.STATUS_QUEUING
                     , order_by: `${Queue.CREATED_AT} DESC`
                 };
-                
 
                 if (typeof field["active_queues"] !== "undefined") {
                     res[i]["active_queues"] = QueueExec.queues(act_q, field["active_queues"]);
                 }
 
                 if (typeof field["active_queues_count"] !== "undefined") {
-                    delete(act_q["order_by"]);
-                    res[i]["active_queues_count"] = QueueExec.queues(act_q, {}, {count: true});
+                    delete (act_q["order_by"]);
+                    res[i]["active_queues_count"] = QueueExec.queues(act_q, {}, { count: true });
                 }
 
                 //Add prescreens ***********************************
@@ -74,8 +74,8 @@ class CompanyExec {
                 }
 
                 if (typeof field["active_prescreens_count"] !== "undefined") {
-                    delete(act_ps["order_by"]);
-                    res[i]["active_prescreens_count"] = PrescreenExec.prescreens(act_ps, {}, {count: true});
+                    delete (act_ps["order_by"]);
+                    res[i]["active_prescreens_count"] = PrescreenExec.prescreens(act_ps, {}, { count: true });
                 }
 
                 //Add vacancies ***********************************
@@ -89,8 +89,13 @@ class CompanyExec {
                 }
 
                 if (typeof field["vacancies_count"] !== "undefined") {
-                    delete(act_ps["order_by"]);
-                    res[i]["vacancies_count"] = VacancyExec.vacancies(vc, {}, {count: true});
+                    delete (act_ps["order_by"]);
+                    res[i]["vacancies_count"] = VacancyExec.vacancies(vc, {}, { count: true });
+                }
+
+                //Add doc_links ****************************************
+                if (typeof field["doc_links"] !== "undefined") {
+                    res[i]["doc_links"] = DocLinkExec.doc_links({ company_id: company_id }, field["doc_links"]);
                 }
             }
 
@@ -103,14 +108,14 @@ class CompanyExec {
     }
 
     company(id, field) {
-        return this.getCompanyHelper("single", {id: id}, field);
+        return this.getCompanyHelper("single", { id: id }, field);
 
     }
 
     companies(type, field) {
-        return this.getCompanyHelper(false, {type: type}, field);
+        return this.getCompanyHelper(false, { type: type }, field);
     }
 }
 CompanyExec = new CompanyExec();
 
-module.exports = {Company, CompanyExec, CompanyQuery};
+module.exports = { Company, CompanyExec, CompanyQuery };

@@ -20,7 +20,7 @@ export function checkDiff(obj, original, d, discard = []) {
         if (discard.indexOf(k) >= 0) {
             continue;
         }
-        if (d[k] !== original[k]) {
+        if (d[k] != original[k]) {
             hasDiff = true;
             update[k] = d[k];
         }

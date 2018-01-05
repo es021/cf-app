@@ -2,7 +2,7 @@
 
 const formidable = require('formidable');
 const fs = require('fs');
-const {UploadUrl} = require('../../config/app-config.js');
+const { UploadUrl } = require('../../config/app-config.js');
 const path = require('path');
 
 const initializeAllRoute = function (app, root) {
@@ -40,7 +40,7 @@ const initializeAllRoute = function (app, root) {
     */
 
     // Activity Route ----------------------------------------------------------------
-    const {ActivityAPI} = require('./activity-api');
+    const { ActivityAPI } = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {
         var action = req.params.action;
         console.log(action);
@@ -48,30 +48,30 @@ const initializeAllRoute = function (app, root) {
         switch (action) {
             case 'create-session':
                 ActivityAPI.createSession(req.body.host_id, req.body.participant_id, req.body.entity, req.body.entity_id)
-                        .then((response) => {
-                            routeResHandler(res, response);
-                        });
+                    .then((response) => {
+                        routeResHandler(res, response);
+                    });
                 break;
-                /*
-                 case 'start-queue':
-                 ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
-                 .then((response) => {
-                 routeResHandler(res, response);
-                 });
-                 break;
-                 case 'cancel-queue':
-                 ActivityAPI.cancelQueue(req.body.id)
-                 .then((response) => {
-                 routeResHandler(res, response);
-                 });
-                 break;
-                 */
+            /*
+             case 'start-queue':
+             ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
+             .then((response) => {
+             routeResHandler(res, response);
+             });
+             break;
+             case 'cancel-queue':
+             ActivityAPI.cancelQueue(req.body.id)
+             .then((response) => {
+             routeResHandler(res, response);
+             });
+             break;
+             */
         }
     });
 
 
     // Auth Route ----------------------------------------------------------------
-    const {AuthAPI} = require('./auth-api');
+    const { AuthAPI } = require('./auth-api');
     app.post(root + '/auth/:action', function (req, res, next) {
         var action = req.params.action;
 
@@ -94,8 +94,7 @@ const initializeAllRoute = function (app, root) {
         }
 
     });
-
-
+    
     //upload route ----------------------------------------------------------------
     app.post(root + '/upload/:type/:name', function (req, res) {
         var type = req.params.type;
@@ -106,10 +105,12 @@ const initializeAllRoute = function (app, root) {
         form.parse(req, function (err, fields, files) {
             //console.log(files);
             // `type` is the name of the <input> field of type `type`
+            var pwd = (process.env.PWD) ? process.env.PWD : process.env.INIT_CWD;
 
+            console.log(pwd);
             // get year and month
             // and create if not exist
-            var uploadDir = path.join(process.env.PWD, `public/upload/${type}`);
+            var uploadDir = path.join(pwd, `public/upload/${type}`);
             var d = new Date();
             var y = d.getYear() + 1900;
             uploadDir += `/${y}`;
@@ -131,7 +132,7 @@ const initializeAllRoute = function (app, root) {
             var old_path = files[type].path;
             // upload dir
             var subpath = `${type}/${y}/${m}/${fileName}_${d.getTime()}.${fileExt}`;
-            var new_path = path.join(process.env.PWD, `public/upload/`, subpath);
+            var new_path = path.join(pwd, `public/upload/`, subpath);
             // public upload url
             var url = subpath;
 
@@ -145,11 +146,11 @@ const initializeAllRoute = function (app, root) {
                     fs.unlink(old_path, function (err) {
                         if (err) {
                             res.status(500);
-                            res.json({'url': null});
+                            res.json({ 'url': null });
                         } else {
                             res.status(200);
                             //console.log(url);
-                            res.json({'url': url});
+                            res.json({ 'url': url });
                         }
                     });
                 });
@@ -161,4 +162,4 @@ const initializeAllRoute = function (app, root) {
 
 };
 
-module.exports = {initializeAllRoute};
+module.exports = { initializeAllRoute };

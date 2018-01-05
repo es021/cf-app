@@ -1,173 +1,31 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
-import { UserMeta, User, UserEnum, Skill, DocLink, DocLinkEnum } from '../../config/db-config';
+import { UserMeta, User, UserEnum, Skill } from '../../config/db-config';
+import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-config';
 import { Month, Year, Sponsor } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import { loadUser } from '../redux/actions/user-actions';
-import { getAuthUser, isRoleRec, updateAuthUser } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, updateAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card';
 import SubNav from '../component/sub-nav';
-import { CustomList } from '../component/list';
+import List, { CustomList } from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from './partial/popup/confirm-popup';
 import CompanyPopup from './partial/popup/company-popup';
 import { store } from '../redux/store';
-import DocLinkForm from '../component/doc-link-form';
+import DocLinkPage from '../component/doc-link-form';
 import { SimpleListItem } from '../component/list';
-
-// refactor so that it works for user and company
-// TODO
-class StudentDocLink extends React.Component {
-    constructor(props) {
-        super(props);
-        this.user_id = getAuthUser().ID;
-
-        this.state = {
-            data: [],
-            map: {}, // for edit
-            fetching: true
-        };
-
-        this.refresh = this.refresh.bind(this);
-    }
-
-    componentWillMount() {
-        this.refresh();
-    }
-
-    closeFocusCardAndRefresh() {
-        layoutActions.storeHideFocusCard();
-        this.refresh();
-    }
-
-    refresh() {
-        var query = `query{user(ID:${this.user_id}){
-        doc_links{
-            ID
-            user_id
-            company_id
-            type
-            label
-            url
-            description
-          }}}`;
-
-        getAxiosGraphQLQuery(query).then((res) => {
-            //console.log(res.data.data.user.doc_links);
-            var datas = res.data.data.user.doc_links;
-            var map = {};
-            for (var i in datas) {
-                map[datas[i].ID] = i;
-            }
-            console.log(map);
-            this.setState(() => {
-                return { map: map, data: datas, fetching: false };
-            });
-        }, (err) => {
-            alert(err);
-        });
-    }
-
-    deletePopup(e) {
-        console.log(e);
-
-        var id = e.currentTarget.id;
-        console.log(e.currentTarget);
-        const onYes = () => {
-            var del_query = `mutation{delete_doc_link(ID:${id})}`;
-            store.dispatch(layoutActions.updateProps({ loading: true }));
-            getAxiosGraphQLQuery(del_query).then((res) => {
-                this.closeFocusCardAndRefresh();
-            }, (err) => {
-                alert(err.response.data);
-            });
-        };
-        var value = e.currentTarget.attributes.getNamedItem("label").value;
-        layoutActions.storeUpdateFocusCard("Confirm Delete Item",
-            ConfirmPopup,
-            { title: `Continue delete document '${value}'?`, onYes: onYes },
-            "small");
-    }
-
-    getItemById(id) {
-        return this.state.data[this.state.map[id]];
-    }
-
-    editPopup(e) {
-        var id = e.currentTarget.id;
-        var item = this.getItemById(id);
-        var label = e.currentTarget.attributes.getNamedItem("label").value;
-
-        const onYes = () => {
-            var del_query = `mutation{delete_doc_link(ID:${id})}`;
-            store.dispatch(layoutActions.updateProps({ loading: true }));
-            getAxiosGraphQLQuery(del_query).then((res) => {
-                window.location.reload();
-            }, (err) => {
-                alert(err.response.data);
-            });
-        };
-
-        layoutActions.storeUpdateFocusCard(`Editing ${label}`,
-            DocLinkForm,
-            {
-                id: this.user_id, type: item[DocLink.TYPE], edit: item, entity: "user",
-                onSuccessNew: () => {
-                    this.closeFocusCardAndRefresh();
-                }
-            }, "small");
-    }
-
-    render() {
-
-        var items = (this.state.data.length <= 0)
-            ? <div className="text-muted">Nothing To Show Here</div>
-            : this.state.data.map((d, i) => {
-                //var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
-                //var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
-                var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
-                return <span><i className={`fa left fa-${icon}`}></i>
-                    <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
-                    <span className="badge" id={d.ID} label={d.label}
-                        onClick={this.editPopup.bind(this)}><i className="fa fa-edit"></i></span>
-                    <span className="badge" id={d.ID} label={d.label}
-                        onClick={this.deletePopup.bind(this)}><i className="fa fa-times"></i></span>
-                </span>;
-            });
+import PropTypes from 'prop-types';
+import { RootPath } from '../../config/app-config';
 
 
+const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
-        if (this.state.data.length > 0) {
-            items = <CustomList className="label" items={items}></CustomList>;
-        }
-
-        return <div className="row container-fluid">
-            <div className="col-sm-6">
-                <h3 className="left">Add New Document</h3>
-                <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity='user'></DocLinkForm>
-            </div>
-            <div className="col-sm-6">
-                <h3 className="left">Add New Link</h3>
-                <DocLinkForm id={this.user_id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity='user'></DocLinkForm>
-            </div>
-            <div className="col-sm-12">
-                <br></br>
-                <h3 className="left">My Document & Link</h3>
-                {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
-                <br></br>
-            </div>
-        </div>;
-
-    }
-}
-
-// create Custom Table List.
-// see user page?
-class VacancySub extends React.Component {
+class GeneralFormPage extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
@@ -176,22 +34,12 @@ class VacancySub extends React.Component {
             disableSubmit: false,
             success: null,
             loading: true,
-            skills: [],
+            key: 1,
             loadingDelete: false
         };
     }
 
-    loadSkills() {
-        var query = `query{user(ID:${getAuthUser().ID}){skills{ID label}}}`;
-        getAxiosGraphQLQuery(query).then((res) => {
-            this.setState(() => {
-                return { skills: res.data.data.user.skills, loading: false };
-            });
-        });
-    }
-
     componentWillMount() {
-        this.loadSkills();
         this.formItems = [
             {
                 name: Skill.LABEL,
@@ -207,11 +55,11 @@ class VacancySub extends React.Component {
             label: d.label
         };
         toggleSubmit(this, { error: null, success: null });
-        var edit_query = `mutation{add_skill(${obj2arg(ins, { noOuterBraces: true })}) {ID label}}`;
-        getAxiosGraphQLQuery(edit_query).then((res) => {
+        var add_query = `mutation{add_${this.props.entity}(${obj2arg(ins, { noOuterBraces: true })}) {ID label}}`;
+        getAxiosGraphQLQuery(add_query).then((res) => {
             var prevSkill = this.state.skills;
             prevSkill.unshift(res.data.data.add_skill);
-            toggleSubmit(this, { error: null, skill: prevSkill, success: "Successfully Added New Skill" });
+            toggleSubmit(this, { error: null, skill: prevSkill, success: "Successfully Added New Record" });
         }, (err) => {
             toggleSubmit(this, { error: err.response.data });
         });
@@ -220,35 +68,52 @@ class VacancySub extends React.Component {
     deletePopup(e) {
         var id = e.currentTarget.id;
         const onYes = () => {
-            var del_query = `mutation{delete_skill(ID:${id})}`;
+            var del_query = `mutation{delete_${this.props.entity}(ID:${id})}`;
             store.dispatch(layoutActions.updateProps({ loading: true }));
             getAxiosGraphQLQuery(del_query).then((res) => {
-                window.location.reload();
+                store.dispatch(layoutActions.hideFocusCard());
+
+                // this is how to update the child component use state keyy
+                // damnnn
+                this.setState((prevState) => {
+                    return { key: prevState.key + 1 };
+                })
+
             }, (err) => {
                 alert(err.response.data);
             });
         };
-        var value = e.currentTarget.attributes.getNamedItem("label").value;
+
         layoutActions.storeUpdateFocusCard("Confirm Delete Item",
             ConfirmPopup,
-            { title: `Continue delete skill '${value}'?`, onYes: onYes },
-            "small");
+            { title: `Continue delete this item ?`, onYes: onYes }, "small");
     }
 
     render() {
         var view = null;
-        var skills = <div className="text-muted">Nothing To Show Here</div>;
-        if (!this.state.loading && this.state.skills.length > 0) {
+        const renderList = (d, i) => {
+            var row = this.props.renderRow(d);
+            row.push(<td className="text-right">
+                <a id={d.ID} label={d.label}
+                    onClick={this.deletePopup.bind(this)}>Edit</a>
+                {" | "}
+                <a id={d.ID} label={d.label}
+                    onClick={this.deletePopup.bind(this)}>Delete</a>
+            </td>);
+            return <tr>{row}</tr>;
+        };
 
-            var skillItems = this.state.skills.map((d, i) => {
-                return <span>{`${d.label} `}
-                    <span className="badge" id={d.ID} label={d.label}
-                        onClick={this.deletePopup.bind(this)}
-                    >X</span>
-                </span>;
-            });
-            skills = <CustomList className="label" items={skillItems}></CustomList>;
-        }
+        // wrap data with key to force it recreate new component when needed
+        var datas = <div key={this.state.key}>
+            <List type="table"
+                listClass="table table-responsive table-hover table-condensed text-left"
+                tableHeader={this.props.tableHeader}
+                getDataFromRes={this.props.getDataFromRes}
+                loadData={this.props.loadData}
+                offset={1}
+                renderList={renderList}></List>
+        </div>;
+
 
         var form = <Form className="form-row"
             items={this.formItems}
@@ -259,10 +124,62 @@ class VacancySub extends React.Component {
             emptyOnSuccess={true}
             success={this.state.success}></Form>;
         return (<div>
-            <h3>Add New Skill</h3>
+            <h3>Add New Vacancy</h3>
             {form}<br></br>
-            <h3>My Skills</h3>
-            <div>{skills}</div></div>);
+            <h3>{this.props.dataTitle}</h3>
+            <div>{datas}</div>
+        </div>);
+    }
+}
+
+GeneralFormPage.propTypes = {
+    entity: PropTypes.oneOf(["vacancy"]).isRequired,
+    loadData: PropTypes.func.isRequired,
+    renderRow: PropTypes.func.isRequired,
+    tableHeader: PropTypes.element.isRequired,
+    dataTitle: PropTypes.string.isRequired
+}
+
+// create Custom Table List.
+// see user page?
+class VacancySub extends React.Component {
+    constructor(props) {
+        super(props);
+        this.company_id = getAuthUser().rec_company;
+
+    }
+    render() {
+        const renderRow = (d) => {
+            return [
+                <td>{d.ID}</td>
+                , <td>{d.title}</td>
+                , <td>{d.type}</td>
+            ];
+        };
+
+        const getDataFromRes = (res) => {
+            return res.data.data.company.vacancies;
+        }
+
+        const loadData = (page, offset) => {
+            var query = `query{company(ID:${this.company_id}){vacancies{ID title type}}}`;
+            return getAxiosGraphQLQuery(query);
+        }
+
+        const tableHeader = <thead>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Type</th>
+        </thead>;
+
+        return <GeneralFormPage dataTitle="Vacancies" tableHeader={tableHeader}
+            renderRow={renderRow} getDataFromRes={getDataFromRes} entity="vacancy" loadData={loadData}></GeneralFormPage>
+    }
+}
+
+class CompanyDocLink extends React.Component {
+    render() {
+        return <DocLinkPage entity="company" id={getAuthUser().rec_company}></DocLinkPage>;
     }
 }
 
@@ -276,112 +193,76 @@ class AboutSub extends React.Component {
             error: null,
             disableSubmit: false,
             init: true,
-            user: null,
+            data: null,
             success: null
         };
     }
 
     componentWillMount() {
-        this.authUser = getAuthUser();
-        loadUser(this.authUser.ID, this.authUser.role).then((res) => {
+        this.company_id = getAuthUser().rec_company;
+
+        var query = `query {
+            company(ID:${this.company_id}) {
+              ID
+              name
+              type
+              tagline
+              description
+              more_info
+              img_url
+              img_position
+              img_size
+          }}`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
             this.setState(() => {
-                var user = res.data.data.user;
-                return { user: user, init: false };
-            });
+                return { data: res.data.data.company, init: false }
+            })
         });
-        this.formItems = [
+
+        this.formItems = [];
+
+        // for admin
+        if (isRoleAdmin()) {
+            this.formItems.push(...[
+                { header: "Admin Only" },
+                {
+                    label: "Name",
+                    name: Company.NAME,
+                    type: "text",
+                    placeholder: "Company Name",
+                    required: true
+                }, {
+                    label: "Type",
+                    name: Company.TYPE,
+                    type: "select",
+                    data: Month,
+                    required: true
+                }
+            ]);
+        }
+
+        this.formItems.push(...[
             { header: "Basic Information" },
             {
-                label: "First Name",
-                name: UserMeta.FIRST_NAME,
+                label: "Tagline",
+                name: Company.TAGLINE,
                 type: "text",
-                placeholder: "John",
-                required: true
-            }, {
-                label: "Last Name",
-                name: UserMeta.LAST_NAME,
-                type: "text",
-                placeholder: "Doe",
-                required: true
-            }];
-
-        // for student
-        if (!isRoleRec()) {
-            this.formItems.push(...[{
-                label: "Phone Number",
-                name: UserMeta.PHONE_NUMBER,
-                type: "text",
-                placeholder: "XXX-XXXXXXX",
-                required: true
-            },
-            { header: "Additional Information" },
-            {
-                label: "Major",
-                name: UserMeta.MAJOR,
-                type: "text",
-                multiple: true,
-                required: true
-            }, {
-                label: "Minor",
-                name: UserMeta.MINOR,
-                type: "text",
-                multiple: true,
-                required: false
-            }, {
-                label: "University",
-                name: UserMeta.UNIVERSITY,
-                type: "text",
-                required: true
-            }, {
-                label: "Current CGPA",
-                name: UserMeta.CGPA,
-                type: "number",
-                step: "0.01",
-                min: "0",
-                required: true,
-                sublabel: <ButtonLink label="Don't Use CGPA system?"
-                    target='_blank'
-                    href="https://www.foreigncredits.com/resources/gpa-calculator/">
-                </ButtonLink>
-            }, {
-                label: "Expected Graduation",
-                name: UserMeta.GRADUATION_MONTH,
-                type: "select",
-                data: Month,
-                required: true
-
-            }, {
-                label: null,
-                name: UserMeta.GRADUATION_YEAR,
-                type: "select",
-                data: Year,
-                required: true
-
-            }, {
-                label: "Sponsor",
-                name: UserMeta.SPONSOR,
-                type: "select",
-                data: Sponsor,
-                required: true,
-                sublabel: "This information will not be displayed in your profile."
-
+                placeholder: "Company Tagline"
             }, {
                 label: "Description",
-                name: UserMeta.DESCRIPTION,
+                name: Company.DESCRIPTION,
                 type: "textarea",
-                placeholder: "Tell More About Yourself",
-                required: false,
-                rows: 5
+                rows: 6,
+                placeholder: "Tell more about your company"
+            }, {
+                label: "Additional Information",
+                name: Company.MORE_INFO,
+                type: "textarea",
+                rows: 6,
+                placeholder: "Anything you might want the student to know about the company. Upcoming events, benefits. culture, etc."
             }
-            ]);
-        } else {
-            this.formItems.push(...[{
-                label: "Position",
-                name: UserMeta.REC_POSITION,
-                type: "text",
-                placeholder: "HR Manager"
-            }]);
-        }
+        ]);
     }
 
     //return string if there is error
@@ -390,43 +271,26 @@ class AboutSub extends React.Component {
     }
 
     formOnSubmit(d) {
-
         var err = this.filterForm(d);
         if (err === 0) {
             toggleSubmit(this, { error: null, success: null });
-            //prepare data for edit
-            d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
-            d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
-            var update = checkDiff(this, this.state.user, d);
+            var update = checkDiff(this, this.state.data, d);
+            // console.log(this.state.data.more_info);
+            // console.log(d.more_info);
+            // return;
             if (update === false) {
                 return;
             }
-            update[User.ID] = this.authUser[User.ID];
-            /*
-             var update = {};
-             update[User.ID] = this.authUser[User.ID];
-             var hasDiff = false;
-             
-             //get differences
-             for (var k in d) {
-             if (d[k] !== this.state.user[k]) {
-             hasDiff = true;
-             update[k] = d[k];
-             }
-             }
-             console.log(update);
-             //return;
-             if (!hasDiff) {
-             toggleSubmit(this, {error: "No Changes Has Been Made"});
-             return;
-             }*/
 
-            var edit_query = `mutation{edit_user(${obj2arg(update, { noOuterBraces: true })}) {ID}}`;
+            update[Company.ID] = this.company_id;
+
+            var edit_query = `mutation{edit_company(${obj2arg(update, { noOuterBraces: true })}) {ID}}`;
             console.log(edit_query);
             getAxiosGraphQLQuery(edit_query).then((res) => {
                 console.log(res.data);
-                updateAuthUser(d);
-                toggleSubmit(this, { user: d, error: null, success: "Your Change Has Been Saved!" });
+
+                var newData = Object.assign(this.state.data, d);
+                toggleSubmit(this, { data: newData, error: null, success: "Your Change Has Been Saved!" });
             }, (err) => {
                 toggleSubmit(this, { error: err.response.data });
             });
@@ -441,21 +305,21 @@ class AboutSub extends React.Component {
     render() {
         var content = null;
         if (this.state.init) {
-            content = <Loader size="2" text="Loading User Information"></Loader>;
+            content = <Loader size="2" text="Loading Company Information"></Loader>;
         } else {
             content = <div>
-                <ProfileCard type="student"
-                    id={this.authUser.ID}
+                <ProfileCard type="company"
+                    id={this.state.data.ID}
                     add_img_ops={true}
-                    title={this.authUser.user_email} subtitle={""}
-                    img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}
+                    title={this.state.data.name} subtitle={""}
+                    img_url={this.state.data.img_url} img_pos={this.state.data.img_position} img_size={this.state.data.img_size}
                 ></ProfileCard>
 
                 <Form className="form-row"
                     items={this.formItems}
                     onSubmit={this.formOnSubmit}
                     submitText='Save Changes'
-                    defaultValues={this.state.user}
+                    defaultValues={this.state.data}
                     disableSubmit={this.state.disableSubmit}
                     error={this.state.error}
                     success={this.state.success}>
@@ -463,7 +327,7 @@ class AboutSub extends React.Component {
             </div>;
         }
 
-        return <div><h3>Edit Profile</h3>{content}</div>;
+        return <div><h3>Edit Company</h3>{content}</div>;
     }
 }
 
@@ -474,7 +338,7 @@ export default class ManageCompanyPage extends React.Component {
     componentWillMount() {
         this.item = {
             "about": {
-                label: "About",
+                label: "Edit Company",
                 component: AboutSub,
                 icon: "edit"
             },
@@ -485,17 +349,10 @@ export default class ManageCompanyPage extends React.Component {
             },
             "doc-link": {
                 label: "Document & Link",
-                component: StudentDocLink,
+                component: CompanyDocLink,
                 icon: "file-text"
             }
         };
-
-
-        // this.item["skills"] = {
-        //     label: "Skills",
-        //     component: Skills,
-        //     icon: "th-list"
-        // };
 
         const authUser = getAuthUser();
 
@@ -507,7 +364,7 @@ export default class ManageCompanyPage extends React.Component {
                 });
             },
             component: null,
-            icon: "suitcase"
+            icon: "eye"
         }
     }
 

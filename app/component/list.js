@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ButtonLink} from '../component/buttons';
+import { ButtonLink } from '../component/buttons';
 import PropTypes from 'prop-types';
 
 require("../css/list.scss");
@@ -13,6 +13,7 @@ export default class List extends React.Component {
         this.state = {
             listItem: null,
             fetching: true,
+            fetchCount: 0,
             empty: false
         }
 
@@ -21,6 +22,7 @@ export default class List extends React.Component {
     }
 
     componentWillMount() {
+        console.log("inside list");
         this.load(this.NEXT);
     }
 
@@ -47,7 +49,7 @@ export default class List extends React.Component {
 
         // fetch data start
         this.props.loadData(this.page, this.props.offset).then((res) => {
-            var data = res.data.data[this.props.dataKey];
+            var data = this.props.getDataFromRes(res);
             var listItem = null;
             var empty = false;
             try {
@@ -71,42 +73,48 @@ export default class List extends React.Component {
             }
 
             this.setState(() => {
-                return {listItem: listItem, fetching: false, empty: empty}
+                return { listItem: listItem, fetching: false, fetchCount: data.length, empty: empty }
             });
 
         }
-        // error fetching
-        , (err) => {
-            var listItem = `[Error While Fetching List Data] ${err}`;
-            this.setState(() => {
-                return {listItem: listItem, fetching: false}
+            // error fetching
+            , (err) => {
+                var listItem = `[Error While Fetching List Data] ${err}`;
+                this.setState(() => {
+                    return { listItem: listItem, fetching: false }
+                });
             });
-        });
     }
 
     render() {
-
         var loading = (this.props.customLoading) ? this.props.customLoading : <div>Loading..</div>;
 
         var paging = <div>
             Page <b>{this.page}</b>
             <br></br>
             {(this.page > 1) ?
-                            <ButtonLink onClick={() => this.load(this.PREV)} label="Prev"></ButtonLink>
-                                : null
+                <ButtonLink onClick={() => this.load(this.PREV)} label="Prev"></ButtonLink>
+                : null
             }
-        
-            {(!this.state.empty) ?
-                            <ButtonLink onClick={() => this.load(this.NEXT)} label="Next"></ButtonLink>
-                                : null
+            {(this.state.fetchCount >= this.props.offset) ?
+                <ButtonLink onClick={() => this.load(this.NEXT)} label="Next"></ButtonLink>
+                : null
             }
             <br></br>
         </div>;
 
         var content = <div>
-            <ul className={`${this.props.listClass}`}>
-                {this.state.listItem}
-            </ul>
+            {(this.props.type == "table")
+                ? <table className={`${this.props.listClass}`}>
+                    {this.props.tableHeader}
+                    <tbody>
+                        {this.state.listItem}
+                    </tbody>
+                </table>
+                : <ul className={`${this.props.listClass}`}>
+                    {this.state.listItem}
+                </ul>
+            }
             {paging}
         </div>;
 
@@ -118,13 +126,16 @@ List.propTypes = {
     loadData: PropTypes.func.isRequired, // function (page)
     renderList: PropTypes.func.isRequired, // function (data)
     offset: PropTypes.number.isRequired,
-    dataKey: PropTypes.string.isRequired, // key for query response
+    getDataFromRes: PropTypes.func.isRequired, // key for query response
     customLoading: PropTypes.element,
-    listClass: PropTypes.string
+    listClass: PropTypes.string,
+    tableHeader: PropTypes.element,
+    key: PropTypes.number,
+    type: PropTypes.oneOf(["table", "list"]).isRequired // table or list
 };
 
 /*******************************************************************************************/
-import ProfileCard, {PCType} from './profile-card';
+import ProfileCard, { PCType } from './profile-card';
 
 export class ProfileListItem extends Component {
     render() {
@@ -133,7 +144,7 @@ export class ProfileListItem extends Component {
             className += "-" + this.props.list_type;
         }
         var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
-        return <ProfileCard {...this.props} img_dimension={img_dimension} 
+        return <ProfileCard {...this.props} img_dimension={img_dimension}
             className={className}></ProfileCard>;
     }
 }
@@ -160,16 +171,16 @@ export class SimpleListItem extends Component {
 
         var body = (this.props.body) ? <div className="sili-body">{this.props.body}</div> : null;
         var onDelete = (!this.props.onDelete) ? null :
-                <a className="sili-operation" id={this.props.onDelete.id}
-                   label={this.props.onDelete.label}
-                   onClick={this.props.onDelete.onClick}
-                   >Delete</a>;
+            <a className="sili-operation" id={this.props.onDelete.id}
+                label={this.props.onDelete.label}
+                onClick={this.props.onDelete.onClick}
+            >Delete</a>;
 
         var onEdit = (!this.props.onEdit) ? null :
-                <a className="sili-operation" id={this.props.onEdit.id}
-                   label={this.props.onEdit.label}
-                   onClick={this.props.onEdit.onClick}
-                   >Edit</a>;
+            <a className="sili-operation" id={this.props.onEdit.id}
+                label={this.props.onEdit.label}
+                onClick={this.props.onEdit.onClick}
+            >Edit</a>;
 
         var typeClass = "";
         if (this.props.type) {
@@ -179,8 +190,8 @@ export class SimpleListItem extends Component {
         return (<div className={`simple-li ${typeClass}`}>
             <div className="sili-title">{this.props.title}</div>
             <div className="sili-subtitle">{this.props.subtitle}{onEdit}{onDelete}</div>
-        
-            {body} 
+
+            {body}
         </div>);
     }
 }
@@ -196,6 +207,9 @@ SimpleListItem.propTypes = {
 
 
 export class CustomList extends Component {
+    getTableLi(d, i) {
+        return <tr onClick={this.props.onClick} className={liClassName} key={i}>{d}</tr>;
+    }
 
     getLabelLi(d, i) {
         var labels = ["primary", "default", "success", "danger"];
@@ -208,13 +222,13 @@ export class CustomList extends Component {
 
     getIconLi(d, i) {
         return (<li onClick={this.props.onClick} className={`li-${this.props.className}`} key={i}>
-    
-        {(d.label) ? <div className="cli-label">
-            {(d.icon) ? <i className={`fa fa-${d.icon}`}></i> : null}
-            {d.label}
-        </div> : null}
-        {(d.value) ? <div className="cli-value">{d.value}</div> : null}
-    </li>);
+
+            {(d.label) ? <div className="cli-label">
+                {(d.icon) ? <i className={`fa fa-${d.icon}`}></i> : null}
+                {d.label}
+            </div> : null}
+            {(d.value) ? <div className="cli-value">{d.value}</div> : null}
+        </li>);
     }
 
     render() {
@@ -228,6 +242,9 @@ export class CustomList extends Component {
                 case "empty":
                     return <li onClick={this.props.onClick} key={i}>{d}</li>;
                     break;
+                case "table":
+                    return this.getTableLi(d, i);
+                    break;
                 case "label":
                     return this.getLabelLi(d, i);
                     break;
@@ -237,9 +254,9 @@ export class CustomList extends Component {
             }
         });
 
-        return (<ul 
-        className={`custom-list-${this.props.className} ${(this.props.ux) ? "li-ux" : ""}`}>
-        {view}</ul>);
+        return (<ul
+            className={`custom-list-${this.props.className} ${(this.props.ux) ? "li-ux" : ""}`}>
+            {view}</ul>);
     }
 }
 

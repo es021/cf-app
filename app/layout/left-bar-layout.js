@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import ProfileCard from '../component/profile-card';
-import {isAuthorized, getAuthUser} from '../redux/actions/auth-actions';
-import {getWindowWidth} from '../lib/util';
-import {getPositionStr} from '../component/profile-card-img';
-import {RootPath} from '../../config/app-config';
+import { isAuthorized, getAuthUser } from '../redux/actions/auth-actions';
+import { getWindowWidth } from '../lib/util';
+import { getPositionStr } from '../component/profile-card-img';
+import { RootPath } from '../../config/app-config';
 
 import store from '../redux/store';
 
@@ -24,13 +24,13 @@ export default class LeftBarLayout extends React.Component {
             if (getWindowWidth() <= 680) {
                 if (!this.state.isMdWin) {
                     this.setState(() => {
-                        return {isMdWin: true}
+                        return { isMdWin: true }
                     });
                 }
             } else {
                 if (this.state.isMdWin) {
                     this.setState(() => {
-                        return {isMdWin: false}
+                        return { isMdWin: false }
                     });
                 }
             }
@@ -41,26 +41,24 @@ export default class LeftBarLayout extends React.Component {
         console.log("Render Left Bar");
         var isAuth = isAuthorized();
         var authUser = Object.assign({}, getAuthUser());
-        console.log(authUser);
         if (this.state.isMdWin && typeof authUser["img_pos"] !== "undefined" && authUser["img_pos"] !== null) {
             if (authUser["img_pos"].indexOf("px") > -1) {
-                var ob = getPositionStr(25, authUser["img_pos"]);
-                authUser["img_pos"] = `${ob.x}px ${ob.y}px`;
+                authUser["img_pos"] = getPositionStr(25, authUser["img_pos"], "px", true);
             }
         }
 
         var profile = "";
         if (isAuth) {
-            var pcBody = <small><NavLink  to={`${RootPath}/app/edit-profile/profile`} >Edit Profile</NavLink></small>;
+            var pcBody = <small><NavLink to={`${RootPath}/app/edit-profile/profile`} >Edit Profile</NavLink></small>;
             profile =
-                    (<div className="left_bar_profile">
-                <NavLink  to={`${RootPath}/app/edit-profile/profile`} >
-                    <ProfileCard type="student" theme="dark"
-                                 title={authUser.first_name} subtitle={authUser.last_name}
-                                 img_url={authUser.img_url} img_pos={authUser.img_pos} img_size={authUser.img_size}    
-                                 body={pcBody}></ProfileCard>
-                </NavLink>
-            </div>);
+                (<div className="left_bar_profile">
+                    <NavLink to={`${RootPath}/app/edit-profile/profile`} >
+                        <ProfileCard type="student" theme="dark"
+                            title={authUser.first_name} subtitle={authUser.last_name}
+                            img_url={authUser.img_url} img_pos={authUser.img_pos} img_size={authUser.img_size}
+                            body={pcBody}></ProfileCard>
+                    </NavLink>
+                </div>);
 
         } else {
             profile = <br></br>;
@@ -70,7 +68,7 @@ export default class LeftBarLayout extends React.Component {
             {this.props.menuList}
         </div>;
 
-        return(<left_bar>
+        return (<left_bar>
             {profile}
             {nav}
         </left_bar>);

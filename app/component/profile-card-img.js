@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {ButtonIcon} from './buttons';
-import {Uploader, uploadFile, FileType} from './uploader';
-import Form, {toggleSubmit, checkDiff} from './form';
-import {User, UserMeta}  from '../../config/db-config';
+import { ButtonIcon } from './buttons';
+import { Uploader, uploadFile, FileType } from './uploader';
+import Form, { toggleSubmit, checkDiff } from './form';
+import { User, UserMeta } from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
-import {getAxiosGraphQLQuery} from '../../helper/api-helper';
-import {updateAuthUser} from '../redux/actions/auth-actions';
-import {UploadUrl} from '../../config/app-config.js';
+import { getAxiosGraphQLQuery } from '../../helper/api-helper';
+import { updateAuthUser } from '../redux/actions/auth-actions';
+import { UploadUrl } from '../../config/app-config.js';
 
 require("../css/profile-card.scss");
 const pc = "pc-";
 
 //default is 100px
-export function getPositionStr(dimension, posStr, unit = "px") {
+export function getPositionStr(dimension, posStr, unit = "px", toString = false) {
     const def = 100;
+    if (typeof dimension == "string") {
+        dimension = Number(dimension.replace("px", ""));
+    }
+
     var ret = {};
+
     try {
         var temp = posStr.split(unit);
         ret.x = Number(temp[0]);
@@ -27,18 +32,22 @@ export function getPositionStr(dimension, posStr, unit = "px") {
 
     ret.x = ret.x / (def / dimension);
     ret.y = ret.y / (def / dimension);
-    //console.log(ret);
+    
+    if (toString) {
+        return `${ret.x}px ${ret.y}px`;
+    }
+
     return ret;
 }
 
 
-export default class ProfileCardImg extends  React.Component {
+export default class ProfileCardImg extends React.Component {
     constructor(props) {
         super(props);
         var fixedSize = this.props.stylePicture.backgroundSize.replace("100%", "101%");
         var pos = (this.props.stylePicture.backgroundPosition === null || this.props.stylePicture.backgroundPosition == "")
-                ? "50% 50%"
-                : this.state.backgroundPosition = this.props.stylePicture.backgroundPosition;
+            ? "50% 50%"
+            : this.props.stylePicture.backgroundPosition;
 
         this.DIMENSION = 100;
         this.state = {
@@ -313,20 +322,20 @@ export default class ProfileCardImg extends  React.Component {
     /* props for Uploader --Start */
     uploaderOnChange(file) {
         console.log("uploaderOnChange");
-        toggleSubmit(this, {error: null, newImage: null});
+        toggleSubmit(this, { error: null, newImage: null });
     }
 
     uploaderOnError(err) {
         console.log("uploaderOnError");
-        toggleSubmit(this, {error: err, newImage: null});
+        toggleSubmit(this, { error: err, newImage: null });
     }
 
     uploaderOnSuccess(file) {
-        toggleSubmit(this, {error: null});
+        toggleSubmit(this, { error: null });
         var reader = new FileReader();
         reader.onload = (e) => {
             this.setState(() => {
-                return {backgroundImage: "url(" + e.target.result + ")", newImage: file};
+                return { backgroundImage: "url(" + e.target.result + ")", newImage: file };
             });
         }
         reader.readAsDataURL(file);
@@ -350,14 +359,14 @@ export default class ProfileCardImg extends  React.Component {
     }
 
     saveToDb(d, newImage = null) {
-        toggleSubmit(this, {error: null});
+        toggleSubmit(this, { error: null });
         var updateTemp = checkDiff(this, d, this.imgVal);
         if (updateTemp === false) {
             return;
         }
 
-//standardize prop 
-// handle diff in backend
+        //standardize prop 
+        // handle diff in backend
         var update = {};
         update["ID"] = this.props.id;
         if (newImage !== null) {
@@ -366,30 +375,44 @@ export default class ProfileCardImg extends  React.Component {
             update["img_url"] = updateTemp.backgroundImage;
         }
 
-        update["img_pos"] = updateTemp.backgroundPosition;
         update["img_size"] = updateTemp.backgroundSize;
         console.log("save current state", update);
         var edit_query = "";
+
+
         if (this.props.type == "user") {
+            update["img_pos"] = updateTemp.backgroundPosition;
             edit_query = `mutation{
-                        edit_user(${obj2arg(update, {noOuterBraces: true})}) {
-                          img_url
-                          img_pos
-                          img_size
-                        }
-                      }`;
+                edit_user(${obj2arg(update, { noOuterBraces: true })}) {
+                    img_url
+                    img_pos
+                    img_size
+                }}`;
+
+        } else if (this.props.type == "company") {
+            update["img_position"] = updateTemp.backgroundPosition;
+            edit_query = `mutation{
+                edit_company(${obj2arg(update, { noOuterBraces: true })}) {
+                    img_url
+                    img_position
+                    img_size
+                }}`;
         }
 
         console.log(edit_query);
         //toggleSubmit(this, {error: null, success: "Your Change Has Been Saved!"});
         //return;
         getAxiosGraphQLQuery(edit_query).then((res) => {
-            console.log(res.data.data.edit_user);
-            updateAuthUser(res.data.data.edit_user);
-            toggleSubmit(this, {error: null, success: "Your Change Has Been Saved!"});
+
+            if (this.props.type == "user") {
+                console.log(res.data.data.edit_user);
+                updateAuthUser(res.data.data.edit_user);
+                toggleSubmit(this, { error: null, success: "Your Change Has Been Saved!" });
+            }
+
             location.reload();
         }, (err) => {
-            toggleSubmit(this, {error: err.response.data});
+            toggleSubmit(this, { error: err.response.data });
         });
     }
 
@@ -405,49 +428,51 @@ export default class ProfileCardImg extends  React.Component {
         this.imgVal.backgroundPosition = stylePicture.backgroundPosition;
         this.imgVal.backgroundSize = stylePicture.backgroundSize;
         var btn_size = "20px";
-        var parentStyle = {marginTop: "60px"};
+        var parentStyle = { marginTop: "60px" };
 
         return (<div style={parentStyle} className="profile-card edit-img">
             <div style={stylePictureBack}></div>
-            <div className={`${pc}picture`} style={stylePicture} 
-                 onMouseMove={this.mouseMovePos} onMouseLeave={this.mouseUpPos}
-                 onMouseUp={this.mouseUpPos} onMouseDown={this.mouseDownPos}>
-        
-                <ButtonIcon style={{right: 0, position: "absolute"}} size={btn_size} icon="search-plus" theme="dark" onClick={() => this.editSize(this.ZOOM_IN)}></ButtonIcon>
-                <ButtonIcon style={{left: 0, position: "absolute"}}  size={btn_size} icon="search-minus" theme="dark" onClick={() => this.editSize(this.ZOOM_OUT)}></ButtonIcon>
-        
+
+            <div className={`${pc}picture`} style={stylePicture}
+                onMouseMove={this.mouseMovePos} onMouseLeave={this.mouseUpPos}
+                onMouseUp={this.mouseUpPos} onMouseDown={this.mouseDownPos}>
+
+                <ButtonIcon style={{ right: 0, position: "absolute" }} size={btn_size} icon="search-plus" theme="dark" onClick={() => this.editSize(this.ZOOM_IN)}></ButtonIcon>
+                <ButtonIcon style={{ left: 0, position: "absolute" }} size={btn_size} icon="search-minus" theme="dark" onClick={() => this.editSize(this.ZOOM_OUT)}></ButtonIcon>
+
                 <div className="arrows">
-                    <ButtonIcon style={{left: "-15px", top: "42px", position: "absolute"}} icon="arrow-left" 
-                                size={btn_size} theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
-                    <ButtonIcon style={{top: "-15px", left: "42px", position: "absolute"}} icon="arrow-up" 
-                                size={btn_size}  theme="dark" onClick={() => this.editPos(this.UP)}></ButtonIcon>
-                    <ButtonIcon style={{bottom: "-15px", left: "42px", position: "absolute"}} icon="arrow-down" 
-                                size={btn_size} theme="dark" onClick={() => this.editPos(this.DOWN)}></ButtonIcon>
-                    <ButtonIcon style={{right: "-15px", top: "42px", position: "absolute"}} icon="arrow-right" 
-                                size={btn_size} theme="dark" onClick={() => this.editPos(this.LEFT)}></ButtonIcon>
+                    <ButtonIcon style={{ left: "-15px", top: "42px", position: "absolute" }} icon="arrow-left"
+                        size={btn_size} theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
+                    <ButtonIcon style={{ top: "-15px", left: "42px", position: "absolute" }} icon="arrow-up"
+                        size={btn_size} theme="dark" onClick={() => this.editPos(this.UP)}></ButtonIcon>
+                    <ButtonIcon style={{ bottom: "-15px", left: "42px", position: "absolute" }} icon="arrow-down"
+                        size={btn_size} theme="dark" onClick={() => this.editPos(this.DOWN)}></ButtonIcon>
+                    <ButtonIcon style={{ right: "-15px", top: "42px", position: "absolute" }} icon="arrow-right"
+                        size={btn_size} theme="dark" onClick={() => this.editPos(this.LEFT)}></ButtonIcon>
                 </div>
             </div>
-            <div><br></br>
-                <Uploader label="Upload A New Picture" name="new-picture" type={FileType.IMG} onSuccess={this.uploaderOnSuccess} 
-                          onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
-            </div>
-            <Form className="form-row" 
-                  items={this.formItems} 
-                  onSubmit={this.formOnSubmit}
-                  submitText='Save'
-                  defaultValues={this.imgVal}
-                  disableSubmit={this.state.disableSubmit} 
-                  error={this.state.error}
-                  success={this.state.success}>
-            </Form>
-        
-        </div>);
-                            }
-                        }
 
-                        ProfileCardImg.propsType = {
-                            img_url: PropTypes.string.isRequired, // to get image dimension
-                            id: PropTypes.number.isRequired,
-                            type: PropTypes.oneOf(["user", "company"]).isRequired,
-                            stylePicture: PropTypes.object.isRequired
-                        };
+            <div><br></br>
+                <Uploader label="Upload A New Picture" name="new-picture" type={FileType.IMG} onSuccess={this.uploaderOnSuccess}
+                    onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
+            </div>
+            <Form className="form-row"
+                items={this.formItems}
+                onSubmit={this.formOnSubmit}
+                submitText='Save'
+                defaultValues={this.imgVal}
+                disableSubmit={this.state.disableSubmit}
+                error={this.state.error}
+                success={this.state.success}>
+            </Form>
+
+        </div>);
+    }
+}
+
+ProfileCardImg.propsType = {
+    img_url: PropTypes.string.isRequired, // to get image dimension
+    id: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(["user", "company"]).isRequired,
+    stylePicture: PropTypes.object.isRequired
+};

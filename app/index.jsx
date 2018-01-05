@@ -35,7 +35,7 @@ import BlockLoader from './component/block-loader';
 class PrimaryLayout extends React.Component {
     render() {
         //scroll to top
-        //console.log("PrimaryLayout");
+        console.log("PrimaryLayout");
         window.scrollTo(0, 0);
         var path = this.props.match.path;
         var headerMenu = Navigation.getBar(path, true);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import { BrowserRouter, Route, NavLink, Switch, Redirect }
-    from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 import HomePage from '../page/home';
 import LoginPage from '../page/login';
@@ -18,172 +17,176 @@ import VacancyPage from '../page/vacancy';
 import NotFoundPage from '../page/not-found';
 import { isAuthorized, isRoleStudent, isRoleRec, isRoleAdmin } from '../redux/actions/auth-actions';
 
-const menuItem = [
-    {
-        url: "/",
-        label: "Home",
-        icon: "home",
-        component: HomePage,
-        bar_app: true,
-        bar_auth: true,
-        hd_app: true,
-        hd_auth: true
-    },
-    {
-        url: "/about",
-        label: "About",
-        icon: "question",
-        component: AboutPage,
-        bar_app: false,
-        bar_auth: true,
-        hd_app: true,
-        hd_auth: true
-    },
-    {
-        url: "/contact",
-        label: "Contact Us",
-        icon: "envelope",
-        component: NotFoundPage,
-        bar_app: false,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: true
-    },
-    {
-        url: "/manage-company/:current",
-        label: "My Company",
-        icon: "building",
-        component: ManageCompanyPage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: false,
-        hd_auth: false,
-        default_param: { current: "about" },
-        disabled: !isRoleRec()
-    },
-    {
-        url: "/users",
-        label: "Users",
-        icon: "user",
-        component: UsersPage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: false,
-        hd_auth: false,
-        disabled: !isRoleAdmin()
-    },
-    {
-        url: "/auditorium",
-        label: "Auditorium",
-        icon: "microphone",
-        component: HallPage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: false,
-        hd_auth: false,
-        disabled: !isRoleStudent()
-    },
-    {
-        url: "/job-fair",
-        label: "Job Fair",
-        icon: "suitcase",
-        component: HallPage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: false,
-        hd_auth: false
-    },
-    {
-        url: "/faq",
-        label: "FAQ",
-        icon: "question-circle",
-        component: NotFoundPage,
-        bar_app: true,
-        bar_auth: true,
-        hd_app: true,
-        hd_auth: true
-    },
-    {
-        url: "/login",
-        label: "Login",
-        icon: "sign-in",
-        component: LoginPage,
-        bar_app: false,
-        bar_auth: true,
-        hd_app: false,
-        hd_auth: true,
-        allRoute: true
-    },
-    {
-        url: "/logout",
-        label: "Logout",
-        icon: "sign-out",
-        component: LogoutPage,
-        bar_app: false,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: false
-    },
-    {
-        url: "/sign-up",
-        label: "Sign Up",
-        icon: "user-plus",
-        component: SignUpPage,
-        bar_app: false,
-        bar_auth: true,
-        hd_app: false,
-        hd_auth: true
-    }
-];
 
-// ############################################################################/
-/**** ROUTE ONLY *******/
-menuItem.push(...[
-    {
-        url: "/edit-profile/:current",
-        component: EditProfilePage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: false,
-        routeOnly: true
-    },
-    {
-        url: "/activate-account/:key/:user_id",
-        component: ActAccountPage,
-        bar_app: true,
-        bar_auth: true,
-        hd_app: true,
-        hd_auth: true,
-        routeOnly: true
-    },
-    {
-        url: "/resume-drop/:company_id",
-        component: ResumeDropPage,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: false,
-        routeOnly: true
-    },
-    {
-        url: "/vacancy/:id",
-        component: VacancyPage,
-        bar_app: true,
-        bar_auth: true,
-        hd_app: true,
-        hd_auth: true,
-        routeOnly: true
-    }
-]);
+function getMenuItem() {
 
+    var menuItem = [
+        {
+            url: "/",
+            label: "Home",
+            icon: "home",
+            component: HomePage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true
+        },
+        {
+            url: "/about",
+            label: "About",
+            icon: "question",
+            component: AboutPage,
+            bar_app: false,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true
+        },
+        {
+            url: "/contact",
+            label: "Contact Us",
+            icon: "envelope",
+            component: NotFoundPage,
+            bar_app: false,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: true
+        },
+        {
+            url: "/manage-company/:current",
+            label: "My Company",
+            icon: "building",
+            component: ManageCompanyPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { current: "about" },
+            disabled: !isRoleRec()
+        },
+        {
+            url: "/users",
+            label: "Users",
+            icon: "user",
+            component: UsersPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin() && !isRoleRec()
+        },
+        {
+            url: "/auditorium",
+            label: "Auditorium",
+            icon: "microphone",
+            component: HallPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleStudent()
+        },
+        {
+            url: "/job-fair",
+            label: "Job Fair",
+            icon: "suitcase",
+            component: HallPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false
+        },
+        {
+            url: "/faq",
+            label: "FAQ",
+            icon: "question-circle",
+            component: NotFoundPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true
+        },
+        {
+            url: "/login",
+            label: "Login",
+            icon: "sign-in",
+            component: LoginPage,
+            bar_app: false,
+            bar_auth: true,
+            hd_app: false,
+            hd_auth: true,
+            allRoute: true
+        },
+        {
+            url: "/logout",
+            label: "Logout",
+            icon: "sign-out",
+            component: LogoutPage,
+            bar_app: false,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: false
+        },
+        {
+            url: "/sign-up",
+            label: "Sign Up",
+            icon: "user-plus",
+            component: SignUpPage,
+            bar_app: false,
+            bar_auth: true,
+            hd_app: false,
+            hd_auth: true
+        }
+    ];
+    // ############################################################################/
+    /**** ROUTE ONLY *******/
+    menuItem.push(...[
+        {
+            url: "/edit-profile/:current",
+            component: EditProfilePage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: false,
+            routeOnly: true
+        },
+        {
+            url: "/activate-account/:key/:user_id",
+            component: ActAccountPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true,
+            routeOnly: true
+        },
+        {
+            url: "/resume-drop/:company_id",
+            component: ResumeDropPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: false,
+            routeOnly: true
+        },
+        {
+            url: "/vacancy/:id",
+            component: VacancyPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true,
+            routeOnly: true
+        }
+    ]);
+
+    return menuItem;
+}
 
 // ############################################################################/
 /**** HELPER FUNCTION *******/
 
 export function getRoute(path) {
     var isLog = isAuthorized();
-
+    var menuItem = getMenuItem();
     var routes = menuItem.map(function (d, i) {
         //restricted
         if (d.disabled) {
@@ -245,6 +248,7 @@ function isBarValid(isHeader, isLog, d) {
 export function getBar(path, isHeader = false) {
 
     var isLog = isAuthorized();
+    var menuItem = getMenuItem();
 
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
