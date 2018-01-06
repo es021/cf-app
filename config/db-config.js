@@ -142,7 +142,8 @@ const Vacancy = {
     REQUIREMENT: "requirement",
     TYPE: "type",
     APPLICATION_URL: "application_url",
-    UPDATED_AT: "updated_at"
+    UPDATED_AT: "updated_at",
+    CREATED_BY: "created_by"
 };
 
 const VacancyEnum = {
@@ -154,20 +155,21 @@ const VacancyEnum = {
 const Skill = {
     TABLE: "skills",
     ID: "ID",
-    USER_ID: "user_id", 
+    USER_ID: "user_id",
     LABEL: "label"
 };
 
 const ResumeDrop = {
     TABLE: "resume_drops",
     ID: "ID",
-    DOC_LINKS: "doc_links", 
+    DOC_LINKS: "doc_links",
     STUDENT_ID: "student_id",
-    COMPANY_ID: "company_id", 
+    COMPANY_ID: "company_id",
     MESSAGE: "message"
 };
 
-module.exports = {User, UserMeta, UserEnum
+module.exports = {
+    User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
     , Session, SessionEnum
     , Vacancy, VacancyEnum

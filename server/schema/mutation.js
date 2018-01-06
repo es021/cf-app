@@ -162,7 +162,11 @@ fields["add_vacancy"] = {
     args: {
         company_id: { type: new GraphQLNonNull(GraphQLInt) },
         title: { type: new GraphQLNonNull(GraphQLString) },
-        type: { type: new GraphQLNonNull(GraphQLString) }
+        type: { type: new GraphQLNonNull(GraphQLString) },
+        created_by: { type: new GraphQLNonNull(GraphQLInt) },
+        description: { type: GraphQLString },
+        requirement: { type: GraphQLString },
+        application_url: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Vacancy.TABLE, arg).then(function (res) {
@@ -176,10 +180,13 @@ fields["edit_vacancy"] = {
     args: {
         ID: { type: new GraphQLNonNull(GraphQLInt) },
         title: { type: GraphQLString },
-        type: { type: GraphQLString }
+        type: { type: GraphQLString },
+        description: { type: GraphQLString },
+        requirement: { type: GraphQLString },
+        application_url: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
-        return DB.insert(Vacancy.TABLE, arg).then(function (res) {
+        return DB.update(Vacancy.TABLE, arg).then(function (res) {
             return res;
         });
     }

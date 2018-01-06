@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {PropTypes} from 'prop-types';
-import {Loader} from './loader';
-import {ButtonLink} from './buttons';
+import { PropTypes } from 'prop-types';
+import { Loader } from './loader';
+import { ButtonLink } from './buttons';
 require('../css/form.scss');
 
 export function toggleSubmit(obj, newState = {}) {
@@ -28,11 +28,11 @@ export function checkDiff(obj, original, d, discard = []) {
     console.log(update);
     //return;
     if (!hasDiff) {
-        toggleSubmit(obj, {error: "No Changes Has Been Made"});
+        toggleSubmit(obj, { error: "No Changes Has Been Made" });
         return false;
     } else {
         return update;
-}
+    }
 }
 
 export default class Form extends React.Component {
@@ -96,7 +96,7 @@ export default class Form extends React.Component {
         }
 
         this.setState((prevState) => {
-            return {warning: warning};
+            return { warning: warning };
         });
 
         if (doHas && toFocus !== null && defName === null) {
@@ -124,6 +124,15 @@ export default class Form extends React.Component {
             if (formObj != null) {
                 var name = formObj.name;
                 var value = formObj.value;
+
+                //parse to Number
+                if (formObj.type == "number" && value !== "") {
+                    try {
+                        value = Number.parseInt(value);
+                    } catch (err) {
+                        value = Number.parseFloat(value);
+                    }
+                }
 
                 // ignore the multiple
                 if (ignore.indexOf(name) >= 0) {
@@ -170,8 +179,8 @@ export default class Form extends React.Component {
     }
 
     getSelectOptions(data) {
-        return(data.map((d, i) => {
-            return <option key={i}  value={d}>{d}</option>;
+        return (data.map((d, i) => {
+            return <option key={i} value={d}>{d}</option>;
         }));
     }
 
@@ -212,16 +221,16 @@ export default class Form extends React.Component {
 
         // create multi element from state
         var multi = this.state.multiple[d.name].map((d, i) => {
-            var style = {marginTop: "5px"};
+            var style = { marginTop: "5px" };
             return <div style={style}>{d}</div>;
         });
 
-        return(<div>
+        return (<div>
             {multi}
             <ButtonLink onClick={onClickAdd} label={`Add`}></ButtonLink>
             {" "}
             {(this.state.multiple[d.name].length <= 0) ? null :
-                            <ButtonLink onClick={onClickRemove}label={`Remove`}></ButtonLink>}
+                <ButtonLink onClick={onClickRemove} label={`Remove`}></ButtonLink>}
         </div>);
     }
 
@@ -243,7 +252,7 @@ export default class Form extends React.Component {
         switch (d.type) {
 
             case 'textarea':
-                item = <textarea 
+                item = <textarea
                     className={formClass}
                     hidden={d.hidden}
                     onChange={d.onChange}
@@ -278,40 +287,40 @@ export default class Form extends React.Component {
                         checked = (this.props.defaultValues[d.name].indexOf(data.key) >= 0);
                     }
                     return <div key={i} className="checkbox"><label className="checkbox-inline">
-                            <input onBlur={this.onBlur}
-                                   onChange={d.onChange}
-                                   disabled={d.disabled}
-                                   hidden={d.hidden}
-                                   name={name}
-                                   type={d.type}
-                                   value={data.key}
-                                   defaultChecked={checked}
-                                   min={d.min}
-                                   max={d.max}
-                                   step={d.step}
-                                   required={d.required}
-                                   placeholder={d.placeholder}
-                                   defaultValue={defaultVal}
-                                   ref={(v) => this.form[name] = v}/>{data.label}</label></div>
+                        <input onBlur={this.onBlur}
+                            onChange={d.onChange}
+                            disabled={d.disabled}
+                            hidden={d.hidden}
+                            name={name}
+                            type={d.type}
+                            value={data.key}
+                            defaultChecked={checked}
+                            min={d.min}
+                            max={d.max}
+                            step={d.step}
+                            required={d.required}
+                            placeholder={d.placeholder}
+                            defaultValue={defaultVal}
+                            ref={(v) => this.form[name] = v} />{data.label}</label></div>
                 });
                 break;
             default:
                 //onChange={this.onChange}
-                item = <input 
-            className={formClass}
-            onBlur={this.onBlur}
-            onChange={d.onChange}
-            disabled={d.disabled}
-            hidden={d.hidden}
-            name={d.name}
-            type={d.type}
-            min={d.min}
-            max={d.max}
-            step={d.step}
-            required={d.required}
-            placeholder={d.placeholder}
-            defaultValue={defaultVal}
-            ref={(v) => this.form[d.name] = v} />
+                item = <input
+                    className={formClass}
+                    onBlur={this.onBlur}
+                    onChange={d.onChange}
+                    disabled={d.disabled}
+                    hidden={d.hidden}
+                    name={d.name}
+                    type={d.type}
+                    min={d.min}
+                    max={d.max}
+                    step={d.step}
+                    required={d.required}
+                    placeholder={d.placeholder}
+                    defaultValue={defaultVal}
+                    ref={(v) => this.form[d.name] = v} />
                 break;
         }
 
@@ -329,7 +338,7 @@ export default class Form extends React.Component {
             return null
         }
 
-        return (<div className="form-warning"> 
+        return (<div className="form-warning">
             {this.state.warning[d.name]}
         </div>);
 
@@ -400,7 +409,7 @@ export default class Form extends React.Component {
 
             //b. sublabel ----
             var sublabel = (d.sublabel) ? <div className="form-sublabel">{
-                                d.sublabel}</div> : null;
+                d.sublabel}</div> : null;
 
             // bootstrap form class
             //var formClass = "form-item form-group";
@@ -410,18 +419,18 @@ export default class Form extends React.Component {
             }
 
             return (d.header) ?
-                    <div className="form-header" key={i}>{d.header}</div>
-                    :
-                    <div className="form-item">
-                        {label}{sublabel}
-                        <div className={formClass} key={i}>
-                            <div className="form-input">           
-                                {this.renderItem(d)}
-                                {this.addMultiple(d)}
-                            </div>
-                            {this.getWarning(d)}
+                <div className="form-header" key={i}>{d.header}</div>
+                :
+                <div className="form-item">
+                    {label}{sublabel}
+                    <div className={formClass} key={i}>
+                        <div className="form-input">
+                            {this.renderItem(d)}
+                            {this.addMultiple(d)}
                         </div>
+                        {this.getWarning(d)}
                     </div>
+                </div>
         });
 
         // 2. form submit ---------
@@ -432,38 +441,38 @@ export default class Form extends React.Component {
         }
 
         var formSubmit =
-                <div className="form-submit">
-                    <button type="submit" 
-                            className="btn btn-md btn-primary" 
-                            disabled={
-                    disableSubmit}>
-                        {submitText}
-                    </button>
-                </div>;
+            <div className="form-submit">
+                <button type="submit"
+                    className="btn btn-md btn-primary"
+                    disabled={
+                        disableSubmit}>
+                    {submitText}
+                </button>
+            </div>;
 
         // 3. form error ---------
         var formError = (this.props.error) ?
-                <div className="form-error alert alert-danger">
-                    {this.props.error} </div>
-                : null;
+            <div className="form-error alert alert-danger">
+                {this.props.error} </div>
+            : null;
 
         // 4. form success ---------
         if (this.props.success) {
             window.scrollTo(0, 0);
         }
         var formSuccess = (this.props.success) ?
-                <div className="form-error alert alert-success">
-                    {
-                        this.props.success} </div>
-                : null;
+            <div className="form-error alert alert-success">
+                {
+                    this.props.success} </div>
+            : null;
 
-        return (<form noValidate="novalidate"  className={
-                    this.props.className} onSubmit={this.onSubmit}>
-        {formSuccess}
-        {(this.props.errorPosition === "top") ? formError : null}
-        {formItems}
-        {(this.props.errorPosition !== "top") ? formError : null}
-        {formSubmit}</form>);
+        return (<form noValidate="novalidate" className={
+            this.props.className} onSubmit={this.onSubmit}>
+            {formSuccess}
+            {(this.props.errorPosition === "top") ? formError : null}
+            {formItems}
+            {(this.props.errorPosition !== "top") ? formError : null}
+            {formSubmit}</form>);
     }
 }
 
