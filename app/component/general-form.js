@@ -189,7 +189,6 @@ export default class GeneralFormPage extends React.Component {
         // wrap data with key to force it recreate new component when needed
         var datas = <div key={this.state.key}>
             <List type="table"
-                listClass="table table-responsive table-striped table-bordered table-hover table-condensed text-left"
                 tableHeader={this.props.tableHeader}
                 getDataFromRes={this.props.getDataFromRes}
                 loadData={this.props.loadData}

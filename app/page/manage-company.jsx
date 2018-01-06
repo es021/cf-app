@@ -3,7 +3,6 @@ import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
 import { UserMeta, User, Vacancy, VacancyEnum, UserEnum, Skill } from '../../config/db-config';
 import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-config';
-import { Month, Year, Sponsor } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
@@ -23,6 +22,7 @@ import PropTypes from 'prop-types';
 import { RootPath } from '../../config/app-config';
 import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
+import {CareerFair} from '../../config/data-config';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -214,6 +214,7 @@ class AboutSubPage extends React.Component {
             company(ID:${this.company_id}) {
               ID
               name
+              cf
               type
               tagline
               description
@@ -247,12 +248,18 @@ class AboutSubPage extends React.Component {
                     name: Company.TYPE,
                     type: "select",
                     data: [
-                        { key: CompanyEnum.TYPE_NORMAL, label: "Normal" }
-                        , { key: CompanyEnum.TYPE_GOLD, label: "Gold Sponsor" }
-                        , { key: CompanyEnum.TYPE_SILVER, label: "Silver Sponsor" }
-                        , { key: CompanyEnum.TYPE_BRONZE, label: "Bronze Sponsor" }
-                        , { key: CompanyEnum.TYPE_SPECIAL, label: "Special (Tech Support)" }
+                        { key: CompanyEnum.TYPE_NORMAL, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_NORMAL) }
+                        , { key: CompanyEnum.TYPE_GOLD, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_GOLD) }
+                        , { key: CompanyEnum.TYPE_SILVER, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_SILVER) }
+                        , { key: CompanyEnum.TYPE_BRONZE, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_BRONZE) }
+                        , { key: CompanyEnum.TYPE_SPECIAL, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_SPECIAL) }
                     ],
+                    required: true
+                }, {
+                    label: "Career Fair",
+                    name: Company.CF,
+                    type: "checkbox",
+                    data: CareerFair,
                     required: true
                 }
             ]);

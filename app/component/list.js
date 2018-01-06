@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ButtonLink } from '../component/buttons';
+import { ButtonLink } from './buttons';
+import { Loader } from './loader';
 import PropTypes from 'prop-types';
 
 require("../css/list.scss");
@@ -86,9 +87,9 @@ export default class List extends React.Component {
     }
 
     render() {
-        var loading = (this.props.customLoading) ? this.props.customLoading : <div>Loading..</div>;
+        var loading = (this.props.customLoading) ? this.props.customLoading : <Loader size="2" text="Loading.."></Loader>;
 
-        var paging = <div>
+        var paging = <div style={{marginBottom:"10px"}}>
             Page <b>{this.page}</b>
             <br></br>
             {(this.page > 1) ?
@@ -103,13 +104,12 @@ export default class List extends React.Component {
                 </small>
                 : null
             }
-            <br></br>
         </div>;
 
         var dataContent = null;
         if (this.props.type == "table") {
             dataContent = (this.state.empty) ? this.state.listItem :
-                <table className={`${this.props.listClass}`}>
+                <table className={`${this.props.listClass} table table-responsive table-striped table-bordered table-hover table-condensed text-left`}>
                     {this.props.tableHeader}
                     <tbody>
                         {this.state.listItem}
@@ -122,7 +122,7 @@ export default class List extends React.Component {
         }
 
         var content = <div>
-            {(this.props.offset > 10 && this.state.fetchCount > 10) ? paging : null}
+            {(this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null}
             {dataContent}
             {paging}
         </div>;

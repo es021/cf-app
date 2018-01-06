@@ -1,20 +1,20 @@
 const DB = require('./DB.js');
 
-const {User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, SessionEnum} = require('../../config/db-config.js');
-const {DocLinkExec} = require('./doclink-query.js');
-const {SkillExec} = require('./skill-query.js');
+const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, SessionEnum } = require('../../config/db-config.js');
+const { DocLinkExec } = require('./doclink-query.js');
+const { SkillExec } = require('./skill-query.js');
 
 class UserQuery {
 
     // meta_cons = {
     //  key: "value"
     //  } 
-    getUser(field, id, email, role, meta_cons, page, offset) {
+    getUser(field, params, meta_cons) {
 
         // create basic conditions
-        var id_condition = (typeof id !== "undefined") ? `u.ID = ${id}` : `1=1`;
-        var email_condition = (typeof email !== "undefined") ? `u.user_email = '${email}'` : `1=1`;
-        var role_condition = (typeof role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${role}%' ` : `1=1`;
+        var id_condition = (typeof params.ID !== "undefined") ? `u.ID = ${params.ID}` : `1=1`;
+        var email_condition = (typeof params.email !== "undefined") ? `u.user_email = '${params.email}'` : `1=1`;
+        var role_condition = (typeof params.role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role}%' ` : `1=1`;
 
         // add meta condition
         var meta_condition = " 1=1 ";
@@ -31,7 +31,7 @@ class UserQuery {
         }
 
         // set limit 
-        var limit = DB.prepareLimit(page, offset);
+        var limit = DB.prepareLimit(params.page, params.offset);
 
         // create meta selection
         var meta_sel = "";
@@ -41,9 +41,10 @@ class UserQuery {
                 meta_sel += `, ${this.selectMeta("u.ID", UserMeta[k], meta_key)}`;
             }
         }
+
         var sql = `SELECT u.* ${meta_sel}
            FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
-
+        console.log(sql);
         /*
          var sql = `SELECT u.* 
          ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
@@ -70,8 +71,7 @@ class UserQuery {
         return sql;
     }
 
-    selectRole(user_id, meta_key, as)
-    {
+    selectRole(user_id, meta_key, as) {
         return `(select SUBSTRING_INDEX(SUBSTRING_INDEX((${this.selectMetaMain(user_id, meta_key)}),'\"',2),'\"',-1)) as ${as}`;
     }
 
@@ -205,10 +205,10 @@ class UserExec {
     }
 
     getUserHelper(type, params, field, metaCons) {
-        const {CompanyExec} = require('./company-query.js');
-        const {QueueExec} = require('./queue-query.js');
-        const {PrescreenExec} = require('./prescreen-query.js');
-        const {SessionExec} = require('./session-query.js');
+        const { CompanyExec } = require('./company-query.js');
+        const { QueueExec } = require('./queue-query.js');
+        const { PrescreenExec } = require('./prescreen-query.js');
+        const { SessionExec } = require('./session-query.js');
 
         if (field["sessions"] !== "undefined" || field["queues"] !== "undefined" || field["prescreens"] !== "undefined") {
             field["role"] = 1;
@@ -217,9 +217,9 @@ class UserExec {
         var isSingle = (type === "single");
         var sql = "";
         if (isSingle) {
-            sql = UserQuery.getUser(field, params.ID, params.user_email, undefined, metaCons);
+            sql = UserQuery.getUser(field, params, metaCons);
         } else {
-            sql = UserQuery.getUser(field, undefined, undefined, params.role, metaCons, params.page, params.offset);
+            sql = UserQuery.getUser(field, params, metaCons);
         }
         console.log("getUserHelper", params);
         console.log(sql);
@@ -231,8 +231,14 @@ class UserExec {
                 var company_id = res[i]["rec_company"];
                 var role = res[i]["role"];
 
+                // Cf ****************************************************
+                if (typeof field["cf"] !== "undefined") {
+                    res[i]["cf"] = DB.getCF("user", user_id);
+                }
+
+                // sessions ****************************************************
                 if (typeof field["sessions"] !== "undefined") {
-                    var par = {status: [SessionEnum.STATUS_ACTIVE, SessionEnum.STATUS_NEW]};
+                    var par = { status: [SessionEnum.STATUS_ACTIVE, SessionEnum.STATUS_NEW] };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["participant_id"] = user_id;
                     }
@@ -243,8 +249,9 @@ class UserExec {
                     res[i]["sessions"] = SessionExec.sessions(par, field["sessions"]);
                 }
 
+                // queues ****************************************************
                 if (typeof field["queues"] !== "undefined") {
-                    var par = {status: QueueEnum.STATUS_QUEUING};
+                    var par = { status: QueueEnum.STATUS_QUEUING };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;
                     }
@@ -255,8 +262,9 @@ class UserExec {
                     res[i]["queues"] = QueueExec.queues(par, field["queues"]);
                 }
 
+                // prescreens ****************************************************
                 if (typeof field["prescreens"] !== "undefined") {
-                    var par = {status: PrescreenEnum.STATUS_APPROVED};
+                    var par = { status: PrescreenEnum.STATUS_APPROVED };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;
                     }
@@ -267,16 +275,19 @@ class UserExec {
                     res[i]["prescreens"] = PrescreenExec.prescreens(par, field["prescreens"]);
                 }
 
+                // company ****************************************************
                 if (typeof field["company"] !== "undefined") {
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
 
+                // doc_links ****************************************************
                 if (typeof field["doc_links"] !== "undefined") {
-                    res[i]["doc_links"] = DocLinkExec.doc_links({user_id: user_id}, field["doc_links"]);
+                    res[i]["doc_links"] = DocLinkExec.doc_links({ user_id: user_id }, field["doc_links"]);
                 }
 
+                // skills ****************************************************
                 if (typeof field["skills"] !== "undefined") {
-                    res[i]["skills"] = SkillExec.skills({user_id: user_id}, field["skills"]);
+                    res[i]["skills"] = SkillExec.skills({ user_id: user_id }, field["skills"]);
                 }
             }
 
@@ -307,4 +318,4 @@ class UserExec {
 }
 UserExec = new UserExec();
 
-module.exports = {UserExec, UserQuery};
+module.exports = { UserExec, UserQuery };

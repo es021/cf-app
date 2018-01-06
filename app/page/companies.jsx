@@ -1,63 +1,105 @@
 import React, { PropTypes } from 'react';
 import { ButtonLink } from '../component/buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
-import UserPopup from './partial/popup/user-popup';
+import CompanyPopup from './partial/popup/company-popup';
 
 //importing for list
 import List from '../component/list';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
-
-const offset = 10;
-
+import { Redirect, NavLink } from 'react-router-dom';
+import { RootPath } from '../../config/app-config';
+import { CompanyEnum } from '../../config/db-config';
 
 class CompaniesPage extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    componentWillMount() {
+        this.offset = 50;
+        this.tableHeader = <thead>
+            <tr>
+                <th>ID</th>
+                <th>CF</th>
+                <th>Company</th>
+                <th>Recruiters</th>
+            </tr>
+        </thead>;
+    }
+
     loadData(page, offset) {
         return getAxiosGraphQLQuery(`
         query{
-            users(role:"student", page:${page}, offset:${offset}){
+            companies{
                 ID
-                user_email
-                first_name
-                last_name
+                cf
+                name
+                type
+                recruiters{
+                    ID user_email
+                }
             }
         }`);
     };
 
-
     renderList(d, i) {
-        var param = { id: d.ID };
+        var row = [];
+        var dismiss = ["type"];
+        for (var key in d) {
+            if (dismiss.indexOf(key) >= 0) {
+                continue;
+            }
+            if (key == "name") {
+                var name = <b>
+                    <ButtonLink
+                        onClick={() => layoutActions.storeUpdateFocusCard(d.name, CompanyPopup, { id: d.ID })}
+                        label={d.name}>
+                    </ButtonLink>
+                </b>;
+                row.push(<td>
+                    {name}
+                    <br></br>
+                    {CompanyEnum.getTypeStr(d.type)}
+                </td>);
+            } else if (key == "recruiters") {
+                var recs = d[key].map((rec, i) => {
+                    return <li>{`${rec.user_email} (${rec.ID})`}</li>;
+                });
 
-        var label = <span>{d.first_name} {d.last_name}<br></br>
-            <small>{d.user_email}</small></span>;
-        return (<li key={i}>
-            <ButtonLink
-                onClick={() => layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name, UserPopup, param)}
-                label={label}></ButtonLink>
-        </li>);
+                row.push(<td>
+                    <ul>{recs}</ul>
+                </td>);
+
+            } else if (key == "cf" && d.cf.length > 1) {
+                row.push(<td>{JSON.stringify(d.cf)}</td>);
+            }
+            else {
+                row.push(<td>{d[key]}</td>);
+            }
+        }
+
+        row.push(<td className="text-center">
+            <NavLink to={`${RootPath}/app/manage-company/${d.ID}/about`}>Edit</NavLink>
+        </td>);
+        return <tr>{row}</tr>;
     };
 
     getDataFromRes(res) {
-        return res.data.data.users;
+        return res.data.data.companies;
     }
 
     render() {
-        document.setTitle("Users");
+        document.setTitle("Companies");
+        var view = null;
 
-        var loadingList = <div>Custom Loading</div>;
-        return (<div> <h3>Companies</h3>
-            <List listClass="test"
-                type="table"
-                customLoading={loadingList}
+        return (<div><h3>Companies</h3>
+            <List type="table"
+                tableHeader={this.tableHeader}
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}
-                offset={offset}
+                offset={this.offset}
                 renderList={this.renderList}></List>
         </div>);
-
     }
 }
 

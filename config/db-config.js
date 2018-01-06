@@ -6,7 +6,8 @@ const User = {
     LOGIN: "user_login",
     PASSWORD: "user_pass",
     ACTIVATION_KEY: "user_activation_key",
-    REGISTER_AT: "user_registered"
+    REGISTER_AT: "user_registered",
+    CF: "cf"
 };
 
 const UserMeta = {
@@ -114,6 +115,7 @@ const SessionEnum = {
 const Company = {
     TABLE: "companies",
     ID: "ID",
+    CF: "cf",
     NAME: "name",
     REC_PRIVACY: "rec_privacy",
     TAGLINE: "tagline",
@@ -133,7 +135,16 @@ const CompanyEnum = {
     TYPE_BRONZE: 3,
     TYPE_NORMAL: 4,
     REC_PRIVACY_PUBLIC: 0,
-    REC_PRIVACY_PRIVATE: 1
+    REC_PRIVACY_PRIVATE: 1,
+    getTypeStr: (type) => {
+        switch (type) {
+            case 0: return "Special";
+            case 1: return "Gold Sponsor";
+            case 2: return "Silver Sponsor";
+            case 3: return "Bronze Sponsor";
+            case 4: return "Normal";
+        }
+    }
 };
 
 

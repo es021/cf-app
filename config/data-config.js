@@ -15,6 +15,11 @@ const Year = [
     "2022"
 ];
 
+const CareerFair = [
+    { key: "USA", label: "USA - April 2018" }
+    , { key: "JAPAN", label: "JAPAN - April 2018" }
+];
+
 const Sponsor = [
     "",
     "Jabatan Perkhidmatan Awam (JPA)",
@@ -35,7 +40,7 @@ const PositionType = [
     "Co-op"
 ];
 
-module.exports = {Month, Year, Sponsor, PositionType};
+module.exports = { Month, Year, Sponsor, PositionType, CareerFair };
 
 
 

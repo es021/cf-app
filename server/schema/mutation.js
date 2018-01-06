@@ -60,12 +60,17 @@ fields["edit_company"] = {
         rec_privacy: { type: GraphQLString },
         type: { type: GraphQLInt },
         is_confirmed: { type: GraphQLInt },
-        accept_prescreen: { type: GraphQLInt }
+        accept_prescreen: { type: GraphQLInt },
+        cf: { type: new GraphQLList(GraphQLString) }
     },
     resolve(parentValue, arg, context, info) {
-        return DB.update(Company.TABLE, arg).then(function (res) {
-            return res;
-        });
+        try {
+            return DB.update(Company.TABLE, arg).then(function (res) {
+                return res;
+            });
+        }catch(err){
+            return {};
+        }
     }
 };
 

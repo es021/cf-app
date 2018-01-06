@@ -33,6 +33,8 @@ const UserType = new GraphQLObjectType({
         user_status: { type: GraphQLString },
         activation_key: { type: GraphQLString },
         role: { type: GraphQLString },
+        cf: { type: new GraphQLList(GraphQLString) },
+        user_registered: { type: GraphQLString },
 
         //active activity
         queues: { type: new GraphQLList(QueueType) },
@@ -117,6 +119,7 @@ const CompanyType = new GraphQLObjectType({
         recruiters: { type: new GraphQLList(UserType) },
         doc_links: { type: new GraphQLList(DocLinkType) },
         ID: { type: GraphQLInt },
+        cf: { type: new GraphQLList(GraphQLString) },
         name: { type: GraphQLString },
         tagline: { type: GraphQLString },
         description: { type: GraphQLString },

@@ -2,14 +2,13 @@ const DB = require('./DB.js');
 const { Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacancy } = require('../../config/db-config');
 
 class CompanyQuery {
-    getById(id) {
-        return `select * from ${Company.TABLE} where ${Company.ID} = ${id}`;
-    }
+    getCompany(params, field) {
+        var type_where = (typeof params.type === "undefined") ? "1=1" : `c.${Company.TYPE} LIKE '%${params.type}%'`;
+        var id_where = (typeof params.ID === "undefined") ? "1=1" : `c.${Company.ID} = '${params.ID}'`;
+        var order_by = `order by c.${Company.TYPE} asc`;
+        var sel = "";
 
-    getAll(params) {
-        var type_where = (typeof params.type === "undefined") ? "1=1" : `${Company.TYPE} LIKE '%${params.type}%'`;
-        var order_by = `order by ${Company.TYPE} asc`;
-        return `select * from ${Company.TABLE} where 1=1 and ${type_where} ${order_by}`;
+        return `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${id_where} and ${type_where} ${order_by}`;
     }
 }
 CompanyQuery = new CompanyQuery();
@@ -27,13 +26,10 @@ class CompanyExec {
         const { QueueExec } = require('./queue-query.js');
 
         var isSingle = (type === "single");
-        var sql = "";
-        if (isSingle) {
-            sql = CompanyQuery.getById(params.id);
-        } else {
-            sql = CompanyQuery.getAll(params);
-        }
+        var sql = CompanyQuery.getCompany(params, field);
+
         console.log("getCompanyHelper", params);
+        console.log("getCompanyHelper", sql);
 
         return DB.query(sql).then(function (res) {
 
@@ -60,6 +56,11 @@ class CompanyExec {
                 if (typeof field["active_queues_count"] !== "undefined") {
                     delete (act_q["order_by"]);
                     res[i]["active_queues_count"] = QueueExec.queues(act_q, {}, { count: true });
+                }
+
+                // Cf ****************************************************
+                if (typeof field["cf"] !== "undefined") {
+                    res[i]["cf"] = DB.getCF("company", company_id);
                 }
 
                 //Add prescreens ***********************************
@@ -99,7 +100,7 @@ class CompanyExec {
                 }
             }
 
-            if (type === "single") {
+            if (isSingle) {
                 return res[0];
             } else {
                 return res;
@@ -108,7 +109,7 @@ class CompanyExec {
     }
 
     company(id, field) {
-        return this.getCompanyHelper("single", { id: id }, field);
+        return this.getCompanyHelper("single", { ID: id }, field);
 
     }
 

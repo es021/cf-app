@@ -33,6 +33,36 @@ var DB = function (env) {
      */
 };
 
+/**** CF *******/
+DB.prototype.cfMapSelect = function (entity, entity_id, cf) {
+    var cf_where = (typeof cf === "undefined") ? "1=1" : `cf= '${cf}'`;
+    return `SELECT cf from cf_map where entity = '${entity}' and entity_id = ${entity_id} and ${cf_where}`;
+};
+
+DB.prototype.getCF = function (entity, entity_id) {
+    var sql = this.cfMapSelect(entity, entity_id);
+    return this.query(sql).then(function (res) {
+        var toRet = res.map((d, i) => d.cf);
+        return toRet;
+    });
+};
+
+DB.prototype.updateCF = function (entity, entity_id, cf) {
+    var del = `DELETE from cf_map where entity = '${entity}' and entity_id = ${entity_id}`;
+    return this.query(del).then((res) => {
+        var ins = `INSERT INTO cf_map (entity, entity_id, cf) VALUES `;
+        cf.map((_cf, i) => {
+            if (i > 0) {
+                ins += ",";
+            }
+            ins += `('${entity}', ${entity_id} ,'${_cf}') `;
+        });
+        console.log(ins);
+        return this.query(ins).then((res) => res);
+    });
+};
+/**** CF *******/
+
 DB.prototype.query = function (query) {
     return this.con.query(query);
 };
@@ -43,30 +73,30 @@ DB.prototype.escStr = function (str) {
     }
 
     return str.replace(
-            /[\0\x08\x09\x1a\n\r"'\\\%]/g
-            , function (char) {
-                switch (char) {
-                    case "\0":
-                        return "\\0";
-                    case "\x08":
-                        return "\\b";
-                    case "\x09":
-                        return "\\t";
-                    case "\x1a":
-                        return "\\z";
-                    case "\n":
-                        return "\\n";
-                    case "\r":
-                        return "\\r";
-                    case "\"":
-                    case "'":
-                    case "\\":
-                        return "\\" + char; // prepends a backslash to backslash, percent,
-                        // and double/single quotes
-                    case "%":
-                        return "%";
-                }
-            });
+        /[\0\x08\x09\x1a\n\r"'\\\%]/g
+        , function (char) {
+            switch (char) {
+                case "\0":
+                    return "\\0";
+                case "\x08":
+                    return "\\b";
+                case "\x09":
+                    return "\\t";
+                case "\x1a":
+                    return "\\z";
+                case "\n":
+                    return "\\n";
+                case "\r":
+                    return "\\r";
+                case "\"":
+                case "'":
+                case "\\":
+                    return "\\" + char; // prepends a backslash to backslash, percent,
+                // and double/single quotes
+                case "%":
+                    return "%";
+            }
+        });
 };
 
 DB.prototype.getByID = function (table, ID) {
@@ -98,6 +128,22 @@ DB.prototype.insert = function (table, data) {
 
 // only works with table with primary key of is ID
 DB.prototype.update = function (table, data) {
+    if (typeof data.cf !== "undefined") {
+        var cf = data.cf;
+        delete (data["cf"]);
+        var entity = null;
+        // trigger from manage-company
+        switch (table) {
+            case 'companies':
+                entity = "company";
+                break;
+        }
+
+        if (entity !== null) {
+            this.updateCF(entity, data.ID, cf);
+        }
+    }
+
     var DB = this;
     var ID = data.ID;
 
@@ -114,8 +160,11 @@ DB.prototype.update = function (table, data) {
     }
     key_val = key_val.substring(-1, key_val.length - 1);
 
+    if (key_val == "") {
+        return false;
+    }
+
     var sql = `UPDATE ${table} SET ${key_val} WHERE ID = ${ID}`;
-    console.log(sql);
     return this.query(sql).then(function (res) {
         return DB.getByID(table, ID);
     });
@@ -140,7 +189,7 @@ DB.prototype.delete = function (table, ID) {
 DB.prototype.prepareLimit = function (page, offset) {
     var start = (page - 1) * offset;
     var limit = (typeof page !== "undefined" && typeof offset !== "undefined")
-            ? `LIMIT ${start},${offset}` : "";
+        ? `LIMIT ${start},${offset}` : "";
     return limit;
 };
 
