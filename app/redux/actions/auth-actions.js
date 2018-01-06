@@ -9,7 +9,7 @@ export function isAuthorized() {
 }
 
 export function getAuthUser() {
-    if(!isAuthorized()){
+    if (!isAuthorized()) {
         return {};
     }
     return store.getState().auth.user;
@@ -24,7 +24,8 @@ export function isRoleRec() {
 }
 
 export function isRoleAdmin() {
-    return getAuthUser().role === UserEnum.ROLE_ADMIN;
+    return getAuthUser().role === UserEnum.ROLE_ADMIN ||
+        getAuthUser().role === UserEnum.ROLE_ORGANIZER;
 }
 
 export const UPDATE_USER = "UPDATE_USER";

@@ -46,10 +46,14 @@ export default class LeftBarLayout extends React.Component {
                 authUser["img_pos"] = getPositionStr(25, authUser["img_pos"], "px", true);
             }
         }
-
+        //<br></br>
+        //<NavLink to={`${RootPath}/app/edit-profile/profile`} >Edit Profile</NavLink>
         var profile = "";
         if (isAuth) {
-            var pcBody = <small><NavLink to={`${RootPath}/app/edit-profile/profile`} >Edit Profile</NavLink></small>;
+            var pcBody = <small>
+                <i className="text-muted">{authUser.role.capitalize()}</i>
+
+            </small>;
             profile =
                 (<div className="left_bar_profile">
                     <NavLink to={`${RootPath}/app/edit-profile/profile`} >

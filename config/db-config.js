@@ -43,6 +43,7 @@ const UserEnum = {
     ROLE_STUDENT: "student",
     ROLE_RECRUITER: "recruiter",
     ROLE_ADMIN: "administrator",
+    ROLE_ORGANIZER: "organizer",
     STATUS_ACT: "Active",
     STATUS_NOT_ACT: "Not Activated"
 };
@@ -114,6 +115,7 @@ const Company = {
     TABLE: "companies",
     ID: "ID",
     NAME: "name",
+    REC_PRIVACY: "rec_privacy",
     TAGLINE: "tagline",
     DESCRIPTION: "description",
     MORE_INFO: "more_info",
@@ -129,7 +131,9 @@ const CompanyEnum = {
     TYPE_GOLD: 1,
     TYPE_SILVER: 2,
     TYPE_BRONZE: 3,
-    TYPE_NORMAL: 4
+    TYPE_NORMAL: 4,
+    REC_PRIVACY_PUBLIC: 0,
+    REC_PRIVACY_PRIVATE: 1
 };
 
 

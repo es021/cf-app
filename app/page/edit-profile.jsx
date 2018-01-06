@@ -75,13 +75,18 @@ class Skills extends React.Component {
         });
     }
 
+    onOperationSuccess() {
+        layoutActions.storeHideFocusCard();
+        this.loadSkills();
+    }
+
     deletePopup(e) {
         var id = e.currentTarget.id;
         const onYes = () => {
             var del_query = `mutation{delete_skill(ID:${id})}`;
-            store.dispatch(layoutActions.updateProps({ loading: true }));
+            layoutActions.storeUpdateProps({ loading: true });
             getAxiosGraphQLQuery(del_query).then((res) => {
-                window.location.reload();
+                this.onOperationSuccess();
             }, (err) => {
                 alert(err.response.data);
             });
@@ -95,7 +100,8 @@ class Skills extends React.Component {
 
     render() {
         var view = null;
-        var skills = <div className="text-muted">Nothing To Show Here</div>;
+        var skills = (this.state.loading) ? <Loader size="2" text="Loading skills.."></Loader>
+            : <div className="text-muted">Nothing To Show Here</div>;
         if (!this.state.loading && this.state.skills.length > 0) {
 
             var skillItems = this.state.skills.map((d, i) => {
@@ -106,6 +112,7 @@ class Skills extends React.Component {
                 </span>;
             });
             skills = <CustomList className="label" items={skillItems}></CustomList>;
+
         }
 
         var form = <Form className="form-row"

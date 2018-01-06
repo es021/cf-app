@@ -7,9 +7,9 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import ProfileCard from '../../../component/profile-card';
 import { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
-import { getAuthUser, isRoleRec } from '../../../redux/actions/auth-actions';
-import { DocLinkEnum } from '../../../../config/db-config';
-import {CustomList} from '../../../component/list';
+import { getAuthUser, isRoleRec, isRoleAdmin } from '../../../redux/actions/auth-actions';
+import { DocLinkEnum, CompanyEnum } from '../../../../config/db-config';
+import { CustomList } from '../../../component/list';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
@@ -27,6 +27,9 @@ export default class CompanyPopup extends Component {
             loading: true,
         }
 
+        this.isRec = getAuthUser().rec_company == this.props.id || isRoleAdmin();
+
+        this.getRecs = this.getRecs.bind(this);
         this.startQueue = this.startQueue.bind(this);
     }
 
@@ -48,6 +51,7 @@ export default class CompanyPopup extends Component {
                 img_url
                 img_position
                 img_size
+                rec_privacy
                 doc_links{label url type}
                 recruiters{
                     first_name
@@ -113,9 +117,14 @@ export default class CompanyPopup extends Component {
         return <div>{view}</div>;
     }
 
-    getRecs(list) {
+    getRecs(list, rec_privacy) {
         if (list.length === 0) {
             return <div className="text-muted">Nothing To Show Here</div>;
+        }
+        console.log(rec_privacy);
+        console.log(this.isRec);
+        if (rec_privacy && !this.isRec) {
+            return <div className="text-muted">This information is private</div>;
         }
 
         var view = list.map((d, i) => {
@@ -136,7 +145,11 @@ export default class CompanyPopup extends Component {
                 type="recruiter" key={i}></ProfileListItem>;
         });
 
-        return <div>{view}</div>;
+        return <div>
+            {(!rec_privacy) ? null
+                : <div className="text-muted">This information is private to others.<br></br></div>}
+            {view}
+        </div>;
     }
 
     render() {
@@ -146,12 +159,12 @@ export default class CompanyPopup extends Component {
 
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Company Information...'></Loader>
-        } else { 
+        } else {
 
             //const about = <p>{data.description.replaceAll("\n","<br></br>")}</p>;
             const about = <p>{data.description}</p>;
             const vacancies = this.getVacancies(data.vacancies);
-            const recs = this.getRecs(data.recruiters);
+            const recs = this.getRecs(data.recruiters, data.rec_privacy);
 
             //document and link
             var dl = data.doc_links.map((d, i) => {

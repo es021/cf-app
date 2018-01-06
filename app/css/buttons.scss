@@ -20,4 +20,6 @@ a.button-icon.dark:hover{
 }
 
 @include button_color("btn-primary",$COLOR_DARK);
+@include button_color("btn-blue",#286090);
+
 

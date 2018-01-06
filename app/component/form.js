@@ -118,8 +118,7 @@ export default class Form extends React.Component {
 
         for (var i in this.form) {
             var formObj = this.form[i];
-            console.log(formObj);
-            console.log(formObj.checked);
+
 
             if (formObj != null) {
                 var name = formObj.name;
@@ -128,10 +127,8 @@ export default class Form extends React.Component {
                 //parse to Number
                 if (formObj.type == "number" && value !== "") {
                     try {
-                        value = Number.parseInt(value);
-                    } catch (err) {
                         value = Number.parseFloat(value);
-                    }
+                    } catch (err) { }
                 }
 
                 // ignore the multiple
@@ -148,6 +145,15 @@ export default class Form extends React.Component {
                             data_form[checkboxName] = [];
                         }
                         data_form[checkboxName].push(value);
+                    }
+                    continue;
+                }
+
+                // only one can be selected
+                if (formObj.type == "radio") {
+                    var radioName = name.split("::")[0];
+                    if (formObj.checked) {
+                        data_form[radioName] = value;
                     }
                     continue;
                 }
@@ -180,7 +186,11 @@ export default class Form extends React.Component {
 
     getSelectOptions(data) {
         return (data.map((d, i) => {
-            return <option key={i} value={d}>{d}</option>;
+            console.log(typeof d);
+            var value = (typeof d == "object") ? d.key : d;
+            var label = (typeof d == "object") ? d.label : d;
+
+            return <option key={i} value={value}>{label}</option>;
         }));
     }
 
@@ -292,6 +302,28 @@ export default class Form extends React.Component {
                             disabled={d.disabled}
                             hidden={d.hidden}
                             name={name}
+                            type={d.type}
+                            value={data.key}
+                            defaultChecked={checked}
+                            min={d.min}
+                            max={d.max}
+                            step={d.step}
+                            required={d.required}
+                            placeholder={d.placeholder}
+                            defaultValue={defaultVal}
+                            ref={(v) => this.form[name] = v} />{data.label}</label></div>
+                });
+                break;
+            case 'radio':
+                item = d.data.map((data, i) => {
+                    var name = `${d.name}::${i + 1}`;
+                    var checked = (this.props.defaultValues[d.name] == data.key);
+                    return <div key={i} className="radio"><label className="radio-inline">
+                        <input onBlur={this.onBlur}
+                            onChange={d.onChange}
+                            disabled={d.disabled}
+                            hidden={d.hidden}
+                            name={d.name}
                             type={d.type}
                             value={data.key}
                             defaultChecked={checked}

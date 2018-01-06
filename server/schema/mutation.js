@@ -13,6 +13,7 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
+    GraphQLFloat,
     GraphQLSchema,
     GraphQLList,
     GraphQLNonNull
@@ -56,6 +57,7 @@ fields["edit_company"] = {
         img_url: { type: GraphQLString },
         img_position: { type: GraphQLString },
         img_size: { type: GraphQLString },
+        rec_privacy: { type: GraphQLString },
         type: { type: GraphQLInt },
         is_confirmed: { type: GraphQLInt },
         accept_prescreen: { type: GraphQLInt }
@@ -92,7 +94,7 @@ fields["edit_user"] = {
         graduation_month: { type: GraphQLString },
         graduation_year: { type: GraphQLString },
         sponsor: { type: GraphQLString },
-        cgpa: { type: GraphQLString },
+        cgpa: { type: GraphQLFloat },
         major: { type: GraphQLString },
         minor: { type: GraphQLString },
 

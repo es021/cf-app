@@ -1,5 +1,5 @@
 const DB = require('./DB.js');
-const {Vacancy} = require('../../config/db-config');
+const { Vacancy } = require('../../config/db-config');
 
 class VacancyQuery {
     getVacancy(params, extra) {
@@ -9,11 +9,13 @@ class VacancyQuery {
         var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}' `;
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by} `;
 
+        var limit = DB.prepareLimit(params.page, params.offset);
+
         var sql = `from ${Vacancy.TABLE} where ${id_where} and ${title_where} and ${type_where} and ${com_where} ${order_by}`;
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
         } else {
-            return `select * ${sql}`;
+            return `select * ${sql} ${limit}`;
         }
     }
 }
@@ -22,7 +24,7 @@ VacancyQuery = new VacancyQuery();
 class VacancyExec {
     getVacancyHelper(type, params, field, extra = {}) {
 
-        const {CompanyExec} = require('./company-query.js');
+        const { CompanyExec } = require('./company-query.js');
 
         var sql = VacancyQuery.getVacancy(params, extra);
         var toRet = DB.query(sql).then(function (res) {
@@ -59,6 +61,6 @@ class VacancyExec {
 
 VacancyExec = new VacancyExec();
 
-module.exports = {VacancyExec, VacancyQuery};
+module.exports = { VacancyExec, VacancyQuery };
 
 

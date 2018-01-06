@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Loader} from '../component/loader';
-import {getAxiosGraphQLQuery} from '../../helper/api-helper';
-import {DocLinkEnum} from '../../config/db-config';
+import { Loader } from '../component/loader';
+import { getAxiosGraphQLQuery } from '../../helper/api-helper';
+import { DocLinkEnum } from '../../config/db-config';
 import ProfileCard from '../component/profile-card';
 import PageSection from '../component/page-section';
-import {CustomList} from '../component/list';
+import { CustomList } from '../component/list';
 import NotFoundPage from './not-found';
-import FacebookProvider, {Page, ShareButton } from 'react-facebook';
-import {AppConfig, RootPath, SiteUrl} from '../../config/app-config';
-import {NavLink} from 'react-router-dom';
+import FacebookProvider, { Page, ShareButton } from 'react-facebook';
+import { AppConfig, RootPath, SiteUrl } from '../../config/app-config';
+import { NavLink } from 'react-router-dom';
 
 export default class VacancyPage extends React.Component {
     constructor(props) {
@@ -45,7 +45,7 @@ export default class VacancyPage extends React.Component {
 
         getAxiosGraphQLQuery(query).then((res) => {
             this.setState(() => {
-                return {data: res.data.data.vacancy, loading: false}
+                return { data: res.data.data.vacancy, loading: false }
             })
         });
     }
@@ -89,23 +89,19 @@ export default class VacancyPage extends React.Component {
                 console.log(share_url);
 
                 var about = <div>
-                <div className="col-sm-9 no-padding">
                     <CustomList className="empty" items={items}></CustomList>
-                </div>
-                <div className="col-sm-3 no-padding text-right">
                     <FacebookProvider appId={AppConfig.FbAppId}>
-                        <ShareButton iconClassName="fa fa-facebook left" className="btn btn-primary btn-sm" 
-                                     href={share_url}>Share</ShareButton>
+                        <ShareButton iconClassName="fa fa-facebook left" className="btn btn-blue btn-sm"
+                            href={share_url}>Share</ShareButton>
                     </FacebookProvider>
-                </div>
-                <br></br><br></br><br></br>
-            </div>;
+
+                </div>;
 
                 var desc = (vacan.description !== null) ? <p>{vacan.description}</p> : non;
                 var req = (vacan.requirement !== null) ? <p>{vacan.requirement}</p> : non;
 
                 view = <div>
-                
+
                     <PageSection className="left" title={vacan.title} body={about}></PageSection>
                     <PageSection className="left" title="Description" body={desc}></PageSection>
                     <PageSection className="left" title="Requirement" body={req}></PageSection>

@@ -356,7 +356,7 @@ export default class DocLinkPage extends React.Component {
             <div className="col-sm-12">
                 <br></br>
                 <h3 className="left">{titleList}</h3>
-                {(this.state.fetching) ? <Loader size="2" text="Loading.."></Loader> : items}
+                {(this.state.fetching) ? <Loader size="2" text="Loading Document & Link.."></Loader> : items}
                 <br></br>
             </div>
         </div>;

@@ -8,6 +8,7 @@ import SignUpPage from '../page/sign-up';
 import AboutPage from '../page/about';
 import LogoutPage from '../page/logout';
 import UsersPage from '../page/users';
+import CompaniesPage from '../page/companies';
 import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
 import EditProfilePage from '../page/edit-profile';
@@ -15,11 +16,9 @@ import ManageCompanyPage from '../page/manage-company';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import NotFoundPage from '../page/not-found';
-import { isAuthorized, isRoleStudent, isRoleRec, isRoleAdmin } from '../redux/actions/auth-actions';
-
+import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 
 function getMenuItem() {
-
     var menuItem = [
         {
             url: "/",
@@ -52,7 +51,7 @@ function getMenuItem() {
             hd_auth: true
         },
         {
-            url: "/manage-company/:current",
+            url: "/manage-company/:id/:current",
             label: "My Company",
             icon: "building",
             component: ManageCompanyPage,
@@ -60,8 +59,9 @@ function getMenuItem() {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            default_param: { current: "about" },
-            disabled: !isRoleRec()
+            routeOnly: isRoleAdmin(),
+            default_param: { id: getAuthUser().rec_company, current: "about" },
+            disabled: !isRoleRec() && !isRoleAdmin()
         },
         {
             url: "/users",
@@ -72,7 +72,18 @@ function getMenuItem() {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: !isRoleAdmin() && !isRoleRec()
+            disabled: !isRoleAdmin()
+        },
+        {
+            url: "/companies",
+            label: "Companies",
+            icon: "building",
+            component: CompaniesPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin()
         },
         {
             url: "/auditorium",
@@ -93,7 +104,8 @@ function getMenuItem() {
             bar_app: true,
             bar_auth: false,
             hd_app: false,
-            hd_auth: false
+            hd_auth: false,
+            disabled: isRoleAdmin()
         },
         {
             url: "/faq",

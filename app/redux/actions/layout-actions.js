@@ -1,4 +1,4 @@
-import {store} from '../store.js';
+import { store } from '../store.js';
 
 // Block Loader ----------------------------------------------
 export const UPDATE_BLOCK_LOADER = "UPDATE_BLOCK_LOADER";
@@ -6,19 +6,19 @@ export function hideBlockLoader() {
     return function (dispatch) {
         dispatch({
             type: UPDATE_BLOCK_LOADER,
-            payload: {loading: null, success: null, error: null, confirm: null, show: false}
+            payload: { loading: null, success: null, error: null, confirm: null, show: false }
         });
     };
 }
 
-export function  storeHideBlockLoader() {
+export function storeHideBlockLoader() {
     store.dispatch(hideBlockLoader());
 }
 
 function updateBlockLoader(loading, success, error, confirm) {
     store.dispatch({
         type: UPDATE_BLOCK_LOADER,
-        payload: {loading: loading, success: success, error: error, confirm: confirm, show: true}
+        payload: { loading: loading, success: success, error: error, confirm: confirm, show: true }
     });
 }
 
@@ -36,7 +36,7 @@ export function errorBlockLoader(m) {
 }
 
 export function confirmBlockLoader(title, yesHandler) {
-    updateBlockLoader(null, null, null, {title: title, yesHandler: yesHandler});
+    updateBlockLoader(null, null, null, { title: title, yesHandler: yesHandler });
 }
 
 
@@ -57,7 +57,7 @@ export function updateFocusCard(title, component, props, className = "") {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
-            payload: {title: title, component: component, props: props, show: true, className: className}
+            payload: { title: title, component: component, props: props, show: true, className: className }
         });
     };
 }
@@ -66,16 +66,20 @@ export function updateProps(props) {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
-            payload: {props: props}
+            payload: { props: props }
         });
     };
+}
+
+export function storeUpdateProps(props) {
+    store.dispatch(updateProps(props));
 }
 
 export function hideFocusCard() {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
-            payload: {title: null, component: null, props: null, show: false}
+            payload: { title: null, component: null, props: null, show: false }
         });
     };
 }

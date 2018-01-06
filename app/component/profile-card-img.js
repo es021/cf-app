@@ -422,6 +422,7 @@ export default class ProfileCardImg extends React.Component {
         stylePictureBack["position"] = "absolute";
         stylePictureBack["opacity"] = "0.3";
         stylePictureBack["backgroundRepeat"] = "no-repeat";
+        stylePictureBack["margin"] = "auto";
 
         this.imgVal = {};
         this.imgVal.backgroundImage = stylePicture.backgroundImage;
@@ -431,11 +432,11 @@ export default class ProfileCardImg extends React.Component {
         var parentStyle = { marginTop: "60px" };
 
         return (<div style={parentStyle} className="profile-card edit-img">
-            <div style={stylePictureBack}></div>
 
             <div className={`${pc}picture`} style={stylePicture}
                 onMouseMove={this.mouseMovePos} onMouseLeave={this.mouseUpPos}
                 onMouseUp={this.mouseUpPos} onMouseDown={this.mouseDownPos}>
+                <div style={stylePictureBack}></div>
 
                 <ButtonIcon style={{ right: 0, position: "absolute" }} size={btn_size} icon="search-plus" theme="dark" onClick={() => this.editSize(this.ZOOM_IN)}></ButtonIcon>
                 <ButtonIcon style={{ left: 0, position: "absolute" }} size={btn_size} icon="search-minus" theme="dark" onClick={() => this.editSize(this.ZOOM_OUT)}></ButtonIcon>
@@ -450,6 +451,7 @@ export default class ProfileCardImg extends React.Component {
                     <ButtonIcon style={{ right: "-15px", top: "42px", position: "absolute" }} icon="arrow-right"
                         size={btn_size} theme="dark" onClick={() => this.editPos(this.LEFT)}></ButtonIcon>
                 </div>
+
             </div>
 
             <div><br></br>

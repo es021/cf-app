@@ -5,16 +5,17 @@ $bck_col : white;
 .sub-nav{
 
     .#{$SUB_NAV}header{
-        height: 40px;
         background: $bck_col;
         // this is content padding
         margin: -20px;
         margin-bottom: 10px;
-        
+        padding-top: 10px;
+
         ul{
             margin: 0 10px;
             display: flex;
             height: 100%;
+            flex-wrap: wrap;
             align-items: flex-end;
             
             a:focus, a:hover, a:active{
@@ -58,10 +59,6 @@ $bck_col : white;
             ul li{
                 font-size: 75%;
                 margin: 0 3px;
-
-                .fa{
-                    display:none;
-                }
             }
         }
     }

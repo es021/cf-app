@@ -22,7 +22,6 @@ export default class List extends React.Component {
     }
 
     componentWillMount() {
-        console.log("inside list");
         this.load(this.NEXT);
     }
 
@@ -56,7 +55,7 @@ export default class List extends React.Component {
 
                 //empty list
                 if (data.length <= 0) {
-                    listItem = `Nothing To Show Here`
+                    listItem = <span className="text-muted text-center">Nothing To Show Here</span>;
                     empty = true;
                 }
                 //success
@@ -93,28 +92,38 @@ export default class List extends React.Component {
             Page <b>{this.page}</b>
             <br></br>
             {(this.page > 1) ?
-                <ButtonLink onClick={() => this.load(this.PREV)} label="Prev"></ButtonLink>
+                <small style={{ marginRight: "6px" }}>
+                    <ButtonLink onClick={() => this.load(this.PREV)} label="<< Prev"></ButtonLink>
+                </small>
                 : null
             }
             {(this.state.fetchCount >= this.props.offset) ?
-                <ButtonLink onClick={() => this.load(this.NEXT)} label="Next"></ButtonLink>
+                <small style={{ marginLeft: "6px" }}>
+                    <ButtonLink onClick={() => this.load(this.NEXT)} label="Next >>"></ButtonLink>
+                </small>
                 : null
             }
             <br></br>
         </div>;
 
-        var content = <div>
-            {(this.props.type == "table")
-                ? <table className={`${this.props.listClass}`}>
+        var dataContent = null;
+        if (this.props.type == "table") {
+            dataContent = (this.state.empty) ? this.state.listItem :
+                <table className={`${this.props.listClass}`}>
                     {this.props.tableHeader}
                     <tbody>
                         {this.state.listItem}
                     </tbody>
-                </table>
-                : <ul className={`${this.props.listClass}`}>
-                    {this.state.listItem}
-                </ul>
-            }
+                </table>;
+        } else {
+            dataContent = <ul className={`${this.props.listClass}`}>
+                {this.state.listItem}
+            </ul>;
+        }
+
+        var content = <div>
+            {(this.props.offset > 10 && this.state.fetchCount > 10) ? paging : null}
+            {dataContent}
             {paging}
         </div>;
 
@@ -169,7 +178,7 @@ ProfileListItem.propTypes = {
 export class SimpleListItem extends Component {
     render() {
 
-        var body = (this.props.body) ? <div className="sili-body">{this.props.body}</div> : null;
+        var body = (this.props.body) ? <p className="sili-body">{this.props.body}</p> : null;
         var onDelete = (!this.props.onDelete) ? null :
             <a className="sili-operation" id={this.props.onDelete.id}
                 label={this.props.onDelete.label}

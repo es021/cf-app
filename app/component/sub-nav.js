@@ -18,13 +18,11 @@ export default class SubNav extends React.Component {
 
     getCurComponent() {
         var com = this.props.items[this.props.defaultItem].component;
-        return React.createElement(com);
+        var props = this.props.items[this.props.defaultItem].props;
+        return React.createElement(com, props);
     }
 
     changeItem(e) {
-
-
-
         var k = e.currentTarget.id;
         this.setState(() => {
             return { current: k };
@@ -73,6 +71,7 @@ export default class SubNav extends React.Component {
 
 SubNav.propTypes = {
     items: PropTypes.object.isRequired,
+    props: PropTypes.obj,
     route: PropTypes.string.isRequired,
     defaultItem: PropTypes.string
 };
