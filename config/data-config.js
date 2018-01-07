@@ -16,10 +16,15 @@ const Year = [
 ];
 
 const { CareerFairEnum } = require('./db-config');
+
 const CareerFair = [
-    { key: CareerFairEnum.USA, label: "USA - April 2018" }
-    , { key: CareerFairEnum.JAPAN, label: "JAPAN - April 2018" }
+    { key: CareerFairEnum.USA, label: "United States of America (USA)", flag: "United States of America(USA)" }
+    , { key: CareerFairEnum.JAPAN, label: "Japan", flag: "Japan" }
+    , { key: CareerFairEnum.INDONESIA, label: "Indonesia", flag: "Indonesia" }
+    , { key: CareerFairEnum.GERMANY, label: "Germany", flag: "Germany" }
+    , { key: CareerFairEnum.FRANCE, label: "France", flag: "France" }
 ];
+
 
 const Sponsor = [
     "",

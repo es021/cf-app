@@ -1,6 +1,6 @@
 import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
 import {Session, Queue, Prescreen, UserEnum} from '../../../config/db-config';
-import {getAuthUser} from './auth-actions';
+import {getAuthUser, getCF} from './auth-actions';
 import {store} from '../store.js';
 
 /***** ACTIVITY ***************************/
@@ -65,7 +65,7 @@ export function loadTraffic() {
             type: TRAFFIC,
             payload: getAxiosGraphQLQuery(
                     `query{
-                        companies {
+                        companies(cf:"${getCF()}") {
                             ID
                             active_queues_count
                             active_prescreens_count
@@ -81,7 +81,7 @@ export function loadCompanies() {
             type: FETCH_COMPANIES,
             payload: getAxiosGraphQLQuery(
                     `query{
-                        companies {
+                        companies(cf:"${getCF()}") {
                             ID
                             img_url
                             img_size

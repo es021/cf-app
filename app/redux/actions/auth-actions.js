@@ -2,7 +2,7 @@ import axios from 'axios';
 import { store } from '../store.js';
 import { AppConfig } from '../../../config/app-config';
 import { AuthUserKey } from '../../../config/auth-config';
-import { UserEnum } from '../../../config/db-config';
+import { User, UserEnum } from '../../../config/db-config';
 
 export function getCF() {
     return store.getState().auth.cf;

@@ -12,7 +12,7 @@ const template = (url) => {
     var title = "Test";
     var description = "Virtual Career Fair - Powered by Seeds Job Fair - Innovaseeds Solutions";
 
-    console.log(url);
+    console.log("from template", url);
     if (url.indexOf('vacancy') >= 0) {
         var id = getIdFromUrl(url);
         title = "Vacancy ID " + id;

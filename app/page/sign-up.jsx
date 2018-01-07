@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Redirect, NavLink} from 'react-router-dom';
-import Form, {toggleSubmit} from '../component/form';
-import {UserMeta, User, UserEnum}  from '../../config/db-config';
-import {Month, Year, Sponsor} from '../../config/data-config';
-import {ButtonLink} from '../component/buttons';
-import {register} from '../redux/actions/auth-actions';
-import {RootPath} from '../../config/app-config';
+import { Redirect, NavLink } from 'react-router-dom';
+import Form, { toggleSubmit, getDataCareerFair } from '../component/form';
+import { UserMeta, User, UserEnum } from '../../config/db-config';
+import { Month, Year, Sponsor } from '../../config/data-config';
+import { ButtonLink } from '../component/buttons';
+import { register, getCF } from '../redux/actions/auth-actions';
+import { RootPath } from '../../config/app-config';
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
@@ -21,8 +21,19 @@ export default class SignUpPage extends React.Component {
     }
 
     componentWillMount() {
+        this.CF = getCF();
+        this.defaultValues = {};
+        this.defaultValues[User.CF] = this.CF;
+
         this.formItems = [
-            {header: "Basic Information"},
+            { header: "Select Career Fair" },
+            {
+                name: User.CF,
+                type: "radio",
+                data: getDataCareerFair(),
+                required: true
+            },
+            { header: "Basic Information" },
             {
                 label: "Email",
                 name: User.EMAIL,
@@ -60,7 +71,7 @@ export default class SignUpPage extends React.Component {
                 placeholder: "XXX-XXXXXXX",
                 required: true
             },
-            {header: "Additional Information"},
+            { header: "Additional Information" },
             {
                 label: "Major",
                 name: UserMeta.MAJOR,
@@ -85,9 +96,9 @@ export default class SignUpPage extends React.Component {
                 step: "0.01",
                 min: "0",
                 required: true,
-                sublabel: <ButtonLink label="Don't Use CGPA system?" 
-                            target='_blank'
-                            href="https://www.foreigncredits.com/resources/gpa-calculator/">
+                sublabel: <ButtonLink label="Don't Use CGPA system?"
+                    target='_blank'
+                    href="https://www.foreigncredits.com/resources/gpa-calculator/">
                 </ButtonLink>
             }, {
                 label: "Expected Graduation",
@@ -140,25 +151,27 @@ export default class SignUpPage extends React.Component {
 
         var err = this.filterForm(d)
         if (err === 0) {
-
+            
             //prepare data for registration
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
             d[User.LOGIN] = d[User.EMAIL];
             d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
 
-            toggleSubmit(this, {error: null});
+            toggleSubmit(this, { error: null });
+
+            // cf is set in this function
             register(d).then((res) => {
                 console.log(res.data);
-                toggleSubmit(this, {user: d, success: true});
+                toggleSubmit(this, { user: d, success: true });
             }, (err) => {
-                toggleSubmit(this, {error: err.response.data});
+                toggleSubmit(this, { error: err.response.data });
             });
 
         } else {
             //console.log("Err", err);
             this.setState(() => {
-                return {error: err}
+                return { error: err }
             });
         }
     }
@@ -179,17 +192,18 @@ export default class SignUpPage extends React.Component {
                 Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
                 <br></br>
                 <small><i>** The email might take a few minutes to arrive **</i></small>
-            </div>
+            </div> 
         } else {
             content = <div>
-                <h3>Student Registration</h3>
+                <h3>Student Registration<br></br></h3>
                 <NavLink to={`${RootPath}/auth/sign-up-recruiter`}>Not A Student?</NavLink>
-                <Form className="form-row" 
-                      items={this.formItems} 
-                      onSubmit={this.formOnSubmit}
-                      submitText='Sign Me Up !'
-                      disableSubmit={this.state.disableSubmit} 
-                      error={this.state.error}>
+                <Form className="form-row"
+                    items={this.formItems}
+                    onSubmit={this.formOnSubmit}
+                    defaultValues={this.defaultValues}
+                    submitText='Sign Me Up !'
+                    disableSubmit={this.state.disableSubmit}
+                    error={this.state.error}>
                 </Form>
             </div>;
         }

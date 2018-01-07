@@ -32,7 +32,7 @@ class AuthAPI {
                 break;
         }
     }
-    
+
     login(user_email, password, cf) {
         var field = "";
         AuthUserKey.map((d, i) => {
@@ -138,6 +138,11 @@ class AuthAPI {
     //raw form from sign up page 
     register(user) {
         //separate userdata and usermeta
+
+        //get cf
+        var cf = (user[User.CF]);
+        delete (user[User.CF]);
+
         var userdata = user;
         var usermeta = user;
 
@@ -145,8 +150,15 @@ class AuthAPI {
         data["userdata"] = userdata;
         data["usermeta"] = usermeta;
 
-        //send Email here
         const successInterceptor = (data) => {
+
+            // update cf
+            var cf_sql = `mutation{
+                edit_user(ID:${data[User.ID]}, cf:"${cf}") {cf}}`;
+            getAxiosGraphQLQuery(cf_sql);
+            console.log(cf_sql);
+
+            //send Email here
             var act_link = this.createActivationLink(data[UserMeta.ACTIVATION_KEY], data[User.ID]);
 
             var email_data = {

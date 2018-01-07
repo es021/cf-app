@@ -4,10 +4,9 @@ import * as authActions from '../redux/actions/auth-actions';
 import { User } from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
-import Form from '../component/form';
+import Form, { getDataCareerFair } from '../component/form';
 
 import { RootPath } from '../../config/app-config';
-import { CareerFair } from '../../config/data-config';
 import { Redirect, NavLink } from 'react-router-dom';
 //<NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink>
 
@@ -37,7 +36,13 @@ class LoginPage extends React.Component {
     }
 
     componentWillMount() {
-        this.formItems = [
+        // const dataCF = CareerFair.map((d, i) => {
+        //     var newD = Object.assign({}, d);
+        //     newD.label = <span><img src={ImgConfig.getFlag(d.flag, 24)}></img>{" " + d.label}</span>;
+        //     return newD;
+        // })
+
+        this.formItem = [
             {
                 label: "Email",
                 name: User.EMAIL,
@@ -53,10 +58,10 @@ class LoginPage extends React.Component {
                 required: true
             },
             {
-                label: "Career Fair",
+                label: "Select Career Fair",
                 name: User.CF,
                 type: "radio",
-                data: CareerFair,
+                data: getDataCareerFair(),
                 required: true
             },
 
@@ -134,7 +139,7 @@ class LoginPage extends React.Component {
                 <div><h3>Login</h3>
 
                     <Form className="form-row"
-                        items={this.formItems}
+                        items={this.formItem}
                         disableSubmit={fetching}
                         defaultValues={this.defaultValues}
                         submitText="Log In"
@@ -146,7 +151,7 @@ class LoginPage extends React.Component {
     }
 }
 
-//                        <div>You must log in to view the page at {from.pathname}</div>
+//<div>You must log in to view the page at {from.pathname}</div>
 
 
 

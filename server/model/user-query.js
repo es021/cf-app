@@ -15,6 +15,7 @@ class UserQuery {
         var id_condition = (typeof params.ID !== "undefined") ? `u.ID = ${params.ID}` : `1=1`;
         var email_condition = (typeof params.user_email !== "undefined") ? `u.user_email = '${params.user_email}'` : `1=1`;
         var role_condition = (typeof params.role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role}%' ` : `1=1`;
+        var order_by = `order by u.${User.ID} desc`;
 
         // add meta condition
         var meta_condition = " 1=1 ";
@@ -43,7 +44,7 @@ class UserQuery {
         }
 
         var sql = `SELECT u.* ${meta_sel}
-           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
+           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${order_by} ${limit} `;
         console.log(sql);
         /*
          var sql = `SELECT u.* 
@@ -193,7 +194,9 @@ class UserExec {
         //update user only
         if (Object.keys(updateUserMeta).length < 2) {
             //console.log("update user only");
-            return this.update(User.TABLE, updateUser);
+            return DB.update(User.TABLE, updateUser).then((res) => {
+                return res;
+            });
         }
 
         //update both

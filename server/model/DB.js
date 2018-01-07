@@ -1,5 +1,5 @@
 var Mysql = require("promise-mysql");
-
+const { User, Company } = require('../../config/db-config');
 var DB = function (env) {
     var config = {};
     if (env === "DEV") {
@@ -47,19 +47,33 @@ DB.prototype.getCF = function (entity, entity_id) {
     });
 };
 
-DB.prototype.updateCF = function (entity, entity_id, cf) {
-    var del = `DELETE from cf_map where entity = '${entity}' and entity_id = ${entity_id}`;
-    return this.query(del).then((res) => {
+DB.prototype.updateCF = function (entity, entity_id, cf, isDelete = true) {
+    console.log("updateCF");
+    var insertAction = (res) => {
         var ins = `INSERT INTO cf_map (entity, entity_id, cf) VALUES `;
+        // make cf to array
+        if (typeof cf == "string") {
+            cf = [cf];
+        }
+
         cf.map((_cf, i) => {
             if (i > 0) {
                 ins += ",";
             }
             ins += `('${entity}', ${entity_id} ,'${_cf}') `;
         });
-        console.log(ins);
+
         return this.query(ins).then((res) => res);
-    });
+    }
+
+    if (isDelete) {
+        var del = `DELETE from cf_map where entity = '${entity}' and entity_id = ${entity_id}`;
+        return this.query(del).then((res) => {
+            insertAction(res);
+        });
+    } else {
+        return insertAction(res);
+    }
 };
 /**** CF *******/
 
@@ -128,19 +142,30 @@ DB.prototype.insert = function (table, data) {
 
 // only works with table with primary key of is ID
 DB.prototype.update = function (table, data) {
+    console.log(data);
     if (typeof data.cf !== "undefined") {
         var cf = data.cf;
         delete (data["cf"]);
         var entity = null;
         // trigger from manage-company
+
         switch (table) {
-            case 'companies':
+            case Company.TABLE:
                 entity = "company";
+                break;
+            case User.TABLE:
+                entity = "user";
                 break;
         }
 
         if (entity !== null) {
-            this.updateCF(entity, data.ID, cf);
+            //only ID left, then return
+            if (Object.keys(data).length == 1) {
+                return this.updateCF(entity, data.ID, cf);
+            } else {
+                this.updateCF(entity, data.ID, cf);
+            }
+
         }
     }
 

@@ -27,6 +27,10 @@ body.landing-page{
             text-transform: uppercase;
         }
 
+        h1,h2,h3,h4,h5,h6{
+            color:white;
+        }
+
         small{
             opacity: 0.9;
             color:white;
@@ -50,6 +54,7 @@ body.landing-page{
 
     #home-body{
         background: $COLOR_BACKGROUND;
-        height: 350px;
+        min-height: 350px;
+        padding-bottom: 30px;
     }
 }

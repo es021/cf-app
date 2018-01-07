@@ -4,7 +4,7 @@ const app = express();
 const PORT = 4000;
 const path = require('path');
 const axios = require('axios');
-const {initializeAllRoute} = require('./server/api/_route.js');
+const { initializeAllRoute } = require('./server/api/_route.js');
 const isProd = (process.env.NODE_ENV === "production");
 
 var root = (isProd) ? "/cf" : "";
@@ -16,7 +16,7 @@ const schemaCF = require('./server/schema/_schema_cf.js');
 // body parser used in post argument
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
 //allow CORS
@@ -32,8 +32,8 @@ if (!isProd) {
 // this has to put before Express Middleware for serving static files 
 const hasGz = [
     "/asset/js/main.bundle.js"
-            //        , "/asset/js/vendors.bundle.js"
-            //, "/asset/css/main.bundle.css"
+    //        , "/asset/js/vendors.bundle.js"
+    //, "/asset/css/main.bundle.css"
 ];
 
 app.get(root + '/asset/*', function (req, res, next) {
@@ -57,7 +57,7 @@ app.use(root + '/graphql', expressGraphQL({
 
 initializeAllRoute(app, root);
 
-const {template} = require('./server/html/template.js');
+const { template } = require('./server/html/template.js');
 
 app.get(root, function (req, res, next) {
     console.log("root");

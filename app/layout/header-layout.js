@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {AppConfig, ImgConfig} from '../../config/app-config';
-import {ButtonIcon} from '../component/buttons';
+import { AppConfig, ImgConfig, RootPath } from '../../config/app-config';
+import { ButtonIcon } from '../component/buttons';
+import { NavLink } from 'react-router-dom';
 
 
 export default class HeaderLayout extends React.Component {
@@ -9,9 +10,12 @@ export default class HeaderLayout extends React.Component {
     }
 
     render() {
-        return(<header>
+        return (<header>
             <div className="img">
-                <img src={ImgConfig.AppIcon}></img>
+                <NavLink to={`${RootPath}/app/`}>
+                    <img src={ImgConfig.AppIcon}></img>
+                </NavLink>
+
             </div>
             <div className="title">
                 <b>{AppConfig.Name}</b>
@@ -23,7 +27,7 @@ export default class HeaderLayout extends React.Component {
             </div>
             <div className="menu-small">
                 <ButtonIcon size="lg" icon="bars"></ButtonIcon>
-                {this.props.menuList}  
+                {this.props.menuList}
             </div>
         </header>);
     }

@@ -127,7 +127,7 @@ const Company = {
     TYPE: "type",
     ACCEPT_PRESCREEN: "accept_prescreen"
 };
-
+ 
 const CompanyEnum = {
     TYPE_SPECIAL: 0,
     TYPE_GOLD: 1,
@@ -183,9 +183,13 @@ const ResumeDrop = {
     MESSAGE: "message"
 };
 
+// dont forget to update in data-config
 const CareerFairEnum = {
     USA: "USA",
-    JAPAN: "JAPAN"
+    JAPAN: "JAPAN",
+    INDONESIA: "INDONESIA",
+    GERMANY: "GERMANY",
+    FRANCE: "FRANCE"
 }
 
 module.exports = {

@@ -5,10 +5,14 @@ class CompanyQuery {
     getCompany(params, field) {
         var type_where = (typeof params.type === "undefined") ? "1=1" : `c.${Company.TYPE} LIKE '%${params.type}%'`;
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `c.${Company.ID} = '${params.ID}'`;
+        var cf_where = (typeof params.cf === "undefined") ? "1=1"
+            : `(${DB.cfMapSelect("company", "c.ID", params.cf)}) = '${params.cf}'`;
+
         var order_by = `order by c.${Company.TYPE} asc`;
         var sel = "";
 
-        return `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${id_where} and ${type_where} ${order_by}`;
+        var sql =  `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${id_where} and ${type_where} and ${cf_where} ${order_by}`;
+        return sql;
     }
 }
 CompanyQuery = new CompanyQuery();
@@ -113,8 +117,8 @@ class CompanyExec {
 
     }
 
-    companies(type, field) {
-        return this.getCompanyHelper(false, { type: type }, field);
+    companies(arg, field) {
+        return this.getCompanyHelper(false, arg, field);
     }
 }
 CompanyExec = new CompanyExec();

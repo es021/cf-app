@@ -86,10 +86,11 @@ fields["company"] = {
 fields["companies"] = {
     type: new GraphQLList(CompanyType),
     args: {
-        type: { type: GraphQLInt }
+        type: { type: GraphQLInt },
+        cf: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
-        return CompanyExec.companies(arg.type, graphqlFields(info));
+        return CompanyExec.companies(arg, graphqlFields(info));
     }
 };
 

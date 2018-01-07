@@ -92,6 +92,7 @@ fields["edit_user"] = {
         feedback: { type: GraphQLString },
         user_status: { type: GraphQLString },
         activation_key: { type: GraphQLString },
+        cf: { type: new GraphQLList(GraphQLString) },
 
         // student only
         university: { type: GraphQLString },
