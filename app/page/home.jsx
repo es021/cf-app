@@ -17,7 +17,7 @@ export default class HomePage extends React.Component {
         this.body.className = ""; 
     }
 
-    render() { 
+    render() {
         var img = "https://seedsjobfair.com/image/home/1_sm.jpg";
         var style = {
             backgroundImage: `url('${img}')`,
@@ -29,6 +29,7 @@ export default class HomePage extends React.Component {
         } 
 
         document.setTitle("Home");
+        
         var welcome = <div id="home-welcome">
             <h1><small>WELCOME TO</small><br></br>{AppConfig.Name}</h1>
             <div className="item-small item-login"><LoginPage></LoginPage></div>

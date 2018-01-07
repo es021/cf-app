@@ -21,6 +21,7 @@ class AuthorizedRoute extends React.Component {
         if (this.props.redux.isAuthorized) {
             //to = {pathname: this.props.location.pathname, state: {from: this.props.location}};
             var match = {path:to.pathname};
+            console.log(match);
             const { component: Component} = this.props;
             return (<Component {...this.props} match={this.props.computedMatch} />);
         } else {

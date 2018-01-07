@@ -51,8 +51,6 @@ class LoginPage extends React.Component {
                 required: true
             }
         ];
-
-
     }
 
     formOnSubmit(d) {
@@ -62,7 +60,8 @@ class LoginPage extends React.Component {
 
     render() {
         document.setTitle("Login");
-        const defaultPath = `${RootPath}/app/job-fair`;
+        const defaultPath = `${RootPath}/app/about`;
+        //const defaultPath = `${RootPath}/app/`;
 
         //console.log("from login render");
         //console.log(this.props.redux);
@@ -107,6 +106,7 @@ class LoginPage extends React.Component {
                 break;
         }
 
+        // if authorized redirect to from
         if (redirectToReferrer) {
             console.log("from");
             console.log(from);

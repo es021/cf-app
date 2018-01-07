@@ -19,12 +19,19 @@ import NotFoundPage from '../page/not-found';
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 
 function getMenuItem() {
+    var homeComponent = HomePage;
+    // if (isRoleStudent()) {
+    //     homeComponent = HallPage;
+    // } else if (isRoleAdmin()) {
+
+    // }
+
     var menuItem = [
         {
             url: "/",
             label: "Home",
             icon: "home",
-            component: HomePage,
+            component: homeComponent,
             bar_app: true,
             bar_auth: true,
             hd_app: true,
