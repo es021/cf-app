@@ -77,7 +77,7 @@ const initializeAllRoute = function (app, root) {
 
         switch (action) {
             case 'login':
-                AuthAPI.login(req.body.email, req.body.password).then((response) => {
+                AuthAPI.login(req.body.email, req.body.password, req.body.cf).then((response) => {
                     routeResHandler(res, response);
                 });
                 break;
@@ -94,7 +94,7 @@ const initializeAllRoute = function (app, root) {
         }
 
     });
-    
+
     //upload route ----------------------------------------------------------------
     app.post(root + '/upload/:type/:name', function (req, res) {
         var type = req.params.type;

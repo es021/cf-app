@@ -6,6 +6,7 @@ const AuthUserKey = ["ID",
     "last_name",
     "role",
     "rec_company",
+    "cf",
     "img_url",
     "img_pos",
     "img_size"];

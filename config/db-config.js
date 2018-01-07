@@ -183,6 +183,11 @@ const ResumeDrop = {
     MESSAGE: "message"
 };
 
+const CareerFairEnum = {
+    USA: "USA",
+    JAPAN: "JAPAN"
+}
+
 module.exports = {
     User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
@@ -193,4 +198,5 @@ module.exports = {
     , Queue, QueueEnum
     , Skill
     , ResumeDrop
+    , CareerFairEnum
 };

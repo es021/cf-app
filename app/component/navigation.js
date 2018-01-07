@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { BrowserRouter, Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
-import HomePage from '../page/home';
+import LandingPage from '../page/landing';
 import LoginPage from '../page/login';
 import SignUpPage from '../page/sign-up';
 import AboutPage from '../page/about';
@@ -19,12 +19,13 @@ import NotFoundPage from '../page/not-found';
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 
 function getMenuItem() {
-    var homeComponent = HomePage;
-    // if (isRoleStudent()) {
-    //     homeComponent = HallPage;
-    // } else if (isRoleAdmin()) {
 
-    // }
+    //default home page redirect
+    var homeComponent = null;
+    if (isRoleStudent()) homeComponent = HallPage;
+    else if (isRoleRec()) homeComponent = HallPage;
+    else if (isRoleAdmin()) homeComponent = AboutPage;
+    else homeComponent = LandingPage;
 
     var menuItem = [
         {

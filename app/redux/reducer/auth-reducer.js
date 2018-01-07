@@ -1,7 +1,12 @@
-import {getNewState} from './_helper';
+import { getNewState } from './_helper';
+import { CareerFairEnum } from '../../../config/db-config';
 import * as authActions from '../actions/auth-actions';
+import { _GET } from '../../lib/util';
+
+var getCF = _GET("cf");
 
 const authReducerInitState = {
+    cf: null,
     user: null,
     isAuthorized: false,
     fetching: false,
@@ -19,7 +24,6 @@ try {
     console.log(e);
     hasLocalStorageSupport = false;
 }
-
 
 const AUTH_LOCAL_STORAGE = "auth";
 
@@ -42,13 +46,38 @@ function fixLocalStorageAuth(auth) {
     if (!hasLocalStorageSupport) {
         return;
     }
+    
     if (typeof auth["user"] === "undefined" || typeof auth["isAuthorized"] === "undefined") {
-        return authReducerInitState;
+        return fixCFAuth(authReducerInitState);
     }
+
+    auth = fixCFAuth(auth);
 
     // clear all possible error
     auth["error"] = null;
     auth["fetching"] = false;
+
+    return auth;
+}
+
+// the cf param will force to the cf
+// use in logout
+function fixCFAuth(auth, cf = null) {
+    if (cf !== null) {
+        auth["cf"] = cf;
+        return auth;
+    }
+
+    // if get is changing and is not authorized
+    if ((!auth.isAuthorized || typeof auth["isAuthorized"] === "undefined")) {
+        if (getCF !== null) {
+            auth["cf"] = getCF;
+        }
+    }
+
+    if (auth["cf"] == null) {
+        auth["cf"] = CareerFairEnum.USA;
+    }
 
     return auth;
 }
@@ -62,25 +91,27 @@ if (hasLocalStorageSupport) {
         auth = authReducerInitState;
         setAuthLocalStorage(authReducerInitState);
     }
+    auth = fixCFAuth(auth);
+    setAuthLocalStorage(auth);
 }
 // need to find a fallback for safari
 else {
-//    auth = {
-//
-//        user: {
-//            ID: 136,
-//            user_status: "Active",
-//            first_name: "Student",
-//            last_name: "For Test",
-//            img_url: "http://seedsjobfair.com/wp-content/uploads/2017/07/user_136_profile_image.jpeg",
-//            img_pos: "18% 29%",
-//            img_size: "195% auto"
-//        },
-//
-//        isAuthorized: true,
-//        fetching: false,
-//        error: null
-//    };
+    //    auth = {
+    //
+    //        user: {
+    //            ID: 136,
+    //            user_status: "Active",
+    //            first_name: "Student",
+    //            last_name: "For Test",
+    //            img_url: "http://seedsjobfair.com/wp-content/uploads/2017/07/user_136_profile_image.jpeg",
+    //            img_pos: "18% 29%",
+    //            img_size: "195% auto"
+    //        },
+    //
+    //        isAuthorized: true,
+    //        fetching: false,
+    //        error: null
+    //    };
 
     auth = authReducerInitState;
 }
@@ -90,59 +121,62 @@ else {
 export default function authReducer(state = auth, action) {
     switch (action.type) {
         case authActions.UPDATE_USER:
-        {
+            {
 
-            var newUser = getNewState(state.user, action.payload);
+                var newUser = getNewState(state.user, action.payload);
 
-            var newState = {
-                user: newUser
-            };
+                var newState = {
+                    user: newUser
+                };
 
-            setAuthLocalStorage(newState);
-            return getNewState(state, newState);
-        }
-        case authActions.DO_LOGOUT:
-        {
-            if (hasLocalStorageSupport) {
-                window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
+                setAuthLocalStorage(newState);
+                return getNewState(state, newState);
             }
-            return getNewState(state, authReducerInitState);
-        }
+        case authActions.DO_LOGOUT:
+            {
+                if (hasLocalStorageSupport) {
+                    window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
+                }
+                return getNewState(state, fixCFAuth(authReducerInitState, state.cf));
+            }
         case authActions.DO_LOGIN + '_PENDING':
-        {
-            var newState = {
-                fetching: true,
-                error: null
-            };
+            {
+                var newState = {
+                    fetching: true,
+                    error: null
+                };
 
-            setAuthLocalStorage(newState);
-            return getNewState(state, newState);
-        }
+                setAuthLocalStorage(newState);
+                return getNewState(state, newState);
+            }
         case authActions.DO_LOGIN + '_FULFILLED':
-        {
-            var newState = {
-                fetching: false,
-                isAuthorized: true,
-                user: action.payload.data,
-                error: null
-            };
+            {
 
-            setAuthLocalStorage(newState);
-            return getNewState(state, newState);
-        }
+                var user = action.payload.data;
+                var newState = {
+                    cf: user.cf,
+                    fetching: false,
+                    isAuthorized: true,
+                    user: user,
+                    error: null
+                };
+
+                setAuthLocalStorage(newState);
+                return getNewState(state, newState);
+            }
         case authActions.DO_LOGIN + '_REJECTED':
-        {
-            var err = action.payload.response.data;
+            {
+                var err = action.payload.response.data;
 
-            var newState = {
-                fetching: false,
-                isAuthorized: false,
-                error: err
-            };
+                var newState = {
+                    fetching: false,
+                    isAuthorized: false,
+                    error: err
+                };
 
-            setAuthLocalStorage(newState);
-            return getNewState(state, newState);
-        }
+                setAuthLocalStorage(newState);
+                return getNewState(state, newState);
+            }
     }
 
     return state;

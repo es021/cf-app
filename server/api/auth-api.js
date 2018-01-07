@@ -1,19 +1,39 @@
-const {getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios} = require('../../helper/api-helper');
-const {User, UserMeta, UserEnum} = require('../../config/db-config');
-const {SiteUrl} = require('../../config/app-config');
-const {AuthUserKey} = require('../../config/auth-config');
+const { getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios } = require('../../helper/api-helper');
+const { User, UserMeta, UserEnum } = require('../../config/db-config');
+const { SiteUrl } = require('../../config/app-config');
+const { AuthUserKey } = require('../../config/auth-config');
 const obj2arg = require('graphql-obj2arg');
 
 const AuthAPIErr = {
     WRONG_PASS: "WRONG_PASS",
     INVALID_EMAIL: "INVALID_EMAIL",
     NOT_ACTIVE: "NOT_ACTIVE",
-    INVALID_ACTIVATION: "INVALID_ACTIVATION"
+    INVALID_ACTIVATION: "INVALID_ACTIVATION",
+    INVALID_CF: "INVALID_CF"
 };
 
 class AuthAPI {
 
-    login(user_email, password) {
+    isCFValid(user, cf) {
+        var role = user.role;
+        switch (role) {
+            case UserEnum.ROLE_STUDENT:
+                return (user[User.CF].indexOf(cf) >= 0);
+                break;
+            case UserEnum.ROLE_RECRUITER:
+                try {
+                    return (user.company.cf.indexOf(cf) >= 0);
+                } catch (err) {
+                    return false
+                }
+                break;
+            default:
+                return (role == UserEnum.ROLE_ADMIN || role == UserEnum.ROLE_ORGANIZER);
+                break;
+        }
+    }
+    
+    login(user_email, password, cf) {
         var field = "";
         AuthUserKey.map((d, i) => {
             field += `${d},`;
@@ -22,7 +42,7 @@ class AuthAPI {
         console.log(field);
         var user_query = `query{
             user(user_email:"${user_email}"){
-                ${field}
+                ${field} company {cf}
             }}`;
 
         return getAxiosGraphQLQuery(user_query).then((res) => {
@@ -34,15 +54,27 @@ class AuthAPI {
                 }
 
                 //check password
-                var pass_params = {action: "check_password", password: password, hashed: user.user_pass};
+                var pass_params = { action: "check_password", password: password, hashed: user.user_pass };
                 return getPHPApiAxios("password_hash", pass_params).then((res) => {
                     //password match -- cannot use === operator
+                    //console.log(res);
+
+                    // check if password corrent
                     if (res.data == "1") {
-                        delete(user["user_pass"]);
-                        return user;
+                        // check if valid cf
+                        if (!this.isCFValid(user, cf)) {
+                            return AuthAPIErr.INVALID_CF;
+                        } else {
+                            delete (user[User.PASSWORD]);
+                            delete (user["company"]);
+                            user[User.CF] = cf;
+                            return user;
+                        }
                     } else {
                         return AuthAPIErr.WRONG_PASS;
                     }
+
+
                 }, (err) => {
                     //console.log("Error Auth Api getPHPApiAxios");
                     return err.response.data;
@@ -61,8 +93,7 @@ class AuthAPI {
         return `${SiteUrl}/auth/activate-account/${act_key}/${user_id}`;
     }
 
-    activateAccount(act_key, user_id)
-    {
+    activateAccount(act_key, user_id) {
         var user_query = `query{
             user(ID:${user_id}){
                 user_email
@@ -85,7 +116,7 @@ class AuthAPI {
                     update[UserMeta.USER_STATUS] = UserEnum.STATUS_ACT;
 
                     var edit_query = `mutation{
-                        edit_user(${obj2arg(update, {noOuterBraces: true})}) {
+                        edit_user(${obj2arg(update, { noOuterBraces: true })}) {
                           ID
                           user_email
                           user_status
@@ -94,7 +125,7 @@ class AuthAPI {
 
                     return getAxiosGraphQLQuery(edit_query).then((res) => {
                         var user = res.data.data.edit_user;
-                        return {user_email: user.user_email};
+                        return { user_email: user.user_email };
                     });
 
                 } else {
@@ -120,9 +151,11 @@ class AuthAPI {
 
             var email_data = {
                 to: user[User.EMAIL],
-                params: {first_name: user[UserMeta.FIRST_NAME],
+                params: {
+                    first_name: user[UserMeta.FIRST_NAME],
                     last_name: user[UserMeta.LAST_NAME],
-                    activation_link: act_link},
+                    activation_link: act_link
+                },
                 type: "STUDENT_REGISTRATION"
             };
 
@@ -136,4 +169,4 @@ class AuthAPI {
 }
 
 AuthAPI = new AuthAPI();
-module.exports = {AuthAPI, AuthAPIErr};
+module.exports = { AuthAPI, AuthAPIErr };

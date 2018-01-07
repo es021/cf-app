@@ -4,6 +4,10 @@ import { AppConfig } from '../../../config/app-config';
 import { AuthUserKey } from '../../../config/auth-config';
 import { UserEnum } from '../../../config/db-config';
 
+export function getCF() {
+    return store.getState().auth.cf;
+}
+
 export function isAuthorized() {
     return store.getState().auth.isAuthorized;
 }
@@ -47,11 +51,11 @@ export function updateAuthUser(user) {
 
 
 export const DO_LOGIN = "DO_LOGIN";
-export function login(email, password) {
+export function login(email, password, cf) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.post(AppConfig.Api + "/auth/login", { email: email, password: password })
+            payload: axios.post(AppConfig.Api + "/auth/login", { email: email, password: password, cf: cf })
         });
     };
 }
@@ -64,7 +68,6 @@ export function logout() {
         });
     };
 }
-
 
 export function register(user) {
     return axios.post(AppConfig.Api + "/auth/register", { user: user });

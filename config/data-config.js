@@ -15,9 +15,10 @@ const Year = [
     "2022"
 ];
 
+const { CareerFairEnum } = require('./db-config');
 const CareerFair = [
-    { key: "USA", label: "USA - April 2018" }
-    , { key: "JAPAN", label: "JAPAN - April 2018" }
+    { key: CareerFairEnum.USA, label: "USA - April 2018" }
+    , { key: CareerFairEnum.JAPAN, label: "JAPAN - April 2018" }
 ];
 
 const Sponsor = [

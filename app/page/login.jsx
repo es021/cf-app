@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as authActions from '../redux/actions/auth-actions';
-import {User}  from '../../config/db-config';
+import { User } from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
 import Form from '../component/form';
 
-import {RootPath} from '../../config/app-config';
-import { Redirect, NavLink} from 'react-router-dom';
+import { RootPath } from '../../config/app-config';
+import { CareerFair } from '../../config/data-config';
+import { Redirect, NavLink } from 'react-router-dom';
 //<NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink>
 
-import {ButtonLink} from '../component/buttons';
-import {AuthAPIErr} from '../../server/api/auth-api';
+import { ButtonLink } from '../component/buttons';
+import { AuthAPIErr } from '../../server/api/auth-api';
+import { getCF } from '../redux/actions/auth-actions';
 
 //state is from redux reducer
 // with multiple objects
@@ -49,19 +51,30 @@ class LoginPage extends React.Component {
                 type: "password",
                 placeholder: "*****",
                 required: true
-            }
+            },
+            {
+                label: "Career Fair",
+                name: User.CF,
+                type: "radio",
+                data: CareerFair,
+                required: true
+            },
+
         ];
+
+        this.CF = getCF();
+        this.defaultValues = {};
+        this.defaultValues[User.CF] = getCF();
     }
 
     formOnSubmit(d) {
         //console.log("login", data);
-        this.props.login(d[User.EMAIL], d[User.PASSWORD]);
+        this.props.login(d[User.EMAIL], d[User.PASSWORD], d[User.CF]);
     }
 
     render() {
         document.setTitle("Login");
-        const defaultPath = `${RootPath}/app/about`;
-        //const defaultPath = `${RootPath}/app/`;
+        const defaultPath = `${RootPath}/app/`;
 
         //console.log("from login render");
         //console.log(this.props.redux);
@@ -69,7 +82,7 @@ class LoginPage extends React.Component {
         if (typeof this.props.location !== "undefined" && typeof this.props.location.state !== "undefined") {
             from = this.props.location.state;
         } else {
-            from = {pathname: defaultPath};
+            from = { pathname: defaultPath };
         }
 
 
@@ -83,48 +96,52 @@ class LoginPage extends React.Component {
         var error = this.props.redux.error;
 
         switch (error) {
-            case AuthAPIErr.INVALID_EMAIL :
+            case AuthAPIErr.INVALID_EMAIL:
                 error = <span>
-                    User does not exist. 
+                    User does not exist.
                     <br></br>
                     <small><NavLink to={`${RootPath}/auth/sign-up`}>Sign Up Now</NavLink></small>
                 </span>;
                 break;
-            case AuthAPIErr.NOT_ACTIVE :
+            case AuthAPIErr.NOT_ACTIVE:
                 error = <span>
                     This account is not active yet.<br></br>Please check your email for the activation link.
                     <br></br>
                     <small><NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink></small>
                 </span>;
                 break;
-            case AuthAPIErr.WRONG_PASS :
+            case AuthAPIErr.WRONG_PASS:
                 error = <span>
                     Password Incorrect
                     <br></br>
                     <small><NavLink to={`${RootPath}/auth/forgot-password`}>Forgot Your Password?</NavLink></small>
                 </span>;
                 break;
+            case AuthAPIErr.INVALID_CF:
+                error = <span>
+                    This account is not registered for the selected career fair
+                </span>;
+                break;
         }
 
         // if authorized redirect to from
         if (redirectToReferrer) {
-            console.log("from");
-            console.log(from);
             return (
-                    <Redirect to={from}/>
-                    );
+                <Redirect to={from} />
+            );
         } else {
             return (
-                    <div><h3>Login</h3>
-                    
-                        <Form className="form-row" 
-                              items={this.formItems} 
-                              disableSubmit={fetching} 
-                              submitText="Log In"
-                              onSubmit={this.formOnSubmit}
-                              error={error}></Form>
-                    </div>
-                    );
+                <div><h3>Login</h3>
+
+                    <Form className="form-row"
+                        items={this.formItems}
+                        disableSubmit={fetching}
+                        defaultValues={this.defaultValues}
+                        submitText="Log In"
+                        onSubmit={this.formOnSubmit}
+                        error={error}></Form>
+                </div>
+            );
         }
     }
 }

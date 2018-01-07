@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import {BrowserRouter, Route, NavLink, Switch, Redirect} from 'react-router-dom';
-import {Provider} from 'react-redux';
-import {store} from './redux/store.js';
-import {isAuthorized} from './redux/actions/auth-actions';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter, Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './redux/store.js';
+import { isAuthorized } from './redux/actions/auth-actions';
 
 console.log(process.env.NODE_ENV);
 //import {User} from '../config/db-config'; 
@@ -39,11 +39,11 @@ class PrimaryLayout extends React.Component {
         window.scrollTo(0, 0);
         var path = this.props.match.path;
         var headerMenu = Navigation.getBar(path, true);
-        var sideMenu = Navigation.getBar(path);  
-        var route = Navigation.getRoute(path); 
-        
+        var sideMenu = Navigation.getBar(path);
+        var route = Navigation.getRoute(path);
+
         if (!isAuthorized()) {
-            return(<div className="primary-layout landing-page">
+            return (<div className="primary-layout landing-page">
                 <HeaderLayout menuList={headerMenu}></HeaderLayout>
                 <div className="content">
                     <div className="main">
@@ -55,11 +55,11 @@ class PrimaryLayout extends React.Component {
         } else {
 
 
-            return(<div className="primary-layout">
+            return (<div className="primary-layout">
                 <FocusCard></FocusCard>
                 <BlockLoader></BlockLoader>
                 <HeaderLayout menuList={headerMenu}></HeaderLayout>
-                <LeftBarLayout menuList={sideMenu}></LeftBarLayout>        
+                <LeftBarLayout menuList={sideMenu}></LeftBarLayout>
                 <div className="content">
                     <div className="main">
                         {route}
@@ -75,17 +75,15 @@ class PrimaryLayout extends React.Component {
 
 
 import AuthorizedRoute from './component/authorize-route';
-import {RootPath} from '../config/app-config';
-
+import { RootPath } from '../config/app-config';
 const App = () => (
-            <Provider store={store}>
-                <BrowserRouter>
-                    <Switch>
-                    <AuthorizedRoute path={`${RootPath}/app`} component={PrimaryLayout} />
-                    <Route path={`${RootPath}/auth`} component={PrimaryLayout} />
-                    </Switch>
-                </BrowserRouter>
-            </Provider>
-            );
-console.log("render app");
+    <Provider store={store}>
+        <BrowserRouter>
+            <Switch>
+                <AuthorizedRoute path={`${RootPath}/app`} component={PrimaryLayout} />
+                <Route path={`${RootPath}/auth`} component={PrimaryLayout} />
+            </Switch>
+        </BrowserRouter>
+    </Provider>
+);
 render(<App />, document.getElementById('app'));
