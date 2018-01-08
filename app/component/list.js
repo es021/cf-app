@@ -10,10 +10,13 @@ export default class List extends React.Component {
         super(props);
         this.page = 0;
         this.load = this.load.bind(this);
+        this.isAppendType = this.isAppendType.bind(this);
+        this.renderDataContent = this.renderDataContent.bind(this);
 
         this.state = {
             listItem: null,
             fetching: true,
+            fetching_append: false,
             fetchCount: 0,
             empty: false
         }
@@ -24,6 +27,10 @@ export default class List extends React.Component {
 
     componentWillMount() {
         this.load(this.NEXT);
+    }
+
+    isAppendType() {
+        return (this.props.type.indexOf("append") >= 0);
     }
 
     load(type) {
@@ -40,16 +47,28 @@ export default class List extends React.Component {
             this.page--;
         }
 
-        // set fetching to true
-        this.setState(() => {
-            return {
-                fetching: true,
-            }
-        });
+        // set fetching to true if not append type
+        if (!this.isAppendType()) {
+            console.log("fetching");
+            this.setState(() => {
+                return {
+                    fetching: true,
+                }
+            });
+        } else {
+            this.setState(() => {
+                return {
+                    fetching_append: true,
+                }
+            });
+        }
 
         // fetch data start
         this.props.loadData(this.page, this.props.offset).then((res) => {
             var data = this.props.getDataFromRes(res);
+
+
+
             var listItem = null;
             var empty = false;
             try {
@@ -61,9 +80,30 @@ export default class List extends React.Component {
                 }
                 //success
                 else {
-                    listItem = data.map((d, i) => {
-                        return this.props.renderList(d, i)
-                    });
+                    // need to reverse?
+                    if (this.isAppendType()) {
+                        this.setState((prevState) => {
+                            var listItem = prevState.listItem;
+                            if (listItem == null) {
+                                listItem = [];
+                            }
+
+                            data.map((d, i) => {
+                                if (this.props.type == "append-top") {
+                                    listItem.unshift(this.props.renderList(d, i));
+                                } else if (this.props.type == "append-bottom") {
+                                    listItem.push(this.props.renderList(d, i));
+                                }
+                            });
+                            return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
+                        });
+                        return;
+
+                    } else {
+                        listItem = data.map((d, i) => {
+                            return this.props.renderList(d, i)
+                        });
+                    }
                 }
 
             }
@@ -73,7 +113,7 @@ export default class List extends React.Component {
             }
 
             this.setState(() => {
-                return { listItem: listItem, fetching: false, fetchCount: data.length, empty: empty }
+                return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
             });
 
         }
@@ -81,32 +121,18 @@ export default class List extends React.Component {
             , (err) => {
                 var listItem = `[Error While Fetching List Data] ${err}`;
                 this.setState(() => {
-                    return { listItem: listItem, fetching: false }
+                    return { listItem: listItem, fetching: false, fetching_append: false }
                 });
             });
     }
 
-    render() {
-        var loading = (this.props.customLoading) ? this.props.customLoading : <Loader size="2" text="Loading.."></Loader>;
-
-        var paging = <div style={{marginBottom:"10px"}}>
-            Page <b>{this.page}</b>
-            <br></br>
-            {(this.page > 1) ?
-                <small style={{ marginRight: "6px" }}>
-                    <ButtonLink onClick={() => this.load(this.PREV)} label="<< Prev"></ButtonLink>
-                </small>
-                : null
-            }
-            {(this.state.fetchCount >= this.props.offset) ?
-                <small style={{ marginLeft: "6px" }}>
-                    <ButtonLink onClick={() => this.load(this.NEXT)} label="Next >>"></ButtonLink>
-                </small>
-                : null
-            }
-        </div>;
-
+    renderDataContent() {
         var dataContent = null;
+
+        if (this.state.empty) {
+            return this.state.listItem;
+        }
+
         if (this.props.type == "table") {
             dataContent = (this.state.empty) ? this.state.listItem :
                 <table className={`${this.props.listClass} table table-responsive table-striped table-bordered table-hover table-condensed text-left`}>
@@ -121,30 +147,97 @@ export default class List extends React.Component {
             </ul>;
         }
 
-        var content = <div>
-            {(this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null}
-            {dataContent}
-            {paging}
-        </div>;
+        return dataContent;
+    }
 
+    render() {
+        var loading = (this.props.customLoading) ? this.props.customLoading : <Loader size="2" text="Loading.."></Loader>;
+
+        var topView = null;
+        var bottomView = null;
+
+        if (this.props.type == 'list' || this.props.type == 'table') {
+            var paging = <div style={{ marginBottom: "10px" }}>
+                Page <b>{this.page}</b>
+                <br></br>
+                {(this.page > 1) ?
+                    <small style={{ marginRight: "6px" }}>
+                        <ButtonLink onClick={() => this.load(this.PREV)} label="<< Prev"></ButtonLink>
+                    </small>
+                    : null
+                }
+                {(this.state.fetchCount >= this.props.offset) ?
+                    <small style={{ marginLeft: "6px" }}>
+                        <ButtonLink onClick={() => this.load(this.NEXT)} label="Next >>"></ButtonLink>
+                    </small>
+                    : null
+                }
+            </div>;
+            topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
+            bottomView = paging;
+
+        }
+        // For append type
+        else if (this.isAppendType()) {
+            var fetchBtn = null;
+            if (this.state.fetching_append) {
+                fetchBtn = <Loader size="2"></Loader>;
+            } else {
+                fetchBtn = (this.state.fetchCount >= this.props.offset) ?
+                    <small style={{ marginLeft: "6px" }}>
+                        <ButtonLink onClick={() => this.load(this.NEXT)} label={this.props.appendText}></ButtonLink>
+                    </small> : null;
+            }
+
+            if (this.props.type == "append-top") {
+                topView = fetchBtn;
+            } else if (this.props.type == "append-bottom") {
+                bottomView = fetchBtn;
+            }
+        }
+
+        var content = <div>
+            {topView}
+            {this.renderDataContent()}
+            {bottomView}
+        </div>;
+        console.log(this.state);
         return (this.state.fetching) ? loading : content;
     }
 }
 
 List.propTypes = {
-    loadData: PropTypes.func.isRequired, // function (page)
-    renderList: PropTypes.func.isRequired, // function (data)
+    // general props
     offset: PropTypes.number.isRequired,
-    getDataFromRes: PropTypes.func.isRequired, // key for query response
     customLoading: PropTypes.element,
     listClass: PropTypes.string,
+    key: PropTypes.number,// to force update
+    // function
+    loadData: PropTypes.func.isRequired, // function (page)
+    renderList: PropTypes.func.isRequired, // function (data)
+    getDataFromRes: PropTypes.func.isRequired, // key for query response
+    // type
+    // table or list 
+    // append-top used in chat
+    type: PropTypes.oneOf(["table", "list", "append-top", "append-bottom"]).isRequired,
+    // table
     tableHeader: PropTypes.element,
-    key: PropTypes.number,
-    type: PropTypes.oneOf(["table", "list"]).isRequired // table or list
+    // append-
+    appendText: PropTypes.string
+};
+
+List.defaultProps = {
+    appendText: "Load More"
 };
 
 /*******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
+
 import ProfileCard, { PCType } from './profile-card';
+import { Page } from 'react-facebook';
 
 export class ProfileListItem extends Component {
     render() {

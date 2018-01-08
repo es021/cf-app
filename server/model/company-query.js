@@ -32,9 +32,7 @@ class CompanyExec {
         var isSingle = (type === "single");
         var sql = CompanyQuery.getCompany(params, field);
 
-        console.log("getCompanyHelper", params);
-        console.log("getCompanyHelper", sql);
-
+       
         return DB.query(sql).then(function (res) {
 
             for (var i in res) {

@@ -15,6 +15,7 @@ import EditProfilePage from '../page/edit-profile';
 import ManageCompanyPage from '../page/manage-company';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
+import SessionPage from '../page/session';
 import NotFoundPage from '../page/not-found';
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 
@@ -160,6 +161,15 @@ function getMenuItem() {
     // ############################################################################/
     /**** ROUTE ONLY *******/
     menuItem.push(...[
+        {
+            url: "/session/:id",
+            component: SessionPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: false,
+            routeOnly: true
+        },
         {
             url: "/edit-profile/:current",
             component: EditProfilePage,

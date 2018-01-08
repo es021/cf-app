@@ -4,6 +4,8 @@ const { UserType
     , QueueType
     , ResumeDropType
     , VacancyType
+    , SessionType
+    , MessageType
     , DocLinkType } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
@@ -13,6 +15,8 @@ const { UserExec } = require('../model/user-query.js');
 const { Queue, QueueExec } = require('../model/queue-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
+const { SessionExec } = require('../model/session-query.js');
+const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const DB = require('../model/DB.js');
 
@@ -28,6 +32,22 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/*******************************************/
+/* messages ******************/
+fields["messages"] = {
+    type: new GraphQLList(MessageType),
+    args: {
+        user_1: { type: new GraphQLNonNull(GraphQLInt) },
+        user_2: { type: new GraphQLNonNull(GraphQLInt) },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return MessageExec.messages(arg, graphqlFields(info));
+    }
+};
 
 
 /*******************************************/
@@ -91,6 +111,17 @@ fields["companies"] = {
     },
     resolve(parentValue, arg, context, info) {
         return CompanyExec.companies(arg, graphqlFields(info));
+    }
+};
+/*******************************************/
+/* vacancy ******************/
+fields["session"] = {
+    type: SessionType,
+    args: {
+        ID: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return SessionExec.sessions(arg, graphqlFields(info), extra = { single: true })
     }
 };
 

@@ -10,6 +10,12 @@ const User = {
     CF: "cf"
 };
 
+const Message = {
+    FROM_ID: "from_user_id",
+    MESSAGE: "message",
+    CREATED_AT: "created_at"
+}
+
 const UserMeta = {
     TABLE: "wp_cf_usermeta",
     // all roles usermeta
@@ -127,7 +133,7 @@ const Company = {
     TYPE: "type",
     ACCEPT_PRESCREEN: "accept_prescreen"
 };
- 
+
 const CompanyEnum = {
     TYPE_SPECIAL: 0,
     TYPE_GOLD: 1,
@@ -200,7 +206,7 @@ module.exports = {
     , Prescreen, PrescreenEnum
     , Company, CompanyEnum
     , Queue, QueueEnum
-    , Skill
+    , Skill, Message
     , ResumeDrop
     , CareerFairEnum
 };

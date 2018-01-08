@@ -1,11 +1,12 @@
 //import all type
-const { QueueType, VacancyType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, MessageType, VacancyType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
 const { Queue, Vacancy, Company, DocLink, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
+const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const DB = require('../model/DB.js');
 
@@ -23,6 +24,24 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/* message ******************/
+fields["add_message"] = {
+    type: MessageType,
+    args: {
+        sender_id: { type: new GraphQLNonNull(GraphQLInt) },
+        receiver_id: { type: new GraphQLNonNull(GraphQLInt) },
+        message: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return MessageExec.insert(arg.sender_id, arg.receiver_id, arg.message).then(function (res) {
+            console.log("insee");
+            console.log(res);
+            return res;
+        });
+    }
+};
+
 
 /* company ******************/
 fields["add_company"] = {
@@ -68,7 +87,7 @@ fields["edit_company"] = {
             return DB.update(Company.TABLE, arg).then(function (res) {
                 return res;
             });
-        }catch(err){
+        } catch (err) {
             return {};
         }
     }

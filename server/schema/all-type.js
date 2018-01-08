@@ -69,10 +69,27 @@ const SessionType = new GraphQLObjectType({
         participant_id: { type: GraphQLInt },
         company_id: { type: GraphQLInt },
         status: { type: GraphQLString },
-        created_at: { type: GraphQLString },
 
+        created_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString },
+        started_at: { type: GraphQLString },
+        ended_at: { type: GraphQLString },
+
+        recruiter: { type: UserType },
         student: { type: UserType },
         company: { type: CompanyType }
+    })
+});
+
+
+
+const MessageType = new GraphQLObjectType({
+    name: 'Message',
+    fields: () => ({
+        id_message_number: { type: GraphQLString },
+        from_user_id: { type: GraphQLInt },
+        message: { type: GraphQLString },
+        created_at: { type: GraphQLString }
     })
 });
 
@@ -184,6 +201,7 @@ module.exports = {
     UserType
     , CompanyType
     , QueueType
+    , MessageType
     , PrescreenType
     , DocLinkType
     , VacancyType

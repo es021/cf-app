@@ -1,9 +1,12 @@
 const DB = require('./DB.js');
-const {Session} = require('../../config/db-config');
-const {UserQuery} = require('./user-query');
+const { Session } = require('../../config/db-config');
+const { UserQuery } = require('./user-query');
 
 class SessionQuery {
     getSession(params, extra) {
+        // for single
+        var id_where = (typeof params.ID === "undefined") ? "1=1" : `q.ID = ${params.ID}`;
+
         var participant_where = (typeof params.participant_id === "undefined") ? "1=1" : `q.participant_id = ${params.participant_id}`;
 
         var status_where = "1=1";
@@ -29,7 +32,10 @@ class SessionQuery {
 
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
 
-        var sql = `from ${Session.TABLE} q where ${participant_where} and ${status_where} and ${host_where} ${order_by}`;
+        var sql = `from ${Session.TABLE} q 
+            where ${id_where} and ${participant_where} and ${status_where} and ${host_where} 
+            ${order_by}`;
+
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
         } else {
@@ -45,28 +51,38 @@ class SessionExec {
 
     sessions(params, field, extra = {}) {
 
-        var {CompanyExec} = require('./company-query.js');
-        var {UserExec} = require('./user-query.js');
+        var { CompanyExec } = require('./company-query.js');
+        var { UserExec } = require('./user-query.js');
 
         var sql = SessionQuery.getSession(params, extra);
         console.log(sql);
-        
+
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];
             }
 
+
             for (var i in res) {
                 var student_id = res[i]["participant_id"];
+                var recruiter_id = res[i]["host_id"];
                 var company_id = res[i]["company_id"];
 
                 if (typeof field["student"] !== "undefined") {
-                    res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
+                    res[i]["student"] = UserExec.user({ ID: student_id }, field["student"]);
+                }
+
+                if (typeof field["recruiter"] !== "undefined") {
+                    res[i]["recruiter"] = UserExec.user({ ID: recruiter_id }, field["recruiter"]);
                 }
 
                 if (typeof field["company"] !== "undefined") {
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
+            }
+
+            if (extra.single) {
+                return res[0];
             }
 
             return res;
@@ -77,6 +93,6 @@ class SessionExec {
 }
 SessionExec = new SessionExec();
 
-module.exports = {SessionExec, SessionQuery};
+module.exports = { SessionExec, SessionQuery };
 
 

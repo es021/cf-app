@@ -113,16 +113,15 @@ DB.prototype.escStr = function (str) {
         });
 };
 
-DB.prototype.getByID = function (table, ID) {
-    var sql = `select * from ${table} where ID = ${ID}`;
+DB.prototype.getByID = function (table, ID, ID_key = "ID") {
+    var sql = `select * from ${table} where ${ID_key} = '${ID}'`;
 
     return this.query(sql).then(function (res) {
         return res[0];
     });
 };
 
-// only works with table with primary key of is ID
-DB.prototype.insert = function (table, data) {
+DB.prototype.insert = function (table, data, ID_key = "ID", onDuplicate = null) {
     var DB = this;
     var key = "(";
     var val = "(";
@@ -135,14 +134,20 @@ DB.prototype.insert = function (table, data) {
 
     var sql = `INSERT INTO ${table} ${key} VALUES ${val}`;
 
+    if (onDuplicate !== null) {
+        sql += ` ON DUPLICATE KEY UPDATE ${onDuplicate}`;
+    }
+
     return this.query(sql).then(function (res) {
-        return DB.getByID(table, res.insertId);
+        var insertId = (ID_key == "ID") ? res.insertId : data[ID_key];
+        return DB.getByID(table, insertId, ID_key);
     });
 };
 
-// only works with table with primary key of is ID
-DB.prototype.update = function (table, data) {
-    console.log(data);
+DB.prototype.update = function (table, data, ID_key = "ID") {
+    var DB = this;
+    var ID = data[ID_key];
+
     if (typeof data.cf !== "undefined") {
         var cf = data.cf;
         delete (data["cf"]);
@@ -161,16 +166,14 @@ DB.prototype.update = function (table, data) {
         if (entity !== null) {
             //only ID left, then return
             if (Object.keys(data).length == 1) {
-                return this.updateCF(entity, data.ID, cf);
+                return this.updateCF(entity, ID, cf);
             } else {
-                this.updateCF(entity, data.ID, cf);
+                this.updateCF(entity, ID, cf);
             }
 
         }
     }
 
-    var DB = this;
-    var ID = data.ID;
 
     if (ID === null || ID == "" || typeof ID === "undefined" || ID <= 0) {
         return;
@@ -179,30 +182,31 @@ DB.prototype.update = function (table, data) {
     var key_val = "";
 
     for (var k in data) {
-        if (k !== "ID") {
+        if (k !== ID_key) {
             key_val += `${k} = '${this.escStr(data[k])}',`;
         }
     }
+
     key_val = key_val.substring(-1, key_val.length - 1);
 
     if (key_val == "") {
         return false;
     }
 
-    var sql = `UPDATE ${table} SET ${key_val} WHERE ID = ${ID}`;
+    var sql = `UPDATE ${table} SET ${key_val} WHERE ${ID_key} = '${ID}'`;
     return this.query(sql).then(function (res) {
-        return DB.getByID(table, ID);
+        return DB.getByID(table, ID, ID_key);
     });
 };
 
 // only works with table with primary key of is ID
 // return affected rows
-DB.prototype.delete = function (table, ID) {
+DB.prototype.delete = function (table, ID, ID_key) {
     if (ID === null || ID == "" || typeof ID === "undefined" || ID <= 0) {
         return;
     }
 
-    var sql = `DELETE FROM ${table} WHERE ID = ${ID}`;
+    var sql = `DELETE FROM ${table} WHERE ${ID_key} = '${ID}'`;
     console.log(sql);
 
     return this.query(sql).then(function (res) {
