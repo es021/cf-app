@@ -90,11 +90,22 @@ export default class List extends React.Component {
 
                             data.map((d, i) => {
                                 if (this.props.type == "append-top") {
-                                    listItem.unshift(this.props.renderList(d, i));
+                                    
+                                    //for chat, render list can return array
+                                    var newItem = this.props.renderList(d, i);
+                                    if (Array.isArray(newItem)) {
+                                        newItem.map((_d, i) => {
+                                            listItem.unshift(_d);
+                                        });
+                                    } else {
+                                        listItem.unshift(newItem);
+                                    }
+
                                 } else if (this.props.type == "append-bottom") {
                                     listItem.push(this.props.renderList(d, i));
                                 }
                             });
+
                             return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
                         });
                         return;
@@ -142,9 +153,7 @@ export default class List extends React.Component {
                     </tbody>
                 </table>;
         } else {
-            dataContent = <ul className={`${this.props.listClass}`}>
-                {this.state.listItem}
-            </ul>;
+            dataContent = this.state.listItem;
         }
 
         return dataContent;
@@ -198,10 +207,12 @@ export default class List extends React.Component {
 
         var content = <div>
             {topView}
-            {this.renderDataContent()}
+            <ul className={`${this.props.listClass}`}>
+                {this.renderDataContent()}
+                {this.props.extraData}
+            </ul>
             {bottomView}
         </div>;
-        console.log(this.state);
         return (this.state.fetching) ? loading : content;
     }
 }
@@ -223,11 +234,13 @@ List.propTypes = {
     // table
     tableHeader: PropTypes.element,
     // append-
-    appendText: PropTypes.string
+    appendText: PropTypes.string,
+    extraData: PropTypes.array
 };
 
 List.defaultProps = {
-    appendText: "Load More"
+    appendText: "Load More",
+    extraData: null
 };
 
 /*******************************************************************************************/

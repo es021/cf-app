@@ -72,8 +72,8 @@ const SessionType = new GraphQLObjectType({
 
         created_at: { type: GraphQLString },
         updated_at: { type: GraphQLString },
-        started_at: { type: GraphQLString },
-        ended_at: { type: GraphQLString },
+        started_at: { type: GraphQLInt },
+        ended_at: { type: GraphQLInt },
 
         recruiter: { type: UserType },
         student: { type: UserType },

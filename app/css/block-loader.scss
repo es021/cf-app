@@ -1,7 +1,7 @@
 @import "define/variable.scss";
 @import "define/mixin.scss";
 
-$width : 250px;
+$width : 300px;
 $height : 150px;
 $prefix : "bl-";
 
@@ -44,7 +44,7 @@ $prefix : "bl-";
         align-items: center;
         justify-content: center;
         flex-flow: column;
-        padding: 5px 10px;
+        padding: 10px 25px;;
         margin-bottom: 80px;
         padding-bottom: 20px;
     } 

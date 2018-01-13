@@ -1,3 +1,5 @@
+@import 'define/variable.scss';
+
 ul{
     padding: 0;
     list-style: none;
@@ -19,6 +21,23 @@ p{
 
 .no-padding{
     padding: 0;
+}
+
+// used in session
+.padding-right{
+    padding-right: 10px;
+}
+
+.padding-left{
+    padding-left: 10px;
+}
+
+@media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP){
+    .padding-right, .padding-left{
+        padding-left: 0px;
+        padding-right: 0px;
+        padding: 10px 0px;
+    }
 }
 
 h3.left{

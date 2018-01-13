@@ -1,4 +1,4 @@
-var Time = function () {};
+var Time = function () { };
 
 Time.prototype.isUnixElapsedHour = function (unixtimestamp, hour) {
     var msPerMinute = 60 * 1000;
@@ -60,20 +60,26 @@ Time.prototype.getAgo = function (unixtimestamp) {
     }
 };
 
+Time.prototype.getStringShort = function (unixtimestamp) {
+    return this.getString(unixtimestamp, false, true);
+};
 
+Time.prototype.getDate = function (unixtimestamp) {
+    return this.getString(unixtimestamp, false, false, true);
+};
 // mysql UNIX_TIMESTAMP(column)
-Time.prototype.getString = function (unixtimestamp, include_timezone) {
+Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
-
+  
     if (typeof unixtimestamp === "string") {
-        unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+        if (Number.isNaN(Number.parseInt(unixtimestamp))) {
+            unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+        }
     }
 
-
     include_timezone = (typeof include_timezone === "undefined") ? false : include_timezone;
-
     var newDate = new Date(unixtimestamp * 1000);
 
     var hour = newDate.getHours();
@@ -101,12 +107,21 @@ Time.prototype.getString = function (unixtimestamp, include_timezone) {
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var toReturn = "";
     //month start with zero
-    toReturn += months[newDate.getMonth()];
-    toReturn += " ";
-    toReturn += newDate.getDate();
-    toReturn += ", ";
-    toReturn += newDate.getFullYear();
-    toReturn += " ";
+
+    if (!isShort) {
+        toReturn += months[newDate.getMonth()];
+        toReturn += " ";
+        toReturn += newDate.getDate();
+        toReturn += ", ";
+        toReturn += newDate.getFullYear();
+
+        if (dateOnly) {
+            return toReturn;
+        }
+
+        toReturn += " ";
+    }
+
     toReturn += hour;
     toReturn += ":";
     toReturn += minute;

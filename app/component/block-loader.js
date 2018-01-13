@@ -69,21 +69,20 @@ class BlockLoader extends React.Component {
             </div>;
 
         } else if (state.confirm !== null) {
-            var style = {margin: "10px"};
-            action = <div style={style} className="btn-group btn-group-justified">
+            action = <div className="btn-group btn-group-justified">
                 <div onClick={state.confirm.yesHandler}  
-                     className="btn btn-sm btn-primary">
-                    CONFIRM
+                     className="btn btn-sm btn-blue">
+                    YES
                 </div>
                 <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}  
                      className="btn btn-sm btn-default">
-                    CANCEL
+                    NO
                 </div>
             </div>;
         }
 
         //confirm
-
+ 
         var prefix = "bl-";
         return(<div style={style} id="block-loader" >
             <div className={`${prefix}content`}>  
