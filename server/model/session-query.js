@@ -2,6 +2,25 @@ const DB = require('./DB.js');
 const { Session } = require('../../config/db-config');
 const { UserQuery } = require('./user-query');
 
+class SessionNoteExec {
+
+    getQuery(params, extra){
+        var session_where = (typeof params.session_id === "undefined") ? "1=1" : `session_id = ${params.session_id}`;
+        var order_by = "ORDER BY updated_at desc";
+        return `select * from session_notes where 1=1 and ${session_where} ${order_by}`;
+    }
+
+    session_notes(params,extra){
+        var sql = this.getQuery(params,extra);
+        var toRet = DB.query(sql).then(function (res) {
+            return res;
+        });
+
+        return toRet;
+    }
+}
+SessionNoteExec = new SessionNoteExec();
+
 class SessionQuery {
     getSession(params, extra) {
         // for single
@@ -11,8 +30,6 @@ class SessionQuery {
 
         var status_where = "1=1";
         if (typeof params.status !== "undefined") {
-
-            console.log(typeof params.status);
 
             if (typeof params.status === "string") {
                 params.status = [params.status];
@@ -64,9 +81,14 @@ class SessionExec {
 
 
             for (var i in res) {
+                var session_id = res[i]["ID"];
                 var student_id = res[i]["participant_id"];
                 var recruiter_id = res[i]["host_id"];
                 var company_id = res[i]["company_id"];
+
+                if (typeof field["session_notes"] !== "undefined") {
+                    res[i]["session_notes"] = SessionNoteExec.session_notes({ session_id: session_id }, field["session_notes"]);
+                }
 
                 if (typeof field["student"] !== "undefined") {
                     res[i]["student"] = UserExec.user({ ID: student_id }, field["student"]);
