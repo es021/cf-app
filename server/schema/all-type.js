@@ -61,6 +61,20 @@ const UserType = new GraphQLObjectType({
     })
 });
 
+const SessionNoteType = new GraphQLObjectType({
+    name: 'SessionNote',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        session_id: { type: GraphQLInt },
+        rec_id: { type: GraphQLInt },
+        student_id: { type: GraphQLInt },
+        note: { type: GraphQLString },
+        created_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString }
+    })
+});
+
+
 const SessionType = new GraphQLObjectType({
     name: 'Session',
     fields: () => ({
@@ -72,9 +86,10 @@ const SessionType = new GraphQLObjectType({
 
         created_at: { type: GraphQLString },
         updated_at: { type: GraphQLString },
-        started_at: { type: GraphQLString },
-        ended_at: { type: GraphQLString },
+        started_at: { type: GraphQLInt },
+        ended_at: { type: GraphQLInt },
 
+        session_notes :{type: new GraphQLList(SessionNoteType)},
         recruiter: { type: UserType },
         student: { type: UserType },
         company: { type: CompanyType }
@@ -207,5 +222,6 @@ module.exports = {
     , VacancyType
     , SkillType
     , SessionType
+    , SessionNoteType
     , ResumeDropType
 };

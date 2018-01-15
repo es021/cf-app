@@ -277,7 +277,8 @@ fields["edit_session"] = {
     type: SessionType,
     args: {
         ID: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: GraphQLString }
+        status: { type: GraphQLString },
+        ended_at: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Session.TABLE, arg).then(function (res) {

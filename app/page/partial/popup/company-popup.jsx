@@ -42,6 +42,13 @@ export default class CompanyPopup extends Component {
             id = this.props.id;
         }
 
+        var rec_query = (this.props.displayOnly) ? "" : `recruiters{
+            first_name
+            last_name
+            rec_position
+            img_url img_pos img_size
+        }`;
+
         var query = `query {
               company(ID:${id}) {
                 ID
@@ -53,12 +60,8 @@ export default class CompanyPopup extends Component {
                 img_size
                 rec_privacy
                 doc_links{label url type}
-                recruiters{
-                    first_name
-                    last_name
-                    rec_position
-                    img_url img_pos img_size
-                }
+                more_info
+                ${rec_query}
                 vacancies{
                     ID
                     title
@@ -118,6 +121,10 @@ export default class CompanyPopup extends Component {
     }
 
     getRecs(list, rec_privacy) {
+        if (list == null || typeof list == "undefined") {
+            return null;
+        }
+
         if (list.length === 0) {
             return <div className="text-muted">Nothing To Show Here</div>;
         }
@@ -160,9 +167,6 @@ export default class CompanyPopup extends Component {
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Company Information...'></Loader>
         } else {
-
-            //const about = <p>{data.description.replaceAll("\n","<br></br>")}</p>;
-            const about = <p>{data.description}</p>;
             const vacancies = this.getVacancies(data.vacancies);
             const recs = this.getRecs(data.recruiters, data.rec_privacy);
 
@@ -176,7 +180,7 @@ export default class CompanyPopup extends Component {
 
             const doc_link = <CustomList className="label" items={dl}></CustomList>;
 
-            var action = (isRoleRec()) ? null :
+            var action = (isRoleRec() || this.props.displayOnly) ? null :
                 <div className="btn-group btn-group-justified">
                     <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
                         <i className="fa fa-sign-in left"></i>
@@ -189,17 +193,18 @@ export default class CompanyPopup extends Component {
                         <i className="fa fa-download left"></i>
                         Drop Resume</a>
                 </div>;
-
+ 
             var pcBody = <div>
                 <div>
-                    <PageSection className="left" title="About" body={about}></PageSection>
+                    {(data.description == "") ? null : <PageSection className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
                     <PageSection className="left" title="Vacancies" body={vacancies}></PageSection>
                     <PageSection className="left" title="Document & Link" body={doc_link}></PageSection>
-                    <PageSection className="left" title="Recruiters" body={recs}></PageSection>
+                    {(data.more_info == "") ? null : <PageSection className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
+                    {(recs === null) ? null : <PageSection className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>
                 {action}
                 <br></br>
-                <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+                {(this.props.displayOnly) ? null : <a onClick={layoutActions.storeHideFocusCard}>Close</a>}
             </div>;
 
             view = <div>
@@ -216,5 +221,10 @@ export default class CompanyPopup extends Component {
 
 
 CompanyPopup.propTypes = {
-    id: PropTypes.number
+    id: PropTypes.number.isRequired,
+    displayOnly: PropTypes.bool // set true in session
+};
+
+CompanyPopup.defaultProps = {
+    displayOnly: false
 };

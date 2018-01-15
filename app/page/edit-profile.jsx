@@ -58,9 +58,9 @@ class Skills extends React.Component {
                 required: true
             }];
     }
-
+ 
     formOnSubmit(d) {
-        var ins = {
+        var ins = { 
             user_id: getAuthUser().ID,
             label: d.label
         };
