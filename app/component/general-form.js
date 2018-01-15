@@ -17,7 +17,7 @@ class GeneralForm extends React.Component {
             currentFile: null
         };
         this.formOnSubmit = this.formOnSubmit.bind(this);
-        this.Entity = this.props.entity.capitalize();
+        this.Entity = this.props.entity_singular;
 
     }
 
@@ -73,8 +73,9 @@ class GeneralForm extends React.Component {
         var form = <Form className="form-row"
             items={this.formItem}
             onSubmit={this.formOnSubmit}
-            submitText='Save'
+            submitText={`${(this.props.edit) ? "Edit" : "Add"} ${this.props.entity_singular}`}
             defaultValues={this.formDefault}
+            btnColorClass={this.props.btnColorClass}
             disableSubmit={this.state.disableSubmit}
             error={this.state.error}
             errorPosition="top"
@@ -87,18 +88,25 @@ class GeneralForm extends React.Component {
 
 GeneralForm.propTypes = {
     entity: PropTypes.string.isRequired,
+    entity_singular: PropTypes.string.isRequired,
     formItem: PropTypes.array.isRequired,
     edit: PropTypes.obj, // edit object
     formDefault: PropTypes.object,
     onSuccessNew: PropTypes.func,
+    btnColorClass: PropTypes.string,
     formWillSubmit: PropTypes.func
 };
+
+GeneralForm.defaultProps = {
+    btnColorClass: "primary"
+}
 
 
 export default class GeneralFormPage extends React.Component {
     constructor(props) {
         super(props);
         this.addPopup = this.addPopup.bind(this);
+        this.getAddForm = this.getAddForm.bind(this);
         this.onSuccessOperation = this.onSuccessOperation.bind(this);
         this.state = {
             error: null,
@@ -108,7 +116,7 @@ export default class GeneralFormPage extends React.Component {
             key: 1,
             loadingDelete: false
         };
-        this.Entity = this.props.entity.capitalize();
+        this.Entity = this.props.entity_singular;
     }
 
     onSuccessOperation() {
@@ -120,12 +128,26 @@ export default class GeneralFormPage extends React.Component {
         })
     }
 
+    // if showAddForm is set to true, in session-notes
+    getAddForm() {
+        return <GeneralForm
+            entity={this.props.entity}
+            entity_singular={this.props.entity_singular}
+            formItem={this.props.getFormItem(false)}
+            formDefault={this.props.newFormDefault}
+            onSuccessNew={this.onSuccessOperation}
+            btnColorClass={this.props.btnColorClass}
+            formWillSubmit={this.props.formWillSubmit}>
+        </GeneralForm>
+    }
+
     // create general form for add new record
     addPopup() {
         layoutActions.storeUpdateFocusCard(`Add ${this.Entity}`,
             GeneralForm,
             {
                 entity: this.props.entity,
+                entity_singular: this.props.entity_singular,
                 formItem: this.props.getFormItem(false),
                 formDefault: this.props.newFormDefault,
                 onSuccessNew: this.onSuccessOperation,
@@ -145,6 +167,7 @@ export default class GeneralFormPage extends React.Component {
                 GeneralForm,
                 {
                     entity: this.props.entity,
+                    entity_singular: this.props.entity_singular,
                     formItem: this.props.getFormItem(true),
                     formDefault: res,
                     onSuccessNew: this.onSuccessOperation,
@@ -196,21 +219,23 @@ export default class GeneralFormPage extends React.Component {
                 renderList={renderList}></List>
         </div>;
 
-
-
         return (<div>
-            <h2>{this.props.dataTitle}</h2>
-            <a className="btn btn-success btn-sm" onClick={this.addPopup}>Add New Vacancy</a>
-            <br></br>
-            <br></br>
-            <div>{datas}</div>
+            {(this.props.dataTitle !== null) ? <h2>{this.props.dataTitle}</h2> : null}
+            {!this.props.showAddForm
+                ? <a className="btn btn-success btn-sm" onClick={this.addPopup}>{this.props.addButtonText}</a>
+                : this.getAddForm()
+            }
+            
+            <div style={{marginTop:"15px"}}>{datas}</div>
         </div>);
     }
 }
 
 GeneralFormPage.propTypes = {
-    entity: PropTypes.oneOf(["vacancy"]).isRequired,
+    entity: PropTypes.string.isRequired, // for table name
+    entity_singular: PropTypes.string.isRequired, // for display
     loadData: PropTypes.func.isRequired,
+    addButtonText: PropTypes.string.isRequired,
     renderRow: PropTypes.func.isRequired,
     tableHeader: PropTypes.element.isRequired,
     dataTitle: PropTypes.string.isRequired,
@@ -218,9 +243,13 @@ GeneralFormPage.propTypes = {
     newFormDefault: PropTypes.array.isRequired,
     getEditFormDefault: PropTypes.func.isRequired,
     dataOffset: PropTypes.number,
-    formWillSubmit: PropTypes.formWillSubmit
+    formWillSubmit: PropTypes.func,
+    showAddForm: PropTypes.bool,
+    btnColorClass: PropTypes.string
 }
 
 GeneralFormPage.defaultProps = {
-    dataOffset: 10
+    dataOffset: 10,
+    showAddForm: false,
+    btnColorClass: "primary"
 }

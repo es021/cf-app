@@ -112,6 +112,16 @@ const Session = {
     STATUS: "status"
 };
 
+const SessionNotes = {
+    TABLE: "session_notes",
+    ID: "ID",
+    SESSION_ID: "session_id",
+    REC_ID: "rec_id",
+    STUDENT_ID: "student_id",
+    NOTE: "note",
+    UPDATED_AT: "updated_at"
+};
+
 const SessionEnum = {
     STATUS_EXPIRED: "Expired",
     STATUS_LEFT: "Left",
@@ -207,6 +217,7 @@ module.exports = {
     , Company, CompanyEnum
     , Queue, QueueEnum
     , Skill, Message
+    , SessionNotes
     , ResumeDrop
     , CareerFairEnum
 };

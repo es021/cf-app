@@ -135,10 +135,19 @@ fields["session_notes"] = {
         offset: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
-        return SessionNoteExec.session_notes(arg, graphqlFields(info));
+        return SessionNoteExec.session_notes(arg, graphqlFields(info),{});
     }
 };
 
+fields["session_note"] = {
+    type: SessionNoteType,
+    args: {
+        ID: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return SessionNoteExec.session_notes(arg, graphqlFields(info), { single: true });
+    }
+};
 
 /*******************************************/
 /* vacancy ******************/
@@ -167,8 +176,9 @@ fields["vacancies"] = {
     }
 };
 
+
 /*******************************************/
-/* vacancy ******************/
+/* resume_drop ******************/
 fields["resume_drop"] = {
     type: ResumeDropType,
     args: {

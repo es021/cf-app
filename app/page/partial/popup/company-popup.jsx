@@ -233,11 +233,11 @@ export default class CompanyPopup extends Component {
  
             var pcBody = <div>
                 <div>
-                    {(data.description == "") ? null : <PageSection className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-                    <PageSection className="left" title="Vacancies" body={vacancies}></PageSection>
-                    <PageSection className="left" title="Document & Link" body={doc_link}></PageSection>
-                    {(data.more_info == "") ? null : <PageSection className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
-                    {(recs === null) ? null : <PageSection className="left" title="Recruiters" body={recs}></PageSection>}
+                    {(data.description == "") ? null : <PageSection canToggle={this.props.displayOnly} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
+                    <PageSection canToggle={this.props.displayOnly} initShow={true} className="left" title="Vacancies" body={vacancies}></PageSection>
+                    <PageSection canToggle={this.props.displayOnly} className="left" title="Document & Link" body={doc_link}></PageSection>
+                    {(data.more_info == "") ? null : <PageSection canToggle={this.props.displayOnly} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
+                    {(recs === null) ? null : <PageSection canToggle={this.props.displayOnly} className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>
                 {action}
                 <br></br>

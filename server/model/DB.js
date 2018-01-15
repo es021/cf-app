@@ -201,7 +201,7 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
 
 // only works with table with primary key of is ID
 // return affected rows
-DB.prototype.delete = function (table, ID, ID_key) {
+DB.prototype.delete = function (table, ID, ID_key = "ID") {
     if (ID === null || ID == "" || typeof ID === "undefined" || ID <= 0) {
         return;
     }

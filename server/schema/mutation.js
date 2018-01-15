@@ -1,9 +1,9 @@
 //import all type
-const { QueueType, MessageType, VacancyType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, SessionNoteType, MessageType, VacancyType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Vacancy, Company, DocLink, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, Vacancy, SessionNotes, Company, DocLink, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -179,6 +179,46 @@ fields["delete_doc_link"] = {
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(DocLink.TABLE, arg.ID);
+    }
+};
+
+/*******************************************/
+/* session_notes ******************/
+fields["add_session_note"] = {
+    type: SessionNoteType,
+    args: {
+        session_id: { type: new GraphQLNonNull(GraphQLInt) },
+        rec_id: { type: new GraphQLNonNull(GraphQLInt) },
+        student_id: { type: new GraphQLNonNull(GraphQLInt) },
+        note: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(SessionNotes.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_session_note"] = {
+    type: SessionNoteType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        note: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(SessionNotes.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["delete_session_note"] = {
+    type: GraphQLInt,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.delete(SessionNotes.TABLE, arg.ID);
     }
 };
 

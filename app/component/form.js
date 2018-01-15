@@ -448,7 +448,7 @@ export default class Form extends React.Component {
             // a. label ------
             var label = null;
 
-            if (d.label != null && d.hidden !== true) {
+            if (d.label != null && d.hidden !== true && d.hideLabel !== true) {
                 label = <div className="form-label">
                     {d.label}{(d.required) ? " *" : null}
                 </div>;
@@ -490,7 +490,7 @@ export default class Form extends React.Component {
         var formSubmit =
             <div className="form-submit">
                 <button type="submit"
-                    className="btn btn-md btn-primary"
+                    className={`btn btn-md btn-${this.props.btnColorClass}`}
                     disabled={
                         disableSubmit}>
                     {submitText}
@@ -530,9 +530,14 @@ Form.propTypes = {
     className: PropTypes.oneOf(['form-row', 'form-col']),
     disableSubmit: PropTypes.bool.isRequired,
     submitText: PropTypes.string,
+    btnColorClass: PropTypes.string,
     defaultValues: PropTypes.object,
     errorPosition: PropTypes.oneOf(['top']),
     error: PropTypes.string,
     emptyOnSuccess: PropTypes.bool,
     success: PropTypes.string
 };
+
+Form.defaultProps = {
+    btnColorClass: "primary"
+}

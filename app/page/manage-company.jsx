@@ -163,6 +163,8 @@ class VacancySubPage extends React.Component {
         return <GeneralFormPage
             dataTitle="Vacancies"
             entity="vacancy"
+            entity_singular="Vacancy"
+            addButtonText="Add New Vacancy"
             dataOffset={10}
             tableHeader={this.tableHeader}
             newFormDefault={this.newFormDefault}

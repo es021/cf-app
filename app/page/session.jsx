@@ -4,17 +4,19 @@ import { getAuthUser } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { SessionEnum } from '../../config/db-config';
 import CompanyPopup from './partial/popup/company-popup';
+import UserPopup from './partial/popup/user-popup';
 import ConfirmPopup from './partial/popup/confirm-popup';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
 import Chat from './partial/session/chat';
+import SessionNotes from './partial/session/session-notes';
 import obj2arg from 'graphql-obj2arg';
 
 class SessionPage extends React.Component {
     constructor(props) {
         super(props);
         this.getChat = this.getChat.bind(this);
-        this.getOtherView = this.getOtherView.bind(this);
+        this.getMainView = this.getMainView.bind(this);
         this.endSession = this.endSession.bind(this);
         this.state = {
             data: null,
@@ -81,23 +83,6 @@ class SessionPage extends React.Component {
             other_data={other_data}></Chat>;
     }
 
-    getOtherView(data) {
-        if (this.isRec) {
-            return <div>Note, Rating, Etc</div>
-        }
-        //for student -- company information
-        else {
-            if (data.company_id != null && data.company_id > 0) {
-                return <div style={{
-                    padding: "0 14px",
-                    border: "#6f7e95 solid 1px"
-                }}>
-                    <CompanyPopup displayOnly={true} id={data.company_id}></CompanyPopup>
-                </div>
-            }
-        }
-    }
-
     endSession(data) {
         const onYes = () => {
             layoutActions.loadingBlockLoader("Please Wait..");
@@ -123,15 +108,21 @@ class SessionPage extends React.Component {
     }
 
     getSessionHeader(data) {
-        // var info = <div>
-        //     Session:{data.ID},
-        // Host:{data.host_id},
-        // Participant:{data.participant_id},
-        // UserId:{this.user_id},
-        // Status:{data.status}
-        // </div>;
+  
+        var title = null;
+        if (this.isRec) {
+            var label = data.student.first_name + " " + data.student.last_name;
+            title = <a onClick={() => layoutActions.storeUpdateFocusCard(label, UserPopup, { id: data.student.ID })}>
+                {label}
+            </a>
+        } else {
+            var label = data.company.name;
+            title = label;
+            // title = <a onClick={() => layoutActions.storeUpdateFocusCard(label, CompanyPopup, { id: data.company_id })}>
+            //     {label}
+            // </a>
+        }
 
-        var title = `Session #${data.ID} - ` + ((!this.isRec) ? data.company.name : data.student.first_name);
         var status = "";
         if (data.status == SessionEnum.STATUS_EXPIRED) {
             status = "Session was ended by recruiter";
@@ -158,11 +149,60 @@ class SessionPage extends React.Component {
             : <span> | <b><a onClick={() => { this.endSession() }}>{(this.isRec) ? "End" : "Leave"} Session</a></b></span>;
 
         return <div style={{ borderBottom: "#777 1px solid", marginBottom: "20px", paddingBottom: "10px" }}>
-            <h3 className="text-left" style={{ margin: "0" }}>{title}
+            <h3 className="text-left" style={{ margin: "0" }}>Session #{data.ID} - <b>{title}</b>
                 <br></br>
                 <small>{status} {endBtn}</small>
             </h3>
         </div>;
+    }
+
+    getMainView(session) {
+        var chat = this.getChat(session);
+        var view = [];
+
+        // ########################
+        // for rec
+        if (this.isRec) {
+            //chat
+            view.push(<div className="col-md-8 no-padding padding-right">
+                {chat}
+            </div>);
+
+            // session note
+            var sessionNote = <div className="note_card"
+                style={{
+                    padding: "10px 14px",
+                }}>
+                <SessionNotes rec_id={session.host_id}
+                    student_id={session.participant_id}
+                    session_id={session.ID}></SessionNotes></div>;
+
+            view.push(<div className="col-md-4 no-padding padding-left">
+                {sessionNote}
+            </div>);
+        }
+        // ########################
+        // for student
+        else {
+            //chat
+            view.push(<div className="col-md-6 no-padding padding-right">
+                {chat}
+            </div>);
+
+            // company profile
+            if (session.company_id != null && session.company_id > 0) {
+                view.push(<div className="col-md-6 no-padding padding-left">
+                    <div style={{
+                        padding: "0 14px",
+                        border: "#6f7e95 solid 1px"
+                    }}>
+                        <CompanyPopup displayOnly={true} id={session.company_id}></CompanyPopup>
+                    </div>
+                </div>);
+            }
+        }
+
+        return view;
     }
 
     render() {
@@ -179,15 +219,10 @@ class SessionPage extends React.Component {
         } else {
             console.log(session);
             view = <div className="container-fluid no-padding">
-                <div className="col-sm-12 no-padding">
+                <div className="col-md-12 no-padding">
                     {this.getSessionHeader(session)}
                 </div>
-                <div className="col-sm-6 no-padding padding-right">
-                    {this.getChat(session)}
-                </div>
-                <div className="col-sm-6 no-padding padding-left">
-                    {this.getOtherView(session)}
-                </div>
+                {this.getMainView(session)}
             </div>;
         }
 
