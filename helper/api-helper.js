@@ -74,11 +74,12 @@ axios.interceptors.response.use(response => {
 
 
 function getAxiosGraphQLQuery(queryString) {
-    //console.log(graphQLUrl);
+
     var config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
+        proxy: false,
         params: {
             query: queryString,
             variables: null
@@ -91,7 +92,10 @@ function getAxiosGraphQLQuery(queryString) {
 function getPHPApiAxios(script, params) {
     var requestUrl = AppConfig.PHPApi + `${script}.php`;
     console.log(requestUrl);
-    return axios.post(requestUrl, qs.stringify(params));
+    var config = {
+        proxy: false
+    };
+    return axios.post(requestUrl, qs.stringify(params),config);
 }
 
 // only in ajax_external -- response is fixed here
@@ -99,8 +103,10 @@ function getWpAjaxAxios(action, data, successInterceptor = null) {
     var params = {};
     params["action"] = action;
     params["data"] = data;
-
-    return axios.post(AppConfig.WPAjaxApi, qs.stringify(params)).then((res) => {
+    var config = {
+        proxy: false
+    };
+    return axios.post(AppConfig.WPAjaxApi, qs.stringify(params), config).then((res) => {
         if (res.data.err) {
             return res.data.err;
         } else {

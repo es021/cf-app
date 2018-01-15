@@ -39,11 +39,12 @@ class AuthAPI {
             field += `${d},`;
         });
         field = field.slice(0, -1);
-        console.log(field);
+        //console.log(field);
         var user_query = `query{
             user(user_email:"${user_email}"){
                 ${field} company {cf}
             }}`;
+
 
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var user = res.data.data.user;
@@ -76,14 +77,14 @@ class AuthAPI {
 
 
                 }, (err) => {
-                    //console.log("Error Auth Api getPHPApiAxios");
+                    console.log("Error Auth Api getPHPApiAxios");
                     return err.response.data;
                 });
             } else {
                 return AuthAPIErr.INVALID_EMAIL;
             }
         }, (err) => {
-            //console.log("Error Auth Api getAxiosGraphQLQuery");
+            console.log("Error Auth Api getAxiosGraphQLQuery",err.response.data);
             return err.response.data;
         });
 

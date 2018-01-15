@@ -4,19 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:app": "NODE_ENV=development webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:app-window": "set NODE_ENV=development&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:server": "nodemon server.js",
-    "dev:app-wp": "NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:app-wp-window": "set NODE_ENV=development-wp&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:app-linux": "NODE_ENV=development-wp exec webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:server-wp": "set NODE_ENV=development-wp&& nodemon server.js",
-    "dev:server-linux": "NODE_ENV=development-wp exec nodemon server.js",
-    "serve-api": "set NODE_ENV=development&& node ./server/server.js",
-    "build-window": "set NODE_ENV=production&& webpack -p --progress",
+    "dev:app": "NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+    "dev:server": "NODE_ENV=development-wp nodemon server.js",
     "build": "NODE_ENV=production webpack -p --progress",
-    "build-local": "set NODE_ENV=production-local&& webpack -p --progress",
-    "serve": "NODE_ENV=production node server.js"
+    "build-local": "NODE_ENV=production-local webpack -p --progress",
+    "serve": "NODE_ENV=production node server.js",
+    
+    "dev:app-wp": "exec NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+        
+    "dev:app-window": "set NODE_ENV=development&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+    "dev:app-wp-window": "set NODE_ENV=development-wp&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+    "build-window": "set NODE_ENV=production&& webpack -p --progress"    
   },
   "author": "",
   "license": "ISC",
