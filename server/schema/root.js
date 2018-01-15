@@ -5,6 +5,7 @@ const { UserType
     , ResumeDropType
     , VacancyType
     , SessionType
+    , SessionNoteType
     , MessageType
     , DocLinkType } = require('./all-type.js');
 
@@ -15,7 +16,7 @@ const { UserExec } = require('../model/user-query.js');
 const { Queue, QueueExec } = require('../model/queue-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
-const { SessionExec } = require('../model/session-query.js');
+const { SessionExec, SessionNoteExec } = require('../model/session-query.js');
 const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const DB = require('../model/DB.js');
@@ -32,7 +33,6 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
-
 
 /*******************************************/
 /* messages ******************/
@@ -90,7 +90,6 @@ fields["queues"] = {
 };
 
 
-
 /*******************************************/
 /* company ******************/
 fields["company"] = {
@@ -113,17 +112,33 @@ fields["companies"] = {
         return CompanyExec.companies(arg, graphqlFields(info));
     }
 };
+
 /*******************************************/
-/* vacancy ******************/
+/* session ******************/
 fields["session"] = {
     type: SessionType,
     args: {
         ID: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
-        return SessionExec.sessions(arg, graphqlFields(info), extra = { single: true })
+        return SessionExec.sessions(arg, graphqlFields(info), extra = { single: true });
     }
 };
+
+/*******************************************/
+/* session_notes ******************/
+fields["session_notes"] = {
+    type: new GraphQLList(SessionNoteType),
+    args: {
+        session_id: { type: GraphQLInt },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return SessionNoteExec.session_notes(arg, graphqlFields(info));
+    }
+};
+
 
 /*******************************************/
 /* vacancy ******************/

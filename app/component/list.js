@@ -166,7 +166,7 @@ export default class List extends React.Component {
         var bottomView = null;
 
         if (this.props.type == 'list' || this.props.type == 'table') {
-            var paging = <div style={{ marginBottom: "10px" }}>
+            var paging = <div className={this.props.pageClass} style={{ marginBottom: "10px" }}>
                 Page <b>{this.page}</b>
                 <br></br>
                 {(this.page > 1) ?
@@ -235,12 +235,15 @@ List.propTypes = {
     tableHeader: PropTypes.element,
     // append-
     appendText: PropTypes.string,
-    extraData: PropTypes.array
+    extraData: PropTypes.array,
+    // page config
+    pageClass: PropTypes.string
 };
 
 List.defaultProps = {
     appendText: "Load More",
-    extraData: null
+    extraData: null,
+    pageClass: ""
 };
 
 /*******************************************************************************************/

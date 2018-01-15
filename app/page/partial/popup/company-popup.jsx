@@ -5,7 +5,7 @@ import PageSection from '../../../component/page-section';
 import { NavLink } from 'react-router-dom';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import ProfileCard from '../../../component/profile-card';
-import { SimpleListItem, ProfileListItem } from '../../../component/list';
+import List, { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec, isRoleAdmin } from '../../../redux/actions/auth-actions';
 import { DocLinkEnum, CompanyEnum } from '../../../../config/db-config';
@@ -19,6 +19,56 @@ import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
 
 
+class VacancyList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.loadData = this.loadData.bind(this);
+    } 
+
+    loadData(page, offset) {
+        return getAxiosGraphQLQuery(`
+        query{
+            vacancies(company_id:${this.props.company_id}, page:${page}, offset:${offset}){
+                ID
+                title
+                type
+                description
+            }
+        }`);
+    };
+
+    componentWillMount() {
+        this.offset = 5;
+    }
+
+    renderList(d, i) {
+       
+            var param = { id: d.ID };
+            var title = <a
+                onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)}>{d.title}</a>;
+            return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
+    }
+
+    getDataFromRes(res) {
+        return res.data.data.vacancies;
+    }
+
+    render() {
+        return (
+            <List type="list"
+                pageClass="text-center"
+                getDataFromRes={this.getDataFromRes}
+                loadData={this.loadData}
+                offset={this.offset}
+                renderList={this.renderList}></List>);
+
+    }
+}
+
+VacancyList.propTypes ={
+    company_id : PropTypes.number.isRequired
+};
+  
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)
@@ -101,23 +151,10 @@ export default class CompanyPopup extends Component {
         }, (err) => {
             layoutActions.errorBlockLoader(err);
         });
-    }
-
-    getVacancies(list) {
-        if (list.length === 0) {
-            return <div className="text-muted">Nothing To Show Here</div>;
-        }
-
-        var view = list.map((d, i) => {
-            var param = { id: d.ID };
-            var title = <a
-                onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)}
-            >{d.title}</a>;
-
-            return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
-        });
-
-        return <div>{view}</div>;
+    }  
+  
+    getVacancies(company_id) {
+        return <VacancyList company_id={company_id}></VacancyList>;
     }
 
     getRecs(list, rec_privacy) {
@@ -167,7 +204,7 @@ export default class CompanyPopup extends Component {
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Company Information...'></Loader>
         } else {
-            const vacancies = this.getVacancies(data.vacancies);
+            const vacancies = this.getVacancies(data.ID);
             const recs = this.getRecs(data.recruiters, data.rec_privacy);
 
             //document and link
