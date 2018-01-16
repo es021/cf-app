@@ -122,6 +122,20 @@ const SessionNotes = {
     UPDATED_AT: "updated_at"
 };
 
+const SessionRating = {
+    TABLE: "session_ratings",
+    ID: "ID",
+    SESSION_ID: "session_id",
+    REC_ID: "rec_id",
+    STUDENT_ID: "student_id",
+    CATEGORY: "category",
+    RATING: "rating"
+};
+
+const SessionRatingEnum = {
+    categories: ["Knowlegde", "Confidence", "Swag", "Style"]
+};
+
 const SessionEnum = {
     STATUS_EXPIRED: "Expired",
     STATUS_LEFT: "Left",
@@ -154,11 +168,16 @@ const CompanyEnum = {
     REC_PRIVACY_PRIVATE: 1,
     getTypeStr: (type) => {
         switch (type) {
-            case 0: return "Special";
-            case 1: return "Gold Sponsor";
-            case 2: return "Silver Sponsor";
-            case 3: return "Bronze Sponsor";
-            case 4: return "Normal";
+            case 0:
+                return "Special";
+            case 1:
+                return "Gold Sponsor";
+            case 2:
+                return "Silver Sponsor";
+            case 3:
+                return "Bronze Sponsor";
+            case 4:
+                return "Normal";
         }
     }
 };
@@ -218,6 +237,7 @@ module.exports = {
     , Queue, QueueEnum
     , Skill, Message
     , SessionNotes
+    , SessionRating, SessionRatingEnum
     , ResumeDrop
     , CareerFairEnum
 };

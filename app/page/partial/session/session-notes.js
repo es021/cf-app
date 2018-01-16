@@ -140,4 +140,4 @@ SessionNotesSection.PropTypes = {
     session_id: PropTypes.number.isRequired,
     rec_id: PropTypes.number.isRequired,
     student_id: PropTypes.number.isRequired
-}
+};

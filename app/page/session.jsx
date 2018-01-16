@@ -9,7 +9,8 @@ import ConfirmPopup from './partial/popup/confirm-popup';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
 import Chat from './partial/session/chat';
-import SessionNotes from './partial/session/session-notes';
+import SessionNotesPage from './partial/session/session-notes';
+import SessionRatingsPage from './partial/session/session-ratings';
 import obj2arg from 'graphql-obj2arg';
 
 class SessionPage extends React.Component {
@@ -168,19 +169,24 @@ class SessionPage extends React.Component {
                 {chat}
             </div>);
 
-            // session note
-            var sessionNote = <div className="note_card"
+            // session sessionNoteRating
+            var sessionNoteRating = <div className="note_card"
                 style={{
-                    padding: "10px 14px",
+                    padding: "10px 14px"
                 }}>
-                <SessionNotes rec_id={session.host_id}
+                <SessionRatingsPage rec_id={session.host_id}
                     student_id={session.participant_id}
-                    session_id={session.ID}></SessionNotes></div>;
-
+                    session_id={session.ID}></SessionRatingsPage>
+                    <br></br>
+                <SessionNotesPage rec_id={session.host_id}
+                    student_id={session.participant_id}
+                    session_id={session.ID}></SessionNotesPage>
+            </div>
             view.push(<div className="col-md-4 no-padding padding-left">
-                {sessionNote}
+                {sessionNoteRating}
             </div>);
         }
+        
         // ########################
         // for student
         else {

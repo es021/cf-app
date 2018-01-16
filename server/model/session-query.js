@@ -1,6 +1,30 @@
 const DB = require('./DB.js');
-const { Session } = require('../../config/db-config');
-const { UserQuery } = require('./user-query');
+const {Session} = require('../../config/db-config');
+const {UserQuery} = require('./user-query');
+
+class SessionRatingExec {
+    getQuery(params, extra) {
+        var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = ${params.ID}`;
+        var session_where = (typeof params.session_id === "undefined") ? "1=1" : `session_id = ${params.session_id}`;
+        return `select * from session_ratings where 1=1 and ${id_where} and ${session_where}`;
+    }
+
+    session_ratings(params, field, extra) {
+        var sql = this.getQuery(params, extra);
+
+        var toRet = DB.query(sql).then(function (res) {
+            if (extra.single) {
+                return res[0];
+            }
+            return res;
+        });
+
+        return toRet;
+    }
+}
+SessionRatingExec = new SessionRatingExec();
+
+//###########################################################################################################################
 
 class SessionNoteExec {
 
@@ -13,7 +37,7 @@ class SessionNoteExec {
         return `select * from session_notes where 1=1 and ${id_where} and ${session_where} ${order_by} ${limit}`;
     }
 
-    session_notes(params,field, extra) {
+    session_notes(params, field, extra) {
         var sql = this.getQuery(params, extra);
 
         var toRet = DB.query(sql).then(function (res) {
@@ -27,6 +51,8 @@ class SessionNoteExec {
     }
 }
 SessionNoteExec = new SessionNoteExec();
+
+//###########################################################################################################################
 
 class SessionQuery {
     getSession(params, extra) {
@@ -75,11 +101,10 @@ class SessionExec {
 
     sessions(params, field, extra = {}) {
 
-        var { CompanyExec } = require('./company-query.js');
-        var { UserExec } = require('./user-query.js');
+        var {CompanyExec} = require('./company-query.js');
+        var {UserExec} = require('./user-query.js');
 
         var sql = SessionQuery.getSession(params, extra);
-        console.log(sql);
 
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
@@ -94,15 +119,19 @@ class SessionExec {
                 var company_id = res[i]["company_id"];
 
                 if (typeof field["session_notes"] !== "undefined") {
-                    res[i]["session_notes"] = SessionNoteExec.session_notes({ session_id: session_id }, field["session_notes"]);
+                    res[i]["session_notes"] = SessionNoteExec.session_notes({session_id: session_id}, field["session_notes"]);
+                }
+
+                if (typeof field["session_ratings"] !== "undefined") {
+                    res[i]["session_ratings"] = SessionRatingExec.session_ratings({session_id: session_id}, field["session_ratings"]);
                 }
 
                 if (typeof field["student"] !== "undefined") {
-                    res[i]["student"] = UserExec.user({ ID: student_id }, field["student"]);
+                    res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
                 }
 
                 if (typeof field["recruiter"] !== "undefined") {
-                    res[i]["recruiter"] = UserExec.user({ ID: recruiter_id }, field["recruiter"]);
+                    res[i]["recruiter"] = UserExec.user({ID: recruiter_id}, field["recruiter"]);
                 }
 
                 if (typeof field["company"] !== "undefined") {
@@ -122,6 +151,6 @@ class SessionExec {
 }
 SessionExec = new SessionExec();
 
-module.exports = { SessionExec, SessionQuery, SessionNoteExec };
+module.exports = {SessionExec, SessionQuery, SessionNoteExec, SessionRatingExec};
 
 

@@ -1,13 +1,13 @@
 //import all type
-const { QueueType, SessionNoteType, MessageType, VacancyType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const {QueueType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType} = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Vacancy, SessionNotes, Company, DocLink, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
-const { UserExec } = require('../model/user-query.js');
-const { QueueExec } = require('../model/queue-query.js');
-const { MessageExec } = require('../model/message-query.js');
-const { ResumeDropExec } = require('../model/resume-drop-query.js');
+const {Queue, Vacancy, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen} = require('../../config/db-config');
+const {UserExec} = require('../model/user-query.js');
+const {QueueExec} = require('../model/queue-query.js');
+const {MessageExec} = require('../model/message-query.js');
+const {ResumeDropExec} = require('../model/resume-drop-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -29,9 +29,9 @@ var fields = {};
 fields["add_message"] = {
     type: MessageType,
     args: {
-        sender_id: { type: new GraphQLNonNull(GraphQLInt) },
-        receiver_id: { type: new GraphQLNonNull(GraphQLInt) },
-        message: { type: new GraphQLNonNull(GraphQLString) }
+        sender_id: {type: new GraphQLNonNull(GraphQLInt)},
+        receiver_id: {type: new GraphQLNonNull(GraphQLInt)},
+        message: {type: new GraphQLNonNull(GraphQLString)}
     },
     resolve(parentValue, arg, context, info) {
         return MessageExec.insert(arg.sender_id, arg.receiver_id, arg.message).then(function (res) {
@@ -47,16 +47,16 @@ fields["add_message"] = {
 fields["add_company"] = {
     type: CompanyType,
     args: {
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        tagline: { type: GraphQLString },
-        description: { type: GraphQLString },
-        more_info: { type: GraphQLString },
-        img_url: { type: GraphQLString },
-        img_position: { type: GraphQLString },
-        img_size: { type: GraphQLString },
-        type: { type: GraphQLInt },
-        is_confirmed: { type: GraphQLInt },
-        accept_prescreen: { type: GraphQLInt }
+        name: {type: new GraphQLNonNull(GraphQLString)},
+        tagline: {type: GraphQLString},
+        description: {type: GraphQLString},
+        more_info: {type: GraphQLString},
+        img_url: {type: GraphQLString},
+        img_position: {type: GraphQLString},
+        img_size: {type: GraphQLString},
+        type: {type: GraphQLInt},
+        is_confirmed: {type: GraphQLInt},
+        accept_prescreen: {type: GraphQLInt}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Company.TABLE, arg).then(function (res) {
@@ -68,19 +68,19 @@ fields["add_company"] = {
 fields["edit_company"] = {
     type: CompanyType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        name: { type: GraphQLString },
-        tagline: { type: GraphQLString },
-        description: { type: GraphQLString },
-        more_info: { type: GraphQLString },
-        img_url: { type: GraphQLString },
-        img_position: { type: GraphQLString },
-        img_size: { type: GraphQLString },
-        rec_privacy: { type: GraphQLString },
-        type: { type: GraphQLInt },
-        is_confirmed: { type: GraphQLInt },
-        accept_prescreen: { type: GraphQLInt },
-        cf: { type: new GraphQLList(GraphQLString) }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        name: {type: GraphQLString},
+        tagline: {type: GraphQLString},
+        description: {type: GraphQLString},
+        more_info: {type: GraphQLString},
+        img_url: {type: GraphQLString},
+        img_position: {type: GraphQLString},
+        img_size: {type: GraphQLString},
+        rec_privacy: {type: GraphQLString},
+        type: {type: GraphQLInt},
+        is_confirmed: {type: GraphQLInt},
+        accept_prescreen: {type: GraphQLInt},
+        cf: {type: new GraphQLList(GraphQLString)}
     },
     resolve(parentValue, arg, context, info) {
         try {
@@ -98,39 +98,39 @@ fields["edit_user"] = {
     type: UserType,
     args: {
         // all roles
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        user_email: { type: GraphQLString },
-        user_pass: { type: GraphQLString },
-        first_name: { type: GraphQLString },
-        last_name: { type: GraphQLString },
-        description: { type: GraphQLString },
-        role: { type: GraphQLString },
-        img_url: { type: GraphQLString },
-        img_pos: { type: GraphQLString },
-        img_size: { type: GraphQLString },
-        feedback: { type: GraphQLString },
-        user_status: { type: GraphQLString },
-        activation_key: { type: GraphQLString },
-        cf: { type: new GraphQLList(GraphQLString) },
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        user_email: {type: GraphQLString},
+        user_pass: {type: GraphQLString},
+        first_name: {type: GraphQLString},
+        last_name: {type: GraphQLString},
+        description: {type: GraphQLString},
+        role: {type: GraphQLString},
+        img_url: {type: GraphQLString},
+        img_pos: {type: GraphQLString},
+        img_size: {type: GraphQLString},
+        feedback: {type: GraphQLString},
+        user_status: {type: GraphQLString},
+        activation_key: {type: GraphQLString},
+        cf: {type: new GraphQLList(GraphQLString)},
 
         // student only
-        university: { type: GraphQLString },
-        phone_number: { type: GraphQLString },
-        graduation_month: { type: GraphQLString },
-        graduation_year: { type: GraphQLString },
-        sponsor: { type: GraphQLString },
-        cgpa: { type: GraphQLFloat },
-        major: { type: GraphQLString },
-        minor: { type: GraphQLString },
+        university: {type: GraphQLString},
+        phone_number: {type: GraphQLString},
+        graduation_month: {type: GraphQLString},
+        graduation_year: {type: GraphQLString},
+        sponsor: {type: GraphQLString},
+        cgpa: {type: GraphQLFloat},
+        major: {type: GraphQLString},
+        minor: {type: GraphQLString},
 
         // rec only
-        company_id: { type: GraphQLInt },
-        rec_position: { type: GraphQLString }
+        company_id: {type: GraphQLInt},
+        rec_position: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         var ID = arg.ID;
         return UserExec.editUser(arg).then(function (res) {
-            return UserExec.user({ ID: ID }, graphqlFields(info));
+            return UserExec.user({ID: ID}, graphqlFields(info));
         }, (err) => {
             return err;
         });
@@ -142,12 +142,12 @@ fields["edit_user"] = {
 fields["add_doc_link"] = {
     type: DocLinkType,
     args: {
-        user_id: { type: GraphQLInt },
-        company_id: { type: GraphQLInt },
-        type: { type: new GraphQLNonNull(GraphQLString) },
-        label: { type: new GraphQLNonNull(GraphQLString) },
-        url: { type: new GraphQLNonNull(GraphQLString) },
-        description: { type: GraphQLString }
+        user_id: {type: GraphQLInt},
+        company_id: {type: GraphQLInt},
+        type: {type: new GraphQLNonNull(GraphQLString)},
+        label: {type: new GraphQLNonNull(GraphQLString)},
+        url: {type: new GraphQLNonNull(GraphQLString)},
+        description: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(DocLink.TABLE, arg).then(function (res) {
@@ -159,11 +159,11 @@ fields["add_doc_link"] = {
 fields["edit_doc_link"] = {
     type: DocLinkType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        type: { type: GraphQLString },
-        label: { type: GraphQLString },
-        url: { type: GraphQLString },
-        description: { type: GraphQLString }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        type: {type: GraphQLString},
+        label: {type: GraphQLString},
+        url: {type: GraphQLString},
+        description: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(DocLink.TABLE, arg).then(function (res) {
@@ -175,7 +175,7 @@ fields["edit_doc_link"] = {
 fields["delete_doc_link"] = {
     type: GraphQLInt,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) }
+        ID: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(DocLink.TABLE, arg.ID);
@@ -187,10 +187,10 @@ fields["delete_doc_link"] = {
 fields["add_session_note"] = {
     type: SessionNoteType,
     args: {
-        session_id: { type: new GraphQLNonNull(GraphQLInt) },
-        rec_id: { type: new GraphQLNonNull(GraphQLInt) },
-        student_id: { type: new GraphQLNonNull(GraphQLInt) },
-        note: { type: new GraphQLNonNull(GraphQLString) }
+        session_id: {type: new GraphQLNonNull(GraphQLInt)},
+        rec_id: {type: new GraphQLNonNull(GraphQLInt)},
+        student_id: {type: new GraphQLNonNull(GraphQLInt)},
+        note: {type: new GraphQLNonNull(GraphQLString)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(SessionNotes.TABLE, arg).then(function (res) {
@@ -202,8 +202,8 @@ fields["add_session_note"] = {
 fields["edit_session_note"] = {
     type: SessionNoteType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        note: { type: GraphQLString }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        note: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(SessionNotes.TABLE, arg).then(function (res) {
@@ -215,25 +215,58 @@ fields["edit_session_note"] = {
 fields["delete_session_note"] = {
     type: GraphQLInt,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) }
+        ID: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(SessionNotes.TABLE, arg.ID);
     }
 };
 
+
+/*******************************************/
+/* session_rating ******************/
+fields["add_session_rating"] = {
+    type: SessionRatingType,
+    args: {
+        session_id: {type: new GraphQLNonNull(GraphQLInt)},
+        student_id: {type: new GraphQLNonNull(GraphQLInt)},
+        rec_id: {type: new GraphQLNonNull(GraphQLInt)},
+        category: {type: new GraphQLNonNull(GraphQLString)},
+        rating: {type: new GraphQLNonNull(GraphQLInt)}
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(SessionRating.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_session_rating"] = {
+    type: SessionRatingType,
+    args: {
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        rating: {type: GraphQLInt}
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(SessionRating.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+
 /*******************************************/
 /* vacancy ******************/
 fields["add_vacancy"] = {
     type: VacancyType,
     args: {
-        company_id: { type: new GraphQLNonNull(GraphQLInt) },
-        title: { type: new GraphQLNonNull(GraphQLString) },
-        type: { type: new GraphQLNonNull(GraphQLString) },
-        created_by: { type: new GraphQLNonNull(GraphQLInt) },
-        description: { type: GraphQLString },
-        requirement: { type: GraphQLString },
-        application_url: { type: GraphQLString }
+        company_id: {type: new GraphQLNonNull(GraphQLInt)},
+        title: {type: new GraphQLNonNull(GraphQLString)},
+        type: {type: new GraphQLNonNull(GraphQLString)},
+        created_by: {type: new GraphQLNonNull(GraphQLInt)},
+        description: {type: GraphQLString},
+        requirement: {type: GraphQLString},
+        application_url: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Vacancy.TABLE, arg).then(function (res) {
@@ -245,12 +278,12 @@ fields["add_vacancy"] = {
 fields["edit_vacancy"] = {
     type: VacancyType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        title: { type: GraphQLString },
-        type: { type: GraphQLString },
-        description: { type: GraphQLString },
-        requirement: { type: GraphQLString },
-        application_url: { type: GraphQLString }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        title: {type: GraphQLString},
+        type: {type: GraphQLString},
+        description: {type: GraphQLString},
+        requirement: {type: GraphQLString},
+        application_url: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Vacancy.TABLE, arg).then(function (res) {
@@ -262,7 +295,7 @@ fields["edit_vacancy"] = {
 fields["delete_vacancy"] = {
     type: GraphQLInt,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) }
+        ID: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(Vacancy.TABLE, arg.ID);
@@ -274,8 +307,8 @@ fields["delete_vacancy"] = {
 fields["add_skill"] = {
     type: SkillType,
     args: {
-        user_id: { type: new GraphQLNonNull(GraphQLInt) },
-        label: { type: new GraphQLNonNull(GraphQLString) }
+        user_id: {type: new GraphQLNonNull(GraphQLInt)},
+        label: {type: new GraphQLNonNull(GraphQLString)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Skill.TABLE, arg).then(function (res) {
@@ -287,7 +320,7 @@ fields["add_skill"] = {
 fields["delete_skill"] = {
     type: GraphQLInt,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) }
+        ID: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(Skill.TABLE, arg.ID);
@@ -300,11 +333,11 @@ fields["delete_skill"] = {
 fields["add_session"] = {
     type: SessionType,
     args: {
-        participant_id: { type: new GraphQLNonNull(GraphQLInt) },
-        host_id: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: new GraphQLNonNull(GraphQLString) },
-        entity: { type: new GraphQLNonNull(GraphQLString) },
-        entity_id: { type: new GraphQLNonNull(GraphQLInt) }
+        participant_id: {type: new GraphQLNonNull(GraphQLInt)},
+        host_id: {type: new GraphQLNonNull(GraphQLInt)},
+        status: {type: new GraphQLNonNull(GraphQLString)},
+        entity: {type: new GraphQLNonNull(GraphQLString)},
+        entity_id: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Session.TABLE, arg).then(function (res) {
@@ -316,9 +349,9 @@ fields["add_session"] = {
 fields["edit_session"] = {
     type: SessionType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: GraphQLString },
-        ended_at: { type: GraphQLInt }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        status: {type: GraphQLString},
+        ended_at: {type: GraphQLInt}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Session.TABLE, arg).then(function (res) {
@@ -332,13 +365,13 @@ fields["edit_session"] = {
 fields["add_queue"] = {
     type: QueueType,
     args: {
-        student_id: { type: new GraphQLNonNull(GraphQLInt) },
-        company_id: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: new GraphQLNonNull(GraphQLString) }
+        student_id: {type: new GraphQLNonNull(GraphQLInt)},
+        company_id: {type: new GraphQLNonNull(GraphQLInt)},
+        status: {type: new GraphQLNonNull(GraphQLString)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Queue.TABLE, arg).then(function (res) {
-            return QueueExec.queues({ ID: res.ID }, graphqlFields(info), { single: true });
+            return QueueExec.queues({ID: res.ID}, graphqlFields(info), {single: true});
         });
     }
 };
@@ -346,12 +379,12 @@ fields["add_queue"] = {
 fields["edit_queue"] = {
     type: QueueType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: GraphQLString }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        status: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Queue.TABLE, arg).then(function (res) {
-            return QueueExec.queues({ ID: res.ID }, graphqlFields(info), { single: true });
+            return QueueExec.queues({ID: res.ID}, graphqlFields(info), {single: true});
         });
     }
 };
@@ -361,11 +394,11 @@ fields["edit_queue"] = {
 fields["add_prescreen"] = {
     type: PrescreenType,
     args: {
-        student_id: { type: new GraphQLNonNull(GraphQLInt) },
-        company_id: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: new GraphQLNonNull(GraphQLString) },
-        special_type: { type: new GraphQLNonNull(GraphQLString) },
-        appointment_time: { type: new GraphQLNonNull(GraphQLInt) }
+        student_id: {type: new GraphQLNonNull(GraphQLInt)},
+        company_id: {type: new GraphQLNonNull(GraphQLInt)},
+        status: {type: new GraphQLNonNull(GraphQLString)},
+        special_type: {type: new GraphQLNonNull(GraphQLString)},
+        appointment_time: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Prescreen.TABLE, arg).then(function (res) {
@@ -377,8 +410,8 @@ fields["add_prescreen"] = {
 fields["edit_prescreen"] = {
     type: PrescreenType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        status: { type: GraphQLString }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        status: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Prescreen.TABLE, arg).then(function (res) {
@@ -393,14 +426,14 @@ fields["edit_prescreen"] = {
 fields["add_resume_drop"] = {
     type: ResumeDropType,
     args: {
-        student_id: { type: new GraphQLNonNull(GraphQLInt) },
-        company_id: { type: new GraphQLNonNull(GraphQLInt) },
-        doc_links: { type: new GraphQLNonNull(GraphQLString) },
-        message: { type: GraphQLString }
+        student_id: {type: new GraphQLNonNull(GraphQLInt)},
+        company_id: {type: new GraphQLNonNull(GraphQLInt)},
+        doc_links: {type: new GraphQLNonNull(GraphQLString)},
+        message: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(ResumeDrop.TABLE, arg).then(function (res) {
-            return ResumeDropExec.resume_drops({ ID: res.ID }, graphqlFields(info), { single: true });
+            return ResumeDropExec.resume_drops({ID: res.ID}, graphqlFields(info), {single: true});
         });
     }
 };
@@ -408,13 +441,13 @@ fields["add_resume_drop"] = {
 fields["edit_resume_drop"] = {
     type: ResumeDropType,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) },
-        doc_links: { type: GraphQLString },
-        message: { type: GraphQLString }
+        ID: {type: new GraphQLNonNull(GraphQLInt)},
+        doc_links: {type: GraphQLString},
+        message: {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(ResumeDrop.TABLE, arg).then(function (res) {
-            return ResumeDropExec.resume_drops({ ID: res.ID }, graphqlFields(info), { single: true });
+            return ResumeDropExec.resume_drops({ID: res.ID}, graphqlFields(info), {single: true});
         });
     }
 };
@@ -422,7 +455,7 @@ fields["edit_resume_drop"] = {
 fields["delete_resume_drop"] = {
     type: GraphQLInt,
     args: {
-        ID: { type: new GraphQLNonNull(GraphQLInt) }
+        ID: {type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(ResumeDrop.TABLE, arg.ID);
@@ -438,4 +471,4 @@ const Mutation = new GraphQLObjectType({
 });
 
 
-module.exports = { Mutation };
+module.exports = {Mutation};
