@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 export default class AboutPage extends React.Component {
 
     render() {
-        document.setTitle("About");
+        document.setTitle("Coming Soon");
         return (
-            <div>About Page SOME</div>
+            <h3>Coming Soon</h3>
         );
     }
 }

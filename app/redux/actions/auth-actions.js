@@ -3,6 +3,36 @@ import { store } from '../store.js';
 import { AppConfig } from '../../../config/app-config';
 import { AuthUserKey } from '../../../config/auth-config';
 import { User, UserEnum } from '../../../config/db-config';
+import { Time } from '../../lib/time';
+
+export function isComingSoon() {
+    var start = "";
+    switch (getCF()) {
+        case "USA":
+            start = "Apr 09 2018 08:00:00 GMT -0500 (-05)"; // EST -05
+            break;
+        default:
+            return true;
+    }
+
+    var timestart = Time.convertDBTimeToUnix(start);
+    var timenow = Time.getUnixTimestampNow();
+    
+    // console.log("start time");
+    // console.log(timestart);
+    // console.log(Time.getString(timestart));
+    // console.log("time now")
+    // console.log(timenow);
+    // console.log(Time.getString(timenow));
+
+    if(timenow >= timestart){
+        //console.log("started");
+        return false;
+    }else{
+        //console.log("coming soon");
+        return true;
+    }
+}
 
 export function getCF() {
     return store.getState().auth.cf;
