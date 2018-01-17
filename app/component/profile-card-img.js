@@ -12,8 +12,26 @@ import { UploadUrl } from '../../config/app-config.js';
 require("../css/profile-card.scss");
 const pc = "pc-";
 
+export function getSizeStr(sizeStr) {
+    console.log(sizeStr);
+    if (sizeStr == null) {
+        return "cover";
+    }
+
+    return sizeStr;
+}
+
 //default is 100px
 export function getPositionStr(dimension, posStr, unit = "px", toString = false) {
+    console.log(posStr);
+
+    if (posStr == null) {
+        return "50% 50%";
+    }
+    if (posStr.indexOf("%") >= 0) {
+        return posStr;
+    }
+
     const def = 100;
     if (typeof dimension == "string") {
         dimension = Number(dimension.replace("px", ""));
@@ -32,10 +50,11 @@ export function getPositionStr(dimension, posStr, unit = "px", toString = false)
 
     ret.x = ret.x / (def / dimension);
     ret.y = ret.y / (def / dimension);
-    
+    console.log(ret);
     if (toString) {
         return `${ret.x}px ${ret.y}px`;
     }
+
 
     return ret;
 }
