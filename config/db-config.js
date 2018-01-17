@@ -133,7 +133,7 @@ const SessionRating = {
 };
 
 const SessionRatingEnum = {
-    categories: ["Knowlegde", "Confidence", "Swag", "Style"]
+    categories: ["First Impression", "Knowlegde", "Confidence"]
 };
 
 const SessionEnum = {

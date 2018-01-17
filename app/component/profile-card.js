@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ButtonIcon } from './buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
 
-import ProfileCardImg, { getPositionStr } from '../component/profile-card-img';
+import ProfileCardImg, { getPositionStr,getSizeStr} from '../component/profile-card-img';
 import Form, { toggleSubmit } from '../component/form';
 
 require("../css/profile-card.scss");
@@ -73,7 +73,7 @@ export default class ProfileCard extends React.Component {
         } else {
             stylePicture = {
                 backgroundImage: `url('${this.props.img_url}')`,
-                backgroundSize: this.props.img_size,
+                backgroundSize: getSizeStr(this.props.img_size),
                 backgroundPosition: getPositionStr(dimension, this.props.img_pos, "px", true)
             }
         }

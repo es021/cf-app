@@ -165,7 +165,7 @@ class SessionPage extends React.Component {
         // for rec
         if (this.isRec) {
             //chat
-            view.push(<div className="col-md-8 no-padding padding-right">
+            view.push(<div className="col-md-7 no-padding padding-right">
                 {chat}
             </div>);
 
@@ -182,7 +182,7 @@ class SessionPage extends React.Component {
                     student_id={session.participant_id}
                     session_id={session.ID}></SessionNotesPage>
             </div>
-            view.push(<div className="col-md-4 no-padding padding-left">
+            view.push(<div className="col-md-5 no-padding padding-left">
                 {sessionNoteRating}
             </div>);
         }
