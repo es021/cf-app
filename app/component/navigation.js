@@ -17,16 +17,30 @@ import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
 import NotFoundPage from '../page/not-found';
-import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
+import ComingSoonPage from '../page/coming-soon';
+
+import { isAuthorized, isComingSoon, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
+
+const COMING_SOON = isComingSoon();
+
+function getHomeComponent() {
+    var homeComponent = null;
+    if (isAuthorized()) {
+        if (COMING_SOON) {
+            var homeComponent = ComingSoonPage;
+        } else {
+            if (isRoleStudent()) homeComponent = HallPage;
+            else if (isRoleRec()) homeComponent = HallPage;
+            else if (isRoleAdmin()) homeComponent = CompaniesPage;
+        }
+    } else {
+        homeComponent = LandingPage;
+    }
+    return homeComponent;
+}
 
 function getMenuItem() {
-
-    //default home page redirect
-    var homeComponent = null;
-    if (isRoleStudent()) homeComponent = HallPage;
-    else if (isRoleRec()) homeComponent = HallPage;
-    else if (isRoleAdmin()) homeComponent = AboutPage;
-    else homeComponent = LandingPage;
+    var homeComponent = getHomeComponent();
 
     var menuItem = [
         {
@@ -72,7 +86,7 @@ function getMenuItem() {
             default_param: { id: getAuthUser().rec_company, current: "about" },
             disabled: !isRoleRec() && !isRoleAdmin()
         },
-        {
+        { // Admin Only
             url: "/users",
             label: "Users",
             icon: "user",
@@ -83,7 +97,7 @@ function getMenuItem() {
             hd_auth: false,
             disabled: !isRoleAdmin()
         },
-        {
+        { // Admin Only
             url: "/companies",
             label: "Companies",
             icon: "building",
@@ -103,7 +117,8 @@ function getMenuItem() {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: !isRoleStudent()
+            // is not coming soon and one of the row then show = !disabled
+            disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
         },
         {
             url: "/job-fair",
@@ -114,7 +129,8 @@ function getMenuItem() {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: isRoleAdmin()
+            // is not coming soon and one of the row then show = !disabled
+            disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
         },
         {
             url: "/faq",
