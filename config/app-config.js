@@ -36,7 +36,8 @@ const ImgConfig = {
     IsIconInverse: AssetUrl + "/asset/image/innovaseed_inverse.png",
     DefUser: AssetUrl + "/asset/image/default-user.png",
     DefCompany: AssetUrl + "/asset/image/default-company.jpg",
-    getFlag: (country, size) => AssetUrl + `/asset/image/flags/${size}/${country}.png` // www.icondrawer.com -- flag
+    getFlag: (country, size) => AssetUrl + `/asset/image/flags/${size}/${country}.png`, // www.icondrawer.com -- flag
+    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}` 
 };
 
 const OrgConfig = {

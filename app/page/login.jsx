@@ -36,11 +36,7 @@ class LoginPage extends React.Component {
     }
 
     componentWillMount() {
-        // const dataCF = CareerFair.map((d, i) => {
-        //     var newD = Object.assign({}, d);
-        //     newD.label = <span><img src={ImgConfig.getFlag(d.flag, 24)}></img>{" " + d.label}</span>;
-        //     return newD;
-        // })
+      
 
         this.formItem = [
             {

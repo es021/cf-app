@@ -69,6 +69,8 @@ class AuthAPI {
                             delete (user[User.PASSWORD]);
                             delete (user["company"]);
                             user[User.CF] = cf;
+                            //get cf object here
+                            //user["cf_object"] = {};
                             return user;
                         }
                     } else {

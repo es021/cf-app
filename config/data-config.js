@@ -15,15 +15,6 @@ const Year = [
     "2022"
 ];
 
-const { CareerFairEnum } = require('./db-config');
-
-const CareerFair = [
-    { key: CareerFairEnum.USA, label: "United States of America (USA)", flag: "United States of America(USA)" }
-    , { key: CareerFairEnum.JAPAN, label: "Japan", flag: "Japan" }
-    , { key: CareerFairEnum.INDONESIA, label: "Indonesia", flag: "Indonesia" }
-    , { key: CareerFairEnum.GERMANY, label: "Germany", flag: "Germany" }
-    , { key: CareerFairEnum.FRANCE, label: "France", flag: "France" }
-];
 
 
 const Sponsor = [
@@ -46,7 +37,7 @@ const PositionType = [
     "Co-op"
 ];
 
-module.exports = { Month, Year, Sponsor, PositionType, CareerFair };
+module.exports = { Month, Year, Sponsor, PositionType };
 
 
 

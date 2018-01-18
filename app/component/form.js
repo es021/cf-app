@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Loader } from './loader';
 import { ButtonLink } from './buttons';
-import { CareerFair } from '../../config/data-config';
+import { CareerFair } from '../../config/cf-config';
 import { ImgConfig } from '../../config/app-config';
 
 require('../css/form.scss');
@@ -15,11 +15,16 @@ export function toggleSubmit(obj, newState = {}) {
 }
 
 export function getDataCareerFair() {
-    return CareerFair.map((d, i) => {
-        var newD = Object.assign({}, d);
-        newD.label = <span><img src={ImgConfig.getFlag(d.flag, 24)}></img>{" " + d.label}</span>;
-        return newD;
-    });
+    var ret = [];
+    for (var cf in CareerFair) {
+        var d = CareerFair[cf];
+        var newD = {
+            key: cf,
+            label: <span><img src={ImgConfig.getFlag(d.flag, 24)}></img>{" " + d.title}</span>
+        };
+        ret.push(newD);
+    }
+    return ret;
 };
 
 export function checkDiff(obj, original, d, discard = []) {

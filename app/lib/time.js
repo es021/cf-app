@@ -24,6 +24,7 @@ Time.prototype.convertDBTimeToUnix = function (db_time) {
     return Date.parse(db_time) / 1000;
 };
 
+
 Time.prototype.getAgo = function (unixtimestamp) {
     if (typeof unixtimestamp === "string") {
         unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
@@ -68,14 +69,16 @@ Time.prototype.getDate = function (unixtimestamp) {
     return this.getString(unixtimestamp, false, false, true);
 };
 // mysql UNIX_TIMESTAMP(column)
-Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false) {
+Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
-  
+    console.log(unixtimestamp);
+
     if (typeof unixtimestamp === "string") {
         if (Number.isNaN(Number.parseInt(unixtimestamp))) {
             unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+            console.log(unixtimestamp);
         }
     }
 
@@ -112,6 +115,11 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
         toReturn += months[newDate.getMonth()];
         toReturn += " ";
         toReturn += newDate.getDate();
+
+        if (dateMonthOnly) {
+            return toReturn;
+        }
+
         toReturn += ", ";
         toReturn += newDate.getFullYear();
 

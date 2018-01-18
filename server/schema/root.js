@@ -1,5 +1,5 @@
 //import all type
-const {UserType
+const { UserType
     , CompanyType
     , QueueType
     , ResumeDropType
@@ -8,18 +8,20 @@ const {UserType
     , SessionRatingType
     , SessionNoteType
     , MessageType
-    , DocLinkType} = require('./all-type.js');
+    //, CFType
+    , DocLinkType } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const {UserExec} = require('../model/user-query.js');
-const {Queue, QueueExec} = require('../model/queue-query.js');
-const {CompanyExec} = require('../model/company-query.js');
-const {VacancyExec} = require('../model/vacancy-query.js');
-const {SessionExec, SessionNoteExec, SessionRatingExec} = require('../model/session-query.js');
-const {MessageExec} = require('../model/message-query.js');
-const {ResumeDropExec} = require('../model/resume-drop-query.js');
+const { UserExec } = require('../model/user-query.js');
+//const { CFExec } = require('../model/cf-query.js');
+const { Queue, QueueExec } = require('../model/queue-query.js');
+const { CompanyExec } = require('../model/company-query.js');
+const { VacancyExec } = require('../model/vacancy-query.js');
+const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
+const { MessageExec } = require('../model/message-query.js');
+const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -41,10 +43,10 @@ var fields = {};
 fields["messages"] = {
     type: new GraphQLList(MessageType),
     args: {
-        user_1: {type: new GraphQLNonNull(GraphQLInt)},
-        user_2: {type: new GraphQLNonNull(GraphQLInt)},
-        page: {type: GraphQLInt},
-        offset: {type: GraphQLInt}
+        user_1: { type: new GraphQLNonNull(GraphQLInt) },
+        user_2: { type: new GraphQLNonNull(GraphQLInt) },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return MessageExec.messages(arg, graphqlFields(info));
@@ -57,8 +59,8 @@ fields["messages"] = {
 fields["user"] = {
     type: UserType,
     args: {
-        ID: {type: GraphQLInt},
-        user_email: {type: GraphQLString}
+        ID: { type: GraphQLInt },
+        user_email: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return UserExec.user(arg, graphqlFields(info));
@@ -68,9 +70,9 @@ fields["user"] = {
 fields["users"] = {
     type: new GraphQLList(UserType),
     args: {
-        role: {type: GraphQLString},
-        page: {type: GraphQLInt},
-        offset: {type: GraphQLInt}
+        role: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return UserExec.users(arg, graphqlFields(info));
@@ -83,8 +85,8 @@ fields["users"] = {
 fields["queues"] = {
     type: new GraphQLList(QueueType),
     args: {
-        student_id: {type: GraphQLInt},
-        status: {type: GraphQLString}
+        student_id: { type: GraphQLInt },
+        status: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return QueueExec.queues(arg, graphqlFields(info));
@@ -93,11 +95,34 @@ fields["queues"] = {
 
 
 /*******************************************/
+/* CF ******************/
+// fields["cf"] = {
+//     type: CFType,
+//     args: {
+//         ID: { type: new GraphQLNonNull(GraphQLString) }
+//     },
+//     resolve(parentValue, arg, context, info) {
+//         return CFExec.cfs(arg, graphqlFields(info), { single: true });
+//     }
+// };
+
+// fields["cfs"] = {
+//     type: new GraphQLList(CFType),
+//     args: {
+//         can_login: { type: GraphQLInt },
+//         can_register: { type: GraphQLInt }
+//     },
+//     resolve(parentValue, arg, context, info) {
+//         return CFExec.cfs(arg, graphqlFields(info), {});
+//     }
+// };
+
+/*******************************************/
 /* company ******************/
 fields["company"] = {
     type: CompanyType,
     args: {
-        ID: {type: new GraphQLNonNull(GraphQLInt)}
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValue, arg, context, info) {
         return CompanyExec.company(arg.ID, graphqlFields(info));
@@ -107,9 +132,10 @@ fields["company"] = {
 fields["companies"] = {
     type: new GraphQLList(CompanyType),
     args: {
-        type: {type: GraphQLInt},
-        cf: {type: GraphQLString},
-        include_sponsor : {type:GraphQLInt}
+        type: { type: GraphQLInt },
+        cf: { type: GraphQLString },
+        include_sponsor: { type: GraphQLInt },
+        ignore_type: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return CompanyExec.companies(arg, graphqlFields(info));
@@ -121,10 +147,10 @@ fields["companies"] = {
 fields["session"] = {
     type: SessionType,
     args: {
-        ID: {type: GraphQLInt}
+        ID: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
-        return SessionExec.sessions(arg, graphqlFields(info), extra = {single: true});
+        return SessionExec.sessions(arg, graphqlFields(info), extra = { single: true });
     }
 };
 
@@ -133,9 +159,9 @@ fields["session"] = {
 fields["session_notes"] = {
     type: new GraphQLList(SessionNoteType),
     args: {
-        session_id: {type: GraphQLInt},
-        page: {type: GraphQLInt},
-        offset: {type: GraphQLInt}
+        session_id: { type: GraphQLInt },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return SessionNoteExec.session_notes(arg, graphqlFields(info), {});
@@ -145,10 +171,10 @@ fields["session_notes"] = {
 fields["session_note"] = {
     type: SessionNoteType,
     args: {
-        ID: {type: GraphQLInt}
+        ID: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
-        return SessionNoteExec.session_notes(arg, graphqlFields(info), {single: true});
+        return SessionNoteExec.session_notes(arg, graphqlFields(info), { single: true });
     }
 };
 
@@ -157,7 +183,7 @@ fields["session_note"] = {
 fields["session_ratings"] = {
     type: new GraphQLList(SessionRatingType),
     args: {
-        session_id: {type: GraphQLInt}
+        session_id: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return SessionRatingExec.session_ratings(arg, graphqlFields(info), {});
@@ -170,7 +196,7 @@ fields["session_ratings"] = {
 fields["vacancy"] = {
     type: VacancyType,
     args: {
-        ID: {type: GraphQLInt}
+        ID: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return VacancyExec.vacancy(arg, graphqlFields(info));
@@ -180,12 +206,12 @@ fields["vacancy"] = {
 fields["vacancies"] = {
     type: new GraphQLList(VacancyType),
     args: {
-        title: {type: GraphQLString},
-        type: {type: GraphQLString},
-        company_id: {type: GraphQLInt},
-        page: {type: GraphQLInt},
-        offset: {type: GraphQLInt},
-        order_by: {type: GraphQLString}
+        title: { type: GraphQLString },
+        type: { type: GraphQLString },
+        company_id: { type: GraphQLInt },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return VacancyExec.vacancies(arg, graphqlFields(info));
@@ -198,21 +224,21 @@ fields["vacancies"] = {
 fields["resume_drop"] = {
     type: ResumeDropType,
     args: {
-        ID: {type: GraphQLInt},
-        company_id: {type: GraphQLInt},
-        student_id: {type: GraphQLInt}
+        ID: { type: GraphQLInt },
+        company_id: { type: GraphQLInt },
+        student_id: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
-        return ResumeDropExec.resume_drops(arg, graphqlFields(info), {single: true});
+        return ResumeDropExec.resume_drops(arg, graphqlFields(info), { single: true });
     }
 };
 
 fields["resume_drops"] = {
     type: new GraphQLList(ResumeDropType),
     args: {
-        ID: {type: GraphQLInt},
-        company_id: {type: GraphQLInt},
-        student_id: {type: GraphQLInt}
+        ID: { type: GraphQLInt },
+        company_id: { type: GraphQLInt },
+        student_id: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return ResumeDropExec.resume_drops(arg, graphqlFields(info));
@@ -226,4 +252,4 @@ const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: fields
 });
-module.exports = {RootQuery};
+module.exports = { RootQuery };

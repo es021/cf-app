@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 import { RootPath } from '../../config/app-config';
 import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
-import { CareerFair } from '../../config/data-config';
+import { CareerFair } from '../../config/cf-config';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
