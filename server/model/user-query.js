@@ -10,7 +10,7 @@ class UserQuery {
     //  key: "value"
     //  } 
     getUser(field, params, meta_cons) {
-        console.log(params);
+        //console.log(params);
         // create basic conditions
         var id_condition = (typeof params.ID !== "undefined") ? `u.ID = ${params.ID}` : `1=1`;
         var email_condition = (typeof params.user_email !== "undefined") ? `u.user_email = '${params.user_email}'` : `1=1`;

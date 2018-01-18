@@ -23,7 +23,7 @@ class CompanyQuery {
         var sel = "";
 
         var sql = `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${ignore_type} and ${id_where} and ${include_sponsor} and ${type_where} and ${cf_where} ${order_by}`;
-        console.log(sql);
+        //console.log(sql);
         return sql;
     }
 }

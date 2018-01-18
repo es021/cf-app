@@ -55,7 +55,7 @@ var plugins = [
         }
     }),
     //new webpack.optimize.CommonsChunkPlugin('vendors'),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity }),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', minChunks: Infinity }),
     new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", { allChunks: false })
 ];
 
