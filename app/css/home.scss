@@ -1,9 +1,9 @@
 @import "define/variable.scss";
 
 body.landing-page{
-    background-image: url("https://seedsjobfair.com/image/home/1_sm.jpg") !important;
+    //background-image: url("https://seedsjobfair.com/image/home/1_sm.jpg") !important;
     background-size: cover !important;
-    background-position: center center !important;
+    //background-position: center center !important;
     background-attachment: fixed !important;
 
     .content{ 
@@ -25,6 +25,10 @@ body.landing-page{
 
         h1{
             text-transform: uppercase;
+            .subtitle{
+                text-transform: initial;
+                font-size: 80%;
+            }
         }
 
         h1,h2,h3,h4,h5,h6{

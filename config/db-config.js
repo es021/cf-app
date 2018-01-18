@@ -222,15 +222,6 @@ const ResumeDrop = {
     MESSAGE: "message"
 };
 
-// dont forget to update in data-config
-const CareerFairEnum = {
-    USA: "USA",
-    JAPAN: "JAPAN",
-    INDONESIA: "INDONESIA",
-    GERMANY: "GERMANY",
-    FRANCE: "FRANCE"
-}
-
 module.exports = {
     User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
@@ -243,5 +234,4 @@ module.exports = {
     , SessionNotes
     , SessionRating, SessionRatingEnum
     , ResumeDrop
-    , CareerFairEnum
 };

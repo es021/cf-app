@@ -1,5 +1,4 @@
 import { getNewState } from './_helper';
-import { CareerFairEnum } from '../../../config/db-config';
 import * as authActions from '../actions/auth-actions';
 import { _GET } from '../../lib/util';
 
@@ -26,6 +25,7 @@ try {
 }
 
 const AUTH_LOCAL_STORAGE = "auth";
+const CF_DEFAULT = "USA";
 
 function setAuthLocalStorage(newItem) {
     if (!hasLocalStorageSupport) {
@@ -74,9 +74,10 @@ function fixCFAuth(auth, cf = null) {
             auth["cf"] = getCF;
         }
     }
-
+    
+    // if still null get default
     if (auth["cf"] == null) {
-        auth["cf"] = CareerFairEnum.USA;
+        auth["cf"] = CF_DEFAULT;
     }
 
     return auth;

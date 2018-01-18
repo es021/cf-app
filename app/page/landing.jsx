@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { ButtonLink } from '../component/buttons';
 import LoginPage from './login';
-import { Loader } from '../component/loader';
-import { RootPath, AppConfig } from '../../config/app-config';
-import { CompanyEnum } from '../../config/db-config';
+import { RootPath, AppConfig, ImgConfig } from '../../config/app-config';
 import { Redirect, NavLink } from 'react-router-dom';
-import { getCF } from '../redux/actions/auth-actions';
-import { getAxiosGraphQLQuery } from '../../helper/api-helper';
-
+import { getCF, getCFObj } from '../redux/actions/auth-actions';
+import SponsorList from './partial/static/sponsor-list';
+import { Time } from '../lib/time';
 
 require("../css/home.scss");
 
@@ -16,23 +14,23 @@ export default class LandingPage extends React.Component {
     constructor(props) {
         super(props);
         this.CF = getCF();
-        this.state = {
-            coms: null,
-            load_coms: true
-        }
+        this.CFDetail = getCFObj();
     }
 
     componentWillMount() {
+        // set banner image
         this.body = document.getElementsByTagName("body")[0];
         this.body.className += " landing-page";
+        this.body.style.backgroundImage = `url('${ImgConfig.getBanner(this.CFDetail.banner)}')`
+        this.body.style.backgroundPosition =
+            (this.CFDetail.banner_pos) ? this.CFDetail.banner_pos : "center center";
 
-        // load coms
-        getAxiosGraphQLQuery(`query{companies(cf:"${this.CF}", include_sponsor:1){name cf type img_url img_position img_size}}`).then((res) => {
-            this.setState(() => {
-                return { coms: res.data.data.companies, load_coms: false };
-            })
-        });
-
+        // create subtitle from  date
+        if (this.CFDetail.start != null && this.CFDetail.end != null) {
+            var start = Time.getString(this.CFDetail.start, false, false, false, true);
+            var end = Time.getString(this.CFDetail.end, false, false, false, true);
+            this.subtitle = `${start} - ${end}`;
+        }
     }
 
     componentWillUnmount() {
@@ -40,15 +38,6 @@ export default class LandingPage extends React.Component {
     }
 
     render() {
-        var img = "https://seedsjobfair.com/image/home/1_sm.jpg";
-        var style = {
-            backgroundImage: `url('${img}')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-            backgroundAttachement: "fixed",
-            width: "100vw",
-            height: "200px"
-        }
 
         document.setTitle("Home");
         var register = <div>
@@ -68,33 +57,19 @@ export default class LandingPage extends React.Component {
             <h4>Login</h4>
             <LoginPage></LoginPage></div>
         var welcome = <div id="home-welcome">
-            <h1><small>WELCOME TO</small><br></br>{AppConfig.Name} - {this.CF}</h1>
+            <h1><small>WELCOME TO</small>
+                <br></br>
+                {this.CFDetail.title}
+                <br></br>
+                <div className="subtitle">{this.subtitle}</div>
+            </h1>
             {register}
             {login}
         </div>;
 
-        var sponsor = <Loader size="3" text="Loading sponsors.."></Loader>;
-        var part_com = <Loader size="3" text="Loading companies.."></Loader>;
-        if (!this.state.load_coms && this.state.coms != null) {
-            sponsor = [];
-            part_com = [];
-            this.state.coms.map((d, i) => {
-                if (d.type == 4) {
-                    part_com.push(<li>{d.name}</li>);
-                } else {
-                    sponsor.push(<li>{d.name} - {CompanyEnum.getTypeStr(d.type)}</li>);
-                }
-            });
-
-
-        }
-
         var homeBody = <div id="home-body">
             <br></br>
-            <h1>Sponsors</h1>
-            <ul>{sponsor}</ul>
-            <h1>Participating Companies</h1>
-            <ul>{part_com}</ul>
+            <SponsorList type="landing"></SponsorList>
         </div>;
 
         return (<div id="home">

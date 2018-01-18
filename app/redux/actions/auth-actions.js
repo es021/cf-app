@@ -3,23 +3,20 @@ import { store } from '../store.js';
 import { AppConfig } from '../../../config/app-config';
 import { AuthUserKey } from '../../../config/auth-config';
 import { User, UserEnum } from '../../../config/db-config';
+import { CareerFair } from '../../../config/cf-config';
 import { Time } from '../../lib/time';
 
 const TEST_USER_ID = [136, 137];
 
 export function isComingSoon() {
-
     if (TEST_USER_ID.indexOf(getAuthUser().ID) >= 0) {
         return false;
     }
+    
+    var start = getCFObj.start;
 
-    var start = "";
-    switch (getCF()) {
-        case "USA":
-            start = "Apr 09 2018 08:00:00 GMT -0500 (-05)"; // EST -05
-            break;
-        default:
-            return true;
+    if (start == null) {
+        return true;
     }
 
     var timestart = Time.convertDBTimeToUnix(start);
@@ -39,6 +36,10 @@ export function isComingSoon() {
         //console.log("coming soon");
         return true;
     }
+}
+
+export function getCFObj() {
+    return CareerFair[getCF()];
 }
 
 export function getCF() {
