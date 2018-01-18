@@ -35,6 +35,7 @@ if (!isProd) {
 
 // intercept to serve compress file
 // this has to put before Express Middleware for serving static files 
+const publicRoot = (isProd) ? "" : "public";
 const hasGz = [
     "/asset/js/main.bundle.js"
     //, "/asset/js/vendors.bundle.js"
@@ -51,7 +52,7 @@ app.get(root + '/asset/*', function (req, res, next) {
 
     if (hasGz.indexOf(req.url) >= 0) {
         req.url = req.url + '.gz' + "?v=" + version;
-        //console.log(req.url);
+        console.log(req.url);
         res.set('Content-Encoding', 'gzip');
     }
     next();
