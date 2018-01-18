@@ -37,15 +37,22 @@ if (!isProd) {
 // this has to put before Express Middleware for serving static files 
 const hasGz = [
     "/asset/js/main.bundle.js"
-    //        , "/asset/js/vendors.bundle.js"
-    //, "/asset/css/main.bundle.css"
+    //, "/asset/js/vendors.bundle.js"
+    , "/asset/css/main.bundle.css"
 ];
 
 app.get(root + '/asset/*', function (req, res, next) {
+    //strip version query
+    if (req.url.indexOf("?v=") >= 0) {
+        var urlArr = req.url.split("?v=");
+        req.url = urlArr[0];
+        var version = urlArr[1];
+    }
+
     if (hasGz.indexOf(req.url) >= 0) {
-        req.url = req.url + '.gz';
+        req.url = req.url + '.gz' + "?v=" + version;
+        //console.log(req.url);
         res.set('Content-Encoding', 'gzip');
-        //console.log("serve gzip", req.url);
     }
     next();
 });
@@ -64,7 +71,7 @@ initializeAllRoute(app, root);
 
 app.post(root + '/subscribe', function (req, res, next) {
     //console.log(action = req.body);
-    res.send({ok:true});
+    res.send({ ok: true });
 });
 
 const { template } = require('./server/html/template.js');
