@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ButtonIcon } from './buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
 
-import ProfileCardImg, { getPositionStr,getSizeStr} from '../component/profile-card-img';
+import ProfileCardImg, { getPositionStr, getSizeStr } from '../component/profile-card-img';
 import Form, { toggleSubmit } from '../component/form';
 
 require("../css/profile-card.scss");
@@ -19,33 +19,50 @@ export const PCType = {
 };
 const pc = "pc-";
 
+const getDefaultProfileImg = function (type) {
+    var url = "";
+    switch (type) {
+        case PCType.STUDENT:
+            url = ImgConfig.DefUser;
+            break;
+        case PCType.RECRUITER:
+            url = ImgConfig.DefUser;
+            break;
+        case PCType.COMPANY:
+            url = ImgConfig.DefCompany;
+            break;
+    }
+
+    return {
+        backgroundImage: `url('${url}')`,
+        backgroundSize: "cover",
+        backgroundPosition: "50% 50%"
+    };
+}
+
+export const getStyleImageObj = function (type, img_url, img_size, img_pos, dimension) {
+    var stylePicture = null;
+
+    if (typeof img_url === "undefined" || img_url == null || img_url == "") {
+        stylePicture = getDefaultProfileImg(type);
+    } else {
+        stylePicture = {
+            backgroundImage: `url('${img_url}')`,
+            backgroundSize: getSizeStr(img_size),
+            backgroundPosition: getPositionStr(dimension, img_pos, "px", true)
+        }
+    }
+
+    stylePicture["height"] = dimension;
+    stylePicture["width"] = dimension;
+
+    return stylePicture;
+}
 
 export default class ProfileCard extends React.Component {
     constructor(props) {
         super(props);
-        this.getDefaultProfileImg = this.getDefaultProfileImg.bind(this);
         this.openPictureOps = this.openPictureOps.bind(this);
-    }
-
-    getDefaultProfileImg() {
-        var url = "";
-        switch (this.props.type) {
-            case PCType.STUDENT:
-                url = ImgConfig.DefUser;
-                break;
-            case PCType.RECRUITER:
-                url = ImgConfig.DefUser;
-                break;
-            case PCType.COMPANY:
-                url = ImgConfig.DefCompany;
-                break;
-        }
-
-        return {
-            backgroundImage: `url('${url}')`,
-            backgroundSize: "cover",
-            backgroundPosition: "50% 50%"
-        };
     }
 
     openPictureOps(stylePicture) {
@@ -65,21 +82,24 @@ export default class ProfileCard extends React.Component {
         var styleParent = {
             color: (this.props.theme == "dark") ? "white" : "black",
         };
-        var stylePicture = null;
+
         var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
 
-        if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
-            stylePicture = this.getDefaultProfileImg();
-        } else {
-            stylePicture = {
-                backgroundImage: `url('${this.props.img_url}')`,
-                backgroundSize: getSizeStr(this.props.img_size),
-                backgroundPosition: getPositionStr(dimension, this.props.img_pos, "px", true)
-            }
-        }
+        var stylePicture = getStyleImageObj(this.props.type,
+            this.props.img_url, this.props.img_size, this.props.img_pos, dimension);
 
-        stylePicture["height"] = dimension;
-        stylePicture["width"] = dimension;
+        // if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
+        //     stylePicture = this.getDefaultProfileImg(this.props.type);
+        // } else {
+        //     stylePicture = {
+        //         backgroundImage: `url('${this.props.img_url}')`,
+        //         backgroundSize: getSizeStr(this.props.img_size),
+        //         backgroundPosition: getPositionStr(dimension, this.props.img_pos, "px", true)
+        //     }
+        // }
+
+        // stylePicture["height"] = dimension;
+        // stylePicture["width"] = dimension;
 
         // bagde used in queue card
         var badge = null;

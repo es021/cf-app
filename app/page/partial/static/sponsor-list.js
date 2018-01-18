@@ -4,6 +4,10 @@ import { CompanyEnum } from '../../../../config/db-config';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import { getCF } from '../../../redux/actions/auth-actions';
+import { getStyleImageObj } from '../../../component/profile-card';
+import { getCompanyCSSClass } from '../hall/companies';
+
+require("../../../css/sponsor.scss");
 
 export default class SponsorList extends React.Component {
     constructor(props) {
@@ -12,6 +16,17 @@ export default class SponsorList extends React.Component {
         this.state = {
             coms: null,
             load_coms: true
+        }
+    }
+
+    getDimensionFromSize(size) {
+        switch (size) {
+            case "lg":
+                return "150px";
+            case "md":
+                return "100px";
+            case "sm":
+                return "50px";
         }
     }
 
@@ -39,6 +54,19 @@ export default class SponsorList extends React.Component {
         });
     }
 
+    getSponsorItem(d, isSponsor = true) {
+        var dimension = (isSponsor) ? this.getDimensionFromSize(this.props.sponsor_size) : this.getDimensionFromSize(this.props.part_com_size);
+        var style = getStyleImageObj("company", d.img_url, d.img_size, d.img_pos, dimension);
+
+        var className = getCompanyCSSClass(d.type);
+        className += " " + ((isSponsor) ? this.props.sponsor_size : this.props.part_com_size);
+
+        return <div className={`sponsor-card ${className}`}>
+            <div className="image" style={style}></div>
+            {(!isSponsor) ? null : <div className="title">{CompanyEnum.getTypeStr(d.type)}</div>}
+        </div>;
+    }
+
     render() {
         var sponsor = <Loader size="3" text="Loading sponsors.."></Loader>;
         var part_com = <Loader size="3" text="Loading companies.."></Loader>;
@@ -47,21 +75,27 @@ export default class SponsorList extends React.Component {
             part_com = [];
             this.state.coms.map((d, i) => {
                 if (d.type == CompanyEnum.TYPE_NORMAL) {
-                    part_com.push(<li>{d.name}</li>);
+                    part_com.push(<li>{this.getSponsorItem(d, false)}</li>);
                 } else {
-                    sponsor.push(<li>{d.name} - {CompanyEnum.getTypeStr(d.type)}</li>);
+                    sponsor.push(<li>{this.getSponsorItem(d)}</li>);
                 }
             });
         }
-        return (<div>
+
+        var parentStyle = {
+            maxWidth: "800px",
+            margin: "auto"
+        };
+
+        return (<div style={parentStyle}>
             <div>
                 <h1>Sponsors</h1>
-                <ul>{sponsor}</ul>
+                <ul className="sponsor-container">{sponsor}</ul>
             </div>
             {(!this.props.part_com) ? null :
                 <div>
                     <h1>Participating Companies</h1>
-                    <ul>{part_com}</ul>
+                    <ul className="sponsor-container">{part_com}</ul>
                 </div>
             }
         </div>)
@@ -71,9 +105,13 @@ export default class SponsorList extends React.Component {
 
 SponsorList.propTypes = {
     type: PropTypes.oneOf(["landing", "coming-soon", "right-bar"]).isRequired,
-    part_com: PropTypes.bool
+    part_com: PropTypes.bool,
+    sponsor_size: PropTypes.oneOf("lg", "md", "sm"),
+    part_com_size: PropTypes.oneOf("lg", "md", "sm")
 };
 
 SponsorList.defaultProps = {
+    sponsor_size: "lg",
+    part_com_size: "md",
     part_com: true,
 }
