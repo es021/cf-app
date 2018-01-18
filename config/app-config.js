@@ -15,6 +15,7 @@ if (isProd) {
 }
 
 var PHPApi = (isProd) ? `https://seedsjobfair.com/php-api/` : RootUrl + `/cf-app/server/php-api/`;
+var WPAjaxApi = (isProd) ? "https://seedsjobfair.com/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
 const AppConfig = {
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
@@ -23,7 +24,7 @@ const AppConfig = {
     Api: SiteUrl,
     PHPApi: PHPApi,
     FbAppId: "315194262317447",
-    WPAjaxApi: RootUrl + "/career-fair/wp-admin/admin-ajax.php",
+    WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",
     WwwUrl: "https://seedsjobfair.com"
 };
