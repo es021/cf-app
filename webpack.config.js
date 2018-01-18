@@ -20,8 +20,6 @@ if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "productio
     isProd = true;
 }
 
-console.log("isProd",isProd);
-console.log(CompressionPlugin);
 // create Entry --------------------------------------
 var buildDevEntryPoint = function (entryPoint) {
     return [
@@ -34,7 +32,7 @@ var buildDevEntryPoint = function (entryPoint) {
 const entryPoint = {
     //main: ['babel-core/polyfill', APP_DIR + "/index.jsx"] 
     main: APP_DIR + "/index.jsx"
-            //,loading: APP_DIR + "/loading.jsx"
+    //,loading: APP_DIR + "/loading.jsx"
 };
 
 
@@ -44,7 +42,7 @@ if (isProd) {
 } else {
     entry = {
         main: buildDevEntryPoint(entryPoint.main)
-                //,loading: buildDevEntryPoint(entryPoint.loading)
+        //,loading: buildDevEntryPoint(entryPoint.loading)
     };
 }
 
@@ -57,12 +55,11 @@ var plugins = [
         }
     }),
     new webpack.optimize.CommonsChunkPlugin('vendors'),
-    new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", {allChunks: false})
+    new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", { allChunks: false })
 ];
 
 // Optimize and Minimize for Production
 if (isProd && !allowProdMap) {
-    console.log("optimizing...");
     plugins = plugins.concat([
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -80,22 +77,21 @@ if (isProd && !allowProdMap) {
                 comments: false
             },
             exclude: [/\.min\.js$/gi] // skip pre-minified libs
-        }),
-        new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])
-        
+        })
+        //,new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])
+
         //need to configure express
         , new CompressionPlugin({
             asset: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,
-            //threshold: 10240,
-            threshold: 1024,
-            minRatio: 0.8,
+            threshold: 10240,
+            minRatio: 0.8
         })
     ]);
 }
 
-var jsxLoader = {test: /\.jsx?$/, exclude: /node_modules/};
+var jsxLoader = { test: /\.jsx?$/, exclude: /node_modules/ };
 if (isProd) {
     jsxLoader.loader = 'babel-loader';
     jsxLoader.query = {
@@ -121,9 +117,9 @@ module.exports = {
              //query: {presets: ["es2015", "react", "modern-browsers"]}
              },*/
             //{test: /\.js$/, loader: "babel?presets[]=es2015&presets[]=react", exclude: /node_modules/},
-            {test: /\.css$/, loader: "style-loader!css-loader"},
+            { test: /\.css$/, loader: "style-loader!css-loader" },
             //{test: /\.scss$/, loader:  "style-loader!css-loader!sass-loader"},
-            {test: /\.scss$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])}
+            { test: /\.scss$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) }
             //,{test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"}
             //,{test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
         ]
