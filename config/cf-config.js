@@ -32,6 +32,18 @@ const CareerFair = {
         can_login: 1,
         organizer: "",
         collaborator: "",
+    },
+    "GERMANY": {
+        title: "Germany Virtual Career Fair 2018",
+        flag: "Germany",
+        banner: "Germany.jpg",
+        banner_pos: "top center",
+        start: null,
+        end: null,
+        can_register: 0,
+        can_login: 1,
+        organizer: "",
+        collaborator: "",
     }
 };
 

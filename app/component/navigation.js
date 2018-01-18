@@ -57,7 +57,8 @@ function getMenuItem() {
             url: "/about",
             label: "About",
             icon: "question",
-            component: AboutPage,
+            component: null,
+            href: "https://seedsjobfair.com/info/",
             bar_app: false,
             bar_auth: true,
             hd_app: true,
@@ -312,6 +313,14 @@ export function getBar(path, isHeader = false) {
             for (var key in d.default_param) {
                 url = url.replace(`:${key}`, d.default_param[key]);
             }
+        }
+        
+        if (d.component === null && d.href != "") {
+            return <a href={d.href} target="blank">
+                <li>
+                    <span className="menu_label">{d.label}</span>
+                </li>
+            </a>
         }
 
         return (<NavLink to={`${path}${url}`} exact={exact} key={i} activeClassName="active">
