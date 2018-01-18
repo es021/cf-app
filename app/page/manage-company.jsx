@@ -238,6 +238,9 @@ class AboutSubPage extends React.Component {
 
         // for admin
         if (isRoleAdmin()) {
+            var dataCF = getDataCareerFair();
+            dataCF.push({ key: "NONE", label: "No Career Fair" });
+
             this.formItems.push(...[
                 { header: "Admin Only" },
                 {
@@ -263,8 +266,7 @@ class AboutSubPage extends React.Component {
                     label: "Career Fair",
                     name: Company.CF,
                     type: "checkbox",
-                    data: getDataCareerFair(),
-                    required: true
+                    data: dataCF
                 }, {
                     label: "Is Sponsor Only?",
                     sublabel: "Sponsor only company will have NO booth in job fair",

@@ -57,7 +57,7 @@ class LoginPage extends React.Component {
                 label: "Select Career Fair",
                 name: User.CF,
                 type: "radio",
-                data: getDataCareerFair(),
+                data: getDataCareerFair("login"),
                 required: true
             },
 

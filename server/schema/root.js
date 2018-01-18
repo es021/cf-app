@@ -135,7 +135,9 @@ fields["companies"] = {
         type: { type: GraphQLInt },
         cf: { type: GraphQLString },
         include_sponsor: { type: GraphQLInt },
-        ignore_type: { type: GraphQLString }
+        ignore_type: { type: GraphQLString },
+        order_by: { type: GraphQLString }
+
     },
     resolve(parentValue, arg, context, info) {
         return CompanyExec.companies(arg, graphqlFields(info));

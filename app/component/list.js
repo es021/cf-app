@@ -110,7 +110,7 @@ export default class List extends React.Component {
                                 }
                             });
 
-                            return {listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty}
+                            return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
                         });
                         return;
 
@@ -128,17 +128,17 @@ export default class List extends React.Component {
             }
 
             this.setState(() => {
-                return {listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty}
+                return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
             });
 
         }
-        // error fetching
-        , (err) => {
-            var listItem = `[Error While Fetching List Data] ${err}`;
-            this.setState(() => {
-                return {listItem: listItem, fetching: false, fetching_append: false}
+            // error fetching
+            , (err) => {
+                var listItem = `[Error While Fetching List Data] ${err}`;
+                this.setState(() => {
+                    return { listItem: listItem, fetching: false, fetching_append: false }
+                });
             });
-        });
     }
 
     renderDataContent() {
@@ -150,246 +150,250 @@ export default class List extends React.Component {
 
         if (this.props.type == "table") {
             dataContent = (this.state.empty) ? this.state.listItem :
-                    <table className={`${this.props.listClass} table table-responsive table-striped table-bordered table-hover table-condensed text-left`}>
+                <div className=" table-responsive">
+                    <table className={`${this.props.listClass} table table-striped table-bordered table-hover table-condensed text-left`}>
                         {this.props.tableHeader}
                         <tbody>
                             {this.state.listItem}
                         </tbody>
-                    </table>;
+                    </table>
+                </div>;
         } else {
             dataContent = this.state.listItem;
         }
 
         return dataContent;
+    }
+
+    render() {
+        var loading = (this.props.customLoading) ? this.props.customLoading : <Loader size="2" text="Loading.."></Loader>;
+
+        var topView = null;
+        var bottomView = null;
+
+        if (this.props.type == 'list' || this.props.type == 'table') {
+            var paging = <div className={this.props.pageClass} style={{ marginBottom: "10px" }}>
+                Page <b>{this.page}</b>
+                <br></br>
+                {(this.page > 1) ?
+                    <small style={{ marginRight: "6px" }}>
+                        <ButtonLink onClick={() => this.load(this.PREV)} label="<< Prev"></ButtonLink>
+                    </small>
+                    : null
+                }
+                {(this.state.fetchCount >= this.props.offset) ?
+                    <small style={{ marginLeft: "6px" }}>
+                        <ButtonLink onClick={() => this.load(this.NEXT)} label="Next >>"></ButtonLink>
+                    </small>
+                    : null
+                }
+            </div>;
+            topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
+            bottomView = paging;
+
+        }
+        // For append type
+        else if (this.isAppendType()) {
+            var fetchBtn = null;
+            if (this.state.fetching_append) {
+                fetchBtn = <Loader size="2"></Loader>;
+            } else {
+                fetchBtn = (this.state.fetchCount >= this.props.offset) ?
+                    <small style={{ marginLeft: "6px" }}>
+                        <ButtonLink onClick={() => this.load(this.NEXT)} label={this.props.appendText}></ButtonLink>
+                    </small> : null;
+            }
+
+            if (this.props.type == "append-top") {
+                topView = fetchBtn;
+            } else if (this.props.type == "append-bottom") {
+                bottomView = fetchBtn;
+            }
+        }
+
+        var content = <div>
+            {
+                topView}
+            <ul className={`${this.props.listClass}`}>
+                {this.renderDataContent()}
+                {this.props.extraData}
+            </ul>
+            {bottomView}
+        </div>;
+        return (this.state.fetching) ? loading : content;
+    }
 }
 
-render() {
-    var loading = (this.props.customLoading) ? this.props.customLoading : <Loader size="2" text="Loading.."></Loader>;
+List.propTypes = {
+    // general props
+    offset: PropTypes.number.isRequired,
+    customLoading: PropTypes.element,
+    listClass: PropTypes.string,
+    key: PropTypes.number, // to force update
+    // function
+    loadData: PropTypes.func.isRequired, // function (page)
+    renderList: PropTypes.func.isRequired, // function (data)
+    getDataFromRes: PropTypes.func.isRequired, // key for query response
+    // type
+    // table or list 
+    // append-top used in chat
+    type: PropTypes.oneOf(["table", "list", "append-top", "append-bottom"]).isRequired,
+    // table
+    tableHeader: PropTypes.element,
+    // append-
+    appendText: PropTypes.string,
+    extraData: PropTypes.array,
+    // page config
+    pageClass: PropTypes.string
+};
 
-    var topView = null;
-    var bottomView = null;
+List.defaultProps = {
+    appendText: "Load More",
+    extraData: null,
+    pageClass: "",
+    listClass: ""
+};
 
-    if (this.props.type == 'list' || this.props.type == 'table') {
-        var paging = <div className={this.props.pageClass} style={{marginBottom: "10px" }}>
-        Page <b>{this.page}</b>
-        <br></br>
-        {(this.page > 1) ?
-                                <small style={{marginRight : "6px" }}>
-                                    <ButtonLink onClick={() => this.load(this.PREV)} label="<< Prev"></ButtonLink>
-                                </small>
-                                : null
-                                }
-                                {(this.state.fetchCount >= this.props.offset) ?
-                                                                    <small style={{marginLeft: "6px" }}>
-                                                                        <ButtonLink onClick={() => this.load(this.NEXT)} label="Next >>"></ButtonLink>
-                                                                    </small>
-                                                                        : null
-                                }
-                            </div>;
-                            topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
-                            bottomView = paging;
-                            
-                            }
-                            // For append type
-                            else if (this.isAppendType()) {
-                                                        var fetchBtn = null;
-                                                        if (this.state.fetching_append) {
-                                                                fetchBtn = <Loader size="2"></Loader>;
-                            } else {
-                                                                        fetchBtn = (this.state.fetchCount >= this.props.offset) ?
-                                                                                        <small style={{marginLeft: "6px" }}>
-                                                                                            <ButtonLink onClick={() => this.load(this.NEXT)} label={this.props.appendText}></ButtonLink>
-                                                                                        </small> : null;
-                            }
-                            
-                            if (this.props.type == "append-top") {
-                                                                                            topView = fetchBtn;
-                            } else if (this.props.type == "append-bottom") {
-                                                                                                    bottomView = fetchBtn;
-                            }
-                            }
-                            
-                            var content = <div>
-                                {
-                                                                                                    topView}
-                                <ul className={`${this.props.listClass}`}>
-                                    {this.renderDataContent()}
-                                    {this.props.extraData}
-                                </ul>
-                                {bottomView}
-                            </div>;
-                            return (this.state.fetching) ? loading : content;
-                            }
-                            }
-                            
-                            List.propTypes = {
-                                                                                            // general props
-                                                                                            offset: PropTypes.number.isRequired,
-                                                                                            customLoading: PropTypes.element,
-                                                                                            listClass: PropTypes.string,
-                                                                                            key: PropTypes.number, // to force update
-                                                                                            // function
-                                                                                            loadData: PropTypes.func.isRequired, // function (page)
-                                                                                            renderList: PropTypes.func.isRequired, // function (data)
-                                                                                            getDataFromRes: PropTypes.func.isRequired, // key for query response
-                                                                                            // type
-                                                                                            // table or list 
-                                                                                            // append-top used in chat
-                                                                                            type: PropTypes.oneOf(["table", "list", "append-top", "append-bottom"]).isRequired,
-                                                                                            // table
-                                                                                            tableHeader: PropTypes.element,
-                                                                                            // append-
-                                                                                            appendText: PropTypes.string,
-                                                                                            extraData: PropTypes.array,
-                                                                                            // page config
-                                                                                            pageClass: PropTypes.string
-                            };
-                            
-                            List.defaultProps = {
-                                                                                            appendText: "Load More",
-                                                                                            extraData: null,
-                                                                                            pageClass : ""
-                            };
-                            
-                            /*******************************************************************************************/
-                            /*******************************************************************************************/
-                            /*******************************************************************************************/
-                            /*******************************************************************************************/
-                            /*******************************************************************************************/
-                            
-                            import ProfileCard, {
-                                                                                            PCType } from './profile-card';
-                            import { Page } from 'react-facebook';
-                            
-                            export class ProfileListItem extends Component {
-                                                                                                    render() {
-                                                                                                    var className = "profile-li";
-                                                                                                    if (this.props.list_type) {
-                                                                                                            className += "-" + this.props.list_type;
-                            }
-                            var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
-                            return <ProfileCard {
-                                                                                                                ...this.props} img_dimension={img_dimension}
-                                className={className}></ProfileCard>;
-                            }
-                            }
-                            
-                            ProfileListItem.propTypes = {
-                                                                                                            list_type: PropTypes.oneOf(["card"]),
-                                                                                                            title: PropTypes.any.isRequired,
-                                                                                                            subtitle: PropTypes.string.isRequired,
-                                                                                                            badge: PropTypes.string,
-                                                                                                            badge_tooltip: PropTypes.string,
-                                                                                                            img_url: PropTypes.string,
-                                                                                                            img_pos: PropTypes.string,
-                                                                                                            img_size: PropTypes.string,
-                                                                                                            img_dimension: PropTypes.string,
-                                                                                                            type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
-                                                                                                            body: PropTypes.any
-                            };
-                            
-                            
-                            /*******************************************************************************************/
-                            
-                            export class SimpleListItem extends Component {
-                                                                                                            render() {
+/*******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
 
-                                                                                                                    var body = (this.props.body) ? <p className="sili-body">{this.props.body}</p> : null;
-                                                                                                                    var onDelete = (!this.props.onDelete) ? null :
-                                                                                                                                            <a className="sili-operation" id={this.props.onDelete.id}
-                                                                                                                                               label={this.props.onDelete.label}
-                                                                                                                                               onClick={this.props.onDelete.onClick}
-                                                                                                                                               >Delete</a>;
+import ProfileCard, {
+    PCType
+} from './profile-card';
+import { Page } from 'react-facebook';
 
-                                                                                                                       var onEdit = (!this.props.onEdit) ? null :
-                                                                                                                                            <a className="sili-operation" id={this.props.onEdit.id}
-                                                                                                                                               label={this.props.onEdit.label}
-                                                                                                                                               onClick={this.props.onEdit.onClick}
-                                                                                                                                               >Edit</a>;
+export class ProfileListItem extends Component {
+    render() {
+        var className = "profile-li";
+        if (this.props.list_type) {
+            className += "-" + this.props.list_type;
+        }
+        var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
+        return <ProfileCard {
+            ...this.props} img_dimension={img_dimension}
+            className={className}></ProfileCard>;
+    }
+}
 
-                                                                                                                       var typeClass = "";
-                                                                                                                       if (this.props.type) {
-                                                                                                                               typeClass = "simple-li-card";
-                            }
-                            
-                            return (<div className={
-                                                                                                                                `simple-li ${typeClass}`}>
-                                <div className="sili-title">{this.props.title}</div>
-                                <div className="sili-subtitle">{this.props.subtitle}{onEdit}{onDelete}</div>
-                            
-                                {body}
-                            </div>);
-                            }
-                            }
-                            
-                            SimpleListItem.propTypes = {
-                                                                                                                            title: PropTypes.any.isRequired,
-                                                                                                                            subtitle: PropTypes.string.isRequired,
-                                                                                                                            body: PropTypes.any,
-                                                                                                                            onDelete: PropTypes.obj,
-                                                                                                                            onEdit: PropTypes.obj,
-                                                                                                                            type: PropTypes.oneOf(["card"])
-                            };
-                            
-                            
-                            export class CustomList extends Component {
-                                                                                                                            getTableLi(d, i) {
-                                                                                                                                                return <tr onClick={this.props.onClick} className={liClassName} key={i}>{d}</tr>;
-                            }
-                            
-                            getLabelLi(d, i) {
-                                                                                                                                                        var labels = ["primary", "default", "success", "danger"];
-                                                                                                                                                var index = i % labels.length;
-                                                                                                                                                var liClassName = `label label-${labels[index]}`;
-                                                                                                                                                console.log(d);
-                                                                                                                                                return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
+ProfileListItem.propTypes = {
+    list_type: PropTypes.oneOf(["card"]),
+    title: PropTypes.any.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    badge: PropTypes.string,
+    badge_tooltip: PropTypes.string,
+    img_url: PropTypes.string,
+    img_pos: PropTypes.string,
+    img_size: PropTypes.string,
+    img_dimension: PropTypes.string,
+    type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
+    body: PropTypes.any
+};
 
-                            }
-                            
-                            getIconLi(d, i) {
-                                                                                                                                                        return (<li onClick={this.props.onClick} className={`li-${this.props.className}`} key={i}>
-                                                                                                                                                        
-                                                                                                                                                            {(d.label) ? <div className="cli-label">
-                                                                                                                                                                {(d.icon) ? <i className={`fa fa-${d.icon}`}></i> : null}
-                                                                                                                                                                {d.label}
-                                                                                                                                                            </div> : null}
-                                                                                                                                                            {(d.value) ? <div className="cli-value">{d.value}</div> : null}
-                                                                                                                                                        </li>);
-                            }
-                            
-                            render() {
 
-                                                                                                                                                        if (this.props.items.length === 0) {
-                                                                                                                                                        return <div className="text-muted">Nothing To Show Here</div>;
-                            }
-                            
-                            var view = this.props.items.map((d, i) => {
-                                                                                                                                                        switch (this.props.className) {
-                                                                                                                                                                case "empty":
-                                                                                                                                                                    return <li onClick={this.props.onClick} key={i}>{d}</li>;
-                                                                                                                                                                    break;
-                                                                                                                                                                case "table":
-                                                                                                                                                                    return this.getTableLi(d, i);
-                                                                                                                                                                    break;
-                                                                                                                                                                case "label":
-                                                                                                                                                                    return this.getLabelLi(d, i);
-                                                                                                                                                                    break;
-                                                                                                                                                                case "icon":
-                                                                                                                                                                    return this.getIconLi(d, i);
-                                                                                                                                                                    break;
-                            }
-                            });
-                            
-                            return (<ul
-                                className={
-                                                                                                                                                                    `custom-list-${this.props.className} ${(this.props.ux) ? "li-ux" : ""}`}>
-                                {view}</ul>);
-                            }
-                            }
-                            
-                            CustomList.propTypes = {
-                                                                                                                                                                items: PropTypes.array.isRequired,
-                                                                                                                                                                className: PropTypes.oneOf(["empty", "icon", "label"]),
-                                                                                                                                                                onClick: PropTypes.func,
-                                                                                                                                                                ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
-                            };
+/*******************************************************************************************/
+
+export class SimpleListItem extends Component {
+    render() {
+
+        var body = (this.props.body) ? <p className="sili-body">{this.props.body}</p> : null;
+        var onDelete = (!this.props.onDelete) ? null :
+            <a className="sili-operation" id={this.props.onDelete.id}
+                label={this.props.onDelete.label}
+                onClick={this.props.onDelete.onClick}
+            >Delete</a>;
+
+        var onEdit = (!this.props.onEdit) ? null :
+            <a className="sili-operation" id={this.props.onEdit.id}
+                label={this.props.onEdit.label}
+                onClick={this.props.onEdit.onClick}
+            >Edit</a>;
+
+        var typeClass = "";
+        if (this.props.type) {
+            typeClass = "simple-li-card";
+        }
+
+        return (<div className={
+            `simple-li ${typeClass}`}>
+            <div className="sili-title">{this.props.title}</div>
+            <div className="sili-subtitle">{this.props.subtitle}{onEdit}{onDelete}</div>
+
+            {body}
+        </div>);
+    }
+}
+
+SimpleListItem.propTypes = {
+    title: PropTypes.any.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    body: PropTypes.any,
+    onDelete: PropTypes.obj,
+    onEdit: PropTypes.obj,
+    type: PropTypes.oneOf(["card"])
+};
+
+
+export class CustomList extends Component {
+    getTableLi(d, i) {
+        return <tr onClick={this.props.onClick} className={liClassName} key={i}>{d}</tr>;
+    }
+
+    getLabelLi(d, i) {
+        var labels = ["primary", "default", "success", "danger"];
+        var index = i % labels.length;
+        var liClassName = `label label-${labels[index]}`;
+        console.log(d);
+        return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
+
+    }
+
+    getIconLi(d, i) {
+        return (<li onClick={this.props.onClick} className={`li-${this.props.className}`} key={i}>
+
+            {(d.label) ? <div className="cli-label">
+                {(d.icon) ? <i className={`fa fa-${d.icon}`}></i> : null}
+                {d.label}
+            </div> : null}
+            {(d.value) ? <div className="cli-value">{d.value}</div> : null}
+        </li>);
+    }
+
+    render() {
+
+        if (this.props.items.length === 0) {
+            return <div className="text-muted">Nothing To Show Here</div>;
+        }
+
+        var view = this.props.items.map((d, i) => {
+            switch (this.props.className) {
+                case "empty":
+                    return <li onClick={this.props.onClick} key={i}>{d}</li>;
+                    break;
+                case "table":
+                    return this.getTableLi(d, i);
+                    break;
+                case "label":
+                    return this.getLabelLi(d, i);
+                    break;
+                case "icon":
+                    return this.getIconLi(d, i);
+                    break;
+            }
+        });
+
+        return (<ul
+            className={
+                `custom-list-${this.props.className} ${(this.props.ux) ? "li-ux" : ""}`}>
+            {view}</ul>);
+    }
+}
+
+CustomList.propTypes = {
+    items: PropTypes.array.isRequired,
+    className: PropTypes.oneOf(["empty", "icon", "label"]),
+    onClick: PropTypes.func,
+    ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
+};

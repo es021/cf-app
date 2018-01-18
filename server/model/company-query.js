@@ -19,9 +19,11 @@ class CompanyQuery {
 
         var ignore_type = (typeof params.ignore_type === "undefined") ? "1=1" : `c.type NOT IN ${params.ignore_type}`;
 
-        var order_by = `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc`;
-        var sel = "";
+        var order_by = (typeof params.order_by === "undefined")
+            ? `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc`
+            : `order by ${params.order_by}`;
 
+        var sel = "";
         var sql = `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${ignore_type} and ${id_where} and ${include_sponsor} and ${type_where} and ${cf_where} ${order_by}`;
         //console.log(sql);
         return sql;

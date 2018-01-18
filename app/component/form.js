@@ -14,10 +14,19 @@ export function toggleSubmit(obj, newState = {}) {
     });
 }
 
-export function getDataCareerFair() {
+export function getDataCareerFair(type) {
     var ret = [];
     for (var cf in CareerFair) {
         var d = CareerFair[cf];
+
+        if (type == "login" && !d.can_login) {
+            continue;
+        }
+
+        if (type == "register" && !d.can_register) {
+            continue;
+        }
+
         var newD = {
             key: cf,
             label: <span><img src={ImgConfig.getFlag(d.flag, 24)}></img>{" " + d.title}</span>
@@ -30,11 +39,13 @@ export function getDataCareerFair() {
 export function checkDiff(obj, original, d, discard = []) {
     var hasDiff = false;
     var update = {};
+
     //get differences
     for (var k in d) {
         if (discard.indexOf(k) >= 0) {
             continue;
         }
+
         if (typeof d[k] == "object" && typeof original[k] == "object") {
             if (JSON.stringify(d[k]) != JSON.stringify(original[k])) {
                 hasDiff = true;
@@ -45,7 +56,7 @@ export function checkDiff(obj, original, d, discard = []) {
             update[k] = d[k];
         }
     }
-    console.log(update);
+
     //return;
     if (!hasDiff) {
         toggleSubmit(obj, { error: "No Changes Has Been Made" });
