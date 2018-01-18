@@ -1,18 +1,15 @@
 @import 'define/variable.scss';
-
-.sponsor-container{
+.sponsor-container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-
-    .sponsor-card{
+    .sponsor-card {
         text-align: center;
         border: lightgray 1px solid;
         margin: 10px;
         background: white;
-
-        .title{
+        .title {
             width: 100px;
             height: 40px;
             display: flex;
@@ -22,39 +19,33 @@
             line-height: 15px;
             font-weight: bold;
         }
-    
-        .image{
+        .image {
             margin: auto;
             background-repeat: no-repeat;
         }
     }
-
-    // ################################################
-    @mixin sponsor-size($size,$dimension){
-        .sponsor-card.#{$size}{
-            .title{
+    @mixin sponsor-size($size, $dimension, $font) {
+        .sponsor-card.#{$size} {
+            .title {
                 width: $dimension;
+                font-size: $font;
             }
         }
     }
-
-    @include sponsor-size("lg",150px);
-    @include sponsor-size("md",100px);
-    @include sponsor-size("sm",50px);
-
-    // ################################################
-    @mixin sponsor-color($type,$color) {
-        .sponsor-card.#{$type}{
+    @include sponsor-size("lg", 150px, 100%);
+    @include sponsor-size("md", 100px, 100%);
+    @include sponsor-size("sm", 50px, 80%);
+    @mixin sponsor-color($type, $color) {
+        .sponsor-card.#{$type} {
             border-color: darken($color, 20);
-            .title{
+            .title {
                 color: darken($color, 60);
                 background: darken($color, 20);
             }
         }
     }
-
-    @include sponsor-color("blue",$COLOR_BLUE);
-    @include sponsor-color("gold",$COLOR_GOLD);
-    @include sponsor-color("silver",$COLOR_SILVER);
-    @include sponsor-color("bronze",$COLOR_BRONZE);
+    @include sponsor-color("blue", $COLOR_BLUE);
+    @include sponsor-color("gold", $COLOR_GOLD);
+    @include sponsor-color("silver", $COLOR_SILVER);
+    @include sponsor-color("bronze", $COLOR_BRONZE);
 }

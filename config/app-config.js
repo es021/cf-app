@@ -40,47 +40,4 @@ const ImgConfig = {
     getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}` 
 };
 
-const OrgConfig = {
-    Organizer: [{
-        name: "National Assembly of Malaysian Students Association",
-        shortname: "NAMSA",
-        logo: ""
-    }],
-
-    Collaborator: [{
-        name: "US East Coast Presidential Council",
-        shortname: "EPIC",
-        logo: ""
-    }, {
-        name: "Education Malaysia at Washington DC",
-        shortname: "EMWDC",
-        logo: ""
-    }, {
-        name: "West Coast Council",
-        shortname: "WCC",
-        logo: ""
-    }, {
-        name: "Talent Corp Malaysia",
-        shortname: "",
-        logo: ""
-    }, {
-        name: "Council of Midwest Malaysian Students",
-        shortname: "COMMS",
-        logo: ""
-    }, {
-        name: "International Council of Malaysian Scholars and Associates",
-        shortname: "ICMS",
-        logo: ""
-    }, {
-        name: "Kelab UMNO Luar Negara Penn State",
-        shortname: "KULN",
-        logo: ""
-    }, {
-        name: "MASCO",
-        shortname: "MASCO",
-        logo: ""
-    }
-    ]
-};
-
-module.exports = { RootPath, SiteUrl, UploadUrl, AppConfig, ImgConfig, OrgConfig };
+module.exports = { RootPath, SiteUrl, UploadUrl, AppConfig, ImgConfig };

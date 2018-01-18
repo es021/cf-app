@@ -89,12 +89,12 @@ export default class SponsorList extends React.Component {
 
         return (<div style={parentStyle}>
             <div>
-                <h1>Sponsors</h1>
+                {(this.props.title) ? <h1>Sponsors</h1> : null}
                 <ul className="sponsor-container">{sponsor}</ul>
             </div>
             {(!this.props.part_com) ? null :
                 <div>
-                    <h1>Participating Companies</h1>
+                    {(this.props.title) ? <h1>Participating Companies</h1> : null}
                     <ul className="sponsor-container">{part_com}</ul>
                 </div>
             }
@@ -106,12 +106,14 @@ export default class SponsorList extends React.Component {
 SponsorList.propTypes = {
     type: PropTypes.oneOf(["landing", "coming-soon", "right-bar"]).isRequired,
     part_com: PropTypes.bool,
+    title: PropTypes.bool,
     sponsor_size: PropTypes.oneOf("lg", "md", "sm"),
-    part_com_size: PropTypes.oneOf("lg", "md", "sm")
+    part_com_size: PropTypes.oneOf("lg", "md", "sm"),
 };
 
 SponsorList.defaultProps = {
     sponsor_size: "lg",
     part_com_size: "md",
     part_com: true,
+    title: true
 }

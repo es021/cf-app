@@ -27,9 +27,7 @@ export default class LandingPage extends React.Component {
 
         // create subtitle from  date
         if (this.CFDetail.start != null && this.CFDetail.end != null) {
-            var start = Time.getString(this.CFDetail.start, false, false, false, true);
-            var end = Time.getString(this.CFDetail.end, false, false, false, true);
-            this.subtitle = `${start} - ${end}`;
+            this.subtitle = Time.getPeriodString(this.CFDetail.start, this.CFDetail.end);
         }
     }
 

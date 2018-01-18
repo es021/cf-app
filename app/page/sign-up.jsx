@@ -4,7 +4,7 @@ import Form, { toggleSubmit, getDataCareerFair } from '../component/form';
 import { UserMeta, User, UserEnum } from '../../config/db-config';
 import { Month, Year, Sponsor } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
-import { register, getCF } from '../redux/actions/auth-actions';
+import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
 import { RootPath } from '../../config/app-config';
 
 export default class SignUpPage extends React.Component {
@@ -22,6 +22,12 @@ export default class SignUpPage extends React.Component {
 
     componentWillMount() {
         this.CF = getCF();
+        this.CFObj = getCFObj();
+
+        if (!this.CFObj.can_register) {
+            return;
+        }
+
         this.defaultValues = {};
         this.defaultValues[User.CF] = this.CF;
 
@@ -30,7 +36,7 @@ export default class SignUpPage extends React.Component {
             {
                 name: User.CF,
                 type: "radio",
-                data: getDataCareerFair(),
+                data: getDataCareerFair("register"),
                 required: true
             },
             { header: "Basic Information" },
@@ -151,7 +157,7 @@ export default class SignUpPage extends React.Component {
 
         var err = this.filterForm(d)
         if (err === 0) {
-            
+
             //prepare data for registration
             d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
             d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
@@ -179,6 +185,17 @@ export default class SignUpPage extends React.Component {
     render() {
         document.setTitle("Sign Up");
 
+        if (!this.CFObj.can_register) {
+            return <div>
+                <h3>Registration for
+                    <br></br><b>{this.CFObj.title}</b>
+                    <br></br>is not open yet
+                    <br></br>
+                    <small>Stay Tuned For More Info</small>
+                </h3>
+            </div>;
+        }
+
         var content = null;
         if (this.state.success) {
             //scroll to top
@@ -192,7 +209,7 @@ export default class SignUpPage extends React.Component {
                 Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
                 <br></br>
                 <small><i>** The email might take a few minutes to arrive **</i></small>
-            </div> 
+            </div>
         } else {
             content = <div>
                 <h3>Student Registration<br></br></h3>

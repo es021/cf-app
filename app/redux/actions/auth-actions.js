@@ -3,7 +3,7 @@ import { store } from '../store.js';
 import { AppConfig } from '../../../config/app-config';
 import { AuthUserKey } from '../../../config/auth-config';
 import { User, UserEnum } from '../../../config/db-config';
-import { CareerFair } from '../../../config/cf-config';
+import { CareerFair, CareerFairOrg } from '../../../config/cf-config';
 import { Time } from '../../lib/time';
 
 const TEST_USER_ID = [136, 137];
@@ -12,7 +12,7 @@ export function isComingSoon() {
     if (TEST_USER_ID.indexOf(getAuthUser().ID) >= 0) {
         return false;
     }
-    
+
     var start = getCFObj.start;
 
     if (start == null) {
@@ -38,6 +38,12 @@ export function isComingSoon() {
     }
 }
 
+// ############################################
+// CF
+export function getCFOrg() {
+    return CareerFairOrg[getCF()];
+}
+
 export function getCFObj() {
     return CareerFair[getCF()];
 }
@@ -50,6 +56,9 @@ export function isAuthorized() {
     return store.getState().auth.isAuthorized;
 }
 
+
+// ############################################
+// Auth
 export function getAuthUser() {
     if (!isAuthorized()) {
         return {};

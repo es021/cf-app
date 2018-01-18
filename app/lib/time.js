@@ -15,6 +15,12 @@ Time.prototype.isUnixElapsedHour = function (unixtimestamp, hour) {
     }
 };
 
+Time.prototype.getPeriodString = function (start, end) {
+    var startStr = Time.getString(start, false, false, false, true); // day n month only
+    var endStr = Time.getString(end, false, false, true, false); // with year
+    return `${startStr} - ${endStr}`;
+}
+
 Time.prototype.getUnixTimestampNow = function () {
     var date = new Date();
     return Math.round(date.getTime() / 1000);
