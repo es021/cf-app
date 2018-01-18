@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 import { RootPath } from '../../config/app-config';
 import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
-import {CareerFair} from '../../config/data-config';
+import { CareerFair } from '../../config/data-config';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -225,6 +225,7 @@ class AboutSubPage extends React.Component {
               img_position
               img_size
               rec_privacy
+              sponsor_only
           }}`;
 
         getAxiosGraphQLQuery(query).then((res) => {
@@ -254,6 +255,7 @@ class AboutSubPage extends React.Component {
                         , { key: CompanyEnum.TYPE_GOLD, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_GOLD) }
                         , { key: CompanyEnum.TYPE_SILVER, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_SILVER) }
                         , { key: CompanyEnum.TYPE_BRONZE, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_BRONZE) }
+                        , { key: CompanyEnum.TYPE_PLATINUM, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_PLATINUM) }
                         , { key: CompanyEnum.TYPE_SPECIAL, label: CompanyEnum.getTypeStr(CompanyEnum.TYPE_SPECIAL) }
                     ],
                     required: true
@@ -263,6 +265,14 @@ class AboutSubPage extends React.Component {
                     type: "checkbox",
                     data: CareerFair,
                     required: true
+                }, {
+                    label: "Is Sponsor Only?",
+                    sublabel: "Sponsor only company will have NO booth in job fair",
+                    name: Company.SPONSOR_ONLY,
+                    type: "radio",
+                    required: true,
+                    data: [{ key: 1, label: "Yes" }
+                        , { key: 0, label: "No" }]
                 }
             ]);
         }

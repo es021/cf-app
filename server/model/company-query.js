@@ -8,10 +8,20 @@ class CompanyQuery {
         var cf_where = (typeof params.cf === "undefined") ? "1=1"
             : `(${DB.cfMapSelect("company", "c.ID", params.cf)}) = '${params.cf}'`;
 
-        var order_by = `order by c.${Company.TYPE} asc`;
+        var include_sponsor = "c.sponsor_only = 0";
+        if ((typeof params.ID === "undefined")) {
+            if (typeof params.include_sponsor !== "undefined") {
+                include_sponsor = "1=1";
+            }
+        } else {
+            include_sponsor = "1=1";
+        }
+
+        var order_by = `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc`;
         var sel = "";
 
-        var sql =  `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${id_where} and ${type_where} and ${cf_where} ${order_by}`;
+        var sql = `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${id_where} and ${include_sponsor} and ${type_where} and ${cf_where} ${order_by}`;
+        console.log(sql);
         return sql;
     }
 }
@@ -32,7 +42,7 @@ class CompanyExec {
         var isSingle = (type === "single");
         var sql = CompanyQuery.getCompany(params, field);
 
-       
+
         return DB.query(sql).then(function (res) {
 
             for (var i in res) {

@@ -26,6 +26,7 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
+    GraphQLBoolean,
     GraphQLList,
     GraphQLNonNull
 } = require('graphql');
@@ -107,7 +108,8 @@ fields["companies"] = {
     type: new GraphQLList(CompanyType),
     args: {
         type: {type: GraphQLInt},
-        cf: {type: GraphQLString}
+        cf: {type: GraphQLString},
+        include_sponsor : {type:GraphQLInt}
     },
     resolve(parentValue, arg, context, info) {
         return CompanyExec.companies(arg, graphqlFields(info));

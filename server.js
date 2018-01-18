@@ -10,7 +10,11 @@ const isProd = (process.env.NODE_ENV === "production");
 
 var root = (isProd) ? "/cf" : "";
 //var root = "";
-
+if (isProd) {
+    console.log = function (mes) {
+        return;
+    };
+}
 //Use Career Fair Schema
 const schemaCF = require('./server/schema/_schema_cf.js');
 
@@ -41,7 +45,7 @@ app.get(root + '/asset/*', function (req, res, next) {
     if (hasGz.indexOf(req.url) >= 0) {
         req.url = req.url + '.gz';
         res.set('Content-Encoding', 'gzip');
-        console.log("serve gzip", req.url);
+        //console.log("serve gzip", req.url);
     }
     next();
 });
@@ -59,14 +63,14 @@ app.use(root + '/graphql', expressGraphQL({
 initializeAllRoute(app, root);
 
 app.post(root + '/subscribe', function (req, res, next) {
-    console.log(action = req.body);
+    //console.log(action = req.body);
     res.send({ok:true});
 });
 
 const { template } = require('./server/html/template.js');
 
 app.get(root, function (req, res, next) {
-    console.log("root");
+    //console.log("root");
     template("Test");
 
     res.sendFile(__dirname + '/public/index.html');
