@@ -16,7 +16,7 @@ CFQuery = new CFQuery();
 class CFExec {
     cfs(params, field, extra = {}) {
         var sql = CFQuery.getCF(params);
-        console.log(sql);
+        //console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             if (extra.single && res !== null) {
                 return res[0];

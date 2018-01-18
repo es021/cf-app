@@ -27,7 +27,7 @@ var DB = function (env) {
      if (err) {
      throw err;
      } else {
-     console.log("DB Connected");
+     //console.log("DB Connected");
      }
      });
      */
@@ -48,7 +48,7 @@ DB.prototype.getCF = function (entity, entity_id) {
 };
 
 DB.prototype.updateCF = function (entity, entity_id, cf, isDelete = true) {
-    console.log("updateCF");
+    //console.log("updateCF");
     var insertAction = (res) => {
         var ins = `INSERT INTO cf_map (entity, entity_id, cf) VALUES `;
         // make cf to array
@@ -207,7 +207,7 @@ DB.prototype.delete = function (table, ID, ID_key = "ID") {
     }
 
     var sql = `DELETE FROM ${table} WHERE ${ID_key} = '${ID}'`;
-    console.log(sql);
+    //console.log(sql);
 
     return this.query(sql).then(function (res) {
         //console.log("finish delete", res);

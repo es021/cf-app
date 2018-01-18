@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
-import Form, { toggleSubmit, checkDiff } from '../component/form';
+import Form, { toggleSubmit, checkDiff, getDataCareerFair } from '../component/form';
 import { UserMeta, User, Vacancy, VacancyEnum, UserEnum, Skill } from '../../config/db-config';
 import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-config';
 import { ButtonLink } from '../component/buttons';
@@ -263,7 +263,7 @@ class AboutSubPage extends React.Component {
                     label: "Career Fair",
                     name: Company.CF,
                     type: "checkbox",
-                    data: CareerFair,
+                    data: getDataCareerFair(),
                     required: true
                 }, {
                     label: "Is Sponsor Only?",

@@ -68,7 +68,7 @@ class SessionQuery {
                 params.status = [params.status];
             }
 
-            console.log(params.status);
+            //console.log(params.status);
             status_where = "q.status in ( ";
             params.status.map((d, i) => {
                 status_where += `'${d}',`;
