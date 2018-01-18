@@ -41,20 +41,20 @@ const initializeAllRoute = function (app, root) {
 
 
     // Activity Route ----------------------------------------------------------------
-    const { ZoomAPI } = require('./zoom-api');
-    app.post(root + '/zoom/:action', function (req, res, next) {
-        var action = req.params.action;
-        console.log(action);
+    // const { ZoomAPI } = require('./zoom-api');
+    // app.post(root + '/zoom/:action', function (req, res, next) {
+    //     var action = req.params.action;
+    //     console.log(action);
 
-        switch (action) {
-            case 'test':
-                ZoomAPI.test()
-                    .then((response) => {
-                        routeResHandler(res, response);
-                    });
-                break;
-        }
-    });
+    //     switch (action) {
+    //         case 'test':
+    //             ZoomAPI.test()
+    //                 .then((response) => {
+    //                     routeResHandler(res, response);
+    //                 });
+    //             break;
+    //     }
+    // });
 
 
 
