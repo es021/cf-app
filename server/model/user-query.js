@@ -45,7 +45,7 @@ class UserQuery {
 
         var sql = `SELECT u.* ${meta_sel}
            FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${order_by} ${limit} `;
-        console.log(sql);
+        //console.log(sql);
         /*
          var sql = `SELECT u.* 
          ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
@@ -224,8 +224,8 @@ class UserExec {
         } else {
             sql = UserQuery.getUser(field, params, metaCons);
         }
-        console.log("getUserHelper", params);
-        console.log(sql);
+        //console.log("getUserHelper", params);
+        //console.log(sql);
 
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {

@@ -5,7 +5,14 @@ import { AuthUserKey } from '../../../config/auth-config';
 import { User, UserEnum } from '../../../config/db-config';
 import { Time } from '../../lib/time';
 
+const TEST_USER_ID = [136, 137];
+
 export function isComingSoon() {
+
+    if (TEST_USER_ID.indexOf(getAuthUser().ID) >= 0) {
+        return false;
+    }
+
     var start = "";
     switch (getCF()) {
         case "USA":
@@ -17,7 +24,7 @@ export function isComingSoon() {
 
     var timestart = Time.convertDBTimeToUnix(start);
     var timenow = Time.getUnixTimestampNow();
-    
+
     // console.log("start time");
     // console.log(timestart);
     // console.log(Time.getString(timestart));
@@ -25,10 +32,10 @@ export function isComingSoon() {
     // console.log(timenow);
     // console.log(Time.getString(timenow));
 
-    if(timenow >= timestart){
+    if (timenow >= timestart) {
         //console.log("started");
         return false;
-    }else{
+    } else {
         //console.log("coming soon");
         return true;
     }

@@ -30,7 +30,7 @@ class CompaniesPage extends React.Component {
     loadData(page, offset) {
         return getAxiosGraphQLQuery(`
         query{
-            companies{
+            companies(include_sponsor:1){
                 ID
                 cf
                 name

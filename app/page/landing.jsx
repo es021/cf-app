@@ -27,7 +27,7 @@ export default class LandingPage extends React.Component {
         this.body.className += " landing-page";
 
         // load coms
-        getAxiosGraphQLQuery(`query{companies(cf:"${this.CF}"){name cf type img_url img_position img_size}}`).then((res) => {
+        getAxiosGraphQLQuery(`query{companies(cf:"${this.CF}", include_sponsor:1){name cf type img_url img_position img_size}}`).then((res) => {
             this.setState(() => {
                 return { coms: res.data.data.companies, load_coms: false };
             })
