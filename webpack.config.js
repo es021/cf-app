@@ -20,6 +20,8 @@ if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "productio
     isProd = true;
 }
 
+console.log("isProd",isProd);
+console.log(CompressionPlugin);
 // create Entry --------------------------------------
 var buildDevEntryPoint = function (entryPoint) {
     return [
@@ -60,6 +62,7 @@ var plugins = [
 
 // Optimize and Minimize for Production
 if (isProd && !allowProdMap) {
+    console.log("optimizing...");
     plugins = plugins.concat([
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -78,14 +81,16 @@ if (isProd && !allowProdMap) {
             },
             exclude: [/\.min\.js$/gi] // skip pre-minified libs
         }),
-        new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+        new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])
+        
         //need to configure express
-        new CompressionPlugin({
+        , new CompressionPlugin({
             asset: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,
-            threshold: 10240,
-            minRatio: 0
+            //threshold: 10240,
+            threshold: 1024,
+            minRatio: 0.8,
         })
     ]);
 }
