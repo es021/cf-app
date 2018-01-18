@@ -38,7 +38,7 @@ if (!isProd) {
 const hasGz = [
     "/asset/js/main.bundle.js"
     //, "/asset/js/vendors.bundle.js"
-    , "/asset/css/main.bundle.css"
+    //, "/asset/css/main.bundle.css"
 ];
 
 app.get(root + '/asset/*', function (req, res, next) {
