@@ -3,10 +3,17 @@ const { Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacanc
 
 class CompanyQuery {
     getCompany(params, field) {
-        var type_where = (typeof params.type === "undefined") ? "1=1" : `c.${Company.TYPE} LIKE '%${params.type}%'`;
-        var id_where = (typeof params.ID === "undefined") ? "1=1" : `c.${Company.ID} = '${params.ID}'`;
+        var type_where = (typeof params.type === "undefined") ? "1=1"
+            : `c.${Company.TYPE} LIKE '%${params.type}%'`;
+
+        var id_where = (typeof params.ID === "undefined") ? "1=1"
+            : `c.${Company.ID} = '${params.ID}'`;
+
         var cf_where = (typeof params.cf === "undefined") ? "1=1"
             : `(${DB.cfMapSelect("company", "c.ID", params.cf)}) = '${params.cf}'`;
+
+        var ps_where = (typeof params.accept_prescreen === "undefined") ? "1=1"
+            : `c.${Company.ACCEPT_PRESCREEN} = '${params.accept_prescreen}'`;
 
         var include_sponsor = "c.sponsor_only = 0";
         if ((typeof params.ID === "undefined")) {
@@ -23,8 +30,12 @@ class CompanyQuery {
             ? `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc`
             : `order by ${params.order_by}`;
 
-        var sel = "";
-        var sql = `select c.* ${sel} from ${Company.TABLE} c where 1=1 and ${ignore_type} and ${id_where} and ${include_sponsor} and ${type_where} and ${cf_where} ${order_by}`;
+        var sql = `select c.* from ${Company.TABLE} c where 1=1 
+            and ${ignore_type} and ${id_where} 
+            and ${include_sponsor} and ${type_where} 
+            and ${cf_where} and ${ps_where}
+            ${order_by}`;
+
         //console.log(sql);
         return sql;
     }

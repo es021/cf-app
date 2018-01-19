@@ -134,6 +134,7 @@ fields["companies"] = {
     args: {
         type: { type: GraphQLInt },
         cf: { type: GraphQLString },
+        accept_prescreen: { type: GraphQLInt },
         include_sponsor: { type: GraphQLInt },
         ignore_type: { type: GraphQLString },
         order_by: { type: GraphQLString }
