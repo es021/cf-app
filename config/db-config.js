@@ -78,14 +78,18 @@ const DocLinkEnum = {
 const Prescreen = {
     TABLE: "pre_screens",
     STUDENT_ID: "student_id",
+    COMPANY_ID: "company_id",
     CREATED_AT: "created_at",
+    APPNMENT_TIME: "appointment_time",
+    SPECIAL_TYPE: "special_type",
     STATUS: "status"
 };
 
 const PrescreenEnum = {
     STATUS_PENDING: "Pending",
     STATUS_APPROVED: "Approved",
-    STATUS_DONE: "Done"
+    STATUS_DONE: "Done",
+    ST_SEC_ROUND: "2nd Round"
 };
 
 

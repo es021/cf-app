@@ -4,31 +4,51 @@ import { getCF, getCFObj, isRoleStudent, getAuthUser } from '../redux/actions/au
 import { Time } from '../lib/time';
 import PropTypes from 'prop-types';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
+import Form, { toggleSubmit, checkDiff } from '../component/form';
+import { Prescreen, PrescreenEnum } from '../../config/db-config';
+import obj2arg from 'graphql-obj2arg';
+import { NavLink } from 'react-router-dom';
 
 class RegisterPS extends React.Component {
     constructor(props) {
         super(props);
-
         this.CF = getCF();
         this.user_id = getAuthUser().ID;
 
         this.state = {
             coms: null,
-            reg_ps: null,
-            loading: true
-        }
+            user_data: null,
+            loading: true,
+            disableSubmit: false,
+            error: null,
+            success: null,
+            defaultValues: {}
+        };
+
+
+        this.formOnSubmit = this.formOnSubmit.bind(this);
+        this.hasResume = this.hasResume.bind(this);
     }
 
     componentWillMount() {
         var coms = false;
-        var reg_ps = false;
+        var user_data = false;
 
         function finishLoad() {
             if (coms !== false && student !== false) {
                 this.setState(() => {
+
+                    // create form default value
+                    var defaultValues = {};
+                    defaultValues[Prescreen.COMPANY_ID]
+                        = user_data.registered_prescreens.map((d, i) => {
+                            return d.company_id;
+                        });
+
                     return {
                         coms: coms,
                         reg_ps: reg_ps,
+                        defaultValues: defaultValues,
                         loading: false
                     };
                 });
@@ -41,13 +61,46 @@ class RegisterPS extends React.Component {
                 finishLoad();
             });
 
-        //load student user(ID:235){
+        //load student 
         getAxiosGraphQLQuery(`query{user(ID:${this.user_id})
-            {registered_prescreens {ID company_id status} }}`)
+            { doc_links{label} registered_prescreens{ID company_id status} }}`)
             .then((res) => {
-                reg_ps = res.data.data.user.registered_prescreens;
+                user_data = res.data.data.user;
                 finishLoad();
             });
+    }
+
+    hasResume() {
+        var hasResume = false;
+        this.state.user_data.doc_links.map((d, i) => {
+            var label = d.label.replaceAll(" ", "");
+            if (label.toUpperCase() == "RESUME") {
+                hasResume = true;
+            }
+        });
+        return hasResume;
+    }
+
+    formOnSubmit(d) {
+        console.log("form data");
+        console.log(d);
+        console.log("existing data");
+        console.log(this.defaultValues[Prescreen.COMPANY_ID]);
+
+        return;
+        toggleSubmit(this, { error: null, success: null });
+
+        var ins = {};
+        ins[Prescreen.STUDENT_ID] = this.user_id;
+        ins[Prescreen.STATUS] = PrescreenEnum.STATUS_PENDING;
+        ins[Prescreen.COMPANY_ID] = d.ID;
+
+        var insert = `mutation{add_prescreen(${obj2arg(ins, { noOuterBraces: true })})
+        {ID}}`;
+
+        getAxiosGraphQLQuery(insert).then((res) => {
+
+        });
     }
 
     render() {
@@ -57,8 +110,45 @@ class RegisterPS extends React.Component {
         if (this.state.loading) {
             view = <Loader size="2" text="Loading Prescreen Companies.."></Loader>;
         } else {
-            view = JSON.stringify(this.state.coms);
-            view += JSON.stringify(this.state.reg_ps);
+            // view = JSON.stringify(this.state.coms);
+            // view += JSON.stringify(this.state.reg_ps);
+
+            // create form item
+            var dataComs = this.state.coms.map((d, i) => {
+                return { key: d.ID, label: d.name };
+            });
+
+            var formItems = {
+                label: "Select Company To Register",
+                name: Prescreen.COMPANY_ID,
+                type: "checkbox",
+                data: dataComs
+            }
+
+
+
+            console.log("forms");
+            console.log(formItems);
+            console.log(this.state.defaultValues);
+
+            view = <div>
+                <Form className="form-row"
+                    items={formItems}
+                    onSubmit={this.formOnSubmit}
+                    submitText='Submit Registration'
+                    defaultValues={this.state.defaultValues}
+                    disableSubmit={this.state.disableSubmit && this.hasResume}
+                    error={this.state.error}
+                    success={this.state.success}>
+                </Form>
+                {(!this.hasResume)
+                    ? <div>Please upload a document with label <b>"Resume"</b> at
+                        <NavLink to={`${path}/edit-profile/doc-link`}>
+                            Document & Link
+                        </NavLink> before you can register for pre-screens
+                    </div>
+                    : null}
+            </div>;
         }
 
         return <div>
