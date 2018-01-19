@@ -19,11 +19,9 @@ import SessionPage from '../page/session';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 
-import { isAuthorized, isComingSoon, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
+import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 
-const COMING_SOON = isComingSoon();
-
-function getHomeComponent() {
+function getHomeComponent(COMING_SOON) {
     var homeComponent = null;
     if (isAuthorized()) {
         if (COMING_SOON) {
@@ -39,9 +37,8 @@ function getHomeComponent() {
     return homeComponent;
 }
 
-function getMenuItem() {
-    var homeComponent = getHomeComponent();
-
+function getMenuItem(COMING_SOON) {
+    var homeComponent = getHomeComponent(COMING_SOON);
     var menuItem = [
         {
             url: "/",
@@ -231,9 +228,9 @@ function getMenuItem() {
 // ############################################################################/
 /**** HELPER FUNCTION *******/
 
-export function getRoute(path) {
+export function getRoute(path, COMING_SOON) {
     var isLog = isAuthorized();
-    var menuItem = getMenuItem();
+    var menuItem = getMenuItem(COMING_SOON);
     var routes = menuItem.map(function (d, i) {
         //restricted
         if (d.disabled) {
@@ -292,10 +289,10 @@ function isBarValid(isHeader, isLog, d) {
 }
 
 
-export function getBar(path, isHeader = false) {
+export function getBar(path, COMING_SOON, isHeader = false) {
 
     var isLog = isAuthorized();
-    var menuItem = getMenuItem();
+    var menuItem = getMenuItem(COMING_SOON);
 
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
@@ -314,7 +311,7 @@ export function getBar(path, isHeader = false) {
                 url = url.replace(`:${key}`, d.default_param[key]);
             }
         }
-        
+
         if (d.component === null && d.href != "") {
             return <a href={d.href} target="blank">
                 <li>

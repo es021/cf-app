@@ -6,6 +6,7 @@ import { Redirect, NavLink } from 'react-router-dom';
 import { getCF, getCFObj } from '../redux/actions/auth-actions';
 import SponsorList from './partial/static/sponsor-list';
 import { Time } from '../lib/time';
+import Timer from '../component/timer';
 
 require("../css/home.scss");
 
@@ -36,7 +37,6 @@ export default class LandingPage extends React.Component {
     }
 
     render() {
-
         document.setTitle("Home");
         var register = <div>
             <h4>Register As</h4>
@@ -59,7 +59,9 @@ export default class LandingPage extends React.Component {
                 <br></br>
                 {this.CFDetail.title}
                 <br></br>
-                <div className="subtitle">{this.subtitle}</div>
+                <div className="subtitle">{this.subtitle}
+                    <Timer type="light" end={this.CFDetail.end}></Timer>
+                </div>
             </h1>
             {register}
             {login}

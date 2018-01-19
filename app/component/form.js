@@ -324,13 +324,18 @@ export default class Form extends React.Component {
                 item = d.data.map((data, i) => {
                     var name = `${d.name}::${i + 1}`;
                     var checked = false;
+                    var disabled = false;
                     if (this.props.defaultValues[d.name]) {
                         checked = (this.props.defaultValues[d.name].indexOf(data.key) >= 0);
+                        if (checked && d.disabledOnChecked) {
+                            disabled = true;
+                            data.label = <div>{data.label} {d.disabledOnChecked}</div>;
+                        }
                     }
                     return <div key={i} className="checkbox"><label className="checkbox-inline">
                         <input onBlur={this.onBlur}
                             onChange={d.onChange}
-                            disabled={d.disabled}
+                            disabled={d.disabled || disabled}
                             hidden={d.hidden}
                             name={name}
                             type={d.type}

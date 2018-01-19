@@ -3,14 +3,14 @@ import { render } from "react-dom";
 import { BrowserRouter, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
-import { isAuthorized } from "./redux/actions/auth-actions";
+import { isAuthorized, isComingSoon } from "./redux/actions/auth-actions";
 
 console.log(process.env.NODE_ENV);
- 
+
 //import {User} from '../config/db-config'; 
 
 //console.log(User);
-      
+
 require("./lib/util.js");
 
 //require("./lib/AutoComplete.js");
@@ -39,9 +39,11 @@ class PrimaryLayout extends React.Component {
 		console.log("PrimaryLayout");
 		window.scrollTo(0, 0);
 		var path = this.props.match.path;
-		var headerMenu = Navigation.getBar(path, true);
-		var sideMenu = Navigation.getBar(path);
-		var route = Navigation.getRoute(path);
+
+		var COMING_SOON = isComingSoon();
+		var headerMenu = Navigation.getBar(path, COMING_SOON, true);
+		var sideMenu = Navigation.getBar(path, COMING_SOON);
+		var route = Navigation.getRoute(path, COMING_SOON);
 
 		if (!isAuthorized()) {
 			return (<div className="primary-layout landing-page">
@@ -71,9 +73,9 @@ class PrimaryLayout extends React.Component {
 			</div>);
 		}
 	}
-} 
+}
 
-  
+
 
 import AuthorizedRoute from "./component/authorize-route";
 import { RootPath } from "../config/app-config";
