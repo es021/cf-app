@@ -112,6 +112,12 @@ const Session = {
     STATUS: "status"
 };
 
+const SessionEnum = {
+    STATUS_EXPIRED: "Expired",
+    STATUS_LEFT: "Left",
+    STATUS_ACTIVE: "Active"
+};
+
 const SessionNotes = {
     TABLE: "session_notes",
     ID: "ID",
@@ -136,11 +142,6 @@ const SessionRatingEnum = {
     categories: ["First Impression", "Knowlegde", "Confidence"]
 };
 
-const SessionEnum = {
-    STATUS_EXPIRED: "Expired",
-    STATUS_LEFT: "Left",
-    STATUS_ACTIVE: "Active"
-};
 
 const Company = {
     TABLE: "companies",

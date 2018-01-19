@@ -38,6 +38,7 @@ const UserType = new GraphQLObjectType({
 
         //active activity
         queues: { type: new GraphQLList(QueueType) },
+        registered_prescreens: { type: new GraphQLList(PrescreenType) },
         prescreens: { type: new GraphQLList(PrescreenType) },
         sessions: { type: new GraphQLList(SessionType) },
 

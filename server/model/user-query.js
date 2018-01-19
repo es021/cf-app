@@ -213,7 +213,11 @@ class UserExec {
         const { PrescreenExec } = require('./prescreen-query.js');
         const { SessionExec } = require('./session-query.js');
 
-        if (field["sessions"] !== "undefined" || field["queues"] !== "undefined" || field["prescreens"] !== "undefined") {
+        // extra field that need role value to find
+        if (field["sessions"] !== "undefined"
+            || field["queues"] !== "undefined"
+            || field["prescreens"] !== "undefined"
+            || field["registered_prescreens"] !== "undefined") {
             field["role"] = 1;
         }
 
@@ -224,8 +228,6 @@ class UserExec {
         } else {
             sql = UserQuery.getUser(field, params, metaCons);
         }
-        //console.log("getUserHelper", params);
-        //console.log(sql);
 
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
@@ -276,6 +278,18 @@ class UserExec {
                     }
 
                     res[i]["prescreens"] = PrescreenExec.prescreens(par, field["prescreens"]);
+                }
+
+                // registered_prescreens ****************************************************
+                if (typeof field["registered_prescreens"] !== "undefined") {
+                    var par = {};
+                    if (role === UserEnum.ROLE_STUDENT) {
+                        par["student_id"] = user_id;
+                    }
+                    if (role === UserEnum.ROLE_RECRUITER) {
+                        par["company_id"] = company_id;
+                    }
+                    res[i]["registered_prescreens"] = PrescreenExec.prescreens(par, field["registered_prescreens"]);
                 }
 
                 // company ****************************************************
