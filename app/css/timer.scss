@@ -1,0 +1,52 @@
+#timer {
+    margin: 15px 0;
+    text-align: center;
+    .timer_title {
+        font-size: 17px;
+        color: gray;
+    }
+    .timer_time {
+        flex-wrap: wrap;
+        justify-content: center;
+        display: inline-flex;
+        .timer_item {
+            margin: 0 10px;
+            .timer_value {
+                font-size: 30px;
+                background: #4b515b;
+                color: white;
+                padding: 10px;
+                margin: 3px 0;
+            }
+            .timer_label {
+                font-size: 13px;
+                color: gray;
+            }
+        }
+        .seperator {
+            padding: 18px 0;
+            color: gray;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+}
+
+#timer.light {
+    .timer_title {
+        color: whitesmoke;
+    }
+    .timer_time {
+        .timer_item {
+            .timer_value {
+                background: rgba(0, 0, 0, 0.45);
+            }
+            .timer_label {
+                color: whitesmoke;
+            }
+        }
+        .seperator {
+            color: whitesmoke;
+        }
+    }
+}

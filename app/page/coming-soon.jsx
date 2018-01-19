@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import SponsorList from './partial/static/sponsor-list';
 import { getCF, getCFObj, isRoleStudent, getAuthUser } from '../redux/actions/auth-actions';
+import { errorBlockLoader, storeHideBlockLoader } from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
 import PropTypes from 'prop-types';
+import { Loader } from '../component/loader';
+import Timer from '../component/timer';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
 import { Prescreen, PrescreenEnum } from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
 import { NavLink } from 'react-router-dom';
+import { RootPath } from '../../config/app-config';
 
 class RegisterPS extends React.Component {
     constructor(props) {
@@ -22,20 +26,19 @@ class RegisterPS extends React.Component {
             disableSubmit: false,
             error: null,
             success: null,
+            hasResume: false,
             defaultValues: {}
         };
 
-
         this.formOnSubmit = this.formOnSubmit.bind(this);
-        this.hasResume = this.hasResume.bind(this);
     }
 
     componentWillMount() {
         var coms = false;
         var user_data = false;
 
-        function finishLoad() {
-            if (coms !== false && student !== false) {
+        const finishLoad = () => {
+            if (coms !== false && user_data !== false) {
                 this.setState(() => {
 
                     // create form default value
@@ -45,10 +48,20 @@ class RegisterPS extends React.Component {
                             return d.company_id;
                         });
 
+                    //check if has resume
+                    var hasResume = false;
+                    user_data.doc_links.map((d, i) => {
+                        var label = d.label.replaceAll(" ", "");
+                        if (label.toUpperCase() == "RESUME") {
+                            hasResume = true;
+                        }
+                    });
+
                     return {
                         coms: coms,
-                        reg_ps: reg_ps,
+                        user_data: user_data,
                         defaultValues: defaultValues,
+                        hasResume: hasResume,
                         loading: false
                     };
                 });
@@ -70,41 +83,76 @@ class RegisterPS extends React.Component {
             });
     }
 
-    hasResume() {
-        var hasResume = false;
-        this.state.user_data.doc_links.map((d, i) => {
-            var label = d.label.replaceAll(" ", "");
-            if (label.toUpperCase() == "RESUME") {
-                hasResume = true;
-            }
-        });
-        return hasResume;
-    }
+
 
     formOnSubmit(d) {
-        console.log("form data");
-        console.log(d);
-        console.log("existing data");
-        console.log(this.defaultValues[Prescreen.COMPANY_ID]);
+        // check if has resume
+        if (!this.state.hasResume) {
+            var link = <NavLink onClick={() => { storeHideBlockLoader() }}
+                to={`${RootPath}/app/edit-profile/doc-link`}>
+                Document & Link</NavLink>;
 
-        return;
+            var mes = <div>Please upload a document with label <b>"Resume"</b> at {link}
+                {" "} before registering for pre-screens</div>;
+
+            errorBlockLoader(mes);
+            return;
+        }
+
+        //start loading
         toggleSubmit(this, { error: null, success: null });
 
-        var ins = {};
-        ins[Prescreen.STUDENT_ID] = this.user_id;
-        ins[Prescreen.STATUS] = PrescreenEnum.STATUS_PENDING;
-        ins[Prescreen.COMPANY_ID] = d.ID;
+        var existed = this.state.defaultValues[Prescreen.COMPANY_ID];
+        var newCom = "";
+        var toInsert = 0;
+        var inserted = [];
+        const finishInsert = (company_id) => {
+            inserted.push(company_id);
+            if (inserted.length >= toInsert) {
+                // finish loading and add inserted company to state
+                this.setState((prevState) => {
+                    // concat inserted company to state default values
+                    prevState.defaultValues[Prescreen.COMPANY_ID]
+                        = prevState.defaultValues[Prescreen.COMPANY_ID].concat(inserted);
+                    return {
+                        disableSubmit: false
+                        , success: `Successfully registered for ${inserted.length} company(s)`
+                        , defaultValues: prevState.defaultValues
+                        , error: null
+                    };
+                });
+            }
+        };
 
-        var insert = `mutation{add_prescreen(${obj2arg(ins, { noOuterBraces: true })})
-        {ID}}`;
+        // try insert
+        if (typeof d.company_id !== "undefined") {
+            d.company_id.map((cid, i) => {
+                cid = Number.parseInt(cid);
+                // if not aleary exist then insert
+                if (existed.indexOf(cid) < 0) {
+                    toInsert++;
+                    var ins = {};
+                    ins[Prescreen.STUDENT_ID] = this.user_id;
+                    ins[Prescreen.STATUS] = PrescreenEnum.STATUS_PENDING;
+                    ins[Prescreen.COMPANY_ID] = cid;
 
-        getAxiosGraphQLQuery(insert).then((res) => {
+                    var insert = `mutation{add_prescreen(${obj2arg(ins, { noOuterBraces: true })}){company_id}}`;
+                    console.log(insert);
+                    getAxiosGraphQLQuery(insert).then((res) => {
+                        finishInsert(res.data.data.add_prescreen.company_id);
+                    });
+                }
+            });
+        }
 
-        });
+        // empty new choice
+        if (toInsert == 0) {
+            toggleSubmit(this, { error: "Please select new company(s) to register" });
+        }
+
     }
 
     render() {
-
         var view = null
 
         if (this.state.loading) {
@@ -118,41 +166,40 @@ class RegisterPS extends React.Component {
                 return { key: d.ID, label: d.name };
             });
 
-            var formItems = {
-                label: "Select Company To Register",
-                name: Prescreen.COMPANY_ID,
-                type: "checkbox",
-                data: dataComs
-            }
-
-
-
-            console.log("forms");
-            console.log(formItems);
-            console.log(this.state.defaultValues);
-
-            view = <div>
-                <Form className="form-row"
+            if (dataComs.length <= 0) {
+                return null;
+            } else {
+                var formItems = [
+                    { header: "Select Company To Register" },
+                    {
+                        name: Prescreen.COMPANY_ID,
+                        type: "checkbox",
+                        data: dataComs,
+                        disabledOnChecked: <span className="label label-success label-pill">Registered</span>,
+                    }
+                ];
+                console.log(this.state);
+                view = <Form className="form-row"
                     items={formItems}
                     onSubmit={this.formOnSubmit}
+                    btnColorClass="blue btn-block"
                     submitText='Submit Registration'
                     defaultValues={this.state.defaultValues}
-                    disableSubmit={this.state.disableSubmit && this.hasResume}
+                    disableSubmit={this.state.disableSubmit}
                     error={this.state.error}
                     success={this.state.success}>
-                </Form>
-                {(!this.hasResume)
-                    ? <div>Please upload a document with label <b>"Resume"</b> at
-                        <NavLink to={`${path}/edit-profile/doc-link`}>
-                            Document & Link
-                        </NavLink> before you can register for pre-screens
-                    </div>
-                    : null}
-            </div>;
+                </Form>;
+            }
         }
 
-        return <div>
-            <h3>Pre-Screens Registration</h3>
+        return <div className="card-container">
+            <h3>Register For Pre-Screen</h3>
+            <br></br>
+            <div style={{ maxWidth: "400px", margin: "auto" }}>
+                Get reviewed earlier before the career fair!<br></br>
+                Submit, and wait for confirmation for special time slot with recruiters if you are selected.
+            </div>
+            <br></br>
             {view}
         </div>;
     }
@@ -178,11 +225,8 @@ export default class ComingSoonPage extends React.Component {
                 <br></br>
                 <small>{this.timeStr}</small>
             </h1>
-
-            // TODO add timer
-
+            <Timer end={this.CFObj.end}></Timer>
             {isRoleStudent() ? <RegisterPS></RegisterPS> : null}
-
             <SponsorList type="coming-soon"></SponsorList>
         </div>
         );

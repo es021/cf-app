@@ -30,10 +30,8 @@ export function isComingSoon() {
     // console.log(Time.getString(timenow));
 
     if (timenow >= timestart) {
-        //console.log("started");
         return false;
     } else {
-        //console.log("coming soon");
         return true;
     }
 }
