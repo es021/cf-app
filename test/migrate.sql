@@ -8,4 +8,4 @@ WHERE url like '%http://seedsjobfair.com/wp-content%'
 
 UPDATE companies
 SET img_url = REPLACE (img_url, 'http://seedsjobfair.com', 'https://seedsjobfair.com/career-fair')
-WHERE img_url like '%http://seedsjobfair.com/wp-content%'
+WHERE img_url like '%http://seedsjobfair.com%'
