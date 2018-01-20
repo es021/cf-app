@@ -15,7 +15,7 @@ var DB = function (env) {
             connectionLimit: 100,
             host: 'localhost',
             user: 'root',
-            password: 'gundamseed21',
+            password: '',
             database: 'wp_career_fair'
         };
     }
