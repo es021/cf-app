@@ -1,22 +1,24 @@
 var Mysql = require("promise-mysql");
 const { User, Company } = require('../../config/db-config');
+const { Secret } = require('../secret/secret.js');
+
 var DB = function (env) {
     var config = {};
     if (env === "DEV") {
         config = {
             connectionLimit: 100,
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'wp_career_fair'
+            host: Secret.DB_HOST,
+            user: Secret.DB_USER,
+            password: Secret.DB_PASS_DEV,
+            database: Secret.DB_DATABASE
         };
     } else if (env === "PROD") {
         config = {
             connectionLimit: 100,
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'wp_career_fair'
+            host: Secret.DB_HOST,
+            user: Secret.DB_USER,
+            password: Secret.DB_PASS_PROD,
+            database: Secret.DB_DATABASE
         };
     }
 

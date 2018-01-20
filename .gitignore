@@ -4,3 +4,4 @@ nbproject
 npm-debug.log
 package.json
 public/upload/
+server/secret/
