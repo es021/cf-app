@@ -1,21 +1,21 @@
 console.log("environment - " + process.env.NODE_ENV);
 var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
 var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
-const ServerIP = "104.131.105.183";
+
 const RootPath = (isProd) ? "/cf" : "";
 
-var SiteUrl = (isProd) ? `https://${ServerIP}/cf` : "http://localhost:4000";
-var AssetUrl = (isProd) ? `https://${ServerIP}/public` : SiteUrl;
+var SiteUrl = (isProd) ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
+var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
 
 var UploadUrl = AssetUrl + "/upload";
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {
-    RootUrl = `https://${ServerIP}`;
+    RootUrl = `https://seedsjobfair.com`;
 }
 
-var PHPApi = (isProd) ? `https://${ServerIP}/php-api/` : RootUrl + `/cf-app/server/php-api/`;
-var WPAjaxApi = (isProd) ? `https://${ServerIP}/career-fair/wp-admin/admin-ajax.php` : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
+var PHPApi = (isProd) ? `https://seedsjobfair.com/php-api/` : RootUrl + `/cf-app/server/php-api/`;
+var WPAjaxApi = (isProd) ? "https://seedsjobfair.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
 const AppConfig = {
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
@@ -26,7 +26,7 @@ const AppConfig = {
     FbAppId: "315194262317447",
     WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",
-    WwwUrl: "https://${ServerIP}"
+    WwwUrl: "https://seedsjobfair.com"
 };
 
 
@@ -37,7 +37,7 @@ const ImgConfig = {
     DefUser: AssetUrl + "/asset/image/default-user.png",
     DefCompany: AssetUrl + "/asset/image/default-company.jpg",
     getFlag: (country, size) => AssetUrl + `/asset/image/flags/${size}/${country}.png`, // www.icondrawer.com -- flag
-    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`
+    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}` 
 };
 
 module.exports = { RootPath, SiteUrl, UploadUrl, AppConfig, ImgConfig };
