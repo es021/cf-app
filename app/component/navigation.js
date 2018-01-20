@@ -55,7 +55,7 @@ function getMenuItem(COMING_SOON) {
             label: "About",
             icon: "question",
             component: null,
-            href: "https://seedsjobfair.com/info/",
+            href: "https://seedsjobfair.com/",
             bar_app: false,
             bar_auth: true,
             hd_app: true,
