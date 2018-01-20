@@ -143,7 +143,7 @@ const SessionRating = {
 };
 
 const SessionRatingEnum = {
-    categories: ["First Impression", "Knowlegde", "Confidence"]
+    categories: ["Thinking & Problem Solving", "Communication Skill", "Leadership Qualities"]
 };
 
 
