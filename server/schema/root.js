@@ -41,11 +41,20 @@ const {
 var fields = {};
 
 /*******************************************/
-/* messages ******************/
+/* dashboards ******************/
+fields["dashboard"] = {
+    type: DashboardType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DashboardExec.dashboards(arg, graphqlFields(info), { single: true });
+    }
+};
+
 fields["dashboards"] = {
     type: new GraphQLList(DashboardType),
     args: {
-        ID: { type: GraphQLInt },
         cf: { type: GraphQLString },
         type: { type: GraphQLString },
         page: { type: GraphQLInt },

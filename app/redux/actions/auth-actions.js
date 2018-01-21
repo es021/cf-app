@@ -72,10 +72,17 @@ export function isRoleRec() {
     return getAuthUser().role === UserEnum.ROLE_RECRUITER;
 }
 
-export function isRoleAdmin() {
-    return getAuthUser().role === UserEnum.ROLE_ADMIN ||
-        getAuthUser().role === UserEnum.ROLE_ORGANIZER;
+export function isRoleOrganizer() {
+    return getAuthUser().role === UserEnum.ROLE_ORGANIZER;
 }
+
+export function isRoleAdmin() {
+    return getAuthUser().role === UserEnum.ROLE_EDITOR
+        || getAuthUser().role === UserEnum.ROLE_ADMIN;
+}
+
+// ############################################
+// REDUX ACTIONS
 
 export const UPDATE_USER = "UPDATE_USER";
 export function updateAuthUser(user) {

@@ -50,6 +50,7 @@ const UserEnum = {
     ROLE_STUDENT: "student",
     ROLE_RECRUITER: "recruiter",
     ROLE_ADMIN: "administrator",
+    ROLE_EDITOR: "editor",
     ROLE_ORGANIZER: "organizer",
     STATUS_ACT: "Active",
     STATUS_NOT_ACT: "Not Activated"
@@ -114,7 +115,8 @@ const Dashboard = {
     CONTENT: "content",
     TYPE: "type",
     UPDATED_AT: "updated_at",
-    CREATED_AT: "created_at"
+    CREATED_AT: "created_at",
+    CREATED_BY: "created_by"
 };
 
 const DashboardEnum = {

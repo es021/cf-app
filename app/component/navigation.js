@@ -18,8 +18,9 @@ import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
+import DashboardPage from '../page/dashboard';
 
-import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
+import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
 
 function getHomeComponent(COMING_SOON) {
     var homeComponent = null;
@@ -39,6 +40,7 @@ function getHomeComponent(COMING_SOON) {
 
 function getMenuItem(COMING_SOON) {
     var homeComponent = getHomeComponent(COMING_SOON);
+
     var menuItem = [
         {
             url: "/",
@@ -80,9 +82,9 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            routeOnly: isRoleAdmin(),
+            routeOnly: isRoleAdmin() || isRoleOrganizer(),
             default_param: { id: getAuthUser().rec_company, current: "about" },
-            disabled: !isRoleRec() && !isRoleAdmin()
+            disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
         },
         { // Admin Only
             url: "/users",
@@ -93,7 +95,7 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: !isRoleAdmin()
+            disabled: !isRoleAdmin() && !isRoleOrganizer()
         },
         { // Admin Only
             url: "/companies",
@@ -104,7 +106,18 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: !isRoleAdmin()
+            disabled: !isRoleAdmin() && !isRoleOrganizer()
+        },
+        { // Admin Only
+            url: "/live-feed",
+            label: "Live Feed",
+            icon: "bullhorn",
+            component: DashboardPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin() && !isRoleOrganizer()
         },
         {
             url: "/auditorium",

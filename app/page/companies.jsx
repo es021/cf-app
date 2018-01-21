@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react';
 import { ButtonLink } from '../component/buttons';
 import Form, { toggleSubmit } from '../component/form';
 import * as layoutActions from '../redux/actions/layout-actions';
+import { getCF, isRoleOrganizer } from '../redux/actions/auth-actions';
 import CompanyPopup from './partial/popup/company-popup';
+import obj2arg from 'graphql-obj2arg';
 
 //importing for list
 import List from '../component/list';
@@ -53,9 +55,18 @@ class CompaniesPage extends React.Component {
     }
 
     loadData(page, offset) {
+        var params = {
+            include_sponsor: 1,
+            order_by: "updated_at desc"
+        };
+
+        if (isRoleOrganizer()) {
+            params["cf"] = getCF();
+        }
+
         return getAxiosGraphQLQuery(`
         query{
-            companies(include_sponsor:1,order_by:"updated_at desc"){
+            companies(${obj2arg(params, { noOuterBraces: true })}){
                 ID
                 cf
                 name
@@ -120,18 +131,20 @@ class CompaniesPage extends React.Component {
         var view = null;
 
         return (<div>
-
-            <h3>Add New Company</h3>
-            <Form className="form-row"
-                items={this.addFormItem}
-                onSubmit={this.formOnSubmit}
-                submitText="Add Company"
-                disableSubmit={this.state.disableSubmit}
-                error={this.state.error}
-                errorPosition="top"
-                emptyOnSuccess={true}
-                success={this.state.success}></Form>
-
+            {isRoleOrganizer() ? null :
+                <div>
+                    <h3>Add New Company</h3>
+                    <Form className="form-row"
+                        items={this.addFormItem}
+                        onSubmit={this.formOnSubmit}
+                        submitText="Add Company"
+                        disableSubmit={this.state.disableSubmit}
+                        error={this.state.error}
+                        errorPosition="top"
+                        emptyOnSuccess={true}
+                        success={this.state.success}></Form>
+                </div>
+            }
             <h3>Companies</h3>
             <List type="table"
                 tableHeader={this.tableHeader}
