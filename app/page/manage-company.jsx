@@ -7,7 +7,7 @@ import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import { loadUser } from '../redux/actions/user-actions';
-import { getAuthUser, isRoleRec, updateAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card';
 import SubNav from '../component/sub-nav';
@@ -60,8 +60,6 @@ class VacancySubPage extends React.Component {
         </thead>;
 
         this.loadData = (page, offset) => {
-            console.log(page);
-            console.log(offset);
             var param = {
                 company_id: this.company_id,
                 page: page,
@@ -237,7 +235,7 @@ class AboutSubPage extends React.Component {
         this.formItems = [];
 
         // for admin
-        if (isRoleAdmin()) {
+        if (isRoleAdmin() || isRoleOrganizer()) {
             var dataCF = getDataCareerFair();
             dataCF.push({ key: "NONE", label: "No Career Fair" });
 
@@ -431,8 +429,6 @@ export default class ManageCompanyPage extends React.Component {
     }
 
     render() {
-
-
         if (this.company_id !== this.props.match.params.id) {
             this.key++;
         }
@@ -440,13 +436,12 @@ export default class ManageCompanyPage extends React.Component {
         // updated prop in here
         var item = this.getSubNavItem();
 
-        if (!isRoleAdmin() && this.company_id != getAuthUser().rec_company) {
+        if (!isRoleAdmin() && !isRoleOrganizer()&& this.company_id != getAuthUser().rec_company) {
             return <div><h3>Restricted Page</h3>You Are Not Allowed Here</div>;
         }
 
         return <div key={this.key}>
             <SubNav route={`manage-company/${this.company_id}`} items={item} defaultItem={this.sub_page}></SubNav>
         </div>;
-
     }
 }

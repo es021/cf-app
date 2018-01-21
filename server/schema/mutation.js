@@ -1,9 +1,9 @@
 //import all type
-const { QueueType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, DashboardType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Vacancy, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, Vacancy, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -255,6 +255,49 @@ fields["edit_session_rating"] = {
     }
 };
 
+
+/*******************************************/
+/* dashboard ******************/
+fields["add_dashboard"] = {
+    type: DashboardType,
+    args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        type: { type: new GraphQLNonNull(GraphQLString) },
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        cf: { type: new GraphQLNonNull(GraphQLString) },
+        created_by: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(Dashboard.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_dashboard"] = {
+    type: DashboardType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        title: { type: GraphQLString },
+        content: { type: GraphQLString },
+        type: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(Dashboard.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["delete_dashboard"] = {
+    type: GraphQLInt,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.delete(Dashboard.TABLE, arg.ID);
+    }
+};
 
 /*******************************************/
 /* vacancy ******************/

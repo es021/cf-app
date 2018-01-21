@@ -115,7 +115,7 @@ const SessionType = new GraphQLObjectType({
 const DashboardType = new GraphQLObjectType({
     name: 'Dashboard',
     fields: () => ({
-        ID: { type: GraphQLString },
+        ID: { type: GraphQLInt },
         cf: { type: GraphQLString },
         title: { type: GraphQLString },
         content: { type: GraphQLString },

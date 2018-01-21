@@ -9,8 +9,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AppConfig } from '../../config/app-config';
 import SponsorList from '../page/partial/static/sponsor-list';
-import { DashboardWall } from '../page/partial/admin/dashboard';
-import { getCF, getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
+import { DashboardFeed } from '../page/dashboard';
+import { getCF, getAuthUser, isRoleAdmin, isRoleOrganizer } from '../redux/actions/auth-actions';
 
 export default class RightBarLayout extends React.Component {
     constructor(props) {
@@ -26,14 +26,14 @@ export default class RightBarLayout extends React.Component {
     getDashboard() {
         var role = getAuthUser().role;
         var cf = getCF();
-        if (!isRoleAdmin()) {
+        if (!isRoleAdmin() && !isRoleOrganizer()) {
             return <div className="right-bar-item">
                 <h4>Live Feed</h4>
                 <div className="body">
-                    <DashboardWall type="right-bar"
+                    <DashboardFeed type="right-bar"
                         cf={cf}
                         type={role}>
-                    </DashboardWall>
+                    </DashboardFeed>
                 </div>
             </div>
         }

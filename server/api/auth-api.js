@@ -16,21 +16,15 @@ class AuthAPI {
 
     isCFValid(user, cf) {
         var role = user.role;
-        switch (role) {
-            case UserEnum.ROLE_STUDENT:
-                return (user[User.CF].indexOf(cf) >= 0);
-                break;
-            case UserEnum.ROLE_RECRUITER:
-                try {
-                    return (user.company.cf.indexOf(cf) >= 0);
-                } catch (err) {
-                    return false
-                }
-                break;
-            default:
-                return (role == UserEnum.ROLE_ADMIN || role == UserEnum.ROLE_ORGANIZER);
-                break;
+
+        if (role == UserEnum.ROLE_STUDENT || role == UserEnum.ROLE_ORGANIZER) {
+            return (user[User.CF].indexOf(cf) >= 0);
+        } else if (role == UserEnum.ROLE_RECRUITER) {
+            return (user.company.cf.indexOf(cf) >= 0);
+        } else {
+            return (role == UserEnum.ROLE_ADMIN || role == UserEnum.ROLE_EDITOR);
         }
+
     }
 
     login(user_email, password, cf) {
@@ -86,7 +80,7 @@ class AuthAPI {
                 return AuthAPIErr.INVALID_EMAIL;
             }
         }, (err) => {
-            console.log("Error Auth Api getAxiosGraphQLQuery",err.response.data);
+            console.log("Error Auth Api getAxiosGraphQLQuery", err.response.data);
             return err.response.data;
         });
 
