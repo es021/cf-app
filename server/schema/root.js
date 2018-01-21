@@ -4,6 +4,7 @@ const { UserType
     , QueueType
     , ResumeDropType
     , VacancyType
+    , DashboardType
     , SessionType
     , SessionRatingType
     , SessionNoteType
@@ -17,6 +18,7 @@ const graphqlFields = require('graphql-fields');
 const { UserExec } = require('../model/user-query.js');
 //const { CFExec } = require('../model/cf-query.js');
 const { Queue, QueueExec } = require('../model/queue-query.js');
+const { DashboardExec } = require('../model/dashboard-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
@@ -38,6 +40,21 @@ const {
 // START CREATE FIELDS
 var fields = {};
 
+/*******************************************/
+/* messages ******************/
+fields["dashboards"] = {
+    type: new GraphQLList(DashboardType),
+    args: {
+        ID: { type: GraphQLInt },
+        cf: { type: GraphQLString },
+        type: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DashboardExec.dashboards(arg, graphqlFields(info));
+    }
+};
 /*******************************************/
 /* messages ******************/
 fields["messages"] = {

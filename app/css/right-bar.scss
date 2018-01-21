@@ -1,11 +1,14 @@
 .content right_bar{
     max-height: 100%;
+    max-width: 300px;
 
     .right-bar-item{
         text-align: left;
         margin-bottom:20px;
 
         h4{
+            text-transform: uppercase;
+            text-align: center;
             margin:10px 5px;
             margin-bottom:3px;
             opacity: 0.8;

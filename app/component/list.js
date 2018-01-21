@@ -29,6 +29,12 @@ export default class List extends React.Component {
         this.load(this.NEXT);
     }
 
+    componentDidUpdate() {
+        if (this.props.componentDidUpdate) {
+            this.props.componentDidUpdate();
+        }
+    }
+
     isAppendType() {
         return (this.props.type.indexOf("append") >= 0);
     }
@@ -75,10 +81,15 @@ export default class List extends React.Component {
 
                 //empty list
                 if (data.length <= 0) {
+                    var empty = <span className="text-muted text-center">Nothing To Show Here</span>;
                     if (!this.isAppendType()) {
-                        listItem = <span className="text-muted text-center">Nothing To Show Here</span>;
+                        listItem = empty;
                     } else {
-                        listItem = this.state.listItem;
+                        if (this.state.listItem != null) {
+                            listItem = this.state.listItem;
+                        } else {
+                            listItem = empty;
+                        }
                     }
                     empty = true;
                 }
@@ -151,7 +162,7 @@ export default class List extends React.Component {
         if (this.props.type == "table") {
             dataContent = (this.state.empty) ? this.state.listItem :
                 <div className=" table-responsive">
-                    <table className={`${this.props.listClass} table table-striped table-bordered table-hover table-condensed text-left`}>
+                    <table ref={this.props.listRef} className={`${this.props.listClass} table table-striped table-bordered table-hover table-condensed text-left`}>
                         {this.props.tableHeader}
                         <tbody>
                             {this.state.listItem}
@@ -170,6 +181,11 @@ export default class List extends React.Component {
 
         var topView = null;
         var bottomView = null;
+
+        // for append type
+        var fetchBtn = null;
+        var extraTop = null;
+        var extraBottom = null;
 
         if (this.props.type == 'list' || this.props.type == 'table') {
             var paging = <div className={this.props.pageClass} style={{ marginBottom: "10px" }}>
@@ -194,7 +210,7 @@ export default class List extends React.Component {
         }
         // For append type
         else if (this.isAppendType()) {
-            var fetchBtn = null;
+
             if (this.state.fetching_append) {
                 fetchBtn = <Loader size="2"></Loader>;
             } else {
@@ -206,17 +222,20 @@ export default class List extends React.Component {
 
             if (this.props.type == "append-top") {
                 topView = fetchBtn;
+                extraBottom = this.props.extraData;
             } else if (this.props.type == "append-bottom") {
                 bottomView = fetchBtn;
+                extraTop = this.props.extraData;
             }
         }
 
+
         var content = <div>
-            {
-                topView}
-            <ul className={`${this.props.listClass}`}>
+            {topView}
+            <ul className={`${this.props.listClass}`} ref={this.props.listRef}>
+                {extraTop}
                 {this.renderDataContent()}
-                {this.props.extraData}
+                {extraBottom}
             </ul>
             {bottomView}
         </div>;
@@ -229,8 +248,10 @@ List.propTypes = {
     offset: PropTypes.number.isRequired,
     customLoading: PropTypes.element,
     listClass: PropTypes.string,
+    listRef: PropTypes.object,
     key: PropTypes.number, // to force update
     // function
+    componentDidUpdate: PropTypes.func, // use in dashboard
     loadData: PropTypes.func.isRequired, // function (page)
     renderList: PropTypes.func.isRequired, // function (data)
     getDataFromRes: PropTypes.func.isRequired, // key for query response
@@ -251,7 +272,8 @@ List.defaultProps = {
     appendText: "Load More",
     extraData: null,
     pageClass: "",
-    listClass: ""
+    listClass: "",
+    listRef: null
 };
 
 /*******************************************************************************************/

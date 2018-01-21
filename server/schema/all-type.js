@@ -112,7 +112,18 @@ const SessionType = new GraphQLObjectType({
     })
 });
 
-
+const DashboardType = new GraphQLObjectType({
+    name: 'Dashboard',
+    fields: () => ({
+        ID: { type: GraphQLString },
+        cf: { type: GraphQLString },
+        title: { type: GraphQLString },
+        content: { type: GraphQLString },
+        type: { type: GraphQLString },
+        updated_at: { type: GraphQLString },
+        created_at: { type: GraphQLString }
+    })
+});
 
 const MessageType = new GraphQLObjectType({
     name: 'Message',
@@ -255,6 +266,7 @@ module.exports = {
     , VacancyType
     , SkillType
     , SessionType
+    , DashboardType
     , SessionNoteType
     , SessionRatingType
     , ResumeDropType
