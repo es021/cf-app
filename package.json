@@ -6,6 +6,7 @@
   "scripts": {
     "dev:app": "NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
     "dev:server": "NODE_ENV=development-wp nodemon server.js",
+    "dev:socket": "NODE_ENV=development nodemon socket.js",
     "build": "NODE_ENV=production webpack -p --progress",
     "build-local": "NODE_ENV=production-local webpack -p --progress",
     "serve": "NODE_ENV=production node server.js",
@@ -54,6 +55,8 @@
     "redux-promise-middleware": "^4.4.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
   },

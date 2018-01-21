@@ -1,12 +1,12 @@
 console.log("environment - " + process.env.NODE_ENV);
 var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
 var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
+const SocketUrl = (isProd) ? `https://seedsjobfair.com/socket` : "http://localhost:6000";
 
 const RootPath = (isProd) ? "/cf" : "";
 
 var SiteUrl = (isProd) ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
 var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
-
 var UploadUrl = AssetUrl + "/upload";
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
@@ -37,7 +37,7 @@ const ImgConfig = {
     DefUser: AssetUrl + "/asset/image/default-user.png",
     DefCompany: AssetUrl + "/asset/image/default-company.jpg",
     getFlag: (country, size) => AssetUrl + `/asset/image/flags/${size}/${country}.png`, // www.icondrawer.com -- flag
-    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}` 
+    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`
 };
 
-module.exports = { RootPath, SiteUrl, UploadUrl, AppConfig, ImgConfig };
+module.exports = { SocketUrl, RootPath, SiteUrl, UploadUrl, AppConfig, ImgConfig };
