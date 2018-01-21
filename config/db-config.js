@@ -106,6 +106,22 @@ const QueueEnum = {
     STATUS_DONE: "Done"
 };
 
+const Dashboard = {
+    TABLE: "dashboard",
+    ID: "id",
+    CF: "cf",
+    TITLE: "title",
+    CONTENT: "content",
+    TYPE: "type",
+    UPDATED_AT: "updated_at",
+    CREATED_AT: "created_at"
+};
+
+const DashboardEnum = {
+    TYPE_STUDENT : "student",
+    TYPE_RECRUITER : "recruiter"
+};
+
 
 const Session = {
     TABLE: "sessions",
@@ -235,6 +251,7 @@ module.exports = {
     , Prescreen, PrescreenEnum
     , Company, CompanyEnum
     , Queue, QueueEnum
+    , Dashboard, DashboardEnum
     , Skill, Message
     , SessionNotes
     , SessionRating, SessionRatingEnum

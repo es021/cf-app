@@ -1,0 +1,34 @@
+@import "define/variable.scss";
+.dashboard {
+    margin-bottom: 20px;
+    background: darken($COLOR_BACKGROUND, 10);
+    .db_body {
+        max-height: 300px;
+        overflow-y: scroll;
+        margin-bottom: 2px;
+        .db_item {
+            text-align: left;
+            word-wrap: break-word;
+            padding: 10px;
+            background: white;
+            margin-bottom: 6px;
+            line-height: 17px;
+            .db_item_title {
+                font-weight: bold;
+            }
+            .db_item_time {
+                font-size: 10px;
+            }
+            .db_item_content {
+                margin-top: 5px;
+                font-size: 13px;
+            }
+        }
+        .db_item.item_new {
+            background-color: #e1feb9;
+        }
+        .db_item:last-of-type {
+            margin-bottom: none;
+        }
+    }
+}
