@@ -7,7 +7,7 @@ import Restricted from './partial/static/restricted';
 import { AuthAPIErr } from '../../server/api/auth-api';
 import { passwordResetOld, passwordResetToken, getAuthUser } from '../redux/actions/auth-actions';
 
-export default class ResetPasswordPage extends React.Component {
+export default class PasswordResetPage extends React.Component {
     constructor(props) {
         super(props);
         this.getForm = this.getForm.bind(this);
@@ -101,10 +101,10 @@ export default class ResetPasswordPage extends React.Component {
             return <Restricted></Restricted>;
         }
 
-        document.setTitle("Reset Password");
+        document.setTitle("Password Reset");
 
         return (<div>
-            <h3>Reset Password</h3>
+            <h3>Password Reset</h3>
             <Form className="form-row"
                 items={this.formItem}
                 disableSubmit={this.state.loading}

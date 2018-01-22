@@ -16,13 +16,13 @@ import ManageCompanyPage from '../page/manage-company';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
+import FaqPage from '../page/faq';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 import DashboardPage from '../page/dashboard';
-import ResetPasswordPage from '../page/reset-password';
+import PasswordResetPage from '../page/password-reset';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
-import ResetPasswordPage from '../page/reset-password';
 
 function getHomeComponent(COMING_SOON) {
     var homeComponent = null;
@@ -149,7 +149,7 @@ function getMenuItem(COMING_SOON) {
             url: "/faq",
             label: "FAQ",
             icon: "question-circle",
-            component: NotFoundPage,
+            component: FaqPage,
             bar_app: true,
             bar_auth: true,
             hd_app: true,
@@ -200,8 +200,8 @@ function getMenuItem(COMING_SOON) {
             routeOnly: true
         },
         {
-            url: "/reset-password/:token/:user_id",
-            component: ResetPasswordPage,
+            url: "/password-reset/:token/:user_id",
+            component: PasswordResetPage,
             bar_app: true,
             bar_auth: true,
             hd_app: true,
