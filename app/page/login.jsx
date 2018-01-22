@@ -115,7 +115,7 @@ class LoginPage extends React.Component {
                 error = <span>
                     Password Incorrect
                     <br></br>
-                    <small><NavLink to={`${RootPath}/auth/forgot-password`}>Forgot Your Password?</NavLink></small>
+                    <small><NavLink to={`${RootPath}/auth/password-forgot`}>Forgot Your Password?</NavLink></small>
                 </span>;
                 break;
             case AuthAPIErr.INVALID_CF:
