@@ -9,6 +9,7 @@ const { UserType
     , SessionRatingType
     , SessionNoteType
     , MessageType
+    , PasswordResetType
     //, CFType
     , DocLinkType } = require('./all-type.js');
 
@@ -21,6 +22,7 @@ const { Queue, QueueExec } = require('../model/queue-query.js');
 const { DashboardExec } = require('../model/dashboard-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
+const { PasswordResetExec } = require('../model/reset-password-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
 const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
@@ -40,6 +42,18 @@ const {
 // START CREATE FIELDS
 var fields = {};
 
+/*******************************************/
+/* dashboards ******************/
+fields["password_reset"] = {
+    type: PasswordResetType,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) },
+        token: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return PasswordResetExec.password_reset(arg, graphqlFields(info), { single: true });
+    }
+};
 /*******************************************/
 /* dashboards ******************/
 fields["dashboard"] = {

@@ -9,11 +9,15 @@ const AuthAPIErr = {
     INVALID_EMAIL: "INVALID_EMAIL",
     NOT_ACTIVE: "NOT_ACTIVE",
     INVALID_ACTIVATION: "INVALID_ACTIVATION",
-    INVALID_CF: "INVALID_CF"
+    INVALID_CF: "INVALID_CF",
+    TOKEN_INVALID: "TOKEN_INVALID",
+    TOKEN_EXPIRED: "TOKEN_EXPIRED"
 };
 
 class AuthAPI {
 
+    //##########################################################################################
+    // Helper
     isCFValid(user, cf) {
         var role = user.role;
 
@@ -27,6 +31,8 @@ class AuthAPI {
 
     }
 
+    //##########################################################################################
+    // Login Module
     login(user_email, password, cf) {
         var field = "";
         AuthUserKey.map((d, i) => {
@@ -86,6 +92,9 @@ class AuthAPI {
 
     }
 
+    //##########################################################################################
+    // Activate Account Module
+
     createActivationLink(act_key, user_id) {
         return `${SiteUrl}/auth/activate-account/${act_key}/${user_id}`;
     }
@@ -131,6 +140,102 @@ class AuthAPI {
             }
         });
     }
+
+    //##########################################################################################
+    // Reset Password Module
+
+    // helper function 
+    createPasswordResetLink(token, user_id) {
+        return `${SiteUrl}/auth/reset-password/${token}/${user_id}`;
+    }
+
+    // helper function 
+    set_password(user_id, password, password_reset_ID = null) {
+        //hash password
+        var pass_params = { action: "hash_password", password: password };
+        return getPHPApiAxios("password_hash", pass_params).then((res) => {
+            var hashed = res.data;
+            //update hash password in db
+            var user_query = `mutation{edit_user(ID:${user_id},user_pass:"${hashed}"){ID user_pass}}`;
+            return getAxiosGraphQLQuery(user_query).then((res) => {
+                var user = res.data.data.user;
+
+                // update is_expired to true in password_reset
+                if (password_reset_ID !== null) {
+                    var user_query = `mutation{edit_password_reset(ID:${password_reset_ID},is_expired:1){ID}}`;
+                    return getAxiosGraphQLQuery(user_query).then((res) => {
+                        return { status: 1 };
+                    });
+                } else {
+                    return { status: 1 };
+                }
+            });
+        });
+    }
+
+    // reset with token and user id
+    password_reset_token(new_password, token, user_id) {
+        var query = `query{password_reset(user_id:${user_id},token:"${token}"){ID is_expired}}`;
+        return getAxiosGraphQLQuery(user_query).then((res) => {
+            var password_reset = res.data.data.password_reset;
+            if (password_reset == null) {
+                return AuthAPIErr.TOKEN_INVALID;
+            } else if (password_reset.is_expired) {
+                return AuthAPIErr.TOKEN_EXPIRED;
+            } else {
+                return this.set_password(user_id, new_password, password_reset.ID);
+            }
+        });
+    }
+
+    // reset password with old password entered
+    password_reset_old(new_password, old_password, user_id) {
+        // get user old hashed password
+        var user_query = `query{user(ID:${user_id}){user_pass}}`;
+        return getAxiosGraphQLQuery(user_query).then((res) => {
+            var user = res.data.data.user;
+
+            // check if old password is correct
+            var pass_params = { action: "check_password", password: old_password, hashed: user.user_pass };
+            return getPHPApiAxios("password_hash", pass_params).then((res) => {
+                if (res.data == "1") {
+                    return this.set_password(user_id, new_password);
+                }
+                // old password given is wrong
+                else {
+                    return AuthAPIErr.WRONG_PASS;
+                }
+            });
+        });
+    }
+
+    password_reset_request(user_email) {
+        // get user id from email
+        var id_query = `query{ user(user_email:"${user_email}"){ID first_name} }`;
+        return getAxiosGraphQLQuery(id_query).then((res) => {
+            var user = res.data.data.user;
+            //create new token and add to db
+            var token = "";
+            var token_query = `mutation{add_password_reset(user_id:${user.ID},token:"${token}") {token} }`;
+            return getAxiosGraphQLQuery(token_query).then((res) => {
+                //send email
+                var email_data = {
+                    to: user_email,
+                    params: {
+                        first_name: user.first_name,
+                        link: this.createPasswordResetLink(token, user.ID)
+                    },
+                    type: "password_reset"
+                };
+                getWpAjaxAxios("app_send_email", email_data);
+                return { status: 1 };
+            });
+        });
+
+    }
+
+    //##########################################################################################
+    // Registration Module
 
     //raw form from sign up page 
     register(user) {
@@ -178,4 +283,8 @@ class AuthAPI {
 }
 
 AuthAPI = new AuthAPI();
+
+//test
+//AuthAPI.set_password(1, "gundamseed21");
+
 module.exports = { AuthAPI, AuthAPIErr };

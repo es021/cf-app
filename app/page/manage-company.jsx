@@ -23,6 +23,7 @@ import { RootPath } from '../../config/app-config';
 import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
 import { CareerFair } from '../../config/cf-config';
+import Restricted from './partial/static/restricted';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -436,8 +437,10 @@ export default class ManageCompanyPage extends React.Component {
         // updated prop in here
         var item = this.getSubNavItem();
 
-        if (!isRoleAdmin() && !isRoleOrganizer()&& this.company_id != getAuthUser().rec_company) {
-            return <div><h3>Restricted Page</h3>You Are Not Allowed Here</div>;
+        if (!isRoleAdmin() && !isRoleOrganizer() && this.company_id != getAuthUser().rec_company) {
+            return <Restricted
+                title="Restricted Page"
+                message="You Are Not Allowed Here"></Restricted>;
         }
 
         return <div key={this.key}>

@@ -211,6 +211,17 @@ const CompanyType = new GraphQLObjectType({
 // });
 
 
+const PasswordResetType = new GraphQLObjectType({
+    name: 'PasswordReset',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        token: { type: GraphQLString },
+        is_expired: { type: GraphQLInt }
+    })
+});
+
+
 const DocLinkType = new GraphQLObjectType({
     name: 'DocLink',
     fields: () => ({
@@ -269,6 +280,7 @@ module.exports = {
     , DashboardType
     , SessionNoteType
     , SessionRatingType
+    , PasswordResetType
     , ResumeDropType
     //, CFType
 };

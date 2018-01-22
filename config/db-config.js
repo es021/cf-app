@@ -75,6 +75,13 @@ const DocLinkEnum = {
     TYPE_LINK: "link"
 };
 
+const PasswordReset = {
+    TABLE: "password_reset",
+    ID: "ID",
+    USER_ID: "user_id",
+    TOKEN: "token",
+    IS_EXPIRED: "is_expired"
+};
 
 const Prescreen = {
     TABLE: "pre_screens",
@@ -120,8 +127,8 @@ const Dashboard = {
 };
 
 const DashboardEnum = {
-    TYPE_STUDENT : "student",
-    TYPE_RECRUITER : "recruiter"
+    TYPE_STUDENT: "student",
+    TYPE_RECRUITER: "recruiter"
 };
 
 
@@ -258,4 +265,5 @@ module.exports = {
     , SessionNotes
     , SessionRating, SessionRatingEnum
     , ResumeDrop
+    , PasswordReset
 };

@@ -1,9 +1,9 @@
 //import all type
-const { QueueType, DashboardType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, DashboardType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Vacancy, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, Vacancy, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -250,6 +250,35 @@ fields["edit_session_rating"] = {
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(SessionRating.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+
+/*******************************************/
+/* password_reset ******************/
+fields["add_password_reset"] = {
+    type: PasswordResetType,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) },
+        token: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(PasswordReset.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_password_reset"] = {
+    type: PasswordResetType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        is_expired: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(PasswordReset.TABLE, arg).then(function (res) {
             return res;
         });
     }
