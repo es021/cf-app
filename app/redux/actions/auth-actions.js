@@ -121,10 +121,38 @@ export function logout() {
     };
 }
 
+//#############################################
+// SERVER API
+
 export function register(user) {
     return axios.post(AppConfig.Api + "/auth/register", { user: user });
 }
 
 export function activateAccount(key, user_id) {
     return axios.post(AppConfig.Api + "/auth/activate-account", { key: key, user_id: user_id });
+}
+
+export function passwordResetRequest(user_email) {
+    return axios.post(AppConfig.Api + "/auth/password-reset-request",
+        {
+            user_email: user_email
+        });
+}
+
+export function passwordResetToken(new_password, token, user_id) {
+    return axios.post(AppConfig.Api + "/auth/password-reset-token",
+        {
+            new_password: new_password,
+            token: token,
+            user_id: user_id
+        });
+}
+
+export function passwordResetOld(new_password, old_password, user_id) {
+    return axios.post(AppConfig.Api + "/auth/password-reset-old",
+        {
+            new_password: new_password,
+            old_password: old_password,
+            user_id: user_id
+        });
 }

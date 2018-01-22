@@ -19,8 +19,10 @@ import SessionPage from '../page/session';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 import DashboardPage from '../page/dashboard';
+import ResetPasswordPage from '../page/reset-password';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
+import ResetPasswordPage from '../page/reset-password';
 
 function getHomeComponent(COMING_SOON) {
     var homeComponent = null;
@@ -195,6 +197,15 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: true,
             hd_auth: false,
+            routeOnly: true
+        },
+        {
+            url: "/reset-password/:token/:user_id",
+            component: ResetPasswordPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true,
             routeOnly: true
         },
         {
