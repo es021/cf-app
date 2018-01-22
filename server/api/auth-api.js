@@ -175,7 +175,7 @@ class AuthAPI {
 
     // reset with token and user id
     password_reset_token(new_password, token, user_id) {
-        var query = `query{password_reset(user_id:${user_id},token:"${token}"){ID is_expired}}`;
+        var user_query = `query{password_reset(user_id:${user_id},token:"${token}"){ID is_expired}}`;
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var password_reset = res.data.data.password_reset;
             if (password_reset == null) {

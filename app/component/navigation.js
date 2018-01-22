@@ -17,6 +17,7 @@ import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
 import FaqPage from '../page/faq';
+import ContactUsPage from '../page/contact-us';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 import DashboardPage from '../page/dashboard';
@@ -51,27 +52,6 @@ function getMenuItem(COMING_SOON) {
             component: homeComponent,
             bar_app: true,
             bar_auth: true,
-            hd_app: true,
-            hd_auth: true
-        },
-        {
-            url: "/about",
-            label: "About",
-            icon: "question",
-            component: null,
-            href: "https://seedsjobfair.com/",
-            bar_app: false,
-            bar_auth: true,
-            hd_app: true,
-            hd_auth: true
-        },
-        {
-            url: "/contact",
-            label: "Contact Us",
-            icon: "envelope",
-            component: NotFoundPage,
-            bar_app: false,
-            bar_auth: false,
             hd_app: true,
             hd_auth: true
         },
@@ -134,8 +114,8 @@ function getMenuItem(COMING_SOON) {
             disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
         },
         {
-            url: "/job-fair",
-            label: "Job Fair",
+            url: "/career-fair",
+            label: "Career Fair",
             icon: "suitcase",
             component: HallPage,
             bar_app: true,
@@ -146,12 +126,33 @@ function getMenuItem(COMING_SOON) {
             disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
         },
         {
+            url: "/about",
+            label: "About",
+            icon: "question",
+            component: null,
+            href: "https://seedsjobfair.com/",
+            bar_app: COMING_SOON,
+            bar_auth: COMING_SOON,
+            hd_app: true,
+            hd_auth: true
+        },
+        {
             url: "/faq",
             label: "FAQ",
             icon: "question-circle",
             component: FaqPage,
             bar_app: true,
             bar_auth: true,
+            hd_app: true,
+            hd_auth: true
+        },
+        {
+            url: "/contact",
+            label: "Contact Us",
+            icon: "envelope",
+            component: ContactUsPage,
+            bar_app: COMING_SOON,
+            bar_auth: COMING_SOON,
             hd_app: true,
             hd_auth: true
         },
@@ -339,6 +340,7 @@ export function getBar(path, COMING_SOON, isHeader = false) {
         if (d.component === null && d.href != "") {
             return <a href={d.href} target="blank">
                 <li>
+                    {(isHeader) ? "" : <i className={`fa fa-${d.icon}`}></i>}
                     <span className="menu_label">{d.label}</span>
                 </li>
             </a>
