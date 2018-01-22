@@ -18,6 +18,7 @@ import UserPopup from './partial/popup/user-popup';
 import { store } from '../redux/store';
 import DocLinkPage from '../component/doc-link-form';
 import { SimpleListItem } from '../component/list';
+import PasswordResetPage from './password-reset';
 
 class StudentDocLink extends React.Component {
     render() {
@@ -58,9 +59,9 @@ class Skills extends React.Component {
                 required: true
             }];
     }
- 
+
     formOnSubmit(d) {
-        var ins = { 
+        var ins = {
             user_id: getAuthUser().ID,
             label: d.label
         };
@@ -358,6 +359,13 @@ export default class EditProfilePage extends React.Component {
         }
 
         const authUser = getAuthUser();
+
+        this.item["password-reset"] = {
+            label: "Change Password",
+            component: PasswordResetPage,
+            icon: "lock"
+        };
+
         this.item["view"] = {
             label: "View Profile",
             onClick: () => {

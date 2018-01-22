@@ -5,7 +5,7 @@ export default class Restricted extends React.Component {
     render() {
         return <div>
             <h3>{this.props.title}</h3>
-            <p>{this.props.message}</p>
+            <div>{this.props.message}</div>
         </div>;
     }
 }
