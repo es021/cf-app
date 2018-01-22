@@ -22,6 +22,7 @@ import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 import DashboardPage from '../page/dashboard';
 import PasswordResetPage from '../page/password-reset';
+import PasswordForgotPage from '../page/password-forgot';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
 
@@ -203,6 +204,15 @@ function getMenuItem(COMING_SOON) {
         {
             url: "/password-reset/:token/:user_id",
             component: PasswordResetPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true,
+            routeOnly: true
+        },
+        {
+            url: "/password-forgot",
+            component: PasswordForgotPage,
             bar_app: true,
             bar_auth: true,
             hd_app: true,

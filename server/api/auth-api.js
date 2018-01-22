@@ -214,22 +214,34 @@ class AuthAPI {
         var id_query = `query{ user(user_email:"${user_email}"){ID first_name} }`;
         return getAxiosGraphQLQuery(id_query).then((res) => {
             var user = res.data.data.user;
-            //create new token and add to db
-            var token = "";
-            var token_query = `mutation{add_password_reset(user_id:${user.ID},token:"${token}") {token} }`;
-            return getAxiosGraphQLQuery(token_query).then((res) => {
-                //send email
-                var email_data = {
-                    to: user_email,
-                    params: {
-                        first_name: user.first_name,
-                        link: this.createPasswordResetLink(token, user.ID)
-                    },
-                    type: "password_reset"
-                };
-                getWpAjaxAxios("app_send_email", email_data);
-                return { status: 1 };
-            });
+
+            if (user == null) {
+                return AuthAPIErr.INVALID_EMAIL;
+            } else {
+                //create new token 
+                var pass_params = { action: "hash_password", password: `${user_email}_${Date.now()}` };
+                return getPHPApiAxios("password_hash", pass_params).then((res) => {
+                    var token = res.data;
+
+                    //and add to db
+                    var token_query = `mutation{add_password_reset(user_id:${user.ID},token:"${token}") {token} }`;
+                    return getAxiosGraphQLQuery(token_query).then((res) => {
+                        //send email
+                        var email_data = {
+                            to: user_email,
+                            params: {
+                                first_name: user.first_name,
+                                link: this.createPasswordResetLink(token, user.ID)
+                            },
+                            type: "RESET_PASSWORD"
+                        };
+
+                        console.log("send_email", email_data);
+                        getWpAjaxAxios("app_send_email", email_data);
+                        return { status: 1 };
+                    });
+                });
+            }
         });
 
     }
