@@ -36,9 +36,9 @@ import BlockLoader from "./component/block-loader";
 import { InitSocketOn } from './socket/socket-on';
 
 class PrimaryLayout extends React.Component {
-	componentWillMount() {
-		InitSocketOn();
-	}
+	// componentWillMount() {
+	// 	InitSocketOn();
+	// }
 
 	render() {
 		//scroll to top
