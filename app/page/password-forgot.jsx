@@ -28,8 +28,6 @@ export default class PasswordForgotPage extends React.Component {
     formOnSubmit(d) {
         toggleSubmit(this, { error: null });
 
-
-
         passwordResetRequest(d.user_email)
             .then((res) => {
                 var successMes = <span>
