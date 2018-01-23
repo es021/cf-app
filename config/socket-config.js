@@ -2,6 +2,29 @@ const isProd = (process.env.NODE_ENV === "production");
 const Port = 5000;
 const Url = (isProd) ? `https://seedsjobfair.com/socket` : `http://localhost:${Port}`;
 
+// both emit
+// both on
+const BOTH = {
+    CONNECTION: "connection"
+};
+
+
+// server to client
+// server emit
+// client on
+const S2C = {
+    // after join emitted to student
+    ONLINE_COMPANY: "online_company"
+};
+
+// client to server
+// client emit
+// server on
+const C2S = {
+    JOIN: "join",
+    DISCONNECT: "disconnect", // auto emit by socket
+};
+
 const Event = {
     CONNECTION: "connection",
     ON_SEND_MESSAGE: "send_message",
@@ -53,4 +76,4 @@ const Event = {
     TB_SESSION: "sesssions",
 }
 
-module.exports = { Event, Port, Url };
+module.exports = { BOTH, S2C, C2S, Port, Url };

@@ -22,6 +22,6 @@ server.listen(Port, function () {
 // ***************************************************************************** //
 // CODE START HERE 
 
-var Socket = require('./server/socket/model/Socket.js');
-var socket = new Socket(io);
-socket.init();
+var SocketServer = require('./server/socket/model/SocketServer.js');
+var socketServer = new SocketServer(io);
+socketServer.init();

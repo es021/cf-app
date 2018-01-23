@@ -1,30 +1,47 @@
 import io from 'socket.io-client';
-import { Url, Event } from '../../config/socket-config';
+import { Url, BOTH, S2C, C2S } from '../../config/socket-config';
 import { getAuthUser, isAuthorized } from '../redux/actions/auth-actions';
 
 console.socket = (m) => {
     console.log("[SOCKET]", m);
 }
 
-export const InitSocketOn = () => {
+export const socket = io.connect(Url);
+initSocket("page test");
+
+export const socketOn = (event, handler) => {
+    if (!socket) {
+        return;
+    }
+    socket.on(event, (data) => {
+        console.socket(`On ${event}`);
+        console.socket(data);
+        handler(data);
+    });
+};
+
+export const socketEmit = (event, data) => {
+    if (!socket) {
+        return;
+    }
+    console.socket(`Emit ${event}`);
+    console.socket(data);
+    socket.emit(event, data);
+};
+
+export const initSocket = (page) => {
     if (!isAuthorized()) {
         return false;
     }
 
-    var socket = io.connect(Url);
-    socket.on(Event.CONNECTION, () => {
+    socketOn(BOTH.CONNECTION, () => {
         var user = getAuthUser();
         var data = {
             id: user.ID,
             role: user.role,
-            company_id: user.rec_company
+            company_id: user.rec_company,
+            page: page // TODO get page
         };
-        socket.emit(Event.ON_JOIN, data);
+        socketEmit(C2S.JOIN, data);
     });
-
-    socket.on(Event.NOTIFICATION, (data) => {
-        console.socket("notification");
-        console.socket(data);
-        //notificationCenter.showNotification(page_name, data.event, data.data);
-    });
-}
+};
