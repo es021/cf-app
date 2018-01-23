@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Loader } from '../component/loader';
 import Form, { toggleSubmit } from '../component/form';
-
 import Restricted from './partial/static/restricted';
 import { AuthAPIErr } from '../../server/api/auth-api';
 import { passwordResetOld, passwordResetToken, getAuthUser, isAuthorized } from '../redux/actions/auth-actions';
+import { NavLink } from 'react-router-dom';
+import { RootPath } from '../../config/app-config';
 
 export default class PasswordResetPage extends React.Component {
     constructor(props) {
@@ -82,7 +83,7 @@ export default class PasswordResetPage extends React.Component {
         var errorMes = null;
 
         if (err != null) {
-            var tokenMes = <span>Please request a new password reset link <a>here</a></span>;
+            var tokenMes = <span>Please request a new password reset link <NavLink to={`${RootPath}/auth/password-forgot`}>here</NavLink></span>;
 
             switch (err.response.data) {
                 case AuthAPIErr.WRONG_PASS:
@@ -95,8 +96,6 @@ export default class PasswordResetPage extends React.Component {
                     errorMes = <span><b>Token Has Expired</b><br></br>{tokenMes}</span>;
                     break;
             }
-
-            errorMes = <span>[Request Failed] {errorMes}</span>;
         }
 
         toggleSubmit(this,
@@ -130,11 +129,11 @@ export default class PasswordResetPage extends React.Component {
     }
 
     render() {
+        document.setTitle("Password Reset");
+
         if (!this.type) {
             return <Restricted></Restricted>;
         }
-
-        document.setTitle("Password Reset");
 
         return (<div>
             <h3>Password Reset</h3>
