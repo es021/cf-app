@@ -1,4 +1,4 @@
-const { Event } = require('../../../config/socket-config');
+const { UserEnum } = require('../../../config/db-config');
 
 function Client(data) {
     this.id = data.id;
@@ -6,9 +6,9 @@ function Client(data) {
 
 
     this.role = data.role;
-    if (this.role === Event.ROLE_REC) {
+    if (this.role === UserEnum.ROLE_RECRUITER) {
         this.company_id = data.company_id;
-    } else if (this.role === Event.ROLE_STUDENT) {
+    } else if (this.role === UserEnum.ROLE_STUDENT) {
         this.company_id = null;
     }
 

@@ -8,21 +8,32 @@ const BOTH = {
     CONNECTION: "connection"
 };
 
-
 // server to client
 // server emit
 // client on
 const S2C = {
-    // after join emitted to student
-    ONLINE_COMPANY: "online_company"
+    // hall
+    ONLINE_COMPANY: "online_company",
+
+    // chat
+    OTHER_OFFLINE: "other_offline",
+    OTHER_ONLINE: "other_online",
+    RECEIVE_MESSAGE: "receive_message"
 };
 
 // client to server
 // client emit
 // server on
 const C2S = {
+    // first handshake
     JOIN: "join",
-    DISCONNECT: "disconnect", // auto emit by socket
+
+    // auto emit by socket disconnect
+    DISCONNECT: "disconnect",
+
+    // chat
+    CHAT_OPEN: "chat_open",
+    SEND_MESSAGE: "send_message"
 };
 
 const Event = {

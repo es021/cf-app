@@ -50,86 +50,202 @@ class SocketServer {
     }
 
     initOn(client) {
-        client.on(C2S.JOIN, (data) => {
-            this.printHeader(`[join] ${data.id} | ${data.role} | ${client.id}`);
-            //console.log(data);
-            if (data) {
-                // init for the first time
-                var isFirstTime = false;
-                if (this.state.clients[data.id] === undefined) {
-
-                    isFirstTime = true;
-                    this.state.clients[data.id] = new Client(data);
-                }
-
-                //update lookup table
-                this.state.lookup[this.id] = data.id;
-                this.state.clients[data.id].addSocket(this, data.page);
-
-                //add to online list
-                if (!this.state.online_clients[data.id]) {
-                    this.state.online_clients[data.id] = 1;
-                    //this.online_clients[data.id] = data.role;
-                }
-
-                //trigger by role
-                if (data.role === UserEnum.ROLE_RECRUITER) {
-                    if (isFirstTime) {
-                        this.updateEmitOnlineCompany(data, C2S.JOIN);
-                    }
-                } else if (data.role === UserEnum.ROLE_STUDENT) {
-                    //when student is joining, we want to sent the real time data 
-                    this.updateEmitOnlineCompany(false, C2S.JOIN, this.state.clients[data.id]);
-                    this.updateEmitQueue(C2S.JOIN, this.state.clients[data.id]);
-                }
-
-                //trigger by page
-                if (data.page === Event.PAGE_SESSION) {
-                    this.notifyOnline(data.id);
-                }
-            }
-
-            console.log(this.debug());
-        })
+        client.on(C2S.JOIN, (d) => { this.onJoin(client, d) });
+        client.on(C2S.DISCONNECT, (d) => { this.onDisconnect(client, d) });
+        client.on(C2S.CHAT_OPEN, (d) => { this.onChatOpen(client, d) });
+        client.on(C2S.SEND_MESSAGE, (d) => { this.onSendMessage(client, d) });
     }
 
     // #################################################################
-    // HELPER FUNCTION START
-    printHeader(title) {
-        var header;
-        header = "======================================\n";
-        header += title + "\n";
-        header += "======================================\n";
-        this.log(header);
-    }
+    // ON HELPER FUNCTION START
 
-    log(mes) {
-        console.log(mes);
-    }
-
-    debug() {
-        var debug = "";
-        debug += this.getClientDetails();
-        //debug += this.getOnlineDetails();
-        //debug += this.getOfflineDetails();
-        //debug += this.getLookupDetails();
-        //debug += this.getWaitingForDetails();
-
-        this.log(debug);
-    }
-
-    getClientDetails() {
-        var details = "CLIENTS DETAILS...\n";
-        for (var i in this.state.clients) {
-            details += this.state.clients[i].getDetail() + "\n";
+    // {from_id, to_id, message, created_at}
+    onSendMessage(client, data) {
+        this.printHeader('[send_message] : ID ' + client.id);
+        var to_client = this.state.clients[data.to_id];
+        if (to_client && to_client.isOnline()) {
+            this.state.emitToClient(to_client, S2C.RECEIVE_MESSAGE, data);
         }
-        return details + "\n";
+    }
+
+    // {self_id, other_id}
+    onChatOpen(client, data) {
+        obj.printHeader('[open_chat] : ID ' + client.id);
+
+        var self_client = this.state.clients[data.self_id];
+        self_client.addOtherUser(data.other_id);
+        //check if other user online
+        // only emit to this socket
+        if (obj.online_clients[data.other_id] !== undefined) {
+            this.emit(S2C.OTHER_ONLINE, { other_id: data.other_id });
+        }
+        // if other user is not online, push self user into waiting for other user
+        else {
+            this.emit(S2C.OTHER_OFFLINE, { other_id: data.other_id });
+            this.state.addWaitingFor(data.other_id, data.self_id);
+        }
+
+        //this.notifyOnline(data.self_id);
+    }
+
+    onDisconnect(client, data) {
+        var user_id = this.state.lookup[client.id];
+        var clientObj = this.state.clients[user_id];
+        this.printHeader('[disconnect] : ID ' + user_id + " : " + client.id);
+
+        if (!clientObj) {
+            console.log("Client NOT Found");
+        } else {
+            clientObj.removeSocket(client.id);
+            //update lookup array
+            delete (this.state.lookup[client.id]);
+
+            if (clientObj.sockets_count <= 0) {
+                this.updateWaitingFor(clientObj);
+                //handle Offline here
+                //notify other user
+                //but other user only be added if open chat is triggered
+                //so waiting for also here
+                this.notifyOffline(clientObj);
+
+                //trigger by role
+                if (clientObj.role === UserEnum.ROLE_RECRUITER) {
+                    this.updateEmitOnlineCompany(clientObj, C2S.DISCONNECT);
+                } else if (clientObj.role === UserEnum.ROLE_STUDENT) {
+
+                }
+
+                this.remove_client(user_id);
+            }
+        }
+
+        this.debug();
+    }
+
+    //{id, role, company_id, page};
+    onJoin(client, data) {
+        this.printHeader(`[join] ${data.id} | ${data.role} | ${client.id}`);
+        //console.log(data);
+        if (data) {
+            // init for the first time
+            var isFirstTime = false;
+            if (this.state.clients[data.id] === undefined) {
+
+                isFirstTime = true;
+                this.state.clients[data.id] = new Client(data);
+            }
+
+            //update lookup table
+            this.state.lookup[client.id] = data.id;
+            this.state.clients[data.id].addSocket(client, data.page);
+
+            //add to online list
+            if (!this.state.online_clients[data.id]) {
+                this.state.online_clients[data.id] = 1;
+                //this.online_clients[data.id] = data.role;
+            }
+
+            //trigger by role
+            if (data.role === UserEnum.ROLE_RECRUITER) {
+                if (isFirstTime) {
+                    this.updateEmitOnlineCompany(data, C2S.JOIN);
+                }
+            } else if (data.role === UserEnum.ROLE_STUDENT) {
+                //when student is joining, we want to sent the real time data 
+                this.updateEmitOnlineCompany(false, C2S.JOIN, this.state.clients[data.id]);
+                this.updateEmitQueue(C2S.JOIN, this.state.clients[data.id]);
+            }
+
+            //trigger by page
+            if (data.page === Event.PAGE_SESSION) {
+                this.notifyOnline(data.id);
+            }
+        }
+        this.debug();
+    }
+
+    // #################################################################
+    // EMIT HELPER FUNCTION START
+    emitToRole(emit, data, role) {
+        for (var i in this.state.clients) {
+            if (this.state.clients[i].role === role) {
+                this.emitToClient(this.state.clients[i], emit, data);
+            }
+        }
+    }
+
+    //return false if client to emit is not found (undefined)
+    emitToClient(client, emit, data) {
+        if (client === undefined) {
+            return false;
+        }
+
+        for (var i in client.sockets) {
+            var soc = client.sockets[i];
+            this.printHeader('[emit -> ' + emit + '] To (' + client.id + ') : ' + soc.socket.id);
+            soc.socket.emit(emit, data);
+        }
+        return true;
     }
 
     // #################################################################
     // UPDATE STATE FUNCTION START
-    updateEmitOnlineCompany(data, event, client) {
+    remove_client(user_id) {
+        //remove from clients array
+        if (this.state.clients[user_id].sockets_count <= 0) {
+            delete (this.state.clients[user_id]);
+            delete (this.state.online_clients[user_id]);
+        }
 
+        //this.printHeader("Client removed : " + user_id);
+        //console.log(this.debug());
+    }
+
+    notifyOffline(client) {
+        if (client === undefined) {
+            return;
+        }
+        var data = {};
+        data.other_id = client.id;
+
+        //online to other user
+        for (var i in client.other_users) {
+            var other_client = this.state.clients[client.other_users[i]];
+            this.emitToClient(other_client, S2C.OTHER_OFFLINE, data);
+        }
+
+        // in waiting for also needed
+        if (this.state.waiting_for[client.id] !== undefined) {
+            for (var i in this.state.waiting_for[client.id]) {
+                var temp_other_id = this.state.waiting_for[client.id][i];
+                this.emitToClient(this.state.clients[temp_other_id], S2C.OTHER_OFFLINE, { other_id: client.id });
+            }
+            //delete(this.waiting_for[self_id]);
+        }
+    }
+
+    //only add in other users. but if not in session page, this doesnt work
+    updateWaitingFor(client) {
+        if (client === undefined) {
+            return;
+        }
+
+        if (client.other_users.length <= 0) {
+            return;
+        }
+
+        var new_waiting = [];
+        for (var i in client.other_users) {
+            var other = client.other_users[i];
+            new_waiting.push(other);
+        }
+
+        if (new_waiting.length > 0) {
+            this.state.waiting_for[client.id] = new_waiting;
+        }
+    }
+
+    updateEmitOnlineCompany(data, event, client) {
         if (data) {
             if (event === C2S.JOIN) {
                 if (!this.state.online_company[data.company_id]) {
@@ -167,7 +283,41 @@ class SocketServer {
                 , S2C.ONLINE_COMPANY
                 , this.state.online_company);
         }
-    };
+    }
+
+    // #################################################################
+    // HELPER FUNCTION START
+    printHeader(title) {
+        var header;
+        header = "======================================\n";
+        header += title + "\n";
+        header += "======================================\n";
+        this.log(header);
+    }
+
+    log(mes) {
+        console.log(mes);
+    }
+
+    debug() {
+        var debug = "";
+        debug += this.getClientDetails();
+        //debug += this.getOnlineDetails();
+        //debug += this.getOfflineDetails();
+        //debug += this.getLookupDetails();
+        //debug += this.getWaitingForDetails();
+
+        this.log(debug);
+        this.log(this.state);
+    }
+
+    getClientDetails() {
+        var details = "CLIENTS DETAILS...\n";
+        for (var i in this.state.clients) {
+            details += this.state.clients[i].getDetail() + "\n";
+        }
+        return details + "\n";
+    }
 
 }
 
