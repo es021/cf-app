@@ -23,7 +23,6 @@ function Client(data) {
 
 Client.prototype.STATUS_ONLINE = "Online";
 Client.prototype.STATUS_OFFLINE = "Offline";
-Client.prototype.PAGE_SESSION = "session";
 
 Client.prototype.getDetail = function () {
     var detail = "";
@@ -33,7 +32,7 @@ Client.prototype.getDetail = function () {
     detail += "\nSockets (" + this.sockets_count + ") : \n";
 
     for (var key in this.sockets) {
-        detail += "\t" + this.sockets[key].page + " : " + key + "\n";
+        detail += "\t" + key + "\n";
     }
 
     detail += "Other Users (" + this.other_users.length + ") : \n";
@@ -45,12 +44,9 @@ Client.prototype.getDetail = function () {
     return detail;
 };
 
-Client.prototype.addSocket = function (socket, page) {
+Client.prototype.addSocket = function (socket) {
     this.sockets[socket.id] = {};
     this.sockets[socket.id].socket = socket;
-    this.sockets[socket.id].page = page;
-
-
     this.status = this.STATUS_ONLINE;
     this.sockets_count++;
 };

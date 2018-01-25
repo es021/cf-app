@@ -38,12 +38,9 @@ export const initSocket = (page) => {
         var data = {
             id: user.ID,
             role: user.role,
-            company_id: user.rec_company,
-            page: page // TODO get page
+            company_id: user.rec_company
         };
         
         socketEmit(C2S.JOIN, data);
     });
 };
-
-initSocket("page test");

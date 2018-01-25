@@ -137,7 +137,7 @@ class SocketServer {
 
             //update lookup table
             this.state.lookup[client.id] = data.id;
-            this.state.clients[data.id].addSocket(client, data.page);
+            this.state.clients[data.id].addSocket(client);
 
             //add to online list
             if (!this.state.online_clients[data.id]) {
@@ -156,16 +156,32 @@ class SocketServer {
                 this.updateEmitQueue(C2S.JOIN, this.state.clients[data.id]);
             }
 
-            //trigger by page
-            if (data.page === Event.PAGE_SESSION) {
-                this.notifyOnline(data.id);
-            }
+            //previously this is trigger only to page session
+            this.notifyOnline(data.id);
         }
         this.debug();
     }
 
     // #################################################################
     // EMIT HELPER FUNCTION START
+    notifyOnline(self_id) {
+        //if someone is waiting for self user, notify them
+        if (this.state.waiting_for[self_id] !== undefined) {
+            for (var i in this.state.waiting_for[self_id]) {
+                var temp_other_id = this.state.waiting_for[self_id][i];
+                var success = this.emitToClient(this.state.clients[temp_other_id]
+                    , S2C.OTHER_OFFLINE
+                    , { other_id: self_id });
+
+                //delete ofline client from waiting online queue
+                if (!success) {
+                    this.removeWaitingOnline(self_id, i);
+                }
+            }
+            //delete(this.waiting_for[self_id]);
+        }
+    }
+
     emitToRole(emit, data, role) {
         for (var i in this.state.clients) {
             if (this.state.clients[i].role === role) {
