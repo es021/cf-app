@@ -33,12 +33,12 @@ import RightBarLayout from "./layout/right-bar-layout";
 import FocusCard from "./component/focus-card";
 import BlockLoader from "./component/block-loader";
 
-import * as socket from './socket/socket-on';
+import {initSocket} from './socket/socket-client';
 
 class PrimaryLayout extends React.Component {
-	// componentWillMount() {
-	// 	InitSocketOn();
-	// }
+	componentWillMount() {
+		initSocket();
+	}
 
 	render() {
 		//scroll to top
