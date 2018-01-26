@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import StaticPage from '../component/static-page';
 
-export class AllowCachePage extends React.Component {
+export class AllowCookiePage extends React.Component {
     render() {
-        document.setTitle("Allow Cache");
-        return <StaticPage filename="allow-cache.html" version="1"></StaticPage>;
+        document.setTitle("Enabling Cookies In Your Browser");
+        return <StaticPage filename="allow-cookie.html" version="1"></StaticPage>;
     }
 }
 
