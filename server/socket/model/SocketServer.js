@@ -260,6 +260,25 @@ class SocketServer {
             this.state.waiting_for[client.id] = new_waiting;
         }
     }
+    updateEmitQueue(event, client, eventData) {
+        var obj = this;
+        if (event === C2S.JOIN) {
+            //do nothing
+        }
+
+        if (!client) {
+            //emit to all student
+            for (var i in obj.clients) {
+                if (this.state.clients[i].role === UserEnum.ROLE_STUDENT) {
+                    //this is to update in company listing
+                    this.emitToClient(obj.clients[i], BOTH.QUEUE_STATUS, obj.queue);
+                }
+            }
+        } else {
+            this.emitToClient(client, BOTH.QUEUE_STATUS, obj.queue);
+        }
+
+    }
 
     updateEmitOnlineCompany(data, event, client) {
         if (data) {
@@ -288,14 +307,14 @@ class SocketServer {
             // only emit to all online students            
             for (var i in this.state.clients) {
                 if (this.state.clients[i].role === UserEnum.ROLE_STUDENT) {
-                    obj.emitToClient(this.state.clients[i]
+                    this.emitToClient(this.state.clients[i]
                         , S2C.ONLINE_COMPANY
                         , this.state.online_company);
                 }
             }
         } else {
             // emit to client in param
-            obj.emitToClient(client
+            this.emitToClient(client
                 , S2C.ONLINE_COMPANY
                 , this.state.online_company);
         }

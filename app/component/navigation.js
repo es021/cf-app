@@ -16,8 +16,7 @@ import ManageCompanyPage from '../page/manage-company';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
-import FaqPage from '../page/faq';
-import ContactUsPage from '../page/contact-us';
+import { FaqPage, AllowCachePage, ContactUsPage } from '../page/static';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 import DashboardPage from '../page/dashboard';
@@ -204,6 +203,15 @@ function getMenuItem(COMING_SOON) {
         {
             url: "/password-reset/:token/:user_id",
             component: PasswordResetPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true,
+            routeOnly: true
+        },
+        {
+            url: "/allow-cache",
+            component: AllowCachePage,
             bar_app: true,
             bar_auth: true,
             hd_app: true,
