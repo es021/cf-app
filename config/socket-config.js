@@ -5,7 +5,10 @@ const Url = (isProd) ? `https://seedsjobfair.com/socket` : `http://localhost:${P
 // both emit
 // both on
 const BOTH = {
-    CONNECTION: "connection"
+    CONNECTION: "connection",
+
+    // queue
+    QUEUE_STATUS: "queue_status"
 };
 
 // server to client

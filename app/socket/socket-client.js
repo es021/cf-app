@@ -3,10 +3,19 @@ import { Url, BOTH, S2C, C2S } from '../../config/socket-config';
 import { getAuthUser, isAuthorized } from '../redux/actions/auth-actions';
 
 console.socket = (event, m) => {
-    console.log(`[${event}]`, m);
+    console.log(`SOCKET - [${event}]`, m);
 }
 
-export const socket = io.connect(Url);
+// Establishing socket connection
+var sock = null;
+try {
+    console.socket("TRY CONNECT", Url);
+    sock = io.connect(Url);
+} catch (err) {
+    sock = false;
+    console.socket("ERROR CONNECT", err);
+}
+export const socket = sock;
 
 export const socketOn = (event, handler) => {
     if (!socket) {
@@ -40,7 +49,7 @@ export const initSocket = (page) => {
             role: user.role,
             company_id: user.rec_company
         };
-        
+
         socketEmit(C2S.JOIN, data);
     });
 };
