@@ -16,7 +16,7 @@ import ManageCompanyPage from '../page/manage-company';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
-import { FaqPage, AllowCachePage, ContactUsPage } from '../page/static';
+import { FaqPage, AllowCookiePage, ContactUsPage } from '../page/static';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
 import DashboardPage from '../page/dashboard';
@@ -210,8 +210,8 @@ function getMenuItem(COMING_SOON) {
             routeOnly: true
         },
         {
-            url: "/allow-cache",
-            component: AllowCachePage,
+            url: "/allow-cookie",
+            component: AllowCookiePage,
             bar_app: true,
             bar_auth: true,
             hd_app: true,
