@@ -23,6 +23,10 @@ export default class PasswordForgotPage extends React.Component {
             placeholder: "Please Enter Your Login Email",
             required: true
         }];
+
+        this.defaultValues = {
+            user_email : this.props.match.params.email
+        };
     }
 
     formOnSubmit(d) {
@@ -60,6 +64,7 @@ export default class PasswordForgotPage extends React.Component {
                 items={this.formItem}
                 disableSubmit={this.state.disableSubmit}
                 submitText="Submit"
+                defaultValues = {this.defaultValues}
                 onSubmit={this.formOnSubmit}
                 success={this.state.success}
                 emptyOnSuccess={true}

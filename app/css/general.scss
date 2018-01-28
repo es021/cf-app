@@ -4,6 +4,11 @@ ul {
     list-style: none;
 }
 
+ul.normal {
+    padding-left: 20px;
+    list-style: initial;
+}
+
 [hidden] {
     display: none !important;
 }

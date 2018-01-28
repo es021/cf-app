@@ -37,6 +37,7 @@ export default class LandingPage extends React.Component {
     }
 
     render() {
+
         document.setTitle("Home");
         var register = <div>
             <h4>Register As</h4>
@@ -52,7 +53,6 @@ export default class LandingPage extends React.Component {
         </div>;
 
         var login = <div className="item-small item-login">
-            <h4>Login</h4>
             <LoginPage></LoginPage></div>
         var welcome = <div id="home-welcome">
             <h1><small>WELCOME TO</small>

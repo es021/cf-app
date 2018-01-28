@@ -9,7 +9,8 @@ const authReducerInitState = {
     user: null,
     isAuthorized: false,
     fetching: false,
-    error: null
+    error: null,
+    cookie: true
 };
 
 var auth = null;
@@ -23,6 +24,7 @@ try {
     console.log(e);
     hasLocalStorageSupport = false;
 }
+
 
 const AUTH_LOCAL_STORAGE = "auth";
 const CF_DEFAULT = "USA";
@@ -42,11 +44,17 @@ function setAuthLocalStorage(newItem) {
     window.localStorage.setItem(AUTH_LOCAL_STORAGE, JSON.stringify(auth));
 }
 
+function clearAuthLocalStorage() {
+    if (hasLocalStorageSupport) {
+        window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
+    }
+}
+
 function fixLocalStorageAuth(auth) {
     if (!hasLocalStorageSupport) {
         return;
     }
-    
+
     if (typeof auth["user"] === "undefined" || typeof auth["isAuthorized"] === "undefined") {
         return fixCFAuth(authReducerInitState);
     }
@@ -74,7 +82,7 @@ function fixCFAuth(auth, cf = null) {
             auth["cf"] = getCF;
         }
     }
-    
+
     // if still null get default
     if (auth["cf"] == null) {
         auth["cf"] = CF_DEFAULT;
@@ -83,10 +91,12 @@ function fixCFAuth(auth, cf = null) {
     return auth;
 }
 
-if (hasLocalStorageSupport) {
+if (hasLocalStorageSupport && false) {
     auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
+   
     if (auth !== null) {
         auth = JSON.parse(auth);
+        auth = getNewState(authReducerInitState, { cookie: true });
         auth = fixLocalStorageAuth(auth);
     } else {
         auth = authReducerInitState;
@@ -114,18 +124,16 @@ else {
     //        error: null
     //    };
 
-    auth = authReducerInitState;
+    auth = getNewState(authReducerInitState, { cookie: false });
+    auth = fixCFAuth(auth);
 }
-
 
 
 export default function authReducer(state = auth, action) {
     switch (action.type) {
         case authActions.UPDATE_USER:
             {
-
                 var newUser = getNewState(state.user, action.payload);
-
                 var newState = {
                     user: newUser
                 };
@@ -135,9 +143,7 @@ export default function authReducer(state = auth, action) {
             }
         case authActions.DO_LOGOUT:
             {
-                if (hasLocalStorageSupport) {
-                    window.localStorage.removeItem(AUTH_LOCAL_STORAGE);
-                }
+                clearAuthLocalStorage();
                 return getNewState(state, fixCFAuth(authReducerInitState, state.cf));
             }
         case authActions.DO_LOGIN + '_PENDING':
@@ -157,7 +163,7 @@ export default function authReducer(state = auth, action) {
                 var newState = {
                     cf: user.cf,
                     fetching: false,
-                    isAuthorized: true,
+                    isAuthorized: (state.cookie) ? true : false,
                     user: user,
                     error: null
                 };

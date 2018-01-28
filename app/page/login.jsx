@@ -12,7 +12,7 @@ import { Redirect, NavLink } from 'react-router-dom';
 
 import { ButtonLink } from '../component/buttons';
 import { AuthAPIErr } from '../../server/api/auth-api';
-import { getCF } from '../redux/actions/auth-actions';
+import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
 
 //state is from redux reducer
 // with multiple objects
@@ -36,7 +36,7 @@ class LoginPage extends React.Component {
     }
 
     componentWillMount() {
-      
+
 
         this.formItem = [
             {
@@ -125,6 +125,14 @@ class LoginPage extends React.Component {
                 break;
         }
 
+        if (error == null && !isCookieEnabled()) {
+            error = <span>Cookies is needed to keep you signed in. You need to enable your browser cookies to use your account.<br></br>
+                <small><NavLink to={`${RootPath}/auth/allow-cookie`}>Click Here To Learn How</NavLink></small>
+            </span>;
+            redirectToReferrer = false;
+        }
+
+
         // if authorized redirect to from
         if (redirectToReferrer) {
             return (
@@ -132,8 +140,8 @@ class LoginPage extends React.Component {
             );
         } else {
             return (
-                <div><h3>Login</h3>
-
+                <div>
+                    <h3>Login</h3>
                     <Form className="form-row"
                         items={this.formItem}
                         disableSubmit={fetching}

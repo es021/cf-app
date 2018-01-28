@@ -64,6 +64,10 @@ export function getAuthUser() {
     return store.getState().auth.user;
 }
 
+export function isCookieEnabled() {
+    return store.getState().auth.cookie;
+}
+
 export function isRoleStudent() {
     return getAuthUser().role === UserEnum.ROLE_STUDENT;
 }
