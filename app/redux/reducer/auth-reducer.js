@@ -87,7 +87,7 @@ function fixCFAuth(auth, cf = null) {
     if (auth["cf"] == null) {
         auth["cf"] = CF_DEFAULT;
     }
-    
+
     return auth;
 }
 
@@ -96,7 +96,7 @@ if (hasLocalStorageSupport) {
    
     if (auth !== null) {
         auth = JSON.parse(auth);
-        auth = getNewState(authReducerInitState, { cookie: true });
+        auth = getNewState(auth, { cookie: true });
         auth = fixLocalStorageAuth(auth);
     } else {
         auth = authReducerInitState;
