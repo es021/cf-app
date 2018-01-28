@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getStaticAxios } from '../../helper/api-helper';
 import { Loader } from './loader';
+import {ImageUrl} from '../../config/app-config'
 
 export default class StaticPage extends React.Component {
     constructor(props) {
@@ -26,7 +27,9 @@ export default class StaticPage extends React.Component {
         if (this.state.loading) {
             view = <Loader size="3" text="Loading Page.."></Loader>;
         } else {
-            view = <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>;
+            console.log(ImageUrl);
+            var content = this.state.content.replaceAll("{ImageUrl}",ImageUrl);
+            view = <div dangerouslySetInnerHTML={{ __html: content}}></div>;
         }
 
         return (<div>

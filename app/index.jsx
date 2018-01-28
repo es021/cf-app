@@ -32,8 +32,7 @@ import RightBarLayout from "./layout/right-bar-layout";
 //singleton
 import FocusCard from "./component/focus-card";
 import BlockLoader from "./component/block-loader";
-
-import {initSocket} from './socket/socket-client';
+import { initSocket } from './socket/socket-client';
 
 class PrimaryLayout extends React.Component {
 	componentWillMount() {

@@ -9,6 +9,7 @@ var SiteUrl = (isProd) ? `https://seedsjobfair.com/cf` : "http://localhost:4000"
 var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
 var UploadUrl = AssetUrl + "/upload";
 var StaticUrl = AssetUrl + "/static";
+var ImageUrl = AssetUrl + "/asset/image";
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {
@@ -41,4 +42,4 @@ const ImgConfig = {
     getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`
 };
 
-module.exports = { SocketUrl, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig };
+module.exports = { SocketUrl, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
