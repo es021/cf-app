@@ -87,11 +87,11 @@ function fixCFAuth(auth, cf = null) {
     if (auth["cf"] == null) {
         auth["cf"] = CF_DEFAULT;
     }
-
+    
     return auth;
 }
 
-if (hasLocalStorageSupport && false) {
+if (hasLocalStorageSupport) {
     auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
    
     if (auth !== null) {
