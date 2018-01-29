@@ -7,12 +7,18 @@ const Url = (isProd) ? `https://seedsjobfair.com/socket` : `http://localhost:${P
 const BOTH = {
     CONNECTION: "connection",
 
+    //live feed
+    LIVE_FEED: "live_feed",
+
     // queue
     QUEUE_STATUS: "queue_status",
 
     // session
     CHAT_OPEN_CLOSE: "chat_open_close", //both -> {from_name,to_id,session_id}
     CHAT_MESSAGE: "chat_message", //both -> {from_id,to_id,message,time}
+
+    // hall activity
+    HALL_ACTIVITY: "hall_activity"
 };
 
 // server to client
@@ -89,4 +95,4 @@ const Event = {
     TB_SESSION: "sesssions",
 }
 
-module.exports = { BOTH, S2C, C2S, Port, Url };
+module.exports = { BOTH, S2C, C2S, Port, Url }; 

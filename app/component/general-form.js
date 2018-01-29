@@ -61,7 +61,7 @@ class GeneralForm extends React.Component {
             var mes = (this.props.edit) ? `Successfully Edit ${this.Entity}!` : `Successfully Added New ${this.Entity}!`;
             toggleSubmit(this, { error: null, success: mes });
             if (this.props.onSuccessNew) {
-                this.props.onSuccessNew();
+                this.props.onSuccessNew(d);
             }
         }, (err) => {
             toggleSubmit(this, { error: err.response.data });
@@ -119,7 +119,12 @@ export default class GeneralFormPage extends React.Component {
         this.Entity = this.props.entity_singular;
     }
 
-    onSuccessOperation() {
+    onSuccessOperation(action, data = null) {
+
+        if (action == "add" && this.props.successAddHandler) {
+            this.props.successAddHandler(data);
+        }
+
         layoutActions.storeHideFocusCard();
         // this is how to update the child component use state keyy
         // damnnn
@@ -150,7 +155,7 @@ export default class GeneralFormPage extends React.Component {
                 entity_singular: this.props.entity_singular,
                 formItem: this.props.getFormItem(false),
                 formDefault: this.props.newFormDefault,
-                onSuccessNew: this.onSuccessOperation,
+                onSuccessNew: (d) => { this.onSuccessOperation("add", d) },
                 formWillSubmit: this.props.formWillSubmit
             }
         );
@@ -170,7 +175,7 @@ export default class GeneralFormPage extends React.Component {
                     entity_singular: this.props.entity_singular,
                     formItem: this.props.getFormItem(true),
                     formDefault: res,
-                    onSuccessNew: this.onSuccessOperation,
+                    onSuccessNew: (d) => { this.onSuccessOperation("edit", d) },
                     formWillSubmit: this.props.formWillSubmit,
                     edit: res
                 }
@@ -184,7 +189,7 @@ export default class GeneralFormPage extends React.Component {
             var del_query = `mutation{delete_${this.props.entity}(ID:${id})}`;
             layoutActions.storeUpdateProps({ loading: true });
             getAxiosGraphQLQuery(del_query).then((res) => {
-                this.onSuccessOperation();
+                this.onSuccessOperation("delete");
             }, (err) => {
                 alert(err.response.data);
             });
@@ -225,8 +230,8 @@ export default class GeneralFormPage extends React.Component {
                 ? <a className="btn btn-success btn-sm" onClick={this.addPopup}>{this.props.addButtonText}</a>
                 : this.getAddForm()
             }
-            
-            <div style={{marginTop:"15px"}}>{datas}</div>
+
+            <div style={{ marginTop: "15px" }}>{datas}</div>
         </div>);
     }
 }
@@ -245,7 +250,8 @@ GeneralFormPage.propTypes = {
     dataOffset: PropTypes.number,
     formWillSubmit: PropTypes.func,
     showAddForm: PropTypes.bool,
-    btnColorClass: PropTypes.string
+    btnColorClass: PropTypes.string,
+    successAddHandler: PropTypes.func
 }
 
 GeneralFormPage.defaultProps = {

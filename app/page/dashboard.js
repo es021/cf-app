@@ -10,6 +10,9 @@ import { getAuthUser, getCF, isRoleOrganizer, isRoleAdmin } from '../redux/actio
 import obj2arg from 'graphql-obj2arg';
 import { getDataCareerFair } from '../component/form';
 
+import { socketOn, emitLiveFeed } from '../socket/socket-client';
+import { BOTH } from '../../config/socket-config';
+
 require("../css/dashboard.scss");
 
 export class DashboardFeed extends React.Component {
@@ -27,6 +30,12 @@ export class DashboardFeed extends React.Component {
             extraData: []
         }
         this.isInit = true;
+    }
+
+    componentDidMount() {
+        socketOn(BOTH.LIVE_FEED, (data) => {
+            this.addFeedToView(data);
+        });
     }
 
     listComponentDidUpdate() {
@@ -128,6 +137,11 @@ export default class DashboardPage extends React.Component {
     }
 
     componentWillMount() {
+
+        this.successAddHandler = (d) => {
+            emitLiveFeed(d.title, d.content, d.type, d.cf, Time.getUnixTimestampNow());
+        };
+        
         //##########################################
         // List data properties
         this.renderRow = (d) => {
@@ -266,6 +280,7 @@ export default class DashboardPage extends React.Component {
             renderRow={this.renderRow}
             getDataFromRes={this.getDataFromRes}
             loadData={this.loadData}
+            successAddHandler={this.successAddHandler}
             formWillSubmit={this.formWillSubmit}
         ></GeneralFormPage>
     }

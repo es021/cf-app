@@ -16,7 +16,7 @@ import { ActivityAPIErr } from '../../../../server/api/activity-api';
 
 import UserPopup from '../popup/user-popup';
 
-import { emitQueueStatus } from '../../../socket/socket-client';
+import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as activityActions from '../../../redux/actions/activity-actions';
@@ -44,6 +44,7 @@ class ActvityList extends React.Component {
                 layoutActions.storeHideBlockLoader();
 
                 emitQueueStatus(company_id, getAuthUser().ID, "cancelQueue");
+                emitHallActivity(hallAction.ActivityType.QUEUE, null, company_id);
 
             }, (err) => {
                 layoutActions.errorBlockLoader(err);
@@ -73,11 +74,18 @@ class ActvityList extends React.Component {
             console.log(res.data);
 
             var m = <div>Session Successfully Created<br></br>
-                <NavLink to={`${RootPath}/app/session/${res.data.ID}`}>
+                <NavLink
+                    onClick={() => layoutActions.storeHideBlockLoader()}
+                    to={`${RootPath}/app/session/${res.data.ID}`}>
                     Go To Session
                 </NavLink>
             </div>;
 
+            if (entity === hallAction.ActivityType.QUEUE) {
+                emitQueueStatus(getAuthUser().rec_company, participant_id, "cancelQueue");
+            }
+
+            emitHallActivity([hallAction.ActivityType.SESSION, entity], participant_id, null);
 
             layoutActions.successBlockLoader(m);
             hallAction.storeLoadActivity([hallAction.ActivityType.SESSION, entity]);

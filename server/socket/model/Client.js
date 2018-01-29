@@ -6,6 +6,8 @@ function Client(data) {
 
 
     this.role = data.role;
+    this.cf = data.cf;
+
     if (this.role === UserEnum.ROLE_RECRUITER) {
         this.company_id = data.company_id;
     } else if (this.role === UserEnum.ROLE_STUDENT) {
@@ -29,6 +31,7 @@ Client.prototype.getDetail = function () {
     detail += "Client " + this.id + " : " + this.status + "\n";
     detail += "Role " + this.role + "\n";
     detail += "Company Id " + this.company_id + "\n";
+    detail += "CF " + this.cf + "\n";
     detail += "\nSockets (" + this.sockets_count + ") : \n";
 
     for (var key in this.sockets) {

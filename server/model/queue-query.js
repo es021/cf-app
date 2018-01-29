@@ -7,7 +7,7 @@ class QueueQuery {
         var student_where = (typeof params.student_id === "undefined") ? "1=1" : `q.student_id = ${params.student_id}`;
         var status_where = (typeof params.status === "undefined") ? "1=1" : `q.status like '%${params.status}%'`;
         var com_where = (typeof params.company_id === "undefined") ? "1=1" : `q.company_id = '${params.company_id}'`;
-
+        //console.log(params);
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
 
         var sql = `from in_queues q where ${id_where} and ${student_where} and ${status_where} and ${com_where} ${order_by}`;
@@ -38,7 +38,7 @@ class QueueExec {
         var {UserExec} = require('./user-query.js');
 
         var sql = QueueQuery.getQueue(params, field, extra);
-
+        
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];

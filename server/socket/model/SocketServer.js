@@ -56,6 +56,9 @@ class SocketServer {
         client.on(C2S.DISCONNECT, (d) => { this.onDisconnect(client, d) });
         client.on(BOTH.CHAT_OPEN_CLOSE, (d) => { this.onChatOpenClose(client, d) });
         client.on(BOTH.CHAT_MESSAGE, (d) => { this.onChatMessage(client, d) });
+        client.on(BOTH.LIVE_FEED, (d) => { this.onLiveFeed(client, d) });
+
+        client.on(BOTH.HALL_ACTIVITY, (d) => { this.onHallActivity(client, d) });
 
         this.initDBTrigger(client);
     }
@@ -72,9 +75,8 @@ class SocketServer {
                 sql += "(SELECT company_id, COUNT(*) as total, GROUP_CONCAT(student_id) as students ";
                 sql += "FROM in_queues WHERE status = 'Queuing' GROUP BY company_id) ttl ";
                 sql += "ON c.ID = ttl.company_id";
-
-                var eventData = data;
                 console.log(sql);
+                var eventData = data;
                 //init for the first time app start
                 DB.query(sql, this, event, eventData);
                 break;
@@ -98,8 +100,6 @@ class SocketServer {
 
         });
     }
-
-
 
     emitCFTriggerToQueue(data) {
         //emit trigger cf to related students
@@ -161,6 +161,34 @@ class SocketServer {
 
     // #################################################################
     // ON HELPER FUNCTION START
+
+    // {entity, to_id, to_company} 
+    onHallActivity(client, data) {
+        this.printHeader('[hallActivity] : ' + JSON.stringify(data));
+
+        if (data.to_id) {
+            var to_client = this.state.clients[data.to_id];
+            if (to_client && to_client.isOnline()) {
+                this.emitToClient(to_client, BOTH.HALL_ACTIVITY, data);
+            }
+        }
+
+        // emit to online recruiter
+        if (data.to_company) {
+            for (var to_id in this.state.online_company[data.to_company]) {
+                var to_client = this.state.clients[to_id];
+                if (to_client && to_client.isOnline()) {
+                    this.emitToClient(to_client, BOTH.HALL_ACTIVITY, data);
+                }
+            }
+        }
+
+    }
+
+    // {title, content, type, cf, created_at}
+    onLiveFeed(client, data) {
+        this.emitToRole(BOTH.LIVE_FEED, data, data.type, data.cf);
+    }
 
     // {from_id, to_id, message, created_at}
     onChatMessage(client, data) {
@@ -287,9 +315,9 @@ class SocketServer {
         }
     }
 
-    emitToRole(emit, data, role) {
+    emitToRole(emit, data, role, cf) {
         for (var i in this.state.clients) {
-            if (this.state.clients[i].role === role) {
+            if (this.state.clients[i].role === role && this.state.clients[i].cf === cf) {
                 this.emitToClient(this.state.clients[i], emit, data);
             }
         }

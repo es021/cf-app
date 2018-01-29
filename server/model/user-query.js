@@ -219,6 +219,7 @@ class UserExec {
             || field["prescreens"] !== "undefined"
             || field["registered_prescreens"] !== "undefined") {
             field["role"] = 1;
+            field["rec_company"] = 1;
         }
 
         var isSingle = (type === "single");
