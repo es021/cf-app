@@ -6,7 +6,6 @@ import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-conf
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
-import { loadUser } from '../redux/actions/user-actions';
 import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card';

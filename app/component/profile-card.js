@@ -103,8 +103,9 @@ export default class ProfileCard extends React.Component {
 
         // bagde used in queue card
         var badge = null;
-        if (this.props.badge) {
-            badge = <div className={`${pc}badge`}>
+        if (this.props.badge != null) {
+
+            badge = <div className={`${pc}badge ${(this.props.badge == "") ? "small" : ""}`}>
                 {(this.props.badge_tooltip) ?
                     <span>
                         <div className={`${pc}badge-tooltip-arrow`}></div>

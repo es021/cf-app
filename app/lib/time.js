@@ -79,12 +79,12 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
-    console.log(unixtimestamp);
+    //console.log(unixtimestamp);
 
     if (typeof unixtimestamp === "string") {
         if (Number.isNaN(Number.parseInt(unixtimestamp))) {
             unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
-            console.log(unixtimestamp);
+            //console.log(unixtimestamp);
         }
     }
 

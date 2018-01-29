@@ -6,7 +6,6 @@ import { Month, Year, Sponsor } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
-import { loadUser } from '../redux/actions/user-actions';
 import { getAuthUser, isRoleRec, updateAuthUser } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card';
@@ -145,9 +144,60 @@ class EditProfile extends React.Component {
         };
     }
 
+
+    loadUser(id, role) {
+        var query = null;
+        if (role === UserEnum.ROLE_STUDENT) {
+            query = `query {
+              user(ID:${id}) {
+                ID
+                user_email
+                user_pass
+                first_name
+                last_name
+                description
+                role
+                img_url
+                img_pos
+                img_size
+                feedback
+                user_status
+                university
+                phone_number
+                graduation_month
+                graduation_year
+                sponsor
+                cgpa
+                major
+                minor
+              }}`;
+        }
+
+        if (role === UserEnum.ROLE_RECRUITER) {
+            query = `query {
+              user(ID:${id}) {
+                ID
+                user_email
+                user_pass
+                first_name
+                last_name
+                description
+                role
+                img_url
+                img_pos
+                img_size
+                feedback
+                rec_position
+                rec_company
+              }}`;
+        }
+
+        return getAxiosGraphQLQuery(query);
+    }
+
     componentWillMount() {
         this.authUser = getAuthUser();
-        loadUser(this.authUser.ID, this.authUser.role).then((res) => {
+        this.loadUser(this.authUser.ID, this.authUser.role).then((res) => {
             this.setState(() => {
                 var user = res.data.data.user;
                 return { user: user, init: false };

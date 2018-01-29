@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Loader } from '../component/loader';
-import { getAuthUser } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { SessionEnum } from '../../config/db-config';
 import CompanyPopup from './partial/popup/company-popup';
@@ -12,6 +12,7 @@ import Chat from './partial/session/chat';
 import SessionNotesPage from './partial/session/session-notes';
 import SessionRatingsPage from './partial/session/session-ratings';
 import obj2arg from 'graphql-obj2arg';
+import { emitChatOpenClose } from '../socket/socket-client';
 
 class SessionPage extends React.Component {
     constructor(props) {
@@ -19,6 +20,9 @@ class SessionPage extends React.Component {
         this.getChat = this.getChat.bind(this);
         this.getMainView = this.getMainView.bind(this);
         this.endSession = this.endSession.bind(this);
+
+        this.hasEmitOpen = false;
+
         this.state = {
             data: null,
             loading: true
@@ -58,33 +62,71 @@ class SessionPage extends React.Component {
             || this.state.data.participant_id == this.user_id;
     }
 
+    updateStartedAt(session_id) {
+        var started_at = Time.getUnixTimestampNow();
+        var query = `mutation{edit_session(ID:${session_id},started_at:${started_at}){ID}}`;
+        getAxiosGraphQLQuery(query);
+    }
+
+    emitChatOpenClose(action, session) {
+        var from_name = (this.isRec)
+            ? `Recruiter from ${session.company.name}`
+            : `${this.self_data.first_name} ${this.self_data.last_name}`;
+
+        if (action == "open") {
+            if (!this.hasEmitOpen
+                && session.status == SessionEnum.STATUS_ACTIVE
+                && session.started_at == null) {
+
+                emitChatOpenClose(action, from_name, this.other_id, session.ID);
+
+                // if student and started_at is null then need to update
+                if (!this.isRec) {
+                    this.updateStartedAt(session.ID);
+                }
+
+                this.hasEmitOpen = true;
+            }
+        }
+
+        if (action == "close") {
+            emitChatOpenClose(action, from_name, this.other_id, session.ID);
+        }
+    }
+
     getChat(data) {
-        var self_id = null;
-        var other_id = null;
-        var other_data = null;
+        this.self_id = null;
+        this.other_id = null;
+        this.other_data = null;
+        this.self_data = null;
         var disableChat = (data.status == SessionEnum.STATUS_EXPIRED || data.status == SessionEnum.STATUS_LEFT);
 
         if (this.isRec) {
-            self_id = data.host_id;
-            other_id = data.participant_id;
-            other_data = data.student;
+            this.self_id = data.host_id;
+            this.other_id = data.participant_id;
+            this.other_data = data.student;
+            this.self_data = data.recruiter;
         }
         //default is student
         else {
-            self_id = data.participant_id;
-            other_id = data.host_id;
-            other_data = data.recruiter;
+            this.self_id = data.participant_id;
+            this.other_id = data.host_id;
+            this.other_data = data.recruiter;
+            this.self_data = data.student;
         }
 
+        //emit open chat if dont already have
+        this.emitChatOpenClose("open", data);
 
-        return <Chat self_id={self_id}
+        return <Chat self_id={this.self_id}
             isRec={this.isRec}
             disableChat={disableChat}
-            other_id={other_id}
-            other_data={other_data}></Chat>;
+            other_id={this.other_id}
+            other_data={this.other_data}></Chat>;
     }
 
     endSession(data) {
+
         const onYes = () => {
             layoutActions.loadingBlockLoader("Please Wait..");
             var update = {
@@ -95,6 +137,9 @@ class SessionPage extends React.Component {
             var query = `mutation{edit_session(${obj2arg(update, { noOuterBraces: true })})
             {status ended_at ID}}`;
             getAxiosGraphQLQuery(query).then((res) => {
+
+                this.emitChatOpenClose("close", data);
+
                 this.setState((prevState) => {
                     var newData = Object.assign(prevState.data, res.data.data.edit_session);
                     layoutActions.storeHideBlockLoader();
@@ -109,7 +154,7 @@ class SessionPage extends React.Component {
     }
 
     getSessionHeader(data) {
-  
+
         var title = null;
         if (this.isRec) {
             var label = data.student.first_name + " " + data.student.last_name;
@@ -147,7 +192,7 @@ class SessionPage extends React.Component {
         }
 
         var endBtn = (data.status == SessionEnum.STATUS_EXPIRED || data.status == SessionEnum.STATUS_LEFT) ? null
-            : <span> | <b><a onClick={() => { this.endSession() }}>{(this.isRec) ? "End" : "Leave"} Session</a></b></span>;
+            : <span> | <b><a onClick={() => { this.endSession(data) }}>{(this.isRec) ? "End" : "Leave"} Session</a></b></span>;
 
         return <div style={{ borderBottom: "#777 1px solid", marginBottom: "20px", paddingBottom: "10px" }}>
             <h3 className="text-left" style={{ margin: "0" }}>Session #{data.ID} - <b>{title}</b>
@@ -177,7 +222,7 @@ class SessionPage extends React.Component {
                 <SessionRatingsPage rec_id={session.host_id}
                     student_id={session.participant_id}
                     session_id={session.ID}></SessionRatingsPage>
-                    <br></br>
+                <br></br>
                 <SessionNotesPage rec_id={session.host_id}
                     student_id={session.participant_id}
                     session_id={session.ID}></SessionNotesPage>
@@ -186,7 +231,7 @@ class SessionPage extends React.Component {
                 {sessionNoteRating}
             </div>);
         }
-        
+
         // ########################
         // for student
         else {

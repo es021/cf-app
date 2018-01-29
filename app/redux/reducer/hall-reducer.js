@@ -1,4 +1,4 @@
-import {getNewState} from './_helper';
+import { getNewState } from './_helper';
 import * as hallAction from '../actions/hall-actions';
 
 const hallReducerInitState = {
@@ -22,7 +22,10 @@ const hallReducerInitState = {
         data: [],
         fetching: true,
         error: null
-    }
+    },
+    // from socket
+    onlineCompanies: [],
+    queueCompanies: []
 };
 
 export default function hallReducer(state = hallReducerInitState, action) {
@@ -113,6 +116,14 @@ export default function hallReducer(state = hallReducerInitState, action) {
         return getNewState(state, newObj);
 
     } else {
+
+        // non axios action
+        if (action.type == hallAction.SET_NON_AXIOS) {
+            var newState = {};
+            newState[action.payload.key] = action.payload.data;
+            return getNewState(state, newState);
+        }
+
         return state;
     }
 

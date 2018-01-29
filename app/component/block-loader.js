@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {connect}from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as layoutActions from '../redux/actions/layout-actions';
-import {store} from '../redux/store';
-import {ButtonIcon} from './buttons';
-import {Loader} from './loader';
+import { store } from '../redux/store';
+import { ButtonIcon } from './buttons';
+import { Loader } from './loader';
 import PropTypes from 'prop-types';
 
 require("../css/block-loader.scss");
@@ -53,15 +53,15 @@ class BlockLoader extends React.Component {
             view = <div><h4 className="text-danger">Request Failed</h4>{state.error}</div>;
         } else if (state.confirm !== null) {
             view = <div><h4 className="text-primary">{state.confirm.title}</h4></div>;
+        } else if (state.custom !== null) {
+            view = <div><h4 className="text-primary">{state.custom.title}</h4></div>;
         }
-
-
 
         var action = null;
 
         if (state.success !== null || state.error !== null) {
-            var close = <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}  
-                 className="btn btn-sm btn-primary">
+            var close = <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}
+                className="btn btn-sm btn-primary">
                 CLOSE
             </div>;
             action = <div><br></br>
@@ -70,26 +70,39 @@ class BlockLoader extends React.Component {
 
         } else if (state.confirm !== null) {
             action = <div className="btn-group btn-group-justified">
-                <div onClick={state.confirm.yesHandler}  
-                     className="btn btn-sm btn-blue">
+                <div onClick={state.confirm.yesHandler}
+                    className="btn btn-sm btn-blue">
                     YES
                 </div>
-                <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}  
-                     className="btn btn-sm btn-default">
+                <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}
+                    className="btn btn-sm btn-default">
                     NO
                 </div>
+            </div>;
+        } else if (state.custom !== null) {
+            action = <div className="btn-group btn-group-justified">
+                <a href={state.custom.href} onClick={() => {
+                    if (state.custom.actionHandler) {
+                        state.custom.actionHandler();
+                    }
+                    store.dispatch(layoutActions.hideBlockLoader());
+                }}
+                    className="btn btn-sm btn-blue">
+                    {state.custom.actionText}
+                </a>
+
             </div>;
         }
 
         //confirm
- 
+
         var prefix = "bl-";
-        return(<div style={style} id="block-loader" >
-            <div className={`${prefix}content`}>  
-                    <div className="">
-                        {view}
-                    </div>
-                    {action}
+        return (<div style={style} id="block-loader" >
+            <div className={`${prefix}content`}>
+                <div className="">
+                    {view}
+                </div>
+                {action}
             </div>
             <div className={`${prefix}background`}></div>
         </div>);
@@ -102,6 +115,7 @@ BlockLoader.propTypes = {
     success: PropTypes.string,
     error: PropTypes.string,
     confirm: PropTypes.obj, // {title, yesHandler}
+    custom: PropTypes.obj, // {title,actionText, actionHandler,href}
     show: PropTypes.bool
 };
 

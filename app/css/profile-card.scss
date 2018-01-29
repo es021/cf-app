@@ -1,16 +1,14 @@
 @import "define/variable.scss";
-
-.profile-card.edit-img{
-
-    .#{$PROFILE_CARD}picture{
+.profile-card.edit-img {
+    .#{$PROFILE_CARD}picture {
         cursor: move;
     }
-    .arrows{
+    .arrows {
         display: flex;
     }
 }
 
-.profile-card{
+.profile-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -18,8 +16,7 @@
     word-break: break-all;
     margin: 20px 5px;
     line-height: 20px;
-
-    .#{$PROFILE_CARD}badge{
+    .#{$PROFILE_CARD}badge {
         position: absolute;
         right: 5px;
         color: white;
@@ -28,20 +25,18 @@
         height: 20px;
         width: 20px;
         top: 5px;
-        cursor:pointer;
-
-        .#{$PROFILE_CARD}badge-tooltip-arrow{
+        cursor: pointer;
+        .#{$PROFILE_CARD}badge-tooltip-arrow {
             display: none;
             position: absolute;
             z-index: 5;
             width: 6px;
             top: 7px;
             left: -7px;
-            border: rgba(0,0,0,0) solid 3px;
+            border: rgba(0, 0, 0, 0) solid 3px;
             border-left: black 7px solid;
         }
-
-        .#{$PROFILE_CARD}badge-tooltip{
+        .#{$PROFILE_CARD}badge-tooltip {
             background: black;
             display: none;
             position: absolute;
@@ -54,27 +49,28 @@
             line-height: 13px;
         }
     }
-
-    .#{$PROFILE_CARD}badge:hover .#{$PROFILE_CARD}badge-tooltip{
-        display: initial;
+    
+    .#{$PROFILE_CARD}badge.small {
+        height: 15px;
+        width: 15px;
     }
 
-    .#{$PROFILE_CARD}badge:hover .#{$PROFILE_CARD}badge-tooltip-arrow{
+    .#{$PROFILE_CARD}badge:hover .#{$PROFILE_CARD}badge-tooltip {
         display: initial;
     }
-
-    .#{$PROFILE_CARD}picture{
+    .#{$PROFILE_CARD}badge:hover .#{$PROFILE_CARD}badge-tooltip-arrow {
+        display: initial;
+    }
+    .#{$PROFILE_CARD}picture {
         background-color: white;
         border-radius: 100%;
         position: relative;
-        background-repeat:no-repeat;
-
-        .#{$PROFILE_CARD}picture-ops{
+        background-repeat: no-repeat;
+        .#{$PROFILE_CARD}picture-ops {
             position: absolute;
             bottom: 4px;
             right: 0;
-
-            .button-icon{
+            .button-icon {
                 background: whitesmoke;
                 padding: 5px;
                 border: solid 1px;
@@ -82,19 +78,15 @@
             }
         }
     }
-
-    .#{$PROFILE_CARD}title{
+    .#{$PROFILE_CARD}title {
         margin-top: 3px;
         font-size: 16px;
-
     }
-
-    .#{$PROFILE_CARD}subtitle{
+    .#{$PROFILE_CARD}subtitle {
         font-size: 13px;
         opacity: 0.80;
     }
-
-    .#{$PROFILE_CARD}body{
+    .#{$PROFILE_CARD}body {
         text-align: center;
         width: 100%;
     }
