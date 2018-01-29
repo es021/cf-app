@@ -7,6 +7,7 @@ import { store } from '../redux/store';
 import { ButtonIcon } from './buttons';
 import { Loader } from './loader';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 require("../css/block-loader.scss");
 
@@ -80,17 +81,29 @@ class BlockLoader extends React.Component {
                 </div>
             </div>;
         } else if (state.custom !== null) {
-            action = <div className="btn-group btn-group-justified">
-                <a href={state.custom.href} onClick={() => {
-                    if (state.custom.actionHandler) {
-                        state.custom.actionHandler();
-                    }
-                    store.dispatch(layoutActions.hideBlockLoader());
-                }}
-                    className="btn btn-sm btn-blue">
-                    {state.custom.actionText}
-                </a>
-
+            action = <div>
+                {(state.custom.href != null) // if href need to make navlink
+                    ? <NavLink to={state.custom.href} onClick={() => { store.dispatch(layoutActions.hideBlockLoader()); }}
+                        className="btn btn-sm btn-blue">
+                        {state.custom.actionText}
+                    </NavLink>
+                    : <a onClick={() => { // if action handler need to make a onClick
+                        if (state.custom.actionHandler) {
+                            state.custom.actionHandler();
+                        }
+                        store.dispatch(layoutActions.hideBlockLoader());
+                    }}
+                        className="btn btn-sm btn-blue">
+                        {state.custom.actionText}
+                    </a>
+                }
+                <br></br>
+                <div style={{ marginTop: "5px" }}>
+                    <small>
+                        <a onClick={() => store.dispatch(layoutActions.hideBlockLoader())}>
+                            CLOSE</a>
+                    </small>
+                </div>
             </div>;
         }
 

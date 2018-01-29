@@ -13,7 +13,7 @@ import { CustomList } from '../../../component/list';
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
-import { emitQueueStatus } from '../../../socket/socket-client';
+import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
 
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
@@ -147,7 +147,8 @@ export default class CompanyPopup extends Component {
             </div>;
 
             emitQueueStatus(com_id, stu_id, "startQueue");
-            
+            emitHallActivity(hallAction.ActivityType.QUEUE, null, com_id);
+
             layoutActions.successBlockLoader(mes);
             hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
         }, (err) => {

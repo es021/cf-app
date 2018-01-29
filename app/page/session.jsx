@@ -12,7 +12,9 @@ import Chat from './partial/session/chat';
 import SessionNotesPage from './partial/session/session-notes';
 import SessionRatingsPage from './partial/session/session-ratings';
 import obj2arg from 'graphql-obj2arg';
-import { emitChatOpenClose } from '../socket/socket-client';
+
+import { emitChatOpenClose, socketOn } from '../socket/socket-client';
+import { BOTH } from '../../config/socket-config';
 
 class SessionPage extends React.Component {
     constructor(props) {
@@ -32,6 +34,16 @@ class SessionPage extends React.Component {
     }
 
     componentWillMount() {
+        socketOn(BOTH.CHAT_OPEN_CLOSE, (data) => {
+            if (data.action == "close") {
+                var status = (isRoleRec()) ? SessionEnum.STATUS_LEFT : SessionEnum.STATUS_EXPIRED;
+                this.setState((prevState) => {
+                    prevState.data.status = status;
+                    return { data: prevState.data };
+                });
+            }
+        });
+
         var query = `query{session(ID:${this.ID}) {
             ID host_id participant_id company_id status
             company{name}
@@ -139,10 +151,8 @@ class SessionPage extends React.Component {
             getAxiosGraphQLQuery(query).then((res) => {
 
                 this.emitChatOpenClose("close", data);
-
                 this.setState((prevState) => {
                     var newData = Object.assign(prevState.data, res.data.data.edit_session);
-                    layoutActions.storeHideBlockLoader();
                     return { data: newData };
                 });
             });

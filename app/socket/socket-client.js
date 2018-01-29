@@ -1,9 +1,10 @@
 import io from 'socket.io-client';
 import { Url, BOTH, S2C, C2S } from '../../config/socket-config';
 import { RootPath } from '../../config/app-config';
-import { getAuthUser, isAuthorized, isRoleRec } from '../redux/actions/auth-actions';
+import { getAuthUser, getCF, isAuthorized, isRoleRec } from '../redux/actions/auth-actions';
 import { setOnlineUsers } from '../redux/actions/user-actions';
 import { customBlockLoader, getCurrentPath } from '../redux/actions/layout-actions';
+import { storeLoadActivity } from '../redux/actions/hall-actions';
 
 console.socket = (event, m) => {
     console.log(`SOCKET - [${event}]`, m);
@@ -15,7 +16,6 @@ var socket = null;
 
 //#####################################################################################
 // init functions
-
 export const initSocket = (page) => {
     try {
         console.socket("TRY CONNECT", Url);
@@ -40,7 +40,8 @@ function initOn() {
         var data = {
             id: user.ID,
             role: user.role,
-            company_id: user.rec_company
+            company_id: user.rec_company,
+            cf: getCF(),
         };
 
         socketEmit(C2S.JOIN, data);
@@ -70,7 +71,6 @@ function initOn() {
 
         if (data.action == "close") {
             title = `${data.from_name} has ${(isRoleRec()) ? 'left' : 'ended'} the session`;
-
             if (isSessionPage) {
                 href = `${RootPath}/app/career-fair`;
                 actionText = (isRoleRec())
@@ -79,6 +79,12 @@ function initOn() {
 
             } else {
                 actionText = "Got It!";
+
+                // if career fair page, need to reload all activity
+                var isCFPage = location.pathname.indexOf(`career-fair`) >= 0;
+                if (isCFPage) {
+                    storeLoadActivity();
+                }
             }
         }
 
@@ -87,6 +93,9 @@ function initOn() {
         }
     });
 
+    socketOn(BOTH.HALL_ACTIVITY, (data) => {
+        storeLoadActivity(data.entity);
+    });
 
 }
 
@@ -125,6 +134,15 @@ export const emitQueueStatus = (company_id, student_id, action) => {
 }
 
 export const emitChatOpenClose = (action, from_name, to_id, session_id) => {
+
+    if (action == "close") {
+        var href = `${RootPath}/app/career-fair`;
+        var actionText = (isRoleRec())
+            ? "Start Session With Other Student"
+            : "Start Queue With Other Company"
+        customBlockLoader("Session has ended", actionText, null, href);
+    }
+
     socketEmit(BOTH.CHAT_OPEN_CLOSE, {
         action: action,
         from_name: from_name,
@@ -132,3 +150,30 @@ export const emitChatOpenClose = (action, from_name, to_id, session_id) => {
         session_id: session_id
     });
 }
+
+export const emitHallActivity = (entity, to_id, to_company) => {
+    socketEmit(BOTH.HALL_ACTIVITY, {
+        entity: entity,
+        to_id: to_id,
+        to_company: to_company
+    });
+};
+
+export const emitChatMessage = (from_id, to_id, message, created_at) => {
+    socketEmit(BOTH.CHAT_MESSAGE, {
+        from_id: from_id,
+        to_id: to_id,
+        message: message,
+        created_at: created_at
+    });
+};
+
+export const emitLiveFeed = (title, content, type, cf, created_at) => {
+    socketEmit(BOTH.LIVE_FEED, {
+        title: title,
+        content: content,
+        type: type,
+        cf: cf,
+        created_at: created_at
+    });
+};

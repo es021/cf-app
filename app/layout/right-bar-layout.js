@@ -12,6 +12,7 @@ import SponsorList from '../page/partial/static/sponsor-list';
 import { DashboardFeed } from '../page/dashboard';
 import { getCF, getAuthUser, isRoleAdmin, isRoleOrganizer } from '../redux/actions/auth-actions';
 
+
 export default class RightBarLayout extends React.Component {
     constructor(props) {
         super(props);

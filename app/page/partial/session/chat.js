@@ -13,6 +13,10 @@ import * as layoutActions from '../../../redux/actions/layout-actions';
 import { ButtonLink } from '../../../component/buttons';
 import UserPopup from '../popup/user-popup';
 
+import { connect } from 'react-redux';
+import { BOTH } from '../../../../config/socket-config';
+import { emitChatMessage, socketOn } from '../../../socket/socket-client';
+
 require("../../../css/chat.scss");
 
 class Chat extends React.Component {
@@ -43,6 +47,11 @@ class Chat extends React.Component {
 
     componentWillMount() {
         this.offset = 10;
+
+        socketOn(BOTH.CHAT_MESSAGE, (data) => {
+            this.addChatToView(data.from_id, data.message, data.created_at);
+        });
+
     }
 
     parseMessage(message) {
@@ -155,6 +164,7 @@ class Chat extends React.Component {
         getAxiosGraphQLQuery(query);
 
         // todo add to socket
+        emitChatMessage(this.props.self_id, this.props.other_id, mes, Time.getUnixTimestampNow());
 
         // empty value
         this.chatInput.value = "";
@@ -296,9 +306,6 @@ Chat.propTypes = {
     other_id: PropTypes.number.isRequired,
     other_data: PropTypes.object.isRequired
 }
-
-
-import { connect } from 'react-redux';
 
 function mapStateToProps(state, ownProps) {
     return {
