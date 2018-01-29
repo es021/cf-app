@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { loadUser } from '../../../redux/actions/user-actions';
 import PropTypes from 'prop-types';
 import PageSection from '../../../component/page-section';
 import { NavLink } from 'react-router-dom';
@@ -14,6 +13,7 @@ import { CustomList } from '../../../component/list';
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
+import { emitQueueStatus } from '../../../socket/socket-client';
 
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
@@ -23,7 +23,7 @@ class VacancyList extends React.Component {
     constructor(props) {
         super(props);
         this.loadData = this.loadData.bind(this);
-    } 
+    }
 
     loadData(page, offset) {
         return getAxiosGraphQLQuery(`
@@ -42,11 +42,11 @@ class VacancyList extends React.Component {
     }
 
     renderList(d, i) {
-       
-            var param = { id: d.ID };
-            var title = <a
-                onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)}>{d.title}</a>;
-            return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
+
+        var param = { id: d.ID };
+        var title = <a
+            onClick={() => layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)}>{d.title}</a>;
+        return <SimpleListItem title={title} subtitle={d.type} body={d.description} key={i}></SimpleListItem>;
     }
 
     getDataFromRes(res) {
@@ -65,10 +65,10 @@ class VacancyList extends React.Component {
     }
 }
 
-VacancyList.propTypes ={
-    company_id : PropTypes.number.isRequired
+VacancyList.propTypes = {
+    company_id: PropTypes.number.isRequired
 };
-  
+
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)
@@ -146,13 +146,15 @@ export default class CompanyPopup extends Component {
                 <br></br>Your queue number is <b>{res.queue_num}</b>
             </div>;
 
+            emitQueueStatus(com_id, stu_id, "startQueue");
+            
             layoutActions.successBlockLoader(mes);
             hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
         }, (err) => {
             layoutActions.errorBlockLoader(err);
         });
-    }  
-  
+    }
+
     getVacancies(company_id) {
         return <VacancyList company_id={company_id}></VacancyList>;
     }
@@ -230,7 +232,7 @@ export default class CompanyPopup extends Component {
                         <i className="fa fa-download left"></i>
                         Drop Resume</a>
                 </div>;
- 
+
             var pcBody = <div>
                 <div>
                     {(data.description == "") ? null : <PageSection canToggle={this.props.displayOnly} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}

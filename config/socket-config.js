@@ -8,20 +8,23 @@ const BOTH = {
     CONNECTION: "connection",
 
     // queue
-    QUEUE_STATUS: "queue_status"
+    QUEUE_STATUS: "queue_status",
+
+    // session
+    CHAT_OPEN_CLOSE: "chat_open_close", //both -> {from_name,to_id,session_id}
+    CHAT_MESSAGE: "chat_message", //both -> {from_id,to_id,message,time}
 };
 
 // server to client
 // server emit
 // client on
 const S2C = {
+    // user status .. store in user reducer
+    ONLINE_USER: "online_user",
+
     // hall
     ONLINE_COMPANY: "online_company",
 
-    // chat
-    OTHER_OFFLINE: "other_offline",
-    OTHER_ONLINE: "other_online",
-    RECEIVE_MESSAGE: "receive_message"
 };
 
 // client to server
@@ -33,10 +36,6 @@ const C2S = {
 
     // auto emit by socket disconnect
     DISCONNECT: "disconnect",
-
-    // chat
-    CHAT_OPEN: "chat_open",
-    SEND_MESSAGE: "send_message"
 };
 
 const Event = {

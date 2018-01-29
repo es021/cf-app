@@ -9,6 +9,11 @@ import { CompanyEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 
+import { BOTH, S2C, C2S } from '../../../../config/socket-config';
+import { socketOn } from '../../../socket/socket-client';
+
+import { getAuthUser, isAuthorized } from '../../../redux/actions/auth-actions';
+
 import CompanyPopup from '../popup/company-popup';
 
 require('../../../css/company-sec.scss');
@@ -42,9 +47,6 @@ const sec = "com-sec";
 class CompanyBooth extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            online_rec: 0
-        };
 
         this.ID = this.props.company.ID;
     }
@@ -58,10 +60,11 @@ class CompanyBooth extends React.Component {
     render() {
 
         var countItem = [{
-            count: this.state.online_rec,
+            count: this.props.onlineRec,
             label: "Recruiters Online"
         }, {
-            count: (this.props.traffic !== null) ? this.props.traffic.active_queues_count : 0,
+            //count: (this.props.traffic !== null) ? this.props.traffic.active_queues_count : 0,
+            count: this.props.countQueue,
             label: "Students Queueing"
         }
             /*, {
@@ -114,13 +117,16 @@ class CompanyBooth extends React.Component {
 
 CompanyBooth.propTypes = {
     company: PropTypes.object.isRequired,
-    traffic: PropTypes.object
+    traffic: PropTypes.object,
+    onlineRec: PropTypes.number.isRequired,
+    countQueue: PropTypes.number.isRequired
 };
 
 class CompaniesSection extends React.Component {
     constructor(props) {
         super(props);
         this.page = 1;
+        
         this.refreshTraffic = this.refreshTraffic.bind(this);
         console.log("Hall", "HallPage");
         this.traffic = {};
@@ -128,7 +134,17 @@ class CompaniesSection extends React.Component {
 
     componentWillMount() {
         this.props.loadCompanies();
-        this.props.loadTraffic();
+        
+        //this.props.loadTraffic();
+
+        socketOn(S2C.ONLINE_COMPANY, (data) => {
+            this.props.setNonAxios("onlineCompanies", data);
+        });
+
+        socketOn(BOTH.QUEUE_STATUS, (data) => {
+            this.props.setNonAxios("queueCompanies", data);
+        });
+
     }
 
     // add socket on here
@@ -137,6 +153,12 @@ class CompaniesSection extends React.Component {
     }
 
     render() {
+
+        // to see data structure
+        //alert(JSON.stringify(this.props.queueCompanies));
+        //alert(JSON.stringify(this.props.onlineCompanies));
+
+
         var companies = this.props.companies;
         var traffic = this.props.traffic;
 
@@ -151,7 +173,20 @@ class CompaniesSection extends React.Component {
             var comView = companies.map((d, i) => {
                 // booth traffic and companies order by need to set the same in order for this to work
                 var trf = (!traffic.fetching || traffic.data.companies) ? traffic.data.companies[i] : null;
-                return <CompanyBooth key={i} company={d} traffic={trf}></CompanyBooth>;
+
+                //this is from socket
+                var onlineRec = (this.props.onlineCompanies[d.ID])
+                    ? Object.keys(this.props.onlineCompanies[d.ID]).length
+                    : 0;
+
+                var countQueue = (this.props.queueCompanies[d.ID])
+                    ? this.props.queueCompanies[d.ID]
+                    : 0;
+
+                return <CompanyBooth key={i} onlineRec={onlineRec}
+                    countQueue={countQueue}
+                    company={d}
+                    traffic={trf}></CompanyBooth>;
             });
 
             var btn = <a onClick={this.refreshTraffic}>Refresh Line</a>;
@@ -171,14 +206,17 @@ class CompaniesSection extends React.Component {
 function mapStateToProps(state, ownProps) {
     return {
         traffic: state.hall.traffic,
-        companies: state.hall.companies
+        companies: state.hall.companies,
+        onlineCompanies: state.hall.onlineCompanies,
+        queueCompanies: state.hall.queueCompanies
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         loadTraffic: hallAction.loadTraffic,
-        loadCompanies: hallAction.loadCompanies
+        loadCompanies: hallAction.loadCompanies,
+        setNonAxios: hallAction.setNonAxios
     }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CompaniesSection);

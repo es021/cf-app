@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {loadUser} from '../../../redux/actions/user-actions';
 import PropTypes from 'prop-types';
 import {Loader} from '../../../component/loader';
 import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';

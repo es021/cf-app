@@ -1,7 +1,7 @@
-import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
-import {Session, Queue, Prescreen, UserEnum} from '../../../config/db-config';
-import {getAuthUser, getCF} from './auth-actions';
-import {store} from '../store.js';
+import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
+import { Session, Queue, Prescreen, UserEnum } from '../../../config/db-config';
+import { getAuthUser, getCF } from './auth-actions';
+import { store } from '../store.js';
 
 /***** ACTIVITY ***************************/
 export const ActivityType = {
@@ -12,10 +12,12 @@ export const ActivityType = {
 
 function getEntitySelect(role) {
     return (role === UserEnum.ROLE_STUDENT)
-            ? " company{ID name img_url img_position img_size} "
-            : " student{ID first_name last_name img_url img_pos img_size} ";
+        ? " company{ID name img_url img_position img_size} "
+        : " student{ID first_name last_name img_url img_pos img_size} ";
 
 }
+
+
 export const ACTIVITY = "ACTIVITY";
 export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN]) {
 
@@ -64,7 +66,7 @@ export function loadTraffic() {
         dispatch({
             type: TRAFFIC,
             payload: getAxiosGraphQLQuery(
-                    `query{
+                `query{
                         companies(cf:"${getCF()}") {
                             ID
                             active_queues_count
@@ -80,7 +82,7 @@ export function loadCompanies() {
         dispatch({
             type: FETCH_COMPANIES,
             payload: getAxiosGraphQLQuery(
-                    `query{
+                `query{
                         companies(cf:"${getCF()}") {
                             ID
                             img_url
@@ -91,6 +93,19 @@ export function loadCompanies() {
                             vacancies_count
                         }
                 }`)
+        });
+    };
+}
+
+export const SET_NON_AXIOS = "SET_NON_AXIOS";
+export function setNonAxios(key, data) {
+    return function (dispatch) {
+        dispatch({
+            type: SET_NON_AXIOS,
+            payload: {
+                key: key,
+                data: data
+            }
         });
     };
 }

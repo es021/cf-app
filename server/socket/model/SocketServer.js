@@ -30,7 +30,8 @@ class SocketServer {
             online_clients: {},
             // online_clients[custom_id] = 1;
 
-            waiting_for: {}
+            //depecrated
+            //waiting_for: {}
             // waiting_for[custom_id] = [list of clients waiting for the key client];
             // so that when the key client finally online we can emit other online to all the clients
         }
@@ -41,7 +42,7 @@ class SocketServer {
     init() {
         this.printHeader("Initiating Socket Server");
         //initialize
-        //this.initDB(Event.ON_IN_QUEUE, null);
+        this.initDB(BOTH.QUEUE_STATUS, null);
 
         this.io.on(BOTH.CONNECTION, (client) => {
             client.emit(BOTH.CONNECTION);
@@ -49,43 +50,134 @@ class SocketServer {
         });
     }
 
+
     initOn(client) {
         client.on(C2S.JOIN, (d) => { this.onJoin(client, d) });
         client.on(C2S.DISCONNECT, (d) => { this.onDisconnect(client, d) });
-        client.on(C2S.CHAT_OPEN, (d) => { this.onChatOpen(client, d) });
-        client.on(C2S.SEND_MESSAGE, (d) => { this.onSendMessage(client, d) });
+        client.on(BOTH.CHAT_OPEN_CLOSE, (d) => { this.onChatOpenClose(client, d) });
+        client.on(BOTH.CHAT_MESSAGE, (d) => { this.onChatMessage(client, d) });
+
+        this.initDBTrigger(client);
+    }
+
+    // #################################################################
+    // DB RELATED
+
+    initDB(event, data) {
+        switch (event) {
+            case BOTH.QUEUE_STATUS:
+                //get total queue and students for each company
+                var sql = "SELECT c.ID as company_id, COALESCE(ttl.total, 0) as total, COALESCE(ttl.students, '') as students ";
+                sql += "FROM companies c LEFT JOIN ";
+                sql += "(SELECT company_id, COUNT(*) as total, GROUP_CONCAT(student_id) as students ";
+                sql += "FROM in_queues WHERE status = 'Queuing' GROUP BY company_id) ttl ";
+                sql += "ON c.ID = ttl.company_id";
+
+                var eventData = data;
+                console.log(sql);
+                //init for the first time app start
+                DB.query(sql, this, event, eventData);
+                break;
+        }
+    }
+
+    //initialize all on event that causing to query database
+    initDBTrigger(client) {
+        //this is triggered by startQueue and cancelQueue and createSessionSuccess in Client side
+        //pass in data {company_id, student_id, action}
+        // action : removeQueue | addQueue
+        client.on(BOTH.QUEUE_STATUS, (data) => {
+
+            //if remove Queue, we need to emit first before db data is updated
+            if (data !== undefined && data !== null && data.action === "removeQueue") {
+                this.emitCFTriggerToQueue(data);
+            }
+
+            //do we really need to query again? -- at least it is consistent
+            this.initDB(BOTH.QUEUE_STATUS, data);
+
+        });
+    }
+
+
+
+    emitCFTriggerToQueue(data) {
+        //emit trigger cf to related students
+        //this is to update in student queueing list 
+        for (var i in this.state.clients) {
+            if (data !== undefined && data !== null) {
+                try {
+                    var cur_student_index = this.state.queue_detail[data.company_id].indexOf(i);
+                    var trigger_student_index = this.state.queue_detail[data.company_id].indexOf(data.student_id);
+                    //console.log("cur_student_index :" + cur_student_index);
+                    //console.log("trigger_student_index :" + trigger_student_index);
+                    // if student is in queue detail for this company
+                    // and not same as the one who trigerred it
+                    // and queue is more than the one who trigger it
+                    // thus we only emit the trigger to users that effected only
+                    if (cur_student_index > -1 && i != data.student_id && cur_student_index > trigger_student_index) {
+                        this.emitToClient(this.state.clients[i], BOTH.QUEUE_STATUS, this.state.queue);
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        }
+    }
+
+    dbSuccessHandler(res, eventEmit, eventData, obj) {
+
+        if (eventEmit === BOTH.QUEUE_STATUS) {
+            obj.state.queue = {};
+            obj.state.queue_detail = {};
+            for (var i in res) {
+                var r = res[i];
+                obj.state.queue[r.company_id] = r.total;
+
+                var students = [];
+                if (r.students !== "") {
+                    students = r.students.split(",");
+                }
+                obj.state.queue_detail[r.company_id] = students;
+            }
+
+            //console.log(obj.queue);
+            //console.log(obj.queue_detail);
+            //console.log(eventData);
+
+            obj.updateEmitQueue(eventEmit, false);
+
+            //if add Queue, we need to emit after db data is updated
+            if (eventData !== undefined && eventData !== null && eventData.action === "addQueue") {
+                obj.emitCFTriggerToQueue(eventData);
+            }
+
+        }
+    }
+
+    dbErrorHandler(err) {
+        console.log(err);
     }
 
     // #################################################################
     // ON HELPER FUNCTION START
 
     // {from_id, to_id, message, created_at}
-    onSendMessage(client, data) {
+    onChatMessage(client, data) {
         this.printHeader('[send_message] : ID ' + client.id);
         var to_client = this.state.clients[data.to_id];
         if (to_client && to_client.isOnline()) {
-            this.state.emitToClient(to_client, S2C.RECEIVE_MESSAGE, data);
+            this.emitToClient(to_client, BOTH.CHAT_MESSAGE, data);
         }
     }
 
-    // {self_id, other_id}
-    onChatOpen(client, data) {
-        obj.printHeader('[open_chat] : ID ' + client.id);
-
-        var self_client = this.state.clients[data.self_id];
-        self_client.addOtherUser(data.other_id);
-        //check if other user online
-        // only emit to this socket
-        if (obj.online_clients[data.other_id] !== undefined) {
-            this.emit(S2C.OTHER_ONLINE, { other_id: data.other_id });
+    // {from_id,to_id,session_id}
+    onChatOpenClose(client, data) {
+        this.printHeader('[open_chat_close] : ID ' + JSON.stringify(data));
+        var to_client = this.state.clients[data.to_id];
+        if (to_client && to_client.isOnline()) {
+            this.emitToClient(to_client, BOTH.CHAT_OPEN_CLOSE, data);
         }
-        // if other user is not online, push self user into waiting for other user
-        else {
-            this.emit(S2C.OTHER_OFFLINE, { other_id: data.other_id });
-            this.state.addWaitingFor(data.other_id, data.self_id);
-        }
-
-        //this.notifyOnline(data.self_id);
     }
 
     onDisconnect(client, data) {
@@ -101,12 +193,12 @@ class SocketServer {
             delete (this.state.lookup[client.id]);
 
             if (clientObj.sockets_count <= 0) {
-                this.updateWaitingFor(clientObj);
+                //this.updateWaitingFor(clientObj);
                 //handle Offline here
                 //notify other user
                 //but other user only be added if open chat is triggered
                 //so waiting for also here
-                this.notifyOffline(clientObj);
+                //this.notifyOffline(clientObj);
 
                 //trigger by role
                 if (clientObj.role === UserEnum.ROLE_RECRUITER) {
@@ -143,6 +235,7 @@ class SocketServer {
             if (!this.state.online_clients[data.id]) {
                 this.state.online_clients[data.id] = 1;
                 //this.online_clients[data.id] = data.role;
+                this.emitToAll(S2C.ONLINE_USER, this.state.online_clients);
             }
 
             //trigger by role
@@ -156,14 +249,16 @@ class SocketServer {
                 this.updateEmitQueue(C2S.JOIN, this.state.clients[data.id]);
             }
 
+
             //previously this is trigger only to page session
-            this.notifyOnline(data.id);
+            //this.notifyOnline(data.id);
         }
         this.debug();
     }
 
     // #################################################################
     // EMIT HELPER FUNCTION START
+    /* deperacated
     notifyOnline(self_id) {
         //if someone is waiting for self user, notify them
         if (this.state.waiting_for[self_id] !== undefined) {
@@ -179,6 +274,16 @@ class SocketServer {
                 }
             }
             //delete(this.waiting_for[self_id]);
+        }
+    }
+    */
+
+    emitToAll(emit, data, except_id = null) {
+        for (var i in this.state.clients) {
+            if (except_id == i) {
+                continue;
+            }
+            this.emitToClient(this.state.clients[i], emit, data);
         }
     }
 
@@ -213,10 +318,13 @@ class SocketServer {
             delete (this.state.online_clients[user_id]);
         }
 
+        this.emitToAll(S2C.ONLINE_USER, this.state.online_clients, user_id);
+
         //this.printHeader("Client removed : " + user_id);
         //console.log(this.debug());
     }
 
+    /*// depercated
     notifyOffline(client) {
         if (client === undefined) {
             return;
@@ -239,7 +347,9 @@ class SocketServer {
             //delete(this.waiting_for[self_id]);
         }
     }
+    */
 
+    /*// depercated
     //only add in other users. but if not in session page, this doesnt work
     updateWaitingFor(client) {
         if (client === undefined) {
@@ -259,23 +369,23 @@ class SocketServer {
         if (new_waiting.length > 0) {
             this.state.waiting_for[client.id] = new_waiting;
         }
-    }
+    }*/
+
     updateEmitQueue(event, client, eventData) {
-        var obj = this;
         if (event === C2S.JOIN) {
             //do nothing
         }
 
         if (!client) {
             //emit to all student
-            for (var i in obj.clients) {
+            for (var i in this.state.clients) {
                 if (this.state.clients[i].role === UserEnum.ROLE_STUDENT) {
                     //this is to update in company listing
-                    this.emitToClient(obj.clients[i], BOTH.QUEUE_STATUS, obj.queue);
+                    this.emitToClient(this.state.clients[i], BOTH.QUEUE_STATUS, this.state.queue);
                 }
             }
         } else {
-            this.emitToClient(client, BOTH.QUEUE_STATUS, obj.queue);
+            this.emitToClient(client, BOTH.QUEUE_STATUS, this.state.queue);
         }
 
     }
@@ -421,9 +531,9 @@ Socket.prototype.emitLiveMonitorData = function (socket, data) {
         case 'online_company':
             toEmit.data = this.online_company;
             break;
-        case 'waiting_for':
-            toEmit.data = this.waiting_for;
-            break;
+        // case 'waiting_for':
+        //     toEmit.data = this.waiting_for;
+        //     break;
         case 'queue':
             toEmit.data = this.queue;
             break;

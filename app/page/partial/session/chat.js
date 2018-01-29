@@ -15,7 +15,7 @@ import UserPopup from '../popup/user-popup';
 
 require("../../../css/chat.scss");
 
-export default class Chat extends React.Component {
+class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.loadData = this.loadData.bind(this);
@@ -79,7 +79,7 @@ export default class Chat extends React.Component {
             var mesData = message.replace(this.MESSAGE_JSON, "");
             try {
                 mesData = JSON.parse(mesData);
-                console.log(mesData);
+                //console.log(mesData);
                 // do something with mesData
                 return "PARSED HEHE : " + message;
 
@@ -177,11 +177,13 @@ export default class Chat extends React.Component {
                 label={label}>
             </ButtonLink>;
 
+        var status = (this.props.online_users[d.ID] == 1) ? "Online" : "Offline";
+
         var info = <ProfileListItem title={title}
             img_url={d.img_url}
             img_pos={d.img_pos}
             img_size={d.img_size}
-            subtitle={"Online"}
+            subtitle={status}
             img_dimension={"50px"}
             type="student"></ProfileListItem>;
 
@@ -269,6 +271,7 @@ export default class Chat extends React.Component {
     };
 
     render() {
+
         return (<div id="chat">
             {this.getChatHeader()}
             <div className="chat-box" ref={(v) => this.chatBox = v}>
@@ -293,3 +296,14 @@ Chat.propTypes = {
     other_id: PropTypes.number.isRequired,
     other_data: PropTypes.object.isRequired
 }
+
+
+import { connect } from 'react-redux';
+
+function mapStateToProps(state, ownProps) {
+    return {
+        online_users: state.user.online_users
+    };
+}
+
+export default connect(mapStateToProps, null)(Chat);
