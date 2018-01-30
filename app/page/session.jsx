@@ -130,7 +130,9 @@ class SessionPage extends React.Component {
         //emit open chat if dont already have
         this.emitChatOpenClose("open", data);
 
-        return <Chat self_id={this.self_id}
+        return <Chat
+            session_id={data.ID}
+            self_id={this.self_id}
             isRec={this.isRec}
             disableChat={disableChat}
             other_id={this.other_id}

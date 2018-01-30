@@ -27,6 +27,7 @@ class Chat extends React.Component {
         this.createMessageJSON = this.createMessageJSON.bind(this);
         this.parseMessageJSON = this.parseMessageJSON.bind(this);
         this.parseMessageHTML = this.parseMessageHTML.bind(this);
+        this.createVideoCall = this.createVideoCall.bind(this);
 
         this.renderList = this.renderList.bind(this);
         this.getChatInput = this.getChatInput.bind(this);
@@ -43,6 +44,8 @@ class Chat extends React.Component {
 
         this.MESSAGE_JSON = "MESSAGE_JSON";
         this.MESSAGE_HTML = "MESSAGE_HTML"
+
+        this.JSON_ZOOM = "ZOOM";
     }
 
     componentWillMount() {
@@ -88,17 +91,25 @@ class Chat extends React.Component {
             var mesData = message.replace(this.MESSAGE_JSON, "");
             try {
                 mesData = JSON.parse(mesData);
-                //console.log(mesData);
-                // do something with mesData
-                return "PARSED HEHE : " + message;
+                console.log("parseMessageJSON", mesData);
+                if (mesData.type == this.JSON_ZOOM) {
+                    // console.log(mesData);
+                    // do something with mesData
+                    return <div>
+                        <b>[AUTO MESSAGE]</b>
+                        <br></br>I have created a video call session.
+                        <a href={mesData.data.join_url} target="_blank">Click here</a> to join.
+                    </div>;
+                } else {
+                    return JSON.stringify(mesData);
+                }
 
             } catch (err) {
                 return false;
             }
-
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     createMessageJSON(type, data) {
@@ -139,13 +150,15 @@ class Chat extends React.Component {
         this.chatBox.scrollTop = 99999999;
     }
 
-    sendChat() {
+    sendChat(mes = null) {
 
         if (this.props.disableChat) {
             return;
         }
 
-        var mes = this.chatInput.value;
+        if (mes == null) {
+            mes = this.chatInput.value;
+        }
 
         if (mes == "" || mes == null) {
             return;
@@ -173,7 +186,34 @@ class Chat extends React.Component {
     }
 
     createVideoCall() {
-        alert("video call");
+        if (this.props.disableChat) {
+            layoutActions.errorBlockLoader("Session Has Expired. Unable To Create Video Call Session");
+            return;
+        }
+
+        layoutActions.loadingBlockLoader("Creating Video Call Session. Please Do Not Close Window.");
+
+        const successInterceptor = (data) => {
+            console.log("success createVideoCall", data);
+
+            //get link to start
+            var start_link = "google.com";
+            var join_link = "google.com";
+
+            layoutActions.customBlockLoader("Successfully Created Video Call Session"
+                , "Start Video Call", () => {
+                    this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: join_url }));
+                    window.open(start_link);
+                }, null);
+        };
+
+        var data = {
+            query: "create_meeting",
+            host_id: this.props.self_id,
+            session_id: this.props.session_id
+        };
+
+        getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor);
     }
 
     getChatHeader() {
@@ -302,6 +342,7 @@ class Chat extends React.Component {
 Chat.propTypes = {
     self_id: PropTypes.number.isRequired,
     isRec: PropTypes.bool.isRequired,
+    session_id: PropTypes.number.isRequired,
     disableChat: PropTypes.bool.isRequired,
     other_id: PropTypes.number.isRequired,
     other_data: PropTypes.object.isRequired
