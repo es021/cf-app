@@ -9,6 +9,7 @@ const { UserType
     , SessionRatingType
     , SessionNoteType
     , MessageType
+    , AuditoriumType
     , PasswordResetType
     //, CFType
     , DocLinkType } = require('./all-type.js');
@@ -22,6 +23,7 @@ const { Queue, QueueExec } = require('../model/queue-query.js');
 const { DashboardExec } = require('../model/dashboard-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
+const { AuditoriumExec } = require('../model/auditorium-query');
 const { PasswordResetExec } = require('../model/reset-password-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -41,6 +43,22 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* auditorium ******************/
+fields["auditoriums"] = {
+    type: new GraphQLList(AuditoriumType),
+    args: {
+        page: { type: new GraphQLNonNull(GraphQLInt) },
+        offset: { type: new GraphQLNonNull(GraphQLInt) },
+        now_only: { type: GraphQLBoolean },
+        cf: { type: GraphQLString },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return AuditoriumExec.auditoriums(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* dashboards ******************/
