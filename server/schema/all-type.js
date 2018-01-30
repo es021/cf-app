@@ -277,6 +277,26 @@ const MetaType = new GraphQLObjectType({
     })
 });
 
+const AuditoriumType = new GraphQLObjectType({
+    name: 'Auditorium',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        cf: { type: GraphQLString },
+        company_id: { type: GraphQLInt },
+        type: { type: GraphQLString },
+        title: { type: GraphQLString },
+        link: { type: GraphQLString },
+        moderator: { type: GraphQLString },
+        start_time: { type: GraphQLInt },
+        end_time: { type: GraphQLInt },
+        created_by: { type: GraphQLInt },
+        updated_by: { type: GraphQLInt },
+        created_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString },
+
+        company: { type: CompanyType }
+    })
+});
 
 module.exports = {
     UserType
@@ -294,5 +314,6 @@ module.exports = {
     , PasswordResetType
     , ResumeDropType
     , MetaType
+    , AuditoriumType
     //, CFType
 };

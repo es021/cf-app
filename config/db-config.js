@@ -17,6 +17,26 @@ const Meta = {
     VALUE: "value"
 };
 
+const Auditorium = {
+    TABLE: "auditorium",
+    ID: "ID",
+    CF: "cf",
+    COMPANY_ID: "company_id",
+    TITLE: "title",
+    LINK: "link",
+    TYPE: "type",
+    START_TIME: "start_time",
+    END_TIME: "end_time",
+    MODERATOR: "moderator",
+    CREATED_BY: "created_by",
+    UPDATED_BY: "updated_by",
+    UPDATED_AT: "updated_at"
+};
+
+const AuditoriumEnum = {
+    TYPE_WEBINAR: "webinar"
+};
+
 const Message = {
     FROM_ID: "from_user_id",
     MESSAGE: "message",
@@ -274,4 +294,5 @@ module.exports = {
     , ResumeDrop
     , PasswordReset
     , Meta
+    , Auditorium, AuditoriumEnum
 };

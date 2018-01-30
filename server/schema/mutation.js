@@ -1,9 +1,9 @@
 //import all type
-const { QueueType, DashboardType, MetaType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, AuditoriumType, DashboardType, MetaType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Vacancy, Meta, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, Auditorium, Vacancy, Meta, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -462,6 +462,51 @@ fields["edit_queue"] = {
         });
     }
 };
+
+
+/*******************************************/
+/* auditorium ******************/
+fields["add_auditorium"] = {
+    type: AuditoriumType,
+    args: {
+        company_id: { type: new GraphQLNonNull(GraphQLInt) },
+        cf: { type: new GraphQLNonNull(GraphQLString) },
+        type: { type: new GraphQLNonNull(GraphQLString) },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        link: { type: GraphQLString },
+        moderator: { type: GraphQLString },
+        start_time: { type: new GraphQLNonNull(GraphQLInt) },
+        end_time: { type: new GraphQLNonNull(GraphQLInt) },
+        created_by: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(Auditorium.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_auditorium"] = {
+    type: AuditoriumType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        company_id: { type: GraphQLInt },
+        cf: { type: GraphQLString },
+        type: { type: GraphQLString },
+        link: { type: GraphQLString },
+        title: { type: GraphQLString },
+        moderator: { type: GraphQLString },
+        start_time: { type: GraphQLInt },
+        end_time: { type: GraphQLInt },
+        updated_by: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(Auditorium.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
 
 /*******************************************/
 /* prescreen ******************/
