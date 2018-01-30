@@ -56,7 +56,14 @@ const initializeAllRoute = function (app, root) {
     //     }
     // });
 
-
+    // Route To Store in Meta -------------------------------------------------------------------
+    const { MetaAPI } = require('./meta-api');
+    app.post(root + '/add-meta', function (req, res, next) {
+        MetaAPI.add(req.body.key, req.body.value, req.body.source)
+            .then((response) => {
+                routeResHandler(res, response);
+            });
+    });
 
     // Activity Route ----------------------------------------------------------------
     const { ActivityAPI } = require('./activity-api');
