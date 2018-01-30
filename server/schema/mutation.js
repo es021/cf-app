@@ -1,9 +1,9 @@
 //import all type
-const { QueueType, DashboardType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, DashboardType, MetaType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Vacancy, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, Vacancy, Meta, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -535,6 +535,22 @@ fields["delete_resume_drop"] = {
     },
     resolve(parentValue, arg, context, info) {
         return DB.delete(ResumeDrop.TABLE, arg.ID);
+    }
+};
+
+/*******************************************/
+/* meta ******************/
+fields["add_meta"] = {
+    type: MetaType,
+    args: {
+        meta_key: { type: new GraphQLNonNull(GraphQLString) },
+        meta_value: { type: new GraphQLNonNull(GraphQLString) },
+        source: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(Meta.TABLE, arg).then(function (res) {
+            return res;
+        });
     }
 };
 

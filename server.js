@@ -70,11 +70,6 @@ app.use(root + '/graphql', expressGraphQL({
 
 initializeAllRoute(app, root);
 
-app.post(root + '/subscribe', function (req, res, next) {
-    //console.log(action = req.body);
-    res.send({ ok: true });
-});
-
 const { template } = require('./server/html/template.js');
 
 app.get(root, function (req, res, next) {

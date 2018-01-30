@@ -10,6 +10,13 @@ const User = {
     CF: "cf"
 };
 
+const Meta = {
+    TABLE: "_meta",
+    ID: "ID",
+    KEY: "meta_key",
+    VALUE: "value"
+};
+
 const Message = {
     FROM_ID: "from_user_id",
     MESSAGE: "message",
@@ -266,4 +273,5 @@ module.exports = {
     , SessionRating, SessionRatingEnum
     , ResumeDrop
     , PasswordReset
+    , Meta
 };

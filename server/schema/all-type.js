@@ -266,6 +266,17 @@ const ResumeDropType = new GraphQLObjectType({
     })
 });
 
+const MetaType = new GraphQLObjectType({
+    name: 'Meta',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        meta_key: { type: GraphQLString },
+        meta_value: { type: GraphQLString },
+        source: { type: GraphQLString },
+        created_at: { type: GraphQLString }
+    })
+});
+
 
 module.exports = {
     UserType
@@ -282,5 +293,6 @@ module.exports = {
     , SessionRatingType
     , PasswordResetType
     , ResumeDropType
+    , MetaType
     //, CFType
 };
