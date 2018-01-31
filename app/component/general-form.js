@@ -38,8 +38,11 @@ class GeneralForm extends React.Component {
 
         // for edit
         if (this.props.edit) {
-            var update = checkDiff(this, this.props.edit, d, ["ID"]);
-
+            var discardDiff = ["ID"];
+            discardDiff.push(...this.props.discardDiff);
+            console.log(discardDiff);
+            console.log(this.props.forceDiff);
+            var update = checkDiff(this, this.props.edit, d, discardDiff, this.props.forceDiff);
             if (update === false) {
                 return;
             }
@@ -94,7 +97,9 @@ GeneralForm.propTypes = {
     formDefault: PropTypes.object,
     onSuccessNew: PropTypes.func,
     btnColorClass: PropTypes.string,
-    formWillSubmit: PropTypes.func
+    formWillSubmit: PropTypes.func,
+    discardDiff: PropTypes.array,
+    forceDiff: PropTypes.array
 };
 
 GeneralForm.defaultProps = {
@@ -148,39 +153,64 @@ export default class GeneralFormPage extends React.Component {
 
     // create general form for add new record
     addPopup() {
-        layoutActions.storeUpdateFocusCard(`Add ${this.Entity}`,
-            GeneralForm,
-            {
-                entity: this.props.entity,
-                entity_singular: this.props.entity_singular,
-                formItem: this.props.getFormItem(false),
-                formDefault: this.props.newFormDefault,
-                onSuccessNew: (d) => { this.onSuccessOperation("add", d) },
-                formWillSubmit: this.props.formWillSubmit
-            }
-        );
+        const generateForm = (formItem) => {
+            layoutActions.storeUpdateFocusCard(`Add ${this.Entity}`,
+                GeneralForm,
+                {
+                    discardDiff: this.props.discardDiff,
+                    forceDiff: this.props.forceDiff,
+                    entity: this.props.entity,
+                    entity_singular: this.props.entity_singular,
+                    formItem: formItem,
+                    formDefault: this.props.newFormDefault,
+                    onSuccessNew: (d) => { this.onSuccessOperation("add", d) },
+                    formWillSubmit: this.props.formWillSubmit
+                }
+            );
+        };
+
+        if (this.props.getFormItemAsync) {
+            this.props.getFormItemAsync(false).then((formItem) => {
+                generateForm(formItem);
+            });
+        } else {
+            generateForm(this.props.getFormItem(false));
+        }
+
     }
 
     // create general form for edit record
     editPopup(e) {
-        layoutActions.loadingBlockLoader("Fetching information..");
         const id = e.currentTarget.id;
-        this.props.getEditFormDefault(id).then((res) => {
-            console.log(res);
-            layoutActions.storeHideBlockLoader();
-            layoutActions.storeUpdateFocusCard(`Editing ${this.Entity} #${id}`,
-                GeneralForm,
-                {
-                    entity: this.props.entity,
-                    entity_singular: this.props.entity_singular,
-                    formItem: this.props.getFormItem(true),
-                    formDefault: res,
-                    onSuccessNew: (d) => { this.onSuccessOperation("edit", d) },
-                    formWillSubmit: this.props.formWillSubmit,
-                    edit: res
-                }
-            );
-        });
+
+        const generateForm = (formItem) => {
+            layoutActions.loadingBlockLoader("Fetching information..");
+            this.props.getEditFormDefault(id).then((res) => {
+                layoutActions.storeHideBlockLoader();
+                layoutActions.storeUpdateFocusCard(`Editing ${this.Entity} #${id}`,
+                    GeneralForm,
+                    {
+                        discardDiff: this.props.discardDiff,
+                        forceDiff: this.props.forceDiff,
+                        entity: this.props.entity,
+                        entity_singular: this.props.entity_singular,
+                        formItem: formItem,
+                        formDefault: res,
+                        onSuccessNew: (d) => { this.onSuccessOperation("edit", d) },
+                        formWillSubmit: this.props.formWillSubmit,
+                        edit: res
+                    }
+                );
+            });
+        };
+
+        if (this.props.getFormItemAsync) {
+            this.props.getFormItemAsync(true).then((formItem) => {
+                generateForm(formItem);
+            });
+        } else {
+            generateForm(this.props.getFormItem(true));
+        }
     }
 
     deletePopup(e) {
@@ -244,18 +274,23 @@ GeneralFormPage.propTypes = {
     renderRow: PropTypes.func.isRequired,
     tableHeader: PropTypes.element.isRequired,
     dataTitle: PropTypes.string.isRequired,
-    getFormItem: PropTypes.func.isRequired,
+    getFormItem: PropTypes.func,
+    getFormItemAsync: PropTypes.func,
     newFormDefault: PropTypes.array.isRequired,
     getEditFormDefault: PropTypes.func.isRequired,
     dataOffset: PropTypes.number,
     formWillSubmit: PropTypes.func,
     showAddForm: PropTypes.bool,
     btnColorClass: PropTypes.string,
-    successAddHandler: PropTypes.func
+    successAddHandler: PropTypes.func,
+    discardDiff: PropTypes.array,
+    forceDiff: PropTypes.array
 }
 
 GeneralFormPage.defaultProps = {
     dataOffset: 10,
     showAddForm: false,
-    btnColorClass: "primary"
+    btnColorClass: "primary",
+    discardDiff: [],
+    forceDiff: []
 }

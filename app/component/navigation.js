@@ -42,6 +42,16 @@ function getHomeComponent(COMING_SOON) {
     return homeComponent;
 }
 
+function isDisabled(page, COMING_SOON) {
+    if (page == "auditorium" || page == "career-fair") {
+        if ((isRoleStudent() || isRoleRec()) && !COMING_SOON) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function getMenuItem(COMING_SOON) {
     var homeComponent = getHomeComponent(COMING_SOON);
 
@@ -102,6 +112,17 @@ function getMenuItem(COMING_SOON) {
             hd_auth: false,
             disabled: !isRoleAdmin() && !isRoleOrganizer()
         },
+        { // Admin Only
+            url: "/auditorium-management",
+            label: "Auditorium",
+            icon: "microphone",
+            component: AuditoriumManagement,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin() && !isRoleOrganizer()
+        },
         {
             url: "/career-fair",
             label: "Career Fair",
@@ -112,7 +133,7 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             // is not coming soon and one of the row then show = !disabled
-            disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
+            disabled: isDisabled("career-fair", COMING_SOON)
         },
         {
             url: "/auditorium",
@@ -123,8 +144,7 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            // is not coming soon and one of the row then show = !disabled
-            disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
+            disabled: isDisabled("auditorium", COMING_SOON)
         },
         {
             url: "/about",
@@ -132,8 +152,8 @@ function getMenuItem(COMING_SOON) {
             icon: "question",
             component: null,
             href: "https://seedsjobfair.com/",
-            bar_app: COMING_SOON,
-            bar_auth: COMING_SOON,
+            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             hd_app: true,
             hd_auth: true
         },
@@ -142,8 +162,8 @@ function getMenuItem(COMING_SOON) {
             label: "FAQ",
             icon: "question-circle",
             component: FaqPage,
-            bar_app: true,
-            bar_auth: true,
+            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             hd_app: true,
             hd_auth: true
         },
@@ -152,8 +172,8 @@ function getMenuItem(COMING_SOON) {
             label: "Contact Us",
             icon: "envelope",
             component: ContactUsPage,
-            bar_app: COMING_SOON,
-            bar_auth: COMING_SOON,
+            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             hd_app: true,
             hd_auth: true
         },

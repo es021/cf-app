@@ -60,6 +60,16 @@ fields["auditoriums"] = {
     }
 };
 
+fields["auditorium"] = {
+    type: AuditoriumType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return AuditoriumExec.auditoriums(arg, graphqlFields(info), { single: true });
+    }
+};
+
 /*******************************************/
 /* dashboards ******************/
 fields["password_reset"] = {

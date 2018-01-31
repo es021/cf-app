@@ -152,10 +152,8 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
 
     if (typeof data.cf !== "undefined") {
         var cf = data.cf;
-        delete (data["cf"]);
         var entity = null;
         // trigger from manage-company
-
         switch (table) {
             case Company.TABLE:
                 entity = "company";
@@ -166,6 +164,8 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
         }
 
         if (entity !== null) {
+            delete (data["cf"]);
+
             //only ID left, then return
             if (Object.keys(data).length == 1) {
                 return this.updateCF(entity, ID, cf);
