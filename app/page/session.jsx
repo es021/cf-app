@@ -259,7 +259,7 @@ class SessionPage extends React.Component {
                         padding: "0 14px",
                         border: "#6f7e95 solid 1px"
                     }}>
-                        <CompanyPopup displayOnly={true} id={session.company_id}></CompanyPopup>
+                        <CompanyPopup displayOnly={true} canToggle={true} id={session.company_id}></CompanyPopup>
                     </div>
                 </div>);
             }

@@ -3,7 +3,7 @@ import { Loader } from '../../../component/loader';
 
 //importing for list
 import List, { ProfileListItem } from '../../../component/list';
-import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
+import { getAxiosGraphQLQuery, getWpAjaxAxios } from '../../../../helper/api-helper';
 import { Redirect, NavLink } from 'react-router-dom';
 import { RootPath } from '../../../../config/app-config';
 import { Time } from '../../../lib/time';
@@ -28,6 +28,7 @@ class Chat extends React.Component {
         this.parseMessageJSON = this.parseMessageJSON.bind(this);
         this.parseMessageHTML = this.parseMessageHTML.bind(this);
         this.createVideoCall = this.createVideoCall.bind(this);
+        this.joinVideoCall = this.joinVideoCall.bind(this);
 
         this.renderList = this.renderList.bind(this);
         this.getChatInput = this.getChatInput.bind(this);
@@ -96,9 +97,12 @@ class Chat extends React.Component {
                     // console.log(mesData);
                     // do something with mesData
                     return <div>
-                        <b>[AUTO MESSAGE]</b>
+                        <small>[AUTO MESSAGE]</small>
                         <br></br>I have created a video call session.
-                        <a href={mesData.data.join_url} target="_blank">Click here</a> to join.
+                        <div style={{ margin: "7px 0" }}>
+                            <div className={`${this.props.isRec ? "btn-blue" : "btn-default"} btn btn-block btn-sm`}
+                                onClick={() => { this.joinVideoCall(mesData.data.join_url) }}>Join Now</div>
+                        </div>
                     </div>;
                 } else {
                     return JSON.stringify(mesData);
@@ -117,7 +121,7 @@ class Chat extends React.Component {
             type: type,
             data: data
         }
-        return this.MESSAGE_JSON + this.JSON.stringify(am);
+        return this.MESSAGE_JSON + JSON.stringify(am);
     }
 
     // ##############################################################
@@ -185,7 +189,37 @@ class Chat extends React.Component {
         this.addChatToView(this.props.self_id, mes, Time.getUnixTimestampNow());
     }
 
+    joinVideoCall(join_url) {
+        window.open(join_url);
+
+        if (this.props.disableChat) {
+            layoutActions.errorBlockLoader("Session Has Expired. Unable To Join Video Call Session");
+            return;
+        }
+        
+        layoutActions.loadingBlockLoader("Please Wait..");
+
+        //check if expired
+        const successInterceptor = (data) => {
+            if (data == 1) {
+                layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
+            } else {
+                layoutActions.storeHideBlockLoader();
+            }
+        };
+
+        var data = {
+            query: "is_meeting_expired",
+            join_url: join_url,
+            session_id: this.props.session_id
+        };
+
+        getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
+    }
+
+
     createVideoCall() {
+
         if (this.props.disableChat) {
             layoutActions.errorBlockLoader("Session Has Expired. Unable To Create Video Call Session");
             return;
@@ -194,16 +228,29 @@ class Chat extends React.Component {
         layoutActions.loadingBlockLoader("Creating Video Call Session. Please Do Not Close Window.");
 
         const successInterceptor = (data) => {
-            console.log("success createVideoCall", data);
+            /*
+            {"uuid":"bou80/LrR6a0cmDKC4V5aA=="
+            ,"id":646923659,"host_id":"-9e--206RFiZFE0hSh-RPQ"
+            ,"topic":"Let's start a video call."
+            ,"password":"","h323_password":""
+            ,"status":0,"option_jbh":false
+            ,"option_start_type":"video"
+            ,"option_host_video":true,"option_participants_video":true
+            ,"option_cn_meeting":false,"option_enforce_login":false
+            ,"option_enforce_login_domains":"","option_in_meeting":false
+            ,"option_audio":"both","option_alternative_hosts":""
+            ,"option_use_pmi":false,"type":1,"start_time":""
+            ,"duration":0,"timezone":"America/Los_Angeles"
+            ,"start_url":"https://zoom.us/s/646923659?zpk=NcbawuQ7mSE9jfEBdcGMfwxumZzC21eWgm2v6bQ9S6k.AwckNGQwMWY3NWQtNDZhMC00MzU2LTg0M2MtNGVlNWI1MmUzOWY5Fi05ZS0tMjA2UkZpWkZFMGhTaC1SUFEWLTllLS0yMDZSRmlaRkUwaFNoLVJQURJ0ZXN0LnJlY0BnbWFpbC5jb21jAHBTRm01T3I3ZVprU0RGczJCeVRFTlZ5N1k0cE1Zcm5scFF5R3pQZ2RLQjY4LkJnUWdVMDVMU1U1cGNFVmpWeTlESzB0NVVGRm5SbWx3YnpNNFRFNVdWSGxZWjJrQUFBd3pRMEpCZFc5cFdWTXpjejBBAAAWcDF2Skd0YUJRV3k0WC15NzVGRmVtQQIBAQA"
+            ,"join_url":"https://zoom.us/j/646923659","created_at":"2018-01-31T02:08:02Z"}
+            */
 
-            //get link to start
-            var start_link = "google.com";
-            var join_link = "google.com";
+            console.log("success createVideoCall", data);
 
             layoutActions.customBlockLoader("Successfully Created Video Call Session"
                 , "Start Video Call", () => {
-                    this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: join_url }));
-                    window.open(start_link);
+                    this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: data.join_url }));
+                    window.open(data.start_url);
                 }, null);
         };
 
@@ -213,7 +260,7 @@ class Chat extends React.Component {
             session_id: this.props.session_id
         };
 
-        getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor);
+        getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
     }
 
     getChatHeader() {

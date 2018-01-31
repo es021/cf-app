@@ -19,6 +19,7 @@ import SessionPage from '../page/session';
 import { FaqPage, AllowCookiePage, ContactUsPage } from '../page/static';
 import NotFoundPage from '../page/not-found';
 import ComingSoonPage from '../page/coming-soon';
+import { AuditoriumFeed, AuditoriumManagement } from '../page/auditorium';
 import DashboardPage from '../page/dashboard';
 import PasswordResetPage from '../page/password-reset';
 import PasswordForgotPage from '../page/password-forgot';
@@ -102,9 +103,9 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleAdmin() && !isRoleOrganizer()
         },
         {
-            url: "/auditorium",
-            label: "Auditorium",
-            icon: "microphone",
+            url: "/career-fair",
+            label: "Career Fair",
+            icon: "suitcase",
             component: HallPage,
             bar_app: true,
             bar_auth: false,
@@ -114,10 +115,10 @@ function getMenuItem(COMING_SOON) {
             disabled: !(!COMING_SOON && (isRoleStudent() || isRoleRec()))
         },
         {
-            url: "/career-fair",
-            label: "Career Fair",
-            icon: "suitcase",
-            component: HallPage,
+            url: "/auditorium",
+            label: "Auditorium",
+            icon: "microphone",
+            component: AuditoriumFeed,
             bar_app: true,
             bar_auth: false,
             hd_app: false,

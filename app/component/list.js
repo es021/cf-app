@@ -282,9 +282,7 @@ List.defaultProps = {
 /*******************************************************************************************/
 /*******************************************************************************************/
 
-import ProfileCard, {
-    PCType
-} from './profile-card';
+import ProfileCard, { PCType } from './profile-card';
 import { Page } from 'react-facebook';
 
 export class ProfileListItem extends Component {
@@ -293,6 +291,9 @@ export class ProfileListItem extends Component {
         if (this.props.list_type) {
             className += "-" + this.props.list_type;
         }
+
+        className += " " + this.props.list_type_extra;
+
         var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
         return <ProfileCard {
             ...this.props} img_dimension={img_dimension}
@@ -302,6 +303,7 @@ export class ProfileListItem extends Component {
 
 ProfileListItem.propTypes = {
     list_type: PropTypes.oneOf(["card"]),
+    list_type_extra: PropTypes.string,
     title: PropTypes.any.isRequired,
     subtitle: PropTypes.string.isRequired,
     badge: PropTypes.string,
@@ -314,6 +316,54 @@ ProfileListItem.propTypes = {
     body: PropTypes.any
 };
 
+ProfileListItem.defaultProps = {
+    list_type_extra: ""
+};
+
+export class ProfileListWide extends Component {
+    render() {
+        var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
+
+        var imgView = <ProfileCard {
+            ...this.props} title={null} body={null} subtitle={null} img_dimension={img_dimension}
+            className={className}></ProfileCard>;
+
+        var className = "card-wide";
+        return <div className={className}>
+            <div className="card-container container-fluid">
+                <div className={`${className}-item col-md-2`}>
+                    {imgView}
+                </div>
+                <div className={`${className}-item col-md-${(this.props.action_disabled) ? "10" : "8"}`}>
+                    <div className="item-main">
+                        <h3>{this.props.title} {this.props.title}</h3>
+                        <div>{this.props.body}</div>
+                    </div>
+                </div>
+                {(this.props.action_disabled) ? null
+                    : <div className={`${className}-item col-md-2`}>
+                        <a className={`btn btn-blue btn-block`}
+                            onClick={() => this.props.action_handler()}>{this.props.action_text}</a>
+                    </div>
+                }
+            </div>
+        </div>;
+    }
+}
+
+ProfileListWide.propTypes = {
+    title: PropTypes.any.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    img_url: PropTypes.string,
+    img_pos: PropTypes.string,
+    img_size: PropTypes.string,
+    img_dimension: PropTypes.string,
+    action_text: PropTypes.string,
+    action_handler: PropTypes.func,
+    action_disabled: PropTypes.bool,
+    type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
+    body: PropTypes.any
+};
 
 /*******************************************************************************************/
 

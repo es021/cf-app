@@ -93,7 +93,7 @@ function getStaticAxios(filename, version = null) {
     var config = {
         proxy: false
     };
-    
+
     var url = `${StaticUrl}/${filename}`;
     if (version !== null) {
         url += `?v=${version}`;
@@ -114,10 +114,16 @@ function getPHPApiAxios(script, params) {
 }
 
 // only in ajax_external -- response is fixed here
-function getWpAjaxAxios(action, data, successInterceptor = null) {
+function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = false) {
+
     var params = {};
+    if (isDataInPost) {
+        params = data;
+    } else {
+        params["data"] = data;
+    }
     params["action"] = action;
-    params["data"] = data;
+
     var config = {
         proxy: false
     };
@@ -127,6 +133,11 @@ function getWpAjaxAxios(action, data, successInterceptor = null) {
         } else {
 
             var retData = res.data.data;
+            
+            if(typeof retData == "undefined"){
+                retData = res.data;
+            }
+
             if (successInterceptor !== null) {
                 successInterceptor(retData);
             }
