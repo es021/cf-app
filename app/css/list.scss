@@ -1,89 +1,107 @@
 @import 'define/variable.scss';
+.card-wide {
+    .profile-card {
+        margin: 0;
+        .pc-picture {
+            border: gray 1px solid;
+        }
+    }
+    .card-container {
+        @media only screen and (max-width: 990px) {
+            justify-content: center;
+            padding: 5px 15px;
+            .card-wide-item {
+                width: 100%;
+            }
+        }
+        
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        text-align: left;
+        max-width: 700px;
+        margin-bottom: 20px;
+        padding: 0 15px;
+        padding-left: 0;
+        .card-wide-item {
+            padding: 10px 0;
+        }
+    }
+}
 
 // Simple List Item
 // -- used in company-popup
-.simple-li{
+.simple-li {
     margin-bottom: 25px;
-    text-align:justify;
-    border-bottom : whitesmoke 1px solid;
+    text-align: justify;
+    border-bottom: whitesmoke 1px solid;
     font-size: 15px;
-
-    .sili-title{
-        font-weight: bold;    
+    .sili-title {
+        font-weight: bold;
     }
-
-    .sili-operation{
+    .sili-operation {
         font-size: 85%;
-        margin-left:10px;
+        margin-left: 10px;
     }
-
-    .sili-subtitle{
+    .sili-subtitle {
         color: gray;
         font-size: 90%;
     }
-
-    .sili-body{
+    .sili-body {
         max-height: 60px;
         overflow: hidden;
         font-size: 90%;
     }
 }
 
-.simple-li:last-of-type{
+.simple-li:last-of-type {
     margin-bottom: 0;
 }
 
-.simple-li-card{
+.simple-li-card {
     border-bottom: none;
-    margin:10px;
-    width:200px;
+    margin: 10px;
+    width: 200px;
     background: white;
     box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
     padding: 5px 10px;
-
-    .sili-body{
+    .sili-body {
         word-break: break-all !important;
     }
 }
-.simple-li-card:last-of-type{
-    margin:10px;
+
+.simple-li-card:last-of-type {
+    margin: 10px;
 }
 
 // Profile Card List Item
 // -- used in company-popup
-.profile-card.profile-li{
+.profile-card.profile-li {
     display: grid;
     text-align: left;
-    grid-template-columns : 1fr 4fr;
-    grid-template-rows : 1fr 1fr;
-    grid-template-areas: 
-        "img title body"
-        "img subtitle body";
-
-    .pc-picture{
-        grid-area : img;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas: "img title body" "img subtitle body";
+    .pc-picture {
+        grid-area: img;
     }
-
-    .pc-title{
+    .pc-title {
         align-self: end;
-        grid-area : title;
+        grid-area: title;
     }
-
-    .pc-subtitle{
+    .pc-subtitle {
         align-self: start;
-        grid-area : subtitle;
+        grid-area: subtitle;
     }
-
 }
 
 // -- used in activity-section
-.profile-card.profile-li-card{
+.profile-card.profile-li-card {
     background-color: white;
     box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
     width: 120px;
     margin: 8px 5px;
-
-    .pc-title{
+    .pc-title {
         font-size: 15px;
         padding: 0px 5px;
         height: 40px;
@@ -91,75 +109,62 @@
         display: flex;
         align-items: center;
     }
-
-    .pc-subtitle{
+    .pc-subtitle {
         font-size: 12px;
         line-height: 12px;
         padding: 0px 5px;
         margin: 5px;
     }
-
-    .pc-body{
-        margin-top:5px;
-        .btn{
+    .pc-body {
+        margin-top: 5px;
+        .btn {
             width: 100%;
         }
     }
-
-    .pc-picture{
+    .pc-picture {
         margin-top: 10px;
-        border: darken($COLOR_BACKGROUND,10) 1px solid;
+        border: darken($COLOR_BACKGROUND, 10) 1px solid;
     }
 }
 
 // Custom List (Icon)
 // -- used student popup
-.custom-list-icon{
+.custom-list-icon {
     font-size: 15px;
-
-    .li-icon{
+    .li-icon {
         margin-bottom: 10px;
-
-        .cli-label{
+        .cli-label {
             font-size: 80%;
-            opacity:0.65;
+            opacity: 0.65;
             .fa {
                 margin-right: 7px;
             }
         }
-
-        .cli-value{
-
-        }
+        .cli-value {}
     }
 }
 
 // Custom List (Label)
 // -- used student popup
-.custom-list-label{
-    display:flex;
+.custom-list-label {
+    display: flex;
     justify-content: center;
     flex-wrap: wrap;
     font-size: 20px;
-
-    li{
-
+    li {
         margin: 3px;
         border-radius: 8px;
         padding: 7px;
         font-weight: 100;
         max-width: 100%;
         overflow: hidden;
-        
-        a{
+        a {
             color: white;
         }
-        
-        .label{
+        .label {
             max-width: 90%;
         }
-        
-        .badge{
+        .badge {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 100%;
             font-size: 10px;
@@ -171,27 +176,23 @@
             align-items: center;
             margin-left: 3px;
         }
-
-        .badge:hover{
-            background: rgba(0,0,0,0.4);
+        .badge:hover {
+            background: rgba(0, 0, 0, 0.4);
         }
-
-        .badge:active{
-            background: rgba(0,0,0,0.5);
+        .badge:active {
+            background: rgba(0, 0, 0, 0.5);
         }
     }
 }
 
-.custom-list-label.li-ux{
-    li{
+.custom-list-label.li-ux {
+    li {
         cursor: pointer;
     }
-
-    li:hover{
+    li:hover {
         opacity: 0.8;
     }
-
-    li:active{
+    li:active {
         opacity: 1;
     }
 }

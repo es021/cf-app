@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dashboard, DashboardEnum } from '../../config/db-config';
-import List from '../component/list';
+import List, { ProfileListWide } from '../component/list';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 
@@ -12,6 +12,8 @@ import { getDataCareerFair } from '../component/form';
 
 import { socketOn, emitLiveFeed } from '../socket/socket-client';
 import { BOTH } from '../../config/socket-config';
+import * as layoutActions from '../redux/actions/layout-actions';
+import CompanyPopup from './partial/popup/company-popup';
 
 require("../css/dashboard.scss");
 
@@ -29,6 +31,9 @@ export class AuditoriumFeed extends React.Component {
         this.state = {
             extraData: []
         }
+
+        this.hasUpNext = false;
+        this.hasNow = false;
 
         this.isInit = true;
     }
@@ -65,9 +70,9 @@ export class AuditoriumFeed extends React.Component {
     loadData(page, offset) {
 
         var query = `query{
-            auditoriums(page:${page},offset:${offset},cf:"${this.props.cf}",order_by:"start_time asc",now_only:true) {
-              ID cf
-              company_id
+            auditoriums(page:${page},offset:${offset},cf:"${getCF()}",order_by:"start_time asc",now_only:true) {
+              ID
+              company{ID name img_url img_position img_size}
               type
               title
               link
@@ -81,6 +86,9 @@ export class AuditoriumFeed extends React.Component {
     }
 
     getDataFromRes(res) {
+        this.hasUpNext = false;
+        this.hasNow = false;
+
         if (this.isInit) {
             this.scrollTo = "top";
             this.isInit = false;
@@ -102,19 +110,66 @@ export class AuditoriumFeed extends React.Component {
     }
 
     renderList(d, i, isExtraData = false) {
+        console.log(d);
+        var timeNow = Time.getUnixTimestampNow();
+
+        // DEBUG for Now
+        if (i == 0) {
+            d.start_time = timeNow;
+            d.end_time = timeNow;
+        }
+
+        var item = [];
+
+        if (!this.hasNow && d.start_time >= timeNow && d.end_time <= timeNow) {
+            item.push(<h3>Now</h3>);
+            this.hasNow = true;
+        } else if (!this.hasUpNext) {
+            item.push(<h3>Up Next</h3>);
+            this.hasUpNext = true;
+        }
+
         var isNew = isExtraData;
-        var item = <div className={`db_item`}>
-            <div className="db_item_title">{d.title}</div>
-            <div className="db_item_time">{Time.getString(d.start_time)}</div>
-            <div className="db_item_time">{Time.getString(d.end_time)}</div>
-        </div>;
+        var details = <div>
+            {"with "}
+            <a onClick={() => layoutActions.storeUpdateFocusCard(d.title
+                , CompanyPopup, { id: d.company.ID, displayOnly: true, toggleable: false })}>
+                {d.company.name}</a>
+            <br></br>
+            <small>
+                <i className="fa fa-calendar left"></i>
+                {Time.getDate(d.start_time)}
+                <br></br>
+                <i className="fa fa-clock-o left"></i>
+                {Time.getStringShort(d.start_time) + " - " + Time.getStringShort(d.end_time)}
+                <br></br>
+                {d.moderator != null && d.moderator != ""
+                    ? <span>Moderator - {d.moderator}</span> : null}
+            </small>
+        </div>
+
+        item.push(
+            <ProfileListWide title={d.title}
+                img_url={d.company.img_url}
+                img_pos={d.company.img_position}
+                img_size={d.company.img_size}
+                img_dimension={"80px"}
+                body={details}
+                action_text="Join Now"
+                action_handler={() => { window.open(d.link) }}
+                action_disabled={d.link == null || d.link == ""}
+                type="company" key={i}>
+            </ProfileListWide>);
 
         return item;
     };
     //<button onClick={() => this.addFeedToView({ ID: "a" })}>Add</button>
 
     render() {
-        return <div className="dashboard">
+        return <div>
+            <h2>Auditorium<br></br>
+                <small>Stay tuned for more webinar session with various companies</small>
+            </h2>
             <List type="append-bottom"
                 appendText="Load More Event"
                 listClass="db_body"
@@ -129,15 +184,10 @@ export class AuditoriumFeed extends React.Component {
     }
 }
 
-AuditoriumFeed.propTypes = {
-    cf: PropTypes.string.isRequired
-};
-
-
 // ###########################################################################################
 // AUDITORIUM MANAGEMENT PAGE ###########################################################
 
-export default class AuditoriumPage extends React.Component {
+export class AuditoriumManagement extends React.Component {
     constructor(props) {
         super(props);
         this.authUser = getAuthUser();

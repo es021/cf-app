@@ -8,6 +8,7 @@ import { isAuthorized, isComingSoon } from "./redux/actions/auth-actions";
 console.log(process.env.NODE_ENV);
 
 //import {User} from '../config/db-config'; 
+require("./css/general.scss");
 
 //console.log(User);
 
@@ -17,7 +18,6 @@ require("./lib/util.js");
 
 require("./css/app.scss");
 require("./css/content.scss");
-require("./css/general.scss");
 require("./css/header.scss");
 require("./css/left-bar.scss");
 require("./css/right-bar.scss");
