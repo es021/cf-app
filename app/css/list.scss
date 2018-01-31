@@ -3,7 +3,7 @@
     .profile-card {
         margin: 0;
         .pc-picture {
-            border: gray 1px solid;
+            border: #cbd9e5 1px solid;
         }
     }
     .card-container {
@@ -14,17 +14,25 @@
                 width: 100%;
             }
         }
-        
+        position: relative;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         text-align: left;
-        max-width: 700px;
+        max-width: 650px;
         margin-bottom: 20px;
         padding: 0 15px;
         padding-left: 0;
+        h4{
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
         .card-wide-item {
             padding: 10px 0;
+        }
+        .item-action {
+            position: absolute;
+            top: -6px;
+            right: -5px;
         }
     }
 }

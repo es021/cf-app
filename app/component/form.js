@@ -36,13 +36,19 @@ export function getDataCareerFair(type) {
     return ret;
 };
 
-export function checkDiff(obj, original, d, discard = []) {
+export function checkDiff(obj, original, d, discard = [], force = []) {
     var hasDiff = false;
     var update = {};
 
     //get differences
     for (var k in d) {
         if (discard.indexOf(k) >= 0) {
+            continue;
+        }
+
+        if (force.indexOf(k) >= 0) {
+            hasDiff = true;
+            update[k] = d[k];
             continue;
         }
 

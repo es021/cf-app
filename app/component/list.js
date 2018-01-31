@@ -336,13 +336,13 @@ export class ProfileListWide extends Component {
                 </div>
                 <div className={`${className}-item col-md-${(this.props.action_disabled) ? "10" : "8"}`}>
                     <div className="item-main">
-                        <h3>{this.props.title} {this.props.title}</h3>
+                        <h4>{this.props.title} {this.props.title} {this.props.title}</h4>
                         <div>{this.props.body}</div>
                     </div>
                 </div>
                 {(this.props.action_disabled) ? null
-                    : <div className={`${className}-item col-md-2`}>
-                        <a className={`btn btn-blue btn-block`}
+                    : <div className={`item-action`}>
+                        <a className={`btn btn-blue`}
                             onClick={() => this.props.action_handler()}>{this.props.action_text}</a>
                     </div>
                 }
