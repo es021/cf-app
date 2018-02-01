@@ -35,6 +35,8 @@ if (!isProd) {
 
 // intercept to serve compress file
 // this has to put before Express Middleware for serving static files 
+/* // deprecated -- in nginx, gzip serve tru nginx 
+// no need for this
 const publicRoot = (isProd) ? "" : "public";
 const hasGz = [
     "/asset/js/main.bundle.js"
@@ -57,7 +59,7 @@ app.get(root + '/asset/*', function (req, res, next) {
     }
     next();
 });
-
+*/
 
 // Express Middleware for serving static files
 app.use(express.static(path.join(__dirname, 'public')));

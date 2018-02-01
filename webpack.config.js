@@ -55,7 +55,8 @@ var plugins = [
         }
     }),
     //new webpack.optimize.CommonsChunkPlugin('vendors'),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', minChunks: Infinity }),
+    // remove this to fix webpackJson not defined
+    //new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', minChunks: Infinity }),
     new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", { allChunks: false })
 ];
 
