@@ -36,7 +36,7 @@ header{
 
 .content{
     background: $COLOR_BACKGROUND;
-    margin-top: $HEADER_HEIGHT;
+    padding-top: $HEADER_HEIGHT;
     min-height: 65vh;
     width: 100%;
     display: flex;
@@ -133,7 +133,7 @@ header, .content, footer{
     }
 
     .content{
-        margin-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
+        padding-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
 
         .main{
             padding: 10px;
@@ -141,6 +141,8 @@ header, .content, footer{
     }
 
     .landing-page .content{
-        margin-top:$HEADER_HEIGHT;
+        //margin-top:$HEADER_HEIGHT;
+        //margin-top:0;
+        padding-top:$HEADER_HEIGHT;
     }
 }
