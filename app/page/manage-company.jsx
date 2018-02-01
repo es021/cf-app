@@ -23,6 +23,7 @@ import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
 import { CareerFair } from '../../config/cf-config';
 import Restricted from './partial/static/restricted';
+import UserPopup from './partial/popup/user-popup';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -386,17 +387,29 @@ class ScheduledInterview extends React.Component {
         super(props);
         this.authUser = getAuthUser();
     }
+
     componentWillMount() {
+        this.dataTitle = <span>Scheduled Interview<br></br>
+            <small>Manage Pre-Screen and Next Round Interview</small>
+        </span>;
+
         this.successAddHandler = (d) => {
             //emitLiveFeed(d.title, d.content, d.type, d.cf, Time.getUnixTimestampNow());
         };
+
         //##########################################
-        // List data properties
+        // render table
         this.renderRow = (d) => {
+            var name = `${d.student.first_name} ${d.student.last_name}`;
+            var student = <b><a onClick={() => {
+                layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.student.ID })
+            }}>{name}</a></b>;
+
             return [
                 <td>{d.ID}</td>
-                , <td>{d.student.ID} - {d.student.name}</td>
+                , <td>{student}</td>
                 , <td>{d.special_type}</td>
+                , <td>{d.status}</td>
                 , <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>
                 , <td>{Time.getString(d.updated_at)}</td>
             ];
@@ -407,14 +420,48 @@ class ScheduledInterview extends React.Component {
                 <th>ID</th>
                 <th>Student</th>
                 <th>Type</th>
+                <th>Status</th>
                 <th>Appointment Time</th>
                 <th>Last Updated</th>
             </tr>
         </thead>;
 
+        //##########################################
+        //  search
+        this.searchParams = "";
+        this.searchFormItem = [{ header: "Enter Your Search Query" },
+        {
+            label: "Student Name",
+            name: "name",
+            type: "text"
+        },
+        {
+            label: "Student Email",
+            name: "email",
+            type: "text"
+        }, {
+            label: "Status",
+            name: Prescreen.STATUS,
+            type: "select",
+            data: ["ALL", PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
+        }
+        ];
+
+        this.searchFormOnSubmit = (d) => {
+            this.searchParams = "";
+            if (d != null) {
+                this.searchParams += (d.name) ? `name:"${d.name}",` : "";
+                this.searchParams += (d.email) ? `email:"${d.email}",` : "";
+                this.searchParams += (d.status && d.status != "ALL") ? `status:"${d.status}",` : "";
+            }
+        };
+
+        //##########################################
+        //  loadData
         this.loadData = (page, offset) => {
             var query = `query{
-                prescreens(company_id:${this.props.company_id},page:${page}, offset:${offset},order_by:"updated_at desc") {
+                prescreens(${this.searchParams}
+                company_id:${this.props.company_id},page:${page}, offset:${offset},order_by:"updated_at desc") {
                   ID
                   status
                   special_type
@@ -422,10 +469,13 @@ class ScheduledInterview extends React.Component {
                   updated_at
                   student{
                     ID
-                    first_name
+                    first_name last_name
                   }
                 }
               }`;
+
+            console.log(query);
+
             return getAxiosGraphQLQuery(query);
         }
 
@@ -442,26 +492,40 @@ class ScheduledInterview extends React.Component {
         // hook before submit
         this.formWillSubmit = (d, edit) => {
 
+            // if approved time cannot be null
+            if (d.status == PrescreenEnum.STATUS_APPROVED) {
+                if (!d[Prescreen.APPNMENT_TIME + "_DATE"] || !d[Prescreen.APPNMENT_TIME + "_TIME"]) {
+                    return "For status Approved, appointment date and time is needed";
+                }
+            }
+
             // there is no created_by column in this table,
             // malas nk tambah
             //udpated by for both create and update
             d[Prescreen.UPDATED_BY] = getAuthUser().ID;
 
-            //for create new
-            if (!edit) {
-                d[Auditorium.COMPANY_ID] = this.props.company_id;
+            // convert to number
+            if (typeof d[Prescreen.STUDENT_ID] !== "undefined") {
+                d[Prescreen.STUDENT_ID] = Number.parseInt(d[Prescreen.STUDENT_ID]);
             }
 
-            // date time handling
-            if (d[Prescreen.APPNMENT_TIME + "_DATE"]) {
+            //for create new
+            if (!edit) {
+                d[Prescreen.COMPANY_ID] = this.props.company_id;
+            }
 
+            if (d.status == PrescreenEnum.STATUS_PENDING) {
+                d[Prescreen.APPNMENT_TIME] = null;
+            }
+            // date time handling only for not pending only
+            else if (d[Prescreen.APPNMENT_TIME + "_DATE"]) {
                 d[Prescreen.APPNMENT_TIME]
                     = Time.getUnixFromDateTimeInput(d[Prescreen.APPNMENT_TIME + "_DATE"]
                         , d[Prescreen.APPNMENT_TIME + "_TIME"]);
-
-                delete (d[Prescreen.APPNMENT_TIME + "_DATE"]);
-                delete (d[Prescreen.APPNMENT_TIME + "_TIME"]);
             }
+
+            delete (d[Prescreen.APPNMENT_TIME + "_DATE"]);
+            delete (d[Prescreen.APPNMENT_TIME + "_TIME"]);
 
             return d;
         }
@@ -481,11 +545,15 @@ class ScheduledInterview extends React.Component {
 
             return getAxiosGraphQLQuery(query).then((res) => {
                 var data = res.data.data.prescreen;
-                console.log(data);
                 // setup time
-                var dt = Time.getInputFromUnix(data[Prescreen.APPNMENT_TIME]);
-                data[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
-                data[Prescreen.APPNMENT_TIME + "_TIME"] = dt.time;
+                if (data[Prescreen.APPNMENT_TIME]) {
+                    var dt = Time.getInputFromUnix(data[Prescreen.APPNMENT_TIME]);
+                    data[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
+                    data[Prescreen.APPNMENT_TIME + "_TIME"] = dt.time;
+                }
+                if (data[Prescreen.SPECIAL_TYPE] == null) {
+                    data[Prescreen.SPECIAL_TYPE] = PrescreenEnum.ST_PRE_SCREEN;
+                }
 
                 return data;
             });
@@ -509,33 +577,45 @@ class ScheduledInterview extends React.Component {
                 .then((res) => {
                     var sessions = res.data.data.sessions;
                     var ret = [{ header: "Scheduled Interview Form" }];
+
+                    //for create only
+                    if (!edit) {
+                        ret.push(...[{
+                            label: "Type",
+                            name: Prescreen.SPECIAL_TYPE,
+                            type: "select",
+                            required: true,
+                            data: [PrescreenEnum.ST_NEXT_ROUND]
+                        }, {
+                            label: "Student",
+                            sublabel: "Only showing students that already had session with the company",
+                            name: Prescreen.STUDENT_ID,
+                            type: "select",
+                            data: sessions.map((ses, i) => {
+                                var d = ses.student;
+                                return { key: d.ID, label: d.first_name + " " + d.last_name };
+                            }),
+                            required: true
+                        }]);
+                    }
+
                     ret.push(...[{
-                        label: "Type",
-                        name: Prescreen.SPECIAL_TYPE,
+                        label: "Status",
+                        sublabel: "Only interview with status 'Approved' will be shown in Career Fair page",
+                        name: Prescreen.STATUS,
                         type: "select",
                         required: true,
-                        data: [PrescreenEnum.ST_NEXT_ROUND, PrescreenEnum.ST_PRE_SCREEN]
-                    }, {
-                        label: "Student",
-                        name: Prescreen.STUDENT_ID,
-                        type: "select",
-                        data: sessions.map((ses, i) => {
-                            d = ses.student;
-                            return { key: d.ID, label: d.first_name + " " + d.last_name };
-                        }),
-                        required: true
+                        data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
                     }, {
                         label: "Appointment Date",
                         name: Prescreen.APPNMENT_TIME + "_DATE",
                         type: "date",
-                        placeholder: "",
-                        required: true
+                        placeholder: ""
                     }, {
                         label: "Appointment Time",
                         name: Prescreen.APPNMENT_TIME + "_TIME",
                         type: "time",
-                        placeholder: "",
-                        required: true
+                        placeholder: ""
                     }]);
 
                     return ret;
@@ -545,11 +625,13 @@ class ScheduledInterview extends React.Component {
 
     render() {
         return <GeneralFormPage
-            dataTitle="Scheduled Interview"
+            dataTitle={this.dataTitle}
             entity="prescreen"
             entity_singular="Scheduled Interview"
-            addButtonText="Add New Scheduled Interview"
-            dataOffset={10}
+            addButtonText="Add New"
+            dataOffset={20}
+            searchFormItem={this.searchFormItem}
+            searchFormOnSubmit={this.searchFormOnSubmit}
             forceDiff={this.forceDiff}
             tableHeader={this.tableHeader}
             newFormDefault={this.newFormDefault}

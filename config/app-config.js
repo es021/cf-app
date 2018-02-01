@@ -33,7 +33,7 @@ const AppConfig = {
 
 
 const ImgConfig = {
-    AppIcon: AssetUrl + "/asset/image/icon.png",
+    AppIcon: AssetUrl + "/asset/image/icon-transparent.png",
     IsIcon: AssetUrl + "/asset/image/innovaseed.png",
     IsIconInverse: AssetUrl + "/asset/image/innovaseed_inverse.png",
     DefUser: AssetUrl + "/asset/image/default-user.png",

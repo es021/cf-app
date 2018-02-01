@@ -55,7 +55,6 @@ export default class List extends React.Component {
 
         // set fetching to true if not append type
         if (!this.isAppendType()) {
-            console.log("fetching");
             this.setState(() => {
                 return {
                     fetching: true,
@@ -72,8 +71,6 @@ export default class List extends React.Component {
         // fetch data start
         this.props.loadData(this.page, this.props.offset).then((res) => {
             var data = this.props.getDataFromRes(res);
-
-
 
             var listItem = null;
             var empty = false;

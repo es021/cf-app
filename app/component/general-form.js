@@ -7,6 +7,41 @@ import Form, { toggleSubmit, checkDiff } from './form';
 import List, { CustomList } from './list';
 import ConfirmPopup from '../page/partial/popup/confirm-popup';
 
+
+class SearchForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            disableSubmit: false,
+            success: null
+        };
+    }
+
+    componentWillMount() {
+        this.formItem = this.props.formItem;
+    }
+
+    render() {
+        var form = <Form className="form-row"
+            items={this.formItem}
+            onSubmit={this.props.formOnSubmit}
+            submitText="Search"
+            disableSubmit={this.state.disableSubmit}
+            error={this.state.error}
+            errorPosition="top"
+            emptyOnSuccess={true}
+            success={this.state.success}></Form>;
+
+        return (<div>{form}</div>);
+    }
+}
+
+SearchForm.propTypes = {
+    formItem: PropTypes.object.isRequired,
+    formOnSubmit: PropTypes.func.isRequired
+};
+
 class GeneralForm extends React.Component {
     constructor(props) {
         super(props);
@@ -54,6 +89,12 @@ class GeneralForm extends React.Component {
         // hook before submit to alter the data one last time
         if (this.props.formWillSubmit) {
             d = this.props.formWillSubmit(d, this.props.edit);
+
+            //if error will return string
+            if (typeof d === "string") {
+                toggleSubmit(this, { error: d });
+                return;
+            }
         }
 
         var query = `mutation{${(this.props.edit) ? "edit" : "add"}_${this.props.entity} 
@@ -111,6 +152,7 @@ export default class GeneralFormPage extends React.Component {
     constructor(props) {
         super(props);
         this.addPopup = this.addPopup.bind(this);
+        this.searchPopup = this.searchPopup.bind(this);
         this.getAddForm = this.getAddForm.bind(this);
         this.onSuccessOperation = this.onSuccessOperation.bind(this);
         this.state = {
@@ -230,6 +272,18 @@ export default class GeneralFormPage extends React.Component {
             { title: `Continue delete this item ?`, onYes: onYes }, "small");
     }
 
+    searchPopup() {
+        layoutActions.storeUpdateFocusCard("Search " + this.props.entity_singular,
+            SearchForm,
+            {
+                formItem: this.props.searchFormItem,
+                formOnSubmit: (d) => {
+                    this.props.searchFormOnSubmit(d);
+                    this.onSuccessOperation("search");
+                }
+            });
+    }
+
     render() {
         var view = null;
         const renderList = (d, i) => {
@@ -254,12 +308,33 @@ export default class GeneralFormPage extends React.Component {
                 renderList={renderList}></List>
         </div>;
 
+        /*
+        {
+            !this.props.showAddForm
+            ? <a className="btn btn-success btn-sm" onClick={this.addPopup}>{this.props.addButtonText}</a>
+            : this.getAddForm()
+        }
+        */
+
         return (<div>
-            {(this.props.dataTitle !== null) ? <h2>{this.props.dataTitle}</h2> : null}
-            {!this.props.showAddForm
-                ? <a className="btn btn-success btn-sm" onClick={this.addPopup}>{this.props.addButtonText}</a>
-                : this.getAddForm()
-            }
+            {(this.props.dataTitle !== null) ? <h2>
+                {this.props.dataTitle}
+            </h2>
+                : null}
+
+            {!this.props.showAddForm ?
+                <h4>
+                    <a onClick={this.addPopup}>
+                        <i className="fa fa-plus left"></i>{this.props.addButtonText}</a>
+                </h4>
+                : this.getAddForm()}
+
+            {this.props.searchFormItem ?
+                <h4>
+                    <a onClick={this.searchPopup}>
+                        <i className="fa fa-search left"></i>Filter Record</a>
+                </h4>
+                : null}
 
             <div style={{ marginTop: "15px" }}>{datas}</div>
         </div>);
@@ -269,6 +344,8 @@ export default class GeneralFormPage extends React.Component {
 GeneralFormPage.propTypes = {
     entity: PropTypes.string.isRequired, // for table name
     entity_singular: PropTypes.string.isRequired, // for display
+    searchFormItem: PropTypes.obj,
+    searchFormOnSubmit: PropTypes.func,
     loadData: PropTypes.func.isRequired,
     addButtonText: PropTypes.string.isRequired,
     renderRow: PropTypes.func.isRequired,
