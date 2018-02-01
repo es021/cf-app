@@ -42,7 +42,7 @@
                 var cssToLoad = [ASSET_ROOT + "/css/loading.css"
                             , ASSET_ROOT + "/lib/font-awesome-4.7.0/css/font-awesome.min.css"
                             , ASSET_ROOT + "/lib/bootstrap-3.3.7/bootstrap.min.css"
-                            , ASSET_ROOT + "/css/vendors.bundle.css"
+                            //, ASSET_ROOT + "/css/vendors.bundle.css"
                             , ASSET_ROOT + "/css/main.bundle.css"];
 
                 cssToLoad.map(function (d, i) {
@@ -58,8 +58,9 @@
 
 
                 // load Javascript -------------------------------------------------------------------------
-                var jsToLoad = [ASSET_ROOT + "/js/vendors.bundle.js"
-                            , ASSET_ROOT + "/js/main.bundle.js"];
+                //var jsToLoad = [ASSET_ROOT + "/js/vendors.bundle.js", ASSET_ROOT + "/js/main.bundle.js"];
+                var jsToLoad = [ASSET_ROOT + "/js/main.bundle.js"];
+                
                 var jsLoaded = 0;
                 jsToLoad.map(function (d, i) {
                     loadAsset("js", d, function () {
