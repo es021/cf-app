@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
-const {Session} = require('../../config/db-config');
-const {UserQuery} = require('./user-query');
+const { Session } = require('../../config/db-config');
+const { UserQuery } = require('./user-query');
 
 class SessionRatingExec {
     getQuery(params, extra) {
@@ -61,6 +61,9 @@ class SessionQuery {
 
         var participant_where = (typeof params.participant_id === "undefined") ? "1=1" : `q.participant_id = ${params.participant_id}`;
 
+        var com_where = (typeof params.company_id === "undefined") ? "1=1"
+            : `(${UserQuery.selectMetaMain("q.host_id", "rec_company")}) = ${params.company_id}`;
+
         var status_where = "1=1";
         if (typeof params.status !== "undefined") {
 
@@ -80,10 +83,13 @@ class SessionQuery {
 
         var host_where = (typeof params.host_id === "undefined") ? "1=1" : `q.host_id = '${params.host_id}'`;
 
+        var limit = (typeof params.page !== "undefined" &&
+            typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
+
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
 
         var sql = `from ${Session.TABLE} q 
-            where ${id_where} and ${participant_where} and ${status_where} and ${host_where} 
+            where ${id_where} and ${participant_where} and ${status_where} and ${host_where} and ${com_where}
             ${order_by}`;
 
         if (extra.count) {
@@ -91,7 +97,7 @@ class SessionQuery {
         } else {
             return `select q.*,
             ${UserQuery.selectMeta("q.host_id", "rec_company", "company_id")}
-            ${sql}`;
+            ${sql} ${limit}`;
         }
     }
 }
@@ -101,11 +107,11 @@ class SessionExec {
 
     sessions(params, field, extra = {}) {
 
-        var {CompanyExec} = require('./company-query.js');
-        var {UserExec} = require('./user-query.js');
+        var { CompanyExec } = require('./company-query.js');
+        var { UserExec } = require('./user-query.js');
 
         var sql = SessionQuery.getSession(params, extra);
-
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];
@@ -119,24 +125,38 @@ class SessionExec {
                 var company_id = res[i]["company_id"];
 
                 if (typeof field["session_notes"] !== "undefined") {
-                    res[i]["session_notes"] = SessionNoteExec.session_notes({session_id: session_id}, field["session_notes"]);
+                    res[i]["session_notes"] = SessionNoteExec.session_notes({ session_id: session_id }, field["session_notes"]);
                 }
 
                 if (typeof field["session_ratings"] !== "undefined") {
-                    res[i]["session_ratings"] = SessionRatingExec.session_ratings({session_id: session_id}, field["session_ratings"]);
+                    res[i]["session_ratings"] = SessionRatingExec.session_ratings({ session_id: session_id }, field["session_ratings"]);
                 }
 
                 if (typeof field["student"] !== "undefined") {
-                    res[i]["student"] = UserExec.user({ID: student_id}, field["student"]);
+                    res[i]["student"] = UserExec.user({ ID: student_id }, field["student"]);
                 }
 
                 if (typeof field["recruiter"] !== "undefined") {
-                    res[i]["recruiter"] = UserExec.user({ID: recruiter_id}, field["recruiter"]);
+                    res[i]["recruiter"] = UserExec.user({ ID: recruiter_id }, field["recruiter"]);
                 }
 
                 if (typeof field["company"] !== "undefined") {
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
+            }
+
+            // filter distinct value
+            if (typeof params.distinct !== "undefined") {
+                var existed = [];
+                var distinct = res.filter((value, index, self) => {
+                    var r = value[params.distinct];
+                    if (existed.indexOf(r) >= 0) {
+                        return false;
+                    }
+                    existed.push(r);
+                    return true;
+                });
+                res = distinct;
             }
 
             if (extra.single) {
@@ -151,6 +171,6 @@ class SessionExec {
 }
 SessionExec = new SessionExec();
 
-module.exports = {SessionExec, SessionQuery, SessionNoteExec, SessionRatingExec};
+module.exports = { SessionExec, SessionQuery, SessionNoteExec, SessionRatingExec };
 
 

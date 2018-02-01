@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, checkDiff, getDataCareerFair } from '../component/form';
-import { UserMeta, User, Vacancy, VacancyEnum, UserEnum, Skill } from '../../config/db-config';
+import { Session, Prescreen, PrescreenEnum, UserMeta, User, Vacancy, VacancyEnum, UserEnum, Skill } from '../../config/db-config';
 import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-config';
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
@@ -378,14 +378,203 @@ AboutSubPage.PropTypes = {
 }
 
 
+
+//###################################################################################################
+//###################################################################################################
+class ScheduledInterview extends React.Component {
+    constructor(props) {
+        super(props);
+        this.authUser = getAuthUser();
+    }
+    componentWillMount() {
+        this.successAddHandler = (d) => {
+            //emitLiveFeed(d.title, d.content, d.type, d.cf, Time.getUnixTimestampNow());
+        };
+        //##########################################
+        // List data properties
+        this.renderRow = (d) => {
+            return [
+                <td>{d.ID}</td>
+                , <td>{d.student.ID} - {d.student.name}</td>
+                , <td>{d.special_type}</td>
+                , <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>
+                , <td>{Time.getString(d.updated_at)}</td>
+            ];
+        };
+
+        this.tableHeader = <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Type</th>
+                <th>Appointment Time</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>;
+
+        this.loadData = (page, offset) => {
+            var query = `query{
+                prescreens(company_id:${this.props.company_id},page:${page}, offset:${offset},order_by:"updated_at desc") {
+                  ID
+                  status
+                  special_type
+                  appointment_time
+                  updated_at
+                  student{
+                    ID
+                    first_name
+                  }
+                }
+              }`;
+            return getAxiosGraphQLQuery(query);
+        }
+
+        // get actual data from loadData
+        // can alter any data here too
+        this.getDataFromRes = (res) => {
+            return res.data.data.prescreens;
+        }
+
+        //##########################################
+        // form operation properties
+
+        // if ever needed
+        // hook before submit
+        this.formWillSubmit = (d, edit) => {
+
+            // there is no created_by column in this table,
+            // malas nk tambah
+            //udpated by for both create and update
+            d[Prescreen.UPDATED_BY] = getAuthUser().ID;
+
+            //for create new
+            if (!edit) {
+                d[Auditorium.COMPANY_ID] = this.props.company_id;
+            }
+
+            // date time handling
+            if (d[Prescreen.APPNMENT_TIME + "_DATE"]) {
+
+                d[Prescreen.APPNMENT_TIME]
+                    = Time.getUnixFromDateTimeInput(d[Prescreen.APPNMENT_TIME + "_DATE"]
+                        , d[Prescreen.APPNMENT_TIME + "_TIME"]);
+
+                delete (d[Prescreen.APPNMENT_TIME + "_DATE"]);
+                delete (d[Prescreen.APPNMENT_TIME + "_TIME"]);
+            }
+
+            return d;
+        }
+
+        // date time need to be forced diff
+        this.forceDiff = [Prescreen.APPNMENT_TIME + "_DATE"
+            , Prescreen.APPNMENT_TIME + "_TIME"
+        ];
+
+        this.getEditFormDefault = (ID) => {
+            const query = `query{prescreen(ID:${ID}){
+                ID
+                student_id
+                status
+                special_type
+                appointment_time}}`;
+
+            return getAxiosGraphQLQuery(query).then((res) => {
+                var data = res.data.data.prescreen;
+                console.log(data);
+                // setup time
+                var dt = Time.getInputFromUnix(data[Prescreen.APPNMENT_TIME]);
+                data[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
+                data[Prescreen.APPNMENT_TIME + "_TIME"] = dt.time;
+
+                return data;
+            });
+        }
+
+        // create form add new default
+        this.getFormItemAsync = (edit) => {
+
+            // need to change to list of student
+            var query = `query{
+                sessions(distinct:"${Session.P_ID}", company_id:${this.props.company_id}){
+                  student{
+                    ID
+                    first_name
+                    last_name
+                  }
+                }
+              }`
+
+            return getAxiosGraphQLQuery(query)
+                .then((res) => {
+                    var sessions = res.data.data.sessions;
+                    var ret = [{ header: "Scheduled Interview Form" }];
+                    ret.push(...[{
+                        label: "Type",
+                        name: Prescreen.SPECIAL_TYPE,
+                        type: "select",
+                        required: true,
+                        data: [PrescreenEnum.ST_NEXT_ROUND, PrescreenEnum.ST_PRE_SCREEN]
+                    }, {
+                        label: "Student",
+                        name: Prescreen.STUDENT_ID,
+                        type: "select",
+                        data: sessions.map((ses, i) => {
+                            d = ses.student;
+                            return { key: d.ID, label: d.first_name + " " + d.last_name };
+                        }),
+                        required: true
+                    }, {
+                        label: "Appointment Date",
+                        name: Prescreen.APPNMENT_TIME + "_DATE",
+                        type: "date",
+                        placeholder: "",
+                        required: true
+                    }, {
+                        label: "Appointment Time",
+                        name: Prescreen.APPNMENT_TIME + "_TIME",
+                        type: "time",
+                        placeholder: "",
+                        required: true
+                    }]);
+
+                    return ret;
+                });
+        }
+    }
+
+    render() {
+        return <GeneralFormPage
+            dataTitle="Scheduled Interview"
+            entity="prescreen"
+            entity_singular="Scheduled Interview"
+            addButtonText="Add New Scheduled Interview"
+            dataOffset={10}
+            forceDiff={this.forceDiff}
+            tableHeader={this.tableHeader}
+            newFormDefault={this.newFormDefault}
+            getEditFormDefault={this.getEditFormDefault}
+            getFormItemAsync={this.getFormItemAsync}
+            renderRow={this.renderRow}
+            getDataFromRes={this.getDataFromRes}
+            loadData={this.loadData}
+            successAddHandler={this.successAddHandler}
+            formWillSubmit={this.formWillSubmit}
+        ></GeneralFormPage>
+    }
+}
+
+ScheduledInterview.PropTypes = {
+    company_id: PropTypes.number.isRequired
+}
+
+
 // For Recruiter ------------------------------------------------------/
 
 export default class ManageCompanyPage extends React.Component {
     componentWillMount() {
         this.key = 1;
-
     }
-
 
     getSubNavItem() {
         this.sub_page = (this.props.match.params.current) ? this.props.match.params.current : "about";
@@ -409,6 +598,12 @@ export default class ManageCompanyPage extends React.Component {
                 component: CompanyDocLink,
                 props: { company_id: this.company_id },
                 icon: "file-text"
+            },
+            "scheduled-interview": {
+                label: "Scheduled Interview",
+                component: ScheduledInterview,
+                props: { company_id: this.company_id },
+                icon: "clock-o"
             },
             "view": {
                 label: "View Company",
