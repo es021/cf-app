@@ -507,6 +507,15 @@ fields["edit_auditorium"] = {
     }
 };
 
+fields["delete_auditorium"] = {
+    type: GraphQLInt,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.delete(Auditorium.TABLE, arg.ID);
+    }
+};
 
 /*******************************************/
 /* prescreen ******************/
@@ -517,7 +526,8 @@ fields["add_prescreen"] = {
         company_id: { type: new GraphQLNonNull(GraphQLInt) },
         status: { type: new GraphQLNonNull(GraphQLString) },
         special_type: { type: GraphQLString },
-        appointment_time: { type: GraphQLInt }
+        appointment_time: { type: GraphQLInt },
+        updated_by: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Prescreen.TABLE, arg).then(function (res) {
@@ -530,6 +540,7 @@ fields["edit_prescreen"] = {
     type: PrescreenType,
     args: {
         ID: { type: new GraphQLNonNull(GraphQLInt) },
+        updated_by: { type: new GraphQLNonNull(GraphQLInt) },
         status: { type: GraphQLString },
         special_type: { type: GraphQLString },
         appointment_time: { type: GraphQLInt }

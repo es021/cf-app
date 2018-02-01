@@ -2,11 +2,6 @@
 $page-sec : "page-sec";
 
 .#{$page-sec}{
-    .line {
-        border: 0;
-        height: 1px;
-        background-image: linear-gradient(to right, white, darkgray, white);
-    }
     
     .#{$page-sec}-title{
         color:$COLOR_TITLE;

@@ -37,6 +37,12 @@ p {
     padding-left: 10px;
 }
 
+div.line {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, white, darkgray, white);
+}
+
 @media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP) {
     .padding-right,
     .padding-left {
