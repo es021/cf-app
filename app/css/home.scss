@@ -5,11 +5,33 @@ body.landing-page{
     background-size: cover !important;
     //background-position: center center !important;
     background-attachment: fixed !important;
+    
+    header{
+        transition: background-color 0.3s ease;
+        transition: color 0.3s ease;
+    }
 
     .content{ 
         background: rgba(0,0,0,0.5) !important;
         .main{
             padding: 0 !important;
+        }
+    }
+
+   
+}
+
+//before scroll
+body.landing-page.top{
+    header{
+        background-color: rgba(0,0,0,0);
+        box-shadow: none;
+        color:white;
+        a{
+            color:white;
+        }
+        a.active{
+            border-bottom-color: white;
         }
     }
 }

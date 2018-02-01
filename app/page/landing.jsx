@@ -21,10 +21,21 @@ export default class LandingPage extends React.Component {
     componentWillMount() {
         // set banner image
         this.body = document.getElementsByTagName("body")[0];
-        this.body.className += " landing-page";
+        this.body.className += " landing-page top ";
         this.body.style.backgroundImage = `url('${ImgConfig.getBanner(this.CFDetail.banner)}')`
         this.body.style.backgroundPosition =
             (this.CFDetail.banner_pos) ? this.CFDetail.banner_pos : "center center";
+
+        //add scroll event listener
+        this.body.onscroll = () => {
+            if(window.pageYOffset > 40){
+                this.body.classList.remove("top");
+            }
+
+            if(window.pageYOffset < 40){
+                this.body.classList.add("top");
+            }
+        };
 
         // create subtitle from  date
         if (this.CFDetail.start != null && this.CFDetail.end != null) {
