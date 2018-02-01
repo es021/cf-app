@@ -117,14 +117,17 @@ const Prescreen = {
     CREATED_AT: "created_at",
     APPNMENT_TIME: "appointment_time",
     SPECIAL_TYPE: "special_type",
-    STATUS: "status"
+    STATUS: "status",
+    UPDATED_BY : "updated_by"
 };
 
+// Scheduled Interview
 const PrescreenEnum = {
     STATUS_PENDING: "Pending",
     STATUS_APPROVED: "Approved",
     STATUS_DONE: "Done",
-    ST_SEC_ROUND: "2nd Round"
+    ST_NEXT_ROUND: "Next Round",
+    ST_PRE_SCREEN: "Pre Screen"
 };
 
 

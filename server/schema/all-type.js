@@ -159,6 +159,7 @@ const PrescreenType = new GraphQLObjectType({
         status: { type: GraphQLString },
         special_type: { type: GraphQLString },
         appointment_time: { type: GraphQLInt },
+        updated_at: { type: GraphQLString },
         created_at: { type: GraphQLString },
 
         student: { type: UserType },

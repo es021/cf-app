@@ -5,6 +5,7 @@ const { UserType
     , ResumeDropType
     , VacancyType
     , DashboardType
+    , PrescreenType
     , SessionType
     , SessionRatingType
     , SessionNoteType
@@ -22,6 +23,7 @@ const { UserExec } = require('../model/user-query.js');
 const { Queue, QueueExec } = require('../model/queue-query.js');
 const { DashboardExec } = require('../model/dashboard-query.js');
 const { CompanyExec } = require('../model/company-query.js');
+const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { AuditoriumExec } = require('../model/auditorium-query');
 const { PasswordResetExec } = require('../model/reset-password-query.js');
@@ -225,6 +227,22 @@ fields["session"] = {
     }
 };
 
+fields["sessions"] = {
+    type: new GraphQLList(SessionType),
+    args: {
+        company_id: { type: GraphQLInt },
+        participant_id: { type: GraphQLInt },
+        status: { type: GraphQLString },
+        distinct: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return SessionExec.sessions(arg, graphqlFields(info));
+    }
+};
+
 /*******************************************/
 /* session_notes ******************/
 fields["session_notes"] = {
@@ -289,6 +307,32 @@ fields["vacancies"] = {
     }
 };
 
+/*******************************************/
+/* resume_drop ******************/
+fields["prescreen"] = {
+    type: PrescreenType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return PrescreenExec.prescreens(arg, graphqlFields(info), { single: true });
+    }
+};
+
+fields["prescreens"] = {
+    type: new GraphQLList(PrescreenType),
+    args: {
+        company_id: { type: GraphQLInt },
+        student_id: { type: GraphQLInt },
+        status: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return PrescreenExec.prescreens(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* resume_drop ******************/
