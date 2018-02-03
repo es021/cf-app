@@ -3,7 +3,7 @@ var DB = require('./DB.js');
 
 const { S2C, C2S, BOTH } = require('../../../config/socket-config');
 const { UserEnum } = require('../../../config/db-config');
-
+ 
 class SocketServer {
     constructor(io) {
         this.io = io;
@@ -44,7 +44,7 @@ class SocketServer {
         //initialize
         this.initDB(BOTH.QUEUE_STATUS, null);
 
-        this.io.on(BOTH.CONNECTION, (client) => {
+        this.io.of('/socket').on(BOTH.CONNECTION, (client) => {
             client.emit(BOTH.CONNECTION);
             this.initOn(client);
         });
@@ -266,6 +266,7 @@ class SocketServer {
 
     //{id, role, company_id, page};
     onJoin(client, data) {
+        console.log("joined");
         this.printHeader(`[join] ${data.id} | ${data.role} | ${client.id}`);
         //console.log(data);
         if (data) {

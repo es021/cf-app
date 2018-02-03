@@ -25,7 +25,7 @@ var DB = function (env) {
 
     this.con.connect(function (err) {
         if (err) {
-            throw err;
+            console.log(err);
         } else {
             console.log("DB Connected");
         } 
