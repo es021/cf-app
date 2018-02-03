@@ -27,14 +27,40 @@ export function _GET(parameterName) {
     return result;
 }
 
-String.prototype.replaceAll = function (search, replacement) {
+String.prototype.replaceAll = function (search, replacement, ignoreCase = false) {
+    var i = (ignoreCase) ? "i" : "";
     var target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
+    return target.replace(new RegExp(search, `${i}g`), replacement);
 };
+
+
+
+String.prototype.insertSubstring = function (substring, position) {
+    var target = this;
+    return [target.slice(0, position), substring, target.slice(position)].join('');
+};
+
 
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
+
+String.prototype.focusSubstring = function (substring) {
+    if (typeof substring !== "string" || substring == "") {
+        return this;
+    }
+    var target = this;
+    var re = new RegExp(substring, `ig`);
+    var match = re.exec(target);
+    if (match == null) {
+        return target;
+    }
+    var start = match["index"];
+    var end = start + substring.length;
+    target = target.insertSubstring("</b>", end);
+    target = target.insertSubstring("<b>", start);
+    return target;
+}
 
 import { getCF } from '../redux/actions/auth-actions';
 document.setTitle = function (title) {
