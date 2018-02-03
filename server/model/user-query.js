@@ -6,6 +6,35 @@ const { SkillExec } = require('./skill-query.js');
 
 class UserQuery {
 
+    getSearchQuery(params) {
+        var query = "";
+
+        // external search query ------------------------------------------
+        // both is injected
+        var name = (typeof params.search_user === "undefined") ? ""
+            : `CONCAT((${this.selectMetaMain("u.ID", UserMeta.FIRST_NAME)}),' ',
+            (${this.selectMetaMain("u.ID", UserMeta.LAST_NAME)}))
+            like '%${params.search_user}%'`;
+
+        var email = (typeof params.search_user === "undefined") ? ""
+            : `u.${User.EMAIL} like '%${params.search_user}%'`;
+
+        if (name != "" && email != "") {
+            query += `and (${name} or ${email})`;
+        }
+
+        // search degree
+        query += (typeof params.search_degree === "undefined") ? ""
+            : ` and CONCAT((${this.selectMetaMain("u.ID", UserMeta.MAJOR)}),
+            (${this.selectMetaMain("u.ID", UserMeta.MINOR)}))
+            like '%${params.search_degree}%'`;
+
+        // search university
+        query += (typeof params.search_university === "undefined") ? ""
+            : ` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${params.search_university}%'`;
+
+        return query;
+    }
     // meta_cons = {
     //  key: "value"
     //  } 
@@ -16,6 +45,8 @@ class UserQuery {
         var email_condition = (typeof params.user_email !== "undefined") ? `u.user_email = '${params.user_email}'` : `1=1`;
         var role_condition = (typeof params.role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role}%' ` : `1=1`;
         var order_by = `order by u.${User.ID} desc`;
+
+
 
         // add meta condition
         var meta_condition = " 1=1 ";
@@ -44,8 +75,10 @@ class UserQuery {
         }
 
         var sql = `SELECT u.* ${meta_sel}
-           FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${order_by} ${limit} `;
+           FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
+           AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${order_by} ${limit} `;
         //console.log(sql);
+
         /*
          var sql = `SELECT u.* 
          ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
@@ -79,7 +112,7 @@ class UserQuery {
     selectUserField(user_id, field) {
         return `select u.${field} from wp_cf_users u where u.ID = ${user_id}`;
     }
-    
+
     selectMetaMain(user_id, meta_key) {
         return `select m.meta_value from wp_cf_usermeta m where m.user_id = ${user_id} and m.meta_key = '${meta_key}'`;
     }

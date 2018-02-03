@@ -8,10 +8,17 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+const isProd = (process.env.NODE_ENV === "production");
+if (isProd) {
+    console.log = function (mes) {
+        return;
+    };
+}
+
 const { Port } = require('./config/socket-config');
 
 // this is important
-app.get('/socket', function (req, res, next) {
+app.get('/cfsocket', function (req, res, next) {
     res.sendFile(__dirname + '/index.html');
 });
 

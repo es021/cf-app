@@ -142,7 +142,11 @@ fields["users"] = {
     args: {
         role: { type: GraphQLString },
         page: { type: GraphQLInt },
-        offset: { type: GraphQLInt }
+        offset: { type: GraphQLInt },
+        //search query
+        search_user: { type: GraphQLString } // name and email
+        , search_degree: { type: GraphQLString } // major and minor
+        , search_university: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return UserExec.users(arg, graphqlFields(info));
@@ -330,8 +334,8 @@ fields["prescreens"] = {
         order_by: { type: GraphQLString },
 
         //search query
-        student_name : { type: GraphQLString },
-        student_email : { type: GraphQLString }
+        student_name: { type: GraphQLString },
+        student_email: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return PrescreenExec.prescreens(arg, graphqlFields(info));

@@ -23,6 +23,7 @@ import { AuditoriumFeed, AuditoriumManagement } from '../page/auditorium';
 import DashboardPage from '../page/dashboard';
 import PasswordResetPage from '../page/password-reset';
 import PasswordForgotPage from '../page/password-forgot';
+import { Monitor } from '../page/admin';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
 
@@ -104,7 +105,7 @@ function getMenuItem(COMING_SOON) {
         { // Admin Only
             url: "/live-feed",
             label: "Live Feed",
-            icon: "bullhorn",
+            icon: "commenting-o",
             component: DashboardPage,
             bar_app: true,
             bar_auth: false,
@@ -122,6 +123,17 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             disabled: !isRoleAdmin() && !isRoleOrganizer()
+        },
+        { // Admin Only
+            url: "/monitor",
+            label: "Monitor",
+            icon: "bar-chart",
+            component: Monitor,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin()
         },
         {
             url: "/career-fair",

@@ -288,13 +288,15 @@ export default class GeneralFormPage extends React.Component {
         var view = null;
         const renderList = (d, i) => {
             var row = this.props.renderRow(d);
-            row.push(<td className="text-right">
-                <a id={d.ID}
-                    onClick={this.editPopup.bind(this)}>Edit</a>
-                {" | "}
-                <a id={d.ID}
-                    onClick={this.deletePopup.bind(this)}>Delete</a>
-            </td>);
+            if (!this.props.noMutation) {
+                row.push(<td className="text-right">
+                    <a id={d.ID}
+                        onClick={this.editPopup.bind(this)}>Edit</a>
+                    {" | "}
+                    <a id={d.ID}
+                        onClick={this.deletePopup.bind(this)}>Delete</a>
+                </td>);
+            }
             return <tr>{row}</tr>;
         };
 
@@ -316,19 +318,21 @@ export default class GeneralFormPage extends React.Component {
         }
         */
 
-        return (<div>
-            {(this.props.dataTitle !== null) ? <h2>
-                {this.props.dataTitle}
-            </h2>
-                : null}
-
-            {!this.props.showAddForm ?
+        var addForm = null;
+        if (!this.props.noMutation) {
+            addForm = (!this.props.showAddForm ?
                 <h4>
                     <a onClick={this.addPopup}>
                         <i className="fa fa-plus left"></i>{this.props.addButtonText}</a>
                 </h4>
-                : this.getAddForm()}
+                : this.getAddForm());
+        }
 
+        return (<div>
+            {(this.props.dataTitle !== null) ? <h2>
+                {this.props.dataTitle}
+            </h2> : null}
+            {addForm}
             {this.props.searchFormItem ?
                 <h4>
                     <a onClick={this.searchPopup}>
@@ -361,10 +365,12 @@ GeneralFormPage.propTypes = {
     btnColorClass: PropTypes.string,
     successAddHandler: PropTypes.func,
     discardDiff: PropTypes.array,
-    forceDiff: PropTypes.array
+    forceDiff: PropTypes.array,
+    noMutation: PropTypes.bool
 }
 
 GeneralFormPage.defaultProps = {
+    noMutation: false,
     dataOffset: 10,
     showAddForm: false,
     btnColorClass: "primary",

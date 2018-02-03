@@ -67,15 +67,15 @@ Time.prototype.getAgo = function (unixtimestamp) {
     }
 };
 
-Time.prototype.getStringShort = function (unixtimestamp) {
-    return this.getString(unixtimestamp, false, true);
+Time.prototype.getStringShort = function (unixtimestamp, getSecond) {
+    return this.getString(unixtimestamp, false, true, false, false, getSecond);
 };
 
 Time.prototype.getDate = function (unixtimestamp) {
     return this.getString(unixtimestamp, false, false, true);
 };
 // mysql UNIX_TIMESTAMP(column)
-Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false) {
+Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
@@ -93,6 +93,7 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     var hour = newDate.getHours();
     var minute = newDate.getMinutes();
+
     var pm_am = "";
 
     if (hour >= 12) {
@@ -139,6 +140,12 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     toReturn += hour;
     toReturn += ":";
     toReturn += minute;
+
+    if (getSecond) {
+        toReturn += ":";
+        toReturn += newDate.getSeconds();
+    }
+
     toReturn += " " + pm_am;
 
     if (include_timezone) {
