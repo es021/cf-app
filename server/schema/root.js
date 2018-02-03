@@ -327,7 +327,11 @@ fields["prescreens"] = {
         status: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
-        order_by: { type: GraphQLString }
+        order_by: { type: GraphQLString },
+
+        //search query
+        student_name : { type: GraphQLString },
+        student_email : { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return PrescreenExec.prescreens(arg, graphqlFields(info));

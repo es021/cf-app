@@ -1,19 +1,47 @@
 const DB = require('./DB.js');
+const { UserQuery } = require('./user-query.js');
+const { UserMeta, User } = require('../../config/db-config');
 
 
 class PrescreenQuery {
     getPrescreen(params, extra) {
-        var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = ${params.ID}`;
-        var student_where = (typeof params.student_id === "undefined") ? "1=1" : `student_id = ${params.student_id}`;
-        var status_where = (typeof params.status === "undefined") ? "1=1" : `status like '%${params.status}%'`;
-        var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}'`;
+        // basic condition
+        var id_where = (typeof params.ID === "undefined") ? "1=1"
+            : `ID = ${params.ID}`;
 
+        var student_where = (typeof params.student_id === "undefined") ? "1=1"
+            : `student_id = ${params.student_id}`;
+
+        var status_where = (typeof params.status === "undefined") ? "1=1"
+            : `status like '%${params.status}%'`;
+
+        var com_where = (typeof params.company_id === "undefined") ? "1=1"
+            : `company_id = '${params.company_id}'`;
+
+        // external search query ------------------------------------------
+        // both is injected
+        var query_s_name = (typeof params.student_name === "undefined") ? ""
+            : `CONCAT((${UserQuery.selectMetaMain("student_id", UserMeta.FIRST_NAME)}),
+                (${UserQuery.selectMetaMain("student_id", UserMeta.LAST_NAME)}))
+                like '%${params.student_name}%'`;
+
+        var query_s_email = (typeof params.student_email === "undefined") ? ""
+            : `(${UserQuery.selectUserField("student_id", User.EMAIL)})
+                like '%${params.student_email}%'`;
+
+        var search_query = (query_s_name !== "" && query_s_name != "") ?
+            `and (${query_s_name} or ${query_s_email})` : "";
+
+        // limit and order by
         var limit = (typeof params.page !== "undefined" &&
             typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
-
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
 
-        var sql = `from pre_screens where ${id_where} and ${student_where} and ${status_where} and ${com_where} ${order_by}`;
+        var sql = `from pre_screens where ${id_where} and ${student_where} 
+            and ${status_where} and ${com_where} 
+            ${search_query}
+            ${order_by}`;
+
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
         } else {
@@ -30,6 +58,7 @@ class PrescreenExec {
         const { UserExec } = require('./user-query.js');
 
         var sql = PrescreenQuery.getPrescreen(params, extra);
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
             if (extra.count) {

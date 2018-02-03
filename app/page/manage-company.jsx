@@ -378,14 +378,13 @@ AboutSubPage.PropTypes = {
     company_id: PropTypes.number.isRequired
 }
 
-
-
 //###################################################################################################
 //###################################################################################################
 class ScheduledInterview extends React.Component {
     constructor(props) {
         super(props);
         this.authUser = getAuthUser();
+        this.search = {};
     }
 
     componentWillMount() {
@@ -401,13 +400,18 @@ class ScheduledInterview extends React.Component {
         // render table
         this.renderRow = (d) => {
             var name = `${d.student.first_name} ${d.student.last_name}`;
-            var student = <b><a onClick={() => {
+            var focusedName = name.focusSubstring(this.search.student);
+
+            focusedName = <a onClick={() => {
                 layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.student.ID })
-            }}>{name}</a></b>;
+            }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
+
+            var focusedEmail = d.student.user_email.focusSubstring(this.search.student);
+            focusedEmail = <span dangerouslySetInnerHTML={{ __html: focusedEmail }} ></span>;
 
             return [
                 <td>{d.ID}</td>
-                , <td>{student}</td>
+                , <td>{focusedName}<br></br>{focusedEmail}</td>
                 , <td>{d.special_type}</td>
                 , <td>{d.status}</td>
                 , <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>
@@ -431,14 +435,10 @@ class ScheduledInterview extends React.Component {
         this.searchParams = "";
         this.searchFormItem = [{ header: "Enter Your Search Query" },
         {
-            label: "Student Name",
-            name: "name",
-            type: "text"
-        },
-        {
-            label: "Student Email",
-            name: "email",
-            type: "text"
+            label: "Find Student",
+            name: "student",
+            type: "text",
+            placeholder: "Type student name or email"
         }, {
             label: "Status",
             name: Prescreen.STATUS,
@@ -448,10 +448,11 @@ class ScheduledInterview extends React.Component {
         ];
 
         this.searchFormOnSubmit = (d) => {
+            this.search = d;
             this.searchParams = "";
             if (d != null) {
-                this.searchParams += (d.name) ? `name:"${d.name}",` : "";
-                this.searchParams += (d.email) ? `email:"${d.email}",` : "";
+                this.searchParams += (d.student) ? `student_name:"${d.student}",` : "";
+                this.searchParams += (d.student) ? `student_email:"${d.student}",` : "";
                 this.searchParams += (d.status && d.status != "ALL") ? `status:"${d.status}",` : "";
             }
         };
@@ -469,12 +470,10 @@ class ScheduledInterview extends React.Component {
                   updated_at
                   student{
                     ID
-                    first_name last_name
+                    first_name last_name user_email
                   }
                 }
               }`;
-
-            console.log(query);
 
             return getAxiosGraphQLQuery(query);
         }

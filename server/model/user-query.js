@@ -76,6 +76,10 @@ class UserQuery {
         return `(select SUBSTRING_INDEX(SUBSTRING_INDEX((${this.selectMetaMain(user_id, meta_key)}),'\"',2),'\"',-1)) as ${as}`;
     }
 
+    selectUserField(user_id, field) {
+        return `select u.${field} from wp_cf_users u where u.ID = ${user_id}`;
+    }
+    
     selectMetaMain(user_id, meta_key) {
         return `select m.meta_value from wp_cf_usermeta m where m.user_id = ${user_id} and m.meta_key = '${meta_key}'`;
     }
