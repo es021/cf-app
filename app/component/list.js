@@ -201,7 +201,8 @@ export default class List extends React.Component {
                     : null
                 }
             </div>;
-            topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
+            //topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
+            topView = paging;
             bottomView = paging;
 
         }

@@ -7,9 +7,13 @@
     "dev:app": "NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
     "dev:server": "NODE_ENV=development-wp nodemon server.js",
     "dev:socket": "NODE_ENV=development nodemon socket.js",
+    
     "build": "NODE_ENV=production webpack -p --progress",
     "build-local": "NODE_ENV=production-local webpack -p --progress",
+    
     "serve": "NODE_ENV=production node server.js",
+    "socket": "NODE_ENV=production node socket.js",
+
     "dev:app-wp": "exec NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
     "dev:app-window": "set NODE_ENV=development&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
     "dev:app-wp-window": "set NODE_ENV=development-wp&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",

@@ -5,6 +5,9 @@ const Url = (isProd) ? `https://seedsjobfair.com/socket` : `http://localhost:${P
 // both emit
 // both on
 const BOTH = {
+    // admin stuff only
+    STATE: "state",
+
     CONNECTION: "connection",
 
     //live feed

@@ -34,6 +34,7 @@ export const initSocket = (page) => {
 };
 
 function initOn() {
+
     // inital ons
     socketOn(BOTH.CONNECTION, () => {
         var user = getAuthUser();
@@ -124,6 +125,12 @@ export const socketEmit = (event, data) => {
 
 //#####################################################################################
 // emit helper
+
+export const emitState = (params = null) => {
+    socketEmit(BOTH.STATE, {
+        params: params
+    });
+}
 
 export const emitQueueStatus = (company_id, student_id, action) => {
     socketEmit(BOTH.QUEUE_STATUS, {

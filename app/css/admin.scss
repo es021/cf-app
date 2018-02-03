@@ -1,0 +1,53 @@
+@import "define/variable.scss";
+$dimension: 30px;
+.hall-activity {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.icon-container {
+    display: flex;
+    flex-flow: column;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: $dimension;
+    width: $dimension;
+    color: white;
+    margin: 3px;
+    cursor: pointer;
+    background: $COLOR_DARK
+}
+
+.icon.blue {
+    background: navy;
+}
+
+.icon.circle {
+    border-radius: 100%;
+}
+
+.icon.small{
+    height: $dimension / 2;
+    width: $dimension / 2;
+}
+
+.icon.cornered {
+    border-radius: 20%;
+}
+
+.icon.active {
+    background: #449d44;
+}
+
+.icon:hover {
+    opacity: 0.7;
+}
+
+.icon:active {
+    opacity: 1;
+}

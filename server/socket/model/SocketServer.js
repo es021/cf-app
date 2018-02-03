@@ -57,7 +57,7 @@ class SocketServer {
         client.on(BOTH.CHAT_OPEN_CLOSE, (d) => { this.onChatOpenClose(client, d) });
         client.on(BOTH.CHAT_MESSAGE, (d) => { this.onChatMessage(client, d) });
         client.on(BOTH.LIVE_FEED, (d) => { this.onLiveFeed(client, d) });
-
+        client.on(BOTH.STATE, (d) => { this.onState(client, d) });
         client.on(BOTH.HALL_ACTIVITY, (d) => { this.onHallActivity(client, d) });
 
         this.initDBTrigger(client);
@@ -183,6 +183,28 @@ class SocketServer {
             }
         }
 
+    }
+
+    // {params}
+    // any specific params only
+    onState(client, data) {
+        var toEmit = {};
+        if (data.params == null) {
+            for (var key in this.state) {
+                if (key == "clients" || key == "lookup") {
+                    continue;
+                }
+                toEmit[key] = this.state[key];
+            }
+            
+        } else {
+            for (var i in data.params) {
+                var key = data.params[i];
+                toEmit[key] = this.state[key];
+            }
+        }
+        
+        client.emit(BOTH.STATE, toEmit);
     }
 
     // {title, content, type, cf, created_at}

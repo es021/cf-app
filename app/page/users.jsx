@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { ButtonLink } from '../component/buttons';
+import GeneralFormPage from '../component/general-form';
 import * as layoutActions from '../redux/actions/layout-actions';
 import UserPopup from './partial/popup/user-popup';
 
@@ -12,24 +13,6 @@ class UsersPage extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    loadData(page, offset) {
-        return getAxiosGraphQLQuery(`
-        query{
-            users(role:"student", page:${page}, offset:${offset}){
-                ID
-                cf
-                user_email
-                first_name
-                last_name
-                phone_number
-                university
-                major
-                minor
-                user_registered 
-            }
-        }`);
-    };
 
     componentWillMount() {
         this.offset = 10;
@@ -44,53 +27,139 @@ class UsersPage extends React.Component {
                 <th>Registered At</th>
             </tr>
         </thead>;
-    }
 
-    renderList(d, i) {
-        var row = [];
-        var dismiss = ["user_email", "last_name", "minor"];
-        console.log(d);
-        for (var key in d) {
-            if (dismiss.indexOf(key) >= 0) {
-                continue;
-            }
-            if (key == "first_name") {
-                var label = <b>{d.first_name} {d.last_name}</b>;
-                var title = <span>
-                    <ButtonLink
-                        onClick={() => layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name, UserPopup, { id: d.ID })}
-                        label={label}>
-                    </ButtonLink><br></br>
-                    <small>{d.user_email}</small>
-                </span>;
-                row.push(<td>{title}</td>);
-            } else if (key == "major") {
-                row.push(<td>{d.major}<br></br>{d.minor}</td>);
-            } else if (key == "user_registered") {
-                row.push(<td>{Time.getString(d.user_registered)}</td>);
-            } else if (key == "cf" && d.cf.length > 1) {
-                row.push(<td>{JSON.stringify(d.cf)}</td>);
-            }
-            else {
-                row.push(<td>{d[key]}</td>);
-            }
+        //##########################################
+        //  search
+        this.searchParams = "";
+        this.search = {};
+        this.searchFormItem = [{ header: "Enter Your Search Query" },
+        {
+            label: "Find Student",
+            name: "search_user",
+            type: "text",
+            placeholder: "Type student name or email"
+        }, {
+            label: "Find University",
+            name: "search_university",
+            type: "text",
+            placeholder: "Iowa State University"
+        }, {
+            label: "Find Major / Minor",
+            name: "search_degree",
+            type: "text",
+            placeholder: "Engineering"
         }
-        return <tr>{row}</tr>;
+        ];
+
+        this.searchFormOnSubmit = (d) => {
+            this.search = d;
+            this.searchParams = "";
+            if (d != null) {
+                this.searchParams += (d.search_user) ? `search_user:"${d.search_user}",` : "";
+                this.searchParams += (d.search_university) ? `search_university:"${d.search_university}",` : "";
+                this.searchParams += (d.search_degree) ? `search_degree:"${d.search_degree}",` : "";
+            }
+        };
+
+
+        this.loadData = (page, offset) => {
+            return getAxiosGraphQLQuery(`
+            query{
+            users(${this.searchParams} role:"student", page:${page}, offset:${offset}){
+                ID
+                cf
+                user_email
+                first_name
+                last_name
+                phone_number
+                university
+                major
+                minor
+                user_registered 
+            }
+        }`);
+        };
+
+
+        this.renderRow = (d, i) => {
+            var row = [];
+            var dismiss = ["user_email", "last_name", "minor"];
+
+            for (var key in d) {
+                if (dismiss.indexOf(key) >= 0) {
+                    continue;
+                }
+                if (key == "first_name") {
+                    var name = `${d.first_name} ${d.last_name}`;
+                    var focusedName = name.focusSubstring(this.search.search_user);
+                    focusedName = <a onClick={() => {
+                        layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.ID })
+                    }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
+
+                    var focusedEmail = d.user_email.focusSubstring(this.search.search_user);
+                    focusedEmail = <span dangerouslySetInnerHTML={{ __html: focusedEmail }} ></span>;
+
+
+                    var title = <span>
+                        {focusedName}<br></br>
+                        <small>{focusedEmail}</small>
+                    </span>;
+                    row.push(<td>{title}</td>);
+
+                } else if (key == "major") {
+                    var degree = `${d.major} ${d.minor}`;
+                    degree = degree.focusSubstring(this.search.search_degree);
+                    degree = <span dangerouslySetInnerHTML={{ __html: degree }} ></span>;
+                    row.push(<td>{degree}</td>);
+
+                } else if (key == "university") {
+                    var university = d.university.focusSubstring(this.search.search_university);
+                    university = <span dangerouslySetInnerHTML={{ __html: university }} ></span>;
+                    row.push(<td>{university}</td>);
+
+                } else if (key == "user_registered") {
+                    row.push(<td>{Time.getString(d.user_registered)}</td>);
+
+                } else if (key == "cf" && d.cf.length > 1) {
+                    row.push(<td>{JSON.stringify(d.cf)}</td>);
+
+                }
+                else {
+                    row.push(<td>{d[key]}</td>);
+                }
+            }
+            return row;
+        }
+
+        this.getDataFromRes = (res) => {
+            return res.data.data.users;
+        }
     }
 
-    getDataFromRes(res) {
-        return res.data.data.users;
-    }
+
+    // <List type="table"
+    // tableHeader={this.tableHeader}
+    // getDataFromRes={this.getDataFromRes}
+    // loadData={this.loadData}
+    // offset={1}
+    // renderList={this.renderList}></List>
 
     render() {
         document.setTitle("Students");
         return (<div><h3>Students</h3>
-            <List type="table"
+
+            <GeneralFormPage
+                dataTitle={this.dataTitle}
+                noMutation={true}
+                dataOffset={20}
+                searchFormItem={this.searchFormItem}
+                searchFormOnSubmit={this.searchFormOnSubmit}
                 tableHeader={this.tableHeader}
+                renderRow={this.renderRow}
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}
-                offset={this.offset}
-                renderList={this.renderList}></List>
+            ></GeneralFormPage>
+
         </div>);
 
     }
