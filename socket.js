@@ -3,6 +3,7 @@
  * Location : /var/www/cf-app/socket
  * Description : Socket Server in production server
  */
+"use strict";
 
 var app = require('express')();
 var server = require('http').Server(app);
