@@ -3,18 +3,17 @@
  * Location : /var/www/cf-app/socket
  * Description : Socket Server in production server
  */
-"use strict";
 
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 const isProd = (process.env.NODE_ENV === "production");
-if (isProd) {
-    console.log = function (mes) {
-        return;
-    };
-}
+// if (isProd) {
+//     console.log = function (mes) {
+//         return;
+//     };
+// }
 
 const { Port } = require('./config/socket-config');
 
