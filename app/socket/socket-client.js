@@ -34,18 +34,18 @@ export const initSocket = (page) => {
 };
 
 function initOn() {
+    var user = getAuthUser();
+    var joinData = {
+        id: user.ID,
+        role: user.role,
+        company_id: user.rec_company,
+        cf: getCF(),
+    };
+    socketEmit(C2S.JOIN, joinData);
 
     // inital ons
     socketOn(BOTH.CONNECTION, () => {
-        var user = getAuthUser();
-        var data = {
-            id: user.ID,
-            role: user.role,
-            company_id: user.rec_company,
-            cf: getCF(),
-        };
-
-        socketEmit(C2S.JOIN, data);
+        //socketEmit(C2S.JOIN, joinData);
     });
 
     socketOn(S2C.ONLINE_USER, (data) => {
