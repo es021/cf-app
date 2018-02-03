@@ -20,6 +20,7 @@ export const initSocket = (page) => {
     try {
         console.socket("TRY CONNECT", Url);
         socket = io.connect(Url);
+        console.socket("SUCCESS");
     } catch (err) {
         socket = false;
         console.socket("ERROR CONNECT", err);
@@ -35,17 +36,28 @@ export const initSocket = (page) => {
 
 function initOn() {
     var user = getAuthUser();
-    var joinData = {
-        id: user.ID,
-        role: user.role,
-        company_id: user.rec_company,
-        cf: getCF(),
-    };
-    socketEmit(C2S.JOIN, joinData);
+    socketOn("okay", () => {
+        console.log("okay connected///");
+        var joinData = {
+            id: user.ID,
+            role: user.role,
+            company_id: user.rec_company,
+            cf: getCF(),
+        };
 
+        socketEmit(C2S.JOIN, joinData);
+    });
     // inital ons
     socketOn(BOTH.CONNECTION, () => {
-        //socketEmit(C2S.JOIN, joinData);
+        console.log("connected///");
+        var joinData = {
+            id: user.ID,
+            role: user.role,
+            company_id: user.rec_company,
+            cf: getCF(),
+        };
+
+        socketEmit(C2S.JOIN, joinData);
     });
 
     socketOn(S2C.ONLINE_USER, (data) => {
@@ -105,8 +117,10 @@ function initOn() {
 
 export const socketOn = (event, handler) => {
     if (!socket) {
+        console.log("failed socket");
         return;
     }
+    
     socket.on(event, (data) => {
         console.socket("ON EVENT", event);
         console.socket("ON DATA", data);

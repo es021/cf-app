@@ -1,7 +1,7 @@
 const isProd = (process.env.NODE_ENV === "production");
 const Port = 5000;
-const Url = (isProd) ? `https://seedsjobfair.com/socket` : `http://localhost:${Port}`;
-//Url = "https://seedsjobfair.com/cfsocket";
+var Url = (isProd) ? `https://seedsjobfair.com/socket` : `http://localhost:${Port}`;
+Url = "https://seedsjobfair.com/socket";
 // both emit
 // both on
 const BOTH = {

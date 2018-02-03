@@ -8,17 +8,9 @@ var bodyParser = require('body-parser');
 var express = require('express')
         , http = require('http');
 //make sure you keep this order
-var app = express();    
+var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-
-const isProd = (process.env.NODE_ENV === "production");
-
-if (isProd) {
-    console.log = function (mes) {
-        return;
-    };
-}
 
 //app.use('/socket', express.static(path.join(__dirname, 'public')));
 //app.use('/socket', require('./routes'));
