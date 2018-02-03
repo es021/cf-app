@@ -18,7 +18,7 @@ const isProd = (process.env.NODE_ENV === "production");
 const { Port } = require('./config/socket-config');
 
 // this is important
-app.get('/cfsocket', function (req, res, next) {
+app.get('/socket', function (req, res, next) {
     res.sendFile(__dirname + '/index.html');
 });
 
