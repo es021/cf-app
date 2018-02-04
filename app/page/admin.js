@@ -30,15 +30,6 @@ export class Monitor extends React.Component {
         socketOn(BOTH.STATE, (data) => {
             this.setState((prevState) => {
                 for (var i in data) {
-                    if (i == "queue_detail") {
-                        for (var com_id in data.queue_detail) {
-                            data.queue_detail[com_id] = data.queue_detail[com_id].reverse();
-                        }
-
-                    }
-
-                    console.log(data);
-
                     prevState[i] = data[i];
                 }
                 return prevState;

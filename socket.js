@@ -6,9 +6,9 @@
 
 var bodyParser = require('body-parser');
 var express = require('express')
-        , http = require('http');
+    , http = require('http');
 //make sure you keep this order
-var app = express();    
+var app = express();
 var server = http.createServer(app);
 //var io = require('socket.io').listen(server);
 var io = require('socket.io')(server);
@@ -25,7 +25,7 @@ if (isProd) {
 //app.use('/socket', require('./routes'));
 
 app.use(express.static(__dirname + '/socket/res'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /// this is important
 app.get('/socket', function (req, res, next) {
@@ -45,5 +45,5 @@ server.listen(Port, function () {
 // CODE START HERE 
 
 var SocketServer = require('./server/socket/model/SocketServer.js');
-var socketServer = new SocketServer(io);
+var socketServer = new SocketServer(io, isProd);
 socketServer.init();
