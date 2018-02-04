@@ -334,7 +334,7 @@ export class ProfileListWide extends Component {
                 </div>
                 <div className={`${className}-item col-md-${(this.props.action_disabled) ? "10" : "8"}`}>
                     <div className="item-main">
-                        <h4>{this.props.title} {this.props.title} {this.props.title}</h4>
+                        <h4>{this.props.title}</h4>
                         <div>{this.props.body}</div>
                     </div>
                 </div>
