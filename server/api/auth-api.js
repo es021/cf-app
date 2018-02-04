@@ -145,7 +145,7 @@ class AuthAPI {
 
     // helper function 
     createPasswordResetLink(token, user_id) {
-        return `${SiteUrl}/auth/reset-password/${token}/${user_id}`;
+        return `${SiteUrl}/auth/password-reset/${token}/${user_id}`;
     }
 
     // helper function 
@@ -175,8 +175,10 @@ class AuthAPI {
     // reset with token and user id
     password_reset_token(new_password, token, user_id) {
         var user_query = `query{password_reset(user_id:${user_id},token:"${token}"){ID is_expired}}`;
+        //console.log(user_query);
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var password_reset = res.data.data.password_reset;
+            console.log(res.data);
             if (password_reset == null) {
                 return AuthAPIErr.TOKEN_INVALID;
             } else if (password_reset.is_expired) {
@@ -208,6 +210,10 @@ class AuthAPI {
         });
     }
 
+    replaceAll(search, replacement, string) {
+        return string.replace(new RegExp(search, `g`), replacement);
+    }
+
     password_reset_request(user_email) {
         // get user id from email
         var id_query = `query{ user(user_email:"${user_email}"){ID first_name} }`;
@@ -221,6 +227,7 @@ class AuthAPI {
                 var pass_params = { action: "hash_password", password: `${user_email}_${Date.now()}` };
                 return getPHPApiAxios("password_hash", pass_params).then((res) => {
                     var token = res.data;
+                    token = this.replaceAll("/", "", token);
 
                     //and add to db
                     var token_query = `mutation{add_password_reset(user_id:${user.ID},token:"${token}") {token} }`;
