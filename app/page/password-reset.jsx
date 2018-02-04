@@ -29,7 +29,14 @@ export default class PasswordResetPage extends React.Component {
         if (this.props.match) {
             var url_params = this.props.match.params;
             this.token = (url_params.token) ? url_params.token : null;
-            this.user_id = (url_params.user_id) ? url_params.user_id : null;
+            this.user_id = (url_params.user_id) ? Number.parseInt(url_params.user_id) : null;
+            console.log(url_params);
+            console.log(this.user_id);
+            console.log(this.user_id);
+            console.log(this.user_id);
+            if (Number.isNaN(this.user_id)) {
+                this.user_id = null;
+            }
         }
         // open from reset password link
         if (this.token !== null && this.user_id !== null) {

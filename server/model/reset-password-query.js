@@ -3,7 +3,7 @@ const { PasswordReset } = require('../../config/db-config');
 
 class PasswordResetExec {
     getQuery(params) {
-        var user_id_where = (typeof params.user_id === "undefined") ? "1=1" : `${PasswordReset.ID} = ${params.user_id}`;
+        var user_id_where = (typeof params.user_id === "undefined") ? "1=1" : `${PasswordReset.USER_ID} = ${params.user_id}`;
         var token_where = (typeof params.token === "undefined") ? "1=1" : `${PasswordReset.TOKEN} = "${params.token}"`;
         return `select * from ${PasswordReset.TABLE} where ${user_id_where} and ${token_where}`;
     }
