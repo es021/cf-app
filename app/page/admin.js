@@ -18,6 +18,7 @@ export class Monitor extends React.Component {
         this.renderHallDetail = this.renderHallDetail.bind(this);
         this.renderAllOnline = this.renderAllOnline.bind(this);
         this.isUserOnline = this.isUserOnline.bind(this);
+        this.isCompanyOnline = this.isCompanyOnline.bind(this);
         this.state = {
             loading: true,
             online_company: {},
@@ -80,7 +81,9 @@ export class Monitor extends React.Component {
     createIcon(id, type, shape = "", tooltip = null) {
         var className = shape + " ";
         if (type == "company") {
-            className += "blue";
+            if (this.isCompanyOnline(id)) {
+                className += " active ";
+            }
             var onClick = (e) => {
                 var id = e.currentTarget.dataset.entity_id;
                 layoutActions.storeUpdateFocusCard("Company " + id
@@ -89,13 +92,13 @@ export class Monitor extends React.Component {
             };
         }
 
-        if (type == "student") {
+        if (type == "user") {
             if (this.isUserOnline(id)) {
                 className += " active";
             }
             var onClick = (e) => {
                 var id = e.currentTarget.dataset.entity_id;
-                layoutActions.storeUpdateFocusCard("Student " + id
+                layoutActions.storeUpdateFocusCard("User " + id
                     , UserPopup
                     , { id: id })
             };
@@ -110,7 +113,7 @@ export class Monitor extends React.Component {
         var vs = [];
 
         for (var id in this.state.online_clients) {
-            vs.push(this.createIcon(id, "student", "circle"));
+            vs.push(this.createIcon(id, "user", "circle"));
         }
 
         if (vs.length == 0) {
@@ -129,13 +132,13 @@ export class Monitor extends React.Component {
             var com = this.createIcon(com_id, "company", "cornered");
             var sessions = this.state.sessions.map((d, i) => {
                 if (d.company_id == com_id) {
-                    return this.createIcon(d.participant_id, "student", ""
+                    return this.createIcon(d.participant_id, "user", ""
                         , "Created " + Time.getAgo(d.created_at));
                 }
             });
 
             var queues = queue[com_id].map((d, i) => {
-                return this.createIcon(d, "student", "circle");
+                return this.createIcon(d, "user", "circle");
             });
 
             vs.push(
@@ -161,6 +164,18 @@ export class Monitor extends React.Component {
 
     isUserOnline(id) {
         return typeof this.state.online_clients[id] !== "undefined"
+    }
+
+    isCompanyOnline(id) {
+        if(typeof this.state.online_company[id] === "undefined"){
+            return false;
+        }
+
+        if(Object.keys(this.state.online_company[id]).length <= 0){
+            return false;
+        }
+
+        return true;
     }
 
     render() {
