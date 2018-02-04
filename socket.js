@@ -10,7 +10,8 @@ var express = require('express')
 //make sure you keep this order
 var app = express();    
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+//var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
 
 const isProd = (process.env.NODE_ENV === "production");
 
