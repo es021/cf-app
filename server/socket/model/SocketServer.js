@@ -246,7 +246,7 @@ class SocketServer {
 
         var user_id = data.id;
         var clientObj = this.state.clients[user_id];
-        if (!clientObj) {   
+        if (!clientObj) {
             console.log("Client Logout NOT Found");
         } else {
             delete (this.state.lookup[client.id]);

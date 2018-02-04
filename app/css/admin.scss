@@ -23,25 +23,28 @@ $dimension: 30px;
     background: $COLOR_DARK
 }
 
-.icon.blue {
-    background: navy;
-}
-
 .icon.circle {
     border-radius: 100%;
 }
 
-.icon.small{
+.icon.small {
     height: $dimension / 2;
     width: $dimension / 2;
 }
 
 .icon.cornered {
     border-radius: 20%;
+    background: darkgray;
+    border: solid #465363 5px;
+    color: #465363;
+    border-left: none;
+    border-right: none;
+    font-weight: bold;
 }
 
 .icon.active {
     background: #449d44;
+    color:white;
 }
 
 .icon:hover {

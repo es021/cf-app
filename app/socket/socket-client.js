@@ -20,7 +20,7 @@ export const initSocket = (page) => {
     try {
         console.socket("TRY CONNECT", Url);
         socket = io.connect(Url);
-        console.socket("SUCCESS");
+        console.socket("SUCCESS",socket);
     } catch (err) {
         socket = false;
         console.socket("ERROR CONNECT", err);
@@ -38,7 +38,7 @@ export function isSocketOkay() {
     if (socket === false) {
         return false;
     } else {
-        return true;
+        return socket.connected;
     }
 }
 
