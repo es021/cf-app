@@ -130,8 +130,11 @@ export function login(email, password, cf) {
     };
 }
 
+import { emitLogout } from '../../socket/socket-client';
+
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {
+    emitLogout();
     return function (dispatch) {
         dispatch({
             type: DO_LOGOUT

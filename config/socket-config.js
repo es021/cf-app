@@ -45,6 +45,8 @@ const C2S = {
 
     // auto emit by socket disconnect
     DISCONNECT: "disconnect",
+
+    LOGOUT: "logout"
 };
 
 const Event = {

@@ -63,6 +63,8 @@ class SocketServer {
 
     initOn(client) {
         client.on(C2S.JOIN, (d) => { this.onJoin(client, d) });
+        client.on(C2S.LOGOUT, (d) => { this.onLogout(client, d) });
+
         client.on(C2S.DISCONNECT, (d) => { this.onDisconnect(client, d) });
         client.on(BOTH.CHAT_OPEN_CLOSE, (d) => { this.onChatOpenClose(client, d) });
         client.on(BOTH.CHAT_MESSAGE, (d) => { this.onChatMessage(client, d) });
@@ -237,6 +239,25 @@ class SocketServer {
         }
     }
 
+    //{id:id}
+    // remove all records
+    // make offline
+    onLogout(client, data) {
+
+        var user_id = data.id;
+        var clientObj = this.state.clients[user_id];
+        if (!clientObj) {   
+            console.log("Client Logout NOT Found");
+        } else {
+            delete (this.state.lookup[client.id]);
+            if (clientObj.role === UserEnum.ROLE_RECRUITER) {
+                this.updateEmitOnlineCompany(clientObj, C2S.DISCONNECT);
+            }
+            this.remove_client(user_id, true);
+            console.log(this.state);
+        }
+    }
+
     onDisconnect(client, data) {
         var user_id = this.state.lookup[client.id];
         var clientObj = this.state.clients[user_id];
@@ -369,9 +390,9 @@ class SocketServer {
 
     // #################################################################
     // UPDATE STATE FUNCTION START
-    remove_client(user_id) {
+    remove_client(user_id, all = false) {
         //remove from clients array
-        if (this.state.clients[user_id].sockets_count <= 0) {
+        if (this.state.clients[user_id].sockets_count <= 0 || all) {
             delete (this.state.clients[user_id]);
             delete (this.state.online_clients[user_id]);
         }
