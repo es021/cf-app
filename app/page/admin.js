@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { BOTH } from '../../config/socket-config';
 import UserPopup from './partial/popup/user-popup';
 import CompanyPopup from './partial/popup/company-popup';
-import { socketEmit, socketOn, emitState } from '../socket/socket-client';
+import { socketEmit, socketOn, emitState, isSocketOkay } from '../socket/socket-client';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
+import { Loader } from '../component/loader';
 
 require("../css/admin.scss");
 
@@ -18,6 +19,7 @@ export class Monitor extends React.Component {
         this.renderAllOnline = this.renderAllOnline.bind(this);
         this.isUserOnline = this.isUserOnline.bind(this);
         this.state = {
+            loading: true,
             online_company: {},
             queue_detail: {},
             queue: {},
@@ -32,12 +34,18 @@ export class Monitor extends React.Component {
                 for (var i in data) {
                     prevState[i] = data[i];
                 }
+
+                prevState.loading = false;
                 return prevState;
             });
         });
     }
 
     refresh() {
+        this.setState(() => {
+            return { loading: true };
+        })
+
         this.lastUpdated = Time.getStringShort(Time.getUnixTimestampNow(), true);
 
         //load session
@@ -159,12 +167,22 @@ export class Monitor extends React.Component {
         document.setTitle("Monitor");
         var hall = this.renderHallDetail();
         var onlines = this.renderAllOnline();
+
+        var header = (this.state.loading) ?
+            <Loader size="3" text="Fetching latest update.."></Loader> :
+            <div><a className="btn btn-blue" onClick={() => this.refresh()}>
+                Refresh</a>
+                <br></br><small>Last Updated {this.lastUpdated}</small>
+            </div>;
+
+        var warning = (isSocketOkay()) ? null
+            : <div className="alert alert-danger" role="alert">
+                Socket Server is currently down!</div>;
+
         return (
             <div>
-                <a className="btn btn-blue" onClick={() => this.refresh()}>
-                    Refresh
-                </a>
-                <br></br><small>Last Updated {this.lastUpdated}</small>
+                {warning}
+                {header}
                 <h2>Hall Activity</h2>
                 {hall}
                 <h2>Online Users</h2>

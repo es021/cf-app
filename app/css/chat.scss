@@ -4,6 +4,12 @@ $MARGIN: 30%;
 #chat {
     margin: auto;
     .chat-header {
+
+        .profile-card.profile-li{
+            grid-template-columns: 1fr 5fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
         background: $THEME_1;
         color: white;
         display: flex;

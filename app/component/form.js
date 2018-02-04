@@ -566,5 +566,6 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
+    defaultValues: {},
     btnColorClass: "primary"
 }

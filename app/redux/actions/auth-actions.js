@@ -54,9 +54,24 @@ export function isAuthorized() {
     return store.getState().auth.isAuthorized;
 }
 
+export function getOtherRecs() {
+    if (isRoleRec()) {
+        return store.getState().auth.user.company.recruiters;
+    }
+    return [];
+}
+
 
 // ############################################
 // Auth
+export function getCompany() {
+    if (!isRoleRec()) {
+        return null;
+    } else {
+        return getAuthUser().company;
+    }
+}
+
 export function getAuthUser() {
     if (!isAuthorized()) {
         return {};
@@ -89,7 +104,7 @@ export function isRoleAdmin() {
 // REDUX ACTIONS
 
 export const UPDATE_USER = "UPDATE_USER";
-export function updateAuthUser(user) {
+export function updateAuthUser(user, force = false) {
 
     //filter out not auth related
     var auth = {};
@@ -104,7 +119,6 @@ export function updateAuthUser(user) {
         payload: auth
     });
 }
-
 
 export const DO_LOGIN = "DO_LOGIN";
 export function login(email, password, cf) {

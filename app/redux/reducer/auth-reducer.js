@@ -93,7 +93,7 @@ function fixCFAuth(auth, cf = null) {
 
 if (hasLocalStorageSupport) {
     auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
-   
+
     if (auth !== null) {
         auth = JSON.parse(auth);
         auth = getNewState(auth, { cookie: true });

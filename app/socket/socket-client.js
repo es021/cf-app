@@ -34,6 +34,14 @@ export const initSocket = (page) => {
 
 };
 
+export function isSocketOkay() {
+    if (socket === false) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function initOn() {
     var user = getAuthUser();
     socketOn("okay", () => {
@@ -120,7 +128,7 @@ export const socketOn = (event, handler) => {
         console.log("failed socket");
         return;
     }
-    
+
     socket.on(event, (data) => {
         console.socket("ON EVENT", event);
         console.socket("ON DATA", data);
