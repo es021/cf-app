@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Loader } from '../component/loader';
-import { getAuthUser, isRoleRec } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, getCompany } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { SessionEnum } from '../../config/db-config';
 import CompanyPopup from './partial/popup/company-popup';
@@ -22,6 +22,7 @@ class SessionPage extends React.Component {
         this.getChat = this.getChat.bind(this);
         this.getMainView = this.getMainView.bind(this);
         this.endSession = this.endSession.bind(this);
+        this.canDoMultiple = this.canDoMultiple.bind(this);
 
         this.hasEmitOpen = false;
 
@@ -106,6 +107,24 @@ class SessionPage extends React.Component {
         }
     }
 
+    canDoMultiple() {
+        // 
+        var can_do_multiple = false;
+        if (this.isRec && getCompany().can_do_multiple) {
+            can_do_multiple = true;
+        }
+
+        if (getAuthUser().rec_company == 12) {
+            can_do_multiple = true;
+        }
+
+        return can_do_multiple;
+
+        // console.log("can_do_multiple", can_do_multiple);
+        // console.log("can_do_multiple", getCompany());
+        // console.log("can_do_multiple", can_do_multiple);
+    }
+
     getChat(data) {
         this.self_id = null;
         this.other_id = null;
@@ -130,7 +149,9 @@ class SessionPage extends React.Component {
         //emit open chat if dont already have
         this.emitChatOpenClose("open", data);
 
+
         return <Chat
+            can_do_multiple={this.canDoMultiple()}
             session_id={data.ID}
             self_id={this.self_id}
             isRec={this.isRec}

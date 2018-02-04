@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Loader } from '../../../component/loader';
+import Form from '../../../component/form';
 
 //importing for list
 import List, { ProfileListItem } from '../../../component/list';
@@ -10,6 +11,7 @@ import { Time } from '../../../lib/time';
 import obj2arg from 'graphql-obj2arg';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
+import { getOtherRecs } from '../../../redux/actions/auth-actions';
 import { ButtonLink } from '../../../component/buttons';
 import UserPopup from '../popup/user-popup';
 
@@ -28,6 +30,7 @@ class Chat extends React.Component {
         this.parseMessageJSON = this.parseMessageJSON.bind(this);
         this.parseMessageHTML = this.parseMessageHTML.bind(this);
         this.createVideoCall = this.createVideoCall.bind(this);
+        this.getStartVideoCallForm = this.getStartVideoCallForm.bind(this);
         this.joinVideoCall = this.joinVideoCall.bind(this);
 
         this.renderList = this.renderList.bind(this);
@@ -196,7 +199,7 @@ class Chat extends React.Component {
             layoutActions.errorBlockLoader("Session Has Expired. Unable To Join Video Call Session");
             return;
         }
-        
+
         layoutActions.loadingBlockLoader("Please Wait..");
 
         //check if expired
@@ -217,9 +220,42 @@ class Chat extends React.Component {
         getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
     }
 
+    getStartVideoCallForm(zoom_data) {
+        var listRecs = [];
+        getOtherRecs().map((d, i) => {
+            if (this.props.self_id == d.ID) {
+                return false;
+            }
+            listRecs.push({ key: d.user_email, label: d.user_email });
+        })
+
+        var items = (this.props.can_do_multiple && listRecs.length > 0) ? [{
+            label: "Invite other recruiters to join",
+            type: "checkbox",
+            name: "recs",
+            data: listRecs
+        }] : [];
+
+        var onSubmit = (recs) => {
+            if (this.props.can_do_multiple) {
+                //send email to rec id
+                console.log("send invitaion email to", recs);
+            }
+
+            layoutActions.storeHideBlockLoader();
+            this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: zoom_data.join_url }));
+            window.open(zoom_data.start_url);
+        };
+
+        return <Form
+            items={items}
+            onSubmit={onSubmit}
+            btnColorClass="blue"
+            submitText="Start Video Call">
+        </Form>;
+    }
 
     createVideoCall() {
-
         if (this.props.disableChat) {
             layoutActions.errorBlockLoader("Session Has Expired. Unable To Create Video Call Session");
             return;
@@ -245,13 +281,27 @@ class Chat extends React.Component {
             ,"join_url":"https://zoom.us/j/646923659","created_at":"2018-01-31T02:08:02Z"}
             */
 
-            console.log("success createVideoCall", data);
+            if (data == null || data == "" || typeof data != "object") {
+                layoutActions.errorBlockLoader("Failed to create video call session. Please check your internet connection");
+                return;
+            }
 
-            layoutActions.customBlockLoader("Successfully Created Video Call Session"
-                , "Start Video Call", () => {
-                    this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: data.join_url }));
-                    window.open(data.start_url);
-                }, null);
+            console.log("success createVideoCall", data);
+            var body = <div>
+                <h4 className="text-primary">Successfully Created Video Call Session</h4>
+                {this.getStartVideoCallForm(data)}
+            </div>;
+            layoutActions.customBlockLoader(body, null, null, null);
+            // layoutActions.customBlockLoader("Successfully Created Video Call Session"
+            //     , "Start Video Call", () => {
+
+            //         if (this.props.can_do_multiple) {
+
+            //         }
+
+            //         this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: data.join_url }));
+            //         window.open(data.start_url);
+            //     }, null);
         };
 
         var data = {
@@ -387,13 +437,18 @@ class Chat extends React.Component {
 }
 
 Chat.propTypes = {
+    can_do_multiple: PropTypes.bool,
     self_id: PropTypes.number.isRequired,
     isRec: PropTypes.bool.isRequired,
     session_id: PropTypes.number.isRequired,
     disableChat: PropTypes.bool.isRequired,
     other_id: PropTypes.number.isRequired,
     other_data: PropTypes.object.isRequired
-}
+};
+
+Chat.defaultProps = {
+    can_do_multiple: false
+};
 
 function mapStateToProps(state, ownProps) {
     return {

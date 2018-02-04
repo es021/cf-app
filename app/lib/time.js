@@ -93,6 +93,7 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     var hour = newDate.getHours();
     var minute = newDate.getMinutes();
+    var seconds = newDate.getSeconds();
 
     var pm_am = "";
 
@@ -111,6 +112,10 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     if (minute < 10) {
         minute = "0" + minute;
+    }
+
+    if (seconds < 10) {
+        seconds = "0" + seconds;
     }
 
     //console.log(newDate.getTimezoneOffset());
@@ -143,7 +148,7 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     if (getSecond) {
         toReturn += ":";
-        toReturn += newDate.getSeconds();
+        toReturn += seconds;
     }
 
     toReturn += " " + pm_am;

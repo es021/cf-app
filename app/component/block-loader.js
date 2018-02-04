@@ -55,7 +55,11 @@ class BlockLoader extends React.Component {
         } else if (state.confirm !== null) {
             view = <div><h4 className="text-primary">{state.confirm.title}</h4></div>;
         } else if (state.custom !== null) {
-            view = <div><h4 className="text-primary">{state.custom.title}</h4></div>;
+            var title = (typeof state.custom.title !== "string")
+                ? state.custom.title
+                : <h4 className="text-primary">{state.custom.title}</h4>;
+
+            view = <div>{title}</div>;
         }
 
         var action = null;
@@ -87,15 +91,16 @@ class BlockLoader extends React.Component {
                         className="btn btn-sm btn-blue">
                         {state.custom.actionText}
                     </NavLink>
-                    : <a onClick={() => { // if action handler need to make a onClick
-                        if (state.custom.actionHandler) {
-                            state.custom.actionHandler();
-                        }
-                        store.dispatch(layoutActions.hideBlockLoader());
-                    }}
-                        className="btn btn-sm btn-blue">
-                        {state.custom.actionText}
-                    </a>
+                    : (state.custom.actionHandler == null) ? null
+                        : <a onClick={() => { // if action handler need to make a onClick
+                            if (state.custom.actionHandler) {
+                                state.custom.actionHandler();
+                            }
+                            store.dispatch(layoutActions.hideBlockLoader());
+                        }}
+                            className="btn btn-sm btn-blue">
+                            {state.custom.actionText}
+                        </a>
                 }
                 <br></br>
                 <div style={{ marginTop: "5px" }}>

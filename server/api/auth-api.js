@@ -42,9 +42,8 @@ class AuthAPI {
         //console.log(field);
         var user_query = `query{
             user(user_email:"${user_email}"){
-                ${field} company {cf}
+                ${field} company {cf recruiters{ID user_email first_name last_name}}
             }}`;
-
 
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var user = res.data.data.user;
@@ -67,7 +66,7 @@ class AuthAPI {
                             return AuthAPIErr.INVALID_CF;
                         } else {
                             delete (user[User.PASSWORD]);
-                            delete (user["company"]);
+                            //delete (user["company"]);
                             user[User.CF] = cf;
                             //get cf object here
                             //user["cf_object"] = {};
