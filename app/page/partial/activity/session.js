@@ -1,20 +1,15 @@
 import React, { PropTypes } from 'react';
-import GeneralFormPage from '../../..component/general-form';
-import * as layoutActions from '../../..redux/actions/layout-actions';
+import GeneralFormPage from '../../../component/general-form';
+import * as layoutActions from '../../../redux/actions/layout-actions';
 import UserPopup from '../popup/user-popup';
 import { SessionEnum } from '../../../../config/db-config';
 //importing for list
 import List from '../../../component/list';
-import { getAxiosGraphQLQuery } from '../../../..helper/api-helper';
-import { Time } from '../lib/time';
+import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
+import { Time } from '../../../lib/time';
+import { createUserTitle } from '../../users';
 
 export class SessionsList extends React.Component {
-
-    static propTypes = {
-        isRec: PropTypes.bool,
-        company_id: PropTypes.number,
-        student_id: PropTypes.number
-    }
 
     constructor(props) {
         super(props);
@@ -37,16 +32,7 @@ export class SessionsList extends React.Component {
             : `participant_id:${this.props.student_id},`;
 
         this.offset = 10;
-        this.tableHeader = <thead>
-            <tr>
-                <th>ID</th>
-                {this.props.isRec ? <th>Student</th> : <th>Company</th>}
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Started At</th>
-                <th>Ended At</th>
-            </tr>
-        </thead>;
+
 
         //##########################################
         //  search
@@ -95,24 +81,39 @@ export class SessionsList extends React.Component {
             }
         };
 
+        this.tableHeader = <thead>
+            <tr>
+                <th>ID</th>
+                {this.props.isRec ? <th>Student</th> : <th>Company</th>}
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Started At</th>
+                <th>Ended At</th>
+            </tr>
+        </thead>;
+
+        this.renderRow = (d, i) => {
+            var row = [];
+            row.push(<td>{d.ID}</td>);
+
+            var other = (this.props.isRec) ? createUserTitle(d.student, this.search.search_student) : null;
+            row.push(<td>{other}</td>);
+
+            return row;
+        }
 
         this.loadData = (page, offset) => {
             return getAxiosGraphQLQuery(`query{
                 sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}){
                 ID
                 host_id
-                student{ID first_name last_name}
+                student{ID first_name last_name user_email}
                 company{ID name}
                 status
                 started_at
                 ended_at}}`);
         };
 
-        this.renderRow = (d, i) => {
-            var row = [];
-            row.push(JSON.stringify(d));
-            return row;
-        }
 
         this.getDataFromRes = (res) => {
             return res.data.data.sessions;
@@ -120,12 +121,12 @@ export class SessionsList extends React.Component {
     }
 
     render() {
-        document.setTitle("My Sessions");
-        return (<div><h3>My Sessions</h3>
+        document.setTitle("Past Sessions");
+        return (<div><h3>Past Sessions</h3>
             <GeneralFormPage
                 dataTitle={this.dataTitle}
                 noMutation={true}
-                dataOffset={20}
+                dataOffset={this.offset}
                 searchFormItem={this.searchFormItem}
                 searchFormOnSubmit={this.searchFormOnSubmit}
                 tableHeader={this.tableHeader}
@@ -137,4 +138,10 @@ export class SessionsList extends React.Component {
         </div>);
 
     }
+}
+
+SessionsList.propTypes = {
+    isRec: PropTypes.bool,
+    company_id: PropTypes.number,
+    student_id: PropTypes.number
 }

@@ -380,6 +380,8 @@ AboutSubPage.PropTypes = {
 
 //###################################################################################################
 //###################################################################################################
+import { createUserTitle } from './users';
+
 class ScheduledInterview extends React.Component {
     constructor(props) {
         super(props);
@@ -399,19 +401,9 @@ class ScheduledInterview extends React.Component {
         //##########################################
         // render table
         this.renderRow = (d) => {
-            var name = `${d.student.first_name} ${d.student.last_name}`;
-            var focusedName = name.focusSubstring(this.search.student);
-
-            focusedName = <a onClick={() => {
-                layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.student.ID })
-            }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
-
-            var focusedEmail = d.student.user_email.focusSubstring(this.search.student);
-            focusedEmail = <span dangerouslySetInnerHTML={{ __html: focusedEmail }} ></span>;
-
             return [
                 <td>{d.ID}</td>
-                , <td>{focusedName}<br></br>{focusedEmail}</td>
+                , <td>{createUserTitle(d.student, this.search.student)}</td>
                 , <td>{d.special_type}</td>
                 , <td>{d.status}</td>
                 , <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>

@@ -13,6 +13,7 @@ import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
 import EditProfilePage from '../page/edit-profile';
 import ManageCompanyPage from '../page/manage-company';
+import ActivityPage from '../page/activity';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
 import SessionPage from '../page/session';
@@ -157,6 +158,18 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             disabled: isDisabled("auditorium", COMING_SOON)
+        },
+        {
+            url: "/my-activity/:current",
+            label: isRoleRec() ? "Students Data" : "My Activity",
+            icon: "list-ul",
+            component: ActivityPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { current: "session" },
+            disabled: !isRoleRec() && !isRoleStudent()
         },
         {
             url: "/about",
