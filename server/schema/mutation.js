@@ -552,6 +552,15 @@ fields["edit_prescreen"] = {
     }
 };
 
+fields["delete_prescreen"] = {
+    type: GraphQLInt,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.delete(Prescreen.TABLE, arg.ID);
+    }
+};
 
 /*******************************************/
 /* resume_drop ******************/

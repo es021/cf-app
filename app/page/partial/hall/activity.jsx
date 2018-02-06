@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import ProfileCard from '../../../component/profile-card';
-import { CompanyEnum, UserEnum } from '../../../../config/db-config';
+import { CompanyEnum, UserEnum, PrescreenEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';
 import { Time } from '../../../lib/time';
@@ -166,7 +166,25 @@ class ActvityList extends React.Component {
                     case hallAction.ActivityType.PRESCREEN:
                         subtitle = `${Time.getString(d.appointment_time)}`;
                         //body = <div style={{height:"30px"}}></div>;
-                        body = (isRoleRec()) ? crtSession : <div></div>;
+                        var ps_type = (d.special_type == null || d.special_type == "")
+                            ? PrescreenEnum.ST_PRE_SCREEN : d.special_type;
+
+                        var label_color = "";
+                        switch (ps_type) {
+                            case PrescreenEnum.ST_NEXT_ROUND:
+                                label_color = "success";
+                            case PrescreenEnum.ST_PRE_SCREEN:
+                                label_color = "primary";
+                        }
+
+                        body = <div>
+                            <div style={{ marginBottom: "7px" }}>
+                                <label className={`label label-${label_color}`}>
+                                    {ps_type}
+                                </label>
+                            </div>
+                            {(isRoleRec()) ? crtSession : null}
+                        </div>;
                         break;
                 }
 
@@ -235,7 +253,7 @@ class ActivitySection extends React.Component {
         var d = this.props.activity;
         var title_s = <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>;
         var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
-        var title_p = <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Pre-Screen</a>;
+        var title_p = <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>;
 
         var size_s = (isRoleRec()) ? "12" : "3";
         var size_q = (isRoleRec()) ? "12" : "6";
