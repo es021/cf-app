@@ -85,19 +85,27 @@ export default class UserPopup extends Component {
         }];
 
         if (d.role === UserEnum.ROLE_RECRUITER) {
-            items.push({
-                label: "Company",
-                icon: "suitcase",
-                value: <a onClick={() => layoutActions.storeUpdateFocusCard(d.company.name, CompanyPopup, { id: d.rec_company })}>
-                    {d.company.name}
-                </a>
-            }, {
-                    label: "Position",
-                    icon: "black-tie",
-                    value: (d.rec_position) ? d.rec_position
-                        : <span className="text-muted">Position Not Specified</span>
-                });
+            if (d.company !== null) {
+                items.push({
+                    label: "Company",
+                    icon: "suitcase",
+                    value: <a onClick={() => layoutActions.storeUpdateFocusCard(d.company.name, CompanyPopup, { id: d.rec_company })}>
+                        {d.company.name}
+                    </a>
+                }, {
+                        label: "Position",
+                        icon: "black-tie",
+                        value: (d.rec_position) ? d.rec_position
+                            : <span className="text-muted">Position Not Specified</span>
+                    });
 
+            } else {
+                items.push({
+                    label: "Company",
+                    icon: "suitcase",
+                    value: <span className="text-muted">No Company</span>
+                });
+            }
         }
 
         if (d.role === UserEnum.ROLE_STUDENT) {

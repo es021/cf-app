@@ -240,7 +240,9 @@ fields["sessions"] = {
         distinct: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
-        order_by: { type: GraphQLString }
+        order_by: { type: GraphQLString },
+        search_student: { type: GraphQLString }
+        //search_company: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return SessionExec.sessions(arg, graphqlFields(info));

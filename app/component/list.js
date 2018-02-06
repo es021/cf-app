@@ -434,13 +434,20 @@ export class CustomList extends Component {
     render() {
 
         if (this.props.items.length === 0) {
-            return <div className="text-muted">Nothing To Show Here</div>;
+            if (typeof this.props.emptyMessage !== "undefined") {
+                return this.props.emptyMessage;
+            } else {
+                return <div className="text-muted">Nothing To Show Here</div>;
+            }
         }
 
         var view = this.props.items.map((d, i) => {
             switch (this.props.className) {
                 case "empty":
                     return <li onClick={this.props.onClick} key={i}>{d}</li>;
+                    break;
+                case "normal":
+                    return <li className="normal" onClick={this.props.onClick} key={i}>{d}</li>;
                     break;
                 case "table":
                     return this.getTableLi(d, i);
@@ -454,16 +461,25 @@ export class CustomList extends Component {
             }
         });
 
+        var className = "";
+        if (this.props.className != "normal") {
+            className += `custom-list-${this.props.className} `;
+        } else {
+            className += this.props.className;
+        }
+
+        className += (this.props.ux) ? " li-ux " : "";
+
         return (<ul
-            className={
-                `custom-list-${this.props.className} ${(this.props.ux) ? "li-ux" : ""}`}>
+            className={className}>
             {view}</ul>);
     }
 }
 
 CustomList.propTypes = {
     items: PropTypes.array.isRequired,
-    className: PropTypes.oneOf(["empty", "icon", "label"]),
+    emptyMessage: PropTypes.any,
+    className: PropTypes.oneOf(["empty", "normal", "icon", "label"]),
     onClick: PropTypes.func,
     ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
 };

@@ -1,13 +1,16 @@
 import React, { PropTypes } from 'react';
+import { NavLink } from 'react-router-dom';
 import GeneralFormPage from '../../../component/general-form';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import UserPopup from '../popup/user-popup';
 import { SessionEnum } from '../../../../config/db-config';
+import { RootPath } from '../../../../config/app-config';
 //importing for list
-import List from '../../../component/list';
+import List, { CustomList } from '../../../component/list';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
+import { createCompanyTitle } from '../../companies';
 
 export class SessionsList extends React.Component {
 
@@ -15,10 +18,16 @@ export class SessionsList extends React.Component {
         super(props);
     }
 
-    sessionStatusString(status) {
+    sessionStatusString(status, style = false) {
         switch (status) {
             case SessionEnum.STATUS_ACTIVE:
-                return "Currently Active";
+                var toRet = "Currently Active";
+                if (!style) {
+                    return toRet;
+                } else {
+                    return <b style={{ color: "green" }}>{toRet}</b>;
+                }
+                break;
             case SessionEnum.STATUS_EXPIRED:
                 return "Ended by Recruiter";
             case SessionEnum.STATUS_LEFT:
@@ -48,12 +57,12 @@ export class SessionsList extends React.Component {
                 placeholder: "Type student name or email"
             });
         } else {
-            this.searchFormItem.push({
-                label: "Find Company",
-                name: "search_company",
-                type: "text",
-                placeholder: "Type student name or email"
-            });
+            // this.searchFormItem.push({
+            //     label: "Find Company",
+            //     name: "search_company",
+            //     type: "text",
+            //     placeholder: "Type student name or email"
+            // });
         }
 
         this.searchFormItem.push({
@@ -61,6 +70,9 @@ export class SessionsList extends React.Component {
             name: "status",
             type: "select",
             data: [{
+                key: ""
+                , label: "All"
+            }, {
                 key: SessionEnum.STATUS_ACTIVE
                 , label: this.sessionStatusString(SessionEnum.STATUS_ACTIVE)
             }, {
@@ -76,39 +88,76 @@ export class SessionsList extends React.Component {
             this.search = d;
             this.searchParams = "";
             if (d != null) {
-                this.searchParams += (d.search_student) ? `search_student:"${d.search_student}",` : "";
-                this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
+                this.searchParams += (d.search_student != "") ? `search_student:"${d.search_student}",` : "";
+                this.searchParams += (d.status != "") ? `status:"${d.status}",` : "";
+                //this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
             }
         };
 
         this.tableHeader = <thead>
             <tr>
-                <th>ID</th>
+                <th>Session</th>
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
                 <th>Status</th>
-                <th>Created At</th>
+                {this.props.isRec ? <th>Notes</th> : null}
+                {this.props.isRec ? <th>Ratings</th> : null}
+                {this.props.isRec ? <th>Hosted By</th> : null}
                 <th>Started At</th>
                 <th>Ended At</th>
             </tr>
         </thead>;
 
         this.renderRow = (d, i) => {
+            console.log(d);
             var row = [];
-            row.push(<td>{d.ID}</td>);
+            row.push(<td><NavLink to={`${RootPath}/app/session/${d.ID}`}>Session {d.ID}</NavLink></td>);
 
-            var other = (this.props.isRec) ? createUserTitle(d.student, this.search.search_student) : null;
+            // entity
+            var other = (this.props.isRec)
+                ? createUserTitle(d.student, this.search.search_student)
+                : createCompanyTitle(d.company, "");
             row.push(<td>{other}</td>);
+
+            // status
+            row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
+
+            if (this.props.isRec) {
+                var notes = d.session_notes.map((d, i) => d.note);
+                row.push(<td>
+                    <small>
+                        <CustomList emptyMessage={null} items={notes} className="normal"></CustomList>
+                    </small>
+                </td>);
+                
+                var ratings = d.session_ratings.map((d, i) => `${d.category}-${d.rating}`);
+                row.push(<td>
+                    <small>
+                        <CustomList emptyMessage={null} items={ratings} className="normal"></CustomList>
+                    </small>
+                </td>);
+
+                row.push(<td>{createUserTitle(d.recruiter)}</td>);
+            }
+
+            // other
+            row.push(<td>{Time.getString(d.started_at)}</td>);
+            row.push(<td>{Time.getString(d.ended_at)}</td>);
 
             return row;
         }
 
         this.loadData = (page, offset) => {
+            var extra = (this.props.isRec)
+                ? `session_notes{note}
+                    session_ratings{category rating}
+                    student{ID first_name last_name user_email}
+                    recruiter{ID first_name last_name user_email}` : "company{ID name}";
+
             return getAxiosGraphQLQuery(`query{
-                sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}){
+                sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}, order_by:"ID desc"){
                 ID
                 host_id
-                student{ID first_name last_name user_email}
-                company{ID name}
+                ${extra}
                 status
                 started_at
                 ended_at}}`);

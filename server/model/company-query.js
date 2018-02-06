@@ -2,6 +2,11 @@ const DB = require('./DB.js');
 const { Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacancy } = require('../../config/db-config');
 
 class CompanyQuery {
+
+    getSearchName(field, search_params) {
+        return `(select com.name from ${Company.TABLE} com where com.ID = field) like '%${search_params}%'`;
+    }
+
     getCompany(params, field) {
         var type_where = (typeof params.type === "undefined") ? "1=1"
             : `c.${Company.TYPE} LIKE '%${params.type}%'`;
