@@ -19,18 +19,8 @@ class PrescreenQuery {
             : `company_id = '${params.company_id}'`;
 
         // external search query ------------------------------------------
-        // both is injected
-        var query_s_name = (typeof params.student_name === "undefined") ? ""
-            : `CONCAT((${UserQuery.selectMetaMain("student_id", UserMeta.FIRST_NAME)}),
-                (${UserQuery.selectMetaMain("student_id", UserMeta.LAST_NAME)}))
-                like '%${params.student_name}%'`;
 
-        var query_s_email = (typeof params.student_email === "undefined") ? ""
-            : `(${UserQuery.selectUserField("student_id", User.EMAIL)})
-                like '%${params.student_email}%'`;
-
-        var search_query = (query_s_name !== "" && query_s_name != "") ?
-            `and (${query_s_name} or ${query_s_email})` : "";
+        var search_query = UserQuery.getSearchNameOrEmail("student_id", params.search_name, params.search_email);
 
         // limit and order by
         var limit = (typeof params.page !== "undefined" &&
@@ -39,7 +29,7 @@ class PrescreenQuery {
 
         var sql = `from pre_screens where ${id_where} and ${student_where} 
             and ${status_where} and ${com_where} 
-            ${search_query}
+            and ${search_query}
             ${order_by}`;
 
         if (extra.count) {

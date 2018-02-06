@@ -1,6 +1,7 @@
 const DB = require('./DB.js');
 const { Session } = require('../../config/db-config');
 const { UserQuery } = require('./user-query');
+const { CompanyQuery } = require('./company-query');
 
 class SessionRatingExec {
     getQuery(params, extra) {
@@ -9,7 +10,7 @@ class SessionRatingExec {
         return `select * from session_ratings where 1=1 and ${id_where} and ${session_where}`;
     }
 
-    session_ratings(params, field, extra) {
+    session_ratings(params, field, extra = {}) {
         var sql = this.getQuery(params, extra);
 
         var toRet = DB.query(sql).then(function (res) {
@@ -37,7 +38,7 @@ class SessionNoteExec {
         return `select * from session_notes where 1=1 and ${id_where} and ${session_where} ${order_by} ${limit}`;
     }
 
-    session_notes(params, field, extra) {
+    session_notes(params, field, extra = {}) {
         var sql = this.getQuery(params, extra);
 
         var toRet = DB.query(sql).then(function (res) {
@@ -58,9 +59,7 @@ class SessionQuery {
     getSession(params, extra) {
         // for single
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `q.ID = ${params.ID}`;
-
         var participant_where = (typeof params.participant_id === "undefined") ? "1=1" : `q.participant_id = ${params.participant_id}`;
-
         var com_where = (typeof params.company_id === "undefined") ? "1=1"
             : `(${UserQuery.selectMetaMain("q.host_id", "rec_company")}) = ${params.company_id}`;
 
@@ -79,9 +78,10 @@ class SessionQuery {
             status_where = status_where.slice(0, -1) + ")";
         }
 
-        //var status_where = (typeof params.status === "undefined") ? "1=1" : `q.status like '%${params.status}%'`;
-
         var host_where = (typeof params.host_id === "undefined") ? "1=1" : `q.host_id = '${params.host_id}'`;
+
+        // search param
+        var search_student = UserQuery.getSearchNameOrEmail("q.participant_id", params.search_student, params.search_student);
 
         var limit = (typeof params.page !== "undefined" &&
             typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
@@ -90,6 +90,7 @@ class SessionQuery {
 
         var sql = `from ${Session.TABLE} q 
             where ${id_where} and ${participant_where} and ${status_where} and ${host_where} and ${com_where}
+            and ${search_student}
             ${order_by}`;
 
         if (extra.count) {

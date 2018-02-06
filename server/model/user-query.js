@@ -6,6 +6,32 @@ const { SkillExec } = require('./skill-query.js');
 
 class UserQuery {
 
+    getSearchName(field, search_params) {
+        return `CONCAT((${this.selectMetaMain(field, UserMeta.FIRST_NAME)}),
+                (${this.selectMetaMain(field, UserMeta.LAST_NAME)}))
+                like '%${search_params}%'`;
+    }
+
+    getSearchEmail(field, search_params) {
+        return `(${this.selectUserField(field, User.EMAIL)}) like '%${search_params}%'`;
+    }
+
+    getSearchNameOrEmail(field, search_name, search_email) {
+        var name = (typeof search_name === "undefined") ? "" : this.getSearchName(field, search_name);
+        var email = (typeof search_email === "undefined") ? "" : this.getSearchEmail(field, search_email);
+        if (name == "" && email == "") {
+            return `1=1`;
+        }
+        else if (name == "" && email != "") {
+            return email;
+        }
+        else if (name != "" && email == "") {
+            return name;
+        } else {
+            return `(${name} or ${email})`
+        }
+    }
+
     getSearchQuery(params) {
         var query = "";
 

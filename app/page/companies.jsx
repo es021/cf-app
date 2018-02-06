@@ -13,6 +13,20 @@ import { Redirect, NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 import { CompanyEnum, Company } from '../../config/db-config';
 
+export function createCompanyTitle(d, search = "") {
+    if(d == null){
+        return null;
+    }
+    var name = d.name;
+    var focusedName = name.focusSubstring(search);
+    focusedName = <a onClick={() => {
+        layoutActions.storeUpdateFocusCard(name, CompanyPopup, { id: d.ID })
+    }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
+
+    return <span>{focusedName}</span>;
+}
+
+
 class CompaniesPage extends React.Component {
     constructor(props) {
         super(props);
