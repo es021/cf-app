@@ -40,7 +40,7 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
                 select += ` queues { ID queue_num created_at ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.PRESCREEN:
-                select += ` prescreens { ID appointment_time ${getEntitySelect(role)}} `;
+                select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role)}} `;
                 break;
         }
     });
