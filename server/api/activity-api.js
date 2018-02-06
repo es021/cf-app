@@ -1,7 +1,7 @@
-const {getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios} = require('../../helper/api-helper');
-const {Queue, QueueEnum, Session, SessionEnum, Prescreen} = require('../../config/db-config');
-const {SiteUrl} = require('../../config/app-config');
-const {AuthUserKey} = require('../../config/auth-config');
+const { getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios } = require('../../helper/api-helper');
+const { Queue, QueueEnum, Session, SessionEnum, Prescreen } = require('../../config/db-config');
+const { SiteUrl } = require('../../config/app-config');
+const { AuthUserKey } = require('../../config/auth-config');
 const obj2arg = require('graphql-obj2arg');
 
 const ActivityAPIErr = {
@@ -29,23 +29,29 @@ class ActivityAPI {
                 entity_id: Number.parseInt(entity_id)
             };
 
-            var query = `mutation {add_session (${obj2arg(params, {noOuterBraces: true})}) {ID} }`;
+            var query = `mutation {add_session (${obj2arg(params, { noOuterBraces: true })}) {ID} }`;
             return getAxiosGraphQLQuery(query).then((res) => {
                 var session = res.data.data.add_session;
 
                 // 3. update entity status to Done --start
                 var params = {
                     ID: Number.parseInt(entity_id),
-                    status: "Done"
+                    status: "Done",
                 };
 
-                var mutation = (entity === Queue.TABLE) ? "edit_queue" : "edit_prescreen";
-                var query = `mutation {${mutation} (${obj2arg(params, {noOuterBraces: true})}) {ID} }`;
+                var mutation = "";
+                if (entity == Prescreen.TABLE) {
+                    params.updated_by = Number.parseInt(host_id);
+                    mutation = "edit_prescreen";
+                }
+
+                if (entity == Queue.TABLE) {
+                    mutation = "edit_queue";
+                }
+
+                var query = `mutation {${mutation} (${obj2arg(params, { noOuterBraces: true })}) {ID} }`;
 
                 return getAxiosGraphQLQuery(query).then((res) => {
-                    console.log("success");
-                    console.log(mutation);
-
                     return session;
 
                 }, (err) => {
@@ -72,7 +78,7 @@ class ActivityAPI {
             status: QueueEnum.STATUS_QUEUING
         };
 
-        var query = `mutation {add_queue(${obj2arg(params, {noOuterBraces: true})}) {ID queue_num} }`;
+        var query = `mutation {add_queue(${obj2arg(params, { noOuterBraces: true })}) {ID queue_num} }`;
         return getAxiosGraphQLQuery(query).then((res) => {
             return res.data.data.add_queue;
         }, (err) => {
@@ -91,4 +97,4 @@ class ActivityAPI {
 }
 
 ActivityAPI = new ActivityAPI();
-module.exports = {ActivityAPI, ActivityAPIErr};
+module.exports = { ActivityAPI, ActivityAPIErr };
