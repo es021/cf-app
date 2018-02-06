@@ -9,6 +9,20 @@ import List from '../component/list';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 
+export function createUserTitle(d, search = "") {
+    var name = `${d.first_name} ${d.last_name}`;
+    var focusedName = name.focusSubstring(search);
+
+    focusedName = <a onClick={() => {
+        layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.ID })
+    }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
+
+    var focusedEmail = d.user_email.focusSubstring(search);
+    focusedEmail = <span dangerouslySetInnerHTML={{ __html: focusedEmail }} ></span>;
+
+    return <span>{focusedName}<br></br>{focusedEmail}</span>;
+}
+
 class UsersPage extends React.Component {
     constructor(props) {
         super(props);
@@ -90,22 +104,7 @@ class UsersPage extends React.Component {
                     continue;
                 }
                 if (key == "first_name") {
-                    var name = `${d.first_name} ${d.last_name}`;
-                    var focusedName = name.focusSubstring(this.search.search_user);
-                    focusedName = <a onClick={() => {
-                        layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.ID })
-                    }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
-
-                    var focusedEmail = d.user_email.focusSubstring(this.search.search_user);
-                    focusedEmail = <span dangerouslySetInnerHTML={{ __html: focusedEmail }} ></span>;
-
-
-                    var title = <span>
-                        {focusedName}<br></br>
-                        <small>{focusedEmail}</small>
-                    </span>;
-                    row.push(<td>{title}</td>);
-
+                    row.push(<td>{createUserTitle(d, this.search.search_user)}</td>);
                 } else if (key == "major") {
                     var degree = `${d.major} ${d.minor}`;
                     degree = degree.focusSubstring(this.search.search_degree);
