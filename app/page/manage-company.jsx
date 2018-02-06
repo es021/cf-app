@@ -607,11 +607,13 @@ class ScheduledInterview extends React.Component {
                         data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
                     }, {
                         label: "Appointment Date",
+                        sublabel: "Please enter your local time",
                         name: Prescreen.APPNMENT_TIME + "_DATE",
                         type: "date",
                         placeholder: ""
                     }, {
                         label: "Appointment Time",
+                        sublabel: "Please enter your local time",
                         name: Prescreen.APPNMENT_TIME + "_TIME",
                         type: "time",
                         placeholder: ""

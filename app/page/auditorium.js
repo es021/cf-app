@@ -357,24 +357,28 @@ export class AuditoriumManagement extends React.Component {
                     { header: "Event Details" },
                     {
                         label: "Start Date",
+                        sublabel: "Please enter your local time",
                         name: Auditorium.START_TIME + "_DATE",
                         type: "date",
                         placeholder: "",
                         required: true
                     }, {
                         label: "Start Time",
+                        sublabel: "Please enter your local time",
                         name: Auditorium.START_TIME + "_TIME",
                         type: "time",
                         placeholder: "",
                         required: true
                     }, {
                         label: "End Date",
+                        sublabel: "Please enter your local time",
                         name: Auditorium.END_TIME + "_DATE",
                         type: "date",
                         placeholder: "",
                         required: true
                     }, {
                         label: "End Time",
+                        sublabel: "Please enter your local time",
                         name: Auditorium.END_TIME + "_TIME",
                         type: "time",
                         placeholder: "",
