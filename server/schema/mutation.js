@@ -1,9 +1,9 @@
 //import all type
-const { QueueType, AuditoriumType, DashboardType, MetaType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+const { QueueType, LogType, AuditoriumType, DashboardType, MetaType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
 const graphqlFields = require('graphql-fields');
 
 //import all action for type
-const { Queue, Auditorium, Vacancy, Meta, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, Log, Auditorium, Vacancy, Meta, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -80,7 +80,7 @@ fields["edit_company"] = {
         sponsor_only: { type: GraphQLString },
         type: { type: GraphQLInt },
         is_confirmed: { type: GraphQLInt },
-        accept_prescreen: { type: GraphQLInt },
+        accept_prescreen: { type: GraphQLString },
         cf: { type: new GraphQLList(GraphQLString) }
     },
     resolve(parentValue, arg, context, info) {
@@ -119,6 +119,8 @@ fields["edit_user"] = {
         phone_number: { type: GraphQLString },
         graduation_month: { type: GraphQLString },
         graduation_year: { type: GraphQLString },
+        available_month: { type: GraphQLString },
+        available_year: { type: GraphQLString },
         sponsor: { type: GraphQLString },
         cgpa: { type: GraphQLFloat },
         major: { type: GraphQLString },
@@ -126,7 +128,8 @@ fields["edit_user"] = {
 
         // rec only
         company_id: { type: GraphQLInt },
-        rec_position: { type: GraphQLString }
+        rec_position: { type: GraphQLString },
+        rec_company: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         var ID = arg.ID;
@@ -284,6 +287,22 @@ fields["edit_password_reset"] = {
     }
 };
 
+
+/*******************************************/
+/* log ******************/
+fields["add_log"] = {
+    type: LogType,
+    args: {
+        event: { type: new GraphQLNonNull(GraphQLString) },
+        data: { type: GraphQLString },
+        user_id: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(Log.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
 
 /*******************************************/
 /* dashboard ******************/
@@ -527,7 +546,7 @@ fields["add_prescreen"] = {
         status: { type: new GraphQLNonNull(GraphQLString) },
         special_type: { type: GraphQLString },
         appointment_time: { type: GraphQLInt },
-        updated_by: { type: new GraphQLNonNull(GraphQLInt) }
+        updated_by: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(Prescreen.TABLE, arg).then(function (res) {

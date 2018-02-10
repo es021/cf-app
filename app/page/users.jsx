@@ -112,6 +112,10 @@ class UsersPage extends React.Component {
                     row.push(<td>{degree}</td>);
 
                 } else if (key == "university") {
+                    if(d.university == null){
+                        row.push(<td></td>);
+                        continue;
+                    }
                     var university = d.university.focusSubstring(this.search.search_university);
                     university = <span dangerouslySetInnerHTML={{ __html: university }} ></span>;
                     row.push(<td>{university}</td>);

@@ -57,7 +57,7 @@ const initializeAllRoute = function (app, root) {
     // });
 
     // Route To Store in Meta -------------------------------------------------------------------
-    const { MetaAPI } = require('./meta-api');
+    const { MetaAPI } = require('./other-api');
     app.post(root + '/add-meta', function (req, res, next) {
         MetaAPI.add(req.body.key, req.body.value, req.body.source)
             .then((response) => {
@@ -65,6 +65,14 @@ const initializeAllRoute = function (app, root) {
             });
     });
 
+    const { LogApi } = require('./other-api');
+    app.post(root + '/add-log', function (req, res, next) {
+        LogApi.add(req.body.event, req.body.data, req.body.user_id)
+            .then((response) => {
+                routeResHandler(res, response);
+            });
+    });
+    
     // Activity Route ----------------------------------------------------------------
     const { ActivityAPI } = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {
@@ -102,7 +110,7 @@ const initializeAllRoute = function (app, root) {
         var action = req.params.action;
         switch (action) {
             case 'login':
-                AuthAPI.login(req.body.email, req.body.password, req.body.cf).then((response) => {
+                AuthAPI.login(req.body.email, req.body.password, req.body.cf, req).then((response) => {
                     routeResHandler(res, response);
                 });
                 break;

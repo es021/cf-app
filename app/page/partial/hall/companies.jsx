@@ -96,7 +96,9 @@ class CompanyBooth extends React.Component {
 
         //var pcBody = <div>({this.props.company.ID}) Type : {this.props.company.type} {counts}</div>;
         var pcBody = counts;
-        var onClick = () => layoutActions.storeUpdateFocusCard(this.props.company.name, CompanyPopup, { id: this.props.company.ID });
+        var onClick = () => {
+            layoutActions.storeUpdateFocusCard(this.props.company.name, CompanyPopup, { id: this.props.company.ID });
+        };
         var pcTitle = this.props.company.name;
 
         var className = getCompanyCSSClass(this.props.company.type);
@@ -126,7 +128,7 @@ class CompaniesSection extends React.Component {
     constructor(props) {
         super(props);
         this.page = 1;
-        
+
         this.refreshTraffic = this.refreshTraffic.bind(this);
         console.log("Hall", "HallPage");
         this.traffic = {};
@@ -134,7 +136,7 @@ class CompaniesSection extends React.Component {
 
     componentWillMount() {
         this.props.loadCompanies();
-        
+
         //this.props.loadTraffic();
 
         socketOn(S2C.ONLINE_COMPANY, (data) => {

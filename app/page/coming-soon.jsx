@@ -225,7 +225,7 @@ export default class ComingSoonPage extends React.Component {
                 <br></br>
                 <small>{this.timeStr}</small>
             </h1>
-            <Timer end={this.CFObj.end}></Timer>
+            <Timer end={this.CFObj.start}></Timer>
             {isRoleStudent() ? <RegisterPS></RegisterPS> : null}
             <SponsorList type="coming-soon"></SponsorList>
         </div>

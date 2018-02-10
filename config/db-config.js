@@ -7,6 +7,7 @@ const User = {
     PASSWORD: "user_pass",
     ACTIVATION_KEY: "user_activation_key",
     REGISTER_AT: "user_registered",
+    TRIGGER_UPDATE : "trigger_update",
     CF: "cf"
 };
 
@@ -63,6 +64,8 @@ const UserMeta = {
     PHONE_NUMBER: "phone_number",
     GRADUATION_MONTH: "graduation_month",
     GRADUATION_YEAR: "graduation_year",
+    AVAILABLE_MONTH: "available_month",
+    AVAILABLE_YEAR: "available_year",
     SPONSOR: "sponsor",
     CGPA: "cgpa",
     MAJOR: "major",
@@ -118,7 +121,7 @@ const Prescreen = {
     APPNMENT_TIME: "appointment_time",
     SPECIAL_TYPE: "special_type",
     STATUS: "status",
-    UPDATED_BY : "updated_by"
+    UPDATED_BY: "updated_by"
 };
 
 // Scheduled Interview
@@ -282,6 +285,21 @@ const ResumeDrop = {
     MESSAGE: "message"
 };
 
+const Log = {
+    TABLE: "logs",
+    ID: "ID",
+    EVENT: "event",
+    DATA: "data",
+    USER_ID: "user_id",
+    CREATED_AT: "created_at"
+};
+
+const LogEnum = {
+    EVENT_LOGIN: "login", // data-> browser type
+    EVENT_VISIT_COMPANY: "visit_company", // data -> company_id
+    EVENT_VISIT_VACANCY: "visit_vacancy" // data -> vacancy_id
+};
+
 module.exports = {
     User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
@@ -296,6 +314,6 @@ module.exports = {
     , SessionRating, SessionRatingEnum
     , ResumeDrop
     , PasswordReset
-    , Meta
+    , Meta, Log, LogEnum
     , Auditorium, AuditoriumEnum
 };

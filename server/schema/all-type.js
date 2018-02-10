@@ -47,6 +47,8 @@ const UserType = new GraphQLObjectType({
         phone_number: { type: GraphQLString },
         graduation_month: { type: GraphQLString },
         graduation_year: { type: GraphQLString },
+        available_month: { type: GraphQLString },
+        available_year: { type: GraphQLString },
         sponsor: { type: GraphQLString },
         cgpa: { type: GraphQLString },
         major: { type: GraphQLString },
@@ -109,6 +111,18 @@ const SessionType = new GraphQLObjectType({
         recruiter: { type: UserType },
         student: { type: UserType },
         company: { type: CompanyType }
+    })
+});
+
+
+const LogType = new GraphQLObjectType({
+    name: 'Log',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        event: { type: GraphQLString },
+        data: { type: GraphQLString },
+        created_at: { type: GraphQLString }
     })
 });
 
@@ -316,5 +330,6 @@ module.exports = {
     , ResumeDropType
     , MetaType
     , AuditoriumType
+    , LogType
     //, CFType
 };

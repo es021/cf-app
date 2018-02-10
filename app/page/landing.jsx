@@ -71,7 +71,7 @@ export default class LandingPage extends React.Component {
                 {this.CFDetail.title}
                 <br></br>
                 <div className="subtitle">{this.subtitle}
-                    <Timer type="light" end={this.CFDetail.end}></Timer>
+                    <Timer type="light" end={this.CFDetail.start}></Timer>
                 </div>
             </h1>
             {register}

@@ -143,6 +143,7 @@ fields["users"] = {
         role: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString },
         //search query
         search_user: { type: GraphQLString } // name and email
         , search_degree: { type: GraphQLString } // major and minor

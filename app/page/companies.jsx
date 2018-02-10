@@ -14,7 +14,7 @@ import { RootPath } from '../../config/app-config';
 import { CompanyEnum, Company } from '../../config/db-config';
 
 export function createCompanyTitle(d, search = "") {
-    if(d == null){
+    if (d == null) {
         return null;
     }
     var name = d.name;
@@ -25,7 +25,6 @@ export function createCompanyTitle(d, search = "") {
 
     return <span>{focusedName}</span>;
 }
-
 
 class CompaniesPage extends React.Component {
     constructor(props) {

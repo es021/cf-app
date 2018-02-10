@@ -113,7 +113,7 @@ class VacancySubPage extends React.Component {
 
         this.getFormItem = (edit) => {
             return [
-                { header: "Vacancy Form" },
+                { header: "Job Opportunity Form" },
                 {
                     label: "Title",
                     name: Vacancy.TITLE,
@@ -148,7 +148,7 @@ class VacancySubPage extends React.Component {
                     label: "Description",
                     name: Vacancy.DESCRIPTION,
                     type: "textarea",
-                    placeholder: "Tell more about the vacancy"
+                    placeholder: "Tell more about the job opportunity"
                 }, {
                     label: "Requirement",
                     name: Vacancy.REQUIREMENT,
@@ -160,10 +160,10 @@ class VacancySubPage extends React.Component {
 
     render() {
         return <GeneralFormPage
-            dataTitle="Vacancies"
+            dataTitle="Job Opportunities"
             entity="vacancy"
-            entity_singular="Vacancy"
-            addButtonText="Add New Vacancy"
+            entity_singular="Job Opportunity"
+            addButtonText="Add New Job Opportunity"
             dataOffset={10}
             tableHeader={this.tableHeader}
             newFormDefault={this.newFormDefault}
@@ -224,6 +224,7 @@ class AboutSubPage extends React.Component {
               img_position
               img_size
               rec_privacy
+              accept_prescreen
               sponsor_only
           }}`;
 
@@ -270,6 +271,13 @@ class AboutSubPage extends React.Component {
                     label: "Is Sponsor Only?",
                     sublabel: "Sponsor only company will have NO booth in job fair",
                     name: Company.SPONSOR_ONLY,
+                    type: "radio",
+                    required: true,
+                    data: [{ key: 1, label: "Yes" }
+                        , { key: 0, label: "No" }]
+                }, {
+                    label: "Accept Prescreen?",
+                    name: Company.ACCEPT_PRESCREEN,
                     type: "radio",
                     required: true,
                     data: [{ key: 1, label: "Yes" }
@@ -663,7 +671,7 @@ export default class ManageCompanyPage extends React.Component {
                 icon: "edit"
             },
             "vacancy": {
-                label: "Vacancy",
+                label: "Job Opportunities",
                 component: VacancySubPage,
                 props: { company_id: this.company_id },
                 icon: "star"

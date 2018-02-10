@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Loader } from '../component/loader';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
-import { DocLinkEnum } from '../../config/db-config';
+import { DocLinkEnum, LogEnum } from '../../config/db-config';
 import ProfileCard from '../component/profile-card';
 import PageSection from '../component/page-section';
 import { CustomList } from '../component/list';
@@ -10,6 +10,8 @@ import NotFoundPage from './not-found';
 import FacebookProvider, { Page, ShareButton } from 'react-facebook';
 import { AppConfig, RootPath, SiteUrl } from '../../config/app-config';
 import { NavLink } from 'react-router-dom';
+import { addLog } from '../redux/actions/other-actions';
+import { getAuthUser } from '../redux/actions/auth-actions';
 
 export default class VacancyPage extends React.Component {
     constructor(props) {
@@ -29,6 +31,12 @@ export default class VacancyPage extends React.Component {
         } else {
             id = this.props.id;
         }
+
+        var logData = {
+            id: Number.parseInt(id),
+            location: window.location.pathname
+        };
+        addLog(LogEnum.EVENT_VISIT_VACANCY, JSON.stringify(logData), getAuthUser().ID);
 
         var query = `query {
               vacancy(ID:${id}) {

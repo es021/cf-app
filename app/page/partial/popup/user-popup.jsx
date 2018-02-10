@@ -50,6 +50,8 @@ export default class UserPopup extends Component {
                 phone_number
                 graduation_month
                 graduation_year
+                available_month
+                available_year
                 major
                 minor
             }}`
@@ -153,18 +155,38 @@ export default class UserPopup extends Component {
                 });
             }
 
-            items.push({
-                label: "University",
-                icon: "university",
-                value: d.university
-            }, {
+
+
+            items.push(
+                {
+                    label: "University",
+                    icon: "university",
+                    value: d.university
+                }, {
                     label: "Expected Graduation",
                     icon: "calendar",
                     value: `${d.graduation_month} ${d.graduation_year}`
+                }, {
+                    label: "Work Availability Date",
+                    icon: "suitcase",
+                    value: this.getWorkAvailable(d.available_month, d.available_year)
                 });
         }
 
         return <CustomList className="icon" items={items}></CustomList>;
+    }
+
+    getWorkAvailable(m, y) {
+        if (m) {
+            if (m == y) {
+                return m;
+            } else {
+                return `${m} ${y}`;
+            }
+        } else {
+            return <span className="text-muted">Not Specified</span>;
+        }
+
     }
 
     getRecruiterBody(user) {
