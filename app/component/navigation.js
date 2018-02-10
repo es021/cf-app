@@ -181,7 +181,7 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             default_param: { current: "session" },
-            disabled: !isRoleRec() && !isRoleStudent()
+            disabled: !isRoleRec() //&& !isRoleStudent() //for student disable first
         },
         {
             url: "/about",
