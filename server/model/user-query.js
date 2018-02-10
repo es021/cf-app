@@ -70,7 +70,7 @@ class UserQuery {
         var id_condition = (typeof params.ID !== "undefined") ? `u.ID = ${params.ID}` : `1=1`;
         var email_condition = (typeof params.user_email !== "undefined") ? `u.user_email = '${params.user_email}'` : `1=1`;
         var role_condition = (typeof params.role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role}%' ` : `1=1`;
-        var order_by =  (typeof params.order_by !== "undefined") ? `order by u.${params.order_by}` : `order by u.${User.ID} desc`;
+        var order_by = (typeof params.order_by !== "undefined") ? `order by u.${params.order_by}` : `order by u.${User.ID} desc`;
 
 
 
@@ -263,8 +263,8 @@ class UserExec {
         //     return this.updateUserMeta(ID, updateUserMeta);
         // }
 
-        // //update user only
-        // if (Object.keys(updateUserMeta).length < 2) {
+        //update user only
+        // if (Object.keys(updateUserMeta).length >= 1) {
         //     console.log("update user only");
         //     return DB.update(User.TABLE, updateUser).then((res) => {
         //         return res;
@@ -274,7 +274,11 @@ class UserExec {
         // //update both
         console.log("update both");
         return DB.update(User.TABLE, updateUser).then((res) => {
-            return this.updateUserMeta(ID, updateUserMeta);
+            if (Object.keys(updateUserMeta).length >= 1) {
+                return this.updateUserMeta(ID, updateUserMeta);
+            } else {
+                return res;
+            }
         });
 
     }
