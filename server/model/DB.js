@@ -196,6 +196,7 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
     }
 
     var sql = `UPDATE ${table} SET ${key_val} WHERE ${ID_key} = '${ID}'`;
+    console.log(sql);
     return this.query(sql).then(function (res) {
         return DB.getByID(table, ID, ID_key);
     });
