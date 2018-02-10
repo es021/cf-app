@@ -17,7 +17,7 @@ const CareerFair = {
         start: null,
         end: null,
         can_register: 0,
-        can_login: 1,
+        can_login: 0,
         organizer: "",
         collaborator: "",
     },
@@ -29,11 +29,10 @@ const CareerFair = {
         start: null,
         end: null,
         can_register: 0,
-        can_login: 1,
+        can_login: 0,
         organizer: "",
         collaborator: "",
-    },
-    "GERMANY": {
+    },    "GERMANY": {
         title: "Germany Virtual Career Fair 2018",
         flag: "Germany",
         banner: "Germany.jpg",
@@ -41,7 +40,7 @@ const CareerFair = {
         start: null,
         end: null,
         can_register: 0,
-        can_login: 1,
+        can_login: 0,
         organizer: "",
         collaborator: "",
     }
