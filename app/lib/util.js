@@ -46,7 +46,7 @@ String.prototype.capitalize = function () {
 };
 
 String.prototype.focusSubstring = function (substring) {
-    if (typeof substring !== "string" || substring == "") {
+    if (typeof substring !== "string" || substring == "" || substring == null) {
         return this;
     }
     var target = this;

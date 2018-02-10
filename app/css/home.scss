@@ -1,85 +1,80 @@
 @import "define/variable.scss";
-
-body.landing-page{
+body.landing-page {
     //background-image: url("https://seedsjobfair.com/image/home/1_sm.jpg") !important;
-    background-size: cover !important;
-    //background-position: center center !important;
+    background-size: cover !important; //background-position: center center !important;
     background-attachment: fixed !important;
-    
-    header{
+    header {
         transition: background-color 0.3s ease;
         transition: color 0.3s ease;
     }
-
-    .content{ 
-        background: rgba(0,0,0,0.5) !important;
-        .main{
+    .content {
+        background: rgba(0, 0, 0, 0.5) !important;
+        .main {
             padding: 0 !important;
         }
     }
-
-   
 }
 
 //before scroll
-body.landing-page.top{
-    header{
-        background-color: rgba(0,0,0,0);
+body.landing-page.top {
+    header {
+        background-color: rgba(0, 0, 0, 0);
         box-shadow: none;
-        color:white;
-        a{
-            color:white;
+        color: white;
+        .menu-small {
+            ul {
+                background: rgba(0, 0, 0, 0.7);
+            }
         }
-        a.active{
+        a {
+            color: white;
+        }
+        a.active {
             border-bottom-color: white;
         }
     }
 }
 
-
-#home{
-    #home-welcome{
+#home {
+    #home-welcome {
         display: flex;
         min-height: 480px;
         flex-direction: column;
         color: whitesmoke;
         padding-bottom: 40px;
-
-        h1{
+        h1 {
             text-transform: uppercase;
-            .subtitle{
+            .subtitle {
                 text-transform: initial;
                 font-size: 80%;
             }
         }
-
-        h1,h2,h3,h4,h5,h6{
-            color:white;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: white;
         }
-
-        small{
+        small {
             opacity: 0.9;
-            color:white;
+            color: white;
         }
-
-        .item-small{
+        .item-small {
             width: 90%;
             max-width: 500px;
             margin: auto;
         }
-
-        .item-login{
-            background: rgba(0,0,0,0.5);
+        .item-login {
+            background: rgba(0, 0, 0, 0.5);
             padding: 20px;
-
-            h3{
-               margin-top:0; 
+            h3 {
+                margin-top: 0;
             }
-
         }
     }
-
-    #home-body{
+    #home-body {
         background: $COLOR_BACKGROUND;
         min-height: 350px;
         padding-bottom: 30px;

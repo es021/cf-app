@@ -1,116 +1,92 @@
 @import "define/variable.scss";
-
-$MENU_SMALL_WIDTH : 100px;
-
+$MENU_SMALL_WIDTH: 100px;
 header {
     text-align: left;
-    display:flex;
+    display: flex;
     align-items: center;
     z-index: 3;
-    box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
-
-    // logo
-    .img{
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); // logo
+    .img {
         height: 100%;
-        margin-left:10px;
-        margin-right:10px;
-        padding:2px;
-
-        img{
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 2px;
+        img {
             height: 100%;
         }
     }
-
-    .title{
+    .title {
         line-height: 15px;
     }
-
-    .menu, .menu-small{
-        flex-grow:2;
+    .menu,
+    .menu-small {
+        flex-grow: 2;
         padding: 0 10px;
-
-        ul{
-            margin:0;
+        ul {
+            margin: 0;
             list-style: none;
             padding: 0;
         }
     }
-
     .menu {
-
-        ul{
+        ul {
             display: flex;
             align-items: center;
             flex-flow: row wrap;
             justify-content: flex-end;
-
-            .active{
+            .active {
                 border-bottom: #337ab7 solid 2px;
                 font-weight: bold;
             }
-
-            a{
-                margin-right:35px;
+            a {
+                margin-right: 35px;
             }
         }
-    }
-
-    // menu small
-    .menu-small{
+    } // menu small
+    .menu-small {
         display: none;
         text-align: right;
-
-        .button-icon{
+        .button-icon {
             height: 100%;
         }
-
-
-        .button-icon:hover + ul,
-            ul:hover{
+        .button-icon:hover+ul,
+        ul:hover {
             display: initial;
             right: 0;
         }
-
-        ul{
+        ul {
             position: absolute;
-
             right: -$MENU_SMALL_WIDTH;
             width: $MENU_SMALL_WIDTH;
-
             transition: right 0.2s ease-out;
-
             height: 100vh;
             background: white;
-
-            top:40px;
-            padding:10px 0;
+            top: 40px;
+            padding: 10px 0;
         }
-
-        li{
-            padding:0 10px;
+        li {
+            padding: 0 10px;
         }
     }
 }
 
-@media only screen and (max-width: $LAYOUT_LG){
+@media only screen and (max-width: $LAYOUT_LG) {
     //Change Menu to button
     header {
-        .menu{
+        .menu {
             display: none;
         }
-
-        .menu-small{
+        .menu-small {
             display: initial;
         }
     }
 }
 
-@media only screen and (max-width: $LAYOUT_SM){
+@media only screen and (max-width: $LAYOUT_SM) {
     //Change Menu to button
     header {
-        .title{
+        .title {
             display: none;
         }
     }
 }
-

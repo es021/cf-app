@@ -166,6 +166,8 @@ class EditProfile extends React.Component {
                 phone_number
                 graduation_month
                 graduation_year
+                available_month
+                available_year
                 sponsor
                 cgpa
                 major
@@ -271,6 +273,19 @@ class EditProfile extends React.Component {
                 data: Year,
                 required: true
 
+            }, {
+                label: "Work Availability Date",
+                sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
+                name: UserMeta.AVAILABLE_MONTH,
+                type: "select",
+                data: Array("Available To Start Anytime", ...Month),
+                required: true
+            }, {
+                label: null,
+                name: UserMeta.AVAILABLE_YEAR,
+                type: "select",
+                data: Array("Available To Start Anytime", ...Year),
+                required: true
             }, {
                 label: "Sponsor",
                 name: UserMeta.SPONSOR,

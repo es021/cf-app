@@ -9,6 +9,7 @@ import AboutPage from '../page/about';
 import LogoutPage from '../page/logout';
 import UsersPage from '../page/users';
 import CompaniesPage from '../page/companies';
+import RecruiterPage from '../page/recruiters';
 import HallPage from '../page/hall';
 import ActAccountPage from '../page/activate-account';
 import EditProfilePage from '../page/edit-profile';
@@ -82,8 +83,8 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
         },
         { // Admin Only
-            url: "/users",
-            label: "Users",
+            url: "/students",
+            label: "Students",
             icon: "user",
             component: UsersPage,
             bar_app: true,
@@ -97,6 +98,17 @@ function getMenuItem(COMING_SOON) {
             label: "Companies",
             icon: "building",
             component: CompaniesPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin() && !isRoleOrganizer()
+        },
+        { // Admin Only
+            url: "/recruiters",
+            label: "Recruiters",
+            icon: "black-tie",
+            component: RecruiterPage,
             bar_app: true,
             bar_auth: false,
             hd_app: false,

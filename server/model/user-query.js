@@ -70,7 +70,7 @@ class UserQuery {
         var id_condition = (typeof params.ID !== "undefined") ? `u.ID = ${params.ID}` : `1=1`;
         var email_condition = (typeof params.user_email !== "undefined") ? `u.user_email = '${params.user_email}'` : `1=1`;
         var role_condition = (typeof params.role !== "undefined") ? `(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role}%' ` : `1=1`;
-        var order_by = `order by u.${User.ID} desc`;
+        var order_by =  (typeof params.order_by !== "undefined") ? `order by u.${params.order_by}` : `order by u.${User.ID} desc`;
 
 
 
@@ -208,10 +208,15 @@ class UserExec {
     }
 
     editUser(arg) {
+
+        console.log(arg);
+
         var ID = arg.ID;
 
         //update User table
-        var updateUser = {};
+        var updateUser = {
+            trigger_update: (new Date()).getTime() // this is needed to trigger updated at
+        };
         var updateUserMeta = {};
         //console.log(arg);
 
@@ -247,23 +252,27 @@ class UserExec {
             }
         }
 
+
+        console.log(updateUserMeta);
+        console.log(updateUser);
+
         //if there is nothing to update from user table,
         //update user meta only
-        if (Object.keys(updateUser).length < 2) { // include ID
-            //console.log("update user meta only");
-            return this.updateUserMeta(ID, updateUserMeta);
-        }
+        // if (Object.keys(updateUser).length < 3) { // include ID and user status
+        //     console.log("update user meta only");
+        //     return this.updateUserMeta(ID, updateUserMeta);
+        // }
 
-        //update user only
-        if (Object.keys(updateUserMeta).length < 2) {
-            //console.log("update user only");
-            return DB.update(User.TABLE, updateUser).then((res) => {
-                return res;
-            });
-        }
+        // //update user only
+        // if (Object.keys(updateUserMeta).length < 2) {
+        //     console.log("update user only");
+        //     return DB.update(User.TABLE, updateUser).then((res) => {
+        //         return res;
+        //     });
+        // }
 
-        //update both
-        //console.log("update both");
+        // //update both
+        console.log("update both");
         return DB.update(User.TABLE, updateUser).then((res) => {
             return this.updateUserMeta(ID, updateUserMeta);
         });

@@ -7,7 +7,7 @@ import ProfileCard from '../../../component/profile-card';
 import List, { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec, isRoleAdmin } from '../../../redux/actions/auth-actions';
-import { DocLinkEnum, CompanyEnum } from '../../../../config/db-config';
+import { DocLinkEnum, CompanyEnum, LogEnum } from '../../../../config/db-config';
 import { CustomList } from '../../../component/list';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
@@ -17,6 +17,8 @@ import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client
 
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
+
+import { addLog } from '../../../redux/actions/other-actions';
 
 
 class VacancyList extends React.Component {
@@ -69,6 +71,7 @@ VacancyList.propTypes = {
     company_id: PropTypes.number.isRequired
 };
 
+
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)
@@ -76,7 +79,6 @@ export default class CompanyPopup extends Component {
             data: null,
             loading: true,
         }
-
         this.isRec = getAuthUser().rec_company == this.props.id || isRoleAdmin();
 
         this.getRecs = this.getRecs.bind(this);
@@ -84,6 +86,7 @@ export default class CompanyPopup extends Component {
     }
 
     componentWillMount() {
+
         var id = null;
 
         if (this.props.match) {
@@ -91,6 +94,12 @@ export default class CompanyPopup extends Component {
         } else {
             id = this.props.id;
         }
+
+        var logData = {
+            id: Number.parseInt(id),
+            location: window.location.pathname
+        };
+        addLog(LogEnum.EVENT_VISIT_COMPANY, JSON.stringify(logData), getAuthUser().ID);
 
         var rec_query = (this.props.displayOnly) ? "" : `recruiters{
             first_name
@@ -237,7 +246,7 @@ export default class CompanyPopup extends Component {
             var pcBody = <div>
                 <div>
                     {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Vacancies" body={vacancies}></PageSection>
+                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
                     <PageSection canToggle={this.props.canToggle} className="left" title="Document & Link" body={doc_link}></PageSection>
                     {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
                     {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}

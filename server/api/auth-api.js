@@ -1,8 +1,9 @@
 const { getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios } = require('../../helper/api-helper');
-const { User, UserMeta, UserEnum } = require('../../config/db-config');
+const { User, UserMeta, UserEnum, LogEnum } = require('../../config/db-config');
 const { SiteUrl } = require('../../config/app-config');
 const { AuthUserKey } = require('../../config/auth-config');
 const obj2arg = require('graphql-obj2arg');
+const { LogApi } = require('./other-api');
 
 const AuthAPIErr = {
     WRONG_PASS: "WRONG_PASS",
@@ -33,7 +34,7 @@ class AuthAPI {
 
     //##########################################################################################
     // Login Module
-    login(user_email, password, cf) {
+    login(user_email, password, cf, request) {
         var field = "";
         AuthUserKey.map((d, i) => {
             field += `${d},`;
@@ -70,6 +71,16 @@ class AuthAPI {
                             user[User.CF] = cf;
                             //get cf object here
                             //user["cf_object"] = {};
+
+                            // success login here
+                            
+                            try {
+                                var logData = request.get('User-Agent');
+                                LogApi.add(LogEnum.EVENT_LOGIN, logData, user.ID);
+                            } catch (err) {
+                                //console.log(err);
+                            }
+
                             return user;
                         }
                     } else {

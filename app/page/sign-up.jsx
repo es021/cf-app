@@ -121,6 +121,20 @@ export default class SignUpPage extends React.Component {
                 required: true
 
             }, {
+                label: "Work Availability Date",
+                sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
+                name: UserMeta.AVAILABLE_MONTH,
+                type: "select",
+                data: Array("Available To Start Anytime", ...Month),
+                required: true
+
+            }, {
+                label: null,
+                name: UserMeta.AVAILABLE_YEAR,
+                type: "select",
+                data: Array("Available To Start Anytime", ...Year),
+                required: true
+            }, {
                 label: "Sponsor",
                 name: UserMeta.SPONSOR,
                 type: "select",

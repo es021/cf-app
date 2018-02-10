@@ -51,9 +51,13 @@ export default class LeftBarLayout extends React.Component {
         var profile = "";
         if (isAuth) {
             var pcBody = <small>
-                <i className="text-muted">{authUser.role.capitalize()}</i>
-
+                <a>Edit Profile</a>
             </small>;
+
+            //var pcBody = <small>
+            //    <i className="text-muted">{authUser.role.capitalize()}</i>
+            //</small>;
+
             profile =
                 (<div className="left_bar_profile">
                     <NavLink to={`${RootPath}/app/edit-profile/profile`} >
