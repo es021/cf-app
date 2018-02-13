@@ -42,4 +42,10 @@ const ImgConfig = {
     getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`
 };
 
-module.exports = { SocketUrl, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
+//email like '%test.%'
+const TestUser = [136, 137, 222, 223, 224, 225, 226, 227, 316, 317
+    , 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328
+    , 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339
+    , 340, 341, 342];
+
+module.exports = { SocketUrl, TestUser, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
