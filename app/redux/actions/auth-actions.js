@@ -1,15 +1,14 @@
 import axios from 'axios';
 import { store } from '../store.js';
-import { AppConfig } from '../../../config/app-config';
+import { AppConfig, TestUser } from '../../../config/app-config';
 import { AuthUserKey } from '../../../config/auth-config';
 import { User, UserEnum } from '../../../config/db-config';
 import { CareerFair, CareerFairOrg } from '../../../config/cf-config';
 import { Time } from '../../lib/time';
 
-const TEST_USER_ID = [136, 137];
-
+//const TEST_USER_ID = [136, 137];
 export function isComingSoon() {
-    if (TEST_USER_ID.indexOf(getAuthUser().ID) >= 0) {
+    if (TestUser.indexOf(getAuthUser().ID) >= 0) {
         return false;
     }
 
