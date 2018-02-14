@@ -12,6 +12,7 @@ const { UserType
     , MessageType
     , AuditoriumType
     , PasswordResetType
+    , MetaType
     //, CFType
     , DocLinkType } = require('./all-type.js');
 
@@ -25,6 +26,7 @@ const { DashboardExec } = require('../model/dashboard-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
+const { MetaExec } = require('../model/meta-query.js');
 const { AuditoriumExec } = require('../model/auditorium-query');
 const { PasswordResetExec } = require('../model/reset-password-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
@@ -286,6 +288,23 @@ fields["session_ratings"] = {
     }
 };
 
+
+
+/*******************************************/
+/* metas ******************/
+fields["metas"] = {
+    type: new GraphQLList(MetaType),
+    args: {
+        meta_key: { type: GraphQLString },
+        meta_value: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return MetaExec.metas(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* vacancy ******************/

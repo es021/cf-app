@@ -7,7 +7,7 @@ const User = {
     PASSWORD: "user_pass",
     ACTIVATION_KEY: "user_activation_key",
     REGISTER_AT: "user_registered",
-    TRIGGER_UPDATE : "trigger_update",
+    TRIGGER_UPDATE: "trigger_update",
     CF: "cf"
 };
 
@@ -15,7 +15,9 @@ const Meta = {
     TABLE: "_meta",
     ID: "ID",
     KEY: "meta_key",
-    VALUE: "value"
+    VALUE: "meta_value",
+    SOURCE: "source",
+    CREATED_AT : "created_at"
 };
 
 const Auditorium = {

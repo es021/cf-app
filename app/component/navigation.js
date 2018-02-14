@@ -26,6 +26,7 @@ import DashboardPage from '../page/dashboard';
 import PasswordResetPage from '../page/password-reset';
 import PasswordForgotPage from '../page/password-forgot';
 import { Monitor } from '../page/admin';
+import AnalyticPage from '../page/analytics';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
 
@@ -136,6 +137,17 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             disabled: !isRoleAdmin() && !isRoleOrganizer()
+        },
+        { // Admin Only
+            url: "/analytics",
+            label: "Analytics",
+            icon: "bar-chart",
+            component: AnalyticPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin()
         },
         { // Admin Only
             url: "/monitor",
