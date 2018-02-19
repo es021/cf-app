@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { BrowserRouter, Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
+import { LandingUrl } from '../../config/app-config';
+
 import LandingPage from '../page/landing';
 import LoginPage from '../page/login';
 import SignUpPage from '../page/sign-up';
@@ -139,7 +141,7 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleAdmin() && !isRoleOrganizer()
         },
         { // Admin Only
-            url: "/analytics",
+            url: "/analytics/:current",
             label: "Analytics",
             icon: "bar-chart",
             component: AnalyticPage,
@@ -147,17 +149,7 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: !isRoleAdmin()
-        },
-        { // Admin Only
-            url: "/monitor",
-            label: "Monitor",
-            icon: "bar-chart",
-            component: Monitor,
-            bar_app: true,
-            bar_auth: false,
-            hd_app: false,
-            hd_auth: false,
+            default_param: { current: "subscriber" },
             disabled: !isRoleAdmin()
         },
         {
@@ -196,11 +188,22 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleRec() //&& !isRoleStudent() //for student disable first
         },
         {
+            url: "/monitor",
+            label: "Monitor",
+            icon: "desktop",
+            component: Monitor,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
+        },
+        {
             url: "/about",
             label: "About",
             icon: "question",
             component: null,
-            href: "https://seedsjobfair.com/",
+            href: LandingUrl,
             bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             hd_app: true,

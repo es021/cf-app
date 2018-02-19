@@ -19,18 +19,19 @@ export const PCType = {
 };
 const pc = "pc-";
 
-const getDefaultProfileImg = function (type) {
-    var url = "";
-    switch (type) {
-        case PCType.STUDENT:
-            url = ImgConfig.DefUser;
-            break;
-        case PCType.RECRUITER:
-            url = ImgConfig.DefUser;
-            break;
-        case PCType.COMPANY:
-            url = ImgConfig.DefCompany;
-            break;
+export const getDefaultProfileImg = function (type, url = null) {
+    if (url == null) {
+        switch (type) {
+            case PCType.STUDENT:
+                url = ImgConfig.DefUser;
+                break;
+            case PCType.RECRUITER:
+                url = ImgConfig.DefUser;
+                break;
+            case PCType.COMPANY:
+                url = ImgConfig.DefCompany;
+                break;
+        }
     }
 
     return {

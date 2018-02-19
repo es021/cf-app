@@ -3,6 +3,7 @@ import { getAuthUser, isRoleRec, isRoleStudent } from '../redux/actions/auth-act
 import SubNav from '../component/sub-nav';
 import { SessionsList } from './partial/activity/session';
 import PropTypes from 'prop-types';
+import { ScheduledInterview } from './manage-company';
 
 export default class ActivityPage extends React.Component {
     componentWillMount() {
@@ -29,6 +30,15 @@ export default class ActivityPage extends React.Component {
                 icon: "comments"
             }
         };
+
+        if (isRoleRec()) {
+            item["scheduled-interview"] = {
+                label: "Scheduled Interview",
+                component: ScheduledInterview,
+                props: { company_id: this.company_id },
+                icon: "clock-o"
+            };
+        }
 
         var title = item[this.sub_page].label;
         document.setTitle(title);

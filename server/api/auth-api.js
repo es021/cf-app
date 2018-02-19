@@ -32,6 +32,22 @@ class AuthAPI {
 
     }
 
+    checkPasswordWithoutSlash(password, user_id, success, failed) {
+        var user_query = `query{user(ID:${user_id}){user_pass}}`;
+        return getAxiosGraphQLQuery(user_query).then((res) => {
+            var pass = res.data.data.user.user_pass;
+            pass = pass.replaceAll("/", "");
+            
+            if (pass == password) {
+                success();
+            } else {
+                failed("Not Authorized");
+            }
+        }, (err) => {
+            failed(err);
+        });
+    }
+
     //##########################################################################################
     // Login Module
     login(user_email, password, cf, request) {
@@ -66,14 +82,17 @@ class AuthAPI {
                         if (!this.isCFValid(user, cf)) {
                             return AuthAPIErr.INVALID_CF;
                         } else {
-                            delete (user[User.PASSWORD]);
+                            //delete (user[User.PASSWORD]);
+
+                            user[User.PASSWORD] = user[User.PASSWORD].replaceAll("/", "");
+
                             //delete (user["company"]);
                             user[User.CF] = cf;
                             //get cf object here
                             //user["cf_object"] = {};
 
                             // success login here
-                            
+
                             try {
                                 var logData = request.get('User-Agent');
                                 LogApi.add(LogEnum.EVENT_LOGIN, logData, user.ID);

@@ -73,6 +73,8 @@ class UserQuery {
         var order_by = (typeof params.order_by !== "undefined") ? `order by u.${params.order_by}` : `order by u.${User.ID} desc`;
 
 
+        var cf_where = (typeof params.cf === "undefined") ? "1=1"
+            : `(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
 
         // add meta condition
         var meta_condition = " 1=1 ";
@@ -102,7 +104,8 @@ class UserQuery {
 
         var sql = `SELECT u.* ${meta_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
-           AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} ${order_by} ${limit} `;
+           AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} AND ${cf_where}
+           ${order_by} ${limit} `;
         //console.log(sql);
 
         /*

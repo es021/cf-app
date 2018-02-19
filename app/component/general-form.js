@@ -285,6 +285,12 @@ export default class GeneralFormPage extends React.Component {
     }
 
     render() {
+
+        if (this.props.formOnly) {
+            this.addPopup();
+            return <div></div>;
+        }
+
         var view = null;
         const renderList = (d, i) => {
             var row = this.props.renderRow(d);
@@ -371,7 +377,8 @@ GeneralFormPage.propTypes = {
     discardDiff: PropTypes.array,
     forceDiff: PropTypes.array,
     noMutation: PropTypes.bool, // disable add, edit and delete
-    canEdit: PropTypes.bool // bypass noMutation
+    canEdit: PropTypes.bool, // bypass noMutation
+    formOnly: PropTypes.bool // formOnly
 }
 
 GeneralFormPage.defaultProps = {
@@ -381,5 +388,6 @@ GeneralFormPage.defaultProps = {
     showAddForm: false,
     btnColorClass: "primary",
     discardDiff: [],
-    forceDiff: []
+    forceDiff: [],
+    formOnly: false
 }

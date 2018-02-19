@@ -7,11 +7,12 @@ import { RootPath } from '../../config/app-config';
 export default class SubNav extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
-        console.log();
+        // console.log(props);
+        // console.log();
 
         this.state = {
-            current: this.props.defaultItem
+            current: this.props.defaultItem,
+            key: 1
         };
 
     }
@@ -24,8 +25,8 @@ export default class SubNav extends React.Component {
 
     changeItem(e) {
         var k = e.currentTarget.id;
-        this.setState(() => {
-            return { current: k };
+        this.setState((prevState) => {
+            return { current: k, key: prevState.key + 1 };
         });
     }
 
@@ -61,7 +62,7 @@ export default class SubNav extends React.Component {
             <div className={`${sn}header`}>
                 {this.getNavList()}
             </div>
-            <div className={`${sn}body`}>
+            <div key={this.state.key} className={`${sn}body`}>
                 {this.getCurComponent()}
             </div>
         </div>;

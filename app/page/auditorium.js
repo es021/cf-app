@@ -22,7 +22,7 @@ export class AuditoriumFeed extends React.Component {
         this.loadData = this.loadData.bind(this);
         this.getDataFromRes = this.getDataFromRes.bind(this);
         this.addFeedToView = this.addFeedToView.bind(this);
-        this.listComponentDidUpdate = this.listComponentDidUpdate.bind(this);
+        //this.listComponentDidUpdate = this.listComponentDidUpdate.bind(this);
         this.renderList = this.renderList.bind(this);
         this.offset = 10;
 
@@ -42,26 +42,26 @@ export class AuditoriumFeed extends React.Component {
         });
     }
 
-    listComponentDidUpdate() {
-        //console.log("listComponentDidUpdate")
-        //console.log(this.scrollTo);
+    // listComponentDidUpdate() {
+    //     //console.log("listComponentDidUpdate")
+    //     //console.log(this.scrollTo);
 
-        if (this.scrollTo == "bottom") {
-            //scroll to bottom
-            this.dashBody.scrollTop = 99999999;
-            //console.log("go bottom");
+    //     if (this.scrollTo == "bottom") {
+    //         //scroll to bottom
+    //         this.dashBody.scrollTop = 99999999;
+    //         //console.log("go bottom");
 
-        }
+    //     }
 
-        if (this.scrollTo == "top") {
-            //scroll to top
-            this.dashBody.scrollTop = 0;
-            //console.log("go top");
-        }
+    //     if (this.scrollTo == "top") {
+    //         //scroll to top
+    //         this.dashBody.scrollTop = 0;
+    //         //console.log("go top");
+    //     }
 
-        //console.log(this.dashBody.scrollTop);
-        this.scrollTo == "";
-    }
+    //     //console.log(this.dashBody.scrollTop);
+    //     this.scrollTo == "";
+    // }
 
     // ##############################################################
     // function for list
@@ -108,7 +108,6 @@ export class AuditoriumFeed extends React.Component {
     }
 
     renderList(d, i, isExtraData = false) {
-        console.log(d);
         var timeNow = Time.getUnixTimestampNow();
 
         // DEBUG for Now
@@ -171,7 +170,6 @@ export class AuditoriumFeed extends React.Component {
             <List type="append-bottom"
                 appendText="Load More Event"
                 listClass="db_body"
-                componentDidUpdate={this.listComponentDidUpdate}
                 listRef={(v) => this.dashBody = v}
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}

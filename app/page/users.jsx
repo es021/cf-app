@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import { ButtonLink } from '../component/buttons';
+import { ButtonLink, ButtonExport } from '../component/buttons';
 import GeneralFormPage from '../component/general-form';
 import * as layoutActions from '../redux/actions/layout-actions';
+import { getCF } from '../redux/actions/auth-actions';
 import UserPopup from './partial/popup/user-popup';
 
 //importing for list
@@ -112,7 +113,7 @@ class UsersPage extends React.Component {
                     row.push(<td>{degree}</td>);
 
                 } else if (key == "university") {
-                    if(d.university == null){
+                    if (d.university == null) {
                         row.push(<td></td>);
                         continue;
                     }
@@ -149,9 +150,13 @@ class UsersPage extends React.Component {
 
     render() {
         document.setTitle("Students");
-        return (<div><h3>Students</h3>
+        return (<div><h3>
+            Students
+        </h3>
+            <small><ButtonExport action="students" filter={{ cf: getCF() }}></ButtonExport></small>
 
             <GeneralFormPage
+                entity_singular="Student"
                 dataTitle={this.dataTitle}
                 noMutation={true}
                 dataOffset={20}

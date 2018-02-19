@@ -34,5 +34,4 @@ class LogApi {
 }
 LogApi = new LogApi();
 
-
 module.exports = { MetaAPI, LogApi };

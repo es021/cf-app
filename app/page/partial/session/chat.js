@@ -318,11 +318,13 @@ class Chat extends React.Component {
 
         // info -------
         var label = <span>{d.first_name + " "}<small>{d.last_name}</small></span>;
+        var title = label;
+        /*
         var title = (!this.props.isRec) ? label
             : <ButtonLink
                 onClick={() => layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name, UserPopup, { id: d.ID })}
                 label={label}>
-            </ButtonLink>;
+            </ButtonLink>;*/
 
         var status = (this.props.online_users[d.ID] == 1) ? "Online" : "Offline";
 
@@ -355,14 +357,14 @@ class Chat extends React.Component {
             <textarea ref={(v) => this.chatInput = v}
                 rows="3"
                 onKeyPress={(ev) => {
-                    console.log(ev.ctrlKey);
+                    //console.log(ev.ctrlKey);
                     if (ev.key == "Enter" && !ev.ctrlKey) {
                         this.sendChat();
                         ev.preventDefault();
                     }
 
                     if (ev.key == "Enter" && ev.ctrlKey && this.chatInput.value != "") {
-                        console.log(this.chatInput.value);
+                        //console.log(this.chatInput.value);
                         ev.persist();
                         this.chatInput.value += "\n";
                         ev.preventDefault();

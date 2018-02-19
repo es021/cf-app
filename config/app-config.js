@@ -16,6 +16,8 @@ if (isProd) {
     RootUrl = `https://seedsjobfair.com`;
 }
 
+var LandingUrl = `https://seedsjobfair.com`;
+
 var PHPApi = (isProd) ? `https://seedsjobfair.com/php-api/` : RootUrl + `/cf-app/server/php-api/`;
 var WPAjaxApi = (isProd) ? "https://seedsjobfair.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
@@ -48,4 +50,4 @@ const TestUser = [136, 137, 222, 223, 224, 225, 226, 227, 316, 317
     , 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339
     , 340, 341, 342];
 
-module.exports = { SocketUrl, TestUser, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
+module.exports = { SocketUrl, LandingUrl, TestUser, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };

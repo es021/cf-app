@@ -15,10 +15,31 @@ Time.prototype.isUnixElapsedHour = function (unixtimestamp, hour) {
     }
 };
 
-Time.prototype.getPeriodString = function (start, end) {
-    var startStr = Time.getString(start, false, false, false, true); // day n month only
-    var endStr = Time.getString(end, false, false, true, false); // with year
-    return `${startStr} - ${endStr}`;
+Time.prototype.getPeriodString = function (start, end, dates) {
+    if (typeof dates !== "undefined") {
+        var month = Time.getString(start, false, false, false, false, false, true); // month only
+        var year = Time.getString(start, false, false, false, false, false, false, true); // month only
+
+        var r = month;
+        for (var i in dates) {
+            var d = dates[i];
+            if (i == 0) { // first
+                r += " " + d;
+            } else if (i == dates.length - 1) { //last
+                r += " and " + d;
+            } else { // middle
+                r += ", " + d;
+            }
+        }
+
+        r += ", " + year;
+        return r;
+
+    } else {
+        var startStr = Time.getString(start, false, false, false, true); // day n month only
+        var endStr = Time.getString(end, false, false, true, false); // with year
+        return `${startStr} - ${endStr}`;
+    }
 }
 
 Time.prototype.getUnixTimestampNow = function () {
@@ -75,7 +96,10 @@ Time.prototype.getDate = function (unixtimestamp) {
     return this.getString(unixtimestamp, false, false, true);
 };
 // mysql UNIX_TIMESTAMP(column)
-Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false) {
+Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false
+    , dateMonthOnly = false, getSecond = false
+    , monthOnly = false, yearOnly = false) {
+
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
@@ -128,9 +152,18 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
         toReturn += " ";
         toReturn += newDate.getDate();
 
+        if (yearOnly) {
+            return newDate.getFullYear();
+        }
+
+        if (monthOnly) {
+            return months[newDate.getMonth()];
+        }
+
         if (dateMonthOnly) {
             return toReturn;
         }
+
 
         toReturn += ", ";
         toReturn += newDate.getFullYear();

@@ -251,9 +251,22 @@ class ActivitySection extends React.Component {
         //console.log(this.props.activity);
 
         var d = this.props.activity;
+
+        // title session
         var title_s = <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>;
+
+        //title queue
         var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
-        var title_p = <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>;
+
+        // title scheduled interview
+        var title_p = (!isRoleRec()) ? <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
+            : <div>
+                <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
+                <br></br>
+                <small><NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
+                    <i className="fa fa-plus left"></i>Add New</NavLink>
+                </small>
+            </div>;
 
         var size_s = (isRoleRec()) ? "12" : "3";
         var size_q = (isRoleRec()) ? "12" : "6";

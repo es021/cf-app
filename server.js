@@ -7,6 +7,8 @@ const axios = require('axios');
 const { initializeAllRoute } = require('./server/api/_route.js');
 const isProd = (process.env.NODE_ENV === "production");
 
+require('./helper/lib-helper');
+
 
 var root = (isProd) ? "/cf" : "";
 //var root = "";
