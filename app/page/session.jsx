@@ -32,6 +32,21 @@ class SessionPage extends React.Component {
         };
         this.ID = this.props.match.params.id;
         this.user_id = getAuthUser().ID;
+
+        this.isRec = isRoleRec();
+    }
+
+    componentDidMount() {
+        if (this.isRec) {
+            this.right_bar = document.getElementById("right_bar");
+            this.right_bar.className += " small ";
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.isRec) {
+            this.right_bar.className = "";
+        }
     }
 
     componentWillMount() {
@@ -242,8 +257,13 @@ class SessionPage extends React.Component {
         // ########################
         // for rec
         if (this.isRec) {
-            //chat
-            view.push(<div className="col-md-7 no-padding padding-right">
+
+            view.push(<div style={{ border: "#286090 solid 1px" , marginBottom:"20px"}}
+                className="col-md-3 no-padding">
+                <UserPopup id={session.participant_id}></UserPopup>
+            </div>);
+
+            view.push(<div className="col-md-6 no-padding-medium">
                 {chat}
             </div>);
 
@@ -260,7 +280,7 @@ class SessionPage extends React.Component {
                     student_id={session.participant_id}
                     session_id={session.ID}></SessionNotesPage>
             </div>
-            view.push(<div className="col-md-5 no-padding padding-left">
+            view.push(<div className="col-md-3 no-padding">
                 {sessionNoteRating}
             </div>);
         }

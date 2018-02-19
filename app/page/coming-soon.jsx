@@ -212,7 +212,7 @@ export default class ComingSoonPage extends React.Component {
     }
 
     componentWillMount() {
-        this.timeStr = Time.getPeriodString(this.CFObj.start, this.CFObj.end);
+        this.timeStr = Time.getPeriodString(this.CFObj.start, this.CFObj.end, this.CFObj.dates);
     }
 
     render() {

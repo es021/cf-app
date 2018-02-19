@@ -56,6 +56,7 @@ const initializeAllRoute = function (app, root) {
     //     }
     // });
 
+
     // Route To Store in Meta -------------------------------------------------------------------
     const { MetaAPI } = require('./other-api');
     app.post(root + '/add-meta', function (req, res, next) {
@@ -72,7 +73,7 @@ const initializeAllRoute = function (app, root) {
                 routeResHandler(res, response);
             });
     });
-    
+
     // Activity Route ----------------------------------------------------------------
     const { ActivityAPI } = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {
@@ -144,6 +145,30 @@ const initializeAllRoute = function (app, root) {
                 break;
         }
 
+    });
+
+
+    //XLS Route ----------------------------------------------------------------
+    // when login will get password without slash in local storage,
+    // use that password lah.
+    const { XLSApi } = require('./xls-api');
+    app.get(root + '/xls/:action/:filter/:password/:user_id', function (req, res, next) {
+        var password = req.params.password;
+        var user_id = req.params.user_id;
+        var action = req.params.action;
+        var filter = req.params.filter;
+
+        AuthAPI.checkPasswordWithoutSlash(password, user_id, () => {
+            XLSApi.export(action, filter).then((response) => {
+                res.header("Content-Type", "application/vnd.ms-excel; charset=utf-8");
+                res.header("Content-Disposition", `attachement; filename="${response.filename} - SeedsJobFair.xls"`);
+                res.send(response.content);
+            }, (err) => {
+                res.send(err);
+            });
+        }, (err) => {
+            res.send(err);
+        });
     });
 
     //upload route ----------------------------------------------------------------

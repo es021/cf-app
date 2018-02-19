@@ -4,6 +4,8 @@ import { BrowserRouter, Route, NavLink, Switch, Redirect } from "react-router-do
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import { isAuthorized, isComingSoon } from "./redux/actions/auth-actions";
+import { addLog } from './redux/actions/other-actions';
+import { LogEnum } from '../config/db-config';
 
 console.log(process.env.NODE_ENV);
 
@@ -44,6 +46,10 @@ class PrimaryLayout extends React.Component {
 		console.log("PrimaryLayout");
 		window.scrollTo(0, 0);
 		var path = this.props.match.path;
+
+		var logData = window.location.pathname;
+		logData = logData.replace(path, "");
+		addLog(LogEnum.EVENT_OPEN_PAGE, logData);
 
 		var COMING_SOON = isComingSoon();
 		var headerMenu = Navigation.getBar(path, COMING_SOON, true);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ButtonLink } from '../component/buttons';
 import LoginPage from './login';
-import { RootPath, AppConfig, ImgConfig } from '../../config/app-config';
+import { RootPath, AppConfig, ImgConfig, LandingUrl } from '../../config/app-config';
 import { Redirect, NavLink } from 'react-router-dom';
 import { getCF, getCFObj } from '../redux/actions/auth-actions';
 import SponsorList from './partial/static/sponsor-list';
@@ -28,18 +28,18 @@ export default class LandingPage extends React.Component {
 
         //add scroll event listener
         this.body.onscroll = () => {
-            if(window.pageYOffset > 40){
+            if (window.pageYOffset > 40) {
                 this.body.classList.remove("top");
             }
 
-            if(window.pageYOffset < 40){
+            if (window.pageYOffset < 40) {
                 this.body.classList.add("top");
             }
         };
 
         // create subtitle from  date
         if (this.CFDetail.start != null && this.CFDetail.end != null) {
-            this.subtitle = Time.getPeriodString(this.CFDetail.start, this.CFDetail.end);
+            this.subtitle = Time.getPeriodString(this.CFDetail.start, this.CFDetail.end, this.CFDetail.dates);
         }
     }
 
@@ -48,6 +48,8 @@ export default class LandingPage extends React.Component {
     }
 
     render() {
+        //  <NavLink to={`${RootPath}/auth/sign-up-recruiter`} className="btn btn-lg btn-danger">
+        //  <i className="fa fa-suitcase left"></i>Recruiter</NavLink>
 
         document.setTitle("Home");
         var register = <div>
@@ -56,8 +58,8 @@ export default class LandingPage extends React.Component {
                 className="item-small btn-group btn-group-justified">
                 <NavLink to={`${RootPath}/auth/sign-up`} className="btn btn-lg btn-success">
                     <i className="fa fa-user left"></i>Student</NavLink>
-                <NavLink to={`${RootPath}/auth/sign-up-recruiter`} className="btn btn-lg btn-danger">
-                    <i className="fa fa-suitcase left"></i>Recruiter</NavLink>
+                <a target="blank" href={`${LandingUrl}/companies.html`} className="btn btn-lg btn-danger">
+                    <i className="fa fa-suitcase left"></i>Recruiter</a>
             </div>
             <br></br>
             <br></br>

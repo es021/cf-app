@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import GeneralFormPage from '../../../component/general-form';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import UserPopup from '../popup/user-popup';
-import { SessionEnum } from '../../../../config/db-config';
+import { SessionEnum, Prescreen, PrescreenEnum } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
 //importing for list
 import List, { CustomList } from '../../../component/list';
@@ -11,11 +11,13 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../companies';
+import { ScheduledInterview } from '../../manage-company';
 
 export class SessionsList extends React.Component {
 
     constructor(props) {
         super(props);
+        this.openNextRoundForm = this.openNextRoundForm.bind(this);
     }
 
     sessionStatusString(status, style = false) {
@@ -33,6 +35,16 @@ export class SessionsList extends React.Component {
             case SessionEnum.STATUS_LEFT:
                 return "Left by Student";
         }
+    }
+
+    openNextRoundForm(student_id) {
+        var defaultFormItem = {};
+        defaultFormItem[Prescreen.SPECIAL_TYPE] = PrescreenEnum.ST_NEXT_ROUND;
+        defaultFormItem[Prescreen.STUDENT_ID] = student_id;
+        defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
+
+        layoutActions.storeUpdateFocusCard("Schedule For Next Round Interview", ScheduledInterview
+            , { company_id: this.props.company_id, formOnly: true, defaultFormItem: defaultFormItem });
     }
 
     componentWillMount() {
@@ -94,23 +106,33 @@ export class SessionsList extends React.Component {
             }
         };
 
+        // <th>Started At</th>
+        // <th>Ended At</th>
+
         this.tableHeader = <thead>
             <tr>
-                <th>Session</th>
+                <th>Action</th>
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
                 <th>Status</th>
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
                 {this.props.isRec ? <th>Hosted By</th> : null}
-                <th>Started At</th>
-                <th>Ended At</th>
             </tr>
         </thead>;
 
         this.renderRow = (d, i) => {
-            console.log(d);
             var row = [];
-            row.push(<td><NavLink to={`${RootPath}/app/session/${d.ID}`}>Session {d.ID}</NavLink></td>);
+            
+            row.push(<td>
+                <a id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
+                    <i className="fa fa-plus left"></i>
+                    Next Round</a>
+                <br></br>
+                <NavLink to={`${RootPath}/app/session/${d.ID}`}>
+                    <i className="fa fa-commenting left"></i>Chat Log</NavLink>
+            </td>);
+
+            //row.push(<td><NavLink to={`${RootPath}/app/session/${d.ID}`}>Session {d.ID}</NavLink></td>);
 
             // entity
             var other = (this.props.isRec)
@@ -128,7 +150,7 @@ export class SessionsList extends React.Component {
                         <CustomList emptyMessage={null} items={notes} className="normal"></CustomList>
                     </small>
                 </td>);
-                
+
                 var ratings = d.session_ratings.map((d, i) => `${d.category}-${d.rating}`);
                 row.push(<td>
                     <small>
@@ -140,8 +162,8 @@ export class SessionsList extends React.Component {
             }
 
             // other
-            row.push(<td>{Time.getString(d.started_at)}</td>);
-            row.push(<td>{Time.getString(d.ended_at)}</td>);
+            //row.push(<td>{Time.getString(d.started_at)}</td>);
+            //row.push(<td>{Time.getString(d.ended_at)}</td>);
 
             return row;
         }
@@ -154,13 +176,14 @@ export class SessionsList extends React.Component {
                     recruiter{ID first_name last_name user_email}` : "company{ID name}";
 
             return getAxiosGraphQLQuery(`query{
-                sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}, order_by:"ID desc"){
-                ID
+                        sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}, order_by:"ID desc"){
+                        ID
                 host_id
-                ${extra}
-                status
-                started_at
-                ended_at}}`);
+                    ${extra}
+                    status}}`);
+
+            //started_at
+            //ended_at
         };
 
 
@@ -171,7 +194,7 @@ export class SessionsList extends React.Component {
 
     render() {
         document.setTitle("Past Sessions");
-        return (<div><h3>Past Sessions</h3>
+        return (<div><h2>Past Sessions</h2>
             <GeneralFormPage
                 dataTitle={this.dataTitle}
                 noMutation={true}

@@ -6,7 +6,7 @@ import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-conf
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
-import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin, getCFObj } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card';
 import SubNav from '../component/sub-nav';
@@ -110,6 +110,7 @@ class VacancySubPage extends React.Component {
         this.newFormDefault = {};
         this.newFormDefault[Vacancy.COMPANY_ID] = this.company_id;
         this.newFormDefault[Vacancy.CREATED_BY] = this.user_id;
+
 
         this.getFormItem = (edit) => {
             return [
@@ -390,7 +391,9 @@ AboutSubPage.PropTypes = {
 //###################################################################################################
 import { createUserTitle } from './users';
 
-class ScheduledInterview extends React.Component {
+// included in my-activity for recruiter
+// add as form only in past session in my-activity
+export class ScheduledInterview extends React.Component {
     constructor(props) {
         super(props);
         this.authUser = getAuthUser();
@@ -403,7 +406,15 @@ class ScheduledInterview extends React.Component {
         </span>;
 
         this.successAddHandler = (d) => {
-            //emitLiveFeed(d.title, d.content, d.type, d.cf, Time.getUnixTimestampNow());
+            if (this.props.formOnly) {
+                var mes = <div>New Next Round Interview Have Been Successfully Scheduled
+                    <br></br>
+                    <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
+                        to={`${RootPath}/app/my-activity/${this.props.company_id}/scheduled-interview`}>
+                        Manage Scheduled Interview</NavLink>
+                </div>;
+                layoutActions.successBlockLoader(mes);
+            }
         };
 
         //##########################################
@@ -481,13 +492,21 @@ class ScheduledInterview extends React.Component {
         // get actual data from loadData
         // can alter any data here too
         this.getDataFromRes = (res) => {
-            return res.data.data.prescreens;
+            var ps = res.data.data.prescreens;
+
+            for (var i in ps) {
+                var r = ps[i];
+                if (r[Prescreen.SPECIAL_TYPE] == null || r[Prescreen.SPECIAL_TYPE] == "") {
+                    ps[i][Prescreen.SPECIAL_TYPE] = PrescreenEnum.ST_PRE_SCREEN;
+                }
+            }
+
+            return ps;
         }
 
         //##########################################
         // form operation properties
 
-        // if ever needed
         // hook before submit
         this.formWillSubmit = (d, edit) => {
 
@@ -517,21 +536,30 @@ class ScheduledInterview extends React.Component {
                 d[Prescreen.APPNMENT_TIME] = null;
             }
             // date time handling only for not pending only
-            else if (d[Prescreen.APPNMENT_TIME + "_DATE"]) {
+            else if (d[Prescreen.APPNMENT_TIME + "_DATE"] || d[Prescreen.APPNMENT_TIME + "_TIME"]) {
                 d[Prescreen.APPNMENT_TIME]
                     = Time.getUnixFromDateTimeInput(d[Prescreen.APPNMENT_TIME + "_DATE"]
                         , d[Prescreen.APPNMENT_TIME + "_TIME"]);
+
+                //appointment time must be only on the last day
+                if (!isRoleAdmin()) {
+                    var lastDay = Time.convertDBTimeToUnix(getCFObj().end);
+                    if (d[Prescreen.APPNMENT_TIME] < lastDay && d[Prescreen.SPECIAL_TYPE] == PrescreenEnum.ST_NEXT_ROUND) {
+                        return `Next Round interview only allowed to be scheduled on the last day of the Career Fair. Please change the appoinment date and time to be later than ${Time.getString(lastDay)}`;
+                    }
+                }
             }
 
             delete (d[Prescreen.APPNMENT_TIME + "_DATE"]);
             delete (d[Prescreen.APPNMENT_TIME + "_TIME"]);
 
             return d;
+
         }
 
         // date time need to be forced diff
         this.forceDiff = [Prescreen.APPNMENT_TIME + "_DATE"
-            , Prescreen.APPNMENT_TIME + "_TIME"
+            , Prescreen.APPNMENT_TIME + "_TIME", Prescreen.SPECIAL_TYPE
         ];
 
         this.getEditFormDefault = (ID) => {
@@ -558,43 +586,65 @@ class ScheduledInterview extends React.Component {
             });
         }
 
+        this.newFormDefault = this.props.defaultFormItem;
+
         // create form add new default
         this.getFormItemAsync = (edit) => {
+            var singleStudent = this.props.formOnly;
 
-            // need to change to list of student
-            var query = `query{
-                sessions(distinct:"${Session.P_ID}", company_id:${this.props.company_id}){
-                  student{
-                    ID
+            var query = (!singleStudent)
+                ? // need  list of student for new
+                `query{
+                    sessions(distinct:"${Session.P_ID}", company_id:${this.props.company_id}){
+                    student{
+                        ID
+                        first_name
+                        last_name
+                    }
+                    }
+                }`
+                :// for student only
+                `query{user(ID:${this.props.defaultFormItem[Prescreen.STUDENT_ID]})
+                    {ID
                     first_name
-                    last_name
-                  }
-                }
-              }`
+                    last_name}}`;
 
             return getAxiosGraphQLQuery(query)
                 .then((res) => {
-                    var sessions = res.data.data.sessions;
-                    var ret = [{ header: "Scheduled Interview Form" }];
+                    var studentData = [];
+                    if (singleStudent) {
+                        var user = res.data.data.user;
+                        studentData = [{ key: user.ID, label: user.first_name + " " + user.last_name }];
+                    } else {
+                        var session = res.data.data.sessions;
+                        studentData = session.map((ses, i) => {
+                            var d = ses.student;
+                            return { key: d.ID, label: d.first_name + " " + d.last_name };
+                        });
+                    }
 
-                    //for create only
-                    if (!edit) {
-                        ret.push(...[{
+
+                    var ret = [
+                        { header: "Scheduled Interview Form" },
+                        {
                             label: "Type",
                             name: Prescreen.SPECIAL_TYPE,
                             type: "select",
                             required: true,
-                            data: [PrescreenEnum.ST_NEXT_ROUND]
-                        }, {
+                            disabled: edit || this.props.formOnly,
+                            data: ["", PrescreenEnum.ST_NEXT_ROUND, PrescreenEnum.ST_PRE_SCREEN]
+                        }];
+
+                    //for create only
+                    if (!edit) {
+                        ret.push(...[{
                             label: "Student",
                             sublabel: "Only showing students that already had session with the company",
                             name: Prescreen.STUDENT_ID,
                             type: "select",
-                            data: sessions.map((ses, i) => {
-                                var d = ses.student;
-                                return { key: d.ID, label: d.first_name + " " + d.last_name };
-                            }),
-                            required: true
+                            data: studentData,
+                            required: true,
+                            disabled: this.props.formOnly
                         }]);
                     }
 
@@ -604,6 +654,7 @@ class ScheduledInterview extends React.Component {
                         name: Prescreen.STATUS,
                         type: "select",
                         required: true,
+                        disabled: this.props.formOnly,
                         data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
                     }, {
                         label: "Appointment Date",
@@ -643,14 +694,21 @@ class ScheduledInterview extends React.Component {
             loadData={this.loadData}
             successAddHandler={this.successAddHandler}
             formWillSubmit={this.formWillSubmit}
+            formOnly={this.props.formOnly}
         ></GeneralFormPage>
     }
 }
 
 ScheduledInterview.PropTypes = {
-    company_id: PropTypes.number.isRequired
-}
+    company_id: PropTypes.number.isRequired,
+    defaultFormItem: PropTypes.object,
+    formOnly: PropTypes.bool // to create from past sessions list
+};
 
+ScheduledInterview.defaultProps = {
+    formOnly: false,
+    defaultFormItem: null
+};
 
 // For Recruiter ------------------------------------------------------/
 

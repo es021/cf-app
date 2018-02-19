@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
-import { DocLinkEnum, UserEnum } from '../../../../config/db-config';
+import { DocLinkEnum, UserEnum, LogEnum } from '../../../../config/db-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
 import { CustomList } from '../../../component/list';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import CompanyPopup from './company-popup';
+
+import { addLog } from '../../../redux/actions/other-actions';
 
 export default class UserPopup extends Component {
     constructor(props) {
@@ -27,6 +29,8 @@ export default class UserPopup extends Component {
         } else {
             id = this.props.id;
         }
+
+        this.id = id;
 
         console.log("UserPage", "componentWillMount");
         var query = (this.props.role === UserEnum.ROLE_STUDENT)
@@ -54,6 +58,7 @@ export default class UserPopup extends Component {
                 available_year
                 major
                 minor
+                description
             }}`
             : `query {
               user(ID:${id}) {
@@ -155,8 +160,6 @@ export default class UserPopup extends Component {
                 });
             }
 
-
-
             items.push(
                 {
                     label: "University",
@@ -211,7 +214,11 @@ export default class UserPopup extends Component {
             </span>;
         });
 
-        const doc_link = <CustomList className="label" items={dl}></CustomList>;
+        const onClickDocLink = () => {
+            addLog(LogEnum.EVENT_CLICK_USER_DOC, this.id);
+        };
+
+        const doc_link = <CustomList className="label" items={dl} onClick={onClickDocLink}></CustomList>;
 
         // skill
         var s = user.skills.map((d, i) => d.label);
@@ -219,13 +226,17 @@ export default class UserPopup extends Component {
 
         var dl = null;
         var pcBody = <div>
-            <PageSection title="About" body={basic}></PageSection>
+            <PageSection title="" body={basic}></PageSection>
             {(user.role == UserEnum.ROLE_STUDENT) ?
                 <PageSection title="Document & Link" body={doc_link}></PageSection>
                 : null
             }
             {(user.role == UserEnum.ROLE_STUDENT) ?
                 <PageSection title="Skills" body={skills}></PageSection>
+                : null
+            }
+            {(user.role == UserEnum.ROLE_STUDENT && user.description != "" && user.description != null) ?
+                <PageSection title="About" body={<p>{user.description}</p>}></PageSection>
                 : null
             }
         </div>;

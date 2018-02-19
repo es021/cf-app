@@ -8,7 +8,7 @@ import { Time } from '../../lib/time';
 
 //const TEST_USER_ID = [136, 137];
 export function isComingSoon() {
-    if (TestUser.indexOf(getAuthUser().ID) >= 0) {
+    if (isTestUser()) {
         return false;
     }
 
@@ -97,6 +97,10 @@ export function isRoleOrganizer() {
 export function isRoleAdmin() {
     return getAuthUser().role === UserEnum.ROLE_EDITOR
         || getAuthUser().role === UserEnum.ROLE_ADMIN;
+}
+
+export function isTestUser() {
+    return TestUser.indexOf(getAuthUser().ID) >= 0;
 }
 
 // ############################################

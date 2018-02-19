@@ -3,6 +3,7 @@ $THEME_2: lightblue;
 $MARGIN: 30%;
 #chat {
     margin: auto;
+    margin-bottom: 20px;
     .chat-header {
 
         .profile-card.profile-li{
@@ -38,9 +39,11 @@ $MARGIN: 30%;
             }
         }
         .ch-info {
-            .profile-card.profile-li {
-                grid-template-columns : 1fr 6fr;
-            }
+
+            //.profile-card.profile-li {
+                //grid-template-columns : 1fr 6fr;
+            //}
+            
             .profile-card {
                 margin: 7px 8px;
                 .pc-title,

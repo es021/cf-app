@@ -1,14 +1,17 @@
+const { ImageUrl } = require('./app-config');
+
 const CareerFair = {
     "USA": {
         title: "USA Virtual Career Fair 2018",
         flag: "United States of America(USA)",
         banner: "USA.jpg",
-        start: "Apr 05 2018 08:00:00 GMT -0500 (-05)",
-        end: "Apr 08 2018 08:00:00 GMT -0500 (-05)",
+        start: "Apr 05 2018 08:00:00 GMT +0800 (+08)", // maalaysia time , est time.. -5
+        end: "Apr 09 2018 08:00:00 GMT +0800 (+08)",
+        dates: ["5", "8", "9"], // for multiple seggregated dates
         can_register: 1,
         can_login: 1,
-        organizer: "",
-        collaborator: "",
+        page_url: "https://www.facebook.com/events/165437787576733/",
+        page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
     },
     "JAPAN": {
         title: "Japan Virtual Career Fair 2018",
@@ -16,10 +19,9 @@ const CareerFair = {
         banner: "Japan.jpg",
         start: null,
         end: null,
+        dates: null,
         can_register: 0,
-        can_login: 0,
-        organizer: "",
-        collaborator: "",
+        can_login: 0
     },
     "INDONESIA": {
         title: "Indonesia Virtual Career Fair 2018",
@@ -28,21 +30,20 @@ const CareerFair = {
         banner_pos: "top center",
         start: null,
         end: null,
+        dates: null,
         can_register: 0,
-        can_login: 0,
-        organizer: "",
-        collaborator: "",
-    },    "GERMANY": {
+        can_login: 0
+    },
+    "GERMANY": {
         title: "Germany Virtual Career Fair 2018",
         flag: "Germany",
         banner: "Germany.jpg",
         banner_pos: "top center",
         start: null,
         end: null,
+        dates: null,
         can_register: 0,
-        can_login: 0,
-        organizer: "",
-        collaborator: "",
+        can_login: 0
     }
 };
 

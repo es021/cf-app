@@ -13,6 +13,7 @@ const { UserType
     , AuditoriumType
     , PasswordResetType
     , MetaType
+    , LogType
     //, CFType
     , DocLinkType } = require('./all-type.js');
 
@@ -27,6 +28,7 @@ const { CompanyExec } = require('../model/company-query.js');
 const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { MetaExec } = require('../model/meta-query.js');
+const { LogExec } = require('../model/log-query.js');
 const { AuditoriumExec } = require('../model/auditorium-query');
 const { PasswordResetExec } = require('../model/reset-password-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
@@ -146,6 +148,7 @@ fields["users"] = {
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
         order_by: { type: GraphQLString },
+        cf: { type: GraphQLString },
         //search query
         search_user: { type: GraphQLString } // name and email
         , search_degree: { type: GraphQLString } // major and minor
@@ -288,6 +291,22 @@ fields["session_ratings"] = {
     }
 };
 
+
+
+/*******************************************/
+/* logs ******************/
+fields["logs"] = {
+    type: new GraphQLList(LogType),
+    args: {
+        event: { type: new GraphQLNonNull(GraphQLString) },
+        start: { type: GraphQLInt },
+        end: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return LogExec.logs(arg, graphqlFields(info));
+    }
+};
 
 
 /*******************************************/

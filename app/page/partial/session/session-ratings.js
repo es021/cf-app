@@ -104,18 +104,25 @@ export default class SessionRatingsSection extends React.Component {
                 onClick={this.onClickStar.bind(null, category, d.ID, i)}
                 className={className}></i>);
         }
-        return <tr>
-            <td className="text-right">
+        return <div style={{ marginBottom: "5px" }}>
+            <div className="text-center">
                 <small>{category}</small>
-            </td>
-            <td>
-                <div className="star_rating_dummy">
-                    {stars}
-                </div>
-            </td>
-        </tr>
+            </div>
+            <div className="star_rating_dummy">
+                {stars}
+            </div>
+        </div>
 
-
+        // return <tr>
+        //     <td className="text-right">
+        //         <small>{category}</small>
+        //     </td>
+        //     <td>
+        //         <div className="star_rating_dummy">
+        //             {stars}
+        //         </div>
+        //     </td>
+        // </tr>
     }
 
     render() {
