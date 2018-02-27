@@ -32,6 +32,7 @@ class Chat extends React.Component {
         this.createVideoCall = this.createVideoCall.bind(this);
         this.getStartVideoCallForm = this.getStartVideoCallForm.bind(this);
         this.joinVideoCall = this.joinVideoCall.bind(this);
+        this.inviteForPanelInterview = this.inviteForPanelInterview.bind(this);
 
         this.renderList = this.renderList.bind(this);
         this.getChatInput = this.getChatInput.bind(this);
@@ -220,26 +221,48 @@ class Chat extends React.Component {
         getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
     }
 
+    inviteForPanelInterview(recs, join_url) {
+        // this.props.session_id;
+        //send email to rec id
+
+        for (var i in recs) {
+            var key = recs[i].split("::");
+            var user_id = key[0];
+            var user_email = key[1];
+            
+            // add to tabel panel interview
+            var add = {
+                user_id: user_id,
+                session_id: this.props.session_id,
+                join_url: join_url
+            };
+
+            console.log("send invitaion email to", user_email);
+
+            console.log("add to table panel interview", add);
+        }
+    }
+
     getStartVideoCallForm(zoom_data) {
         var listRecs = [];
         getOtherRecs().map((d, i) => {
             if (this.props.self_id == d.ID) {
                 return false;
             }
-            listRecs.push({ key: d.user_email, label: d.user_email });
+            listRecs.push({ key: `${d.ID}::${d.user_email}`, label: d.user_email });
         })
 
-        var items = (this.props.can_do_multiple && listRecs.length > 0) ? [{
-            label: "Invite other recruiters to join",
-            type: "checkbox",
-            name: "recs",
-            data: listRecs
-        }] : [];
+        var items = (this.props.can_do_multiple && listRecs.length > 0) ?
+            [{
+                label: "Invite other recruiters to join (optional)",
+                type: "checkbox",
+                name: "recs",
+                data: listRecs
+            }] : [];
 
         var onSubmit = (recs) => {
             if (this.props.can_do_multiple) {
-                //send email to rec id
-                console.log("send invitaion email to", recs);
+                this.inviteForPanelInterview(recs, zoom_data.join_url);
             }
 
             layoutActions.storeHideBlockLoader();
@@ -307,7 +330,7 @@ class Chat extends React.Component {
         var data = {
             query: "create_meeting",
             host_id: this.props.self_id,
-            session_id: this.props.session_id
+            session_id: this.props.session_id,
         };
 
         getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
