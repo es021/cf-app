@@ -76,58 +76,42 @@ export class ResumeDrop extends React.Component {
             }
         };
 
-        this.tableHeader = <thead>
-            <tr>
-                <th>Action</th>
-                {this.props.isRec ? <th>Student</th> : <th>Company</th>}
-                <th>Message</th>
-                {this.props.isRec ? <th>Notes</th> : null}
-                {this.props.isRec ? <th>Ratings</th> : null}
-                {this.props.isRec ? <th>Hosted By</th> : null}
-            </tr>
-        </thead>;
+        this.tableHeader = null;
 
         this.renderRow = (d, i) => {
-            var row = [];
-
-            row.push(<td>
-                <a id={d.student.ID} onClick={(ev) => { this.openSIForm(ev.currentTarget.id) }}>
-                    <i className="fa fa-plus left"></i>
-                    Schedule For Interview</a>
-            </td>);
-
-            // entity
-            var other = (this.props.isRec)
+            var title = (this.props.isRec)
                 ? createUserTitle(d.student, this.search.search_student)
                 : createCompanyTitle(d.company, "");
-            row.push(<td>{other}</td>);
 
-            // status
-            row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
+            var addSI = <a id={d.student.ID} onClick={(ev) => { this.openSIForm(ev.currentTarget.id) }}>
+                <i className="fa fa-plus left"></i>
+                Schedule For Interview</a>;
 
-            if (this.props.isRec) {
-                var notes = d.session_notes.map((d, i) => d.note);
-                row.push(<td>
-                    <small>
-                        <CustomList emptyMessage={null} items={notes} className="normal"></CustomList>
-                    </small>
-                </td>);
+            var details = <div>
+                {Time.getStringShort(d.created_at)}
+                <br></br>
+                {JSON.stringify(d.doc_links)}
+                <br></br>
+                {addSI}
+                <br></br>
+                <p><small>{d.message}</small></p>
+            </div>;
 
-                var ratings = d.session_ratings.map((d, i) => `${d.category}-${d.rating}`);
-                row.push(<td>
-                    <small>
-                        <CustomList emptyMessage={null} items={ratings} className="normal"></CustomList>
-                    </small>
-                </td>);
+            var item =
+                <ProfileListWide title={title}
+                    img_url={d.company.img_url}
+                    img_pos={d.company.img_position}
+                    img_size={d.company.img_size}
+                    img_dimension={"80px"}
+                    body={details}
+                    action_text="Scheduled Interview"
+                    action_handler={() => { alert("do something") }}
+                    action_disabled={false}
+                    type="company" key={i}>
+                </ProfileListWide>;
 
-                row.push(<td>{createUserTitle(d.recruiter)}</td>);
-            }
+            return item;
 
-            // other
-            //row.push(<td>{Time.getString(d.started_at)}</td>);
-            //row.push(<td>{Time.getString(d.ended_at)}</td>);
-
-            return row;
         }
 
         this.loadData = (page, offset) => {
@@ -152,20 +136,16 @@ export class ResumeDrop extends React.Component {
                 updated_at
                 ${extra}
             }}`);
-
-            //started_at
-            //ended_at
         };
 
-
         this.getDataFromRes = (res) => {
-            return res.data.data.sessions;
+            return res.data.data.resume_drops;
         }
     }
 
     render() {
-        document.setTitle("Past Sessions");
-        return (<div><h2>Past Sessions</h2>
+        document.setTitle("Resume Drop");
+        return (<div><h2>Resume Drop</h2>
             <GeneralFormPage
                 dataTitle={this.dataTitle}
                 noMutation={true}
@@ -177,9 +157,7 @@ export class ResumeDrop extends React.Component {
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}
             ></GeneralFormPage>
-
         </div>);
-
     }
 }
 
