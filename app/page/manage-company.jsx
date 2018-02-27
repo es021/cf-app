@@ -391,6 +391,16 @@ AboutSubPage.PropTypes = {
 //###################################################################################################
 import { createUserTitle } from './users';
 
+export function openSIAddForm(student_id, company_id, type) {
+    var defaultFormItem = {};
+    defaultFormItem[Prescreen.SPECIAL_TYPE] = type;
+    defaultFormItem[Prescreen.STUDENT_ID] = student_id;
+    defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
+    
+    layoutActions.storeUpdateFocusCard("Add A New Scheduled Interview", ScheduledInterview
+        , { company_id: company_id, formOnly: true, defaultFormItem: defaultFormItem });
+}
+
 // included in my-activity for recruiter
 // add as form only in past session in my-activity
 export class ScheduledInterview extends React.Component {

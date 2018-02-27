@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { getAuthUser, isRoleRec, isRoleStudent } from '../redux/actions/auth-actions';
 import SubNav from '../component/sub-nav';
 import { SessionsList } from './partial/activity/session';
+import { ResumeDrop } from './partial/activity/resume-drop';
 import PropTypes from 'prop-types';
 import { ScheduledInterview } from './manage-company';
+
 
 export default class ActivityPage extends React.Component {
     componentWillMount() {
@@ -28,6 +30,12 @@ export default class ActivityPage extends React.Component {
                 component: SessionsList,
                 props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
                 icon: "comments"
+            },
+            "resume-drop": {
+                label: "Resume Drop",
+                component: ResumeDrop,
+                props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
+                icon: "download"
             }
         };
 
@@ -59,3 +67,5 @@ export default class ActivityPage extends React.Component {
         </div>;
     }
 }
+
+

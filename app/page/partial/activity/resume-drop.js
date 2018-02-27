@@ -13,11 +13,11 @@ import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../companies';
 import { openSIAddForm } from '../../manage-company';
 
-export class SessionsList extends React.Component {
+export class ResumeDrop extends React.Component {
 
     constructor(props) {
         super(props);
-        this.openNextRoundForm = this.openNextRoundForm.bind(this);
+        this.openSIForm = this.openSIForm.bind(this);
     }
 
     sessionStatusString(status, style = false) {
@@ -37,25 +37,20 @@ export class SessionsList extends React.Component {
         }
     }
 
-    openNextRoundForm(student_id) {
-        openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_NEXT_ROUND);
+    openSIForm(student_id) {
+        openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_SCHEDULED);
     }
 
     componentWillMount() {
-        this.entityQuery = (this.props.isRec)
-            ? `company_id:${this.props.company_id},`
-            : `participant_id:${this.props.student_id},`;
-
         this.offset = 10;
-
-
         //##########################################
         //  search
         this.searchParams = "";
         this.search = {};
-        this.searchFormItem = [{ header: "Enter Your Search Query" }];
+        this.searchFormItem = null;
 
         if (this.props.isRec) {
+            this.searchFormItem.push({ header: "Enter Your Search Query" });
             this.searchFormItem.push({
                 label: "Find Student",
                 name: "search_student",
@@ -71,25 +66,6 @@ export class SessionsList extends React.Component {
             // });
         }
 
-        this.searchFormItem.push({
-            label: "Status",
-            name: "status",
-            type: "select",
-            data: [{
-                key: ""
-                , label: "All"
-            }, {
-                key: SessionEnum.STATUS_ACTIVE
-                , label: this.sessionStatusString(SessionEnum.STATUS_ACTIVE)
-            }, {
-                key: SessionEnum.STATUS_EXPIRED
-                , label: this.sessionStatusString(SessionEnum.STATUS_EXPIRED)
-            }, {
-                key: SessionEnum.STATUS_LEFT
-                , label: this.sessionStatusString(SessionEnum.STATUS_LEFT)
-            }]
-        });
-
         this.searchFormOnSubmit = (d) => {
             this.search = d;
             this.searchParams = "";
@@ -100,14 +76,11 @@ export class SessionsList extends React.Component {
             }
         };
 
-        // <th>Started At</th>
-        // <th>Ended At</th>
-
         this.tableHeader = <thead>
             <tr>
                 <th>Action</th>
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
-                <th>Status</th>
+                <th>Message</th>
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
                 {this.props.isRec ? <th>Hosted By</th> : null}
@@ -118,15 +91,10 @@ export class SessionsList extends React.Component {
             var row = [];
 
             row.push(<td>
-                <a id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
+                <a id={d.student.ID} onClick={(ev) => { this.openSIForm(ev.currentTarget.id) }}>
                     <i className="fa fa-plus left"></i>
-                    Next Round</a>
-                <br></br>
-                <NavLink to={`${RootPath}/app/session/${d.ID}`}>
-                    <i className="fa fa-commenting left"></i>Chat Log</NavLink>
+                    Schedule For Interview</a>
             </td>);
-
-            //row.push(<td><NavLink to={`${RootPath}/app/session/${d.ID}`}>Session {d.ID}</NavLink></td>);
 
             // entity
             var other = (this.props.isRec)
@@ -163,18 +131,27 @@ export class SessionsList extends React.Component {
         }
 
         this.loadData = (page, offset) => {
+            var entityQuery = (this.props.isRec)
+                ? `company_id:${this.props.company_id},`
+                : `student_id:${this.props.student_id},`;
+
             var extra = (this.props.isRec)
-                ? `session_notes{note}
-                    session_ratings{category rating}
-                    student{ID first_name last_name user_email}
-                    recruiter{ID first_name last_name user_email}` : "company{ID name}";
+                ? `student{ID first_name last_name user_email img_url img_pos img_size}`
+                : `company{ID name img_url img_position img_size}`;
 
             return getAxiosGraphQLQuery(`query{
-                        sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}, order_by:"ID desc"){
-                        ID
-                host_id
-                    ${extra}
-                    status}}`);
+            resume_drops(${ this.searchParams} ${entityQuery} page: ${page}, offset:${offset}, order_by:"created_at desc"){
+                ID
+                doc_links {
+                    type
+                    label
+                    url
+                }
+                message
+                created_at
+                updated_at
+                ${extra}
+            }}`);
 
             //started_at
             //ended_at
@@ -206,7 +183,7 @@ export class SessionsList extends React.Component {
     }
 }
 
-SessionsList.propTypes = {
+ResumeDrop.propTypes = {
     isRec: PropTypes.bool,
     company_id: PropTypes.number,
     student_id: PropTypes.number
