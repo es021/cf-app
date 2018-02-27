@@ -131,8 +131,9 @@ const PrescreenEnum = {
     STATUS_PENDING: "Pending",
     STATUS_APPROVED: "Approved",
     STATUS_DONE: "Done",
-    ST_NEXT_ROUND: "Next Round",
-    ST_PRE_SCREEN: "Pre Screen"
+    ST_NEXT_ROUND: "Next Round", // from session
+    ST_SCHEDULED: "Scheduled Interview", // from drop resume, forum?
+    ST_PRE_SCREEN: "Pre Screen" // from prescreen
 };
 
 

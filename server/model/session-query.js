@@ -96,7 +96,7 @@ class SessionQuery {
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
         } else {
-            return `select q.*,
+            return `select q.*, 
             ${UserQuery.selectMeta("q.host_id", "rec_company", "company_id")}
             ${sql} ${limit}`;
         }

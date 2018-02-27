@@ -402,7 +402,12 @@ fields["resume_drops"] = {
     args: {
         ID: { type: GraphQLInt },
         company_id: { type: GraphQLInt },
-        student_id: { type: GraphQLInt }
+        student_id: { type: GraphQLInt },
+
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString },
+        search_student: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return ResumeDropExec.resume_drops(arg, graphqlFields(info));
