@@ -19,6 +19,15 @@ export const PCType = {
 };
 const pc = "pc-";
 
+// return in from {img_url, img_size, img_pos}
+export const getImageObj = function (obj) {
+    var r = {};
+    r.img_url = obj.img_url;
+    r.img_size = obj.img_size;
+    r.img_pos = (typeof obj.img_pos != "undefined") ? obj.img_pos : obj.img_position;
+    return r;
+}
+
 export const getDefaultProfileImg = function (type, url = null) {
     if (url == null) {
         switch (type) {

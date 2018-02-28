@@ -6,7 +6,8 @@ import UserPopup from '../popup/user-popup';
 import { SessionEnum, Prescreen, PrescreenEnum } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
 //importing for list
-import List, { CustomList } from '../../../component/list';
+import List, { CustomList, ProfileListWide } from '../../../component/list';
+import { getImageObj } from '../../../component/profile-card';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
@@ -47,7 +48,7 @@ export class ResumeDrop extends React.Component {
         //  search
         this.searchParams = "";
         this.search = {};
-        this.searchFormItem = null;
+        this.searchFormItem = [];
 
         if (this.props.isRec) {
             this.searchFormItem.push({ header: "Enter Your Search Query" });
@@ -97,11 +98,13 @@ export class ResumeDrop extends React.Component {
                 <p><small>{d.message}</small></p>
             </div>;
 
+            var imgObj = (this.props.isRec) ? getImageObj(d.student) :  getImageObj(d.company);
+
             var item =
                 <ProfileListWide title={title}
-                    img_url={d.company.img_url}
-                    img_pos={d.company.img_position}
-                    img_size={d.company.img_size}
+                    img_url={imgObj.img_url}
+                    img_pos={imgObj.img_pos}
+                    img_size={imgObj.img_size}
                     img_dimension={"80px"}
                     body={details}
                     action_text="Scheduled Interview"
