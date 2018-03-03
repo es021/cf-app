@@ -12,12 +12,13 @@ import obj2arg from 'graphql-obj2arg';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import { getOtherRecs } from '../../../redux/actions/auth-actions';
+import { ActivityType } from '../../../redux/actions/hall-actions';
 import { ButtonLink } from '../../../component/buttons';
 import UserPopup from '../popup/user-popup';
 
 import { connect } from 'react-redux';
 import { BOTH } from '../../../../config/socket-config';
-import { emitChatMessage, socketOn } from '../../../socket/socket-client';
+import { emitChatMessage, socketOn, emitHallActivity } from '../../../socket/socket-client';
 
 require("../../../css/chat.scss");
 
@@ -184,7 +185,7 @@ class Chat extends React.Component {
         {id_message_number}}`;
         getAxiosGraphQLQuery(query);
 
-        // todo add to socket
+        // add to socket
         emitChatMessage(this.props.self_id, this.props.other_id, mes, Time.getUnixTimestampNow());
 
         // empty value
@@ -221,25 +222,33 @@ class Chat extends React.Component {
         getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
     }
 
-    inviteForPanelInterview(recs, join_url) {
+    inviteForPanelInterview(recs, zoom_meeting_id, join_url) {
         // this.props.session_id;
-        //send email to rec id
-
+        console.log(recs);
         for (var i in recs) {
             var key = recs[i].split("::");
-            var user_id = key[0];
+            var user_id = Number.parseInt(key[0]);
             var user_email = key[1];
-            
-            // add to tabel panel interview
-            var add = {
-                user_id: user_id,
-                session_id: this.props.session_id,
-                join_url: join_url
-            };
 
+            // 1. send email to rec id
             console.log("send invitaion email to", user_email);
 
-            console.log("add to table panel interview", add);
+            // 2. add to tabel zoom_invites
+            var add = {
+                user_id: user_id,
+                zoom_meeting_id: zoom_meeting_id,
+                join_url: join_url,
+                session_id: this.props.session_id,
+                host_id: this.props.self_id,
+                participant_id: this.props.other_id
+            };
+
+            var add_query = `mutation{add_zoom_invite(${obj2arg(add, { noOuterBraces: true })}) 
+                {ID}}`;
+
+            getAxiosGraphQLQuery(add_query).then((res) => {
+                emitHallActivity(ActivityType.ZOOM_INVITE, user_id);
+            });
         }
     }
 
@@ -260,9 +269,9 @@ class Chat extends React.Component {
                 data: listRecs
             }] : [];
 
-        var onSubmit = (recs) => {
+        var onSubmit = (data) => {
             if (this.props.can_do_multiple) {
-                this.inviteForPanelInterview(recs, zoom_data.join_url);
+                this.inviteForPanelInterview(data.recs, zoom_data.id, zoom_data.join_url);
             }
 
             layoutActions.storeHideBlockLoader();

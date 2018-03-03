@@ -35,6 +35,7 @@ class ResumeDropExec {
         var { DocLinkExec } = require('./doclink-query.js');
 
         var sql = ResumeDropQuery.getResumeDrop(params, field, extra);
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];

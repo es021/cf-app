@@ -232,4 +232,6 @@ Time.prototype.getInputFromUnix = function (unixtimestamp) {
     return r;
 };
 
-export var Time = new Time();
+//export var Time = new Time();
+var Time = new Time();
+module.exports = { Time };

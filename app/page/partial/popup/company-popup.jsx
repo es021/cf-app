@@ -6,7 +6,7 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import ProfileCard from '../../../component/profile-card';
 import List, { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
-import { getAuthUser, isRoleRec, isRoleAdmin } from '../../../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, isRoleStudent, isRoleAdmin } from '../../../redux/actions/auth-actions';
 import { DocLinkEnum, CompanyEnum, LogEnum } from '../../../../config/db-config';
 import { CustomList } from '../../../component/list';
 
@@ -19,7 +19,6 @@ import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
 
 import { addLog } from '../../../redux/actions/other-actions';
-
 
 class VacancyList extends React.Component {
     constructor(props) {
@@ -229,7 +228,7 @@ export default class CompanyPopup extends Component {
 
             const doc_link = <CustomList className="label" items={dl}></CustomList>;
 
-            var action = (isRoleRec() || this.props.displayOnly) ? null :
+            var action = (!isRoleStudent() || this.props.displayOnly) ? null :
                 <div className="btn-group btn-group-justified">
                     <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
                         <i className="fa fa-sign-in left"></i>

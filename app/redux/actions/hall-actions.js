@@ -1,5 +1,5 @@
 import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
-import { Session, Queue, Prescreen, UserEnum } from '../../../config/db-config';
+import { Session, Queue, Prescreen, UserEnum, ZoomInvite } from '../../../config/db-config';
 import { getAuthUser, getCF } from './auth-actions';
 import { store } from '../store.js';
 
@@ -7,7 +7,8 @@ import { store } from '../store.js';
 export const ActivityType = {
     SESSION: Session.TABLE,
     QUEUE: Queue.TABLE,
-    PRESCREEN: Prescreen.TABLE
+    PRESCREEN: Prescreen.TABLE,
+    ZOOM_INVITE: ZoomInvite.TABLE
 };
 
 function getEntitySelect(role) {
@@ -19,7 +20,7 @@ function getEntitySelect(role) {
 
 
 export const ACTIVITY = "ACTIVITY";
-export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN]) {
+export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN, ActivityType.ZOOM_INVITE]) {
 
     var role = getAuthUser().role;
     var user_id = getAuthUser().ID;
@@ -42,10 +43,14 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
             case ActivityType.PRESCREEN:
                 select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role)}} `;
                 break;
+            case ActivityType.ZOOM_INVITE:
+                select += ` zoom_invites { ID join_url created_at recruiter { user_email } ${getEntitySelect(role)}} `;
+                break;
         }
     });
 
     var query = `query{user(ID:${user_id}){${select}}}`;
+
     return function (dispatch) {
         dispatch({
             type: ACTIVITY + type,
@@ -54,7 +59,7 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
     };
 }
 
-export function storeLoadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN]) {
+export function storeLoadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN, ActivityType.ZOOM_INVITE]) {
     store.dispatch(loadActivity(types));
 }
 

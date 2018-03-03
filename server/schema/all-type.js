@@ -1,10 +1,11 @@
 const {
     GraphQLObjectType,
     GraphQLString,
-    GraphQLInt,
     GraphQLSchema,
     GraphQLList,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLInt,
+    GraphQLBoolean
 } = require('graphql');
 
 const SkillType = new GraphQLObjectType({
@@ -41,6 +42,7 @@ const UserType = new GraphQLObjectType({
         registered_prescreens: { type: new GraphQLList(PrescreenType) },
         prescreens: { type: new GraphQLList(PrescreenType) },
         sessions: { type: new GraphQLList(SessionType) },
+        zoom_invites: { type: new GraphQLList(ZoomInviteType) },
 
         // student only
         university: { type: GraphQLString },
@@ -313,8 +315,30 @@ const AuditoriumType = new GraphQLObjectType({
     })
 });
 
+// Recruiter invite other recruiter for panel interview
+const ZoomInviteType = new GraphQLObjectType({
+    name: 'ZoomInvite',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        zoom_meeting_id: { type: GraphQLInt },
+        join_url: { type: GraphQLString },
+        session_id: { type: GraphQLInt },
+        host_id: { type: GraphQLInt },
+        participant_id: { type: GraphQLInt },
+        created_at: { type: GraphQLString },
+
+        is_expired: { type: GraphQLBoolean },
+
+        // participant
+        student: { type: UserType },
+        //host
+        recruiter: { type: UserType }
+    })
+});
+
 module.exports = {
     UserType
+    , ZoomInviteType
     , CompanyType
     , QueueType
     , MessageType

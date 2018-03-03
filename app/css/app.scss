@@ -1,148 +1,151 @@
 @import "define/variable.scss";
-
-*{
+* {
     word-break: keep-all !important;
     overflow-wrap: break-word;
+}
+
+.break-all {
+    word-break: break-all !important;
 }
 
 html {
     height: 100%;
 }
 
-body, footer{
+body,
+footer {
     font-family: 'Montserrat', Helvetica, sans-serif;
     background: $COLOR_DARK;
 }
 
-
-#app .primary-layout{
+#app .primary-layout {
     position: relative;
     text-align: center;
 }
 
-header, content, left_bar, footer{
+header,
+content,
+left_bar,
+footer {
     /*    border: 1px dotted gray;*/
 }
 
-header{
+header {
     height: $HEADER_HEIGHT;
     position: fixed;
     width: 100%;
-    top:0;
+    top: 0;
     background: white;
     z-index: 1;
-
 }
 
-.content{
+.content {
     background: $COLOR_BACKGROUND;
     padding-top: $HEADER_HEIGHT;
     min-height: 65vh;
     width: 100%;
     display: flex;
     flex-flow: row;
-
-    .main{
+    .main {
         padding: 20px;
-        flex: 3; 
+        flex: 3;
     }
-
-    right_bar{
-        flex: 1; 
-        background: darken($COLOR_BACKGROUND,10);
+    right_bar {
+        flex: 1;
+        background: darken($COLOR_BACKGROUND, 10);
     }
 }
 
-footer{
+footer {
     height: 50px;
     width: 100%;
     min-height: 10%;
     z-index: 1;
 }
 
-left_bar{
+left_bar {
     width: $LEFTBAR_LG_WIDTH;
     left: 0;
-    top:0;
+    top: 0;
     position: fixed;
     height: 100%;
     z-index: 5;
 }
 
+
 /*padding for left_bar*/
-header, .content, footer{
+
+header,
+.content,
+footer {
     padding-left: $LEFTBAR_LG_WIDTH;
 }
 
-.primary-layout.landing-page{
-    header, .content, footer{
+.primary-layout.landing-page {
+    header,
+    .content,
+    footer {
         padding-left: 0;
-    }    
+    }
 }
 
-
-@media only screen and (min-width: 1000px){
-    .primary-layout.landing-page{
-        header{
+@media only screen and (min-width: 1000px) {
+    .primary-layout.landing-page {
+        header {
             padding: 0 111px;
         }
     }
 }
 
-@media only screen and (max-width: $LAYOUT_MD){
-    header, .content, footer{
+@media only screen and (max-width: $LAYOUT_MD) {
+    header,
+    .content,
+    footer {
         padding-left: $LEFTBAR_MD_WIDTH;
     }
-
-    left_bar{
+    left_bar {
         width: $LEFTBAR_MD_WIDTH;
-
     }
-
-    .content{
+    .content {
         flex-flow: column;
-
-        .main{
+        .main {
             padding: 15px;
-            flex: 1; 
+            flex: 1;
         }
-
-        right_bar{
-            flex: 1; 
+        right_bar {
+            flex: 1;
             min-height: 100px;
             min-width: 100%;
         }
     }
 }
 
+
 /**Layout for Small Size 360px */
-@media only screen and (max-width: $LAYOUT_SM){
 
-    header, .content, footer{
+@media only screen and (max-width: $LAYOUT_SM) {
+    header,
+    .content,
+    footer {
         padding-left: 0;
-    }
-
-    //hide left bar and position it under header bar
-    left_bar{
+    } //hide left bar and position it under header bar
+    left_bar {
         width: 100%;
         height: $LEFTBAR_SM_HEIGHT;
-        top:$HEADER_HEIGHT;
+        top: $HEADER_HEIGHT;
         z-index: 2;
         display: flex;
         align-items: center;
     }
-
-    .content{
+    .content {
         padding-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
-
-        .main{
+        .main {
             padding: 10px;
         }
     }
-
-    .landing-page .content{
+    .landing-page .content {
         //margin-top:$HEADER_HEIGHT;
         //margin-top:0;
-        padding-top:$HEADER_HEIGHT;
+        padding-top: $HEADER_HEIGHT;
     }
 }

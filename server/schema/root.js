@@ -14,6 +14,7 @@ const { UserType
     , PasswordResetType
     , MetaType
     , LogType
+    , ZoomInviteType
     //, CFType
     , DocLinkType } = require('./all-type.js');
 
@@ -29,6 +30,7 @@ const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { MetaExec } = require('../model/meta-query.js');
 const { LogExec } = require('../model/log-query.js');
+const { ZoomExec } = require('../model/zoom-query.js');
 const { AuditoriumExec } = require('../model/auditorium-query');
 const { PasswordResetExec } = require('../model/reset-password-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
@@ -49,6 +51,19 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* zoom ******************/
+fields["zoom_invites"] = {
+    type: new GraphQLList(ZoomInviteType),
+    args: {
+        user_id: { type: GraphQLInt },
+        is_expired: { type: GraphQLBoolean }
+    },
+    resolve(parentValue, arg, context, info) {
+        return ZoomExec.zoom_invites(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* auditorium ******************/

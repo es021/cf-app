@@ -1,9 +1,17 @@
 //import all type
-const { QueueType, LogType, AuditoriumType, DashboardType, MetaType, PasswordResetType, SessionNoteType, MessageType, VacancyType, SessionRatingType, CompanyType, UserType, SessionType, ResumeDropType, PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
-const graphqlFields = require('graphql-fields');
+const { QueueType, ZoomInviteType, LogType, AuditoriumType
+    , DashboardType, MetaType, PasswordResetType, SessionNoteType
+    , MessageType, VacancyType, SessionRatingType, CompanyType
+    , UserType, SessionType, ResumeDropType
+    , PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+
 
 //import all action for type
-const { Queue, Log, Auditorium, Vacancy, Meta, PasswordReset, Dashboard, SessionNotes, Company, DocLink, SessionRating, Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+const { Queue, ZoomInvite, Log, Auditorium, Vacancy, Meta, PasswordReset
+    , Dashboard, SessionNotes, Company, DocLink, SessionRating
+    , Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+
+const graphqlFields = require('graphql-fields');
 const { UserExec } = require('../model/user-query.js');
 const { QueueExec } = require('../model/queue-query.js');
 const { MessageExec } = require('../model/message-query.js');
@@ -24,6 +32,25 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/* message ******************/
+fields["add_zoom_invite"] = {
+    type: ZoomInviteType,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) },
+        zoom_meeting_id: { type: new GraphQLNonNull(GraphQLInt) },
+        join_url: { type: new GraphQLNonNull(GraphQLString) },
+        session_id: { type: new GraphQLNonNull(GraphQLInt) },
+        host_id: { type: new GraphQLNonNull(GraphQLInt) },
+        participant_id: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(ZoomInvite.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
 
 /* message ******************/
 fields["add_message"] = {
