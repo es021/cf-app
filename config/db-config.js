@@ -306,6 +306,10 @@ const LogEnum = {
     EVENT_VISIT_VACANCY: "visit_vacancy" // data -> vacancy_id
 };
 
+const ZoomInvite = {
+    TABLE: "zoom_invites"
+};
+
 module.exports = {
     User, UserMeta, UserEnum
     , DocLink, DocLinkEnum
@@ -322,4 +326,5 @@ module.exports = {
     , PasswordReset
     , Meta, Log, LogEnum
     , Auditorium, AuditoriumEnum
+    , ZoomInvite
 };

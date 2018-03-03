@@ -12,7 +12,8 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../companies';
-import { openSIAddForm } from '../../manage-company';
+import { openSIAddForm } from '../../partial/activity/scheduled-interview';
+import { createUserDocLinkList } from '../popup/user-popup';
 
 export class ResumeDrop extends React.Component {
 
@@ -21,22 +22,6 @@ export class ResumeDrop extends React.Component {
         this.openSIForm = this.openSIForm.bind(this);
     }
 
-    sessionStatusString(status, style = false) {
-        switch (status) {
-            case SessionEnum.STATUS_ACTIVE:
-                var toRet = "Currently Active";
-                if (!style) {
-                    return toRet;
-                } else {
-                    return <b style={{ color: "green" }}>{toRet}</b>;
-                }
-                break;
-            case SessionEnum.STATUS_EXPIRED:
-                return "Ended by Recruiter";
-            case SessionEnum.STATUS_LEFT:
-                return "Left by Student";
-        }
-    }
 
     openSIForm(student_id) {
         openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_SCHEDULED);
@@ -72,33 +57,34 @@ export class ResumeDrop extends React.Component {
             this.searchParams = "";
             if (d != null) {
                 this.searchParams += (d.search_student != "") ? `search_student:"${d.search_student}",` : "";
-                this.searchParams += (d.status != "") ? `status:"${d.status}",` : "";
                 //this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
             }
         };
 
-        this.tableHeader = null;
 
         this.renderRow = (d, i) => {
             var title = (this.props.isRec)
                 ? createUserTitle(d.student, this.search.search_student)
                 : createCompanyTitle(d.company, "");
 
-            var addSI = <a id={d.student.ID} onClick={(ev) => { this.openSIForm(ev.currentTarget.id) }}>
-                <i className="fa fa-plus left"></i>
-                Schedule For Interview</a>;
 
+            // var addSI = <a id={d.student.ID} onClick={(ev) => { this.openSIForm(ev.currentTarget.id) }}>
+            //     <i className="fa fa-plus left"></i>
+            //     Schedule For Interview</a>;
+
+            var message = (d.message)
+                ? <p style={{ borderTop: "solid 1px darkgrey" }}>
+                    <small>{d.message}</small>
+                </p >
+                : null;
+                
             var details = <div>
-                {Time.getStringShort(d.created_at)}
-                <br></br>
-                {JSON.stringify(d.doc_links)}
-                <br></br>
-                {addSI}
-                <br></br>
-                <p><small>{d.message}</small></p>
+                {createUserDocLinkList(d.doc_links, d.student.ID, false)}
+                <small> <i>submitted on {Time.getString(d.created_at)} </i> <br></br></small>
+                {message}
             </div>;
 
-            var imgObj = (this.props.isRec) ? getImageObj(d.student) :  getImageObj(d.company);
+            var imgObj = (this.props.isRec) ? getImageObj(d.student) : getImageObj(d.company);
 
             var item =
                 <ProfileListWide title={title}
@@ -107,10 +93,10 @@ export class ResumeDrop extends React.Component {
                     img_size={imgObj.img_size}
                     img_dimension={"80px"}
                     body={details}
-                    action_text="Scheduled Interview"
-                    action_handler={() => { alert("do something") }}
+                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Interview</small>}
+                    action_handler={() => { this.openSIForm(d.student.ID) }}
                     action_disabled={false}
-                    type="company" key={i}>
+                    type={(this.props.isRec ? "student" : "company")} key={i}>
                 </ProfileListWide>;
 
             return item;
@@ -121,24 +107,25 @@ export class ResumeDrop extends React.Component {
             var entityQuery = (this.props.isRec)
                 ? `company_id:${this.props.company_id},`
                 : `student_id:${this.props.student_id},`;
-
             var extra = (this.props.isRec)
                 ? `student{ID first_name last_name user_email img_url img_pos img_size}`
                 : `company{ID name img_url img_position img_size}`;
 
-            return getAxiosGraphQLQuery(`query{
-            resume_drops(${ this.searchParams} ${entityQuery} page: ${page}, offset:${offset}, order_by:"created_at desc"){
-                ID
-                doc_links {
-                    type
-                    label
-                    url
-                }
-                message
-                created_at
-                updated_at
-                ${extra}
-            }}`);
+            var query = `query{
+                    resume_drops(${ this.searchParams} ${entityQuery} page: ${page}, offset:${offset}, order_by:"created_at desc"){
+                        ID
+                        doc_links {
+                            type
+                            label
+                            url
+                        }
+                        message
+                        created_at
+                        updated_at
+                        ${extra}
+                    }}`
+
+            return getAxiosGraphQLQuery(query);
         };
 
         this.getDataFromRes = (res) => {
@@ -155,7 +142,6 @@ export class ResumeDrop extends React.Component {
                 dataOffset={this.offset}
                 searchFormItem={this.searchFormItem}
                 searchFormOnSubmit={this.searchFormOnSubmit}
-                tableHeader={this.tableHeader}
                 renderRow={this.renderRow}
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}

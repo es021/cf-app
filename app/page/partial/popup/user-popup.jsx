@@ -11,6 +11,26 @@ import CompanyPopup from './company-popup';
 
 import { addLog } from '../../../redux/actions/other-actions';
 
+export function createUserDocLinkList(doc_links, student_id, alignCenter = true) {
+    //document and link
+    var dl = doc_links.map((d, i) => {
+        var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+        return <span><i className={`fa left fa-${icon}`}></i>
+            <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+        </span>;
+    });
+
+    const onClickDocLink = () => {
+        addLog(LogEnum.EVENT_CLICK_USER_DOC, student_id);
+    };
+
+    const doc_link = <CustomList className="label"
+        emptyMessage={"No Document Or Links Uploaded"}
+        alignCenter={alignCenter} items={dl} onClick={onClickDocLink}></CustomList>;
+
+    return doc_link;
+}
+
 export default class UserPopup extends Component {
     constructor(props) {
         super(props)
@@ -207,6 +227,7 @@ export default class UserPopup extends Component {
         const basic = this.getBasicInfo(user);
 
         //document and link
+        /*
         var dl = user.doc_links.map((d, i) => {
             var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
             return <span><i className={`fa left fa-${icon}`}></i>
@@ -219,6 +240,9 @@ export default class UserPopup extends Component {
         };
 
         const doc_link = <CustomList className="label" items={dl} onClick={onClickDocLink}></CustomList>;
+        */
+
+        const doc_link = createUserDocLinkList(user.doc_links, this.id);
 
         // skill
         var s = user.skills.map((d, i) => d.label);

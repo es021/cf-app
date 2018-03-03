@@ -435,7 +435,7 @@ export class CustomList extends Component {
 
         if (this.props.items.length === 0) {
             if (typeof this.props.emptyMessage !== "undefined") {
-                return this.props.emptyMessage;
+                return <div className="text-muted">{this.props.emptyMessage}</div>;
             } else {
                 return <div className="text-muted">Nothing To Show Here</div>;
             }
@@ -470,16 +470,26 @@ export class CustomList extends Component {
 
         className += (this.props.ux) ? " li-ux " : "";
 
-        return (<ul
+        console.log(this.props);
+        var style = {
+            justifyContent: (this.props.alignCenter) ? "center" : "start"
+        };
+
+        return (<ul style={style}
             className={className}>
             {view}</ul>);
     }
 }
 
 CustomList.propTypes = {
+    alignCenter: PropTypes.bool,
     items: PropTypes.array.isRequired,
     emptyMessage: PropTypes.any,
     className: PropTypes.oneOf(["empty", "normal", "icon", "label"]),
     onClick: PropTypes.func,
     ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
+};
+
+CustomList.defaultProps = {
+    alignCenter: true
 };

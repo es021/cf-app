@@ -290,6 +290,7 @@ class UserExec {
         const { CompanyExec } = require('./company-query.js');
         const { QueueExec } = require('./queue-query.js');
         const { PrescreenExec } = require('./prescreen-query.js');
+        const { ZoomExec } = require('./zoom-query.js');
         const { SessionExec } = require('./session-query.js');
 
         // extra field that need role value to find
@@ -332,6 +333,12 @@ class UserExec {
                     }
 
                     res[i]["sessions"] = SessionExec.sessions(par, field["sessions"]);
+                }
+
+                // zoom_invites ****************************************************
+                if (typeof field["zoom_invites"] !== "undefined") {
+                    var par = { is_expired: false, user_id: user_id };
+                    res[i]["zoom_invites"] = ZoomExec.zoom_invites(par, field["zoom_invites"]);
                 }
 
                 // queues ****************************************************

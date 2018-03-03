@@ -208,6 +208,5 @@ export const emitLiveFeed = (title, content, type, cf, created_at) => {
 };
 
 export const emitLogout = () => {
-    console.log("yooooooo");
     socketEmit(C2S.LOGOUT, { id: getAuthUser().ID });
 };

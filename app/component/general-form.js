@@ -291,6 +291,10 @@ export default class GeneralFormPage extends React.Component {
             return <div></div>;
         }
 
+
+        // wrap data with key to force it recreate new component when needed
+        const listType = (this.props.tableHeader !== null) ? "table" : "list";
+
         var view = null;
         const renderList = (d, i) => {
             var row = this.props.renderRow(d);
@@ -307,12 +311,16 @@ export default class GeneralFormPage extends React.Component {
                     <a id={d.ID}
                         onClick={this.editPopup.bind(this)}>Edit</a></td>);
             }
-            return <tr>{row}</tr>;
+
+            if (listType == "table") {
+                return <tr>{row}</tr>;
+            } else {
+                return row;
+            }
         };
 
-        // wrap data with key to force it recreate new component when needed
         var datas = <div key={this.state.key}>
-            <List type="table"
+            <List type={listType}
                 tableHeader={this.props.tableHeader}
                 getDataFromRes={this.props.getDataFromRes}
                 loadData={this.props.loadData}
@@ -363,7 +371,7 @@ GeneralFormPage.propTypes = {
     loadData: PropTypes.func.isRequired,
     addButtonText: PropTypes.string.isRequired,
     renderRow: PropTypes.func.isRequired,
-    tableHeader: PropTypes.element.isRequired,
+    tableHeader: PropTypes.element,
     dataTitle: PropTypes.string.isRequired,
     getFormItem: PropTypes.func,
     getFormItemAsync: PropTypes.func,
@@ -389,5 +397,6 @@ GeneralFormPage.defaultProps = {
     btnColorClass: "primary",
     discardDiff: [],
     forceDiff: [],
-    formOnly: false
+    formOnly: false,
+    tableHeader: null
 }

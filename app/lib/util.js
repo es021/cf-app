@@ -33,8 +33,6 @@ String.prototype.replaceAll = function (search, replacement, ignoreCase = false)
     return target.replace(new RegExp(search, `${i}g`), replacement);
 };
 
-
-
 String.prototype.insertSubstring = function (substring, position) {
     var target = this;
     return [target.slice(0, position), substring, target.slice(position)].join('');

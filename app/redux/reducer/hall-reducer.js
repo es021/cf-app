@@ -6,10 +6,12 @@ const hallReducerInitState = {
         sessions: [],
         queues: [],
         prescreens: [],
+        zoom_invites: [],
         fetching: {
             sessions: true,
             queues: true,
-            prescreens: true
+            prescreens: true,
+            zoom_invites: true
         },
         error: null
     },
@@ -65,6 +67,10 @@ export default function hallReducer(state = hallReducerInitState, action) {
             if (action.type.indexOf(hallAction.ActivityType.PRESCREEN) > -1) {
                 newState.fetching["prescreens"] = true;
             }
+
+            if (action.type.indexOf(hallAction.ActivityType.ZOOM_INVITE) > -1) {
+                newState.fetching["zoom_invites"] = true;
+            }
         }
 
 
@@ -95,7 +101,10 @@ export default function hallReducer(state = hallReducerInitState, action) {
             if (data.user.prescreens) {
                 newState["prescreens"] = data.user.prescreens;
                 newState.fetching["prescreens"] = false;
-
+            }
+            if (data.user.zoom_invites) {
+                newState["zoom_invites"] = data.user.zoom_invites;
+                newState.fetching["zoom_invites"] = false;
             }
         }
 

@@ -4,7 +4,7 @@ import SubNav from '../component/sub-nav';
 import { SessionsList } from './partial/activity/session';
 import { ResumeDrop } from './partial/activity/resume-drop';
 import PropTypes from 'prop-types';
-import { ScheduledInterview } from './manage-company';
+import { ScheduledInterview } from './partial/activity/scheduled-interview';
 
 
 export default class ActivityPage extends React.Component {

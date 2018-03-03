@@ -142,6 +142,21 @@ class ActvityList extends React.Component {
 
 
                 switch (this.props.type) {
+                    case hallAction.ActivityType.ZOOM_INVITE:
+                        subtitle = <span>Hosted by
+                            <div className="break-all">
+                                <b>{d.recruiter.user_email}</b>
+                            </div>
+                            <br></br>
+                            {Time.getAgo(d.created_at)}
+                        </span>;
+
+                        body = <div>
+                            <a target="_blank" href={d.join_url} className="btn btn-sm btn-blue">Join Interview</a>
+                        </div>;
+
+                        break;
+
                     case hallAction.ActivityType.SESSION:
                         subtitle = `${Time.getAgo(d.created_at)}`;
                         body = <NavLink to={`${RootPath}/app/session/${d.ID}`}>
@@ -173,8 +188,13 @@ class ActvityList extends React.Component {
                         switch (ps_type) {
                             case PrescreenEnum.ST_NEXT_ROUND:
                                 label_color = "success";
+                                break;
                             case PrescreenEnum.ST_PRE_SCREEN:
                                 label_color = "primary";
+                                break;
+                            case PrescreenEnum.ST_SCHEDULED:
+                                label_color = "warning";
+                                break;
                         }
 
                         body = <div>
@@ -255,6 +275,9 @@ class ActivitySection extends React.Component {
         // title session
         var title_s = <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>;
 
+        // title session
+        var title_zi = <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>;
+
         //title queue
         var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
 
@@ -278,6 +301,12 @@ class ActivitySection extends React.Component {
                 type={hallAction.ActivityType.SESSION}
                 title={title_s} list={d.sessions}></ActvityList></div>;
 
+        var zi = <div className={`col-sm-${size_s} no-padding`}>
+            <ActvityList online_users={this.props.online_users}
+                fetching={d.fetching.zoom_invites}
+                type={hallAction.ActivityType.ZOOM_INVITE}
+                title={title_zi} list={d.zoom_invites}></ActvityList></div>;
+
         var q = <div className={`col-sm-${size_q} no-padding`}>
             <ActvityList online_users={this.props.online_users}
                 fetching={d.fetching.queues}
@@ -290,7 +319,7 @@ class ActivitySection extends React.Component {
                 type={hallAction.ActivityType.PRESCREEN}
                 title={title_p} list={d.prescreens}></ActvityList></div>;
 
-        return (isRoleRec()) ? <div className="row">{s}{p}{q}</div> : <div className="row">{s}{q}{p}</div>;
+        return (isRoleRec()) ? <div className="row">{s}{zi}{p}{q}</div> : <div className="row">{s}{q}{p}</div>;
     }
 }
 

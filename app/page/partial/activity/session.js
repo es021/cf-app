@@ -11,7 +11,7 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../companies';
-import { openSIAddForm } from '../../manage-company';
+import { openSIAddForm } from '../../partial/activity/scheduled-interview';
 
 export class SessionsList extends React.Component {
 
