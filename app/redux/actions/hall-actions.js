@@ -1,6 +1,6 @@
 import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
 import { Session, Queue, Prescreen, UserEnum, ZoomInvite } from '../../../config/db-config';
-import { getAuthUser, getCF } from './auth-actions';
+import { getAuthUser, getCF, isRoleRec } from './auth-actions';
 import { store } from '../store.js';
 
 /***** ACTIVITY ***************************/
@@ -44,7 +44,7 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
                 select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.ZOOM_INVITE:
-                select += ` zoom_invites { ID join_url created_at recruiter { user_email } ${getEntitySelect(role)}} `;
+                select += (isRoleRec()) ? ` zoom_invites { ID join_url created_at recruiter { user_email } ${getEntitySelect(role)}} ` : "";
                 break;
         }
     });
