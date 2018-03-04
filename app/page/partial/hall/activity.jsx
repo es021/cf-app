@@ -23,6 +23,7 @@ import * as activityActions from '../../../redux/actions/activity-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 
 import { openSIAddForm } from '../activity/scheduled-interview';
+import Tooltip from '../../../component/tooltip';
 
 import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 
@@ -64,7 +65,6 @@ class ActvityList extends React.Component {
     // open form,
     // once completed update to approve
     openSIForm(sr_id, student_id) {
-        console.log(sr_id);
         openSIAddForm(student_id, this.authUser.rec_company, PrescreenEnum.ST_SCHEDULED,
             (d) => {
                 this.updateSessionRequest(sr_id, SessionRequestEnum.STATUS_APPROVED);
@@ -172,13 +172,18 @@ class ActvityList extends React.Component {
 
     render() {
         var body = null;
+        console.log(this.props);
         if (this.props.fetching) {
             body = <Loader size="2"></Loader>;
         } else {
 
             body = this.props.list.map((d, i) => {
-
                 var obj = (isRoleRec()) ? d.student : d.company;
+
+                if (typeof obj === "undefined") {
+                    return false;
+                }
+
                 if (isRoleRec()) {
                     obj.name = obj.first_name + " " + obj.last_name;
                 }
@@ -189,7 +194,7 @@ class ActvityList extends React.Component {
                     var params = { id: obj.ID };
                     title = <ButtonLink label={obj.first_name + " " + obj.last_name}
                         onClick={() => layoutActions.storeUpdateFocusCard(obj.first_name + " " + obj.last_name, UserPopup, params)}></ButtonLink>;
-                } else {
+                } else if (isRoleStudent()) {
                     title = obj.name;
                 }
 
@@ -394,6 +399,7 @@ class ActivitySection extends React.Component {
         var d = this.props.activity;
 
         // title session
+        /*
         var title_s = <div>
             <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>
             <br></br>
@@ -405,6 +411,15 @@ class ActivitySection extends React.Component {
             </div>
 
         </div>;
+        */
+
+        var title_s = <Tooltip
+            content={<a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>}
+            tooltip={(isRoleStudent())
+                ? "Recruiter will host 1 to 1 session with you if you have Scheduled Interview with them."
+                : "Create sesssion with student from the Scheduled Interview below."
+            }>
+        </Tooltip>;
 
         // title session
         var title_zi = (isRoleRec()) ? <div>
@@ -423,10 +438,18 @@ class ActivitySection extends React.Component {
             <div className="small-sub">
                 {(d.session_requests && d.session_requests.length > 0)
                     ? "Approved interview request will appear under Scheduled Interview"
-                    : (isRoleStudent()) ? <span>Visit company booths below<br></br>to request for interview</span> : ""
+                    : (isRoleStudent()) ? <span>Visit company booths below to request for interview</span> : ""
                 }
             </div>
         </div>;
+
+        var title_sr = <Tooltip
+            content={<a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>}
+            tooltip={(d.session_requests && d.session_requests.length > 0)
+                ? "Approved interview request will appear under Scheduled Interview"
+                : (isRoleStudent()) ? "Visit company booths below to request for interview" : null
+            }>
+        </Tooltip>;
 
         // title scheduled interview
         var title_p = <div>
