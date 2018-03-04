@@ -5,20 +5,27 @@ import { Session, Prescreen, PrescreenEnum } from '../../../../config/db-config'
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { getAuthUser, isRoleAdmin, getCFObj } from '../../../redux/actions/auth-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
+import { ActivityType } from '../../../redux/actions/hall-actions';
 import PropTypes from 'prop-types';
 import { RootPath } from '../../../../config/app-config';
 import { Time } from '../../../lib/time';
 import GeneralFormPage from '../../../component/general-form';
 import { createUserTitle } from '../../users';
+import { emitHallActivity } from '../../../socket/socket-client';
 
-export function openSIAddForm(student_id, company_id, type) {
+export function openSIAddForm(student_id, company_id, type, success) {
     var defaultFormItem = {};
     defaultFormItem[Prescreen.SPECIAL_TYPE] = type;
     defaultFormItem[Prescreen.STUDENT_ID] = student_id;
     defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
 
     layoutActions.storeUpdateFocusCard("Add A New Scheduled Interview", ScheduledInterview
-        , { company_id: company_id, formOnly: true, defaultFormItem: defaultFormItem });
+        , {
+            company_id: company_id
+            , formOnly: true
+            , successAddHandlerExternal: success
+            , defaultFormItem: defaultFormItem
+        });
 }
 
 // included in my-activity for recruiter
@@ -37,13 +44,22 @@ export class ScheduledInterview extends React.Component {
 
         this.successAddHandler = (d) => {
             if (this.props.formOnly) {
-                var mes = <div>New Next Round Interview Have Been Successfully Scheduled
+                var mes = <div>New Interview Have Been Successfully Scheduled
                     <br></br>
                     <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
                         to={`${RootPath}/app/my-activity/scheduled-interview`}>
                         Manage Scheduled Interview</NavLink>
                 </div>;
                 layoutActions.successBlockLoader(mes);
+
+                if (this.props.successAddHandlerExternal) {
+                    this.props.successAddHandlerExternal(d);
+                }
+
+                // after success add scheduled interview
+                // emit to student only
+                // emit to reload scheduled interview
+                emitHallActivity(ActivityType.PRESCREEN, d.student_id);
             }
         };
 
@@ -332,10 +348,12 @@ export class ScheduledInterview extends React.Component {
 ScheduledInterview.PropTypes = {
     company_id: PropTypes.number.isRequired,
     defaultFormItem: PropTypes.object,
+    successAddHandlerExternal: PropTypes.func,
     formOnly: PropTypes.bool // to create from past sessions list
 };
 
 ScheduledInterview.defaultProps = {
+    successAddHandlerExternal: false,
     formOnly: false,
     defaultFormItem: null
 };

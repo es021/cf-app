@@ -14,6 +14,7 @@ const { UserType
     , PasswordResetType
     , MetaType
     , LogType
+    , SessionRequestType
     , ZoomInviteType
     //, CFType
     , DocLinkType } = require('./all-type.js');

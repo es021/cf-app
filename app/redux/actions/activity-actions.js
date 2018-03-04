@@ -1,8 +1,10 @@
 import axios from 'axios';
-import {store} from '../store.js';
-import {AppConfig} from '../../../config/app-config';
-import {getAxiosGraphQLQuery} from '../../../helper/api-helper';
-const {Queue, QueueEnum, Session, Prescreen} = require('../../../config/db-config');
+import { store } from '../store.js';
+import { AppConfig } from '../../../config/app-config';
+import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
+import { getAuthUser } from './auth-actions';
+
+const { Queue, QueueEnum, Session, Prescreen, SessionRequestEnum } = require('../../../config/db-config');
 const obj2arg = require('graphql-obj2arg');
 
 //** QUEUE ***************************************************/
@@ -40,9 +42,59 @@ export function startQueue(student_id, company_id) {
         status: QueueEnum.STATUS_QUEUING
     };
 
-    var query = `mutation {add_queue(${obj2arg(params, {noOuterBraces: true})}) {ID queue_num} }`;
+    var query = `mutation {add_queue(${obj2arg(params, { noOuterBraces: true })}) {ID queue_num} }`;
     return getAxiosGraphQLQuery(query).then((res) => {
         return res.data.data.add_queue;
+    }, (err) => {
+        return err.response.data;
+    });
+}
+
+//** Session Request ***************************************************/
+export const SESSION_REQUEST_LIMIT = 5;
+export function invalidSessionRequest(company_id) {
+    var session_requests = store.getState().hall.activity.session_requests;
+
+    var total_pending = 0;
+    for (var i in session_requests) {
+        if (session_requests[i].company.ID === company_id) {
+            return `You already have sent an interview request for this company. Check your request status under Interview Request.`;
+        }
+
+        if (session_requests[i].status === SessionRequestEnum.STATUS_PENDING) {
+            total_pending++;
+        }
+    }
+
+    if (total_pending >= SESSION_REQUEST_LIMIT) {
+        return `You already have reached ${SESSION_REQUEST_LIMIT} pending interview request limit. Please cancel current request and try again.`;
+    }
+
+    return false;
+}
+
+export function addSessionRequest(student_id, company_id) {
+    var params = {
+        student_id: student_id,
+        company_id: company_id,
+        status: SessionRequestEnum.STATUS_PENDING
+    };
+
+    var query = `mutation {add_session_request(${obj2arg(params, { noOuterBraces: true })}) {ID} }`;
+    return getAxiosGraphQLQuery(query).then((res) => {
+        res = res.data.data.add_session_request;
+        return res;
+    }, (err) => {
+        return err.response.data;
+    });
+}
+
+export function updateSessionRequest(id, status) {
+    var updated_by = getAuthUser().ID;
+
+    var query = `mutation{edit_session_request(ID:${id}, status:"${status}", updated_by:${updated_by}) {ID, student_id, company_id}}`;
+    return getAxiosGraphQLQuery(query).then((res) => {
+        return res.data.data.edit_session_request;
     }, (err) => {
         return err.response.data;
     });
@@ -60,6 +112,8 @@ export function invalidSession() {
 }
 
 export function createSession(host_id, participant_id, entity, entity_id) {
-    return axios.post(AppConfig.Api + "/activity/create-session", {host_id: host_id, participant_id: participant_id,
-        entity: entity, entity_id: entity_id});
+    return axios.post(AppConfig.Api + "/activity/create-session", {
+        host_id: host_id, participant_id: participant_id,
+        entity: entity, entity_id: entity_id
+    });
 }

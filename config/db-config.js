@@ -150,6 +150,21 @@ const QueueEnum = {
     STATUS_DONE: "Done"
 };
 
+const SessionRequest = {
+    TABLE: "session_requests",
+    STUDENT_ID: "student_id",
+    COMPANY_ID: "company_id",
+    CREATED_AT: "created_at",
+    STATUS: "status"
+};
+
+const SessionRequestEnum = {
+    STATUS_PENDING: "Pending", // Initial
+    STATUS_CANCELED: "Canceled", // Canceled by Student
+    STATUS_APPROVED: "Approved", // created scheduled interview
+    STATUS_REJECTED: "Rejected" // Rejected by Recruiter
+};
+
 const Dashboard = {
     TABLE: "dashboard",
     ID: "id",
@@ -318,6 +333,7 @@ module.exports = {
     , Prescreen, PrescreenEnum
     , Company, CompanyEnum
     , Queue, QueueEnum
+    , SessionRequest, SessionRequestEnum
     , Dashboard, DashboardEnum
     , Skill, Message
     , SessionNotes

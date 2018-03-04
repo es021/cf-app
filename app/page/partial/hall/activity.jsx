@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import ProfileCard from '../../../component/profile-card';
-import { CompanyEnum, UserEnum, PrescreenEnum } from '../../../../config/db-config';
+import { CompanyEnum, UserEnum, PrescreenEnum, SessionRequestEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';
 import { Time } from '../../../lib/time';
@@ -22,13 +22,19 @@ import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 
-import { isRoleRec } from '../../../redux/actions/auth-actions';
+import { openSIAddForm } from '../activity/scheduled-interview';
+
+import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 
 class ActvityList extends React.Component {
 
     constructor(props) {
         super(props);
+        this.openSIForm = this.openSIForm.bind(this);
         this.cancelQueue = this.cancelQueue.bind(this);
+        this.updateSessionRequest = this.updateSessionRequest.bind(this);
+
+        this.authUser = getAuthUser();
     }
 
     cancelQueue(e) {
@@ -43,7 +49,7 @@ class ActvityList extends React.Component {
                 hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
                 layoutActions.storeHideBlockLoader();
 
-                emitQueueStatus(company_id, getAuthUser().ID, "cancelQueue");
+                emitQueueStatus(company_id, this.authUser.ID, "cancelQueue");
                 emitHallActivity(hallAction.ActivityType.QUEUE, null, company_id);
 
             }, (err) => {
@@ -54,6 +60,69 @@ class ActvityList extends React.Component {
         layoutActions.confirmBlockLoader(`Canceling Queue for ${company_name}`
             , confirmCancelQueue);
     }
+
+    // open form,
+    // once completed update to approve
+    openSIForm(sr_id, student_id) {
+        console.log(sr_id);
+        openSIAddForm(student_id, this.authUser.rec_company, PrescreenEnum.ST_SCHEDULED,
+            (d) => {
+                this.updateSessionRequest(sr_id, SessionRequestEnum.STATUS_APPROVED);
+            }
+        );
+    }
+
+    updateSessionRequest(id, status) {
+        layoutActions.loadingBlockLoader("Updating Session Request Status..");
+        activityActions.updateSessionRequest(id, status).then((res) => {
+
+            var toRefresh = [hallAction.ActivityType.SESSION_REQUEST];
+            if (status == SessionRequestEnum.STATUS_APPROVED) {
+                toRefresh.push(hallAction.ActivityType.PRESCREEN);
+            }
+
+            hallAction.storeLoadActivity(toRefresh);
+            layoutActions.storeHideBlockLoader();
+
+            //emitQueueStatus(company_id, this.authUser.ID, "cancelQueue");
+
+            var sid = (isRoleStudent()) ? null : res.student_id;
+            var cid = (isRoleRec()) ? null : res.company_id;
+            emitHallActivity(hallAction.ActivityType.SESSION_REQUEST, sid, cid);
+
+        }, (err) => {
+            layoutActions.errorBlockLoader(err);
+        });
+    }
+
+    // for reject and cancel
+    // trigger from card view button
+    confirmUpdateSessionRequest(e, status) {
+        var other_name = e.currentTarget.dataset.other_name;
+        var other_id = e.currentTarget.dataset.other_id;
+        var id = e.currentTarget.id;
+
+        const confirmUpdate = () => {
+            this.updateSessionRequest(id, status);
+        };
+
+        // create confirm message
+        var mes = "";
+        if (status === SessionRequestEnum.STATUS_CANCELED) {
+            mes += "Canceling";
+        }
+        if (status === SessionRequestEnum.STATUS_REJECTED) {
+            mes += "Rejecting";
+        }
+        if (status === SessionRequestEnum.STATUS_PENDING) {
+            mes += "Canceling Rejection ";
+        }
+
+        mes += ` Interview Request for ${other_name}`;
+
+        layoutActions.confirmBlockLoader(mes, confirmUpdate);
+    }
+
 
     createSession(e) {
         var invalid = activityActions.invalidSession();
@@ -70,8 +139,6 @@ class ActvityList extends React.Component {
 
         layoutActions.loadingBlockLoader("Creating Session..");
         activityActions.createSession(host_id, participant_id, entity, entity_id).then((res) => {
-            console.log("success");
-            console.log(res.data);
 
             var m = <div>Session Successfully Created<br></br>
                 <NavLink
@@ -112,6 +179,9 @@ class ActvityList extends React.Component {
             body = this.props.list.map((d, i) => {
 
                 var obj = (isRoleRec()) ? d.student : d.company;
+                if (isRoleRec()) {
+                    obj.name = obj.first_name + " " + obj.last_name;
+                }
 
                 // 1. title
                 var title = null;
@@ -142,20 +212,8 @@ class ActvityList extends React.Component {
 
 
                 switch (this.props.type) {
-                    case hallAction.ActivityType.ZOOM_INVITE:
-                        subtitle = <span>Hosted by
-                            <div className="break-all">
-                                <b>{d.recruiter.user_email}</b>
-                            </div>
-                            <br></br>
-                            {Time.getAgo(d.created_at)}
-                        </span>;
-
-                        body = <div>
-                            <a target="_blank" href={d.join_url} className="btn btn-sm btn-blue">Join Interview</a>
-                        </div>;
-
-                        break;
+                    // #############################################################
+                    // Active Session Card View
 
                     case hallAction.ActivityType.SESSION:
                         subtitle = `${Time.getAgo(d.created_at)}`;
@@ -165,7 +223,6 @@ class ActvityList extends React.Component {
                         break;
 
                     case hallAction.ActivityType.QUEUE:
-                        subtitle = `${Time.getAgo(d.created_at)}`;
                         subtitle = `${Time.getAgo(d.created_at)}`;
 
                         if (!isRoleRec()) {
@@ -178,9 +235,30 @@ class ActvityList extends React.Component {
                                 className="btn btn-sm btn-danger">Cancel Queue</div>;
                         break;
 
+                    // #############################################################
+                    // Panel Interview Card View
+
+                    case hallAction.ActivityType.ZOOM_INVITE:
+                        subtitle = <span>Hosted by
+                        <div className="break-all">
+                                <b>{d.recruiter.user_email}</b>
+                            </div>
+                            <br></br>
+                            {Time.getAgo(d.created_at)}
+                        </span>;
+
+                        body = <div>
+                            <a target="_blank" href={d.join_url} className="btn btn-sm btn-blue">Join Interview</a>
+                        </div>;
+
+                        break;
+
+                    // #############################################################
+                    // Scheduled Interview Card View
+
                     case hallAction.ActivityType.PRESCREEN:
                         subtitle = `${Time.getString(d.appointment_time)}`;
-                        //body = <div style={{height:"30px"}}></div>;
+                        //body = <div style={{ height: "30px" }}></div>;
                         var ps_type = (d.special_type == null || d.special_type == "")
                             ? PrescreenEnum.ST_PRE_SCREEN : d.special_type;
 
@@ -190,10 +268,10 @@ class ActvityList extends React.Component {
                                 label_color = "success";
                                 break;
                             case PrescreenEnum.ST_PRE_SCREEN:
-                                label_color = "primary";
+                                label_color = "info";
                                 break;
                             case PrescreenEnum.ST_SCHEDULED:
-                                label_color = "warning";
+                                label_color = "primary";
                                 break;
                         }
 
@@ -205,6 +283,49 @@ class ActvityList extends React.Component {
                             </div>
                             {(isRoleRec()) ? crtSession : null}
                         </div>;
+                        break;
+
+
+                    // #############################################################
+                    // Interview Request Card View
+                    case hallAction.ActivityType.SESSION_REQUEST:
+                        subtitle = `${Time.getAgo(d.created_at)}`;
+
+                        if (d.status === SessionRequestEnum.STATUS_PENDING) {
+                            var pend = <div style={{ marginBottom: "10px" }}>
+                                <label className={`label label-info`}>Pending</label>
+                            </div>;
+
+                            if (isRoleRec()) {
+                                body = <div>
+                                    <div onClick={() => { this.openSIForm(d.ID, obj.ID) }}
+                                        className="btn btn-sm btn-success">Schedule Interview</div>
+
+                                    <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                        onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_REJECTED) }}
+                                        className="btn btn-sm btn-danger">Reject Request</div>
+                                </div>;
+
+                            } else {
+                                body = <div>{pend}
+                                    <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                        onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_CANCELED) }}
+                                        className="btn btn-sm btn-primary">Cancel Request</div>
+                                </div>;
+                            }
+                        }
+
+                        if (d.status === SessionRequestEnum.STATUS_REJECTED) {
+                            var rej = <div style={{ marginBottom: "10px" }}>
+                                <label className={`label label-danger`}>Rejected</label>
+                            </div>;
+
+                            body = <div>{rej}
+                                {isRoleRec() ? <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                    onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_PENDING) }}
+                                    className="btn btn-sm btn-blue">Cancel Rejection</div> : null}
+                            </div>
+                        }
                         break;
                 }
 
@@ -223,7 +344,7 @@ class ActvityList extends React.Component {
             });
 
             if (this.props.list.length === 0) {
-                body = <div className="text-muted">Nothing to show here</div>;
+                body = <div className="text-muted"><i>Nothing to show here</i></div>;
             }
 
         }
@@ -273,27 +394,60 @@ class ActivitySection extends React.Component {
         var d = this.props.activity;
 
         // title session
-        var title_s = <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>;
+        var title_s = <div>
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>
+            <br></br>
+            <div className="small-sub">
+                {(isRoleStudent())
+                    ? "Recruiter will host 1 to 1 session with you if you have Scheduled Interview with them."
+                    : "Create sesssion with student from the Scheduled Interview below."
+                }
+            </div>
+
+        </div>;
 
         // title session
-        var title_zi = <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>;
+        var title_zi = (isRoleRec()) ? <div>
+            <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>
+            <br></br>
+            <div className="small-sub">
+            </div>
+        </div> : null;
 
         //title queue
-        var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
+        //var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
+
+        var title_sr = <div>
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>
+            <br></br>
+            <div className="small-sub">
+                {(d.session_requests && d.session_requests.length > 0)
+                    ? "Approved interview request will appear under Scheduled Interview"
+                    : (isRoleStudent()) ? <span>Visit company booths below<br></br>to request for interview</span> : ""
+                }
+            </div>
+        </div>;
 
         // title scheduled interview
-        var title_p = (!isRoleRec()) ? <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
-            : <div>
-                <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
-                <br></br>
-                <small><NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
-                    <i className="fa fa-plus left"></i>Add New</NavLink>
-                </small>
-            </div>;
+        var title_p = <div>
+            <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
+            <br></br>
+            {(isRoleStudent())
+                ? <div className="small-sub">
+                    <NavLink to={`${RootPath}/app/faq`}>
+                        <i className="fa fa-question-circle left"></i>Learn how to land a scheduled interview with recruiter</NavLink>
+                </div>
+                : <div className="small-sub">
+                    <NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
+                        <i className="fa fa-plus left"></i>Add New</NavLink>
+                </div>
+            }
+        </div>;
 
-        var size_s = (isRoleRec()) ? "12" : "3";
-        var size_q = (isRoleRec()) ? "12" : "6";
-        var size_p = (isRoleRec()) ? "12" : "3";
+        var size_s = (isRoleRec()) ? "12" : "12";
+        //var size_q = (isRoleRec()) ? "12" : "6";
+        var size_sr = (isRoleRec()) ? "12" : "12";
+        var size_p = (isRoleRec()) ? "12" : "12";
 
         var s = <div className={`col-sm-${size_s} no-padding`}>
             <ActvityList online_users={this.props.online_users}
@@ -301,17 +455,27 @@ class ActivitySection extends React.Component {
                 type={hallAction.ActivityType.SESSION}
                 title={title_s} list={d.sessions}></ActvityList></div>;
 
-        var zi = <div className={`col-sm-${size_s} no-padding`}>
+        // zoom invitation
+        var zi = (isRoleRec()) ? <div className={`col-sm-${size_s} no-padding`}>
             <ActvityList online_users={this.props.online_users}
                 fetching={d.fetching.zoom_invites}
                 type={hallAction.ActivityType.ZOOM_INVITE}
-                title={title_zi} list={d.zoom_invites}></ActvityList></div>;
+                title={title_zi} list={d.zoom_invites}></ActvityList></div> : null;
 
+        /*
         var q = <div className={`col-sm-${size_q} no-padding`}>
+                                    <ActvityList online_users={this.props.online_users}
+                                        fetching={d.fetching.queues}
+                                        type={hallAction.ActivityType.QUEUE}
+                                        title={title_q} list={d.queues}></ActvityList></div>;
+        */
+
+        // session request
+        var sr = <div className={`col-sm-${size_sr} no-padding`}>
             <ActvityList online_users={this.props.online_users}
-                fetching={d.fetching.queues}
-                type={hallAction.ActivityType.QUEUE}
-                title={title_q} list={d.queues}></ActvityList></div>;
+                fetching={d.fetching.session_requests}
+                type={hallAction.ActivityType.SESSION_REQUEST}
+                title={title_sr} list={d.session_requests}></ActvityList></div>;
 
         var p = <div className={`col-sm-${size_p} no-padding`}>
             <ActvityList online_users={this.props.online_users}
@@ -319,7 +483,8 @@ class ActivitySection extends React.Component {
                 type={hallAction.ActivityType.PRESCREEN}
                 title={title_p} list={d.prescreens}></ActvityList></div>;
 
-        return (isRoleRec()) ? <div className="row">{s}{zi}{p}{q}</div> : <div className="row">{s}{q}{p}</div>;
+        return (isRoleRec()) ? <div className="row">{s}{zi}{p}{sr}</div>
+            : <div className="row">{s}{p}{sr}</div>;
     }
 }
 

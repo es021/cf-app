@@ -3,13 +3,15 @@ const { QueueType, ZoomInviteType, LogType, AuditoriumType
     , DashboardType, MetaType, PasswordResetType, SessionNoteType
     , MessageType, VacancyType, SessionRatingType, CompanyType
     , UserType, SessionType, ResumeDropType
-    , PrescreenType, DocLinkType, SkillType } = require('./all-type.js');
+    , PrescreenType, DocLinkType, SkillType
+    , SessionRequestType } = require('./all-type.js');
 
 
 //import all action for type
 const { Queue, ZoomInvite, Log, Auditorium, Vacancy, Meta, PasswordReset
     , Dashboard, SessionNotes, Company, DocLink, SessionRating
-    , Skill, ResumeDrop, Session, Prescreen } = require('../../config/db-config');
+    , Skill, ResumeDrop, Session, Prescreen
+    , SessionRequest } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
 const { UserExec } = require('../model/user-query.js');
@@ -479,6 +481,38 @@ fields["edit_session"] = {
         });
     }
 };
+
+/*******************************************/
+/* session_request ******************/
+fields["add_session_request"] = {
+    type: SessionRequestType,
+    args: {
+        student_id: { type: new GraphQLNonNull(GraphQLInt) },
+        company_id: { type: new GraphQLNonNull(GraphQLInt) },
+        status: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(SessionRequest.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_session_request"] = {
+    type: SessionRequestType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        status: { type: GraphQLString },
+        updated_by: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(SessionRequest.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+
 
 /*******************************************/
 /* queue ******************/

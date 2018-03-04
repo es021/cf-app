@@ -82,6 +82,7 @@ export default class CompanyPopup extends Component {
 
         this.getRecs = this.getRecs.bind(this);
         this.startQueue = this.startQueue.bind(this);
+        this.addSessionRequest = this.addSessionRequest.bind(this);
     }
 
     componentWillMount() {
@@ -132,6 +133,34 @@ export default class CompanyPopup extends Component {
             this.setState(() => {
                 return { data: res.data.data.company, loading: false }
             })
+        });
+    }
+
+    addSessionRequest() {
+        var stu_id = getAuthUser().ID;
+        var com_id = this.props.id;
+
+        var invalid = activityActions.invalidSessionRequest(com_id);
+        if (invalid !== false) {
+            layoutActions.errorBlockLoader(invalid);
+            return false;
+        }
+
+        layoutActions.loadingBlockLoader("Adding Request");
+
+        activityActions.addSessionRequest(stu_id, com_id).then((res) => {
+            var mes = <div>
+                Successfully send interview request to
+                <br></br><b>{this.state.data.name}</b>
+                <br></br>The request status will be shown under Interview Request
+            </div>;
+
+            emitHallActivity(hallAction.ActivityType.SESSION_REQUEST, null, com_id);
+
+            layoutActions.successBlockLoader(mes);
+            hallAction.storeLoadActivity([hallAction.ActivityType.SESSION_REQUEST]);
+        }, (err) => {
+            layoutActions.errorBlockLoader(err);
         });
     }
 
@@ -228,12 +257,15 @@ export default class CompanyPopup extends Component {
 
             const doc_link = <CustomList className="label" items={dl}></CustomList>;
 
+            //<div className="btn btn-lg btn-primary" onClick={this.startQueue}>
+            //<i className="fa fa-sign-in left"></i>
+            //Queue Now</div>
+
             var action = (!isRoleStudent() || this.props.displayOnly) ? null :
                 <div className="btn-group btn-group-justified">
-                    <div className="btn btn-lg btn-primary" onClick={this.startQueue}>
+                    <div className="btn btn-lg btn-blue" onClick={this.addSessionRequest}>
                         <i className="fa fa-sign-in left"></i>
-                        Queue Now</div>
-
+                        Request For Interview</div>
                     <a target="_blank"
                         onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
                             , ResumeDropPopup, { company_id: data.ID })}

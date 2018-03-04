@@ -1,5 +1,5 @@
 import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
-import { Session, Queue, Prescreen, UserEnum, ZoomInvite } from '../../../config/db-config';
+import { Session, Queue, SessionRequest, Prescreen, UserEnum, ZoomInvite } from '../../../config/db-config';
 import { getAuthUser, getCF, isRoleRec } from './auth-actions';
 import { store } from '../store.js';
 
@@ -7,20 +7,24 @@ import { store } from '../store.js';
 export const ActivityType = {
     SESSION: Session.TABLE,
     QUEUE: Queue.TABLE,
+    SESSION_REQUEST: SessionRequest.TABLE,
     PRESCREEN: Prescreen.TABLE,
     ZOOM_INVITE: ZoomInvite.TABLE
 };
+
+var AllActivityType = [];
+for (var k in ActivityType) {
+    AllActivityType.push(ActivityType[k]);
+}
 
 function getEntitySelect(role) {
     return (role === UserEnum.ROLE_STUDENT)
         ? " company{ID name img_url img_position img_size} "
         : " student{ID first_name last_name img_url img_pos img_size} ";
-
 }
 
-
 export const ACTIVITY = "ACTIVITY";
-export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN, ActivityType.ZOOM_INVITE]) {
+export function loadActivity(types = AllActivityType) {
 
     var role = getAuthUser().role;
     var user_id = getAuthUser().ID;
@@ -39,6 +43,9 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
                 break;
             case ActivityType.QUEUE:
                 select += ` queues { ID queue_num created_at ${getEntitySelect(role)}} `;
+                break;
+            case ActivityType.SESSION_REQUEST:
+                select += ` session_requests { ID status created_at ${getEntitySelect(role)}} `;
                 break;
             case ActivityType.PRESCREEN:
                 select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role)}} `;
@@ -59,7 +66,7 @@ export function loadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, 
     };
 }
 
-export function storeLoadActivity(types = [ActivityType.SESSION, ActivityType.QUEUE, ActivityType.PRESCREEN, ActivityType.ZOOM_INVITE]) {
+export function storeLoadActivity(types = AllActivityType) {
     store.dispatch(loadActivity(types));
 }
 
