@@ -1,0 +1,25 @@
+$background :black;
+$color:white;
+.my-tooltip {
+    position: relative;
+    .my-tt-container {
+        z-index: 1000;
+        position: absolute;
+        left: 0;
+        max-width: 400px;
+        .my-tt-mes {
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+            background: $background;
+            padding: 7px 5px;
+        }
+        .my-tt-arrow {
+            margin: auto;
+            width: 10px;
+            border: rgba(0, 0, 0, 0) solid 10px;
+            border-top: $background 10px solid;
+            border-bottom-width: 0px;
+        }
+    }
+}
