@@ -78,7 +78,8 @@ const CareerFairOrg = {
             name: "International Council of Malaysian Scholars and Associates",
             shortname: "ICMS",
             logo: ""
-        }, {
+        }
+        /*, {
             name: "Kelab UMNO Luar Negara Penn State",
             shortname: "KULN",
             logo: ""
@@ -86,7 +87,8 @@ const CareerFairOrg = {
             name: "MASCO",
             shortname: "MASCO",
             logo: ""
-        }]
+        }*/
+    ]
     }
 };
 

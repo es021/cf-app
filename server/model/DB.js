@@ -230,6 +230,26 @@ if (process.env.NODE_ENV === "production") {
 } else {
     module.exports = new DB("DEV");
 }
+
+// [a] | a ==> ('a','b')
+DB.prototype.prepareInQuery = function (params) {
+    if (typeof params === "string") {
+        params = [params];
+    }
+
+    var q = "(";
+    params.map((d, i) => {
+        q += ` '${d}' `;
+        if (i < params.length - 1) {
+            q += ", ";
+        }
+    });
+
+    q += " )";
+
+    return q;
+}
+
 //helper function
 
 

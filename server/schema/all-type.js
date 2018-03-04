@@ -39,6 +39,7 @@ const UserType = new GraphQLObjectType({
 
         //active activity
         queues: { type: new GraphQLList(QueueType) },
+        session_requests: { type: new GraphQLList(SessionRequestType) },
         registered_prescreens: { type: new GraphQLList(PrescreenType) },
         prescreens: { type: new GraphQLList(PrescreenType) },
         sessions: { type: new GraphQLList(SessionType) },
@@ -148,6 +149,20 @@ const MessageType = new GraphQLObjectType({
         from_user_id: { type: GraphQLInt },
         message: { type: GraphQLString },
         created_at: { type: GraphQLString }
+    })
+});
+
+const SessionRequestType = new GraphQLObjectType({
+    name: 'SessionRequest',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        student_id: { type: GraphQLInt },
+        company_id: { type: GraphQLInt },
+        status: { type: GraphQLString },
+        created_at: { type: GraphQLString },
+
+        student: { type: UserType },
+        company: { type: CompanyType }
     })
 });
 
@@ -354,6 +369,7 @@ module.exports = {
     , ResumeDropType
     , MetaType
     , AuditoriumType
+    , SessionRequestType
     , LogType
     //, CFType
 };

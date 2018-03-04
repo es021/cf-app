@@ -9,6 +9,14 @@ ul.normal {
     list-style: initial;
 }
 
+.small-sub {
+    max-width: 300px;
+    margin: auto;
+    font-size: 60%;
+    color: gray;
+    margin-top: 4px;
+}
+
 [hidden] {
     display: none !important;
 }
@@ -48,6 +56,7 @@ div.line {
         padding: 0;
     }
 }
+
 @media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP) {
     .no-padding-small {
         padding: 0;

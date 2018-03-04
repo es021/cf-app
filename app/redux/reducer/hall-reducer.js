@@ -5,11 +5,13 @@ const hallReducerInitState = {
     activity: {
         sessions: [],
         queues: [],
+        session_requests: [],
         prescreens: [],
         zoom_invites: [],
         fetching: {
             sessions: true,
             queues: true,
+            session_requests: true,
             prescreens: true,
             zoom_invites: true
         },
@@ -56,19 +58,20 @@ export default function hallReducer(state = hallReducerInitState, action) {
             newState["fetching"] = true;
         } else {
             newState["fetching"] = state[key]["fetching"];
-            if (action.type.indexOf(hallAction.ActivityType.SESSION) > -1) {
+
+            if (action.type.indexOf(hallAction.ActivityType.SESSION_REQUEST) > -1) {
+                newState.fetching["session_requests"] = true;
+            }
+            else if (action.type.indexOf(hallAction.ActivityType.SESSION) > -1) {
                 newState.fetching["sessions"] = true;
             }
-
-            if (action.type.indexOf(hallAction.ActivityType.QUEUE) > -1) {
+            else if (action.type.indexOf(hallAction.ActivityType.QUEUE) > -1) {
                 newState.fetching["queues"] = true;
             }
-
-            if (action.type.indexOf(hallAction.ActivityType.PRESCREEN) > -1) {
+            else if (action.type.indexOf(hallAction.ActivityType.PRESCREEN) > -1) {
                 newState.fetching["prescreens"] = true;
             }
-
-            if (action.type.indexOf(hallAction.ActivityType.ZOOM_INVITE) > -1) {
+            else if (action.type.indexOf(hallAction.ActivityType.ZOOM_INVITE) > -1) {
                 newState.fetching["zoom_invites"] = true;
             }
         }
@@ -96,7 +99,10 @@ export default function hallReducer(state = hallReducerInitState, action) {
             if (data.user.queues) {
                 newState["queues"] = data.user.queues;
                 newState.fetching["queues"] = false;
-
+            }
+            if (data.user.session_requests) {
+                newState["session_requests"] = data.user.session_requests;
+                newState.fetching["session_requests"] = false;
             }
             if (data.user.prescreens) {
                 newState["prescreens"] = data.user.prescreens;

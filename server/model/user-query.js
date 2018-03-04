@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
 
-const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, SessionEnum } = require('../../config/db-config.js');
+const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, SessionEnum, SessionRequest, SessionRequestEnum } = require('../../config/db-config.js');
 const { DocLinkExec } = require('./doclink-query.js');
 const { SkillExec } = require('./skill-query.js');
 
@@ -292,6 +292,7 @@ class UserExec {
         const { PrescreenExec } = require('./prescreen-query.js');
         const { ZoomExec } = require('./zoom-query.js');
         const { SessionExec } = require('./session-query.js');
+        const { SessionRequestExec } = require('./session-request-query.js');
 
         // extra field that need role value to find
         if (field["sessions"] !== "undefined"
@@ -340,6 +341,26 @@ class UserExec {
                     var par = { is_expired: false, user_id: user_id };
                     res[i]["zoom_invites"] = ZoomExec.zoom_invites(par, field["zoom_invites"]);
                 }
+
+                // session_requests ****************************************************
+                if (typeof field["session_requests"] !== "undefined") {
+                    
+                    // list all pending and then all rejected
+                    var par = {
+                        status: [SessionRequestEnum.STATUS_PENDING, SessionRequestEnum.STATUS_REJECTED],
+                        order_by: `${SessionRequest.STATUS}, ${SessionRequest.CREATED_AT} desc`
+                    };
+
+                    if (role === UserEnum.ROLE_STUDENT) {
+                        par["student_id"] = user_id;
+                    }
+                    if (role === UserEnum.ROLE_RECRUITER) {
+                        par["company_id"] = company_id;
+                    }
+
+                    res[i]["session_requests"] = SessionRequestExec.session_requests(par, field["session_requests"]);
+                }
+
 
                 // queues ****************************************************
                 if (typeof field["queues"] !== "undefined") {
