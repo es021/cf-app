@@ -11,11 +11,8 @@ import { Time } from '../../../lib/time';
 import { RootPath } from '../../../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import { getAuthUser } from '../../../redux/actions/auth-actions';
-
 import { ActivityAPIErr } from '../../../../server/api/activity-api';
-
 import UserPopup from '../popup/user-popup';
-
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
@@ -384,7 +381,6 @@ class ActivitySection extends React.Component {
     }
 
     componentWillMount() {
-        //this.props.loadActivity([hallAction.ActivityType.SESSION]);
         this.props.loadActivity();
     }
 
@@ -393,26 +389,10 @@ class ActivitySection extends React.Component {
     }
 
     render() {
-        //console.log("FROM ACTIVITY SECTION");
-        //console.log(this.props.activity);
 
         var d = this.props.activity;
 
         // title session
-        /*
-        var title_s = <div>
-            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>
-            <br></br>
-            <div className="small-sub">
-                {(isRoleStudent())
-                    ? "Recruiter will host 1 to 1 session with you if you have Scheduled Interview with them."
-                    : "Create sesssion with student from the Scheduled Interview below."
-                }
-            </div>
-
-        </div>;
-        */
-
         var title_s = <Tooltip
             content={<a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>}
             tooltip={(isRoleStudent())
@@ -421,7 +401,7 @@ class ActivitySection extends React.Component {
             }>
         </Tooltip>;
 
-        // title session
+        // title Zoom invitation
         var title_zi = (isRoleRec()) ? <div>
             <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>
             <br></br>
@@ -431,17 +411,6 @@ class ActivitySection extends React.Component {
 
         //title queue
         //var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
-
-        var title_sr = <div>
-            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>
-            <br></br>
-            <div className="small-sub">
-                {(d.session_requests && d.session_requests.length > 0)
-                    ? "Approved interview request will appear under Scheduled Interview"
-                    : (isRoleStudent()) ? <span>Visit company booths below to request for interview</span> : ""
-                }
-            </div>
-        </div>;
 
         var title_sr = <Tooltip
             content={<a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>}
