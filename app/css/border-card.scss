@@ -1,0 +1,50 @@
+@import "define/variable.scss";
+$theme: lighten($COLOR_LINK, 10);
+.border-card {
+    border: solid 1px $theme;
+    margin: 10px;
+    margin-bottom: 15px;
+    h3 {
+        text-align: left;
+        padding: 0 15px;
+    }
+    .bc-title {
+        margin-top: -10px;
+        span.bc-title-back {
+            background: $COLOR_BACKGROUND;
+            padding: 0 10px;
+        }
+    }
+    .bc-body {
+        display: flex;
+        min-height: 205px;
+    }
+}
+
+.bc-vertical {
+    .bc-body {
+        flex-flow: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-height: 724px;
+        margin-bottom: 10px;
+        overflow-y: scroll;
+    }
+}
+
+.vertical-sm {
+    .bc-body {
+        max-height: 445px;
+    }
+}
+
+.bc-horizontal {
+    .bc-body {
+        margin: 0 15px;
+        overflow-x: scroll;
+        max-width: 600px;
+        padding-bottom: 10px;
+        min-height: 170px;
+        max-height: 300px;
+    }
+}

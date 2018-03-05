@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
 
-const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, SessionEnum, SessionRequest, SessionRequestEnum } = require('../../config/db-config.js');
+const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, Prescreen, SessionEnum, SessionRequest, SessionRequestEnum } = require('../../config/db-config.js');
 const { DocLinkExec } = require('./doclink-query.js');
 const { SkillExec } = require('./skill-query.js');
 
@@ -344,11 +344,11 @@ class UserExec {
 
                 // session_requests ****************************************************
                 if (typeof field["session_requests"] !== "undefined") {
-                    
+
                     // list all pending and then all rejected
                     var par = {
                         status: [SessionRequestEnum.STATUS_PENDING, SessionRequestEnum.STATUS_REJECTED],
-                        order_by: `${SessionRequest.STATUS}, ${SessionRequest.CREATED_AT} desc`
+                        order_by: `${SessionRequest.STATUS}, ${SessionRequest.CREATED_AT} asc`
                     };
 
                     if (role === UserEnum.ROLE_STUDENT) {
@@ -377,7 +377,10 @@ class UserExec {
 
                 // prescreens ****************************************************
                 if (typeof field["prescreens"] !== "undefined") {
-                    var par = { status: PrescreenEnum.STATUS_APPROVED };
+                    var par = {
+                        status: PrescreenEnum.STATUS_APPROVED
+                        , order_by: `${Prescreen.APPNMENT_TIME} asc`
+                    };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;
                     }
@@ -397,6 +400,7 @@ class UserExec {
                     if (role === UserEnum.ROLE_RECRUITER) {
                         par["company_id"] = company_id;
                     }
+
                     res[i]["registered_prescreens"] = PrescreenExec.prescreens(par, field["registered_prescreens"]);
                 }
 

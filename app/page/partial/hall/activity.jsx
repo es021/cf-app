@@ -24,6 +24,9 @@ import Tooltip from '../../../component/tooltip';
 
 import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 
+require('../../../css/border-card.scss');
+
+
 class ActvityList extends React.Component {
 
     constructor(props) {
@@ -351,15 +354,11 @@ class ActvityList extends React.Component {
 
         }
 
-        var style = {
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "center",
-            marginBottom: "15px"
-        };
-
-        return (<div><h3>{this.props.title}</h3>
-            <div style={style}>{body}</div>
+        return (<div className={`border-card bc-${this.props.bc_type}`}>
+            <h3 className="bc-title"><span className="bc-title-back">{this.props.title}</span>
+                <br></br><small>{this.props.subtitle}</small>
+            </h3>
+            <div className="bc-body">{body}</div>
         </div>);
     }
 
@@ -368,9 +367,15 @@ class ActvityList extends React.Component {
 ActvityList.propTypes = {
     type: PropTypes.oneOf([hallAction.ActivityType.SESSION, hallAction.ActivityType.QUEUE, hallAction.ActivityType.PRESCREEN]).isRequired,
     title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    bc_type: PropTypes.string.isRequired,
     list: PropTypes.array.isRequired,
     fetching: PropTypes.bool.isRequired,
     online_users: PropTypes.object.isRequired
+};
+
+ActvityList.defaultProps = {
+    subtitle: null
 };
 
 const sec = "act-sec";
@@ -388,68 +393,82 @@ class ActivitySection extends React.Component {
         this.props.loadActivity(type);
     }
 
-    render() {
+    createTitleWithTooltip(title, tooltip = null) {
+        return <span>
+            {title}
+            {(tooltip != null)
+                ? <Tooltip
+                    bottom="22px"
+                    content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
+                    tooltip={tooltip}>
+                </Tooltip> : null}
+        </span>;
+    }
 
+    render() {
         var d = this.props.activity;
 
         // title session
-        var title_s = <Tooltip
-            content={<a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>}
-            tooltip={(isRoleStudent())
+        var title_s = this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>,
+            (isRoleStudent())
                 ? "Recruiter will host 1 to 1 session with you if you have Scheduled Interview with them."
-                : "Create sesssion with student from the Scheduled Interview below."
-            }>
-        </Tooltip>;
+                : "Create sesssion with student from the Scheduled Interview below.")
 
         // title Zoom invitation
-        var title_zi = (isRoleRec()) ? <div>
-            <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>
-            <br></br>
-            <div className="small-sub">
-            </div>
-        </div> : null;
+        var title_zi = (isRoleRec()) ? this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>,
+            null) : null;
 
         //title queue
         //var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
 
-        var title_sr = <Tooltip
-            content={<a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>}
-            tooltip={(d.session_requests && d.session_requests.length > 0)
-                ? "Approved interview request will appear under Scheduled Interview"
-                : (isRoleStudent()) ? "Visit company booths below to request for interview" : null
-            }>
-        </Tooltip>;
+        //title interview request
+        var tt_sr = <ol>
+            {(isRoleStudent())
+                ? <li>Visit company booths below to request for interview</li>
+                : <li>Students will send interview request during Career Fair</li>}
+            {(d.session_requests && d.session_requests.length > 0)
+                ? <li>Approved interview request will appear under Scheduled Interview</li>
+                : null}
+        </ol>;
+
+        var title_sr = this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>
+            , tt_sr)
 
         // title scheduled interview
-        var title_p = <div>
+        var subtitle_p = (isRoleStudent())
+            ? <NavLink to={`${RootPath}/app/faq`}>
+                Learn how to land a scheduled interview with recruiter
+            </NavLink>
+            : <NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
+                <i className="fa fa-plus left"></i>Add New</NavLink>;
+        var tt_p = null;
+        var title_p = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
-            <br></br>
-            {(isRoleStudent())
-                ? <div className="small-sub">
-                    <NavLink to={`${RootPath}/app/faq`}>
-                        <i className="fa fa-question-circle left"></i>Learn how to land a scheduled interview with recruiter</NavLink>
-                </div>
-                : <div className="small-sub">
-                    <NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
-                        <i className="fa fa-plus left"></i>Add New</NavLink>
-                </div>
-            }
-        </div>;
+            , tt_p)
+
 
         var size_s = (isRoleRec()) ? "12" : "12";
         //var size_q = (isRoleRec()) ? "12" : "6";
+        var size_zi = (isRoleRec()) ? "12" : "12";
         var size_sr = (isRoleRec()) ? "12" : "12";
         var size_p = (isRoleRec()) ? "12" : "12";
 
         var s = <div className={`col-sm-${size_s} no-padding`}>
-            <ActvityList online_users={this.props.online_users}
+            <ActvityList
+                bc_type="horizontal"
+                online_users={this.props.online_users}
                 fetching={d.fetching.sessions}
                 type={hallAction.ActivityType.SESSION}
                 title={title_s} list={d.sessions}></ActvityList></div>;
 
         // zoom invitation
-        var zi = (isRoleRec()) ? <div className={`col-sm-${size_s} no-padding`}>
-            <ActvityList online_users={this.props.online_users}
+        var zi = (isRoleRec()) ? <div className={`col-sm-${size_zi} no-padding`}>
+            <ActvityList
+                bc_type="horizontal"
+                online_users={this.props.online_users}
                 fetching={d.fetching.zoom_invites}
                 type={hallAction.ActivityType.ZOOM_INVITE}
                 title={title_zi} list={d.zoom_invites}></ActvityList></div> : null;
@@ -464,19 +483,42 @@ class ActivitySection extends React.Component {
 
         // session request
         var sr = <div className={`col-sm-${size_sr} no-padding`}>
-            <ActvityList online_users={this.props.online_users}
+            <ActvityList
+                bc_type={`vertical ${isRoleStudent() ? "vertical-sm" : ""}`}
+                online_users={this.props.online_users}
                 fetching={d.fetching.session_requests}
                 type={hallAction.ActivityType.SESSION_REQUEST}
                 title={title_sr} list={d.session_requests}></ActvityList></div>;
 
+
+        //scheduled interview
         var p = <div className={`col-sm-${size_p} no-padding`}>
-            <ActvityList online_users={this.props.online_users}
+            <ActvityList
+                bc_type="horizontal"
+                online_users={this.props.online_users}
                 fetching={d.fetching.prescreens}
                 type={hallAction.ActivityType.PRESCREEN}
-                title={title_p} list={d.prescreens}></ActvityList></div>;
+                title={title_p}
+                subtitle={subtitle_p}
+                list={d.prescreens}></ActvityList></div>;
 
-        return (isRoleRec()) ? <div className="row">{s}{zi}{p}{sr}</div>
-            : <div className="row">{s}{p}{sr}</div>;
+        return (isRoleRec()) ?
+            <div className="row">
+                <div className={`col-sm-7 no-padding`}>
+                    {s}{p}{zi}
+                </div>
+                <div className={`col-sm-5 no-padding`}>
+                    {sr}
+                </div>
+            </div>
+            : <div className="row">
+                <div className={`col-sm-7 no-padding`}>
+                    {s}{p}
+                </div>
+                <div className={`col-sm-5 no-padding`}>
+                    {sr}
+                </div>
+            </div>;
     }
 }
 
