@@ -1,12 +1,20 @@
 $background :black;
 $color:white;
 .my-tooltip {
+    ol,
+    ul {
+        padding-left: 15px;
+        margin-bottom: 0;
+        text-align: left;
+    }
     position: relative;
+    .my-tt-content {
+        cursor: pointer;
+    }
     .my-tt-container {
         z-index: 1000;
         position: absolute;
-        left: 0;
-        max-width: 400px;
+        width: 200px;
         .my-tt-mes {
             border-radius: 5px;
             color: white;
