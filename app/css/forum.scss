@@ -1,18 +1,21 @@
 @import "define/variable.scss";
 
 .forum{
+    padding: 7px 0;
     display: flex;
     text-align: left;
+    border-top: solid 1px rgba(0,0,0,0.15);
     .frm-image{
         margin: 0;
+        margin-right: 7px;
     }
     .frm-body{
         .frm-title{
-            .frm-timestamp{
-                margin-left: 4px;
-                font-size: 80%;
-                color: gray;
-            }
+           
+        }
+        .frm-timestamp{
+            font-size: 80%;
+            color: gray;
         }
         .frm-content{
 
@@ -20,11 +23,17 @@
     }
 }
 
+.forum:first-of-type{
+    border-top: none;
+}
+
 .forum.frm-reply{
+    border-top: none;
     .frm-image{
         margin-left: 45px;
     }
 }
+
 
 @media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP){
     .forum{
