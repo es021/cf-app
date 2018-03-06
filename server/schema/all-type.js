@@ -362,6 +362,7 @@ const ForumCommentType = new GraphQLObjectType({
         updated_at: { type: GraphQLString },
 
         user: { type: UserType },
+        replies_count: { type: GraphQLInt },
         replies: { type: new GraphQLList(ForumReplyType) }
     })
 });

@@ -28,10 +28,8 @@ class ForumItem extends React.Component {
             className={`forum ${this.props.is_reply ? "frm-reply" : ""}`}>
             {imgView}
             <div className="frm-body">
-                <div className="frm-title">
-                    {this.props.user_title}
-                    <span className="frm-timestamp">{this.props.timestamp}</span>
-                </div>
+                <div className="frm-title">{this.props.user_title}</div>
+                <div className="frm-timestamp">{this.props.timestamp}</div>
                 <p>{this.props.content}</p>
             </div>
         </div>;
@@ -113,6 +111,7 @@ export default class ForumPage extends React.Component {
             content
             created_at
             ${user_sel}
+            replies_count
             replies {
                 ID
                 comment_id
@@ -155,6 +154,8 @@ export default class ForumPage extends React.Component {
 
     renderList(d, i, isExtraData = false) {
         var item = [];
+
+
         item.push(this.renderForumItem(d, i));
         for (var j in d.replies) {
             item.push(this.renderForumItem(d.replies[i], i + "_rep_" + j, true));
