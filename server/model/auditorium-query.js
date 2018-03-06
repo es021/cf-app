@@ -27,7 +27,6 @@ class AuditoriumExec {
         const { CompanyExec } = require('./company-query.js');
 
         var sql = this.getQuery(params, extra);
-        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
                 if (typeof field["company"] !== "undefined") {

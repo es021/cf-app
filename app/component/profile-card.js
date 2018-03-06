@@ -12,6 +12,8 @@ require("../css/profile-card.scss");
  This Component will create a standardize circle picture and title and subtitle and also some children to be append to body
  */
 
+
+
 export const PCType = {
     STUDENT: "student",
     RECRUITER: "recruiter",
@@ -26,6 +28,12 @@ export const getImageObj = function (obj) {
     r.img_size = obj.img_size;
     r.img_pos = (typeof obj.img_pos != "undefined") ? obj.img_pos : obj.img_position;
     return r;
+}
+
+export const createImageElement = function (img_url, img_pos, img_size, img_dimension, className) {
+    return <ProfileCard img_url={img_url} img_pos={img_pos} img_size={img_size}
+        title={null} body={null} subtitle={null} img_dimension={img_dimension}
+        className={className}></ProfileCard>;
 }
 
 export const getDefaultProfileImg = function (type, url = null) {

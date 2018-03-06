@@ -1,0 +1,34 @@
+@import "define/variable.scss";
+
+.forum{
+    display: flex;
+    text-align: left;
+    .frm-image{
+        margin: 0;
+    }
+    .frm-body{
+        .frm-title{
+            .frm-timestamp{
+                margin-left: 4px;
+                font-size: 80%;
+                color: gray;
+            }
+        }
+        .frm-content{
+
+        }
+    }
+}
+
+.forum.frm-reply{
+    .frm-image{
+        margin-left: 45px;
+    }
+}
+
+@media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP){
+    .forum{
+    
+    }
+}
+

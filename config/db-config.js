@@ -325,8 +325,17 @@ const ZoomInvite = {
     TABLE: "zoom_invites"
 };
 
+const ForumComment = {
+    TABLE: "forum_comments"
+};
+
+const ForumReply = {
+    TABLE: "forum_replies"
+};
+
 module.exports = {
     User, UserMeta, UserEnum
+    , ForumComment, ForumReply
     , DocLink, DocLinkEnum
     , Session, SessionEnum
     , Vacancy, VacancyEnum
