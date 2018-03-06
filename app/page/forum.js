@@ -123,7 +123,9 @@ class ForumCommentItem extends React.Component {
     }
 
     render() {
-        return <List type="append-bottom"
+        return <List
+            divClass="forum-list-reply"
+            type="append-bottom"
             appendText="Load More Reply"
             showEmpty={false}
             getDataFromRes={this.getDataFromRes}
@@ -140,6 +142,9 @@ ForumCommentItem.propTypes = {
     i: PropTypes.number.isRequired,
     data: PropTypes.object.isRequired
 };
+
+import CompanyPopup from './partial/popup/company-popup';
+import Page from 'react-facebook/dist/Page';
 
 // this class will generate list of comments
 export default class ForumPage extends React.Component {
@@ -201,18 +206,49 @@ export default class ForumPage extends React.Component {
     }
     //<button onClick={() => this.addFeedToView({ ID: "a" })}>Add</button>
 
+    renderView(forum) {
+        var v = null;
+        if (this.forum_id.indexOf("company" >= 0)) {
+            try {
+                var company_id = Number.parseInt(this.forum_id.split("_")[1]);
+
+                console.log(company_id);
+
+                v = <div className="container-fluid no-padding">
+                    <div className="row">
+                        <h3>Company Forum
+                        <br></br>
+                            <small>Ask Questions And Be Noticed by Recruiters</small>
+                        </h3>
+                    </div>
+                    <div className="col-sm-4 forum-info">
+                        <CompanyPopup id={company_id} displayOnly={true}></CompanyPopup>
+                    </div>
+                    <div className="col-sm-8 no-padding">
+                        {forum}
+                    </div>
+                </div>
+            } catch (err) {
+                alert(`Forum ID ${this.forum_id} Valid`);
+            }
+        }
+
+
+        return v;
+    }
     render() {
-        return <div>
-            <h2>Forum for {this.forum_id}</h2>
-            <List type="append-bottom"
-                appendText="Load More"
-                getDataFromRes={this.getDataFromRes}
-                loadData={this.loadData}
-                extraData={this.state.extraData}
-                offset={this.offset}
-                renderList={this.renderList}>
-            </List>
-        </div>;
+
+        var forum = <List type="append-bottom"
+            divClass="forum-list"
+            appendText="Load More Comment"
+            getDataFromRes={this.getDataFromRes}
+            loadData={this.loadData}
+            extraData={this.state.extraData}
+            offset={this.offset}
+            renderList={this.renderList}>
+        </List>;
+
+        return this.renderView(forum);
     }
 }
 

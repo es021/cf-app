@@ -229,7 +229,7 @@ export default class List extends React.Component {
         }
 
 
-        var content = <div>
+        var content = <div className={`${this.props.divClass}`}>
             {topView}
             <ul className={`${this.props.listClass}`} ref={this.props.listRef}>
                 {extraTop}
@@ -265,12 +265,14 @@ List.propTypes = {
     extraData: PropTypes.array,
     // page config
     pageClass: PropTypes.string,
+    divClass: PropTypes.string,
     showEmpty: PropTypes.bool
 };
 
 List.defaultProps = {
     appendText: "Load More",
     extraData: null,
+    divClass: "",
     pageClass: "",
     listClass: "",
     listRef: null,

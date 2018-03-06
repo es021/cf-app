@@ -1,11 +1,43 @@
 @import "define/variable.scss";
 
+$SHADOW : rgba(0, 0, 0, 0.2);
+.forum-info{
+    border:solid 1px $SHADOW;
+}
+
+.forum-list, 
+.forum-list-reply{
+    //background: white;
+    text-align: left;
+}
+
+.forum-list{
+    margin-left:10px;
+    border:solid 1px $SHADOW;
+    padding-bottom: 10px;
+}
+
+// load more reply button
+.forum-list-reply{
+    small a.btn_link{
+        margin-left: 45px;
+    }
+    border-bottom:solid 1px $SHADOW;
+    padding-bottom: 10px;
+}
+
+.forum-list-reply:last-of-type{
+    border-bottom: none;
+}
+
 .forum{
-    padding: 7px 0;
+    padding: 7px;
     display: flex;
     text-align: left;
-    border-bottom: solid 1px rgba(0,0,0,0.2);
     .frm-image{
+        .pc-picture{
+            border: solid 1px $SHADOW;
+        }
         margin: 0;
         margin-right: 7px;
     }
@@ -23,14 +55,16 @@
     }
 }
 
+
 // .forum.frm-first{
 //     border-top: none;
 // }
 
 .forum.frm-reply{
-    border-top: none;
+    border-top:none;
+    margin-left: 45px;
     .frm-image{
-        margin-left: 45px;
+        
     }
 }
 
