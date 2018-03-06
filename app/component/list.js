@@ -12,7 +12,6 @@ export default class List extends React.Component {
         this.load = this.load.bind(this);
         this.isAppendType = this.isAppendType.bind(this);
         this.renderDataContent = this.renderDataContent.bind(this);
-
         this.state = {
             listItem: null,
             fetching: true,
@@ -78,7 +77,9 @@ export default class List extends React.Component {
 
                 //empty list
                 if (data.length <= 0) {
-                    var empty = <span className="text-muted text-center">Nothing To Show Here</span>;
+                    var empty = (this.props.showEmpty)
+                        ? <span className="text-muted text-center">Nothing To Show Here</span>
+                        : null;
                     if (!this.isAppendType()) {
                         listItem = empty;
                     } else {
@@ -263,7 +264,8 @@ List.propTypes = {
     appendText: PropTypes.string,
     extraData: PropTypes.array,
     // page config
-    pageClass: PropTypes.string
+    pageClass: PropTypes.string,
+    showEmpty: PropTypes.bool
 };
 
 List.defaultProps = {
@@ -271,7 +273,8 @@ List.defaultProps = {
     extraData: null,
     pageClass: "",
     listClass: "",
-    listRef: null
+    listRef: null,
+    showEmpty: true
 };
 
 /*******************************************************************************************/
