@@ -4,7 +4,7 @@
     padding: 7px 0;
     display: flex;
     text-align: left;
-    border-top: solid 1px rgba(0,0,0,0.15);
+    border-bottom: solid 1px rgba(0,0,0,0.2);
     .frm-image{
         margin: 0;
         margin-right: 7px;
@@ -23,9 +23,9 @@
     }
 }
 
-.forum:first-of-type{
-    border-top: none;
-}
+// .forum.frm-first{
+//     border-top: none;
+// }
 
 .forum.frm-reply{
     border-top: none;

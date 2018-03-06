@@ -26,6 +26,7 @@ class ForumExec {
     forum_replies(params, field, extra = {}) {
         const { UserExec } = require('./user-query.js');
         var sql = this.getQueryReplies(params, extra);
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
             for (var i in res) {

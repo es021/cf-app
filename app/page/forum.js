@@ -14,6 +14,15 @@ import { createUserTitle } from './users';
 
 require('../css/forum.scss');
 
+const USER_SELECT = `user {
+    ID
+    first_name
+    last_name
+    img_url
+    img_pos
+    img_size
+  }`;
+
 class ForumItem extends React.Component {
     constructor(props) {
         super(props);
@@ -24,8 +33,10 @@ class ForumItem extends React.Component {
         var imgView = createImageElement(this.props.img_url, this.props.img_pos
             , this.props.img_size, img_dimension, "frm-image");
 
+        var className = `forum ${this.props.is_reply ? "frm-reply" : ""} ${this.props.is_first ? "frm-first" : ""}`;
+
         return <div key={this.props.key}
-            className={`forum ${this.props.is_reply ? "frm-reply" : ""}`}>
+            className={className}>
             {imgView}
             <div className="frm-body">
                 <div className="frm-title">{this.props.user_title}</div>
@@ -45,9 +56,92 @@ ForumItem.propTypes = {
     img_pos: PropTypes.any.isRequired,
     img_size: PropTypes.any.isRequired,
     is_reply: PropTypes.bool.isRequired,
+    is_first: PropTypes.bool.isRequired,
     key: PropTypes.string.isRequired
 };
 
+// this class will generate new list of replies under it
+class ForumCommentItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.loadData = this.loadData.bind(this);
+        this.getDataFromRes = this.getDataFromRes.bind(this);
+        this.renderList = this.renderList.bind(this);
+        this.offset = 2;
+
+        this.state = {
+            extraData: []
+        }
+
+        this.isInit = true;
+    }
+
+    componentWillMount() {
+
+        //render comment
+        this.commentItem = this.renderForumItem(this.props.data, this.props.id, false, (this.props.i === 0));
+    }
+
+    // ##############################################################
+    // function for list
+    loadData(page, offset) {
+        var query = `query{forum_replies(comment_id:"${this.props.id}",page:${page},offset:${offset}) {
+            ID
+            comment_id
+            content
+            created_at
+            ${USER_SELECT}
+        }}`;
+        console.log(query);
+        return getAxiosGraphQLQuery(query);
+    }
+
+    getDataFromRes(res) {
+        return res.data.data.forum_replies;
+    }
+
+    renderForumItem(d, i, is_reply = false, is_first = false) {
+        return <ForumItem
+            raw_data={d}
+            user_title={createUserTitle(d.user)}
+            img_url={d.user.img_url}
+            img_pos={d.user.img_pos}
+            is_reply={is_reply}
+            is_first={is_first}
+            img_size={d.user.img_size}
+            timestamp={Time.getAgo(d.created_at)}
+            content={d.content}
+            key={i}>
+        </ForumItem>;
+    }
+
+    // render replies
+    renderList(d, i, isExtraData = false) {
+        var item = [];
+        item.push(this.renderForumItem(d, this.props.id + "_rep_" + d.ID, true));
+        return item;
+    }
+
+    render() {
+        return <List type="append-bottom"
+            appendText="Load More Reply"
+            showEmpty={false}
+            getDataFromRes={this.getDataFromRes}
+            loadData={this.loadData}
+            extraData={this.commentItem}
+            offset={this.offset}
+            renderList={this.renderList}>
+        </List>;
+    }
+}
+
+ForumCommentItem.propTypes = {
+    id: PropTypes.number.isRequired,
+    i: PropTypes.number.isRequired,
+    data: PropTypes.object.isRequired
+};
+
+// this class will generate list of comments
 export default class ForumPage extends React.Component {
     constructor(props) {
         super(props);
@@ -58,9 +152,8 @@ export default class ForumPage extends React.Component {
         this.loadData = this.loadData.bind(this);
         this.getDataFromRes = this.getDataFromRes.bind(this);
         this.addFeedToView = this.addFeedToView.bind(this);
-        //this.listComponentDidUpdate = this.listComponentDidUpdate.bind(this);
         this.renderList = this.renderList.bind(this);
-        this.offset = 10;
+        this.offset = 2;
 
         this.state = {
             extraData: []
@@ -69,57 +162,16 @@ export default class ForumPage extends React.Component {
         this.isInit = true;
     }
 
-    componentDidMount() {
-
-    }
-
-    // listComponentDidUpdate() {
-    //     //console.log("listComponentDidUpdate")
-    //     //console.log(this.scrollTo);
-
-    //     if (this.scrollTo == "bottom") {
-    //         //scroll to bottom
-    //         this.dashBody.scrollTop = 99999999;
-    //         //console.log("go bottom");
-
-    //     }
-
-    //     if (this.scrollTo == "top") {
-    //         //scroll to top
-    //         this.dashBody.scrollTop = 0;
-    //         //console.log("go top");
-    //     }
-
-    //     //console.log(this.dashBody.scrollTop);
-    //     this.scrollTo == "";
-    // }
-
     // ##############################################################
     // function for list
     loadData(page, offset) {
-        var user_sel = `user {
-            ID
-            first_name
-            last_name
-            img_url
-            img_pos
-            img_size
-          }`;
         var query = `query{forum_comments(forum_id:"${this.forum_id}",page:${page},offset:${offset}) {
             ID
             forum_id
             content
             created_at
-            ${user_sel}
-            replies_count
-            replies {
-                ID
-                comment_id
-                content
-                created_at
-                ${user_sel} }
-            }}`;
-
+            ${USER_SELECT}
+            replies_count }}`;
         return getAxiosGraphQLQuery(query);
     }
 
@@ -138,30 +190,15 @@ export default class ForumPage extends React.Component {
         });
     }
 
-    renderForumItem(d, i, is_reply = false) {
-        return <ForumItem
-            raw_data={d}
-            user_title={createUserTitle(d.user)}
-            img_url={d.user.img_url}
-            img_pos={d.user.img_pos}
-            is_reply={is_reply}
-            img_size={d.user.img_size}
-            timestamp={Time.getAgo(d.created_at)}
-            content={d.content}
-            key={i} >
-        </ForumItem>;
-    }
-
     renderList(d, i, isExtraData = false) {
         var item = [];
-
-
-        item.push(this.renderForumItem(d, i));
-        for (var j in d.replies) {
-            item.push(this.renderForumItem(d.replies[i], i + "_rep_" + j, true));
-        }
+        item.push(
+            <ForumCommentItem
+                id={d.ID} i={i} data={d}>
+            </ForumCommentItem>
+        );
         return item;
-    };
+    }
     //<button onClick={() => this.addFeedToView({ ID: "a" })}>Add</button>
 
     render() {
@@ -169,7 +206,6 @@ export default class ForumPage extends React.Component {
             <h2>Forum for {this.forum_id}</h2>
             <List type="append-bottom"
                 appendText="Load More"
-                listClass="db_body"
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}
                 extraData={this.state.extraData}

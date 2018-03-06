@@ -15,6 +15,7 @@ const { UserType
     , MetaType
     , LogType
     , ForumCommentType
+    , ForumReplyType
     , SessionRequestType
     , ZoomInviteType
     //, CFType
@@ -402,7 +403,7 @@ fields["prescreens"] = {
 };
 
 /*******************************************/
-/* resume_drop ******************/
+/* forum ******************/
 fields["forum_comments"] = {
     type: new GraphQLList(ForumCommentType),
     args: {
@@ -413,6 +414,19 @@ fields["forum_comments"] = {
     },
     resolve(parentValue, arg, context, info) {
         return ForumExec.forum_comments(arg, graphqlFields(info));
+    }
+};
+
+fields["forum_replies"] = {
+    type: new GraphQLList(ForumReplyType),
+    args: {
+        comment_id: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return ForumExec.forum_replies(arg, graphqlFields(info));
     }
 };
 
