@@ -18,10 +18,15 @@ export function createUserTitle(d, search = "") {
         layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.ID })
     }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
 
-    var focusedEmail = d.user_email.focusSubstring(search);
-    focusedEmail = <span dangerouslySetInnerHTML={{ __html: focusedEmail }} ></span>;
-
-    return <span>{focusedName}<br></br>{focusedEmail}</span>;
+    var focusedEmail = null;
+    if (d.user_email) {
+        focusedEmail = d.user_email.focusSubstring(search);
+        focusedEmail = <span><br></br>
+            <span dangerouslySetInnerHTML={{ __html: focusedEmail }} >
+            </span>
+        </span>;
+    }
+    return <span>{focusedName}{focusedEmail}</span>;
 }
 
 class UsersPage extends React.Component {

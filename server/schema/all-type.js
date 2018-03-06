@@ -351,8 +351,37 @@ const ZoomInviteType = new GraphQLObjectType({
     })
 });
 
+const ForumCommentType = new GraphQLObjectType({
+    name: 'ForumComment',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        forum_id: { type: GraphQLString },
+        user_id: { type: GraphQLInt },
+        content: { type: GraphQLString },
+        created_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString },
+
+        user: { type: UserType },
+        replies: { type: new GraphQLList(ForumReplyType) }
+    })
+});
+
+const ForumReplyType = new GraphQLObjectType({
+    name: 'ForumReply',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        comment_id: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        content: { type: GraphQLString },
+        created_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString },
+        user: { type: UserType }
+    })
+});
+
 module.exports = {
     UserType
+    , ForumCommentType, ForumReplyType
     , ZoomInviteType
     , CompanyType
     , QueueType

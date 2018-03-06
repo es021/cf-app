@@ -14,6 +14,7 @@ const { UserType
     , PasswordResetType
     , MetaType
     , LogType
+    , ForumCommentType
     , SessionRequestType
     , ZoomInviteType
     //, CFType
@@ -37,6 +38,7 @@ const { PasswordResetExec } = require('../model/reset-password-query.js');
 const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/session-query.js');
 const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
+const { ForumExec } = require('../model/forum-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -396,6 +398,21 @@ fields["prescreens"] = {
     },
     resolve(parentValue, arg, context, info) {
         return PrescreenExec.prescreens(arg, graphqlFields(info));
+    }
+};
+
+/*******************************************/
+/* resume_drop ******************/
+fields["forum_comments"] = {
+    type: new GraphQLList(ForumCommentType),
+    args: {
+        forum_id: { type: GraphQLString },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return ForumExec.forum_comments(arg, graphqlFields(info));
     }
 };
 

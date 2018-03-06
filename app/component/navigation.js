@@ -27,6 +27,7 @@ import { AuditoriumFeed, AuditoriumManagement } from '../page/auditorium';
 import DashboardPage from '../page/dashboard';
 import PasswordResetPage from '../page/password-reset';
 import PasswordForgotPage from '../page/password-forgot';
+import ForumPage from '../page/forum';
 import { Monitor } from '../page/admin';
 import AnalyticPage from '../page/analytics';
 
@@ -264,6 +265,15 @@ function getMenuItem(COMING_SOON) {
     // ############################################################################/
     /**** ROUTE ONLY *******/
     menuItem.push(...[
+        {
+            url: "/forum/:forum_id",
+            component: ForumPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: false,
+            routeOnly: true
+        },
         {
             url: "/session/:id",
             component: SessionPage,
