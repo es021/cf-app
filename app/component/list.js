@@ -80,6 +80,11 @@ export default class List extends React.Component {
                     var empty = (this.props.showEmpty)
                         ? <span className="text-muted text-center">Nothing To Show Here</span>
                         : null;
+
+                    if (this.props.customEmpty) {
+                        empty = this.props.customEmpty;
+                    }
+
                     if (!this.isAppendType()) {
                         listItem = empty;
                     } else {
@@ -246,6 +251,7 @@ List.propTypes = {
     // general props
     offset: PropTypes.number.isRequired,
     customLoading: PropTypes.element,
+    customEmpty: PropTypes.element,
     listClass: PropTypes.string,
     listRef: PropTypes.object,
     key: PropTypes.number, // to force update

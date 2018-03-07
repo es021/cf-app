@@ -5,22 +5,46 @@ $SHADOW : rgba(0, 0, 0, 0.2);
     border:solid 1px $SHADOW;
 }
 
+$MARGIN_COMMENT : 10px;
+$MARGIN_REPLY: 45px;
+$MARGIN_IMAGE: 7px;
+
 .forum-list, 
 .forum-list-reply{
     //background: white;
     text-align: left;
 }
 
+//# text area ################
+.forum-textarea-comment, .forum-textarea-reply{
+    display: flex;
+    margin-left: $MARGIN_COMMENT;
+}
+
+.forum-textarea-reply{
+    margin-left: $MARGIN_REPLY + $MARGIN_IMAGE;
+    margin-right: 10px; 
+}
+
+// parent list
 .forum-list{
-    margin-left:10px;
+    // to create margin between info at left
+    margin-left:$MARGIN_COMMENT;
     border:solid 1px $SHADOW;
     padding-bottom: 10px;
 }
 
+@media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP){
+    .forum-list, .forum-textarea-comment{
+        margin-left:0;
+    }
+}
+
+
 // load more reply button
 .forum-list-reply{
     small a.btn_link{
-        margin-left: 45px;
+        margin-left: $MARGIN_REPLY;
     }
     border-bottom:solid 1px $SHADOW;
     padding-bottom: 10px;
@@ -29,6 +53,9 @@ $SHADOW : rgba(0, 0, 0, 0.2);
 .forum-list-reply:last-of-type{
     border-bottom: none;
 }
+
+// #############################
+// forum item ------------------
 
 .forum{
     padding: 7px;
@@ -39,9 +66,13 @@ $SHADOW : rgba(0, 0, 0, 0.2);
             border: solid 1px $SHADOW;
         }
         margin: 0;
-        margin-right: 7px;
+        margin-right: $MARGIN_IMAGE;
     }
     .frm-body{
+        p{
+            text-align: justify;
+            padding-right: 5px;
+        }
         .frm-title{
            
         }
@@ -55,23 +86,9 @@ $SHADOW : rgba(0, 0, 0, 0.2);
     }
 }
 
-
-// .forum.frm-first{
-//     border-top: none;
-// }
-
 .forum.frm-reply{
     border-top:none;
-    margin-left: 45px;
-    .frm-image{
-        
-    }
+    margin-left: $MARGIN_REPLY;
 }
 
-
-@media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP){
-    .forum{
-    
-    }
-}
 
