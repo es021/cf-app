@@ -10,6 +10,7 @@ import obj2arg from 'graphql-obj2arg';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { createUserTitle } from './users';
 import CompanyPopup from './partial/popup/company-popup';
+import { Loader } from '../component/loader';
 
 require('../css/forum.scss');
 
@@ -60,15 +61,15 @@ const addNewForumItem = function (type, entity_id, content, success) {
     });
 }
 
-const renderForumItem = function (d, is_reply = false, is_first = false) {
+const renderForumItem = function (d, is_reply = false, toogleAddReply = null) {
     return <ForumItem
+        toogleAddReply={toogleAddReply}
         raw_data={d}
         user_title={createUserTitle(d.user)}
         img_url={d.user.img_url}
         img_pos={d.user.img_pos}
         user_id={d.user.ID}
         is_reply={is_reply}
-        is_first={is_first}
         img_size={d.user.img_size}
         timestamp={Time.getAgo(d.created_at)}
         content={d.content}
@@ -76,47 +77,85 @@ const renderForumItem = function (d, is_reply = false, is_first = false) {
     </ForumItem>;
 };
 
-// type == "comment", "reply"
-const renderTextAreaForumItem = function (type, name, parentClass, onSubmit) {
-
-    return (<div className={`forum-textarea-${type}`}>
-        <textarea ref={(v) => parentClass.textarea = v}
-            className="form-control input-sm"
-            rows={(type == "comment") ? "3" : "1"}
-            onKeyPress={(ev) => {
-                //console.log(ev.ctrlKey);
-                // if (ev.key == "Enter" && !ev.ctrlKey) {
-                //     this.sendChat();
-                //     ev.preventDefault();
-                // }
-
-                // if (ev.key == "Enter" && ev.ctrlKey && this.chatInput.value != "") {
-                //     //console.log(this.chatInput.value);
-                //     ev.persist();
-                //     this.chatInput.value += "\n";
-                //     ev.preventDefault();
-                // }
-            }}
-            placeholder={(type == "comment") ? "Add New Question.." : "Add New Reply.."}
-            name={name}></textarea>
-
-        <button ref={(v) => parentClass.submit_btn = v}
-            className="btn btn-blue"
-            onClick={() => onSubmit()}>
-            Add
-        </button>
-    </div>);
-};
-
-// ## Helper Function ENd
 //##########################################################################################
 
+class ForumTextarea extends React.Component {
+    constructor(props) {
+        super(props);
+        this.wordLimit = 450;
+        this.state = {
+            count: 0
+        }
+    }
+
+    setWordCount(count) {
+        this.setState(() => {
+            return { count: count };
+        })
+    }
+
+    getWordLeft() {
+        return this.wordLimit - this.state.count;
+    }
+
+    isWordExceed() {
+        return this.getWordLeft() < 0;
+    }
+
+    render() {
+        var limit = <div className={`frm-txt-count ${this.isWordExceed() ? "text-red" : ""}`}>
+            {this.getWordLeft()}
+        </div>;
+
+        return (<div className={`forum-textarea-${this.props.type}`}>
+            <textarea ref={(v) => this.props.parentClass.textarea = v}
+                className="form-control input-sm"
+                onKeyUp={(ev) => {
+                    this.setWordCount(this.props.parentClass.textarea.value.length);
+                }}
+                rows={(this.props.type == "comment") ? "4" : "3"}
+                placeholder={(this.props.type == "comment") ? "Add New Question or Comment." : "Add New Reply."}
+                name={this.props.name}>
+            </textarea>
+            <button ref={(v) => this.props.parentClass.submit_btn = v}
+                className="btn btn-sm btn-blue"
+                onClick={() => {
+                    var v = this.props.parentClass.textarea.value;
+                    if (v === "" || v === null
+                        || this.isWordExceed()) {
+                        this.props.parentClass.textarea.focus();
+                        return;
+                    }
+                    this.setWordCount(0);
+                    this.props.onSubmit();
+                }}>Submit</button>
+            {limit}
+        </div>);
+    }
+}
+
+ForumTextarea.propTypes = {
+    parentClass: PropTypes.any.isRequired,
+    type: PropTypes.oneOf(["comment", "reply"]).isRequired,
+    name: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired
+};
+
+const renderTextAreaForumItem = function (type, name, parentClass, onSubmit) {
+    return <ForumTextarea type={type} name={name} parentClass={parentClass} onSubmit={onSubmit}></ForumTextarea>;
+};
+
+//##########################################################################################
 // This class to create forum item element
 // whether it is comment or reply
 class ForumItem extends React.Component {
     constructor(props) {
         super(props);
         this.isMine = this.props.user_id == getAuthUser().ID;
+
+        this.state = {
+            showReply: false
+        };
     }
 
     render() {
@@ -124,30 +163,38 @@ class ForumItem extends React.Component {
         var imgView = createImageElement(this.props.img_url, this.props.img_pos
             , this.props.img_size, img_dimension, "frm-image");
 
-        var className = `forum ${this.props.is_reply ? "frm-reply" : ""} ${this.props.is_first ? "frm-first" : ""}`;
+        var className = `forum ${this.props.is_reply ? "frm-reply" : ""}`;
 
-        var action = (this.isMine)
-            ? <div className="frm-timestamp">
-                <a>Edit</a>{" "}<a>Delete</a>
-            </div>
-            : null;
+        //createAction
+        var action = [<span className="frm-action">{this.props.timestamp}</span>];
+        if (this.isMine) {
+            action.push(<a className="frm-action">Edit</a>);
+            action.push(<a className="frm-action">Delete</a>);
+        }
+        if (!this.props.is_reply) {
+            action.push(<a className="frm-action"
+                onClick={() => {
+                    this.setState((prevState) => { return { showReply: !prevState.showReply }; })
+                    this.props.toogleAddReply();
+                }}>
+                {(this.state.showReply) ? "Hide Reply" : "Reply"}
+            </a>);
+        }
 
         return <div key={this.props.key}
             className={className}>
             {imgView}
             <div className="frm-body">
                 <div className="frm-title">{this.props.user_title}</div>
-                <div className="frm-timestamp">
-                    {this.props.timestamp}
-                </div>
-                {action}
-                <p>{this.props.content}</p>
+                <p className="frm-content">{this.props.content}</p>
+                <div className="frm-timestamp">{action}</div>
             </div>
         </div>;
     }
 }
 
 ForumItem.propTypes = {
+    toogleAddReply: PropTypes.func,
     raw_data: PropTypes.object.isRequired,
     user_title: PropTypes.any.isRequired,
     user_id: PropTypes.any.isRequired,
@@ -157,14 +204,13 @@ ForumItem.propTypes = {
     img_pos: PropTypes.any.isRequired,
     img_size: PropTypes.any.isRequired,
     is_reply: PropTypes.bool.isRequired,
-    is_first: PropTypes.bool.isRequired,
     key: PropTypes.string.isRequired
 };
 
 
 //####################################################################
 // ForumCommentItem
-// this class will generate 
+// this class will generate
 // a new list of replies under it
 class ForumCommentItem extends React.Component {
     constructor(props) {
@@ -172,11 +218,14 @@ class ForumCommentItem extends React.Component {
         this.loadData = this.loadData.bind(this);
         this.getDataFromRes = this.getDataFromRes.bind(this);
         this.renderList = this.renderList.bind(this);
-        this.getInitalPreItem = this.getInitalPreItem.bind(this);
+        this.toogleTextarea = this.toogleTextarea.bind(this);
         this.offset = OFFSET_REPLY;
 
+        // in state preItem,
+        // texarea is at index no 1
+        this.TEXTAREA_INDEX = 1;
 
-        this.commentItem = renderForumItem(this.props.data, false, (this.props.i === 0));
+        this.commentItem = renderForumItem(this.props.data, false, this.toogleTextarea);
         this.textareaItem = renderTextAreaForumItem("reply", `reply::${this.props.id}`, this, () => {
             this.submit_btn.disabled = true
             addNewForumItem("reply"
@@ -192,7 +241,6 @@ class ForumCommentItem extends React.Component {
                         preItem.push(newReply);
                         return { preItem: preItem }
                     });
-
                 });
         });
 
@@ -205,26 +253,28 @@ class ForumCommentItem extends React.Component {
 
     toogleTextarea() {
         this.setState((prevState) => {
+
             var showTextarea = !prevState.showTextarea;
-            var preItem = [this.commentItem];
-            if(showTextarea){
-                preItem.push(this.textareaItem);
+            if (showTextarea) {
+                prevState.preItem[this.TEXTAREA_INDEX] = this.textareaItem;
+            } else {
+                prevState.preItem[this.TEXTAREA_INDEX] = null;
             }
 
-            return { showTextarea: showTextarea, preItem:preItem };
+            return { showTextarea: showTextarea, preItem: prevState.preItem };
         });
     }
 
     // ##############################################################
     // function for list
     loadData(page, offset) {
-        var query = `query{forum_replies(comment_id:"${this.props.id}",page:${page},offset:${offset}) {
-            ID
+        var query = `query{forum_replies(comment_id: "${this.props.id}",page:${page},offset:${offset}) {
+                        ID
             comment_id
-            content
+                    content
             created_at
             ${USER_SELECT}
-        }}`;
+                    }}`;
         return getAxiosGraphQLQuery(query);
     }
 
@@ -240,20 +290,18 @@ class ForumCommentItem extends React.Component {
     }
 
     render() {
-        return <div>
-            <List
-                totalCount={this.props.data.replies_count}
-                divClass="forum-list-reply"
-                type="append-bottom"
-                appendText="Load More Reply"
-                showEmpty={false}
-                getDataFromRes={this.getDataFromRes}
-                loadData={this.loadData}
-                extraData={this.state.preItem}
-                offset={this.offset}
-                renderList={this.renderList}>
-            </List>
-        </div>;
+        return <List
+            totalCount={this.props.data.replies_count}
+            divClass="forum-comment"
+            type="append-bottom"
+            appendText="Load More Reply"
+            showEmpty={false}
+            getDataFromRes={this.getDataFromRes}
+            loadData={this.loadData}
+            extraData={this.state.preItem}
+            offset={this.offset}
+            renderList={this.renderList}>
+        </List>;
     }
 }
 
@@ -265,7 +313,7 @@ ForumCommentItem.propTypes = {
 
 //####################################################################
 // ForumPage
-// this class will generate 
+// this class will generate
 // list of ForumCommentItem
 export default class ForumPage extends React.Component {
     constructor(props) {
@@ -279,20 +327,88 @@ export default class ForumPage extends React.Component {
         this.addFeedToView = this.addFeedToView.bind(this);
         this.renderList = this.renderList.bind(this);
         this.getInitalPreItem = this.getInitalPreItem.bind(this);
-
+        this.checkForumValidity = this.checkForumValidity.bind(this);
         this.offset = OFFSET_COMMENT;
 
         this.state = {
+            loading: true,
             preItem: this.getInitalPreItem()
         }
 
-        this.isInit = true;
+        this.type = null;
+        this.params = {};
     }
 
     componentWillMount() {
         this.customEmpty = <div className="text-center">
             <h4 className="text-muted">No Question Posted Yet</h4>
         </div>;
+
+        this.invalid = <div className="text-center">
+            <h4 className="text-muted">Invalid Forum ID</h4>
+        </div>;
+
+        if (this.checkForumValidity()) {
+            this.checkForumValidityAjax();
+        } else {
+            this.finishValidate(false);
+        }
+    }
+
+    finishValidate(valid) {
+        if (valid === false) {
+            this.type = null;
+        }
+
+        this.setState(() => {
+            return { loading: false }
+        })
+    }
+
+    checkForumValidityAjax() {
+        switch (this.type) {
+            case "company":
+                getAxiosGraphQLQuery(`query{company(ID: ${this.params.company_id}) {name} }`).then((res) => {
+                    var data = res.data.data.company;
+                    if (data == null) {
+                        this.type = null;
+                    } else {
+                        this.params.company_name = data.name;
+                    }
+                    this.finishValidate();
+                });
+                break;
+        }
+    }
+
+    checkForumValidity() {
+        // check forum validity
+        // and get type and params
+        // type null is invalid
+        if (this.forum_id.indexOf("company" >= 0)) {
+            try {
+                var idArr = this.forum_id.split("_");
+                var company_id = Number.parseInt(idArr[1]);
+                if (Number.isNaN(company_id)) {
+                    return false;
+                }
+
+                if (idArr[0] !== "company") {
+                    return false;
+                }
+
+                this.type = "company";
+                this.params = {
+                    company_id: company_id
+                };
+
+            } catch (err) {
+                console.log(err);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     getInitalPreItem() {
@@ -309,7 +425,10 @@ export default class ForumPage extends React.Component {
                         this.textarea.value = "";
 
                         // prepend new comment
-                        var newComment = renderForumItem(res);
+                        var newComment = <div className="forum-comment">
+                            {renderForumItem(res)}
+                        </div>;
+
                         this.setState((prevState) => {
                             var preItem = prevState.preItem;
                             preItem.push(newComment);
@@ -325,13 +444,9 @@ export default class ForumPage extends React.Component {
     // ##############################################################
     // function for list
     loadData(page, offset) {
-        var query = `query{forum_comments(forum_id:"${this.forum_id}",page:${page},offset:${offset}) {
-            ID
-            forum_id
-            content
-            created_at
-            ${USER_SELECT}
-            replies_count }}`;
+        var query = `query{forum_comments(forum_id: "${this.forum_id}",page:${page},offset:${offset}) {
+                        ID forum_id content created_at
+            ${USER_SELECT} replies_count }}`;
         return getAxiosGraphQLQuery(query);
     }
 
@@ -362,45 +477,38 @@ export default class ForumPage extends React.Component {
     //<button onClick={() => this.addFeedToView({ ID: "a" })}>Add</button>
 
     renderView(forum) {
-        var invalid = <div><h3>Invalid Forum Id</h3></div>;
-        var v = null;
-
-        if (this.forum_id.indexOf("company" >= 0)) {
-            try {
-                var company_id = Number.parseInt(this.forum_id.split("_")[1]);
-                if (Number.isNaN(company_id)) {
-                    return invalid;
-                }
-
+        var v = this.invalid;
+        switch (this.type) {
+            case 'company':
                 v = <div className="container-fluid no-padding">
                     <div className="row">
-                        <h3>Company Forum
-                        <br></br>
+                        <h3>Forum for {this.params.company_name}
+                            <br></br>
                             <small>Ask Questions And Be Noticed by Recruiters</small>
                         </h3>
                     </div>
                     <div className="col-md-4 forum-info">
-                        <CompanyPopup id={company_id} displayOnly={true}></CompanyPopup>
+                        <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
+                        <br></br>
                     </div>
                     <div className="col-md-8 no-padding">
                         {forum}
                     </div>
                 </div>
-            } catch (err) {
-                return <div>
-                    {invalid}
-                    {err}
-                </div>;
-            }
+                break;
         }
 
         return v;
     }
 
     render() {
+
+        if (this.state.loading) {
+            return <Loader size="3" text="Loading Forum"></Loader>;
+        }
+
         var forum = <List type="append-bottom"
             customEmpty={this.customEmpty}
-            divClass="forum-list"
             appendText="Load More Comment"
             getDataFromRes={this.getDataFromRes}
             loadData={this.loadData}
