@@ -11,11 +11,14 @@ export default class List extends React.Component {
         this.page = 0;
         this.load = this.load.bind(this);
         this.isAppendType = this.isAppendType.bind(this);
+        this.showLoadMore = this.showLoadMore.bind(this);
         this.renderDataContent = this.renderDataContent.bind(this);
+
         this.state = {
             listItem: null,
             fetching: true,
             fetching_append: false,
+            totalFetched: 0,
             fetchCount: 0,
             empty: false
         }
@@ -124,8 +127,16 @@ export default class List extends React.Component {
                                 }
                             });
 
-                            return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
+                            return {
+                                listItem: listItem
+                                , fetching: false
+                                , fetching_append: false
+                                , totalFetched: prevState.totalFetched + data.length
+                                , fetchCount: data.length
+                                , empty: empty
+                            }
                         });
+                        
                         return;
 
                     } else {
@@ -141,8 +152,14 @@ export default class List extends React.Component {
                 listItem = `[Error While Rendering List] ${err}`;
             }
 
-            this.setState(() => {
-                return { listItem: listItem, fetching: false, fetching_append: false, fetchCount: data.length, empty: empty }
+            this.setState((prevState) => {
+                return {
+                    listItem: listItem, fetching: false
+                    , fetching_append: false
+                    , fetchCount: data.length
+                    , totalFetched: prevState.totalFetched + data.length
+                    , empty: empty
+                }
             });
 
         }
@@ -179,8 +196,25 @@ export default class List extends React.Component {
         return dataContent;
     }
 
+    showLoadMore() {
+        if (this.props.totalCount !== null) {
+            if (this.state.totalFetched >= this.props.totalCount) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        if (this.state.fetchCount >= this.props.offset) {
+            return true;
+        }
+
+        return false;
+    }
+    
     render() {
-        var loading = (this.props.customLoading) ? this.props.customLoading : <Loader size="2" text="Loading.."></Loader>;
+        var loading = (this.props.customLoading) ? this.props.customLoading :
+            <Loader isCenter={true} size="2" text="Loading.."></Loader>;
 
         var topView = null;
         var bottomView = null;
@@ -216,9 +250,9 @@ export default class List extends React.Component {
         else if (this.isAppendType()) {
 
             if (this.state.fetching_append) {
-                fetchBtn = <Loader size="2"></Loader>;
+                fetchBtn = <Loader isCenter={true} size="2"></Loader>;
             } else {
-                fetchBtn = (this.state.fetchCount >= this.props.offset) ?
+                fetchBtn = (this.showLoadMore()) ?
                     <small style={{ marginLeft: "6px" }}>
                         <ButtonLink onClick={() => this.load(this.NEXT)} label={this.props.appendText}></ButtonLink>
                     </small> : null;
@@ -254,6 +288,7 @@ List.propTypes = {
     customEmpty: PropTypes.element,
     listClass: PropTypes.string,
     listRef: PropTypes.object,
+    totalCount: PropTypes.number, // total count for the list
     key: PropTypes.number, // to force update
     // function
     componentDidUpdate: PropTypes.func, // use in dashboard
@@ -280,6 +315,7 @@ List.defaultProps = {
     extraData: null,
     divClass: "",
     pageClass: "",
+    totalCount: null,
     listClass: "",
     listRef: null,
     showEmpty: true

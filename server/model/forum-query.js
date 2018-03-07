@@ -11,10 +11,12 @@ class ForumExec {
     // Replies  --------------------------------------
 
     getQueryReplies(params, extra) {
+        var is_deleted_where = "is_deleted = 0";
+
         var comment_id_where = (typeof params.comment_id === "undefined") ? "1=1" : `comment_id = ${params.comment_id}`;
-        var order_by = "ORDER BY " + ((typeof params.order_by === "undefined") ? `created_at asc` : `${params.order_by}`);
+        var order_by = "ORDER BY " + ((typeof params.order_by === "undefined") ? `created_at desc` : `${params.order_by}`);
         var limit = DB.prepareLimit(params.page, params.offset);
-        var sql = `from ${ForumReply.TABLE} where ${comment_id_where}`;
+        var sql = `from ${ForumReply.TABLE} where ${comment_id_where} and ${is_deleted_where}`;
 
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
@@ -49,11 +51,13 @@ class ForumExec {
     // ##############################################
     // Comments --------------------------------------
     getQueryComments(params, field, extra) {
+        var is_deleted_where = "is_deleted = 0";
+
         var forum_id_where = (typeof params.forum_id === "undefined") ? "1=1" : `forum_id = '${params.forum_id}' `;
         var order_by = "ORDER BY " + ((typeof params.order_by === "undefined") ? `created_at desc` : `${params.order_by}`);
         var limit = DB.prepareLimit(params.page, params.offset);
 
-        var sql = `from ${ForumComment.TABLE} c where ${forum_id_where}`;
+        var sql = `from ${ForumComment.TABLE} c where ${forum_id_where} and ${is_deleted_where}`;
         var extraSel = "";
         if (typeof field["replies_count"] !== "undefined") {
             extraSel += `, (select count(*) from ${ForumReply.TABLE} cr where c.ID = cr.comment_id) as replies_count `;

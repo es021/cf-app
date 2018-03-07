@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class Loader extends React.Component {
@@ -25,8 +25,13 @@ export class Loader extends React.Component {
                 text = <small>{" " + text}</small>;
             }
         }
+        
+        var style = {};
+        if (this.props.isCenter) {
+            style = { textAlign: "center", width: "100%" };
+        }
 
-        return (<div className="loader">
+        return (<div style={style} className="loader">
             <i className={`fa fa-spinner fa-pulse ${fa_size}`}></i>
             {text}
         </div>);

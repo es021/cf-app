@@ -358,6 +358,7 @@ const ForumCommentType = new GraphQLObjectType({
         forum_id: { type: GraphQLString },
         user_id: { type: GraphQLInt },
         content: { type: GraphQLString },
+        is_deleted: { type: GraphQLBoolean },
         created_at: { type: GraphQLString },
         updated_at: { type: GraphQLString },
 
@@ -374,6 +375,7 @@ const ForumReplyType = new GraphQLObjectType({
         comment_id: { type: GraphQLInt },
         user_id: { type: GraphQLInt },
         content: { type: GraphQLString },
+        is_deleted: { type: GraphQLBoolean },
         created_at: { type: GraphQLString },
         updated_at: { type: GraphQLString },
         user: { type: UserType }

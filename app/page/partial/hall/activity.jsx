@@ -174,7 +174,7 @@ class ActvityList extends React.Component {
         var body = null;
         console.log(this.props);
         if (this.props.fetching) {
-            body = <Loader size="2"></Loader>;
+            body = <Loader isCenter={true} size="2"></Loader>;
         } else {
 
             body = this.props.list.map((d, i) => {
