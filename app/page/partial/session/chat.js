@@ -402,7 +402,7 @@ class Chat extends React.Component {
                         ev.preventDefault();
                     }
                 }}
-                placeholder={`Start Typing. Press [Ctrl+Enter] For New Line`}
+                placeholder={`Ask New Queston..`}
                 name="message"></textarea>
             <button disabled={this.props.disableChat} className="btn btn-blue" onClick={() => this.sendChat()} >Send</button>
         </div>);
