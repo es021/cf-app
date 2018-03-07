@@ -4,13 +4,13 @@ const { QueueType, ZoomInviteType, LogType, AuditoriumType
     , MessageType, VacancyType, SessionRatingType, CompanyType
     , UserType, SessionType, ResumeDropType
     , PrescreenType, DocLinkType, SkillType
-    , SessionRequestType } = require('./all-type.js');
+    , SessionRequestType, ForumCommentType, ForumReplyType } = require('./all-type.js');
 
 
 //import all action for type
 const { Queue, ZoomInvite, Log, Auditorium, Vacancy, Meta, PasswordReset
     , Dashboard, SessionNotes, Company, DocLink, SessionRating
-    , Skill, ResumeDrop, Session, Prescreen
+    , Skill, ResumeDrop, Session, Prescreen, ForumComment, ForumReply
     , SessionRequest } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -538,11 +538,96 @@ fields["edit_queue"] = {
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Queue.TABLE, arg).then(function (res) {
-            return QueueExec.queues({ ID: res.ID }, graphqlFields(info), { single: true });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                return QueueExec.queues({ ID: res.ID }, graphqlFields(info), { single: true });
         });
     }
 };
 
+
+/*******************************************/
+/* forum_comment ******************/
+fields["add_forum_comment"] = {
+    type: ForumCommentType,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) },
+        forum_id: { type: new GraphQLNonNull(GraphQLString) },
+        content: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(ForumComment.TABLE, arg).then(function (res) {
+            return res;
+        });                                                                                                                                                                                                                                                                                                                                                                 
+    }
+};
+
+fields["edit_forum_comment"] = {
+    type: ForumCommentType,
+    args: {                                                                                                                                                                                                                                                                                                                             
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        content: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(ForumComment.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["delete_forum_comment"] = {
+    type: ForumCommentType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {                                                                                                                                   
+        arg["is_deleted"] = 1;
+        return DB.update(ForumComment.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+
+/*******************************************/
+/* forum_reply ******************/
+fields["add_forum_reply"] = {
+    type: ForumReplyType,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) },
+        comment_id: { type: new GraphQLNonNull(GraphQLInt) },
+        content: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(ForumReply.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_forum_reply"] = {
+    type: ForumReplyType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        content: { type: new GraphQLNonNull(GraphQLString) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(ForumReply.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["delete_forum_reply"] = {
+    type: ForumReplyType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        arg["is_deleted"] = 1;
+        return DB.update(ForumReply.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
 
 /*******************************************/
 /* auditorium ******************/
