@@ -30,14 +30,14 @@ export const getImageObj = function (obj) {
     return r;
 }
 
-export const createImageElement = function (img_url, img_pos, img_size, img_dimension, className) {
-    return <ProfileCard img_url={img_url} img_pos={img_pos} img_size={img_size}
+export const createImageElement = function (img_url, img_pos, img_size, img_dimension, className, type = PCType.STUDENT) {
+    return <ProfileCard type={type} img_url={img_url} img_pos={img_pos} img_size={img_size}
         title={null} body={null} subtitle={null} img_dimension={img_dimension}
         className={className}></ProfileCard>;
 }
 
 export const getDefaultProfileImg = function (type, url = null) {
-    if (url == null) {
+    if (url == null || url == "null") {
         switch (type) {
             case PCType.STUDENT:
                 url = ImgConfig.DefUser;

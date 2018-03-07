@@ -5,21 +5,27 @@ $SHADOW : rgba(0, 0, 0, 0.2);
     border:solid 1px $SHADOW;
 }
 
-$MARGIN_COMMENT : 10px;
+$MARGIN_COMMENT : 20px;
 $MARGIN_REPLY: 45px;
 $MARGIN_IMAGE: 7px;
-
-.forum-list, 
-.forum-list-reply{
-    //background: white;
-    text-align: left;
-}
 
 //# text area ################
 .forum-textarea-comment, .forum-textarea-reply{
     display: flex;
     margin-left: $MARGIN_COMMENT;
+    .frm-txt-count{
+        text-align: right;
+        font-size: 80%;
+        color: gray;
+        align-self: flex-end;
+        padding-left: 5px;
+    }
+
+    .text-red{
+        color: red;
+    }
 }
+
 
 .forum-textarea-reply{
     margin-left: $MARGIN_REPLY + $MARGIN_IMAGE;
@@ -27,31 +33,22 @@ $MARGIN_IMAGE: 7px;
 }
 
 // parent list
-.forum-list{
+.forum-comment{
+    text-align: left;
     // to create margin between info at left
     margin-left:$MARGIN_COMMENT;
-    border:solid 1px $SHADOW;
+    border-bottom:dotted 1px $SHADOW;
+    border-top:none;
     padding-bottom: 10px;
-}
-
-@media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP){
-    .forum-list, .forum-textarea-comment{
-        margin-left:0;
-    }
-}
-
-
-// load more reply button
-.forum-list-reply{
     small a.btn_link{
         margin-left: $MARGIN_REPLY;
     }
-    border-bottom:solid 1px $SHADOW;
-    padding-bottom: 10px;
 }
 
-.forum-list-reply:last-of-type{
-    border-bottom: none;
+@media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP){
+    .forum-comment, .forum-textarea-comment{
+        margin-left:0;
+    }
 }
 
 // #############################
@@ -74,14 +71,30 @@ $MARGIN_IMAGE: 7px;
             padding-right: 5px;
         }
         .frm-title{
-           
+           font-weight: bold;
         }
+        
         .frm-timestamp{
+            margin-top: 4px;
             font-size: 80%;
             color: gray;
+            .frm-action{
+                padding: 0 4px;
+                border-right: solid 1px $SHADOW;
+            }
+            .frm-action:first-of-type{
+                padding-left: 0;
+            }
+            .frm-action:last-of-type{
+                border-right: none;
+            }
         }
-        .frm-content{
 
+        .frm-content{
+            background: white;
+            padding: 4px 10px;
+            border-radius: 14px;
+            border: solid 1px $SHADOW;
         }
     }
 }
