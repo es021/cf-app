@@ -7,7 +7,7 @@ export default class Tooltip extends React.Component {
 
     constructor(props) {
         super(props);
-        this.debug = false;
+        this.debug = this.props.debug;
 
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
@@ -38,8 +38,14 @@ export default class Tooltip extends React.Component {
 
     render() {
 
+        var style = {
+            bottom: this.props.bottom
+            , left: this.props.left
+            , width: this.props.width
+        }
+
         var tooltip = (this.state.show)
-            ? <div className="my-tt-container" style={{ bottom: this.props.bottom, left: this.props.left }}>
+            ? <div className="my-tt-container" style={style}>
                 <div className="my-tt-mes">
                     {this.props.tooltip}
                 </div>
@@ -60,11 +66,15 @@ export default class Tooltip extends React.Component {
 Tooltip.propTypes = {
     content: PropTypes.any.isRequired,
     tooltip: PropTypes.element.isRequired,
+    debug: PropTypes.bool,
     bottom: PropTypes.string,
+    width: PropTypes.string,
     left: PropTypes.string
 };
 
 Tooltip.defaultProps = {
+    debug: false,
+    width: "200px",
     bottom: "30px",
     left: "-90px",
 };

@@ -104,7 +104,27 @@ const DocLink = {
 
 const DocLinkEnum = {
     TYPE_DOC: "document",
-    TYPE_LINK: "link"
+    TYPE_LINK: "link",
+    USER_LABELS: ["Resume", "Linked In", "Portfolio", "Git Hub", "Cover Letter", "Recommendation Letter"],
+    COMPANY_LABELS: ["Brochure", "Website"],
+    LABEL_STYLE: {
+        "Resume": {
+            color: "#c62323",
+            icon: "file-text"
+        },
+        "Linked In": {
+            color: "#007BB4",
+            icon: "linkedin"
+        },
+        "Git Hub":{
+            color: "black",
+            icon: "github"
+        },
+        "Portfolio": {
+            color: "#efa30b",
+            icon: "folder-open"
+        }
+    }
 };
 
 const PasswordReset = {
@@ -132,7 +152,9 @@ const PrescreenEnum = {
     STATUS_APPROVED: "Approved",
     STATUS_DONE: "Done",
     ST_NEXT_ROUND: "Next Round", // from session
-    ST_SCHEDULED: "Scheduled Interview", // from drop resume, forum?
+    ST_INTV_REQUEST: "Interview Request",
+    ST_RESUME_DROP: "Resume Drop",
+    ST_FORUM: "Forum",
     ST_PRE_SCREEN: "Pre Screen" // from prescreen
 };
 

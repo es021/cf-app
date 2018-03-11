@@ -61,10 +61,12 @@ const addNewForumItem = function (type, entity_id, content, success) {
     });
 }
 
-const renderForumItem = function (d, is_reply = false, toogleAddReply = null) {
+const renderForumItem = function (d, is_reply = false, toogleAddReply = null, onCommentDeleted = null) {
     return <ForumItem
+        onCommentDeleted={onCommentDeleted}
         toogleAddReply={toogleAddReply}
         raw_data={d}
+        id={d.ID}
         user_title={createUserTitle(d.user)}
         img_url={d.user.img_url}
         img_pos={d.user.img_pos}
@@ -145,6 +147,8 @@ const renderTextAreaForumItem = function (type, name, parentClass, onSubmit) {
     return <ForumTextarea type={type} name={name} parentClass={parentClass} onSubmit={onSubmit}></ForumTextarea>;
 };
 
+import { openEditPopup, openDeletePopup } from '../component/general-form';
+
 //##########################################################################################
 // This class to create forum item element
 // whether it is comment or reply
@@ -152,13 +156,69 @@ class ForumItem extends React.Component {
     constructor(props) {
         super(props);
         this.isMine = this.props.user_id == getAuthUser().ID;
+        this.openEditPopup = this.openEditPopup.bind(this);
+        this.openDeletePopup = this.openDeletePopup.bind(this);
+
+        this.entity = (this.props.is_reply) ? "forum_reply" : "forum_comment";
+        this.entity_singular = (this.props.is_reply) ? "Reply" : "Comment";
 
         this.state = {
-            showReply: false
+            showReply: false,
+            content: this.props.content,
+            deleted: false
         };
     }
 
+    openEditPopup() {
+
+        var formItems = [
+            { "header": "Editing Comment" },
+            {
+                name: "content",
+                type: "textarea",
+                required: true
+            }
+        ];
+
+        var formDefault = { content: this.state.content };
+
+        var willSubmit = (d) => {
+            d.ID = this.props.id;
+            return d;
+        }
+
+        var onSuccess = (d) => {
+            this.setState((prevState) => {
+                return { content: d.content };
+            });
+        }
+
+        openEditPopup(this.props.id, this.entity, this.entity_singular, formItems, formDefault, willSubmit, onSuccess);
+    }
+
+    openDeletePopup() {
+        var onSuccess = (d) => {
+            // if the item is comment,
+            // then run the parents' handler for delete
+            if (!this.props.is_reply && this.props.onCommentDeleted) {
+                this.props.onCommentDeleted();
+            }
+            // for reply, just set deleted to true
+            else {
+                this.setState((prevState) => {
+                    return { deleted: true };
+                });
+            }
+        }
+
+        openDeletePopup(this.props.id, this.entity, onSuccess);
+    }
+
     render() {
+        if (this.state.deleted) {
+            return null;
+        }
+
         var img_dimension = (this.props.is_reply) ? "30px" : "45px";
         var imgView = createImageElement(this.props.img_url, this.props.img_pos
             , this.props.img_size, img_dimension, "frm-image");
@@ -168,8 +228,8 @@ class ForumItem extends React.Component {
         //createAction
         var action = [<span className="frm-action">{this.props.timestamp}</span>];
         if (this.isMine) {
-            action.push(<a className="frm-action">Edit</a>);
-            action.push(<a className="frm-action">Delete</a>);
+            action.push(<a onClick={this.openEditPopup} className="frm-action">Edit</a>);
+            action.push(<a onClick={this.openDeletePopup} className="frm-action">Delete</a>);
         }
         if (!this.props.is_reply) {
             action.push(<a className="frm-action"
@@ -186,7 +246,7 @@ class ForumItem extends React.Component {
             {imgView}
             <div className="frm-body">
                 <div className="frm-title">{this.props.user_title}</div>
-                <p className="frm-content">{this.props.content}</p>
+                <p className="frm-content">{this.state.content}</p>
                 <div className="frm-timestamp">{action}</div>
             </div>
         </div>;
@@ -194,9 +254,11 @@ class ForumItem extends React.Component {
 }
 
 ForumItem.propTypes = {
+    onCommentDeleted: PropTypes.func,
     toogleAddReply: PropTypes.func,
     raw_data: PropTypes.object.isRequired,
     user_title: PropTypes.any.isRequired,
+    id: PropTypes.any.isRequired,
     user_id: PropTypes.any.isRequired,
     subtitle: PropTypes.any.isRequired,
     content: PropTypes.string.isRequired,
@@ -219,13 +281,14 @@ class ForumCommentItem extends React.Component {
         this.getDataFromRes = this.getDataFromRes.bind(this);
         this.renderList = this.renderList.bind(this);
         this.toogleTextarea = this.toogleTextarea.bind(this);
+        this.onCommentDeleted = this.onCommentDeleted.bind(this);
         this.offset = OFFSET_REPLY;
 
         // in state preItem,
         // texarea is at index no 1
         this.TEXTAREA_INDEX = 1;
 
-        this.commentItem = renderForumItem(this.props.data, false, this.toogleTextarea);
+        this.commentItem = renderForumItem(this.props.data, false, this.toogleTextarea, this.onCommentDeleted);
         this.textareaItem = renderTextAreaForumItem("reply", `reply::${this.props.id}`, this, () => {
             this.submit_btn.disabled = true
             addNewForumItem("reply"
@@ -246,9 +309,17 @@ class ForumCommentItem extends React.Component {
 
         this.state = {
             preItem: [this.commentItem],
-            showTextarea: false
+            showTextarea: false,
+            commentDeleted: false
         }
         this.isInit = true;
+    }
+
+
+    onCommentDeleted() {
+        this.setState(() => {
+            return { commentDeleted: true };
+        })
     }
 
     toogleTextarea() {
@@ -290,6 +361,10 @@ class ForumCommentItem extends React.Component {
     }
 
     render() {
+        if (this.state.commentDeleted) {
+            return null;
+        }
+
         return <List
             totalCount={this.props.data.replies_count}
             divClass="forum-comment"
@@ -424,10 +499,12 @@ export default class ForumPage extends React.Component {
                         this.submit_btn.disabled = false;
                         this.textarea.value = "";
 
-                        // prepend new comment
-                        var newComment = <div className="forum-comment">
-                            {renderForumItem(res)}
-                        </div>;
+                        //prepend new comment
+                        var newComment = <ForumCommentItem
+                            id={res.ID}
+                            data={res}
+                            i={`comment::${res.ID}`}>
+                        </ForumCommentItem>;
 
                         this.setState((prevState) => {
                             var preItem = prevState.preItem;

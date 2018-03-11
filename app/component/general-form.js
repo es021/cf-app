@@ -62,6 +62,7 @@ class GeneralForm extends React.Component {
     }
 
     formOnSubmit(d) {
+
         toggleSubmit(this, { error: null });
 
         // empty field become null
@@ -74,10 +75,11 @@ class GeneralForm extends React.Component {
         // for edit
         if (this.props.edit) {
             var discardDiff = ["ID"];
-            discardDiff.push(...this.props.discardDiff);
-            console.log(discardDiff);
-            console.log(this.props.forceDiff);
+            if (this.props.discardDiff) {
+                discardDiff.push(...this.props.discardDiff);
+            }
             var update = checkDiff(this, this.props.edit, d, discardDiff, this.props.forceDiff);
+
             if (update === false) {
                 return;
             }
@@ -399,4 +401,47 @@ GeneralFormPage.defaultProps = {
     forceDiff: [],
     formOnly: false,
     tableHeader: null
+}
+
+/////////////////////////////////////////////
+
+export const openEditPopup = function (id, entity, entity_singular, formItem, formDefault, willSubmit, onSuccess, closeOnSuccess = true) {
+    layoutActions.storeUpdateFocusCard(`Editing ${entity_singular} #${id}`,
+        GeneralForm,
+        {
+            forceDiff: [],
+            dicardDiff: [],
+            entity: entity,
+            entity_singular: entity_singular,
+            formItem: formItem,
+            formDefault: formDefault,
+            onSuccessNew: (d) => {
+                if (closeOnSuccess) {
+                    layoutActions.storeHideFocusCard();
+                }
+                onSuccess(d);
+            },
+            formWillSubmit: willSubmit,
+            edit: formDefault
+        }
+    );
+}
+
+export const openDeletePopup = function (id, entity, onSuccess, closeOnSuccess = true) {
+    const onYes = () => {
+        var del_query = `mutation{delete_${entity}(ID:${id})}`;
+        layoutActions.storeUpdateProps({ loading: true });
+        getAxiosGraphQLQuery(del_query).then((res) => {
+            if (closeOnSuccess) {
+                layoutActions.storeHideFocusCard();
+            }
+            onSuccess(res);
+        }, (err) => {
+            alert(err.response.data);
+        });
+    };
+
+    layoutActions.storeUpdateFocusCard("Confirm Delete Item",
+        ConfirmPopup,
+        { title: `Continue delete this item ?`, onYes: onYes }, "small");
 }

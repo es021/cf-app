@@ -20,9 +20,13 @@ class DocLinkForm extends React.Component {
             error: null,
             disableSubmit: false,
             success: null,
-            currentFile: null
+            currentFile: null,
+            labelText : false
         };
+        this.isForCompany = this.isForCompany.bind(this);
+        this.isForUser = this.isForUser.bind(this);
         this.formOnSubmit = this.formOnSubmit.bind(this);
+        this.setLabelText = this.setLabelText.bind(this);
         this.uploaderOnChange = this.uploaderOnChange.bind(this);
         this.uploaderOnError = this.uploaderOnError.bind(this);
         this.uploaderOnSuccess = this.uploaderOnSuccess.bind(this);
@@ -48,16 +52,31 @@ class DocLinkForm extends React.Component {
             this.formDefault[DocLink.DESCRIPTION] = this.props.edit[DocLink.DESCRIPTION];
         }
 
-        this.formItem = this.getFormItem(this.props.type);
+        //this.formItem = this.getFormItem(this.props.type);
     }
 
-    getFormItem(type) {
+    isForUser(){
+        return this.props.entity === "user";
+    }
 
-        var labelPlaceholder = (type === DocLinkEnum.TYPE_DOC)
-            ? ((this.props.entity === "user") ? "Resume" : "Brochure")
-            : ((this.props.entity === "user") ? "LinkedIn" : "Website");
+    isForCompany(){
+        return !this.isForUser();
+    }
 
-        return [
+    setLabelText(labelText){
+        this.setState(()=>{
+            return {labelText: labelText};
+        })
+    }
+
+    getFormItem() {
+        var CUSTOM = "Custom Label";
+        var type = this.props.type;
+        var labelData = [""];
+        labelData.push(...(this.isForUser()) ?  DocLinkEnum.USER_LABELS : DocLinkEnum.COMPANY_LABELS);
+        labelData.push(CUSTOM);
+
+        var formItem =  [
             {
                 label: "Type",
                 name: DocLink.TYPE,
@@ -85,12 +104,6 @@ class DocLinkForm extends React.Component {
                 disabled: (this.props.edit && type === DocLinkEnum.TYPE_DOC) ? true : false,
                 hidden: (type === DocLinkEnum.TYPE_LINK || this.props.edit) ? false : true,
                 required: (type === DocLinkEnum.TYPE_LINK || this.props.edit) ? true : false
-            }, {
-                label: "Label",
-                placeholder: labelPlaceholder,
-                name: DocLink.LABEL,
-                type: "text",
-                required: true
             }
             /*, {
                 label: "Description",
@@ -99,6 +112,32 @@ class DocLinkForm extends React.Component {
                 rows: 2
             }*/
         ];
+
+
+        // can toogle between select and text
+        var labelObj =  {
+            label: "Label",
+            name: DocLink.LABEL,
+            type: "select",
+            sublabel:<span>Select `{CUSTOM}` to write a custom label</span>,
+            onChange: (e)=>{
+                if(e.currentTarget.value == CUSTOM){
+                    this.setLabelText(true);
+                }
+            },
+            data : labelData,
+            required: true
+        };
+
+        if((typeof this.state !== "undefined" && this.state.labelText)){
+            labelObj.type  = "text";
+            labelObj.sublabel = <span><a onClick={()=>this.setLabelText(false)}>Select from dropdown</a></span>;
+            labelObj.placeholder  = "Write down custom label here";
+            labelObj.onChange = false;
+        }
+
+        formItem.push(labelObj);
+        return formItem;
 
     }
 
@@ -193,7 +232,7 @@ class DocLinkForm extends React.Component {
             onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader> : null;
 
         var form = <Form className="form-row"
-            items={this.formItem}
+            items={this.getFormItem()}
             onSubmit={this.formOnSubmit}
             submitText='Save'
             defaultValues={this.formDefault}

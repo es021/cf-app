@@ -12,20 +12,19 @@ import { RootPath } from '../../../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import { getAuthUser } from '../../../redux/actions/auth-actions';
 import { ActivityAPIErr } from '../../../../server/api/activity-api';
-import UserPopup from '../popup/user-popup';
+import UserPopup, { createUserDocLinkList } from '../popup/user-popup';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 
-import { openSIAddForm } from '../activity/scheduled-interview';
+import { openSIAddForm, isNormalSI } from '../activity/scheduled-interview';
 import Tooltip from '../../../component/tooltip';
 
 import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 
 require('../../../css/border-card.scss');
-
 
 class ActvityList extends React.Component {
 
@@ -65,7 +64,7 @@ class ActvityList extends React.Component {
     // open form,
     // once completed update to approve
     openSIForm(sr_id, student_id) {
-        openSIAddForm(student_id, this.authUser.rec_company, PrescreenEnum.ST_SCHEDULED,
+        openSIAddForm(student_id, this.authUser.rec_company, PrescreenEnum.ST_INTV_REQUEST,
             (d) => {
                 this.updateSessionRequest(sr_id, SessionRequestEnum.STATUS_APPROVED);
             }
@@ -267,6 +266,10 @@ class ActvityList extends React.Component {
                         var ps_type = (d.special_type == null || d.special_type == "")
                             ? PrescreenEnum.ST_PRE_SCREEN : d.special_type;
 
+                        if (isNormalSI(ps_type)) {
+                            ps_type = "Scheduled Interview";
+                        }
+
                         var label_color = "";
                         switch (ps_type) {
                             case PrescreenEnum.ST_NEXT_ROUND:
@@ -275,7 +278,7 @@ class ActvityList extends React.Component {
                             case PrescreenEnum.ST_PRE_SCREEN:
                                 label_color = "info";
                                 break;
-                            case PrescreenEnum.ST_SCHEDULED:
+                            default:
                                 label_color = "primary";
                                 break;
                         }
@@ -303,6 +306,7 @@ class ActvityList extends React.Component {
 
                             if (isRoleRec()) {
                                 body = <div>
+                                    {createUserDocLinkList(obj.doc_links, obj.ID, true, true)}
                                     <div onClick={() => { this.openSIForm(d.ID, obj.ID) }}
                                         className="btn btn-sm btn-success">Schedule Interview</div>
 

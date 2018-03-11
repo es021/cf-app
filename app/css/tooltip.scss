@@ -1,4 +1,4 @@
-$background :black;
+$background :rgba(0,0,0,0.8);
 $color:white;
 .my-tooltip {
     ol,
@@ -14,7 +14,6 @@ $color:white;
     .my-tt-container {
         z-index: 1000;
         position: absolute;
-        width: 200px;
         .my-tt-mes {
             border-radius: 5px;
             color: white;

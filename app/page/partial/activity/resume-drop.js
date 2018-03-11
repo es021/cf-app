@@ -24,7 +24,7 @@ export class ResumeDrop extends React.Component {
 
 
     openSIForm(student_id) {
-        openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_SCHEDULED);
+        openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_RESUME_DROP);
     }
 
     componentWillMount() {
