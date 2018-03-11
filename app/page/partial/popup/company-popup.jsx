@@ -8,12 +8,13 @@ import List, { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec, isRoleStudent, isRoleAdmin } from '../../../redux/actions/auth-actions';
 import { DocLinkEnum, CompanyEnum, LogEnum } from '../../../../config/db-config';
-import { CustomList } from '../../../component/list';
+import { CustomList, createIconLink } from '../../../component/list';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
+import { RootPath } from '../../../../config/app-config';
 
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
@@ -274,7 +275,36 @@ export default class CompanyPopup extends Component {
                         Drop Resume</a>
                 </div>;
 
+            var actData = [
+                {
+                    label: "Request For Interview"
+                    , onClick: this.addSessionRequest
+                    , icon: "sign-in"
+                    , color: "#c62323"
+                }, {
+                    label: "Ask Questions In Company Forum"
+                    , url: `${RootPath}/app/forum/company_${data.ID}`
+                    , icon: "comments"
+                    , color: "#007BB4"
+                }, {
+                    label: "Drop Your Resume"
+                    , onClick: () => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+                        , ResumeDropPopup, { company_id: data.ID })
+                    , icon: "download"
+                    , color: "#efa30b"
+                }
+            ];
+
+            var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+                <div>
+                    <h3>
+                        <small>Ways to Land a Scheduled Interview</small>
+                    </h3>
+                    {createIconLink("lg", actData, true)}
+                </div>;
+
             var pcBody = <div>
+                {action}
                 <div>
                     {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
                     <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
@@ -282,7 +312,6 @@ export default class CompanyPopup extends Component {
                     {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
                     {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>
-                {action}
                 <br></br>
                 {(this.props.displayOnly) ? null : <a onClick={layoutActions.storeHideFocusCard}>Close</a>}
             </div>;

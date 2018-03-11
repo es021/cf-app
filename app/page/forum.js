@@ -5,7 +5,7 @@ import List from '../component/list';
 import { createImageElement } from '../component/profile-card';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
-import { getAuthUser, getCF, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
+import { getAuthUser, getCF, isRoleOrganizer, isRoleAdmin, isRoleStudent } from '../redux/actions/auth-actions';
 import obj2arg from 'graphql-obj2arg';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { createUserTitle } from './users';
@@ -561,7 +561,9 @@ export default class ForumPage extends React.Component {
                     <div className="row">
                         <h3>Forum for {this.params.company_name}
                             <br></br>
-                            <small>Ask Questions And Be Noticed by Recruiters</small>
+                            <small>
+                                {(isRoleStudent()) ? "Ask Questions And Be Noticed by Recruiters" : null}
+                            </small>
                         </h3>
                     </div>
                     <div className="col-md-4 forum-info">

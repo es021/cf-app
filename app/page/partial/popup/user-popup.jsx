@@ -5,10 +5,9 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { DocLinkEnum, UserEnum, LogEnum } from '../../../../config/db-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
-import { CustomList } from '../../../component/list';
+import { CustomList, createIconLink } from '../../../component/list';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import CompanyPopup from './company-popup';
-
 import { addLog } from '../../../redux/actions/other-actions';
 
 // isIconOnly will only consider label with label style set in DocLinkEnum
@@ -45,13 +44,7 @@ export function createUserDocLinkList(doc_links, student_id, alignCenter = true,
             alignCenter={alignCenter} items={dl}
             onClick={onClickDocLink}>
         </CustomList>
-        : <CustomList className={"icon-link"}
-            emptyMessage={"No Document Or Links Uploaded"}
-            alignCenter={alignCenter}
-            items={dl}
-            onClick={onClickDocLink}>
-        </CustomList>;
-
+        : createIconLink("sm", dl, alignCenter, onClickDocLink, "No Document Or Links Uploaded");
     return doc_link;
 }
 
@@ -296,7 +289,6 @@ export default class UserPopup extends Component {
         var id = null;
         var user = this.state.data;
         var view = null;
-        console.log(user);
         if (this.state.loading) {
             view = <Loader size='3' text='Loading Student Information...'></Loader>
         } else {
