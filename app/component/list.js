@@ -468,7 +468,7 @@ export class CustomList extends Component {
     }
 
     getIconLinkLi(d, i) {
-        var dimension = "25px";
+        var dimension = "26px";
         var style = {
             background: d.color,
             color: "white",
