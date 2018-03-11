@@ -57,11 +57,12 @@ export function invalidSessionRequest(company_id) {
 
     var total_pending = 0;
     for (var i in session_requests) {
-        if (session_requests[i].company.ID === company_id) {
-            return `You already have sent an interview request for this company. Check your request status under Interview Request.`;
+        var sr = session_requests[i];
+        if (sr.company.ID === company_id && sr.status === SessionRequestEnum.STATUS_PENDING) {
+            return `You already have a pending interview request for this company. Check your requests list under Interview Request section.`;
         }
 
-        if (session_requests[i].status === SessionRequestEnum.STATUS_PENDING) {
+        if (sr.status === SessionRequestEnum.STATUS_PENDING) {
             total_pending++;
         }
     }
