@@ -460,7 +460,7 @@ export class CustomList extends Component {
     }
 
     getLabelLi(d, i) {
-        var labels = ["primary", "default", "success", "danger"];
+        var labels = ["primary", "danger", "success", "default"];
         var index = i % labels.length;
         var liClassName = `label label-${labels[index]}`;
         return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
@@ -468,15 +468,16 @@ export class CustomList extends Component {
     }
 
     getIconLinkLi(d, i) {
-        var dimension = "26px";
         var style = {
             background: d.color,
             color: "white",
-            width: dimension,
-            height: dimension
+            fontSize: this.props.il_font,
+            width: this.props.il_dimension,
+            height: this.props.il_dimension
         };
 
-        var content = <li onClick={this.props.onClick} className={`li-${this.props.className}`} key={i}>
+        var onClick = (d.onClick) ? d.onClick : this.props.onClick;
+        var content = <li onClick={onClick} className={`li-${this.props.className}`} key={i}>
             <a href={d.url} target="blank">
                 <div style={style} className="icon-circle" >
                     <i className={`fa fa-${d.icon}`}></i>
@@ -485,9 +486,10 @@ export class CustomList extends Component {
         </li>;
 
         return <Tooltip
-            width="90px"
-            left="-31px"
-            bottom="28px"
+            debug={false}
+            width={this.props.il_tooltip.width}
+            left={this.props.il_tooltip.left}
+            bottom={this.props.il_tooltip.bottom}
             content={content}
             tooltip={d.label}>
         </Tooltip>
@@ -557,6 +559,11 @@ export class CustomList extends Component {
 }
 
 CustomList.propTypes = {
+    // specifically for iconLink
+    il_dimension: PropTypes.string,
+    il_font: PropTypes.string,
+    il_tooltip: PropTypes.object,
+
     alignCenter: PropTypes.bool,
     items: PropTypes.array.isRequired,
     emptyMessage: PropTypes.any,
@@ -566,5 +573,45 @@ CustomList.propTypes = {
 };
 
 CustomList.defaultProps = {
+    il_dimension: "26px",
+    il_font: "initial",
+    il_tooltip: {},
+
     alignCenter: true
 };
+
+// to create icon link list
+// with different size
+export function createIconLink(size, items, alignCenter = true, onClick = null, emptyMessage = undefined) {
+    var tooltip = {};
+    var dimension = "";
+    var font = "";
+    switch (size) {
+        case "sm":
+            dimension = "26px";
+            tooltip.width = "90px"
+            tooltip.left = "-31px"
+            tooltip.bottom = "28px"
+            font = "initial"
+            break;
+        case "lg":
+            dimension = "70px";
+            tooltip.width = "120px"
+            tooltip.left = "-22px"
+            tooltip.bottom = "75px"
+            font = "35px";
+            break;
+    }
+
+    return <CustomList className={"icon-link"}
+        il_dimension={dimension}
+        il_tooltip={tooltip}
+        il_font={font}
+
+        alignCenter={alignCenter}
+        emptyMessage={emptyMessage}
+        onClick={onClick}
+
+        items={items}>
+    </CustomList>
+}

@@ -443,12 +443,11 @@ class ActivitySection extends React.Component {
 
         // title scheduled interview
         var subtitle_p = (isRoleStudent())
-            ? <NavLink to={`${RootPath}/app/faq`}>
-                Learn how to land a scheduled interview with recruiter
-            </NavLink>
+            ? null
             : <NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
                 <i className="fa fa-plus left"></i>Add New</NavLink>;
-        var tt_p = null;
+
+        var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land scheduled interviews" : null;
         var title_p = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
             , tt_p)

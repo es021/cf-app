@@ -191,10 +191,10 @@ class CompaniesSection extends React.Component {
                     traffic={trf}></CompanyBooth>;
             });
 
-            var btn = <a onClick={this.refreshTraffic}>Refresh Line</a>;
+            //var btn = <a onClick={this.refreshTraffic}>Refresh Line</a>;
 
             view = <div>
-                {btn}
+             
                 <div className={sec}>
                     {comView}
                 </div>
