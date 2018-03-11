@@ -11,22 +11,46 @@ import CompanyPopup from './company-popup';
 
 import { addLog } from '../../../redux/actions/other-actions';
 
-export function createUserDocLinkList(doc_links, student_id, alignCenter = true) {
+// isIconOnly will only consider label with label style set in DocLinkEnum
+export function createUserDocLinkList(doc_links, student_id, alignCenter = true, isIconOnly = false) {
     //document and link
-    var dl = doc_links.map((d, i) => {
-        var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
-        return <span><i className={`fa left fa-${icon}`}></i>
-            <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
-        </span>;
-    });
+    var dl = [];
+
+    if (!isIconOnly) {
+        dl = doc_links.map((d, i) => {
+            var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+            return <span><i className={`fa left fa-${icon}`}></i>
+                <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+            </span>;
+        });
+    } else {
+        doc_links.map((d, i) => {
+            var style = DocLinkEnum.LABEL_STYLE[d.label];
+            if (style && dl.length < 4) {
+                d.icon = style.icon;
+                d.color = style.color;
+                dl.push(d);
+            }
+        });
+    }
 
     const onClickDocLink = () => {
         addLog(LogEnum.EVENT_CLICK_USER_DOC, student_id);
     };
 
-    const doc_link = <CustomList className="label"
-        emptyMessage={"No Document Or Links Uploaded"}
-        alignCenter={alignCenter} items={dl} onClick={onClickDocLink}></CustomList>;
+
+    const doc_link = (!isIconOnly)
+        ? <CustomList className={"label"}
+            emptyMessage={"No Document Or Links Uploaded"}
+            alignCenter={alignCenter} items={dl}
+            onClick={onClickDocLink}>
+        </CustomList>
+        : <CustomList className={"icon-link"}
+            emptyMessage={"No Document Or Links Uploaded"}
+            alignCenter={alignCenter}
+            items={dl}
+            onClick={onClickDocLink}>
+        </CustomList>;
 
     return doc_link;
 }
@@ -234,11 +258,11 @@ export default class UserPopup extends Component {
                 <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
             </span>;
         });
-
+ 
         const onClickDocLink = () => {
             addLog(LogEnum.EVENT_CLICK_USER_DOC, this.id);
         };
-
+ 
         const doc_link = <CustomList className="label" items={dl} onClick={onClickDocLink}></CustomList>;
         */
 

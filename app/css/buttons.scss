@@ -6,14 +6,16 @@ a{
 }
 
 a.dark,
-a.button-icon.dark{
+.button-icon.dark{
     color:lighten($COLOR_LINK, 10);
 }
 
 a.dark:hover,
-a.button-icon.dark:hover{
+.button-icon.dark:hover{
     color:lighten($COLOR_LINK, 20);
 }
+
+
 
 .btn{
     border-radius: 0 !important;

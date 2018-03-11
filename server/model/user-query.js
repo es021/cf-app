@@ -347,14 +347,15 @@ class UserExec {
 
                     // list all pending and then all rejected
                     var par = {
-                        status: [SessionRequestEnum.STATUS_PENDING, SessionRequestEnum.STATUS_REJECTED],
                         order_by: `${SessionRequest.STATUS}, ${SessionRequest.CREATED_AT} asc`
                     };
 
                     if (role === UserEnum.ROLE_STUDENT) {
+                        par["status"] = [SessionRequestEnum.STATUS_PENDING, SessionRequestEnum.STATUS_REJECTED];
                         par["student_id"] = user_id;
                     }
                     if (role === UserEnum.ROLE_RECRUITER) {
+                        par["status"] = [SessionRequestEnum.STATUS_PENDING];
                         par["company_id"] = company_id;
                     }
 

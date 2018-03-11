@@ -19,6 +19,11 @@ export function openSIAddForm(student_id, company_id, type, success) {
     defaultFormItem[Prescreen.STUDENT_ID] = student_id;
     defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
 
+    if (type === PrescreenEnum.ST_INTV_REQUEST) {
+        var dt = Time.getInputFromUnix(Time.getUnixTimestampNow());
+        defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
+    }
+
     layoutActions.storeUpdateFocusCard("Add A New Scheduled Interview", ScheduledInterview
         , {
             company_id: company_id
@@ -26,6 +31,17 @@ export function openSIAddForm(student_id, company_id, type, success) {
             , successAddHandlerExternal: success
             , defaultFormItem: defaultFormItem
         });
+}
+
+// Normal SI is limited to today for appmnt time
+export const isNormalSI = function (type) {
+    var ar = [
+        PrescreenEnum.ST_INTV_REQUEST,
+        PrescreenEnum.ST_FORUM,
+        PrescreenEnum.ST_RESUME_DROP
+    ];
+
+    return ar.indexOf(type) >= 0;
 }
 
 // included in my-activity for recruiter
@@ -246,7 +262,7 @@ export class ScheduledInterview extends React.Component {
                         ID
                         first_name
                         last_name
-                    }
+                        }
                     }
                 }`
                 :// for student only
@@ -257,6 +273,9 @@ export class ScheduledInterview extends React.Component {
 
             return getAxiosGraphQLQuery(query)
                 .then((res) => {
+
+                    var isNormal = isNormalSI(this.props.defaultFormItem[Prescreen.SPECIAL_TYPE]);
+
                     var studentData = [];
                     if (singleStudent) {
                         var user = res.data.data.user;
@@ -276,9 +295,14 @@ export class ScheduledInterview extends React.Component {
                             label: "Type",
                             name: Prescreen.SPECIAL_TYPE,
                             type: "select",
+                            sublabel: "Created From",
                             required: true,
                             disabled: edit || this.props.formOnly,
-                            data: ["", PrescreenEnum.ST_SCHEDULED, PrescreenEnum.ST_NEXT_ROUND, PrescreenEnum.ST_PRE_SCREEN]
+                            data: ["", PrescreenEnum.ST_INTV_REQUEST
+                                , PrescreenEnum.ST_RESUME_DROP
+                                , PrescreenEnum.ST_NEXT_ROUND
+                                , PrescreenEnum.ST_FORUM
+                                , PrescreenEnum.ST_PRE_SCREEN]
                         }];
 
                     //for create only
@@ -304,10 +328,17 @@ export class ScheduledInterview extends React.Component {
                         data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
                     }, {
                         label: "Appointment Date",
-                        sublabel: "Please enter your local time",
+                        sublabel: <span>Please enter your local time
+                            {(isNormal)
+                                ? <span><br></br>Date cannot be change</span>
+                                : ""}
+                        </span>,
                         name: Prescreen.APPNMENT_TIME + "_DATE",
                         type: "date",
-                        placeholder: ""
+                        placeholder: "",
+                        // for schedule interview must is disabled
+                        // set to todays date only
+                        disabled: isNormal,
                     }, {
                         label: "Appointment Time",
                         sublabel: "Please enter your local time",

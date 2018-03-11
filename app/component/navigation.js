@@ -189,8 +189,8 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleRec() //&& !isRoleStudent() //for student disable first
         },
         {
-            url: "/monitor",
-            label: "Monitor",
+            url: "/overview",
+            label: "Overview",
             icon: "desktop",
             component: Monitor,
             bar_app: true,

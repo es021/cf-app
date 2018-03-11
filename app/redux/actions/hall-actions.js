@@ -17,10 +17,16 @@ for (var k in ActivityType) {
     AllActivityType.push(ActivityType[k]);
 }
 
-function getEntitySelect(role) {
+function getEntitySelect(role, type) {
+
+    var extra = "";
+    if (role === UserEnum.ROLE_RECRUITER && type == ActivityType.SESSION_REQUEST) {
+        extra = "doc_links {ID url label}";
+    }
+
     return (role === UserEnum.ROLE_STUDENT)
-        ? " company{ID name img_url img_position img_size} "
-        : " student{ID first_name last_name img_url img_pos img_size} ";
+        ? ` company{ID name img_url img_position img_size ${extra} } `
+        : ` student{ID first_name last_name img_url img_pos img_size ${extra} } `;
 }
 
 export const ACTIVITY = "ACTIVITY";
@@ -39,19 +45,19 @@ export function loadActivity(types = AllActivityType) {
         type += ":" + d;
         switch (d) {
             case ActivityType.SESSION:
-                select += ` sessions { ID created_at ${getEntitySelect(role)}} `;
+                select += ` sessions { ID created_at ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.QUEUE:
-                select += ` queues { ID queue_num created_at ${getEntitySelect(role)}} `;
+                select += ` queues { ID queue_num created_at ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.SESSION_REQUEST:
-                select += ` session_requests { ID status created_at ${getEntitySelect(role)}} `;
+                select += ` session_requests { ID status created_at ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.PRESCREEN:
-                select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role)}} `;
+                select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.ZOOM_INVITE:
-                select += (isRoleRec()) ? ` zoom_invites { ID join_url created_at recruiter { user_email } ${getEntitySelect(role)}} ` : "";
+                select += (isRoleRec()) ? ` zoom_invites { ID join_url created_at recruiter { user_email } ${getEntitySelect(role, d)}} ` : "";
                 break;
         }
     });

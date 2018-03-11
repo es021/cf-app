@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ButtonLink } from './buttons';
 import { Loader } from './loader';
 import PropTypes from 'prop-types';
+import Tooltip from './tooltip';
 
 require("../css/list.scss");
 
@@ -136,7 +137,7 @@ export default class List extends React.Component {
                                 , empty: empty
                             }
                         });
-                        
+
                         return;
 
                     } else {
@@ -211,7 +212,7 @@ export default class List extends React.Component {
 
         return false;
     }
-    
+
     render() {
         var loading = (this.props.customLoading) ? this.props.customLoading :
             <Loader isCenter={true} size="2" text="Loading.."></Loader>;
@@ -462,9 +463,34 @@ export class CustomList extends Component {
         var labels = ["primary", "default", "success", "danger"];
         var index = i % labels.length;
         var liClassName = `label label-${labels[index]}`;
-        console.log(d);
         return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
 
+    }
+
+    getIconLinkLi(d, i) {
+        var dimension = "25px";
+        var style = {
+            background: d.color,
+            color: "white",
+            width: dimension,
+            height: dimension
+        };
+
+        var content = <li onClick={this.props.onClick} className={`li-${this.props.className}`} key={i}>
+            <a href={d.url} target="blank">
+                <div style={style} className="icon-circle" >
+                    <i className={`fa fa-${d.icon}`}></i>
+                </div>
+            </a>
+        </li>;
+
+        return <Tooltip
+            width="90px"
+            left="-31px"
+            bottom="28px"
+            content={content}
+            tooltip={d.label}>
+        </Tooltip>
     }
 
     getIconLi(d, i) {
@@ -502,6 +528,9 @@ export class CustomList extends Component {
                 case "label":
                     return this.getLabelLi(d, i);
                     break;
+                case "icon-link":
+                    return this.getIconLinkLi(d, i);
+                    break;
                 case "icon":
                     return this.getIconLi(d, i);
                     break;
@@ -517,7 +546,6 @@ export class CustomList extends Component {
 
         className += (this.props.ux) ? " li-ux " : "";
 
-        console.log(this.props);
         var style = {
             justifyContent: (this.props.alignCenter) ? "center" : "start"
         };
@@ -532,7 +560,7 @@ CustomList.propTypes = {
     alignCenter: PropTypes.bool,
     items: PropTypes.array.isRequired,
     emptyMessage: PropTypes.any,
-    className: PropTypes.oneOf(["empty", "normal", "icon", "label"]),
+    className: PropTypes.oneOf(["empty", "normal", "icon", "label", "icon-link"]),
     onClick: PropTypes.func,
     ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
 };

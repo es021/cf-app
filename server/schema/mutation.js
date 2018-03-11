@@ -538,7 +538,7 @@ fields["edit_queue"] = {
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Queue.TABLE, arg).then(function (res) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                return QueueExec.queues({ ID: res.ID }, graphqlFields(info), { single: true });
+            return QueueExec.queues({ ID: res.ID }, graphqlFields(info), { single: true });
         });
     }
 };
@@ -556,13 +556,13 @@ fields["add_forum_comment"] = {
     resolve(parentValue, arg, context, info) {
         return DB.insert(ForumComment.TABLE, arg).then(function (res) {
             return res;
-        });                                                                                                                                                                                                                                                                                                                                                                 
+        });
     }
 };
 
 fields["edit_forum_comment"] = {
     type: ForumCommentType,
-    args: {                                                                                                                                                                                                                                                                                                                             
+    args: {
         ID: { type: new GraphQLNonNull(GraphQLInt) },
         content: { type: new GraphQLNonNull(GraphQLString) }
     },
@@ -574,14 +574,14 @@ fields["edit_forum_comment"] = {
 };
 
 fields["delete_forum_comment"] = {
-    type: ForumCommentType,
+    type: GraphQLInt,
     args: {
         ID: { type: new GraphQLNonNull(GraphQLInt) }
     },
-    resolve(parentValue, arg, context, info) {                                                                                                                                   
+    resolve(parentValue, arg, context, info) {
         arg["is_deleted"] = 1;
         return DB.update(ForumComment.TABLE, arg).then(function (res) {
-            return res;
+            return arg.ID;
         });
     }
 };
@@ -617,14 +617,14 @@ fields["edit_forum_reply"] = {
 };
 
 fields["delete_forum_reply"] = {
-    type: ForumReplyType,
+    type: GraphQLInt,
     args: {
         ID: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValue, arg, context, info) {
         arg["is_deleted"] = 1;
         return DB.update(ForumReply.TABLE, arg).then(function (res) {
-            return res;
+            return arg.ID;
         });
     }
 };
