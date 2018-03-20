@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ForumComment, ForumReply } from '../../config/db-config';
+import { ForumComment, ForumReply, UserEnum, PrescreenEnum } from '../../config/db-config';
 import List from '../component/list';
 import { createImageElement } from '../component/profile-card';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
@@ -11,6 +11,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import { createUserTitle } from './users';
 import CompanyPopup from './partial/popup/company-popup';
 import { Loader } from '../component/loader';
+import { openSIAddForm } from './partial/activity/scheduled-interview';
 
 require('../css/forum.scss');
 
@@ -20,6 +21,7 @@ const OFFSET_REPLY = 2;
 const USER_SELECT = `user{
     ID
     first_name
+    role
     last_name
     img_url
     img_pos
@@ -61,8 +63,9 @@ const addNewForumItem = function (type, entity_id, content, success) {
     });
 }
 
-const renderForumItem = function (d, is_reply = false, toogleAddReply = null, onCommentDeleted = null) {
+const renderForumItem = function (d, is_reply = false, toogleAddReply = null, onCommentDeleted = null, isForumOwner = false) {
     return <ForumItem
+        isForumOwner={isForumOwner}
         onCommentDeleted={onCommentDeleted}
         toogleAddReply={toogleAddReply}
         raw_data={d}
@@ -167,6 +170,11 @@ class ForumItem extends React.Component {
             content: this.props.content,
             deleted: false
         };
+
+        this.authUser = getAuthUser();
+
+        this.role = this.props.raw_data.user.role;
+
     }
 
     openEditPopup() {
@@ -241,6 +249,15 @@ class ForumItem extends React.Component {
             </a>);
         }
 
+        if (this.props.isForumOwner && this.role === UserEnum.ROLE_STUDENT) {
+            action.push(<a className="frm-action"
+                onClick={() => {
+                    openSIAddForm(this.props.user_id, this.authUser.rec_company, PrescreenEnum.ST_FORUM);
+                }}>
+                Schedule For Interview
+            </a>);
+        }
+
         return <div key={this.props.key}
             className={className}>
             {imgView}
@@ -254,6 +271,7 @@ class ForumItem extends React.Component {
 }
 
 ForumItem.propTypes = {
+    isForumOwner: PropTypes.bool.isRequired,
     onCommentDeleted: PropTypes.func,
     toogleAddReply: PropTypes.func,
     raw_data: PropTypes.object.isRequired,
@@ -288,7 +306,7 @@ class ForumCommentItem extends React.Component {
         // texarea is at index no 1
         this.TEXTAREA_INDEX = 1;
 
-        this.commentItem = renderForumItem(this.props.data, false, this.toogleTextarea, this.onCommentDeleted);
+        this.commentItem = renderForumItem(this.props.data, false, this.toogleTextarea, this.onCommentDeleted, this.props.isForumOwner);
         this.textareaItem = renderTextAreaForumItem("reply", `reply::${this.props.id}`, this, () => {
             this.submit_btn.disabled = true
             addNewForumItem("reply"
@@ -298,7 +316,7 @@ class ForumCommentItem extends React.Component {
                     this.submit_btn.disabled = false;
                     this.textarea.value = "";
                     // prepend new reply
-                    var newReply = renderForumItem(res, true);
+                    var newReply = renderForumItem(res, true, null, null, this.props.isForumOwner);
                     this.setState((prevState) => {
                         var preItem = prevState.preItem;
                         preItem.push(newReply);
@@ -356,7 +374,7 @@ class ForumCommentItem extends React.Component {
     // render replies
     renderList(d, i, isExtraData = false) {
         var item = [];
-        item.push(renderForumItem(d, true));
+        item.push(renderForumItem(d, true, null, null, this.props.isForumOwner));
         return item;
     }
 
@@ -381,6 +399,7 @@ class ForumCommentItem extends React.Component {
 }
 
 ForumCommentItem.propTypes = {
+    isForumOwner: PropTypes.bool.isRequired,
     id: PropTypes.number.isRequired,
     i: PropTypes.number.isRequired,
     data: PropTypes.object.isRequired
@@ -396,6 +415,11 @@ export default class ForumPage extends React.Component {
 
         this.forum_id = (this.props.match.params.forum_id) ? this.props.match.params.forum_id
             : this.props.forum_id;
+
+        // set in check forum Validity
+        // owner comment/reply will be highlighted
+        // can set interview
+        this.isForumOwner = false;
 
         this.loadData = this.loadData.bind(this);
         this.getDataFromRes = this.getDataFromRes.bind(this);
@@ -477,6 +501,11 @@ export default class ForumPage extends React.Component {
                     company_id: company_id
                 };
 
+                // check isOwner
+                if (getAuthUser().rec_company === company_id) {
+                    this.isForumOwner = true;
+                }
+
             } catch (err) {
                 console.log(err);
                 return false;
@@ -502,6 +531,7 @@ export default class ForumPage extends React.Component {
                         //prepend new comment
                         var newComment = <ForumCommentItem
                             id={res.ID}
+                            isForumOwner={this.isForumOwner}
                             data={res}
                             i={`comment::${res.ID}`}>
                         </ForumCommentItem>;
@@ -546,6 +576,7 @@ export default class ForumPage extends React.Component {
         var item = [];
         item.push(
             <ForumCommentItem
+                isForumOwner={this.isForumOwner}
                 id={d.ID} i={i} data={d}>
             </ForumCommentItem>
         );
