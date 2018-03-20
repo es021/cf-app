@@ -13,13 +13,25 @@ import GeneralFormPage from '../../../component/general-form';
 import { createUserTitle } from '../../users';
 import { emitHallActivity } from '../../../socket/socket-client';
 
+
+// Normal SI is limited to today for appmnt time
+export const isNormalSI = function (type) {
+    var ar = [
+        PrescreenEnum.ST_INTV_REQUEST,
+        PrescreenEnum.ST_FORUM,
+        PrescreenEnum.ST_RESUME_DROP
+    ];
+
+    return ar.indexOf(type) >= 0;
+}
+
 export function openSIAddForm(student_id, company_id, type, success) {
     var defaultFormItem = {};
     defaultFormItem[Prescreen.SPECIAL_TYPE] = type;
     defaultFormItem[Prescreen.STUDENT_ID] = student_id;
     defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
 
-    if (type === PrescreenEnum.ST_INTV_REQUEST) {
+    if (isNormalSI(type)) {
         var dt = Time.getInputFromUnix(Time.getUnixTimestampNow());
         defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
     }
@@ -31,17 +43,6 @@ export function openSIAddForm(student_id, company_id, type, success) {
             , successAddHandlerExternal: success
             , defaultFormItem: defaultFormItem
         });
-}
-
-// Normal SI is limited to today for appmnt time
-export const isNormalSI = function (type) {
-    var ar = [
-        PrescreenEnum.ST_INTV_REQUEST,
-        PrescreenEnum.ST_FORUM,
-        PrescreenEnum.ST_RESUME_DROP
-    ];
-
-    return ar.indexOf(type) >= 0;
 }
 
 // included in my-activity for recruiter
