@@ -23,6 +23,7 @@ const DB = require('../model/DB.js');
 const {
     GraphQLObjectType,
     GraphQLString,
+    GraphQLBoolean,
     GraphQLInt,
     GraphQLFloat,
     GraphQLSchema,
@@ -551,9 +552,11 @@ fields["add_forum_comment"] = {
     args: {
         user_id: { type: new GraphQLNonNull(GraphQLInt) },
         forum_id: { type: new GraphQLNonNull(GraphQLString) },
-        content: { type: new GraphQLNonNull(GraphQLString) }
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        is_owner: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValue, arg, context, info) {
+        console.log(arg);
         return DB.insert(ForumComment.TABLE, arg).then(function (res) {
             return res;
         });
@@ -594,7 +597,8 @@ fields["add_forum_reply"] = {
     args: {
         user_id: { type: new GraphQLNonNull(GraphQLInt) },
         comment_id: { type: new GraphQLNonNull(GraphQLInt) },
-        content: { type: new GraphQLNonNull(GraphQLString) }
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        is_owner: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValue, arg, context, info) {
         return DB.insert(ForumReply.TABLE, arg).then(function (res) {

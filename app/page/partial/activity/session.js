@@ -71,6 +71,7 @@ export class SessionsList extends React.Component {
             // });
         }
 
+        /*
         this.searchFormItem.push({
             label: "Status",
             name: "status",
@@ -89,13 +90,14 @@ export class SessionsList extends React.Component {
                 , label: this.sessionStatusString(SessionEnum.STATUS_LEFT)
             }]
         });
+        */
 
         this.searchFormOnSubmit = (d) => {
             this.search = d;
             this.searchParams = "";
             if (d != null) {
                 this.searchParams += (d.search_student != "") ? `search_student:"${d.search_student}",` : "";
-                this.searchParams += (d.status != "") ? `status:"${d.status}",` : "";
+                //this.searchParams += (d.status != "") ? `status:"${d.status}",` : "";
                 //this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
             }
         };
@@ -105,9 +107,8 @@ export class SessionsList extends React.Component {
 
         this.tableHeader = <thead>
             <tr>
-                <th>Action</th>
+                <th colSpan={2}>Action</th>
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
-                <th>Status</th>
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
                 {this.props.isRec ? <th>Hosted By</th> : null}
@@ -120,10 +121,13 @@ export class SessionsList extends React.Component {
             row.push(<td>
                 <a id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
                     <i className="fa fa-plus left"></i>
-                    Next Round</a>
-                <br></br>
+                    <br></br>Add Next Round</a>
+            </td>);
+            
+            row.push(<td>
                 <NavLink to={`${RootPath}/app/session/${d.ID}`}>
-                    <i className="fa fa-commenting left"></i>Chat Log</NavLink>
+                    <i className="fa fa-commenting left"></i>
+                    <br></br>View Chat Log</NavLink>
             </td>);
 
             //row.push(<td><NavLink to={`${RootPath}/app/session/${d.ID}`}>Session {d.ID}</NavLink></td>);
@@ -135,7 +139,7 @@ export class SessionsList extends React.Component {
             row.push(<td>{other}</td>);
 
             // status
-            row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
+            //row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
 
             if (this.props.isRec) {
                 var notes = d.session_notes.map((d, i) => d.note);

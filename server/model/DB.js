@@ -135,7 +135,6 @@ DB.prototype.insert = function (table, data, ID_key = "ID", onDuplicate = null) 
     val = val.substring(-1, val.length - 1) + ')';
 
     var sql = `INSERT INTO ${table} ${key} VALUES ${val}`;
-
     if (onDuplicate !== null) {
         sql += ` ON DUPLICATE KEY UPDATE ${onDuplicate}`;
     }

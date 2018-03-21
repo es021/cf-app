@@ -44,6 +44,10 @@ export default class Tooltip extends React.Component {
             , width: this.props.width
         }
 
+        if (this.props.alignCenter) {
+            style.textAlign = "center";
+        }
+
         var tooltip = (this.state.show)
             ? <div className="my-tt-container" style={style}>
                 <div className="my-tt-mes">
@@ -69,7 +73,8 @@ Tooltip.propTypes = {
     debug: PropTypes.bool,
     bottom: PropTypes.string,
     width: PropTypes.string,
-    left: PropTypes.string
+    left: PropTypes.string,
+    alignCenter: PropTypes.bool
 };
 
 Tooltip.defaultProps = {
@@ -77,4 +82,5 @@ Tooltip.defaultProps = {
     width: "200px",
     bottom: "30px",
     left: "-90px",
+    alignCenter: false
 };

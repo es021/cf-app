@@ -371,8 +371,8 @@ class Chat extends React.Component {
         // action -------
         var action = [];
         if (this.props.isRec) {
-            action.push(<a title="Start Video Call" onClick={() => this.createVideoCall()} className="action-item">
-                <i className="fa fa-video-camera left"></i>
+            action.push(<a onClick={() => this.createVideoCall()} className="action-item">
+                <i className="fa fa-video-camera left"></i><small>Start Video Call</small>
             </a>);
         }
 

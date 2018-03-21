@@ -321,7 +321,6 @@ class SessionPage extends React.Component {
         } else if (!this.isAllowedHere()) {
             view = <div className="text-muted">Sorry. You Are Not Allowed Here</div>;
         } else {
-            console.log(session);
             view = <div className="container-fluid no-padding">
                 <div className="col-md-12 no-padding">
                     {this.getSessionHeader(session)}

@@ -214,15 +214,13 @@ export default class SignUpPage extends React.Component {
         if (this.state.success) {
             //scroll to top
             window.scrollTo(0, 0);
-
-            console.log(this.state.user);
             var user = this.state.user;
             content = <div>
                 <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
                 Your account has been successfully created<br></br>
                 Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
-                <br></br>
-                <small><i>** The email might take a few minutes to arrive **</i></small>
+                <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
+                <br></br><small><i>** The email might take a few minutes to arrive **</i></small>
             </div>
         } else {
             content = <div>
