@@ -338,6 +338,7 @@ const LogEnum = {
     EVENT_LOGIN: "login", // data-> browser type
     EVENT_OPEN_PAGE: "open_page", // data -> path
     EVENT_CLICK_EVENT_PAGE: "click_event_page", // data null
+    EVENT_CLICK_ADS: "click_ads", // data -> ads id from app-config
     EVENT_CLICK_USER_DOC: "click_user_doc", // data -> user_id
     EVENT_VISIT_COMPANY: "visit_company", // data -> company_id
     EVENT_VISIT_VACANCY: "visit_vacancy" // data -> vacancy_id

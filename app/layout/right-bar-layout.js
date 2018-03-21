@@ -13,6 +13,8 @@ import { DashboardFeed } from '../page/dashboard';
 import { getCF, getCFObj, getAuthUser, isRoleAdmin, isRoleOrganizer } from '../redux/actions/auth-actions';
 import { addLog } from '../redux/actions/other-actions';
 import { LogEnum } from '../../config/db-config';
+import { Ads } from '../../config/ads-config';
+require("../css/ads.scss");
 
 export default class RightBarLayout extends React.Component {
     constructor(props) {
@@ -25,6 +27,7 @@ export default class RightBarLayout extends React.Component {
         this.dashboard = this.getDashboard();
         this.sponsor = this.getSponsor();
         this.event_page = this.getEventPage();
+        this.ads = this.getAds();
     }
 
     getEventPage() {
@@ -39,6 +42,43 @@ export default class RightBarLayout extends React.Component {
                 </a>
             </div>
         </div>;
+    }
+
+
+    getAds() {
+        var v = [];
+        for (var id in Ads) {
+            var ads = Ads[id];
+            var style = {
+                background: `linear-gradient(
+                    rgba(0, 0, 0, 0.80), 
+                    rgba(0, 0, 0, 0.45)
+                    ), url('${ads.image}')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center center"
+            };
+
+            v.push(<div className="right-bar-item">
+                <div className="body">
+                    <a onClick={() => { addLog(LogEnum.EVENT_CLICK_ADS, id) }}
+                        target="blank"
+                        href={ads.url}>
+                        <div style={style} className="ads img img-responsive">
+                            <div className="ads-text">
+                                {ads.label}
+                                <br></br>
+                                <small>{ads.sublabel}</small>
+                            </div>
+                        </div>
+                        <a className="btn btn-block btn-blue">
+                            {ads.action}
+                        </a>
+                    </a>
+                </div>
+            </div>);
+        }
+
+        return v;
     }
 
     getSponsor() {
@@ -75,6 +115,7 @@ export default class RightBarLayout extends React.Component {
         return (<right_bar id="right_bar">
             {this.dashboard}
             {this.sponsor}
+            {this.ads}
             {this.event_page}
         </right_bar>);
     }

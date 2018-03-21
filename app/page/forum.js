@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ForumComment, ForumReply, UserEnum, PrescreenEnum } from '../../config/db-config';
 import List from '../component/list';
 import { createImageElement } from '../component/profile-card';
+import Tooltip from '../component/tooltip';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 import { getAuthUser, getCF, isRoleOrganizer, isRoleAdmin, isRoleStudent } from '../redux/actions/auth-actions';
@@ -31,10 +32,11 @@ const USER_SELECT = `user{
 //##########################################################################################
 // ## Helper Function Start
 
-const addNewForumItem = function (type, entity_id, content, success) {
+const addNewForumItem = function (type, entity_id, content, is_owner, success) {
     var ins = {
         user_id: getAuthUser().ID,
-        content: content
+        content: content,
+        is_owner: (is_owner) ? 1 : 0
     };
 
     if (type == "comment") {
@@ -44,11 +46,10 @@ const addNewForumItem = function (type, entity_id, content, success) {
     }
 
     var query = `mutation{ add_forum_${type} (${obj2arg(ins, { noOuterBraces: true })}) {
-        ID content created_at } }`;
+        ID content is_owner created_at } }`;
 
     getAxiosGraphQLQuery(query).then((res) => {
         var r = res.data.data[`add_forum_${type}`];
-
         var authUser = getAuthUser();
         r.user = {
             ID: authUser.ID,
@@ -58,7 +59,6 @@ const addNewForumItem = function (type, entity_id, content, success) {
             first_name: authUser.first_name,
             last_name: authUser.last_name
         };
-
         success(r);
     });
 }
@@ -249,6 +249,7 @@ class ForumItem extends React.Component {
             </a>);
         }
 
+        // schedule for interview action
         if (this.props.isForumOwner && this.role === UserEnum.ROLE_STUDENT) {
             action.push(<a className="frm-action"
                 onClick={() => {
@@ -258,11 +259,28 @@ class ForumItem extends React.Component {
             </a>);
         }
 
+        // add forum owner highlights
+        // in db
+        var owner = (this.props.raw_data.is_owner)
+            ? <Tooltip
+                bottom="19px"
+                left="-67px"
+                width="157px"
+                alignCenter={true}
+                content={<i style={{ color: "#23527c", marginLeft: "7px" }}
+                    className="fa fa-shield"></i>}
+                tooltip="Company's Recruiter">
+            </Tooltip>
+            : null;
+
         return <div key={this.props.key}
             className={className}>
             {imgView}
             <div className="frm-body">
-                <div className="frm-title">{this.props.user_title}</div>
+                <div className="frm-title">
+                    {this.props.user_title}
+                    {owner}
+                </div>
                 <p className="frm-content">{this.state.content}</p>
                 <div className="frm-timestamp">{action}</div>
             </div>
@@ -312,6 +330,7 @@ class ForumCommentItem extends React.Component {
             addNewForumItem("reply"
                 , this.props.id
                 , this.textarea.value
+                , this.props.isForumOwner
                 , (res) => {
                     this.submit_btn.disabled = false;
                     this.textarea.value = "";
@@ -358,12 +377,8 @@ class ForumCommentItem extends React.Component {
     // function for list
     loadData(page, offset) {
         var query = `query{forum_replies(comment_id: "${this.props.id}",page:${page},offset:${offset}) {
-                        ID
-            comment_id
-                    content
-            created_at
-            ${USER_SELECT}
-                    }}`;
+            ID comment_id is_owner content
+            created_at ${USER_SELECT} }}`;
         return getAxiosGraphQLQuery(query);
     }
 
@@ -524,6 +539,7 @@ export default class ForumPage extends React.Component {
                 addNewForumItem("comment"
                     , this.forum_id
                     , this.textarea.value
+                    , this.isForumOwner
                     , (res) => {
                         this.submit_btn.disabled = false;
                         this.textarea.value = "";
@@ -552,7 +568,7 @@ export default class ForumPage extends React.Component {
     // function for list
     loadData(page, offset) {
         var query = `query{forum_comments(forum_id: "${this.forum_id}",page:${page},offset:${offset}) {
-                        ID forum_id content created_at
+                        ID forum_id content is_owner created_at
             ${USER_SELECT} replies_count }}`;
         return getAxiosGraphQLQuery(query);
     }

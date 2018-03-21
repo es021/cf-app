@@ -1,3 +1,5 @@
+@import "define/variable.scss";
+
 $THEME_1: #286090;
 $THEME_2: lightblue;
 $MARGIN: 30%;
@@ -7,7 +9,7 @@ $MARGIN: 30%;
     .chat-header {
 
         .profile-card.profile-li{
-            grid-template-columns: 1fr 5fr;
+            grid-template-columns: 1fr 8fr;
             grid-template-rows: 1fr 1fr;
         }
 
@@ -15,27 +17,21 @@ $MARGIN: 30%;
         color: white;
         display: flex;
         flex-wrap: wrap;
+        
         a {
             color: white;
         }
-        .ch-action {
-            flex-grow: 2;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            flex-flow: column;
-            font-size: 20px;
-            .action-item {
-                opacity: 0.8;
-                padding: 5px 7px;
-            }
-            .action-item:hover {
-                opacity: 1;
-            }
-            @media only screen and (max-width: 444px) {
-                .action-item {
-                    padding-top: 0px;
-                }
+
+        .ch-action{
+            position: absolute;
+            right: 22px;
+            top: 40px;
+            font-size: 14px;
+        }
+
+        @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+            .ch-action {
+                right: 9px;
             }
         }
         .ch-info {

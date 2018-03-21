@@ -106,10 +106,11 @@ class LoginPage extends React.Component {
                 break;
             case AuthAPIErr.NOT_ACTIVE:
                 error = <span>
-                    This account is not active yet.<br></br>Please check your email for the activation link.
-                    <br></br>
-                    <small><NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink></small>
+                    This account is <b>not active</b> yet.
+                    <br></br>Please check your email for the activation link.
+                    <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
                 </span>;
+                // <small><NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink></small>
                 break;
             case AuthAPIErr.WRONG_PASS:
                 error = <span>
