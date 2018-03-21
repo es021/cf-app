@@ -389,6 +389,7 @@ fields["prescreens"] = {
         company_id: { type: GraphQLInt },
         student_id: { type: GraphQLInt },
         status: { type: GraphQLString },
+        special_type: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
         order_by: { type: GraphQLString },
