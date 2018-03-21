@@ -15,6 +15,9 @@ class PrescreenQuery {
         var status_where = (typeof params.status === "undefined") ? "1=1"
             : `status like '%${params.status}%'`;
 
+        var st_where = (typeof params.special_type === "undefined") ? "1=1"
+            : `special_type = '${params.special_type}'`;
+
         var com_where = (typeof params.company_id === "undefined") ? "1=1"
             : `company_id = '${params.company_id}'`;
 
@@ -29,7 +32,7 @@ class PrescreenQuery {
 
         var sql = `from pre_screens where ${id_where} and ${student_where} 
             and ${status_where} and ${com_where} 
-            and ${search_query}
+            and ${search_query} and ${st_where}
             ${order_by}`;
 
         if (extra.count) {

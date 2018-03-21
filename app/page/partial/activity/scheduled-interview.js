@@ -12,7 +12,7 @@ import { Time } from '../../../lib/time';
 import GeneralFormPage from '../../../component/general-form';
 import { createUserTitle } from '../../users';
 import { emitHallActivity } from '../../../socket/socket-client';
-
+import Tooltip from '../../../component/tooltip';
 
 // Normal SI is limited to today for appmnt time
 export const isNormalSI = function (type) {
@@ -55,8 +55,14 @@ export class ScheduledInterview extends React.Component {
     }
 
     componentWillMount() {
-        this.dataTitle = <span>Scheduled Interview<br></br>
-            <small>Manage Pre-Screen and Next Round Interview</small>
+        this.dataTitle = <span>Scheduled Interview
+            <Tooltip
+                left="-62px"
+                bottom="28px"
+                width="150px"
+                content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
+                tooltip={"Manage scheduled interview from Next Round, Pre-Screen, Forum, Interview Request and Resume Drop"}>
+            </Tooltip>
         </span>;
 
         this.successAddHandler = (d) => {
@@ -118,8 +124,16 @@ export class ScheduledInterview extends React.Component {
             name: Prescreen.STATUS,
             type: "select",
             data: ["ALL", PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
-        }
-        ];
+        }, {
+            label: "Type",
+            name: Prescreen.SPECIAL_TYPE,
+            type: "select",
+            data: ["ALL", PrescreenEnum.ST_PRE_SCREEN
+                , PrescreenEnum.ST_NEXT_ROUND
+                , PrescreenEnum.ST_FORUM
+                , PrescreenEnum.ST_INTV_REQUEST
+                , PrescreenEnum.ST_RESUME_DROP]
+        }];
 
         this.searchFormOnSubmit = (d) => {
             this.search = d;
@@ -127,6 +141,7 @@ export class ScheduledInterview extends React.Component {
             if (d != null) {
                 this.searchParams += (d.student) ? `student_name:"${d.student}",` : "";
                 this.searchParams += (d.student) ? `student_email:"${d.student}",` : "";
+                this.searchParams += (d.special_type && d.special_type != "ALL") ? `special_type:"${d.special_type}",` : "";
                 this.searchParams += (d.status && d.status != "ALL") ? `status:"${d.status}",` : "";
             }
         };
