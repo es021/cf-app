@@ -64,13 +64,17 @@ const addNewForumItem = function (type, entity_id, content, is_owner, success) {
 }
 
 const renderForumItem = function (d, is_reply = false, toogleAddReply = null, onCommentDeleted = null, isForumOwner = false) {
+    var user_title = (d.user.role === UserEnum.ROLE_STUDENT)
+        ? createUserTitle(d.user)
+        : d.user.first_name + " " + d.user.last_name;
+
     return <ForumItem
         isForumOwner={isForumOwner}
         onCommentDeleted={onCommentDeleted}
         toogleAddReply={toogleAddReply}
         raw_data={d}
         id={d.ID}
-        user_title={createUserTitle(d.user)}
+        user_title={user_title}
         img_url={d.user.img_url}
         img_pos={d.user.img_pos}
         user_id={d.user.ID}
@@ -264,11 +268,10 @@ class ForumItem extends React.Component {
         var owner = (this.props.raw_data.is_owner)
             ? <Tooltip
                 bottom="19px"
-                left="-67px"
-                width="157px"
+                left="-65px"
+                width="140px"
                 alignCenter={true}
-                content={<i style={{ color: "#23527c", marginLeft: "7px" }}
-                    className="fa fa-shield"></i>}
+                content={<i style={{ color: "#23527c" }} className="fa left fa-shield"></i>}
                 tooltip="Company's Recruiter">
             </Tooltip>
             : null;
@@ -278,8 +281,8 @@ class ForumItem extends React.Component {
             {imgView}
             <div className="frm-body">
                 <div className="frm-title">
-                    {this.props.user_title}
                     {owner}
+                    {this.props.user_title}
                 </div>
                 <p className="frm-content">{this.state.content}</p>
                 <div className="frm-timestamp">{action}</div>
@@ -482,7 +485,9 @@ export default class ForumPage extends React.Component {
     checkForumValidityAjax() {
         switch (this.type) {
             case "company":
-                getAxiosGraphQLQuery(`query{company(ID: ${this.params.company_id}) {name} }`).then((res) => {
+                var query = `query{company(ID: ${this.params.company_id}){name} }`;
+
+                getAxiosGraphQLQuery(query).then((res) => {
                     var data = res.data.data.company;
                     if (data == null) {
                         this.type = null;
