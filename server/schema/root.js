@@ -13,6 +13,7 @@ const { UserType
     , AuditoriumType
     , PasswordResetType
     , MetaType
+    , SupportSessionType
     , LogType
     , ForumCommentType
     , ForumReplyType
@@ -33,6 +34,7 @@ const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { MetaExec } = require('../model/meta-query.js');
 const { LogExec } = require('../model/log-query.js');
+const { SupportSessionExec } = require('../model/support-session-query.js');
 const { ZoomExec } = require('../model/zoom-query.js');
 const { AuditoriumExec } = require('../model/auditorium-query');
 const { PasswordResetExec } = require('../model/reset-password-query.js');
@@ -55,6 +57,17 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+/*******************************************/
+/* support_sessions ******************/
+fields["support_sessions"] = {
+    type: new GraphQLList(SupportSessionType),
+    args: {
+        support_id: { type: GraphQLInt }
+    },
+    resolve(parentValue, arg, context, info) {
+        return SupportSessionExec.support_sessions(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* zoom ******************/

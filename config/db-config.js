@@ -84,6 +84,7 @@ const UserEnum = {
     ROLE_ADMIN: "administrator",
     ROLE_EDITOR: "editor",
     ROLE_ORGANIZER: "organizer",
+    ROLE_SUPPORT: "support",
     STATUS_ACT: "Active",
     STATUS_NOT_ACT: "Not Activated"
 };
@@ -356,6 +357,12 @@ const ForumReply = {
     TABLE: "forum_replies"
 };
 
+const SupportSession = {
+    TABLE: "support_sessions",
+    USER_ID : "user_id",
+    SUPPORT_ID : "support_id"
+};
+
 module.exports = {
     User, UserMeta, UserEnum
     , ForumComment, ForumReply
@@ -371,6 +378,7 @@ module.exports = {
     , SessionNotes
     , SessionRating, SessionRatingEnum
     , ResumeDrop
+    , SupportSession
     , PasswordReset
     , Meta, Log, LogEnum
     , Auditorium, AuditoriumEnum

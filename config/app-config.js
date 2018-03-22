@@ -50,4 +50,6 @@ const TestUser = [136, 137, 222, 223, 224, 225, 226, 227, 316, 317
     , 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339
     , 340, 341, 342];
 
-module.exports = { SocketUrl, LandingUrl, TestUser, RootPath, StaticUrl, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
+const SupportUserId = (isProd) ? 681 : 681;
+
+module.exports = { SocketUrl, LandingUrl, TestUser, RootPath, StaticUrl, SupportUserId, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
