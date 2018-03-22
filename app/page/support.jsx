@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Chat from './partial/session/chat';
+import { SupportUserID } from '../../config/app-config';
 import { SupportSession } from '../../config/db-config';
 import { getAuthUser } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
@@ -9,6 +10,72 @@ import { createImageElement } from '../component/profile-card';
 import { Time } from '../lib/time';
 
 require('../css/forum.scss');
+require('../css/support-chat.scss');
+
+// support chat floating at bottom right page
+export class SupportChat extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.toogle = this.toogle.bind(this);
+        this.getChatBox = this.getChatBox.bind(this);
+        this.state = {
+            show: false,
+            loading: false,
+            supportUser: {},
+        };
+
+        this.self_id = getAuthUser().ID;
+    }
+
+    componentWillMount() {
+        // get support user
+        var query = `query{ user(ID:${SupportUserID}) {  
+            ID first_name last_name img_url img_pos img_size
+          }}`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
+            this.setState(() => {
+                var user = res.data.data.user;
+                return { supportUser: user, loading: false }
+            });
+        });
+    }
+
+    getChatBox() {
+        if (this.state.loading) {
+            return <div>Loading...</div>;
+        } else {
+            return <div>
+                <Chat session_id={null}
+                    disableChat={false}
+                    other_id={SupportUserID}
+                    other_data={this.state.supportUser}
+                    self_id={this.self_id}>
+                </Chat>
+            </div>;
+        }
+    }
+
+    toogle() {
+        this.setState((prevState) => {
+            return { show: !prevState.show };
+        });
+    }
+
+    render() {
+        var v = null;
+        if (!this.state.show) {
+            v = <button onClick={this.toogle}
+                className="btn btn-success btn-lg">Got Question?</button>;
+        } else {
+            v = this.getChatBox();
+        }
+        return <div id="support-chat">
+            {v}
+        </div>;
+    }
+}
 
 // page for support to see all the chat list with users
 // has to create another table for list of chats with support
