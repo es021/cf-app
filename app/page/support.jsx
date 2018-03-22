@@ -26,9 +26,14 @@ export class SupportChat extends React.Component {
         };
 
         this.self_id = getAuthUser().ID;
+
+        this.hide = this.self_id === SupportUserID;
     }
 
     componentWillMount() {
+        if(this.hide){
+            return;
+        }
         // get support user
         var query = `query{ user(ID:${SupportUserID}) {  
             ID first_name last_name img_url img_pos img_size
@@ -64,14 +69,26 @@ export class SupportChat extends React.Component {
     }
 
     render() {
-        var v = null;
-        if (!this.state.show) {
-            v = <button onClick={this.toogle}
-                className="btn btn-success btn-lg">Got Question?</button>;
-        } else {
-            v = this.getChatBox();
+        if(this.hide){
+            return null;
         }
-        return <div id="support-chat">
+
+        var v = null;
+        var className = "";
+        if (!this.state.show) {
+            className = "sc-open";
+            v = <div onClick={this.toogle}
+                className="btn btn-success btn-lg">Got Question?</div>;
+
+        } else {
+            v = <div>
+                {this.getChatBox()}
+                <button className="btn btn-sm btn-primary btn-block"
+                    onClick={this.toogle}>Close</button>
+            </div>;
+
+        }
+        return <div id="support-chat" className={className}>
             {v}
         </div>;
     }

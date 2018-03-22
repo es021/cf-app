@@ -6,8 +6,26 @@
     z-index: 10;
     bottom: 0;
     right: 0;
-    box-shadow: 4px 6px 10px 2px rgba(0,0,0,0.5);
+    box-shadow: -1px 0px 7px 0px rgba(0, 0, 0, 0.5);
+
     #chat{
-       margin-bottom: 0;
+        .chat-box{
+            border: none;
+        }
+
+        max-width: 100vw;
+        width: 350px;
+        margin-bottom: 0;
    }
+
+}
+
+#support-chat.sc-open{
+    border-radius: 65px;
+    margin: 10px;
+    
+    .btn.btn-success{
+        border-radius: 65px !important;
+    }
+ 
 }
