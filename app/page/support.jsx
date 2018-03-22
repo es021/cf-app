@@ -21,35 +21,30 @@ export class SupportChat extends React.Component {
         this.getChatBox = this.getChatBox.bind(this);
         this.state = {
             show: false,
-            loading: false,
-            supportUser: {},
+            supportUser: null,
         };
 
         this.self_id = getAuthUser().ID;
-
         this.hide = this.self_id === SupportUserID;
     }
 
-    componentWillMount() {
-        if(this.hide){
-            return;
-        }
-        // get support user
-        var query = `query{ user(ID:${SupportUserID}) {  
-            ID first_name last_name img_url img_pos img_size
-          }}`;
-
-        getAxiosGraphQLQuery(query).then((res) => {
-            this.setState(() => {
-                var user = res.data.data.user;
-                return { supportUser: user, loading: false }
-            });
-        });
-    }
-
     getChatBox() {
-        if (this.state.loading) {
-            return <div>Loading...</div>;
+        if (this.state.supportUser === null) {
+            // get support user
+            var query = `query{ user(ID:${SupportUserID}) {  
+            ID first_name last_name img_url img_pos img_size
+            }}`;
+
+            getAxiosGraphQLQuery(query).then((res) => {
+                this.setState(() => {
+                    var user = res.data.data.user;
+                    return { supportUser: user }
+                });
+            });
+            return <div style={{ padding: "10px" }}>
+                <Loader text="Initializing chat with support"></Loader>
+            </div>;
+            
         } else {
             return <div>
                 <Chat session_id={null}
@@ -69,7 +64,7 @@ export class SupportChat extends React.Component {
     }
 
     render() {
-        if(this.hide){
+        if (this.hide) {
             return null;
         }
 
