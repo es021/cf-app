@@ -27,9 +27,10 @@ class AuthAPI {
         } else if (role == UserEnum.ROLE_RECRUITER) {
             return (user.company.cf.indexOf(cf) >= 0);
         } else {
-            return (role == UserEnum.ROLE_ADMIN || role == UserEnum.ROLE_EDITOR);
+            return (role == UserEnum.ROLE_ADMIN 
+                || role == UserEnum.ROLE_EDITOR
+                || role == UserEnum.ROLE_SUPPORT);
         }
-
     }
 
     checkPasswordWithoutSlash(password, user_id, success, failed) {

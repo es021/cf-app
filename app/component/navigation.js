@@ -29,6 +29,7 @@ import PasswordResetPage from '../page/password-reset';
 import PasswordForgotPage from '../page/password-forgot';
 import ForumPage from '../page/forum';
 import { Monitor } from '../page/admin';
+import { SupportPage } from '../page/support';
 import AnalyticPage from '../page/analytics';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
@@ -152,6 +153,17 @@ function getMenuItem(COMING_SOON) {
             hd_auth: false,
             default_param: { current: "subscriber" },
             disabled: !isRoleAdmin()
+        },
+        { // Admin Only
+            url: "/support",
+            label: "Support",
+            icon: "comments",
+            component: SupportPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: !isRoleSupport()
         },
         {
             url: "/career-fair",

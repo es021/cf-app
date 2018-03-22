@@ -384,6 +384,25 @@ const ForumReplyType = new GraphQLObjectType({
     })
 });
 
+const SupportSessionType = new GraphQLObjectType({
+    name: 'SupportSession',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        support_id: { type: GraphQLInt },
+        message_count_id: { type: GraphQLString },
+        
+        // the updated time in message count id
+        last_message_time: { type: GraphQLString },
+        
+        // the message content
+        last_message: { type: GraphQLString },
+        
+        created_at: { type: GraphQLString },
+        user: { type: UserType }
+    })
+});
+
 module.exports = {
     UserType
     , ForumCommentType, ForumReplyType
@@ -405,5 +424,6 @@ module.exports = {
     , AuditoriumType
     , SessionRequestType
     , LogType
+    , SupportSessionType
     //, CFType
 };

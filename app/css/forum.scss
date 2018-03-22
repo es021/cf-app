@@ -104,4 +104,11 @@ $MARGIN_IMAGE: 7px;
     margin-left: $MARGIN_REPLY;
 }
 
+//# chat list in support page ################
+.chat-list{
+    border-bottom: 1px solid $SHADOW;
+}
 
+.chat-list:last-of-type{
+    border-bottom: none;
+}

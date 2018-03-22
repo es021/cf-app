@@ -94,9 +94,14 @@ export function isRoleOrganizer() {
     return getAuthUser().role === UserEnum.ROLE_ORGANIZER;
 }
 
+export function isRoleSupport() {
+    return getAuthUser().role === UserEnum.ROLE_SUPPORT;
+}
+
 export function isRoleAdmin() {
     return getAuthUser().role === UserEnum.ROLE_EDITOR
-        || getAuthUser().role === UserEnum.ROLE_ADMIN;
+        || getAuthUser().role === UserEnum.ROLE_ADMIN
+        || getAuthUser().role === UserEnum.ROLE_SUPPORT;
 }
 
 export function isTestUser() {
