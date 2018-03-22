@@ -1,5 +1,6 @@
 const DB = require('./DB.js');
-const { Message } = require('../../config/db-config');
+const { Message, SupportSession } = require('../../config/db-config');
+const { SupportUserID } = require('../../config/app-config');
 
 class MessageExec {
 
@@ -16,10 +17,10 @@ class MessageExec {
 
         return `user${lower}:user${higher}`;
     }
+    
     //params
     // user_1, user_2, page, offset
     getQuery(params, extra) {
-
         var pre_id = this.getPreId(params.user_1, params.user_2);
         var id_where = `id_message_number like '${pre_id}%' `;
         var order_by = `order by created_at desc`;
@@ -27,7 +28,6 @@ class MessageExec {
         var limit = DB.prepareLimit(params.page, params.offset);
         var sql = `select * from messages where ${id_where} ${order_by} ${limit}`;
         return sql;
-
     }
 
     getMessageHelper(params, field, extra = {}) {
@@ -51,6 +51,24 @@ class MessageExec {
 
     insert(sender_id, receiver_id, message) {
         var pre_id = this.getPreId(sender_id, receiver_id);
+
+        // check if receiver_id is in support user id
+        if (SupportUserID == receiver_id) {
+            const { SupportSessionExec } = require('./support-session-query.js');
+
+            // check if session with this user id already exist
+            DB.query(SupportSessionExec.getQueryByUserId(sender_id)).then((res) => {
+                if (res.length <= 0) {
+                    //create support sessions
+                    var ss = {
+                        user_id: sender_id,
+                        support_id: receiver_id,
+                        message_count_id: pre_id
+                    };
+                    DB.insert(SupportSession.TABLE, ss).then((res) => { }, (err) => { });
+                }
+            });
+        }
 
         // message count
         var ins_count = {
@@ -84,7 +102,6 @@ class MessageExec {
 
 MessageExec = new MessageExec();
 module.exports = { MessageExec };
-
 
 function getSessionThatHasMessage() {
     sql = `select distinct s.ID , s.participant_id, s.host_id, m.* 

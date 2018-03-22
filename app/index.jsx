@@ -33,6 +33,7 @@ import RightBarLayout from "./layout/right-bar-layout";
 
 //singleton
 import FocusCard from "./component/focus-card";
+import { SupportChat } from "./page/support";
 import BlockLoader from "./component/block-loader";
 import { initSocket } from './socket/socket-client';
 
@@ -71,6 +72,7 @@ class PrimaryLayout extends React.Component {
 
 			return (<div className="primary-layout">
 				<FocusCard></FocusCard>
+				<SupportChat></SupportChat>
 				<BlockLoader></BlockLoader>
 				<HeaderLayout menuList={headerMenu}></HeaderLayout>
 				<LeftBarLayout menuList={sideMenu}></LeftBarLayout>

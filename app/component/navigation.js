@@ -32,7 +32,7 @@ import { Monitor } from '../page/admin';
 import { SupportPage } from '../page/support';
 import AnalyticPage from '../page/analytics';
 
-import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleAdmin } from '../redux/actions/auth-actions';
+import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleSupport, isRoleAdmin } from '../redux/actions/auth-actions';
 
 function getHomeComponent(COMING_SOON) {
     var homeComponent = null;
