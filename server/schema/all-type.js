@@ -218,6 +218,7 @@ const CompanyType = new GraphQLObjectType({
         img_url: { type: GraphQLString },
         img_size: { type: GraphQLString },
         img_position: { type: GraphQLString },
+        status: { type: GraphQLString },
         rec_privacy: { type: GraphQLInt },
         sponsor_only: { type: GraphQLInt },
         type: { type: GraphQLInt },

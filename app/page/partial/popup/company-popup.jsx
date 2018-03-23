@@ -277,7 +277,7 @@ export default class CompanyPopup extends Component {
 
             var actData = [
                 {
-                    label: "Request For Interview"
+                    label: "Request For Session"
                     , onClick: this.addSessionRequest
                     , icon: "sign-in"
                     , color: "#c62323"
@@ -297,14 +297,13 @@ export default class CompanyPopup extends Component {
 
             var action = (!isRoleStudent() || this.props.displayOnly) ? null :
                 <div>
-                    <h3>
-                        <small>Ways to Land a Scheduled Interview</small>
-                    </h3>
+                    <h2 style={{marginTop:"0"}}>
+                        <small>Check These Out!</small>
+                    </h2>
                     {createIconLink("lg", actData, true)}
                 </div>;
 
             var pcBody = <div>
-                {action}
                 <div>
                     {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
                     <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
@@ -312,7 +311,7 @@ export default class CompanyPopup extends Component {
                     {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
                     {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>
-                <br></br>
+                {action}
                 {(this.props.displayOnly) ? null : <a onClick={layoutActions.storeHideFocusCard}>Close</a>}
             </div>;
 

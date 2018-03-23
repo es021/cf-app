@@ -108,6 +108,7 @@ export function loadCompanies() {
                             img_position
                             name
                             type
+                            status
                             vacancies_count
                         }
                 }`)

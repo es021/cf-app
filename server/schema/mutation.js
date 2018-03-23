@@ -106,6 +106,7 @@ fields["edit_company"] = {
         img_size: { type: GraphQLString },
         rec_privacy: { type: GraphQLString },
         sponsor_only: { type: GraphQLString },
+        status: { type: GraphQLString },
         type: { type: GraphQLInt },
         is_confirmed: { type: GraphQLInt },
         accept_prescreen: { type: GraphQLString },

@@ -253,6 +253,7 @@ const Company = {
     NAME: "name",
     REC_PRIVACY: "rec_privacy",
     SPONSOR_ONLY: "sponsor_only",
+    STATUS: "status",
     TAGLINE: "tagline",
     DESCRIPTION: "description",
     MORE_INFO: "more_info",
@@ -264,6 +265,10 @@ const Company = {
 };
 
 const CompanyEnum = {
+    STS_OPEN: "Open",
+    STS_CLOSED: "Closed",
+    STS_PS: "Prescreen Only",
+
     TYPE_PLATINUM: -1,
     TYPE_SPECIAL: 0,
     TYPE_GOLD: 1,

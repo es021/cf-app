@@ -8,6 +8,7 @@ import ProfileCard from '../../../component/profile-card';
 import { CompanyEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import * as layoutActions from '../../../redux/actions/layout-actions';
+import Tooltip from '../../../component/tooltip';
 
 import { BOTH, S2C, C2S } from '../../../../config/socket-config';
 import { socketOn } from '../../../socket/socket-client';
@@ -47,7 +48,8 @@ const sec = "com-sec";
 class CompanyBooth extends React.Component {
     constructor(props) {
         super(props);
-
+        this.getCount = this.getCount.bind(this);
+        this.getStatus = this.getStatus.bind(this);
         this.ID = this.props.company.ID;
     }
 
@@ -57,16 +59,16 @@ class CompanyBooth extends React.Component {
         // check if ID is equal to this ID    
     }
 
-    render() {
-
+    getCount() {
         var countItem = [{
             count: this.props.onlineRec,
             label: "Recruiters Online"
-        }, {
-            //count: (this.props.traffic !== null) ? this.props.traffic.active_queues_count : 0,
-            count: this.props.countQueue,
-            label: "Students Queueing"
         }
+            /*, {
+                //count: (this.props.traffic !== null) ? this.props.traffic.active_queues_count : 0,
+                count: this.props.countQueue,
+                label: "Students Queueing"
+            }*/
             /*, {
                 count: (this.props.traffic !== null) ? this.props.traffic.active_prescreens_count : 0,
                 label: "Students PreScreen"
@@ -94,12 +96,53 @@ class CompanyBooth extends React.Component {
             {countItem}
         </ul>);
 
-        //var pcBody = <div>({this.props.company.ID}) Type : {this.props.company.type} {counts}</div>;
-        var pcBody = counts;
+        return counts;
+    }
+
+    getStatus() {
+        var clr = "";
+        var tt = "";
+        var left = "";
+        switch (this.props.company.status) {
+            case CompanyEnum.STS_OPEN:
+                clr = "success";
+                tt = "Open for session request";
+                left = "51";
+                break;
+            case CompanyEnum.STS_CLOSED:
+                tt = "Recruiters are not available currently";
+                clr = "danger";
+                left = "45";
+                break;
+            case CompanyEnum.STS_PS:
+                tt = "Only attending prescreening sessions currently";
+                clr = "primary";
+                left = "24";
+                break;
+        }
+        
+        var label = <div className={`label label-${clr}`}>{this.props.company.status}</div>;
+
+        return <Tooltip
+            content={label}
+            tooltip={tt}
+            bottom="20px"
+            left={`-${left}px`}
+            width="140px">
+        </Tooltip>;
+    }
+
+    render() {
         var onClick = () => {
             layoutActions.storeUpdateFocusCard(this.props.company.name, CompanyPopup, { id: this.props.company.ID });
         };
+
         var pcTitle = this.props.company.name;
+
+        var pcBody = <span>
+            {this.getCount()}
+            {this.getStatus()}
+        </span>;
 
         var className = getCompanyCSSClass(this.props.company.type);
 
@@ -107,13 +150,6 @@ class CompanyBooth extends React.Component {
             title={pcTitle}
             img_url={this.props.company.img_url} img_pos={this.props.company.img_position} img_size={this.props.company.img_size}
             body={pcBody}></ProfileCard>);
-
-        return (<div>
-            <b>{this.props.company.name} ({this.props.company.ID}) Type : {this.props.company.type}</b>
-            <br></br>
-            <small>{this.props.company.tagline}</small>
-            {counts}
-        </div>);
     }
 }
 
@@ -194,7 +230,6 @@ class CompaniesSection extends React.Component {
             //var btn = <a onClick={this.refreshTraffic}>Refresh Line</a>;
 
             view = <div>
-             
                 <div className={sec}>
                     {comView}
                 </div>
