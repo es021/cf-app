@@ -227,7 +227,6 @@ export default class ResumeDropPage extends React.Component {
     }
 }
 
-
 ResumeDrop.propTypes = {
     company_id: PropTypes.number
 };

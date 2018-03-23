@@ -88,13 +88,20 @@ $MARGIN_IMAGE: 7px;
             .frm-action:last-of-type{
                 border-right: none;
             }
-        }
+        } 
 
         .frm-content{
             background: white;
             padding: 4px 10px;
             border-radius: 14px;
             border: solid 1px $SHADOW;
+        }
+
+        // use in support page
+        .frm-content.fc-blue{
+            color: white;
+            font-weight: bold;
+            background: #286090;
         }
     }
 }
@@ -107,8 +114,16 @@ $MARGIN_IMAGE: 7px;
 //# chat list in support page ################
 .chat-list{
     border-bottom: 1px solid $SHADOW;
-}
+    cursor: pointer;
 
+    .frm-content{
+        height: 29px;
+        overflow-y: hidden;
+    }
+}
+.chat-list:hover{
+    background: gainsboro;
+}
 .chat-list:last-of-type{
     border-bottom: none;
 }

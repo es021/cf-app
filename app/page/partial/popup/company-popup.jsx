@@ -277,7 +277,7 @@ export default class CompanyPopup extends Component {
 
             var actData = [
                 {
-                    label: "Request For Session"
+                    label: "Request For Private Session"
                     , onClick: this.addSessionRequest
                     , icon: "sign-in"
                     , color: "#c62323"
