@@ -402,5 +402,5 @@ ScheduledInterview.PropTypes = {
 ScheduledInterview.defaultProps = {
     successAddHandlerExternal: false,
     formOnly: false,
-    defaultFormItem: null
+    defaultFormItem: {}
 };

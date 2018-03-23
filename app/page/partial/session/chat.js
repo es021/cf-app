@@ -58,7 +58,9 @@ class Chat extends React.Component {
         this.offset = 10;
 
         socketOn(BOTH.CHAT_MESSAGE, (data) => {
-            this.addChatToView(data.from_id, data.message, data.created_at);
+            if (this.props.other_id == data.from_id) {
+                this.addChatToView(data.from_id, data.message, data.created_at);
+            }
         });
 
     }

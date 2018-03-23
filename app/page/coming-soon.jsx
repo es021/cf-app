@@ -83,8 +83,6 @@ class RegisterPS extends React.Component {
             });
     }
 
-
-
     formOnSubmit(d) {
         // check if has resume
         if (!this.state.hasResume) {
@@ -150,7 +148,6 @@ class RegisterPS extends React.Component {
         if (toInsert == 0) {
             toggleSubmit(this, { error: "Please select new company(s) to register" });
         }
-
     }
 
     render() {
