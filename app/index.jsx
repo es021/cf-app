@@ -7,7 +7,7 @@ import { isAuthorized, isComingSoon } from "./redux/actions/auth-actions";
 import { addLog } from './redux/actions/other-actions';
 import { LogEnum } from '../config/db-config';
 
-console.log(process.env.NODE_ENV);
+//console.log(process.env.NODE_ENV);
 
 //import {User} from '../config/db-config'; 
 require("./css/general.scss");
@@ -87,8 +87,6 @@ class PrimaryLayout extends React.Component {
 		}
 	}
 }
-
-
 
 import AuthorizedRoute from "./component/authorize-route";
 import { RootPath } from "../config/app-config";

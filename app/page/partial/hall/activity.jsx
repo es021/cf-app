@@ -258,7 +258,7 @@ class ActvityList extends React.Component {
                         break;
 
                     // #############################################################
-                    // Scheduled Interview Card View
+                    // Scheduled Session Card View
 
                     case hallAction.ActivityType.PRESCREEN:
                         subtitle = `${Time.getString(d.appointment_time)}`;
@@ -267,7 +267,7 @@ class ActvityList extends React.Component {
                             ? PrescreenEnum.ST_PRE_SCREEN : d.special_type;
 
                         if (isNormalSI(ps_type)) {
-                            ps_type = "Scheduled Interview";
+                            ps_type = "Scheduled Session";
                         }
 
                         var label_color = "";
@@ -308,7 +308,7 @@ class ActvityList extends React.Component {
                                 body = <div>
                                     {createUserDocLinkList(obj.doc_links, obj.ID, true, true)}
                                     <div onClick={() => { this.openSIForm(d.ID, obj.ID) }}
-                                        className="btn btn-sm btn-success">Schedule Interview</div>
+                                        className="btn btn-sm btn-success">Schedule Session</div>
 
                                     <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
                                         onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_REJECTED) }}
@@ -416,8 +416,8 @@ class ActivitySection extends React.Component {
         var title_s = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>,
             (isRoleStudent())
-                ? "Recruiter will host 1 to 1 session with you if you have Scheduled Interview with them."
-                : "Create sesssion with student from the Scheduled Interview below.")
+                ? "Recruiter will host 1 to 1 session with you if you have Scheduled Session with them."
+                : "Create sesssion with student from the Scheduled Session below.")
 
         // title Zoom invitation
         var title_zi = (isRoleRec()) ? this.createTitleWithTooltip(
@@ -433,23 +433,23 @@ class ActivitySection extends React.Component {
                 ? <li>Visit company booths below to request for interview</li>
                 : <li>Students will send interview request during Career Fair</li>}
             {(d.session_requests && d.session_requests.length > 0)
-                ? <li>Approved interview request will appear under Scheduled Interview</li>
+                ? <li>Approved interview request will appear under Scheduled Session</li>
                 : null}
         </ol>;
 
         var title_sr = this.createTitleWithTooltip(
-            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Interview Request</a>
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Session Request</a>
             , tt_sr)
 
-        // title scheduled interview
+        // title Scheduled Session
         var subtitle_p = (isRoleStudent())
             ? null
             : <NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
                 <i className="fa fa-plus left"></i>Add New</NavLink>;
 
-        var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land scheduled interviews" : null;
+        var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions" : null;
         var title_p = this.createTitleWithTooltip(
-            <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Interview</a>
+            <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Session</a>
             , tt_p)
 
 
@@ -494,7 +494,7 @@ class ActivitySection extends React.Component {
                 title={title_sr} list={d.session_requests}></ActvityList></div>;
 
 
-        //scheduled interview
+        //Scheduled Session
         var p = <div className={`col-sm-${size_p} no-padding`}>
             <ActvityList
                 bc_type="horizontal"

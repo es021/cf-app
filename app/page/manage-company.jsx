@@ -226,6 +226,7 @@ class AboutSubPage extends React.Component {
               img_url
               img_position
               img_size
+              status
               rec_privacy
               accept_prescreen
               sponsor_only
@@ -270,6 +271,12 @@ class AboutSubPage extends React.Component {
                     name: Company.CF,
                     type: "checkbox",
                     data: dataCF
+                }, {
+                    label: "Status",
+                    name: Company.STATUS,
+                    type: "select",
+                    data: [CompanyEnum.STS_OPEN, CompanyEnum.STS_CLOSED, CompanyEnum.STS_PS],
+                    required: true
                 }, {
                     label: "Is Sponsor Only?",
                     sublabel: "Sponsor only company will have NO booth in job fair",
