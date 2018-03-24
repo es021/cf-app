@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { ButtonLink } from '../component/buttons';
+import { ButtonLink, ButtonExport } from '../component/buttons';
 import Form, { toggleSubmit } from '../component/form';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { getCF, isRoleOrganizer } from '../redux/actions/auth-actions';
@@ -42,9 +42,12 @@ class CompaniesPage extends React.Component {
         this.offset = 50;
         this.tableHeader = <thead>
             <tr>
+                <th>#</th>
                 <th>ID</th>
                 <th>CF</th>
                 <th>Company</th>
+                <th>About</th>
+                <th>Export Data</th>
                 <th>Recruiters</th>
             </tr>
         </thead>;
@@ -84,6 +87,8 @@ class CompaniesPage extends React.Component {
                 cf
                 name
                 type
+                status
+                accept_prescreen
                 sponsor_only
                 recruiters{
                     ID user_email
@@ -94,7 +99,16 @@ class CompaniesPage extends React.Component {
 
     renderList(d, i) {
         var row = [];
-        var dismiss = ["type", "sponsor_only"];
+
+        //action
+        row.push(<td className="text-center">
+            <NavLink to={`${RootPath}/app/manage-company/${d.ID}/about`}>Edit</NavLink>
+        </td>);
+
+        
+        // data from query
+        var dismiss = ["type", "sponsor_only", "accept_prescreen"];
+        var recs = null;
         for (var key in d) {
             if (dismiss.indexOf(key) >= 0) {
                 continue;
@@ -110,17 +124,21 @@ class CompaniesPage extends React.Component {
                     {name}
                     <br></br>
                     {CompanyEnum.getTypeStr(d.type)}
-                    {(d.sponsor_only) ? <i><br></br>Sponsor Only</i> : null}
+                </td>);
+            } else if (key == "status") {
+                row.push(<td>
+                    <small>
+                        <ul className="normal">
+                            <li>{(d.status)}</li>
+                            {(d.sponsor_only) ? <li>Sponsor Only</li> : null}
+                            {(d.accept_prescreen) ? <li>Accept Prescreen</li> : null}
+                        </ul>
+                    </small>
                 </td>);
             } else if (key == "recruiters") {
-                var recs = d[key].map((rec, i) => {
+                recs = d[key].map((rec, i) => {
                     return <li>{`${rec.user_email} (${rec.ID})`}</li>;
                 });
-
-                row.push(<td>
-                    <ul>{recs}</ul>
-                </td>);
-
             } else if (key == "cf" && d.cf.length > 1) {
                 row.push(<td>{JSON.stringify(d.cf)}</td>);
             }
@@ -129,9 +147,17 @@ class CompaniesPage extends React.Component {
             }
         }
 
+        //export data
         row.push(<td className="text-center">
-            <NavLink to={`${RootPath}/app/manage-company/${d.ID}/about`}>Edit</NavLink>
+            {d.accept_prescreen ? <ButtonExport action="prescreens" text="Prescreens"
+                filter={{ company_id: d.ID }}></ButtonExport> : null}
         </td>);
+
+        //recruiter
+        row.push(<td>
+            <ul>{recs}</ul>
+        </td>);
+
         return <tr>{row}</tr>;
     };
 

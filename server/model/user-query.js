@@ -412,7 +412,7 @@ class UserExec {
 
                 // doc_links ****************************************************
                 if (typeof field["doc_links"] !== "undefined") {
-                    res[i]["doc_links"] = DocLinkExec.doc_links({ user_id: user_id }, field["doc_links"]);
+                    res[i]["doc_links"] = DocLinkExec.doc_links({ user_id: user_id, order_by: "label" }, field["doc_links"]);
                 }
 
                 // skills ****************************************************

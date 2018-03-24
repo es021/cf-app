@@ -11,14 +11,21 @@ export class ButtonExport extends React.Component {
     }
 
     render() {
-        return (<a className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>Export Data</a>);
+        return (<a className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>
+            {this.props.text}
+        </a>);
     }
 }
 
 ButtonExport.propsType = {
     action: PropTypes.string.isRequired,
-    filter: PropTypes.any
-}
+    filter: PropTypes.any,
+    text: PropTypes.string
+};
+
+ButtonExport.defaultProps = {
+    text: "Export Data"
+};
 
 export class ButtonLink extends React.Component {
     constructor(props) {

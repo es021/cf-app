@@ -36,7 +36,7 @@ export function openSIAddForm(student_id, company_id, type, success) {
         defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
     }
 
-    layoutActions.storeUpdateFocusCard("Add A New Scheduled Interview", ScheduledInterview
+    layoutActions.storeUpdateFocusCard("Add A New Scheduled Session", ScheduledInterview
         , {
             company_id: company_id
             , formOnly: true
@@ -55,23 +55,23 @@ export class ScheduledInterview extends React.Component {
     }
 
     componentWillMount() {
-        this.dataTitle = <span>Scheduled Interview
+        this.dataTitle = <span>Scheduled Session
             <Tooltip
                 left="-62px"
                 bottom="28px"
                 width="150px"
                 content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
-                tooltip={"Manage scheduled interview from Next Round, Pre-Screen, Forum, Interview Request and Resume Drop"}>
+                tooltip={"Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"}>
             </Tooltip>
         </span>;
 
         this.successAddHandler = (d) => {
             if (this.props.formOnly) {
-                var mes = <div>New Interview Have Been Successfully Scheduled
+                var mes = <div>New Session Have Been Successfully Scheduled
                     <br></br>
                     <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
-                        to={`${RootPath}/app/my-activity/scheduled-interview`}>
-                        Manage Scheduled Interview</NavLink>
+                        to={`${RootPath}/app/my-activity/scheduled-session`}>
+                        Manage Scheduled Session</NavLink>
                 </div>;
                 layoutActions.successBlockLoader(mes);
 
@@ -306,7 +306,7 @@ export class ScheduledInterview extends React.Component {
 
 
                     var ret = [
-                        { header: "Scheduled Interview Form" },
+                        { header: "Scheduled Session Form" },
                         {
                             label: "Type",
                             name: Prescreen.SPECIAL_TYPE,
@@ -336,7 +336,7 @@ export class ScheduledInterview extends React.Component {
 
                     ret.push(...[{
                         label: "Status",
-                        sublabel: "Only interview with status 'Approved' will be shown in Career Fair page",
+                        sublabel: "Only session with status 'Approved' will be shown in Career Fair page under Scheduled Session",
                         name: Prescreen.STATUS,
                         type: "select",
                         required: true,
@@ -372,7 +372,7 @@ export class ScheduledInterview extends React.Component {
         return <GeneralFormPage
             dataTitle={this.dataTitle}
             entity="prescreen"
-            entity_singular="Scheduled Interview"
+            entity_singular="Scheduled Session"
             addButtonText="Add New"
             dataOffset={20}
             searchFormItem={this.searchFormItem}

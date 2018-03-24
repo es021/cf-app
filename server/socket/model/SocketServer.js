@@ -89,7 +89,7 @@ class SocketServer {
                 // sql += "ON c.ID = ttl.company_id";
 
                 var sql = `select c.ID as company_id, q.student_id, q.created_at from companies c 
-                    left outer join in_queues q on status = "Queuing" and q.company_id = c.ID 
+                    left outer join in_queues q on q.status = "Queuing" and q.company_id = c.ID 
                     order by c.ID, q.created_at asc `;
 
                 var eventData = data;
