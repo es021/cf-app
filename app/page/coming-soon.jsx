@@ -133,6 +133,7 @@ class RegisterPS extends React.Component {
                     ins[Prescreen.STUDENT_ID] = this.user_id;
                     ins[Prescreen.STATUS] = PrescreenEnum.STATUS_PENDING;
                     ins[Prescreen.COMPANY_ID] = cid;
+                    ins[Prescreen.SPECIAL_TYPE] = PrescreenEnum.ST_PRE_SCREEN;
                     ins[Prescreen.UPDATED_BY] = this.user_id;
 
                     var insert = `mutation{add_prescreen(${obj2arg(ins, { noOuterBraces: true })}){company_id}}`;

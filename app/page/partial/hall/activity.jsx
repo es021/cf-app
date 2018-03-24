@@ -324,16 +324,19 @@ class ActvityList extends React.Component {
                             }
                         }
 
+                        // if rec view rejected in not shown
                         if (d.status === SessionRequestEnum.STATUS_REJECTED) {
                             var rej = <div style={{ marginBottom: "10px" }}>
                                 <label className={`label label-danger`}>Rejected</label>
                             </div>;
-
+                            body = <div>{rej}<small className="text-muted">Try again later</small></div>;
+                            /*
                             body = <div>{rej}
                                 {isRoleRec() ? <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
                                     onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_PENDING) }}
                                     className="btn btn-sm btn-blue">Cancel Rejection</div> : null}
                             </div>
+                            */
                         }
                         break;
                 }

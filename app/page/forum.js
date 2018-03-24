@@ -440,6 +440,7 @@ export default class ForumPage extends React.Component {
         this.isForumOwner = false;
 
         this.loadData = this.loadData.bind(this);
+        this.reload = this.reload.bind(this);
         this.getDataFromRes = this.getDataFromRes.bind(this);
         this.addFeedToView = this.addFeedToView.bind(this);
         this.renderList = this.renderList.bind(this);
@@ -449,12 +450,20 @@ export default class ForumPage extends React.Component {
 
         this.state = {
             loading: true,
-            preItem: this.getInitalPreItem()
+            preItem: this.getInitalPreItem(),
+            key: 1
         }
 
         this.type = null;
         this.params = {};
     }
+
+    reload() {
+        this.setState((prevState) => {
+            return { key: prevState.key + 1 };
+        });
+    }
+
 
     componentWillMount() {
         this.customEmpty = <div className="text-center">
@@ -607,6 +616,11 @@ export default class ForumPage extends React.Component {
 
     renderView(forum) {
         var v = this.invalid;
+        var reload = <a onClick={this.reload}>
+            <i className="fa fa-refresh left"></i>
+            Load Latest Feed
+        </a>;
+
         switch (this.type) {
             case 'company':
                 v = <div className="container-fluid no-padding">
@@ -615,8 +629,11 @@ export default class ForumPage extends React.Component {
                             <br></br>
                             <small>
                                 {(isRoleStudent()) ? "Ask Questions And Be Noticed by Recruiters" : null}
+                                <br></br>
+                                {reload}
                             </small>
                         </h3>
+
                     </div>
                     <div className="col-md-4 forum-info">
                         <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
@@ -638,15 +655,16 @@ export default class ForumPage extends React.Component {
             return <Loader size="3" text="Loading Forum"></Loader>;
         }
 
-        var forum = <List type="append-bottom"
-            customEmpty={this.customEmpty}
-            appendText="Load More Comment"
-            getDataFromRes={this.getDataFromRes}
-            loadData={this.loadData}
-            extraData={this.state.preItem}
-            offset={this.offset}
-            renderList={this.renderList}>
-        </List>;
+        var forum = <div key={this.state.key}>
+            <List type="append-bottom"
+                customEmpty={this.customEmpty}
+                appendText="Load More Comment"
+                getDataFromRes={this.getDataFromRes}
+                loadData={this.loadData}
+                extraData={this.state.preItem}
+                offset={this.offset}
+                renderList={this.renderList}>
+            </List></div>;
         return this.renderView(forum);
     }
 }

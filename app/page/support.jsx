@@ -24,7 +24,7 @@ export class SupportChat extends React.Component {
         this.getChatBox = this.getChatBox.bind(this);
         this.state = {
             show: false,
-            supportUser: null,
+            supportUser: false,
         };
 
         this.self_id = getAuthUser().ID;
@@ -32,7 +32,7 @@ export class SupportChat extends React.Component {
     }
 
     getChatBox() {
-        if (this.state.supportUser === null) {
+        if (this.state.supportUser === false) {
             // get support user
             var query = `query{ user(ID:${SupportUserID}) {  
             ID first_name last_name img_url img_pos img_size
@@ -47,7 +47,9 @@ export class SupportChat extends React.Component {
             return <div style={{ padding: "10px" }}>
                 <Loader text="Initializing chat with support"></Loader>
             </div>;
-
+        } else if (this.state.supportUser === null) {
+            return <div style={{ padding: "10px" }}>Support is not available currently</div>;
+        
         } else {
             return <div>
                 <Chat session_id={null}

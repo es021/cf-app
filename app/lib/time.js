@@ -103,6 +103,10 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
+
+    if(unixtimestamp === "now"){
+        unixtimestamp = this.getUnixTimestampNow();
+    }
     //console.log(unixtimestamp);
 
     if (typeof unixtimestamp === "string") {
@@ -193,7 +197,11 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     return toReturn;
 };
 
-Time.prototype.getTimezone = function (date) {
+Time.prototype.getTimezone = function (date = null) {
+    if (date === null) {
+        date = new Date();
+    }
+
     try {
         return date.toString().split('(')[1].slice(0, -1);
     } catch (err) {
