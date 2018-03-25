@@ -23,6 +23,7 @@ import { openSIAddForm, isNormalSI } from '../activity/scheduled-interview';
 import Tooltip from '../../../component/tooltip';
 
 import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
+import { joinVideoCall } from '../session/chat';
 
 require('../../../css/border-card.scss');
 
@@ -245,14 +246,22 @@ class ActvityList extends React.Component {
                     case hallAction.ActivityType.ZOOM_INVITE:
                         subtitle = <span>Hosted by
                         <div className="break-all">
-                                <b>{d.recruiter.user_email}</b>
+                                <Tooltip
+                                    bottom={"13px"}
+                                    left={"-22px"}
+                                    width={"131px"}
+                                    tooltip={d.recruiter.user_email}
+                                    content={<b>{d.recruiter.first_name} {d.recruiter.last_name}</b>}>
+                                </Tooltip>
                             </div>
                             <br></br>
                             {Time.getAgo(d.created_at)}
                         </span>;
 
                         body = <div>
-                            <a target="_blank" href={d.join_url} className="btn btn-sm btn-blue">Join Interview</a>
+                            <a onClick={() => joinVideoCall(d.join_url, d.session_id, () => {
+                                hallAction.storeLoadActivity([hallAction.ActivityType.ZOOM_INVITE]);
+                            })} className="btn btn-sm btn-blue">Join Interview</a>
                         </div>;
 
                         break;
@@ -450,7 +459,8 @@ class ActivitySection extends React.Component {
             : <NavLink to={`${RootPath}/app/my-activity/scheduled-interview`}>
                 <i className="fa fa-plus left"></i>Add New</NavLink>;
 
-        var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions" : null;
+        var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions"
+            : "You can also schedule sessions with students through Forum, Resume Drop, Pre-Screen and Next Round Interview";
         var title_p = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Session</a>
             , tt_p)

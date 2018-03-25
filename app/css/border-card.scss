@@ -46,5 +46,11 @@ $theme: lighten($COLOR_LINK, 10);
         padding-bottom: 10px;
         min-height: 170px;
         max-height: 300px;
+        .profile-card {
+            min-width: 140px;
+            .pc-subtitle {
+                padding: 0;
+            }
+        }
     }
 }

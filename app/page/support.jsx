@@ -49,7 +49,7 @@ export class SupportChat extends React.Component {
             </div>;
         } else if (this.state.supportUser === null) {
             return <div style={{ padding: "10px" }}>Support is not available currently</div>;
-        
+
         } else {
             return <div>
                 <Chat session_id={null}
@@ -78,11 +78,16 @@ export class SupportChat extends React.Component {
         if (!this.state.show) {
             className = "sc-open";
             v = <div onClick={this.toogle}
-                className="btn btn-success btn-lg">Got Question?</div>;
+                className="btn btn-success btn-lg">
+                <span>
+                    Got<br></br>Question<br></br>
+                    <i className="fa fa-question-circle fa-3x"></i>
+                </span>
+            </div>;
 
         } else {
             v = <div>
-                 <button className="btn btn-sm btn-danger btn-block"
+                <button className="btn btn-sm btn-danger btn-block"
                     onClick={this.toogle}>Close Chat</button>
                 {this.getChatBox()}
             </div>;

@@ -1,35 +1,35 @@
 @import 'define/variable.scss';
-
-#support-chat {    
+#support-chat {
     background: $COLOR_BACKGROUND;
     position: fixed;
     z-index: 10;
     bottom: 0;
     right: 0;
     box-shadow: -1px 0px 7px 0px rgba(0, 0, 0, 0.5);
-
-    #chat{
-        .chat-box{
+    #chat {
+        .chat-box {
             border: none;
         }
-
         max-width: 100vw;
         width: 350px;
         margin-bottom: 0;
-
         .chat-header .profile-card.profile-li {
             grid-template-columns: 1fr 5fr;
         }
     }
-
 }
 
-#support-chat.sc-open{
-    border-radius: 65px;
+#support-chat.sc-open {
+    border-radius: 100%;
     margin: 10px;
-    
-    .btn.btn-success{
-        border-radius: 65px !important;
+    .btn.btn-success {
+        font-size: 15px;
+        line-height: 1em;
+        border-radius: 100% !important;
+        height: 90px;
+        width: 90px;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
     }
- 
 }
