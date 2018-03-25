@@ -65,12 +65,10 @@ class SessionQuery {
 
         var status_where = "1=1";
         if (typeof params.status !== "undefined") {
-
             if (typeof params.status === "string") {
                 params.status = [params.status];
             }
 
-            //console.log(params.status);
             status_where = "q.status in ( ";
             params.status.map((d, i) => {
                 status_where += `'${d}',`;

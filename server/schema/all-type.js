@@ -205,10 +205,16 @@ const CompanyType = new GraphQLObjectType({
     fields: () => ({
         active_queues: { type: new GraphQLList(QueueType) },
         active_queues_count: { type: GraphQLInt },
+
         active_prescreens: { type: new GraphQLList(PrescreenType) },
         active_prescreens_count: { type: GraphQLInt },
+
         vacancies: { type: new GraphQLList(VacancyType) },
         vacancies_count: { type: GraphQLInt },
+
+        active_sessions: { type: new GraphQLList(SessionType) },
+        pending_requests: { type: new GraphQLList(SessionRequestType) },
+
         recruiters: { type: new GraphQLList(UserType) },
         doc_links: { type: new GraphQLList(DocLinkType) },
         ID: { type: GraphQLInt },
@@ -394,13 +400,13 @@ const SupportSessionType = new GraphQLObjectType({
         user_id: { type: GraphQLInt },
         support_id: { type: GraphQLInt },
         message_count_id: { type: GraphQLString },
-        
+
         // the updated time in message count id
         last_message_time: { type: GraphQLString },
-        
+
         // the message content
         last_message: { type: GraphQLString },
-        
+
         created_at: { type: GraphQLString },
         user: { type: UserType }
     })

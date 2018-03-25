@@ -9,6 +9,7 @@ $dimension: 30px;
 .icon-container {
     display: flex;
     flex-flow: column;
+    align-items: center;
 }
 
 .icon {
@@ -35,14 +36,20 @@ $dimension: 30px;
     width: $dimension / 2;
 }
 
-.icon.cornered {
+.icon.company {
     border-radius: 20%;
     background: darkgray;
     border: solid #465363 5px;
-    color: #465363;
     border-left: none;
     border-right: none;
-    font-weight: bold;
+}
+
+.icon.company.active {
+    border-color: #449d44;
+}
+
+.icon.cornered {
+    border-radius: 25%;
 }
 
 .icon.active {
