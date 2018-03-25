@@ -259,7 +259,7 @@ class ForumItem extends React.Component {
                 onClick={() => {
                     openSIAddForm(this.props.user_id, this.authUser.rec_company, PrescreenEnum.ST_FORUM);
                 }}>
-                Schedule For Interview
+                Schedule For Session
             </a>);
         }
 

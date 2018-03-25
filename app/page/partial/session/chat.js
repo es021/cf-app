@@ -22,6 +22,39 @@ import { emitChatMessage, socketOn, emitHallActivity } from '../../../socket/soc
 
 require("../../../css/chat.scss");
 
+export function joinVideoCall(join_url, session_id, expiredHandler = null) {
+    window.open(join_url);
+
+    /*
+    if (this.props.disableChat) {
+        layoutActions.errorBlockLoader("Session Has Expired. Unable To Join Video Call Session");
+        return;
+    }
+    */
+
+    layoutActions.loadingBlockLoader("Please Wait..");
+
+    //check if expired
+    const successInterceptor = (data) => {
+        if (data == 1) {
+            layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
+            if (expiredHandler != null) {
+                expiredHandler();
+            }
+        } else {
+            layoutActions.storeHideBlockLoader();
+        }
+    };
+
+    var data = {
+        query: "is_meeting_expired",
+        join_url: join_url,
+        session_id: session_id
+    };
+
+    getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
+}
+
 class Chat extends React.Component {
     constructor(props) {
         super(props);
@@ -32,7 +65,6 @@ class Chat extends React.Component {
         this.parseMessageHTML = this.parseMessageHTML.bind(this);
         this.createVideoCall = this.createVideoCall.bind(this);
         this.getStartVideoCallForm = this.getStartVideoCallForm.bind(this);
-        this.joinVideoCall = this.joinVideoCall.bind(this);
         this.inviteForPanelInterview = this.inviteForPanelInterview.bind(this);
 
         this.renderList = this.renderList.bind(this);
@@ -108,7 +140,7 @@ class Chat extends React.Component {
                         <br></br>I have created a video call session.
                         <div style={{ margin: "7px 0" }}>
                             <div className={`${this.props.isRec ? "btn-blue" : "btn-default"} btn btn-block btn-sm`}
-                                onClick={() => { this.joinVideoCall(mesData.data.join_url) }}>Join Now</div>
+                                onClick={() => { joinVideoCall(mesData.data.join_url, this.props.session_id) }}>Join Now</div>
                         </div>
                     </div>;
                 } else {
@@ -196,33 +228,6 @@ class Chat extends React.Component {
         this.addChatToView(this.props.self_id, mes, Time.getUnixTimestampNow());
     }
 
-    joinVideoCall(join_url) {
-        window.open(join_url);
-
-        if (this.props.disableChat) {
-            layoutActions.errorBlockLoader("Session Has Expired. Unable To Join Video Call Session");
-            return;
-        }
-
-        layoutActions.loadingBlockLoader("Please Wait..");
-
-        //check if expired
-        const successInterceptor = (data) => {
-            if (data == 1) {
-                layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
-            } else {
-                layoutActions.storeHideBlockLoader();
-            }
-        };
-
-        var data = {
-            query: "is_meeting_expired",
-            join_url: join_url,
-            session_id: this.props.session_id
-        };
-
-        getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
-    }
 
     inviteForPanelInterview(recs, zoom_meeting_id, join_url) {
         // this.props.session_id;

@@ -57,7 +57,7 @@ export function loadActivity(types = AllActivityType) {
                 select += ` prescreens { ID appointment_time special_type ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.ZOOM_INVITE:
-                select += (isRoleRec()) ? ` zoom_invites { ID join_url created_at recruiter { user_email } ${getEntitySelect(role, d)}} ` : "";
+                select += (isRoleRec()) ? ` zoom_invites { ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, d)}} ` : "";
                 break;
         }
     });

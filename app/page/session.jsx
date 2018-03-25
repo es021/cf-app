@@ -258,7 +258,7 @@ class SessionPage extends React.Component {
         // for rec
         if (this.isRec) {
 
-            view.push(<div style={{ border: "#286090 solid 1px" , marginBottom:"20px"}}
+            view.push(<div style={{ border: "#286090 solid 1px", marginBottom: "20px" }}
                 className="col-md-3 no-padding">
                 <UserPopup id={session.participant_id}></UserPopup>
             </div>);
@@ -319,7 +319,10 @@ class SessionPage extends React.Component {
         } else if (session == null) {
             view = <div className="text-muted">Session ID Invalid</div>;
         } else if (!this.isAllowedHere()) {
-            view = <div className="text-muted">Sorry. You Are Not Allowed Here</div>;
+            view = <div className="text-muted">
+                Sorry. You Are Not Allowed Here.
+            <br></br>Only host and participant are allowed to view this session.
+            </div>;
         } else {
             view = <div className="container-fluid no-padding">
                 <div className="col-md-12 no-padding">
