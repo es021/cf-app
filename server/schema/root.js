@@ -34,6 +34,7 @@ const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { MetaExec } = require('../model/meta-query.js');
 const { LogExec } = require('../model/log-query.js');
+const { SessionRequestExec } = require('../model/session-request-query.js');
 const { SupportSessionExec } = require('../model/support-session-query.js');
 const { ZoomExec } = require('../model/zoom-query.js');
 const { AuditoriumExec } = require('../model/auditorium-query');
@@ -57,6 +58,22 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* session_requests ******************/
+fields["session_requests"] = {
+    type: new GraphQLList(SessionRequestType),
+    args: {
+        company_id: { type: GraphQLInt },
+        status: { type: GraphQLString },
+        order_by: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return SessionRequestExec.session_requests(arg, graphqlFields(info));
+    }
+};
+
+
 /*******************************************/
 /* support_sessions ******************/
 fields["support_sessions"] = {

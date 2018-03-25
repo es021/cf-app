@@ -82,9 +82,9 @@ export class SupportChat extends React.Component {
 
         } else {
             v = <div>
+                 <button className="btn btn-sm btn-danger btn-block"
+                    onClick={this.toogle}>Close Chat</button>
                 {this.getChatBox()}
-                <button className="btn btn-sm btn-primary btn-block"
-                    onClick={this.toogle}>Close</button>
             </div>;
 
         }

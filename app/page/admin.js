@@ -7,7 +7,9 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 import { Loader } from '../component/loader';
+import Tooltip from '../component/tooltip';
 import { isRoleRec, getAuthUser } from '../redux/actions/auth-actions';
+import { getStyleImageObj } from '../component/profile-card';
 
 require("../css/admin.scss");
 
@@ -23,10 +25,13 @@ export class Monitor extends React.Component {
         this.state = {
             loading: true,
             online_company: {},
-            queue_detail: {},
-            queue: {},
-            sessions: [],
+            data: [],
             online_clients: []
+
+            // queue_detail: {},
+            // queue: {},
+            // sessions: [],
+            // requests: [],
         };
     }
 
@@ -46,7 +51,43 @@ export class Monitor extends React.Component {
         });
     }
 
+
     refresh() {
+        this.setState(() => {
+            return { loading: true };
+        })
+
+        this.lastUpdated = Time.getStringShort(Time.getUnixTimestampNow(), true);
+
+        var query = `query{ 
+              companies(order_by:"type"){
+              ID type name img_url img_size img_position
+              active_sessions{
+                participant_id
+                created_at
+              }
+              active_prescreens {
+                student_id
+                special_type
+                appointment_time
+              }
+              pending_requests{
+                status
+                student_id
+                created_at
+            }}}`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
+            this.setState((prevState) => {
+                return { data: res.data.data.companies };
+            })
+        });
+
+        emitState(["online_company", "online_clients"]);
+    }
+
+    /*
+    refreshOLD() {
         this.setState(() => {
             return { loading: true };
         })
@@ -69,8 +110,21 @@ export class Monitor extends React.Component {
             })
         });
 
-        emitState();
+        //load request
+        var query = `query{session_requests(order_by:"created_at asc", status:"Pending"){
+            ID company_id
+            student_id
+            created_at }}`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
+            this.setState((prevState) => {
+                return { requests: res.data.data.session_requests };
+            })
+        });
+
+        //emitState();
     }
+    */
 
     componentDidMount() {
         this.refresh();
@@ -78,11 +132,10 @@ export class Monitor extends React.Component {
 
     createIconEmpty(shape, color = "") {
         var className = shape + " " + color;
-        return <div className={`icon ${className} small`}
-        ><div></div></div>;
+        return <div className={`icon ${className} small`}><div></div></div>;
     }
 
-    createIcon(id, type, shape = "", tooltip = null, noClick = false) {
+    createIcon(id, type, shape = "", tooltip = null, noClick = false, style = {}) {
         var className = shape + " ";
 
         if (type == "company") {
@@ -114,8 +167,11 @@ export class Monitor extends React.Component {
             onClick = null;
         }
 
-        return <div title={tooltip} className={`icon ${className} ${noClick ? "" : "clickable"}`}
-            data-entity_id={id} onClick={onClick}><div>{id}</div></div>;
+        return <div style={style}
+            title={tooltip} className={`icon ${className} ${noClick ? "" : "clickable"}`}
+            data-entity_id={id} onClick={onClick}><div>
+                {shape == "company" ? null : id}
+            </div></div>;
 
     }
 
@@ -133,11 +189,19 @@ export class Monitor extends React.Component {
         return <div className="hall-activity">{vs}</div>;
     }
 
+    createIconCompany(comData) {
+        var style = getStyleImageObj("company", comData.img_url, comData.img_size, comData.img_position, "40px");
+        style.backgroundRepeat = "no-repeat";
+        style.backgroundColor = "white";
+        var v = this.createIcon(comData.ID, "company", "company", null, false, style);
+        return v;
+    }
+
     renderHallDetail() {
         var vs = [];
-        var queue = this.state.queue_detail;
-
-        for (var com_id in queue) {
+        for (var i in this.state.data) {
+            var d = this.state.data[i];
+            var com_id = d.ID;
 
             // set if student clickable 
             var noClick = false;
@@ -149,30 +213,70 @@ export class Monitor extends React.Component {
                 }
             }
 
-            var com = this.createIcon(com_id, "company", "cornered");
-            var sessions = this.state.sessions.map((d, i) => {
-                if (d.company_id == com_id) {
-                    return this.createIcon(d.participant_id, "user", ""
-                        , "Created " + Time.getAgo(d.created_at), noClick);
-                }
+            // company
+            var com = <Tooltip
+                bottom="45px"
+                left="-26px"
+                width="99px"
+                content={this.createIconCompany(d)}
+                tooltip={d.name}>
+            </Tooltip>;
+
+            // active sessions
+            var sessions = d.active_sessions.map((d, i) => {
+                var c = this.createIcon(d.participant_id, "user", "cornered"
+                    , null, noClick);
+
+                return <Tooltip
+                    bottom="33px"
+                    left="-17px"
+                    width="70px"
+                    content={c}
+                    tooltip={Time.getAgo(d.created_at)}>
+                </Tooltip>
             });
 
-            var queues = queue[com_id].map((d, i) => {
-                return this.createIcon(d, "user", "circle", null, noClick);
+            // scheduled sessions
+            var si = d.active_prescreens.map((d, i) => {
+                var c = this.createIcon(d.student_id, "user", ""
+                    , null, noClick);
+
+                return <Tooltip
+                    bottom="33px"
+                    left="-54px"
+                    width="144px"
+                    content={c}
+                    tooltip={<span>{d.special_type}<br></br>{Time.getString(d.appointment_time)}</span>}>
+                </Tooltip>
+            });
+
+            // pending session request
+            var sr = d.pending_requests.map((d, i) => {
+                var c = this.createIcon(d.student_id, "user", "circle"
+                    , null, noClick);
+
+                return <Tooltip
+                    bottom="33px"
+                    left="-17px"
+                    width="70px"
+                    content={c}
+                    tooltip={<span>{Time.getAgo(d.created_at)}</span>}>
+                </Tooltip>
             });
 
             vs.push(
                 <div className="icon-container">
                     {com}
                     {sessions}
-                    {queues}
+                    {si}
+                    {sr}
                 </div>);
         }
 
         var legends = <div className="hall-activity">
-            {this.createIconEmpty("cornered", "blue")}Company Booth {" -- "}
-            {this.createIconEmpty("circle")}Student Queuing {" -- "}
-            {this.createIconEmpty("square")}Student In Session
+            {this.createIconEmpty("cornered")}Active Session {" -- "}
+            {this.createIconEmpty("square")}Scheduled Session {" -- "}
+            {this.createIconEmpty("circle")}Session Request
         </div>;
 
         return (<div>{legends}
@@ -207,7 +311,7 @@ export class Monitor extends React.Component {
         var header = (this.state.loading) ?
             <Loader size="3" text="Fetching latest update.."></Loader> :
             <div><a className="btn btn-blue" onClick={() => this.refresh()}>
-                Refresh</a>
+                <i className="fa fa-refresh left"></i>Refresh</a>
                 <br></br><small>Last Updated {this.lastUpdated}</small>
             </div>;
 
@@ -228,7 +332,7 @@ export class Monitor extends React.Component {
             <div>
                 {warning}
                 {header}
-                <h2>Career Fair<br></br><small>Live View Activity</small></h2>
+                <h2>Career Fair Overview</h2>
                 {hall}
                 {onlineView}
             </div>

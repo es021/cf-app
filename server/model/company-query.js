@@ -1,5 +1,9 @@
+
 const DB = require('./DB.js');
-const { Queue, Company, CompanyEnum, QueueEnum, Prescreen, PrescreenEnum, Vacancy } = require('../../config/db-config');
+const { Queue, Company, CompanyEnum, QueueEnum
+    , Session, SessionEnum
+    , Prescreen, SessionRequest, SessionRequestEnum
+    , PrescreenEnum, Vacancy } = require('../../config/db-config');
 
 class CompanyQuery {
 
@@ -52,6 +56,8 @@ const { VacancyExec } = require('./vacancy-query.js');
 const { PrescreenExec } = require('./prescreen-query.js');
 const { UserExec } = require('./user-query.js');
 const { DocLinkExec } = require('./doclink-query.js');
+const { SessionExec } = require('./session-query.js');
+const { SessionRequestExec } = require('./session-request-query.js');
 
 class CompanyExec {
     getCompanyHelper(type, params, field) {
@@ -95,11 +101,33 @@ class CompanyExec {
                     res[i]["cf"] = DB.getCF("company", company_id);
                 }
 
+                //Add active_sessions ***********************************
+                var act_s = {
+                    company_id: company_id
+                    , status: SessionEnum.STATUS_ACTIVE
+                    , order_by: `${Session.CREATED_AT}`
+                };
+
+                if (typeof field["active_sessions"] !== "undefined") {
+                    res[i]["active_sessions"] = SessionExec.sessions(act_s, field["active_sessions"]);
+                }
+
+                //Add pending_requests ***********************************
+                var pending_pr = {
+                    company_id: company_id
+                    , status: SessionRequestEnum.STATUS_PENDING
+                    , order_by: `${SessionRequest.CREATED_AT}`
+                };
+
+                if (typeof field["pending_requests"] !== "undefined") {
+                    res[i]["pending_requests"] = SessionRequestExec.session_requests(pending_pr, field["pending_requests"]);
+                }
+
                 //Add prescreens ***********************************
                 var act_ps = {
                     company_id: company_id
                     , status: PrescreenEnum.STATUS_APPROVED
-                    , order_by: `${Prescreen.CREATED_AT} DESC`
+                    , order_by: `${Prescreen.APPNMENT_TIME}`
                 };
 
                 if (typeof field["active_prescreens"] !== "undefined") {

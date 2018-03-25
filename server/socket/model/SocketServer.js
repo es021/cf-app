@@ -23,8 +23,6 @@ class SocketServer {
 
             queue_detail: {},
             // queue_detail[company_id] = {list of student id}
-            // needed to trigger event to related student when ON_IN_QUEUE was trigerred
-            // emit CF_TRIGGER (Inqeueu) to all other student that is queueing except for them selves
 
             queue: {},
             // queue[company_id] = {number of student queueing}

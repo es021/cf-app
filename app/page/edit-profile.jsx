@@ -6,7 +6,7 @@ import { Month, Year, Sponsor } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
-import { getAuthUser, isRoleRec, updateAuthUser } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, isRoleStudent, updateAuthUser } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card';
 import SubNav from '../component/sub-nav';
@@ -146,53 +146,39 @@ class EditProfile extends React.Component {
 
 
     loadUser(id, role) {
-        var query = null;
+        var extra = "";
+
         if (role === UserEnum.ROLE_STUDENT) {
-            query = `query {
-              user(ID:${id}) {
-                ID
-                user_email
-                user_pass
-                first_name
-                last_name
-                description
-                role
-                img_url
-                img_pos
-                img_size
-                feedback
-                user_status
-                university
-                phone_number
-                graduation_month
-                graduation_year
-                available_month
-                available_year
-                sponsor
-                cgpa
-                major
-                minor
-              }}`;
+            extra = `user_status
+            university
+            phone_number
+            graduation_month
+            graduation_year
+            available_month
+            available_year
+            sponsor
+            cgpa
+            major
+            minor`;
+
+        } else if (role === UserEnum.ROLE_RECRUITER) {
+            extra = `rec_position rec_company`;
         }
 
-        if (role === UserEnum.ROLE_RECRUITER) {
-            query = `query {
-              user(ID:${id}) {
-                ID
-                user_email
-                user_pass
-                first_name
-                last_name
-                description
-                role
-                img_url
-                img_pos
-                img_size
-                feedback
-                rec_position
-                rec_company
-              }}`;
-        }
+        var query = `query {
+            user(ID:${id}) {
+              ID
+              user_email
+              user_pass
+              first_name
+              last_name
+              description
+              role
+              img_url
+              img_pos
+              img_size
+              ${extra}
+            }}`;
 
         return getAxiosGraphQLQuery(query);
     }
@@ -222,7 +208,7 @@ class EditProfile extends React.Component {
             }];
 
         // for student
-        if (!isRoleRec()) {
+        if (isRoleStudent()) {
             this.formItems.push(...[{
                 label: "Phone Number",
                 name: UserMeta.PHONE_NUMBER,
@@ -303,7 +289,7 @@ class EditProfile extends React.Component {
                 rows: 5
             }
             ]);
-        } else {
+        } else if (isRoleRec()) {
             this.formItems.push(...[{
                 label: "Position",
                 name: UserMeta.REC_POSITION,
@@ -376,7 +362,8 @@ class EditProfile extends React.Component {
                 <ProfileCard type="student"
                     id={this.authUser.ID}
                     add_img_ops={true}
-                    title={this.authUser.user_email} subtitle={""}
+                    title={<b>{this.authUser.user_email}</b>}
+                    subtitle={<i>{this.authUser.role.capitalize()}</i>}
                     img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}
                 ></ProfileCard>
 
@@ -409,8 +396,7 @@ export default class EditProfilePage extends React.Component {
             }
         };
 
-        if (!isRoleRec()) {
-
+        if (isRoleStudent()) {
             this.item["doc-link"] = {
                 label: "Document & Link",
                 component: StudentDocLink,
