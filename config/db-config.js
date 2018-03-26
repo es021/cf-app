@@ -368,8 +368,14 @@ const SupportSession = {
     SUPPORT_ID : "support_id"
 };
 
+const FeedbackQs = {
+    TABLE: "feedback_qs",
+    USER_ROLE : "user_role"
+};
+
 module.exports = {
     User, UserMeta, UserEnum
+    , FeedbackQs
     , ForumComment, ForumReply
     , DocLink, DocLinkEnum
     , Session, SessionEnum

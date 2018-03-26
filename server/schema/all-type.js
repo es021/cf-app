@@ -67,6 +67,21 @@ const UserType = new GraphQLObjectType({
     })
 });
 
+const FeedbackQsType = new GraphQLObjectType({
+    name: 'FeedbackQs',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_role: { type: GraphQLString },
+        question: { type: GraphQLString },
+        is_disabled: { type: GraphQLInt },
+        created_by: { type: GraphQLInt },
+        created_at: { type: GraphQLString },
+        updated_by: { type: GraphQLInt },
+        updated_at: { type: GraphQLString }
+    })
+});
+
+
 const SessionNoteType = new GraphQLObjectType({
     name: 'SessionNote',
     fields: () => ({
@@ -433,6 +448,7 @@ module.exports = {
     , AuditoriumType
     , SessionRequestType
     , LogType
+    , FeedbackQsType
     , SupportSessionType
     //, CFType
 };

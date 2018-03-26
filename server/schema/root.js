@@ -17,6 +17,7 @@ const { UserType
     , LogType
     , ForumCommentType
     , ForumReplyType
+    , FeedbackQsType
     , SessionRequestType
     , ZoomInviteType
     //, CFType
@@ -34,6 +35,7 @@ const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
 const { MetaExec } = require('../model/meta-query.js');
 const { LogExec } = require('../model/log-query.js');
+const { FeedbackQsExec } = require('../model/feedback-qs-query.js');
 const { SessionRequestExec } = require('../model/session-request-query.js');
 const { SupportSessionExec } = require('../model/support-session-query.js');
 const { ZoomExec } = require('../model/zoom-query.js');
@@ -58,6 +60,20 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* session_requests ******************/
+fields["feedback_qs"] = {
+    type: new GraphQLList(FeedbackQsType),
+    args: {
+        ID: { type: GraphQLInt },
+        is_disabled: { type: GraphQLInt },
+        user_role: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return FeedbackQsExec.feedback_qs(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* session_requests ******************/
