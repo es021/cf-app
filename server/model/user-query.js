@@ -215,7 +215,7 @@ class UserExec {
         console.log(arg);
 
         var ID = arg.ID;
-
+        
         //update User table
         var updateUser = {
             trigger_update: (new Date()).getTime() // this is needed to trigger updated at
