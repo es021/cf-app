@@ -1,5 +1,5 @@
 //import all type
-const { QueueType, ZoomInviteType, LogType, AuditoriumType
+const { QueueType, FeedbackQsType, ZoomInviteType, LogType, AuditoriumType
     , DashboardType, MetaType, PasswordResetType, SessionNoteType
     , MessageType, VacancyType, SessionRatingType, CompanyType
     , UserType, SessionType, ResumeDropType
@@ -8,7 +8,7 @@ const { QueueType, ZoomInviteType, LogType, AuditoriumType
 
 
 //import all action for type
-const { Queue, ZoomInvite, Log, Auditorium, Vacancy, Meta, PasswordReset
+const { Queue, ZoomInvite, FeedbackQs, Log, Auditorium, Vacancy, Meta, PasswordReset
     , Dashboard, SessionNotes, Company, DocLink, SessionRating
     , Skill, ResumeDrop, Session, Prescreen, ForumComment, ForumReply
     , SessionRequest } = require('../../config/db-config');
@@ -684,6 +684,40 @@ fields["delete_auditorium"] = {
         return DB.delete(Auditorium.TABLE, arg.ID);
     }
 };
+
+
+/*******************************************/
+/* feedback_qs ******************/
+fields["add_feedback_qs"] = {
+    type: FeedbackQsType,
+    args: {
+        user_role: { type: new GraphQLNonNull(GraphQLString) },
+        question: { type: new GraphQLNonNull(GraphQLString) },
+        created_by: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(FeedbackQs.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_feedback_qs"] = {
+    type: FeedbackQsType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt) },
+        user_role: { type: GraphQLString },
+        question: { type: GraphQLString },
+        is_disabled: { type: GraphQLInt },
+        updated_by: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.update(FeedbackQs.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
 
 /*******************************************/
 /* prescreen ******************/

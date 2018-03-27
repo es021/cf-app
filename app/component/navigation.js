@@ -31,6 +31,7 @@ import ForumPage from '../page/forum';
 import { Monitor } from '../page/admin';
 import { SupportPage } from '../page/support';
 import AnalyticPage from '../page/analytics';
+import { FeedbackForm } from '../page/partial/analytics/feedback';
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleSupport, isRoleAdmin } from '../redux/actions/auth-actions';
 
@@ -280,6 +281,15 @@ function getMenuItem(COMING_SOON) {
         {
             url: "/forum/:forum_id",
             component: ForumPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: true,
+            hd_auth: false,
+            routeOnly: true
+        },
+        {
+            url: "/feedback/:user_role",
+            component: FeedbackForm,
             bar_app: true,
             bar_auth: false,
             hd_app: true,
