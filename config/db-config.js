@@ -117,7 +117,7 @@ const DocLinkEnum = {
             color: "#007BB4",
             icon: "linkedin"
         },
-        "Git Hub":{
+        "Git Hub": {
             color: "black",
             icon: "github"
         },
@@ -364,13 +364,15 @@ const ForumReply = {
 
 const SupportSession = {
     TABLE: "support_sessions",
-    USER_ID : "user_id",
-    SUPPORT_ID : "support_id"
+    USER_ID: "user_id",
+    SUPPORT_ID: "support_id"
 };
 
 const FeedbackQs = {
     TABLE: "feedback_qs",
-    USER_ROLE : "user_role"
+    USER_ROLE: "user_role",
+    QUESTION: "question",
+    IS_DISABLED: "is_disabled"
 };
 
 module.exports = {

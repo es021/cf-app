@@ -339,7 +339,7 @@ export default class GeneralFormPage extends React.Component {
         */
 
         var addForm = null;
-        if (!this.props.noMutation) {
+        if (this.props.canAdd || !this.props.noMutation) {
             addForm = (!this.props.showAddForm ?
                 <h4>
                     <a onClick={this.addPopup}>
@@ -388,12 +388,14 @@ GeneralFormPage.propTypes = {
     forceDiff: PropTypes.array,
     noMutation: PropTypes.bool, // disable add, edit and delete
     canEdit: PropTypes.bool, // bypass noMutation
+    canAdd: PropTypes.bool, // bypass noMutation
     formOnly: PropTypes.bool // formOnly
 }
 
 GeneralFormPage.defaultProps = {
     noMutation: false,
     canEdit: false,
+    canAdd: false,
     dataOffset: 10,
     showAddForm: false,
     btnColorClass: "primary",

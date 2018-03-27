@@ -68,7 +68,11 @@ fields["feedback_qs"] = {
     args: {
         ID: { type: GraphQLInt },
         is_disabled: { type: GraphQLInt },
-        user_role: { type: GraphQLString }
+        user_role: { type: GraphQLString },
+        order_by: { type: GraphQLString },
+
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt }
     },
     resolve(parentValue, arg, context, info) {
         return FeedbackQsExec.feedback_qs(arg, graphqlFields(info));
