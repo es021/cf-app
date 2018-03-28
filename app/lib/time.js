@@ -47,9 +47,124 @@ Time.prototype.getUnixTimestampNow = function () {
     return Math.round(date.getTime() / 1000);
 };
 
+
 Time.prototype.convertDBTimeToUnix = function (db_time) {
-    return Date.parse(db_time) / 1000;
+    //return Date.parse(db_time) / 1000;
+
+    function stripAll(str, arr) {
+        for (var i in arr) {
+            str = str.replace(arr[i], "");
+        }
+        return str;
+    }
+
+    function parseMonth(mnth) {
+        switch (mnth.toLowerCase()) { case 'january': case 'jan': case 'enero': return 1; case 'february': case 'feb': case 'febrero': return 2; case 'march': case 'mar': case 'marzo': return 3; case 'april': case 'apr': case 'abril': return 4; case 'may': case 'mayo': return 5; case 'jun': case 'june': case 'junio': return 6; case 'jul': case 'july': case 'julio': return 7; case 'aug': case 'august': case 'agosto': return 8; case 'sep': case 'september': case 'septiembre': case 'setiembre': return 9; case 'oct': case 'october': case 'octubre': return 10; case 'nov': case 'november': case 'noviembre': return 11; case 'dec': case 'december': case 'diciembre': return 12; }
+        return mnth;
+    }
+
+
+    function getUnixFromOffsetHour(unix, offset) {
+        if (offset.indexOf("+") >= 0) {
+            var hour = offset.replace("+", "");
+            hour = Number.parseInt(hour);
+            return unix - (hour * 60 * 60);
+        }
+
+        if (offset.indexOf("-") >= 0) {
+            var hour = offset.replace("-", "");
+            hour = Number.parseInt(hour);
+            return unix + (hour * 60 * 60);
+        }
+    }
+
+    function dbToTimeUnix(strDate) {
+        var mapDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Mon\,', 'Tue\,', 'Wed\,', 'Thu\,', 'Fri\,', 'Sat\,', 'Sun\,', 'Mon ', 'Tue ', 'Wed ', 'Thu ', 'Fri ', 'Sat ', 'Sun ', 'Sun\.', 'Mon\.', 'Tue\.', 'Wed\.', 'Thu\.', 'Fri\.', 'Sat\.', 'Sun\.'];
+        strDate = stripAll(strDate, mapDays);
+        strDate = strDate.replace(/[\,]/g, '');
+        strDate = strDate.replace(/^\s+|\s+$/g, '');
+        strDate = strDate.replace(/ +(?= )/g, '');
+        strDate = strDate.replace(/^(\d+)\./, '$1');
+        var ok = 0;
+        var skipDate = 0;
+        var content = "";
+        var date = ""; var format = ""; var yr = 1970;
+        var mnth = 1; var dy = 1; var hr = 0; var mn = 0;
+        var sec = 0; var dmy = 1;
+        if (!ok) {
+            var dateTimeSplit = strDate.split(" "); var dateParts = dateTimeSplit[0].split("-"); if (dateParts.length == 1) dateParts = dateTimeSplit[0].split("."); if (dateParts.length == 1) { dmy = 0; dateParts = dateTimeSplit[0].split("/"); }
+            if (dateParts.length == 1) { dmy = 1; if (dateTimeSplit.length > 2) { if (dateTimeSplit[2].split(":").length == 1) { strDate = strDate.replace(dateTimeSplit[0] + ' ' + dateTimeSplit[1] + ' ' + dateTimeSplit[2], dateTimeSplit[0] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[2]); dateTimeSplit = strDate.split(" "); dateParts = dateTimeSplit[0].split("-"); } } }
+            if (dateParts.length == 1) { dateParts = dateTimeSplit; if (dateTimeSplit.length > 3) timeParts = dateTimeSplit[4]; }
+            if (dateParts.length > 2) {
+                if (dateParts[0] > 100) {
+                    yr = dateParts[0];
+                    mnth = parseMonth(dateParts[1]); dy = dateParts[2]; format = "YMD";
+                }
+                else {
+                    if (dmy) {
+                        dy = dateParts[0]; mnth = parseMonth(dateParts[1]);
+                        yr = dateParts[2]; format = "DMY";
+                        if ((!parseFloat(mnth)) || (!parseFloat(dy))) {
+                            dy = dateParts[1];
+                            mnth = parseMonth(dateParts[0]); format = "MDY";
+                        }
+                    }
+                    else {
+                        mnth = parseMonth(dateParts[0]); dy = dateParts[1]; yr = dateParts[2]; format = "MDY";
+                        if ((!parseFloat(mnth)) || (!parseFloat(dy))) {
+                            dy = dateParts[0]; mnth = parseMonth(dateParts[1]); format = "DMY";
+                        }
+                    }
+                }
+                ok = 1;
+            }
+            if (ok && dateTimeSplit[1]) {
+                var timeParts = dateTimeSplit[1].split(":");
+                if (timeParts.length >= 2) {
+                    hr = timeParts[0]; mn = timeParts[1];
+                }
+                if (timeParts.length >= 3) {
+                    sec = timeParts[2];
+                }
+                if ((dateTimeSplit[2] && dateTimeSplit[2].toLowerCase() == "pm") && (parseFloat(hr) < 12))
+                    hr = parseFloat(hr) + 12;
+                if ((dateTimeSplit[2] && dateTimeSplit[2].toLowerCase() == "am") && (parseFloat(hr) == 12))
+                    hr = 0;
+            }
+        }
+
+        if (!ok) {
+            date = new Date(strDate);
+            if (date.getFullYear() > 1900) { ok = 1; skipDate = 1; }
+        }
+        var offsetHourGMT = 0;
+        if (ok) {
+            if (!skipDate) {
+                if (mnth != parseFloat(mnth)) mnth = parseMonth(mnth);
+                if (yr < 30) yr = 2000 + parseFloat(yr);
+                if (yr < 200) yr = 1900 + parseFloat(yr);
+                var usedGMT = 0;
+                if (((strDate.toUpperCase().indexOf('GMT') > 0) || (strDate.toUpperCase().indexOf('UTC') > 0)) && (strDate.toUpperCase().indexOf('GMT+') == -1) && (strDate.toUpperCase().indexOf('UTC+') == -1)) {
+                    date = new Date(Date.UTC(yr, mnth - 1, dy, hr, mn, sec));
+                    var strArr = strDate.split("(");
+                    strArr = strArr[1].split(")");
+                    offsetHourGMT = strArr[0];
+                    usedGMT = 1;
+                }
+                else {
+                    date = new Date(yr, mnth - 1, dy, hr, mn, sec);
+                }
+            }
+        }
+
+        var unix = (date.getTime() / 1000.0);
+        return getUnixFromOffsetHour(unix, offsetHourGMT);
+    }
+
+    return dbToTimeUnix(db_time);
 };
+
+
 
 
 Time.prototype.getAgo = function (unixtimestamp) {
