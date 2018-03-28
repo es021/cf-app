@@ -106,6 +106,7 @@ const DocLink = {
 const DocLinkEnum = {
     TYPE_DOC: "document",
     TYPE_LINK: "link",
+    LABEL_RESUME: "Resume",
     USER_LABELS: ["Resume", "Linked In", "Portfolio", "Git Hub", "Cover Letter", "Recommendation Letter"],
     COMPANY_LABELS: ["Brochure", "Website"],
     LABEL_STYLE: {

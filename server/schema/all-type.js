@@ -45,7 +45,7 @@ const UserType = new GraphQLObjectType({
         sessions: { type: new GraphQLList(SessionType) },
         zoom_invites: { type: new GraphQLList(ZoomInviteType) },
 
-        // student only
+        // student only        
         university: { type: GraphQLString },
         phone_number: { type: GraphQLString },
         graduation_month: { type: GraphQLString },
