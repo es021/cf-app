@@ -483,6 +483,18 @@ fields["forum_replies"] = {
 
 /*******************************************/
 /* resume_drop ******************/
+// return limit if feedback is empty
+// return null if still not over limit or feedback is filled
+fields["resume_drops_limit"] = {
+    type: GraphQLString,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return ResumeDropExec.resume_drops_limit(arg, graphqlFields(info));
+    }
+};
+
 fields["resume_drop"] = {
     type: ResumeDropType,
     args: {
@@ -494,6 +506,7 @@ fields["resume_drop"] = {
         return ResumeDropExec.resume_drops(arg, graphqlFields(info), { single: true });
     }
 };
+
 
 fields["resume_drops"] = {
     type: new GraphQLList(ResumeDropType),

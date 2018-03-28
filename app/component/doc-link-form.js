@@ -12,6 +12,18 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from '../page/partial/popup/confirm-popup';
 import { store } from '../redux/store';
 
+export function hasResume(dl) {
+    if (typeof dl === "object") {
+        for (var i in dl) {
+            var d = dl[i];
+            if (d.label == DocLinkEnum.LABEL_RESUME) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 class DocLinkForm extends React.Component {
     constructor(props) {

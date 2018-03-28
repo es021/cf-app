@@ -2,6 +2,8 @@ const DB = require('./DB.js');
 const { ResumeDrop } = require('../../config/db-config');
 const { UserQuery } = require('./user-query');
 
+
+
 class ResumeDropQuery {
     getResumeDrop(params, field, extra) {
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `x.${ResumeDrop.ID} = ${params.ID}`;
@@ -24,11 +26,36 @@ class ResumeDropQuery {
             return `select * ${sql} ${limit}`;
         }
     }
+
+    getResumeDropError(user_id) {
+        var { UserQuery } = require('./user-query.js');
+        var sql = `select 
+            (select count(*) from resume_drops r where r.student_id = ${user_id}) as ttl_resume
+            , (${UserQuery.selectMetaMain(user_id, "feedback")}) as feedback`;
+
+        return sql;
+    }
 }
 
 ResumeDropQuery = new ResumeDropQuery();
-
+const RD_LIMIT = 3;
 class ResumeDropExec {
+
+    resume_drops_limit(params, field, extra = {}) {
+        var sql = ResumeDropQuery.getResumeDropError(params.user_id);
+        var toRet = DB.query(sql).then(function (res) {
+            var ttl_resume = res[0].ttl_resume;
+            var feedback = res[0].feedback;
+            var err = null;
+            if(ttl_resume >= RD_LIMIT && (feedback == null || feedback == "")){
+                err = RD_LIMIT;
+            }
+            return err;
+        });
+
+        return toRet;
+    }
+
     resume_drops(params, field, extra = {}) {
         var { CompanyExec } = require('./company-query.js');
         var { UserExec } = require('./user-query.js');
