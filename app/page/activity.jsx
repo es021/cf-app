@@ -40,12 +40,20 @@ export default class ActivityPage extends React.Component {
         };
 
         if (isRoleRec()) {
+            item["pre-screen"] = {
+                label: "Pre-Screen",
+                component: ScheduledInterview,
+                props: { company_id: this.company_id, prescreen_only: true },
+                icon: "filter"
+            };
+
             item["scheduled-interview"] = {
                 label: "Scheduled Interview",
                 component: ScheduledInterview,
                 props: { company_id: this.company_id },
                 icon: "clock-o"
             };
+
         }
 
         var title = item[this.sub_page].label;
