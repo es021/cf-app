@@ -93,7 +93,7 @@ export class ResumeDrop extends React.Component {
                     img_size={imgObj.img_size}
                     img_dimension={"80px"}
                     body={details}
-                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Interview</small>}
+                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Session</small>}
                     action_handler={() => { this.openSIForm(d.student.ID) }}
                     action_disabled={false}
                     type={(this.props.isRec ? "student" : "company")} key={i}>

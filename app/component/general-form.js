@@ -299,19 +299,24 @@ export default class GeneralFormPage extends React.Component {
 
         var view = null;
         const renderList = (d, i) => {
-            var row = this.props.renderRow(d);
+
+            var editAct = <a id={d.ID} onClick={this.editPopup.bind(this)}>Edit</a>;
+            var delAct = <a id={d.ID} onClick={this.deletePopup.bind(this)}>Delete</a>;
+
+            var action = null;
+            var row = [];
             if (!this.props.noMutation) {
-                row.push(<td className="text-right">
-                    <a id={d.ID}
-                        onClick={this.editPopup.bind(this)}>Edit</a>
-                    {" | "}
-                    <a id={d.ID}
-                        onClick={this.deletePopup.bind(this)}>Delete</a>
-                </td>);
+                action = <td className="text-right">{editAct}{" | "}{delAct}</td>;
             } else if (this.props.canEdit) {
-                row.push(<td className="text-right">
-                    <a id={d.ID}
-                        onClick={this.editPopup.bind(this)}>Edit</a></td>);
+                action = <td className="text-right">{editAct}</td>;
+            }
+
+            if (this.props.actionFirst) {
+                row.push(action);
+                row.push(this.props.renderRow(d));
+            } else {
+                row.push(this.props.renderRow(d));
+                row.push(action);
             }
 
             if (listType == "table") {
@@ -386,6 +391,7 @@ GeneralFormPage.propTypes = {
     successAddHandler: PropTypes.func,
     discardDiff: PropTypes.array,
     forceDiff: PropTypes.array,
+    actionFirst: PropTypes.bool,
     noMutation: PropTypes.bool, // disable add, edit and delete
     canEdit: PropTypes.bool, // bypass noMutation
     canAdd: PropTypes.bool, // bypass noMutation
@@ -393,6 +399,7 @@ GeneralFormPage.propTypes = {
 }
 
 GeneralFormPage.defaultProps = {
+    actionFirst: false,
     noMutation: false,
     canEdit: false,
     canAdd: false,

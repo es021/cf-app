@@ -24,6 +24,8 @@ import GeneralFormPage from '../component/general-form';
 import { CareerFair } from '../../config/cf-config';
 import Restricted from './partial/static/restricted';
 import UserPopup from './partial/popup/user-popup';
+import { SessionsList } from './partial/activity/session';
+import { ResumeDrop } from './partial/activity/resume-drop';
 
 import { ScheduledInterview } from './partial/activity/scheduled-interview';
 
@@ -426,12 +428,6 @@ export default class ManageCompanyPage extends React.Component {
                 props: { company_id: this.company_id },
                 icon: "file-text"
             },
-            "scheduled-interview": {
-                label: "Scheduled Interview",
-                component: ScheduledInterview,
-                props: { company_id: this.company_id },
-                icon: "clock-o"
-            },
             "view": {
                 label: "View Company",
                 onClick: () => {
@@ -443,6 +439,33 @@ export default class ManageCompanyPage extends React.Component {
                 icon: "eye"
             }
         };
+
+        if (isRoleAdmin()) {
+            item["session"] = {
+                label: "Past Sessions",
+                component: SessionsList,
+                props: { company_id: this.company_id, student_id: this.student_id, isRec: true },
+                icon: "comments"
+            }
+            item["resume-drop"] = {
+                label: "Resume Drop",
+                component: ResumeDrop,
+                props: { company_id: this.company_id, student_id: this.student_id, isRec: true },
+                icon: "download"
+            }
+            item["pre-screen"] = {
+                label: "Pre-Screen",
+                component: ScheduledInterview,
+                props: { company_id: this.company_id, prescreen_only: true },
+                icon: "filter"
+            };
+            item["scheduled-interview"] = {
+                label: "Scheduled Interview",
+                component: ScheduledInterview,
+                props: { company_id: this.company_id },
+                icon: "clock-o"
+            }
+        }
 
         var title = item[this.sub_page].label;
         document.setTitle(title);
