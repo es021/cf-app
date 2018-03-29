@@ -55,6 +55,17 @@ export const SESSION_REQUEST_LIMIT = 5;
 export function invalidSessionRequest(company_id) {
     var session_requests = store.getState().hall.activity.session_requests;
 
+  
+    //check for is feedback exist
+    /*
+    var query = `mutation {user(${obj2arg(params, { noOuterBraces: true })}) {ID queue_num} }`;
+    return getAxiosGraphQLQuery(query).then((res) => {
+        return res.data.data.add_queue;
+    }, (err) => {
+        return err.response.data;
+    });
+    */
+
     var total_pending = 0;
     for (var i in session_requests) {
         var sr = session_requests[i];

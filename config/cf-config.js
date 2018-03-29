@@ -7,6 +7,8 @@ const CareerFair = {
         banner: "USA.jpg",
         start: "Apr 05 2018 08:00:00 GMT +0800 (+08)", // maalaysia time , est time.. -5
         end: "Apr 09 2018 08:00:00 GMT +0800 (+08)",
+        test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+        test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
         dates: ["5", "8", "9"], // for multiple seggregated dates
         can_register: 1,
         can_login: 1,
@@ -19,6 +21,8 @@ const CareerFair = {
         banner: "Japan.jpg",
         start: null,
         end: null,
+        test_start: null,
+        test_end: null,
         dates: null,
         can_register: 0,
         can_login: 0
@@ -30,6 +34,8 @@ const CareerFair = {
         banner_pos: "top center",
         start: null,
         end: null,
+        test_start: null,
+        test_end: null,
         dates: null,
         can_register: 0,
         can_login: 0
@@ -41,6 +47,8 @@ const CareerFair = {
         banner_pos: "top center",
         start: null,
         end: null,
+        test_start: null,
+        test_end: null,
         dates: null,
         can_register: 0,
         can_login: 0
@@ -79,16 +87,16 @@ const CareerFairOrg = {
             shortname: "ICMS",
             logo: ""
         }
-        /*, {
-            name: "Kelab UMNO Luar Negara Penn State",
-            shortname: "KULN",
-            logo: ""
-        }, {
-            name: "MASCO",
-            shortname: "MASCO",
-            logo: ""
-        }*/
-    ]
+            /*, {
+                name: "Kelab UMNO Luar Negara Penn State",
+                shortname: "KULN",
+                logo: ""
+            }, {
+                name: "MASCO",
+                shortname: "MASCO",
+                logo: ""
+            }*/
+        ]
     }
 };
 
