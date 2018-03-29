@@ -6,33 +6,34 @@ import { User, UserEnum } from '../../../config/db-config';
 import { CareerFair, CareerFairOrg } from '../../../config/cf-config';
 import { Time } from '../../lib/time';
 
-//const TEST_USER_ID = [136, 137];
 export function isComingSoon() {
     if (isTestUser()) {
         return false;
     }
 
-    var start = getCFObj.start;
+    var isComingSoon = true;
+    var cfObj = getCFObj();
 
-    if (start == null) {
-        return true;
-    }
-
-    var timestart = Time.convertDBTimeToUnix(start);
     var timenow = Time.getUnixTimestampNow();
 
-    // console.log("start time");
-    // console.log(timestart);
-    // console.log(Time.getString(timestart));
-    // console.log("time now")
-    // console.log(timenow);
-    // console.log(Time.getString(timenow));
-
-    if (timenow >= timestart) {
-        return false;
-    } else {
-        return true;
+    //check start time
+    if (cfObj.start != null) {
+        var timestart = Time.convertDBTimeToUnix(cfObj.start);
+        if (timenow >= timestart) {
+            isComingSoon = false;
+        }
     }
+
+    if (cfObj.test_start != null && cfObj.test_end != null) {
+        var timetest_start = Time.convertDBTimeToUnix(cfObj.test_start);
+        var timetest_end = Time.convertDBTimeToUnix(cfObj.test_end);
+
+        if (timenow >= timetest_start && timenow <= timetest_end) {
+            isComingSoon = false;
+        }
+    }
+
+    return isComingSoon;
 }
 
 // ############################################
