@@ -20,13 +20,20 @@ export const isNormalSI = function (type) {
     var ar = [
         PrescreenEnum.ST_INTV_REQUEST,
         PrescreenEnum.ST_FORUM,
-        PrescreenEnum.ST_RESUME_DROP
+        PrescreenEnum.ST_RESUME_DROP,
+        PrescreenEnum.ST_PROFILE
     ];
 
     return ar.indexOf(type) >= 0;
 }
 
 export function openSIAddForm(student_id, company_id, type, success) {
+
+    if (!(student_id && company_id)) {
+        layoutActions.errorBlockLoader("Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue");
+        return;
+    }
+
     var defaultFormItem = {};
     defaultFormItem[Prescreen.SPECIAL_TYPE] = type;
     defaultFormItem[Prescreen.STUDENT_ID] = student_id;
@@ -143,9 +150,10 @@ export class ScheduledInterview extends React.Component {
                 label: "Type",
                 name: Prescreen.SPECIAL_TYPE,
                 type: "select",
-                data: ["ALL", PrescreenEnum.ST_PRE_SCREEN
+                data: ["ALL"
                     , PrescreenEnum.ST_NEXT_ROUND
                     , PrescreenEnum.ST_FORUM
+                    , PrescreenEnum.ST_PROFILE
                     , PrescreenEnum.ST_INTV_REQUEST
                     , PrescreenEnum.ST_RESUME_DROP]
             });
@@ -165,7 +173,7 @@ export class ScheduledInterview extends React.Component {
         //##########################################
         //  loadData
         this.loadData = (page, offset) => {
-            var st = (this.props.prescreen_only) ? `special_type:"${PrescreenEnum.ST_PRE_SCREEN}",` : "";
+            var st = (this.props.prescreen_only) ? `special_type:"${PrescreenEnum.ST_PRE_SCREEN}",` : "not_prescreen:1";
             var query = `query{
                 prescreens(${this.searchParams} ${st}
                 company_id:${this.props.company_id},page:${page}, offset:${offset},order_by:"updated_at desc") {
@@ -336,6 +344,7 @@ export class ScheduledInterview extends React.Component {
                             data: ["", PrescreenEnum.ST_INTV_REQUEST
                                 , PrescreenEnum.ST_RESUME_DROP
                                 , PrescreenEnum.ST_NEXT_ROUND
+                                , PrescreenEnum.ST_PROFILE
                                 , PrescreenEnum.ST_FORUM
                                 , PrescreenEnum.ST_PRE_SCREEN]
                         }];

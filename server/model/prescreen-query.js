@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
 const { UserQuery } = require('./user-query.js');
-const { UserMeta, User } = require('../../config/db-config');
+const { UserMeta, User, PrescreenEnum } = require('../../config/db-config');
 
 
 class PrescreenQuery {
@@ -14,6 +14,9 @@ class PrescreenQuery {
 
         var status_where = (typeof params.status === "undefined") ? "1=1"
             : `status like '%${params.status}%'`;
+
+        var not_ps_where = (typeof params.not_prescreen === "undefined") ? "1=1"
+            : `special_type  != '${PrescreenEnum.ST_PRE_SCREEN}'`;
 
         var st_where = (typeof params.special_type === "undefined") ? "1=1"
             : `special_type = '${params.special_type}'`;
@@ -33,6 +36,7 @@ class PrescreenQuery {
         var sql = `from pre_screens where ${id_where} and ${student_where} 
             and ${status_where} and ${com_where} 
             and ${search_query} and ${st_where}
+            and ${not_ps_where}
             ${order_by}`;
 
         if (extra.count) {

@@ -53,9 +53,10 @@ export class SessionsList extends React.Component {
         //  search
         this.searchParams = "";
         this.search = {};
-        this.searchFormItem = [{ header: "Enter Your Search Query" }];
-
+        this.searchFormItem = null;
+        
         if (this.props.isRec) {
+            this.searchFormItem = [{ header: "Enter Your Search Query" }];
             this.searchFormItem.push({
                 label: "Find Student",
                 name: "search_student",
@@ -102,28 +103,30 @@ export class SessionsList extends React.Component {
             }
         };
 
-        // <th>Started At</th>
-        // <th>Ended At</th>
-
         this.tableHeader = <thead>
             <tr>
-                <th colSpan={2}>Action</th>
+                <th colSpan={(this.props.isRec) ? 2 : 1}>#</th>
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
                 {this.props.isRec ? <th>Hosted By</th> : null}
+                {this.props.isRec ? null : <th>Status</th>}
+                {this.props.isRec ? null : <th>Started At</th>}
+                {this.props.isRec ? null : <th>Ended At</th>}
             </tr>
         </thead>;
 
         this.renderRow = (d, i) => {
             var row = [];
 
-            row.push(<td>
-                <a id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
-                    <i className="fa fa-plus left"></i>
-                    <br></br>Add Next Round</a>
-            </td>);
-            
+            if (this.props.isRec) {
+                row.push(<td>
+                    <a id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
+                        <i className="fa fa-plus left"></i>
+                        <br></br>Add Next Round</a>
+                </td>);
+            }
+
             row.push(<td>
                 <NavLink to={`${RootPath}/app/session/${d.ID}`}>
                     <i className="fa fa-commenting left"></i>
@@ -139,7 +142,6 @@ export class SessionsList extends React.Component {
             row.push(<td>{other}</td>);
 
             // status
-            //row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
 
             if (this.props.isRec) {
                 var notes = d.session_notes.map((d, i) => d.note);
@@ -155,13 +157,15 @@ export class SessionsList extends React.Component {
                         <CustomList emptyMessage={null} items={ratings} className="normal"></CustomList>
                     </small>
                 </td>);
-
                 row.push(<td>{createUserTitle(d.recruiter)}</td>);
+            } else {
+                row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
+                row.push(<td>{Time.getString(d.started_at)}</td>);
+                row.push(<td>{Time.getString(d.ended_at)}</td>);
             }
 
+
             // other
-            //row.push(<td>{Time.getString(d.started_at)}</td>);
-            //row.push(<td>{Time.getString(d.ended_at)}</td>);
 
             return row;
         }
@@ -171,19 +175,13 @@ export class SessionsList extends React.Component {
                 ? `session_notes{note}
                     session_ratings{category rating}
                     student{ID first_name last_name user_email}
-                    recruiter{ID first_name last_name user_email}` : "company{ID name}";
+                    recruiter{ID first_name last_name user_email}`
+                : "company{ID name} started_at ended_at";
 
             return getAxiosGraphQLQuery(`query{
-                        sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}, order_by:"ID desc"){
-                        ID
-                host_id
-                    ${extra}
-                    status}}`);
-
-            //started_at
-            //ended_at
+                sessions(${ this.searchParams} ${this.entityQuery} page: ${page}, offset:${offset}, order_by:"ID desc"){
+                ID host_id ${extra} status}}`);
         };
-
 
         this.getDataFromRes = (res) => {
             return res.data.data.sessions;

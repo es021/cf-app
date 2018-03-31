@@ -21,13 +21,17 @@ class AuthAPI {
     // Helper
     isCFValid(user, cf) {
         var role = user.role;
-
+        
         if (role == UserEnum.ROLE_STUDENT || role == UserEnum.ROLE_ORGANIZER) {
             return (user[User.CF].indexOf(cf) >= 0);
         } else if (role == UserEnum.ROLE_RECRUITER) {
-            return (user.company.cf.indexOf(cf) >= 0);
+            if (user.company) {
+                return (user.company.cf.indexOf(cf) >= 0);
+            } else {
+                return false;
+            }
         } else {
-            return (role == UserEnum.ROLE_ADMIN 
+            return (role == UserEnum.ROLE_ADMIN
                 || role == UserEnum.ROLE_EDITOR
                 || role == UserEnum.ROLE_SUPPORT);
         }
@@ -38,7 +42,7 @@ class AuthAPI {
         return getAxiosGraphQLQuery(user_query).then((res) => {
             var pass = res.data.data.user.user_pass;
             pass = pass.replaceAll("/", "");
-            
+
             if (pass == password) {
                 success();
             } else {

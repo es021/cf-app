@@ -309,9 +309,10 @@ class ActvityList extends React.Component {
                         subtitle = `${Time.getAgo(d.created_at)}`;
 
                         if (d.status === SessionRequestEnum.STATUS_PENDING) {
-                            var pend = <div style={{ marginBottom: "10px" }}>
+                            /*var pend = <div style={{ marginBottom: "10px" }}>
                                 <label className={`label label-info`}>Pending</label>
-                            </div>;
+                            </div>;*/
+                            var pend = null;
 
                             if (isRoleRec()) {
                                 body = <div>

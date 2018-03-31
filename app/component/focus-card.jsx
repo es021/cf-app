@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {connect}from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as layoutActions from '../redux/actions/layout-actions';
-import {store} from '../redux/store';
-import {ButtonIcon} from './buttons';
+import { store } from '../redux/store';
+import { ButtonIcon } from './buttons';
 import PropTypes from 'prop-types';
 
 require("../css/focus-card.scss");
@@ -64,21 +64,21 @@ class FocusCard extends React.Component {
         // get previous btn
         var prev = this.props.focusCardPrevious;
         var prevBtn = (prev.length <= 0) ? null :
-                <div className={`${fc}previous-btn`}>
-                    <a 
-                        onClick={() => store.dispatch(layoutActions.previousFocusCard())} 
-                        size="18px" ><i className="fa fa-arrow-left left"></i>
-                        {prev[prev.length - 1].title}                    
-                    </a>
-                </div>;
+            <div className={`${fc}previous-btn`}>
+                <a
+                    onClick={() => store.dispatch(layoutActions.previousFocusCard())}
+                    size="18px" ><i className="fa fa-arrow-left left"></i>
+                    {prev[prev.length - 1].title}
+                </a>
+            </div>;
 
-        return(<div style={style} id="focus-card" className={focus.className}>
+        return (<div style={style} id="focus-card" className={focus.className}>
             <div className={`${fc}content`}>
                 <div className={`${fc}header${(prev.length > 0) ? " previous" : ""}`}>
                     {prevBtn}
                     <div className={`${fc}close-btn`}>
-                        <ButtonIcon 
-                            onClick={() => store.dispatch(layoutActions.hideFocusCard())} 
+                        <ButtonIcon
+                            onClick={() => store.dispatch(layoutActions.hideFocusCard())}
                             size="18px" icon="close"></ButtonIcon>
                     </div>
                     <div className={`${fc}title`}>
@@ -89,8 +89,8 @@ class FocusCard extends React.Component {
                     {component}
                 </div>
             </div>
-            <div onClick={() => store.dispatch(layoutActions.hideFocusCard())} 
-                 className={`${fc}background`}></div>
+            <div onClick={() => store.dispatch(layoutActions.hideFocusCard())}
+                className={`${fc}background`}></div>
         </div>);
     }
 }
@@ -103,5 +103,6 @@ FocusCard.propTypes = {
     show: PropTypes.bool,
     className: PropTypes.oneOf(["small"])
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(FocusCard);

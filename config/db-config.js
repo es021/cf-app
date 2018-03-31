@@ -155,6 +155,7 @@ const PrescreenEnum = {
     STATUS_DONE: "Done",
     ST_NEXT_ROUND: "Next Round", // from session
     ST_INTV_REQUEST: "Session Request",
+    ST_PROFILE: "Student Profile",
     ST_RESUME_DROP: "Resume Drop",
     ST_FORUM: "Forum",
     ST_PRE_SCREEN: "Pre Screen" // from prescreen

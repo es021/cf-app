@@ -80,7 +80,7 @@ export class SupportChat extends React.Component {
             v = <div onClick={this.toogle}
                 className="btn btn-success btn-lg">
                 <span>
-                    Got<br></br>Question<br></br>
+                    <span className="sc-open-text">Got<br></br>Question<br></br></span>
                     <i className="fa fa-question-circle fa-3x"></i>
                 </span>
             </div>;
