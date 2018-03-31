@@ -20,7 +20,7 @@ export function createCompanyTitle(d, search = "") {
     var name = d.name;
     var focusedName = name.focusSubstring(search);
     focusedName = <a onClick={() => {
-        layoutActions.storeUpdateFocusCard(name, CompanyPopup, { id: d.ID })
+        layoutActions.storeUpdateFocusCard(name, CompanyPopup, { id: d.ID, displayOnly: true })
     }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
 
     return <span>{focusedName}</span>;
@@ -105,7 +105,7 @@ class CompaniesPage extends React.Component {
             <NavLink to={`${RootPath}/app/manage-company/${d.ID}/about`}>Edit</NavLink>
         </td>);
 
-        
+
         // data from query
         var dismiss = ["type", "sponsor_only", "accept_prescreen"];
         var recs = null;

@@ -351,7 +351,8 @@ class UserExec {
                     };
 
                     if (role === UserEnum.ROLE_STUDENT) {
-                        par["status"] = [SessionRequestEnum.STATUS_PENDING, SessionRequestEnum.STATUS_REJECTED];
+                        //par["status"] = [SessionRequestEnum.STATUS_PENDING, SessionRequestEnum.STATUS_REJECTED];
+                        par["status"] = [SessionRequestEnum.STATUS_PENDING];
                         par["student_id"] = user_id;
                     }
                     if (role === UserEnum.ROLE_RECRUITER) {

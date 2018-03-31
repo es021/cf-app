@@ -353,12 +353,18 @@ export default class GeneralFormPage extends React.Component {
                 : this.getAddForm());
         }
 
+        console.log("this.props.searchFormItem ",this.props.searchFormItem );
+        console.log("this.props.searchFormItem ",this.props.searchFormItem );
+        console.log("this.props.searchFormItem ",this.props.searchFormItem );
+        console.log("this.props.searchFormItem ",this.props.searchFormItem );
+        console.log("this.props.searchFormItem ",this.props.searchFormItem );
+
         return (<div>
             {(this.props.dataTitle !== null) ? <h2>
                 {this.props.dataTitle}
             </h2> : null}
             {addForm}
-            {this.props.searchFormItem ?
+            {this.props.searchFormItem !== null ?
                 <h4>
                     <a onClick={this.searchPopup}>
                         <i className="fa fa-search left"></i>Filter Record</a>

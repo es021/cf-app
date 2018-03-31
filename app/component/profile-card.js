@@ -23,11 +23,15 @@ const pc = "pc-";
 
 // return in from {img_url, img_size, img_pos}
 export const getImageObj = function (obj) {
-    var r = {};
-    r.img_url = obj.img_url;
-    r.img_size = obj.img_size;
-    r.img_pos = (typeof obj.img_pos != "undefined") ? obj.img_pos : obj.img_position;
-    return r;
+    if (obj != null && typeof obj !== "undefined") {
+        var r = {};
+        r.img_url = obj.img_url;
+        r.img_size = obj.img_size;
+        r.img_pos = (typeof obj.img_pos != "undefined") ? obj.img_pos : obj.img_position;
+        return r;
+    } else {
+        return getDefaultProfileImg(PCType.STUDENT);
+    }
 }
 
 export const createImageElement = function (img_url, img_pos, img_size, img_dimension, className, type = PCType.STUDENT) {

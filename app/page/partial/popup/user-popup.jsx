@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
-import { DocLinkEnum, UserEnum, LogEnum } from '../../../../config/db-config';
+import { DocLinkEnum, UserEnum, LogEnum, PrescreenEnum } from '../../../../config/db-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
 import { CustomList, createIconLink } from '../../../component/list';
 import * as layoutActions from '../../../redux/actions/layout-actions';
+import { isRoleRec, getAuthUser } from '../../../redux/actions/auth-actions';
 import CompanyPopup from './company-popup';
 import { addLog } from '../../../redux/actions/other-actions';
-
+import { openSIAddForm } from '../activity/scheduled-interview';
 export function createUserMajorList(major) {
     var r = null;
 
@@ -39,6 +40,8 @@ export function createUserDocLinkList(doc_links, student_id, alignCenter = true,
 
     if (isIconOnly) {
         doc_links.map((d, i) => {
+            if (d == null) return;
+
             var style = DocLinkEnum.LABEL_STYLE[d.label];
             if (style && dl.length < 4) {
                 d.icon = style.icon;
@@ -50,10 +53,14 @@ export function createUserDocLinkList(doc_links, student_id, alignCenter = true,
 
     } else if (isSimple) {
         ret = doc_links.map((d, i) => {
+            if (d == null) return;
+
             return <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>;
         });
     } else {
         dl = doc_links.map((d, i) => {
+            if (d == null) return;
+
             var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
             return <span><i className={`fa left fa-${icon}`}></i>
                 <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
@@ -74,6 +81,8 @@ export function createUserDocLinkList(doc_links, student_id, alignCenter = true,
 export default class UserPopup extends Component {
     constructor(props) {
         super(props)
+
+        this.authUser = getAuthUser();
 
         this.state = {
             data: null,
@@ -266,21 +275,16 @@ export default class UserPopup extends Component {
         //about
         const basic = this.getBasicInfo(user);
 
-        //document and link
-        /*
-        var dl = user.doc_links.map((d, i) => {
-            var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
-            return <span><i className={`fa left fa-${icon}`}></i>
-                <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
-            </span>;
-        });
- 
-        const onClickDocLink = () => {
-            addLog(LogEnum.EVENT_CLICK_USER_DOC, this.id);
-        };
- 
-        const doc_link = <CustomList className="label" items={dl} onClick={onClickDocLink}></CustomList>;
-        */
+        //schedule interview
+        var si_btn = isRoleRec()
+            ? <div><br></br><a
+                className="btn btn-blue" onClick={() => {
+                    openSIAddForm(this.props.id, this.authUser.rec_company, PrescreenEnum.ST_PROFILE)
+                }}>
+                <i className="fa fa-comments left"></i>
+                Schedule For Session
+            </a></div>
+            : null;
 
         const doc_link = createUserDocLinkList(user.doc_links, this.id);
 
@@ -289,17 +293,11 @@ export default class UserPopup extends Component {
         const skills = <CustomList className="label" items={s}></CustomList>;
 
         var dl = null;
-        var pcBody = <div>
+        var pcBody = <div>{si_btn}
             <PageSection title="" body={basic}></PageSection>
-            {(user.role == UserEnum.ROLE_STUDENT) ?
-                <PageSection title="Document & Link" body={doc_link}></PageSection>
-                : null
-            }
-            {(user.role == UserEnum.ROLE_STUDENT) ?
-                <PageSection title="Skills" body={skills}></PageSection>
-                : null
-            }
-            {(user.role == UserEnum.ROLE_STUDENT && user.description != "" && user.description != null) ?
+            <PageSection title="Document & Link" body={doc_link}></PageSection>
+            <PageSection title="Skills" body={skills}></PageSection>
+            {(user.description != "" && user.description != null) ?
                 <PageSection title="About" body={<p>{user.description}</p>}></PageSection>
                 : null
             }
