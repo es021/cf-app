@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
 import GeneralFormPage from '../../../component/general-form';
 import * as layoutActions from '../../../redux/actions/layout-actions';
-import UserPopup from '../popup/user-popup';
+import UserPopup, { createUserDocLinkList } from '../popup/user-popup';
 import { SessionEnum, Prescreen, PrescreenEnum } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
 //importing for list
@@ -54,7 +54,7 @@ export class SessionsList extends React.Component {
         this.searchParams = "";
         this.search = {};
         this.searchFormItem = null;
-        
+
         if (this.props.isRec) {
             this.searchFormItem = [{ header: "Enter Your Search Query" }];
             this.searchFormItem.push({
@@ -105,7 +105,7 @@ export class SessionsList extends React.Component {
 
         this.tableHeader = <thead>
             <tr>
-                <th colSpan={(this.props.isRec) ? 2 : 1}>#</th>
+                <th>Action</th>
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
@@ -118,26 +118,26 @@ export class SessionsList extends React.Component {
 
         this.renderRow = (d, i) => {
             var row = [];
-
-            if (this.props.isRec) {
-                row.push(<td>
-                    <a id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
-                        <i className="fa fa-plus left"></i>
-                        <br></br>Add Next Round</a>
-                </td>);
-            }
-
             row.push(<td>
-                <NavLink to={`${RootPath}/app/session/${d.ID}`}>
+                {
+                    (this.props.isRec)
+                        ? <a className="btn btn-sm btn-block btn-default" id={d.student.ID} onClick={(ev) => { this.openNextRoundForm(ev.currentTarget.id) }}>
+                            <i className="fa fa-plus left"></i>Add Next Round</a>
+                        : null
+                }
+                <NavLink className="btn btn-sm btn-block btn-default" to={`${RootPath}/app/session/${d.ID}`}>
                     <i className="fa fa-commenting left"></i>
-                    <br></br>View Chat Log</NavLink>
+                    View Chat Log</NavLink>
             </td>);
 
             //row.push(<td><NavLink to={`${RootPath}/app/session/${d.ID}`}>Session {d.ID}</NavLink></td>);
 
             // entity
             var other = (this.props.isRec)
-                ? createUserTitle(d.student, this.search.search_student)
+                ? <span>
+                    {createUserTitle(d.student, this.search.search_student)}
+                    <br></br><small>{createUserDocLinkList(d.student.doc_links, d.student.ID, true, false, true)}</small>
+                </span>
                 : createCompanyTitle(d.company, "");
             row.push(<td>{other}</td>);
 
@@ -174,7 +174,7 @@ export class SessionsList extends React.Component {
             var extra = (this.props.isRec)
                 ? `session_notes{note}
                     session_ratings{category rating}
-                    student{ID first_name last_name user_email}
+                    student{ID first_name last_name user_email doc_links{url label} }
                     recruiter{ID first_name last_name user_email}`
                 : "company{ID name} started_at ended_at";
 
