@@ -124,7 +124,7 @@ class XLSApi {
     rowDocLinks(d) {
         var toRet = "";
         d.map((doc, i) => {
-            toRet += `<a href="${doc.url}">${doc.label}</a>\n`;
+            toRet += `<a href="${doc.url}">${doc.label}</a><br>`;
         });
         d = toRet;
         return d;
@@ -142,7 +142,7 @@ class XLSApi {
     }
 
     generateHeader(headers) {
-        var r = "";
+        var r = `<th>#</th>`;
         for (var i in headers) {
             r += `<th>${headers[i]}</th>`;
         }
@@ -154,15 +154,15 @@ class XLSApi {
             return Time.getString(d);
         }
 
-        if(k.indexOf("doc_links") >= 0){
+        if (k.indexOf("doc_links") >= 0) {
             return this.rowDocLinks(d);
         }
 
         return d;
     }
 
-    generateRow(data, rowHook) {
-        var r = "";
+    generateRow(rownum, data, rowHook) {
+        var r = `<td>${Number.parseInt(rownum) + 1}</td>`;
         for (var i in data) {
             var d = data[i];
             if (rowHook != null) {
@@ -199,7 +199,7 @@ class XLSApi {
                 headers = Object.keys(d);
             }
 
-            rows += this.generateRow(d, rowHook);
+            rows += this.generateRow(i, d, rowHook);
         }
 
         return `<table>${fileTitle} ${this.generateHeader(headers)} ${rows}</table>`;

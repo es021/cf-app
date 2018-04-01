@@ -20,7 +20,7 @@ for (var k in ActivityType) {
 function getEntitySelect(role, type) {
 
     var extra = "";
-    if (role === UserEnum.ROLE_RECRUITER && type == ActivityType.SESSION_REQUEST) {
+    if (role === UserEnum.ROLE_RECRUITER && (type == ActivityType.SESSION_REQUEST || type == ActivityType.PRESCREEN)) {
         extra = "doc_links {ID url label}";
     }
 

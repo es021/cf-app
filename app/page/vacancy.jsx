@@ -85,8 +85,7 @@ export default class VacancyPage extends React.Component {
                     <span><i className="fa fa-hashtag left"></i>Vacancy Id - {vacan.ID}</span>,
                     (vacan.type === "" || !vacan.type) ? null : <span><i className="fa fa-star left"></i>{vacan.type}</span>,
                     <span><i className="fa fa-building left"></i>
-                        {(!this.props.isPopup) ? <NavLink to={`${RootPath}/auth/company/${vacan.company.ID}`}>
-                            {vacan.company.name}</NavLink> : vacan.company.name}
+                        {vacan.company.name}
                     </span>,
                     (!vacan.application_url) ? null : <span><i className="fa fa-link left"></i>
                         <a target="_blank" href={vacan.application_url}>{vacan.application_url}</a></span>
@@ -94,7 +93,7 @@ export default class VacancyPage extends React.Component {
 
                 var share_url = `${SiteUrl}/auth/vacancy/${vacan.ID}`;
                 //var share_url = window.location.href;
-                console.log(share_url);
+                //console.log(share_url);
 
                 var about = <div>
                     <CustomList className="empty" items={items}></CustomList>
