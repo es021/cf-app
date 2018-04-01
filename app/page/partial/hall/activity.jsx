@@ -293,7 +293,7 @@ class ActvityList extends React.Component {
                         }
 
                         body = <div>
-                            {createUserDocLinkList(obj.doc_links, obj.ID, true, true)}
+                            {isRoleRec() ? createUserDocLinkList(obj.doc_links, obj.ID, true, true) : null}
                             <div style={{ marginBottom: "7px" }}>
                                 <label className={`label label-${label_color}`}>
                                     {ps_type}
