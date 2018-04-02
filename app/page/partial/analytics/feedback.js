@@ -6,7 +6,26 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { UserEnum, FeedbackQs } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
 import { getAuthUser } from '../../../redux/actions/auth-actions';
+import { storeHideFocusCard, storeHideBlockLoader } from '../../../redux/actions/layout-actions';
 import Form, { toggleSubmit, checkDiff } from '../../../component/form';
+
+export function getFeedbackPopupView(isDropResume = true) {
+
+    const onClick = () => {
+        storeHideFocusCard();
+        storeHideBlockLoader();
+    }
+
+    return <div>
+        Your feedback is very valuable to us.
+        <br></br>Please answer a short feedback questions
+        {isDropResume ? " to drop more resume." : " to request more session with company."}
+        <br></br><br></br>
+        <NavLink onClick={onClick}
+            className="btn btn-blue"
+            to={`${RootPath}/app/feedback/student`}>Open Feedback Form</NavLink>
+    </div>;
+}
 
 export class FeedbackForm extends React.Component {
     constructor(props) {

@@ -13,20 +13,27 @@ import GeneralFormPage from '../../../component/general-form';
 import { createUserTitle } from '../../users';
 import { emitHallActivity } from '../../../socket/socket-client';
 import Tooltip from '../../../component/tooltip';
-import { createUserDocLinkList, createUserMajor } from '../popup/user-popup';
+import { createUserDocLinkList, createUserMajorList } from '../popup/user-popup';
 
 // Normal SI is limited to today for appmnt time
 export const isNormalSI = function (type) {
     var ar = [
         PrescreenEnum.ST_INTV_REQUEST,
         PrescreenEnum.ST_FORUM,
-        PrescreenEnum.ST_RESUME_DROP
+        PrescreenEnum.ST_RESUME_DROP,
+        PrescreenEnum.ST_PROFILE
     ];
 
     return ar.indexOf(type) >= 0;
 }
 
 export function openSIAddForm(student_id, company_id, type, success) {
+
+    if (!(student_id && company_id)) {
+        layoutActions.errorBlockLoader("Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue");
+        return;
+    }
+
     var defaultFormItem = {};
     defaultFormItem[Prescreen.SPECIAL_TYPE] = type;
     defaultFormItem[Prescreen.STUDENT_ID] = student_id;
@@ -57,10 +64,10 @@ export class ScheduledInterview extends React.Component {
 
     componentWillMount() {
         this.dataTitle = (this.props.prescreen_only)
-            ? <span>Pre-Screen<br></br><small>Click edit to set appointment time</small></span>
+            ? <span>Pre-Screen<br></br><small>Click edit to set appointment time.</small></span>
             : <span>Scheduled Session
             <Tooltip
-                    left="-62px"    
+                    left="-62px"
                     bottom="28px"
                     width="150px"
                     content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
@@ -94,30 +101,30 @@ export class ScheduledInterview extends React.Component {
         this.renderRow = (d) => {
             return [
                 <td>{d.ID}</td>
-                , <td>{createUserTitle(d.student, this.search.student)}</td>
-                , <td>{createUserDocLinkList(d.student.doc_links, d.student.ID, true, false, true)}</td>
-                , <td>{createUserMajor(d.student.major)}</td>
-                , <td>{createUserMajor(d.student.minor)}</td>
+                , <td>{createUserTitle(d.student, this.search.student)}
+                    <br></br><small>{createUserDocLinkList(d.student.doc_links, d.student.ID, true, false, true)}</small>
+                </td>
+                , <td>{createUserMajorList(d.student.major)}</td>
+                , <td>{createUserMajorList(d.student.minor)}</td>
                 , <td>{d.student.university}</td>
-                , <td>{d.special_type}</td>
                 , <td>{d.status}</td>
                 , <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>
+                , <td>{d.special_type}</td>
                 , <td>{Time.getString(d.updated_at)}</td>
             ];
         };
 
         this.tableHeader = <thead>
             <tr>
-                <th>#</th>
+                <td>#</td>
                 <th>ID</th>
                 <th>Student</th>
-                <th>Docs & Links</th>
                 <th>Major</th>
                 <th>Minor</th>
                 <th>University</th>
-                <th>Type</th>
                 <th>Status</th>
                 <th>Appointment Time</th>
+                <th>Type</th>
                 <th>Last Updated</th>
             </tr>
         </thead>;
@@ -143,9 +150,10 @@ export class ScheduledInterview extends React.Component {
                 label: "Type",
                 name: Prescreen.SPECIAL_TYPE,
                 type: "select",
-                data: ["ALL", PrescreenEnum.ST_PRE_SCREEN
+                data: ["ALL"
                     , PrescreenEnum.ST_NEXT_ROUND
                     , PrescreenEnum.ST_FORUM
+                    , PrescreenEnum.ST_PROFILE
                     , PrescreenEnum.ST_INTV_REQUEST
                     , PrescreenEnum.ST_RESUME_DROP]
             });
@@ -165,12 +173,9 @@ export class ScheduledInterview extends React.Component {
         //##########################################
         //  loadData
         this.loadData = (page, offset) => {
-            var special_type = (this.props.prescreen_only)
-                ? `special_type:"${PrescreenEnum.ST_PRE_SCREEN}", `
-                : "";
-
+            var st = (this.props.prescreen_only) ? `special_type:"${PrescreenEnum.ST_PRE_SCREEN}",` : "not_prescreen:1";
             var query = `query{
-                prescreens(${this.searchParams} ${special_type}
+                prescreens(${this.searchParams} ${st}
                 company_id:${this.props.company_id},page:${page}, offset:${offset},order_by:"updated_at desc") {
                   ID
                   status
@@ -178,9 +183,8 @@ export class ScheduledInterview extends React.Component {
                   appointment_time
                   updated_at
                   student{
-                    ID
-                    first_name last_name user_email university
-                    major minor doc_links{url label}
+                    ID university major minor doc_links{url label}
+                    first_name last_name user_email
                   }
                 }
               }`;
@@ -208,6 +212,12 @@ export class ScheduledInterview extends React.Component {
 
         // hook before submit
         this.formWillSubmit = (d, edit) => {
+
+            if (d.status == PrescreenEnum.STATUS_PENDING) {
+                if (d[Prescreen.APPNMENT_TIME + "_DATE"] || d[Prescreen.APPNMENT_TIME + "_TIME"]) {
+                    return "For status Pending, appointment date and time must be blank. To set appointment time, set status to Approved";
+                }
+            }
 
             // if approved time cannot be null
             if (d.status == PrescreenEnum.STATUS_APPROVED) {
@@ -258,7 +268,7 @@ export class ScheduledInterview extends React.Component {
 
         // date time need to be forced diff
         this.forceDiff = [Prescreen.APPNMENT_TIME + "_DATE"
-            , Prescreen.APPNMENT_TIME + "_TIME", Prescreen.SPECIAL_TYPE
+            , Prescreen.APPNMENT_TIME + "_TIME", Prescreen.SPECIAL_TYPE, Prescreen.STATUS
         ];
 
         this.getEditFormDefault = (ID) => {
@@ -290,41 +300,37 @@ export class ScheduledInterview extends React.Component {
         // create form add new default
         this.getFormItemAsync = (edit) => {
             var singleStudent = this.props.formOnly;
+            var studentId = this.props.defaultFormItem[Prescreen.STUDENT_ID];
+            var query = "";
+            if (typeof studentId !== "undefined") {
+                query = `query{user(ID:${this.props.defaultFormItem[Prescreen.STUDENT_ID]})
+                    {ID
+                    first_name
+                    last_name}}`;
+            } else {
+                // this not really needed
+                query = `query{prescreen(ID:1){ID}}`;
+            }
 
+            /*
             var query = (!singleStudent)
                 ? // need  list of student for new
-                `query{
-                    sessions(distinct:"${Session.P_ID}", company_id:${this.props.company_id}){
-                    student{
-                        ID
-                        first_name
-                        last_name
-                        }
-                    }
-                }`
+                
                 :// for student only
                 `query{user(ID:${this.props.defaultFormItem[Prescreen.STUDENT_ID]})
                     {ID
                     first_name
                     last_name}}`;
+            */
 
             return getAxiosGraphQLQuery(query)
                 .then((res) => {
-
                     var isNormal = isNormalSI(this.props.defaultFormItem[Prescreen.SPECIAL_TYPE]);
-
                     var studentData = [];
                     if (singleStudent) {
                         var user = res.data.data.user;
                         studentData = [{ key: user.ID, label: user.first_name + " " + user.last_name }];
-                    } else {
-                        var session = res.data.data.sessions;
-                        studentData = session.map((ses, i) => {
-                            var d = ses.student;
-                            return { key: d.ID, label: d.first_name + " " + d.last_name };
-                        });
                     }
-
 
                     var ret = [
                         { header: "Scheduled Session Form" },
@@ -338,12 +344,13 @@ export class ScheduledInterview extends React.Component {
                             data: ["", PrescreenEnum.ST_INTV_REQUEST
                                 , PrescreenEnum.ST_RESUME_DROP
                                 , PrescreenEnum.ST_NEXT_ROUND
+                                , PrescreenEnum.ST_PROFILE
                                 , PrescreenEnum.ST_FORUM
                                 , PrescreenEnum.ST_PRE_SCREEN]
                         }];
 
                     //for create only
-                    if (!edit) {
+                    if (!edit && singleStudent) {
                         ret.push(...[{
                             label: "Student",
                             sublabel: "Only showing students that already had session with the company",
@@ -392,6 +399,9 @@ export class ScheduledInterview extends React.Component {
     render() {
         return <GeneralFormPage
             dataTitle={this.dataTitle}
+            noMutation={true}
+            actionFirst={true}
+            canEdit={true}
             entity="prescreen"
             actionFirst={true}
             entity_singular="Scheduled Session"
@@ -425,6 +435,7 @@ ScheduledInterview.PropTypes = {
 };
 
 ScheduledInterview.defaultProps = {
+    prescreen_only: false,
     successAddHandlerExternal: false,
     prescreen_only: false,
     formOnly: false,

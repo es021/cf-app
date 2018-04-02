@@ -65,18 +65,23 @@ Time.prototype.convertDBTimeToUnix = function (db_time) {
 
 
     function getUnixFromOffsetHour(unix, offset) {
+        
+        try {
+            if (offset.indexOf("+") >= 0) {
+                var hour = offset.replace("+", "");
+                hour = Number.parseInt(hour);
+                return unix - (hour * 60 * 60);
+            }
 
-        if (offset.indexOf("+") >= 0) {
-            var hour = offset.replace("+", "");
-            hour = Number.parseInt(hour);
-            return unix - (hour * 60 * 60);
-        }
+            if (offset.indexOf("-") >= 0) {
+                var hour = offset.replace("-", "");
+                hour = Number.parseInt(hour);
+                return unix + (hour * 60 * 60);
+            }
 
-        if (offset.indexOf("-") >= 0) {
-            var hour = offset.replace("-", "");
-            hour = Number.parseInt(hour);
-            return unix + (hour * 60 * 60);
-        }
+        } catch (err) { }
+
+        return unix;
     }
 
     function dbToTimeUnix(strDate) {

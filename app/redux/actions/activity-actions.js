@@ -51,20 +51,21 @@ export function startQueue(student_id, company_id) {
 }
 
 //** Session Request ***************************************************/
-export const SESSION_REQUEST_LIMIT = 5;
+export function pendingSessionRequestCount(company_id) {
+    var srs = store.getState().hall.activity.session_requests;
+    var total_pending = 0;
+    for (var i in srs) {
+        if (srs[i].status === SessionRequestEnum.STATUS_PENDING) {
+            total_pending++;
+        }
+    }
+
+    return total_pending;
+}
+
+export const SR_LIMIT = 5;
 export function invalidSessionRequest(company_id) {
     var session_requests = store.getState().hall.activity.session_requests;
-
-  
-    //check for is feedback exist
-    /*
-    var query = `mutation {user(${obj2arg(params, { noOuterBraces: true })}) {ID queue_num} }`;
-    return getAxiosGraphQLQuery(query).then((res) => {
-        return res.data.data.add_queue;
-    }, (err) => {
-        return err.response.data;
-    });
-    */
 
     var total_pending = 0;
     for (var i in session_requests) {
@@ -78,7 +79,7 @@ export function invalidSessionRequest(company_id) {
         }
     }
 
-    if (total_pending >= SESSION_REQUEST_LIMIT) {
+    if (total_pending >= SR_LIMIT) {
         return `You already have reached ${SESSION_REQUEST_LIMIT} pending interview request limit. Please cancel current request and try again.`;
     }
 

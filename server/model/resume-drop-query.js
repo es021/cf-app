@@ -47,7 +47,7 @@ class ResumeDropExec {
             var ttl_resume = res[0].ttl_resume;
             var feedback = res[0].feedback;
             var err = null;
-            if(ttl_resume >= RD_LIMIT && (feedback == null || feedback == "")){
+            if (ttl_resume >= RD_LIMIT && (feedback == null || feedback == "")) {
                 err = RD_LIMIT;
             }
             return err;
@@ -75,10 +75,11 @@ class ResumeDropExec {
                 if (typeof field["doc_links"] !== "undefined") {
                     if (res[i]["doc_links"] !== "" && res[i]["doc_links"] !== null) {
                         var doc_links = JSON.parse(res[i]["doc_links"]);
+                        res[i]["doc_links"] =  doc_links.map((d, i) => {
+                            return DocLinkExec.doc_links({ ID: d }, field["doc_links"], { single: true });
+                            
+                        });
 
-                        res[i]["doc_links"] = doc_links.map((d, i) =>
-                            DocLinkExec.doc_links({ ID: d }, field["doc_links"], { single: true })
-                        );
                     } else {
                         res[i]["doc_links"] = [];
                     }

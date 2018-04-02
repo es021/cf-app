@@ -21,6 +21,8 @@ import ResumeDropPopup from './resume-drop-popup';
 
 import { addLog } from '../../../redux/actions/other-actions';
 
+import { getFeedbackPopupView } from '../analytics/feedback';
+
 class VacancyList extends React.Component {
     constructor(props) {
         super(props);
@@ -77,9 +79,12 @@ export default class CompanyPopup extends Component {
         super(props)
         this.state = {
             data: null,
-            loading: true,
+            loading: true
         }
+
+        this.authUser = getAuthUser();
         this.isRec = getAuthUser().rec_company == this.props.id || isRoleAdmin();
+        this.FEEDBACK_LIMIT_SR = 3;
 
         this.getRecs = this.getRecs.bind(this);
         this.startQueue = this.startQueue.bind(this);
@@ -131,37 +136,51 @@ export default class CompanyPopup extends Component {
             }}`;
 
         getAxiosGraphQLQuery(query).then((res) => {
-            this.setState(() => {
+            this.setState((prevState) => {
                 return { data: res.data.data.company, loading: false }
             })
         });
     }
 
     addSessionRequest() {
-        var stu_id = getAuthUser().ID;
+        var stu_id = this.authUser.ID;
         var com_id = this.props.id;
 
-        var invalid = activityActions.invalidSessionRequest(com_id);
-        if (invalid !== false) {
-            layoutActions.errorBlockLoader(invalid);
-            return false;
-        }
+        // check for feedback
+        var query = `query { user (ID: ${stu_id}) { feedback } } `;
+        getAxiosGraphQLQuery(query).then((res) => {
+            var feedback = res.data.data.user.feedback;
+            var ttl_pending = activityActions.pendingSessionRequestCount(com_id);
 
-        layoutActions.loadingBlockLoader("Adding Request");
+            // if no feedback open popup
+            if (ttl_pending >= this.FEEDBACK_LIMIT_SR && (feedback == null || feedback == "")) {
+                //layoutActions.storeUpdate("Feedback", getFeedbackPopupView());
+                layoutActions.errorBlockLoader( getFeedbackPopupView(false));
 
-        activityActions.addSessionRequest(stu_id, com_id).then((res) => {
-            var mes = <div>
-                Successfully send interview request to
+            }
+            else {
+                var invalid = activityActions.invalidSessionRequest(com_id);
+                if (invalid !== false) {
+                    layoutActions.errorBlockLoader(invalid);
+                    return false;
+                }
+
+                layoutActions.loadingBlockLoader("Adding Request");
+
+                activityActions.addSessionRequest(stu_id, com_id).then((res) => {
+                    var mes = <div>
+                        Successfully send interview request to
                 <br></br><b>{this.state.data.name}</b>
-                <br></br>The request status will be shown under Interview Request
-            </div>;
+                        <br></br>The request status will be shown under Interview Request</div>;
 
-            emitHallActivity(hallAction.ActivityType.SESSION_REQUEST, null, com_id);
+                    emitHallActivity(hallAction.ActivityType.SESSION_REQUEST, null, com_id);
 
-            layoutActions.successBlockLoader(mes);
-            hallAction.storeLoadActivity([hallAction.ActivityType.SESSION_REQUEST]);
-        }, (err) => {
-            layoutActions.errorBlockLoader(err);
+                    layoutActions.successBlockLoader(mes);
+                    hallAction.storeLoadActivity([hallAction.ActivityType.SESSION_REQUEST]);
+                }, (err) => {
+                    layoutActions.errorBlockLoader(err);
+                });
+            }
         });
     }
 
@@ -297,7 +316,7 @@ export default class CompanyPopup extends Component {
 
             var action = (!isRoleStudent() || this.props.displayOnly) ? null :
                 <div>
-                    <h2 style={{marginTop:"0"}}>
+                    <h2 style={{ marginTop: "0" }}>
                         <small>Check These Out!</small>
                     </h2>
                     {createIconLink("lg", actData, true)}
