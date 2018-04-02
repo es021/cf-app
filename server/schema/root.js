@@ -442,6 +442,7 @@ fields["prescreens"] = {
         special_type: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
+        not_prescreen: { type: GraphQLInt },
         order_by: { type: GraphQLString },
 
         //search query

@@ -13,6 +13,8 @@ import obj2arg from 'graphql-obj2arg';
 import { Time } from '../lib/time';
 import { hasResume } from '../component/doc-link-form';
 
+import { getFeedbackPopupView } from './partial/analytics/feedback';
+
 export default class ResumeDropPage extends React.Component {
 
     constructor(props) {
@@ -190,14 +192,7 @@ export default class ResumeDropPage extends React.Component {
 
             // has limit need to fill feedback
             if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
-                v = <div>
-                    Your feedback is very valuable to us.
-                    <br></br>Please answer a short feedback to drop more resume.
-                    <br></br><br></br>
-                    <NavLink onClick={storeHideFocusCard}
-                        className="btn btn-primary"
-                        to={`${RootPath}/app/feedback/student`}>Open Feedback Form</NavLink>
-                </div>;
+                v = getFeedbackPopupView();
             }
             // dont have document
             else if (no_doc_link) {
@@ -213,7 +208,10 @@ export default class ResumeDropPage extends React.Component {
 
                 // already submitted, create for default values
                 if (this.isEdit) {
-                    this.defaultValues[ResumeDrop.DOC_LINKS] = this.state.data.resume_drop.doc_links.map((d, i) => d.ID);
+                    this.defaultValues[ResumeDrop.DOC_LINKS] = this.state.data.resume_drop.doc_links.map((d, i) => {
+                        if (d == null) return;
+                        return d.ID
+                    });
                     this.defaultValues[ResumeDrop.MESSAGE] = this.state.data.resume_drop.message;
 
                     existed = <i className="text-success">
@@ -224,6 +222,8 @@ export default class ResumeDropPage extends React.Component {
 
                 // create document checbox
                 var docs = this.state.data.doc_links.map((d, i) => {
+                    if (d == null) return;
+
                     return { key: d.ID, label: <a href={d.url} target="_blank">{d.label}</a> };
                 });
                 if (this.formItems[0].data === null) {

@@ -33,9 +33,10 @@ export class ResumeDrop extends React.Component {
         //  search
         this.searchParams = "";
         this.search = {};
-        this.searchFormItem = [];
+        this.searchFormItem = null;
 
         if (this.props.isRec) {
+            this.searchFormItem = [];
             this.searchFormItem.push({ header: "Enter Your Search Query" });
             this.searchFormItem.push({
                 label: "Find Student",
@@ -43,13 +44,6 @@ export class ResumeDrop extends React.Component {
                 type: "text",
                 placeholder: "Type student name or email"
             });
-        } else {
-            // this.searchFormItem.push({
-            //     label: "Find Company",
-            //     name: "search_company",
-            //     type: "text",
-            //     placeholder: "Type student name or email"
-            // });
         }
 
         this.searchFormOnSubmit = (d) => {
@@ -57,7 +51,7 @@ export class ResumeDrop extends React.Component {
             this.searchParams = "";
             if (d != null) {
                 this.searchParams += (d.search_student != "") ? `search_student:"${d.search_student}",` : "";
-                //this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
+                this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
             }
         };
 
@@ -67,24 +61,21 @@ export class ResumeDrop extends React.Component {
                 ? createUserTitle(d.student, this.search.search_student)
                 : createCompanyTitle(d.company, "");
 
-
-            // var addSI = <a id={d.student.ID} onClick={(ev) => { this.openSIForm(ev.currentTarget.id) }}>
-            //     <i className="fa fa-plus left"></i>
-            //     Schedule For Interview</a>;
-
             var message = (d.message)
                 ? <p style={{ borderTop: "solid 1px darkgrey" }}>
                     <small>{d.message}</small>
                 </p >
                 : null;
-                
+
             var details = <div>
-                {createUserDocLinkList(d.doc_links, d.student.ID, false)}
+                {createUserDocLinkList(d.doc_links, this.props.student_id, false)}
                 <small> <i>submitted on {Time.getString(d.created_at)} </i> <br></br></small>
                 {message}
-            </div>;
+            </div>
 
             var imgObj = (this.props.isRec) ? getImageObj(d.student) : getImageObj(d.company);
+
+
 
             var item =
                 <ProfileListWide title={title}
@@ -93,9 +84,9 @@ export class ResumeDrop extends React.Component {
                     img_size={imgObj.img_size}
                     img_dimension={"80px"}
                     body={details}
-                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Interview</small>}
+                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Session</small>}
                     action_handler={() => { this.openSIForm(d.student.ID) }}
-                    action_disabled={false}
+                    action_disabled={(!this.props.isRec)}
                     type={(this.props.isRec ? "student" : "company")} key={i}>
                 </ProfileListWide>;
 
@@ -112,12 +103,12 @@ export class ResumeDrop extends React.Component {
                 : `company{ID name img_url img_position img_size}`;
 
             var query = `query{
-                    resume_drops(${ this.searchParams} ${entityQuery} page: ${page}, offset:${offset}, order_by:"created_at desc"){
+                        resume_drops(${ this.searchParams} ${entityQuery} page: ${page}, offset:${offset}, order_by:"created_at desc"){
                         ID
                         doc_links {
-                            type
+                        type
                             label
-                            url
+                    url
                         }
                         message
                         created_at

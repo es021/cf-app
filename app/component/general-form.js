@@ -300,21 +300,23 @@ export default class GeneralFormPage extends React.Component {
         var view = null;
         const renderList = (d, i) => {
 
-            var addAction = (row) => {
-                var editLink = <a id={d.ID}
-                    onClick={this.editPopup.bind(this)}>Edit</a>;
-                var deleteLink = <a id={d.ID}
-                    onClick={this.deletePopup.bind(this)}>Delete</a>;
+            var editAct = <a id={d.ID} onClick={this.editPopup.bind(this)}>Edit</a>;
+            var delAct = <a id={d.ID} onClick={this.deletePopup.bind(this)}>Delete</a>;
 
-                if (!this.props.noMutation) {
-                    row.push(<td className="text-right">
-                        {editLink}{" | "}{deleteLink}
-                    </td>);
-                } else if (this.props.canEdit) {
-                    row.push(<td className="text-right">{editLink}</td>);
-                }
+            var action = null;
+            var row = [];
+            if (!this.props.noMutation) {
+                action = <td className="text-right">{editAct}{" | "}{delAct}</td>;
+            } else if (this.props.canEdit) {
+                action = <td className="text-right">{editAct}</td>;
+            }
 
-                return row;
+            if (this.props.actionFirst) {
+                row.push(action);
+                row.push(this.props.renderRow(d));
+            } else {
+                row.push(this.props.renderRow(d));
+                row.push(action);
             }
 
             var row = [];
@@ -361,12 +363,18 @@ export default class GeneralFormPage extends React.Component {
                 : this.getAddForm());
         }
 
+        console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        console.log("this.props.searchFormItem ", this.props.searchFormItem);
+
         return (<div>
             {(this.props.dataTitle !== null) ? <h2>
                 {this.props.dataTitle}
             </h2> : null}
             {addForm}
-            {this.props.searchFormItem ?
+            {this.props.searchFormItem != null ?
                 <h4>
                     <a onClick={this.searchPopup}>
                         <i className="fa fa-search left"></i>Filter Record</a>
@@ -399,7 +407,7 @@ GeneralFormPage.propTypes = {
     successAddHandler: PropTypes.func,
     discardDiff: PropTypes.array,
     forceDiff: PropTypes.array,
-    actionFirst: PropTypes.bool, // action show first
+    actionFirst: PropTypes.bool,
     noMutation: PropTypes.bool, // disable add, edit and delete
     canEdit: PropTypes.bool, // bypass noMutation
     canAdd: PropTypes.bool, // bypass noMutation
@@ -407,6 +415,7 @@ GeneralFormPage.propTypes = {
 }
 
 GeneralFormPage.defaultProps = {
+    searchFormItem: null,
     actionFirst: false,
     noMutation: false,
     canEdit: false,

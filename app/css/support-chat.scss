@@ -31,5 +31,18 @@
         display: flex;
         flex-flow: column;
         justify-content: center;
+        align-items: center;
+    }
+}
+
+@media only screen and (max-width: $LAYOUT_SM) {
+    #support-chat.sc-open {
+        .sc-open-text{
+            display: none;
+        }
+        .btn.btn-success {
+            height: 50px;
+            width: 50px;
+        }
     }
 }
