@@ -46,6 +46,12 @@ export default class ActivityPage extends React.Component {
                 props: { company_id: this.company_id },
                 icon: "clock-o"
             };
+            item["prescreen"] = {
+                label: "Pre-Screen",
+                component: ScheduledInterview,
+                props: { company_id: this.company_id, prescreen_only: true },
+                icon: "clock-o"
+            };
         }
 
         var title = item[this.sub_page].label;

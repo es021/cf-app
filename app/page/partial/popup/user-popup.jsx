@@ -10,19 +10,29 @@ import * as layoutActions from '../../../redux/actions/layout-actions';
 import CompanyPopup from './company-popup';
 import { addLog } from '../../../redux/actions/other-actions';
 
+export function createUserMajor(major) {
+    var v = null;
+    try {
+        var m = JSON.parse(major);
+        v = "";
+        m.map((d, i) => {
+            v += (i == 0) ? "" : ", ";
+            v += d;
+        });
+    } catch (err) {}
+    return v;
+}
 // isIconOnly will only consider label with label style set in DocLinkEnum
-export function createUserDocLinkList(doc_links, student_id, alignCenter = true, isIconOnly = false) {
+export function createUserDocLinkList(doc_links, student_id, alignCenter = true, isIconOnly = false, isSimple = false) {
     //document and link
     var dl = [];
+    var doc_link = null;
 
-    if (!isIconOnly) {
-        dl = doc_links.map((d, i) => {
-            var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
-            return <span><i className={`fa left fa-${icon}`}></i>
-                <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
-            </span>;
-        });
-    } else {
+    const onClickDocLink = () => {
+        addLog(LogEnum.EVENT_CLICK_USER_DOC, student_id);
+    };
+
+    if (isIconOnly) {
         doc_links.map((d, i) => {
             var style = DocLinkEnum.LABEL_STYLE[d.label];
             if (style && dl.length < 4) {
@@ -31,20 +41,30 @@ export function createUserDocLinkList(doc_links, student_id, alignCenter = true,
                 dl.push(d);
             }
         });
-    }
 
-    const onClickDocLink = () => {
-        addLog(LogEnum.EVENT_CLICK_USER_DOC, student_id);
-    };
+        doc_link = createIconLink("sm", dl, alignCenter, onClickDocLink, "No Document Or Links Uploaded");
 
-
-    const doc_link = (!isIconOnly)
-        ? <CustomList className={"label"}
+    } else if (isSimple) {
+        doc_link = doc_links.map((d, i) => {
+            return <span>
+                <a target="blank" href={d.url}>{d.label}</a>{" "}
+            </span>;
+        });
+    } else {
+        dl = doc_links.map((d, i) => {
+            var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+            return <span><i className={`fa left fa-${icon}`}></i>
+                <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+            </span>;
+        });
+        doc_link = <CustomList className={"label"}
             emptyMessage={"No Document Or Links Uploaded"}
             alignCenter={alignCenter} items={dl}
             onClick={onClickDocLink}>
-        </CustomList>
-        : createIconLink("sm", dl, alignCenter, onClickDocLink, "No Document Or Links Uploaded");
+        </CustomList>;
+    }
+
+
     return doc_link;
 }
 

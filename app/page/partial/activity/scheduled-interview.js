@@ -13,6 +13,7 @@ import GeneralFormPage from '../../../component/general-form';
 import { createUserTitle } from '../../users';
 import { emitHallActivity } from '../../../socket/socket-client';
 import Tooltip from '../../../component/tooltip';
+import { createUserDocLinkList, createUserMajor } from '../popup/user-popup';
 
 // Normal SI is limited to today for appmnt time
 export const isNormalSI = function (type) {
@@ -55,15 +56,17 @@ export class ScheduledInterview extends React.Component {
     }
 
     componentWillMount() {
-        this.dataTitle = <span>Scheduled Session
+        this.dataTitle = (this.props.prescreen_only)
+            ? <span>Pre-Screen<br></br><small>Click edit to set appointment time</small></span>
+            : <span>Scheduled Session
             <Tooltip
-                left="-62px"
-                bottom="28px"
-                width="150px"
-                content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
-                tooltip={"Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"}>
-            </Tooltip>
-        </span>;
+                    left="-62px"    
+                    bottom="28px"
+                    width="150px"
+                    content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
+                    tooltip={"Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"}>
+                </Tooltip>
+            </span>;
 
         this.successAddHandler = (d) => {
             if (this.props.formOnly) {
@@ -92,6 +95,10 @@ export class ScheduledInterview extends React.Component {
             return [
                 <td>{d.ID}</td>
                 , <td>{createUserTitle(d.student, this.search.student)}</td>
+                , <td>{createUserDocLinkList(d.student.doc_links, d.student.ID, true, false, true)}</td>
+                , <td>{createUserMajor(d.student.major)}</td>
+                , <td>{createUserMajor(d.student.minor)}</td>
+                , <td>{d.student.university}</td>
                 , <td>{d.special_type}</td>
                 , <td>{d.status}</td>
                 , <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>
@@ -101,8 +108,13 @@ export class ScheduledInterview extends React.Component {
 
         this.tableHeader = <thead>
             <tr>
+                <th>#</th>
                 <th>ID</th>
                 <th>Student</th>
+                <th>Docs & Links</th>
+                <th>Major</th>
+                <th>Minor</th>
+                <th>University</th>
                 <th>Type</th>
                 <th>Status</th>
                 <th>Appointment Time</th>
@@ -124,16 +136,20 @@ export class ScheduledInterview extends React.Component {
             name: Prescreen.STATUS,
             type: "select",
             data: ["ALL", PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
-        }, {
-            label: "Type",
-            name: Prescreen.SPECIAL_TYPE,
-            type: "select",
-            data: ["ALL", PrescreenEnum.ST_PRE_SCREEN
-                , PrescreenEnum.ST_NEXT_ROUND
-                , PrescreenEnum.ST_FORUM
-                , PrescreenEnum.ST_INTV_REQUEST
-                , PrescreenEnum.ST_RESUME_DROP]
         }];
+
+        if (!this.props.prescreen_only) {
+            this.searchFormItem.push({
+                label: "Type",
+                name: Prescreen.SPECIAL_TYPE,
+                type: "select",
+                data: ["ALL", PrescreenEnum.ST_PRE_SCREEN
+                    , PrescreenEnum.ST_NEXT_ROUND
+                    , PrescreenEnum.ST_FORUM
+                    , PrescreenEnum.ST_INTV_REQUEST
+                    , PrescreenEnum.ST_RESUME_DROP]
+            });
+        }
 
         this.searchFormOnSubmit = (d) => {
             this.search = d;
@@ -149,8 +165,12 @@ export class ScheduledInterview extends React.Component {
         //##########################################
         //  loadData
         this.loadData = (page, offset) => {
+            var special_type = (this.props.prescreen_only)
+                ? `special_type:"${PrescreenEnum.ST_PRE_SCREEN}", `
+                : "";
+
             var query = `query{
-                prescreens(${this.searchParams}
+                prescreens(${this.searchParams} ${special_type}
                 company_id:${this.props.company_id},page:${page}, offset:${offset},order_by:"updated_at desc") {
                   ID
                   status
@@ -159,7 +179,8 @@ export class ScheduledInterview extends React.Component {
                   updated_at
                   student{
                     ID
-                    first_name last_name user_email
+                    first_name last_name user_email university
+                    major minor doc_links{url label}
                   }
                 }
               }`;
@@ -372,8 +393,11 @@ export class ScheduledInterview extends React.Component {
         return <GeneralFormPage
             dataTitle={this.dataTitle}
             entity="prescreen"
+            actionFirst={true}
             entity_singular="Scheduled Session"
             addButtonText="Add New"
+            noMutation={true}
+            canEdit={true}
             dataOffset={20}
             searchFormItem={this.searchFormItem}
             searchFormOnSubmit={this.searchFormOnSubmit}
@@ -394,6 +418,7 @@ export class ScheduledInterview extends React.Component {
 
 ScheduledInterview.PropTypes = {
     company_id: PropTypes.number.isRequired,
+    prescreen_only: PropTypes.bool,
     defaultFormItem: PropTypes.object,
     successAddHandlerExternal: PropTypes.func,
     formOnly: PropTypes.bool // to create from past sessions list
@@ -401,6 +426,7 @@ ScheduledInterview.PropTypes = {
 
 ScheduledInterview.defaultProps = {
     successAddHandlerExternal: false,
+    prescreen_only: false,
     formOnly: false,
     defaultFormItem: {}
 };
