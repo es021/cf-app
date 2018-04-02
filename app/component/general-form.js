@@ -299,20 +299,33 @@ export default class GeneralFormPage extends React.Component {
 
         var view = null;
         const renderList = (d, i) => {
-            var row = this.props.renderRow(d);
-            if (!this.props.noMutation) {
-                row.push(<td className="text-right">
-                    <a id={d.ID}
-                        onClick={this.editPopup.bind(this)}>Edit</a>
-                    {" | "}
-                    <a id={d.ID}
-                        onClick={this.deletePopup.bind(this)}>Delete</a>
-                </td>);
-            } else if (this.props.canEdit) {
-                row.push(<td className="text-right">
-                    <a id={d.ID}
-                        onClick={this.editPopup.bind(this)}>Edit</a></td>);
+
+            var addAction = (row) => {
+                var editLink = <a id={d.ID}
+                    onClick={this.editPopup.bind(this)}>Edit</a>;
+                var deleteLink = <a id={d.ID}
+                    onClick={this.deletePopup.bind(this)}>Delete</a>;
+
+                if (!this.props.noMutation) {
+                    row.push(<td className="text-right">
+                        {editLink}{" | "}{deleteLink}
+                    </td>);
+                } else if (this.props.canEdit) {
+                    row.push(<td className="text-right">{editLink}</td>);
+                }
+
+                return row;
             }
+
+            var row = [];
+            if (this.props.actionFirst) {
+                row = addAction(row);
+                row.push(this.props.renderRow(d));
+            } else {
+                row = this.props.renderRow(d);
+                row = addAction(row);
+            }
+
 
             if (listType == "table") {
                 return <tr>{row}</tr>;
@@ -386,6 +399,7 @@ GeneralFormPage.propTypes = {
     successAddHandler: PropTypes.func,
     discardDiff: PropTypes.array,
     forceDiff: PropTypes.array,
+    actionFirst: PropTypes.bool, // action show first
     noMutation: PropTypes.bool, // disable add, edit and delete
     canEdit: PropTypes.bool, // bypass noMutation
     canAdd: PropTypes.bool, // bypass noMutation
@@ -393,6 +407,7 @@ GeneralFormPage.propTypes = {
 }
 
 GeneralFormPage.defaultProps = {
+    actionFirst: false,
     noMutation: false,
     canEdit: false,
     canAdd: false,
