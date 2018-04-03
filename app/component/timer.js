@@ -14,7 +14,8 @@ export default class Timer extends React.Component {
             days: 0,
             hours: 0,
             minutes: 0,
-            seconds: 0
+            seconds: 0,
+            done: false
         };
     }
 
@@ -37,24 +38,38 @@ export default class Timer extends React.Component {
         var now = Time.getUnixTimestampNow();
         var distance = (this.endUnix - now) * 1000;
 
-        //Less than 5 hours, will use .closer styling
-        if (distance < 17999352) {
-            //dom.addClass("closer");
+        if (distance < 0) {
+            clearInterval(this.timer);
+
+            this.setState(() => {
+                return {
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0,
+                    done: true
+                };
+            });
+        } else {
+            //Less than 5 hours, will use .closer styling
+            if (distance < 17999352) {
+                //dom.addClass("closer");
+            }
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            this.setState(() => {
+                return {
+                    days: days,
+                    hours: hours,
+                    minutes: minutes,
+                    seconds: seconds
+                };
+            });
         }
-
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        this.setState(() => {
-            return {
-                days: days,
-                hours: hours,
-                minutes: minutes,
-                seconds: seconds
-            };
-        });
     }
 
     getItem(value, label) {
@@ -77,21 +92,23 @@ export default class Timer extends React.Component {
         if (this.props.end == null) {
             return null;
         }
-
         var view = null;
-        view = <div id={`timer`} className={`text-center ${this.props.type}`}>
-            <div className="timer_title">{this.props.title}</div>
-            <div className="timer_time">
-                {this.getItem(this.state.days, "DAYS")}
-                {this.getSeparator(":")}
-                {this.getItem(this.state.hours, "HOURS")}
-                {this.getSeparator(":")}
-                {this.getItem(this.state.minutes, "MINUTES")}
-                {this.getSeparator(":")}
-                {this.getItem(this.state.seconds, "SECONDS")}
-            </div>
-        </div>;
-
+        if (this.state.done) {
+            view = this.props.doneMes;
+        } else {
+            view = <div id={`timer`} className={`text-center ${this.props.type}`}>
+                <div className="timer_title">{this.props.title}</div>
+                <div className="timer_time">
+                    {this.getItem(this.state.days, "DAYS")}
+                    {this.getSeparator(":")}
+                    {this.getItem(this.state.hours, "HOURS")}
+                    {this.getSeparator(":")}
+                    {this.getItem(this.state.minutes, "MINUTES")}
+                    {this.getSeparator(":")}
+                    {this.getItem(this.state.seconds, "SECONDS")}
+                </div>
+            </div>;
+        }
         return (<div className="timer">
             {view}
         </div>);
@@ -102,10 +119,12 @@ Timer.propTypes = {
     end: PropTypes.any.isRequired,
     showDate: PropTypes.bool,
     title: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    doneMes: PropTypes.any,
 };
 
 Timer.defaultProps = {
+    doneMes: null,
     showDate: true,
     type: ""
 };

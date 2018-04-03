@@ -216,6 +216,12 @@ export default class ComingSoonPage extends React.Component {
 
     render() {
         document.setTitle("Coming Soon");
+        var doneMes = <div>
+            Virtual Career Fair Starting Now
+            <br></br>
+            <small>Please Refresh Your Page</small>
+            <br></br>
+        </div>;
         return (<div>
             <h1>
                 <small>Coming Soon</small>
@@ -224,7 +230,8 @@ export default class ComingSoonPage extends React.Component {
                 <br></br>
                 <small>{this.timeStr}</small>
             </h1>
-            <Timer end={this.CFObj.start}></Timer>
+            <Timer end={this.CFObj.start} doneMes={doneMes}>
+            </Timer>
             {isRoleStudent() ? <RegisterPS></RegisterPS> : null}
             <SponsorList type="coming-soon"></SponsorList>
         </div>
