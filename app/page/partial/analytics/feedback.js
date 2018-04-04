@@ -69,12 +69,8 @@ export class FeedbackForm extends React.Component {
 
     componentWillMount() {
         //load forms
-        var query = `query{
-                        feedback_qs(user_role: "${this.user_role}", is_disabled:0){
-                        ID
-              question
-                    }
-          }`;
+        var query = `query{ feedback_qs(user_role: "${this.user_role}", is_disabled:0){
+                        ID question } }`;
 
         getAxiosGraphQLQuery(query).then((res) => {
             var qs = res.data.data.feedback_qs;
