@@ -5,6 +5,13 @@ const { DocLinkExec } = require('./doclink-query.js');
 const { SkillExec } = require('./skill-query.js');
 
 class UserQuery {
+    getSearchUniversity(field, search_params) {
+        if (typeof search_params !== "undefined") {
+            return `(${this.selectMetaMain(field, UserMeta.UNIVERSITY)}) like '%${search_params}%'`;
+        } else {
+            return "1=1";
+        }
+    }
 
     getSearchName(field, search_params) {
         return `CONCAT((${this.selectMetaMain(field, UserMeta.FIRST_NAME)}),
@@ -160,6 +167,19 @@ class UserQuery {
 UserQuery = new UserQuery();
 
 class UserExec {
+    hasFeedback(user_id) {
+        var sql = `select (${UserQuery.selectMetaMain(user_id, "feedback")}) as feedback`;
+        return DB.query(sql).then((res) => {
+            try {
+                var feedback = res[0].feedback;
+                if (feedback != "" && feedback != null && typeof feedback !== "undefined") {
+                    return 1;
+                }
+            } catch (err) { };
+            return 0;
+        });
+    }
+
     updateUserMeta(user_id, data) {
         var meta_key_in = "";
         var meta_pair_case = "";
@@ -215,7 +235,7 @@ class UserExec {
         console.log(arg);
 
         var ID = arg.ID;
-        
+
         //update User table
         var updateUser = {
             trigger_update: (new Date()).getTime() // this is needed to trigger updated at

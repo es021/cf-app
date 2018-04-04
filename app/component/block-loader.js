@@ -103,20 +103,32 @@ class BlockLoader extends React.Component {
                         </a>
                 }
                 <br></br>
-                <div style={{ marginTop: "5px" }}>
-                    <small>
-                        <a onClick={() => store.dispatch(layoutActions.hideBlockLoader())}>
-                            CLOSE</a>
-                    </small>
-                </div>
+                {(state.custom.noClose === true) ? null :
+                    <div style={{ marginTop: "5px" }}>
+                        <small>
+                            <a onClick={() => store.dispatch(layoutActions.hideBlockLoader())}>
+                                CLOSE</a>
+                        </small>
+                    </div>
+                }
             </div>;
         }
 
         //confirm
 
         var prefix = "bl-";
+
+        var className = `${prefix}content`;
+
+        // add large class to noClose
+        try {
+            if (state.custom.noClose === true) {
+                className += " large";
+            }
+        } catch (err) { }
+
         return (<div style={style} id="block-loader" >
-            <div className={`${prefix}content`}>
+            <div className={className}>
                 <div className="">
                     {view}
                 </div>
@@ -133,7 +145,7 @@ BlockLoader.propTypes = {
     success: PropTypes.string,
     error: PropTypes.string,
     confirm: PropTypes.obj, // {title, yesHandler}
-    custom: PropTypes.obj, // {title,actionText, actionHandler,href}
+    custom: PropTypes.obj, // {title,actionText, actionHandler,href, noClose}
     show: PropTypes.bool
 };
 
