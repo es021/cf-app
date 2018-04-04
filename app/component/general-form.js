@@ -319,14 +319,14 @@ export default class GeneralFormPage extends React.Component {
                 row.push(action);
             }
 
-            var row = [];
-            if (this.props.actionFirst) {
-                row = addAction(row);
-                row.push(this.props.renderRow(d));
-            } else {
-                row = this.props.renderRow(d);
-                row = addAction(row);
-            }
+            // var row = [];
+            // if (this.props.actionFirst) {
+            //     row = addAction(row);
+            //     row.push(this.props.renderRow(d));
+            // } else {
+            //     row = this.props.renderRow(d);
+            //     row = addAction(row);
+            // }
 
 
             if (listType == "table") {

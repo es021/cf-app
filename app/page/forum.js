@@ -13,6 +13,7 @@ import { createUserTitle } from './users';
 import CompanyPopup from './partial/popup/company-popup';
 import { Loader } from '../component/loader';
 import { openSIAddForm } from './partial/activity/scheduled-interview';
+import { openFeedbackBlockRec } from './partial/analytics/feedback';
 
 require('../css/forum.scss');
 
@@ -155,6 +156,7 @@ const renderTextAreaForumItem = function (type, name, parentClass, onSubmit) {
 };
 
 import { openEditPopup, openDeletePopup } from '../component/general-form';
+import { storeHideBlockLoader } from '../redux/actions/layout-actions';
 
 //##########################################################################################
 // This class to create forum item element
@@ -464,8 +466,8 @@ export default class ForumPage extends React.Component {
         });
     }
 
-
     componentWillMount() {
+        openFeedbackBlockRec();
         this.customEmpty = <div className="text-center">
             <h4 className="text-muted">No Question Posted Yet</h4>
         </div>;
@@ -650,6 +652,8 @@ export default class ForumPage extends React.Component {
     }
 
     render() {
+
+
 
         if (this.state.loading) {
             return <Loader size="3" text="Loading Forum"></Loader>;
