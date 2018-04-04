@@ -41,7 +41,8 @@
         </ul>
         <!-- <img id="browsers-comp" src="" alt="" /> -->
         <h5>
-            <br> Email us at <b>innovaseedssolutions@gmail.com</b> for any inquiries
+            <br> Email us at
+            <b>innovaseedssolutions@gmail.com</b> for any inquiries
         </h5>
     </div>
 
@@ -52,8 +53,12 @@
         var ASSET_ROOT = (isProd) ? "/public/asset" : "/asset";
 
         function showAppError() {
+            if (typeof Object.assign !== "undefined") {
+                return;
+            }
+
             var app_error = document.getElementById('app-error');
-            
+
             //var browsers = document.getElementById('browsers-comp');
             // load browser compatibility image
             //browsers.src = ASSET_ROOT + "/image/compatible.png";
