@@ -129,7 +129,6 @@ class CompanyBooth extends React.Component {
         var label = <div className={`label label-${clr}`}>{this.props.company.status}</div>;
 
         return <Tooltip
-        debug={true}
             content={label}
             tooltip={tt}
             bottom="20px"
