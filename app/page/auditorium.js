@@ -297,6 +297,8 @@ export class AuditoriumManagement extends React.Component {
             , Auditorium.END_TIME + "_TIME"
         ];
 
+        this.acceptEmpty = [Auditorium.LINK];
+
         this.getEditFormDefault = (ID) => {
             const query = `query{auditorium(ID:${ID})
             {cf ID company_id type title link moderator start_time end_time}}`;
@@ -322,7 +324,7 @@ export class AuditoriumManagement extends React.Component {
         this.newFormDefault[Auditorium.CREATED_BY] = this.authUser.ID;
 
         this.getFormItemAsync = (edit) => {
-            return getAxiosGraphQLQuery(`query{companies{ID name cf}}`)
+            return getAxiosGraphQLQuery(`query{companies(include_sponsor:1){ID name cf}}`)
                 .then((res) => {
                     var companies = res.data.data.companies;
                     var ret = [{ header: "Auditorium Event Form" }];
@@ -413,6 +415,7 @@ export class AuditoriumManagement extends React.Component {
             entity_singular="Auditorium Event"
             addButtonText="Add New Auditorium Event"
             dataOffset={10}
+            acceptEmpty={this.acceptEmpty}
             forceDiff={this.forceDiff}
             tableHeader={this.tableHeader}
             newFormDefault={this.newFormDefault}

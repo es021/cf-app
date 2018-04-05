@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
 import GeneralFormPage from '../../../component/general-form';
 import * as layoutActions from '../../../redux/actions/layout-actions';
-import UserPopup, { createUserDocLinkList } from '../popup/user-popup';
+import UserPopup, { createUserDocLinkList, createUserMajorList } from '../popup/user-popup';
 import { SessionEnum, Prescreen, PrescreenEnum } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
 //importing for list
@@ -57,12 +57,19 @@ export class SessionsList extends React.Component {
 
         if (this.props.isRec) {
             this.searchFormItem = [{ header: "Enter Your Search Query" }];
-            this.searchFormItem.push({
-                label: "Find Student",
-                name: "search_student",
-                type: "text",
-                placeholder: "Type student name or email"
-            });
+            this.searchFormItem.push(...[
+                {
+                    label: "Find Student",
+                    name: "search_student",
+                    type: "text",
+                    placeholder: "Type student name or email"
+                }, {
+                    label: "Find University",
+                    name: "search_university",
+                    type: "text",
+                    placeholder: "Type university name"
+                }
+            ]);
         } else {
             // this.searchFormItem.push({
             //     label: "Find Company",
@@ -98,6 +105,7 @@ export class SessionsList extends React.Component {
             this.searchParams = "";
             if (d != null) {
                 this.searchParams += (d.search_student != "") ? `search_student:"${d.search_student}",` : "";
+                this.searchParams += (d.search_university != "") ? `search_university:"${d.search_university}",` : "";
                 //this.searchParams += (d.status != "") ? `status:"${d.status}",` : "";
                 //this.searchParams += (d.search_company) ? `search_company:"${d.search_company}",` : "";
             }
@@ -109,6 +117,9 @@ export class SessionsList extends React.Component {
                 {this.props.isRec ? <th>Student</th> : <th>Company</th>}
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
+                {this.props.isRec ? <th>Major</th> : null}
+                {this.props.isRec ? <th>Minor</th> : null}
+                {this.props.isRec ? <th>University</th> : null}
                 {this.props.isRec ? <th>Hosted By</th> : null}
                 {this.props.isRec ? null : <th>Status</th>}
                 {this.props.isRec ? null : <th>Started At</th>}
@@ -157,6 +168,13 @@ export class SessionsList extends React.Component {
                         <CustomList emptyMessage={null} items={ratings} className="normal"></CustomList>
                     </small>
                 </td>);
+
+                row.push(...[
+                    <td>{createUserMajorList(d.student.major)}</td>
+                    , <td>{createUserMajorList(d.student.minor)}</td>
+                    , <td>{d.student.university}</td>
+                ]);
+
                 row.push(<td>{createUserTitle(d.recruiter)}</td>);
             } else {
                 row.push(<td>{this.sessionStatusString(d.status, true)}</td>);
@@ -174,7 +192,7 @@ export class SessionsList extends React.Component {
             var extra = (this.props.isRec)
                 ? `session_notes{note}
                     session_ratings{category rating}
-                    student{ID first_name last_name user_email doc_links{url label} }
+                    student{ID first_name last_name user_email university major minor doc_links{url label} }
                     recruiter{ID first_name last_name user_email}`
                 : "company{ID name} started_at ended_at";
 
@@ -189,9 +207,11 @@ export class SessionsList extends React.Component {
     }
 
     render() {
-        document.setTitle("Past Sessions");
-        return (<div><h2>Past Sessions</h2>
+        var title = "Past Sessions";
+        document.setTitle(title);
+        return (<div><h2>{title}</h2>
             <GeneralFormPage
+                entity_singular={title}
                 dataTitle={this.dataTitle}
                 noMutation={true}
                 dataOffset={this.offset}

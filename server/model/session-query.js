@@ -80,6 +80,7 @@ class SessionQuery {
 
         // search param
         var search_student = UserQuery.getSearchNameOrEmail("q.participant_id", params.search_student, params.search_student);
+        var search_university = UserQuery.getSearchUniversity("q.participant_id", params.search_university);
 
         var limit = (typeof params.page !== "undefined" &&
             typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
@@ -88,7 +89,7 @@ class SessionQuery {
 
         var sql = `from ${Session.TABLE} q 
             where ${id_where} and ${participant_where} and ${status_where} and ${host_where} and ${com_where}
-            and ${search_student}
+            and ${search_student} and ${search_university}
             ${order_by}`;
 
         if (extra.count) {

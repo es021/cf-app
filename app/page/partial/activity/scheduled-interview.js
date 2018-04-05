@@ -39,10 +39,10 @@ export function openSIAddForm(student_id, company_id, type, success) {
     defaultFormItem[Prescreen.STUDENT_ID] = student_id;
     defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
 
-    if (isNormalSI(type)) {
+    //if (isNormalSI(type)) {
         var dt = Time.getInputFromUnix(Time.getUnixTimestampNow());
         defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
-    }
+    //}
 
     layoutActions.storeUpdateFocusCard("Add A New Scheduled Session", ScheduledInterview
         , {
@@ -277,6 +277,7 @@ export class ScheduledInterview extends React.Component {
             , Prescreen.APPNMENT_TIME + "_TIME", Prescreen.SPECIAL_TYPE, Prescreen.STATUS
         ];
 
+
         this.getEditFormDefault = (ID) => {
             const query = `query{prescreen(ID:${ID}){
                 ID
@@ -376,7 +377,10 @@ export class ScheduledInterview extends React.Component {
                         required: true,
                         disabled: this.props.formOnly,
                         data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
-                    }, {
+                    },
+                    /*
+                    limit for today only
+                    {
                         label: "Appointment Date",
                         sublabel: <span>Please enter your local time
                             {(isNormal)
@@ -389,7 +393,16 @@ export class ScheduledInterview extends React.Component {
                         // for schedule interview must is disabled
                         // set to todays date only
                         disabled: isNormal,
-                    }, {
+                    }, 
+                    */
+                    {
+                        label: "Appointment Date",
+                        sublabel: <span>Please enter your local time</span>,
+                        name: Prescreen.APPNMENT_TIME + "_DATE",
+                        type: "date",
+                        placeholder: "",
+                    },
+                    {
                         label: "Appointment Time",
                         sublabel: "Please enter your local time",
                         name: Prescreen.APPNMENT_TIME + "_TIME",
