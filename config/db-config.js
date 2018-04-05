@@ -270,6 +270,7 @@ const CompanyEnum = {
     STS_OPEN: "Open",
     STS_CLOSED: "Closed",
     STS_PS: "Prescreen Only",
+    STS_RD: "Resume Drop Only",
 
     TYPE_PLATINUM: -1,
     TYPE_SPECIAL: 0,

@@ -63,7 +63,7 @@ export function pendingSessionRequestCount(company_id) {
     return total_pending;
 }
 
-export const SR_LIMIT = 5;
+export const SR_LIMIT = 10;
 export function invalidSessionRequest(company_id) {
     var session_requests = store.getState().hall.activity.session_requests;
 
@@ -80,7 +80,7 @@ export function invalidSessionRequest(company_id) {
     }
 
     if (total_pending >= SR_LIMIT) {
-        return `You already have reached ${SESSION_REQUEST_LIMIT} pending interview request limit. Please cancel current request and try again.`;
+        return `You already have reached ${SR_LIMIT} pending interview request limit. Please cancel current request and try again.`;
     }
 
     return false;

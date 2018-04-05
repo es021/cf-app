@@ -81,6 +81,18 @@ fields["feedback_qs"] = {
 
 /*******************************************/
 /* session_requests ******************/
+fields["has_feedback"] = {
+    type: GraphQLInt,
+    args: {
+        user_id: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValue, arg, context, info) {
+        return UserExec.hasFeedback(arg.user_id);
+    }
+};
+
+/*******************************************/
+/* session_requests ******************/
 fields["session_requests"] = {
     type: new GraphQLList(SessionRequestType),
     args: {
@@ -447,7 +459,8 @@ fields["prescreens"] = {
 
         //search query
         student_name: { type: GraphQLString },
-        student_email: { type: GraphQLString }
+        student_email: { type: GraphQLString },
+        student_university: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {
         return PrescreenExec.prescreens(arg, graphqlFields(info));

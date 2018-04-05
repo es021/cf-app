@@ -26,7 +26,8 @@ class PrescreenQuery {
 
         // external search query ------------------------------------------
 
-        var search_query = UserQuery.getSearchNameOrEmail("student_id", params.search_name, params.search_email);
+        var search_user = UserQuery.getSearchNameOrEmail("student_id", params.search_name, params.search_email);
+        var search_uni = UserQuery.getSearchUniversity("student_id", params.student_university);
 
         // limit and order by
         var limit = (typeof params.page !== "undefined" &&
@@ -35,7 +36,7 @@ class PrescreenQuery {
 
         var sql = `from pre_screens where ${id_where} and ${student_where} 
             and ${status_where} and ${com_where} 
-            and ${search_query} and ${st_where}
+            and ${search_user} and ${search_uni} and ${st_where}
             and ${not_ps_where}
             ${order_by}`;
 

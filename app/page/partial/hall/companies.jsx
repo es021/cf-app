@@ -119,8 +119,13 @@ class CompanyBooth extends React.Component {
                 clr = "primary";
                 left = "24";
                 break;
+            case CompanyEnum.STS_RD:
+                tt = "Only open for resume drops currently";
+                clr = "info";
+                left = "17";
+                break;
         }
-        
+
         var label = <div className={`label label-${clr}`}>{this.props.company.status}</div>;
 
         return <Tooltip

@@ -139,6 +139,11 @@ export class ScheduledInterview extends React.Component {
             type: "text",
             placeholder: "Type student name or email"
         }, {
+            label: "Find University",
+            name: "university",
+            type: "text",
+            placeholder: "Type university name"
+        }, {
             label: "Status",
             name: Prescreen.STATUS,
             type: "select",
@@ -165,6 +170,7 @@ export class ScheduledInterview extends React.Component {
             if (d != null) {
                 this.searchParams += (d.student) ? `student_name:"${d.student}",` : "";
                 this.searchParams += (d.student) ? `student_email:"${d.student}",` : "";
+                this.searchParams += (d.university) ? `student_university:"${d.university}",` : "";
                 this.searchParams += (d.special_type && d.special_type != "ALL") ? `special_type:"${d.special_type}",` : "";
                 this.searchParams += (d.status && d.status != "ALL") ? `status:"${d.status}",` : "";
             }

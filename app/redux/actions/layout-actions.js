@@ -39,8 +39,11 @@ export function confirmBlockLoader(title, yesHandler) {
     updateBlockLoader(null, null, null, { title: title, yesHandler: yesHandler }, null);
 }
 
-export function customBlockLoader(title, actionText, actionHandler, href) {
-    updateBlockLoader(null, null, null, null, { title: title, actionText: actionText, actionHandler: actionHandler, href: href });
+export function customBlockLoader(title, actionText, actionHandler, href, noClose = false) {
+    updateBlockLoader(null, null, null, null, {
+        title: title, actionText: actionText,
+        actionHandler: actionHandler, href: href, noClose: noClose
+    });
 }
 
 

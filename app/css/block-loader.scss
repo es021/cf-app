@@ -48,6 +48,11 @@ $prefix : "bl-";
         margin-bottom: 80px;
         padding-bottom: 20px;
     } 
+
+    .#{$prefix}content.large{
+        min-height: 300px;
+        width: 450px;
+    }
 }
 
 @media only screen and (max-width: $width){

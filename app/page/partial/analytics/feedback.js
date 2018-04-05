@@ -3,12 +3,37 @@ import GeneralFormPage from '../../../component/general-form';
 import { NavLink } from 'react-router-dom';
 import { Loader } from '../../../component/loader';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
+import { Time } from '../../../lib/time';
 import { UserEnum, FeedbackQs } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
-import { getAuthUser } from '../../../redux/actions/auth-actions';
-import { storeHideFocusCard, storeHideBlockLoader } from '../../../redux/actions/layout-actions';
+import { getAuthUser, isRoleRec, getCFObj } from '../../../redux/actions/auth-actions';
+import { storeHideFocusCard, storeHideBlockLoader, customBlockLoader } from '../../../redux/actions/layout-actions';
 import Form, { toggleSubmit, checkDiff } from '../../../component/form';
+//aa
+// for recruiters
+export function openFeedbackBlockRec() {
+    if (isRoleRec()) {
+        // check if last day
+        var endtime = Time.convertDBTimeToUnix(getCFObj().end);
+        var now = Time.getUnixTimestampNow();
+        if (now >= endtime) {
+            var q = `query {has_feedback(user_id: ${getAuthUser().ID}) }`;
+            getAxiosGraphQLQuery(q).then((res) => {
+                if (!res.data.data.has_feedback) {
+                    var body =
+                        <h3 style={{ color: "#286090" }}>
+                            Help Us To Improve
+                        <br></br>
+                            <small>Please answer a short feedback questions to continue viewing this page</small>
+                        </h3 >;
+                    customBlockLoader(body, "Open Feedback Form", null, `${RootPath}/app/feedback/recruiter`, true);
+                }
+            });
+        }
+    }
+}
 
+// for students
 export function getFeedbackPopupView(isDropResume = true) {
 
     const onClick = () => {
@@ -44,12 +69,8 @@ export class FeedbackForm extends React.Component {
 
     componentWillMount() {
         //load forms
-        var query = `query{
-            feedback_qs (user_role:"${this.user_role}", is_disabled:0){
-              ID
-              question
-            }
-          }`;
+        var query = `query{ feedback_qs(user_role: "${this.user_role}", is_disabled:0){
+                        ID question } }`;
 
         getAxiosGraphQLQuery(query).then((res) => {
             var qs = res.data.data.feedback_qs;
@@ -64,7 +85,7 @@ export class FeedbackForm extends React.Component {
             value = JSON.stringify(value);
 
             var query = `mutation{
-                edit_user(ID:${this.authUser.ID},feedback:${value}){ ID }}`;
+                        edit_user(ID: ${this.authUser.ID},feedback:${value}){ID}}`;
 
             getAxiosGraphQLQuery(query).then((res) => {
                 var edit = res.data.data.edit_user;
@@ -127,7 +148,6 @@ export class FeedbackForm extends React.Component {
     }
 }
 
-
 export class ManageFeedback extends React.Component {
     constructor(props) {
         super(props);
@@ -167,11 +187,11 @@ export class ManageFeedback extends React.Component {
 
         this.loadData = (page, offset) => {
             return getAxiosGraphQLQuery(`query{
-                feedback_qs (${this.searchParams} order_by:"is_disabled asc, ID"
+                        feedback_qs(${ this.searchParams} order_by: "is_disabled asc, ID"
                 ,page:${page}, offset:${offset}){
-                  ID
+                        ID
                   user_role
-                  question
+                    question
                   is_disabled
                 }
               }`);
@@ -216,10 +236,10 @@ export class ManageFeedback extends React.Component {
 
         this.getEditFormDefault = (ID) => {
             const query = `query{
-                feedback_qs (ID:${ID}){
-                  ID
+                        feedback_qs(ID: ${ID}){
+                        ID
                   user_role
-                  question
+                    question
                   is_disabled
                 }
               }`;

@@ -14,6 +14,8 @@ import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../companies';
 import { openSIAddForm } from '../../partial/activity/scheduled-interview';
 import { createUserDocLinkList } from '../popup/user-popup';
+import { openFeedbackBlockRec } from '../analytics/feedback';
+
 
 export class ResumeDrop extends React.Component {
 
@@ -28,6 +30,8 @@ export class ResumeDrop extends React.Component {
     }
 
     componentWillMount() {
+        openFeedbackBlockRec();
+        
         this.offset = 10;
         //##########################################
         //  search
