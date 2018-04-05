@@ -16,26 +16,64 @@
     <meta name="msapplication-TileImage" content="https://seedsjobfair.com/career-fair/wp-content/uploads/2017/04/cropped-icon-270x270.png"
     />
     <meta name="description" content="{{description}}" />
-    <title>Test</title>
+    <title>Seeds Job Fair</title>
 </head>
 
 <body>
-    <div id="app-loading">
+    <div id="app-loading" class="app-loading">
         <div class="text-center">
             <img id="app-loading-img" src="" alt="" hidden />
         </div>
     </div>
+
+    <!-- message for uncompatible -->
+    <div id="app-error" class="app-loading" style="display:none; opacity:0; z-index:0;">
+        <img class="img" src="https://seedsjobfair.com/career-fair/wp-content/uploads/2017/04/cropped-icon-192x192.png"></img>
+        <h2>Opps.. It seems that your browser is not supported</h2>
+        <h4>List Of Browsers Compatibility</h4>
+        <ul class="normal">
+            <li>Google Chrome - Version 45 +</li>
+            <li>Mozilla Firefox - Version 34 +</li>
+            <li>Safari - Version 9 +</li>
+            <li>Opera - Version 32 +</li>
+            <li>Internet Explorer - Not Supported</li>
+            <li>Edge - Not Supported</li>
+        </ul>
+        <!-- <img id="browsers-comp" src="" alt="" /> -->
+        <h5>
+            <br> Email us at
+            <b>innovaseedssolutions@gmail.com</b> for any inquiries
+        </h5>
+    </div>
+
     <div id="app"></div>
 
-
     <script>
+        var isProd = (window.location.host === "seedsjobfair.com");
+        var ASSET_ROOT = (isProd) ? "/public/asset" : "/asset";
+
+        function showAppError() {
+            if (typeof Object.assign !== "undefined") {
+                return;
+            }
+
+            var app_error = document.getElementById('app-error');
+
+            //var browsers = document.getElementById('browsers-comp');
+            // load browser compatibility image
+            //browsers.src = ASSET_ROOT + "/image/compatible.png";
+
+            app_error.style["opacity"] = "1";
+            setTimeout(function () {
+                app_error.style["display"] = "flex";
+            }, 700);
+        }
+
         function MainLoadAsset(js_version, css_version) {
             console.log("Start Load Asset");
             console.log(window.location.host);
 
             // init configuration
-            var isProd = (window.location.host === "seedsjobfair.com");
-            var ASSET_ROOT = (isProd) ? "/public/asset" : "/asset";
 
             // init dom
             var body = document.getElementsByTagName("body")[0];
@@ -81,6 +119,8 @@
                         setTimeout(function () {
                             app_load.style["display"] = "none";
                         }, 500);
+
+                        showAppError();
                     }
                 });
             });

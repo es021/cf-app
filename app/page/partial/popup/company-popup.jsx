@@ -146,42 +146,45 @@ export default class CompanyPopup extends Component {
         var stu_id = this.authUser.ID;
         var com_id = this.props.id;
 
-        // check for feedback
-        var query = `query { user (ID: ${stu_id}) { feedback } } `;
-        getAxiosGraphQLQuery(query).then((res) => {
-            var feedback = res.data.data.user.feedback;
-            var ttl_pending = activityActions.pendingSessionRequestCount(com_id);
+        // first filter
+        var invalid = activityActions.invalidSessionRequest(com_id);
+        if (invalid !== false) {
+            layoutActions.errorBlockLoader(invalid);
+            return false;
+        }
+        else {
+            layoutActions.loadingBlockLoader("Adding Request");
+            
+            // check for feedback
+            var query = `query { has_feedback (user_id: ${stu_id}) } `;
+            getAxiosGraphQLQuery(query).then((res) => {
 
-            // if no feedback open popup
-            if (ttl_pending >= this.FEEDBACK_LIMIT_SR && (feedback == null || feedback == "")) {
-                //layoutActions.storeUpdate("Feedback", getFeedbackPopupView());
-                layoutActions.errorBlockLoader( getFeedbackPopupView(false));
+                var has_feedback = res.data.data.has_feedback;
+                var ttl_pending = activityActions.pendingSessionRequestCount(com_id);
 
-            }
-            else {
-                var invalid = activityActions.invalidSessionRequest(com_id);
-                if (invalid !== false) {
-                    layoutActions.errorBlockLoader(invalid);
-                    return false;
+                // if no feedback open popup
+                if (ttl_pending >= this.FEEDBACK_LIMIT_SR && (!has_feedback)) {
+                    //layoutActions.storeUpdate("Feedback", getFeedbackPopupView());
+                    layoutActions.errorBlockLoader(getFeedbackPopupView(false));
+
+                } else {
+                    // add session request
+                    activityActions.addSessionRequest(stu_id, com_id).then((res) => {
+                        var mes = <div>
+                            Successfully send interview request to
+                    <br></br><b>{this.state.data.name}</b>
+                            <br></br>The request status will be shown under Interview Request</div>;
+
+                        emitHallActivity(hallAction.ActivityType.SESSION_REQUEST, null, com_id);
+
+                        layoutActions.successBlockLoader(mes);
+                        hallAction.storeLoadActivity([hallAction.ActivityType.SESSION_REQUEST]);
+                    }, (err) => {
+                        layoutActions.errorBlockLoader(err);
+                    });
                 }
-
-                layoutActions.loadingBlockLoader("Adding Request");
-
-                activityActions.addSessionRequest(stu_id, com_id).then((res) => {
-                    var mes = <div>
-                        Successfully send interview request to
-                <br></br><b>{this.state.data.name}</b>
-                        <br></br>The request status will be shown under Interview Request</div>;
-
-                    emitHallActivity(hallAction.ActivityType.SESSION_REQUEST, null, com_id);
-
-                    layoutActions.successBlockLoader(mes);
-                    hallAction.storeLoadActivity([hallAction.ActivityType.SESSION_REQUEST]);
-                }, (err) => {
-                    layoutActions.errorBlockLoader(err);
-                });
-            }
-        });
+            });
+        }
     }
 
     startQueue() {

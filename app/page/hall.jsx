@@ -27,10 +27,14 @@ export default class HallPage extends React.Component {
                     , url: `${RootPath}/app/forum/company_${this.authUser.rec_company}`
                     , icon: "comments"
                 }, {
+                    label: "Pre-Screen"
+                    , url: `${RootPath}/app/my-activity/pre-screen`
+                    , icon: "filter"
+                }, {
                     label: "Resume Drop"
                     , url: `${RootPath}/app/my-activity/resume-drop`
                     , icon: "download"
-                },{
+                }, {
                     label: "Manage Company"
                     , url: `${RootPath}/app/manage-company/${this.authUser.rec_company}/about`
                     , icon: "building"

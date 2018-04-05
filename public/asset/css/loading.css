@@ -1,4 +1,4 @@
-#app-loading{
+.app-loading{
     position: fixed;
     width: 100%;
     min-height: 100vh;
@@ -10,4 +10,11 @@
     justify-content: center;
     transition: opacity 0.5s ease-out;
 }
-#app-loading.hide{display: none;}
+.app-loading.hide{display: none;}
+
+#app-error{
+    display:none;
+    flex-flow: column;
+    opacity:0; 
+    z-index:0;
+}
