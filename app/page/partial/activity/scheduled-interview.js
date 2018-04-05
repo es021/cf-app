@@ -194,7 +194,7 @@ export class ScheduledInterview extends React.Component {
                   }
                 }
               }`;
-
+              console.log(query);
             return getAxiosGraphQLQuery(query);
         }
 
