@@ -8,7 +8,7 @@ $email_data = array(
                 "type"=> "CUSTOM_EMAIL"
             );
 
-$params = array(
+$params = array( 
     "action" => "app_send_email",
     "data" => $email_data
 );
