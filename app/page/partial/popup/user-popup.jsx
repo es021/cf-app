@@ -23,7 +23,9 @@ export function createUserMajorList(major) {
             }
             r += d;
         });
-    } catch (err) { }
+    } catch (err) { 
+        r = major;
+    }
 
     return r;
 

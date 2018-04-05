@@ -328,7 +328,8 @@ fields["sessions"] = {
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
         order_by: { type: GraphQLString },
-        search_student: { type: GraphQLString }
+        search_student: { type: GraphQLString },
+        search_university: { type: GraphQLString }
         //search_company: { type: GraphQLString }
     },
     resolve(parentValue, arg, context, info) {

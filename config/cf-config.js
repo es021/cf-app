@@ -6,8 +6,9 @@ const CareerFair = {
         flag: "United States of America(USA)",
         banner: "USA.jpg",
         // maalaysia time + 8 , est time.. -4
-        start: "Apr 05 2018 20:00:00 GMT -0400 (-04)", 
+        start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
         end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
+        time_str : "10 PM - 1 AM (EDT)",
         //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
         test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",

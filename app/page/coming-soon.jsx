@@ -13,6 +13,18 @@ import obj2arg from 'graphql-obj2arg';
 import { NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 
+
+export function getCFTimeDetail(date, time) {
+    return <span>
+        {(typeof date === "undefined" || date == null) ? null
+            : <span><i className="fa fa-calendar left"></i>{date}</span>}
+        <br></br>
+        {(typeof time === "undefined" || time == null) ? null
+            : <span><i className="fa fa-clock-o left"></i>{time}</span>}
+    </span>;
+}
+
+
 class RegisterPS extends React.Component {
     constructor(props) {
         super(props);
@@ -211,7 +223,7 @@ export default class ComingSoonPage extends React.Component {
     }
 
     componentWillMount() {
-        this.timeStr = Time.getPeriodString(this.CFObj.start, this.CFObj.end, this.CFObj.dates);
+        this.dateStr = Time.getPeriodString(this.CFObj.start, this.CFObj.end, this.CFObj.dates);
     }
 
     render() {
@@ -228,7 +240,9 @@ export default class ComingSoonPage extends React.Component {
                 <br></br>
                 {this.CFObj.title}
                 <br></br>
-                <small>{this.timeStr}</small>
+                <small>
+                    {getCFTimeDetail(this.dateStr, this.CFObj.time_str)}
+                </small>
             </h1>
             <Timer end={this.CFObj.start} doneMes={doneMes}>
             </Timer>
@@ -238,5 +252,4 @@ export default class ComingSoonPage extends React.Component {
         );
     }
 }
-
 

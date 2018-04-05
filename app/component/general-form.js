@@ -67,6 +67,9 @@ class GeneralForm extends React.Component {
 
         // empty field become null
         for (var i in d) {
+            if(this.props.acceptEmpty.indexOf(i) >= 0){
+                continue;
+            }
             if (d[i] == "") {
                 d[i] = null;
             }
@@ -142,10 +145,12 @@ GeneralForm.propTypes = {
     btnColorClass: PropTypes.string,
     formWillSubmit: PropTypes.func,
     discardDiff: PropTypes.array,
-    forceDiff: PropTypes.array
+    forceDiff: PropTypes.array,
+    acceptEmpty: PropTypes.array
 };
 
 GeneralForm.defaultProps = {
+    acceptEmpty : [],
     btnColorClass: "primary"
 }
 
@@ -236,6 +241,7 @@ export default class GeneralFormPage extends React.Component {
                     {
                         discardDiff: this.props.discardDiff,
                         forceDiff: this.props.forceDiff,
+                        acceptEmpty: this.props.acceptEmpty,
                         entity: this.props.entity,
                         entity_singular: this.props.entity_singular,
                         formItem: formItem,
@@ -407,6 +413,7 @@ GeneralFormPage.propTypes = {
     successAddHandler: PropTypes.func,
     discardDiff: PropTypes.array,
     forceDiff: PropTypes.array,
+    acceptEmpty: PropTypes.array, // for edit, accept empty value.. used in auditorium
     actionFirst: PropTypes.bool,
     noMutation: PropTypes.bool, // disable add, edit and delete
     canEdit: PropTypes.bool, // bypass noMutation
@@ -425,6 +432,7 @@ GeneralFormPage.defaultProps = {
     btnColorClass: "primary",
     discardDiff: [],
     forceDiff: [],
+    acceptEmpty: [],
     formOnly: false,
     tableHeader: null
 }

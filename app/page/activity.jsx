@@ -47,8 +47,8 @@ export default class ActivityPage extends React.Component {
                 icon: "filter"
             };
 
-            item["scheduled-interview"] = {
-                label: "Scheduled Interview",
+            item["scheduled-session"] = {
+                label: "Scheduled Session",
                 component: ScheduledInterview,
                 props: { company_id: this.company_id },
                 icon: "clock-o"

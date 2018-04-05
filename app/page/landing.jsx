@@ -7,6 +7,7 @@ import { getCF, getCFObj } from '../redux/actions/auth-actions';
 import SponsorList from './partial/static/sponsor-list';
 import { Time } from '../lib/time';
 import Timer from '../component/timer';
+import { getCFTimeDetail } from './coming-soon';
 
 require("../css/home.scss");
 
@@ -39,8 +40,12 @@ export default class LandingPage extends React.Component {
 
         // create subtitle from  date
         if (this.CFDetail.start != null && this.CFDetail.end != null) {
-            this.subtitle = Time.getPeriodString(this.CFDetail.start, this.CFDetail.end, this.CFDetail.dates);
+            var dateStr = Time.getPeriodString(this.CFDetail.start, this.CFDetail.end, this.CFDetail.dates);
+            this.subtitle = <span style={{fontSize:"85%"}}>
+                {getCFTimeDetail(dateStr,this.CFDetail.time_str)}
+            </span>;
         }
+
     }
 
     componentWillUnmount() {
