@@ -4,13 +4,15 @@ const { getUnixTimestampNow } = require('../../helper/general-helper');
 
 class AuditoriumExec {
     constructor() {
-        this.OFFSET_END_TIME = 30 * 60; //  30 minute offset
+        this.OFFSET_END_TIME = 240 * 60; //  30 minute offset
     }
 
     getQuery(params, extra) {
         var end_time_where = (params.now_only) ?
-            `${Auditorium.END_TIME} >= ${getUnixTimestampNow() + this.OFFSET_END_TIME}`
+            `${Auditorium.START_TIME} >= ${getUnixTimestampNow() - this.OFFSET_END_TIME}`
             : "1=1";
+
+            //var end_time_where = "1=1";
 
         var cf_where = (typeof params.cf !== "undefined") ? `${Auditorium.CF} = '${params.cf}'` : "1=1";
         var id_where = (typeof params.ID !== "undefined") ? `${Auditorium.ID} = '${params.ID}'` : "1=1";
