@@ -37,7 +37,7 @@ export class Overview extends React.Component {
 
         this.color = {
             online: "#449d44",
-            you: "#22537c"
+            you: "#f74940"
         }
 
         this.CF = getCF();
