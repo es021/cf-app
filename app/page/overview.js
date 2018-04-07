@@ -285,10 +285,11 @@ export class Overview extends React.Component {
 
                 return <Tooltip
                     bottom="33px"
-                    left="-17px"
-                    width="70px"
+                    left="-54px"
+                    width="144px"
                     content={c}
-                    tooltip={Time.getAgo(d.created_at)}>
+                    tooltip={<span><small>Active Session</small>
+                        <br></br>{Time.getAgo(d.created_at)}</span>}>
                 </Tooltip>
             });
 
@@ -297,12 +298,20 @@ export class Overview extends React.Component {
                 var c = this.createIcon(d.student_id, "user", ""
                     , null, noClick);
 
+                var si_tt = (this.FOR_STUDENT)
+                    ? <span><small>Scheduled Session</small>
+                        <br></br>{Time.getString(d.appointment_time)}
+                    </span>
+                    : <span><small>Created From {d.special_type}</small>
+                        <br></br>{Time.getString(d.appointment_time)}
+                    </span>;
+
                 return <Tooltip
                     bottom="33px"
                     left="-54px"
                     width="144px"
                     content={c}
-                    tooltip={<span>{d.special_type}<br></br>{Time.getString(d.appointment_time)}</span>}>
+                    tooltip={si_tt}>
                 </Tooltip>
             });
 
@@ -313,10 +322,11 @@ export class Overview extends React.Component {
 
                 return <Tooltip
                     bottom="33px"
-                    left="-17px"
-                    width="70px"
+                    left="-54px"
+                    width="144px"
                     content={c}
-                    tooltip={<span>{Time.getAgo(d.created_at)}</span>}>
+                    tooltip={<span><small>Session Request</small>
+                        <br></br>{Time.getAgo(d.created_at)}</span>}>
                 </Tooltip>
             });
 
