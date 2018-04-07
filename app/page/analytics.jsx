@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import GeneralFormPage from '../component/general-form';
 import SubNav from '../component/sub-nav';
 import { CustomList } from '../component/list';
-import { ManageFeedback } from './partial/analytics/feedback';
+import { ManageFeedback , FeedbackList} from './partial/analytics/feedback';
 
 //importing for list
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
@@ -129,19 +129,25 @@ export default class AnalyticPage extends React.Component {
                 label: "Organization Enquiries",
                 component: MetaSubPage,
                 props: { type: "org_en", title: "Organization Enquiries" },
-                icon: "edit"
+                icon: "users"
             }
             , "company-enquiries": {
                 label: "Company Enquiries",
                 component: MetaSubPage,
                 props: { type: "com_en", title: "Company Enquiries" },
-                icon: "edit"
+                icon: "building"
             } 
+            , "feedback": {
+                label: "Feedback",
+                component: FeedbackList,
+                icon: "file-text-o"
+            }
             , "manage-feedback": {
                 label: "Manage Feedback",
                 component: ManageFeedback,
-                icon: "home"
+                icon: "edit"
             }
+           
         };
     }
 

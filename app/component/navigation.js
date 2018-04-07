@@ -28,7 +28,7 @@ import DashboardPage from '../page/dashboard';
 import PasswordResetPage from '../page/password-reset';
 import PasswordForgotPage from '../page/password-forgot';
 import ForumPage from '../page/forum';
-import { Monitor } from '../page/admin';
+import { Overview } from '../page/overview';
 import { SupportPage } from '../page/support';
 import AnalyticPage from '../page/analytics';
 import { FeedbackForm } from '../page/partial/analytics/feedback';
@@ -202,15 +202,26 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleRec() && !isRoleStudent() //for student disable first
         },
         {
-            url: "/overview",
-            label: "Overview",
-            icon: "desktop",
-            component: Monitor,
+            url: "/company-forum",
+            label: "Forum",
+            icon: "comments",
+            component: ForumPage,
             bar_app: true,
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
+            disabled: !isRoleRec()
+        },
+        {
+            url: "/overview",
+            label: "Overview",
+            icon: "desktop",
+            component: Overview,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false
+            //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
         },
         {
             url: "/about",

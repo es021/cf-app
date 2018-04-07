@@ -56,6 +56,12 @@ class UserQuery {
             query += `and (${name} or ${email})`;
         }
 
+        // has feedback?
+        if (typeof params.has_feedback !== "undefined" && params.has_feedback) {
+            var feedbackMeta = `(${this.selectMetaMain("u.ID", UserMeta.FEEDBACK)})`;
+            query += `and (${feedbackMeta} != '' AND ${feedbackMeta} IS NOT NULL)`;
+        }
+
         // search degree
         query += (typeof params.search_degree === "undefined") ? ""
             : ` and CONCAT((${this.selectMetaMain("u.ID", UserMeta.MAJOR)}),
