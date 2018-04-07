@@ -53,7 +53,7 @@ export default class Tooltip extends React.Component {
                 <div className="my-tt-mes">
                     {this.props.tooltip}
                 </div>
-                <div className="my-tt-arrow"></div>
+                {this.props.noArrow ? null : <div className="my-tt-arrow"></div>}
             </div>
             : null;
 
@@ -74,11 +74,13 @@ Tooltip.propTypes = {
     bottom: PropTypes.string,
     width: PropTypes.string,
     left: PropTypes.string,
-    alignCenter: PropTypes.bool
+    alignCenter: PropTypes.bool,
+    noArrow: PropTypes.bool
 };
 
 Tooltip.defaultProps = {
     debug: false,
+    noArrow: false,
     width: "200px",
     bottom: "30px",
     left: "-90px",

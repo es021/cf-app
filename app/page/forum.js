@@ -433,8 +433,17 @@ export default class ForumPage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.forum_id = (this.props.match.params.forum_id) ? this.props.match.params.forum_id
-            : this.props.forum_id;
+        try {
+            this.forum_id = (this.props.match.params.forum_id) ? this.props.match.params.forum_id
+                : this.props.forum_id;
+        } catch (err) {
+            this.forum_id = null;
+        }
+
+        // must be from my_forum
+        if (typeof this.forum_id === "undefined" || this.forum_id == null) {
+            this.forum_id = "company_" + getAuthUser().rec_company;
+        }
 
         // set in check forum Validity
         // owner comment/reply will be highlighted

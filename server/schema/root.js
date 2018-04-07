@@ -62,7 +62,7 @@ const {
 var fields = {};
 
 /*******************************************/
-/* session_requests ******************/
+/* feedback_qs ******************/
 fields["feedback_qs"] = {
     type: new GraphQLList(FeedbackQsType),
     args: {
@@ -80,7 +80,7 @@ fields["feedback_qs"] = {
 };
 
 /*******************************************/
-/* session_requests ******************/
+/* has_feedback ******************/
 fields["has_feedback"] = {
     type: GraphQLInt,
     args: {
@@ -230,6 +230,8 @@ fields["users"] = {
         offset: { type: GraphQLInt },
         order_by: { type: GraphQLString },
         cf: { type: GraphQLString },
+
+        has_feedback: { type: GraphQLInt },
         //search query
         search_user: { type: GraphQLString } // name and email
         , search_degree: { type: GraphQLString } // major and minor

@@ -8,12 +8,12 @@ import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 import { Loader } from '../component/loader';
 import Tooltip from '../component/tooltip';
-import { isRoleRec, getAuthUser } from '../redux/actions/auth-actions';
+import { isRoleRec, getAuthUser, isRoleStudent, getCF } from '../redux/actions/auth-actions';
 import { getStyleImageObj } from '../component/profile-card';
 
-require("../css/admin.scss");
+require("../css/overview.scss");
 
-export class Monitor extends React.Component {
+export class Overview extends React.Component {
     constructor(props) {
         super(props);
         this.refresh = this.refresh.bind(this);
@@ -22,6 +22,7 @@ export class Monitor extends React.Component {
         this.renderAllOnline = this.renderAllOnline.bind(this);
         this.isUserOnline = this.isUserOnline.bind(this);
         this.isCompanyOnline = this.isCompanyOnline.bind(this);
+        this.createLegends = this.createLegends.bind(this);
         this.state = {
             loading: true,
             online_company: {},
@@ -33,11 +34,22 @@ export class Monitor extends React.Component {
             // sessions: [],
             // requests: [],
         };
+
+        this.color = {
+            online: "#449d44",
+            you: "#22537c"
+        }
+
+        this.CF = getCF();
     }
 
     componentWillMount() {
 
-        this.LIMITED = isRoleRec();
+        this.FOR_REC = isRoleRec();
+        this.FOR_STUDENT = isRoleStudent();
+
+        this.LEGENDS = this.createLegends();
+
 
         socketOn(BOTH.STATE, (data) => {
             this.setState((prevState) => {
@@ -52,6 +64,36 @@ export class Monitor extends React.Component {
     }
 
 
+    createLegends() {
+
+        var shape = <div className="legends hall-activity">
+            <div className="legend-item">{this.createIconEmpty("cornered")}Active Session</div>
+            <div className="legend-item">{this.createIconEmpty("square")}Scheduled Session</div>
+            <div className="legend-item">{this.createIconEmpty("circle")}Session Request</div>
+        </div>;
+        var color = <div className="legends hall-activity">
+            <div className="legend-item">{this.createIconEmpty("circle", this.color.online)}Online</div>
+            <div className="legend-item">{this.createIconEmpty("circle")}Offline</div>
+            <div className="legend-item">{this.createIconEmpty("circle", this.color.you)}You</div>
+        </div>;
+
+        return <div className="table-responsive">
+            <table className="table-fit table table-bordered table-condensed">
+                <tbody>
+                    <tr>
+                        <td><b>Shape Indicator</b></td>
+                        <td>{shape}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Color Indicator</b></td>
+                        <td>{color}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>;
+    }
+
+
     refresh() {
         this.setState(() => {
             return { loading: true };
@@ -60,7 +102,7 @@ export class Monitor extends React.Component {
         this.lastUpdated = Time.getStringShort(Time.getUnixTimestampNow(), true);
 
         var query = `query{ 
-              companies(order_by:"type"){
+              companies(order_by:"type" cf:"${this.CF}"){
               ID type name img_url img_size img_position
               active_sessions{
                 participant_id
@@ -131,12 +173,14 @@ export class Monitor extends React.Component {
     }
 
     createIconEmpty(shape, color = "") {
-        var className = shape + " " + color;
-        return <div className={`icon ${className} small`}><div></div></div>;
+        var style = { backgroundColor: color };
+        var className = shape;
+        return <div style={style} className={`icon ${className} small`}><div></div></div>;
     }
 
     createIcon(id, type, shape = "", tooltip = null, noClick = false, style = {}) {
         var className = shape + " ";
+        var label = id;
 
         if (type == "company") {
             if (this.isCompanyOnline(id)) {
@@ -144,6 +188,7 @@ export class Monitor extends React.Component {
             }
             var onClick = (e) => {
                 var id = e.currentTarget.dataset.entity_id;
+                id = Number.parseInt(id);
                 layoutActions.storeUpdateFocusCard("Company " + id
                     , CompanyPopup
                     , { id: id, displayOnly: true })
@@ -151,6 +196,13 @@ export class Monitor extends React.Component {
         }
 
         if (type == "user") {
+
+            if (id == getAuthUser().ID) {
+                style["backgroundColor"] = this.color.you;
+                style["fontSize"] = "75%";
+                label = <b>YOU</b>;
+            }
+
             if (this.isUserOnline(id)) {
                 className += " active";
             }
@@ -170,7 +222,7 @@ export class Monitor extends React.Component {
         return <div style={style}
             title={tooltip} className={`icon ${className} ${noClick ? "" : "clickable"}`}
             data-entity_id={id} onClick={onClick}><div>
-                {shape == "company" ? null : id}
+                {shape == "company" ? null : label}
             </div></div>;
 
     }
@@ -186,7 +238,7 @@ export class Monitor extends React.Component {
             return null;
         }
 
-        return <div className="hall-activity">{vs}</div>;
+        return <div style={{ flexWrap: "wrap" }} className="hall-activity">{vs}</div>;
     }
 
     createIconCompany(comData) {
@@ -205,12 +257,16 @@ export class Monitor extends React.Component {
 
             // set if student clickable 
             var noClick = false;
-            if (this.LIMITED) {
+            if (this.FOR_REC) {
                 noClick = true;
                 // for limited rec, only under queue can be seen
                 if (com_id == getAuthUser().rec_company) {
                     noClick = false;
                 }
+            }
+
+            if (this.FOR_STUDENT) {
+                noClick = true;
             }
 
             // company
@@ -273,18 +329,13 @@ export class Monitor extends React.Component {
                 </div>);
         }
 
-        var legends = <div className="hall-activity">
-            {this.createIconEmpty("cornered")}Active Session {" -- "}
-            {this.createIconEmpty("square")}Scheduled Session {" -- "}
-            {this.createIconEmpty("circle")}Session Request
-        </div>;
-
-        return (<div>{legends}
+        return (<div>{this.LEGENDS}
             <div className="hall-activity">
                 {vs}
             </div>
         </div>);
     }
+
 
     isUserOnline(id) {
         return typeof this.state.online_clients[id] !== "undefined"
@@ -306,24 +357,19 @@ export class Monitor extends React.Component {
         document.setTitle("Monitor");
         var hall = this.renderHallDetail();
 
-        var onlines = this.LIMITED ? null : this.renderAllOnline();
+        var onlines = (this.FOR_REC || this.FOR_STUDENT) ? null : this.renderAllOnline();
 
-        var header = (this.state.loading) ?
+        var refreshBtn = (this.state.loading) ?
             <Loader size="3" text="Fetching latest update.."></Loader> :
-            <div><a className="btn btn-blue" onClick={() => this.refresh()}>
-                <i className="fa fa-refresh left"></i>Refresh</a>
-                <br></br><small>Last Updated {this.lastUpdated}</small>
-            </div>;
-
-        // var warning = (isSocketOkay()) ? null
-        //     : <div className="alert alert-danger" role="alert">
-        //         Socket Server is currently down!</div>;
+            <div><a className="btn btn-sm btn-blue" onClick={() => this.refresh()}>
+                <i className="fa fa-refresh left"></i>Refresh <small>( Last Updated {this.lastUpdated} )</small>
+            </a></div>;
 
         var warning = (isSocketOkay()) ? null
             : <div className="alert alert-info" role="info">
                 Connecting to real time server.. Please wait..</div>;
 
-        var onlineView = this.LIMITED ? null :
+        var onlineView = (this.FOR_REC || this.FOR_STUDENT) ? null :
             <div><h2>Online Users</h2>
                 {(onlines == null) ? <span className="text-muted">Nothing To Show Here</span> : onlines}
             </div>;
@@ -331,8 +377,8 @@ export class Monitor extends React.Component {
         return (
             <div>
                 {warning}
-                {header}
                 <h2>Career Fair Overview</h2>
+                {refreshBtn}
                 {hall}
                 {onlineView}
             </div>

@@ -4,7 +4,7 @@ const { FeedbackQs } = require('../../config/db-config');
 class FeedbackQsExec {
     getQuery(params) {
         var ID = (typeof params.ID === "undefined") ? "1=1"
-        : `fs.ID = '${params.ID}' `;
+            : `fs.ID = '${params.ID}' `;
 
         var user_role = (typeof params.user_role === "undefined") ? "1=1"
             : `fs.user_role = '${params.user_role}' `;

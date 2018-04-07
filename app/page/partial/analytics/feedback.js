@@ -9,7 +9,9 @@ import { RootPath } from '../../../../config/app-config';
 import { getAuthUser, isRoleRec, getCFObj } from '../../../redux/actions/auth-actions';
 import { storeHideFocusCard, storeHideBlockLoader, customBlockLoader } from '../../../redux/actions/layout-actions';
 import Form, { toggleSubmit, checkDiff } from '../../../component/form';
-//aa
+import { createUserTitle } from '../../users';
+import Tooltip from '../../../component/tooltip';
+
 // for recruiters
 export function openFeedbackBlockRec() {
     if (isRoleRec()) {
@@ -52,101 +54,162 @@ export function getFeedbackPopupView(isDropResume = true) {
     </div>;
 }
 
-export class FeedbackForm extends React.Component {
+
+// #########################################################################################################
+// #########################################################################################################
+
+export class FeedbackList extends React.Component {
     constructor(props) {
         super(props);
+        this.loadFeedbackQs = this.loadFeedbackQs.bind(this);
+        this.createFeedbackView = this.createFeedbackView.bind(this);
+
         this.authUser = getAuthUser();
-        this.user_role = this.props.match.params.user_role;
 
         this.state = {
-            error: null,
-            disableSubmit: false,
-            success: null,
-            qs: [],
-            formLoading: true
-        };
+            loading: true,
+            qs: {}
+        }
+    }
+
+    loadFeedbackQs() {
+        var q = `query{ feedback_qs {ID, question} }`;
+        getAxiosGraphQLQuery(q).then((res) => {
+            var qs = {}
+            res.data.data.feedback_qs.map((d, i) => {
+                qs[d.ID] = d.question;
+            });
+            this.setState({ qs: qs, loading: false });
+        })
+    }
+
+    // return array of tds
+    createFeedbackView(raw) {
+        var data = JSON.parse(raw);
+        console.log(data);
+        var v = [];
+        var style = { marginBottom: "5px" };
+        for (var id in data) {
+            var d = data[id];
+
+            var qs = <Tooltip
+                left="-204px"
+                bottom="-11px"
+                noArrow={true}
+                content={<small><i><b>Question Id {id}</b></i></small>}
+                tooltip={this.state.qs[id]}>
+            </Tooltip>;
+
+            v.push(<td style={style}>
+                {qs}
+                <br></br>{d}
+            </td>);
+        }
+
+        return v;
     }
 
     componentWillMount() {
-        //load forms
-        var query = `query{ feedback_qs(user_role: "${this.user_role}", is_disabled:0){
-                        ID question } }`;
 
-        getAxiosGraphQLQuery(query).then((res) => {
-            var qs = res.data.data.feedback_qs;
-            this.setState(() => {
-                return { qs: qs, formLoading: false };
-            })
-        });
+        this.loadFeedbackQs()
 
-        this.formOnSubmit = (d) => {
-            //toggleSubmit(this, { error: null });
-            var value = JSON.stringify(d);
-            value = JSON.stringify(value);
+        this.ROLE_DATA = [UserEnum.ROLE_STUDENT, UserEnum.ROLE_RECRUITER];
+        this.offset = 20;
+        this.tableHeader = <thead>
+            <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>;
 
-            var query = `mutation{
-                        edit_user(ID: ${this.authUser.ID},feedback:${value}){ID}}`;
-
-            getAxiosGraphQLQuery(query).then((res) => {
-                var edit = res.data.data.edit_user;
-                if (edit.ID == this.authUser.ID) {
-                    toggleSubmit(this, { success: true });
-                } else {
-                    toggleSubmit(this, { error: "Something went wrong. Failed to submit form" });
-                }
-            });
-        }
-    }
-
-    getForm(qs) {
-        if (qs == null || qs.length == 0) {
-            return <div className="text-muted">Invalid url</div>;
+        this.renderRow = (d, i) => {
+            var row = [];
+            row.push(<td>{createUserTitle(d)}</td>);
+            row.push(<td>{d.role}</td>);
+            row.push(...this.createFeedbackView(d.feedback));
+            return row;
         }
 
-        var formItem = [];
-        for (var i in qs) {
-            var q = qs[i];
-            formItem.push({
-                label: q.question,
-                name: q.ID,
-                required: true,
-                type: "textarea"
-            });
+        //##########################################
+        //  search
+        this.searchParams = "";
+        this.search = {};
+        this.searchFormItem = [{ header: "Enter Your Search Query" },
+        {
+            label: "Feedback From",
+            name: "user_role",
+            type: "select",
+            data: this.ROLE_DATA
+        }];
+
+        this.searchFormOnSubmit = (d) => {
+            this.search = d;
+            this.searchParams = "";
+            if (d != null) {
+                this.searchParams += (d.user_role) ? `role:"${d.user_role}",` : "";
+            }
+        };
+
+        this.loadData = (page, offset) => {
+            return getAxiosGraphQLQuery(`query{
+                users(has_feedback:1, ${ this.searchParams} page:${page}, offset:${offset}){
+                ID
+                first_name last_name 
+                user_email feedback
+                role }}`);
+        };
+
+
+
+        this.getDataFromRes = (res) => {
+            return res.data.data.users;
         }
 
-        return <Form className="form-row"
-            items={formItem}
-            onSubmit={this.formOnSubmit}
-            submitText="Submit"
-            disableSubmit={this.state.disableSubmit}
-            error={this.state.error}
-            errorPosition="bottom"
-            success={this.state.success}>
-        </Form>;
+        this.formWillSubmit = (d, edit) => {
+            if (typeof d.is_disabled === "string") {
+                d.is_disabled = Number.parseInt(d.is_disabled);
+            }
+            if (edit) {
+                d.updated_by = this.authUser.ID;
+            } else {
+                d.created_by = this.authUser.ID;
+            }
+            return d;
+        }
     }
 
     render() {
+        document.setTitle("User Feedback");
+
         var v = null;
-        if (this.state.formLoading) {
-            v = <Loader text="Loading Feedback Form.."></Loader>
-        } else if (this.state.success == null) {
-            v = this.getForm(this.state.qs);
+
+        if (this.state.loading) {
+            v = <Loader size="2" text="Loading user feedback"></Loader>;
         } else {
-            window.scrollTo(0, 0);
-            v = <div>Your feedback has been successfully submitted
-                <br></br>Thank you for your time.
-                <br></br><br></br>
-                <NavLink className="btn btn-blue" to={`${RootPath}/app/career-fair`}>
-                    Go Back To Career Fair</NavLink>
+            v = <div>
+                <h3>User Feedback</h3>
+                <GeneralFormPage
+                    dataTitle={this.dataTitle}
+                    noMutation={true}
+                    formWillSubmit={this.formWillSubmit}
+                    dataOffset={20}
+                    searchFormItem={this.searchFormItem}
+                    searchFormOnSubmit={this.searchFormOnSubmit}
+                    tableHeader={this.tableHeader}
+                    renderRow={this.renderRow}
+                    getDataFromRes={this.getDataFromRes}
+                    loadData={this.loadData}></GeneralFormPage>
             </div>;
         }
 
-        return <div>
-            <h3>Feedback<br></br><small>{this.user_role.capitalize()}</small></h3>
-            {v}
-        </div>;
+        return (v);
     }
 }
+
+
+// #########################################################################################################
+// #########################################################################################################
 
 export class ManageFeedback extends React.Component {
     constructor(props) {
@@ -312,5 +375,106 @@ export class ManageFeedback extends React.Component {
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}></GeneralFormPage>
         </div>);
+    }
+}
+
+
+
+// #########################################################################################################
+// #########################################################################################################
+
+export class FeedbackForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.authUser = getAuthUser();
+        this.user_role = this.props.match.params.user_role;
+
+        this.state = {
+            error: null,
+            disableSubmit: false,
+            success: null,
+            qs: [],
+            formLoading: true
+        };
+    }
+
+    componentWillMount() {
+        //load forms
+        var query = `query{ feedback_qs(user_role: "${this.user_role}", is_disabled:0){
+                        ID question } }`;
+
+        getAxiosGraphQLQuery(query).then((res) => {
+            var qs = res.data.data.feedback_qs;
+            this.setState(() => {
+                return { qs: qs, formLoading: false };
+            })
+        });
+
+        this.formOnSubmit = (d) => {
+            //toggleSubmit(this, { error: null });
+            var value = JSON.stringify(d);
+            value = JSON.stringify(value);
+
+            var query = `mutation{
+                        edit_user(ID: ${this.authUser.ID},feedback:${value}){ID}}`;
+
+            getAxiosGraphQLQuery(query).then((res) => {
+                var edit = res.data.data.edit_user;
+                if (edit.ID == this.authUser.ID) {
+                    toggleSubmit(this, { success: true });
+                } else {
+                    toggleSubmit(this, { error: "Something went wrong. Failed to submit form" });
+                }
+            });
+        }
+    }
+
+    getForm(qs) {
+        if (qs == null || qs.length == 0) {
+            return <div className="text-muted">Invalid url</div>;
+        }
+
+        var formItem = [];
+        for (var i in qs) {
+            var q = qs[i];
+            formItem.push({
+                label: q.question,
+                name: q.ID,
+                required: true,
+                type: "textarea"
+            });
+        }
+
+        return <Form className="form-row"
+            items={formItem}
+            onSubmit={this.formOnSubmit}
+            submitText="Submit"
+            disableSubmit={this.state.disableSubmit}
+            error={this.state.error}
+            errorPosition="bottom"
+            success={this.state.success}>
+        </Form>;
+    }
+
+    render() {
+        var v = null;
+        if (this.state.formLoading) {
+            v = <Loader text="Loading Feedback Form.."></Loader>
+        } else if (this.state.success == null) {
+            v = this.getForm(this.state.qs);
+        } else {
+            window.scrollTo(0, 0);
+            v = <div>Your feedback has been successfully submitted
+                <br></br>Thank you for your time.
+                <br></br><br></br>
+                <NavLink className="btn btn-blue" to={`${RootPath}/app/career-fair`}>
+                    Go Back To Career Fair</NavLink>
+            </div>;
+        }
+
+        return <div>
+            <h3>Feedback<br></br><small>{this.user_role.capitalize()}</small></h3>
+            {v}
+        </div>;
     }
 }
