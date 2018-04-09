@@ -4,6 +4,20 @@ const axios = require('axios');
 
 class XLSApi {
     constructor() {
+        this.student_field = `ID
+        first_name
+        last_name
+        user_email
+        doc_links{label url}
+        university
+        major
+        minor
+        phone_number
+        graduation_month
+        graduation_year
+        available_month
+        available_year`;
+
         this.DateTime = ["created_at", "updated_at", "user_registered", "appointment_time"];
     }
 
@@ -30,8 +44,52 @@ class XLSApi {
             case 'prescreens':
                 return this.prescreens(filter.company_id);
                 break;
+            case 'resume_drops':
+                return this.resume_drops(filter.company_id);
+                break;
         }
     }
+
+
+    resume_drops(cid) {
+        // 0. create filename
+        var filename = `Resume Drops - Company ${cid}`;
+
+        // 1. create query
+        var query = `query{
+            resume_drops(company_id:${cid}) {
+              message
+              student{${this.student_field}}
+              company{name}
+              created_at
+              updated_at
+            }
+          }`;
+
+        // 2. prepare props to generate table
+        const headers = null;
+
+        // 3. resctruct data to be in one level only
+        const restructData = (data) => {
+            var hasChildren = ["student", "company"];
+            var newData = {};
+            for (var key in data) {
+                var d = data[key];
+                if (hasChildren.indexOf(key) >= 0) {
+                    for (var k in d) {
+                        newData[`${key}_${k}`] = d[k];
+                    }
+                } else {
+                    newData[key] = d;
+                }
+            }
+            return newData;
+        };
+
+        // 3 . fetch and return
+        return this.fetchAndReturn(query, "resume_drops", filename, headers, null, restructData);
+    }
+
 
     prescreens(cid) {
         // 0. create filename
@@ -40,13 +98,7 @@ class XLSApi {
         // 1. create query
         var query = `query{
             prescreens(company_id:${cid}, special_type:"Pre Screen") {
-              student{
-                ID
-                first_name
-                last_name
-                user_email
-                doc_links{label url}
-              }
+              student{${this.student_field}}
               created_at
               company{name}
               status
