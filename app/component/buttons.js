@@ -11,7 +11,10 @@ export class ButtonExport extends React.Component {
     }
 
     render() {
-        return (<a className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>
+        var style = {
+            marginBottom : "5px"
+        }
+        return (<a style={style}className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>
             {this.props.text}
         </a>);
     }

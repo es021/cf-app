@@ -151,6 +151,8 @@ class CompaniesPage extends React.Component {
         row.push(<td className="text-center">
             {d.accept_prescreen ? <ButtonExport action="prescreens" text="Prescreens"
                 filter={{ company_id: d.ID }}></ButtonExport> : null}
+            <ButtonExport action="resume_drops" text="Resume Drops"
+                filter={{ company_id: d.ID }}></ButtonExport>
         </td>);
 
         //recruiter
