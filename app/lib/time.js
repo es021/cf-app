@@ -1,5 +1,41 @@
 var Time = function () { };
 
+// timezone : MYT, EST
+Time.prototype.getStringWithTimezone = function (unixtimestamp, timezone) {
+    //Time.getStringWithTimezone("now", "MYT")
+    
+    var TZ = {
+        MYT: +8,
+        EST: -5,
+        EDT: -4
+    }
+
+    if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
+        return "";
+    }
+
+    if (unixtimestamp === "now") {
+        unixtimestamp = this.getUnixTimestampNow();
+    }
+
+    if (typeof unixtimestamp === "string") {
+        if (Number.isNaN(Number.parseInt(unixtimestamp))) {
+            unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+        }
+    }
+
+    var d = new Date();
+    var defaultOffset = d.getTimezoneOffset() / 60;
+    var offset = defaultOffset + TZ[timezone];
+    unixtimestamp = unixtimestamp + (offset * 60 * 60);
+
+    var r = `${this.getString(unixtimestamp)} (${timezone})`;
+    //console.log(r);
+
+    return r;
+}
+
+
 Time.prototype.isUnixElapsedHour = function (unixtimestamp, hour) {
     var msPerMinute = 60 * 1000;
     var msPerHour = msPerMinute * 60;
