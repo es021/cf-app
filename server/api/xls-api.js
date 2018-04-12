@@ -10,15 +10,16 @@ class XLSApi {
         user_email
         doc_links{label url}
         university
-        major
+        major 
         minor
+        cgpa 
         phone_number
         graduation_month
         graduation_year
         available_month
         available_year`;
 
-        this.DateTime = ["created_at", "updated_at", "user_registered", "appointment_time"];
+        this.DateTime = ["created_at", "updated_at", "started_at", "ended_at", "user_registered", "appointment_time"];
     }
 
     // filter in JSON object, return {filename, content}
@@ -37,7 +38,7 @@ class XLSApi {
             // xls/students/{"cf":"USA"}
             // filter == null, all cfs
             case 'students':
-                return this.students(filter.cf);
+                return this.students(filter.cf,filter.new_only);
                 break;
             // xls/prescreens/{"company_id":1}
             // filter == null, all cfs
@@ -46,6 +47,9 @@ class XLSApi {
                 break;
             case 'resume_drops':
                 return this.resume_drops(filter.company_id);
+                break;
+            case 'sessions':
+                return this.sessions(filter.company_id);
                 break;
         }
     }
@@ -134,13 +138,82 @@ class XLSApi {
     }
 
 
-    students(cf) {
+    sessions(cid) {
+        // 0. create filename
+        var filename = `Past Sessions - Company ${cid}`;
+
+        // 1. create query
+        var query = `query{
+            sessions(company_id:${cid}) {
+              session_notes{note}
+              session_ratings{category rating}
+              student{${this.student_field}}
+              company{name}
+              created_at
+              started_at
+              ended_at
+            }
+          }`;
+
+        // 2. prepare props to generate table
+        const headers = null;
+
+        // 3. resctruct data to be in one level only
+        const restructData = (data) => {
+            var hasChildren = ["student", "company"];
+            var newData = {};
+            for (var key in data) {
+                var d = data[key];
+                if (hasChildren.indexOf(key) >= 0) {
+                    for (var k in d) {
+                        newData[`${key}_${k}`] = d[k];
+                    }
+                } else {
+                    newData[key] = d;
+                }
+            }
+            return newData;
+        };
+
+        var rowHook = (k, data) => {
+
+            if (k.indexOf("session_notes") >= 0) {
+                var toRet = "";
+                data.map((d, i) => {
+                    if (i > 0) {
+                        toRet += "<br>";
+                    }
+                    toRet += `${d.note}`;
+                });
+                return toRet;
+            }
+            else if (k.indexOf("session_ratings") >= 0) {
+                var toRet = "";
+                data.map((d, i) => {
+                    if (i > 0) {
+                        toRet += "<br>";
+                    }
+                    toRet += `${d.category} - ${d.rating}`;
+                });
+                return toRet;
+            } else {
+                return data;
+            }
+        }
+        // 3 . fetch and return
+        return this.fetchAndReturn(query, "sessions", filename, headers, rowHook, restructData);
+    }
+
+
+
+    students(cf, new_only) {
         // 0. create filename
         var filename = `Student Data ${cf}`;
 
         // 1. create query
-        var cf_condition = (typeof cf !== "undefined") ? `,cf:"${cf}"` : "";
-        var query = `query{ users(role:"student" ${cf_condition}) {
+        var cf_con = (typeof cf !== "undefined") ? `,cf:"${cf}"` : "";
+        var nw_con = (typeof new_only !== "undefined") ? `,new_only:${new_only}` : "";
+        var query = `query{ users(role:"student" ${cf_con} ${nw_con}) {
               ID
               user_email
               first_name
