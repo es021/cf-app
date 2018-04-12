@@ -147,11 +147,15 @@ class CompaniesPage extends React.Component {
             }
         }
 
+        // {d.accept_prescreen ? <ButtonExport action="prescreens" text="Prescreens"
+        //         filter={{ company_id: d.ID }}></ButtonExport> : null}
         //export data
         row.push(<td className="text-center">
-            {d.accept_prescreen ? <ButtonExport action="prescreens" text="Prescreens"
-                filter={{ company_id: d.ID }}></ButtonExport> : null}
+            <ButtonExport action="prescreens" text="Prescreens"
+                filter={{ company_id: d.ID }}></ButtonExport>
             <ButtonExport action="resume_drops" text="Resume Drops"
+                filter={{ company_id: d.ID }}></ButtonExport>
+            <ButtonExport action="sessions" text="Past Sessions"
                 filter={{ company_id: d.ID }}></ButtonExport>
         </td>);
 

@@ -12,6 +12,7 @@ import { Prescreen, PrescreenEnum } from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
 import { NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
+import { createCompanyTitle } from './companies';
 
 
 export function getCFTimeDetail(date, time) {
@@ -174,7 +175,7 @@ class RegisterPS extends React.Component {
 
             // create form item
             var dataComs = this.state.coms.map((d, i) => {
-                return { key: d.ID, label: d.name };
+                return { key: d.ID, label: createCompanyTitle(d) };
             });
 
             if (dataComs.length <= 0) {

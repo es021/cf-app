@@ -230,7 +230,7 @@ fields["users"] = {
         offset: { type: GraphQLInt },
         order_by: { type: GraphQLString },
         cf: { type: GraphQLString },
-
+        new_only: { type: GraphQLInt },
         has_feedback: { type: GraphQLInt },
         //search query
         search_user: { type: GraphQLString } // name and email

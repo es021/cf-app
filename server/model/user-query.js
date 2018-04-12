@@ -89,6 +89,14 @@ class UserQuery {
         var cf_where = (typeof params.cf === "undefined") ? "1=1"
             : `(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
 
+        var new_only_where = (typeof params.new_only === "undefined" || !params.new_only) ? "1=1"
+            : `u.ID in (SELECT distinct l.user_id
+                FROM logs l, wp_cf_users ux 
+                where 1=1
+                and l.user_id = ux.ID
+                and l.event = 'login' 
+                and ux.user_email not like '%test%')`;
+
         // add meta condition
         var meta_condition = " 1=1 ";
         var i = 0;
@@ -117,9 +125,11 @@ class UserQuery {
 
         var sql = `SELECT u.* ${meta_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
-           AND ${id_condition} AND ${meta_condition} AND ${email_condition} AND ${role_condition} AND ${cf_where}
+           AND ${id_condition} AND ${meta_condition} 
+           AND ${email_condition} AND ${role_condition} 
+           AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
-        //console.log(sql);
+        console.log(sql);
 
         /*
          var sql = `SELECT u.* 

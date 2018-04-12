@@ -158,7 +158,10 @@ class UsersPage extends React.Component {
         return (<div><h3>
             Students
         </h3>
-            <small><ButtonExport action="students" filter={{ cf: getCF() }}></ButtonExport></small>
+            <small>
+                <ButtonExport text="All Students" action="students" filter={{ cf: getCF() }}></ButtonExport>
+                <ButtonExport text="New And Returning Students" action="students" filter={{ cf: getCF(), new_only: 1 }}></ButtonExport>
+            </small>
 
             <GeneralFormPage
                 entity_singular="Student"
