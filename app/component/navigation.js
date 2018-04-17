@@ -187,7 +187,7 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: isDisabled("auditorium", COMING_SOON)
+            disabled: false //isDisabled("auditorium", COMING_SOON)
         },
         {
             url: "/my-activity/:current",
