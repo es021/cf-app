@@ -7,6 +7,8 @@ import { CareerFair, CareerFairOrg } from '../../../config/cf-config';
 import { Time } from '../../lib/time';
 
 export function isComingSoon() {
+    return false;
+    
     if (isTestUser()) {
         return false;
     }
