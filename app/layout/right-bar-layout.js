@@ -47,7 +47,7 @@ export default class RightBarLayout extends React.Component {
 
     getAds() {
         var v = [];
-        
+
         /*
             background: linear-gradient( rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.4) ), url('https://seedsjobfair.com/career-fair/image/decoration/talent_corp.jpg');
                 background-position-x: 0%, 0%;
@@ -67,7 +67,10 @@ export default class RightBarLayout extends React.Component {
 
             v.push(<div className="right-bar-item">
                 <div className="body">
-                    <a onClick={() => { addLog(LogEnum.EVENT_CLICK_ADS, id) }}
+                    <a id={id} onClick={(ev) => {
+                        var adsId = ev.currentTarget.id;
+                        addLog(LogEnum.EVENT_CLICK_ADS, adsId)
+                    }}
                         target="blank"
                         href={ads.url}>
                         <div style={style} className="ads img img-responsive">
