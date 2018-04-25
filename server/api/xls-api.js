@@ -51,8 +51,51 @@ class XLSApi {
             case 'sessions':
                 return this.sessions(filter.company_id);
                 break;
+            case 'session_requests':
+                return this.session_requests(filter.company_id);
+                break;
         }
     }
+
+
+    session_requests(cid) {
+        // 0. create filename
+        var filename = `Session Requests - Company ${cid}`;
+
+        // 1. create query
+        var query = `query{
+            session_requests(company_id:${cid}) {
+              student{${this.student_field}}
+              company{name}
+              status
+              created_at
+            }
+          }`;
+
+        // 2. prepare props to generate table
+        const headers = null;
+
+        // 3. resctruct data to be in one level only
+        const restructData = (data) => {
+            var hasChildren = ["student", "company"];
+            var newData = {};
+            for (var key in data) {
+                var d = data[key];
+                if (hasChildren.indexOf(key) >= 0) {
+                    for (var k in d) {
+                        newData[`${key}_${k}`] = d[k];
+                    }
+                } else {
+                    newData[key] = d;
+                }
+            }
+            return newData;
+        };
+
+        // 3 . fetch and return
+        return this.fetchAndReturn(query, "session_requests", filename, headers, null, restructData);
+    }
+
 
 
     resume_drops(cid) {

@@ -157,6 +157,8 @@ class CompaniesPage extends React.Component {
                 filter={{ company_id: d.ID }}></ButtonExport>
             <ButtonExport action="sessions" text="Past Sessions"
                 filter={{ company_id: d.ID }}></ButtonExport>
+            <ButtonExport action="session_requests" text="Session Request"
+                filter={{ company_id: d.ID }}></ButtonExport>
         </td>);
 
         //recruiter
