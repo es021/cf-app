@@ -267,6 +267,7 @@ class XLSApi {
               minor
               university
               phone_number
+              cgpa
               description
               graduation_month
               graduation_year
