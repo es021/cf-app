@@ -31,17 +31,21 @@ export default class RightBarLayout extends React.Component {
     }
 
     getEventPage() {
-        return <div className="right-bar-item">
-            <div className="body">
-                <a onClick={() => { addLog(LogEnum.EVENT_CLICK_EVENT_PAGE, "") }} target="blank" href={this.CFObj.page_url}>
-                    <img className="img img-responsive" src={this.CFObj.page_banner}></img>
-                    <a className="btn btn-block btn-blue">
-                        <i className="fa fa-facebook left"></i>
-                        Visit Event Page
+        if (this.CFObj.page_banner !== null && this.CFObj.page_url !== null) {
+            return <div className="right-bar-item">
+                <div className="body">
+                    <a onClick={() => { addLog(LogEnum.EVENT_CLICK_EVENT_PAGE, "") }} target="blank" href={this.CFObj.page_url}>
+                        <img className="img img-responsive" src={this.CFObj.page_banner}></img>
+                        <a className="btn btn-block btn-blue">
+                            <i className="fa fa-facebook left"></i>
+                            Visit Event Page
                     </a>
-                </a>
-            </div>
-        </div>;
+                    </a>
+                </div>
+            </div>;
+        } else {
+            return null;
+        }
     }
 
 

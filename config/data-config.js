@@ -37,7 +37,21 @@ const PositionType = [
     "Co-op"
 ];
 
-module.exports = { Month, Year, Sponsor, PositionType };
+const MasState = [
+    "",
+    "Selangor",
+    "Terengganu"
+];
+
+const Country = [
+    "",
+    "New Zealand",
+    "USA",
+    "Japan",
+    "Germany"
+];
+
+module.exports = { Month, Year, Sponsor, PositionType, MasState, Country };
 
 
 

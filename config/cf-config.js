@@ -1,6 +1,29 @@
 const { ImageUrl } = require('./app-config');
-
+const CF_DEFAULT = "NZL";
 const CareerFair = {
+
+    "NZL": {
+        title: "New Zealand Virtual Career Fair 2018",
+        flag: "New Zealand",
+        banner: "NZL.jpg",
+        // maalaysia time + 8 , est time.. -4
+        // first event
+        //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
+        //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
+        // second event
+        start: "Jul 09 2018 20:00:00 GMT -0400 (-04)",
+        end: "Jul 11 2018 23:00:00 GMT -0400 (-04)",
+        time_str: "10 PM - 1 AM (EDT)",
+        //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
+        //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
+        //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+        //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
+        //dates: ["20", "21"], // for multiple seggregated dates
+        can_register: 1,
+        can_login: 1,
+        page_url: null,
+        page_banner:null
+    },
     "USA": {
         title: "USA Virtual Career Fair 2018",
         flag: "United States of America(USA)",
@@ -10,15 +33,15 @@ const CareerFair = {
         //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
         // second event
-        start: "Apr 20 2018 20:00:00 GMT -0400 (-04)", 
+        start: "Apr 20 2018 20:00:00 GMT -0400 (-04)",
         end: "Apr 21 2018 23:00:00 GMT -0400 (-04)",
-        time_str : "10 PM - 1 AM (EDT)",
+        time_str: "10 PM - 1 AM (EDT)",
         //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
         test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
         test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
         //dates: ["20", "21"], // for multiple seggregated dates
-        can_register: 1,
+        can_register: 0,
         can_login: 1,
         page_url: "https://www.facebook.com/events/165437787576733/",
         page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
@@ -108,4 +131,4 @@ const CareerFairOrg = {
     }
 };
 
-module.exports = { CareerFair, CareerFairOrg };
+module.exports = { CareerFair, CareerFairOrg, CF_DEFAULT };

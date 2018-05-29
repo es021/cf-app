@@ -1,6 +1,7 @@
 import { getNewState } from './_helper';
 import * as authActions from '../actions/auth-actions';
 import { _GET } from '../../lib/util';
+import { CF_DEFAULT } from '../../../config/cf-config';
 
 var getCF = _GET("cf");
 
@@ -27,7 +28,6 @@ try {
 
 
 const AUTH_LOCAL_STORAGE = "auth";
-const CF_DEFAULT = "USA";
 
 function setAuthLocalStorage(newItem) {
     if (!hasLocalStorageSupport) {

@@ -33,7 +33,7 @@ import { SupportPage } from '../page/support';
 import AnalyticPage from '../page/analytics';
 import { FeedbackForm } from '../page/partial/analytics/feedback';
 
-import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleSupport, isRoleAdmin } from '../redux/actions/auth-actions';
+import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleSupport, isRoleAdmin, isComingSoon } from '../redux/actions/auth-actions';
 
 function getHomeComponent(COMING_SOON) {
     var homeComponent = null;
@@ -199,7 +199,7 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             default_param: { current: "session" },
-            disabled: !isRoleRec() && !isRoleStudent() //for student disable first
+            disabled: (!isRoleRec() && !isRoleStudent()) || COMING_SOON //for student disable first
         },
         {
             url: "/company-forum",
@@ -220,7 +220,8 @@ function getMenuItem(COMING_SOON) {
             bar_app: true,
             bar_auth: false,
             hd_app: false,
-            hd_auth: false
+            hd_auth: false,
+            disabled: COMING_SOON
             //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
         },
         {
