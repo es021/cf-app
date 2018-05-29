@@ -56,6 +56,12 @@ const UserType = new GraphQLObjectType({
         cgpa: { type: GraphQLString },
         major: { type: GraphQLString },
         minor: { type: GraphQLString },
+        
+        mas_state: { type: GraphQLString },
+        mas_postcode: { type: GraphQLString },
+        relocate: { type: GraphQLString },
+        study_place: { type: GraphQLString },
+
         doc_links: { type: new GraphQLList(DocLinkType) },
         skills: { type: new GraphQLList(SkillType) },
 

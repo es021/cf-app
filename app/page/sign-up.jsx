@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, getDataCareerFair } from '../component/form';
 import { UserMeta, User, UserEnum } from '../../config/db-config';
-import { Month, Year, Sponsor } from '../../config/data-config';
+import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
 import { RootPath } from '../../config/app-config';
@@ -77,7 +77,21 @@ export default class SignUpPage extends React.Component {
                 placeholder: "XXX-XXXXXXX",
                 required: true
             },
-            { header: "Additional Information" },
+            { header: "Where Do You Reside In Malaysia?" },
+            {
+                label: "State",
+                name: UserMeta.MAS_STATE,
+                type: "select",
+                data: MasState,
+                required: true
+            }, {
+                label: "Postcode",
+                name: UserMeta.MAS_POSTCODE,
+                type: "text",
+                required: true,
+                placeholder: "20050"
+            },
+            { header: "Degree Related Information" },
             {
                 label: "Major",
                 name: UserMeta.MAJOR,
@@ -95,7 +109,15 @@ export default class SignUpPage extends React.Component {
                 name: UserMeta.UNIVERSITY,
                 type: "text",
                 required: true
-            }, {
+            },
+            {
+                label: "Where Is Your University Located?",
+                name: UserMeta.STUDY_PLACE,
+                type: "select",
+                data: Country,
+                required: true
+            },
+            {
                 label: "Current CGPA",
                 name: UserMeta.CGPA,
                 type: "number",
@@ -120,7 +142,9 @@ export default class SignUpPage extends React.Component {
                 data: Year,
                 required: true
 
-            }, {
+            },
+            { header: "Future Employment Information" },
+            {
                 label: "Work Availability Date",
                 sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
                 name: UserMeta.AVAILABLE_MONTH,
@@ -128,13 +152,23 @@ export default class SignUpPage extends React.Component {
                 data: Array("Available To Start Anytime", ...Month),
                 required: true
 
-            }, {
+            },
+            {
                 label: null,
                 name: UserMeta.AVAILABLE_YEAR,
                 type: "select",
                 data: Array("Available To Start Anytime", ...Year),
                 required: true
-            }, {
+            },
+            {
+                label: "Are You Willing To Relocate?",
+                name: UserMeta.RELOCATE,
+                type: "select",
+                data: Array("", "Yes", "No"),
+                required: true
+            },
+            { header: "Additional Information" },
+            {
                 label: "Sponsor",
                 name: UserMeta.SPONSOR,
                 type: "select",

@@ -73,6 +73,11 @@ const UserMeta = {
     MAJOR: "major",
     MINOR: "minor",
 
+    MAS_POSTCODE: "mas_postcode",
+    MAS_STATE: "mas_state",
+    RELOCATE: "relocate",
+    STUDY_PLACE: "study_place",
+
     // rec only
     REC_COMPANY: "rec_company",
     REC_POSITION: "rec_position"

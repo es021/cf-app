@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
 import { UserMeta, User, UserEnum, Skill, DocLink, DocLinkEnum } from '../../config/db-config';
-import { Month, Year, Sponsor } from '../../config/data-config';
+import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
@@ -160,7 +160,11 @@ class EditProfile extends React.Component {
             sponsor
             cgpa
             major
-            minor`;
+            minor
+            mas_state
+            mas_postcode
+            relocate
+            study_place`;
 
         } else if (role === UserEnum.ROLE_RECRUITER) {
             extra = `rec_position rec_company`;
@@ -217,7 +221,21 @@ class EditProfile extends React.Component {
                 placeholder: "XXX-XXXXXXX",
                 required: true
             },
-            { header: "Additional Information" },
+            { header: "Where Do You Reside In Malaysia?" },
+            {
+                label: "State",
+                name: UserMeta.MAS_STATE,
+                type: "select",
+                data: MasState,
+                required: true
+            }, {
+                label: "Postcode",
+                name: UserMeta.MAS_POSTCODE,
+                type: "text",
+                required: true,
+                placeholder: "20050"
+            },
+            { header: "Degree Related Information" },
             {
                 label: "Major",
                 name: UserMeta.MAJOR,
@@ -235,7 +253,15 @@ class EditProfile extends React.Component {
                 name: UserMeta.UNIVERSITY,
                 type: "text",
                 required: true
-            }, {
+            },
+            {
+                label: "Where Is Your University Located?",
+                name: UserMeta.STUDY_PLACE,
+                type: "select",
+                data: Country,
+                required: true
+            },
+            {
                 label: "Current CGPA",
                 name: UserMeta.CGPA,
                 type: "number",
@@ -260,7 +286,9 @@ class EditProfile extends React.Component {
                 data: Year,
                 required: true
 
-            }, {
+            },
+            { header: "Future Employment Information" },
+            {
                 label: "Work Availability Date",
                 sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
                 name: UserMeta.AVAILABLE_MONTH,
@@ -274,6 +302,14 @@ class EditProfile extends React.Component {
                 data: Array("Available To Start Anytime", ...Year),
                 required: true
             }, {
+                label: "Are You Willing To Relocate?",
+                name: UserMeta.RELOCATE,
+                type: "select",
+                data: Array("", "Yes", "No"),
+                required: true
+            },
+            { header: "Additional Information" },
+            {
                 label: "Sponsor",
                 name: UserMeta.SPONSOR,
                 type: "select",

@@ -155,6 +155,12 @@ fields["edit_user"] = {
         major: { type: GraphQLString },
         minor: { type: GraphQLString },
 
+        mas_state: { type: GraphQLString },
+        mas_postcode: { type: GraphQLString },
+        relocate: { type: GraphQLString },
+        study_place: { type: GraphQLString },
+
+
         // rec only
         company_id: { type: GraphQLInt },
         rec_position: { type: GraphQLString },
