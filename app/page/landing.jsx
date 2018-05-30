@@ -41,8 +41,8 @@ export default class LandingPage extends React.Component {
         // create subtitle from  date
         if (this.CFDetail.start != null && this.CFDetail.end != null) {
             var dateStr = Time.getPeriodString(this.CFDetail.start, this.CFDetail.end, this.CFDetail.dates);
-            this.subtitle = <span style={{fontSize:"85%"}}>
-                {getCFTimeDetail(dateStr,this.CFDetail.time_str)}
+            this.subtitle = <span style={{ fontSize: "85%" }}>
+                {getCFTimeDetail(dateStr, this.CFDetail.time_str, this.CFDetail.time_str_mas)}
             </span>;
         }
 
