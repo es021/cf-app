@@ -15,13 +15,18 @@ import { RootPath } from '../../config/app-config';
 import { createCompanyTitle } from './companies';
 
 
-export function getCFTimeDetail(date, time) {
+export function getCFTimeDetail(date, time, time_mas) {
     return <span>
         {(typeof date === "undefined" || date == null) ? null
             : <span><i className="fa fa-calendar left"></i>{date}</span>}
         <br></br>
-        {(typeof time === "undefined" || time == null) ? null
-            : <span><i className="fa fa-clock-o left"></i>{time}</span>}
+        <span style={{ opacity: "0.8", fontSize:"90%" }}>
+            {(typeof time === "undefined" || time == null) ? null
+                : <span><i className="fa fa-clock-o left"></i>{time}</span>}
+            <br></br>
+            {(typeof time_mas === "undefined" || time_mas == null) ? null
+                : <span><i className="fa fa-clock-o left"></i>{time_mas}</span>}
+        </span>
     </span>;
 }
 
@@ -242,7 +247,7 @@ export default class ComingSoonPage extends React.Component {
                 {this.CFObj.title}
                 <br></br>
                 <small>
-                    {getCFTimeDetail(this.dateStr, this.CFObj.time_str)}
+                    {getCFTimeDetail(this.dateStr, this.CFObj.time_str, this.CFObj.time_str_mas)}
                 </small>
             </h1>
             <Timer end={this.CFObj.start} doneMes={doneMes}>

@@ -11,9 +11,10 @@ const CareerFair = {
         //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
         // second event
-        start: "Jul 09 2018 20:00:00 GMT -0400 (-04)",
-        end: "Jul 11 2018 23:00:00 GMT -0400 (-04)",
-        time_str: "10 PM - 1 AM (EDT)",
+        start: "Jul 09 2018 13:30:00 GMT +1200 (+12)",
+        end: "Jul 10 2018 16:30:00 GMT +1200 (+12)",
+        time_str: "1:30 PM - 4:30 PM (NZST)",
+        time_str_mas: "9:30 AM - 12:30 PM (MYT)",
         //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
         //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
@@ -22,7 +23,7 @@ const CareerFair = {
         can_register: 1,
         can_login: 1,
         page_url: null,
-        page_banner:null
+        page_banner: null
     },
     "USA": {
         title: "USA Virtual Career Fair 2018",
