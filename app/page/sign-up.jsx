@@ -5,7 +5,7 @@ import { UserMeta, User, UserEnum } from '../../config/db-config';
 import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
-import { RootPath } from '../../config/app-config';
+import { RootPath, DocumentUrl } from '../../config/app-config';
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
@@ -183,27 +183,38 @@ export default class SignUpPage extends React.Component {
                 placeholder: "Tell More About Yourself",
                 required: false,
                 rows: 5
+            }, {
+                label: null,
+                name: "accept-policy",
+                type: "checkbox",
+                data: [{
+                    key: "accepted",
+                    label: <small>I agree to <a href={`${DocumentUrl}/terms-condition.pdf`} target="_blank">terms and conditions</a></small>
+                }],
+                required: true
             }
         ];
-
     }
 
     //return string if there is error
     filterForm(d) {
-
         //check if both password is same
         if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
             return "Password not same";
         }
 
-        return 0;
+        // check if policy accepted
+        if (typeof d["accept-policy"] === "undefined" || d["accept-policy"][0] != "accepted") {
+            return "You must agree to terms and condition before continuing.";
+        }
 
+        return 0;
     }
 
     formOnSubmit(d) {
         console.log("sign up", d);
+        var err = this.filterForm(d);
 
-        var err = this.filterForm(d)
         if (err === 0) {
 
             //prepare data for registration

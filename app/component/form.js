@@ -106,7 +106,7 @@ export default class Form extends React.Component {
             var formObj = this.form[i];
             var name = formObj.name;
             var value = formObj.value;
-
+            //console.log(name,value);
             if (defName !== null && name != name) {
                 continue;
             }

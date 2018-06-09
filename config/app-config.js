@@ -10,6 +10,7 @@ var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
 var UploadUrl = AssetUrl + "/upload";
 var StaticUrl = AssetUrl + "/static";
 var ImageUrl = AssetUrl + "/asset/image";
+var DocumentUrl = AssetUrl + "/asset/document";
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {
@@ -52,4 +53,4 @@ const TestUser = [136, 137, 222, 223, 224, 225, 226, 227, 316, 317
 
 const SupportUserID = 681;
 
-module.exports = { SocketUrl, LandingUrl, TestUser, RootPath, StaticUrl, SupportUserID, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
+module.exports = { SocketUrl, LandingUrl,DocumentUrl, TestUser, RootPath, StaticUrl, SupportUserID, SiteUrl, UploadUrl, AppConfig, ImgConfig, ImageUrl };
