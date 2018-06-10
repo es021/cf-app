@@ -189,7 +189,7 @@ export default class SignUpPage extends React.Component {
                 type: "checkbox",
                 data: [{
                     key: "accepted",
-                    label: <small>I agree to <a href={`${DocumentUrl}/terms-condition.pdf`} target="_blank">terms and conditions</a></small>
+                    label: <small>I agree to <a href={`${DocumentUrl}/privacy-policy.pdf`} target="_blank">terms and conditions</a></small>
                 }],
                 required: true
             }
