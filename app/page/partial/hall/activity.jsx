@@ -375,9 +375,9 @@ class ActvityList extends React.Component {
         }
 
         return (<div className={`border-card bc-${this.props.bc_type}`}>
-            <h3 className="bc-title"><span className="bc-title-back">{this.props.title}</span>
+            <h4 className="bc-title"><span className="bc-title-back">{this.props.title}</span>
                 <br></br><small>{this.props.subtitle}</small>
-            </h3>
+            </h4>
             <div className="bc-body">{body}</div>
         </div>);
     }
@@ -479,22 +479,23 @@ class ActivitySection extends React.Component {
         var size_sr = (isRoleRec()) ? "12" : "12";
         var size_p = (isRoleRec()) ? "12" : "12";
 
+        //horizontal
         var s = <div className={`col-sm-${size_s} no-padding`}>
             <ActvityList
-                bc_type="horizontal"
+                bc_type="vertical"
                 online_users={this.props.online_users}
                 fetching={d.fetching.sessions}
                 type={hallAction.ActivityType.SESSION}
                 title={title_s} list={d.sessions}></ActvityList></div>;
 
         // zoom invitation
-        var zi = (isRoleRec()) ? <div className={`col-sm-${size_zi} no-padding`}>
-            <ActvityList
-                bc_type="horizontal"
-                online_users={this.props.online_users}
-                fetching={d.fetching.zoom_invites}
-                type={hallAction.ActivityType.ZOOM_INVITE}
-                title={title_zi} list={d.zoom_invites}></ActvityList></div> : null;
+        // var zi = (isRoleRec()) ? <div className={`col-sm-${size_zi} no-padding`}>
+        //     <ActvityList
+        //         bc_type="vertical"
+        //         online_users={this.props.online_users}
+        //         fetching={d.fetching.zoom_invites}
+        //         type={hallAction.ActivityType.ZOOM_INVITE}
+        //         title={title_zi} list={d.zoom_invites}></ActvityList></div> : null;
 
         /*
         var q = <div className={`col-sm-${size_q} no-padding`}>
@@ -507,7 +508,7 @@ class ActivitySection extends React.Component {
         // session request
         var sr = <div className={`col-sm-${size_sr} no-padding`}>
             <ActvityList
-                bc_type={`vertical ${isRoleStudent() ? "vertical-sm" : ""}`}
+                bc_type={`vertical`}
                 online_users={this.props.online_users}
                 fetching={d.fetching.session_requests}
                 type={hallAction.ActivityType.SESSION_REQUEST}
@@ -517,7 +518,7 @@ class ActivitySection extends React.Component {
         //Scheduled Session
         var p = <div className={`col-sm-${size_p} no-padding`}>
             <ActvityList
-                bc_type="horizontal"
+                bc_type="vertical"
                 online_users={this.props.online_users}
                 fetching={d.fetching.prescreens}
                 type={hallAction.ActivityType.PRESCREEN}
@@ -525,21 +526,28 @@ class ActivitySection extends React.Component {
                 subtitle={subtitle_p}
                 list={d.prescreens}></ActvityList></div>;
 
+        //{zi}
         return (isRoleRec()) ?
             <div className="row">
-                <div className={`col-sm-7 no-padding`}>
-                    {s}{p}{zi}
-                </div>
-                <div className={`col-sm-5 no-padding`}>
+                <div className={`col-md-5 no-padding`}>
                     {sr}
+                </div>
+                <div className={`col-md-4 no-padding`}>
+                    {p}
+                </div>
+                <div className={`col-md-3 no-padding`}>
+                    {s}
                 </div>
             </div>
             : <div className="row">
-                <div className={`col-sm-7 no-padding`}>
-                    {s}{p}
-                </div>
-                <div className={`col-sm-5 no-padding`}>
+                <div className={`col-md-5 no-padding`}>
                     {sr}
+                </div>
+                <div className={`col-md-4 no-padding`}>
+                    {p}
+                </div>
+                <div className={`col-md-3 no-padding`}>
+                    {s}
                 </div>
             </div>;
     }

@@ -27,6 +27,7 @@ const Auditorium = {
     COMPANY_ID: "company_id",
     TITLE: "title",
     LINK: "link",
+    RECORDED_LINK: "recorded_link",
     TYPE: "type",
     START_TIME: "start_time",
     END_TIME: "end_time",
@@ -266,6 +267,7 @@ const Company = {
     MORE_INFO: "more_info",
     IMG_URL: "img_url",
     IMG_SIZE: "img_size",
+    GROUP_URL : "group_url",
     IMG_POSITION: "img_position",
     TYPE: "type",
     ACCEPT_PRESCREEN: "accept_prescreen"

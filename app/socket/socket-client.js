@@ -96,7 +96,7 @@ function initOn() {
                 href = `${RootPath}/app/career-fair`;
                 actionText = (isRoleRec())
                     ? "Start Session With Other Student"
-                    : "Start Queue With Other Company"
+                    : "Got It!"
 
             } else {
                 actionText = "Got It!";

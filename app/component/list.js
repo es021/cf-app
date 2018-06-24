@@ -388,7 +388,7 @@ export class ProfileListWide extends Component {
                 </div>
                 {(this.props.action_disabled) ? null
                     : <div className={`item-action`}>
-                        <a className={`btn btn-blue`}
+                        <a className={`btn btn-${this.props.action_color}`}
                             onClick={() => this.props.action_handler()}>{this.props.action_text}</a>
                     </div>
                 }
@@ -405,11 +405,16 @@ ProfileListWide.propTypes = {
     img_size: PropTypes.string,
     img_dimension: PropTypes.string,
     action_text: PropTypes.string,
+    action_color: PropTypes.string,
     action_handler: PropTypes.func,
     action_disabled: PropTypes.bool,
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     body: PropTypes.any
 };
+
+ProfileListWide.defaultProps = {
+    action_color: "blue"
+}
 
 /*******************************************************************************************/
 
