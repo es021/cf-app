@@ -110,6 +110,7 @@ fields["edit_company"] = {
         type: { type: GraphQLInt },
         is_confirmed: { type: GraphQLInt },
         accept_prescreen: { type: GraphQLString },
+        group_url: { type: GraphQLString },
         cf: { type: new GraphQLList(GraphQLString) }
     },
     resolve(parentValue, arg, context, info) {

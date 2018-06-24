@@ -277,7 +277,7 @@ class AboutSubPage extends React.Component {
                     label: "Status",
                     name: Company.STATUS,
                     type: "select",
-                    data: [CompanyEnum.STS_OPEN, CompanyEnum.STS_CLOSED, CompanyEnum.STS_PS, CompanyEnum.STS_RD],
+                    data: [CompanyEnum.STS_OPEN, CompanyEnum.STS_CLOSED, CompanyEnum.STS_PS, CompanyEnum.STS_RD, CompanyEnum.STS_GS],
                     required: true
                 }, {
                     label: "Is Sponsor Only?",

@@ -88,6 +88,7 @@ class CompaniesPage extends React.Component {
                 name
                 type
                 status
+                group_url
                 accept_prescreen
                 sponsor_only
                 recruiters{
