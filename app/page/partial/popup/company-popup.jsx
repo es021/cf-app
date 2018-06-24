@@ -23,6 +23,15 @@ import { addLog } from '../../../redux/actions/other-actions';
 
 import { getFeedbackPopupView } from '../analytics/feedback';
 
+// indicator for company group session
+export const isCompanyGsOpen = function (company) {
+    return company.status == CompanyEnum.STS_GS && company.group_url != "";
+}
+
+export const isCompanyGsStarted = function (status, group_url) {
+    return company.status == CompanyEnum.STS_GS && company.group_url == "";
+}
+
 class VacancyList extends React.Component {
     constructor(props) {
         super(props);
@@ -121,6 +130,8 @@ export default class CompanyPopup extends Component {
                 tagline
                 description
                 img_url
+                status
+                group_url
                 img_position
                 img_size
                 rec_privacy
@@ -154,7 +165,7 @@ export default class CompanyPopup extends Component {
         }
         else {
             layoutActions.loadingBlockLoader("Adding Request");
-            
+
             // check for feedback
             var query = `query { has_feedback (user_id: ${stu_id}) } `;
             getAxiosGraphQLQuery(query).then((res) => {
@@ -259,6 +270,15 @@ export default class CompanyPopup extends Component {
         </div>;
     }
 
+
+    joinGroupSession(data) {
+        if (data.group_url == "" || data.group_url == null) {
+            layoutActions.errorBlockLoader("Group session has started. Please try again in a few minutes");
+        } else {
+            window.open(data.group_url, "_blank");
+        }
+    }
+
     render() {
         var id = null;
         var data = this.state.data;
@@ -284,26 +304,34 @@ export default class CompanyPopup extends Component {
             //<i className="fa fa-sign-in left"></i>
             //Queue Now</div>
 
-            var action = (!isRoleStudent() || this.props.displayOnly) ? null :
-                <div className="btn-group btn-group-justified">
-                    <div className="btn btn-lg btn-blue" onClick={this.addSessionRequest}>
-                        <i className="fa fa-sign-in left"></i>
-                        Request For Interview</div>
-                    <a target="_blank"
-                        onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
-                            , ResumeDropPopup, { company_id: data.ID })}
-                        className="btn btn-lg btn-default">
-                        <i className="fa fa-download left"></i>
-                        Drop Resume</a>
-                </div>;
+            // var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+            //     <div className="btn-group btn-group-justified">
+            //         <div className="btn btn-lg btn-blue" onClick={this.addSessionRequest}>
+            //             <i className="fa fa-sign-in left"></i>
+            //             Request For Interview</div>
+            //         <a target="_blank"
+            //             onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+            //                 , ResumeDropPopup, { company_id: data.ID })}
+            //             className="btn btn-lg btn-default">
+            //             <i className="fa fa-download left"></i>
+            //             Drop Resume</a>
+            //     </div>;
 
             var actData = [
-                {
-                    label: "Request For Private Session"
-                    , onClick: this.addSessionRequest
-                    , icon: "sign-in"
-                    , color: "#c62323"
-                }, {
+                data.status == CompanyEnum.STS_GS
+                    ? {
+                        label: "Join Group Session"
+                        , onClick: () => this.joinGroupSession(data)
+                        , icon: "users"
+                        , color: "#449d44"
+                    } :
+                    {
+                        label: "Request For Private Session"
+                        , onClick: this.addSessionRequest
+                        , icon: "sign-in"
+                        , color: "#c62323"
+                    }
+                , {
                     label: "Ask Questions In Company Forum"
                     , url: `${RootPath}/app/forum/company_${data.ID}`
                     , icon: "comments"

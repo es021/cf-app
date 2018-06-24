@@ -74,12 +74,13 @@ export class AuditoriumFeed extends React.Component {
               type
               title
               link
+              recorded_link
               moderator
               start_time
               end_time
             }
           }`;
-
+        console.log(query);
         return getAxiosGraphQLQuery(query);
     }
 
@@ -145,6 +146,22 @@ export class AuditoriumFeed extends React.Component {
             </small>
         </div>
 
+        var action_disabled = true;
+        var action_link = "";
+        var action_text = "";
+        var action_color = "";
+        if (d.recorded_link != null && d.recorded_link != "") {
+            action_disabled = false;
+            action_link = d.recorded_link;
+            action_text = "Watch Recorded Video"
+            action_color = "success";
+        } else if (d.link != null && d.link != "") {
+            action_disabled = false;
+            action_link = d.link;
+            action_text = "Join Now"
+            action_color = "blue";
+        }
+
         item.push(
             <ProfileListWide title={d.title}
                 img_url={d.company.img_url}
@@ -152,9 +169,10 @@ export class AuditoriumFeed extends React.Component {
                 img_size={d.company.img_size}
                 img_dimension={"80px"}
                 body={details}
-                action_text="Join Now"
-                action_handler={() => { window.open(d.link) }}
-                action_disabled={d.link == null || d.link == ""}
+                action_color={action_color}
+                action_text={action_text}
+                action_handler={() => { window.open(action_link) }}
+                action_disabled={action_disabled}
                 type="company" key={i}>
             </ProfileListWide>);
 
@@ -217,6 +235,7 @@ export class AuditoriumManagement extends React.Component {
                             <li><b>Start</b> : {Time.getString(d.start_time)}</li>
                             <li><b>End</b> : {Time.getString(d.end_time)}</li>
                             <li><b>Join Link</b> : {d.link}</li>
+                            <li><b>Recorded Video Link</b> : {d.recorded_link}</li>
                             <li><b>Moderator</b> : {d.moderator}</li>
                         </ul>
                     </small>
@@ -241,6 +260,7 @@ export class AuditoriumManagement extends React.Component {
                   type
                   title
                   link
+                  recorded_link
                   moderator
                   start_time
                   end_time
@@ -297,11 +317,11 @@ export class AuditoriumManagement extends React.Component {
             , Auditorium.END_TIME + "_TIME"
         ];
 
-        this.acceptEmpty = [Auditorium.LINK];
+        this.acceptEmpty = [Auditorium.LINK, Auditorium.RECORDED_LINK];
 
         this.getEditFormDefault = (ID) => {
             const query = `query{auditorium(ID:${ID})
-            {cf ID company_id type title link moderator start_time end_time}}`;
+            {cf ID company_id type title link recorded_link moderator start_time end_time}}`;
             return getAxiosGraphQLQuery(query).then((res) => {
                 var data = res.data.data.auditorium;
                 console.log(data);
@@ -386,6 +406,12 @@ export class AuditoriumManagement extends React.Component {
                     }, {
                         label: "Join Link",
                         name: Auditorium.LINK,
+                        type: "text",
+                        placeholder: ""
+                    }, {
+                        label: "Recorded Video Link",
+                        sublabel: "If both 'Recorded Video Link' and Join Link exist, only 'Recorded Video Link' will be shown",
+                        name: Auditorium.RECORDED_LINK,
                         type: "text",
                         placeholder: ""
                     }, {

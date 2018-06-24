@@ -109,6 +109,7 @@ export function loadCompanies() {
                             name
                             type
                             status
+                            group_url
                             vacancies_count
                         }
                 }`)

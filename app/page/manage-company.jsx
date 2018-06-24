@@ -229,6 +229,7 @@ class AboutSubPage extends React.Component {
               img_position
               img_size
               status
+              group_url
               rec_privacy
               accept_prescreen
               sponsor_only
@@ -279,7 +280,15 @@ class AboutSubPage extends React.Component {
                     type: "select",
                     data: [CompanyEnum.STS_OPEN, CompanyEnum.STS_CLOSED, CompanyEnum.STS_PS, CompanyEnum.STS_RD, CompanyEnum.STS_GS],
                     required: true
-                }, {
+                }, 
+                {
+                    label: "Group Session Url",
+                    sublabel : `Please make sure status has been set to '${CompanyEnum.STS_GS}'`,
+                    name: Company.GROUP_URL,
+                    type: "text",
+                    placeholder: "Enter Zoom Url Here"
+                },
+                {
                     label: "Is Sponsor Only?",
                     sublabel: "Sponsor only company will have NO booth in job fair",
                     name: Company.SPONSOR_ONLY,

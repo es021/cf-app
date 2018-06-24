@@ -5,6 +5,7 @@ import { CustomList } from '../component/list';
 import { NavLink } from 'react-router-dom';
 import ActivitySection from './partial/hall/activity';
 import CompaniesSection from './partial/hall/companies';
+import ForumPage from './forum';
 
 import { UserEnum } from '../../config/db-config';
 import { RootPath } from '../../config/app-config';
@@ -62,11 +63,16 @@ export default class HallPage extends React.Component {
     }
     render() {
         document.setTitle("Career Fair");
+
+        var forum = isRoleRec() ? <ForumPage forum_id={`company_${getAuthUser().company_id}`}></ForumPage> : null;
+
         return (<div>
             <h2>Welcome To {this.title}</h2>
             {this.getHighlight()}
             <PageSection title={null} body={ActivitySection}></PageSection>
-            {(isRoleRec()) ? null : <PageSection title="Company Booth" body={CompaniesSection}></PageSection>}
+            {(isRoleRec()) ?
+                <PageSection title="" body={forum}></PageSection>
+                : <PageSection title="Company Booth" body={CompaniesSection}></PageSection>}
         </div>);
     }
 }

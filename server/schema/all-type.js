@@ -350,6 +350,7 @@ const AuditoriumType = new GraphQLObjectType({
         type: { type: GraphQLString },
         title: { type: GraphQLString },
         link: { type: GraphQLString },
+        recorded_link: { type: GraphQLString },
         moderator: { type: GraphQLString },
         start_time: { type: GraphQLInt },
         end_time: { type: GraphQLInt },

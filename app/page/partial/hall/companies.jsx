@@ -19,6 +19,8 @@ import CompanyPopup from '../popup/company-popup';
 
 require('../../../css/company-sec.scss');
 
+
+
 export const getCompanyCSSClass = function (type) {
     var className = "";
     switch (type) {
@@ -103,6 +105,7 @@ class CompanyBooth extends React.Component {
         var clr = "";
         var tt = "";
         var left = "";
+        var statusLabel = this.props.company.status;
         switch (this.props.company.status) {
             case CompanyEnum.STS_OPEN:
                 clr = "success";
@@ -125,13 +128,13 @@ class CompanyBooth extends React.Component {
                 left = "17";
                 break;
             case CompanyEnum.STS_GS:
-                tt = "Only open for resume drops currently";
-                clr = "info";
+                tt = "Group session is currently open";
+                clr = "primary";
                 left = "17";
                 break;
         }
 
-        var label = <div className={`label label-${clr}`}>{this.props.company.status}</div>;
+        var label = <div className={`label label-${clr}`}>{statusLabel}</div>;
 
         return <Tooltip
             content={label}
