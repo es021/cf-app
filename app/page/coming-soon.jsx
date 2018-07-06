@@ -132,7 +132,7 @@ class RegisterPS extends React.Component {
                         = prevState.defaultValues[Prescreen.COMPANY_ID].concat(inserted);
                     return {
                         disableSubmit: false
-                        , success: `Successfully registered for ${inserted.length} company(s)`
+                        , success: `Successfully submitted resume for ${inserted.length} company(s)`
                         , defaultValues: prevState.defaultValues
                         , error: null
                     };
@@ -187,7 +187,7 @@ class RegisterPS extends React.Component {
                 return null;
             } else {
                 var formItems = [
-                    { header: "Select Company To Register" },
+                    { header: "Select Company To Submit Resume" },
                     {
                         name: Prescreen.COMPANY_ID,
                         type: "checkbox",
@@ -200,7 +200,7 @@ class RegisterPS extends React.Component {
                     items={formItems}
                     onSubmit={this.formOnSubmit}
                     btnColorClass="blue btn-block"
-                    submitText='Submit Registration'
+                    submitText='Submit Resume'
                     defaultValues={this.state.defaultValues}
                     disableSubmit={this.state.disableSubmit}
                     error={this.state.error}
@@ -210,7 +210,7 @@ class RegisterPS extends React.Component {
         }
 
         return <div className="card-container">
-            <h3>Register For Pre-Screen</h3>
+            <h3>Submit Your Resume</h3>
             <br></br>
             <div style={{ maxWidth: "400px", margin: "auto" }}>
                 Get reviewed earlier before the career fair!<br></br>

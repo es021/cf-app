@@ -47,6 +47,19 @@ const CareerFair = {
         page_url: "https://www.facebook.com/events/165437787576733/",
         page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
     },
+    "EUR": {
+        title: "Europe Virtual Career Fair 2018",
+        flag: "European Union",
+        banner: "EUR.jpg",
+        banner_pos: "top center",
+        start: null,
+        end: null,
+        test_start: null,
+        test_end: null,
+        dates: null,
+        can_register: 1,
+        can_login: 0
+    },
     "JAPAN": {
         title: "Japan Virtual Career Fair 2018",
         flag: "Japan",
