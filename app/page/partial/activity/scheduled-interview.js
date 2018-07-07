@@ -15,6 +15,7 @@ import { emitHallActivity } from '../../../socket/socket-client';
 import Tooltip from '../../../component/tooltip';
 import { createUserDocLinkList, createUserMajorList } from '../popup/user-popup';
 
+
 // Normal SI is limited to today for appmnt time
 export const isNormalSI = function (type) {
     var ar = [
@@ -29,9 +30,11 @@ export const isNormalSI = function (type) {
 
 export function openSIAddForm(student_id, company_id, type, success) {
 
-    if (!(student_id && company_id)) {
-        layoutActions.errorBlockLoader("Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue");
-        return;
+    if (!(student_id && isRoleAdmin())) {
+        if (!(student_id && company_id)) {
+            layoutActions.errorBlockLoader("Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue");
+            return;
+        }
     }
 
     var defaultFormItem = {};
@@ -40,8 +43,8 @@ export function openSIAddForm(student_id, company_id, type, success) {
     defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
 
     //if (isNormalSI(type)) {
-        var dt = Time.getInputFromUnix(Time.getUnixTimestampNow());
-        defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
+    var dt = Time.getInputFromUnix(Time.getUnixTimestampNow());
+    defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
     //}
 
     layoutActions.storeUpdateFocusCard("Add A New Scheduled Session", ScheduledInterview
@@ -77,10 +80,15 @@ export class ScheduledInterview extends React.Component {
 
         this.successAddHandler = (d) => {
             if (this.props.formOnly) {
+
+                var link = (isRoleAdmin())
+                    ? `${RootPath}/app/manage-company/${d.company_id}/scheduled-interview`
+                    : `${RootPath}/app/my-activity/scheduled-session`;
+
                 var mes = <div>New Session Have Been Successfully Scheduled
                     <br></br>
                     <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
-                        to={`${RootPath}/app/my-activity/scheduled-session`}>
+                        to={link}>
                         Manage Scheduled Session</NavLink>
                 </div>;
                 layoutActions.successBlockLoader(mes);
@@ -194,7 +202,7 @@ export class ScheduledInterview extends React.Component {
                   }
                 }
               }`;
-              console.log(query);
+            console.log(query);
             return getAxiosGraphQLQuery(query);
         }
 
@@ -215,7 +223,6 @@ export class ScheduledInterview extends React.Component {
 
         //##########################################
         // form operation properties
-
         // hook before submit
         this.formWillSubmit = (d, edit) => {
 
@@ -243,9 +250,15 @@ export class ScheduledInterview extends React.Component {
             }
 
             //for create new
-            if (!edit) {
+            // kalau admin akan masukkan dalam d
+            if (!edit && !isRoleAdmin()) {
                 d[Prescreen.COMPANY_ID] = this.props.company_id;
             }
+
+            if (isRoleAdmin()) {
+                d[Prescreen.COMPANY_ID] = Number.parseInt(d[Prescreen.COMPANY_ID]);
+            }
+
 
             if (d.status == PrescreenEnum.STATUS_PENDING) {
                 d[Prescreen.APPNMENT_TIME] = null;
@@ -339,80 +352,120 @@ export class ScheduledInterview extends React.Component {
                         studentData = [{ key: user.ID, label: user.first_name + " " + user.last_name }];
                     }
 
-                    var ret = [
-                        { header: "Scheduled Session Form" },
-                        {
-                            label: "Type",
-                            name: Prescreen.SPECIAL_TYPE,
-                            type: "select",
-                            sublabel: "Created From",
-                            required: true,
-                            disabled: edit || this.props.formOnly,
-                            data: ["", PrescreenEnum.ST_INTV_REQUEST
-                                , PrescreenEnum.ST_RESUME_DROP
-                                , PrescreenEnum.ST_NEXT_ROUND
-                                , PrescreenEnum.ST_PROFILE
-                                , PrescreenEnum.ST_FORUM
-                                , PrescreenEnum.ST_PRE_SCREEN]
-                        }];
-
-                    //for create only
-                    if (!edit && singleStudent) {
-                        ret.push(...[{
-                            label: "Student",
-                            sublabel: "Only showing students that already had session with the company",
-                            name: Prescreen.STUDENT_ID,
-                            type: "select",
-                            data: studentData,
-                            required: true,
-                            disabled: this.props.formOnly
-                        }]);
+                    if (this.props.company_id !== null) {
+                        return this.getFormData(edit, singleStudent, studentData, null);
+                    }
+                    else {
+                        var queryCompany = `query{
+                            companies{
+                              ID
+                              name
+                            }
+                          }`;
+                        return getAxiosGraphQLQuery(queryCompany).then((resCompany) => {
+                            var com = resCompany.data.data.companies;
+                            var companyData = com.map((d, i) => {
+                                return { key: d.ID, label: d.name };
+                            })
+                            return this.getFormData(edit, singleStudent, studentData, companyData);
+                        });
                     }
 
-                    ret.push(...[{
-                        label: "Status",
-                        sublabel: "Only session with status 'Approved' will be shown in Career Fair page under Scheduled Session",
-                        name: Prescreen.STATUS,
-                        type: "select",
-                        required: true,
-                        disabled: this.props.formOnly,
-                        data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
-                    },
-                    /*
-                    limit for today only
-                    {
-                        label: "Appointment Date",
-                        sublabel: <span>Please enter your local time
-                            {(isNormal)
-                                ? <span><br></br>Date cannot be change</span>
-                                : ""}
-                        </span>,
-                        name: Prescreen.APPNMENT_TIME + "_DATE",
-                        type: "date",
-                        placeholder: "",
-                        // for schedule interview must is disabled
-                        // set to todays date only
-                        disabled: isNormal,
-                    }, 
-                    */
-                    {
-                        label: "Appointment Date",
-                        sublabel: <span>Please enter your local time</span>,
-                        name: Prescreen.APPNMENT_TIME + "_DATE",
-                        type: "date",
-                        placeholder: "",
-                    },
-                    {
-                        label: "Appointment Time",
-                        sublabel: "Please enter your local time",
-                        name: Prescreen.APPNMENT_TIME + "_TIME",
-                        type: "time",
-                        placeholder: ""
-                    }]);
 
-                    return ret;
+
                 });
+
+
         }
+    }
+
+    getFormData(edit, singleStudent, studentData, companyData) {
+
+        var ret = [{ header: "Scheduled Session Form" }];
+
+        if (companyData !== null) {
+            ret.push({
+                label: "Company",
+                name: Prescreen.COMPANY_ID,
+                type: "select",
+                sublabel: "Company",
+                required: true,
+                disabled: !isRoleAdmin() || companyData == null,
+                data: companyData
+            });
+        }
+
+        ret.push({
+            label: "Type",
+            name: Prescreen.SPECIAL_TYPE,
+            type: "select",
+            sublabel: "Created From",
+            required: true,
+            disabled: edit || this.props.formOnly,
+            data: ["", PrescreenEnum.ST_INTV_REQUEST
+                , PrescreenEnum.ST_RESUME_DROP
+                , PrescreenEnum.ST_NEXT_ROUND
+                , PrescreenEnum.ST_PROFILE
+                , PrescreenEnum.ST_FORUM
+                , PrescreenEnum.ST_PRE_SCREEN]
+        });
+
+
+        //for create only
+        if (!edit && singleStudent) {
+            ret.push(...[{
+                label: "Student",
+                sublabel: "Only showing students that already had session with the company",
+                name: Prescreen.STUDENT_ID,
+                type: "select",
+                data: studentData,
+                required: true,
+                disabled: this.props.formOnly
+            }]);
+        }
+
+        ret.push(...[{
+            label: "Status",
+            sublabel: "Only session with status 'Approved' will be shown in Career Fair page under Scheduled Session",
+            name: Prescreen.STATUS,
+            type: "select",
+            required: true,
+            disabled: this.props.formOnly,
+            data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
+        },
+        /*
+        limit for today only
+        {
+            label: "Appointment Date",
+            sublabel: <span>Please enter your local time
+                {(isNormal)
+                    ? <span><br></br>Date cannot be change</span>
+                    : ""}
+            </span>,
+            name: Prescreen.APPNMENT_TIME + "_DATE",
+            type: "date",
+            placeholder: "",
+            // for schedule interview must is disabled
+            // set to todays date only
+            disabled: isNormal,
+        }, 
+        */
+        {
+            label: "Appointment Date",
+            sublabel: <span>Please enter your local time</span>,
+            name: Prescreen.APPNMENT_TIME + "_DATE",
+            type: "date",
+            placeholder: "",
+        },
+        {
+            label: "Appointment Time",
+            sublabel: "Please enter your local time",
+            name: Prescreen.APPNMENT_TIME + "_TIME",
+            type: "time",
+            placeholder: ""
+        }]);
+
+        return ret;
     }
 
     render() {
