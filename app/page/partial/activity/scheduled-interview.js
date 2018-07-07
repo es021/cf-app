@@ -255,7 +255,8 @@ export class ScheduledInterview extends React.Component {
                 d[Prescreen.COMPANY_ID] = this.props.company_id;
             }
 
-            if (isRoleAdmin()) {
+            //for create new
+            if (!edit && isRoleAdmin()) {
                 d[Prescreen.COMPANY_ID] = Number.parseInt(d[Prescreen.COMPANY_ID]);
             }
 
