@@ -7,7 +7,7 @@ import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
 import { CustomList, createIconLink } from '../../../component/list';
 import * as layoutActions from '../../../redux/actions/layout-actions';
-import { isRoleRec, getAuthUser } from '../../../redux/actions/auth-actions';
+import { isRoleRec, getAuthUser, isRoleAdmin } from '../../../redux/actions/auth-actions';
 import CompanyPopup from './company-popup';
 import { addLog } from '../../../redux/actions/other-actions';
 import { openSIAddForm } from '../activity/scheduled-interview';
@@ -279,7 +279,7 @@ export default class UserPopup extends Component {
         const basic = this.getBasicInfo(user);
 
         //schedule interview
-        var si_btn = isRoleRec()
+        var si_btn = isRoleRec() || isRoleAdmin()
             ? <div><br></br><a
                 className="btn btn-blue" onClick={() => {
                     openSIAddForm(this.props.id, this.authUser.rec_company, PrescreenEnum.ST_PROFILE)
