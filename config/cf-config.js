@@ -17,8 +17,8 @@ const CareerFair = {
         time_str_mas: "9:30 AM - 12:30 PM (MYT)",
         //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
-        test_start: "Jul 08 2018 07:00:00 GMT +1200 (+12)",
-        test_end: "Jul 08 2018 20:00:00 GMT +1200 (+12)",
+        test_start: "Jul 08 2018 15:00:00 GMT +1200 (+12)",
+        test_end: "Jul 09 2018 01:00:00 GMT +1200 (+12)",
         //dates: ["20", "21"], // for multiple seggregated dates
         can_register: 1,
         can_login: 1,
