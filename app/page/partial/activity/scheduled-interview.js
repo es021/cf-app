@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { RootPath } from '../../../../config/app-config';
 import { Time } from '../../../lib/time';
 import GeneralFormPage from '../../../component/general-form';
+import ScheduledInterviewNew from './scheduled-interview-new';
 import { createUserTitle } from '../../users';
 import { emitHallActivity } from '../../../socket/socket-client';
 import Tooltip from '../../../component/tooltip';
@@ -26,6 +27,14 @@ export const isNormalSI = function (type) {
     ];
 
     return ar.indexOf(type) >= 0;
+}
+
+export function openSIFormNew(student_id, company_id){
+    layoutActions.storeUpdateFocusCard("Scheduled A Call", ScheduledInterviewNew, 
+    {
+        company_id: company_id
+        , student_id : student_id
+    });
 }
 
 export function openSIAddForm(student_id, company_id, type, success) {

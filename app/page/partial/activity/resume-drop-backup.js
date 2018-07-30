@@ -12,7 +12,7 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../companies';
-import { openSIAddForm, openSIFormNew } from '../../partial/activity/scheduled-interview';
+import { openSIAddForm } from '../../partial/activity/scheduled-interview';
 import { createUserDocLinkList } from '../popup/user-popup';
 import { openFeedbackBlockRec } from '../analytics/feedback';
 
@@ -26,8 +26,7 @@ export class ResumeDrop extends React.Component {
 
 
     openSIForm(student_id) {
-        //openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_RESUME_DROP);
-        openSIFormNew(student_id, this.props.company_id);
+        openSIAddForm(student_id, this.props.company_id, PrescreenEnum.ST_RESUME_DROP);
     }
 
     componentWillMount() {
@@ -89,7 +88,7 @@ export class ResumeDrop extends React.Component {
                     img_size={imgObj.img_size}
                     img_dimension={"80px"}
                     body={details}
-                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Call</small>}
+                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Session</small>}
                     action_handler={() => { this.openSIForm(d.student.ID) }}
                     action_disabled={(!this.props.isRec)}
                     type={(this.props.isRec ? "student" : "company")} key={i}>

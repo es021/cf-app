@@ -17,6 +17,21 @@ const SkillType = new GraphQLObjectType({
     })
 });
 
+const AvailabilityType = new GraphQLObjectType({
+    name: 'Availability',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        timestamp: { type: GraphQLInt },
+        is_booked: { type: GraphQLBoolean },
+        company_id: { type: GraphQLInt },
+        prescreen_id: { type: GraphQLInt },
+        company : {type: CompanyType},
+        prescreen : {type: PrescreenType}
+    })
+});
+
+
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
@@ -459,5 +474,6 @@ module.exports = {
     , LogType
     , FeedbackQsType
     , SupportSessionType
+    , AvailabilityType
     //, CFType
 };

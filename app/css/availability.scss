@@ -1,0 +1,124 @@
+@import './define/variable.scss';
+
+$COLOR-SET: #26b926;
+$COLOR-DEFAULT: darkgrey;
+
+@mixin for_is_set() {
+    font-weight: bold;
+    color: $COLOR-SET;
+    border: $COLOR-SET solid 1px;
+    background: rgba(0, 0, 0, 0);
+} 
+
+@mixin for_is_booked() {
+    color:white;
+    font-weight: bold;
+    border: $COLOR-SET solid 1px;
+    background: $COLOR-SET;
+} 
+
+@mixin for_is_default(){
+    font-weight: normal;
+    border: $COLOR-DEFAULT solid 1px;
+    background: rgba(0, 0, 0, 0);
+    color: $COLOR-DEFAULT;
+}
+
+.availability {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .av-group {
+        margin: 3px 4px;
+        background: rgba(255,255,255,0.7);
+        padding: 3px 10px;
+        border-radius: 10px;
+        //box-shadow: 1px 3px 6px -3px rgba(0, 0, 0, 0.5);
+        .av-day {
+            text-transform: uppercase;
+            font-size: 20px;
+            letter-spacing: 6px;
+            color: $COLOR_TITLE;
+        }
+        .av-date {
+            color: $COLOR_TITLE;
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 6px;
+        }
+        .av-li {
+            width: 90px;
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin-bottom: 3px;
+
+            @include for_is_default;            
+        }
+        .av-li:last-of-type {}
+        // 2nd phase, is set and hover on default
+        .av-li.is-set {
+            @include for_is_set;
+        } // 3rd phase, is booked and hover on is set
+        .av-li.is-booked{
+            @include for_is_booked;
+        }
+        .av-li:active {
+            opacity: 0.7;
+        }
+    }
+}
+
+// for student only
+.availability.set-only{
+    .av-group {
+        .av-li{
+            cursor: pointer;
+        }
+        .av-li:hover{
+            @include for_is_set;
+        }
+        .av-li.is-set:hover{
+            opacity: 0.6;
+        }
+        .av-li.is-set:active{
+            opacity: 0.8;
+        }
+        .av-li.is-booked:hover{
+            @include for_is_booked;
+        }
+        .av-li.is-booked{
+            cursor: initial;
+        }
+        .av-li.is-booked:active {
+            opacity: 1;
+        }
+    }
+}
+
+// for recruiter only
+.availability.book-only{
+    .av-group {
+        .av-li:active {
+            opacity: 1;
+        }
+        .av-li.is-set:hover{
+            @include for_is_booked;
+        }
+        .av-li.is-set:active{
+            opacity: 0.7;
+        }
+        .av-li{
+            cursor: initial;
+        }
+        .av-li.is-set{
+            cursor: pointer;
+        }
+        .av-li.is-booked{
+            @include for_is_default;
+            text-decoration: line-through;
+        }
+        .av-li.is-select{
+            @include for_is_booked;
+        }
+    }
+}

@@ -20,6 +20,7 @@ const { UserType
     , FeedbackQsType
     , SessionRequestType
     , ZoomInviteType
+    , AvailabilityType
     //, CFType
     , DocLinkType } = require('./all-type.js');
 
@@ -33,6 +34,7 @@ const { DashboardExec } = require('../model/dashboard-query.js');
 const { CompanyExec } = require('../model/company-query.js');
 const { PrescreenExec } = require('../model/prescreen-query.js');
 const { VacancyExec } = require('../model/vacancy-query.js');
+const { AvailabilityExec } = require('../model/availability-query.js');
 const { MetaExec } = require('../model/meta-query.js');
 const { LogExec } = require('../model/log-query.js');
 const { FeedbackQsExec } = require('../model/feedback-qs-query.js');
@@ -406,6 +408,20 @@ fields["metas"] = {
     },
     resolve(parentValue, arg, context, info) {
         return MetaExec.metas(arg, graphqlFields(info));
+    }
+};
+
+
+/*******************************************/
+/* availability ******************/
+fields["availabilities"] = {
+    type: new GraphQLList(AvailabilityType),
+    args: {
+        user_id: { type: GraphQLInt },
+        timestamp: { type: GraphQLInt },
+    },
+    resolve(parentValue, arg, context, info) {
+        return AvailabilityExec.availabilities(arg, graphqlFields(info));
     }
 };
 
