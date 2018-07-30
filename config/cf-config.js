@@ -1,4 +1,6 @@
-const { ImageUrl } = require('./app-config');
+const {
+    ImageUrl
+} = require('./app-config');
 const CF_DEFAULT = "NZL";
 const CareerFair = {
 
@@ -11,6 +13,13 @@ const CareerFair = {
         //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
         // second event
+
+        // open for schedule availability 
+        // only time concerned here
+        schedule_time_start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
+        schedule_time_end: "Jul 09 2018 14:00:00 GMT +1200 (+12)",
+        
+        // open for do stuff
         start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
         end: "Jul 10 2018 23:30:00 GMT +1200 (+12)",
         time_str: "1:00 PM - 4:30 PM (NZST)",
@@ -34,6 +43,10 @@ const CareerFair = {
         //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
         // second event
+
+        schedule_time_start: "Apr 20 2018 09:00:00 GMT +0800 (+08)",
+        schedule_time_end: "Apr 23 2018 15:00:00 GMT +0800 (+08)",
+
         start: "Apr 20 2018 20:00:00 GMT -0400 (-04)",
         end: "Apr 21 2018 23:00:00 GMT -0400 (-04)",
         time_str: "10 PM - 1 AM (EDT)",
@@ -108,30 +121,30 @@ const CareerFairOrg = {
             logo: ""
         }],
         Collaborator: [{
-            name: "US East Coast Presidential Council",
-            shortname: "EPIC",
-            logo: ""
-        }, {
-            name: "Education Malaysia at Washington DC",
-            shortname: "EMWDC",
-            logo: ""
-        }, {
-            name: "West Coast Council",
-            shortname: "WCC",
-            logo: ""
-        }, {
-            name: "Talent Corp Malaysia",
-            shortname: "",
-            logo: ""
-        }, {
-            name: "Council of Midwest Malaysian Students",
-            shortname: "COMMS",
-            logo: ""
-        }, {
-            name: "International Council of Malaysian Scholars and Associates",
-            shortname: "ICMS",
-            logo: ""
-        }
+                name: "US East Coast Presidential Council",
+                shortname: "EPIC",
+                logo: ""
+            }, {
+                name: "Education Malaysia at Washington DC",
+                shortname: "EMWDC",
+                logo: ""
+            }, {
+                name: "West Coast Council",
+                shortname: "WCC",
+                logo: ""
+            }, {
+                name: "Talent Corp Malaysia",
+                shortname: "",
+                logo: ""
+            }, {
+                name: "Council of Midwest Malaysian Students",
+                shortname: "COMMS",
+                logo: ""
+            }, {
+                name: "International Council of Malaysian Scholars and Associates",
+                shortname: "ICMS",
+                logo: ""
+            }
             /*, {
                 name: "Kelab UMNO Luar Negara Penn State",
                 shortname: "KULN",
@@ -145,4 +158,8 @@ const CareerFairOrg = {
     }
 };
 
-module.exports = { CareerFair, CareerFairOrg, CF_DEFAULT };
+module.exports = {
+    CareerFair,
+    CareerFairOrg,
+    CF_DEFAULT
+};

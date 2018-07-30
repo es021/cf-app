@@ -1,4 +1,3 @@
-
 const User = {
     TABLE: "wp_cf_users",
     ID: "ID",
@@ -9,6 +8,16 @@ const User = {
     REGISTER_AT: "user_registered",
     TRIGGER_UPDATE: "trigger_update",
     CF: "cf"
+};
+
+const Availability = {
+    TABLE: "availability",
+    ID: "ID",
+    USER_ID: "user_id",
+    TIMESTAMP: "timestamp",
+    COMPANY_ID : "company_id",
+    PRESCREEN_ID : "prescreen_id",
+    IS_BOOKED: "is_booked"
 };
 
 const Meta = {
@@ -164,7 +173,8 @@ const PrescreenEnum = {
     ST_PROFILE: "Student Profile",
     ST_RESUME_DROP: "Resume Drop",
     ST_FORUM: "Forum",
-    ST_PRE_SCREEN: "Pre Screen" // from prescreen
+    ST_PRE_SCREEN: "Pre Screen", // from prescreen
+    ST_NEW: "New" // from prescreen
 };
 
 
@@ -267,7 +277,7 @@ const Company = {
     MORE_INFO: "more_info",
     IMG_URL: "img_url",
     IMG_SIZE: "img_size",
-    GROUP_URL : "group_url",
+    GROUP_URL: "group_url",
     IMG_POSITION: "img_position",
     TYPE: "type",
     ACCEPT_PRESCREEN: "accept_prescreen"
@@ -387,24 +397,41 @@ const FeedbackQs = {
 };
 
 module.exports = {
-    User, UserMeta, UserEnum
-    , FeedbackQs
-    , ForumComment, ForumReply
-    , DocLink, DocLinkEnum
-    , Session, SessionEnum
-    , Vacancy, VacancyEnum
-    , Prescreen, PrescreenEnum
-    , Company, CompanyEnum
-    , Queue, QueueEnum
-    , SessionRequest, SessionRequestEnum
-    , Dashboard, DashboardEnum
-    , Skill, Message
-    , SessionNotes
-    , SessionRating, SessionRatingEnum
-    , ResumeDrop
-    , SupportSession
-    , PasswordReset
-    , Meta, Log, LogEnum
-    , Auditorium, AuditoriumEnum
-    , ZoomInvite
+    User,
+    UserMeta,
+    UserEnum,
+    FeedbackQs,
+    ForumComment,
+    ForumReply,
+    DocLink,
+    DocLinkEnum,
+    Session,
+    SessionEnum,
+    Vacancy,
+    VacancyEnum,
+    Prescreen,
+    PrescreenEnum,
+    Company,
+    CompanyEnum,
+    Queue,
+    QueueEnum,
+    SessionRequest,
+    SessionRequestEnum,
+    Dashboard,
+    DashboardEnum,
+    Skill,
+    Message,
+    SessionNotes,
+    SessionRating,
+    SessionRatingEnum,
+    ResumeDrop,
+    SupportSession,
+    PasswordReset,
+    Meta,
+    Log,
+    LogEnum,
+    Auditorium,
+    AuditoriumEnum,
+    ZoomInvite,
+    Availability
 };

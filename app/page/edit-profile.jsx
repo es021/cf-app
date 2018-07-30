@@ -18,7 +18,7 @@ import { store } from '../redux/store';
 import DocLinkPage from '../component/doc-link-form';
 import { SimpleListItem } from '../component/list';
 import PasswordResetPage from './password-reset';
-
+import AvailabilityView  from './availability';
 
 class StudentDocLink extends React.Component {
     render() {
@@ -43,7 +43,7 @@ class Skills extends React.Component {
     loadSkills() {
         var query = `query{user(ID:${getAuthUser().ID}){skills{ID label}}}`;
         getAxiosGraphQLQuery(query).then((res) => {
-            this.setState(() => {
+            this.setState((prevState) => {
                 return { skills: res.data.data.user.skills, loading: false };
             });
         });
@@ -401,8 +401,8 @@ class EditProfile extends React.Component {
                     add_img_ops={true}
                     title={<b>{this.authUser.user_email}</b>}
                     subtitle={<i>{this.authUser.role.capitalize()}</i>}
-                    img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}
-                ></ProfileCard>
+                    img_url={this.authUser.img_url} img_pos={this.authUser.img_pos} img_size={this.authUser.img_size}>
+                </ProfileCard>
 
                 <Form className="form-row"
                     items={this.formItems}
@@ -433,6 +433,9 @@ export default class EditProfilePage extends React.Component {
             }
         };
 
+        const authUser = getAuthUser();
+
+
         if (isRoleStudent()) {
             this.item["doc-link"] = {
                 label: "Document & Link",
@@ -444,9 +447,16 @@ export default class EditProfilePage extends React.Component {
                 component: Skills,
                 icon: "th-list"
             };
+            this.item["availability"] = {
+                label: "Availability",
+                component: AvailabilityView,
+                props: {
+                    user_id: authUser.ID,
+                    set_only: true
+                },
+                icon: "clock-o"
+            };
         }
-
-        const authUser = getAuthUser();
 
         this.item["password-reset"] = {
             label: "Change Password",
