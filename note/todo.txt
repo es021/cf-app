@@ -1,0 +1,17 @@
+#######################################
+
+db schema changed
+
+1. zoom_meetings 
+- add col group_session_id
+- session_id become nullable
+
+2. add table availability
+3. add table group_session
+4. add table group_session_join
+
+########################################
+
+cf wp todo 
+
+handle for zoom_meetings with group_session_id

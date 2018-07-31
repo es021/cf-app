@@ -3,6 +3,7 @@ import { getAuthUser, isRoleRec, isRoleStudent } from '../redux/actions/auth-act
 import SubNav from '../component/sub-nav';
 import { SessionsList } from './partial/activity/session';
 import { ResumeDrop } from './partial/activity/resume-drop';
+import { StudentListing } from './partial/activity/student-listing';
 import PropTypes from 'prop-types';
 import { ScheduledInterview } from './partial/activity/scheduled-interview';
 
@@ -24,20 +25,29 @@ export default class ActivityPage extends React.Component {
     getSubNavItem() {
         this.sub_page = (this.props.match.params.current) ? this.props.match.params.current : "session";
 
-        var item = {
-            "session": {
-                label: "Past Sessions",
-                component: SessionsList,
-                props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
-                icon: "comments"
-            },
-            "resume-drop": {
-                label: "Resume Drop",
-                component: ResumeDrop,
-                props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
-                icon: "download"
+        var item = {};
+
+        if (isRoleRec()) {
+            item["student-listing"] = {
+                label: "Student Listing",
+                component: StudentListing,
+                props: { company_id: this.company_id },
+                icon: "users"
             }
+        }
+
+        item["session"] = {
+            label: "Past Sessions",
+            component: SessionsList,
+            props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
+            icon: "comments"
         };
+        item["resume-drop"] = {
+            label: "Resume Drop",
+            component: ResumeDrop,
+            props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
+            icon: "download"
+        }
 
         if (isRoleRec()) {
             item["pre-screen"] = {

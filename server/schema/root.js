@@ -21,6 +21,7 @@ const { UserType
     , SessionRequestType
     , ZoomInviteType
     , AvailabilityType
+    , StudentListingType
     //, CFType
     , DocLinkType } = require('./all-type.js');
 
@@ -47,6 +48,7 @@ const { SessionExec, SessionNoteExec, SessionRatingExec } = require('../model/se
 const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const { ForumExec } = require('../model/forum-query.js');
+const { StudentListingExec } = require('../model/student-listing-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -62,6 +64,21 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* feedback_qs ******************/
+fields["student_listing"] = {
+    type: new GraphQLList(StudentListingType),
+    args: {
+        company_id: { type: new GraphQLNonNull(GraphQLInt) },
+        page: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        search_student: { type: GraphQLString }
+    },
+    resolve(parentValue, arg, context, info) {
+        return StudentListingExec.student_listing(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* feedback_qs ******************/

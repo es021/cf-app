@@ -191,14 +191,14 @@ function getMenuItem(COMING_SOON) {
         },
         {
             url: "/my-activity/:current",
-            label: isRoleRec() ? "Students Data" : "My Activity",
-            icon: "list-ul",
+            label: isRoleRec() ? "Student Listing" : "My Activity",
+            icon: isRoleRec() ? "users" : "list-ul",
             component: ActivityPage,
             bar_app: true,
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            default_param: { current: "session" },
+            default_param: { current: isRoleRec() ? "student-listing" : "session", },
             disabled: (!isRoleRec() && !isRoleStudent()) || COMING_SOON //for student disable first
         },
         {

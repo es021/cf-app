@@ -345,6 +345,17 @@ const ResumeDropType = new GraphQLObjectType({
     })
 });
 
+const StudentListingType = new GraphQLObjectType({
+    name: 'StudentListing',
+    fields: () => ({
+        // all roles
+        student_id: { type: GraphQLInt },
+        created_at: { type: GraphQLString },
+        student: { type: UserType },
+    })
+});
+
+
 const MetaType = new GraphQLObjectType({
     name: 'Meta',
     fields: () => ({
@@ -475,5 +486,6 @@ module.exports = {
     , FeedbackQsType
     , SupportSessionType
     , AvailabilityType
+    , StudentListingType
     //, CFType
 };
