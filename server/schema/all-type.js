@@ -345,6 +345,39 @@ const ResumeDropType = new GraphQLObjectType({
     })
 });
 
+const GroupSessionType = new GraphQLObjectType({
+    name: 'GroupSession',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        company_id: { type: GraphQLInt },
+        company: { type: CompanyType },
+
+        start_time : { type:GraphQLInt },
+        join_url: { type: GraphQLString },
+        limit_join: { type: GraphQLInt },
+
+        joiners : {type: new GraphQLList(GroupSessionJoinType)},
+
+        created_at: { type: GraphQLString },
+        created_by: { type: GraphQLInt },
+        updated_at: { type: GraphQLString },
+        updated_by: { type: GraphQLInt },
+    })
+});
+
+const GroupSessionJoinType = new GraphQLObjectType({
+    name: 'GroupSessionJoin',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        group_session_id: { type: GraphQLInt },
+        group_session : {type : GroupSessionType},
+        user_id : { type:GraphQLInt },
+        user : { type: UserType },
+        created_at: { type: GraphQLString }
+    })
+});
+
+
 const StudentListingType = new GraphQLObjectType({
     name: 'StudentListing',
     fields: () => ({
@@ -487,5 +520,7 @@ module.exports = {
     , SupportSessionType
     , AvailabilityType
     , StudentListingType
+    , GroupSessionType
+    , GroupSessionJoinType
     //, CFType
 };

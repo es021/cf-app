@@ -22,7 +22,8 @@ const { UserType
     , ZoomInviteType
     , AvailabilityType
     , StudentListingType
-    //, CFType
+    , GroupSessionJoinType
+    , GroupSessionType
     , DocLinkType } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
@@ -49,6 +50,7 @@ const { MessageExec } = require('../model/message-query.js');
 const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const { ForumExec } = require('../model/forum-query.js');
 const { StudentListingExec } = require('../model/student-listing-query.js');
+const { GroupSessionExec } = require('../model/group-session-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -64,6 +66,31 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* feedback_qs ******************/
+fields["group_sessions"] = {
+    type: new GraphQLList(GroupSessionType),
+    args: {
+        company_id: { type: new GraphQLNonNull(GraphQLInt) },
+        order_by : {type: GraphQLString}
+    },
+    resolve(parentValue, arg, context, info) {
+        return GroupSessionExec.group_sessions(arg, graphqlFields(info));
+    }
+};
+
+fields["group_session_joins"] = {
+    type: new GraphQLList(GroupSessionJoinType),
+    args: {
+        user_id: { type: GraphQLInt },
+        group_session_id: { type: GraphQLInt },
+        order_by : {type: GraphQLString}
+    },
+    resolve(parentValue, arg, context, info) {
+        return GroupSessionExec.group_session_joins(arg, graphqlFields(info));
+    }
+};
 
 /*******************************************/
 /* feedback_qs ******************/
