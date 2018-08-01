@@ -1,0 +1,78 @@
+@import "define/variable.scss";
+
+.group-session {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  .gs-company{
+    border-radius: 7px;
+    overflow: hidden;
+    margin: 10px;
+    min-width: 190px;
+    min-height: 111px;
+    background: white;
+    box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
+        .header{
+            display: flex;
+            padding: 3px 0px;
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 1px #e4e4e4 solid;
+            .time{
+                padding: 0px 5px;
+                text-align: left;
+                font-size: 13px;
+                .fa{
+                    opacity: 0.7;
+                }
+            }
+        }
+      .joiner{
+        min-height: 33px;
+        margin-top: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 5px;
+        .join-item{
+            .profile-card{
+                cursor: pointer;
+                margin: 0 3px;
+                .pc-picture {
+                    border: #cbd9e5 0.2px solid;
+                }
+
+            }
+
+            .profile-card:hover{
+                opacity: 0.7;
+            }
+            .profile-card:active{
+                opacity: 1;
+            }
+        }
+
+      }
+
+      .action{
+          width: 100%;
+      }
+  }
+  .gs-company.add{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $COLOR-GREEN;
+    border: 1px solid $COLOR-GREEN;
+    background: rgba(0,0,0,0);
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+  }
+
+  .gs-company.add:hover{
+      opacity: 0.7;
+  }
+  .gs-company.add:active{
+      opacity: 1;
+  }
+}

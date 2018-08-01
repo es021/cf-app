@@ -22,7 +22,9 @@ const {
     AvailabilityType,
     SessionRequestType,
     ForumCommentType,
-    ForumReplyType
+    ForumReplyType,
+    GroupSessionJoinType,
+    GroupSessionType
 } = require('./all-type.js');
 
 
@@ -48,7 +50,9 @@ const {
     Prescreen,
     ForumComment,
     ForumReply,
-    SessionRequest
+    SessionRequest,
+    GroupSession,
+    GroupSessionJoin
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -88,7 +92,86 @@ const {
 // START CREATE FIELDS
 var fields = {};
 
-/* message ******************/
+
+/* group session ******************/
+fields["add_group_session"] = {
+    type: GroupSessionType,
+    args: {
+        company_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        start_time: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        limit_join: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        created_by: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(GroupSession.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_group_session"] = {
+    type: GroupSessionType,
+    args: {
+        ID: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        join_url: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        updated_by: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        try {
+            return DB.update(GroupSession.TABLE, arg).then(function (res) {
+                return res;
+            });
+        } catch (err) {
+            return {};
+        }
+    }
+};
+
+/* group session join ******************/
+fields["add_group_session_join"] = {
+    type: GroupSessionJoinType,
+    args: {
+        group_session_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        user_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(GroupSessionJoin.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["delete_group_session_join"] = {
+    type: GraphQLInt,
+    args: {
+        ID: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.delete(GroupSessionJoin.TABLE, arg.ID);
+    }
+};
+
+/* add_zoom_invite ******************/
 fields["add_zoom_invite"] = {
     type: ZoomInviteType,
     args: {
@@ -119,7 +202,7 @@ fields["add_zoom_invite"] = {
 };
 
 
-/* message ******************/
+/* add_message ******************/
 fields["add_message"] = {
     type: MessageType,
     args: {

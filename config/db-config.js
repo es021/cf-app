@@ -1,3 +1,24 @@
+const GroupSession = {
+    TABLE : "group_session",
+    ID :"ID",
+    COMPANY_ID : "company_id",
+    START_TIME : "start_time",
+    JOIN_URL : "join_url",
+    LIMIT_JOIN : "limit_join",
+    CREATED_AT : "created_at",
+    CREATED_BY : "created_by",
+    UPDATED_AT : "updated_at",
+    UPDATED_BY : "updated_by"
+};
+
+const GroupSessionJoin = {
+    TABLE : "group_session_join",
+    ID :"ID",
+    GROUP_SESSION_ID : "group_session_id",
+    USER_ID : "user_id",
+    CREATED_AT : "created_at",
+};
+
 const User = {
     TABLE: "wp_cf_users",
     ID: "ID",
@@ -433,5 +454,7 @@ module.exports = {
     Auditorium,
     AuditoriumEnum,
     ZoomInvite,
-    Availability
+    Availability,
+    GroupSession,
+    GroupSessionJoin
 };
