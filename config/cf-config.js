@@ -3,7 +3,26 @@ const {
 } = require('./app-config');
 const CF_DEFAULT = "NZL";
 const CareerFair = {
+    "EUR": {
+        title: "Europe Virtual Career Fair 2018",
+        flag: "European Union",
+        banner: "EUR.jpg",
+        banner_pos: "top center",
 
+        schedule_time_start: "Nov 20 2018 09:00:00 GMT +0800 (+08)",
+        schedule_time_end: "Nov 23 2018 15:00:00 GMT +0800 (+08)",
+
+        start: "Nov 20 2018 09:00:00 GMT +0800 (+08)",
+        end: "Nov 23 2018 15:00:00 GMT +0800 (+08)",
+        time_str: "1:00 PM - 4:30 PM (EUR)",
+        time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+
+        //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+        //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
+
+        can_register: 1,
+        can_login: 1
+    },
     "NZL": {
         title: "New Zealand Virtual Career Fair 2018",
         flag: "New Zealand",
@@ -17,8 +36,8 @@ const CareerFair = {
         // open for schedule availability 
         // only time concerned here
         schedule_time_start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
-        schedule_time_end: "Jul 09 2018 14:00:00 GMT +1200 (+12)",
-        
+        schedule_time_end: "Jul 10 2018 23:30:00 GMT +1200 (+12)",
+
         // open for do stuff
         start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
         end: "Jul 10 2018 23:30:00 GMT +1200 (+12)",
@@ -43,6 +62,9 @@ const CareerFair = {
         //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
         //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
         // second event
+        //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
+        //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
+        //dates: ["20", "21"], // for multiple seggregated dates
 
         schedule_time_start: "Apr 20 2018 09:00:00 GMT +0800 (+08)",
         schedule_time_end: "Apr 23 2018 15:00:00 GMT +0800 (+08)",
@@ -50,28 +72,14 @@ const CareerFair = {
         start: "Apr 20 2018 20:00:00 GMT -0400 (-04)",
         end: "Apr 21 2018 23:00:00 GMT -0400 (-04)",
         time_str: "10 PM - 1 AM (EDT)",
-        //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
-        //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
+
         test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
         test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
-        //dates: ["20", "21"], // for multiple seggregated dates
+
         can_register: 0,
         can_login: 1,
         page_url: "https://www.facebook.com/events/165437787576733/",
         page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
-    },
-    "EUR": {
-        title: "Europe Virtual Career Fair 2018",
-        flag: "European Union",
-        banner: "EUR.jpg",
-        banner_pos: "top center",
-        start: null,
-        end: null,
-        test_start: null,
-        test_end: null,
-        dates: null,
-        can_register: 1,
-        can_login: 0
     },
     "JAPAN": {
         title: "Japan Virtual Career Fair 2018",

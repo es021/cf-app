@@ -109,6 +109,8 @@ const UserMeta = {
     RELOCATE: "relocate",
     STUDY_PLACE: "study_place",
 
+    LOOKING_FOR: "looking_for",
+
     // rec only
     REC_COMPANY: "rec_company",
     REC_POSITION: "rec_position"

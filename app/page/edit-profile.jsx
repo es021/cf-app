@@ -18,7 +18,7 @@ import { store } from '../redux/store';
 import DocLinkPage from '../component/doc-link-form';
 import { SimpleListItem } from '../component/list';
 import PasswordResetPage from './password-reset';
-import AvailabilityView  from './availability';
+import AvailabilityView from './availability';
 
 class StudentDocLink extends React.Component {
     render() {
@@ -164,7 +164,8 @@ class EditProfile extends React.Component {
             mas_state
             mas_postcode
             relocate
-            study_place`;
+            study_place
+            looking_for`;
 
         } else if (role === UserEnum.ROLE_RECRUITER) {
             extra = `rec_position rec_company`;
@@ -288,6 +289,13 @@ class EditProfile extends React.Component {
 
             },
             { header: "Future Employment Information" },
+            {
+                label: "Looking For",
+                name: UserMeta.LOOKING_FOR,
+                type: "select",
+                data: ["", "Full-Time", "Internship"],
+                required: true
+            },
             {
                 label: "Work Availability Date",
                 sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",

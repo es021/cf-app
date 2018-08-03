@@ -480,6 +480,9 @@ fields["edit_user"] = {
         study_place: {
             type: GraphQLString
         },
+        looking_for: {
+            type: GraphQLString
+        },
 
 
         // rec only

@@ -76,6 +76,7 @@ const UserType = new GraphQLObjectType({
         mas_postcode: { type: GraphQLString },
         relocate: { type: GraphQLString },
         study_place: { type: GraphQLString },
+        looking_for: { type: GraphQLString },
 
         doc_links: { type: new GraphQLList(DocLinkType) },
         skills: { type: new GraphQLList(SkillType) },
