@@ -6,6 +6,7 @@ import { Month, Year, Sponsor, MasState, Country } from '../../config/data-confi
 import { ButtonLink } from '../component/buttons';
 import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
 import { RootPath, DocumentUrl } from '../../config/app-config';
+import AvailabilityView from './availability';
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
@@ -145,11 +146,18 @@ export default class SignUpPage extends React.Component {
             },
             { header: "Future Employment Information" },
             {
+                label: "Looking For",
+                name: UserMeta.LOOKING_FOR,
+                type: "select",
+                data: ["", "Full-Time", "Internship"],
+                required: true
+            },
+            {
                 label: "Work Availability Date",
                 sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
                 name: UserMeta.AVAILABLE_MONTH,
                 type: "select",
-                data: Array("Available To Start Anytime", ...Month),
+                data: Array(...Month),
                 required: true
 
             },
@@ -157,7 +165,7 @@ export default class SignUpPage extends React.Component {
                 label: null,
                 name: UserMeta.AVAILABLE_YEAR,
                 type: "select",
-                data: Array("Available To Start Anytime", ...Year),
+                data: Array(...Year),
                 required: true
             },
             {
@@ -228,6 +236,7 @@ export default class SignUpPage extends React.Component {
             // cf is set in this function
             register(d).then((res) => {
                 console.log(res.data);
+                d[User.ID] = res.data[User.ID];
                 toggleSubmit(this, { user: d, success: true });
             }, (err) => {
                 toggleSubmit(this, { error: err.response.data });
@@ -266,6 +275,8 @@ export default class SignUpPage extends React.Component {
                 Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
                 <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
                 <br></br><small><i>** The email might take a few minutes to arrive **</i></small>
+                <br></br>
+                <AvailabilityView user_id={user[User.ID]} set_only={true}></AvailabilityView>
             </div>
         } else {
             content = <div>
