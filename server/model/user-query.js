@@ -129,7 +129,7 @@ class UserQuery {
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
-        console.log(sql);
+        //console.log(sql);
 
         /*
          var sql = `SELECT u.* 

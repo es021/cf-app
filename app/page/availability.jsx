@@ -79,20 +79,24 @@ export default class AvailabilityView extends React.Component {
         return typeof cfObj.schedule !== "undefined" && cfObj.schedule !== null;
     }
     componentWillMount() {
-        if (!this.isFeatureAvailable()) {
+        if (!this.isFeatureAvailable() || this.props.user_id === null) {
             this.setState(() => {
                 return { loading: false };
             });
+
+            return;
         }
 
         var query = `query{ availabilities(user_id:${this.props.user_id}) 
-             { ID timestamp is_booked company{ID name} } }`;
+            { ID timestamp is_booked company{ID name} } }`;
 
         getAxiosGraphQLQuery(query).then((res) => {
             this.setState(() => {
                 return { data: res.data.data.availabilities, loading: false };
             });
         });
+
+
     }
 
     convertCFTimeStrToInt(cfTime) {
@@ -205,7 +209,6 @@ export default class AvailabilityView extends React.Component {
                 })
             }
         }
-
         // for schedule
         else if (this.props.book_only) {
             // set to is book
@@ -214,7 +217,12 @@ export default class AvailabilityView extends React.Component {
                 this.props.onSelect(id, timestamp);
             }
         }
-
+        // for general purpose select
+        else if (this.props.for_general) {
+            if (isDefault) {
+                this.props.onSelect(id, timestamp);
+            }
+        }
     }
     getPlaceholderData(data) {
         var startUnix = this.cfStartUnix;
@@ -306,6 +314,7 @@ export default class AvailabilityView extends React.Component {
         var r = this.getPlaceholderData(data);
 
         console.log("minmax", this.minHour, this.maxHour);
+        console.log("this.props.select_timestamp", this.props.select_timestamp);
 
         var view = [];
         for (var day in r) {
@@ -316,8 +325,9 @@ export default class AvailabilityView extends React.Component {
                 var cls = "av-li";
                 if (d.is_empty === true) {
                     cls += " " + IS_EMPTY;
-                }
-                else if (this.props.select_id == d.ID) {
+                } else if (this.props.select_id == d.ID) {
+                    cls += " " + IS_SELECT;
+                } else if (this.props.select_timestamp == d.timestamp) {
                     cls += " " + IS_SELECT;
                 } else if (d.is_booked) {
                     cls += " " + IS_BOOKED;
@@ -372,7 +382,15 @@ export default class AvailabilityView extends React.Component {
         //return [<div className="availability set-only">{view}</div>
         //    , <div className="availability book-only">{view}</div>];
 
-        var clsName = this.props.set_only ? "set-only" : "book-only";
+        var clsName = "";
+        if (this.props.set_only) {
+            clsName = "set-only";
+        } else if (this.props.book_only) {
+            clsName = "book-only";
+        } else if (this.props.for_general) {
+            clsName = "for-general";
+        }
+
         return <div className={`availability ${clsName}`}>{view}</div>;
 
         //return <div className="availability">{view}</div>;
@@ -385,7 +403,7 @@ export default class AvailabilityView extends React.Component {
         } else {
             if (this.isFeatureAvailable()) {
                 view = this.getPlaceholderView(this.state.data);
-                if (!Array.isArray(this.state.data) || this.state.data.length <= 0) {
+                if (this.props.user_id !== null && (!Array.isArray(this.state.data) || this.state.data.length <= 0)) {
                     errMes = <span>
                         It seems that this student had not set his/her availability.
                         <br></br>Please continue with other student
@@ -404,7 +422,7 @@ export default class AvailabilityView extends React.Component {
                 </h3>
                 :
                 <div>
-                    <h4 class="text-muted">Select A Time For Scheduled Call</h4>
+                    <h4 class="text-muted">Select A Time For {this.props.select_for}</h4>
                     {errMes !== null ?
                         <div className="form-error alert alert-danger">
                             {errMes}
@@ -418,15 +436,21 @@ export default class AvailabilityView extends React.Component {
 }
 
 AvailabilityView.propTypes = {
-    user_id: PropTypes.number.isRequired,
+    user_id: PropTypes.number,
     set_only: PropTypes.bool,
     book_only: PropTypes.bool,
+    for_general: PropTypes.bool,
     select_id: PropTypes.number,
+    select_timestamp: PropTypes.number,
+    select_for: PropTypes.string,
     selectBookHandler: PropTypes.func
 };
 
 AvailabilityView.defaultProps = {
-    select_id: -1
+    user_id: null,
+    select_id: -1,
+    select_timestamp: -1,
+    select_for: "Scheduled Call"
 };
 
 

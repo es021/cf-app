@@ -278,8 +278,9 @@ export default class UserPopup extends Component {
         //about
         const basic = this.getBasicInfo(user);
 
-        //schedule interview
-        var si_btn = isRoleRec() || isRoleAdmin()
+        //schedule interview jenis lama for pre screen maybe
+        // only admin can access
+        var si_btn = isRoleAdmin()
             ? <div><br></br><a
                 className="btn btn-blue" onClick={() => {
                     openSIAddForm(this.props.id, this.authUser.rec_company, PrescreenEnum.ST_PROFILE)
