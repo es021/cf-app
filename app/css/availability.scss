@@ -133,15 +133,26 @@ $COLOR-DEFAULT: darkgrey;
             @include for_is_default;
             text-decoration: line-through;
         }
-        .av-li.is-select{
-            @include for_is_booked;
-        }
         .av-li.is-empty{
             @include for_is_empty;
         }
-
         .av-li.is-empty:hover{
             @include for_is_empty;
         }
+        .av-li.is-select{
+            @include for_is_booked;
+        }
     }
 }
+
+.availability.for-general{
+    .av-group{
+        .av-li:hover {
+            @include for_is_booked;
+        }
+        .av-li.is-select{
+            @include for_is_booked;
+        }
+    }
+}
+

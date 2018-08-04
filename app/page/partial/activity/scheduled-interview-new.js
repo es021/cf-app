@@ -52,7 +52,7 @@ export default class ScheduledInterviewNew extends React.Component {
 
         this.createPrescreen()
     }
-    createPrescreen(timestamp){
+    createPrescreen(){
         var d = {};
         d[Prescreen.STUDENT_ID] = this.props.student_id;
         d[Prescreen.COMPANY_ID] = this.props.company_id;
@@ -84,15 +84,13 @@ export default class ScheduledInterviewNew extends React.Component {
         }`
 
         getAxiosGraphQLQuery(query).then((res) => {
-            this.setState(() => {
-                this.setState((prevState)=>{
-                    return {loadingSubmit : false};
-                });
+            this.setState((prevState)=>{
+                return {loadingSubmit : false};
+            });
 
-                // close popup terus
-                layoutActions.storeHideFocusCard();
-                this.successAddHandler();
-            })
+            // close popup terus
+            layoutActions.storeHideFocusCard();
+            this.successAddHandler();
         });
     }
 
@@ -116,7 +114,7 @@ export default class ScheduledInterviewNew extends React.Component {
         // after success add scheduled interview
         // emit to student only
         // emit to reload scheduled interview
-        emitHallActivity(ActivityType.PRESCREEN, d.student_id);
+        emitHallActivity(ActivityType.PRESCREEN, this.props.student_id);
     };
 
     onSelectTime(id, timestamp){

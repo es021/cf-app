@@ -1,7 +1,7 @@
 const {
     ImageUrl
 } = require('./app-config');
-const CF_DEFAULT = "NZL";
+const CF_DEFAULT = "EUR";
 const CareerFair = {
     "EUR": {
         title: "Europe Virtual Career Fair 2018",
