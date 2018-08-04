@@ -8,14 +8,30 @@ const CareerFair = {
         flag: "European Union",
         banner: "EUR.jpg",
         banner_pos: "top center",
-
-        schedule_time_start: "Nov 20 2018 09:00:00 GMT +0800 (+08)",
-        schedule_time_end: "Nov 23 2018 15:00:00 GMT +0800 (+08)",
-
-        start: "Nov 20 2018 09:00:00 GMT +0800 (+08)",
-        end: "Nov 23 2018 15:00:00 GMT +0800 (+08)",
-        time_str: "1:00 PM - 4:30 PM (EUR)",
-        time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+        schedule: {
+            timezone: "GMT +0800 (+08)",
+            data: [{
+                    date: "Nov 12 2018",
+                    start: "15:00:00",
+                    end: "18:00:00"
+                },
+                {
+                    date: "Nov 13 2018",
+                    start: "15:00:00",
+                    end: "18:00:00"
+                },
+                {
+                    date: "Nov 14 2018",
+                    start: "15:00:00",
+                    end: "18:00:00"
+                }
+            ]
+        },
+        start: "Nov 12 2018 15:00:00 GMT +0800 (+08)",
+        end: "Nov 14 2018 18:00:00 GMT +0800 (+08)",
+        //time_str: "1:00 PM - 4:30 PM (EUR)",
+        time_str: "3:00 PM - 6:00 PM (MYT)",
+        //time_str_mas: "9:00 AM - 12:30 PM (MYT)",
 
         //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
         //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
@@ -35,8 +51,25 @@ const CareerFair = {
 
         // open for schedule availability 
         // only time concerned here
-        schedule_time_start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
-        schedule_time_end: "Jul 10 2018 23:30:00 GMT +1200 (+12)",
+        // schedule: {
+        //     timezone: "GMT +0800 (+08)",
+        //     data: [{
+        //             date: "Nov 12 2018",
+        //             start: "15:00:00",
+        //             end: "18:00:00"
+        //         },
+        //         {
+        //             date: "Nov 13 2018",
+        //             start: "15:00:00",
+        //             end: "18:00:00"
+        //         },
+        //         {
+        //             date: "Nov 14 2018",
+        //             start: "15:00:00",
+        //             end: "18:00:00"
+        //         }
+        //     ]
+        // },
 
         // open for do stuff
         start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
@@ -48,7 +81,7 @@ const CareerFair = {
         test_start: "Jul 08 2018 15:00:00 GMT +1200 (+12)",
         test_end: "Jul 09 2018 01:00:00 GMT +1200 (+12)",
         //dates: ["20", "21"], // for multiple seggregated dates
-        can_register: 1,
+        can_register: 0,
         can_login: 1,
         page_url: null,
         page_banner: null
