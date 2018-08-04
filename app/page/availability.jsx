@@ -14,48 +14,77 @@ require('../css/availability.scss');
 const IS_SET = "is-set";
 const IS_BOOKED = "is-booked";
 const IS_DEFAULT = "is-default";
-const IS_SELECT = "is-select"
+const IS_SELECT = "is-select";
+const IS_EMPTY = "is-empty";
 
 export default class AvailabilityView extends React.Component {
     constructor(props) {
         super(props);
-
         this.INTERVAL_MIN = 30;
+        this.minHour = 99999;
+        this.maxHour = 0;
+
         // init to today
         var curDateUnix = Time.getUnixFromDateTimeInput(Time.getDateDay("now"), "00:00");
-
-        var cfObj = getCFObj();
-        this.hourStart = this.convertCFTimeStrToInt(cfObj.schedule_time_start);
-        this.hourEnd = this.convertCFTimeStrToInt(cfObj.schedule_time_end);
-
-        this.cfStartUnix = Time.convertDBTimeToUnix(cfObj.schedule_time_start);
-        this.cfEndUnix = Time.convertDBTimeToUnix(cfObj.schedule_time_end);
-
-        console.log(this.hourStart, this.hourEnd);
-        // for next date just add to timestamp
-        // and convert back to day date
-
         this.state = {
             data: [],
             loading: true,
             curDateUnix: curDateUnix
         }
-    }
 
-    convertCFTimeStrToInt(cfTime) {
-        var ret = Time.convertDBTimeToUnix(cfTime);
-        ret = Time.getDateTime(ret);
-        ret = this.convertTimeToInt(ret);
-        return ret;
-    }
 
-    convertTimeToInt(time) {
-        var ret = time.replace(":", "");
-        ret = Number.parseInt(ret);
-        return ret;
-    }
+        this.cfStartUnix = null;
+        this.cfEndUnix = null;
+        this.validUnix = [];
 
+        this.initScheduleTime();
+    }
+    initScheduleTime() {
+        if (!this.isFeatureAvailable()) {
+            return;
+        }
+
+        var schObj = getCFObj().schedule;
+        var timezone = schObj.timezone;
+        var data = schObj.data;
+        var startStr = data[0].date + " " + data[0].start + " " + timezone;
+        var endStr = data[data.length - 1].date + " " + data[data.length - 1].end + " " + timezone;
+
+
+        for (var i in data) {
+            var startStr = data[i].date + " " + data[i].start + " " + timezone;
+            var endStr = data[i].date + " " + data[i].end + " " + timezone;
+
+            var startUnix = Time.convertDBTimeToUnix(startStr);
+            var endUnix = Time.convertDBTimeToUnix(endStr);
+
+            // set valid unix
+            this.validUnix.push(
+                { start: startUnix, end: endUnix }
+            );
+
+            // set cf start unix
+            if (this.cfStartUnix == null || startUnix < this.cfStartUnix) {
+                this.cfStartUnix = startUnix;
+            }
+
+            // set cf end unix
+            if (this.cfEndUnix == null || endUnix > this.cfEndUnix) {
+                this.cfEndUnix = endUnix;
+            }
+        }
+    }
+    isFeatureAvailable() {
+        var cfObj = getCFObj();
+        return typeof cfObj.schedule !== "undefined" && cfObj.schedule !== null;
+    }
     componentWillMount() {
+        if (!this.isFeatureAvailable()) {
+            this.setState(() => {
+                return { loading: false };
+            });
+        }
+
         var query = `query{ availabilities(user_id:${this.props.user_id}) 
              { ID timestamp is_booked company{ID name} } }`;
 
@@ -66,14 +95,47 @@ export default class AvailabilityView extends React.Component {
         });
     }
 
-    isHourTimeValid(time) {
-        time = this.convertTimeToInt(time);
-
-        if (time >= this.hourStart && time < this.hourEnd) {
-            return true;
+    convertCFTimeStrToInt(cfTime) {
+        var ret = Time.convertDBTimeToUnix(cfTime);
+        return this.convertUnixToInt(ret);
+    }
+    convertUnixToInt(unix) {
+        var ret = Time.getDateTime(unix);
+        ret = this.convertTimeToInt(ret);
+        return ret;
+    }
+    convertTimeToInt(time) {
+        var ret = time.replace(":", "");
+        ret = Number.parseInt(ret);
+        return ret;
+    }
+    // set the min and mix hour in this timezone
+    addToMinMaxHour(unix) {
+        var hourInt = this.convertUnixToInt(unix);
+        if (hourInt < this.minHour) {
+            this.minHour = hourInt;
+        }
+        if (hourInt > this.maxHour) {
+            this.maxHour = hourInt;
+        }
+    }
+    isTimestampValid(unix) {
+        // check from this.validUnix
+        for (var i in this.validUnix) {
+            var start = this.validUnix[i].start;
+            var end = this.validUnix[i].end;
+            if (unix >= start && unix < end) {
+                return true;
+            }
         }
 
         return false;
+
+        // time = this.convertTimeToInt(time);
+
+        // this.hourStart = this.convertCFTimeStrToInt(cfObj.schedule_time_start);
+        // this.hourEnd = this.convertCFTimeStrToInt(cfObj.schedule_time_end);
+        // return false;
     }
     mapDataAsTimestamp(data) {
         var ret = {};
@@ -85,54 +147,7 @@ export default class AvailabilityView extends React.Component {
 
         return ret;
     }
-    getPlaceholderData(data) {
-        var startUnix = this.cfStartUnix;
-        var endUnix = this.cfEndUnix;
 
-        var mappedData = this.mapDataAsTimestamp(data);
-        var r = {};
-        var cur = startUnix;
-        while (cur < endUnix) {
-            var curDay = Time.getDateDay(cur);
-            if (typeof r[curDay] === "undefined") {
-                r[curDay] = [];
-            }
-
-            // create data for placeholder
-            var time = Time.getDateTime(cur);
-            var dayStr = Time.getDateDayStr(cur);
-            var is_set = false;
-            var is_booked = false;
-            var ID = null;
-            var raw = null;
-            var index = null;
-
-            if (typeof mappedData[cur] !== "undefined") {
-                raw = mappedData[cur];
-                is_set = true;
-                is_booked = raw.is_booked;
-                index = raw.index;
-                ID = raw.ID;
-            }
-
-            if (this.isHourTimeValid(time)) {
-                var timeStr = Time.getDateTime(cur, true);
-                r[curDay].push({
-                    index: index,
-                    ID: ID,
-                    is_set: is_set,
-                    is_booked: is_booked,
-                    timestamp: cur,
-                    time: timeStr,
-                    dayStr: dayStr,
-                    raw: raw
-                });
-            }
-            cur += this.INTERVAL_MIN * 60;
-        }
-
-        return r;
-    }
     dbCreateAv(timestamp, handler) {
         var query = `mutation{add_availability(user_id:${this.props.user_id},timestamp:${timestamp}) { ID } }`;
         getAxiosGraphQLQuery(query).then((res) => {
@@ -201,8 +216,97 @@ export default class AvailabilityView extends React.Component {
         }
 
     }
+    getPlaceholderData(data) {
+        var startUnix = this.cfStartUnix;
+        var endUnix = this.cfEndUnix;
+
+        var mappedData = this.mapDataAsTimestamp(data);
+        var r = {};
+        var cur = startUnix;
+        while (cur < endUnix) {
+
+            var curDay = Time.getDateDay(cur);
+            if (typeof r[curDay] === "undefined") {
+                r[curDay] = [];
+            }
+
+            // create data for placeholder
+            var time = Time.getDateTime(cur);
+            var dayStr = Time.getDateDayStr(cur);
+            var is_set = false;
+            var is_booked = false;
+            var ID = null;
+            var raw = null;
+            var index = null;
+
+
+            if (this.isTimestampValid(cur)) {
+                if (typeof mappedData[cur] !== "undefined") {
+                    raw = mappedData[cur];
+                    is_set = true;
+                    is_booked = raw.is_booked;
+                    index = raw.index;
+                    ID = raw.ID;
+                }
+
+                var timeStr = Time.getDateTime(cur, true);
+                r[curDay].push({
+                    index: index,
+                    ID: ID,
+                    is_set: is_set,
+                    is_booked: is_booked,
+                    timestamp: cur,
+                    time: timeStr,
+                    dayStr: dayStr,
+                    raw: raw
+                });
+                this.addToMinMaxHour(cur);
+            } else {
+                //r[curDay].push(this.getEmptyItem(dayStr));
+            }
+
+            cur += this.INTERVAL_MIN * 60;
+        }
+
+        // add empty hour according to min and max
+        for (var day in r) {
+            var items = r[day];
+            var firstUnix = items[0].timestamp;
+            var diff = this.convertUnixToInt(firstUnix) - this.minHour;
+
+            if (diff > 0) {
+                var emptyCount = diff / this.INTERVAL_MIN * 60 / 100;
+                for (var i = 0; i < emptyCount; i++) {
+                    r[day].unshift(this.getEmptyItem(items[0].dayStr));
+                }
+            }
+
+            var lastUnix = items[items.length - 1].timestamp;
+            var diff = this.maxHour - this.convertUnixToInt(lastUnix);
+
+            if (diff > 0) {
+                var emptyCount = diff / this.INTERVAL_MIN * 60 / 100;
+                for (var i = 0; i < emptyCount; i++) {
+                    r[day].push(this.getEmptyItem(items[0].dayStr));
+                }
+            }
+
+        }
+
+        return r;
+    }
+    getEmptyItem(dayStr) {
+        return {
+            is_empty: true,
+            dayStr: dayStr,
+            time: "N/A"
+        };
+    }
     getPlaceholderView(data) {
         var r = this.getPlaceholderData(data);
+
+        console.log("minmax", this.minHour, this.maxHour);
+
         var view = [];
         for (var day in r) {
             var dayData = r[day];
@@ -210,7 +314,10 @@ export default class AvailabilityView extends React.Component {
             var list = dayData.map((d, i) => {
 
                 var cls = "av-li";
-                if (this.props.select_id == d.ID) {
+                if (d.is_empty === true) {
+                    cls += " " + IS_EMPTY;
+                }
+                else if (this.props.select_id == d.ID) {
                     cls += " " + IS_SELECT;
                 } else if (d.is_booked) {
                     cls += " " + IS_BOOKED;
@@ -270,35 +377,39 @@ export default class AvailabilityView extends React.Component {
 
         //return <div className="availability">{view}</div>;
     }
-
     render() {
         var view = null;
         var errMes = null;
         if (this.state.loading) {
             view = <Loader size="2" text="Loading Availability.."></Loader>;
         } else {
-            view = this.getPlaceholderView(this.state.data);
-            if (!Array.isArray(this.state.data) || this.state.data.length <= 0) {
-                var errMes = <span>
-                    It seems that this student had not set his/her availability.
-                    <br></br>Please continue with other student
-                </span>;
+            if (this.isFeatureAvailable()) {
+                view = this.getPlaceholderView(this.state.data);
+                if (!Array.isArray(this.state.data) || this.state.data.length <= 0) {
+                    errMes = <span>
+                        It seems that this student had not set his/her availability.
+                        <br></br>Please continue with other student
+                    </span>;
+                }
+            } else {
+                view = <span>This feature does not available for {getCFObj().title}</span>
             }
+
         }
 
         return <div>
-            {this.props.set_only ? 
+            {this.props.set_only ?
                 <h3 class="text-muted">Availability<br></br>
                     <small>Set Your Availability For Scheduled Call</small>
                 </h3>
                 :
-                <div> 
+                <div>
                     <h4 class="text-muted">Select A Time For Scheduled Call</h4>
-                    {errMes !== null ? 
+                    {errMes !== null ?
                         <div className="form-error alert alert-danger">
-                            {errMes} 
+                            {errMes}
                         </div>
-                    : null}
+                        : null}
                 </div>
             }
             {view}

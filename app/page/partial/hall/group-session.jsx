@@ -75,10 +75,22 @@ class GroupSessionCompanyClass extends React.Component {
                 var imgView = createImageElement(dj.img_url, dj.img_pos
                     , dj.img_size, this.img_dimension, "");
 
-                var onClickJoiner = () => layoutActions.storeUpdateFocusCard(dj.first_name + " " + dj.last_name, UserPopup, { id: dj.ID });
+                var studentName = dj.first_name + " " + dj.last_name;
+                var onClickJoiner = () => layoutActions.storeUpdateFocusCard(studentName, UserPopup, { id: dj.ID });
 
                 return <div className="join-item"
-                    onClick={onClickJoiner}>{imgView}</div>
+                    onClick={onClickJoiner}>
+                    <Tooltip
+                        bottom="37px"
+                        left="-71px"
+                        width="140px"
+                        debug={false}
+                        alignCenter={true}
+                        content={imgView}
+                        tooltip={studentName}>
+                    </Tooltip>
+
+                </div>
             });
 
             if (d.joiners.length <= 0) {
@@ -101,7 +113,7 @@ class GroupSessionCompanyClass extends React.Component {
                     </div>
                 </div>
                 <div className="joiner">{joiners}</div>
-                <div className="action btn btn-success btn-sm">Start Session</div>
+                <div className="action btn btn-success btn-sm">Start Video Call</div>
 
             </div>;
         });

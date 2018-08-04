@@ -24,6 +24,15 @@ $COLOR-DEFAULT: darkgrey;
     color: $COLOR-DEFAULT;
 }
 
+@mixin for_is_empty(){
+    font-weight: normal;
+    border: $COLOR-DEFAULT solid 1px;
+    background: rgba(0, 0, 0, 0);
+    color: $COLOR-DEFAULT;
+    opacity: 0.4;
+    cursor: initial !important;
+}
+
 .availability {
     display: flex;
     flex-wrap: wrap;
@@ -92,6 +101,13 @@ $COLOR-DEFAULT: darkgrey;
         .av-li.is-booked:active {
             opacity: 1;
         }
+        .av-li.is-empty{
+            @include for_is_empty;
+        }
+
+        .av-li.is-empty:hover{
+            @include for_is_empty;
+        }
     }
 }
 
@@ -119,6 +135,13 @@ $COLOR-DEFAULT: darkgrey;
         }
         .av-li.is-select{
             @include for_is_booked;
+        }
+        .av-li.is-empty{
+            @include for_is_empty;
+        }
+
+        .av-li.is-empty:hover{
+            @include for_is_empty;
         }
     }
 }
