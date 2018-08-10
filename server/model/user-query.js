@@ -1,6 +1,6 @@
 const DB = require('./DB.js');
 
-const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, Prescreen, SessionEnum, SessionRequest, SessionRequestEnum } = require('../../config/db-config.js');
+const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, Prescreen,GroupSessionJoin, SessionEnum, SessionRequest, SessionRequestEnum } = require('../../config/db-config.js');
 const { DocLinkExec } = require('./doclink-query.js');
 const { SkillExec } = require('./skill-query.js');
 
@@ -329,6 +329,7 @@ class UserExec {
         const { ZoomExec } = require('./zoom-query.js');
         const { SessionExec } = require('./session-query.js');
         const { SessionRequestExec } = require('./session-request-query.js');
+        const { GroupSessionExec } = require('./group-session-query.js');
 
         // extra field that need role value to find
         if (field["sessions"] !== "undefined"
@@ -357,6 +358,22 @@ class UserExec {
                 // Cf ****************************************************
                 if (typeof field["cf"] !== "undefined") {
                     res[i]["cf"] = DB.getCF("user", user_id);
+                }
+
+                 // group_session_joins ****************************************************
+                 if (typeof field["group_session_joins"] !== "undefined") {
+                    var par = {};
+                    par[GroupSessionJoin.USER_ID] = user_id;
+                    res[i]["group_session_joins"] = GroupSessionExec.group_session_joins(par, field["group_session_joins"]);
+                }
+
+                 // group_sessions ****************************************************
+                 if (typeof field["group_sessions"] !== "undefined") {
+                    var par = {};
+                    par["user_id"] = user_id;
+                    // order yg join url ada dulu, then by expired
+                    par["order_by"] = "main.is_expired asc, main.join_url desc";
+                    res[i]["group_sessions"] = GroupSessionExec.group_sessions(par, field["group_sessions"]);
                 }
 
                 // sessions ****************************************************

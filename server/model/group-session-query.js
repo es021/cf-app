@@ -6,19 +6,23 @@ const {
 
 class GroupSessionQuery {
     getGroupSession(params, extra) {
-        var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = '${params.ID}' `;
-        var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}' `;
-        var order_by = (typeof params.order_by === "undefined") ? "ORDER BY start_time desc" : `ORDER BY ${params.order_by} `;
+        var id_where = (typeof params.ID === "undefined") ? "1=1" : `main.ID = '${params.ID}' `;
+        var com_where = (typeof params.company_id === "undefined") ? "1=1" : `main.company_id = '${params.company_id}' `;
+        var user_where = (typeof params.user_id === "undefined") ? "1=1" :
+            ` ${params.user_id} IN (select oth.user_id from ${GroupSessionJoin.TABLE} oth where oth.group_session_id = main.ID) `;
+
+        var order_by = (typeof params.order_by === "undefined") ? "ORDER BY main.start_time desc" : `ORDER BY ${params.order_by} `;
 
         //var limit = DB.prepareLimit(params.page, params.offset);
         var limit = "";
 
-        var sql = `from ${GroupSession.TABLE} 
-            where ${id_where} and ${com_where} ${order_by}`;
+        var sql = `from ${GroupSession.TABLE} main
+            where ${id_where} and ${com_where} and ${user_where} ${order_by}`;
 
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
         } else {
+            console.log(`select * ${sql} ${limit}`);
             return `select * ${sql} ${limit}`;
         }
     }
@@ -105,7 +109,7 @@ class GroupSessionExec {
         const {
             CompanyExec
         } = require('./company-query.js');
-        
+
         var OBJ = this;
 
         var sql = GroupSessionQuery.getGroupSession(params, extra);

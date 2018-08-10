@@ -22,7 +22,7 @@ import { emitChatMessage, socketOn, emitHallActivity } from '../../../socket/soc
 
 require("../../../css/chat.scss");
 
-export function joinVideoCall(join_url, session_id, expiredHandler = null) {
+export function joinVideoCall(join_url, session_id, expiredHandler = null, group_session_id = null) {
     window.open(join_url);
 
     /*
@@ -48,9 +48,16 @@ export function joinVideoCall(join_url, session_id, expiredHandler = null) {
 
     var data = {
         query: "is_meeting_expired",
-        join_url: join_url,
-        session_id: session_id
+        join_url: join_url
     };
+
+    if(session_id !== null){
+        data.session_id = session_id;
+    }
+
+    if(group_session_id !== null){
+        data.group_session_id = group_session_id;
+    }
 
     getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
 }

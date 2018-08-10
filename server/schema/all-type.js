@@ -59,6 +59,8 @@ const UserType = new GraphQLObjectType({
         prescreens: { type: new GraphQLList(PrescreenType) },
         sessions: { type: new GraphQLList(SessionType) },
         zoom_invites: { type: new GraphQLList(ZoomInviteType) },
+        group_sessions: { type: new GraphQLList(GroupSessionType) },
+        group_session_joins: { type: new GraphQLList(GroupSessionJoinType) },
 
         // student only        
         university: { type: GraphQLString },
@@ -355,7 +357,9 @@ const GroupSessionType = new GraphQLObjectType({
 
         start_time : { type:GraphQLInt },
         join_url: { type: GraphQLString },
+        start_url: { type: GraphQLString },
         limit_join: { type: GraphQLInt },
+        is_expired: { type: GraphQLInt },
 
         joiners : {type: new GraphQLList(GroupSessionJoinType)},
 

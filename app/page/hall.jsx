@@ -4,7 +4,7 @@ import PageSection from '../component/page-section';
 import { CustomList } from '../component/list';
 import { NavLink } from 'react-router-dom';
 import ActivitySection from './partial/hall/activity';
-import {GroupSessionCompany} from './partial/hall/group-session';
+import { GroupSessionView } from './partial/hall/group-session';
 import CompaniesSection from './partial/hall/companies';
 import ForumPage from './forum';
 
@@ -67,10 +67,16 @@ export default class HallPage extends React.Component {
 
         var forum = isRoleRec() ? <ForumPage forum_id={`company_${getAuthUser().company_id}`}></ForumPage> : null;
 
+        var gSesion = null;
+        if (isRoleRec()) {
+            gSesion = <GroupSessionView forRec={true} company_id={this.authUser.rec_company}></GroupSessionView>;
+            gSesion = <PageSection title="Group Session" body={gSesion}></PageSection>;
+        }
+
         return (<div>
             <h2>Welcome To {this.title}</h2>
             {this.getHighlight()}
-            {(isRoleRec()) ? <PageSection title="Group Session" body={GroupSessionCompany}></PageSection> : null}
+            {gSesion}
             <PageSection title={null} body={ActivitySection}></PageSection>
             {(isRoleRec()) ?
                 <PageSection title="" body={forum}></PageSection>
