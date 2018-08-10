@@ -419,6 +419,7 @@ export default class AvailabilityView extends React.Component {
             {this.props.set_only ?
                 <h3 class="text-muted">Availability<br></br>
                     <small>Set Your Availability For Scheduled Call</small>
+                    {this.props.for_sign_up ? <small><br></br>** This can be changed later **</small> : null}
                 </h3>
                 :
                 <div>
@@ -443,11 +444,13 @@ AvailabilityView.propTypes = {
     select_id: PropTypes.number,
     select_timestamp: PropTypes.number,
     select_for: PropTypes.string,
+    for_sign_up: PropTypes.bool,
     selectBookHandler: PropTypes.func
 };
 
 AvailabilityView.defaultProps = {
     user_id: null,
+    for_sign_up: false,
     select_id: -1,
     select_timestamp: -1,
     select_for: "Scheduled Call"

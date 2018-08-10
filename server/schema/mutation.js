@@ -123,11 +123,17 @@ fields["edit_group_session"] = {
         ID: {
             type: new GraphQLNonNull(GraphQLInt)
         },
+        is_expired: {
+            type: GraphQLInt
+        },
         join_url: {
-            type: new GraphQLNonNull(GraphQLString)
+            type: GraphQLString
+        },
+        start_url: {
+            type: GraphQLString
         },
         updated_by: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: GraphQLInt
         }
     },
     resolve(parentValue, arg, context, info) {

@@ -27,6 +27,8 @@ import Tooltip from '../../../component/tooltip';
 import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 import { joinVideoCall } from '../session/chat';
 
+import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
+
 require('../../../css/border-card.scss');
 
 class ActvityList extends React.Component {
@@ -352,6 +354,46 @@ class ActvityList extends React.Component {
                             */
                         }
                         break;
+
+
+
+                    // #############################################################
+                    // group session Card View
+                    case hallAction.ActivityType.GROUP_SESSION_JOIN:
+                        if (isRoleStudent()) {
+                            subtitle = `${Time.getString(d.start_time)}`;
+                            var hasStart = false;
+                            if (!d.is_expired && d.join_url != "" && d.join_url != null) {
+                                hasStart = true;
+                                subtitle = <div>Video Call Has Started</div>;
+                            }
+
+                            const isExpiredHandler = () => {
+                                var mes = <div>
+                                    Unable to join.<br></br>This group session has ended.
+                                </div>;
+                                layoutActions.errorBlockLoader(mes);
+                                var q = `mutation {edit_group_session(ID:${d.ID}, is_expired:1){ID}}`;
+                                getAxiosGraphQLQuery(q).then((res) => {
+                                    hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
+                                })
+                            }
+
+                            if (!d.is_expired) {
+                                body = (hasStart) ?
+                                    <div>
+                                        <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
+                                            className="btn btn-sm btn-blue">Join Video Call</a>
+                                    </div>
+                                    : <div id={d.ID} data-company_id={obj.ID} data-company_name={obj.name}
+                                        className="btn btn-sm btn-primary">Cancel Join
+                                 </div>
+                            } else {
+                                body = <button disabled="disabled" className="btn btn-sm btn-danger">Ended</button>
+                            }
+                        }
+
+                        break;
                 }
 
                 var img_position = (isRoleRec()) ? obj.img_pos : obj.img_position;
@@ -472,6 +514,12 @@ class ActivitySection extends React.Component {
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Session</a>
             , tt_p)
 
+        var tt_gs = "Visit company booth below and join group session with recruiter.";
+        var title_gs = this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.GROUP_SESSION_JOIN)}>Group Session</a>
+            , tt_gs)
+        var subtitle_gs = null;
+
 
         var size_s = (isRoleRec()) ? "12" : "12";
         //var size_q = (isRoleRec()) ? "12" : "6";
@@ -506,14 +554,24 @@ class ActivitySection extends React.Component {
         */
 
         // session request
-        var sr = <div className={`col-sm-${size_sr} no-padding`}>
-            <ActvityList
-                bc_type={`vertical`}
-                online_users={this.props.online_users}
-                fetching={d.fetching.session_requests}
-                type={hallAction.ActivityType.SESSION_REQUEST}
-                title={title_sr} list={d.session_requests}></ActvityList></div>;
+        // var sr = <div className={`col-sm-${size_sr} no-padding`}>
+        //     <ActvityList
+        //         bc_type={`vertical`}
+        //         online_users={this.props.online_users}
+        //         fetching={d.fetching.session_requests}
+        //         type={hallAction.ActivityType.SESSION_REQUEST}
+        //         title={title_sr} list={d.session_requests}></ActvityList></div>;
 
+        //Group Session
+        var gs = <div className={`col-sm-${size_p} no-padding`}>
+            <ActvityList
+                bc_type="vertical"
+                online_users={this.props.online_users}
+                fetching={d.fetching.group_session_joins}
+                type={hallAction.ActivityType.GROUP_SESSION_JOIN}
+                title={title_gs}
+                subtitle={subtitle_gs}
+                list={d.group_session_joins}></ActvityList></div>;
 
         //Scheduled Session
         var p = <div className={`col-sm-${size_p} no-padding`}>
@@ -529,19 +587,16 @@ class ActivitySection extends React.Component {
         //{zi}
         return (isRoleRec()) ?
             <div className="row">
-                <div className={`col-md-5 no-padding`}>
-                    {sr}
-                </div>
-                <div className={`col-md-4 no-padding`}>
+                <div className={`col-md-8 no-padding`}>
                     {p}
                 </div>
-                <div className={`col-md-3 no-padding`}>
+                <div className={`col-md-4 no-padding`}>
                     {s}
                 </div>
             </div>
             : <div className="row">
                 <div className={`col-md-5 no-padding`}>
-                    {sr}
+                    {gs}
                 </div>
                 <div className={`col-md-4 no-padding`}>
                     {p}

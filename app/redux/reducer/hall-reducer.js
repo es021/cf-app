@@ -1,14 +1,18 @@
-import { getNewState } from './_helper';
+import {
+    getNewState
+} from './_helper';
 import * as hallAction from '../actions/hall-actions';
 
 const hallReducerInitState = {
     activity: {
+        group_session_joins: [],
         sessions: [],
         queues: [],
         session_requests: [],
         prescreens: [],
         zoom_invites: [],
         fetching: {
+            group_session_joins: true,
             sessions: true,
             queues: true,
             session_requests: true,
@@ -61,18 +65,16 @@ export default function hallReducer(state = hallReducerInitState, action) {
 
             if (action.type.indexOf(hallAction.ActivityType.SESSION_REQUEST) > -1) {
                 newState.fetching["session_requests"] = true;
-            }
-            else if (action.type.indexOf(hallAction.ActivityType.SESSION) > -1) {
+            } else if (action.type.indexOf(hallAction.ActivityType.SESSION) > -1) {
                 newState.fetching["sessions"] = true;
-            }
-            else if (action.type.indexOf(hallAction.ActivityType.QUEUE) > -1) {
+            } else if (action.type.indexOf(hallAction.ActivityType.QUEUE) > -1) {
                 newState.fetching["queues"] = true;
-            }
-            else if (action.type.indexOf(hallAction.ActivityType.PRESCREEN) > -1) {
+            } else if (action.type.indexOf(hallAction.ActivityType.PRESCREEN) > -1) {
                 newState.fetching["prescreens"] = true;
-            }
-            else if (action.type.indexOf(hallAction.ActivityType.ZOOM_INVITE) > -1) {
+            } else if (action.type.indexOf(hallAction.ActivityType.ZOOM_INVITE) > -1) {
                 newState.fetching["zoom_invites"] = true;
+            } else if (action.type.indexOf(hallAction.ActivityType.GROUP_SESSION_JOIN) > -1) {
+                newState.fetching["group_session_joins"] = true;
             }
         }
 
@@ -111,6 +113,10 @@ export default function hallReducer(state = hallReducerInitState, action) {
             if (data.user.zoom_invites) {
                 newState["zoom_invites"] = data.user.zoom_invites;
                 newState.fetching["zoom_invites"] = false;
+            }
+            if (data.user.group_sessions) {
+                newState["group_session_joins"] = data.user.group_sessions;
+                newState.fetching["group_session_joins"] = false;
             }
         }
 

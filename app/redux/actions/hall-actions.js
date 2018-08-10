@@ -1,7 +1,24 @@
-import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
-import { Session, Queue, SessionRequest, Prescreen, UserEnum, ZoomInvite } from '../../../config/db-config';
-import { getAuthUser, getCF, isRoleRec } from './auth-actions';
-import { store } from '../store.js';
+import {
+    getAxiosGraphQLQuery
+} from '../../../helper/api-helper';
+import {
+    Session,
+    Queue,
+    SessionRequest,
+    Prescreen,
+    UserEnum,
+    ZoomInvite,
+    GroupSessionJoin
+} from '../../../config/db-config';
+import {
+    getAuthUser,
+    getCF,
+    isRoleRec,
+    isRoleStudent
+} from './auth-actions';
+import {
+    store
+} from '../store.js';
 
 /***** ACTIVITY ***************************/
 export const ActivityType = {
@@ -9,7 +26,8 @@ export const ActivityType = {
     QUEUE: Queue.TABLE,
     SESSION_REQUEST: SessionRequest.TABLE,
     PRESCREEN: Prescreen.TABLE,
-    ZOOM_INVITE: ZoomInvite.TABLE
+    ZOOM_INVITE: ZoomInvite.TABLE,
+    GROUP_SESSION_JOIN: GroupSessionJoin.TABLE
 };
 
 var AllActivityType = [];
@@ -24,9 +42,9 @@ function getEntitySelect(role, type) {
         extra = "doc_links {ID url label}";
     }
 
-    return (role === UserEnum.ROLE_STUDENT)
-        ? ` company{ID name img_url img_position img_size ${extra} } `
-        : ` student{ID first_name last_name img_url img_pos img_size ${extra} } `;
+    return (role === UserEnum.ROLE_STUDENT) ?
+        ` company{ID name img_url img_position img_size ${extra} } ` :
+        ` student{ID first_name last_name img_url img_pos img_size ${extra} } `;
 }
 
 export const ACTIVITY = "ACTIVITY";
@@ -59,17 +77,23 @@ export function loadActivity(types = AllActivityType) {
             case ActivityType.ZOOM_INVITE:
                 select += (isRoleRec()) ? ` zoom_invites { ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, d)}} ` : "";
                 break;
+            case ActivityType.GROUP_SESSION_JOIN:
+                select += (isRoleStudent()) ? ` group_sessions { ID start_time is_expired join_url ${getEntitySelect(role, d)} }` : "";
+                break;
         }
     });
 
-    var query = `query{user(ID:${user_id}){${select}}}`;
+    if (select != "") {
+        var query = `query{user(ID:${user_id}){${select}}}`;
 
-    return function (dispatch) {
-        dispatch({
-            type: ACTIVITY + type,
-            payload: getAxiosGraphQLQuery(query)
-        });
-    };
+        return function (dispatch) {
+            dispatch({
+                type: ACTIVITY + type,
+                payload: getAxiosGraphQLQuery(query)
+            });
+        };
+    }
+
 }
 
 export function storeLoadActivity(types = AllActivityType) {
@@ -129,4 +153,3 @@ export function setNonAxios(key, data) {
         });
     };
 }
-

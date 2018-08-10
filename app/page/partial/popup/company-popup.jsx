@@ -23,6 +23,8 @@ import { addLog } from '../../../redux/actions/other-actions';
 
 import { getFeedbackPopupView } from '../analytics/feedback';
 
+import { GroupSessionView } from '../hall/group-session';
+
 // indicator for company group session
 export const isCompanyGsOpen = function (company) {
     return company.status == CompanyEnum.STS_GS && company.group_url != "";
@@ -271,7 +273,7 @@ export default class CompanyPopup extends Component {
     }
 
 
-    joinGroupSession(data) {
+    joinGroupSessionOld(data) {
         if (data.group_url == "" || data.group_url == null) {
             layoutActions.errorBlockLoader("Group session has started. Please try again in a few minutes");
         } else {
@@ -317,20 +319,34 @@ export default class CompanyPopup extends Component {
             //             Drop Resume</a>
             //     </div>;
 
+            // ##################################################################################
+            // for group session
+
+            var gSession = (!isRoleStudent() || this.props.displayOnly) ? null :
+                <div>
+                    <h2 style={{ marginTop: "10px" }}>
+                        <small>or<br></br>Join A Group Session</small>
+                    </h2>
+                    <GroupSessionView forStudent={true} company_id={this.props.id} user_id={this.authUser.ID}></GroupSessionView>
+                </div>;
+
+            // ##################################################################################
+            // for action
+
             var actData = [
-                data.status == CompanyEnum.STS_GS
-                    ? {
-                        label: "Join Group Session"
-                        , onClick: () => this.joinGroupSession(data)
-                        , icon: "users"
-                        , color: "#449d44"
-                    } :
-                    {
-                        label: "Request For Private Session"
-                        , onClick: this.addSessionRequest
-                        , icon: "sign-in"
-                        , color: "#c62323"
-                    }
+                // data.status == CompanyEnum.STS_GS
+                //     ? {
+                //         label: "Join Group Session"
+                //         , onClick: () => this.joinGroupSession(data)
+                //         , icon: "users"
+                //         , color: "#449d44"
+                //     } :
+                //     {
+                //         label: "Request For Private Session"
+                //         , onClick: this.addSessionRequest
+                //         , icon: "sign-in"
+                //         , color: "#c62323"
+                //     }
                 , {
                     label: "Ask Questions In Company Forum"
                     , url: `${RootPath}/app/forum/company_${data.ID}`
@@ -353,6 +369,9 @@ export default class CompanyPopup extends Component {
                     {createIconLink("lg", actData, true)}
                 </div>;
 
+            // ##################################################################################
+            // create body
+
             var pcBody = <div>
                 <div>
                     {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
@@ -362,6 +381,7 @@ export default class CompanyPopup extends Component {
                     {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>
                 {action}
+                {gSession}
                 {(this.props.displayOnly) ? null : <a onClick={layoutActions.storeHideFocusCard}>Close</a>}
             </div>;
 

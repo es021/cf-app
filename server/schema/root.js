@@ -72,7 +72,8 @@ var fields = {};
 fields["group_sessions"] = {
     type: new GraphQLList(GroupSessionType),
     args: {
-        company_id: { type: new GraphQLNonNull(GraphQLInt) },
+        company_id: { type: GraphQLInt},
+        user_id: { type: GraphQLInt },
         order_by : {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {

@@ -269,6 +269,12 @@ export default class SignUpPage extends React.Component {
             //scroll to top
             window.scrollTo(0, 0);
             var user = this.state.user;
+
+            // user = {
+            //     "ID" : 136,
+            //     "first_name" : "kakaka"
+            // };
+
             content = <div>
                 <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
                 Your account has been successfully created<br></br>
@@ -276,7 +282,7 @@ export default class SignUpPage extends React.Component {
                 <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
                 <br></br><small><i>** The email might take a few minutes to arrive **</i></small>
                 <br></br>
-                <AvailabilityView user_id={user[User.ID]} set_only={true}></AvailabilityView>
+                <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
             </div>
         } else {
             content = <div>
