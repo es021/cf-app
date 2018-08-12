@@ -68,12 +68,23 @@ const {
 var fields = {};
 
 /*******************************************/
-/* feedback_qs ******************/
+/* group_sessions ******************/
+fields["group_session"] = {
+    type: GroupSessionType,
+    args: {
+        ID: { type: new GraphQLNonNull(GraphQLInt)},
+    },
+    resolve(parentValue, arg, context, info) {
+        return GroupSessionExec.group_session(arg, graphqlFields(info));
+    }
+};
+
 fields["group_sessions"] = {
     type: new GraphQLList(GroupSessionType),
     args: {
         company_id: { type: GraphQLInt},
         user_id: { type: GraphQLInt },
+        discard_expired : {type : GraphQLBoolean},
         order_by : {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
@@ -86,6 +97,7 @@ fields["group_session_joins"] = {
     args: {
         user_id: { type: GraphQLInt },
         group_session_id: { type: GraphQLInt },
+        is_canceled: { type: GraphQLInt },
         order_by : {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
@@ -94,7 +106,7 @@ fields["group_session_joins"] = {
 };
 
 /*******************************************/
-/* feedback_qs ******************/
+/* student_listing ******************/
 fields["student_listing"] = {
     type: new GraphQLList(StudentListingType),
     args: {
