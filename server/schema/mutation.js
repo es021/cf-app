@@ -165,15 +165,24 @@ fields["add_group_session_join"] = {
     }
 };
 
-fields["delete_group_session_join"] = {
-    type: GraphQLInt,
+fields["edit_group_session_join"] = {
+    type: GroupSessionJoinType,
     args: {
         ID: {
             type: new GraphQLNonNull(GraphQLInt)
+        },
+        is_canceled: {
+            type: GraphQLInt
         }
     },
     resolve(parentValue, arg, context, info) {
-        return DB.delete(GroupSessionJoin.TABLE, arg.ID);
+        try {
+            return DB.update(GroupSessionJoin.TABLE, arg).then(function (res) {
+                return res;
+            });
+        } catch (err) {
+            return {};
+        }
     }
 };
 

@@ -1,11 +1,51 @@
 import axios from 'axios';
-import { store } from '../store.js';
-import { AppConfig } from '../../../config/app-config';
-import { getAxiosGraphQLQuery } from '../../../helper/api-helper';
-import { getAuthUser } from './auth-actions';
+import {
+    store
+} from '../store.js';
+import {
+    AppConfig
+} from '../../../config/app-config';
+import {
+    getAxiosGraphQLQuery
+} from '../../../helper/api-helper';
+import {
+    getAuthUser
+} from './auth-actions';
+//import { Time } from '../../lib/time';
 
-const { Queue, QueueEnum, Session, Prescreen, SessionRequestEnum } = require('../../../config/db-config');
+const {
+    Queue,
+    QueueEnum,
+    Session,
+    Prescreen,
+    SessionRequestEnum
+} = require('../../../config/db-config');
 const obj2arg = require('graphql-obj2arg');
+
+//** GROUP SESSION ***************************************************/
+export function invalidJoinGroupSession(company_id) {
+    var joins = store.getState().hall.activity.group_session_joins;
+
+    for (var i in joins) {
+        var com = joins[i].company;
+        //var start_time = Time.getString(joins[i].start_time);
+        if (com.ID === company_id && !joins[i].is_expired) {
+            return `Cannot join more than one group session with the same company`;
+        }
+    }
+    
+    return false;
+}
+
+export function cancelJoinGroupSession(id) {
+    var query = `mutation{edit_group_session_join(ID:${id}, is_canceled:1){ID}}`;
+    return getAxiosGraphQLQuery(query).then((res) => {
+        return res.data.data.edit_group_session_join;
+    }, (err) => {
+        return err.response.data;
+    });
+}
+
 
 //** QUEUE ***************************************************/
 export const QUEUE_LIMIT = 3;
@@ -126,7 +166,9 @@ export function invalidSession() {
 
 export function createSession(host_id, participant_id, entity, entity_id) {
     return axios.post(AppConfig.Api + "/activity/create-session", {
-        host_id: host_id, participant_id: participant_id,
-        entity: entity, entity_id: entity_id
+        host_id: host_id,
+        participant_id: participant_id,
+        entity: entity,
+        entity_id: entity_id
     });
 }

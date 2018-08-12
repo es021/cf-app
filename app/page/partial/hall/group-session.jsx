@@ -130,7 +130,7 @@ class GroupSessionClass extends React.Component {
             return { loading: true };
         })
 
-        var q = `query { group_sessions(company_id:${this.props.company_id})
+        var q = `query { group_sessions(company_id:${this.props.company_id}, discard_expired:true)
         { ID
           start_time 
           is_expired
@@ -261,21 +261,43 @@ class GroupSessionClass extends React.Component {
         d[GroupSessionJoin.USER_ID] = this.props.user_id;
         d[GroupSessionJoin.GROUP_SESSION_ID] = Number.parseInt(id);
         console.log(d);
-        layoutActions.loadingBlockLoader("Joining... Please Wait");
-        var query = `mutation { add_group_session_join 
-                (${obj2arg(d, { noOuterBraces: true })}){ID}
-            }`;
 
+        var err = activityActions.invalidJoinGroupSession(this.props.company_id)
+        if (err !== false) {
+            layoutActions.errorBlockLoader(err);
+            return;
+        }
+
+
+        layoutActions.loadingBlockLoader("Joining... Please Wait");
+
+        // 1. backed validation check if still has space
+        var query = `query{group_session (ID:${id}){joiners{ID} limit_join }}`;
         getAxiosGraphQLQuery(query).then((res) => {
-            console.log(res.data.data.add_group_session_join);
-            var mes = <div>Request Complete.<br></br>
-                The group session will start on <u>{Time.getString(1234912394)}</u>  (Your local time)
-            </div>;
-            hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
-            emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, this.props.company_id);
-            layoutActions.successBlockLoader(mes);
-            layoutActions.storeHideFocusCard();
+            var gs = res.data.data.group_session;
+            if (gs.joiners.length >= gs.limit_join) {
+                var mes = `Sorry. Only ${gs.limit_join} students are allowed to join in one session. Please choose another session`;
+                layoutActions.errorBlockLoader(mes);
+                return;
+            }
+
+            // 2. add to db
+            var query = `mutation { add_group_session_join 
+            (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
+
+            getAxiosGraphQLQuery(query).then((res) => {
+                console.log(res.data.data.add_group_session_join);
+                var mes = <div>Request Complete.<br></br>
+                    The group session will start on <u>{Time.getString(1234912394)}</u>  (Your local time)</div>;
+                hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
+                emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, this.props.company_id);
+                layoutActions.successBlockLoader(mes);
+                layoutActions.storeHideFocusCard();
+            });
         });
+
+
+
     }
     startVideoCall(e) {
         var id = e.currentTarget.dataset.id;
@@ -415,7 +437,7 @@ GroupSessionClass.propTypes = {
     forStudent: PropTypes.bool
 }
 
-GroupSessionClass.defaulProps = {
+GroupSessionClass.defaultProps = {
     user_id: null,
     forRec: false,
     forStudent: false,

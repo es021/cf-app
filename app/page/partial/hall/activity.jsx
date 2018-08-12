@@ -37,9 +37,34 @@ class ActvityList extends React.Component {
         super(props);
         this.openSIForm = this.openSIForm.bind(this);
         this.cancelQueue = this.cancelQueue.bind(this);
+        this.cancelJoinGroupSession = this.cancelJoinGroupSession.bind(this);
         this.updateSessionRequest = this.updateSessionRequest.bind(this);
 
         this.authUser = getAuthUser();
+    }
+
+    cancelJoinGroupSession(e) {
+
+        var company_name = e.currentTarget.dataset.company_name;
+        var company_id = e.currentTarget.dataset.company_id;
+
+        const id = e.currentTarget.id;
+        const confirmCancel = () => {
+            layoutActions.loadingBlockLoader("Canceling..");
+            activityActions.cancelJoinGroupSession(id).then((res) => {
+                hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
+                layoutActions.storeHideBlockLoader();
+
+                emitQueueStatus(company_id, this.authUser.ID, "cancelJoinGroupSession");
+                emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, company_id);
+
+            }, (err) => {
+                layoutActions.errorBlockLoader(err);
+            });
+        };
+
+        layoutActions.confirmBlockLoader(`Canceling participation for group session with ${company_name}?`
+            , confirmCancel);
     }
 
     cancelQueue(e) {
@@ -385,9 +410,10 @@ class ActvityList extends React.Component {
                                         <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
                                             className="btn btn-sm btn-blue">Join Video Call</a>
                                     </div>
-                                    : <div id={d.ID} data-company_id={obj.ID} data-company_name={obj.name}
+                                    : <div id={d.join_id} data-company_id={obj.ID} data-company_name={obj.name}
+                                        onClick={this.cancelJoinGroupSession.bind(this)}
                                         className="btn btn-sm btn-primary">Cancel Join
-                                 </div>
+                                    </div>
                             } else {
                                 body = <button disabled="disabled" className="btn btn-sm btn-danger">Ended</button>
                             }
