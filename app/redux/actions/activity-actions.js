@@ -29,7 +29,7 @@ export function invalidJoinGroupSession(company_id) {
     for (var i in joins) {
         var com = joins[i].company;
         //var start_time = Time.getString(joins[i].start_time);
-        if (com.ID === company_id && !joins[i].is_expired) {
+        if (com.ID === company_id && !joins[i].is_expired && !joins[i].is_canceled) {
             return `Cannot join more than one group session with the same company`;
         }
     }

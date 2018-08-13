@@ -360,6 +360,7 @@ const GroupSessionType = new GraphQLObjectType({
         start_url: { type: GraphQLString },
         limit_join: { type: GraphQLInt },
         is_expired: { type: GraphQLInt },
+        is_canceled: { type: GraphQLInt },
         join_id: { type: GraphQLInt },
 
         joiners : {type: new GraphQLList(GroupSessionJoinType)},

@@ -404,7 +404,12 @@ class ActvityList extends React.Component {
                                 })
                             }
 
-                            if (!d.is_expired) {
+                            if (d.is_canceled) {
+                                body = <button disabled="disabled" className="btn btn-sm btn-danger">Canceled</button>
+                            }
+                            else if (d.is_expired) {
+                                body = <button disabled="disabled" className="btn btn-sm btn-danger">Ended</button>
+                            } else {
                                 body = (hasStart) ?
                                     <div>
                                         <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
@@ -412,10 +417,8 @@ class ActvityList extends React.Component {
                                     </div>
                                     : <div id={d.join_id} data-company_id={obj.ID} data-company_name={obj.name}
                                         onClick={this.cancelJoinGroupSession.bind(this)}
-                                        className="btn btn-sm btn-primary">Cancel Join
+                                        className="btn btn-sm btn-primary">Unjoin
                                     </div>
-                            } else {
-                                body = <button disabled="disabled" className="btn btn-sm btn-danger">Ended</button>
                             }
                         }
 

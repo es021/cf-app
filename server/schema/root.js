@@ -85,6 +85,7 @@ fields["group_sessions"] = {
         company_id: { type: GraphQLInt},
         user_id: { type: GraphQLInt },
         discard_expired : {type : GraphQLBoolean},
+        discard_canceled : {type : GraphQLBoolean},
         order_by : {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {

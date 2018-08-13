@@ -1,18 +1,22 @@
 
-deploy new file for wp career fair
-ajax_external
-ZoomMeetings
 
-db schema
-1. group_session
-is_expired small int default 0
-start_url text
 
 #######################################
 
 DONE
 
 #######################################
+
+deploy new file for wp career fair
+ajax_zoom
+ZoomMeetings
+
+
+db schema
+1. group_session
+is_expired small int default 0
+is_canceled small int default 0
+start_url text
 
 db schema changed
 
