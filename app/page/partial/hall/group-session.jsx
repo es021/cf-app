@@ -109,7 +109,8 @@ class NewGroupSessionPopup extends React.Component {
 }
 
 NewGroupSessionPopup.propTypes = {
-    finishAdd: PropTypes.func.isRequired
+    finishAdd: PropTypes.func.isRequired,
+    company_id: PropTypes.number.isRequired
 }
 
 class GroupSessionClass extends React.Component {
@@ -427,7 +428,7 @@ class GroupSessionClass extends React.Component {
         const onClick = () => {
             layoutActions.storeUpdateFocusCard("Schedule New Group Session"
                 , NewGroupSessionPopup
-                , { finishAdd: () => { this.loadData() } }
+                , { company_id: this.props.company_id, finishAdd: () => { this.loadData() } }
             );
         }
 
