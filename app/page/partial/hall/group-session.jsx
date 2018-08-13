@@ -356,6 +356,8 @@ class GroupSessionClass extends React.Component {
                 }
 
                 layoutActions.storeHideBlockLoader();
+
+                this.loadData();
             })
         }
 
