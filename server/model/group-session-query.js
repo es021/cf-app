@@ -15,6 +15,8 @@ class GroupSessionQuery {
         var discard_expired = (typeof params.discard_expired === "undefined") ? "1=1" :
             `main.is_expired = 0`;
 
+        var discard_canceled = (typeof params.discard_canceled === "undefined") ? "1=1" :
+            `main.is_canceled = 0`;
 
         // extra for user based
         var user_where = "1=1";
@@ -28,10 +30,7 @@ class GroupSessionQuery {
                 and oth.user_id = ${params.user_id}`;
             user_where = ` oth.user_id = ${params.user_id} and oth.is_canceled = 0 `;
             user_select = ` oth.ID as join_id, `;
-
-
         }
-
 
         var order_by = (typeof params.order_by === "undefined") ? "ORDER BY main.start_time desc" : `ORDER BY ${params.order_by} `;
 
@@ -39,7 +38,8 @@ class GroupSessionQuery {
         var limit = "";
 
         var sql = `from ${GroupSession.TABLE} main ${from_extra}
-            where ${id_where} and ${com_where} and ${user_where} and ${discard_expired} ${order_by}`;
+            where ${id_where} and ${com_where} and ${user_where} 
+            and ${discard_expired} and ${discard_canceled} ${order_by}`;
 
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;

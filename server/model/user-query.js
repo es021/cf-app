@@ -372,7 +372,7 @@ class UserExec {
                     var par = {};
                     par["user_id"] = user_id;
                     // order yg join url ada dulu, then by expired
-                    par["order_by"] = "main.is_expired asc, main.join_url desc";
+                    par["order_by"] = "main.is_expired asc, main.is_canceled asc, main.join_url desc";
                     res[i]["group_sessions"] = GroupSessionExec.group_sessions(par, field["group_sessions"]);
                 }
 

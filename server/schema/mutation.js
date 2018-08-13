@@ -126,6 +126,9 @@ fields["edit_group_session"] = {
         is_expired: {
             type: GraphQLInt
         },
+        is_canceled: {
+            type: GraphQLInt
+        },
         join_url: {
             type: GraphQLString
         },

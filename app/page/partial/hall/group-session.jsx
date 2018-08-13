@@ -130,7 +130,7 @@ class GroupSessionClass extends React.Component {
             return { loading: true };
         })
 
-        var q = `query { group_sessions(company_id:${this.props.company_id}, discard_expired:true)
+        var q = `query { group_sessions(company_id:${this.props.company_id}, discard_expired:true, discard_canceled:true)
         { ID
           start_time 
           is_expired
@@ -230,6 +230,14 @@ class GroupSessionClass extends React.Component {
                 </div>;
             }
 
+            var deleteBtn = null;
+            if (this.props.forRec) {
+                deleteBtn = <div data-joiners={JSON.stringify(joinersId)}
+                    data-id={d.ID} onClick={(e) => { this.deleteGroupSession(e) }} className="btn btn-link delete">
+                    <i className="fa fa-times"></i>
+                </div>;
+            }
+
             return <div className="gs-company">
                 <div className="header">
                     <div>
@@ -243,6 +251,7 @@ class GroupSessionClass extends React.Component {
                             <i className="fa fa-clock-o left"></i>
                             {Time.getStringShort(d.start_time)}
                         </div>
+                        {deleteBtn}
                     </div>
                 </div>
                 <div className="joiner">{joiners}</div>
@@ -254,6 +263,24 @@ class GroupSessionClass extends React.Component {
             {this.props.forRec ? this.createAddNewGs() : null}
             {list}
         </div>
+    }
+    deleteGroupSession(e) {
+        var id = e.currentTarget.dataset.id;
+        var joiners = e.currentTarget.dataset.joiners;
+        joiners = JSON.parse(joiners);
+
+        layoutActions.confirmBlockLoader("Cancel This Group Session?", () => {
+            layoutActions.loadingBlockLoader("Canceling...");
+            var q = `mutation { edit_group_session (ID:${id}, is_canceled:1) { ID } } `;
+            getAxiosGraphQLQuery(q).then((res) => {
+                // emit to joiners to reload group session dorang
+                for (var i in joiners) {
+                    emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, joiners[i], null);
+                }
+                this.loadData();
+                layoutActions.storeHideBlockLoader();
+            });
+        });
     }
     joinGroupSession(e) {
         var id = e.currentTarget.dataset.id;

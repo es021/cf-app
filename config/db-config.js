@@ -7,6 +7,7 @@ const GroupSession = {
     START_URL : "start_url",
     LIMIT_JOIN : "limit_join",
     IS_EXPIRED : "is_expired",
+    IS_CANCELED : "is_canceled",
     CREATED_AT : "created_at",
     CREATED_BY : "created_by",
     UPDATED_AT : "updated_at",
