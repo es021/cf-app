@@ -247,7 +247,7 @@ export default class AvailabilityView extends React.Component {
             var raw = null;
             var index = null;
             var count = (this.props.count_data[cur] !== "undefined") ? this.props.count_data[cur] : null;
-
+            
             if (this.isTimestampValid(cur)) {
                 if (typeof mappedData[cur] !== "undefined") {
                     raw = mappedData[cur];
@@ -459,7 +459,7 @@ AvailabilityView.propTypes = {
 };
 
 AvailabilityView.defaultProps = {
-    count_data: null,
+    count_data: [],
     user_id: null,
     for_sign_up: false,
     select_id: -1,
