@@ -14,6 +14,7 @@ export default class SignUpPage extends React.Component {
         this.formOnSubmit = this.formOnSubmit.bind(this);
 
         this.state = {
+            confirmed: false,
             error: null,
             disableSubmit: false,
             success: false,
@@ -250,6 +251,12 @@ export default class SignUpPage extends React.Component {
         }
     }
 
+    onConfirmClick() {
+        this.setState((prevState) => {
+            return { confirmed: true };
+        });
+    }
+
     render() {
         document.setTitle("Sign Up");
 
@@ -265,15 +272,15 @@ export default class SignUpPage extends React.Component {
         }
 
         var content = null;
-        if (this.state.success) {
-            //scroll to top
-            window.scrollTo(0, 0);
-            var user = this.state.user;
+        
+        var user = this.state.user;
+        // user = {
+        //     "ID": 136,
+        //     "first_name": "kakaka"
+        // };
 
-            // user = {
-            //     "ID" : 136,
-            //     "first_name" : "kakaka"
-            // };
+        if (this.state.confirmed) {
+            window.scrollTo(0, 0);
 
             content = <div>
                 <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
@@ -281,8 +288,16 @@ export default class SignUpPage extends React.Component {
                 Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
                 <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
                 <br></br><small><i>** The email might take a few minutes to arrive **</i></small>
-                <br></br>
+            </div>
+        }
+        else if (this.state.success) {
+            window.scrollTo(0, 0);
+
+            //scroll to top
+            content = <div>
                 <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
+                <br></br>
+                <button className="btn btn-success btn-lg" onClick={() => { this.onConfirmClick() }}>Confirm</button>
             </div>
         } else {
             content = <div>

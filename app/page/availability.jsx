@@ -246,7 +246,7 @@ export default class AvailabilityView extends React.Component {
             var ID = null;
             var raw = null;
             var index = null;
-
+            var count = (this.props.count_data[cur] !== "undefined") ? this.props.count_data[cur] : null;
 
             if (this.isTimestampValid(cur)) {
                 if (typeof mappedData[cur] !== "undefined") {
@@ -266,7 +266,8 @@ export default class AvailabilityView extends React.Component {
                     timestamp: cur,
                     time: timeStr,
                     dayStr: dayStr,
-                    raw: raw
+                    raw: raw,
+                    count: count
                 });
                 this.addToMinMaxHour(cur);
             } else {
@@ -354,7 +355,12 @@ export default class AvailabilityView extends React.Component {
                     data-id={d.ID}
                     data-timestamp={d.timestamp}
                     data-index={d.index}
-                    className={cls}>{d.time}</li>;
+                    className={cls}>
+                    {d.time}
+                    {d.count == null ? null :
+                        <div className="av-li-count">{d.count}</div>
+                    }
+                </li>;
 
                 return <Tooltip
                     bottom="35px"
@@ -445,10 +451,15 @@ AvailabilityView.propTypes = {
     select_timestamp: PropTypes.number,
     select_for: PropTypes.string,
     for_sign_up: PropTypes.bool,
-    selectBookHandler: PropTypes.func
+    onSelect: PropTypes.func,
+
+    // for create group session recruiter
+    // {timestamp : count}
+    count_data: PropTypes.object,
 };
 
 AvailabilityView.defaultProps = {
+    count_data: null,
     user_id: null,
     for_sign_up: false,
     select_id: -1,

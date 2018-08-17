@@ -78,7 +78,7 @@ export function loadActivity(types = AllActivityType) {
                 select += (isRoleRec()) ? ` zoom_invites { ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, d)}} ` : "";
                 break;
             case ActivityType.GROUP_SESSION_JOIN:
-                select += (isRoleStudent()) ? ` group_sessions { ID join_id start_time is_expired is_canceled join_url ${getEntitySelect(role, d)} }` : "";
+                select += (isRoleStudent()) ? ` group_sessions { ID join_id updated_at start_time is_expired is_canceled join_url ${getEntitySelect(role, d)} }` : "";
                 break;
         }
     });

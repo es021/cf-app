@@ -58,13 +58,20 @@
             }
 
             .profile-card:hover{
-                opacity: 0.7;
+                .pc-picture {
+                    opacity: 0.7;
+                    box-shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0.5);
+                }
             }
             .profile-card:active{
                 opacity: 1;
+
+                .pc-picture {
+                    opacity: 0.7;
+                    box-shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0);
+                }
             }
         }
-
       }
 
       .action{
