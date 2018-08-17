@@ -47,6 +47,16 @@ class NewGroupSessionPopup extends React.Component {
             loadingSubmit: false
         }
     }
+    componentWillMount() {
+        this.countDataAv = {};
+        for (var i in this.props.data) {
+            var d = this.props.data[i];
+            if (typeof this.countDataAv[d.start_time] === "undefined") {
+                this.countDataAv[d.start_time] = 0;
+            }
+            this.countDataAv[d.start_time]++;
+        }
+    }
     onSelectTime(id, timestamp) {
         this.setState((prevState) => {
             return { select_timestamp: timestamp };
@@ -92,6 +102,7 @@ class NewGroupSessionPopup extends React.Component {
                 select_timestamp={this.state.select_timestamp}
                 for_general={true}
                 select_for="Group Session"
+                count_data={this.countDataAv}
                 onSelect={(id, timestamp) => { this.onSelectTime(id, timestamp) }}>
             </AvailabilityView>
             <br></br>
@@ -109,6 +120,7 @@ class NewGroupSessionPopup extends React.Component {
 }
 
 NewGroupSessionPopup.propTypes = {
+    data: PropTypes.array.isRequired,
     finishAdd: PropTypes.func.isRequired,
     company_id: PropTypes.number.isRequired
 }
@@ -300,7 +312,7 @@ class GroupSessionClass extends React.Component {
         layoutActions.loadingBlockLoader("Joining... Please Wait");
 
         // 1. backed validation check if still has space
-        var query = `query{group_session (ID:${id}){joiners{ID} limit_join }}`;
+        var query = `query{group_session (ID:${id}){joiners{ID} limit_join start_time }}`;
         getAxiosGraphQLQuery(query).then((res) => {
             var gs = res.data.data.group_session;
             if (gs.joiners.length >= gs.limit_join) {
@@ -316,7 +328,7 @@ class GroupSessionClass extends React.Component {
             getAxiosGraphQLQuery(query).then((res) => {
                 console.log(res.data.data.add_group_session_join);
                 var mes = <div>Request Complete.<br></br>
-                    The group session will start on <u>{Time.getString(1234912394)}</u>  (Your local time)</div>;
+                    The group session will start on <u>{Time.getString(gs.start_time)}</u>  (Your local time)</div>;
                 hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
                 emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, this.props.company_id);
                 layoutActions.successBlockLoader(mes);
@@ -428,7 +440,7 @@ class GroupSessionClass extends React.Component {
         const onClick = () => {
             layoutActions.storeUpdateFocusCard("Schedule New Group Session"
                 , NewGroupSessionPopup
-                , { company_id: this.props.company_id, finishAdd: () => { this.loadData() } }
+                , { data: this.state.data, company_id: this.props.company_id, finishAdd: () => { this.loadData() } }
             );
         }
 
@@ -441,7 +453,22 @@ class GroupSessionClass extends React.Component {
         if (!this.state.loading) {
             view = this.createView(this.state.data);
         }
+
+        var header = null;
+        if (this.props.forStudent) {
+            if (this.state.data.length > 0) {
+                header = <h2 style={{ marginTop: "10px" }}>
+                    <small>or<br></br>Join A Group Session</small>
+                </h2>;
+            }
+        }
+
+        if (this.props.forRec) {
+            header = <h3 onClick={() => { this.loadData() }}><a className="btn-link">Group Session</a></h3>;
+        }
+
         return <div>
+            {header}
             {view}
         </div>;
     }

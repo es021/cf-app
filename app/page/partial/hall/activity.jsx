@@ -10,6 +10,7 @@ import { CompanyEnum, UserEnum, PrescreenEnum, SessionRequestEnum } from '../../
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';
 import { Time } from '../../../lib/time';
+import { showNotification } from '../../../lib/notification';
 import { RootPath } from '../../../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import { getAuthUser } from '../../../redux/actions/auth-actions';
@@ -404,21 +405,46 @@ class ActvityList extends React.Component {
                                 })
                             }
 
+                            var btnJoin = <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
+                                className="btn btn-sm btn-blue">Join Video Call</a>
+
+                            const openNotificationStart = () => {
+                                // block loader to inform the video call has started
+                                // if time updated is less than bufferMin
+                                var bufferMin = 2;
+                                var diff = Time.getUnixTimestampNow() - Time.convertDBTimeToUnix(d.updated_at);
+                                if (diff <= bufferMin * 60) {
+                                    var popupBody = <div>
+                                        <br></br>
+                                        Group session with
+                                        <br></br><b>{obj.name}</b>
+                                        <br></br>has started
+                                        <br></br> <br></br>
+                                        {btnJoin}
+                                    </div>
+                                    var notiId = `group-session-${d.ID}`;
+                                    showNotification(notiId, popupBody);
+                                }
+                            }
+
                             if (d.is_canceled) {
                                 body = <button disabled="disabled" className="btn btn-sm btn-danger">Canceled</button>
                             }
                             else if (d.is_expired) {
                                 body = <button disabled="disabled" className="btn btn-sm btn-danger">Ended</button>
                             } else {
-                                body = (hasStart) ?
-                                    <div>
-                                        <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
-                                            className="btn btn-sm btn-blue">Join Video Call</a>
-                                    </div>
-                                    : <div id={d.join_id} data-company_id={obj.ID} data-company_name={obj.name}
+                                if (hasStart) {
+                                    openNotificationStart();
+                                    body = <div>
+                                        {btnJoin}
+                                    </div>;
+                                } else {
+                                    body = <div id={d.join_id} data-company_id={obj.ID} data-company_name={obj.name}
                                         onClick={this.cancelJoinGroupSession.bind(this)}
-                                        className="btn btn-sm btn-primary">Unjoin
+                                        className="btn btn-sm btn-primary">Cancel Session
                                     </div>
+                                }
+
                             }
                         }
 

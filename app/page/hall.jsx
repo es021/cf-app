@@ -70,7 +70,7 @@ export default class HallPage extends React.Component {
         var gSesion = null;
         if (isRoleRec()) {
             gSesion = <GroupSessionView forRec={true} company_id={this.authUser.rec_company}></GroupSessionView>;
-            gSesion = <PageSection title="Group Session" body={gSesion}></PageSection>;
+            gSesion = <PageSection title="" body={gSesion}></PageSection>;
         }
 
         return (<div>

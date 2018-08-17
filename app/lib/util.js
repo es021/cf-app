@@ -1,3 +1,4 @@
+
 if (process.env.NODE_ENV === "production" && false) {
     console.log = function (mes) {
         return;
@@ -10,9 +11,9 @@ export function openNewTab(url) {
 }
 
 export function getWindowWidth() {
-    var width = window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
+    var width = window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
     return width;
 }
 
@@ -26,6 +27,7 @@ export function _GET(parameterName) {
     }
     return result;
 }
+
 
 String.prototype.replaceAll = function (search, replacement, ignoreCase = false) {
     var i = (ignoreCase) ? "i" : "";
@@ -60,8 +62,9 @@ String.prototype.focusSubstring = function (substring) {
     return target;
 }
 
-import { getCF } from '../redux/actions/auth-actions';
+import {
+    getCF
+} from '../redux/actions/auth-actions';
 document.setTitle = function (title) {
     document.title = `${getCF()} | ${title}`;
 };
-

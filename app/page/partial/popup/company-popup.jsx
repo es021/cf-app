@@ -324,9 +324,6 @@ export default class CompanyPopup extends Component {
 
             var gSession = (!isRoleStudent() || this.props.displayOnly) ? null :
                 <div>
-                    <h2 style={{ marginTop: "10px" }}>
-                        <small>or<br></br>Join A Group Session</small>
-                    </h2>
                     <GroupSessionView forStudent={true} company_id={this.props.id} user_id={this.authUser.ID}></GroupSessionView>
                 </div>;
 
