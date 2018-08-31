@@ -227,6 +227,7 @@ class AboutSubPage extends React.Component {
               more_info
               img_url
               img_position
+              priviledge
               img_size
               status
               group_url
@@ -237,6 +238,8 @@ class AboutSubPage extends React.Component {
 
         getAxiosGraphQLQuery(query).then((res) => {
             this.setState(() => {
+                var com = res.data.data.company;
+                com[Company.PRIVILEDGE] = CompanyEnum.parsePrivs(com[Company.PRIVILEDGE]);
                 return { data: res.data.data.company, init: false }
             })
         });
@@ -256,6 +259,16 @@ class AboutSubPage extends React.Component {
                     type: "text",
                     placeholder: "Company Name",
                     required: true
+                },
+                {
+                    label: "Priviledge",
+                    name: Company.PRIVILEDGE,
+                    type: "checkbox",
+                    data: [
+                        { key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT, label: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT }
+                        , { key: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT, label: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT }
+                        , { key: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION, label: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION }
+                    ]
                 }, {
                     label: "Type",
                     name: Company.TYPE,
@@ -280,10 +293,10 @@ class AboutSubPage extends React.Component {
                     type: "select",
                     data: [CompanyEnum.STS_OPEN, CompanyEnum.STS_CLOSED, CompanyEnum.STS_PS, CompanyEnum.STS_RD, CompanyEnum.STS_GS],
                     required: true
-                }, 
+                },
                 {
                     label: "Group Session Url",
-                    sublabel : `Please make sure status has been set to '${CompanyEnum.STS_GS}'`,
+                    sublabel: `Please make sure status has been set to '${CompanyEnum.STS_GS}'`,
                     name: Company.GROUP_URL,
                     type: "text",
                     placeholder: "Enter Zoom Url Here"
@@ -349,15 +362,19 @@ class AboutSubPage extends React.Component {
         var err = this.filterForm(d);
         if (err === 0) {
             toggleSubmit(this, { error: null, success: null });
-            var update = checkDiff(this, this.state.data, d);
+            var update = checkDiff(this, this.state.data, d, [], [Company.PRIVILEDGE]);
             if (update === false) {
                 return;
             }
+
+            // fix priviledge
+            update[Company.PRIVILEDGE] = JSON.stringify(update[Company.PRIVILEDGE]);
 
             update[Company.ID] = this.company_id;
             if (typeof update[Company.TYPE] !== "undefined") {
                 update[Company.TYPE] = Number.parseInt(update[Company.TYPE]);
             }
+
 
             var edit_query = `mutation{edit_company(${obj2arg(update, { noOuterBraces: true })}) {ID}}`;
             getAxiosGraphQLQuery(edit_query).then((res) => {

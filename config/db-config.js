@@ -1,25 +1,25 @@
 const GroupSession = {
-    TABLE : "group_session",
-    ID :"ID",
-    COMPANY_ID : "company_id",
-    START_TIME : "start_time",
-    JOIN_URL : "join_url",
-    START_URL : "start_url",
-    LIMIT_JOIN : "limit_join",
-    IS_EXPIRED : "is_expired",
-    IS_CANCELED : "is_canceled",
-    CREATED_AT : "created_at",
-    CREATED_BY : "created_by",
-    UPDATED_AT : "updated_at",
-    UPDATED_BY : "updated_by"
+    TABLE: "group_session",
+    ID: "ID",
+    COMPANY_ID: "company_id",
+    START_TIME: "start_time",
+    JOIN_URL: "join_url",
+    START_URL: "start_url",
+    LIMIT_JOIN: "limit_join",
+    IS_EXPIRED: "is_expired",
+    IS_CANCELED: "is_canceled",
+    CREATED_AT: "created_at",
+    CREATED_BY: "created_by",
+    UPDATED_AT: "updated_at",
+    UPDATED_BY: "updated_by"
 };
 
 const GroupSessionJoin = {
-    TABLE : "group_session_join",
-    ID :"ID",
-    GROUP_SESSION_ID : "group_session_id",
-    USER_ID : "user_id",
-    CREATED_AT : "created_at",
+    TABLE: "group_session_join",
+    ID: "ID",
+    GROUP_SESSION_ID: "group_session_id",
+    USER_ID: "user_id",
+    CREATED_AT: "created_at",
 };
 
 const User = {
@@ -39,8 +39,8 @@ const Availability = {
     ID: "ID",
     USER_ID: "user_id",
     TIMESTAMP: "timestamp",
-    COMPANY_ID : "company_id",
-    PRESCREEN_ID : "prescreen_id",
+    COMPANY_ID: "company_id",
+    PRESCREEN_ID: "prescreen_id",
     IS_BOOKED: "is_booked"
 };
 
@@ -303,6 +303,7 @@ const Company = {
     MORE_INFO: "more_info",
     IMG_URL: "img_url",
     IMG_SIZE: "img_size",
+    PRIVILEDGE: "priviledge",
     GROUP_URL: "group_url",
     IMG_POSITION: "img_position",
     TYPE: "type",
@@ -315,6 +316,45 @@ const CompanyEnum = {
     STS_PS: "Prescreen Only",
     STS_RD: "Resume Drop Only",
     STS_GS: "Group Session",
+
+    PRIV: {
+        ACCESS_RS_PRE_EVENT: "ACCESS_RS_PRE_EVENT",
+        ACCESS_RS_DURING_EVENT: "ACCESS_RS_DURING_EVENT",
+        SCHEDULE_PRIVATE_SESSION: "SCHEDULE_PRIVATE_SESSION",
+    },
+    parsePrivs: (arr) => {
+        if (arr == null || typeof arr === "undefined") {
+            return [];
+        }
+
+        if (!Array.isArray(arr)) {
+            try {
+                arr = JSON.parse(arr);
+                return arr;
+            } catch (err) {
+                console.error("Error in parsing JSON in CompanyEnum.parseArr()");
+                return [];
+            }
+        }
+
+        return arr;
+    },
+    hasPriv: (privArrs, priv) => {
+        if (!Array.isArray(privArrs)) {
+            try {
+                privArrs = JSON.parse(privArrs);
+            } catch (err) {
+                console.error("Error in parsing JSON in CompanyEnum.hasPriv()");
+                return false;
+            }
+        }
+
+        if (privArrs.indexOf(priv) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    },
 
     TYPE_PLATINUM: -1,
     TYPE_SPECIAL: 0,

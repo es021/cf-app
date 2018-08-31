@@ -47,17 +47,21 @@ export default class ResumeDropPage extends React.Component {
         this.formItems = [{
             name: ResumeDrop.DOC_LINKS,
             type: "checkbox",
-            label: "Select Documents",
+            // EUR CHANGES
+            label: "Document To Be Submitted",
+            //label: "Select Documents",
             required: true,
-            sublabel: <NavLink to={`${RootPath}/app/edit-profile/doc-link`}>Add More Documents</NavLink>,
+            disabled: true,
+            sublabel: <NavLink onClick={() => { storeHideFocusCard() }}
+                to={`${RootPath}/app/edit-profile/doc-link`}>Add More Documents</NavLink>,
             data: null,
         },
-        {
-            name: ResumeDrop.MESSAGE,
-            type: "textarea",
-            label: "Message (optional)",
-            placeholder: "Write Down Your Message Here..."
-        }
+            // {
+            //     name: ResumeDrop.MESSAGE,
+            //     type: "textarea",
+            //     label: "Message (optional)",
+            //     placeholder: "Write Down Your Message Here..."
+            // }
         ];
         this.loadData();
     }
@@ -205,13 +209,19 @@ export default class ResumeDropPage extends React.Component {
                 </div>;
 
             } else {
+                // EUR CHANGES
+                // changes to select all by default
+                this.defaultValues[ResumeDrop.DOC_LINKS] = this.state.data.doc_links.map((d, i) => {
+                    if (d == null) return;
+                    return d.ID
+                });
 
                 // already submitted, create for default values
                 if (this.isEdit) {
-                    this.defaultValues[ResumeDrop.DOC_LINKS] = this.state.data.resume_drop.doc_links.map((d, i) => {
-                        if (d == null) return;
-                        return d.ID
-                    });
+                    // this.defaultValues[ResumeDrop.DOC_LINKS] = this.state.data.resume_drop.doc_links.map((d, i) => {
+                    //     if (d == null) return;
+                    //     return d.ID
+                    // });
                     this.defaultValues[ResumeDrop.MESSAGE] = this.state.data.resume_drop.message;
 
                     existed = <i className="text-success">

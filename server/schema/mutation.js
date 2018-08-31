@@ -391,6 +391,9 @@ fields["edit_company"] = {
         group_url: {
             type: GraphQLString
         },
+        priviledge: {
+            type: GraphQLString
+        },
         cf: {
             type: new GraphQLList(GraphQLString)
         }

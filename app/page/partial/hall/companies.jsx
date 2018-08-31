@@ -147,15 +147,17 @@ class CompanyBooth extends React.Component {
 
     render() {
         var onClick = () => {
-            layoutActions.storeUpdateFocusCard(this.props.company.name, CompanyPopup, { id: this.props.company.ID });
+            layoutActions.storeUpdateFocusCard(this.props.company.name, CompanyPopup, { isPreEvent: this.props.isPreEvent, id: this.props.company.ID });
         };
 
         var pcTitle = this.props.company.name;
-
-        var pcBody = <span>
-            {this.getCount()}
-            {this.getStatus()}
-        </span>;
+        var pcBody = null;
+        if (!this.props.isPreEvent) {
+            pcBody = <span>
+                {this.getCount()}
+                {this.getStatus()}
+            </span>
+        }
 
         var className = getCompanyCSSClass(this.props.company.type);
 
@@ -170,8 +172,13 @@ CompanyBooth.propTypes = {
     company: PropTypes.object.isRequired,
     traffic: PropTypes.object,
     onlineRec: PropTypes.number.isRequired,
-    countQueue: PropTypes.number.isRequired
+    countQueue: PropTypes.number.isRequired,
+    isPreEvent: PropTypes.bool
 };
+
+CompanyBooth.defaultProps = {
+    isPreEvent: false
+}
 
 class CompaniesSection extends React.Component {
     constructor(props) {
@@ -234,7 +241,7 @@ class CompaniesSection extends React.Component {
                     ? this.props.queueCompanies[d.ID]
                     : 0;
 
-                return <CompanyBooth key={i} onlineRec={onlineRec}
+                return <CompanyBooth isPreEvent={this.props.isPreEvent} key={i} onlineRec={onlineRec}
                     countQueue={countQueue}
                     company={d}
                     traffic={trf}></CompanyBooth>;
@@ -269,6 +276,15 @@ function mapDispatchToProps(dispatch) {
         setNonAxios: hallAction.setNonAxios
     }, dispatch);
 }
+
+CompaniesSection.propTypes = {
+    isPreEvent: PropTypes.bool
+}
+
+CompaniesSection.defaultProps = {
+    isPreEvent: false
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(CompaniesSection);
 
 

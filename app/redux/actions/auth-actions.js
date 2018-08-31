@@ -1,14 +1,29 @@
 import axios from 'axios';
-import { store } from '../store.js';
-import { AppConfig, TestUser } from '../../../config/app-config';
-import { AuthUserKey } from '../../../config/auth-config';
-import { User, UserEnum } from '../../../config/db-config';
-import { CareerFair, CareerFairOrg } from '../../../config/cf-config';
-import { Time } from '../../lib/time';
+import {
+    store
+} from '../store.js';
+import {
+    AppConfig,
+    TestUser
+} from '../../../config/app-config';
+import {
+    AuthUserKey
+} from '../../../config/auth-config';
+import {
+    User,
+    UserEnum
+} from '../../../config/db-config';
+import {
+    CareerFair,
+    CareerFairOrg
+} from '../../../config/cf-config';
+import {
+    Time
+} from '../../lib/time';
 
 export function isComingSoon() {
     //return false;
-    
+
     if (isTestUser()) {
         return false;
     }
@@ -102,9 +117,9 @@ export function isRoleSupport() {
 }
 
 export function isRoleAdmin() {
-    return getAuthUser().role === UserEnum.ROLE_EDITOR
-        || getAuthUser().role === UserEnum.ROLE_ADMIN
-        || getAuthUser().role === UserEnum.ROLE_SUPPORT;
+    return getAuthUser().role === UserEnum.ROLE_EDITOR ||
+        getAuthUser().role === UserEnum.ROLE_ADMIN ||
+        getAuthUser().role === UserEnum.ROLE_SUPPORT;
 }
 
 export function isTestUser() {
@@ -136,12 +151,18 @@ export function login(email, password, cf) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.post(AppConfig.Api + "/auth/login", { email: email, password: password, cf: cf })
+            payload: axios.post(AppConfig.Api + "/auth/login", {
+                email: email,
+                password: password,
+                cf: cf
+            })
         });
     };
 }
 
-import { emitLogout } from '../../socket/socket-client';
+import {
+    emitLogout
+} from '../../socket/socket-client';
 
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {
@@ -157,34 +178,36 @@ export function logout() {
 // SERVER API
 
 export function register(user) {
-    return axios.post(AppConfig.Api + "/auth/register", { user: user });
+    return axios.post(AppConfig.Api + "/auth/register", {
+        user: user
+    });
 }
 
 export function activateAccount(key, user_id) {
-    return axios.post(AppConfig.Api + "/auth/activate-account", { key: key, user_id: user_id });
+    return axios.post(AppConfig.Api + "/auth/activate-account", {
+        key: key,
+        user_id: user_id
+    });
 }
 
 export function passwordResetRequest(user_email) {
-    return axios.post(AppConfig.Api + "/auth/password-reset-request",
-        {
-            user_email: user_email
-        });
+    return axios.post(AppConfig.Api + "/auth/password-reset-request", {
+        user_email: user_email
+    });
 }
 
 export function passwordResetToken(new_password, token, user_id) {
-    return axios.post(AppConfig.Api + "/auth/password-reset-token",
-        {
-            new_password: new_password,
-            token: token,
-            user_id: user_id
-        });
+    return axios.post(AppConfig.Api + "/auth/password-reset-token", {
+        new_password: new_password,
+        token: token,
+        user_id: user_id
+    });
 }
 
 export function passwordResetOld(new_password, old_password, user_id) {
-    return axios.post(AppConfig.Api + "/auth/password-reset-old",
-        {
-            new_password: new_password,
-            old_password: old_password,
-            user_id: user_id
-        });
+    return axios.post(AppConfig.Api + "/auth/password-reset-old", {
+        new_password: new_password,
+        old_password: old_password,
+        user_id: user_id
+    });
 }

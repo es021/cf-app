@@ -89,12 +89,12 @@ export default class SponsorList extends React.Component {
 
         return (<div style={parentStyle}>
             <div>
-                {(this.props.title) ? <h1>Sponsors</h1> : null}
+                {(this.props.title && sponsor.length > 0) ? <h1>Sponsors</h1> : null}
                 <ul className="sponsor-container">{sponsor}</ul>
             </div>
             {(!this.props.part_com) ? null :
                 <div>
-                    {(this.props.title) ? <h1>Participating Companies</h1> : null}
+                    {(this.props.title && part_com.length > 0) ? <h1>Participating Companies</h1> : null}
                     <ul className="sponsor-container">{part_com}</ul>
                 </div>
             }

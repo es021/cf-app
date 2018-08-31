@@ -275,6 +275,12 @@ class GroupSessionClass extends React.Component {
         return <div className="group-session">
             {this.props.forRec ? this.createAddNewGs() : null}
             {list}
+            {this.props.forStudent && list.length == 0 ?
+                <small className="text-muted">
+                    This company does not have any group sessions yet.
+                    <br></br>Check again later.
+                </small>
+                : null}
         </div>
     }
     deleteGroupSession(e) {
@@ -456,11 +462,9 @@ class GroupSessionClass extends React.Component {
 
         var header = null;
         if (this.props.forStudent) {
-            if (this.state.data.length > 0) {
-                header = <h2 style={{ marginTop: "10px" }}>
-                    <small>or<br></br>Join A Group Session</small>
-                </h2>;
-            }
+            header = <h2 style={{ marginTop: "10px" }}>
+                <small>or<br></br>Join A Group Session</small>
+            </h2>;
         }
 
         if (this.props.forRec) {
