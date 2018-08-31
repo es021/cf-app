@@ -379,7 +379,12 @@ export default class CompanyPopup extends Component {
                 </div>
                 {action}
                 {gSession}
-                {(this.props.displayOnly) ? null : <a onClick={layoutActions.storeHideFocusCard}>Close</a>}
+                {(this.props.displayOnly) ? null :
+                    <div>
+                        <br></br>
+                        <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+                    </div>
+                }
             </div>;
 
             view = <div>
@@ -398,9 +403,11 @@ export default class CompanyPopup extends Component {
 CompanyPopup.propTypes = {
     id: PropTypes.number.isRequired,
     displayOnly: PropTypes.bool, // set true in session
-    canToggle: PropTypes.bool // set true in session
+    canToggle: PropTypes.bool, // set true in session
+    isPreEvent: PropTypes.bool
 };
 
 CompanyPopup.defaultProps = {
-    displayOnly: false
+    displayOnly: false,
+    isPreEvent: false
 };

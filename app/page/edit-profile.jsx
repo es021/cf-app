@@ -20,6 +20,7 @@ import { SimpleListItem } from '../component/list';
 import PasswordResetPage from './password-reset';
 import AvailabilityView from './availability';
 
+
 class StudentDocLink extends React.Component {
     render() {
         return <DocLinkPage entity="user" id={getAuthUser().ID}></DocLinkPage>;

@@ -272,6 +272,8 @@ const CompanyType = new GraphQLObjectType({
         accept_prescreen: { type: GraphQLInt },
         group_url: { type: GraphQLString },
 
+        priviledge : {type : GraphQLString},
+
         created_at: { type: GraphQLString },
         updated_at: { type: GraphQLString }
     })

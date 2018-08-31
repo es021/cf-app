@@ -47,6 +47,7 @@ class CompaniesPage extends React.Component {
                 <th>CF</th>
                 <th>Company</th>
                 <th>About</th>
+                <th>Priviledge</th>
                 <th>Export Data</th>
                 <th>Recruiters</th>
             </tr>
@@ -93,6 +94,7 @@ class CompaniesPage extends React.Component {
                 recruiters{
                     ID user_email
                 }
+                priviledge
             }
         }`);
     };
@@ -139,6 +141,13 @@ class CompaniesPage extends React.Component {
                 recs = d[key].map((rec, i) => {
                     return <li>{`${rec.user_email} (${rec.ID})`}</li>;
                 });
+            } else if (key == "priviledge") {
+                var privs = d[key];
+                privs = CompanyEnum.parsePrivs(privs);
+                var privsList = privs.map((d, i) => {
+                    return <li>{d}</li>;
+                });
+                row.push(<td>{privsList}</td>);
             } else if (key == "cf" && d.cf.length > 1) {
                 row.push(<td>{JSON.stringify(d.cf)}</td>);
             }

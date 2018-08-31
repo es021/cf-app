@@ -13,6 +13,7 @@ import obj2arg from 'graphql-obj2arg';
 import { NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 import { createCompanyTitle } from './companies';
+import CompaniesSection from './partial/hall/companies';
 
 
 export function getCFTimeDetail(date, time, time_mas) {
@@ -20,7 +21,7 @@ export function getCFTimeDetail(date, time, time_mas) {
         {(typeof date === "undefined" || date == null) ? null
             : <span><i className="fa fa-calendar left"></i>{date}</span>}
         <br></br>
-        <span style={{ opacity: "0.8", fontSize:"90%" }}>
+        <span style={{ opacity: "0.8", fontSize: "90%" }}>
             {(typeof time === "undefined" || time == null) ? null
                 : <span><i className="fa fa-clock-o left"></i>{time}</span>}
             <br></br>
@@ -240,6 +241,30 @@ export default class ComingSoonPage extends React.Component {
             <small>Please Refresh Your Page</small>
             <br></br>
         </div>;
+        //{isRoleStudent() ? <RegisterPS></RegisterPS> : null}
+        let companySection = null;
+        if (isRoleStudent()) {
+            companySection = <div>
+                <div className="line"></div>
+                <div>
+                    <div style={{ maxWidth: "400px", margin: "auto" }}>
+                        <h3>Submit Your Resume</h3>
+                        <div>
+                            Get reviewed early!<br></br>
+                            Submit and receive confirmation for special time slot with recruiters if you are selected.
+                    </div>
+                    </div>
+                    <div style={{ maxWidth: "400px", margin: "auto" }}>
+                        <h3>Join Group Session</h3>
+                        <div>
+                            Don’t forget to keep checking for<br></br>new group session time slots to join!
+                    </div>
+                </div>
+                <br></br>
+                </div>
+                <CompaniesSection isPreEvent={true}></CompaniesSection>
+            </div>;
+        }
         return (<div>
             <h1>
                 <small>Coming Soon</small>
@@ -252,7 +277,10 @@ export default class ComingSoonPage extends React.Component {
             </h1>
             <Timer end={this.CFObj.start} doneMes={doneMes}>
             </Timer>
-            {isRoleStudent() ? <RegisterPS></RegisterPS> : null}
+            {companySection}
+            <br></br>
+            <br></br>
+            <div className="line"></div>
             <SponsorList type="coming-soon"></SponsorList>
         </div>
         );
