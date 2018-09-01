@@ -256,7 +256,7 @@ class ForumItem extends React.Component {
         }
 
         // schedule for interview action
-        if (this.props.isForumOwner && this.role === UserEnum.ROLE_STUDENT) {
+        if (this.props.isForumOwner && this.role === UserEnum.ROLE_STUDENT && false) {
             action.push(<a className="frm-action"
                 onClick={() => {
                     openSIAddForm(this.props.user_id, this.authUser.rec_company, PrescreenEnum.ST_FORUM);
@@ -646,11 +646,13 @@ export default class ForumPage extends React.Component {
                         </h3>
 
                     </div>
-                    <div className="col-md-4 forum-info">
-                        <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
-                        <br></br>
-                    </div>
-                    <div className="col-md-8 no-padding">
+                    {this.props.isHomePage ? null : 
+                        <div className="col-md-4 forum-info">
+                            <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
+                            <br></br>
+                        </div>
+                    }
+                    <div className={`col-md-${this.props.isHomePage ? "12" : "8"} no-padding`}>
                         {forum}
                     </div>
                 </div>
@@ -683,5 +685,10 @@ export default class ForumPage extends React.Component {
 }
 
 ForumPage.propTypes = {
-    forum_id: PropTypes.string
+    forum_id: PropTypes.string,
+    isHomePage : PropTypes.bool
 };
+
+ForumPage.defaultProps = {
+    isHomePage : false
+}

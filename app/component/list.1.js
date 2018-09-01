@@ -480,41 +480,46 @@ export class CustomList extends Component {
             fontSize: this.props.il_font,
             width: this.props.il_dimension,
             height: this.props.il_dimension,
-            float : "left"
+            float:left
         };
 
-        var styleText = {
-            float : "right",
-        }
-
+        var onClick = (d.onClick) ? d.onClick : this.props.onClick;
+        
         var text = null;
         if(typeof d.text !== "undefined"){
             text = d.text;
         }
-        
+console.log("d.isNavLink",d.isNavLink )
         if(typeof d.isNavLink === "undefined"){
             d.isNavLink = false;
         }
 
-        var linkView = d.isNavLink ? 
+        var link = d.isNavLink ? 
             <NavLink to={d.url}>
                 <div style={style} className="icon-circle" >
                     <i className={`fa fa-${d.icon}`}></i>
                 </div>
-                <div style={styleText}>{text}</div>
+                <div>{text}</div>
             </NavLink>
             :    
             <a href={d.url} target="blank">
                 <div style={style} className="icon-circle" >
                     <i className={`fa fa-${d.icon}`}></i>
-                    <div style={styleText}>{text}</div>
+                    <div>{text}</div>
                 </div>
             </a>
 
-        var onClick = (d.onClick) ? d.onClick : this.props.onClick;
         var content = <li onClick={onClick} className={`li-${this.props.className}`} key={i}>
-            {linkView}
+           {link}
         </li>;
+
+        // var content = <li onClick={onClick} className={`li-${this.props.className}`} key={i}>
+        //     <a href={d.url} target="blank">
+        //         <div style={style} className="icon-circle" >
+        //             <i className={`fa fa-${d.icon}`}></i>
+        //         </div>
+        //     </a>
+        // </li>;
 
         return <Tooltip
             debug={false}
@@ -607,7 +612,6 @@ CustomList.defaultProps = {
     il_dimension: "26px",
     il_font: "initial",
     il_tooltip: {},
-
     alignCenter: true
 };
 

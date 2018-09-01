@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PageSection from '../component/page-section';
-import { CustomList } from '../component/list';
+import { CustomList, createIconLink } from '../component/list';
 import { NavLink } from 'react-router-dom';
 import ActivitySection from './partial/hall/activity';
 import { GroupSessionView } from './partial/hall/group-session';
@@ -10,7 +10,28 @@ import ForumPage from './forum';
 
 import { UserEnum } from '../../config/db-config';
 import { RootPath } from '../../config/app-config';
-import { isRoleRec, getCFObj, getAuthUser } from '../redux/actions/auth-actions';
+import { isRoleRec, isRoleStudent, getCFObj, getAuthUser } from '../redux/actions/auth-actions';
+
+export function getStudentListingBtn() {
+    var text = <h3 style={{
+        marginTop: "11px",
+        marginLeft: "10px"
+    }} className="text-left">
+        Student Listing &<br></br>Resume Drop
+    </h3>;
+
+    var actData = [
+        {
+            label: "Schedule 1-1 Interview Here"
+            , url: `${RootPath}/app/my-activity/student-listing`
+            , icon: "users"
+            , color: "#007BB4"
+            , isNavLink: true
+            , text: text
+        }
+    ];
+    return createIconLink("lg", actData, true);
+}
 
 export default class HallPage extends React.Component {
     constructor(props) {
@@ -23,31 +44,38 @@ export default class HallPage extends React.Component {
         var v = null;
 
         if (isRoleRec()) {
+
             var vData = [
                 {
-                    label: "Go To Forum"
-                    , url: `${RootPath}/app/forum/company_${this.authUser.rec_company}`
-                    , icon: "comments"
-                }, {
-                    label: "Pre-Screen"
-                    , url: `${RootPath}/app/my-activity/pre-screen`
-                    , icon: "filter"
-                }, {
-                    label: "Resume Drop"
-                    , url: `${RootPath}/app/my-activity/resume-drop`
-                    , icon: "download"
-                }, {
-                    label: "Manage Company"
-                    , url: `${RootPath}/app/manage-company/${this.authUser.rec_company}/about`
-                    , icon: "building"
-                }
+                    label: "Student Listing & Resume Drop"
+                    , url: `${RootPath}/app/my-activity/student-listing`
+                    , icon: "users"
+                },
                 /*
-                 {
-                    label: "Pre-Screen"
-                    , url: `${RootPath}/app/my-activity/pre-screen`
-                    , icon: "sign-in"
-                }, 
-                */
+               {
+                   label: "Go To Forum"
+                   , url: `${RootPath}/app/forum/company_${this.authUser.rec_company}`
+                   , icon: "comments"
+               }, {
+                   label: "Pre-Screen"
+                   , url: `${RootPath}/app/my-activity/pre-screen`
+                   , icon: "filter"
+               }, {
+                   label: "Resume Drop"
+                   , url: `${RootPath}/app/my-activity/resume-drop`
+                   , icon: "download"
+               }, {
+                   label: "Manage Company"
+                   , url: `${RootPath}/app/manage-company/${this.authUser.rec_company}/about`
+                   , icon: "building"
+               }
+              
+                {
+                   label: "Pre-Screen"
+                   , url: `${RootPath}/app/my-activity/pre-screen`
+                   , icon: "sign-in"
+               }, 
+               */
             ];
 
             var views = vData.map((d, i) => {
@@ -65,7 +93,6 @@ export default class HallPage extends React.Component {
     render() {
         document.setTitle("Career Fair");
 
-        var forum = isRoleRec() ? <ForumPage forum_id={`company_${getAuthUser().company_id}`}></ForumPage> : null;
 
         var gSesion = null;
         if (isRoleRec()) {
@@ -73,14 +100,28 @@ export default class HallPage extends React.Component {
             gSesion = <PageSection title="" body={gSesion}></PageSection>;
         }
 
+        var midView = null;
+        if (isRoleRec()) {
+
+            var forum = <ForumPage isHomePage={true} forum_id={`company_${getAuthUser().company_id}`}></ForumPage>;
+            midView = <div className="row" >
+                <div className="col-md-6" style={{ marginTop: "20px" }}>
+                    {getStudentListingBtn()}
+                    <PageSection title={null} body={ActivitySection}></PageSection>
+                </div>
+                <div className="col-md-6 no-padding">
+                    <PageSection title="" body={forum}></PageSection>
+                </div>
+            </div>
+        } else {
+            midView = <PageSection title={null} body={ActivitySection}></PageSection>;
+        }
+
         return (<div>
             <h2>Welcome To {this.title}</h2>
-            {this.getHighlight()}
             {gSesion}
-            <PageSection title={null} body={ActivitySection}></PageSection>
-            {(isRoleRec()) ?
-                <PageSection title="" body={forum}></PageSection>
-                : <PageSection title="Company Booth" body={CompaniesSection}></PageSection>}
+            {midView}
+            {isRoleStudent() ? <PageSection title="Company Booth" body={CompaniesSection}></PageSection> : null}
         </div>);
     }
 }
