@@ -265,9 +265,19 @@ class AboutSubPage extends React.Component {
                     name: Company.PRIVILEDGE,
                     type: "checkbox",
                     data: [
-                        { key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT, label: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT }
-                        , { key: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT, label: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT }
-                        , { key: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION, label: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION }
+                        { key: "0", label: "No Priviledge" }
+                        , {
+                            key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
+                            , label: "Access Resume Drop BEFORE Event"
+                        }
+                        , {
+                            key: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT
+                            , label: "Access Resume Drop DURING Event"
+                        }
+                        , {
+                            key: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+                            , label: "Schedule 1-1 Session"
+                        }
                     ]
                 }, {
                     label: "Type",
