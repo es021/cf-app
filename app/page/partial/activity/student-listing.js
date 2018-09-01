@@ -38,7 +38,11 @@ export class StudentListing extends React.Component {
         var q = `query {company(ID:${this.props.company_id}) { priviledge } }`;
         getAxiosGraphQLQuery(q).then(res=>{
             this.setState((prevState)=>{
-                return { loadPriv:false, privs: res.data.data.company.priviledge };
+                var privs = res.data.data.company.priviledge;
+                if(privs == null){
+                    privs = "";
+                }
+                return { loadPriv:false, privs: privs };
             })
         });
     }
@@ -143,7 +147,6 @@ export class StudentListing extends React.Component {
             view = <Loader size="2" text="Loading..."></Loader>
         }else{
             var hide = false;
-
             if(isComingSoon()){
                 hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT);
             } else{
