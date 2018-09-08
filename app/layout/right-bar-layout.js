@@ -10,10 +10,12 @@ import PropTypes from 'prop-types';
 import { AppConfig } from '../../config/app-config';
 import SponsorList from '../page/partial/static/sponsor-list';
 import { DashboardFeed } from '../page/dashboard';
-import { getCF, getCFObj, getAuthUser, isRoleAdmin, isRoleOrganizer } from '../redux/actions/auth-actions';
+import { getCF, getCFObj, getAuthUser, isRoleAdmin, isRoleOrganizer, isRoleRec, isRoleStudent } from '../redux/actions/auth-actions';
 import { addLog } from '../redux/actions/other-actions';
 import { LogEnum } from '../../config/db-config';
 import { Ads } from '../../config/ads-config';
+import {QsPopupView} from '../page/partial/analytics/qs-popup.jsx';
+
 require("../css/ads.scss");
 
 export default class RightBarLayout extends React.Component {
@@ -28,6 +30,20 @@ export default class RightBarLayout extends React.Component {
         this.sponsor = this.getSponsor();
         this.event_page = this.getEventPage();
         this.ads = this.getAds();
+        this.qs_popup = this.getQsPopup();
+    }
+
+    getQsPopup(){
+        if(!isRoleRec() && !isRoleStudent()){
+            return null;
+        }
+        //            <h4>Question Of The Day</h4>
+
+        return <div className="right-bar-item">
+            <div className="body">
+                <QsPopupView></QsPopupView>
+            </div>
+        </div>;
     }
 
     getEventPage() {
@@ -128,6 +144,7 @@ export default class RightBarLayout extends React.Component {
     render() {
         return (<right_bar id="right_bar">
             {this.dashboard}
+            {this.qs_popup}
             {this.sponsor}
             {this.ads}
             {this.event_page}

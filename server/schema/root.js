@@ -24,7 +24,9 @@ const { UserType
     , StudentListingType
     , GroupSessionJoinType
     , GroupSessionType
-    , DocLinkType } = require('./all-type.js');
+    , DocLinkType
+    , QsPopupType
+    , QsPopupAnswerType } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
 
@@ -51,6 +53,7 @@ const { ResumeDropExec } = require('../model/resume-drop-query.js');
 const { ForumExec } = require('../model/forum-query.js');
 const { StudentListingExec } = require('../model/student-listing-query.js');
 const { GroupSessionExec } = require('../model/group-session-query.js');
+const { QsPopupExec } = require('../model/qs-popup-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -66,6 +69,56 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+/*******************************************/
+/* qs_popup ******************/
+fields["qs_popups"] = {
+    type: new GraphQLList(QsPopupType),
+    args: {
+        for_student: { type: GraphQLInt},
+        for_rec: { type: GraphQLInt },
+        order_by : {type: GraphQLString},
+        is_disabled : { type: GraphQLInt },
+        page : { type: GraphQLInt },
+        type : { type: GraphQLString },
+        offset : { type: GraphQLInt },
+     },
+    resolve(parentValue, arg, context, info) {
+        return QsPopupExec.qs_popups(arg, graphqlFields(info));
+    }
+};
+
+fields["qs_popup"] = {
+    type: QsPopupType,
+    args: {
+        ID: { type: GraphQLInt},
+        user_id: { type: GraphQLInt },
+        for_student: { type: GraphQLInt},
+        for_rec: { type: GraphQLInt },     
+        type : { type: GraphQLString },    
+        is_disabled: { type: GraphQLInt },         
+    },
+    resolve(parentValue, arg, context, info) {
+        return QsPopupExec.qs_popup(arg, graphqlFields(info));
+    }
+};
+
+
+fields["qs_popup_answers"] = {
+    type: new GraphQLList(QsPopupAnswerType),
+    args: {
+        qs_popup_id: { type: GraphQLInt },
+        user_role: { type: GraphQLString},
+        order_by : {type: GraphQLString},
+        page : { type: GraphQLInt },
+        type : { type: GraphQLString },
+        offset : { type: GraphQLInt },
+     },
+    resolve(parentValue, arg, context, info) {
+        return QsPopupExec.qs_popup_answers(arg, graphqlFields(info));
+    }
+};
+
 
 /*******************************************/
 /* group_sessions ******************/

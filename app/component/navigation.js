@@ -199,7 +199,7 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             default_param: { current: isRoleRec() ? "student-listing" : "session", },
-            disabled: (!isRoleRec() && !isRoleStudent()) || COMING_SOON //for student disable first
+            disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
         },
         {
             url: "/company-forum",

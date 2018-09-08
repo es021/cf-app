@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import GeneralFormPage from '../component/general-form';
 import SubNav from '../component/sub-nav';
 import { CustomList } from '../component/list';
-import { ManageFeedback , FeedbackList} from './partial/analytics/feedback';
+import { ManageFeedback, FeedbackList } from './partial/analytics/feedback';
+import { ManageQsPopup , QsPopupList} from './partial/analytics/qs-popup';
 
 //importing for list
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
@@ -136,7 +137,17 @@ export default class AnalyticPage extends React.Component {
                 component: MetaSubPage,
                 props: { type: "com_en", title: "Company Enquiries" },
                 icon: "building"
-            } 
+            }
+            , "qs-popup": {
+                label: "User Answers",
+                component: QsPopupList,
+                icon: "file-text-o"
+            }
+            , "manage-qs-popup": {
+                label: "Manage Question Popup",
+                component: ManageQsPopup,
+                icon: "edit"
+            }
             , "feedback": {
                 label: "Feedback",
                 component: FeedbackList,
@@ -147,7 +158,7 @@ export default class AnalyticPage extends React.Component {
                 component: ManageFeedback,
                 icon: "edit"
             }
-           
+
         };
     }
 
