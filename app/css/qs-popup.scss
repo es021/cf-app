@@ -1,0 +1,23 @@
+@import 'define/variable.scss';
+.qs-popup {
+    .qs-form{
+        background: #246272;
+        color: #cdd6d8;
+        padding: 6px;
+        .form-label{
+            padding-bottom: 4px;
+            color:white;
+        }
+        button {
+            background: #cdd6d8;
+            color: #246272;
+            width: 100%;
+        }
+        button:hover{
+            opacity: 0.7;
+        }
+        .form-label{
+            font-size:16px;
+        }
+    }
+}

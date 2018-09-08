@@ -24,7 +24,9 @@ const {
     ForumCommentType,
     ForumReplyType,
     GroupSessionJoinType,
-    GroupSessionType
+    GroupSessionType,
+    QsPopupType,
+    QsPopupAnswerType
 } = require('./all-type.js');
 
 
@@ -52,7 +54,9 @@ const {
     ForumReply,
     SessionRequest,
     GroupSession,
-    GroupSessionJoin
+    GroupSessionJoin,
+    QsPopup,
+    QsPopupAnswer
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -91,6 +95,95 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/* qs_popup  ******************/
+fields["add_qs_popup"] = {
+    type: QsPopupType,
+    args: {
+        type: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        for_student: {
+            type: GraphQLInt
+        },
+        for_rec: {
+            type: GraphQLInt
+        },
+        label: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        answers: {
+            type: GraphQLString
+        },
+        created_by: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(QsPopup.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+
+fields["edit_qs_popup"] = {
+    type: QsPopupType,
+    args: {
+        ID: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        is_disabled: {
+            type: GraphQLInt
+        },
+        for_student: {
+            type: GraphQLInt
+        },
+        for_rec: {
+            type: GraphQLInt
+        },
+        label: {
+            type: GraphQLString
+        },
+        answers: {
+            type: GraphQLString
+        },
+        updated_by: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        try {
+            return DB.update(QsPopup.TABLE, arg).then(function (res) {
+                return res;
+            });
+        } catch (err) {
+            return {};
+        }
+    }
+};
+
+fields["add_qs_popup_answer"] = {
+    type: QsPopupAnswerType,
+    args: {
+        user_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        qs_popup_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        answer: {
+            type: new GraphQLNonNull(GraphQLString)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(QsPopupAnswer.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
 
 
 /* group session ******************/

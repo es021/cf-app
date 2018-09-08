@@ -462,7 +462,36 @@ const FeedbackQs = {
     IS_DISABLED: "is_disabled"
 };
 
+
+const QsPopup = {
+    TABLE: "qs_popup",
+    TYPE: "type",
+    FOR_REC: "for_rec",
+    FOR_STUDENT: "for_student",
+    IS_DISABLED: "is_disabled",
+    LABEL: "label",
+    ANSWERS: "answers",
+    CREATED_BY: "created_by",
+    UPDATED_BY: "updated_by",
+};
+
+const QsPopupEnum = {
+    TYPE_SUBJECTIVE: "SUBJECTIVE",
+    TYPE_MCQ: "MCQ",
+}
+
+
+const QsPopupAnswer = {
+    TABLE: "qs_popup_answer",
+    USER_ID: "user_id",
+    QS_POPUP_ID: "qs_popup_id",
+    ANSWER: "answer"
+};
+
 module.exports = {
+    QsPopup,
+    QsPopupEnum,
+    QsPopupAnswer,
     User,
     UserMeta,
     UserEnum,

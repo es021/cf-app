@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SponsorList from './partial/static/sponsor-list';
-import { getCF, getCFObj, isRoleStudent, getAuthUser } from '../redux/actions/auth-actions';
+import { getCF, getCFObj, isRoleStudent, isRoleRec, getAuthUser } from '../redux/actions/auth-actions';
 import { errorBlockLoader, storeHideBlockLoader } from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
 import PropTypes from 'prop-types';
@@ -14,6 +14,7 @@ import { NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 import { createCompanyTitle } from './companies';
 import CompaniesSection from './partial/hall/companies';
+import HallPage from './hall';
 
 
 export function getCFTimeDetail(date, time, time_mas) {
@@ -259,12 +260,22 @@ export default class ComingSoonPage extends React.Component {
                         <div>
                             Don’t forget to keep checking for<br></br>new group session time slots to join!
                     </div>
-                </div>
-                <br></br>
+                    </div>
+                    <br></br>
                 </div>
                 <CompaniesSection isPreEvent={true}></CompaniesSection>
+                <br></br>
+                <br></br>
+                <div className="line"></div>
+                <SponsorList type="coming-soon"></SponsorList>
             </div>;
         }
+
+        let recHall = null;
+        if (isRoleRec()) {
+            recHall = <HallPage isPreEvent={true}></HallPage>
+        }
+
         return (<div>
             <h1>
                 <small>Coming Soon</small>
@@ -278,10 +289,7 @@ export default class ComingSoonPage extends React.Component {
             <Timer end={this.CFObj.start} doneMes={doneMes}>
             </Timer>
             {companySection}
-            <br></br>
-            <br></br>
-            <div className="line"></div>
-            <SponsorList type="coming-soon"></SponsorList>
+            {recHall}
         </div>
         );
     }

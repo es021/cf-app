@@ -505,8 +505,35 @@ const SupportSessionType = new GraphQLObjectType({
     })
 });
 
+
+const QsPopupType = new GraphQLObjectType({
+    name: 'QsPopup',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        type: { type: GraphQLString },
+        for_student: { type: GraphQLInt },
+        for_rec: { type: GraphQLInt },
+        is_disabled: { type: GraphQLInt },
+        label: { type: GraphQLString },
+        answers: { type: GraphQLString },
+    })
+});
+
+
+const QsPopupAnswerType = new GraphQLObjectType({
+    name: 'QsPopupAnswer',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        qs_popup_id: { type: GraphQLInt },
+        answer: { type: GraphQLString },
+    })
+});
+
+
 module.exports = {
-    UserType
+    QsPopupType, QsPopupAnswerType
+    , UserType
     , ForumCommentType, ForumReplyType
     , ZoomInviteType
     , CompanyType

@@ -118,7 +118,11 @@ export default class HallPage extends React.Component {
         }
 
         return (<div>
-            <h2>Welcome To {this.title}</h2>
+            {this.props.isPreEvent ?
+                <div className="line"></div>
+                :
+                <h2>Welcome To {this.title}</h2>
+            }   
             {gSesion}
             {midView}
             {isRoleStudent() ? <PageSection title="Company Booth" body={CompaniesSection}></PageSection> : null}
@@ -126,5 +130,12 @@ export default class HallPage extends React.Component {
     }
 }
 
+HallPage.propTypes = {
+    isPreEvent: PropTypes.bool
+}
+
+HallPage.defaultProps = {
+    isPreEvent: false
+}
 
 

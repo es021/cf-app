@@ -36,20 +36,26 @@ export default class ActivityPage extends React.Component {
             }
         }
 
+
+
         item["session"] = {
             label: "Past Sessions",
             component: SessionsList,
             props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
             icon: "comments"
         };
-        item["resume-drop"] = {
-            label: "Resume Drop",
-            component: ResumeDrop,
-            props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
-            icon: "download"
+
+        if (isRoleStudent()) {
+            item["resume-drop"] = {
+                label: "Resume Drop",
+                component: ResumeDrop,
+                props: { company_id: this.company_id, student_id: this.student_id, isRec: isRoleRec() },
+                icon: "download"
+            }
         }
 
         if (isRoleRec()) {
+            /*
             item["pre-screen"] = {
                 label: "Pre-Screen",
                 component: ScheduledInterview,
@@ -63,6 +69,7 @@ export default class ActivityPage extends React.Component {
                 props: { company_id: this.company_id },
                 icon: "clock-o"
             };
+            */
 
         }
 

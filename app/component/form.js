@@ -104,6 +104,11 @@ export default class Form extends React.Component {
         for (var i in this.form) {
             var w = "";
             var formObj = this.form[i];
+            
+            if(formObj == null){
+                continue;
+            }
+
             var name = formObj.name;
             var value = formObj.value;
             //console.log(name,value);
@@ -120,7 +125,11 @@ export default class Form extends React.Component {
                 }
             } else if (formObj.required && value == "") {
                 w = "This field is required";
-            }
+            } 
+            // else if (formObj.required && formObj.type == "radio") {
+            //     console.log(value)
+            //     w = "here";
+            // }
 
 
             if (w !== "") {
@@ -218,7 +227,15 @@ export default class Form extends React.Component {
             }
         }
 
-        this.props.onSubmit(data_form);
+        // major change here
+        this.props.onSubmit(data_form); 
+
+        // var warningFromProp = 
+        // if(typeof warningFromProp === "object" && warningFromProp !== null){
+        //     this.setState((prevState) => {
+        //         return { warning: warningFromProp };
+        //     });
+        // }
     }
 
     getSelectOptions(data) {
@@ -283,8 +300,10 @@ export default class Form extends React.Component {
 
     emptyForm() {
         for (var i in this.form) {
-            if (this.form[i].disabled !== true) {
-                this.form[i].value = "";
+            if(this.form[i] !== null){
+                if (this.form[i].disabled !== true) {
+                    this.form[i].value = "";
+                }
             }
         }
     }

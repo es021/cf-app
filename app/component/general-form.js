@@ -127,7 +127,7 @@ class GeneralForm extends React.Component {
             btnColorClass={this.props.btnColorClass}
             disableSubmit={this.state.disableSubmit}
             error={this.state.error}
-            errorPosition="top"
+            errorPosition="bottom"
             emptyOnSuccess={true}
             success={this.state.success}></Form>;
 
@@ -369,11 +369,11 @@ export default class GeneralFormPage extends React.Component {
                 : this.getAddForm());
         }
 
-        console.log("this.props.searchFormItem ", this.props.searchFormItem);
-        console.log("this.props.searchFormItem ", this.props.searchFormItem);
-        console.log("this.props.searchFormItem ", this.props.searchFormItem);
-        console.log("this.props.searchFormItem ", this.props.searchFormItem);
-        console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        // console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        // console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        // console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        // console.log("this.props.searchFormItem ", this.props.searchFormItem);
+        // console.log("this.props.searchFormItem ", this.props.searchFormItem);
 
         return (<div>
             {(this.props.dataTitle !== null) ? <h2>
