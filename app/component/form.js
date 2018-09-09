@@ -147,6 +147,7 @@ export default class Form extends React.Component {
 
         if (doHas && toFocus !== null && defName === null) {
             toFocus.focus();
+            window.scrollBy(0, -80);
         }
 
         return doHas;

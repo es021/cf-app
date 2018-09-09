@@ -159,6 +159,7 @@ class EditProfile extends React.Component {
             available_month
             available_year
             sponsor
+            gender
             cgpa
             major
             minor
@@ -221,6 +222,13 @@ class EditProfile extends React.Component {
                 name: UserMeta.PHONE_NUMBER,
                 type: "text",
                 placeholder: "XXX-XXXXXXX",
+                required: true
+            },
+            {
+                label: "Gender",
+                name: UserMeta.GENDER,
+                type: "select",
+                data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
                 required: true
             },
             { header: "Where Do You Reside In Malaysia?" },
@@ -294,7 +302,7 @@ class EditProfile extends React.Component {
                 label: "Looking For",
                 name: UserMeta.LOOKING_FOR,
                 type: "select",
-                data: ["", "Full-Time", "Internship"],
+                data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
                 required: true
             },
             {

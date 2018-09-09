@@ -179,17 +179,6 @@ function getMenuItem(COMING_SOON) {
             disabled: isDisabled("career-fair", COMING_SOON)
         },
         {
-            url: "/auditorium",
-            label: "Auditorium",
-            icon: "microphone",
-            component: AuditoriumFeed,
-            bar_app: true,
-            bar_auth: false,
-            hd_app: false,
-            hd_auth: false,
-            disabled: false //isDisabled("auditorium", COMING_SOON)
-        },
-        {
             url: "/my-activity/:current",
             label: isRoleRec() ? "Student Listing" : "My Activity",
             icon: isRoleRec() ? "users" : "list-ul",
@@ -200,6 +189,17 @@ function getMenuItem(COMING_SOON) {
             hd_auth: false,
             default_param: { current: isRoleRec() ? "student-listing" : "session", },
             disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+        },
+        {
+            url: "/auditorium",
+            label: "Auditorium",
+            icon: "microphone",
+            component: AuditoriumFeed,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            disabled: false //isDisabled("auditorium", COMING_SOON)
         },
         {
             url: "/company-forum",

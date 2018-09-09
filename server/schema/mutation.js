@@ -597,6 +597,9 @@ fields["edit_user"] = {
         looking_for: {
             type: GraphQLString
         },
+        gender: {
+            type: GraphQLString
+        },
 
 
         // rec only

@@ -106,6 +106,8 @@ const UserMeta = {
     CGPA: "cgpa",
     MAJOR: "major",
     MINOR: "minor",
+    GENDER: "gender",
+
 
     MAS_POSTCODE: "mas_postcode",
     MAS_STATE: "mas_state",
@@ -120,6 +122,10 @@ const UserMeta = {
 };
 
 const UserEnum = {
+    GENDER_MALE : "Male",
+    GENDER_FEMALE : "Female",
+    LOOK_FOR_FULL_TIME : "Full-Time",
+    LOOK_FOR_INTERN : "Internship",
     ROLE_STUDENT: "student",
     ROLE_RECRUITER: "recruiter",
     ROLE_ADMIN: "administrator",
