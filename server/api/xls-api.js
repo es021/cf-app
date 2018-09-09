@@ -1,5 +1,9 @@
-const { getAxiosGraphQLQuery } = require('../../helper/api-helper');
-const { Time } = require('../../app/lib/time');
+const {
+    getAxiosGraphQLQuery
+} = require('../../helper/api-helper');
+const {
+    Time
+} = require('../../app/lib/time');
 const axios = require('axios');
 
 class XLSApi {
@@ -23,7 +27,7 @@ class XLSApi {
     }
 
     // filter in JSON object, return {filename, content}
-    export(action, filter) {
+    export (action, filter) {
         if (filter !== "null") {
             try {
                 filter = JSON.parse(filter);
@@ -38,10 +42,10 @@ class XLSApi {
             // xls/students/{"cf":"USA"}
             // filter == null, all cfs
             case 'students':
-                return this.students(filter.cf,filter.new_only);
+                return this.students(filter.cf, filter.new_only);
                 break;
-            // xls/prescreens/{"company_id":1}
-            // filter == null, all cfs
+                // xls/prescreens/{"company_id":1}
+                // filter == null, all cfs
             case 'prescreens':
                 return this.prescreens(filter.company_id);
                 break;
@@ -229,8 +233,7 @@ class XLSApi {
                     toRet += `${d.note}`;
                 });
                 return toRet;
-            }
-            else if (k.indexOf("session_ratings") >= 0) {
+            } else if (k.indexOf("session_ratings") >= 0) {
                 var toRet = "";
                 data.map((d, i) => {
                     if (i > 0) {
@@ -262,19 +265,25 @@ class XLSApi {
               first_name
               last_name
               user_registered
-              doc_links {label url}
+              mas_state
+              mas_postcode
+              relocate
+              study_place
+              looking_for
+              gender
               major
               minor
               university
               phone_number
               cgpa
-              description
               graduation_month
               graduation_year
               available_month
               available_year
               sponsor
-              user_status }}`;
+              description
+              user_status
+              doc_links {label url} }}`;
         //  cgpa
 
         // 2. prepare props to generate table
@@ -283,12 +292,36 @@ class XLSApi {
             return d;
         };
 
+        const restructData = (data) => {
+            return this.restructAppendDocLinks(data);
+        };
+
         // 3 . fetch and return
-        return this.fetchAndReturn(query, "users", filename, headers);
+        return this.fetchAndReturn(query, "users", filename, headers, null, restructData);
     }
+
+
 
     // ######################################################################
     // Helper functions ------------------------------------------------
+
+    // append doc links into seperate row at the end of record
+    restructAppendDocLinks(data) {
+        var newData = {};
+        var doc_links = data["doc_links"];
+
+        for (var k in data) {
+            if (k !== "doc_links") {
+                newData[k] = data[k];
+            }
+        }
+        for (var i in doc_links) {
+            var key = "attachment_" + (Number.parseInt(i) + 1);
+            var doc = doc_links[i];
+            newData[key] = `<a href="${doc.url}">${doc.label}</a><br>`;
+        }
+        return newData;
+    }
 
     rowDocLinks(d) {
         var toRet = "";
@@ -301,10 +334,12 @@ class XLSApi {
 
     fetchAndReturn(query, dataField, filename, headers = null, rowHook = null, restructData = null) {
         return getAxiosGraphQLQuery(query).then((res) => {
-            var content = this.generateTable(filename, res.data.data[dataField]
-                , headers, rowHook, restructData);
+            var content = this.generateTable(filename, res.data.data[dataField], headers, rowHook, restructData);
 
-            return { filename: filename, content: content };
+            return {
+                filename: filename,
+                content: content
+            };
         }, (err) => {
             return err;
         });
@@ -339,7 +374,9 @@ class XLSApi {
             }
 
             d = this.defaultRowHook(i, d);
-
+            if (d === null || typeof d === "undefined") {
+                d = "-";
+            }
             r += `<td>${d}</td>`;
         }
         return `<tr>${r}</tr>`;
@@ -377,4 +414,6 @@ class XLSApi {
 
 XLSApi = new XLSApi();
 
-module.exports = { XLSApi };
+module.exports = {
+    XLSApi
+};

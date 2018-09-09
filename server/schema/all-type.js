@@ -73,6 +73,8 @@ const UserType = new GraphQLObjectType({
         cgpa: { type: GraphQLString },
         major: { type: GraphQLString },
         minor: { type: GraphQLString },
+
+        gender : {type: GraphQLString},
         
         mas_state: { type: GraphQLString },
         mas_postcode: { type: GraphQLString },

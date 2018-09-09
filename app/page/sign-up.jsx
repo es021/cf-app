@@ -79,6 +79,13 @@ export default class SignUpPage extends React.Component {
                 placeholder: "XXX-XXXXXXX",
                 required: true
             },
+            {
+                label: "Gender",
+                name: UserMeta.GENDER,
+                type: "select",
+                data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
+                required: true
+            },
             { header: "Where Do You Reside In Malaysia?" },
             {
                 label: "State",
@@ -150,7 +157,7 @@ export default class SignUpPage extends React.Component {
                 label: "Looking For",
                 name: UserMeta.LOOKING_FOR,
                 type: "select",
-                data: ["", "Full-Time", "Internship"],
+                data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
                 required: true
             },
             {
@@ -272,7 +279,7 @@ export default class SignUpPage extends React.Component {
         }
 
         var content = null;
-        
+
         var user = this.state.user;
         // user = {
         //     "ID": 136,

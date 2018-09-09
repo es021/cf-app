@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
 import GeneralFormPage from '../../../component/general-form';
 import * as layoutActions from '../../../redux/actions/layout-actions';
-import {isComingSoon} from '../../../redux/actions/auth-actions';
+import {isComingSoon, isRoleRec, isRoleStudent} from '../../../redux/actions/auth-actions';
 import UserPopup from '../popup/user-popup';
 //importing for list
 import List, { CustomList, ProfileListWide } from '../../../component/list';
@@ -35,14 +35,15 @@ export class StudentListing extends React.Component {
         openSIFormNew(student_id, this.props.company_id);
     }
     loadPriv(){
-        var q = `query {company(ID:${this.props.company_id}) { priviledge } }`;
+        var q = `query {company(ID:${this.props.company_id}) { priviledge name } }`;
         getAxiosGraphQLQuery(q).then(res=>{
             this.setState((prevState)=>{
                 var privs = res.data.data.company.priviledge;
+                var companyName = res.data.data.company.name;
                 if(privs == null){
                     privs = "";
                 }
-                return { loadPriv:false, privs: privs };
+                return { loadPriv:false, privs: privs, companyName: companyName };
             })
         });
     }
@@ -147,15 +148,18 @@ export class StudentListing extends React.Component {
             view = <Loader size="2" text="Loading..."></Loader>
         }else{
             var hide = false;
-            if(isComingSoon()){
-                hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT);
-            } else{
-                hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT);
-            }
 
+            if(isRoleRec() || isRoleStudent()){
+                if(isComingSoon()){
+                    hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT);
+                } else{
+                    hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT);
+                }    
+            }
+          
             view = hide ? <div>
                 <h4><i className="fa fa-3x fa-frown-o"></i><br></br><br></br>
-                Opss.. It seems that you don't have access to this page.</h4>
+                Opss.. It seems that <b>{this.state.companyName}</b> does not have access to this page yet.</h4>
             </div> 
 
             : <GeneralFormPage
