@@ -1,4 +1,3 @@
-
 if (process.env.NODE_ENV === "production" && false) {
     console.log = function (mes) {
         return;
@@ -17,6 +16,22 @@ export function getWindowWidth() {
     return width;
 }
 
+
+
+export function getParamUrl(url, parameterName) {
+    var result = null;
+    var tmp = [];
+    var search = "";
+    url = url.split("?");
+    search = url[1];
+    var items = search.split("&");
+    for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+}
+
 export function _GET(parameterName) {
     var result = null,
         tmp = [];
@@ -28,6 +43,14 @@ export function _GET(parameterName) {
     return result;
 }
 
+String.prototype.containText = function (text) {
+    return this.toUpperCase().indexOf(text.toUpperCase()) >= 0;
+}
+
+String.prototype.endsWith = function (text) {
+    var last4 = this.substring(this.length - text.length);
+    return last4.toUpperCase() == text.toUpperCase();
+}
 
 String.prototype.replaceAll = function (search, replacement, ignoreCase = false) {
     var i = (ignoreCase) ? "i" : "";

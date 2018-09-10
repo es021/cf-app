@@ -462,9 +462,9 @@ class GroupSessionClass extends React.Component {
 
         var header = null;
         if (this.props.forStudent) {
-            header = <h2 style={{ marginTop: "10px" }}>
+            header = <h3 style={{ marginTop: "10px" }}>
                 <small>or<br></br>Join A Group Session</small>
-            </h2>;
+            </h3>;
         }
 
         if (this.props.forRec) {

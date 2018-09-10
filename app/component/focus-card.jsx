@@ -37,15 +37,17 @@ class FocusCard extends React.Component {
         //console.log("componentWillMount", "focus");
     }
 
+
     render() {
 
         var focus = this.props.focusCard;
+        var componentName = null;
         //console.log("render focus card");
         //console.log(focus.props);
 
         var component = null;
         if (focus.component !== null) {
-
+            componentName = focus.component.name;
             //this to force the child component to re-render
             focus.props["key"] = (new Date()).getTime();
             component = React.createElement(focus.component, focus.props);
@@ -72,7 +74,9 @@ class FocusCard extends React.Component {
                 </a>
             </div>;
 
-        return (<div style={style} id="focus-card" className={focus.className}>
+        var componentClass = (componentName !== null) ? "fc-" + componentName : "";
+
+        return (<div style={style} id="focus-card" className={focus.className + " " + componentClass}>
             <div className={`${fc}content`}>
                 <div className={`${fc}header${(prev.length > 0) ? " previous" : ""}`}>
                     {prevBtn}

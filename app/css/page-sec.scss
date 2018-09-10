@@ -9,6 +9,7 @@ $page-sec : "page-sec";
 
     .#{$page-sec}-body{
         padding-bottom: 15px;
+        overflow-y:hidden;
     }
 }
 
