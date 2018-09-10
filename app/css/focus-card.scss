@@ -22,7 +22,6 @@ $fc : "fc-";
         position:fixed;
         top:0;
         z-index: 10;
-
         @include center_horizontal($fc_width);
 
         .#{$fc}header{
@@ -67,15 +66,33 @@ $fc : "fc-";
     } 
 }
 
+// #focus-card.fc-CompanyPopup{
+//     .#{$fc}content{
+//         @include center_horizontal(900px);
+//     }
+// }
+
+@media only screen and (min-width: 800px){
+    #focus-card.fc-CompanyPopup{
+        .#{$fc}content{
+            @include center_horizontal(900px);
+        }
+    }
+}
+
 @media only screen and (max-width: $fc_width){
     #focus-card {
         .#{$fc}content{
+
             width: 100%;
             margin-left: 0px;
             left: 0;
         }
     }
+
+   
 }
+
 
 
 #focus-card.small{

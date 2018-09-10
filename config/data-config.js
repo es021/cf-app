@@ -89,6 +89,7 @@ const Country = [
     "Slovenia",
     "Spain",
     "Sweden",
+    "Turkey",
     "United Kingdom"
 ];
 

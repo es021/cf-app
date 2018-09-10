@@ -9,17 +9,30 @@ import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec, isRoleStudent, isRoleAdmin } from '../../../redux/actions/auth-actions';
 import { DocLinkEnum, CompanyEnum, LogEnum } from '../../../../config/db-config';
 import { CustomList, createIconLink } from '../../../component/list';
+
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
 import { RootPath } from '../../../../config/app-config';
+
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
+
 import { addLog } from '../../../redux/actions/other-actions';
+
 import { getFeedbackPopupView } from '../analytics/feedback';
+
 import { GroupSessionView } from '../hall/group-session';
-import { Gallery } from '../../../component/gallery';
+
+// indicator for company group session
+export const isCompanyGsOpen = function (company) {
+    return company.status == CompanyEnum.STS_GS && company.group_url != "";
+}
+
+export const isCompanyGsStarted = function (status, group_url) {
+    return company.status == CompanyEnum.STS_GS && company.group_url == "";
+}
 
 class VacancyList extends React.Component {
     constructor(props) {
@@ -124,7 +137,7 @@ export default class CompanyPopup extends Component {
                 img_position
                 img_size
                 rec_privacy
-                doc_links{ID label url type}
+                doc_links{label url type}
                 more_info
                 ${rec_query}
                 vacancies{
@@ -268,35 +281,6 @@ export default class CompanyPopup extends Component {
         }
     }
 
-    getDocLinks(doc_links) {
-        if (doc_links.length <= 0) {
-            return null;
-        }
-
-        var iframe = [];
-        var link = [];
-
-        // separate document and link
-        for (var i in doc_links) {
-
-            var item = doc_links[i];
-            var isIframe = item.type == DocLinkEnum.TYPE_DOC || item.url.containText("youtube");
-
-            if (isIframe) {
-                iframe.push(item);
-            } else {
-                link.push(item);
-            }
-        }
-
-
-        return <div>
-            <Gallery data={link} size="lg"></Gallery>
-            <br></br>
-            <Gallery data={iframe} size="lg"></Gallery>
-        </div>
-    }
-
     render() {
         var id = null;
         var data = this.state.data;
@@ -307,7 +291,33 @@ export default class CompanyPopup extends Component {
         } else {
             const vacancies = this.getVacancies(data.ID);
             const recs = this.getRecs(data.recruiters, data.rec_privacy);
-            const doc_link = this.getDocLinks(data.doc_links);
+
+            //document and link
+            var dl = data.doc_links.map((d, i) => {
+                var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
+                return <span><i className={`fa left fa-${icon}`}></i>
+                    <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
+                </span>;
+            });
+
+            const doc_link = <CustomList className="label" items={dl}></CustomList>;
+
+            //<div className="btn btn-lg btn-primary" onClick={this.startQueue}>
+            //<i className="fa fa-sign-in left"></i>
+            //Queue Now</div>
+
+            // var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+            //     <div className="btn-group btn-group-justified">
+            //         <div className="btn btn-lg btn-blue" onClick={this.addSessionRequest}>
+            //             <i className="fa fa-sign-in left"></i>
+            //             Request For Interview</div>
+            //         <a target="_blank"
+            //             onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+            //                 , ResumeDropPopup, { company_id: data.ID })}
+            //             className="btn btn-lg btn-default">
+            //             <i className="fa fa-download left"></i>
+            //             Drop Resume</a>
+            //     </div>;
 
             // ##################################################################################
             // for group session
@@ -321,7 +331,20 @@ export default class CompanyPopup extends Component {
             // for action
 
             var actData = [
-                {
+                // data.status == CompanyEnum.STS_GS
+                //     ? {
+                //         label: "Join Group Session"
+                //         , onClick: () => this.joinGroupSession(data)
+                //         , icon: "users"
+                //         , color: "#449d44"
+                //     } :
+                //     {
+                //         label: "Request For Private Session"
+                //         , onClick: this.addSessionRequest
+                //         , icon: "sign-in"
+                //         , color: "#c62323"
+                //     }
+                , {
                     label: "Ask Questions In Company Forum"
                     , url: `${RootPath}/app/forum/company_${data.ID}`
                     , icon: "comments"
@@ -346,74 +369,30 @@ export default class CompanyPopup extends Component {
             // ##################################################################################
             // create body
 
-            // var pcBody = <div>
-            //     <div>
-            //         {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-            //         <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
-            //         <PageSection canToggle={this.props.canToggle} className="left" title="Document & Link" body={doc_link}></PageSection>
-            //         {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
-            //         {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
-            //     </div>
-            //     {action}
-            //     {gSession}
-            //     {(this.props.displayOnly) ? null :
-            //         <div>
-            //             <br></br>
-            //             <a onClick={layoutActions.storeHideFocusCard}>Close</a>
-            //         </div>
-            //     }
-            // </div>;
+            var pcBody = <div>
+                <div>
+                    {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
+                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
+                    <PageSection canToggle={this.props.canToggle} className="left" title="Document & Link" body={doc_link}></PageSection>
+                    {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
+                    {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
+                </div>
+                {action}
+                {gSession}
+                {(this.props.displayOnly) ? null :
+                    <div>
+                        <br></br>
+                        <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+                    </div>
+                }
+            </div>;
 
-            // view = <div>
-            //     <ProfileCard type="company"
-            //         title={data.name} subtitle={data.tagline}
-            //         img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
-            //         body={pcBody}></ProfileCard>
-            // </div>;
-
-            var rightBody = <div>
+            view = <div>
                 <ProfileCard type="company"
                     title={data.name} subtitle={data.tagline}
                     img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
-                    body={null}></ProfileCard>
-                {action}
-                {gSession}
-            </div>
-
-            var maxHeight = 150;
-            var leftBody = <div>
-                <div>
-                    {(doc_link == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Gallery" body={doc_link}></PageSection>}
-                    {(data.description == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
-                    {(data.more_info == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
-                    {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
-                </div>
+                    body={pcBody}></ProfileCard>
             </div>;
-
-            view = (this.props.displayOnly)
-                ?
-                <div>
-                    {rightBody}
-                    {leftBody}
-                </div>
-                :
-                <div>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-3">
-                                {rightBody}
-                            </div>
-                            <div className="col-md-9">
-                                {leftBody}
-                            </div>
-                        </div>
-                        <div>
-                            <br></br>
-                            <a onClick={layoutActions.storeHideFocusCard}>Close</a>
-                        </div>
-                    </div>
-                </div>;
         }
 
         return (view);
