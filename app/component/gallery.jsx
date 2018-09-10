@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DocLinkEnum } from '../../config/db-config';
 import { ButtonIcon } from './buttons';
-import { getParamUrl } from '../lib/util';
+import { getParamUrl, scrollToX } from '../lib/util';
 
 
 require("../css/gallery.scss");
@@ -45,7 +45,7 @@ export class Gallery extends React.Component {
     }
 
     getArrow(type) {
-        if (this.state.maxOffset <= 0) {
+        if (this.state.maxOffset <= 0 || this.offsets.length <= 1) {
             return null;
         }
 
@@ -84,7 +84,8 @@ export class Gallery extends React.Component {
                 scroll = 0;
             }
 
-            p.scrollLeft = scroll;
+           // p.scrollLeft = scroll;
+            scrollToX(p, scroll, 200)
 
             if (scroll != this.currentScrollLeft) {
                 this.setState((prevState) => {
