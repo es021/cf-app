@@ -16,7 +16,29 @@ export function getWindowWidth() {
     return width;
 }
 
+export function scrollToY(element, to, duration) {
+    if (duration <= 0) return;
+    var difference = to - element.scrollTop;
+    var perTick = difference / duration * 10;
 
+    setTimeout(function () {
+        element.scrollTop = element.scrollTop + perTick;
+        if (element.scrollTop === to) return;
+        scrollToY(element, to, duration - 10);
+    }, 10);
+};
+
+export function scrollToX(element, to, duration) {
+    if (duration <= 0) return;
+    var difference = to - element.scrollLeft;
+    var perTick = difference / duration * 10;
+
+    setTimeout(function () {
+        element.scrollLeft = element.scrollLeft + perTick;
+        if (element.scrollLeft === to) return;
+        scrollToX(element, to, duration - 10);
+    }, 10);
+};
 
 export function getParamUrl(url, parameterName) {
     var result = null;

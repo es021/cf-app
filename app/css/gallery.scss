@@ -53,6 +53,7 @@
 }
 
  // Sizing
+ $IFRAME_WIDTH : 300px;
  .gallery-lg{
      .gallery-list{
         .gallery-item{
@@ -61,7 +62,7 @@
                 min-width: 50px;
                 iframe{
                     height: 150px;
-                    width: 300px;
+                    width: $IFRAME_WIDTH;
                 }
                 .gallery-icon{
                     height: 50px;
@@ -70,6 +71,7 @@
         }
 
         .gallery-item.gi-iframe{
+            max-width: $IFRAME_WIDTH;
         }
         .gallery-item.gi-icon{
             max-width: 150px;

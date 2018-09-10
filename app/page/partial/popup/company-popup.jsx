@@ -380,7 +380,7 @@ export default class CompanyPopup extends Component {
                 {gSession}
             </div>
 
-            var maxHeight = 150;
+            var maxHeight = 143;
             var leftBody = <div>
                 <div>
                     {(doc_link == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Gallery" body={doc_link}></PageSection>}
