@@ -149,6 +149,7 @@ class LoginPage extends React.Component {
                         defaultValues={this.defaultValues}
                         submitText="Log In"
                         onSubmit={this.formOnSubmit}
+                        btnColorClass={"default"}
                         error={error}></Form>
                 </div>
             );

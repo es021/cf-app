@@ -4,6 +4,7 @@
 //  $fc_width : 520px;
 $fc_width : 900px;
 $fc : "fc-";
+$banner_height : 130px;
 
 #focus-card {    
     .#{$fc}background{
@@ -18,6 +19,7 @@ $fc : "fc-";
     }
 
     .#{$fc}content{
+
         width: 100%;
         background: whitesmoke;
         position:fixed;
@@ -67,11 +69,61 @@ $fc : "fc-";
     } 
 }
 
-// #focus-card.fc-CompanyPopup{
-//     .#{$fc}content{
-//         @include center_horizontal(900px);
-//     }
-// }
+// #####################################
+// for banner;
+
+#focus-card {
+
+        
+    .#{$fc}body{
+
+        position: relative;
+        .#{$fc}banner{
+            //background-image: url("http://localhost:4000/asset/image/banner/EUR.jpg");
+            //background-position: center center;
+            height: $banner_height;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            //z-index: 11;
+        }
+
+        .container-fluid{
+            margin-top: $banner_height;
+
+        }
+        .com-pop-left{
+            margin-top:-90px;
+        }
+        .com-pop-pic{
+             z-index: 13;
+             position: relative;
+             //border-bottom: 1px darkgray solid;
+             .profile-card{
+                 .pc-picture{
+                    border: 1px solid darkgray;
+                 }
+                 .pc-title{
+                    // margin: 6px 0px;
+                    // font-size: 20px;
+                 }
+             }
+        }
+    
+//         .profile-card{
+//             z-index: 12;
+//             height: 150px;
+// width: 150px;
+// top: -70px;
+//         }
+    
+    }
+  
+    .#{$fc}body{
+    }
+}
+
 
 @media only screen and (min-width: 800px){
     #focus-card.fc-CompanyPopup{

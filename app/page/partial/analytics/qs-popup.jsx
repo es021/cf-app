@@ -184,6 +184,7 @@ export class QsPopupView extends React.Component {
             <div className="qs-form">
                 <Form className="form-row"
                     items={items}
+                    btnColorClass={"default"}
                     onSubmit={(data) => { this.formOnSubmit(data) }}
                     submitText='Submit'
                     error={this.state.error}

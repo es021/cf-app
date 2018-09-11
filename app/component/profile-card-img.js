@@ -64,13 +64,32 @@ export default class ProfileCardImg extends React.Component {
             ? "50% 50%"
             : this.props.stylePicture.backgroundPosition;
 
-        this.DIMENSION = 100;
+
+        //change dimension for banner
+        this.DIMENSION_HEIGHT = "100px";
+        this.DIMENSION_WIDTH = "100px";
+        this.BORDER_RADIUS = "100%";
+        this.ARROW_DIM_NEG = "-15px";
+        this.ARROW_DIM_POS = "45px";
+
+        if(this.props.type == "banner"){
+            this.DIMENSION_HEIGHT = "130px";
+            this.DIMENSION_WIDTH = "100%";
+            this.BORDER_RADIUS = "0%";
+            this.ARROW_DIM_NEG = "-15px";
+            this.ARROW_DIM_POS = "50%";
+
+        }
+
+       
+
         this.state = {
             backgroundImage: this.props.stylePicture.backgroundImage,
             backgroundSize: fixedSize, //default : cover
             backgroundPosition: pos, // default : 50% 50%
-            height: this.DIMENSION + "px",
-            width: this.DIMENSION + "px",
+            height: this.DIMENSION_HEIGHT,
+            width: this.DIMENSION_WIDTH,
+            borderRadius : this.BORDER_RADIUS,
             newImage: null,
             error: null,
             disableSubmit: false,
@@ -412,6 +431,21 @@ export default class ProfileCardImg extends React.Component {
                     img_position
                     img_size
                 }}`;
+        } else if (this.props.type == "banner") {
+            update["img_position"] = updateTemp.backgroundPosition;
+
+            var newUpdate = {};
+            newUpdate["ID"] = this.props.id;
+            newUpdate["banner_url"] = update["img_url"];
+            newUpdate["banner_position"] = update["img_position"];
+            newUpdate["banner_size"] = update["img_size"];
+
+            edit_query = `mutation{
+                edit_company(${obj2arg(newUpdate, { noOuterBraces: true })}) {
+                    banner_url
+                    banner_position
+                    banner_size
+                }}`;
         }
 
         console.log(edit_query);
@@ -457,13 +491,13 @@ export default class ProfileCardImg extends React.Component {
                 <ButtonIcon style={{ left: 0, position: "absolute" }} size={btn_size} icon="search-minus" theme="dark" onClick={() => this.editSize(this.ZOOM_OUT)}></ButtonIcon>
 
                 <div className="arrows">
-                    <ButtonIcon style={{ left: "-15px", top: "42px", position: "absolute" }} icon="arrow-left"
+                    <ButtonIcon style={{ left:this.ARROW_DIM_NEG, top: this.ARROW_DIM_POS, position: "absolute" }} icon="arrow-left"
                         size={btn_size} theme="dark" onClick={() => this.editPos(this.RIGHT)}></ButtonIcon>
-                    <ButtonIcon style={{ top: "-15px", left: "42px", position: "absolute" }} icon="arrow-up"
+                    <ButtonIcon style={{ top: this.ARROW_DIM_NEG, left: this.ARROW_DIM_POS, position: "absolute" }} icon="arrow-up"
                         size={btn_size} theme="dark" onClick={() => this.editPos(this.UP)}></ButtonIcon>
-                    <ButtonIcon style={{ bottom: "-15px", left: "42px", position: "absolute" }} icon="arrow-down"
+                    <ButtonIcon style={{ bottom: this.ARROW_DIM_NEG, left: this.ARROW_DIM_POS, position: "absolute" }} icon="arrow-down"
                         size={btn_size} theme="dark" onClick={() => this.editPos(this.DOWN)}></ButtonIcon>
-                    <ButtonIcon style={{ right: "-15px", top: "42px", position: "absolute" }} icon="arrow-right"
+                    <ButtonIcon style={{ right: this.ARROW_DIM_NEG, top: this.ARROW_DIM_POS, position: "absolute" }} icon="arrow-right"
                         size={btn_size} theme="dark" onClick={() => this.editPos(this.LEFT)}></ButtonIcon>
                 </div>
 

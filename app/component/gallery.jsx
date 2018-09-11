@@ -20,6 +20,8 @@ export class Gallery extends React.Component {
         this.state = {
             maxOffset: 0,
             currentItem: 0,
+            hideLeft: true,
+            hideRight: false,
         }
 
     }
@@ -56,6 +58,9 @@ export class Gallery extends React.Component {
             var p = this.refs[this.REF_LIST];
             var nextItem = this.state.currentItem;
 
+            var hideLeft = false;
+            var hideRight = false;
+
             if (type == "right") {
                 scroll += this.CLICK_OFFSET;
                 nextItem++;
@@ -76,15 +81,21 @@ export class Gallery extends React.Component {
 
             console.log(this.listWidth, this.offsets, nextItem);
 
-            if (scroll > p.scrollLeftMax) {
+
+
+            // max to right
+            if (scroll >= p.scrollLeftMax || scroll == this.currentScrollLeft) {
                 scroll = p.scrollLeftMax;
+                hideRight = true;
             }
 
-            if (scroll < 0) {
+            // max to left
+            if (scroll <= 0) {
                 scroll = 0;
+                hideLeft = true;
             }
 
-           // p.scrollLeft = scroll;
+            // p.scrollLeft = scroll;
             scrollToX(p, scroll, 200)
 
             if (scroll != this.currentScrollLeft) {
@@ -92,6 +103,10 @@ export class Gallery extends React.Component {
                     return { currentItem: nextItem };
                 })
             }
+
+            this.setState((prevState) => {
+                return { hideRight: hideRight, hideLeft: hideLeft };
+            })
 
             this.currentScrollLeft = scroll;
 
@@ -101,15 +116,13 @@ export class Gallery extends React.Component {
         var marginLeft = (type == "right") ? "5px" : "";
         var marginRight = (type == "right") ? "" : "5px";
 
-        return <ButtonIcon style={{ marginLeft: marginLeft, marginRight: marginRight }}
-            onClick={() => onClickArrow(type)} icon={`arrow-circle-${type}`}
-            size="lg">
-        </ButtonIcon>
+        var isHidden = (this.state.hideLeft && type == "left") || (this.state.hideRight && type == "right");
 
-        return <div className={`btn btn-blue gallery-arrow arrow-${type}`}
-            onClick={() => onClickArrow(type)}>
-            <i className={`fa fa-arrow-circle-${type}`}></i>
-        </div>
+        return isHidden ? <div style={{width:"28px", height:"50px"}}></div> :
+            <ButtonIcon style={{ marginLeft: marginLeft, marginRight: marginRight }}
+                onClick={() => onClickArrow(type)} icon={`arrow-circle-${type}`}
+                size="lg">
+            </ButtonIcon>
     }
 
     render() {

@@ -5,7 +5,7 @@ import { UserMeta, User, UserEnum } from '../../config/db-config';
 import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 import { ButtonLink } from '../component/buttons';
 import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
-import { RootPath, DocumentUrl } from '../../config/app-config';
+import { RootPath, DocumentUrl, LandingUrl } from '../../config/app-config';
 import AvailabilityView from './availability';
 
 export default class SignUpPage extends React.Component {
@@ -309,7 +309,7 @@ export default class SignUpPage extends React.Component {
         } else {
             content = <div>
                 <h3>Student Registration<br></br></h3>
-                <NavLink to={`${RootPath}/auth/sign-up-recruiter`}>Not A Student?</NavLink>
+                <a target="_blank" href={`${LandingUrl}#Companies`}>Not A Student?</a>
                 <Form className="form-row"
                     items={this.formItems}
                     onSubmit={this.formOnSubmit}

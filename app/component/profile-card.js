@@ -17,7 +17,8 @@ require("../css/profile-card.scss");
 export const PCType = {
     STUDENT: "student",
     RECRUITER: "recruiter",
-    COMPANY: "company"
+    COMPANY: "company",
+    BANNER : "banner",
 };
 const pc = "pc-";
 
@@ -52,6 +53,9 @@ export const getDefaultProfileImg = function (type, url = null) {
             case PCType.COMPANY:
                 url = ImgConfig.DefCompany;
                 break;
+            case PCType.BANNER:
+                url = ImgConfig.DefCompanyBanner;
+                break;
         }
     }
 
@@ -75,8 +79,15 @@ export const getStyleImageObj = function (type, img_url, img_size, img_pos, dime
         }
     }
 
-    stylePicture["height"] = dimension;
-    stylePicture["width"] = dimension;
+    if(type == PCType.BANNER){
+        stylePicture["height"] = "130px";
+        stylePicture["width"] = "100%";
+        stylePicture["borderRadius"] = "0%"
+    }else{
+        stylePicture["height"] = dimension
+        stylePicture["width"] = dimension;
+    }
+
 
     return stylePicture;
 }
@@ -89,6 +100,10 @@ export default class ProfileCard extends React.Component {
 
     openPictureOps(stylePicture) {
         var type = (this.props.type == PCType.COMPANY) ? "company" : "user";
+
+        if(this.props.type == PCType.BANNER){
+            type = "banner";
+        }
 
         layoutActions.storeUpdateFocusCard("Edit Image", ProfileCardImg,
             {
