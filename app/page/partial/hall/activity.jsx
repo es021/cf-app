@@ -640,14 +640,19 @@ class ActivitySection extends React.Component {
                 list={d.prescreens}></ActvityList></div>;
 
         //{zi}
-        return (isRoleRec()) ?
-            <div className="row">
+        /*
+        <div className="row">
                 <div className={`col-md-12 no-padding`}>
                     {p}
                 </div>
                 <div className={`col-md-12 no-padding`}>
                     {s}
                 </div>
+            </div>
+        */
+        return (isRoleRec()) ?
+            <div>
+                {p}{s}
             </div>
             : <div className="row">
                 <div className={`col-md-5 no-padding`}>

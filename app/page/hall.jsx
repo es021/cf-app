@@ -104,13 +104,15 @@ export default class HallPage extends React.Component {
         if (isRoleRec()) {
 
             var forum = <ForumPage isHomePage={true} forum_id={`company_${getAuthUser().company_id}`}></ForumPage>;
-            midView = <div className="row" >
-                <div className="col-md-6" style={{ marginTop: "20px" }}>
-                    {getStudentListingBtn()}
-                    <PageSection title={null} body={ActivitySection}></PageSection>
-                </div>
-                <div className="col-md-6 no-padding">
-                    <PageSection title="" body={forum}></PageSection>
+            midView = <div className="container-fluid" >
+                <div className="row" >
+                    <div className="col-md-6" style={{ marginTop: "20px" }}>
+                        {getStudentListingBtn()}
+                        <PageSection title={null} body={ActivitySection}></PageSection>
+                    </div>
+                    <div className="col-md-6">
+                        <PageSection title="" body={forum}></PageSection>
+                    </div>
                 </div>
             </div>
         } else {
@@ -122,7 +124,7 @@ export default class HallPage extends React.Component {
                 <div className="line"></div>
                 :
                 <h2>Welcome To {this.title}</h2>
-            }   
+            }
             {gSesion}
             {midView}
             {isRoleStudent() ? <PageSection title="Company Booth" body={CompaniesSection}></PageSection> : null}

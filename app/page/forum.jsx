@@ -632,30 +632,44 @@ export default class ForumPage extends React.Component {
             Load Latest Feed
         </a>;
 
+
+
+
         switch (this.type) {
             case 'company':
-                v = <div className="container-fluid no-padding">
-                    <div className="row">
+                if (this.props.isHomePage) {
+                    v = <div>
                         <h3>Forum for {this.params.company_name}
                             <br></br>
                             <small>
-                                {(isRoleStudent()) ? "Ask Questions And Be Noticed by Recruiters" : null}
-                                <br></br>
                                 {reload}
                             </small>
                         </h3>
-
-                    </div>
-                    {this.props.isHomePage ? null : 
-                        <div className="col-md-4 forum-info">
-                            <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
-                            <br></br>
-                        </div>
-                    }
-                    <div className={`col-md-${this.props.isHomePage ? "12" : "8"} no-padding`}>
                         {forum}
                     </div>
-                </div>
+                } else {
+                    v = <div className="container-fluid no-padding">
+                        <div className="row">
+                            <h3>Forum for {this.params.company_name}
+                                <br></br>
+                                <small>
+                                    {(isRoleStudent()) ? "Ask Questions And Be Noticed by Recruiters" : null}
+                                    <br></br>
+                                    {reload}
+                                </small>
+                            </h3>
+
+                        </div>
+                        {this.props.isHomePage ? null :
+                            <div className="col-md-4 forum-info">
+                                <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
+                                <br></br>
+                            </div>
+                        }
+                        <div className={`col-md-8 no-padding`}>{forum}</div>
+                    </div>
+                }
+
                 break;
         }
 
@@ -686,9 +700,9 @@ export default class ForumPage extends React.Component {
 
 ForumPage.propTypes = {
     forum_id: PropTypes.string,
-    isHomePage : PropTypes.bool
+    isHomePage: PropTypes.bool
 };
 
 ForumPage.defaultProps = {
-    isHomePage : false
+    isHomePage: false
 }
