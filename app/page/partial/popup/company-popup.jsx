@@ -13,7 +13,7 @@ import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
-import { RootPath } from '../../../../config/app-config';
+import { RootPath, ImgConfig } from '../../../../config/app-config';
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
 import { addLog } from '../../../redux/actions/other-actions';
@@ -118,11 +118,14 @@ export default class CompanyPopup extends Component {
                 name
                 tagline
                 description
-                img_url
                 status
                 group_url
+                img_url
                 img_position
                 img_size
+                banner_url
+                banner_position
+                banner_size
                 rec_privacy
                 doc_links{ID label url type}
                 more_info
@@ -297,6 +300,27 @@ export default class CompanyPopup extends Component {
         </div>
     }
 
+    getBanner() {
+        var data = this.state.data;
+
+        const isInvalid = (d) => {
+            if (typeof d === "undefined" || d == "" || d == null || d == "null") {
+                return true;
+            }
+
+            return false;
+        }
+
+        data.banner_url = isInvalid(data.banner_url) ? ImgConfig.DefCompanyBanner : data.banner_url;
+        var style = {
+            backgroundImage: "url(" + data.banner_url + ")",
+            backgroundSize: isInvalid(data.banner_size) ? "" : data.banner_size,
+            backgroundPosition: isInvalid(data.banner_position) ? "center center" : data.banner_position,
+        };
+
+        return <div className="fc-banner" style={style}></div>;
+    }
+
     render() {
         var id = null;
         var data = this.state.data;
@@ -371,11 +395,14 @@ export default class CompanyPopup extends Component {
             //         body={pcBody}></ProfileCard>
             // </div>;
 
+            //
+            var profilePic = <ProfileCard type="company"
+                img_dimension={"130px"}
+                img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
+                title={<h3>{data.name}</h3>} subtitle={data.tagline}
+                body={null}></ProfileCard>;
+
             var rightBody = <div>
-                <ProfileCard type="company"
-                    title={data.name} subtitle={data.tagline}
-                    img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
-                    body={null}></ProfileCard>
                 {action}
                 {gSession}
             </div>
@@ -394,6 +421,7 @@ export default class CompanyPopup extends Component {
             view = (this.props.displayOnly)
                 ?
                 <div>
+                    {profilePic}
                     {rightBody}
                     {leftBody}
                 </div>
@@ -401,7 +429,8 @@ export default class CompanyPopup extends Component {
                 <div>
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-md-3">
+                            <div className="col-md-3 com-pop-left">
+                                <div className="com-pop-pic">{profilePic}</div>
                                 {rightBody}
                             </div>
                             <div className="col-md-9">
@@ -413,6 +442,7 @@ export default class CompanyPopup extends Component {
                             <a onClick={layoutActions.storeHideFocusCard}>Close</a>
                         </div>
                     </div>
+                    {this.getBanner()}
                 </div>;
         }
 

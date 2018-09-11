@@ -70,32 +70,19 @@ export default class LandingPage extends React.Component {
             <br></br>
         </div>;
 
-        var intro = <h1><small>WELCOME TO</small>
-            <br></br>
-            {this.CFDetail.title}
-            <br></br>
-            <div className="subtitle">{this.subtitle}
-                <Timer type="light" end={this.CFDetail.start}></Timer>
-            </div>
-        </h1>
-
         var login = <div className="item-small item-login">
             <LoginPage></LoginPage></div>
         var welcome = <div id="home-welcome">
-
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-6">
-                        {intro}
-                        {register}
-                    </div>
-                    <div className="col-md-6">
-                    <h1></h1>
-                        {login}
-                    </div>
+            <h1><small>WELCOME TO</small>
+                <br></br>
+                {this.CFDetail.title}
+                <br></br>
+                <div className="subtitle">{this.subtitle}
+                    <Timer type="light" end={this.CFDetail.start}></Timer>
                 </div>
-            </div>
-
+            </h1>
+            {register}
+            {login}
         </div>;
 
         var homeBody = <div id="home-body">

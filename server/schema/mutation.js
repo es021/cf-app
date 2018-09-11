@@ -463,6 +463,15 @@ fields["edit_company"] = {
         img_size: {
             type: GraphQLString
         },
+        banner_url: {
+            type: GraphQLString
+        },
+        banner_position: {
+            type: GraphQLString
+        },
+        banner_size: {
+            type: GraphQLString
+        },
         rec_privacy: {
             type: GraphQLString
         },

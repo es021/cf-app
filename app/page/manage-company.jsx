@@ -227,8 +227,11 @@ class AboutSubPage extends React.Component {
               more_info
               img_url
               img_position
-              priviledge
               img_size
+              banner_url
+              banner_position
+              banner_size
+              priviledge
               status
               group_url
               rec_privacy
@@ -407,22 +410,35 @@ class AboutSubPage extends React.Component {
             content = <Loader size="2" text="Loading Company Information"></Loader>;
         } else {
             content = <div>
-                <ProfileCard type="company"
+                <ProfileCard type="banner"
                     id={this.state.data.ID}
                     add_img_ops={true}
-                    title={this.state.data.name} subtitle={""}
-                    img_url={this.state.data.img_url} img_pos={this.state.data.img_position} img_size={this.state.data.img_size}
+                    img_url={this.state.data.banner_url}
+                    img_pos={this.state.data.banner_position}
+                    img_size={this.state.data.banner_size}
                 ></ProfileCard>
 
-                <Form className="form-row"
-                    items={this.formItems}
-                    onSubmit={this.formOnSubmit}
-                    submitText='Save Changes'
-                    defaultValues={this.state.data}
-                    disableSubmit={this.state.disableSubmit}
-                    error={this.state.error}
-                    success={this.state.success}>
-                </Form>
+                <div style={{marginTop:"-90px"}}>
+                    <ProfileCard type="company"
+                        img_dimension={"130px"}
+                        id={this.state.data.ID}
+                        add_img_ops={true}
+                        title={<h3>{this.state.data.name}</h3>} subtitle={""}
+                        img_url={this.state.data.img_url} img_pos={this.state.data.img_position}
+                        img_size={this.state.data.img_size}>
+                    </ProfileCard>
+                    <Form className="form-row"
+                        items={this.formItems}
+                        onSubmit={this.formOnSubmit}
+                        submitText='Save Changes'
+                        defaultValues={this.state.data}
+                        disableSubmit={this.state.disableSubmit}
+                        error={this.state.error}
+                        success={this.state.success}>
+                    </Form>
+
+                </div>
+
             </div>;
         }
 
