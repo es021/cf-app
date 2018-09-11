@@ -207,7 +207,7 @@ class CompaniesSection extends React.Component {
 
 
     componentDidMount() {
-        layoutActions.storeUpdateFocusCard("tek Sapot", CompanyPopup, { isPreEvent: this.props.isPreEvent, id: 12 });
+      //  layoutActions.storeUpdateFocusCard("tek Sapot", CompanyPopup, { isPreEvent: this.props.isPreEvent, id: 12 });
 
     }
 
