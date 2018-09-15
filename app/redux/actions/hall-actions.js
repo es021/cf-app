@@ -81,6 +81,7 @@ export function loadActivity(types = AllActivityType) {
                 select += (isRoleStudent()) ? ` group_sessions { ID join_id updated_at start_time is_expired is_canceled join_url ${getEntitySelect(role, d)} }` : "";
                 break;
         }
+
     });
 
     if (select != "") {
