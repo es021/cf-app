@@ -36,6 +36,9 @@ const CareerFair = {
         //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
         //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
 
+        page_url: "https://www.facebook.com/events/2093221544257428/",
+        page_banner: `${ImageUrl}/cf/EUR-event-page.jpg`,
+
         can_register: 1,
         can_login: 1
     },
