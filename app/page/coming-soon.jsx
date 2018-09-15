@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SponsorList from './partial/static/sponsor-list';
 import { getCF, getCFObj, isRoleStudent, isRoleRec, getAuthUser } from '../redux/actions/auth-actions';
+import { loadActivity , ActivityType} from '../redux/actions/hall-actions';
 import { errorBlockLoader, storeHideBlockLoader } from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
 import PropTypes from 'prop-types';
@@ -15,6 +16,8 @@ import { RootPath } from '../../config/app-config';
 import { createCompanyTitle } from './companies';
 import CompaniesSection from './partial/hall/companies';
 import HallPage from './hall';
+
+
 
 
 export function getCFTimeDetail(date, time, time_mas) {
@@ -231,6 +234,7 @@ export default class ComingSoonPage extends React.Component {
     }
 
     componentWillMount() {
+        loadActivity(ActivityType.GROUP_SESSION_JOIN);
         this.dateStr = Time.getPeriodString(this.CFObj.start, this.CFObj.end, this.CFObj.dates);
     }
 
