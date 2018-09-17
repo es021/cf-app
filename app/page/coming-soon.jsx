@@ -234,7 +234,10 @@ export default class ComingSoonPage extends React.Component {
     }
 
     componentWillMount() {
-        storeLoadActivity(ActivityType.GROUP_SESSION_JOIN);
+        if(isRoleStudent()){
+            storeLoadActivity(ActivityType.GROUP_SESSION_JOIN);
+
+        }
         this.dateStr = Time.getPeriodString(this.CFObj.start, this.CFObj.end, this.CFObj.dates);
     }
 

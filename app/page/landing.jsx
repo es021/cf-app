@@ -3,11 +3,12 @@ import { ButtonLink } from '../component/buttons';
 import LoginPage from './login';
 import { RootPath, AppConfig, ImgConfig, LandingUrl } from '../../config/app-config';
 import { Redirect, NavLink } from 'react-router-dom';
-import { getCF, getCFObj } from '../redux/actions/auth-actions';
+import { getCF, getCFObj, getCFOrg } from '../redux/actions/auth-actions';
 import SponsorList from './partial/static/sponsor-list';
 import { Time } from '../lib/time';
 import Timer from '../component/timer';
 import { getCFTimeDetail } from './coming-soon';
+import { getStyleImageObj } from '../component/profile-card';
 
 require("../css/home.scss");
 
@@ -46,10 +47,72 @@ export default class LandingPage extends React.Component {
             </span>;
         }
 
+
+        var OrgConfig = getCFOrg();
+        this.org = OrgConfig.Organizer.map((d, i) => {
+            return this.getOrgItem(d, 85);
+        })
+        this.collab = OrgConfig.Collaborator.map((d, i) => {
+            return this.getOrgItem(d);
+        })
+        this.powered = OrgConfig.Powered.map((d, i) => {
+            return this.getOrgItem(d, 100);
+        })
+
     }
 
     componentWillUnmount() {
         this.body.className = "";
+    }
+
+
+    getCfLogo() {
+        var logo = null;
+        if (this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null) {
+            var logoStyle = {
+                backgroundImage: `url('${this.CFDetail.logo}')`,
+                backgroundPosition: 'center center',
+                backgroundSize: 'cover',
+                height: this.CFDetail.logo_height,
+                width: this.CFDetail.logo_width,
+                margin: "auto"
+            }
+            logo = <div style={logoStyle}>
+            </div>;
+        }
+
+        return logo;
+    }
+
+
+    getOrgItem(d, size = 75) {
+        var url = ImgConfig.getLogo(d.logo);
+        var style = getStyleImageObj("company", url, "cover", "center center", size);
+        return <li><div className={`sponsor-card`}>
+            <a target="_blank" href={d.url}><div className="image" style={style}></div></a>
+        </div></li>;
+    }
+
+    getOrgsSection() {
+        return <div>{(this.org.length <= 0) ? null :
+            <div>
+                <h1>Organized By</h1>
+                <ul className="sponsor-container">{this.org}</ul>
+            </div>
+        }
+            {(this.collab.length <= 0) ? null :
+                <div>
+                    <h1>In Collaboration With</h1>
+                    <ul className="sponsor-container">{this.collab}</ul>
+                </div>
+            }
+            {(this.powered.length <= 0) ? null :
+                <div>
+                    <h1>Powered By</h1>
+                    <ul className="sponsor-container">{this.powered}</ul>
+                </div>
+            }
+        </div>
     }
 
     render() {
@@ -70,6 +133,8 @@ export default class LandingPage extends React.Component {
             <br></br>
         </div>;
 
+
+
         var intro = <h1><small>WELCOME TO</small>
             <br></br>
             {this.CFDetail.title}
@@ -79,28 +144,38 @@ export default class LandingPage extends React.Component {
             </div>
         </h1>
 
+        // var intro = <h1>
+        //     {this.CFDetail.title}
+        //     <br></br>
+        //     <div className="subtitle">{this.subtitle}
+        //         <Timer type="light" end={this.CFDetail.start}></Timer>
+        //     </div>
+        // </h1>
+
         var login = <div className="item-small item-login">
             <LoginPage></LoginPage></div>
-        var welcome = <div id="home-welcome">
 
+        var welcome = <div id="home-welcome">
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
+                        {this.getCfLogo()}
                         {intro}
-                        {register}
                     </div>
                     <div className="col-md-6">
-                    <h1></h1>
+                        <h1></h1>
+
+                        {register}
                         {login}
                     </div>
                 </div>
             </div>
-
         </div>;
 
         var homeBody = <div id="home-body">
             <br></br>
             <SponsorList type="landing"></SponsorList>
+            {this.getOrgsSection()}
         </div>;
 
         return (<div id="home">

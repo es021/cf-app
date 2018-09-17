@@ -27,6 +27,11 @@ const CareerFair = {
                 }
             ]
         },
+
+        logo: `${ImageUrl}/cf/EUR-logo-2.png`,
+        logo_height: "175px",
+        logo_width: "400px",
+
         start: "Nov 12 2018 15:00:00 GMT +0800 (+08)",
         end: "Nov 14 2018 18:00:00 GMT +0800 (+08)",
         //time_str: "1:00 PM - 4:30 PM (EUR)",
@@ -38,6 +43,7 @@ const CareerFair = {
 
         page_url: "https://www.facebook.com/events/2093221544257428/",
         page_banner: `${ImageUrl}/cf/EUR-event-page.jpg`,
+
 
         can_register: 1,
         can_login: 1
@@ -85,7 +91,7 @@ const CareerFair = {
         test_end: "Jul 09 2018 01:00:00 GMT +1200 (+12)",
         //dates: ["20", "21"], // for multiple seggregated dates
         can_register: 0,
-        can_login: 1,
+        can_login: 0,
         page_url: null,
         page_banner: null
     },
@@ -113,7 +119,7 @@ const CareerFair = {
         test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
 
         can_register: 0,
-        can_login: 1,
+        can_login: 0,
         page_url: "https://www.facebook.com/events/165437787576733/",
         page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
     },
@@ -158,6 +164,39 @@ const CareerFair = {
 };
 
 const CareerFairOrg = {
+
+    "EUR": {
+        Organizer: [{
+            name: "Malaysian-German Students Society",
+            logo: "MGSS.jpg",
+            url: "https://www.facebook.com/mgssde/"
+        }, {
+            name: "MARAKumpel",
+            logo: "MaraKUMPEL.png",
+            url: "https://www.facebook.com/groups/207061939177/about/"
+        }],
+        Collaborator: [{
+                name: "Malaysian Students Association in Turkey",
+                logo: "MASAT.jpg",
+                url: "https://www.facebook.com/PersatuanPelajarMalaysiaDiTurki/"
+            },
+            {
+                name: "MASAFrance",
+                logo: "MasaFrance.png",
+                url: "https://www.facebook.com/masafrance/"
+            }, {
+                name: "TalentCorp",
+                logo: "TalentCorp.jpg",
+                url: "https://www.talentcorp.com.my/"
+            },
+        ],
+        Powered: [{
+            name: "SeedsJobFair",
+            logo: "logo.png",
+            url: "https://www.facebook.com/seedsjobfair/"
+
+        }]
+    },
     "USA": {
         Organizer: [{
             name: "National Assembly of Malaysian Students Association",

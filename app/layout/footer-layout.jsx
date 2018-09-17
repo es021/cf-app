@@ -41,17 +41,15 @@ export default class Footer extends React.Component {
             items: OrgConfig.Collaborator
         }];
 
-        //{(d.shortname !== "") ? ` (${d.shortname})` : null}
+
         this.orgs = list.map(function (d, i) {
             var items = d.items.map((d, i) =>
-                <li key={i}>{d.name}</li>
+                <li key={i}><a style={{color:"white"}}target="_blank" href={d.url}>{d.name}</a></li>
             );
 
-            return (<div key={i} className="orgs">
-                <div className="col-sm-4">
-                    <h3 className="title">{d.title}</h3>
-                    <ul>{items}</ul>
-                </div>
+            return (<div key={i} className={`orgs col-sm-4`}>
+                {items.length > 0 ? <div><h3 className="title">{d.title}</h3>
+                    <ul>{items}</ul></div> : null}
             </div>);
         });
 
