@@ -29,8 +29,10 @@ const CareerFair = {
         },
 
         logo: `${ImageUrl}/cf/EUR-logo-2.png`,
-        logo_height: "175px",
-        logo_width: "400px",
+        logo_height: "200px",
+        logo_width: "370px",
+        logo_position : "top center",
+        logo_size : "cover",
 
         start: "Nov 12 2018 15:00:00 GMT +0800 (+08)",
         end: "Nov 14 2018 18:00:00 GMT +0800 (+08)",
