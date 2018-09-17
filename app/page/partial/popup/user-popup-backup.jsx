@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { DocLinkEnum, UserEnum, LogEnum, PrescreenEnum } from '../../../../config/db-config';
-import { ImgConfig } from '../../../../config/app-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
 import { CustomList, createIconLink } from '../../../component/list';
@@ -12,8 +11,6 @@ import { isRoleRec, getAuthUser, isRoleAdmin } from '../../../redux/actions/auth
 import CompanyPopup from './company-popup';
 import { addLog } from '../../../redux/actions/other-actions';
 import { openSIAddForm } from '../activity/scheduled-interview';
-import { Gallery } from '../../../component/gallery';
-
 export function createUserMajorList(major) {
     var r = null;
 
@@ -26,7 +23,7 @@ export function createUserMajorList(major) {
             }
             r += d;
         });
-    } catch (err) {
+    } catch (err) { 
         r = major;
     }
 
@@ -131,7 +128,6 @@ export default class UserPopup extends Component {
                 graduation_year
                 available_month
                 available_year
-                looking_for
                 major
                 minor
                 description
@@ -250,16 +246,6 @@ export default class UserPopup extends Component {
                     icon: "suitcase",
                     value: this.getWorkAvailable(d.available_month, d.available_year)
                 });
-
-
-            if (d.looking_for !== null) {
-                items.push({
-                    label: "Looking For",
-                    icon: "search",
-                    value: d.looking_for
-                });
-            }
-
         }
 
         return <CustomList className="icon" items={items}></CustomList>;
@@ -295,7 +281,7 @@ export default class UserPopup extends Component {
         //schedule interview jenis lama for pre screen maybe
         // only admin can access
         var si_btn = isRoleAdmin()
-            ? <div><a
+            ? <div><br></br><a
                 className="btn btn-blue" onClick={() => {
                     openSIAddForm(this.props.id, this.authUser.rec_company, PrescreenEnum.ST_PROFILE)
                 }}>
@@ -304,100 +290,25 @@ export default class UserPopup extends Component {
             </a></div>
             : null;
 
-        var doc_link = null;
-
-        // if (this.props.isSessionPage) {
-        //     doc_link = createUserDocLinkList(user.doc_links, this.id);
-        // } else {
-        //     var doc_link = this.getDocLinks(user.doc_links);
-        //     if (doc_link == null) {
-        //         doc_link = <div className="text-muted">Nothing To Show Here</div>
-        //     }
-        // }
-        doc_link = createUserDocLinkList(user.doc_links, this.id);
+        const doc_link = createUserDocLinkList(user.doc_links, this.id);
 
         // skill
         var s = user.skills.map((d, i) => d.label);
         const skills = <CustomList className="label" items={s}></CustomList>;
 
         var dl = null;
-        var pageClassName = (this.props.isSessionPage) ? "" : "left"
-        var leftBody = <div>{si_btn}
-            <PageSection title="About" className={pageClassName} body={basic}></PageSection>
-        </div>;
-        var rightBody = <div>
-            <PageSection className={pageClassName} title="Attachments" body={doc_link}></PageSection>
-            <PageSection className={pageClassName} title="Skills" body={skills}></PageSection>
+        var pcBody = <div>{si_btn}
+            <PageSection title="" body={basic}></PageSection>
+            <PageSection title="Document & Link" body={doc_link}></PageSection>
+            <PageSection title="Skills" body={skills}></PageSection>
             {(user.description != "" && user.description != null) ?
-                <PageSection maxHeight={143} className={pageClassName} title="More Info" body={<p>{user.description}</p>}></PageSection>
+                <PageSection title="About" body={<p>{user.description}</p>}></PageSection>
                 : null
             }
         </div>;
 
-        if (this.props.isSessionPage) {
-            return <div>{leftBody}{rightBody}</div>
-        } else {
-            return {
-                left: leftBody,
-                right: rightBody
-            };
-        }
-
+        return pcBody;
     }
-
-    getBanner() {
-        var data = this.state.data;
-        data.banner_url = "";
-        data.banner_position = "";
-        data.banner_url = "";
-
-        const isInvalid = (d) => {
-            if (typeof d === "undefined" || d == "" || d == null || d == "null") {
-                return true;
-            }
-
-            return false;
-        }
-
-        data.banner_url = isInvalid(data.banner_url) ? ImgConfig.DefUserBanner : data.banner_url;
-        var style = {
-            backgroundImage: "url(" + data.banner_url + ")",
-            backgroundSize: isInvalid(data.banner_size) ? "" : data.banner_size,
-            backgroundPosition: isInvalid(data.banner_position) ? "center center" : data.banner_position,
-        };
-
-        return <div className="fc-banner" style={style}></div>;
-    }
-
-    getDocLinks(doc_links) {
-        if (doc_links.length <= 0) {
-            return null;
-        }
-
-        var iframe = [];
-        var link = [];
-
-        // separate document and link
-        for (var i in doc_links) {
-
-            var item = doc_links[i];
-            var isIframe = item.type == DocLinkEnum.TYPE_DOC || item.url.containText("youtube");
-
-            if (isIframe) {
-                iframe.push(item);
-            } else {
-                link.push(item);
-            }
-        }
-
-
-        return <div>
-            <Gallery data={link} size="lg"></Gallery>
-            <br></br>
-            <Gallery data={iframe} size="lg"></Gallery>
-        </div>
-    }
-
 
     render() {
         var id = null;
@@ -407,43 +318,16 @@ export default class UserPopup extends Component {
             view = <Loader size='3' text='Loading Student Information...'></Loader>
         } else {
 
-            var userBody = (this.props.role === UserEnum.ROLE_STUDENT)
+            var pcBody = (this.props.role === UserEnum.ROLE_STUDENT)
                 ? this.getStudentBody(user)
                 : this.getRecruiterBody(user);
 
-            var profilePic = <div>
+            view = <div>
                 <ProfileCard type="student"
-                    title={<h3>{user.first_name}<br></br><small>{user.last_name}</small></h3>}
+                    title={user.first_name} subtitle={user.last_name}
                     img_url={user.img_url} img_pos={user.img_pos} img_size={user.img_size}
-                    body={null}></ProfileCard>
+                    body={pcBody}></ProfileCard>
             </div>;
-
-            if (this.props.role === UserEnum.ROLE_STUDENT && !this.props.isSessionPage) {
-                view = <div>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-12 com-pop-left" style={{marginBottom:"-25px"}}>
-                                <div className="com-pop-pic">{profilePic}</div>
-                            </div>
-                            <div className="col-md-6">
-                                {userBody.left}
-                            </div>
-                            <div className="col-md-6">
-                                {userBody.right}
-                            </div>
-                        </div>
-                    </div>
-                    {this.getBanner()}
-                </div>;
-            } else {
-                view = <div>
-                    <ProfileCard type="student"
-                        title={user.first_name} subtitle={user.last_name}
-                        img_url={user.img_url} img_pos={user.img_pos} img_size={user.img_size}
-                        body={userBody}></ProfileCard>
-                </div>;
-            }
-
         }
 
         return (view);
@@ -452,11 +336,9 @@ export default class UserPopup extends Component {
 
 UserPopup.propTypes = {
     id: PropTypes.number.isRequired,
-    role: PropTypes.string,
-    isSessionPage: PropTypes.bool
+    role: PropTypes.string
 };
 
 UserPopup.defaultProps = {
-    role: UserEnum.ROLE_STUDENT,
-    isSessionPage: false
+    role: UserEnum.ROLE_STUDENT
 };

@@ -31,8 +31,8 @@ const CareerFair = {
         logo: `${ImageUrl}/cf/EUR-logo-2.png`,
         logo_height: "200px",
         logo_width: "370px",
-        logo_position : "top center",
-        logo_size : "cover",
+        logo_position: "top center",
+        logo_size: "cover",
 
         start: "Nov 12 2018 15:00:00 GMT +0800 (+08)",
         end: "Nov 14 2018 18:00:00 GMT +0800 (+08)",
@@ -93,7 +93,7 @@ const CareerFair = {
         test_end: "Jul 09 2018 01:00:00 GMT +1200 (+12)",
         //dates: ["20", "21"], // for multiple seggregated dates
         can_register: 0,
-        can_login: 0,
+        can_login: 1,
         page_url: null,
         page_banner: null
     },
@@ -121,7 +121,7 @@ const CareerFair = {
         test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
 
         can_register: 0,
-        can_login: 0,
+        can_login: 1,
         page_url: "https://www.facebook.com/events/165437787576733/",
         page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
     },
@@ -239,7 +239,23 @@ const CareerFairOrg = {
                 shortname: "MASCO",
                 logo: ""
             }*/
-        ]
+        ],
+        Powered: [{
+            name: "SeedsJobFair",
+            logo: "logo.png",
+            url: "https://www.facebook.com/seedsjobfair/"
+
+        }]
+    },
+    "NZL": {
+        Organizer: [],
+        Collaborator: [],
+        Powered: [{
+            name: "SeedsJobFair",
+            logo: "logo.png",
+            url: "https://www.facebook.com/seedsjobfair/"
+
+        }]
     }
 };
 

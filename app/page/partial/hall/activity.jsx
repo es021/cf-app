@@ -650,11 +650,13 @@ class ActivitySection extends React.Component {
                 </div>
             </div>
         */
+        
+
         return (isRoleRec()) ?
             <div>
                 {p}{s}
             </div>
-            : <div className="row">
+            : <div>
                 <div className={`col-md-5 no-padding`}>
                     {gs}
                 </div>
