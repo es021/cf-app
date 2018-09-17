@@ -23,6 +23,10 @@
             margin: auto;
             background-repeat: no-repeat;
         }
+
+        a:hover .image{
+            box-shadow: 2px 4px 9px 0px rgba(0, 0, 0, 0.5);
+        }
     }
     @mixin sponsor-size($size, $dimension, $font) {
         .sponsor-card.#{$size} {

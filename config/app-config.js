@@ -44,7 +44,8 @@ const ImgConfig = {
     DefCompany: AssetUrl + "/asset/image/default-company.jpg",
     DefCompanyBanner: AssetUrl + "/asset/image/default-company-banner.jpg",
     getFlag: (country, size) => AssetUrl + `/asset/image/flags/${size}/${country}.png`, // www.icondrawer.com -- flag
-    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`
+    getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`,
+    getLogo: (filename) => AssetUrl + `/asset/image/logo/${filename}`
 };
 
 //email like '%test.%'

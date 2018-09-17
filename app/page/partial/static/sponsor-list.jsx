@@ -3,9 +3,10 @@ import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { CompanyEnum } from '../../../../config/db-config';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
-import { getCF } from '../../../redux/actions/auth-actions';
+import { getCF, getCFOrg } from '../../../redux/actions/auth-actions';
 import { getStyleImageObj } from '../../../component/profile-card';
 import { getCompanyCSSClass } from '../hall/companies';
+import { ImgConfig } from '../../../../config/app-config';
 
 require("../../../css/sponsor.scss");
 
@@ -36,6 +37,7 @@ export default class SponsorList extends React.Component {
         if (!this.props.part_com) {
             ignore_types.push(CompanyEnum.TYPE_NORMAL);
         }
+
         var ignore_type = "";
         ignore_types.map((d, i) => {
             ignore_type += `${d}`;
@@ -52,6 +54,8 @@ export default class SponsorList extends React.Component {
                 return { coms: res.data.data.companies, load_coms: false };
             })
         });
+
+
     }
 
     getSponsorItem(d, isSponsor = true) {
@@ -82,6 +86,7 @@ export default class SponsorList extends React.Component {
             });
         }
 
+
         var parentStyle = {
             maxWidth: "800px",
             margin: "auto"
@@ -98,6 +103,7 @@ export default class SponsorList extends React.Component {
                     <ul className="sponsor-container">{part_com}</ul>
                 </div>
             }
+            
         </div>)
     }
 
