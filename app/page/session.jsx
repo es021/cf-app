@@ -260,7 +260,7 @@ class SessionPage extends React.Component {
 
             view.push(<div style={{ border: "#286090 solid 1px", marginBottom: "20px" }}
                 className="col-md-3 no-padding">
-                <UserPopup id={session.participant_id}></UserPopup>
+                <UserPopup id={session.participant_id} isSessionPage={true}></UserPopup>
             </div>);
 
             view.push(<div className="col-md-6 no-padding-medium">

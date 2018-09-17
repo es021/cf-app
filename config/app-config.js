@@ -43,6 +43,7 @@ const ImgConfig = {
     DefUser: AssetUrl + "/asset/image/default-user.png",
     DefCompany: AssetUrl + "/asset/image/default-company.jpg",
     DefCompanyBanner: AssetUrl + "/asset/image/default-company-banner.jpg",
+    DefUserBanner: AssetUrl + "/asset/image/default-user-banner.jpg",
     getFlag: (country, size) => AssetUrl + `/asset/image/flags/${size}/${country}.png`, // www.icondrawer.com -- flag
     getBanner: (filename) => AssetUrl + `/asset/image/banner/${filename}`,
     getLogo: (filename) => AssetUrl + `/asset/image/logo/${filename}`
