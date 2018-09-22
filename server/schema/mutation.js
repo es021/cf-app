@@ -193,6 +193,9 @@ fields["add_group_session"] = {
         company_id: {
             type: new GraphQLNonNull(GraphQLInt)
         },
+        title: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
         start_time: {
             type: new GraphQLNonNull(GraphQLInt)
         },
@@ -215,6 +218,9 @@ fields["edit_group_session"] = {
     args: {
         ID: {
             type: new GraphQLNonNull(GraphQLInt)
+        },
+        title: {
+            type: GraphQLString
         },
         is_expired: {
             type: GraphQLInt

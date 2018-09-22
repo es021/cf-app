@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import { getAuthUser } from '../../../redux/actions/auth-actions';
 import { ActivityAPIErr } from '../../../../server/api/activity-api';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
+import Form, { toggleSubmit } from '../../../component/form';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
@@ -44,10 +45,20 @@ class NewGroupSessionPopup extends React.Component {
 
         this.state = {
             select_timestamp: -1,
-            loadingSubmit: false
+            disableSubmit: false,
+            error: null,
         }
     }
     componentWillMount() {
+        this.formItems = [{
+            label: "Group Session Title",
+            sublabel: "What You Will Talk About?",
+            name: GroupSession.TITLE,
+            type: "text",
+            len: 50,
+            required: true
+        }]
+
         this.countDataAv = {};
         for (var i in this.props.data) {
             var d = this.props.data[i];
@@ -62,15 +73,22 @@ class NewGroupSessionPopup extends React.Component {
             return { select_timestamp: timestamp };
         })
     }
-    submitOnClick() {
-        this.setState((prevState) => {
-            return { loadingSubmit: true }
-        });
+    submitOnClick(d) {
 
-        this.createGs()
+        if (this.state.select_timestamp == -1) {
+            this.setState((prevState) => {
+                return { disableSubmit: false, error: "Please select a time" }
+            })
+        } else {
+            toggleSubmit(this, { error: null })
+            this.createGs(d.title)
+        }
+
+
     }
-    createGs() {
+    createGs(title) {
         var d = {};
+        d[GroupSession.TITLE] = title;
         d[GroupSession.COMPANY_ID] = this.props.company_id;
         d[GroupSession.START_TIME] = Number.parseInt(this.state.select_timestamp);
         d[GroupSession.LIMIT_JOIN] = LIMIT_JOIN;
@@ -82,7 +100,7 @@ class NewGroupSessionPopup extends React.Component {
 
         getAxiosGraphQLQuery(query).then((res) => {
             this.setState((prevState) => {
-                return { loadingSubmit: false };
+                return { disableSubmit: false };
             });
             // close popup terus
             layoutActions.storeHideFocusCard();
@@ -96,6 +114,18 @@ class NewGroupSessionPopup extends React.Component {
         layoutActions.successBlockLoader(mes);
         this.props.finishAdd();
     }
+    getForm() {
+        return <div>
+            <Form className="form-row"
+                items={this.formItems}
+                onSubmit={(d) => { this.submitOnClick(d) }}
+                submitText='Schedule Group Session'
+                btnColorClass="primary btn-lg"
+                error={this.state.error}
+                disableSubmit={this.state.disableSubmit}>
+            </Form>
+        </div>
+    }
     render() {
         return <div>
             <AvailabilityView
@@ -106,15 +136,8 @@ class NewGroupSessionPopup extends React.Component {
                 onSelect={(id, timestamp) => { this.onSelectTime(id, timestamp) }}>
             </AvailabilityView>
             <br></br>
-            <button onClick={() => { this.submitOnClick() }}
-                disabled={this.state.select_timestamp == -1 || this.state.loadingSubmit}
-                className="btn btn-primary btn-lg">
-                {
-                    this.state.loadingSubmit ?
-                        <i className="fa fa-spinner fa-pulse left"></i> : null
-                }
-                Schedule Group Session
-            </button>
+            {this.getForm()}
+            
         </div>;
     }
 }
@@ -149,6 +172,7 @@ class GroupSessionClass extends React.Component {
           is_expired
           join_url
           start_url
+          title
           joiners{
                 user{
                   ID
@@ -254,6 +278,9 @@ class GroupSessionClass extends React.Component {
             return <div className="gs-company">
                 <div className="header">
                     <div>
+                        <div className="title" title={d.title}>
+                            <b>{d.title}</b>
+                        </div>
                         <div className="time">
                             <i className="fa fa-calendar left"></i>
                             <b>{Time.getDateDayStr(d.start_time)}</b>

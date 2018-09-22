@@ -47,7 +47,7 @@ class CompaniesPage extends React.Component {
                 <th>CF</th>
                 <th>Company</th>
                 <th>About</th>
-                <th>Priviledge</th>
+                <th>Privilege</th>
                 <th>Export Data</th>
                 <th>Recruiters</th>
             </tr>

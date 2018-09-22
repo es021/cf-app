@@ -364,6 +364,7 @@ const GroupSessionType = new GraphQLObjectType({
         ID: { type: GraphQLInt },
         company_id: { type: GraphQLInt },
         company: { type: CompanyType },
+        title: { type: GraphQLString },
 
         start_time : { type:GraphQLInt },
         join_url: { type: GraphQLString },
