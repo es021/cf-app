@@ -102,7 +102,7 @@ export class StudentListing extends React.Component {
                 if(canSchedule){
                     this.openSIForm(d.student.ID)
                 } else {
-                    layoutActions.errorBlockLoader("Opps.. It seems that you don't have priviledge to schedule 1-1 call yet.");
+                    layoutActions.errorBlockLoader("Opps.. It seems that you don't have privilege to schedule 1-1 call yet.");
                 }
             }
 

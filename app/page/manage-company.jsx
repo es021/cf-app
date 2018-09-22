@@ -268,7 +268,7 @@ class AboutSubPage extends React.Component {
                     name: Company.PRIVILEDGE,
                     type: "checkbox",
                     data: [
-                        { key: "0", label: "No Priviledge" }
+                        { key: "0", label: "No Privilege" }
                         , {
                             key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
                             , label: "Access Resume Drop BEFORE Event"

@@ -18,6 +18,18 @@
             justify-content: flex-start;
             align-items: center;
             border-bottom: 1px #e4e4e4 solid;
+            .title{
+                color: #31708f;
+                padding: 0px 5px;
+                text-align: left;
+                font-size: 15px;
+                height: 35px;
+                width: 200px;
+                line-height: 16px;
+                overflow: hidden;
+                border-bottom: #e4e4e4 1px solid;
+                margin-bottom: 3px;   
+            }
             .time{
                 padding: 0px 5px;
                 text-align: left;

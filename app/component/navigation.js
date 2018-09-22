@@ -240,8 +240,8 @@ function getMenuItem(COMING_SOON) {
             label: "FAQ",
             icon: "question-circle",
             component: FaqPage,
-            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             hd_app: true,
             hd_auth: true
         },
@@ -250,8 +250,8 @@ function getMenuItem(COMING_SOON) {
             label: "Contact Us",
             icon: "envelope",
             component: ContactUsPage,
-            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-            bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+            //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
             hd_app: true,
             hd_auth: true
         },

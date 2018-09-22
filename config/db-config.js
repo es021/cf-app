@@ -1,6 +1,7 @@
 const GroupSession = {
     TABLE: "group_session",
     ID: "ID",
+    TITLE: "title",
     COMPANY_ID: "company_id",
     START_TIME: "start_time",
     JOIN_URL: "join_url",
@@ -122,10 +123,10 @@ const UserMeta = {
 };
 
 const UserEnum = {
-    GENDER_MALE : "Male",
-    GENDER_FEMALE : "Female",
-    LOOK_FOR_FULL_TIME : "Full-Time",
-    LOOK_FOR_INTERN : "Internship",
+    GENDER_MALE: "Male",
+    GENDER_FEMALE: "Female",
+    LOOK_FOR_FULL_TIME: "Full-Time",
+    LOOK_FOR_INTERN: "Internship",
     ROLE_STUDENT: "student",
     ROLE_RECRUITER: "recruiter",
     ROLE_ADMIN: "administrator",

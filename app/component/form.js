@@ -408,6 +408,7 @@ export default class Form extends React.Component {
                     hidden={d.hidden}
                     name={d.name}
                     type={d.type}
+                    maxLength={d.len}
                     min={d.min}
                     max={d.max}
                     step={d.step}
