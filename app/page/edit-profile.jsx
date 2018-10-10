@@ -224,13 +224,13 @@ class EditProfile extends React.Component {
                 placeholder: "XXX-XXXXXXX",
                 required: true
             },
-            {
-                label: "Gender",
-                name: UserMeta.GENDER,
-                type: "select",
-                data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
-                required: true
-            },
+            // {
+            //     label: "Gender",
+            //     name: UserMeta.GENDER,
+            //     type: "select",
+            //     data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
+            //     required: true
+            // },
             { header: "Where Do You Reside In Malaysia?" },
             {
                 label: "State",
@@ -238,13 +238,14 @@ class EditProfile extends React.Component {
                 type: "select",
                 data: MasState,
                 required: true
-            }, {
-                label: "Postcode",
-                name: UserMeta.MAS_POSTCODE,
-                type: "text",
-                required: true,
-                placeholder: "20050"
             },
+            // {
+            //     label: "Postcode",
+            //     name: UserMeta.MAS_POSTCODE,
+            //     type: "text",
+            //     required: true,
+            //     placeholder: "20050"
+            // },
             { header: "Degree Related Information" },
             {
                 label: "Major",
@@ -277,7 +278,7 @@ class EditProfile extends React.Component {
                 type: "number",
                 step: "0.01",
                 min: "0",
-                required: true,
+                required: false,
                 sublabel: <ButtonLink label="Don't Use CGPA system?"
                     target='_blank'
                     href="https://www.foreigncredits.com/resources/gpa-calculator/">
@@ -305,20 +306,21 @@ class EditProfile extends React.Component {
                 data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
                 required: true
             },
+            // {
+            //     label: "Work Availability Date",
+            //     sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
+            //     name: UserMeta.AVAILABLE_MONTH,
+            //     type: "select",
+            //     data: Array("Available To Start Anytime", ...Month),
+            //     required: true
+            // }, {
+            //     label: null,
+            //     name: UserMeta.AVAILABLE_YEAR,
+            //     type: "select",
+            //     data: Array("Available To Start Anytime", ...Year),
+            //     required: true
+            // }, 
             {
-                label: "Work Availability Date",
-                sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
-                name: UserMeta.AVAILABLE_MONTH,
-                type: "select",
-                data: Array("Available To Start Anytime", ...Month),
-                required: true
-            }, {
-                label: null,
-                name: UserMeta.AVAILABLE_YEAR,
-                type: "select",
-                data: Array("Available To Start Anytime", ...Year),
-                required: true
-            }, {
                 label: "Are You Willing To Relocate?",
                 name: UserMeta.RELOCATE,
                 type: "select",
@@ -331,7 +333,7 @@ class EditProfile extends React.Component {
                 name: UserMeta.SPONSOR,
                 type: "select",
                 data: Sponsor,
-                required: true,
+                required: false,
                 sublabel: "This information will not be displayed in your profile."
 
             }, {

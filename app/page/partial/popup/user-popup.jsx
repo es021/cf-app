@@ -245,11 +245,13 @@ export default class UserPopup extends Component {
                     label: "Expected Graduation",
                     icon: "calendar",
                     value: `${d.graduation_month} ${d.graduation_year}`
-                }, {
-                    label: "Work Availability Date",
-                    icon: "suitcase",
-                    value: this.getWorkAvailable(d.available_month, d.available_year)
-                });
+                }
+                // , {
+                //     label: "Work Availability Date",
+                //     icon: "suitcase",
+                //     value: this.getWorkAvailable(d.available_month, d.available_year)
+                // }
+            );
 
 
             if (d.looking_for !== null) {
