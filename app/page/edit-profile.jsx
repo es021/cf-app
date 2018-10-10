@@ -373,7 +373,12 @@ class EditProfile extends React.Component {
                 return;
             }
             update[User.ID] = this.authUser[User.ID];
-            /*
+
+            if(update[UserMeta.CGPA] == ""){
+                update[UserMeta.CGPA] = 0;
+            }
+            
+            /* 
              var update = {};
              update[User.ID] = this.authUser[User.ID];
              var hasDiff = false;
