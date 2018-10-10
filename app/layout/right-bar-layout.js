@@ -81,6 +81,7 @@ export default class RightBarLayout extends React.Component {
             var ads = Ads[id];
             var style = {
                 background: `linear-gradient(rgba(0, 0, 0, 0.80),rgba(0, 0, 0, 0.45)), url('${ads.image}')`,
+                //backgroundImage: `url('${ads.image}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center center"
             };
@@ -93,8 +94,8 @@ export default class RightBarLayout extends React.Component {
                     }}
                         target="blank"
                         href={ads.url}>
-                        <div style={style} className="ads img img-responsive">
-                            <div className="ads-text">
+                        <div style={style} className="huhu img img-responsive">
+                            <div className="huhu-text">
                                 {ads.label}
                                 <br></br>
                                 <small>{ads.sublabel}</small>
