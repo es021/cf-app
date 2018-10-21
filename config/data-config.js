@@ -85,6 +85,7 @@ const Country = [
     "Poland",
     "Portugal",
     "Romania",
+    "Russia",
     "Slovakia",
     "Slovenia",
     "Spain",
