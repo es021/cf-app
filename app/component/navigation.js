@@ -235,26 +235,26 @@ function getMenuItem(COMING_SOON) {
             hd_app: true,
             hd_auth: true
         },
-        {
-            url: "/faq",
-            label: "FAQ",
-            icon: "question-circle",
-            component: FaqPage,
-            bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-            //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-            hd_app: true,
-            hd_auth: true
-        },
-        {
-            url: "/contact",
-            label: "Contact Us",
-            icon: "envelope",
-            component: ContactUsPage,
-            bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-            //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-            hd_app: true,
-            hd_auth: true
-        },
+        // {
+        //     url: "/faq",
+        //     label: "FAQ",
+        //     icon: "question-circle",
+        //     component: FaqPage,
+        //     bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+        //     //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+        //     hd_app: true,
+        //     hd_auth: true
+        // },
+        // {
+        //     url: "/contact",
+        //     label: "Contact Us",
+        //     icon: "envelope",
+        //     component: ContactUsPage,
+        //     bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+        //     //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+        //     hd_app: true,
+        //     hd_auth: true
+        // },
         {
             url: "/login",
             label: "Login",
