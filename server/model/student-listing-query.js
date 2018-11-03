@@ -94,9 +94,9 @@ class StudentListingExec {
         var {
             UserExec
         } = require('./user-query.js');
-        var {
-            DocLinkExec
-        } = require('./doclink-query.js');
+        // var {
+        //     DocLinkExec
+        // } = require('./doclink-query.js');
 
         var sql = StudentListingQuery.getStudentListing(params, field, extra);
 
@@ -107,6 +107,11 @@ class StudentListingExec {
                     res[i]["student"] = UserExec.user({
                         ID: student_id
                     }, field["student"]);
+                }
+
+                if (typeof field["company"] !== "undefined") {
+                    let company_id = params.company_id;
+                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
             }
 

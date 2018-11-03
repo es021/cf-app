@@ -160,6 +160,8 @@ class CompaniesPage extends React.Component {
         //         filter={{ company_id: d.ID }}></ButtonExport> : null}
         //export data
         row.push(<td className="text-center">
+            <ButtonExport action="student_listing" text="Student Listing"
+                filter={{ company_id: d.ID }}></ButtonExport>
             <ButtonExport action="prescreens" text="Prescreens"
                 filter={{ company_id: d.ID }}></ButtonExport>
             <ButtonExport action="resume_drops" text="Resume Drops"

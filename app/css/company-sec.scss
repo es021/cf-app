@@ -37,10 +37,12 @@ $com-sec : "com-sec";
 
             li{
                 opacity: 0.75;
-                width: 48px;
+                //width: 48px;
+                // EUR FIX
+                width: 74px;
                 padding: 2px 0px;
-                margin: 1px 3px; 
-
+                margin: 1px 3px;  
+                margin-bottom : 4px; // EUR FIX
                 .#{$com-sec}-count{
                     font-size: 25px;
                 }

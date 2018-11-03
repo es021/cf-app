@@ -412,7 +412,7 @@ export default class CompanyPopup extends Component {
                 <div>
                     {(doc_link == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Gallery" body={doc_link}></PageSection>}
                     {(data.description == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
+                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Details" body={vacancies}></PageSection>
                     {(data.more_info == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
                     {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>

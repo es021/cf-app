@@ -69,7 +69,7 @@ export default class PageSection extends React.Component {
                     </a>
                 </div>
             }
-            <div className="line"></div>
+            {/* //EUR FIX <div className="line"></div> */}
         </div>);
     }
 }

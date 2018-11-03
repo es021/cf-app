@@ -404,6 +404,7 @@ const StudentListingType = new GraphQLObjectType({
         student_id: { type: GraphQLInt },
         created_at: { type: GraphQLString },
         student: { type: UserType },
+        company: { type: CompanyType },
     })
 });
 

@@ -6,6 +6,8 @@ $theme: lighten($COLOR_LINK, 10);
     margin-bottom: 15px;
    
     .bc-title {
+        // EUR FIX
+        font-size: 17px;
         text-align: left;
         padding: 0 15px;
         margin-top: -10px;

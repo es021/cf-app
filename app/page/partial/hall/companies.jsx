@@ -77,8 +77,10 @@ class CompanyBooth extends React.Component {
             }*/
             , {
             count: this.props.company.vacancies_count,
-            label: "Open Vacancy"
-        }];
+            //label: "Open Vacancy"
+            // EUR FIX
+            label: "Job Details"
+        }]
 
         countItem = countItem.map((d, i) => {
             var style = {};
