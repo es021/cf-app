@@ -181,8 +181,9 @@ export class AuditoriumFeed extends React.Component {
     //<button onClick={() => this.addFeedToView({ ID: "a" })}>Add</button>
 
     render() {
+        // EUR FIX Auditorium -> Webinar
         return <div>
-            <h2>Auditorium<br></br>
+            <h2>Webinar<br></br>
                 <small>Stay tuned for more webinar session with various companies</small>
             </h2>
             <List type="append-bottom"

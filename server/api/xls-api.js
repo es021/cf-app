@@ -58,6 +58,9 @@ class XLSApi {
             case 'session_requests':
                 return this.session_requests(filter.company_id);
                 break;
+            case 'student_listing':
+                return this.student_listing(filter.company_id);
+                break;
         }
     }
 
@@ -99,6 +102,46 @@ class XLSApi {
         // 3 . fetch and return
         return this.fetchAndReturn(query, "session_requests", filename, headers, null, restructData);
     }
+
+    //EUR FIX
+    student_listing(cid) {
+        // 0. create filename
+        var filename = `Stundet Listing - Company ${cid}`;
+
+        // 1. create query
+        var query = `query{
+            student_listing(company_id:${cid}) {
+              student{${this.student_field}}
+              company{name}
+              created_at
+            }
+          }`;
+
+        // 2. prepare props to generate table
+        const headers = null;
+
+        // 3. resctruct data to be in one level only
+        const restructData = (data) => {
+            var hasChildren = ["student", "company"];
+            var newData = {};
+            for (var key in data) {
+                var d = data[key];
+                if (hasChildren.indexOf(key) >= 0) {
+                    for (var k in d) {
+                        newData[`${key}_${k}`] = d[k];
+                    }
+                } else {
+                    newData[key] = d;
+                }
+            }
+            newData = this.restructAppendDocLinks(newData, "student_doc_links");
+            return newData;
+        };
+
+        // 3 . fetch and return
+        return this.fetchAndReturn(query, "student_listing", filename, headers, null, restructData);
+    }
+
 
 
 
@@ -306,12 +349,13 @@ class XLSApi {
     // Helper functions ------------------------------------------------
 
     // append doc links into seperate row at the end of record
-    restructAppendDocLinks(data) {
+    restructAppendDocLinks(data, key) {
+        key = typeof key === "undefined" ? "doc_links" : key;
         var newData = {};
-        var doc_links = data["doc_links"];
+        var doc_links = data[key];
 
         for (var k in data) {
-            if (k !== "doc_links") {
+            if (k !== key) {
                 newData[k] = data[k];
             }
         }

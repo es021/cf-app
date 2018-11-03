@@ -127,9 +127,10 @@ export default class RightBarLayout extends React.Component {
     getDashboard() {
         var role = getAuthUser().role;
         var cf = getCF();
+        // EUR FIX
         if (!isRoleAdmin() && !isRoleOrganizer()) {
             return <div className="right-bar-item">
-                <h4>Live Feed</h4>
+                <h4>Announcements</h4>
                 <div className="body">
                     <DashboardFeed type="right-bar"
                         cf={cf}

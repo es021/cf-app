@@ -515,6 +515,7 @@ class ActivitySection extends React.Component {
             {title}
             {(tooltip != null)
                 ? <Tooltip
+                    debug={false}
                     bottom="22px"
                     content={<small>{" "}<i className="fa fa-question-circle"></i></small>}
                     tooltip={tooltip}>
@@ -529,8 +530,8 @@ class ActivitySection extends React.Component {
         var title_s = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>,
             (isRoleStudent())
-                ? "Recruiter will host 1 to 1 session with you if you have Scheduled Session with them."
-                : "Create sesssion with student from the Scheduled Session below.")
+                ? "Active one-to-one sessions will be show here. Join/rejoin session whenever it is active"
+                : "Create sesssion with student from the Scheduled Private Session.")
 
         // title Zoom invitation
         var title_zi = (isRoleRec()) ? this.createTitleWithTooltip(
@@ -563,13 +564,21 @@ class ActivitySection extends React.Component {
 
         var subtitle_p = null;
 
-        var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions"
-            : "You can also schedule sessions with students through Forum, Resume Drop, Pre-Screen and Past Sessions";
+        // EUR FIX
+        // var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions"
+        //     : "You can also schedule sessions with students through Forum, Resume Drop, Pre-Screen and Past Sessions";
+        var tt_p = isRoleStudent() ? "Upcoming one-to-one sessions will be shown here. Check your email for confirmation."
+             : "You can schedule private sessions with students through Stundet Listing page";
         var title_p = this.createTitleWithTooltip(
-            <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>Scheduled Session</a>
+            <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}
+            >
+                Scheduled Private Session
+            </a>
             , tt_p)
 
-        var tt_gs = "Visit company booth below and join group session with recruiter.";
+        //var tt_gs = "Visit company booth below and join group session with recruiter.";
+        // EUR FIX
+        var tt_gs = "Upcoming group session that you signed up for will be shown here.";
         var title_gs = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.GROUP_SESSION_JOIN)}>Group Session</a>
             , tt_gs)

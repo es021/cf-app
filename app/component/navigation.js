@@ -134,7 +134,9 @@ function getMenuItem(COMING_SOON) {
         },
         { // Admin Only
             url: "/auditorium-management",
-            label: "Auditorium",
+            // EUR FIX
+            label: "Webinar",
+            //label: "Auditorium",
             icon: "microphone",
             component: AuditoriumManagement,
             bar_app: true,
@@ -166,18 +168,19 @@ function getMenuItem(COMING_SOON) {
             hd_auth: false,
             disabled: !isRoleSupport()
         },
-        {
-            url: "/career-fair",
-            label: "Career Fair",
-            icon: "suitcase",
-            component: HallPage,
-            bar_app: true,
-            bar_auth: false,
-            hd_app: false,
-            hd_auth: false,
-            // is not coming soon and one of the row then show = !disabled
-            disabled: isDisabled("career-fair", COMING_SOON)
-        },
+        // Remove For Eur
+        // {
+        //     url: "/career-fair",
+        //     label: "Career Fair",
+        //     icon: "suitcase",
+        //     component: HallPage,
+        //     bar_app: true,
+        //     bar_auth: false,
+        //     hd_app: false,
+        //     hd_auth: false,
+        //     // is not coming soon and one of the row then show = !disabled
+        //     disabled: isDisabled("career-fair", COMING_SOON)
+        // },
         {
             url: "/my-activity/:current",
             label: isRoleRec() ? "Student Listing" : "My Activity",
@@ -192,7 +195,9 @@ function getMenuItem(COMING_SOON) {
         },
         {
             url: "/auditorium",
-            label: "Auditorium",
+            // EUR FIX
+            //label: "Auditorium",
+            label: "Webinar",
             icon: "microphone",
             component: AuditoriumFeed,
             bar_app: true,
