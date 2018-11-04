@@ -38,6 +38,13 @@ import BlockLoader from "./component/block-loader";
 import { initSocket } from './socket/socket-client';
 
 class PrimaryLayout extends React.Component {
+	constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+    }
+
 	componentWillMount() {
 		initSocket();
 	}

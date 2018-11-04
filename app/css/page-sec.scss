@@ -1,20 +1,27 @@
 @import 'define/variable.scss';
 $page-sec : "page-sec";
 
-.#{$page-sec}{
-    
-    .#{$page-sec}-title{
-        color:$COLOR_TITLE;
+.#{$page-sec} {
+
+    .#{$page-sec}-title {
+        color: $COLOR_TITLE;
     }
 
-    .#{$page-sec}-body{
+    .#{$page-sec}-body {
         padding-bottom: 15px;
-        // EUR FIX
-        //overflow-y:hidden;
+        
+        overflow-y: hidden;
+    }
+
+    // EUR FIX
+    // kalau tk hidden nanti kat company punya page tak jadi
+    .#{$page-sec}-overflow {
+        overflow: visible;
     }
 }
 
-.#{$page-sec}:last-of-type{
+.#{$page-sec}:last-of-type {
+
     //border-bottom: none;
     .line {
         border: 0;
@@ -23,14 +30,14 @@ $page-sec : "page-sec";
 }
 
 // Left
-.#{$page-sec}.left{
-    text-align:left;
+.#{$page-sec}.left {
+    text-align: left;
 
-    .#{$page-sec}-title{
+    .#{$page-sec}-title {
         border-bottom: 1px darkgray solid;
     }
 
-    .line{
+    .line {
         display: none;
     }
 }

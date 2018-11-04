@@ -28,8 +28,15 @@ export function isComingSoon() {
         return false;
     }
 
+
     var isComingSoon = true;
     var cfObj = getCFObj();
+
+    let override_coming_soon = cfObj.override_coming_soon;
+
+    if(override_coming_soon == true){
+        return false;
+    }
 
     var timenow = Time.getUnixTimestampNow();
 
