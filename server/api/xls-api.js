@@ -106,7 +106,7 @@ class XLSApi {
     //EUR FIX
     student_listing(cid) {
         // 0. create filename
-        var filename = `Stundet Listing - Company ${cid}`;
+        var filename = `Student Listing - Company ${cid}`;
 
         // 1. create query
         var query = `query{

@@ -568,7 +568,7 @@ class ActivitySection extends React.Component {
         // var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions"
         //     : "You can also schedule sessions with students through Forum, Resume Drop, Pre-Screen and Past Sessions";
         var tt_p = isRoleStudent() ? "Upcoming one-to-one sessions will be shown here. Check your email for confirmation."
-             : "You can schedule private sessions with students through Stundet Listing page";
+             : "You can schedule private sessions with students through Student Listing page";
         var title_p = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}
             >
