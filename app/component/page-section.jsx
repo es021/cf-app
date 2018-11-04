@@ -22,9 +22,9 @@ export default class PageSection extends React.Component {
 
     }
     componentDidMount() {
-        if(this.refs.body.clientHeight < this.props.maxHeight){
-            this.setState((prevState)=>{
-                return {maxHeight : null}
+        if (this.refs.body.clientHeight < this.props.maxHeight) {
+            this.setState((prevState) => {
+                return { maxHeight: null }
             })
         }
     }
@@ -53,12 +53,14 @@ export default class PageSection extends React.Component {
                 <a>{this.props.title}</a>
             </h3>;
 
+        let showOverflow = this.props.showOverflow ? `${sec}-overflow` : "";
+
         return (<div className={`${sec} ${this.props.className}`}>
             {title}
             {(!this.state.showBody)
                 ? null
                 :
-                <div className={`${sec}-body`} style={{ maxHeight: this.state.maxHeight }} ref="body">
+                <div className={`${sec}-body ${showOverflow}`} style={{ maxHeight: this.state.maxHeight }} ref="body">
                     {body}
                 </div>}
             {this.state.maxHeight === null ? null :
@@ -81,12 +83,14 @@ PageSection.propTypes = {
     canToggle: PropTypes.bool,
     initShow: PropTypes.bool,
     maxHeight: PropTypes.number,
+    showOverflow: PropTypes.bool
 };
 
 PageSection.defaultProps = {
     canToggle: false,
     initShow: false,
-    maxHeight: null
+    maxHeight: null,
+    showOverflow: false
 }
 
 //                

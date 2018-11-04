@@ -97,7 +97,7 @@ export default class HallPage extends React.Component {
         var gSesion = null;
         if (isRoleRec()) {
             gSesion = <GroupSessionView forRec={true} company_id={this.authUser.rec_company}></GroupSessionView>;
-            gSesion = <PageSection title="" body={gSesion}></PageSection>;
+            gSesion = <PageSection showOverflow={true} title="" body={gSesion}></PageSection>;
         }
 
         var midView = null;
@@ -108,15 +108,15 @@ export default class HallPage extends React.Component {
                 <div className="row" >
                     <div className="col-md-6" style={{ marginTop: "20px" }}>
                         {getStudentListingBtn()}
-                        <PageSection title={null} body={ActivitySection}></PageSection>
+                        <PageSection showOverflow={true} title={null} body={ActivitySection}></PageSection>
                     </div>
                     <div className="col-md-6">
-                        <PageSection title="" body={forum}></PageSection>
+                        <PageSection showOverflow={true} title="" body={forum}></PageSection>
                     </div>
                 </div>
             </div>
         } else {
-            midView = <PageSection title={null} body={ActivitySection}></PageSection>;
+            midView = <PageSection showOverflow={true} title={null} body={ActivitySection}></PageSection>;
         }
 
         return (<div>
@@ -127,7 +127,7 @@ export default class HallPage extends React.Component {
             }
             {gSesion}
             {midView}
-            {isRoleStudent() ? <PageSection title="Company Booth" body={CompaniesSection}></PageSection> : null}
+            {isRoleStudent() ? <PageSection showOverflow={true} title="Company Booth" body={CompaniesSection}></PageSection> : null}
         </div>);
     }
 }

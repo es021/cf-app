@@ -27,7 +27,7 @@ const CareerFair = {
                 }
             ]
         },
-
+        override_coming_soon : true,
         logo: `${ImageUrl}/cf/EUR-logo-2.png`,
         logo_height: "200px",
         logo_width: "370px",
