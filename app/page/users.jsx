@@ -10,7 +10,8 @@ import List from '../component/list';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 
-export function createUserTitle(d, search = "") {
+export function createUserTitle(d, search = "", hideEmail) {
+    hideEmail = typeof hideEmail === "undefined" ? false : hideEmail
     var name = `${d.first_name} ${d.last_name}`;
     var focusedName = name.focusSubstring(search);
 
@@ -19,7 +20,7 @@ export function createUserTitle(d, search = "") {
     }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
 
     var focusedEmail = null;
-    if (d.user_email) {
+    if (d.user_email && !hideEmail) {
         focusedEmail = d.user_email.focusSubstring(search);
         focusedEmail = <span><br></br>
             <span dangerouslySetInnerHTML={{ __html: focusedEmail }} >

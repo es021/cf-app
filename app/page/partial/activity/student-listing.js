@@ -80,7 +80,7 @@ export class StudentListing extends React.Component {
 
 
         this.renderRow = (d, i) => {
-            var title = createUserTitle(d.student, this.search.search_student)
+            var title = createUserTitle(d.student, this.search.search_student, true)
                
 
             var description = (d.student.description !== null && d.student.description != "")
@@ -102,10 +102,14 @@ export class StudentListing extends React.Component {
                 if(canSchedule){
                     this.openSIForm(d.student.ID)
                 } else {
-                    layoutActions.errorBlockLoader("Opps.. It seems that you don't have privilege to schedule 1-1 call yet.");
+                    // EUR FIX 
+                    // See Availability
+                    layoutActions.errorBlockLoader("Opps.. It seems that you don't have privilege to see student's availability yet.");
                 }
             }
 
+            // EUR FIX
+            // Schedule For Call -> See Availability
             var item =
                 <ProfileListWide title={title}
                     img_url={imgObj.img_url}
@@ -113,7 +117,7 @@ export class StudentListing extends React.Component {
                     img_size={imgObj.img_size}
                     img_dimension={"80px"}
                     body={details}
-                    action_text={<small><i className="fa fa-plus left"></i>Schedule For Call</small>}
+                    action_text={<small><i className="fa fa-clock-o left"></i>See Availability</small>}
                     action_handler={actionHandler}
                     action_disabled={false}
                     type={(this.props.isRec ? "student" : "company")} key={i}>
