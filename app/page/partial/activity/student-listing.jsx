@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
 import GeneralFormPage from '../../../component/general-form';
 import * as layoutActions from '../../../redux/actions/layout-actions';
-import {isComingSoon, isRoleRec, isRoleStudent} from '../../../redux/actions/auth-actions';
+import { isComingSoon, isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 import UserPopup from '../popup/user-popup';
 //importing for list
 import List, { CustomList, ProfileListWide } from '../../../component/list';
@@ -17,8 +17,6 @@ import { openFeedbackBlockRec } from '../analytics/feedback';
 import { CompanyEnum } from '../../../../config/db-config';
 
 
-
-
 export class StudentListing extends React.Component {
 
     constructor(props) {
@@ -26,24 +24,24 @@ export class StudentListing extends React.Component {
         this.openSIForm = this.openSIForm.bind(this);
 
         this.state = {
-            loadPriv : true,
-            privs : []
+            loadPriv: true,
+            privs: []
         }
     }
 
     openSIForm(student_id) {
         openSIFormNew(student_id, this.props.company_id);
     }
-    loadPriv(){
+    loadPriv() {
         var q = `query {company(ID:${this.props.company_id}) { priviledge name } }`;
-        getAxiosGraphQLQuery(q).then(res=>{
-            this.setState((prevState)=>{
+        getAxiosGraphQLQuery(q).then(res => {
+            this.setState((prevState) => {
                 var privs = res.data.data.company.priviledge;
                 var companyName = res.data.data.company.name;
-                if(privs == null){
+                if (privs == null) {
                     privs = "";
                 }
-                return { loadPriv:false, privs: privs, companyName: companyName };
+                return { loadPriv: false, privs: privs, companyName: companyName };
             })
         });
     }
@@ -51,7 +49,7 @@ export class StudentListing extends React.Component {
         openFeedbackBlockRec();
 
         this.loadPriv();
-        
+
         this.offset = 10;
         //##########################################
         //  search
@@ -81,7 +79,50 @@ export class StudentListing extends React.Component {
 
         this.renderRow = (d, i) => {
             var title = createUserTitle(d.student, this.search.search_student, true)
-               
+
+
+
+            // create uni view
+            let uniView = null;
+            if (d.student.university != null && d.student.university != "") {
+                uniView = <b>{d.student.university}</b>
+            }
+
+            // create place view
+            let placeView = null;
+            if (d.student.study_place != null && d.student.study_place != "") {
+                placeView = <small>, {d.student.study_place}</small>
+            }
+
+            // create major view
+            let majors = null;
+            let majorView = null;
+            try {
+                majors = JSON.parse(d.student.major);
+            } catch (err) {
+                majors = null
+            }
+            if (Array.isArray(majors)) {
+                majorView = majors.map((d, i) => {
+                    if (i % 2 == 0) {
+                        return <span>{d}</span>;
+                    } else {
+                        return <span>, {d}</span>;
+                    }
+                })
+
+                if (majors.length > 0) {
+                    majorView = <i><br></br>{majorView}</i>
+                }
+            }
+
+
+            let studentInfo = <div style={{ lineHeight: "17px" }}>
+                {uniView}
+                {placeView}
+                {majorView}
+            </div>;
+
 
             var description = (d.student.description !== null && d.student.description != "")
                 ? <p style={{ borderTop: "solid 1px darkgrey" }}>
@@ -90,7 +131,10 @@ export class StudentListing extends React.Component {
                 : null;
 
             var details = <div>
-                {createUserDocLinkList(d.student.doc_links, d.student_id, false)}
+                {studentInfo}
+                <div style={{ marginTop: "8px" }}>
+                    {createUserDocLinkList(d.student.doc_links, d.student_id, false)}
+                </div>
                 <small> <i>{Time.getString(d.created_at)} </i> <br></br></small>
                 {description}
             </div>
@@ -98,8 +142,8 @@ export class StudentListing extends React.Component {
             var imgObj = getImageObj(d.student);
 
             var canSchedule = CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION);
-            const actionHandler = ()=>{
-                if(canSchedule){
+            const actionHandler = () => {
+                if (canSchedule) {
                     this.openSIForm(d.student.ID)
                 } else {
                     // EUR FIX 
@@ -133,6 +177,7 @@ export class StudentListing extends React.Component {
                     student_id
                     created_at
                     student{
+                        university study_place major
                         ID first_name last_name user_email img_url img_pos img_size description
                         doc_links { type label url }
             }}}`;
@@ -147,35 +192,35 @@ export class StudentListing extends React.Component {
 
     render() {
 
-        var view = null; 
-        if(this.state.loadPriv){
+        var view = null;
+        if (this.state.loadPriv) {
             view = <Loader size="2" text="Loading..."></Loader>
-        }else{
+        } else {
             var hide = false;
 
-            if(isRoleRec() || isRoleStudent()){
-                if(isComingSoon()){
+            if (isRoleRec() || isRoleStudent()) {
+                if (isComingSoon()) {
                     hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT);
-                } else{
+                } else {
                     hide = !CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT);
-                }    
+                }
             }
-          
+
             view = hide ? <div>
                 <h4><i className="fa fa-3x fa-frown-o"></i><br></br><br></br>
-                Opss.. It seems that <b>{this.state.companyName}</b> does not have access to this page yet.</h4>
-            </div> 
+                    Opss.. It seems that <b>{this.state.companyName}</b> does not have access to this page yet.</h4>
+            </div>
 
-            : <GeneralFormPage
-                dataTitle={this.dataTitle}
-                noMutation={true}
-                dataOffset={this.offset}
-                searchFormItem={this.searchFormItem}
-                searchFormOnSubmit={this.searchFormOnSubmit}
-                renderRow={this.renderRow}
-                getDataFromRes={this.getDataFromRes}
-                loadData={this.loadData}
-            ></GeneralFormPage>;
+                : <GeneralFormPage
+                    dataTitle={this.dataTitle}
+                    noMutation={true}
+                    dataOffset={this.offset}
+                    searchFormItem={this.searchFormItem}
+                    searchFormOnSubmit={this.searchFormOnSubmit}
+                    renderRow={this.renderRow}
+                    getDataFromRes={this.getDataFromRes}
+                    loadData={this.loadData}
+                ></GeneralFormPage>;
         }
 
         //        {isComingSoon() ? "isComingSoon()" : "not isComingSoon()"}
@@ -190,9 +235,9 @@ export class StudentListing extends React.Component {
 
 StudentListing.propTypes = {
     company_id: PropTypes.number.isRequired,
-    isRec : PropTypes.bool
+    isRec: PropTypes.bool
 }
 
 StudentListing.defaultProps = {
-    isRec : true
+    isRec: true
 }
