@@ -14,6 +14,18 @@ class MetaAPI {
 }
 MetaAPI = new MetaAPI();
 
+class CfsApi {
+    getAllCf(){
+        var query = `query{ cfs(is_active :1) { ID name country time }}`;
+        return getAxiosGraphQLQuery(query).then((res) => {
+            return res.data.data.cfs;
+        }, (err) => {
+            return err;
+        });
+    } 
+}
+CfsApi = new CfsApi();
+
 class LogApi {
     add(event, data = null, user_id = null) {
         var param = { event: event };
@@ -34,4 +46,4 @@ class LogApi {
 }
 LogApi = new LogApi();
 
-module.exports = { MetaAPI, LogApi };
+module.exports = { MetaAPI, LogApi, CfsApi };
