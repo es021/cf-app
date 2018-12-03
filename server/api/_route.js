@@ -74,6 +74,16 @@ const initializeAllRoute = function (app, root) {
             });
     });
 
+    const { CfsApi } = require('./other-api');
+    app.post(root + '/get-all-cf', function (req, res, next) {
+        // active only
+        CfsApi.getAllCf()
+            .then((response) => {
+                routeResHandler(res, response);
+            });
+    });
+
+
     // Activity Route ----------------------------------------------------------------
     const { ActivityAPI } = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {

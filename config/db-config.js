@@ -495,6 +495,10 @@ const QsPopupAnswer = {
     ANSWER: "answer"
 };
 
+const CFS = {
+    TABLE : "cfs",
+}
+
 module.exports = {
     QsPopup,
     QsPopupEnum,
@@ -537,5 +541,6 @@ module.exports = {
     ZoomInvite,
     Availability,
     GroupSession,
-    GroupSessionJoin
+    GroupSessionJoin,
+    CFS
 };
