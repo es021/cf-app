@@ -108,6 +108,22 @@ const FeedbackQsType = new GraphQLObjectType({
 });
 
 
+const CfsType = new GraphQLObjectType({
+    name: 'CfsType',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        country: { type: GraphQLString },
+        time: { type: GraphQLString },
+        title: { type: GraphQLString },
+        is_active: { type: GraphQLString },
+        create_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString }
+    })
+});
+
+
+
 const SessionNoteType = new GraphQLObjectType({
     name: 'SessionNote',
     fields: () => ({
@@ -569,5 +585,6 @@ module.exports = {
     , StudentListingType
     , GroupSessionType
     , GroupSessionJoinType
+    , CfsType
     //, CFType
 };

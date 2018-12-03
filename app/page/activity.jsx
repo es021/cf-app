@@ -3,7 +3,7 @@ import { getAuthUser, isRoleRec, isRoleStudent } from '../redux/actions/auth-act
 import SubNav from '../component/sub-nav';
 import { SessionsList } from './partial/activity/session';
 import { ResumeDrop } from './partial/activity/resume-drop';
-import { StudentListing } from './partial/activity/student-listing';
+import { StudentListing } from './partial/activity/student-listing.jsx';
 import PropTypes from 'prop-types';
 import { ScheduledInterview } from './partial/activity/scheduled-interview';
 

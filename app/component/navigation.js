@@ -226,7 +226,9 @@ function getMenuItem(COMING_SOON) {
             bar_auth: false,
             hd_app: false,
             hd_auth: false,
-            disabled: COMING_SOON
+            // EUR FIX
+            disabled: !isRoleAdmin()
+            //disabled: COMING_SOON
             //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
         },
         {

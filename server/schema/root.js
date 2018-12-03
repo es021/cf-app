@@ -25,6 +25,7 @@ const { UserType
     , GroupSessionJoinType
     , GroupSessionType
     , DocLinkType
+    , CfsType
     , QsPopupType
     , QsPopupAnswerType } = require('./all-type.js');
 
@@ -54,6 +55,7 @@ const { ForumExec } = require('../model/forum-query.js');
 const { StudentListingExec } = require('../model/student-listing-query.js');
 const { GroupSessionExec } = require('../model/group-session-query.js');
 const { QsPopupExec } = require('../model/qs-popup-query.js');
+const { CFExec } = require('../model/cf-query.js');
 const DB = require('../model/DB.js');
 
 const {
@@ -372,26 +374,15 @@ fields["queues"] = {
 
 /*******************************************/
 /* CF ******************/
-// fields["cf"] = {
-//     type: CFType,
-//     args: {
-//         ID: { type: new GraphQLNonNull(GraphQLString) }
-//     },
-//     resolve(parentValue, arg, context, info) {
-//         return CFExec.cfs(arg, graphqlFields(info), { single: true });
-//     }
-// };
-
-// fields["cfs"] = {
-//     type: new GraphQLList(CFType),
-//     args: {
-//         can_login: { type: GraphQLInt },
-//         can_register: { type: GraphQLInt }
-//     },
-//     resolve(parentValue, arg, context, info) {
-//         return CFExec.cfs(arg, graphqlFields(info), {});
-//     }
-// };
+fields["cfs"] = {
+    type: new GraphQLList(CfsType),
+    args: {
+        is_active : { type: GraphQLInt },
+    },
+    resolve(parentValue, arg, context, info) {
+        return CFExec.cfs(arg, graphqlFields(info), {});
+    }
+};
 
 /*******************************************/
 /* company ******************/
