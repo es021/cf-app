@@ -67,6 +67,8 @@ export function getCFOrg() {
 }
 
 export function getCFObj() {
+    console.log("getCF()",getCF());
+    console.log("CareerFair",CareerFair);
     return CareerFair[getCF()];
 }
 
