@@ -1,8 +1,57 @@
 const {
     ImageUrl
 } = require('./app-config');
-const CF_DEFAULT = "EUR";
+
+const CF_DEFAULT = "UK";
 const CareerFair = {
+    "UK": {
+        title: "United Kingdom Career Fair 2019",
+        flag: "United Kingdom(Great Britain)",
+        banner: "UK.jpg",
+        banner_pos: "top center",
+        schedule: {
+            timezone: "GMT +0800 (+08)",
+            data: [{
+                    date: "Feb 15 2019",
+                    start: "18:00:00",
+                    end: "21:00:00"
+                },
+                {
+                    date: "Feb 16 2019",
+                    start: "18:00:00",
+                    end: "21:00:00"
+                },
+                {
+                    date: "Feb 17 2019",
+                    start: "18:00:00",
+                    end: "21:00:00"
+                }
+            ]
+        },
+        override_coming_soon: true,
+        
+        //logo: `${ImageUrl}/cf/EUR-logo-2.png`,
+        logo_height: "100px",
+        //logo_width: "370px",
+        //logo_position: "top center",
+        //logo_size: "cover",
+
+        start: "Feb 15 2019 18:00:00 GMT +0800 (+08)",
+        end: "Feb 17 2019 21:00:00 GMT +0800 (+08)",
+        //time_str: "1:00 PM - 4:30 PM (EUR)",
+        time_str: "6:00 PM - 9:00 PM (MYT)",
+        //time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+
+        //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+        //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
+
+        //page_url: "https://www.facebook.com/events/2093221544257428/",
+        //page_banner: `${ImageUrl}/cf/EUR-event-page.jpg`,
+
+
+        can_register: 1,
+        can_login: 1
+    },
     "EUR": {
         title: "Europe Virtual Career Fair 2018",
         flag: "European Union",
@@ -27,7 +76,7 @@ const CareerFair = {
                 }
             ]
         },
-        override_coming_soon : true,
+        override_coming_soon: true,
         logo: `${ImageUrl}/cf/EUR-logo-2.png`,
         logo_height: "200px",
         logo_width: "370px",
@@ -166,7 +215,16 @@ const CareerFair = {
 };
 
 const CareerFairOrg = {
+    "UK": {
+        Organizer: [],
+        Collaborator: [],
+        Powered: [{
+            name: "SeedsJobFair",
+            logo: "logo.png",
+            url: "https://www.facebook.com/seedsjobfair/"
 
+        }]
+    },
     "EUR": {
         Organizer: [{
             name: "Malaysian-German Students Society",
