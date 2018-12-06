@@ -1,347 +1,360 @@
     //https://seedsjobfair.com/public/asset/image/banner/UK.jpg
 
-const CF_DEFAULT = "UK";
-const CareerFair = {
-    "UK": {
-        title: "United Kingdom Career Fair 2019",
-        flag: "United Kingdom(Great Britain)",
-        banner: "UK.jpg",
-        banner_pos: "top center",
-        schedule: {
-            timezone: "GMT +0800 (+08)",
-            data: [{
-                    date: "Feb 15 2019",
-                    start: "18:00:00",
-                    end: "21:00:00"
-                },
-                {
-                    date: "Feb 16 2019",
-                    start: "18:00:00",
-                    end: "21:00:00"
-                },
-                {
-                    date: "Feb 17 2019",
-                    start: "18:00:00",
-                    end: "21:00:00"
-                }
-            ]
+    const CF_DEFAULT = "UK";
+    const CareerFair = {
+        "UK": {
+            title: "United Kingdom Career Fair 2019",
+            flag: "United Kingdom(Great Britain)",
+            banner: "UK.jpg",
+            banner_pos: "top center",
+            schedule: {
+                timezone: "GMT +0800 (+08)",
+                data: [{
+                        date: "Feb 15 2019",
+                        start: "18:00:00",
+                        end: "21:00:00"
+                    },
+                    {
+                        date: "Feb 16 2019",
+                        start: "18:00:00",
+                        end: "21:00:00"
+                    },
+                    {
+                        date: "Feb 17 2019",
+                        start: "18:00:00",
+                        end: "21:00:00"
+                    }
+                ]
+            },
+            override_coming_soon: true,
+
+            //logo: `/cf/EUR-logo-2.png`,
+            logo_height: "100px",
+            //logo_width: "370px",
+            //logo_position: "top center",
+            //logo_size: "cover",
+
+            start: "Feb 15 2019 18:00:00 GMT +0800 (+08)",
+            end: "Feb 17 2019 21:00:00 GMT +0800 (+08)",
+            //time_str: "1:00 PM - 4:30 PM (EUR)",
+            time_str: "6:00 PM - 9:00 PM (MYT)",
+            //time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+
+            //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+            //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
+
+            //page_url: "https://www.facebook.com/events/2093221544257428/",
+            //page_banner: `/cf/EUR-event-page.jpg`,
+
+
+            can_register: 1,
+            can_login: 1
         },
-        override_coming_soon: true,
+        "EUR": {
+            title: "Europe Virtual Career Fair 2018",
+            flag: "European Union",
+            banner: "EUR.jpg",
+            banner_pos: "top center",
+            schedule: {
+                timezone: "GMT +0800 (+08)",
+                data: [{
+                        date: "Nov 12 2018",
+                        start: "15:00:00",
+                        end: "18:00:00"
+                    },
+                    {
+                        date: "Nov 13 2018",
+                        start: "15:00:00",
+                        end: "18:00:00"
+                    },
+                    {
+                        date: "Nov 14 2018",
+                        start: "15:00:00",
+                        end: "18:00:00"
+                    }
+                ]
+            },
+            override_coming_soon: true,
+            logo: `/cf/EUR-logo-2.png`,
+            logo_height: "200px",
+            logo_width: "370px",
+            logo_position: "top center",
+            logo_size: "cover",
 
-        //logo: `/cf/EUR-logo-2.png`,
-        logo_height: "100px",
-        //logo_width: "370px",
-        //logo_position: "top center",
-        //logo_size: "cover",
+            start: "Nov 12 2018 15:00:00 GMT +0800 (+08)",
+            end: "Nov 14 2018 18:00:00 GMT +0800 (+08)",
+            //time_str: "1:00 PM - 4:30 PM (EUR)",
+            time_str: "3:00 PM - 6:00 PM (MYT)",
+            //time_str_mas: "9:00 AM - 12:30 PM (MYT)",
 
-        start: "Feb 15 2019 18:00:00 GMT +0800 (+08)",
-        end: "Feb 17 2019 21:00:00 GMT +0800 (+08)",
-        //time_str: "1:00 PM - 4:30 PM (EUR)",
-        time_str: "6:00 PM - 9:00 PM (MYT)",
-        //time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+            //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+            //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
 
-        //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
-        //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
-
-        //page_url: "https://www.facebook.com/events/2093221544257428/",
-        //page_banner: `/cf/EUR-event-page.jpg`,
+            page_url: "https://www.facebook.com/events/2093221544257428/",
+            page_banner: `/cf/EUR-event-page.jpg`,
 
 
-        can_register: 1,
-        can_login: 1
-    },
-    "EUR": {
-        title: "Europe Virtual Career Fair 2018",
-        flag: "European Union",
-        banner: "EUR.jpg",
-        banner_pos: "top center",
-        schedule: {
-            timezone: "GMT +0800 (+08)",
-            data: [{
-                    date: "Nov 12 2018",
-                    start: "15:00:00",
-                    end: "18:00:00"
-                },
-                {
-                    date: "Nov 13 2018",
-                    start: "15:00:00",
-                    end: "18:00:00"
-                },
-                {
-                    date: "Nov 14 2018",
-                    start: "15:00:00",
-                    end: "18:00:00"
-                }
-            ]
+            can_register: 1,
+            can_login: 1
         },
-        override_coming_soon: true,
-        logo: `/cf/EUR-logo-2.png`,
-        logo_height: "200px",
-        logo_width: "370px",
-        logo_position: "top center",
-        logo_size: "cover",
+        "NZL": {
+            title: "New Zealand Virtual Career Fair 2018",
+            flag: "New Zealand",
+            banner: "NZL.jpg",
+            // maalaysia time + 8 , est time.. -4
+            // first event
+            //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
+            //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
+            // second event
 
-        start: "Nov 12 2018 15:00:00 GMT +0800 (+08)",
-        end: "Nov 14 2018 18:00:00 GMT +0800 (+08)",
-        //time_str: "1:00 PM - 4:30 PM (EUR)",
-        time_str: "3:00 PM - 6:00 PM (MYT)",
-        //time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+            // open for schedule availability 
+            // only time concerned here
+            // schedule: {
+            //     timezone: "GMT +0800 (+08)",
+            //     data: [{
+            //             date: "Nov 12 2018",
+            //             start: "15:00:00",
+            //             end: "18:00:00"
+            //         },
+            //         {
+            //             date: "Nov 13 2018",
+            //             start: "15:00:00",
+            //             end: "18:00:00"
+            //         },
+            //         {
+            //             date: "Nov 14 2018",
+            //             start: "15:00:00",
+            //             end: "18:00:00"
+            //         }
+            //     ]
+            // },
 
-        //test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
-        //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
+            // open for do stuff
+            start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
+            end: "Jul 10 2018 23:30:00 GMT +1200 (+12)",
+            time_str: "1:00 PM - 4:30 PM (NZST)",
+            time_str_mas: "9:00 AM - 12:30 PM (MYT)",
+            //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
+            //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
+            test_start: "Jul 08 2018 15:00:00 GMT +1200 (+12)",
+            test_end: "Jul 09 2018 01:00:00 GMT +1200 (+12)",
+            //dates: ["20", "21"], // for multiple seggregated dates
+            can_register: 0,
+            can_login: 1,
+            page_url: null,
+            page_banner: null
+        },
+        "USA": {
+            title: "USA Virtual Career Fair 2018",
+            flag: "United States of America(USA)",
+            banner: "USA.jpg",
+            // maalaysia time + 8 , est time.. -4
+            // first event
+            //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
+            //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
+            // second event
+            //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
+            //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
+            //dates: ["20", "21"], // for multiple seggregated dates
 
-        page_url: "https://www.facebook.com/events/2093221544257428/",
-        page_banner: `/cf/EUR-event-page.jpg`,
+            schedule_time_start: "Apr 20 2018 09:00:00 GMT +0800 (+08)",
+            schedule_time_end: "Apr 23 2018 15:00:00 GMT +0800 (+08)",
+
+            start: "Apr 20 2018 20:00:00 GMT -0400 (-04)",
+            end: "Apr 21 2018 23:00:00 GMT -0400 (-04)",
+            time_str: "10 PM - 1 AM (EDT)",
+
+            test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
+            test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
+
+            can_register: 0,
+            can_login: 1,
+            page_url: "https://www.facebook.com/events/165437787576733/",
+            page_banner: `/cf/USA-event-page.jpg`
+        },
+        "JAPAN": {
+            title: "Japan Virtual Career Fair 2018",
+            flag: "Japan",
+            banner: "Japan.jpg",
+            start: null,
+            end: null,
+            test_start: null,
+            test_end: null,
+            dates: null,
+            can_register: 0,
+            can_login: 0
+        },
+        "INDONESIA": {
+            title: "Indonesia Virtual Career Fair 2018",
+            flag: "Indonesia",
+            banner: "Indonesia.jpg",
+            banner_pos: "top center",
+            start: null,
+            end: null,
+            test_start: null,
+            test_end: null,
+            dates: null,
+            can_register: 0,
+            can_login: 0
+        },
+        "GERMANY": {
+            title: "Germany Virtual Career Fair 2018",
+            flag: "Germany",
+            banner: "Germany.jpg",
+            banner_pos: "top center",
+            start: null,
+            end: null,
+            test_start: null,
+            test_end: null,
+            dates: null,
+            can_register: 0,
+            can_login: 0
+        }
+    };
+
+    const CareerFairOrg = {
+        "UK": {
+            Organizer: [],
+            Collaborator: [],
+            Powered: [{
+                name: "SeedsJobFair",
+                logo: "logo.png",
+                url: "https://www.facebook.com/seedsjobfair/"
+
+            }]
+        },
+        "EUR": {
+            Organizer: [{
+                name: "Malaysian-German Students Society",
+                logo: "MGSS.jpg",
+                url: "https://www.facebook.com/mgssde/"
+            }, {
+                name: "MARAKumpel",
+                logo: "MaraKUMPEL.png",
+                url: "https://www.facebook.com/groups/207061939177/about/"
+            }],
+            Collaborator: [{
+                    name: "Malaysian Students Association in Turkey",
+                    logo: "MASAT.jpg",
+                    url: "https://www.facebook.com/PersatuanPelajarMalaysiaDiTurki/"
+                },
+                {
+                    name: "MASAFrance",
+                    logo: "MasaFrance.png",
+                    url: "https://www.facebook.com/masafrance/"
+                }, {
+                    name: "TalentCorp",
+                    logo: "TalentCorp.jpg",
+                    url: "https://www.talentcorp.com.my/"
+                },
+            ],
+            Powered: [{
+                name: "SeedsJobFair",
+                logo: "logo.png",
+                url: "https://www.facebook.com/seedsjobfair/"
+
+            }]
+        },
+        "USA": {
+            Organizer: [{
+                name: "National Assembly of Malaysian Students Association",
+                shortname: "NAMSA",
+                logo: ""
+            }],
+            Collaborator: [{
+                    name: "US East Coast Presidential Council",
+                    shortname: "EPIC",
+                    logo: ""
+                }, {
+                    name: "Education Malaysia at Washington DC",
+                    shortname: "EMWDC",
+                    logo: ""
+                }, {
+                    name: "West Coast Council",
+                    shortname: "WCC",
+                    logo: ""
+                }, {
+                    name: "Talent Corp Malaysia",
+                    shortname: "",
+                    logo: ""
+                }, {
+                    name: "Council of Midwest Malaysian Students",
+                    shortname: "COMMS",
+                    logo: ""
+                }, {
+                    name: "International Council of Malaysian Scholars and Associates",
+                    shortname: "ICMS",
+                    logo: ""
+                }
+                /*, {
+                    name: "Kelab UMNO Luar Negara Penn State",
+                    shortname: "KULN",
+                    logo: ""
+                }, {
+                    name: "MASCO",
+                    shortname: "MASCO",
+                    logo: ""
+                }*/
+            ],
+            Powered: [{
+                name: "SeedsJobFair",
+                logo: "logo.png",
+                url: "https://www.facebook.com/seedsjobfair/"
+
+            }]
+        },
+        "NZL": {
+            Organizer: [],
+            Collaborator: [],
+            Powered: [{
+                name: "SeedsJobFair",
+                logo: "logo.png",
+                url: "https://www.facebook.com/seedsjobfair/"
+
+            }]
+        }
+    };
 
 
-        can_register: 1,
-        can_login: 1
-    },
-    "NZL": {
-        title: "New Zealand Virtual Career Fair 2018",
-        flag: "New Zealand",
-        banner: "NZL.jpg",
-        // maalaysia time + 8 , est time.. -4
-        // first event
-        //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
-        //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
-        // second event
 
-        // open for schedule availability 
-        // only time concerned here
-        // schedule: {
-        //     timezone: "GMT +0800 (+08)",
-        //     data: [{
-        //             date: "Nov 12 2018",
-        //             start: "15:00:00",
-        //             end: "18:00:00"
-        //         },
-        //         {
-        //             date: "Nov 13 2018",
-        //             start: "15:00:00",
-        //             end: "18:00:00"
-        //         },
-        //         {
-        //             date: "Nov 14 2018",
-        //             start: "15:00:00",
-        //             end: "18:00:00"
-        //         }
-        //     ]
-        // },
-
-        // open for do stuff
-        start: "Jul 09 2018 13:00:00 GMT +1200 (+12)",
-        end: "Jul 10 2018 23:30:00 GMT +1200 (+12)",
-        time_str: "1:00 PM - 4:30 PM (NZST)",
-        time_str_mas: "9:00 AM - 12:30 PM (MYT)",
-        //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
-        //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
-        test_start: "Jul 08 2018 15:00:00 GMT +1200 (+12)",
-        test_end: "Jul 09 2018 01:00:00 GMT +1200 (+12)",
-        //dates: ["20", "21"], // for multiple seggregated dates
-        can_register: 0,
-        can_login: 1,
-        page_url: null,
-        page_banner: null
-    },
-    "USA": {
-        title: "USA Virtual Career Fair 2018",
-        flag: "United States of America(USA)",
-        banner: "USA.jpg",
-        // maalaysia time + 8 , est time.. -4
-        // first event
-        //start: "Apr 05 2018 20:30:00 GMT -0400 (-04)", 
-        //end: "Apr 09 2018 4:00:00 GMT -0400 (-04)",
-        // second event
-        //start: "Apr 02 2018 22:32:00 GMT -0400 (-04)", 
-        //end: "Apr 09 2018 20:00:00 GMT -0400 (-04)",
-        //dates: ["20", "21"], // for multiple seggregated dates
-
-        schedule_time_start: "Apr 20 2018 09:00:00 GMT +0800 (+08)",
-        schedule_time_end: "Apr 23 2018 15:00:00 GMT +0800 (+08)",
-
-        start: "Apr 20 2018 20:00:00 GMT -0400 (-04)",
-        end: "Apr 21 2018 23:00:00 GMT -0400 (-04)",
-        time_str: "10 PM - 1 AM (EDT)",
-
-        test_start: "Apr 01 2018 04:30:00 GMT +0800 (+08)",
-        test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
-
-        can_register: 0,
-        can_login: 1,
-        page_url: "https://www.facebook.com/events/165437787576733/",
-        page_banner: `/cf/USA-event-page.jpg`
-    },
-    "JAPAN": {
-        title: "Japan Virtual Career Fair 2018",
-        flag: "Japan",
-        banner: "Japan.jpg",
-        start: null,
-        end: null,
-        test_start: null,
-        test_end: null,
-        dates: null,
-        can_register: 0,
-        can_login: 0
-    },
-    "INDONESIA": {
-        title: "Indonesia Virtual Career Fair 2018",
-        flag: "Indonesia",
-        banner: "Indonesia.jpg",
-        banner_pos: "top center",
-        start: null,
-        end: null,
-        test_start: null,
-        test_end: null,
-        dates: null,
-        can_register: 0,
-        can_login: 0
-    },
-    "GERMANY": {
-        title: "Germany Virtual Career Fair 2018",
-        flag: "Germany",
-        banner: "Germany.jpg",
-        banner_pos: "top center",
-        start: null,
-        end: null,
-        test_start: null,
-        test_end: null,
-        dates: null,
-        can_register: 0,
-        can_login: 0
+    function insertSql(name, key, val) {
+        return `INSERT INTO cfs_meta (ID, cf_name, meta_key, meta_value) VALUES (NULL, '${name}', '${key}', '${val}');\n`
     }
-};
 
-const CareerFairOrg = {
-    "UK": {
-        Organizer: [],
-        Collaborator: [],
-        Powered: [{
-            name: "SeedsJobFair",
-            logo: "logo.png",
-            url: "https://www.facebook.com/seedsjobfair/"
+    function sqlCareerFairOrg() {
+        let sql = ""
 
-        }]
-    },
-    "EUR": {
-        Organizer: [{
-            name: "Malaysian-German Students Society",
-            logo: "MGSS.jpg",
-            url: "https://www.facebook.com/mgssde/"
-        }, {
-            name: "MARAKumpel",
-            logo: "MaraKUMPEL.png",
-            url: "https://www.facebook.com/groups/207061939177/about/"
-        }],
-        Collaborator: [{
-                name: "Malaysian Students Association in Turkey",
-                logo: "MASAT.jpg",
-                url: "https://www.facebook.com/PersatuanPelajarMalaysiaDiTurki/"
-            },
-            {
-                name: "MASAFrance",
-                logo: "MasaFrance.png",
-                url: "https://www.facebook.com/masafrance/"
-            }, {
-                name: "TalentCorp",
-                logo: "TalentCorp.jpg",
-                url: "https://www.talentcorp.com.my/"
-            },
-        ],
-        Powered: [{
-            name: "SeedsJobFair",
-            logo: "logo.png",
-            url: "https://www.facebook.com/seedsjobfair/"
-
-        }]
-    },
-    "USA": {
-        Organizer: [{
-            name: "National Assembly of Malaysian Students Association",
-            shortname: "NAMSA",
-            logo: ""
-        }],
-        Collaborator: [{
-                name: "US East Coast Presidential Council",
-                shortname: "EPIC",
-                logo: ""
-            }, {
-                name: "Education Malaysia at Washington DC",
-                shortname: "EMWDC",
-                logo: ""
-            }, {
-                name: "West Coast Council",
-                shortname: "WCC",
-                logo: ""
-            }, {
-                name: "Talent Corp Malaysia",
-                shortname: "",
-                logo: ""
-            }, {
-                name: "Council of Midwest Malaysian Students",
-                shortname: "COMMS",
-                logo: ""
-            }, {
-                name: "International Council of Malaysian Scholars and Associates",
-                shortname: "ICMS",
-                logo: ""
+        for (var cf_name in CareerFairOrg) {
+            let cf = CareerFairOrg[cf_name];
+            for (var key in cf) {
+                sql += insertSql(cf_name, key, JSON.stringify(cf[key]));
             }
-            /*, {
-                name: "Kelab UMNO Luar Negara Penn State",
-                shortname: "KULN",
-                logo: ""
-            }, {
-                name: "MASCO",
-                shortname: "MASCO",
-                logo: ""
-            }*/
-        ],
-        Powered: [{
-            name: "SeedsJobFair",
-            logo: "logo.png",
-            url: "https://www.facebook.com/seedsjobfair/"
-
-        }]
-    },
-    "NZL": {
-        Organizer: [],
-        Collaborator: [],
-        Powered: [{
-            name: "SeedsJobFair",
-            logo: "logo.png",
-            url: "https://www.facebook.com/seedsjobfair/"
-
-        }]
+        }
+        console.log(sql);
     }
-};
 
+    function sqlCareerFair() {
+        let sql = ""
 
+        for (var cf_name in CareerFair) {
+            let cf = CareerFair[cf_name];
+            for (var key in cf) {
+                let val = cf[key];
+                if (typeof val === "object") {
+                    val = JSON.stringify(val);
+                }
+                sql += insertSql(cf_name, key, val);
+            }
+        }
 
-// function insertSql(name, key, val) {
-//     return `INSERT INTO cfs_meta (ID, cf_name, meta_key, meta_value) VALUES (NULL, '${name}', '${key}', '${val}');\n`
-// }
+        console.log(sql);
+    }
 
-// function sqlCareerFair() {
-//     let sql = ""
+    //sqlCareerFairOrg();
+    // sqlCareerFair();
 
-//     for (var cf_name in CareerFair) {
-//         let cf = CareerFair[cf_name];
-//         for (var key in cf) {
-//             let val = cf[key];
-//             if (typeof val === "object") {
-//                 val = JSON.stringify(val);
-//             }
-//             sql += insertSql(cf_name, key, val);
-//         }
-//     }
-
-//     console.log(sql);
-// }
-
-// sqlCareerFair();
-
-module.exports = {
-    CareerFair,
-    CareerFairOrg,
-    CF_DEFAULT
-};
+    module.exports = {
+        CareerFair,
+        CareerFairOrg,
+        CF_DEFAULT
+    };

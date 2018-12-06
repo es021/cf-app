@@ -11,21 +11,59 @@ import {
 } from '../../../config/auth-config';
 import {
     User,
-    UserEnum
+    UserEnum,
+    CFSMetaOrg
 } from '../../../config/db-config';
 import {
-    CareerFair,
-    CareerFairOrg,
+    //CareerFair,
+    //CareerFairOrg,
     CF_DEFAULT
 } from '../../../config/cf-config';
 import {
     Time
 } from '../../lib/time';
 
-
-
 // ############################################
 // CF - START
+const LOCAL_STORAGE_CF = "cf-seeds-job-fair";
+export function setLocalStorageCf(cfArr) {
+    let cfObj = {};
+    for (var i in cfArr) {
+        let cf = cfArr[i];
+        cfObj[cf.name] = cf;
+    }
+
+    let objStr = JSON.stringify(cfObj);
+    localStorage.setItem(LOCAL_STORAGE_CF, objStr);
+}
+
+export function getLocalStorageCf() {
+    let cf = localStorage.getItem(LOCAL_STORAGE_CF);
+    let cfObj = {};
+    try {
+        cfObj = JSON.parse(cf);
+    } catch (err) {
+        cfObj = {};
+    }
+    if (cfObj == null) {
+        //location.reload();
+    }
+    return cfObj;
+}
+
+export function getLocalStorageCfOrg() {
+    let allCf = getLocalStorageCf();
+    let toRet = {};
+
+    for (var cfName in allCf) {
+        toRet[cfName] = {};
+        for (var i in CFSMetaOrg) {
+            let attr = [CFSMetaOrg[i]]
+            toRet[cfName][attr] = allCf[cfName][attr];
+        }
+    }
+    return toRet;
+}
 
 // used in auth-reducer
 export function getCFDefault() {
@@ -34,16 +72,19 @@ export function getCFDefault() {
 
 // used in form.js to populate all cfs
 export function getAllCF() {
+    let CareerFair = getLocalStorageCf();
     return CareerFair;
 }
 
 // return organizers
 export function getCFOrg() {
+    let CareerFairOrg = getLocalStorageCfOrg();
     return CareerFairOrg[getCF()];
 }
 
 // return object cf by key in auth
 export function getCFObj() {
+    let CareerFair = getLocalStorageCf();
     return CareerFair[getCF()];
 }
 
@@ -54,7 +95,6 @@ export function getCF() {
 
 // CF - END
 // ############################################
-
 
 export function isComingSoon() {
     //return false;
