@@ -1,7 +1,8 @@
 import { getNewState } from './_helper';
 import * as authActions from '../actions/auth-actions';
 import { _GET } from '../../lib/util';
-import { CF_DEFAULT } from '../../../config/cf-config';
+
+const CF_DEFAULT = authActions.getCFDefault();
 
 var getCF = _GET("cf");
 

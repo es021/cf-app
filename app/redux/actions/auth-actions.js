@@ -15,11 +15,46 @@ import {
 } from '../../../config/db-config';
 import {
     CareerFair,
-    CareerFairOrg
+    CareerFairOrg,
+    CF_DEFAULT
 } from '../../../config/cf-config';
 import {
     Time
 } from '../../lib/time';
+
+
+
+// ############################################
+// CF - START
+
+// used in auth-reducer
+export function getCFDefault() {
+    return CF_DEFAULT;
+}
+
+// used in form.js to populate all cfs
+export function getAllCF() {
+    return CareerFair;
+}
+
+// return organizers
+export function getCFOrg() {
+    return CareerFairOrg[getCF()];
+}
+
+// return object cf by key in auth
+export function getCFObj() {
+    return CareerFair[getCF()];
+}
+
+// return key of cf
+export function getCF() {
+    return store.getState().auth.cf;
+}
+
+// CF - END
+// ############################################
+
 
 export function isComingSoon() {
     //return false;
@@ -34,7 +69,7 @@ export function isComingSoon() {
 
     let override_coming_soon = cfObj.override_coming_soon;
 
-    if(override_coming_soon == true){
+    if (override_coming_soon == true) {
         return false;
     }
 
@@ -58,22 +93,6 @@ export function isComingSoon() {
     }
 
     return isComingSoon;
-}
-
-// ############################################
-// CF
-export function getCFOrg() {
-    return CareerFairOrg[getCF()];
-}
-
-export function getCFObj() {
-    console.log("getCF()",getCF());
-    console.log("CareerFair",CareerFair);
-    return CareerFair[getCF()];
-}
-
-export function getCF() {
-    return store.getState().auth.cf;
 }
 
 export function isAuthorized() {

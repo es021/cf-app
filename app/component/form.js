@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Loader } from './loader';
 import { ButtonLink } from './buttons';
-import { CareerFair } from '../../config/cf-config';
 import { ImgConfig } from '../../config/app-config';
+import { getAllCF } from '../redux/actions/auth-actions';
 
 require('../css/form.scss');
 
@@ -16,6 +16,7 @@ export function toggleSubmit(obj, newState = {}) {
 
 export function getDataCareerFair(type) {
     var ret = [];
+    let CareerFair = getAllCF();
     for (var cf in CareerFair) {
         var d = CareerFair[cf];
 

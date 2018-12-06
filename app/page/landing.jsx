@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ButtonLink } from '../component/buttons';
 import LoginPage from './login';
-import { RootPath, AppConfig, ImgConfig, LandingUrl } from '../../config/app-config';
+import { RootPath, AppConfig, ImgConfig, LandingUrl, ImageUrl } from '../../config/app-config';
 import { Redirect, NavLink } from 'react-router-dom';
 import { getCF, getCFObj, getCFOrg } from '../redux/actions/auth-actions';
 import SponsorList from './partial/static/sponsor-list';
@@ -69,8 +69,9 @@ export default class LandingPage extends React.Component {
     getCfLogo() {
         var logo = null;
         if (this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null) {
+            let imgUrl = `${ImageUrl}${this.CFDetail.logo}`;
             var logoStyle = {
-                backgroundImage: `url('${this.CFDetail.logo}')`,
+                backgroundImage: `url('${imgUrl}')`,
                 backgroundPosition: this.CFDetail.logo_position,
                 backgroundSize: this.CFDetail.logo_size,
                 height: this.CFDetail.logo_height,
@@ -135,7 +136,7 @@ export default class LandingPage extends React.Component {
 
 
 
-        var intro = <h1 style={{marginTop:"5px"}}><small>WELCOME TO</small>
+        var intro = <h1 style={{ marginTop: "5px" }}><small>WELCOME TO</small>
             <br></br>
             {this.CFDetail.title}
             <br></br>
