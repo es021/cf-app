@@ -15,16 +15,20 @@ import {
     CFSMetaOrg
 } from '../../../config/db-config';
 import {
-    //CareerFair,
-    //CareerFairOrg,
-    CF_DEFAULT
-} from '../../../config/cf-config';
-import {
     Time
 } from '../../lib/time';
 
+// import {
+//     CareerFair,
+//     CareerFairOrg,
+//     CF_DEFAULT
+// } from '../../../config/cf-config';
+
+
 // ############################################
 // CF - START
+const CF_DEFAULT = "UK";
+
 const LOCAL_STORAGE_CF = "cf-seeds-job-fair";
 export function setLocalStorageCf(cfArr) {
     let cfObj = {};
