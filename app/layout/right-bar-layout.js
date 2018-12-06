@@ -15,6 +15,7 @@ import { addLog } from '../redux/actions/other-actions';
 import { LogEnum } from '../../config/db-config';
 import { Ads } from '../../config/ads-config';
 import {QsPopupView} from '../page/partial/analytics/qs-popup.jsx';
+import {ImageUrl } from '../../config/app-config';
 
 require("../css/ads.scss");
 
@@ -48,10 +49,11 @@ export default class RightBarLayout extends React.Component {
 
     getEventPage() {
         if (this.CFObj.page_banner !== null && this.CFObj.page_url !== null) {
+            let imgUrl = `${ImageUrl}${this.CFObj.page_banner}`;
             return <div className="right-bar-item">
                 <div className="body">
                     <a onClick={() => { addLog(LogEnum.EVENT_CLICK_EVENT_PAGE, "") }} target="blank" href={this.CFObj.page_url}>
-                        <img className="img img-responsive" src={this.CFObj.page_banner}></img>
+                        <img className="img img-responsive" src={imgUrl}></img>
                         <a className="btn btn-block btn-blue">
                             <i className="fa fa-facebook left"></i>
                             Visit Event Page

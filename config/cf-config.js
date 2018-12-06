@@ -1,6 +1,4 @@
-const {
-    ImageUrl
-} = require('./app-config');
+    //https://seedsjobfair.com/public/asset/image/banner/UK.jpg
 
 const CF_DEFAULT = "UK";
 const CareerFair = {
@@ -29,8 +27,8 @@ const CareerFair = {
             ]
         },
         override_coming_soon: true,
-        
-        //logo: `${ImageUrl}/cf/EUR-logo-2.png`,
+
+        //logo: `/cf/EUR-logo-2.png`,
         logo_height: "100px",
         //logo_width: "370px",
         //logo_position: "top center",
@@ -46,7 +44,7 @@ const CareerFair = {
         //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
 
         //page_url: "https://www.facebook.com/events/2093221544257428/",
-        //page_banner: `${ImageUrl}/cf/EUR-event-page.jpg`,
+        //page_banner: `/cf/EUR-event-page.jpg`,
 
 
         can_register: 1,
@@ -77,7 +75,7 @@ const CareerFair = {
             ]
         },
         override_coming_soon: true,
-        logo: `${ImageUrl}/cf/EUR-logo-2.png`,
+        logo: `/cf/EUR-logo-2.png`,
         logo_height: "200px",
         logo_width: "370px",
         logo_position: "top center",
@@ -93,7 +91,7 @@ const CareerFair = {
         //test_end: "Apr 01 2018 11:00:00 GMT +0800 (+08)",
 
         page_url: "https://www.facebook.com/events/2093221544257428/",
-        page_banner: `${ImageUrl}/cf/EUR-event-page.jpg`,
+        page_banner: `/cf/EUR-event-page.jpg`,
 
 
         can_register: 1,
@@ -172,7 +170,7 @@ const CareerFair = {
         can_register: 0,
         can_login: 1,
         page_url: "https://www.facebook.com/events/165437787576733/",
-        page_banner: `${ImageUrl}/cf/USA-event-page.jpg`
+        page_banner: `/cf/USA-event-page.jpg`
     },
     "JAPAN": {
         title: "Japan Virtual Career Fair 2018",
@@ -316,6 +314,31 @@ const CareerFairOrg = {
         }]
     }
 };
+
+
+
+// function insertSql(name, key, val) {
+//     return `INSERT INTO cfs_meta (ID, cf_name, meta_key, meta_value) VALUES (NULL, '${name}', '${key}', '${val}');\n`
+// }
+
+// function sqlCareerFair() {
+//     let sql = ""
+
+//     for (var cf_name in CareerFair) {
+//         let cf = CareerFair[cf_name];
+//         for (var key in cf) {
+//             let val = cf[key];
+//             if (typeof val === "object") {
+//                 val = JSON.stringify(val);
+//             }
+//             sql += insertSql(cf_name, key, val);
+//         }
+//     }
+
+//     console.log(sql);
+// }
+
+// sqlCareerFair();
 
 module.exports = {
     CareerFair,

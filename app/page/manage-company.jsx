@@ -21,7 +21,6 @@ import PropTypes from 'prop-types';
 import { RootPath } from '../../config/app-config';
 import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
-import { CareerFair } from '../../config/cf-config';
 import Restricted from './partial/static/restricted';
 import UserPopup from './partial/popup/user-popup';
 import { SessionsList } from './partial/activity/session';
