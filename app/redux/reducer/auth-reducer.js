@@ -1,6 +1,10 @@
-import { getNewState } from './_helper';
+import {
+    getNewState
+} from './_helper';
 import * as authActions from '../actions/auth-actions';
-import { _GET } from '../../lib/util';
+import {
+    _GET
+} from '../../lib/util';
 
 const CF_DEFAULT = authActions.getCFDefault();
 
@@ -12,7 +16,7 @@ const authReducerInitState = {
     isAuthorized: false,
     fetching: false,
     error: null,
-    cookie: true
+    cookie: true,
 };
 
 var auth = null;
@@ -97,7 +101,9 @@ if (hasLocalStorageSupport) {
 
     if (auth !== null) {
         auth = JSON.parse(auth);
-        auth = getNewState(auth, { cookie: true });
+        auth = getNewState(auth, {
+            cookie: true
+        });
         auth = fixLocalStorageAuth(auth);
     } else {
         auth = authReducerInitState;
@@ -125,7 +131,9 @@ else {
     //        error: null
     //    };
 
-    auth = getNewState(authReducerInitState, { cookie: false });
+    auth = getNewState(authReducerInitState, {
+        cookie: false
+    });
     auth = fixCFAuth(auth);
 }
 

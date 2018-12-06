@@ -496,8 +496,44 @@ const QsPopupAnswer = {
 };
 
 const CFS = {
-    TABLE : "cfs",
+    TABLE: "cfs",
 }
+
+const CFSMeta = {
+    TABLE: "cfs_meta",
+    TITLE: "title",
+    FLAG: "flag",
+    BANNER: "banner",
+    BANNER_POS: "banner_pos",
+    SCHEDULE: "schedule",
+    OVERRIDE_COMING_SOON: "override_coming_soon",
+    LOGO: "logo",
+    LOGO_HEIGHT: "logo_height",
+    LOGO_WIDTH: "logo_width",
+    LOGO_POSITION: "logo_position",
+    LOGO_SIZE: "logo_size",
+    START: "start",
+    END: "end",
+    TIME_STR: "time_str",
+    TIME_STR_MAS: "time_str_mas",
+    TEST_START: "test_start",
+    TEST_END: "test_end",
+    PAGE_URL: "page_url",
+    PAGE_BANNER: "page_banner",
+    CAN_REGISTER: "can_register",
+    CAN_LOGIN: "can_login",
+
+    // for CareerFairOrg
+    ORGANIZER: "Organizer",
+    COLLABORATOR: "Collaborator",
+    POWERED: "Powered"
+}
+
+const CFSMetaObject = [
+    CFSMeta.SCHEDULE, CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED
+];
+
+const CFSMetaOrg = [CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED];
 
 module.exports = {
     QsPopup,
@@ -542,5 +578,8 @@ module.exports = {
     Availability,
     GroupSession,
     GroupSessionJoin,
-    CFS
+    CFS,
+    CFSMeta,
+    CFSMetaObject,
+    CFSMetaOrg
 };

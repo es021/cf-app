@@ -115,11 +115,38 @@ const CfsType = new GraphQLObjectType({
         name: { type: GraphQLString },
         country: { type: GraphQLString },
         time: { type: GraphQLString },
-        title: { type: GraphQLString },
         is_active: { type: GraphQLString },
-        create_at: { type: GraphQLString },
-        updated_at: { type: GraphQLString }
-    })
+        created_at: { type: GraphQLString },
+        updated_at: { type: GraphQLString },
+
+        // meta
+        title: { type: GraphQLString },
+        flag: { type: GraphQLString },
+        banner: { type: GraphQLString },
+        banner_pos: { type: GraphQLString },
+        schedule: { type: GraphQLString },
+        override_coming_soon: { type: GraphQLBoolean },
+        logo: { type: GraphQLString },
+        logo_height: { type: GraphQLString },
+        logo_width: { type: GraphQLString },
+        logo_position: { type: GraphQLString },
+        logo_size: { type: GraphQLString },
+        start: { type: GraphQLString },
+        end: { type: GraphQLString },
+        time_str: { type: GraphQLString },
+        time_str_mas: { type: GraphQLString },
+        test_start: { type: GraphQLString },
+        test_end: { type: GraphQLString },
+        page_url: { type: GraphQLString },
+        page_banner: { type: GraphQLString },
+        can_login: { type: GraphQLInt },
+        can_register: { type: GraphQLInt },
+
+        // for org
+        Organizer: { type: GraphQLString },
+        Collaborator: { type: GraphQLString },
+        Powered: { type: GraphQLString },
+     })
 });
 
 
