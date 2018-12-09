@@ -475,7 +475,7 @@ export default class Form extends React.Component {
                     }
                 } catch (err) {
                     console.log("Failed to parse multiple default value");
-                    console.log(err);
+                    //console.log(err);
                     defaultVal = defaultVal;
                 }
 

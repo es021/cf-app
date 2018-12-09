@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect, NavLink } from 'react-router-dom';
+//import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
 import { UserMeta, User, UserEnum, Skill, DocLink, DocLinkEnum } from '../../config/db-config';
-import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
-import { ButtonLink } from '../component/buttons';
+//import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
+//import { ButtonLink } from '../component/buttons';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import { getAuthUser, isRoleRec, isRoleStudent, updateAuthUser } from '../redux/actions/auth-actions';
@@ -14,12 +14,12 @@ import { CustomList } from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from './partial/popup/confirm-popup';
 import UserPopup from './partial/popup/user-popup';
-import { store } from '../redux/store';
+//import { store } from '../redux/store';
 import DocLinkPage from '../component/doc-link-form';
-import { SimpleListItem } from '../component/list';
+//import { SimpleListItem } from '../component/list';
 import PasswordResetPage from './password-reset';
 import AvailabilityView from './availability';
-
+import { getEditProfileFormItem } from '../../config/user-config';
 
 class StudentDocLink extends React.Component {
     render() {
@@ -199,160 +199,161 @@ class EditProfile extends React.Component {
                 return { user: user, init: false };
             });
         });
-        this.formItems = [
-            { header: "Basic Information" },
-            {
-                label: "First Name",
-                name: UserMeta.FIRST_NAME,
-                type: "text",
-                placeholder: "John",
-                required: true
-            }, {
-                label: "Last Name",
-                name: UserMeta.LAST_NAME,
-                type: "text",
-                placeholder: "Doe",
-                required: true
-            }];
+        this.formItems = getEditProfileFormItem(this.authUser.role);
+        // this.formItems = [
+        //     { header: "Basic Information" },
+        //     {
+        //         label: "First Name",
+        //         name: UserMeta.FIRST_NAME,
+        //         type: "text",
+        //         placeholder: "John",
+        //         required: true
+        //     }, {
+        //         label: "Last Name",
+        //         name: UserMeta.LAST_NAME,
+        //         type: "text",
+        //         placeholder: "Doe",
+        //         required: true
+        //     }];
 
-        // for student
-        if (isRoleStudent()) {
-            this.formItems.push(...[{
-                label: "Phone Number",
-                name: UserMeta.PHONE_NUMBER,
-                type: "text",
-                placeholder: "XXX-XXXXXXX",
-                required: true
-            },
-            // {
-            //     label: "Gender",
-            //     name: UserMeta.GENDER,
-            //     type: "select",
-            //     data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
-            //     required: true
-            // },
-            { header: "Where Do You Reside In Malaysia?" },
-            {
-                label: "State",
-                name: UserMeta.MAS_STATE,
-                type: "select",
-                data: MasState,
-                required: true
-            },
-            // {
-            //     label: "Postcode",
-            //     name: UserMeta.MAS_POSTCODE,
-            //     type: "text",
-            //     required: true,
-            //     placeholder: "20050"
-            // },
-            { header: "Degree Related Information" },
-            {
-                label: "Major",
-                name: UserMeta.MAJOR,
-                type: "text",
-                multiple: true,
-                required: true
-            }, {
-                label: "Minor",
-                name: UserMeta.MINOR,
-                type: "text",
-                multiple: true,
-                required: false
-            }, {
-                label: "University",
-                name: UserMeta.UNIVERSITY,
-                type: "text",
-                required: true
-            },
-            {
-                label: "Where Is Your University Located?",
-                name: UserMeta.STUDY_PLACE,
-                type: "select",
-                data: Country,
-                required: true
-            },
-            {
-                label: "Current CGPA",
-                name: UserMeta.CGPA,
-                type: "number",
-                step: "0.01",
-                min: "0",
-                required: false,
-                sublabel: <ButtonLink label="Don't Use CGPA system?"
-                    target='_blank'
-                    href="https://www.foreigncredits.com/resources/gpa-calculator/">
-                </ButtonLink>
-            }, {
-                label: "Expected Graduation",
-                name: UserMeta.GRADUATION_MONTH,
-                type: "select",
-                data: Month,
-                required: true
+        // // for student
+        // if (isRoleStudent()) {
+        //     this.formItems.push(...[{
+        //         label: "Phone Number",
+        //         name: UserMeta.PHONE_NUMBER,
+        //         type: "text",
+        //         placeholder: "XXX-XXXXXXX",
+        //         required: true
+        //     },
+        //     // {
+        //     //     label: "Gender",
+        //     //     name: UserMeta.GENDER,
+        //     //     type: "select",
+        //     //     data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
+        //     //     required: true
+        //     // },
+        //     { header: "Where Do You Reside In Malaysia?" },
+        //     {
+        //         label: "State",
+        //         name: UserMeta.MAS_STATE,
+        //         type: "select",
+        //         data: MasState,
+        //         required: true
+        //     },
+        //     // {
+        //     //     label: "Postcode",
+        //     //     name: UserMeta.MAS_POSTCODE,
+        //     //     type: "text",
+        //     //     required: true,
+        //     //     placeholder: "20050"
+        //     // },
+        //     { header: "Degree Related Information" },
+        //     {
+        //         label: "Major",
+        //         name: UserMeta.MAJOR,
+        //         type: "text",
+        //         multiple: true,
+        //         required: true
+        //     }, {
+        //         label: "Minor",
+        //         name: UserMeta.MINOR,
+        //         type: "text",
+        //         multiple: true,
+        //         required: false
+        //     }, {
+        //         label: "University",
+        //         name: UserMeta.UNIVERSITY,
+        //         type: "text",
+        //         required: true
+        //     },
+        //     {
+        //         label: "Where Is Your University Located?",
+        //         name: UserMeta.STUDY_PLACE,
+        //         type: "select",
+        //         data: Country,
+        //         required: true
+        //     },
+        //     {
+        //         label: "Current CGPA",
+        //         name: UserMeta.CGPA,
+        //         type: "number",
+        //         step: "0.01",
+        //         min: "0",
+        //         required: false,
+        //         sublabel: <ButtonLink label="Don't Use CGPA system?"
+        //             target='_blank'
+        //             href="https://www.foreigncredits.com/resources/gpa-calculator/">
+        //         </ButtonLink>
+        //     }, {
+        //         label: "Expected Graduation",
+        //         name: UserMeta.GRADUATION_MONTH,
+        //         type: "select",
+        //         data: Month,
+        //         required: true
 
-            }, {
-                label: null,
-                name: UserMeta.GRADUATION_YEAR,
-                type: "select",
-                data: Year,
-                required: true
+        //     }, {
+        //         label: null,
+        //         name: UserMeta.GRADUATION_YEAR,
+        //         type: "select",
+        //         data: Year,
+        //         required: true
 
-            },
-            { header: "Future Employment Information" },
-            {
-                label: "Looking For",
-                name: UserMeta.LOOKING_FOR,
-                type: "select",
-                data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
-                required: true
-            },
-            // {
-            //     label: "Work Availability Date",
-            //     sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
-            //     name: UserMeta.AVAILABLE_MONTH,
-            //     type: "select",
-            //     data: Array("Available To Start Anytime", ...Month),
-            //     required: true
-            // }, {
-            //     label: null,
-            //     name: UserMeta.AVAILABLE_YEAR,
-            //     type: "select",
-            //     data: Array("Available To Start Anytime", ...Year),
-            //     required: true
-            // }, 
-            {
-                label: "Are You Willing To Relocate?",
-                name: UserMeta.RELOCATE,
-                type: "select",
-                data: Array("", "Yes", "No"),
-                required: true
-            },
-            { header: "Additional Information" },
-            {
-                label: "Sponsor",
-                name: UserMeta.SPONSOR,
-                type: "select",
-                data: Sponsor,
-                required: false,
-                sublabel: "This information will not be displayed in your profile."
+        //     },
+        //     { header: "Future Employment Information" },
+        //     {
+        //         label: "Looking For",
+        //         name: UserMeta.LOOKING_FOR,
+        //         type: "select",
+        //         data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
+        //         required: true
+        //     },
+        //     // {
+        //     //     label: "Work Availability Date",
+        //     //     sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
+        //     //     name: UserMeta.AVAILABLE_MONTH,
+        //     //     type: "select",
+        //     //     data: Array("Available To Start Anytime", ...Month),
+        //     //     required: true
+        //     // }, {
+        //     //     label: null,
+        //     //     name: UserMeta.AVAILABLE_YEAR,
+        //     //     type: "select",
+        //     //     data: Array("Available To Start Anytime", ...Year),
+        //     //     required: true
+        //     // }, 
+        //     {
+        //         label: "Are You Willing To Relocate?",
+        //         name: UserMeta.RELOCATE,
+        //         type: "select",
+        //         data: Array("", "Yes", "No"),
+        //         required: true
+        //     },
+        //     { header: "Additional Information" },
+        //     {
+        //         label: "Sponsor",
+        //         name: UserMeta.SPONSOR,
+        //         type: "select",
+        //         data: Sponsor,
+        //         required: false,
+        //         sublabel: "This information will not be displayed in your profile."
 
-            }, {
-                label: "Description",
-                name: UserMeta.DESCRIPTION,
-                type: "textarea",
-                placeholder: "Tell More About Yourself",
-                required: false,
-                rows: 5
-            }
-            ]);
-        } else if (isRoleRec()) {
-            this.formItems.push(...[{
-                label: "Position",
-                name: UserMeta.REC_POSITION,
-                type: "text",
-                placeholder: "HR Manager"
-            }]);
-        }
+        //     }, {
+        //         label: "Description",
+        //         name: UserMeta.DESCRIPTION,
+        //         type: "textarea",
+        //         placeholder: "Tell More About Yourself",
+        //         required: false,
+        //         rows: 5
+        //     }
+        //     ]);
+        // } else if (isRoleRec()) {
+        //     this.formItems.push(...[{
+        //         label: "Position",
+        //         name: UserMeta.REC_POSITION,
+        //         type: "text",
+        //         placeholder: "HR Manager"
+        //     }]);
+        // }
     }
 
     //return string if there is error
@@ -374,10 +375,10 @@ class EditProfile extends React.Component {
             }
             update[User.ID] = this.authUser[User.ID];
 
-            if(update[UserMeta.CGPA] == ""){
+            if (update[UserMeta.CGPA] == "") {
                 update[UserMeta.CGPA] = 0;
             }
-            
+
             /* 
              var update = {};
              update[User.ID] = this.authUser[User.ID];
