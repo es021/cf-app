@@ -588,7 +588,7 @@ fields["edit_user"] = {
             type: GraphQLString
         },
         cgpa: {
-            type: GraphQLFloat
+            type: GraphQLString
         },
         major: {
             type: GraphQLString
