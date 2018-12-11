@@ -375,9 +375,10 @@ class EditProfile extends React.Component {
             }
             update[User.ID] = this.authUser[User.ID];
 
-            if (update[UserMeta.CGPA] == "") {
-                update[UserMeta.CGPA] = 0;
-            }
+            // skrang cgpa dh jadi string
+            // if (update[UserMeta.CGPA] == "") {
+            //     update[UserMeta.CGPA] = 0;
+            // }
 
             /* 
              var update = {};

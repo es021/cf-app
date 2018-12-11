@@ -1,9 +1,24 @@
-const { getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios } = require('../../helper/api-helper');
-const { User, UserMeta, UserEnum, LogEnum } = require('../../config/db-config');
-const { SiteUrl } = require('../../config/app-config');
-const { AuthUserKey } = require('../../config/auth-config');
+const {
+    getAxiosGraphQLQuery,
+    getPHPApiAxios,
+    getWpAjaxAxios
+} = require('../../helper/api-helper');
+const {
+    User,
+    UserMeta,
+    UserEnum,
+    LogEnum
+} = require('../../config/db-config');
+const {
+    SiteUrl
+} = require('../../config/app-config');
+const {
+    AuthUserKey
+} = require('../../config/auth-config');
 const obj2arg = require('graphql-obj2arg');
-const { LogApi } = require('./other-api');
+const {
+    LogApi
+} = require('./other-api');
 
 const AuthAPIErr = {
     WRONG_PASS: "WRONG_PASS",
@@ -21,8 +36,13 @@ class AuthAPI {
     // Helper
     isCFValid(user, cf) {
         var role = user.role;
-        
-        if (role == UserEnum.ROLE_STUDENT || role == UserEnum.ROLE_ORGANIZER) {
+
+        if (role == UserEnum.ROLE_STUDENT) {
+            // New Feature for 2019, override checking during login
+            // sume student boleh join mana2
+            this.insertCfAfterLogin(user, cf);
+            return true;
+        } else if (role == UserEnum.ROLE_ORGANIZER) {
             return (user[User.CF].indexOf(cf) >= 0);
         } else if (role == UserEnum.ROLE_RECRUITER) {
             if (user.company) {
@@ -31,9 +51,35 @@ class AuthAPI {
                 return false;
             }
         } else {
-            return (role == UserEnum.ROLE_ADMIN
-                || role == UserEnum.ROLE_EDITOR
-                || role == UserEnum.ROLE_SUPPORT);
+            return (role == UserEnum.ROLE_ADMIN ||
+                role == UserEnum.ROLE_EDITOR ||
+                role == UserEnum.ROLE_SUPPORT);
+        }
+    }
+
+    insertCfAfterLogin(user, cf) {
+        if (user.role == UserEnum.ROLE_STUDENT) {
+            // check kalau dah ada dlm cf_map
+            let existingCf = user[User.CF];
+            if (!Array.isArray(existingCf)) {
+                existingCf = [];
+            }
+            if (existingCf.indexOf(cf) >= 0) {
+                return;
+            }
+
+            // kalau takde, masukkan cf ni
+
+            let update = {};
+            update[User.ID] = user.ID;
+            update[User.CF] = cf;
+
+            // kita tanak record lama dioverride,
+            // n kita boleh track bila user tu regiser, login cf baru
+            update[User.SKIP_DELETE_CF] = true;
+
+            var query = `mutation{edit_user(${obj2arg(update, { noOuterBraces: true })}) {ID}}`;
+            getAxiosGraphQLQuery(query).then((res) => {}, (err) => {});
         }
     }
 
@@ -76,7 +122,11 @@ class AuthAPI {
                 }
 
                 //check password
-                var pass_params = { action: "check_password", password: password, hashed: user.user_pass };
+                var pass_params = {
+                    action: "check_password",
+                    password: password,
+                    hashed: user.user_pass
+                };
                 return getPHPApiAxios("password_hash", pass_params).then((res) => {
                     //password match -- cannot use === operator
                     //console.log(res);
@@ -165,7 +215,9 @@ class AuthAPI {
 
                     return getAxiosGraphQLQuery(edit_query).then((res) => {
                         var user = res.data.data.edit_user;
-                        return { user_email: user.user_email };
+                        return {
+                            user_email: user.user_email
+                        };
                     });
 
                 } else {
@@ -186,7 +238,10 @@ class AuthAPI {
     // helper function 
     set_password(user_id, password, password_reset_ID = null) {
         //hash password
-        var pass_params = { action: "hash_password", password: password };
+        var pass_params = {
+            action: "hash_password",
+            password: password
+        };
         return getPHPApiAxios("password_hash", pass_params).then((res) => {
             var hashed = res.data;
             //update hash password in db
@@ -198,10 +253,14 @@ class AuthAPI {
                 if (password_reset_ID !== null) {
                     var user_query = `mutation{edit_password_reset(ID:${password_reset_ID},is_expired:1){ID}}`;
                     return getAxiosGraphQLQuery(user_query).then((res) => {
-                        return { status: 1 };
+                        return {
+                            status: 1
+                        };
                     });
                 } else {
-                    return { status: 1 };
+                    return {
+                        status: 1
+                    };
                 }
             });
         });
@@ -232,7 +291,11 @@ class AuthAPI {
             var user = res.data.data.user;
 
             // check if old password is correct
-            var pass_params = { action: "check_password", password: old_password, hashed: user.user_pass };
+            var pass_params = {
+                action: "check_password",
+                password: old_password,
+                hashed: user.user_pass
+            };
             return getPHPApiAxios("password_hash", pass_params).then((res) => {
                 if (res.data == "1") {
                     return this.set_password(user_id, new_password);
@@ -259,7 +322,10 @@ class AuthAPI {
                 return AuthAPIErr.INVALID_EMAIL;
             } else {
                 //create new token 
-                var pass_params = { action: "hash_password", password: `${user_email}_${Date.now()}` };
+                var pass_params = {
+                    action: "hash_password",
+                    password: `${user_email}_${Date.now()}`
+                };
                 return getPHPApiAxios("password_hash", pass_params).then((res) => {
                     var token = res.data;
                     token = this.replaceAll("/", "", token);
@@ -279,7 +345,9 @@ class AuthAPI {
 
                         console.log("send_email", email_data);
                         getWpAjaxAxios("app_send_email", email_data);
-                        return { status: 1 };
+                        return {
+                            status: 1
+                        };
                     });
                 });
             }
@@ -296,7 +364,7 @@ class AuthAPI {
 
         //get cf
         var cf = (user[User.CF]);
-        delete (user[User.CF]);
+        delete(user[User.CF]);
 
         var userdata = user;
         var usermeta = user;
@@ -340,4 +408,7 @@ AuthAPI = new AuthAPI();
 //test
 //AuthAPI.set_password(1, "gundamseed21");
 
-module.exports = { AuthAPI, AuthAPIErr };
+module.exports = {
+    AuthAPI,
+    AuthAPIErr
+};

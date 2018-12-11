@@ -32,7 +32,8 @@ const User = {
     ACTIVATION_KEY: "user_activation_key",
     REGISTER_AT: "user_registered",
     TRIGGER_UPDATE: "trigger_update",
-    CF: "cf"
+    CF: "cf",
+    SKIP_DELETE_CF: "skip_delete_cf"
 };
 
 const Availability = {
