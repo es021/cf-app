@@ -561,6 +561,10 @@ fields["edit_user"] = {
         activation_key: {
             type: GraphQLString
         },
+
+        skip_delete_cf: {
+            type: GraphQLBoolean
+        },
         cf: {
             type: new GraphQLList(GraphQLString)
         },

@@ -1,6 +1,11 @@
 var Mysql = require("promise-mysql");
-const { User, Company } = require('../../config/db-config');
-const { Secret } = require('../secret/secret.js');
+const {
+    User,
+    Company
+} = require('../../config/db-config');
+const {
+    Secret
+} = require('../secret/secret.js');
 
 var DB = function (env) {
     var config = {};
@@ -51,7 +56,7 @@ DB.prototype.getCF = function (entity, entity_id) {
 
 DB.prototype.updateCF = function (entity, entity_id, cf, isDelete = true) {
     //console.log("updateCF");
-    var insertAction = (res) => {
+    var insertAction = () => {
         var ins = `INSERT INTO cf_map (entity, entity_id, cf) VALUES `;
         // make cf to array
         if (typeof cf == "string") {
@@ -71,10 +76,10 @@ DB.prototype.updateCF = function (entity, entity_id, cf, isDelete = true) {
     if (isDelete) {
         var del = `DELETE from cf_map where entity = '${entity}' and entity_id = ${entity_id}`;
         return this.query(del).then((res) => {
-            insertAction(res);
+            insertAction();
         });
     } else {
-        return insertAction(res);
+        return insertAction();
     }
 };
 /**** CF *******/
@@ -89,8 +94,8 @@ DB.prototype.escStr = function (str) {
     }
 
     return str.replace(
-        /[\0\x08\x09\x1a\n\r"'\\\%]/g
-        , function (char) {
+        /[\0\x08\x09\x1a\n\r"'\\\%]/g,
+        function (char) {
             switch (char) {
                 case "\0":
                     return "\\0";
@@ -108,7 +113,7 @@ DB.prototype.escStr = function (str) {
                 case "'":
                 case "\\":
                     return "\\" + char; // prepends a backslash to backslash, percent,
-                // and double/single quotes
+                    // and double/single quotes
                 case "%":
                     return "%";
             }
@@ -151,25 +156,33 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
 
     if (typeof data.cf !== "undefined") {
         var cf = data.cf;
+        var isDeleteCf = true;
         var entity = null;
         // trigger from manage-company
+        console.log("DB UPDATE", table);
+        console.log("data.skip_delete_cf", data.skip_delete_cf);
+        console.log(data);
         switch (table) {
             case Company.TABLE:
                 entity = "company";
                 break;
             case User.TABLE:
                 entity = "user";
+                // during login jgn delete yang lama pliss
+                if (data.skip_delete_cf == true) {
+                    isDeleteCf = false;
+                }
                 break;
         }
 
         if (entity !== null) {
-            delete (data["cf"]);
+            delete(data["cf"]);
 
             //only ID left, then return
             if (Object.keys(data).length == 1) {
-                return this.updateCF(entity, ID, cf);
+                return this.updateCF(entity, ID, cf, isDeleteCf);
             } else {
-                this.updateCF(entity, ID, cf);
+                this.updateCF(entity, ID, cf, isDeleteCf);
             }
 
         }
@@ -219,8 +232,8 @@ DB.prototype.delete = function (table, ID, ID_key = "ID") {
 
 DB.prototype.prepareLimit = function (page, offset) {
     var start = (page - 1) * offset;
-    var limit = (typeof page !== "undefined" && typeof offset !== "undefined")
-        ? `LIMIT ${start},${offset}` : "";
+    var limit = (typeof page !== "undefined" && typeof offset !== "undefined") ?
+        `LIMIT ${start},${offset}` : "";
     return limit;
 };
 
