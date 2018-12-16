@@ -117,9 +117,10 @@ class AuthAPI {
             var user = res.data.data.user;
             if (user !== null) {
                 //check if active
-                if (user.user_status === UserEnum.STATUS_NOT_ACT) {
-                    return AuthAPIErr.NOT_ACTIVE;
-                }
+                // FIX 2019 - remove filter not active
+                // if (user.user_status === UserEnum.STATUS_NOT_ACT) {
+                //     return AuthAPIErr.NOT_ACTIVE;
+                // }
 
                 //check password
                 var pass_params = {

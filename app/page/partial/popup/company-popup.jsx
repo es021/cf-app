@@ -20,6 +20,8 @@ import { addLog } from '../../../redux/actions/other-actions';
 import { getFeedbackPopupView } from '../analytics/feedback';
 import { GroupSessionView } from '../hall/group-session';
 import { Gallery } from '../../../component/gallery';
+import ValidationStudentAction from '../../../component/validation-student-action';
+
 
 class VacancyList extends React.Component {
     constructor(props) {
@@ -77,7 +79,9 @@ export default class CompanyPopup extends Component {
         super(props)
         this.state = {
             data: null,
-            loading: true
+            loading: true,
+            isHiddenValidation: true,
+            keyValidation: 0
         }
 
         this.authUser = getAuthUser();
@@ -231,8 +235,8 @@ export default class CompanyPopup extends Component {
         if (list.length === 0) {
             return <div className="text-muted">Nothing To Show Here</div>;
         }
-        console.log(rec_privacy);
-        console.log(this.isRec);
+        // console.log(rec_privacy);
+        // console.log(this.isRec);
         if (rec_privacy && !this.isRec) {
             return <div className="text-muted">This information is private</div>;
         }
@@ -321,6 +325,12 @@ export default class CompanyPopup extends Component {
         return <div className="fc-banner" style={style}></div>;
     }
 
+    openResumeDrop() {
+        var data = this.state.data;
+        layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+            , ResumeDropPopup, { company_id: data.ID })
+    }
+
     render() {
         var id = null;
         var data = this.state.data;
@@ -352,8 +362,14 @@ export default class CompanyPopup extends Component {
                     , color: "#007BB4"
                 }, {
                     label: "Drop Your Resume"
-                    , onClick: () => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
-                        , ResumeDropPopup, { company_id: data.ID })
+                    , onClick: () => {
+                        this.setState((prevState) => {
+                            return {
+                                isHiddenValidation: false,
+                                keyValidation: (new Date()).getTime(),
+                            }
+                        })
+                    }
                     , icon: "download"
                     , color: "#efa30b"
                 }
@@ -427,6 +443,11 @@ export default class CompanyPopup extends Component {
                 </div>
                 :
                 <div>
+                    <ValidationStudentAction
+                        key={this.state.keyValidation}
+                        isHidden={this.state.isHiddenValidation}
+                        successHandler={() => this.openResumeDrop()}>
+                    </ValidationStudentAction>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-3 com-pop-left">

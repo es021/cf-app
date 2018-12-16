@@ -15,7 +15,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import CompanyPopup from './partial/popup/company-popup';
 import VacancyPopup from './partial/popup/vacancy-popup';
 import { store } from '../redux/store';
-import DocLinkPage from '../component/doc-link-form';
+import DocLinkPage from '../component/doc-link-form.jsx';
 import { SimpleListItem } from '../component/list';
 import PropTypes from 'prop-types';
 import { RootPath } from '../../config/app-config';

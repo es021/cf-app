@@ -1,8 +1,26 @@
 const DB = require('./DB.js');
 
-const { User, UserMeta, UserEnum, QueueEnum, PrescreenEnum, Prescreen,GroupSessionJoin, SessionEnum, SessionRequest, SessionRequestEnum } = require('../../config/db-config.js');
-const { DocLinkExec } = require('./doclink-query.js');
-const { SkillExec } = require('./skill-query.js');
+const {
+    User,
+    UserMeta,
+    UserEnum,
+    QueueEnum,
+    PrescreenEnum,
+    Prescreen,
+    GroupSessionJoin,
+    SessionEnum,
+    SessionRequest,
+    SessionRequestEnum
+} = require('../../config/db-config.js');
+const {
+    RequiredFieldStudent
+} = require('../../config/registration-config.js');
+const {
+    DocLinkExec
+} = require('./doclink-query.js');
+const {
+    SkillExec
+} = require('./skill-query.js');
 
 class UserQuery {
     getSearchUniversity(field, search_params) {
@@ -28,11 +46,9 @@ class UserQuery {
         var email = (typeof search_email === "undefined") ? "" : this.getSearchEmail(field, search_email);
         if (name == "" && email == "") {
             return `1=1`;
-        }
-        else if (name == "" && email != "") {
+        } else if (name == "" && email != "") {
             return email;
-        }
-        else if (name != "" && email == "") {
+        } else if (name != "" && email == "") {
             return name;
         } else {
             return `(${name} or ${email})`
@@ -44,13 +60,13 @@ class UserQuery {
 
         // external search query ------------------------------------------
         // both is injected
-        var name = (typeof params.search_user === "undefined") ? ""
-            : `CONCAT((${this.selectMetaMain("u.ID", UserMeta.FIRST_NAME)}),' ',
+        var name = (typeof params.search_user === "undefined") ? "" :
+            `CONCAT((${this.selectMetaMain("u.ID", UserMeta.FIRST_NAME)}),' ',
             (${this.selectMetaMain("u.ID", UserMeta.LAST_NAME)}))
             like '%${params.search_user}%'`;
 
-        var email = (typeof params.search_user === "undefined") ? ""
-            : `u.${User.EMAIL} like '%${params.search_user}%'`;
+        var email = (typeof params.search_user === "undefined") ? "" :
+            `u.${User.EMAIL} like '%${params.search_user}%'`;
 
         if (name != "" && email != "") {
             query += `and (${name} or ${email})`;
@@ -63,14 +79,14 @@ class UserQuery {
         }
 
         // search degree
-        query += (typeof params.search_degree === "undefined") ? ""
-            : ` and CONCAT((${this.selectMetaMain("u.ID", UserMeta.MAJOR)}),
+        query += (typeof params.search_degree === "undefined") ? "" :
+            ` and CONCAT((${this.selectMetaMain("u.ID", UserMeta.MAJOR)}),
             (${this.selectMetaMain("u.ID", UserMeta.MINOR)}))
             like '%${params.search_degree}%'`;
 
         // search university
-        query += (typeof params.search_university === "undefined") ? ""
-            : ` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${params.search_university}%'`;
+        query += (typeof params.search_university === "undefined") ? "" :
+            ` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${params.search_university}%'`;
 
         return query;
     }
@@ -86,11 +102,11 @@ class UserQuery {
         var order_by = (typeof params.order_by !== "undefined") ? `order by u.${params.order_by}` : `order by u.${User.ID} desc`;
 
 
-        var cf_where = (typeof params.cf === "undefined") ? "1=1"
-            : `(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
+        var cf_where = (typeof params.cf === "undefined") ? "1=1" :
+            `(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
 
-        var new_only_where = (typeof params.new_only === "undefined" || !params.new_only) ? "1=1"
-            : `u.ID in (SELECT distinct l.user_id
+        var new_only_where = (typeof params.new_only === "undefined" || !params.new_only) ? "1=1" :
+            `u.ID in (SELECT distinct l.user_id
                 FROM logs l, wp_cf_users ux 
                 where 1=1
                 and l.user_id = ux.ID
@@ -191,7 +207,7 @@ class UserExec {
                 if (feedback != "" && feedback != null && typeof feedback !== "undefined") {
                     return 1;
                 }
-            } catch (err) { };
+            } catch (err) {};
             return 0;
         });
     }
@@ -323,21 +339,45 @@ class UserExec {
     }
 
     getUserHelper(type, params, field, metaCons) {
-        const { CompanyExec } = require('./company-query.js');
-        const { QueueExec } = require('./queue-query.js');
-        const { PrescreenExec } = require('./prescreen-query.js');
-        const { ZoomExec } = require('./zoom-query.js');
-        const { SessionExec } = require('./session-query.js');
-        const { SessionRequestExec } = require('./session-request-query.js');
-        const { GroupSessionExec } = require('./group-session-query.js');
+        const {
+            CompanyExec
+        } = require('./company-query.js');
+        const {
+            QueueExec
+        } = require('./queue-query.js');
+        const {
+            PrescreenExec
+        } = require('./prescreen-query.js');
+        const {
+            ZoomExec
+        } = require('./zoom-query.js');
+        const {
+            SessionExec
+        } = require('./session-query.js');
+        const {
+            SessionRequestExec
+        } = require('./session-request-query.js');
+        const {
+            GroupSessionExec
+        } = require('./group-session-query.js');
 
         // extra field that need role value to find
-        if (field["sessions"] !== "undefined"
-            || field["queues"] !== "undefined"
-            || field["prescreens"] !== "undefined"
-            || field["registered_prescreens"] !== "undefined") {
+        if (field["sessions"] !== "undefined" ||
+            field["queues"] !== "undefined" ||
+            field["prescreens"] !== "undefined" ||
+            field["registered_prescreens"] !== "undefined") {
             field["role"] = 1;
             field["rec_company"] = 1;
+        }
+
+        if (field["is_active"] !== "undefined") {
+            field["user_status"] = 1;
+        }
+
+        if (field["is_profile_completed"] !== "undefined") {
+            for (var i in RequiredFieldStudent) {
+                field[RequiredFieldStudent[i]] = 1;
+            }
         }
 
         var isSingle = (type === "single");
@@ -354,21 +394,42 @@ class UserExec {
                 var user_id = res[i]["ID"];
                 var company_id = res[i]["rec_company"];
                 var role = res[i]["role"];
+                var user_status = res[i]["user_status"];
+
+                // is_profile_completed ****************************************************
+                if (field["is_profile_completed"] !== "undefined") {
+                    res[i]["is_profile_completed"] = true;
+                    // kalau ada yang required tak isi trus false
+                    for (var j in RequiredFieldStudent) {
+                        var reqKey = RequiredFieldStudent[j]
+                        var reqVal = res[i][reqKey]
+                        if (reqVal == null || reqVal == "") {
+                            //console.log(reqKey)
+                            res[i]["is_profile_completed"] = false;
+                            break;
+                        }
+                    }
+                }
+
+                // is_active ****************************************************
+                if (field["is_active"] !== "undefined") {
+                    res[i]["is_active"] = user_status == UserEnum.STATUS_ACT;
+                }
 
                 // Cf ****************************************************
                 if (typeof field["cf"] !== "undefined") {
                     res[i]["cf"] = DB.getCF("user", user_id);
                 }
 
-                 // group_session_joins ****************************************************
-                 if (typeof field["group_session_joins"] !== "undefined") {
+                // group_session_joins ****************************************************
+                if (typeof field["group_session_joins"] !== "undefined") {
                     var par = {};
                     par[GroupSessionJoin.USER_ID] = user_id;
                     res[i]["group_session_joins"] = GroupSessionExec.group_session_joins(par, field["group_session_joins"]);
                 }
 
-                 // group_sessions ****************************************************
-                 if (typeof field["group_sessions"] !== "undefined") {
+                // group_sessions ****************************************************
+                if (typeof field["group_sessions"] !== "undefined") {
                     var par = {};
                     par["user_id"] = user_id;
                     // order yg join url ada dulu, then by expired
@@ -378,7 +439,9 @@ class UserExec {
 
                 // sessions ****************************************************
                 if (typeof field["sessions"] !== "undefined") {
-                    var par = { status: [SessionEnum.STATUS_ACTIVE, SessionEnum.STATUS_NEW] };
+                    var par = {
+                        status: [SessionEnum.STATUS_ACTIVE, SessionEnum.STATUS_NEW]
+                    };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["participant_id"] = user_id;
                     }
@@ -391,7 +454,10 @@ class UserExec {
 
                 // zoom_invites ****************************************************
                 if (typeof field["zoom_invites"] !== "undefined") {
-                    var par = { is_expired: false, user_id: user_id };
+                    var par = {
+                        is_expired: false,
+                        user_id: user_id
+                    };
                     res[i]["zoom_invites"] = ZoomExec.zoom_invites(par, field["zoom_invites"]);
                 }
 
@@ -419,7 +485,9 @@ class UserExec {
 
                 // queues ****************************************************
                 if (typeof field["queues"] !== "undefined") {
-                    var par = { status: QueueEnum.STATUS_QUEUING };
+                    var par = {
+                        status: QueueEnum.STATUS_QUEUING
+                    };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;
                     }
@@ -433,8 +501,8 @@ class UserExec {
                 // prescreens ****************************************************
                 if (typeof field["prescreens"] !== "undefined") {
                     var par = {
-                        status: PrescreenEnum.STATUS_APPROVED
-                        , order_by: `${Prescreen.APPNMENT_TIME} asc`
+                        status: PrescreenEnum.STATUS_APPROVED,
+                        order_by: `${Prescreen.APPNMENT_TIME} asc`
                     };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;
@@ -466,12 +534,17 @@ class UserExec {
 
                 // doc_links ****************************************************
                 if (typeof field["doc_links"] !== "undefined") {
-                    res[i]["doc_links"] = DocLinkExec.doc_links({ user_id: user_id, order_by: "label" }, field["doc_links"]);
+                    res[i]["doc_links"] = DocLinkExec.doc_links({
+                        user_id: user_id,
+                        order_by: "label"
+                    }, field["doc_links"]);
                 }
 
                 // skills ****************************************************
                 if (typeof field["skills"] !== "undefined") {
-                    res[i]["skills"] = SkillExec.skills({ user_id: user_id }, field["skills"]);
+                    res[i]["skills"] = SkillExec.skills({
+                        user_id: user_id
+                    }, field["skills"]);
                 }
             }
 
@@ -502,4 +575,7 @@ class UserExec {
 }
 UserExec = new UserExec();
 
-module.exports = { UserExec, UserQuery };
+module.exports = {
+    UserExec,
+    UserQuery
+};
