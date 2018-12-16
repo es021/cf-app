@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { getAuthUser } from '../redux/actions/auth-actions';
 import { storeHideFocusCard } from '../redux/actions/layout-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
-import { ResumeDrop } from '../../config/db-config';
+import { ResumeDrop, UserEnum } from '../../config/db-config';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
+import ValidationStudentAction from '../component/validation-student-action';
 import { Loader } from '../component/loader';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,7 @@ import { RootPath } from '../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import obj2arg from 'graphql-obj2arg';
 import { Time } from '../lib/time';
-import { hasResume } from '../component/doc-link-form';
+import { hasResume } from '../component/doc-link-form.jsx';
 
 import { getFeedbackPopupView } from './partial/analytics/feedback';
 
@@ -70,17 +71,18 @@ export default class ResumeDropPage extends React.Component {
         var data = {
             resume_drop: null,
             company: null,
-            doc_links: null,
+            doc_links: null
         }
 
         var loaded = 0;
+        var toLoad = 3;
 
         var user_id = getAuthUser().ID;
 
         const finishLoad = () => {
             loaded++;
 
-            if (loaded >= Object.keys(data).length) {
+            if (loaded >= toLoad) {
                 this.setState(() => {
                     return { data: data, loading: false };
                 });
@@ -103,14 +105,17 @@ export default class ResumeDropPage extends React.Component {
         });
 
         // load document
-        var query = `query{user(ID:${user_id}){doc_links{ID label url} }}`;
+        var query = `query{user(ID:${user_id}){ doc_links{ID label url} }}`;
         getAxiosGraphQLQuery(query).then((res) => {
-            var dl = res.data.data.user.doc_links;
+            var userData = res.data.data.user;
+            var dl = userData.doc_links;
+
             if (hasResume(dl)) {
                 data.doc_links = dl;
             } else {
                 data.doc_links = null;
             }
+
             finishLoad();
         });
 
@@ -194,19 +199,23 @@ export default class ResumeDropPage extends React.Component {
                 || this.state.data.doc_links === null
                 || this.state.data.doc_links.length === 0;
 
+
             // has limit need to fill feedback
             if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
                 v = getFeedbackPopupView();
             }
-            // dont have document
+            // no doc
             else if (no_doc_link) {
-                v = <div>
-                    It seems that you don't have any<br></br>resume uploaded in your profile yet.
-                    <br></br><br></br>
-                    <NavLink onClick={storeHideFocusCard}
-                        className="btn btn-primary"
-                        to={`${RootPath}/app/edit-profile/doc-link`}>Upload Resume Now</NavLink>
-                </div>;
+                v = [];
+                if (no_doc_link) {
+                    v.push(<div>
+                        It seems that you don't have any<br></br><b>Resume</b> or <b>Academic Transcript</b> uploaded in your profile yet.
+                        <br></br><br></br>
+                        <NavLink onClick={storeHideFocusCard}
+                            className="btn btn-primary"
+                            to={`${RootPath}/app/edit-profile/doc-link`}>Upload Resume Now</NavLink>
+                    </div>);
+                }
 
             } else {
                 // EUR CHANGES
@@ -266,7 +275,7 @@ export default class ResumeDropPage extends React.Component {
         return (<div>
             {(this.props.company_id) ? null : <h3>Resume Drop</h3>}
             {view}
-        </div>);
+        </div >);
 
 
     }

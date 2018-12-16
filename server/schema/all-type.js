@@ -88,7 +88,11 @@ const UserType = new GraphQLObjectType({
         // rec only
         rec_company: { type: GraphQLInt },
         rec_position: { type: GraphQLString },
-        company: { type: CompanyType }
+        company: { type: CompanyType },
+
+        // indicator
+        is_active : { type:GraphQLBoolean },
+        is_profile_completed : { type:GraphQLBoolean }, // student only
 
     })
 });

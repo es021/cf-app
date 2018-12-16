@@ -15,7 +15,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from './partial/popup/confirm-popup';
 import UserPopup from './partial/popup/user-popup';
 //import { store } from '../redux/store';
-import DocLinkPage from '../component/doc-link-form';
+import DocLinkPage from '../component/doc-link-form.jsx';
 //import { SimpleListItem } from '../component/list';
 import PasswordResetPage from './password-reset';
 import AvailabilityView from './availability';

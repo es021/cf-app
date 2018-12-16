@@ -11,18 +11,31 @@ import { CustomList } from './list';
 import * as layoutActions from '../redux/actions/layout-actions';
 import ConfirmPopup from '../page/partial/popup/confirm-popup';
 import { store } from '../redux/store';
+import {
+    _GET
+} from '../lib/util';
 
-export function hasResume(dl) {
+function hasDocLabel(dl, label) {
     if (typeof dl === "object") {
         for (var i in dl) {
             var d = dl[i];
-            if (d.label == DocLinkEnum.LABEL_RESUME) {
+            var docLabel = d.label;
+            docLabel = typeof docLabel !== "string" ? "" : docLabel.toUpperCase();
+            if (docLabel.indexOf(label.toUpperCase()) >= 0) {
                 return true;
             }
         }
     }
 
     return false;
+}
+
+export function hasResume(dl) {
+    return hasDocLabel(dl, DocLinkEnum.LABEL_RESUME);
+}
+
+export function hasAcademicTranscript(dl) {
+    return hasDocLabel(dl, DocLinkEnum.LABEL_ACADEMIC_TRANS);
 }
 
 class DocLinkForm extends React.Component {
@@ -33,7 +46,7 @@ class DocLinkForm extends React.Component {
             disableSubmit: false,
             success: null,
             currentFile: null,
-            labelText : false
+            labelText: false
         };
         this.isForCompany = this.isForCompany.bind(this);
         this.isForUser = this.isForUser.bind(this);
@@ -47,6 +60,11 @@ class DocLinkForm extends React.Component {
     componentWillMount() {
         this.formDefault = {};
         this.formDefault[DocLink.TYPE] = this.props.type;
+
+        let _getLabel = _GET("label");
+        if (_getLabel != null && this.props.type == DocLinkEnum.TYPE_DOC) {
+            this.formDefault[DocLink.LABEL] = _getLabel;
+        }
 
         if (this.props.entity === "user") {
             this.formDefault[DocLink.USER_ID] = this.props.id;
@@ -67,17 +85,17 @@ class DocLinkForm extends React.Component {
         //this.formItem = this.getFormItem(this.props.type);
     }
 
-    isForUser(){
+    isForUser() {
         return this.props.entity === "user";
     }
 
-    isForCompany(){
+    isForCompany() {
         return !this.isForUser();
     }
 
-    setLabelText(labelText){
-        this.setState(()=>{
-            return {labelText: labelText};
+    setLabelText(labelText) {
+        this.setState(() => {
+            return { labelText: labelText };
         })
     }
 
@@ -85,10 +103,10 @@ class DocLinkForm extends React.Component {
         var CUSTOM = "Custom Label";
         var type = this.props.type;
         var labelData = [""];
-        labelData.push(...(this.isForUser()) ?  DocLinkEnum.USER_LABELS : DocLinkEnum.COMPANY_LABELS);
+        labelData.push(...(this.isForUser()) ? DocLinkEnum.USER_LABELS : DocLinkEnum.COMPANY_LABELS);
         labelData.push(CUSTOM);
 
-        var formItem =  [
+        var formItem = [
             {
                 label: "Type",
                 name: DocLink.TYPE,
@@ -127,24 +145,24 @@ class DocLinkForm extends React.Component {
 
 
         // can toogle between select and text
-        var labelObj =  {
+        var labelObj = {
             label: "Label",
             name: DocLink.LABEL,
             type: "select",
-            sublabel:<span>Select `{CUSTOM}` to write a custom label</span>,
-            onChange: (e)=>{
-                if(e.currentTarget.value == CUSTOM){
+            sublabel: <span>Select `{CUSTOM}` to write a custom label</span>,
+            onChange: (e) => {
+                if (e.currentTarget.value == CUSTOM) {
                     this.setLabelText(true);
                 }
             },
-            data : labelData,
+            data: labelData,
             required: true
         };
 
-        if((typeof this.state !== "undefined" && this.state.labelText)){
-            labelObj.type  = "text";
-            labelObj.sublabel = <span><a onClick={()=>this.setLabelText(false)}>Select from dropdown</a></span>;
-            labelObj.placeholder  = "Write down custom label here";
+        if ((typeof this.state !== "undefined" && this.state.labelText)) {
+            labelObj.type = "text";
+            labelObj.sublabel = <span><a onClick={() => this.setLabelText(false)}>Select from dropdown</a></span>;
+            labelObj.placeholder = "Write down custom label here";
             labelObj.onChange = false;
         }
 

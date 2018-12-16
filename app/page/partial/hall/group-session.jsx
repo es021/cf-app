@@ -33,6 +33,7 @@ import { getAxiosGraphQLQuery, getWpAjaxAxios } from '../../../../helper/api-hel
 import { createImageElement } from '../../../component/profile-card';
 import AvailabilityView from '../../availability';
 import obj2arg from 'graphql-obj2arg';
+import ValidationStudentAction from '../../../component/validation-student-action';
 
 
 require("../../../css/group-session.scss");
@@ -137,7 +138,7 @@ class NewGroupSessionPopup extends React.Component {
             </AvailabilityView>
             <br></br>
             {this.getForm()}
-            
+
         </div>;
     }
 }
@@ -155,6 +156,9 @@ class GroupSessionClass extends React.Component {
         this.img_dimension = "30px";
         this.state = {
             data: [],
+            isHiddenValidation: true,
+            keyValidation: 0,
+            currentId: null,
             loading: true
         }
     }
@@ -328,8 +332,11 @@ class GroupSessionClass extends React.Component {
             });
         });
     }
-    joinGroupSession(e) {
-        var id = e.currentTarget.dataset.id;
+
+    successHandlerForValidation() {
+        // var e = this.state.eventForValidation;
+        // var id = e.currentTarget.dataset.id;
+        var id = this.state.currentId;
         var d = {};
         d[GroupSessionJoin.USER_ID] = this.props.user_id;
         d[GroupSessionJoin.GROUP_SESSION_ID] = Number.parseInt(id);
@@ -356,7 +363,7 @@ class GroupSessionClass extends React.Component {
 
             // 2. add to db
             var query = `mutation { add_group_session_join 
-            (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
+        (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
             getAxiosGraphQLQuery(query).then((res) => {
                 console.log(res.data.data.add_group_session_join);
@@ -368,9 +375,16 @@ class GroupSessionClass extends React.Component {
                 layoutActions.storeHideFocusCard();
             });
         });
-
-
-
+    }
+    joinGroupSession(ev) {
+        var id = ev.currentTarget.dataset.id;
+        this.setState((prevState) => {
+            return {
+                isHiddenValidation: false,
+                keyValidation: (new Date()).getTime(),
+                currentId: id
+            }
+        })
     }
     startVideoCall(e) {
         var id = e.currentTarget.dataset.id;
@@ -492,6 +506,12 @@ class GroupSessionClass extends React.Component {
             header = <h3 style={{ marginTop: "10px" }}>
                 <small>or<br></br>Join A Group Session</small>
             </h3>;
+            view = [view];
+            view.push(<ValidationStudentAction
+                key={this.state.keyValidation}
+                isHidden={this.state.isHiddenValidation}
+                successHandler={() => { this.successHandlerForValidation() }}>
+            </ValidationStudentAction>)
         }
 
         if (this.props.forRec) {
