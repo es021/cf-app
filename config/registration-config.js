@@ -21,7 +21,7 @@ const RequiredFieldStudent = [
     UserMeta.LOOKING_FOR,
     UserMeta.AVAILABLE_MONTH,
     UserMeta.AVAILABLE_YEAR,
-    UserMeta.RELOCATE,
+    //UserMeta.RELOCATE,
     UserMeta.SPONSOR,
     //UserMeta.DESCRIPTION,
 ];

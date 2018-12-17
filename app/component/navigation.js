@@ -168,6 +168,42 @@ function getMenuItem(COMING_SOON) {
             hd_auth: false,
             disabled: !isRoleSupport()
         },
+        { // Student Only
+            url: "/edit-profile/:current",
+            label: "Upload Document",
+            icon: "file-text",
+            component: EditProfilePage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { current: "doc-link" },
+            disabled: !isRoleStudent()
+        },
+        { // Student Only
+            url: "/edit-profile/:current",
+            label: "Add Skills",
+            icon: "star",
+            component: EditProfilePage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { current: "skills" },
+            disabled: !isRoleStudent()
+        },
+        { // Student Only
+            url: "/edit-profile/:current",
+            label: "Manage Availability",
+            icon: "clock-o",
+            component: EditProfilePage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { current: "availability" },
+            disabled: !isRoleStudent()
+        },
         // Remove For Eur
         // {
         //     url: "/career-fair",
@@ -192,6 +228,18 @@ function getMenuItem(COMING_SOON) {
             hd_auth: false,
             default_param: { current: isRoleRec() ? "student-listing" : "session", },
             disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+        },
+        {
+            url: "/manage-company/:id/:current",
+            label: "Add Job Opportunity",
+            icon: "star",
+            component: ManageCompanyPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { id: getAuthUser().rec_company, current: "vacancy" },
+            disabled: !isRoleRec()
         },
         {
             url: "/auditorium",

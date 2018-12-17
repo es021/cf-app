@@ -53,13 +53,13 @@ class LoginPage extends React.Component {
                 placeholder: "*****",
                 required: true
             },
-            {
-                label: "Select Career Fair",
-                name: User.CF,
-                type: "radio",
-                data: getDataCareerFair("login"),
-                required: true
-            },
+            // {
+            //     label: "Select Career Fair",
+            //     name: User.CF,
+            //     type: "radio",
+            //     data: getDataCareerFair("login"),
+            //     required: true
+            // },
 
         ];
 
@@ -70,7 +70,8 @@ class LoginPage extends React.Component {
 
     formOnSubmit(d) {
         //console.log("login", data);
-        this.props.login(d[User.EMAIL], d[User.PASSWORD], d[User.CF]);
+        //this.props.login(d[User.EMAIL], d[User.PASSWORD], d[User.CF]);
+        this.props.login(d[User.EMAIL], d[User.PASSWORD], this.CF);
     }
 
     render() {

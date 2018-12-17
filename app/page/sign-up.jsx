@@ -46,9 +46,9 @@ export default class SignUpPage extends React.Component {
 
         if (this.state.currentStep == 1) {
             //check if both password is same
-            if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
-                return "Password not same";
-            }
+            // if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
+            //     return "Password not same";
+            // }
 
             // check if policy accepted
             if (typeof d["accept-policy"] === "undefined" || d["accept-policy"][0] != "accepted") {
@@ -78,6 +78,8 @@ export default class SignUpPage extends React.Component {
             if (this.state.currentStep == 1) {
                 //prepare data for registration
                 d[User.LOGIN] = d[User.EMAIL];
+                // get default cf from
+                d[User.CF] = this.CF;
                 d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
 
                 // Step 1 - Basic Info go to registration
