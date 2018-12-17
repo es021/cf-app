@@ -42,7 +42,7 @@ require("./css/right-bar.scss");
 import * as Navigation from "./component/navigation";
 import HeaderLayout from "./layout/header-layout";
 import FooterLayout from "./layout/footer-layout";
-import LeftBarLayout from "./layout/left-bar-layout";
+import LeftBarLayout from "./layout/left-bar-layout.jsx";
 import RightBarLayout from "./layout/right-bar-layout";
 
 //singleton

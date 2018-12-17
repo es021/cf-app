@@ -159,9 +159,9 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
         var isDeleteCf = true;
         var entity = null;
         // trigger from manage-company
-        console.log("DB UPDATE", table);
-        console.log("data.skip_delete_cf", data.skip_delete_cf);
-        console.log(data);
+        //console.log("DB UPDATE", table);
+        //console.log("data.skip_delete_cf", data.skip_delete_cf);
+        //console.log(data);
         switch (table) {
             case Company.TABLE:
                 entity = "company";
@@ -208,7 +208,7 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
     }
 
     var sql = `UPDATE ${table} SET ${key_val} WHERE ${ID_key} = '${ID}'`;
-    console.log(sql);
+    //console.log(sql);
     return this.query(sql).then(function (res) {
         return DB.getByID(table, ID, ID_key);
     });

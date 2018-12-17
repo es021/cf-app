@@ -13,17 +13,18 @@ import { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-con
 export const TotalRegisterStep = 3;
 
 export const UserFormItem = [
-    {
-        header: "Select Career Fair",
-        register: 1, editStudent: 0, editRec: 0
-    },
-    {
-        name: User.CF,
-        type: "radio",
-        data: getDataCareerFair("register"),
-        //required: true,
-        register: 1, editStudent: 0, editRec: 0
-    },
+    // {
+    //     header: "Select Career Fair",
+    //     register: 1, editStudent: 0, editRec: 0
+    // },
+    // {
+    //     name: User.CF,
+    //     type: "radio",
+    //     data: getDataCareerFair("register"),
+    //     hidden:false,
+    //     //required: true,
+    //     register: 1, editStudent: 0, editRec: 0
+    // },
     {
         header: "Basic Information",
         register: 1, editStudent: 1, editRec: 1
@@ -55,14 +56,16 @@ export const UserFormItem = [
         placeholder: "*****",
         //required: true,
         register: 1, editStudent: 0, editRec: 0
-    }, {
-        label: "Confirm Password",
-        name: `${User.PASSWORD}-confirm`,
-        type: "password",
-        placeholder: "*****",
-        //required: true,
-        register: 1, editStudent: 0, editRec: 0
-    }, {
+    }, 
+    // {
+    //     label: "Confirm Password",
+    //     name: `${User.PASSWORD}-confirm`,
+    //     type: "password",
+    //     placeholder: "*****",
+    //     //required: true,
+    //     register: 1, editStudent: 0, editRec: 0
+    // }, 
+    {
         label: "Position",
         name: UserMeta.REC_POSITION,
         type: "text",
@@ -192,14 +195,14 @@ export const UserFormItem = [
         //required: true,
         register: 3, editStudent: 1, editRec: 0
     },
-    {
-        label: "Are You Willing To Relocate?",
-        name: UserMeta.RELOCATE,
-        type: "select",
-        data: Array("", "Yes", "No"),
-        //required: true,
-        register: 3, editStudent: 1, editRec: 0
-    },
+    // {
+    //     label: "Are You Willing To Relocate?",
+    //     name: UserMeta.RELOCATE,
+    //     type: "select",
+    //     data: Array("", "Yes", "No"),
+    //     //required: true,
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
     {
         header: "Additional Information",
         register: 3, editStudent: 1, editRec: 0

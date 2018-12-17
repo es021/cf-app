@@ -8,12 +8,14 @@ left_bar{
         ul li{
             padding: 5px 10px;
             color: $COLOR_DARKER_TEXT;
+            display: flex;
         }
 
         ul li .fa{
             padding-right: 7px;
             width: 24px;
             text-align: center;
+            margin-top: 3px;
         }
 
         ul a{

@@ -159,7 +159,15 @@ export default class UserPopup extends Component {
         });
     }
 
+    isValueEmpty(val){
+        if(val == null || val == ""){
+            return true;
+        }
+        return false;
+    }
+
     getBasicInfo(d) {
+        var notSpecifed = <small><i className="text-muted">Not Specified</i></small>;
 
         var items = [{
             label: "Email",
@@ -195,7 +203,7 @@ export default class UserPopup extends Component {
             items.push({
                 label: "Phone Number",
                 icon: "phone",
-                value: d.phone_number
+                value: this.isValueEmpty(d.phone_number) ? notSpecifed :  d.phone_number
             });
 
             // major --------------------------------
@@ -208,14 +216,20 @@ export default class UserPopup extends Component {
             } catch (err) {
                 major = d.major;
             }
-
-            if (major !== null) {
-                items.push({
-                    label: "Major",
-                    icon: "graduation-cap",
-                    value: major
-                });
-            }
+            
+            items.push({
+                label: "Major",
+                icon: "graduation-cap",
+                value: this.isValueEmpty(major) ? notSpecifed :  major
+            });
+         
+            // if (major !== null) {
+            //     items.push({
+            //         label: "Major",
+            //         icon: "graduation-cap",
+            //         value: major
+            //     });
+            // }
 
             // minor --------------------------------
             var minor = null;
@@ -227,7 +241,7 @@ export default class UserPopup extends Component {
             } catch (err) {
                 minor = d.minor;
             }
-
+           
             if (minor !== null) {
                 items.push({
                     label: "Minor",
@@ -240,11 +254,11 @@ export default class UserPopup extends Component {
                 {
                     label: "University",
                     icon: "university",
-                    value: d.university
+                    value: this.isValueEmpty(d.university) ? notSpecifed :  d.university
                 }, {
                     label: "Expected Graduation",
                     icon: "calendar",
-                    value: `${d.graduation_month} ${d.graduation_year}`
+                    value: this.isValueEmpty(d.graduation_month) ? notSpecifed :`${d.graduation_month} ${d.graduation_year}`
                 }
                 // , {
                 //     label: "Work Availability Date",
@@ -253,14 +267,19 @@ export default class UserPopup extends Component {
                 // }
             );
 
-
-            if (d.looking_for !== null) {
-                items.push({
-                    label: "Looking For",
-                    icon: "search",
-                    value: d.looking_for
-                });
-            }
+            items.push({
+                label: "Looking For",
+                icon: "search",
+                value: this.isValueEmpty(d.looking_for) ? notSpecifed :  d.looking_for
+            });
+            
+            // if (d.looking_for !== null) {
+            //     items.push({
+            //         label: "Looking For",
+            //         icon: "search",
+            //         value: d.looking_for
+            //     });
+            // }
 
         }
 
