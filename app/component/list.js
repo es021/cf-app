@@ -367,21 +367,34 @@ ProfileListItem.defaultProps = {
     list_type_extra: ""
 };
 
+
 export class ProfileListWide extends Component {
     render() {
         var img_dimension = (this.props.img_dimension) ? this.props.img_dimension : "75px";
 
-        var imgView = <ProfileCard {
-            ...this.props} title={null} body={null} subtitle={null} img_dimension={img_dimension}
+        var imgView = null;
+        // in student listing no image
+        if(!this.props.is_no_image){
+            imgView = <ProfileCard {...this.props} title={null} body={null} subtitle={null} img_dimension={img_dimension}
             className={className}></ProfileCard>;
+        }
 
         var className = "card-wide";
+        
+        var contentSize = "8";
+        if(this.props.action_disabled){
+            contentSize = "10";
+        } else if(this.props.is_no_image){
+            contentSize = "10";
+        }
+        
         return <div className={className}>
             <div className="card-container container-fluid">
-                <div className={`${className}-item col-md-2`}>
+                {this.props.is_no_image ? <div style={{marginRight:'15px'}}></div> 
+                    : <div className={`${className}-item col-md-2`}>
                     {imgView}
-                </div>
-                <div className={`${className}-item col-md-${(this.props.action_disabled) ? "10" : "8"}`}>
+                </div>}
+                <div className={`${className}-item col-md-${contentSize}`}>
                     <div className="item-main">
                         <h4>{this.props.title}</h4>
                         <div>{this.props.body}</div>
@@ -405,6 +418,7 @@ ProfileListWide.propTypes = {
     img_pos: PropTypes.string,
     img_size: PropTypes.string,
     img_dimension: PropTypes.string,
+    is_no_image : PropTypes.bool,
     action_text: PropTypes.string,
     action_color: PropTypes.string,
     action_handler: PropTypes.func,
@@ -414,8 +428,10 @@ ProfileListWide.propTypes = {
 };
 
 ProfileListWide.defaultProps = {
+    is_no_image : false,
     action_color: "blue"
 }
+
 
 /*******************************************************************************************/
 
@@ -466,11 +482,11 @@ export class CustomList extends Component {
     }
 
     getLabelLi(d, i) {
-        var labels = ["primary", "danger", "success", "default"];
+        //var labels = ["primary", "danger", "success", "default"];
+        var labels = ["custom"];
         var index = i % labels.length;
         var liClassName = `label label-${labels[index]}`;
         return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
-
     }
 
     getIconLinkLi(d, i) {
