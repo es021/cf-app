@@ -259,34 +259,24 @@ export default class UserPopup extends Component {
                     label: "Expected Graduation",
                     icon: "calendar",
                     value: this.isValueEmpty(d.graduation_month) ? notSpecifed :`${d.graduation_month} ${d.graduation_year}`
-                }
-                // , {
-                //     label: "Work Availability Date",
-                //     icon: "suitcase",
-                //     value: this.getWorkAvailable(d.available_month, d.available_year)
-                // }
+                }, 
+                {
+                    label: "Looking For",
+                    icon: "search",
+                    value: this.isValueEmpty(d.looking_for) ? notSpecifed :  d.looking_for
+                },
+                {
+                    label: "Work Availability Date",
+                    icon: "suitcase",
+                    value: this.getWorkAvailable(d.available_month, d.available_year , notSpecifed)
+                },
             );
-
-            items.push({
-                label: "Looking For",
-                icon: "search",
-                value: this.isValueEmpty(d.looking_for) ? notSpecifed :  d.looking_for
-            });
-            
-            // if (d.looking_for !== null) {
-            //     items.push({
-            //         label: "Looking For",
-            //         icon: "search",
-            //         value: d.looking_for
-            //     });
-            // }
-
         }
 
         return <CustomList className="icon" items={items}></CustomList>;
     }
 
-    getWorkAvailable(m, y) {
+    getWorkAvailable(m, y , notSpecifed) {
         if (m) {
             if (m == y) {
                 return m;
@@ -294,7 +284,7 @@ export default class UserPopup extends Component {
                 return `${m} ${y}`;
             }
         } else {
-            return <span className="text-muted">Not Specified</span>;
+            return notSpecifed;
         }
 
     }

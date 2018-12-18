@@ -152,6 +152,7 @@
     }
 }
 
+$COLOR_LABEL_CUSTOM : #31708f;
 // Custom List (Label)
 // -- used student popup
 .custom-list-label {
@@ -191,6 +192,20 @@
             background: rgba(0, 0, 0, 0.5);
         }
     }
+
+    li.label-custom {
+        background: rgba(0, 0, 0, 0);
+        border : 1px solid $COLOR_LABEL_CUSTOM;
+        color: $COLOR_LABEL_CUSTOM;
+        font-weight: bold;
+        i{
+            color: $COLOR_LABEL_CUSTOM;
+        }
+        a {
+            color: $COLOR_LABEL_CUSTOM;
+        }
+    }
+  
 }
 
 .custom-list-label.li-ux {
