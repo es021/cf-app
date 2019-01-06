@@ -188,7 +188,7 @@ export default class SignUpPage extends React.Component {
                 <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
                 Your account has been successfully created<br></br>
                 Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
-                <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
+                <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
                 <br></br><small><i>** The email might take a few minutes to arrive **</i></small>
                 {completeView}
             </div>
