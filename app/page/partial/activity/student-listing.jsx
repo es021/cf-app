@@ -132,20 +132,24 @@ export class StudentListingCard extends React.Component {
       }
 
       if (hasAvailable) {
-        availableView = (
-          <Tooltip
-            bottom="19px"
-            left="-5px"
-            width="114px"
-            alignCenter={true}
-            content={
-              <label className={`label label-default`}>
-                {d.student.available_month + " " + d.student.available_year}
-              </label>
-            }
-            tooltip="Work Availability"
-          />
-        );
+        // availableView = (
+        //   <Tooltip
+        //     bottom="19px"
+        //     left="-5px"
+        //     width="114px"
+        //     alignCenter={true}
+        //     content={
+        //       <label className={`label label-default`}>
+        //         {d.student.available_month + " " + d.student.available_year}
+        //       </label>
+        //     }
+        //     tooltip="Work Availability"
+        //   />
+        // );
+
+        availableView = <label className={`label label-default`}>
+          Availability : {d.student.available_month + " " + d.student.available_year}
+        </label>;
       }
 
       labelView = (
@@ -454,7 +458,7 @@ export class StudentListing extends React.Component {
       var query = `query{
                 student_listing(${this.searchParams} company_id:${
         this.props.company_id
-      }, page: ${page}, offset:${offset}) {
+        }, page: ${page}, offset:${offset}) {
                     student_id
                     created_at
                     student{
@@ -504,17 +508,17 @@ export class StudentListing extends React.Component {
           </h4>
         </div>
       ) : (
-        <GeneralFormPage
-          dataTitle={this.dataTitle}
-          noMutation={true}
-          dataOffset={this.offset}
-          searchFormItem={this.searchFormItem}
-          searchFormOnSubmit={this.searchFormOnSubmit}
-          renderRow={this.renderRow}
-          getDataFromRes={this.getDataFromRes}
-          loadData={this.loadData}
-        />
-      );
+          <GeneralFormPage
+            dataTitle={this.dataTitle}
+            noMutation={true}
+            dataOffset={this.offset}
+            searchFormItem={this.searchFormItem}
+            searchFormOnSubmit={this.searchFormOnSubmit}
+            renderRow={this.renderRow}
+            getDataFromRes={this.getDataFromRes}
+            loadData={this.loadData}
+          />
+        );
     }
 
     //        {isComingSoon() ? "isComingSoon()" : "not isComingSoon()"}
