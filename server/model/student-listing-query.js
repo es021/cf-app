@@ -8,10 +8,27 @@ class StudentListingQuery {
         var limit = (typeof params.page !== "undefined" &&
             typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
 
-        // search param
-        var search_j = UserQuery.getSearchNameOrEmail("j.user_id", params.search_student, params.search_student);
+        // **************************
+        // filter record
+        // 1. search first_name, last_name, email
+        // @param search_student
+        var join_search_student = UserQuery.getSearchNameOrEmail("j.user_id", params.search_student, params.search_student);
+        var resume_search_student = UserQuery.getSearchNameOrEmail("r.student_id", params.search_student, params.search_student);
 
-        var search_r = UserQuery.getSearchNameOrEmail("r.student_id", params.search_student, params.search_student);
+        // 2. search major
+        // @param search_major
+        var join_search_major = UserQuery.getSearchMajor("j.user_id", params.search_major);
+        var resume_search_major = UserQuery.getSearchMajor("r.student_id", params.search_major);
+
+        // 3. search study place
+        // @param search_study_place
+        var join_search_place = UserQuery.getSearchStudyPlace("j.user_id", params.search_study_place);
+        var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
+
+        // 3. search work availability 
+        // @param search_work_av_start, search_work_av_end
+        var join_search_work_av = UserQuery.getSearchMajor("j.user_id", params.search_work_av_start, params.search_work_av_end);
+        var resume_search_work_av = UserQuery.getSearchMajor("r.student_id", params.search_work_av_start, params.search_work_av_end);
 
         var sql = `
         SELECT Y.* FROM ( 
@@ -25,7 +42,10 @@ class StudentListingQuery {
                 FROM group_session_join j left outer join group_session g  ON j.group_session_id = g.ID
                 WHERE 1=1
                 AND g.company_id = ${params.company_id}
-                AND ${search_j}
+                AND ${join_search_student}
+                AND ${join_search_major}
+                AND ${join_search_place}
+                AND ${join_search_work_av}
 
                 UNION
             
@@ -35,7 +55,10 @@ class StudentListingQuery {
                 from resume_drops r
                 WHERE 1=1
                 AND r.company_id = ${params.company_id}
-                AND ${search_r}
+                AND ${resume_search_student}
+                AND ${resume_search_major}
+                AND ${resume_search_place}
+                AND ${resume_search_work_av}
             ) X
             GROUP BY X.student_id
         ) Y,
@@ -47,6 +70,8 @@ class StudentListingQuery {
 
         ORDER BY Y.created_at desc
         ${limit} `;
+
+        console.log(sql);
 
         // var sql = `
         // SELECT * FROM ( 
@@ -63,7 +88,7 @@ class StudentListingQuery {
         //         AND ${search_j}
 
         //         UNION
-            
+
         //         SELECT 
         //         r.student_id as student_id,
         //         r.created_at as created_at
@@ -77,7 +102,6 @@ class StudentListingQuery {
         // ORDER BY Y.created_at desc
         // ${limit} `;
 
-        console.log(sql);
         return sql;
     }
 
