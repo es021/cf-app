@@ -23,12 +23,27 @@ const {
 } = require('./skill-query.js');
 
 class UserQuery {
-    getSearchUniversity(field, search_params) {
+    getSearchMeta(field, search_params, meta_key) {
         if (typeof search_params !== "undefined") {
-            return `(${this.selectMetaMain(field, UserMeta.UNIVERSITY)}) like '%${search_params}%'`;
+            return `(${this.selectMetaMain(field, meta_key)}) like '%${search_params}%'`;
         } else {
             return "1=1";
         }
+    }
+    getSearchUniversity(field, search_params) {
+        return this.getSearchMeta(field, search_params, UserMeta.UNIVERSITY);
+    }
+
+    getSearchMajor(field, search_params) {
+        return this.getSearchMeta(field, search_params, UserMeta.MAJOR);
+    }
+
+    getSearchStudyPlace(field, search_params) {
+        return this.getSearchMeta(field, search_params, UserMeta.STUDY_PLACE);
+    }
+
+    getSearchMinor(field, search_params) {
+        return this.getSearchMeta(field, search_params, UserMeta.MINOR);
     }
 
     getSearchName(field, search_params) {

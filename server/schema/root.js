@@ -169,7 +169,11 @@ fields["student_listing"] = {
         company_id: { type: new GraphQLNonNull(GraphQLInt) },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
-        search_student: { type: GraphQLString }
+        search_student: { type: GraphQLString },
+        search_major: { type: GraphQLString },
+        search_study_place: { type: GraphQLString },
+        search_work_av_start: { type: GraphQLString },
+        search_work_av_end: { type: GraphQLString },
     },
     resolve(parentValue, arg, context, info) {
         return StudentListingExec.student_listing(arg, graphqlFields(info));

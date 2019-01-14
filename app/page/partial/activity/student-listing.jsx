@@ -316,12 +316,28 @@ export class StudentListing extends React.Component {
       });
     }
 
+    this.searchParamGet = (key, val) => {
+      return val != "" ? `${key}:"${val}",` : "";
+    }
+
     this.searchFormOnSubmit = d => {
       this.search = d;
       this.searchParams = "";
+
+      /**
+        search_student: { type: GraphQLString },
+        search_major: { type: GraphQLString },
+        search_study_place: { type: GraphQLString },
+        search_work_av_start: { type: GraphQLString },
+        search_work_av_end: { type: GraphQLString },
+      */
+
       if (d != null) {
-        this.searchParams +=
-          d.search_student != "" ? `search_student:"${d.search_student}",` : "";
+        this.searchParams += this.searchParamGet("search_student", d.search_student);
+        this.searchParams += this.searchParamGet("search_major", d.search_major);
+        this.searchParams += this.searchParamGet("search_study_place", d.search_study_place);
+        this.searchParams += this.searchParamGet("search_work_av_start", d.search_work_av_start);
+        this.searchParams += this.searchParamGet("search_work_av_end", d.search_work_av_end);
       }
     };
 
@@ -454,6 +470,7 @@ export class StudentListing extends React.Component {
       //   return item;
     };
 
+    // TODO
     this.loadData = (page, offset) => {
       var query = `query{
                 student_listing(${this.searchParams} company_id:${
@@ -509,6 +526,7 @@ export class StudentListing extends React.Component {
         </div>
       ) : (
           <GeneralFormPage
+            entity_singular={"Student"}
             dataTitle={this.dataTitle}
             noMutation={true}
             dataOffset={this.offset}
