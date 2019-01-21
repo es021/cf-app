@@ -121,7 +121,7 @@ else {
     //            user_status: "Active",
     //            first_name: "Student",
     //            last_name: "For Test",
-    //            img_url: "http://seedsjobfair.com/wp-content/uploads/2017/07/user_136_profile_image.jpeg",
+    //            img_url: "http://seedsjobfairapp.com/wp-content/uploads/2017/07/user_136_profile_image.jpeg",
     //            img_pos: "18% 29%",
     //            img_size: "195% auto"
     //        },

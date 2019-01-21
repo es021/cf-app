@@ -18,7 +18,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        var img = "https://seedsjobfair.com/image/home/1_sm.jpg";
+        var img = "https://seedsjobfairapp.com/image/home/1_sm.jpg";
         var style = {
             backgroundImage: `url('${img}')`,
             backgroundSize: "cover",

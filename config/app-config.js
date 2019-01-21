@@ -1,12 +1,12 @@
 console.log("environment - " + process.env.NODE_ENV);
 var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
 var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
-const SocketUrl = (isProd) ? `https://seedsjobfair.com/socket` : "http://localhost:6000";
+const SocketUrl = (isProd) ? `https://seedsjobfairapp.com/socket` : "http://localhost:6000";
 
 const RootPath = (isProd) ? "/cf" : "";
 
-var SiteUrl = (isProd) ? `https://seedsjobfair.com/cf` : "http://localhost:4000";
-var AssetUrl = (isProd) ? `https://seedsjobfair.com/public` : SiteUrl;
+var SiteUrl = (isProd) ? `https://seedsjobfairapp.com/cf` : "http://localhost:4000";
+var AssetUrl = (isProd) ? `https://seedsjobfairapp.com/public` : SiteUrl;
 var UploadUrl = AssetUrl + "/upload";
 var StaticUrl = AssetUrl + "/static";
 var ImageUrl = AssetUrl + "/asset/image";
@@ -15,13 +15,13 @@ var AudioUrl = AssetUrl + "/asset/audio";
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {
-    RootUrl = `https://seedsjobfair.com`;
+    RootUrl = `https://seedsjobfairapp.com`;
 }
 
-var LandingUrl = `https://seedsjobfair.com`;
+var LandingUrl = `https://seedsjobfairapp.com`;
 
-var PHPApi = (isProd) ? `https://seedsjobfair.com/php-api/` : RootUrl + `/cf-app/server/php-api/`;
-var WPAjaxApi = (isProd) ? "https://seedsjobfair.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
+var PHPApi = (isProd) ? `https://seedsjobfairapp.com/php-api/` : RootUrl + `/cf-app/server/php-api/`;
+var WPAjaxApi = (isProd) ? "https://seedsjobfairapp.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
 const AppConfig = {
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
@@ -32,7 +32,7 @@ const AppConfig = {
     FbAppId: "315194262317447",
     WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",
-    WwwUrl: "https://seedsjobfair.com"
+    WwwUrl: "https://seedsjobfairapp.com"
 };
 
 

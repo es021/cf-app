@@ -13,7 +13,7 @@ $params = array(
     "data" => $email_data
 );
 
-$url ="https://seedsjobfair.com/career-fair/wp-admin/admin-ajax.php";
+$url ="https://seedsjobfairapp.com/career-fair/wp-admin/admin-ajax.php";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
