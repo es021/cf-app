@@ -5,7 +5,8 @@ import * as layoutActions from "../../../redux/actions/layout-actions";
 import {
   isComingSoon,
   isRoleRec,
-  isRoleStudent
+  isRoleStudent,
+  getCF
 } from "../../../redux/actions/auth-actions";
 import UserPopup from "../popup/user-popup";
 //importing for list
@@ -475,14 +476,14 @@ export class StudentListing extends React.Component {
       var query = `query{
                 student_listing(${this.searchParams} company_id:${
         this.props.company_id
-        }, page: ${page}, offset:${offset}) {
-                    student_id
-                    created_at
-                    student{
-                        university study_place major available_month available_year
-                        ID first_name last_name user_email description looking_for
-                        doc_links { type label url }
-            }}}`;
+        }, cf:"${getCF()}", page: ${page}, offset:${offset}) {
+            student_id
+            created_at
+            student{
+                university study_place major available_month available_year
+                ID first_name last_name user_email description looking_for
+                doc_links { type label url }
+      }}}`;
       // img_url img_pos img_size
 
       return getAxiosGraphQLQuery(query);

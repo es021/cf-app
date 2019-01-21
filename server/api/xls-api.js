@@ -59,7 +59,7 @@ class XLSApi {
                 return this.session_requests(filter.company_id);
                 break;
             case 'student_listing':
-                return this.student_listing(filter.company_id);
+                return this.student_listing(filter.company_id, filter.cf);
                 break;
         }
     }
@@ -104,13 +104,13 @@ class XLSApi {
     }
 
     //EUR FIX
-    student_listing(cid) {
+    student_listing(cid, cf) {
         // 0. create filename
         var filename = `Student Listing - Company ${cid}`;
 
         // 1. create query
         var query = `query{
-            student_listing(company_id:${cid}) {
+            student_listing(company_id:${cid}, cf:"${cf}") {
               student{${this.student_field}}
               company{name}
               created_at
