@@ -353,7 +353,7 @@ const CompanyEnum = {
             try {
                 privArrs = JSON.parse(privArrs);
             } catch (err) {
-                console.error("Error in parsing JSON in CompanyEnum.hasPriv()");
+                console.error("Error in parsing JSON in CompanyEnum.hasPriv()", privArrs);
                 return false;
             }
         }

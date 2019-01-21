@@ -15,12 +15,14 @@ const {
 const {
     RequiredFieldStudent
 } = require('../../config/registration-config.js');
+
 const {
     DocLinkExec
 } = require('./doclink-query.js');
 const {
     SkillExec
 } = require('./skill-query.js');
+
 
 class UserQuery {
     getSearchMeta(field, search_params, meta_key) {
@@ -29,6 +31,15 @@ class UserQuery {
         } else {
             return "1=1";
         }
+    }
+    getSearchWorkAvailability(field, av_month, av_year) {
+        if (typeof av_month === "undefined" || typeof av_year === "undefined") {
+            return "1=1";
+        }
+
+        return `CONCAT((${this.selectMetaMain(field, UserMeta.AVAILABLE_YEAR)}),
+                (${this.selectMetaMain(field, UserMeta.AVAILABLE_MONTH)}))
+                <= '${av_year}${av_month}'`;
     }
     getSearchUniversity(field, search_params) {
         return this.getSearchMeta(field, search_params, UserMeta.UNIVERSITY);
