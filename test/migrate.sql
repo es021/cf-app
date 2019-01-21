@@ -5,14 +5,14 @@ ALTER TABLE `companies` ADD `banner_url` VARCHAR(300) CHARACTER SET utf8mb4 COLL
 
 
 UPDATE wp_cf_usermeta
-SET meta_value = REPLACE (meta_value, 'http://seedsjobfair.com', 'https://seedsjobfair.com/career-fair')
-WHERE meta_value like '%http://seedsjobfair.com/wp-content%'
+SET meta_value = REPLACE (meta_value, 'http://seedsjobfairapp.com', 'https://seedsjobfairapp.com/career-fair')
+WHERE meta_value like '%http://seedsjobfairapp.com/wp-content%'
 
 UPDATE doc_link
-SET url = REPLACE (url, 'http://seedsjobfair.com', 'https://seedsjobfair.com/career-fair')
-WHERE url like '%http://seedsjobfair.com/wp-content%'
+SET url = REPLACE (url, 'http://seedsjobfairapp.com', 'https://seedsjobfairapp.com/career-fair')
+WHERE url like '%http://seedsjobfairapp.com/wp-content%'
 
 UPDATE companies
-SET img_url = REPLACE (img_url, 'http://seedsjobfair.com', 'https://seedsjobfair.com/career-fair')
-WHERE img_url like '%http://seedsjobfair.com%'
+SET img_url = REPLACE (img_url, 'http://seedsjobfairapp.com', 'https://seedsjobfairapp.com/career-fair')
+WHERE img_url like '%http://seedsjobfairapp.com%'
 

@@ -71,7 +71,7 @@ export default class RightBarLayout extends React.Component {
         var v = [];
 
         /*
-            background: linear-gradient( rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.4) ), url('https://seedsjobfair.com/career-fair/image/decoration/talent_corp.jpg');
+            background: linear-gradient( rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.4) ), url('https://seedsjobfairapp.com/career-fair/image/decoration/talent_corp.jpg');
                 background-position-x: 0%, 0%;
                 background-position-y: 0%, 0%;
                 background-size: auto auto, auto auto;

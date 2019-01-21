@@ -1,4 +1,4 @@
-    //https://seedsjobfair.com/public/asset/image/banner/UK.jpg
+    //https://seedsjobfairapp.com/public/asset/image/banner/UK.jpg
 
     const CF_DEFAULT = "UK";
     const CareerFair = {
