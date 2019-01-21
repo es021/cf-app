@@ -265,6 +265,7 @@ export class StudentListingCard extends React.Component {
 }
 
 StudentListingCard.propTypes = {
+  company_id: PropTypes.number,
   data: PropTypes.object,
   index: PropTypes.number,
   isRec: PropTypes.bool,
@@ -382,6 +383,7 @@ export class StudentListing extends React.Component {
     this.renderRow = (d, i) => {
       return (
         <StudentListingCard
+          company_id={this.props.company_id}
           privs={this.state.privs}
           data={d}
           index={i}
