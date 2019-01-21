@@ -386,13 +386,14 @@ export default class GeneralFormPage extends React.Component {
                         <i className="fa fa-search left"></i>Filter Record</a>
                 </h4>
                 : null}
-
+            {this.props.contentBelowFilter}
             <div style={{ marginTop: "15px" }}>{datas}</div>
         </div>);
     }
 }
 
 GeneralFormPage.propTypes = {
+    contentBelowFilter : PropTypes.obj,
     entity: PropTypes.string.isRequired, // for table name
     entity_singular: PropTypes.string.isRequired, // for display
     searchFormItem: PropTypes.obj,
@@ -422,6 +423,7 @@ GeneralFormPage.propTypes = {
 }
 
 GeneralFormPage.defaultProps = {
+    contentBelowFilter : null,
     searchFormItem: null,
     actionFirst: false,
     noMutation: false,

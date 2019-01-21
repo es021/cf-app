@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { DocLinkEnum, UserEnum, LogEnum, PrescreenEnum } from '../../../../config/db-config';
+import { getMonthLabel } from '../../../../config/data-config';
 import { ImgConfig } from '../../../../config/app-config';
 import ProfileCard from '../../../component/profile-card';
 import PageSection from '../../../component/page-section';
@@ -159,8 +160,8 @@ export default class UserPopup extends Component {
         });
     }
 
-    isValueEmpty(val){
-        if(val == null || val == ""){
+    isValueEmpty(val) {
+        if (val == null || val == "") {
             return true;
         }
         return false;
@@ -203,7 +204,7 @@ export default class UserPopup extends Component {
             items.push({
                 label: "Phone Number",
                 icon: "phone",
-                value: this.isValueEmpty(d.phone_number) ? notSpecifed :  d.phone_number
+                value: this.isValueEmpty(d.phone_number) ? notSpecifed : d.phone_number
             });
 
             // major --------------------------------
@@ -216,13 +217,13 @@ export default class UserPopup extends Component {
             } catch (err) {
                 major = d.major;
             }
-            
+
             items.push({
                 label: "Major",
                 icon: "graduation-cap",
-                value: this.isValueEmpty(major) ? notSpecifed :  major
+                value: this.isValueEmpty(major) ? notSpecifed : major
             });
-         
+
             // if (major !== null) {
             //     items.push({
             //         label: "Major",
@@ -241,7 +242,7 @@ export default class UserPopup extends Component {
             } catch (err) {
                 minor = d.minor;
             }
-           
+
             if (minor !== null) {
                 items.push({
                     label: "Minor",
@@ -254,21 +255,21 @@ export default class UserPopup extends Component {
                 {
                     label: "University",
                     icon: "university",
-                    value: this.isValueEmpty(d.university) ? notSpecifed :  d.university
+                    value: this.isValueEmpty(d.university) ? notSpecifed : d.university
                 }, {
                     label: "Expected Graduation",
                     icon: "calendar",
-                    value: this.isValueEmpty(d.graduation_month) ? notSpecifed :`${d.graduation_month} ${d.graduation_year}`
-                }, 
+                    value: this.isValueEmpty(d.graduation_month) ? notSpecifed : `${getMonthLabel(d.graduation_month)} ${d.graduation_year}`
+                },
                 {
                     label: "Looking For",
                     icon: "search",
-                    value: this.isValueEmpty(d.looking_for) ? notSpecifed :  d.looking_for
+                    value: this.isValueEmpty(d.looking_for) ? notSpecifed : d.looking_for
                 },
                 {
                     label: "Work Availability Date",
                     icon: "suitcase",
-                    value: this.getWorkAvailable(d.available_month, d.available_year , notSpecifed)
+                    value: this.getWorkAvailable(d.available_month, d.available_year, notSpecifed)
                 },
             );
         }
@@ -276,12 +277,12 @@ export default class UserPopup extends Component {
         return <CustomList className="icon" items={items}></CustomList>;
     }
 
-    getWorkAvailable(m, y , notSpecifed) {
+    getWorkAvailable(m, y, notSpecifed) {
         if (m) {
             if (m == y) {
                 return m;
             } else {
-                return `${m} ${y}`;
+                return `${getMonthLabel(m)} ${y}`;
             }
         } else {
             return notSpecifed;
@@ -433,7 +434,7 @@ export default class UserPopup extends Component {
                 view = <div>
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-md-12 com-pop-left" style={{marginBottom:"-25px"}}>
+                            <div className="col-md-12 com-pop-left" style={{ marginBottom: "-25px" }}>
                                 <div className="com-pop-pic">{profilePic}</div>
                             </div>
                             <div className="col-md-6">

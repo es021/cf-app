@@ -20,6 +20,8 @@ import { openSIFormNew } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
 import { openFeedbackBlockRec } from "../analytics/feedback";
 import { CompanyEnum, UserEnum } from "../../../../config/db-config";
+import { Month, Year, Country, getMonthLabel } from '../../../../config/data-config';
+
 import Tooltip from "../../../component/tooltip";
 
 export class StudentListingCard extends React.Component {
@@ -149,7 +151,7 @@ export class StudentListingCard extends React.Component {
         // );
 
         availableView = <label className={`label label-default`}>
-          Availability : {d.student.available_month + " " + d.student.available_year}
+          Availability : {getMonthLabel(d.student.available_month) + " " + d.student.available_year}
         </label>;
       }
 
@@ -219,7 +221,7 @@ export class StudentListingCard extends React.Component {
     //var imgObj = getImageObj(d.student);
 
     var canSchedule = CompanyEnum.hasPriv(
-      this.state.privs,
+      this.props.privs,
       CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
     );
     const actionHandler = () => {
@@ -266,15 +268,16 @@ StudentListingCard.propTypes = {
   data: PropTypes.object,
   index: PropTypes.number,
   isRec: PropTypes.bool,
-  search: PropTypes.object
+  search: PropTypes.object,
+  privs: PropTypes.object
 };
 
 export class StudentListing extends React.Component {
   constructor(props) {
     super(props);
-    //this.openSIForm = this.openSIForm.bind(this);
-
+    this.getContentBelowFilter = this.getContentBelowFilter.bind(this);
     this.state = {
+      search: {},
       loadPriv: true,
       privs: []
     };
@@ -289,6 +292,7 @@ export class StudentListing extends React.Component {
         if (privs == null) {
           privs = "";
         }
+        console.log("lalallala", privs)
         return { loadPriv: false, privs: privs, companyName: companyName };
       });
     });
@@ -308,17 +312,46 @@ export class StudentListing extends React.Component {
 
     if (this.props.isRec) {
       this.searchFormItem = [];
-      this.searchFormItem.push({ header: "Enter Your Search Query" });
+      this.searchFormItem.push({ header: "Find Student" });
       this.searchFormItem.push({
-        label: "Find Student",
+        label: "Find Name Or Email",
         name: "search_student",
         type: "text",
-        placeholder: "Type student name or email"
+        placeholder: "John Doe"
+      });
+
+      this.searchFormItem.push({
+        label: "Find Major",
+        name: "search_major",
+        type: "text",
+        placeholder: "Software Engineering"
+      });
+
+      this.searchFormItem.push({
+        label: "Find Study Place",
+        name: "search_study_place",
+        type: "select",
+        data: Country,
+      });
+
+      this.searchFormItem.push({
+        label: "Find Work Availability Time",
+        name: "search_work_av_month",
+        type: "select",
+        data: Month,
+      });
+
+      this.searchFormItem.push({
+        name: "search_work_av_year",
+        type: "select",
+        data: Year,
       });
     }
 
     this.searchParamGet = (key, val) => {
-      return val != "" ? `${key}:"${val}",` : "";
+      return val != "" && typeof val !== "undefined" && val != null
+        ? `${key}:"${val}",`
+        : "";
     }
 
     this.searchFormOnSubmit = d => {
@@ -337,14 +370,19 @@ export class StudentListing extends React.Component {
         this.searchParams += this.searchParamGet("search_student", d.search_student);
         this.searchParams += this.searchParamGet("search_major", d.search_major);
         this.searchParams += this.searchParamGet("search_study_place", d.search_study_place);
-        this.searchParams += this.searchParamGet("search_work_av_start", d.search_work_av_start);
-        this.searchParams += this.searchParamGet("search_work_av_end", d.search_work_av_end);
+        this.searchParams += this.searchParamGet("search_work_av_month", d.search_work_av_month);
+        this.searchParams += this.searchParamGet("search_work_av_year", d.search_work_av_year);
       }
+
+      this.setState((prevState) => {
+        return { search: d }
+      })
     };
 
     this.renderRow = (d, i) => {
       return (
         <StudentListingCard
+          privs={this.state.privs}
           data={d}
           index={i}
           isRec={this.props.isRec}
@@ -494,6 +532,10 @@ export class StudentListing extends React.Component {
     };
   }
 
+  getContentBelowFilter() {
+    console.log("getContentBelowFilter", this.state.search)
+    return null;
+  }
   render() {
     var view = null;
     if (this.state.loadPriv) {
@@ -527,6 +569,7 @@ export class StudentListing extends React.Component {
         </div>
       ) : (
           <GeneralFormPage
+            contentBelowFilter={this.getContentBelowFilter()}
             entity_singular={"Student"}
             dataTitle={this.dataTitle}
             noMutation={true}

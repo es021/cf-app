@@ -12,6 +12,8 @@ import { Month, Year, Sponsor, MasState, Country } from './data-config';
 import { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 export const TotalRegisterStep = 3;
 
+
+
 export const UserFormItem = [
     // {
     //     header: "Select Career Fair",

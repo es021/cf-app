@@ -30,8 +30,8 @@ class StudentListingQuery {
 
         // 3. search work availability 
         // @param search_work_av_start, search_work_av_end
-        var join_search_work_av = UserQuery.getSearchMajor("j.user_id", params.search_work_av_start, params.search_work_av_end);
-        var resume_search_work_av = UserQuery.getSearchMajor("r.student_id", params.search_work_av_start, params.search_work_av_end);
+        var join_search_work_av = UserQuery.getSearchWorkAvailability("j.user_id", params.search_work_av_month, params.search_work_av_year);
+        var resume_search_work_av = UserQuery.getSearchWorkAvailability("r.student_id", params.search_work_av_month, params.search_work_av_year);
 
         // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
         //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
