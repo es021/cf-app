@@ -167,6 +167,7 @@ fields["student_listing"] = {
     type: new GraphQLList(StudentListingType),
     args: {
         company_id: { type: new GraphQLNonNull(GraphQLInt) },
+        cf:  { type: new GraphQLNonNull(GraphQLString) },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },
         search_student: { type: GraphQLString },

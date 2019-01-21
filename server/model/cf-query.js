@@ -5,6 +5,22 @@ const {
 } = require('../../config/db-config');
 
 class CFQuery {
+    getCfInList(field, entity, cf) {
+        if (typeof cf === "undefined") {
+            return "1=1";
+        }
+
+        // user or company
+        if (typeof entity === "undefined") {
+            return "1=1";
+        }
+
+        let toRet = `'${cf}' IN (select ms.cf from cf_map ms 
+            where ms.entity = '${entity}'
+            and ms.entity_id = ${field})`;
+
+        return toRet;
+    }
     getCF(params, field) {
         var order_by = "ORDER BY cf_order desc";
         var is_active = (typeof params.is_active === "undefined") ? "1=1" : `is_active = '${params.is_active}'`;

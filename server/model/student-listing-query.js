@@ -2,6 +2,9 @@ const DB = require('./DB.js');
 const {
     UserQuery
 } = require('./user-query');
+const {
+    CFQuery
+} = require('./cf-query');
 
 class StudentListingQuery {
     getStudentListing(params, field, extra) {
@@ -30,6 +33,14 @@ class StudentListingQuery {
         var join_search_work_av = UserQuery.getSearchMajor("j.user_id", params.search_work_av_start, params.search_work_av_end);
         var resume_search_work_av = UserQuery.getSearchMajor("r.student_id", params.search_work_av_start, params.search_work_av_end);
 
+        // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
+        //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
+
+        var cf_where = "1=1";
+
+        var join_cf = CFQuery.getCfInList("j.user_id", "user", params.cf);
+        var resume_cf = CFQuery.getCfInList("r.student_id", "user", params.cf);
+
         var sql = `
         SELECT Y.* FROM ( 
             SELECT 
@@ -46,6 +57,7 @@ class StudentListingQuery {
                 AND ${join_search_major}
                 AND ${join_search_place}
                 AND ${join_search_work_av}
+                AND ${join_cf}
 
                 UNION
             
@@ -59,14 +71,15 @@ class StudentListingQuery {
                 AND ${resume_search_major}
                 AND ${resume_search_place}
                 AND ${resume_search_work_av}
+                AND ${resume_cf}
+
             ) X
             GROUP BY X.student_id
         ) Y,
 
         companies c 
         where c.ID  =  ${params.company_id}
-        and (select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
-        in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID) 
+        and ${cf_where}
 
         ORDER BY Y.created_at desc
         ${limit} `;
