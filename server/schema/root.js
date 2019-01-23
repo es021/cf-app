@@ -576,7 +576,14 @@ fields["prescreens"] = {
     args: {
         company_id: { type: GraphQLInt },
         student_id: { type: GraphQLInt },
+
+        // New SI Flow - used in user-query (to get more than one type)
         status: { type: GraphQLString },
+        status_2: { type: GraphQLString },
+        status_3: { type: GraphQLString },
+        status_4: { type: GraphQLString },
+        status_5: { type: GraphQLString },
+
         special_type: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt },

@@ -1,19 +1,24 @@
 @import 'define/variable.scss';
+
 .card-wide {
     .profile-card {
         margin: 0;
+
         .pc-picture {
             border: #cbd9e5 1px solid;
         }
     }
+
     .card-container {
         @media only screen and (max-width: 990px) {
             justify-content: center;
             padding: 5px 15px;
+
             .card-wide-item {
                 width: 100%;
             }
         }
+
         position: relative;
         display: flex;
         flex-wrap: wrap;
@@ -22,13 +27,16 @@
         margin-bottom: 20px;
         padding: 0 15px;
         padding-left: 0;
+
         h4 {
             margin-top: 0;
             margin-bottom: 5px;
         }
+
         .card-wide-item {
             padding: 10px 0;
         }
+
         .item-action {
             position: absolute;
             top: -6px;
@@ -44,17 +52,21 @@
     text-align: justify;
     border-bottom: whitesmoke 1px solid;
     font-size: 15px;
+
     .sili-title {
         font-weight: bold;
     }
+
     .sili-operation {
         font-size: 85%;
         margin-left: 10px;
     }
+
     .sili-subtitle {
         color: gray;
         font-size: 90%;
     }
+
     .sili-body {
         max-height: 60px;
         overflow: hidden;
@@ -73,6 +85,7 @@
     background: white;
     box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
     padding: 5px 10px;
+
     .sili-body {
         word-break: break-all !important;
     }
@@ -89,14 +102,17 @@
     text-align: left;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 1fr 2fr;
-    grid-template-areas: "img title body" "img subtitle body";
+    grid-template-areas: "img title body""img subtitle body";
+
     .pc-picture {
         grid-area: img;
     }
+
     .pc-title {
         align-self: end;
         grid-area: title;
     }
+
     .pc-subtitle {
         align-self: start;
         grid-area: subtitle;
@@ -109,6 +125,8 @@
     box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
     width: 140px;
     margin: 8px 5px;
+    //min-height: 212px; // New SI Flow
+
     .pc-title {
         font-size: 15px;
         padding: 0px 5px;
@@ -117,18 +135,25 @@
         display: flex;
         align-items: center;
     }
+
     .pc-subtitle {
         font-size: 12px;
         line-height: 12px;
         padding: 0px 5px;
         margin: 5px;
+        display: flex;
+        align-items: center;
+        min-height: 24px; // New SI Flow
     }
+
     .pc-body {
         margin-top: 5px;
+
         .btn {
             width: 100%;
         }
     }
+
     .pc-picture {
         margin-top: 10px;
         border: darken($COLOR_BACKGROUND, 10) 1px solid;
@@ -139,20 +164,25 @@
 // -- used student popup
 .custom-list-icon {
     font-size: 15px;
+
     .li-icon {
         margin-bottom: 10px;
+
         .cli-label {
             font-size: 80%;
             opacity: 0.65;
+
             .fa {
                 margin-right: 7px;
             }
         }
+
         .cli-value {}
     }
 }
 
 $COLOR_LABEL_CUSTOM : #31708f;
+
 // Custom List (Label)
 // -- used student popup
 .custom-list-label {
@@ -160,6 +190,7 @@ $COLOR_LABEL_CUSTOM : #31708f;
     justify-content: center;
     flex-wrap: wrap;
     font-size: 20px;
+
     li {
         margin: 3px;
         border-radius: 8px;
@@ -167,12 +198,15 @@ $COLOR_LABEL_CUSTOM : #31708f;
         font-weight: 100;
         max-width: 100%;
         overflow: hidden;
+
         a {
             color: white;
         }
+
         .label {
             max-width: 90%;
         }
+
         .badge {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 100%;
@@ -185,9 +219,11 @@ $COLOR_LABEL_CUSTOM : #31708f;
             align-items: center;
             margin-left: 3px;
         }
+
         .badge:hover {
             background: rgba(0, 0, 0, 0.4);
         }
+
         .badge:active {
             background: rgba(0, 0, 0, 0.5);
         }
@@ -195,26 +231,30 @@ $COLOR_LABEL_CUSTOM : #31708f;
 
     li.label-custom {
         background: rgba(0, 0, 0, 0);
-        border : 1px solid $COLOR_LABEL_CUSTOM;
+        border: 1px solid $COLOR_LABEL_CUSTOM;
         color: $COLOR_LABEL_CUSTOM;
         font-weight: bold;
-        i{
+
+        i {
             color: $COLOR_LABEL_CUSTOM;
         }
+
         a {
             color: $COLOR_LABEL_CUSTOM;
         }
     }
-  
+
 }
 
 .custom-list-label.li-ux {
     li {
         cursor: pointer;
     }
+
     li:hover {
         opacity: 0.8;
     }
+
     li:active {
         opacity: 1;
     }
@@ -224,9 +264,11 @@ $COLOR_LABEL_CUSTOM : #31708f;
 // rec view
 .custom-list-icon-link {
     display: flex;
-    a:hover{
+
+    a:hover {
         text-decoration: none;
     }
+
     .icon-circle {
         margin: 2px;
         border-radius: 100%;
@@ -234,9 +276,11 @@ $COLOR_LABEL_CUSTOM : #31708f;
         align-items: center;
         justify-content: center;
     }
+
     .icon-circle:hover {
         opacity: 0.8;
     }
+
     .icon-circle:active {
         opacity: 1;
     }
