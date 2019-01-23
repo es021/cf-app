@@ -526,9 +526,12 @@ class UserExec {
 
                 // prescreens ****************************************************
                 if (typeof field["prescreens"] !== "undefined") {
+                    // New SI Flow
                     var par = {
-                        status: PrescreenEnum.STATUS_APPROVED,
-                        order_by: `${Prescreen.APPNMENT_TIME} asc`
+                        status: PrescreenEnum.STATUS_WAIT_CONFIRM,
+                        status_2: PrescreenEnum.STATUS_APPROVED,
+                        status_3: PrescreenEnum.STATUS_REJECTED,
+                        order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`
                     };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;

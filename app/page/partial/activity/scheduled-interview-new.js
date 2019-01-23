@@ -52,12 +52,17 @@ export default class ScheduledInterviewNew extends React.Component {
 
         this.createPrescreen()
     }
+    // Create Scheduled Interview 1
     createPrescreen(){
         var d = {};
         d[Prescreen.STUDENT_ID] = this.props.student_id;
         d[Prescreen.COMPANY_ID] = this.props.company_id;
         d[Prescreen.UPDATED_BY] = getAuthUser().ID;
-        d[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
+        
+        // New SI Flow
+        d[Prescreen.STATUS] = PrescreenEnum.STATUS_WAIT_CONFIRM;
+        //d[Prescreen.STATUS] = PrescreenEnum.STATUS_APPROVED;
+        
         d[Prescreen.SPECIAL_TYPE] = PrescreenEnum.ST_NEW;
         d[Prescreen.APPNMENT_TIME] = Number.parseInt(this.state.select_timestamp);
 

@@ -37,6 +37,7 @@ export function openSIFormNew(student_id, company_id){
     });
 }
 
+// Create Scheduled Interview 2
 export function openSIAddForm(student_id, company_id, type, success) {
 
     if (!(student_id && isRoleAdmin())) {

@@ -309,26 +309,54 @@ class ActvityList extends React.Component {
                             ps_type = "Scheduled Session";
                         }
 
-                        var label_color = "";
+                        // label for special type
+                        var label_color_type = "";
                         switch (ps_type) {
                             case PrescreenEnum.ST_NEXT_ROUND:
-                                label_color = "success";
+                                label_color_type = "success";
                                 break;
                             case PrescreenEnum.ST_PRE_SCREEN:
-                                label_color = "info";
+                                label_color_type = "info";
                                 break;
                             default:
-                                label_color = "primary";
+                                label_color_type = "primary";
                                 break;
                         }
+                        let labelType = <div style={{ marginBottom: "7px" }}>
+                            <label className={`label label-${label_color_type}`}>
+                                {ps_type}
+                            </label>
+                        </div>
+
+                        // label for status
+                        // New SI Flow
+                        var label_color_status = "";
+                        var textStatus = "";
+                        switch (d.status) {
+                            case PrescreenEnum.STATUS_WAIT_CONFIRM:
+                                label_color_status = "primary";
+                                textStatus = "Waiting Confirmation";
+                                crtSession = null;
+                                break;
+                            case PrescreenEnum.STATUS_REJECTED:
+                                label_color_status = "danger";
+                                textStatus = "Interview Rejected";
+                                crtSession = null;
+                                break;
+                            // case PrescreenEnum.STATUS_APPROVED:
+                            //     label_color_status = "success";
+                            //     break;
+                        }
+                        let labelStatus = <div style={{ marginBottom: "7px" }}>
+                            <label className={`label label-${label_color_status}`}>
+                                {textStatus}
+                            </label>
+                        </div>
 
                         body = <div>
                             {isRoleRec() ? createUserDocLinkList(obj.doc_links, obj.ID, true, true) : null}
-                            <div style={{ marginBottom: "7px" }}>
-                                <label className={`label label-${label_color}`}>
-                                    {ps_type}
-                                </label>
-                            </div>
+                            {/* labelType */}
+                            {crtSession == null ? labelStatus : null}
                             {(isRoleRec()) ? crtSession : null}
                         </div>;
                         break;
@@ -568,7 +596,7 @@ class ActivitySection extends React.Component {
         // var tt_p = isRoleStudent() ? "Visit company booth below and learn how to land Scheduled Sessions"
         //     : "You can also schedule sessions with students through Forum, Resume Drop, Pre-Screen and Past Sessions";
         var tt_p = isRoleStudent() ? "Upcoming one-to-one sessions will be shown here. Check your email for confirmation."
-             : "You can schedule private sessions with students through Student Listing page";
+            : "You can schedule private sessions with students through Student Listing page";
         var title_p = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}
             >
@@ -659,7 +687,7 @@ class ActivitySection extends React.Component {
                 </div>
             </div>
         */
-        
+
 
         return (isRoleRec()) ?
             <div>

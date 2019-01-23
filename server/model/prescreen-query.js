@@ -1,28 +1,47 @@
 const DB = require('./DB.js');
-const { UserQuery } = require('./user-query.js');
-const { UserMeta, User, PrescreenEnum } = require('../../config/db-config');
+const {
+    UserQuery
+} = require('./user-query.js');
+const {
+    UserMeta,
+    User,
+    PrescreenEnum
+} = require('../../config/db-config');
 
 
 class PrescreenQuery {
     getPrescreen(params, extra) {
         // basic condition
-        var id_where = (typeof params.ID === "undefined") ? "1=1"
-            : `ID = ${params.ID}`;
+        var id_where = (typeof params.ID === "undefined") ? "1=1" :
+            `ID = ${params.ID}`;
 
-        var student_where = (typeof params.student_id === "undefined") ? "1=1"
-            : `student_id = ${params.student_id}`;
+        var student_where = (typeof params.student_id === "undefined") ? "1=1" :
+            `student_id = ${params.student_id}`;
 
-        var status_where = (typeof params.status === "undefined") ? "1=1"
-            : `status like '%${params.status}%'`;
+        // var status_where = (typeof params.status === "undefined") ? "1=1" :
+        //     `status like '%${params.status}%'`;
 
-        var not_ps_where = (typeof params.not_prescreen === "undefined") ? "1=1"
-            : `special_type  != '${PrescreenEnum.ST_PRE_SCREEN}'`;
+        // New SI Flow  - to handle more than one status
+        // status, status_1, status_2, status_3, status_4, status_5,
+        let statusArr = `'ANYTHING'`;
+        for (var i = 0; i <= 5; i++) {
+            let statusKey = "status";
+            statusKey += i == 0 ? "" : "_" + i;
+            let statusItem = params[statusKey];
+            if (typeof statusItem !== "undefined") {
+                statusArr += `, '${statusItem}' `;
+            }
+        }
+        var status_where = `status IN (${statusArr})`;
 
-        var st_where = (typeof params.special_type === "undefined") ? "1=1"
-            : `special_type = '${params.special_type}'`;
+        var not_ps_where = (typeof params.not_prescreen === "undefined") ? "1=1" :
+            `special_type  != '${PrescreenEnum.ST_PRE_SCREEN}'`;
 
-        var com_where = (typeof params.company_id === "undefined") ? "1=1"
-            : `company_id = '${params.company_id}'`;
+        var st_where = (typeof params.special_type === "undefined") ? "1=1" :
+            `special_type = '${params.special_type}'`;
+
+        var com_where = (typeof params.company_id === "undefined") ? "1=1" :
+            `company_id = '${params.company_id}'`;
 
         // external search query ------------------------------------------
 
@@ -52,8 +71,12 @@ PrescreenQuery = new PrescreenQuery();
 class PrescreenExec {
 
     prescreens(params, field, extra = {}) {
-        const { CompanyExec } = require('./company-query.js');
-        const { UserExec } = require('./user-query.js');
+        const {
+            CompanyExec
+        } = require('./company-query.js');
+        const {
+            UserExec
+        } = require('./user-query.js');
 
         var sql = PrescreenQuery.getPrescreen(params, extra);
         console.log(sql);
@@ -68,7 +91,9 @@ class PrescreenExec {
                 var company_id = res[i]["company_id"];
 
                 if (typeof field["student"] !== "undefined") {
-                    res[i]["student"] = UserExec.user({ ID: student_id }, field["student"]);
+                    res[i]["student"] = UserExec.user({
+                        ID: student_id
+                    }, field["student"]);
                 }
 
                 if (typeof field["company"] !== "undefined") {
@@ -88,6 +113,7 @@ class PrescreenExec {
 }
 PrescreenExec = new PrescreenExec();
 
-module.exports = { PrescreenExec, PrescreenQuery };
-
-
+module.exports = {
+    PrescreenExec,
+    PrescreenQuery
+};

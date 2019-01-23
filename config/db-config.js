@@ -200,9 +200,13 @@ const Prescreen = {
 
 // Scheduled Interview
 const PrescreenEnum = {
-    STATUS_PENDING: "Pending",
-    STATUS_APPROVED: "Approved",
-    STATUS_DONE: "Done",
+    // New SI Flow
+    STATUS_PENDING: "Pending", // yang lama
+    STATUS_WAIT_CONFIRM: "1_Waiting", // recruiter schedule for interview (in student listing)
+    STATUS_APPROVED: "2_Approved", // approve by student (tru email action)
+    STATUS_REJECTED: "3_Rejected", // reject by student (tru email action)
+    STATUS_DONE: "Done", // session created
+
     ST_NEXT_ROUND: "Next Round", // from session
     ST_INTV_REQUEST: "Session Request",
     ST_PROFILE: "Student Profile",
