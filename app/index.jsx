@@ -29,7 +29,6 @@ require("./css/general.scss");
 //console.log(User);
 
 require("./lib/util.js");
-
 //require("./lib/AutoComplete.js");
 
 require("./css/app.scss");
