@@ -189,6 +189,7 @@ const PasswordReset = {
 
 const Prescreen = {
     TABLE: "pre_screens",
+    ID : "ID",
     STUDENT_ID: "student_id",
     COMPANY_ID: "company_id",
     CREATED_AT: "created_at",

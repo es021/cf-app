@@ -19,6 +19,7 @@ import ManageCompanyPage from '../page/manage-company';
 import ActivityPage from '../page/activity';
 import ResumeDropPage from '../page/resume-drop';
 import VacancyPage from '../page/vacancy';
+import ExternalActionPage from '../page/external-action';
 import SessionPage from '../page/session';
 import { FaqPage, AllowCookiePage, ContactUsPage } from '../page/static';
 import NotFoundPage from '../page/not-found';
@@ -429,6 +430,16 @@ function getMenuItem(COMING_SOON) {
         {
             url: "/vacancy/:id",
             component: VacancyPage,
+            bar_app: true,
+            bar_auth: true,
+            hd_app: true,
+            hd_auth: true,
+            routeOnly: true
+        },
+        // email
+        {
+            url: "/external-action/:type/:param",
+            component: ExternalActionPage,
             bar_app: true,
             bar_auth: true,
             hd_app: true,
