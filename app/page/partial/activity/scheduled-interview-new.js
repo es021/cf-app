@@ -109,9 +109,10 @@ export default class ScheduledInterviewNew extends React.Component {
                 <br></br>on <u>{Time.getString(this.state.select_timestamp)}</u>
                 <br></br>
                 <br></br>
-                <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
+                {/* the link to scheduled iv dah takde */}
+                {/* <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
                     to={link}>
-                    Manage Scheduled Call</NavLink>
+                    Manage Scheduled Call</NavLink> */}
             </div>;
 
         layoutActions.successBlockLoader(mes);

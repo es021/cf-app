@@ -57,7 +57,9 @@ var plugins = [
     //new webpack.optimize.CommonsChunkPlugin('vendors'),
     // remove this to fix webpackJson not defined
     //new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', minChunks: Infinity }),
-    new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", { allChunks: false })
+    new ExtractTextPlugin(CSS_DIR + "[name].bundle.css", {
+        allChunks: false
+    })
 ];
 
 // Optimize and Minimize for Production
@@ -93,7 +95,10 @@ if (isProd && !allowProdMap) {
     ]);
 }
 
-var jsxLoader = { test: /\.jsx?$/, exclude: /node_modules/ };
+var jsxLoader = {
+    test: /\.jsx?$/,
+    exclude: /node_modules/
+};
 if (isProd) {
     jsxLoader.loader = 'babel-loader';
     jsxLoader.query = {
@@ -102,6 +107,16 @@ if (isProd) {
     };
 } else {
     jsxLoader.loader = 'react-hot-loader!babel-loader';
+    // jsxLoader.rules = [{
+    //     "no-use-before-define": "error"
+    // }]
+    //     "no-use-before-define": "error"
+    // };
+    // jsxLoader.query = {
+    //     rules: {
+    //         "no-use-before-define": "error"
+    //     },
+    // };
 }
 
 // create Moduile --------------------------------------
@@ -119,9 +134,15 @@ module.exports = {
              //query: {presets: ["es2015", "react", "modern-browsers"]}
              },*/
             //{test: /\.js$/, loader: "babel?presets[]=es2015&presets[]=react", exclude: /node_modules/},
-            { test: /\.css$/, loader: "style-loader!css-loader" },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
+            },
             //{test: /\.scss$/, loader:  "style-loader!css-loader!sass-loader"},
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) }
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+            }
             //,{test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"}
             //,{test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
         ]
@@ -141,4 +162,3 @@ module.exports = {
         hot: true
     }
 };
-
