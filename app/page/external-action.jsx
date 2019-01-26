@@ -1,19 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Loader } from "../component/loader";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
-import ProfileCard from "../component/profile-card";
-import PageSection from "../component/page-section";
-import { CustomList } from "../component/list";
-import NotFoundPage from "./not-found";
-import FacebookProvider, { Page, ShareButton } from "react-facebook";
-import { AppConfig, RootPath, SiteUrl } from "../../config/app-config";
-import { NavLink } from "react-router-dom";
-import { addLog } from "../redux/actions/other-actions";
-import { getAuthUser } from "../redux/actions/auth-actions";
-
 import { Prescreen, PrescreenEnum } from "../../config/db-config";
-
 import obj2arg from "graphql-obj2arg";
 
 // http://localhost:8080/auth/external-action/acceptInterview/%7B%22studentId%22:136,%22interviewId%22:392,%22companyName%22:%22Shell%22,%22studentName%22:%22Wan%20Zulsarhan%22%7D
@@ -36,7 +24,7 @@ export default class ExternalAction extends React.Component {
     super(props);
 
     this.doAction = this.doAction.bind(this);
-
+    console.log("Aasjdjajdjs")
     this.type = null;
     this.param = null;
     this.error = null;
@@ -59,33 +47,23 @@ export default class ExternalAction extends React.Component {
       this.param = JSON.parse(this.param);
     } catch (err) {
       this.error = `Unable to parse parameter (${this.param})`;
-      return;
     }
 
-    console.log(this.param);
+    console.log("type", this.type);
+    console.log("param", this.param);
+    console.log("error", this.error);
+
+
+    // if(this.error != null){
+    //   return;
+    // }
+
     this.doAction();
 
-    // var logData = {
-    //     id: Number.parseInt(id),
-    //     location: window.location.pathname
-    // };
-    // addLog(LogEnum.EVENT_VISIT_VACANCY, JSON.stringify(logData), getAuthUser().ID);
-
-    // var query = `mutation {
-    //       edit_prescreen(ID:${id}) {
-    //         ID
-    //         company_id
-    //         company {ID name}
-    //         title
-    //         description
-    //         requirement
-    //         type
-    //         application_url
-    //         updated_at
-    //     }}`;
   }
 
   doAction() {
+    console.log("Start do action")
     this.textLoading = "";
     let query = null;
     if (
@@ -101,12 +79,11 @@ export default class ExternalAction extends React.Component {
           : PrescreenEnum.STATUS_REJECTED;
 
       // view generation
-
       this.title = <h4>Hi {this.param[Config.Param.STUDENT_NAME]} !</h4>;
 
       let companyDetail = ` interview with ${
         this.param[Config.Param.COMPANY_NAME]
-      }`;
+        }`;
 
       this.textLoading =
         this.type == Config.Type.ACCEPT_INTERVIEW ? `Accepting` : `Rejecting`;
@@ -120,15 +97,22 @@ export default class ExternalAction extends React.Component {
       query = `mutation{edit_prescreen(${obj2arg(upd, {
         noOuterBraces: true
       })}) {ID}}`;
+
     }
 
-    console.log(query);
+
+    console.log("query", query);
     // return;
     if (query !== null) {
       getAxiosGraphQLQuery(query).then(res => {
         this.setState(() => {
           return { loading: false };
         });
+      });
+    } else {
+      console.log("query is null")
+      this.setState(() => {
+        return { loading: false };
       });
     }
   }

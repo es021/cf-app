@@ -4,6 +4,7 @@
         "commonjs": true,
         "es6": true
     },
+    "extends": "airbnb-base",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -17,10 +18,17 @@
     "rules": {
         "no-use-before-define": "error",
         "no-console": "off",
-        "semi": "off",
-        "quote-props":"off",
-        "jsx-quotes" :"off",
-        "quotes" :"off",
-        "no-undef": "error"
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
     }
 }
