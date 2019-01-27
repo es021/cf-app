@@ -83,6 +83,18 @@ app.get(root, function (req, res, next) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+// new for video call
+/**
+ * @query 
+ */
+app.get(root + '/video-call', function (req, res, next) {
+    var query = req.query;
+    console.log("video-call");
+    console.log(query);
+
+    res.sendFile(__dirname + '/public/video-call.html');
+});
+
 app.get('*', function (req, res, next) {
     res.send(template(req.url));
     //res.sendFile(__dirname + '/public/index.html');

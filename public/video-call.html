@@ -1,0 +1,72 @@
+<div id="myembed"></div>
+
+<!-- ################################################################### -->
+<script>
+    var CLIENT_ID = "demo";
+    var ROOM_ID = "seedsjobfair";
+    // grv.to/seedsjobfair
+    var DIV_ID = "myembed";
+    var COLOR = "63b2de";
+
+    var tag = document.createElement("script");
+    tag.src = "https://www.gruveo.com/embed-api/";
+    var firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var embed;
+
+    function onGruveoEmbedAPIReady() {
+        embed = new Gruveo.Embed(DIV_ID, {
+            responsive: 1,
+            embedParams: {
+                clientid: CLIENT_ID,
+                color: COLOR
+            }
+        });
+
+        embed
+            .on("error", onEmbedError)
+            .on("requestToSignApiAuthToken", onEmbedRequestToSignApiAuthToken)
+            .on("ready", onEmbedReady)
+            .on("stateChange", onEmbedStateChange);
+    }
+
+    function onEmbedError(e) {
+        console.error("Received error " + e.error + ".");
+    }
+
+    function onEmbedRequestToSignApiAuthToken(e) {
+        // The below assumes that you have a server-side signer endpoint at /signer,
+        // where you pass e.token in the body of a POST request.
+        fetch('/signer', {
+                method: 'POST',
+                body: e.token
+            })
+            .then(function (res) {
+                if (res.status !== 200) {
+                    return;
+                }
+                res.text()
+                    .then(function (signature) {
+                        embed.authorize(signature);
+                    });
+            });
+    }
+
+    function onEmbedReady(e) {
+        // document.getElementById("call-btn").addEventListener("click", function () {
+        //     embed.call(ROOM_ID, true);
+        // });
+
+
+        embed.call(ROOM_ID, true);
+    }
+
+    function onEmbedStateChange(e) {
+        if (e.state == "call") {
+            setTimeout(function () {
+                console.log("10 seconds have passed");
+            }, 10000);
+        }
+    }
+</script>

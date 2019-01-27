@@ -1,0 +1,35 @@
+
+
+
+#######################################
+
+DONE
+
+#######################################
+
+deploy new file for wp career fair
+ajax_zoom
+ZoomMeetings
+
+
+db schema
+1. group_session
+is_expired small int default 0
+is_canceled small int default 0
+start_url text
+
+db schema changed
+
+1. zoom_meetings 
+- add col group_session_id
+- session_id become nullable
+
+2. add table availability
+3. add table group_session
+4. add table group_session_join
+
+########################################
+
+cf wp todo 
+
+handle for zoom_meetings with group_session_id
