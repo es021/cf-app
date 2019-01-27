@@ -1,4 +1,6 @@
-import { store } from '../store.js';
+import {
+    store
+} from '../store.js';
 
 // Block Loader ----------------------------------------------
 export const UPDATE_BLOCK_LOADER = "UPDATE_BLOCK_LOADER";
@@ -6,7 +8,14 @@ export function hideBlockLoader() {
     return function (dispatch) {
         dispatch({
             type: UPDATE_BLOCK_LOADER,
-            payload: { loading: null, success: null, error: null, confirm: null, custom: null, show: false }
+            payload: {
+                loading: null,
+                success: null,
+                error: null,
+                confirm: null,
+                custom: null,
+                show: false
+            }
         });
     };
 }
@@ -18,7 +27,14 @@ export function storeHideBlockLoader() {
 function updateBlockLoader(loading, success, error, confirm, custom) {
     store.dispatch({
         type: UPDATE_BLOCK_LOADER,
-        payload: { loading: loading, success: success, error: error, confirm: confirm, custom: custom, show: true }
+        payload: {
+            loading: loading,
+            success: success,
+            error: error,
+            confirm: confirm,
+            custom: custom,
+            show: true
+        }
     });
 }
 
@@ -36,14 +52,25 @@ export function errorBlockLoader(m) {
 }
 
 export function confirmBlockLoader(title, yesHandler) {
-    updateBlockLoader(null, null, null, { title: title, yesHandler: yesHandler }, null);
+    updateBlockLoader(null, null, null, {
+        title: title,
+        yesHandler: yesHandler
+    }, null);
 }
 
-export function customBlockLoader(title, actionText, actionHandler, href, noClose = false) {
+export function customBlockLoader(title, actionText, actionHandler, href, noClose = false, customView = null) {
     updateBlockLoader(null, null, null, null, {
-        title: title, actionText: actionText,
-        actionHandler: actionHandler, href: href, noClose: noClose
+        title: title,
+        actionText: actionText,
+        actionHandler: actionHandler,
+        href: href,
+        noClose: noClose,
+        customView: customView
     });
+}
+
+export function customViewBlockLoader(title, customView, noClose = false) {
+    customBlockLoader(title, null, null, null, noClose, customView);
 }
 
 
@@ -64,7 +91,13 @@ export function updateFocusCard(title, component, props, className = "") {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
-            payload: { title: title, component: component, props: props, show: true, className: className }
+            payload: {
+                title: title,
+                component: component,
+                props: props,
+                show: true,
+                className: className
+            }
         });
     };
 }
@@ -73,7 +106,9 @@ export function updateProps(props) {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
-            payload: { props: props }
+            payload: {
+                props: props
+            }
         });
     };
 }
@@ -86,7 +121,12 @@ export function hideFocusCard() {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
-            payload: { title: null, component: null, props: null, show: false }
+            payload: {
+                title: null,
+                component: null,
+                props: null,
+                show: false
+            }
         });
     };
 }

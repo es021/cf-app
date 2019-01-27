@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chat from './partial/session/chat';
+import Chat from './partial/session/chat.jsx';
 import { SupportUserID } from '../../config/app-config';
 import { SupportSession } from '../../config/db-config';
 import { getAuthUser } from '../redux/actions/auth-actions';

@@ -5,26 +5,76 @@ import Form from '../../../component/form';
 //importing for list
 import List, { ProfileListItem } from '../../../component/list';
 import { getAxiosGraphQLQuery, getWpAjaxAxios } from '../../../../helper/api-helper';
-import { Redirect, NavLink } from 'react-router-dom';
-import { RootPath } from '../../../../config/app-config';
+import { SiteUrl } from '../../../../config/app-config';
 import { Time } from '../../../lib/time';
 import obj2arg from 'graphql-obj2arg';
-
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import { getOtherRecs } from '../../../redux/actions/auth-actions';
 import { ActivityType } from '../../../redux/actions/hall-actions';
-import { ButtonLink } from '../../../component/buttons';
-import UserPopup from '../popup/user-popup';
-
+import { addLog } from "../../../redux/actions/other-actions";
+import { LogEnum } from "../../../../config/db-config";
 import { connect } from 'react-redux';
 import { BOTH } from '../../../../config/socket-config';
 import { emitChatMessage, socketOn, emitHallActivity } from '../../../socket/socket-client';
 
+//import { ButtonLink } from '../../../component/buttons';
+//import UserPopup from '../popup/user-popup';
+//import { Redirect, NavLink } from 'react-router-dom';
+
+
 require("../../../css/chat.scss");
+
+// New Gruveo
+export function isGruveoLink(join_url) {
+    const isGruveo = join_url.indexOf("video-call?room_code");
+    return isGruveo;
+}
+
+export function addLogCreateCall({ isZoom, isGruveo, session_id, group_session_id, url }) {
+    let log = null;
+    let param = {};
+
+    if (isGruveo == true) {
+        log = LogEnum.EVENT_CALL_GRUVEO;
+    } else if (isZoom == true) {
+        log = LogEnum.EVENT_CALL_ZOOM;
+    }
+
+    if (typeof session_id !== "undefined") {
+        param.session_id = session_id;
+    }
+
+    if (typeof group_session_id !== "undefined") {
+        param.group_session_id = group_session_id;
+    }
+
+    // for gruveo
+    if (typeof url !== "undefined") {
+        param.url = url;
+    }
+
+    if (log != null) {
+        addLog(log, param);
+    }
+
+}
+
+// New Gruveo
+export function createGruveoLink(id, isGroupSession) {
+    isGroupSession = typeof isGroupSession === "undefined" ? false : isGroupSession;
+
+    let date = new Date();
+    let timestamp = date.getTime();
+    let room_code = `sjf${timestamp}${isGroupSession ? "gsid" : "sid"}${id}`;
+    let toRet = `${SiteUrl}/video-call?room_code=${room_code}`;
+    return toRet;
+}
 
 export function joinVideoCall(join_url, session_id, expiredHandler = null, group_session_id = null) {
     window.open(join_url);
-
+    if (isGruveoLink(join_url)) {
+        return;
+    }
     /*
     if (this.props.disableChat) {
         layoutActions.errorBlockLoader("Session Has Expired. Unable To Join Video Call Session");
@@ -51,11 +101,11 @@ export function joinVideoCall(join_url, session_id, expiredHandler = null, group
         join_url: join_url
     };
 
-    if(session_id !== null){
+    if (session_id !== null) {
         data.session_id = session_id;
     }
 
-    if(group_session_id !== null){
+    if (group_session_id !== null) {
         data.group_session_id = group_session_id;
     }
 
@@ -266,7 +316,7 @@ class Chat extends React.Component {
         }
     }
 
-    getStartVideoCallForm(zoom_data) {
+    getStartVideoCallFormWithInvite(zoom_data) {
         var listRecs = [];
         getOtherRecs().map((d, i) => {
             if (this.props.self_id == d.ID) {
@@ -301,7 +351,29 @@ class Chat extends React.Component {
         </Form>;
     }
 
+    /**
+     * 
+     * @param {join_url, start_url} videoCallData 
+     */
+    getStartVideoCallForm(videoCallData) {
+        var onSubmit = (data) => {
+            layoutActions.storeHideBlockLoader();
+            this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: videoCallData.join_url }));
+            window.open(videoCallData.start_url);
+        };
+
+        var items = [];
+        return <Form
+            items={items}
+            onSubmit={onSubmit}
+            btnColorClass="blue"
+            submitText="Start Video Call">
+        </Form>;
+    }
+
     createVideoCall() {
+        addLogCreateCall({ isZoom: true, session_id: this.props.session_id });
+
         if (this.props.disableChat) {
             layoutActions.errorBlockLoader("Session Has Expired. Unable To Create Video Call Session");
             return;
@@ -359,6 +431,29 @@ class Chat extends React.Component {
         getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
     }
 
+    // New Gruveo
+    createVideoCallGruveo() {
+        if (this.props.disableChat) {
+            layoutActions.errorBlockLoader("Session Has Expired. Unable To Create Video Call Session");
+            return;
+        }
+
+        let url = createGruveoLink(this.props.session_id);
+        addLogCreateCall({ isGruveo: true, session_id: this.props.session_id, url: url });
+
+        layoutActions.loadingBlockLoader("Creating Video Call Session. Please Do Not Close Window.");
+
+        var data = {
+            start_url: url,
+            join_url: url,
+        }
+        var body = <div>
+            <h4 className="text-primary">Successfully Created Video Call Session</h4>
+            {this.getStartVideoCallForm(data)}
+        </div>;
+        layoutActions.customBlockLoader(body, null, null, null);
+
+    }
     getChatHeader() {
         var d = this.props.other_data;
 
@@ -384,9 +479,15 @@ class Chat extends React.Component {
 
         // action -------
         var action = [];
+
+        // New Gruveo
         if (this.props.isRec) {
+            action.push(<a onClick={() => this.createVideoCallGruveo()} className="action-item">
+                <i className="fa fa-video-camera left"></i><small>Call With Chrome</small>
+            </a>);
+            action.push(<small>{"   |   "}</small>)
             action.push(<a onClick={() => this.createVideoCall()} className="action-item">
-                <i className="fa fa-video-camera left"></i><small>Start Video Call</small>
+                <small>Call With Zoom</small>
             </a>);
         }
 

@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
+import obj2arg from "graphql-obj2arg";
 import ProfileCard from '../../../component/profile-card';
-import { CompanyEnum, UserEnum, PrescreenEnum, SessionRequestEnum } from '../../../../config/db-config';
+import { Prescreen, PrescreenEnum, SessionRequestEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';
 import { Time } from '../../../lib/time';
@@ -40,6 +41,8 @@ class ActvityList extends React.Component {
         this.cancelQueue = this.cancelQueue.bind(this);
         this.cancelJoinGroupSession = this.cancelJoinGroupSession.bind(this);
         this.updateSessionRequest = this.updateSessionRequest.bind(this);
+        this.acceptRejectPrescreen = this.acceptRejectPrescreen.bind(this);
+        this.confirmAcceptRejectPrescreen = this.confirmAcceptRejectPrescreen.bind(this);
 
         this.authUser = getAuthUser();
     }
@@ -200,6 +203,71 @@ class ActvityList extends React.Component {
         });
     }
 
+    // ##########################
+    // for prescreen
+
+    acceptRejectPrescreen(id, user_id, status) {
+        layoutActions.loadingBlockLoader("Updating Scheduled Call Status..");
+
+        if (typeof id === "string") {
+            id = Number.parseInt(id);
+        }
+        if (typeof user_id === "string") {
+            user_id = Number.parseInt(user_id);
+        }
+
+        let upd = {};
+        upd[Prescreen.ID] = id;
+        upd[Prescreen.UPDATED_BY] = user_id;
+        upd[Prescreen.STATUS] = status
+
+        let query = `mutation{edit_prescreen(${obj2arg(upd, {
+            noOuterBraces: true
+        })}) {ID student_id company_id}}`;
+
+        getAxiosGraphQLQuery(query).then((data) => {
+            let res = data.data.data.edit_prescreen;
+            var toRefresh = [hallAction.ActivityType.PRESCREEN];
+            hallAction.storeLoadActivity(toRefresh);
+            layoutActions.storeHideBlockLoader();
+
+            //emitQueueStatus(company_id, this.authUser.ID, "cancelQueue");
+
+            var sid = (isRoleStudent()) ? null : res.student_id;
+            var cid = (isRoleRec()) ? null : res.company_id;
+            emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, cid);
+
+        }, (err) => {
+            layoutActions.errorBlockLoader(err);
+        });
+
+
+    }
+
+    // for reject and cancel
+    // trigger from card view button
+    confirmAcceptRejectPrescreen(e, status) {
+        var other_name = e.currentTarget.dataset.other_name;
+        var id = e.currentTarget.id;
+        var user_id = this.authUser.ID;
+
+        const confirmUpdate = () => {
+            this.acceptRejectPrescreen(id, user_id, status);
+        };
+
+        // create confirm message
+        var mes = "";
+        if (status === PrescreenEnum.STATUS_APPROVED) {
+            mes += "Approving";
+        }
+        if (status === PrescreenEnum.STATUS_REJECTED) {
+            mes += "Rejecting";
+        }
+
+        mes += ` Scheduled Call with ${other_name} ?`;
+        layoutActions.confirmBlockLoader(mes, confirmUpdate);
+    }
+
     render() {
         var body = null;
         console.log(this.props);
@@ -334,6 +402,8 @@ class ActvityList extends React.Component {
                         var textStatus = "";
                         switch (d.status) {
                             case PrescreenEnum.STATUS_WAIT_CONFIRM:
+                                if (isRoleStudent()) break;
+
                                 label_color_status = "primary";
                                 textStatus = "Waiting Confirmation";
                                 crtSession = null;
@@ -343,9 +413,12 @@ class ActvityList extends React.Component {
                                 textStatus = "Interview Rejected";
                                 crtSession = null;
                                 break;
-                            // case PrescreenEnum.STATUS_APPROVED:
-                            //     label_color_status = "success";
-                            //     break;
+                            case PrescreenEnum.STATUS_APPROVED:
+                                if (isRoleRec()) break;
+
+                                label_color_status = "success";
+                                textStatus = "Accepted";
+                                break;
                         }
                         let labelStatus = <div style={{ marginBottom: "7px" }}>
                             <label className={`label label-${label_color_status}`}>
@@ -353,11 +426,26 @@ class ActvityList extends React.Component {
                             </label>
                         </div>
 
+
+
+                        // New Flow
+                        let acceptReject = <div>
+                            <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                onClick={(e) => { this.confirmAcceptRejectPrescreen(e, PrescreenEnum.STATUS_APPROVED) }}
+                                className="btn btn-sm btn-success">Accept Interview</div>
+
+                            <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                onClick={(e) => { this.confirmAcceptRejectPrescreen(e, PrescreenEnum.STATUS_REJECTED) }}
+                                className="btn btn-sm btn-danger">Reject Interview</div>
+                        </div>;
+
                         body = <div>
                             {isRoleRec() ? createUserDocLinkList(obj.doc_links, obj.ID, true, true) : null}
                             {/* labelType */}
                             {crtSession == null ? labelStatus : null}
                             {(isRoleRec()) ? crtSession : null}
+                            {(isRoleStudent() && d.status == PrescreenEnum.STATUS_WAIT_CONFIRM) ?
+                                acceptReject : null}
                         </div>;
                         break;
 

@@ -1,22 +1,79 @@
-<div id="myembed"></div>
+<html>
+
+<body onresize="onResizeBody()">
+    <div id="sjf-wrapper">
+        <div id="sjf-embed"></div>
+    </div>
+</body>
+
+</html>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        background: #edf2f6;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #wrapper {
+        width: 100vh;
+    }
+</style>
 
 <!-- ################################################################### -->
 <script>
+    function _GET(parameterName) {
+        var result = null,
+            tmp = [];
+        var items = location.search.substr(1).split("&");
+        for (var index = 0; index < items.length; index++) {
+            tmp = items[index].split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+    }
+
     var CLIENT_ID = "demo";
-    var ROOM_ID = "seedsjobfair";
-    // grv.to/seedsjobfair
-    var DIV_ID = "myembed";
-    var COLOR = "63b2de";
-
-    var tag = document.createElement("script");
-    tag.src = "https://www.gruveo.com/embed-api/";
-    var firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+    // var ROOM_ID = "seedsjobfair";
+    var ROOM_ID = _GET("room_code");
+    var DIV_EMBED_ID = "sjf-embed";
+    var DIV_WRAPPER_ID = "sjf-wrapper";
+    var COLOR = "398439";
+    var DIMENSION_RATIO = 1.45
+    var wrapper = document.getElementById(DIV_WRAPPER_ID)
     var embed;
 
+    function onResizeBody() {
+        //console.log("wrapper", wrapper)
+        var width = window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+
+        var height = window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight;
+
+        let maxWidth = height * DIMENSION_RATIO;
+        wrapper.style.width = maxWidth;
+    }
+
+    function init() {
+        onResizeBody();
+        var tag = document.createElement("script");
+        tag.src = "https://www.gruveo.com/embed-api/";
+        var firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
     function onGruveoEmbedAPIReady() {
-        embed = new Gruveo.Embed(DIV_ID, {
+        embed = new Gruveo.Embed(DIV_EMBED_ID, {
             responsive: 1,
             embedParams: {
                 clientid: CLIENT_ID,
@@ -32,33 +89,30 @@
     }
 
     function onEmbedError(e) {
-        console.error("Received error " + e.error + ".");
+        alert("Received error " + e.error + ".");
     }
 
     function onEmbedRequestToSignApiAuthToken(e) {
         // The below assumes that you have a server-side signer endpoint at /signer,
         // where you pass e.token in the body of a POST request.
-        fetch('/signer', {
+        fetch('/video-call-auth', {
                 method: 'POST',
-                body: e.token
+                body: e.token,
             })
             .then(function (res) {
+                console.log("res", res);
                 if (res.status !== 200) {
                     return;
                 }
-                res.text()
-                    .then(function (signature) {
-                        embed.authorize(signature);
-                    });
+
+                res.text().then(function (text) {
+                    console.log("text", text)
+                    embed.authorize(text);
+                });
             });
     }
 
     function onEmbedReady(e) {
-        // document.getElementById("call-btn").addEventListener("click", function () {
-        //     embed.call(ROOM_ID, true);
-        // });
-
-
         embed.call(ROOM_ID, true);
     }
 
@@ -69,4 +123,6 @@
             }, 10000);
         }
     }
+
+    init();
 </script>

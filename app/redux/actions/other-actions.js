@@ -1,6 +1,12 @@
 import axios from 'axios';
-import { TestUser, AppConfig, SiteUrl } from '../../../config/app-config';
-import { getAuthUser } from './auth-actions';
+import {
+    TestUser,
+    AppConfig,
+    SiteUrl
+} from '../../../config/app-config';
+import {
+    getAuthUser
+} from './auth-actions';
 
 
 export function addLog(event, data = null, user_id = null) {
@@ -12,12 +18,15 @@ export function addLog(event, data = null, user_id = null) {
         //return;
     }
 
-    return axios.post(AppConfig.Api + "/add-log",
-        {
-            event: event,
-            data: data,
-            user_id: user_id
-        });
+    if (data !== null && typeof data === "object") {
+        data = JSON.stringify(data);
+    }
+
+    return axios.post(AppConfig.Api + "/add-log", {
+        event: event,
+        data: data,
+        user_id: user_id
+    });
 }
 
 export function getXLSUrl(action, filter = null) {

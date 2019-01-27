@@ -1,14 +1,28 @@
+//const base64 = require('base-64');
+//const axios = require('axios');
+
 const express = require('express');
 const expressGraphQL = require('express-graphql');
 const app = express();
 const PORT = 4000;
 const path = require('path');
-const axios = require('axios');
-const { initializeAllRoute } = require('./server/api/_route.js');
+const {
+    Secret
+} = require('./server/secret/secret');
+
+// for gruveo
+const crypto = require('crypto');
+const {
+    Base64Encode
+} = require('base64-stream');
+
+
+const {
+    initializeAllRoute
+} = require('./server/api/_route.js');
 const isProd = (process.env.NODE_ENV === "production");
 
 require('./helper/lib-helper');
-
 
 var root = (isProd) ? "/cf" : "";
 //var root = "";
@@ -23,7 +37,9 @@ const schemaCF = require('./server/schema/_schema_cf.js');
 // body parser used in post argument
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({
+    extended: true
+})); // support encoded bodies
 
 
 //allow CORS
@@ -74,7 +90,9 @@ app.use(root + '/graphql', expressGraphQL({
 
 initializeAllRoute(app, root);
 
-const { template } = require('./server/html/template.js');
+const {
+    template
+} = require('./server/html/template.js');
 
 app.get(root, function (req, res, next) {
     //console.log("root");
@@ -83,17 +101,26 @@ app.get(root, function (req, res, next) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-// new for video call
-/**
- * @query 
- */
+
+
+// ###################################
+// FOR GRUVEO ************************
 app.get(root + '/video-call', function (req, res, next) {
     var query = req.query;
-    console.log("video-call");
-    console.log(query);
-
     res.sendFile(__dirname + '/public/video-call.html');
 });
+
+app.post(root + '/video-call-auth', function (req, res, next) {
+    req
+        .pipe(crypto.createHmac('sha256', Secret.GRUVEO_SECRET))
+        .pipe(new Base64Encode())
+        .pipe(res.set('Content-Type', 'text/plain'));
+});
+
+// FOR GRUVEO ************************
+// ###################################
+
+
 
 app.get('*', function (req, res, next) {
     res.send(template(req.url));
@@ -104,6 +131,8 @@ app.get('*', function (req, res, next) {
 app.listen(PORT, () => {
     console.log("React, Redux and GraphQL Server is now running on port " + PORT);
 });
+
+
 
 /*
  

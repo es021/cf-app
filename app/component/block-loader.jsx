@@ -85,33 +85,45 @@ class BlockLoader extends React.Component {
                 </div>
             </div>;
         } else if (state.custom !== null) {
-            action = <div>
-                {(state.custom.href != null) // if href need to make navlink
-                    ? <NavLink to={state.custom.href} onClick={() => { store.dispatch(layoutActions.hideBlockLoader()); }}
-                        className="btn btn-sm btn-blue">
-                        {state.custom.actionText}
-                    </NavLink>
-                    : (state.custom.actionHandler == null) ? null
-                        : <a onClick={() => { // if action handler need to make a onClick
-                            if (state.custom.actionHandler) {
-                                state.custom.actionHandler();
-                            }
-                            store.dispatch(layoutActions.hideBlockLoader());
-                        }}
+            let closeLink = null;
+            if (state.custom.noClose == false) {
+                closeLink = <div style={{ marginTop: "5px" }}>
+                    <small>
+                        <a onClick={() => store.dispatch(layoutActions.hideBlockLoader())}>
+                            CLOSE</a>
+                    </small>
+                </div>
+            }
+
+            if (state.custom.customView !== null) {
+                action = <div>
+                    {state.custom.customView}
+                    <br></br>
+                    {closeLink}
+                </div>;
+
+            } else {
+                action = <div>
+                    {(state.custom.href != null) // if href need to make navlink
+                        ? <NavLink to={state.custom.href} onClick={() => { store.dispatch(layoutActions.hideBlockLoader()); }}
                             className="btn btn-sm btn-blue">
                             {state.custom.actionText}
-                        </a>
-                }
-                <br></br>
-                {(state.custom.noClose === true) ? null :
-                    <div style={{ marginTop: "5px" }}>
-                        <small>
-                            <a onClick={() => store.dispatch(layoutActions.hideBlockLoader())}>
-                                CLOSE</a>
-                        </small>
-                    </div>
-                }
-            </div>;
+                        </NavLink>
+                        : (state.custom.actionHandler == null) ? null
+                            : <a onClick={() => { // if action handler need to make a onClick
+                                if (state.custom.actionHandler) {
+                                    state.custom.actionHandler();
+                                }
+                                store.dispatch(layoutActions.hideBlockLoader());
+                            }}
+                                className="btn btn-sm btn-blue">
+                                {state.custom.actionText}
+                            </a>
+                    }
+                    <br></br>
+                    {closeLink}
+                </div>;
+            }
         }
 
         //confirm
