@@ -1,4 +1,19 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/" />
+    <link rel="icon" href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-32x32.png"
+        sizes="32x32" />
+    <link rel="icon" href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-192x192.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-180x180.png" />
+    <meta name="msapplication-TileImage" content="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-270x270.png" />
+    <meta name="description" content="{{description}}" />
+    <title>Video Call - SeedsJobFair</title>
+</head>
 
 <body onresize="onResizeBody()">
     <div id="sjf-wrapper">
@@ -40,7 +55,9 @@
         return result;
     }
 
+    var IS_PROD = window.location.href.indexOf("localhost") <= -1;
     var CLIENT_ID = "demo";
+    var AUTH_URL = IS_PROD ? "cf/video-call-auth" : '/video-call-auth';
     // var ROOM_ID = "seedsjobfair";
     var ROOM_ID = _GET("room_code");
     var DIV_EMBED_ID = "sjf-embed";
@@ -95,7 +112,7 @@
     function onEmbedRequestToSignApiAuthToken(e) {
         // The below assumes that you have a server-side signer endpoint at /signer,
         // where you pass e.token in the body of a POST request.
-        fetch('/video-call-auth', {
+        fetch(AUTH_URL, {
                 method: 'POST',
                 body: e.token,
             })
