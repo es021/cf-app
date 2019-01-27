@@ -8,7 +8,7 @@ import UserPopup from './partial/popup/user-popup';
 import ConfirmPopup from './partial/popup/confirm-popup';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
-import Chat from './partial/session/chat';
+import Chat from './partial/session/chat.jsx';
 import SessionNotesPage from './partial/session/session-notes';
 import SessionRatingsPage from './partial/session/session-ratings';
 import obj2arg from 'graphql-obj2arg';

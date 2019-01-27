@@ -18,3 +18,11 @@ UPDATE companies
 SET img_url = REPLACE (img_url, 'http://seedsjobfairapp.com', 'https://seedsjobfairapp.com/career-fair')
 WHERE img_url like '%http://seedsjobfairapp.com%'
 
+
+-- ###############################
+-- npm
+
+npm install eslint-plugin-jsx --save-dev
+npm install crypto --save-dev
+npm install base-64 --save-dev
+npm install base64-stream --save-dev

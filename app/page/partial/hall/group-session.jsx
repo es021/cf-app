@@ -24,7 +24,7 @@ import { openSIAddForm, isNormalSI } from '../activity/scheduled-interview';
 import Tooltip from '../../../component/tooltip';
 
 import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
-import { joinVideoCall } from '../session/chat';
+import { joinVideoCall, addLogCreateCall, createGruveoLink, isGruveoLink } from '../session/chat.jsx';
 
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import UserPopup, { createUserDocLinkList } from '../popup/user-popup';
@@ -252,8 +252,9 @@ class GroupSessionClass extends React.Component {
                             this.loadData();
                         })
                     }
+                    //  href={d.start_url}
                     action = <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
-                        className="action btn btn-primary btn-sm" href={d.start_url} target="_blank">
+                        className="action btn btn-primary btn-sm" target="_blank">
                         Started
                     </a>;
                 } else {
@@ -421,7 +422,16 @@ class GroupSessionClass extends React.Component {
             })
         }
 
-        const recConfirmCreate = () => {
+        const confirmCreateWithGruveo = () => {
+            let url = createGruveoLink(id, true);
+            addLogCreateCall({ isGruveo: true, group_session_id: id, url: url });
+            recDoStart(url, url);
+            window.open(url);
+        }
+
+        const confirmCreateWithZoom = () => {
+            addLogCreateCall({ isZoom: true, group_session_id: id });
+
             layoutActions.loadingBlockLoader("Creating Video Call Session. Please Do Not Close Window.");
             const successInterceptor = (data) => {
                 /*
@@ -468,6 +478,22 @@ class GroupSessionClass extends React.Component {
             getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
         }
 
+        // New Gruveo
+        // choose between zoom or chrome
+        const recConfirmCreate = () => {
+            console.log("recConfirmCreate")
+            let width = "100px";
+            let v = <div>
+                <br></br>
+                <div onClick={() => { confirmCreateWithGruveo() }}
+                    style={{ width: width }} className="btn btn-blue">Chrome</div>
+
+                <div onClick={() => { confirmCreateWithZoom() }}
+                    style={{ width: width }} className="btn btn-blue">Zoom</div>
+            </div>
+            layoutActions.customViewBlockLoader("Create Video Call With", v);
+        }
+
 
         // open confirmation if time now is less than start time
         if (Time.getUnixTimestampNow() < start_time) {
@@ -481,8 +507,8 @@ class GroupSessionClass extends React.Component {
         } else {
             recConfirmCreate();
         }
-
     }
+
     createAddNewGs() {
         const onClick = () => {
             layoutActions.storeUpdateFocusCard("Schedule New Group Session"
