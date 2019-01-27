@@ -445,7 +445,7 @@ function getMenuItem(COMING_SOON) {
             hd_app: true,
             hd_auth: true,
             routeOnly: true
-        }
+        },
     ]);
 
     return menuItem;

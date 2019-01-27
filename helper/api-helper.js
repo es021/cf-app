@@ -1,5 +1,8 @@
 const axios = require('axios');
-const { AppConfig, StaticUrl } = require('../config/app-config');
+const {
+    AppConfig,
+    StaticUrl
+} = require('../config/app-config');
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 
@@ -100,8 +103,18 @@ function getStaticAxios(filename, version = null) {
     }
 
     return axios.get(url, config)
-        .then((res) => { return res.data; }
-        , (err) => { rejectPromiseError(err, `Failed To Load Static Asset - ${url}`) });
+        .then((res) => {
+            return res.data;
+        }, (err) => {
+            rejectPromiseError(err, `Failed To Load Static Asset - ${url}`)
+        });
+}
+
+function postAxios(requestUrl, params) {
+    var config = {
+        proxy: false
+    };
+    return axios.post(requestUrl, qs.stringify(params), config);
 }
 
 function getPHPApiAxios(script, params) {
@@ -133,8 +146,8 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
         } else {
 
             var retData = res.data.data;
-            
-            if(typeof retData == "undefined"){
+
+            if (typeof retData == "undefined") {
                 retData = res.data;
             }
 
@@ -150,4 +163,10 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 }
 
 //Export functions 
-module.exports = { getStaticAxios, getAxiosGraphQLQuery, getPHPApiAxios, getWpAjaxAxios };
+module.exports = {
+    postAxios,
+    getStaticAxios,
+    getAxiosGraphQLQuery,
+    getPHPApiAxios,
+    getWpAjaxAxios
+};
