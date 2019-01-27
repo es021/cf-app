@@ -35,10 +35,6 @@
         justify-content: center;
         align-items: center;
     }
-
-    #wrapper {
-        width: 100vh;
-    }
 </style>
 
 <!-- ################################################################### -->
@@ -81,11 +77,12 @@
     }
 
     function init() {
-        onResizeBody();
         var tag = document.createElement("script");
         tag.src = "https://www.gruveo.com/embed-api/";
         var firstScriptTag = document.getElementsByTagName("script")[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        onResizeBody();
     }
 
     function onGruveoEmbedAPIReady() {
