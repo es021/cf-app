@@ -110,11 +110,16 @@ function getStaticAxios(filename, version = null) {
         });
 }
 
-function postAxios(requestUrl, params) {
+function postAxios(requestUrl, params, headers) {
     var config = {
         proxy: false
     };
-    return axios.post(requestUrl, qs.stringify(params), config);
+
+    if (typeof headers !== "undefined") {
+        config.headers = headers;
+    }
+
+    return axios.post(requestUrl, JSON.stringify(params), config);
 }
 
 function getPHPApiAxios(script, params) {

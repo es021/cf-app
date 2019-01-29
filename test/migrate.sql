@@ -24,5 +24,6 @@ WHERE img_url like '%http://seedsjobfairapp.com%'
 
 npm install eslint-plugin-jsx --save-dev
 npm install crypto --save-dev
-npm install base-64 --save-dev
 npm install base64-stream --save-dev
+
+--npm install base-64 --save-dev

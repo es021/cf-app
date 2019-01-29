@@ -1,7 +1,8 @@
 const {
     getAxiosGraphQLQuery,
     getPHPApiAxios,
-    getWpAjaxAxios
+    getWpAjaxAxios,
+    postAxios
 } = require('../../helper/api-helper');
 const {
     User,
@@ -29,6 +30,12 @@ const AuthAPIErr = {
     TOKEN_INVALID: "TOKEN_INVALID",
     TOKEN_EXPIRED: "TOKEN_EXPIRED"
 };
+
+const MailChimp = {
+    //ListId: "5be77e4419", // Test List
+    ListId: "a694cb5f7a", // Seeds Job Fair Mailing List
+    ApiKey: "c7327d79c85afafff2eb091dd2707055-us16"
+}
 
 class AuthAPI {
 
@@ -374,6 +381,32 @@ class AuthAPI {
         data["userdata"] = userdata;
         data["usermeta"] = usermeta;
 
+        const addToMailChimp = (email, first_name, last_name) => {
+            let url = `https://us16.api.mailchimp.com/3.0/lists/${MailChimp.ListId}/members`;
+
+            let params = {
+                email_address: email,
+                status: "subscribed",
+                merge_fields: {
+                    FNAME: first_name,
+                    LNAME: last_name
+                }
+            };
+
+            let headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `apikey ${MailChimp.ApiKey}`
+            }
+
+            //console.log(url, params, headers);
+
+            postAxios(url, params, headers).then((res) => {
+                //console.log("[addToMailChimp success]", res);
+            }).catch((error) => {
+                //console.log("[addToMailChimp error]", error);
+            });
+        }
+
         const successInterceptor = (data) => {
 
             // update cf
@@ -396,7 +429,7 @@ class AuthAPI {
             };
 
             console.log("send STUDENT_REGISTRATION email", email_data);
-
+            addToMailChimp(user[User.EMAIL], user[UserMeta.FIRST_NAME], user[UserMeta.LAST_NAME]);
             getWpAjaxAxios("app_send_email", email_data);
         };
 
