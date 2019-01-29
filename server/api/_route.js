@@ -124,18 +124,6 @@ const initializeAllRoute = function (app, root) {
         }
     });
 
-    // Mail Chimp ----------------------------------------------------------------
-    app.post(root + '/add-mail-chimp/:email/:first_name/:last_name', function (req, res, next) {
-        var email = req.params.email;
-        var first_name = req.params.first_name;
-        var last_name = req.params.last_name;
-        console.log(email, first_name, last_name);
-
-        
-
-    });
-
-
     // Auth Route ----------------------------------------------------------------
     const {
         AuthAPI
