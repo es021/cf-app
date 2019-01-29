@@ -2,7 +2,9 @@
 
 const formidable = require('formidable');
 const fs = require('fs');
-const { UploadUrl } = require('../../config/app-config.js');
+const {
+    UploadUrl
+} = require('../../config/app-config.js');
 const path = require('path');
 
 const initializeAllRoute = function (app, root) {
@@ -58,7 +60,9 @@ const initializeAllRoute = function (app, root) {
 
 
     // Route To Store in Meta -------------------------------------------------------------------
-    const { MetaAPI } = require('./other-api');
+    const {
+        MetaAPI
+    } = require('./other-api');
     app.post(root + '/add-meta', function (req, res, next) {
         MetaAPI.add(req.body.key, req.body.value, req.body.source)
             .then((response) => {
@@ -66,7 +70,9 @@ const initializeAllRoute = function (app, root) {
             });
     });
 
-    const { LogApi } = require('./other-api');
+    const {
+        LogApi
+    } = require('./other-api');
     app.post(root + '/add-log', function (req, res, next) {
         LogApi.add(req.body.event, req.body.data, req.body.user_id)
             .then((response) => {
@@ -74,7 +80,9 @@ const initializeAllRoute = function (app, root) {
             });
     });
 
-    const { CfsApi } = require('./other-api');
+    const {
+        CfsApi
+    } = require('./other-api');
     app.post(root + '/get-all-cf', function (req, res, next) {
         // active only
         CfsApi.getAllCf()
@@ -85,7 +93,9 @@ const initializeAllRoute = function (app, root) {
 
 
     // Activity Route ----------------------------------------------------------------
-    const { ActivityAPI } = require('./activity-api');
+    const {
+        ActivityAPI
+    } = require('./activity-api');
     app.post(root + '/activity/:action', function (req, res, next) {
         var action = req.params.action;
         console.log(action);
@@ -97,26 +107,39 @@ const initializeAllRoute = function (app, root) {
                         routeResHandler(res, response);
                     });
                 break;
-            /*
-             case 'start-queue':
-             ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
-             .then((response) => {
-             routeResHandler(res, response);
-             });
-             break;
-             case 'cancel-queue':
-             ActivityAPI.cancelQueue(req.body.id)
-             .then((response) => {
-             routeResHandler(res, response);
-             });
-             break;
-             */
+                /*
+                 case 'start-queue':
+                 ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
+                 .then((response) => {
+                 routeResHandler(res, response);
+                 });
+                 break;
+                 case 'cancel-queue':
+                 ActivityAPI.cancelQueue(req.body.id)
+                 .then((response) => {
+                 routeResHandler(res, response);
+                 });
+                 break;
+                 */
         }
+    });
+
+    // Mail Chimp ----------------------------------------------------------------
+    app.post(root + '/add-mail-chimp/:email/:first_name/:last_name', function (req, res, next) {
+        var email = req.params.email;
+        var first_name = req.params.first_name;
+        var last_name = req.params.last_name;
+        console.log(email, first_name, last_name);
+
+        
+
     });
 
 
     // Auth Route ----------------------------------------------------------------
-    const { AuthAPI } = require('./auth-api');
+    const {
+        AuthAPI
+    } = require('./auth-api');
     app.post(root + '/auth/:action', function (req, res, next) {
         var action = req.params.action;
         switch (action) {
@@ -161,7 +184,9 @@ const initializeAllRoute = function (app, root) {
     //XLS Route ----------------------------------------------------------------
     // when login will get password without slash in local storage,
     // use that password lah.
-    const { XLSApi } = require('./xls-api');
+    const {
+        XLSApi
+    } = require('./xls-api');
     app.get(root + '/xls/:action/:filter/:password/:user_id', function (req, res, next) {
         var password = req.params.password;
         var user_id = req.params.user_id;
@@ -232,11 +257,15 @@ const initializeAllRoute = function (app, root) {
                     fs.unlink(old_path, function (err) {
                         if (err) {
                             res.status(500);
-                            res.json({ 'url': null });
+                            res.json({
+                                'url': null
+                            });
                         } else {
                             res.status(200);
                             //console.log(url);
-                            res.json({ 'url': url });
+                            res.json({
+                                'url': url
+                            });
                         }
                     });
                 });
@@ -248,4 +277,6 @@ const initializeAllRoute = function (app, root) {
 
 };
 
-module.exports = { initializeAllRoute };
+module.exports = {
+    initializeAllRoute
+};

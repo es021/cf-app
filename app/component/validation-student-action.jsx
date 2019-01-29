@@ -16,7 +16,7 @@ export default class ValidationStudentAction extends React.Component {
 
         this.state = {
             hasResume: false,
-            hasAcademicTrans: false,
+            //hasAcademicTrans: false,
             emailVerified: false,
             profileCompleted: false,
             loading: true,
@@ -27,7 +27,7 @@ export default class ValidationStudentAction extends React.Component {
 
     isAllTrue() {
         return this.state.hasResume
-            && this.state.hasAcademicTrans
+            //&& this.state.hasAcademicTrans
             && this.state.emailVerified
             && this.state.profileCompleted;
     }
@@ -61,14 +61,14 @@ export default class ValidationStudentAction extends React.Component {
             action: `${RootPath}/app/edit-profile/doc-link?label=${DocLinkEnum.LABEL_RESUME}`,
         };
 
-        list.hasAcademicTrans = {
-            label: "Upload Academic Transcript",
-            icon: "file-text-o",
-            actionText: "Click Here To Upload",
-            desc: null,
-            //desc: `Make sure you have a document labeled '${DocLinkEnum.LABEL_ACADEMIC_TRANS}' in your profile`,
-            action: `${RootPath}/app/edit-profile/doc-link?label=${DocLinkEnum.LABEL_ACADEMIC_TRANS}`,
-        };
+        // list.hasAcademicTrans = {
+        //     label: "Upload Academic Transcript",
+        //     icon: "file-text-o",
+        //     actionText: "Click Here To Upload",
+        //     desc: null,
+        //     //desc: `Make sure you have a document labeled '${DocLinkEnum.LABEL_ACADEMIC_TRANS}' in your profile`,
+        //     action: `${RootPath}/app/edit-profile/doc-link?label=${DocLinkEnum.LABEL_ACADEMIC_TRANS}`,
+        // };
 
         return list;
     }
@@ -84,7 +84,7 @@ export default class ValidationStudentAction extends React.Component {
                     user_email: userData.user_email,
                     loading: false,
                     hasResume: hasResume(dl),
-                    hasAcademicTrans: hasAcademicTranscript(dl),
+                    //hasAcademicTrans: hasAcademicTranscript(dl),
                     emailVerified: userData.is_active,
                     profileCompleted: userData.is_profile_completed
                 }
