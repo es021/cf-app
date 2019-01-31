@@ -21,6 +21,10 @@ const {
     LogApi
 } = require('./other-api');
 
+const {
+    Secret
+} = require('../secret/secret');
+
 const AuthAPIErr = {
     WRONG_PASS: "WRONG_PASS",
     INVALID_EMAIL: "INVALID_EMAIL",
@@ -34,7 +38,7 @@ const AuthAPIErr = {
 const MailChimp = {
     //ListId: "5be77e4419", // Test List
     ListId: "a694cb5f7a", // Seeds Job Fair Mailing List
-    ApiKey: "c7327d79c85afafff2eb091dd2707055-us16"
+    ApiKey: Secret.MAIL_CHIMP_KEY
 }
 
 class AuthAPI {
