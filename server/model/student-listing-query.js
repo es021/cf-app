@@ -142,7 +142,8 @@ class StudentListingExec {
                 var student_id = res[i]["student_id"];
                 if (typeof field["student"] !== "undefined") {
                     res[i]["student"] = UserExec.user({
-                        ID: student_id
+                        ID: student_id,
+                        company_id: params.company_id,
                     }, field["student"]);
                 }
 

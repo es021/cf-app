@@ -25,7 +25,7 @@ class SessionPage extends React.Component {
         this.canDoMultiple = this.canDoMultiple.bind(this);
 
         this.hasEmitOpen = false;
-
+        this.sessionLocation = this.props.history.location;
         this.state = {
             data: null,
             loading: true
@@ -44,12 +44,24 @@ class SessionPage extends React.Component {
     }
 
     componentWillUnmount() {
+        // TODO
+        // this.unregisterLeaveHook();
+        console.log("componentWillUnmount")
+        this.endSession(this.state.data);
         if (this.isRec) {
             this.right_bar.className = "";
         }
     }
 
+    // routerWillLeave(nextLocation){
+    //     console.log("routerWillLeave", nextLocation);
+    //     return false;
+    // }
+
     componentWillMount() {
+        // this.unregisterLeaveHook = this.props.router.setRouteLeaveHook(this.props.route,
+        //     this.routerWillLeave.bind(this))
+
         socketOn(BOTH.CHAT_OPEN_CLOSE, (data) => {
             if (data.action == "close") {
                 var status = (isRoleRec()) ? SessionEnum.STATUS_LEFT : SessionEnum.STATUS_EXPIRED;
@@ -176,6 +188,9 @@ class SessionPage extends React.Component {
     }
 
     endSession(data) {
+        if (data.status != SessionEnum.STATUS_ACTIVE) {
+            return;
+        }
 
         const onYes = () => {
             layoutActions.loadingBlockLoader("Please Wait..");
@@ -196,9 +211,17 @@ class SessionPage extends React.Component {
             });
         };
 
-        var title = `Confirm ${(this.isRec) ? "End" : "Leave"} Session`;
+        const onNo = () => {
+            if (this.props.history.location != this.sessionLocation) {
+                this.props.history.push(this.sessionLocation);
+            }
+        }
+
+        var title = `Confirm ${(this.isRec) ? "End" : "Leave"} Session?`;
+
+        title = <div>{title}<br></br><small>You will no longer able to receive or send message</small></div>
         layoutActions.confirmBlockLoader(title
-            , onYes);
+            , onYes, onNo);
     }
 
     getSessionHeader(data) {
@@ -240,12 +263,16 @@ class SessionPage extends React.Component {
         }
 
         var endBtn = (data.status == SessionEnum.STATUS_EXPIRED || data.status == SessionEnum.STATUS_LEFT) ? null
-            : <span> | <b><a onClick={() => { this.endSession(data) }}>{(this.isRec) ? "End" : "Leave"} Session</a></b></span>;
+            : <span style={{ margin: "0px 7px" }}>
+                <a className="btn btn-danger btn-sm" onClick={() => { this.endSession(data) }}>
+                    {(this.isRec) ? "End" : "Leave"} Session
+                </a>
+            </span>;
 
         return <div style={{ borderBottom: "#777 1px solid", marginBottom: "20px", paddingBottom: "10px" }}>
             <h3 className="text-left" style={{ margin: "0" }}>Session #{data.ID} - <b>{title}</b>
                 <br></br>
-                <small>{status} {endBtn}</small>
+                <small>{status}{endBtn}</small>
             </h3>
         </div>;
     }

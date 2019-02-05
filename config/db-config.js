@@ -164,6 +164,14 @@ const DocLinkEnum = {
             color: "#c62323",
             icon: "file-text"
         },
+        "CV": {
+            color: "#c62323",
+            icon: "file-text"
+        },
+        "Curriculum Vitae": {
+            color: "#c62323",
+            icon: "file-text"
+        },
         "Linked In": {
             color: "#007BB4",
             icon: "linkedin"
@@ -451,6 +459,9 @@ const LogEnum = {
     EVENT_VISIT_VACANCY: "visit_vacancy", // data -> vacancy_id
     EVENT_CALL_GRUVEO : "call_gruveo", // data -> session_id
     EVENT_CALL_ZOOM : "call_zoom", // data -> session_id
+    EVENT_CLICK_LEFT_BAR : "click_left_bar", // label
+    EVENT_CLICK_GOT_QUESTION : "click_got_question", // <empty>
+    EVENT_CLICK_GALLERY : "click_gallery", // data-> label, url, student_id, company_id
 };
 
 const ZoomInvite = {

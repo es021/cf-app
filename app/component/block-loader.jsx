@@ -79,7 +79,12 @@ class BlockLoader extends React.Component {
                     className="btn btn-sm btn-blue">
                     YES
                 </div>
-                <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}
+                <div onClick={() => {
+                    store.dispatch(layoutActions.hideBlockLoader());
+                    if (state.confirm.noHandler) {
+                        state.confirm.noHandler()
+                    }
+                }}
                     className="btn btn-sm btn-default">
                     NO
                 </div>
@@ -156,7 +161,7 @@ BlockLoader.propTypes = {
     loading: PropTypes.string,
     success: PropTypes.string,
     error: PropTypes.string,
-    confirm: PropTypes.obj, // {title, yesHandler}
+    confirm: PropTypes.obj, // {title, yesHandler, noHandler}
     custom: PropTypes.obj, // {title,actionText, actionHandler,href, noClose}
     show: PropTypes.bool
 };

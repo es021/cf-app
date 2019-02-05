@@ -6,9 +6,12 @@ const {
 class AvailabilityQuery {
     get(params, extra) {
         var user_id_where = (typeof params.user_id === "undefined") ? "1=1" : `user_id = ${params.user_id} `;
+        var company_id_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = ${params.company_id} `;
         var timestamp_where = (typeof params.timestamp === "undefined") ? "1=1" : `timestamp >= ${params.timestamp} `;
         var order_by = (typeof params.order_by === "undefined") ? "ORDER BY timestamp asc" : `ORDER BY ${params.order_by} `;
-        var sql = `select * from ${Availability.TABLE} where ${user_id_where} and ${timestamp_where} ${order_by}`;
+        var sql = `select * from ${Availability.TABLE} 
+            where ${user_id_where} and ${timestamp_where} and ${company_id_where}
+            ${order_by}`;
         return sql;
     }
 }

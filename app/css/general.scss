@@ -1,4 +1,8 @@
 @import 'define/variable.scss';
+label.label-custom{
+    font-size: 12px;
+    font-weight: inherit;
+}
 ul {
     padding: 0;
     list-style: none;

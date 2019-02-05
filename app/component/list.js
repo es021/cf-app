@@ -594,9 +594,10 @@ export class CustomList extends Component {
         }
 
         className += (this.props.ux) ? " li-ux " : "";
+        className += (this.props.isSmall) ? " li-sm " : "";
 
         var style = {
-            justifyContent: (this.props.alignCenter) ? "center" : "start"
+            justifyContent: (this.props.alignCenter) ? "center" : "start",
         };
 
         return (<ul style={style}
@@ -610,7 +611,7 @@ CustomList.propTypes = {
     il_dimension: PropTypes.string,
     il_font: PropTypes.string,
     il_tooltip: PropTypes.object,
-
+    isSmall : PropTypes.bool, // used in student listing
     alignCenter: PropTypes.bool,
     items: PropTypes.array.isRequired,
     emptyMessage: PropTypes.any,
@@ -623,7 +624,7 @@ CustomList.defaultProps = {
     il_dimension: "26px",
     il_font: "initial",
     il_tooltip: {},
-
+    isSmall : false,
     alignCenter: true
 };
 

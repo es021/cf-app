@@ -51,10 +51,11 @@ export function errorBlockLoader(m) {
     updateBlockLoader(null, null, m, null, null);
 }
 
-export function confirmBlockLoader(title, yesHandler) {
+export function confirmBlockLoader(title, yesHandler, noHandler) {
     updateBlockLoader(null, null, null, {
         title: title,
-        yesHandler: yesHandler
+        yesHandler: yesHandler,
+        noHandler: noHandler,
     }, null);
 }
 

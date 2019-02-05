@@ -50,6 +50,7 @@ const {
     ResumeDrop,
     Session,
     Prescreen,
+    PrescreenEnum,
     ForumComment,
     ForumReply,
     SessionRequest,
@@ -1503,6 +1504,19 @@ fields["edit_prescreen"] = {
     },
     resolve(parentValue, arg, context, info) {
         return DB.update(Prescreen.TABLE, arg).then(function (res) {
+
+            // to update Availability if rejected
+            if(res[Prescreen.STATUS] == PrescreenEnum.STATUS_REJECTED){
+                let updAvQuery = `UPDATE ${Availability.TABLE} av
+                SET is_booked = 0, company_id = null, prescreen_id = null 
+                WHERE 1=1
+                AND av.prescreen_id = '${res[Prescreen.ID]}'
+                AND av.company_id = '${res[Prescreen.COMPANY_ID]}'
+                AND av.user_id = '${res[Prescreen.STUDENT_ID]}'
+                AND av.timestamp = '${res[Prescreen.APPNMENT_TIME]}' `;
+                DB.query(updAvQuery);
+            }
+          
             return res;
         });
     }

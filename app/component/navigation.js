@@ -33,6 +33,8 @@ import { Overview } from '../page/overview';
 import { SupportPage } from '../page/support';
 import AnalyticPage from '../page/analytics';
 import { FeedbackForm } from '../page/partial/analytics/feedback';
+import { addLog } from "../redux/actions/other-actions";
+import { LogEnum } from "../../config/db-config";
 
 import { isAuthorized, isRoleStudent, isRoleRec, getAuthUser, isRoleOrganizer, isRoleSupport, isRoleAdmin, isComingSoon } from '../redux/actions/auth-actions';
 
@@ -228,7 +230,9 @@ function getMenuItem(COMING_SOON) {
             hd_app: false,
             hd_auth: false,
             default_param: { current: isRoleRec() ? "student-listing" : "session", },
-            disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+            //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+            // remove mmy activity from student
+            disabled: !isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
         },
         {
             url: "/manage-company/:id/:current",
@@ -520,6 +524,11 @@ export function getBar(path, COMING_SOON, isHeader = false) {
     var isLog = isAuthorized();
     var menuItem = getMenuItem(COMING_SOON);
 
+    const onClickBar = (e) => {
+        let label = e.currentTarget.dataset.label;
+        addLog(LogEnum.EVENT_CLICK_LEFT_BAR,label);
+    }
+
     var menuList = menuItem.map(function (d, i) {
         var exact = (d.url === "/") ? true : false;
 
@@ -547,7 +556,10 @@ export function getBar(path, COMING_SOON, isHeader = false) {
             </a>
         }
 
-        return (<NavLink to={`${path}${url}`} exact={exact} key={i} activeClassName="active">
+        return (<NavLink to={`${path}${url}`} 
+            data-label={d.label}
+            exact={exact} key={i} onClick={(e)=>{onClickBar(e)}} 
+            activeClassName="active">
             <li>
                 {(isHeader) ? "" : <i className={`fa fa-${d.icon}`}></i>}
                 <span className="menu_label">{d.label}</span>

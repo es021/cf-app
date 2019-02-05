@@ -6,3 +6,4 @@ package.json
 package-lock.json
 public/upload/
 server/secret/
+server/php-api/lib/secret.php

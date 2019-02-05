@@ -62,6 +62,10 @@ const UserType = new GraphQLObjectType({
         group_sessions: { type: new GraphQLList(GroupSessionType) },
         group_session_joins: { type: new GraphQLList(GroupSessionJoinType) },
 
+        // student listing
+        // need to provide company_id
+        booked_at : {type : new GraphQLList(AvailabilityType)},
+
         // student only        
         university: { type: GraphQLString },
         phone_number: { type: GraphQLString },

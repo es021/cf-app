@@ -7,7 +7,7 @@ import { storeHideFocusCard, storeHideBlockLoader } from '../redux/actions/layou
 import { DocLinkEnum } from '../../config/db-config';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { customBlockLoader } from '../redux/actions/layout-actions';
-import { hasResume, hasAcademicTranscript } from './doc-link-form.jsx';
+import { hasResume, hasCV, hasAcademicTranscript } from './doc-link-form.jsx';
 import { getAuthUser } from '../redux/actions/auth-actions';
 
 export default class ValidationStudentAction extends React.Component {
@@ -83,7 +83,7 @@ export default class ValidationStudentAction extends React.Component {
                 return {
                     user_email: userData.user_email,
                     loading: false,
-                    hasResume: hasResume(dl),
+                    hasResume: hasResume(dl) || hasCV(dl),
                     //hasAcademicTrans: hasAcademicTranscript(dl),
                     emailVerified: userData.is_active,
                     profileCompleted: userData.is_profile_completed

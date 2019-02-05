@@ -298,10 +298,14 @@ export default class CompanyPopup extends Component {
 
 
         return <div>
-            <Gallery data={link} size="lg"></Gallery>
+            <Gallery company_id={this.props.id} data={link} size="lg"></Gallery>
             <br></br>
-            <Gallery data={iframe} size="lg"></Gallery>
+            <Gallery company_id={this.props.id} data={iframe} size="lg"></Gallery>
         </div>
+    }
+
+    getAskForum(){
+        return  null;
     }
 
     getBanner() {
@@ -342,6 +346,7 @@ export default class CompanyPopup extends Component {
             const vacancies = this.getVacancies(data.ID);
             const recs = this.getRecs(data.recruiters, data.rec_privacy);
             const doc_link = this.getDocLinks(data.doc_links);
+            const askForum = this.getAskForum();
 
             // ##################################################################################
             // for group session
@@ -426,6 +431,7 @@ export default class CompanyPopup extends Component {
             var maxHeight = 143;
             var leftBody = <div>
                 <div>
+                    {(askForum == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Ask Us Anything" body={askForum}></PageSection>}
                     {(doc_link == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Gallery" body={doc_link}></PageSection>}
                     {(data.description == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
                     <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Details" body={vacancies}></PageSection>

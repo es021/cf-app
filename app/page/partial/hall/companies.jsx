@@ -62,10 +62,11 @@ class CompanyBooth extends React.Component {
     }
 
     getCount() {
-        var countItem = [{
-            count: this.props.onlineRec,
-            label: "Recruiters Online"
-        }
+        var countItem = [
+            //     {
+            //     count: this.props.onlineRec,
+            //     label: "Recruiters Online"
+            // }
             /*, {
                 //count: (this.props.traffic !== null) ? this.props.traffic.active_queues_count : 0,
                 count: this.props.countQueue,
@@ -75,12 +76,13 @@ class CompanyBooth extends React.Component {
                 count: (this.props.traffic !== null) ? this.props.traffic.active_prescreens_count : 0,
                 label: "Students PreScreen"
             }*/
-            , {
-            count: this.props.company.vacancies_count,
-            //label: "Open Vacancy"
-            // EUR FIX
-            label: "Job Details"
-        }]
+            // , {
+            // count: this.props.company.vacancies_count,
+            // //label: "Open Vacancy"
+            // // EUR FIX
+            // label: "Job Details"
+            //    }
+        ]
 
         countItem = countItem.map((d, i) => {
             var style = {};
@@ -104,6 +106,8 @@ class CompanyBooth extends React.Component {
     }
 
     getStatus() {
+        return null;
+        
         var clr = "";
         var tt = "";
         var left = "";
@@ -209,7 +213,7 @@ class CompaniesSection extends React.Component {
 
 
     componentDidMount() {
-      //  layoutActions.storeUpdateFocusCard("tek Sapot", CompanyPopup, { isPreEvent: this.props.isPreEvent, id: 12 });
+        //  layoutActions.storeUpdateFocusCard("tek Sapot", CompanyPopup, { isPreEvent: this.props.isPreEvent, id: 12 });
 
     }
 

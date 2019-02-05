@@ -112,8 +112,8 @@ export class StudentListingCard extends React.Component {
       if (hasLookFor) {
         var labelType =
           d.student.looking_for == UserEnum.LOOK_FOR_FULL_TIME
-            ? "success"
-            : "danger";
+            ? "danger"
+            : "warning";
 
         lookingForView = (
           <Tooltip
@@ -150,8 +150,8 @@ export class StudentListingCard extends React.Component {
         //   />
         // );
 
-        availableView = <label className={`label label-default`}>
-          Availability : {getMonthLabel(d.student.available_month) + " " + d.student.available_year}
+        availableView = <label className={`label label-default label-custom`}>
+          Work Availability - <b>{getMonthLabel(d.student.available_month) + " " + d.student.available_year}</b>
         </label>;
       }
 
@@ -163,6 +163,17 @@ export class StudentListingCard extends React.Component {
       );
     }
 
+    var scheduledView = null;
+    if (d.student.booked_at.length > 0) {
+      let tempObj = d.student.booked_at[0];
+      scheduledView = <div style={{ marginBottom: "8px", marginTop: "0px" }}>
+        <label
+          className={`label label-success label-custom`}>
+          Scheduled Interview on <b>{Time.getString(tempObj.timestamp)}</b>
+        </label>
+      </div>
+    }
+
     // title = (
     //   <div>
     //     {title} {lookingForView}
@@ -171,6 +182,7 @@ export class StudentListingCard extends React.Component {
 
     let studentInfo = (
       <div style={{ lineHeight: "17px" }}>
+        {scheduledView}
         {labelView}
         {uniView}
         {placeView}
@@ -185,7 +197,7 @@ export class StudentListingCard extends React.Component {
         description = (
           <div style={styleToggler}>
             <a onClick={this.toggleShowMore} className="btn btn-link">
-              See More
+              See More About This Student ...
             </a>
           </div>
         );
@@ -212,7 +224,7 @@ export class StudentListingCard extends React.Component {
       <div>
         {studentInfo}
         <div style={{ marginTop: "8px" }}>
-          {createUserDocLinkList(d.student.doc_links, d.student_id, false)}
+          {createUserDocLinkList(d.student.doc_links, d.student_id, false, false, false, true)}
         </div>
         {description}
       </div>
@@ -250,7 +262,7 @@ export class StudentListingCard extends React.Component {
         action_text={
           <small>
             <i className="fa fa-clock-o left" />
-            See Availability
+            Call Availability
           </small>
         }
         action_handler={actionHandler}
@@ -315,28 +327,28 @@ export class StudentListing extends React.Component {
       this.searchFormItem = [];
       this.searchFormItem.push({ header: "Find Student" });
       this.searchFormItem.push({
-        label: "Find Name Or Email",
+        label: "By Name Or Email",
         name: "search_student",
         type: "text",
         placeholder: "John Doe"
       });
 
       this.searchFormItem.push({
-        label: "Find Major",
+        label: "By Major",
         name: "search_major",
         type: "text",
         placeholder: "Software Engineering"
       });
 
       this.searchFormItem.push({
-        label: "Find Study Place",
+        label: "By Study Place",
         name: "search_study_place",
         type: "select",
         data: Country,
       });
 
       this.searchFormItem.push({
-        label: "Find Work Availability Time",
+        label: "By Work Availability Time",
         name: "search_work_av_month",
         type: "select",
         data: Month,
@@ -520,6 +532,7 @@ export class StudentListing extends React.Component {
             student_id
             created_at
             student{
+                booked_at {ID timestamp user_id company_id}
                 university study_place major available_month available_year
                 ID first_name last_name user_email description looking_for
                 doc_links { type label url }
