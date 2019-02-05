@@ -15,19 +15,31 @@ import {
     _GET
 } from '../lib/util';
 
-function hasDocLabel(dl, label) {
+function hasDocLabel(dl, label, isExact) {
+    isExact = typeof isExact === "undefined" ? false : isExact;
     if (typeof dl === "object") {
         for (var i in dl) {
             var d = dl[i];
             var docLabel = d.label;
             docLabel = typeof docLabel !== "string" ? "" : docLabel.toUpperCase();
-            if (docLabel.indexOf(label.toUpperCase()) >= 0) {
-                return true;
+            if (isExact) {
+                if (docLabel == label.toUpperCase()) {
+                    return true;
+                }
+            } else {
+                if (docLabel.indexOf(label.toUpperCase()) >= 0) {
+                    return true;
+                }
             }
+
         }
     }
 
     return false;
+}
+
+export function hasCV(dl) {
+    return hasDocLabel(dl, "CV", true) || hasDocLabel(dl, "Curriculum Vitae");
 }
 
 export function hasResume(dl) {

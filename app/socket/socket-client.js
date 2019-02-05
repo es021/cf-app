@@ -93,7 +93,8 @@ function initOn() {
         if (data.action == "close") {
             title = `${data.from_name} has ${(isRoleRec()) ? 'left' : 'ended'} the session`;
             if (isSessionPage) {
-                href = `${RootPath}/app/career-fair`;
+                //href = `${RootPath}/app/career-fair`;
+                href = `${RootPath}/app/`;
                 actionText = (isRoleRec())
                     ? "Start Session With Other Student"
                     : "Got It!"
@@ -165,7 +166,8 @@ export const emitQueueStatus = (company_id, student_id, action) => {
 export const emitChatOpenClose = (action, from_name, to_id, session_id) => {
 
     if (action == "close") {
-        var href = `${RootPath}/app/career-fair`;
+        //var href = `${RootPath}/app/career-fair`;
+        var href = `${RootPath}/app/`;
         var actionText = (isRoleRec())
             ? "Start Session With Other Student"
             : "Start Queue With Other Company"

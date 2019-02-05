@@ -210,6 +210,7 @@ $COLOR_LABEL_CUSTOM : #31708f;
         .badge {
             background: rgba(0, 0, 0, 0);
             border: $COLOR_LABEL_CUSTOM solid 1px;
+            color: $COLOR_LABEL_CUSTOM;
             border-radius: 100%;
             font-size: 10px;
             width: 20px;
@@ -223,6 +224,7 @@ $COLOR_LABEL_CUSTOM : #31708f;
 
         .badge:hover {
             background: $COLOR_LABEL_CUSTOM;
+            color: white;
 
             i {
                 color: white;
@@ -231,6 +233,7 @@ $COLOR_LABEL_CUSTOM : #31708f;
 
         .badge:active {
             background: $COLOR_LABEL_CUSTOM;
+
             i {
                 color: rgba(255, 255, 255, 0.6);
             }
@@ -266,6 +269,16 @@ $COLOR_LABEL_CUSTOM : #31708f;
     li:active {
         opacity: 1;
     }
+}
+
+.custom-list-label.li-sm {
+    li {
+        padding: 4px 7px;
+        margin: 0px 3px;
+        font-size: 14px;
+        border-color: #62a1c0;
+    }
+
 }
 
 // used in session request

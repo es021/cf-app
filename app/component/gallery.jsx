@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DocLinkEnum } from '../../config/db-config';
+import { DocLinkEnum, LogEnum } from '../../config/db-config';
 import { ButtonIcon } from './buttons';
 import { getParamUrl, scrollToX } from '../lib/util';
+import { addLog } from '../redux/actions/other-actions';
 
 
 require("../css/gallery.scss");
@@ -118,7 +119,7 @@ export class Gallery extends React.Component {
 
         var isHidden = (this.state.hideLeft && type == "left") || (this.state.hideRight && type == "right");
 
-        return isHidden ? <div style={{width:"28px", height:"50px"}}></div> :
+        return isHidden ? <div style={{ width: "28px", height: "50px" }}></div> :
             <ButtonIcon style={{ marginLeft: marginLeft, marginRight: marginRight }}
                 onClick={() => onClickArrow(type)} icon={`arrow-circle-${type}`}
                 size="lg">
@@ -128,8 +129,20 @@ export class Gallery extends React.Component {
     render() {
         var data = this.props.data;
 
+        const onClickUrl = (e) => {
+            let param = {
+                label: e.currentTarget.dataset.label,
+                url: e.currentTarget.dataset.url,
+                student_id: this.props.student_id,
+                company_id: this.props.company_id,
+            };
+
+            addLog(LogEnum.EVENT_CLICK_GALLERY, param);
+        }
+
         const GI_ICON = "gi-icon";
         const GI_IFRAME = "gi-iframe";
+
 
         var list = data.map((d, i) => {
             //var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
@@ -174,7 +187,9 @@ export class Gallery extends React.Component {
 
             return <div className={`gallery-item ${giClass}`} ref={`${this.REF_ITEM}-${d.ID}`}>
                 <div className="preview">{preview}</div>
-                <a target='_blank' href={`${d.url}`}>
+                <a target='_blank' href={`${d.url}`}
+                    data-url={d.url} data-label={d.label}
+                    onClick={(e) => { onClickUrl(e) }}>
                     <div className="title">{d.label}</div>
                 </a>
             </div>;
@@ -193,9 +208,13 @@ export class Gallery extends React.Component {
 
 Gallery.propsType = {
     data: PropTypes.array.isRequired,
+    company_id: PropTypes.number,
+    student_id: PropTypes.number,
     size: PropTypes.string,
 };
 
 Gallery.defaultProps = {
-    size: "lg"
+    size: "lg",
+    company_id: null,
+    student_id: null,
 };

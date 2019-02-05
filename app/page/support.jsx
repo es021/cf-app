@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Chat from './partial/session/chat.jsx';
 import { SupportUserID } from '../../config/app-config';
-import { SupportSession } from '../../config/db-config';
+import { SupportSession, LogEnum } from '../../config/db-config';
 import { getAuthUser } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Loader } from '../component/loader';
@@ -11,6 +11,7 @@ import { Time } from '../lib/time';
 
 import { BOTH } from '../../config/socket-config';
 import { socketOn } from '../socket/socket-client';
+import { addLog } from '../redux/actions/other-actions.js';
 
 require('../css/forum.scss');
 require('../css/support-chat.scss');
@@ -63,6 +64,9 @@ export class SupportChat extends React.Component {
     }
 
     toogle() {
+        if (!this.state.show) {
+            addLog(LogEnum.EVENT_CLICK_GOT_QUESTION, "");
+        }
         this.setState((prevState) => {
             return { show: !prevState.show };
         });

@@ -6,6 +6,7 @@ const {
     UserEnum,
     QueueEnum,
     PrescreenEnum,
+    Availability,
     Prescreen,
     GroupSessionJoin,
     SessionEnum,
@@ -386,6 +387,9 @@ class UserExec {
         const {
             GroupSessionExec
         } = require('./group-session-query.js');
+        const {
+            AvailabilityExec
+        } = require('./availability-query.js');
 
         // extra field that need role value to find
         if (field["sessions"] !== "undefined" ||
@@ -522,6 +526,19 @@ class UserExec {
                     }
 
                     res[i]["queues"] = QueueExec.queues(par, field["queues"]);
+                }
+
+                // booked_at ****************************************************
+                if (typeof field["booked_at"] !== "undefined" &&
+                    typeof params.company_id !== "undefined") {
+                    var par = {};
+                    // this company_id come from student-listing exec
+                    par[Availability.COMPANY_ID] = params.company_id;
+                    par[Availability.IS_BOOKED] = 1;
+                    par[Availability.USER_ID] = user_id;
+                    par["order_by"]  = "timestamp desc"
+
+                    res[i]["booked_at"] = AvailabilityExec.availabilities(par, field["booked_at"]);
                 }
 
                 // prescreens ****************************************************

@@ -35,7 +35,7 @@ export function createUserMajorList(major) {
 
 }
 // isIconOnly will only consider label with label style set in DocLinkEnum
-export function createUserDocLinkList(doc_links, student_id, alignCenter = true, isIconOnly = false, isSimple = false) {
+export function createUserDocLinkList(doc_links, student_id, alignCenter = true, isIconOnly = false, isSimple = false, isSmall = false) {
     //document and link
     var ret = null;
     const onClickDocLink = () => {
@@ -74,11 +74,11 @@ export function createUserDocLinkList(doc_links, student_id, alignCenter = true,
             </span>;
         });
         ret = <CustomList className={"label"}
+            isSmall={isSmall}
             emptyMessage={"No Document Or Links Uploaded"}
             alignCenter={alignCenter} items={dl}
             onClick={onClickDocLink}>
         </CustomList>
-
     }
 
 
@@ -404,9 +404,9 @@ export default class UserPopup extends Component {
 
 
         return <div>
-            <Gallery data={link} size="lg"></Gallery>
+            <Gallery student_id={this.props.id} data={link} size="lg"></Gallery>
             <br></br>
-            <Gallery data={iframe} size="lg"></Gallery>
+            <Gallery student_id={this.props.id} data={iframe} size="lg"></Gallery>
         </div>
     }
 

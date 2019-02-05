@@ -12,7 +12,7 @@ import { RootPath } from '../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import obj2arg from 'graphql-obj2arg';
 import { Time } from '../lib/time';
-import { hasResume } from '../component/doc-link-form.jsx';
+import { hasResume, hasCV } from '../component/doc-link-form.jsx';
 
 import { getFeedbackPopupView } from './partial/analytics/feedback';
 
@@ -109,13 +109,12 @@ export default class ResumeDropPage extends React.Component {
         getAxiosGraphQLQuery(query).then((res) => {
             var userData = res.data.data.user;
             var dl = userData.doc_links;
-
-            if (hasResume(dl)) {
-                data.doc_links = dl;
-            } else {
-                data.doc_links = null;
-            }
-
+            data.doc_links = dl
+            // if (hasResume(dl) || hasCV(dl)) {
+            //     data.doc_links = dl;
+            // } else {
+            //     data.doc_links = null;
+            // }
             finishLoad();
         });
 
@@ -199,25 +198,28 @@ export default class ResumeDropPage extends React.Component {
                 || this.state.data.doc_links === null
                 || this.state.data.doc_links.length === 0;
 
+            console.log("no_doc_link", no_doc_link);
+            console.log("this.state.data.doc_links", this.state.data.doc_links);
 
             // has limit need to fill feedback
             if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
                 v = getFeedbackPopupView();
             }
             // no doc
-            else if (no_doc_link) {
-                v = [];
-                if (no_doc_link) {
-                    v.push(<div>
-                        It seems that you don't have any<br></br><b>Resume</b> or <b>Academic Transcript</b> uploaded in your profile yet.
-                        <br></br><br></br>
-                        <NavLink onClick={storeHideFocusCard}
-                            className="btn btn-primary"
-                            to={`${RootPath}/app/edit-profile/doc-link`}>Upload Resume Now</NavLink>
-                    </div>);
-                }
+            // else if (no_doc_link) {
+            //     v = [];
+            //     if (no_doc_link) {
+            //         v.push(<div>
+            //             It seems that you don't have any<br></br><b>Resume</b> or <b>CV</b> uploaded in your profile yet.
+            //             <br></br><br></br>
+            //             <NavLink onClick={storeHideFocusCard}
+            //                 className="btn btn-primary"
+            //                 to={`${RootPath}/app/edit-profile/doc-link`}>Upload Resume Now</NavLink>
+            //         </div>);
+            //     }
 
-            } else {
+            // }
+            else {
                 // EUR CHANGES
                 // changes to select all by default
                 this.defaultValues[ResumeDrop.DOC_LINKS] = this.state.data.doc_links.map((d, i) => {
