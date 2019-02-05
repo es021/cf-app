@@ -536,8 +536,8 @@ class UserExec {
                     par[Availability.COMPANY_ID] = params.company_id;
                     par[Availability.IS_BOOKED] = 1;
                     par[Availability.USER_ID] = user_id;
-                    par["order_by"]  = "timestamp desc"
-
+                    par["is_for_booked_at"]  = true
+                    par["order_by"]  = "av.timestamp desc"
                     res[i]["booked_at"] = AvailabilityExec.availabilities(par, field["booked_at"]);
                 }
 

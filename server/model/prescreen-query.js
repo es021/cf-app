@@ -24,15 +24,17 @@ class PrescreenQuery {
         // New SI Flow  - to handle more than one status
         // status, status_1, status_2, status_3, status_4, status_5,
         let statusArr = `'ANYTHING'`;
+        let noStatus = true;
         for (var i = 0; i <= 5; i++) {
             let statusKey = "status";
             statusKey += i == 0 ? "" : "_" + i;
             let statusItem = params[statusKey];
             if (typeof statusItem !== "undefined") {
+                noStatus = false;
                 statusArr += `, '${statusItem}' `;
             }
         }
-        var status_where = `status IN (${statusArr})`;
+        var status_where = noStatus ? "1=1" : `status IN (${statusArr})`;
 
         var not_ps_where = (typeof params.not_prescreen === "undefined") ? "1=1" :
             `special_type  != '${PrescreenEnum.ST_PRE_SCREEN}'`;
