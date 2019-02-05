@@ -19,7 +19,7 @@ import { createUserTitle } from "../../users";
 import { openSIFormNew } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
 import { openFeedbackBlockRec } from "../analytics/feedback";
-import { CompanyEnum, UserEnum } from "../../../../config/db-config";
+import { CompanyEnum, UserEnum, PrescreenEnum } from "../../../../config/db-config";
 import { Month, Year, Country, getMonthLabel } from '../../../../config/data-config';
 
 import Tooltip from "../../../component/tooltip";
@@ -166,10 +166,12 @@ export class StudentListingCard extends React.Component {
     var scheduledView = null;
     if (d.student.booked_at.length > 0) {
       let tempObj = d.student.booked_at[0];
+      let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
       scheduledView = <div style={{ marginBottom: "8px", marginTop: "0px" }}>
         <label
           className={`label label-success label-custom`}>
-          Scheduled Interview on <b>{Time.getString(tempObj.timestamp)}</b>
+          {psStatus == PrescreenEnum.STATUS_DONE ? "Session Created on " : "Scheduled Interview on "}
+          <b>{Time.getString(tempObj.timestamp)}</b>
         </label>
       </div>
     }
@@ -532,7 +534,7 @@ export class StudentListing extends React.Component {
             student_id
             created_at
             student{
-                booked_at {ID timestamp user_id company_id}
+                booked_at {ID timestamp user_id company_id prescreen{status} }
                 university study_place major available_month available_year
                 ID first_name last_name user_email description looking_for
                 doc_links { type label url }

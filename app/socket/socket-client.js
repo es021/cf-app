@@ -170,7 +170,8 @@ export const emitChatOpenClose = (action, from_name, to_id, session_id) => {
         var href = `${RootPath}/app/`;
         var actionText = (isRoleRec())
             ? "Start Session With Other Student"
-            : "Start Queue With Other Company"
+            //: "Start Queue With Other Company"
+            : "Go Back To Home"
         customBlockLoader("Session has ended", actionText, null, href);
     }
 
