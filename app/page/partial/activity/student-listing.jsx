@@ -165,7 +165,20 @@ export class StudentListingCard extends React.Component {
 
     var scheduledView = null;
     if (d.student.booked_at.length > 0) {
-      let tempObj = d.student.booked_at[0];
+
+      // find index yang tak DONE lagi
+      let baIndex = 0;
+      for (var ba in d.student.booked_at) {
+        baIndex = ba;
+        let tempObj = d.student.booked_at[ba];
+        let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
+        if (psStatus != null && psStatus != PrescreenEnum.STATUS_DONE) {
+          break;
+        }
+      }
+
+      // find yang tak DONE lagi
+      let tempObj = d.student.booked_at[baIndex];
       let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
       scheduledView = <div style={{ marginBottom: "8px", marginTop: "0px" }}>
         <label
@@ -534,7 +547,7 @@ export class StudentListing extends React.Component {
             student_id
             created_at
             student{
-                booked_at {ID timestamp user_id company_id prescreen{status} }
+                booked_at {timestamp prescreen{status} }
                 university study_place major available_month available_year
                 ID first_name last_name user_email description looking_for
                 doc_links { type label url }
