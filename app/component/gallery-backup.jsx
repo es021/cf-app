@@ -142,7 +142,7 @@ export class Gallery extends React.Component {
 
         const GI_ICON = "gi-icon";
         const GI_IFRAME = "gi-iframe";
-        let giType = null;
+
 
         var list = data.map((d, i) => {
             //var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
@@ -185,7 +185,6 @@ export class Gallery extends React.Component {
                 giClass = GI_IFRAME;
             }
 
-
             return <div className={`gallery-item ${giClass}`} ref={`${this.REF_ITEM}-${d.ID}`}>
                 <div className="preview">{preview}</div>
                 <a target='_blank' href={`${d.url}`}
@@ -194,70 +193,16 @@ export class Gallery extends React.Component {
                     <div className="title">{d.label}</div>
                 </a>
             </div>;
-
-            // giType = giClass;
-            // if (giType == GI_ICON) {
-            //     return <div className={`gallery-item ${giClass}`} ref={`${this.REF_ITEM}-${d.ID}`}>
-            //         <div className="preview">{preview}</div>
-            //         <a target='_blank' href={`${d.url}`}
-            //             data-url={d.url} data-label={d.label}
-            //             onClick={(e) => { onClickUrl(e) }}>
-            //             <div className="title">{d.label}</div>
-            //         </a>
-            //     </div>;
-            // } else if (giType == GI_IFRAME) {
-            //     return <div className="mySlides fade">
-            //         <div className="numbertext">1 / 3</div>
-            //         <div style={{ width: "100%" }}>
-            //             Content
-            //     </div>
-            //         <div className="text">Caption Text</div>
-            //     </div>
-            // }
         });
 
 
-
-        // return <div className="gallery gallery-lg">
-        //     {this.getArrow("left")}
-        //     <div className="gallery-list" ref={this.REF_LIST}>
-        //         {list}
-        //     </div>
-        //     {this.getArrow("right")}
-        // </div>;
-
         return <div className="gallery gallery-lg">
+            {this.getArrow("left")}
             <div className="gallery-list" ref={this.REF_LIST}>
                 {list}
             </div>
+            {this.getArrow("right")}
         </div>;
-
-
-        // if (giType == GI_ICON) {
-        //     return <div className="gallery gallery-lg">
-        //         {this.getArrow("left")}
-        //         <div className="gallery-list" ref={this.REF_LIST}>
-        //             {list}
-        //         </div>
-        //         {this.getArrow("right")}
-        //     </div>;
-        // } else if (giType == GI_IFRAME) {
-        //     return <div id="gallery-custom">
-        //         {list}
-        //         <div className="slideshow-container">
-        //             <a className="prev" onClick={(e) => { onClickUrl(e) }}>XX</a>
-        //             <a className="next" onClick={(e) => { onClickUrl(e) }}>YY</a>
-        //         </div>
-        //         <br></br>
-        //         <div className="text-center">
-        //             <span className="dot" onClick={(e) => { onClickUrl(e) }}></span>
-        //             <span className="dot" onClick={(e) => { onClickUrl(e) }}></span>
-        //             <span className="dot" onClick={(e) => { onClickUrl(e) }}></span>
-        //         </div>
-        //     </div>
-        // }
-
-
     }
 }
 
