@@ -42,6 +42,11 @@ class UserQuery {
                 (${this.selectMetaMain(field, UserMeta.AVAILABLE_MONTH)}))
                 <= '${av_year}${av_month}'`;
     }
+
+    getSearchLookingFor(field, search_params) {
+        return this.getSearchMeta(field, search_params, UserMeta.LOOKING_FOR);
+    }
+
     getSearchUniversity(field, search_params) {
         return this.getSearchMeta(field, search_params, UserMeta.UNIVERSITY);
     }

@@ -355,11 +355,18 @@ export class StudentListing extends React.Component {
         placeholder: "Software Engineering"
       });
 
+      // this.searchFormItem.push({
+      //   label: "By Study Place",
+      //   name: "search_study_place",
+      //   type: "select",
+      //   data: Country,
+      // });
+
       this.searchFormItem.push({
-        label: "By Study Place",
-        name: "search_study_place",
+        label: "By Looking For",
+        name: "search_looking_for",
         type: "select",
-        data: Country,
+        data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
       });
 
       this.searchFormItem.push({
@@ -397,7 +404,8 @@ export class StudentListing extends React.Component {
       if (d != null) {
         this.searchParams += this.searchParamGet("search_student", d.search_student);
         this.searchParams += this.searchParamGet("search_major", d.search_major);
-        this.searchParams += this.searchParamGet("search_study_place", d.search_study_place);
+        //this.searchParams += this.searchParamGet("search_study_place", d.search_study_place);
+        this.searchParams += this.searchParamGet("search_looking_for", d.search_looking_for);
         this.searchParams += this.searchParamGet("search_work_av_month", d.search_work_av_month);
         this.searchParams += this.searchParamGet("search_work_av_year", d.search_work_av_year);
       }
@@ -564,6 +572,7 @@ export class StudentListing extends React.Component {
 
   getContentBelowFilter() {
     console.log("getContentBelowFilter", this.state.search)
+    //let hasFilter = typeof this.searchParams === "string" && this.searchParams != ""
     return null;
   }
   render() {
@@ -599,6 +608,7 @@ export class StudentListing extends React.Component {
         </div>
       ) : (
           <GeneralFormPage
+            hasResetFilter={true}
             contentBelowFilter={this.getContentBelowFilter()}
             entity_singular={"Student"}
             dataTitle={this.dataTitle}
