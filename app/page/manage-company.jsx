@@ -26,6 +26,7 @@ import UserPopup from './partial/popup/user-popup';
 import { SessionsList } from './partial/activity/session';
 import { ResumeDrop } from './partial/activity/resume-drop';
 
+import { StudentListing } from './partial/activity/student-listing.jsx';
 import { ScheduledInterview } from './partial/activity/scheduled-interview';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
@@ -492,6 +493,12 @@ export default class ManageCompanyPage extends React.Component {
         };
 
         if (isRoleAdmin()) {
+            item["student-listing"] = {
+                label: "Student Listing",
+                component: StudentListing,
+                props: { company_id: this.company_id },
+                icon: "users"
+            },
             item["session"] = {
                 label: "Past Sessions",
                 component: SessionsList,

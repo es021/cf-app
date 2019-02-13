@@ -175,6 +175,7 @@ fields["student_listing"] = {
         search_study_place: { type: GraphQLString },
         search_work_av_month: { type: GraphQLString },
         search_work_av_year: { type: GraphQLString },
+        search_looking_for: { type: GraphQLString },
     },
     resolve(parentValue, arg, context, info) {
         return StudentListingExec.student_listing(arg, graphqlFields(info));

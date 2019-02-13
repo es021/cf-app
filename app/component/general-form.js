@@ -7,14 +7,13 @@ import Form, { toggleSubmit, checkDiff } from './form';
 import List, { CustomList } from './list';
 import ConfirmPopup from '../page/partial/popup/confirm-popup';
 
-
 class SearchForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             disableSubmit: false,
-            success: null
+            success: null,
         };
     }
 
@@ -168,7 +167,9 @@ export default class GeneralFormPage extends React.Component {
             success: null,
             loading: true,
             key: 1,
-            loadingDelete: false
+            loadingDelete: false,
+            hasFilter : false,
+
         };
         this.Entity = this.props.entity_singular;
     }
@@ -286,14 +287,25 @@ export default class GeneralFormPage extends React.Component {
             {
                 formItem: this.props.searchFormItem,
                 formOnSubmit: (d) => {
+                    console.log("ddddddd",d);
                     this.props.searchFormOnSubmit(d);
                     this.onSuccessOperation("search");
+                    this.setState((prevState)=>{
+                        return {hasFilter:true};
+                    })
                 }
             });
     }
 
-    render() {
+    resetFilter() {
+        this.setState((prevState)=>{
+            return {hasFilter:false};
+        })
+        this.props.searchFormOnSubmit({});
+        this.onSuccessOperation("search");
+    }
 
+    render() {
         if (this.props.formOnly) {
             this.addPopup();
             return <div></div>;
@@ -375,17 +387,24 @@ export default class GeneralFormPage extends React.Component {
         // console.log("this.props.searchFormItem ", this.props.searchFormItem);
         // console.log("this.props.searchFormItem ", this.props.searchFormItem);
 
+        let showFilter = this.props.hasResetFilter && this.state.hasFilter
+
         return (<div>
             {(this.props.dataTitle !== null) ? <h2>
                 {this.props.dataTitle}
             </h2> : null}
             {addForm}
             {this.props.searchFormItem != null ?
-                <h4>
-                    <a onClick={this.searchPopup}>
-                        <i className="fa fa-search left"></i>Filter Record</a>
-                </h4>
+            <h4>
+                <a onClick={this.searchPopup}>
+                    <i className="fa fa-search left"></i>Filter Record
+                </a>
+                {showFilter ? " | " : null}
+                {showFilter ? 
+                    <a onClick={() => { this.resetFilter() }}>
+                        <i className="fa fa-refresh left"></i>Reset Filter</a> 
                 : null}
+            </h4> : null}
             {this.props.contentBelowFilter}
             <div style={{ marginTop: "15px" }}>{datas}</div>
         </div>);
@@ -393,6 +412,7 @@ export default class GeneralFormPage extends React.Component {
 }
 
 GeneralFormPage.propTypes = {
+    hasResetFilter : PropTypes.bool,
     contentBelowFilter : PropTypes.obj,
     entity: PropTypes.string.isRequired, // for table name
     entity_singular: PropTypes.string.isRequired, // for display
@@ -423,6 +443,7 @@ GeneralFormPage.propTypes = {
 }
 
 GeneralFormPage.defaultProps = {
+    hasResetFilter : false,
     contentBelowFilter : null,
     searchFormItem: null,
     actionFirst: false,

@@ -28,10 +28,16 @@ class StudentListingQuery {
         var join_search_place = UserQuery.getSearchStudyPlace("j.user_id", params.search_study_place);
         var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
 
-        // 3. search work availability 
+        // 4. search work availability 
         // @param search_work_av_start, search_work_av_end
         var join_search_work_av = UserQuery.getSearchWorkAvailability("j.user_id", params.search_work_av_month, params.search_work_av_year);
         var resume_search_work_av = UserQuery.getSearchWorkAvailability("r.student_id", params.search_work_av_month, params.search_work_av_year);
+
+         // 5. search_looking_for
+        // @param search_looking_for
+        var join_search_looking_for = UserQuery.getSearchLookingFor("j.user_id", params.search_looking_for);
+        var resume_search_looking_for = UserQuery.getSearchLookingFor("r.student_id", params.search_looking_for);
+
 
         // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
         //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
@@ -57,6 +63,7 @@ class StudentListingQuery {
                 AND ${join_search_major}
                 AND ${join_search_place}
                 AND ${join_search_work_av}
+                AND ${join_search_looking_for}
                 AND ${join_cf}
 
                 UNION
@@ -71,6 +78,7 @@ class StudentListingQuery {
                 AND ${resume_search_major}
                 AND ${resume_search_place}
                 AND ${resume_search_work_av}
+                AND ${resume_search_looking_for}
                 AND ${resume_cf}
 
             ) X
