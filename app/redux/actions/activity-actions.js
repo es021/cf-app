@@ -26,8 +26,8 @@ const obj2arg = require('graphql-obj2arg');
 //export function invalidJoinGroupSession(company_id) {
 export function invalidJoinGroupSession(id) {
     var joins = store.getState().hall.activity.group_session_joins;
-    console.log("joins",joins);
-    console.log("id",id);
+    //console.log("joins",joins);
+    //console.log("id",id);
     for (var i in joins) {
         //var com = joins[i].company;
         //var start_time = Time.getString(joins[i].start_time);
