@@ -23,17 +23,25 @@ const {
 const obj2arg = require('graphql-obj2arg');
 
 //** GROUP SESSION ***************************************************/
-export function invalidJoinGroupSession(company_id) {
+//export function invalidJoinGroupSession(company_id) {
+export function invalidJoinGroupSession(id) {
     var joins = store.getState().hall.activity.group_session_joins;
-
+    console.log("joins",joins);
+    console.log("id",id);
     for (var i in joins) {
-        var com = joins[i].company;
+        //var com = joins[i].company;
         //var start_time = Time.getString(joins[i].start_time);
-        if (com.ID === company_id && !joins[i].is_expired && !joins[i].is_canceled) {
-            return `Cannot join more than one group session with the same company`;
+        // if (com.ID === company_id && !joins[i].is_expired && !joins[i].is_canceled) {
+        //     return `Cannot join more than one group session with the same company`;
+        // }
+        
+        // new
+        var joinId = joins[i].ID;
+        if (joinId == id && !joins[i].is_expired && !joins[i].is_canceled) {
+            return `You have already joined this group session`;
         }
     }
-    
+
     return false;
 }
 

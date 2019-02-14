@@ -343,7 +343,10 @@ class GroupSessionClass extends React.Component {
         d[GroupSessionJoin.GROUP_SESSION_ID] = Number.parseInt(id);
         console.log(d);
 
-        var err = activityActions.invalidJoinGroupSession(this.props.company_id)
+        // remove limit join group session
+        //var err = activityActions.invalidJoinGroupSession(this.props.company_id)
+        var err = activityActions.invalidJoinGroupSession(id)
+
         if (err !== false) {
             layoutActions.errorBlockLoader(err);
             return;
