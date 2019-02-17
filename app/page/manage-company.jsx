@@ -270,6 +270,10 @@ class AboutSubPage extends React.Component {
                     data: [
                         { key: "0", label: "No Privilege" }
                         , {
+                            key: CompanyEnum.PRIV.ACCESS_ALL_STUDENT
+                            , label: "Access ALL Student Resume"
+                        }
+                        , {
                             key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
                             , label: "Access Resume Drop BEFORE Event"
                         }
@@ -498,6 +502,12 @@ export default class ManageCompanyPage extends React.Component {
                 component: StudentListing,
                 props: { company_id: this.company_id },
                 icon: "users"
+            },
+            item["all-student"] = {
+                label: "All Student",
+                component: StudentListing,
+                props: { company_id: this.company_id, isAllStudent: true },
+                icon: "address-book-o"
             },
             item["session"] = {
                 label: "Past Sessions",

@@ -27,9 +27,9 @@ class AvailabilityQuery {
             where ${user_id_where} and ${timestamp_where} and ${company_id_where} and ${extra_where}
             ${order_by}`;
 
-        console.log("----------------------------------------")
-        console.log(sql);
-        console.log("----------------------------------------")
+        // console.log("----------------------------------------")
+        // console.log(sql);
+        // console.log("----------------------------------------")
         return sql;
     }
 }
@@ -56,7 +56,7 @@ class AvailabilityExec {
                 }
 
                 // prescreen ****************************************************
-                console.log("lalallala",field,res[i]["prescreen_id"]);
+                //console.log("lalallala",field,res[i]["prescreen_id"]);
                 if (typeof field["prescreen"] !== "undefined") {
                     var prescreen_id = res[i]["prescreen_id"];
                     if (company_id !== null) {
