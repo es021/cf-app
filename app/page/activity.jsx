@@ -34,6 +34,12 @@ export default class ActivityPage extends React.Component {
                 props: { company_id: this.company_id },
                 icon: "users"
             }
+            item["all-student"] = {
+                label: "All Student",
+                component: StudentListing,
+                props: { company_id: this.company_id, isAllStudent: true },
+                icon: "address-book-o",
+            }
         }
 
 

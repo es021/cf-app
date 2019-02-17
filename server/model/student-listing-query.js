@@ -33,7 +33,7 @@ class StudentListingQuery {
         var join_search_work_av = UserQuery.getSearchWorkAvailability("j.user_id", params.search_work_av_month, params.search_work_av_year);
         var resume_search_work_av = UserQuery.getSearchWorkAvailability("r.student_id", params.search_work_av_month, params.search_work_av_year);
 
-         // 5. search_looking_for
+        // 5. search_looking_for
         // @param search_looking_for
         var join_search_looking_for = UserQuery.getSearchLookingFor("j.user_id", params.search_looking_for);
         var resume_search_looking_for = UserQuery.getSearchLookingFor("r.student_id", params.search_looking_for);
@@ -92,38 +92,30 @@ class StudentListingQuery {
         ORDER BY Y.created_at desc
         ${limit} `;
 
-        console.log(sql);
+        // ###################################################################
+        // ALL STUDENT QUERY
+        // untuk cater company : -1 (all student page)
 
-        // var sql = `
-        // SELECT * FROM ( 
-        //     SELECT 
-        //     X.student_id,
-        //     MAX(X.created_at) as created_at
-        //     FROM(
-        //         SELECT 
-        //         j.user_id as student_id,
-        //         j.created_at as created_at
-        //         FROM group_session_join j left outer join group_session g  ON j.group_session_id = g.ID
-        //         WHERE 1=1
-        //         AND g.company_id = ${params.company_id}
-        //         AND ${search_j}
+        var sqlAll = `
+        SELECT DISTINCT u.ID as student_id, u.user_registered
+        FROM wp_cf_users u 
+            INNER JOIN doc_link dl ON u.ID = dl.user_id AND dl.type = 'document' 
+            AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
+        WHERE 1=1 
+        AND ${join_search_student}
+        AND ${join_search_major}
+        AND ${join_search_place}
+        AND ${join_search_work_av}
+        AND ${join_search_looking_for}
+        AND ${join_cf}
+        ORDER BY u.user_registered asc
+        ${limit} `;
+        sqlAll = sqlAll.replaceAll("j.user_id", "u.ID")
 
-        //         UNION
-
-        //         SELECT 
-        //         r.student_id as student_id,
-        //         r.created_at as created_at
-        //         from resume_drops r
-        //         WHERE 1=1
-        //         AND r.company_id = ${params.company_id}
-        //         AND ${search_r}
-        //     ) X
-        //     GROUP BY X.student_id
-        // ) Y
-        // ORDER BY Y.created_at desc
-        // ${limit} `;
-
-        return sql;
+        // console.log(sql);
+        // console.log(sqlAll);
+        
+        return params.company_id <= 0 ? sqlAll : sql;
     }
 
 

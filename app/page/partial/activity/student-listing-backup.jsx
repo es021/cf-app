@@ -548,11 +548,10 @@ export class StudentListing extends React.Component {
 
     // TODO
     this.loadData = (page, offset) => {
-      let companyIdInq = this.props.isAllStudent ? -1 : this.props.company_id;
       var query = `query{
-          student_listing(${this.searchParams} company_id:${companyIdInq}, 
-          cf:"${getCF()}", page: ${page}, offset:${offset}) 
-          {
+                student_listing(${this.searchParams} company_id:${
+        this.props.company_id
+        }, cf:"${getCF()}", page: ${page}, offset:${offset}) {
             student_id
             created_at
             student{
@@ -561,8 +560,6 @@ export class StudentListing extends React.Component {
                 ID first_name last_name user_email description looking_for
                 doc_links { type label url }
       }}}`;
-
-
       // img_url img_pos img_size
 
       return getAxiosGraphQLQuery(query);
@@ -585,25 +582,17 @@ export class StudentListing extends React.Component {
     } else {
       var hide = false;
 
-
       if (isRoleRec() || isRoleStudent()) {
-        if (this.props.isAllStudent) {
+        if (isComingSoon()) {
           hide = !CompanyEnum.hasPriv(
             this.state.privs,
-            CompanyEnum.PRIV.ACCESS_ALL_STUDENT
+            CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
           );
         } else {
-          if (isComingSoon()) {
-            hide = !CompanyEnum.hasPriv(
-              this.state.privs,
-              CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
-            );
-          } else {
-            hide = !CompanyEnum.hasPriv(
-              this.state.privs,
-              CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT
-            );
-          }
+          hide = !CompanyEnum.hasPriv(
+            this.state.privs,
+            CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT
+          );
         }
       }
 
@@ -637,12 +626,10 @@ export class StudentListing extends React.Component {
     //        {isComingSoon() ? "isComingSoon()" : "not isComingSoon()"}
     //        {this.state.loadPriv} |  {this.state.privs}
 
-    let title = this.props.isAllStudent ? "All Student" : "Student Listing";
-    document.setTitle(title);
-
+    document.setTitle("Student Listing");
     return (
       <div>
-        <h2>{title}</h2>
+        <h2>Student Listing</h2>
         {view}
       </div>
     );
@@ -651,11 +638,9 @@ export class StudentListing extends React.Component {
 
 StudentListing.propTypes = {
   company_id: PropTypes.number.isRequired,
-  isRec: PropTypes.bool,
-  isAllStudent: PropTypes.bool,
+  isRec: PropTypes.bool
 };
 
 StudentListing.defaultProps = {
-  isRec: true,
-  isAllStudent: false
+  isRec: true
 };

@@ -235,6 +235,18 @@ function getMenuItem(COMING_SOON) {
             disabled: !isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
         },
         {
+            url: "/my-activity/:current",
+            label: "All Student",
+            icon: "address-book-o",
+            component: ActivityPage,
+            bar_app: true,
+            bar_auth: false,
+            hd_app: false,
+            hd_auth: false,
+            default_param: { current: "all-student"},
+            disabled: !isRoleRec()
+        },
+        {
             url: "/manage-company/:id/:current",
             label: "Add Job Opportunity",
             icon: "star",
