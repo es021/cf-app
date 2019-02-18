@@ -13,6 +13,8 @@ class XLSApi {
         last_name
         user_email
         doc_links{label url}
+        looking_for
+        study_place
         university
         major 
         minor
