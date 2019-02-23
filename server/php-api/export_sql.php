@@ -42,7 +42,7 @@ function validateSql($sql)
         return "Please Select A Query";
     }
 
-    $bannedStr = ["DELETE", "DROP", "ALTER", "TRUNCATE", "UPDATE "];
+    $bannedStr = ["DELETE ", "DROP ", "ALTER ", "TRUNCATE ", "UPDATE "];
     foreach ($bannedStr as $ban) {
         if (strpos($sql, $ban) !== false) {
             $err = "Query contained invalid token '$ban'";
