@@ -1,12 +1,7 @@
 <?php
 
+include_once 'core.php';
 include_once 'secret.php';
-
-function X($x) {
-    echo "<pre>";
-    print_r($x);
-    echo "</pre>";
-}
 
 class DB {
 
