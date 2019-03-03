@@ -137,13 +137,16 @@ class UserQuery {
         var cf_where = (typeof params.cf === "undefined") ? "1=1" :
             `(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
 
+        // var new_only_where = (typeof params.new_only === "undefined" || !params.new_only) ? "1=1" :
+        //     `u.ID in (SELECT distinct l.user_id
+        //         FROM logs l, wp_cf_users ux 
+        //         where 1=1
+        //         and l.user_id = ux.ID
+        //         and l.event = 'login' 
+        //         and ux.user_email not like '%test%')`;
+
         var new_only_where = (typeof params.new_only === "undefined" || !params.new_only) ? "1=1" :
-            `u.ID in (SELECT distinct l.user_id
-                FROM logs l, wp_cf_users ux 
-                where 1=1
-                and l.user_id = ux.ID
-                and l.event = 'login' 
-                and ux.user_email not like '%test%')`;
+            `u.user_email not like '%test.%'`;
 
         // add meta condition
         var meta_condition = " 1=1 ";
@@ -541,8 +544,8 @@ class UserExec {
                     par[Availability.COMPANY_ID] = params.company_id;
                     par[Availability.IS_BOOKED] = 1;
                     par[Availability.USER_ID] = user_id;
-                    par["is_for_booked_at"]  = true
-                    par["order_by"]  = "av.timestamp desc"
+                    par["is_for_booked_at"] = true
+                    par["order_by"] = "av.timestamp desc"
                     res[i]["booked_at"] = AvailabilityExec.availabilities(par, field["booked_at"]);
                 }
 
