@@ -1,27 +1,23 @@
 [{
     "name": "National Assembly of Malaysian Students Association",
     "shortname": "NAMSA",
-    "logo": ""
+    "logo": "NAMSA.png"
 }, {
     "name": "US East Coast Presidential Council",
     "shortname": "EPIC",
-    "logo": ""
+    "logo": "EPIC.png"
 }, {
     "name": "West Coast Council",
     "shortname": "WCC",
-    "logo": ""
-}, {
-    "name": "Talent Corp Malaysia",
-    "shortname": "",
-    "logo": ""
+    "logo": "WCC.png"
 }, {
     "name": "Council of Midwest Malaysian Students",
     "shortname": "COMMS",
-    "logo": ""
+    "logo": "COMMS.png"
 }, {
     "name": "International Council of Malaysian Scholars and Associates",
     "shortname": "ICMS",
-    "logo": ""
+    "logo": "ICMS.png"
 }]
 
 
@@ -32,5 +28,3 @@
     "logo": "TalentCorp.jpg",
     "url": "https://www.talentcorp.com.my/"
 }]
-
-
