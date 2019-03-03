@@ -13,6 +13,8 @@ var ImageUrl = AssetUrl + "/asset/image";
 var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
 
+var IsGruveoEnable = false;
+
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {
     RootUrl = `https://seedsjobfairapp.com`;
@@ -50,15 +52,17 @@ const ImgConfig = {
 };
 
 //email like '%test.%'
-const TestUser = [136, 
-    137, 
-    222, 223, 224, 225, 226, 227, 316, 317, 318, 319, 
-    320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 
-    335, 336, 337, 338, 339, 340, 341, 342];
+const TestUser = [136,
+    137,
+    222, 223, 224, 225, 226, 227, 316, 317, 318, 319,
+    320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334,
+    335, 336, 337, 338, 339, 340, 341, 342
+];
 
 const SupportUserID = 681;
 
 module.exports = {
+    IsGruveoEnable,
     SocketUrl,
     LandingUrl,
     DocumentUrl,
