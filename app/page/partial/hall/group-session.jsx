@@ -10,7 +10,7 @@ import ProfileCard from '../../../component/profile-card';
 import { CompanyEnum, UserEnum, PrescreenEnum, SessionRequestEnum, GroupSession, GroupSessionJoin } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';
-import { RootPath } from '../../../../config/app-config';
+import { RootPath, IsGruveoEnable } from '../../../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import { getAuthUser } from '../../../redux/actions/auth-actions';
 import { ActivityAPIErr } from '../../../../server/api/activity-api';
@@ -484,17 +484,20 @@ class GroupSessionClass extends React.Component {
         // New Gruveo
         // choose between zoom or chrome
         const recConfirmCreate = () => {
-            console.log("recConfirmCreate")
-            let width = "100px";
-            let v = <div>
-                <br></br>
-                <div onClick={() => { confirmCreateWithGruveo() }}
-                    style={{ width: width }} className="btn btn-blue">Chrome</div>
+            if (IsGruveoEnable) {
+                let width = "100px";
+                let v = <div>
+                    <br></br>
+                    <div onClick={() => { confirmCreateWithGruveo() }}
+                        style={{ width: width }} className="btn btn-blue">Chrome</div>
 
-                <div onClick={() => { confirmCreateWithZoom() }}
-                    style={{ width: width }} className="btn btn-blue">Zoom</div>
-            </div>
-            layoutActions.customViewBlockLoader("Create Video Call With", v);
+                    <div onClick={() => { confirmCreateWithZoom() }}
+                        style={{ width: width }} className="btn btn-blue">Zoom</div>
+                </div>
+                layoutActions.customViewBlockLoader("Create Video Call With", v);
+            } else {
+                confirmCreateWithZoom();
+            }
         }
 
 

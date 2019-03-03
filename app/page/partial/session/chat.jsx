@@ -5,7 +5,7 @@ import Form from '../../../component/form';
 //importing for list
 import List, { ProfileListItem } from '../../../component/list';
 import { getAxiosGraphQLQuery, getWpAjaxAxios } from '../../../../helper/api-helper';
-import { SiteUrl } from '../../../../config/app-config';
+import { SiteUrl, IsGruveoEnable } from '../../../../config/app-config';
 import { Time } from '../../../lib/time';
 import obj2arg from 'graphql-obj2arg';
 import * as layoutActions from '../../../redux/actions/layout-actions';
@@ -482,13 +482,22 @@ class Chat extends React.Component {
 
         // New Gruveo
         if (this.props.isRec) {
-            action.push(<a onClick={() => this.createVideoCallGruveo()} className="action-item">
-                <i className="fa fa-video-camera left"></i><small>Call With Chrome</small>
-            </a>);
-            action.push(<small>{"   |   "}</small>)
-            action.push(<a onClick={() => this.createVideoCall()} className="action-item">
-                <small>Call With Zoom</small>
-            </a>);
+            // Remove Gruveo
+            if (IsGruveoEnable) {
+                action.push(<a onClick={() => this.createVideoCallGruveo()} className="action-item">
+                    <i className="fa fa-video-camera left"></i><small>Call With Chrome</small>
+                </a>);
+                action.push(<small>{"   |   "}</small>)
+                action.push(<a onClick={() => this.createVideoCall()} className="action-item">
+                    <small>Call With Zoom</small>
+                </a>);
+            } else {
+                action.push(<a onClick={() => this.createVideoCall()} className="action-item">
+                    <i className="fa fa-video-camera left"></i><small>Start Video Call</small>
+                </a>);
+            }
+
+
         }
 
         return (<div className="chat-header">

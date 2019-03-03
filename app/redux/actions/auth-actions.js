@@ -27,7 +27,8 @@ import {
 
 // ############################################
 // CF - START
-const CF_DEFAULT = "UK";
+//const CF_DEFAULT = "UK";
+const CF_DEFAULT = "USA19";
 
 const LOCAL_STORAGE_CF = "cf-seeds-job-fair";
 export function setLocalStorageCf(cfArr) {
@@ -93,8 +94,16 @@ export function getCFObj() {
 }
 
 // return key of cf
+const ToReplaceCf = {
+   "USA": "USA19"
+}
 export function getCF() {
-    return store.getState().auth.cf;
+    let cf = store.getState().auth.cf;
+    if (typeof ToReplaceCf[cf] !== "undefined") {
+        cf = ToReplaceCf[cf];
+    }
+    //console.log("getCF -> ", cf);
+    return cf;
 }
 
 // CF - END
