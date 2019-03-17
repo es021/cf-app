@@ -307,3 +307,23 @@ $COLOR_LABEL_CUSTOM : #31708f;
         opacity: 1;
     }
 }
+
+
+// used in session request
+// rec view
+.custom-list-icon-list {
+    .li-icon-list{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 7px;
+    }
+    .icon-circle {
+        margin: 2px;
+        margin-right: 5px;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

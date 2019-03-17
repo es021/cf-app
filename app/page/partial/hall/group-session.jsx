@@ -16,9 +16,12 @@ import { getAuthUser } from '../../../redux/actions/auth-actions';
 import { ActivityAPIErr } from '../../../../server/api/activity-api';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
 import Form, { toggleSubmit } from '../../../component/form';
+import { createIconList } from '../../../component/list';
 
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
+import { createUserTitle2Line } from '../../users';
+
 
 import { openSIAddForm, isNormalSI } from '../activity/scheduled-interview';
 import Tooltip from '../../../component/tooltip';
@@ -34,16 +37,17 @@ import { createImageElement } from '../../../component/profile-card';
 import AvailabilityView from '../../availability';
 import obj2arg from 'graphql-obj2arg';
 import ValidationStudentAction from '../../../component/validation-student-action';
+import CompanyPopup from '../popup/company-popup';
 
 
 require("../../../css/group-session.scss");
-const LIMIT_JOIN = 5;
+// remove limit join
+const LIMIT_JOIN = -1;
 
 class NewGroupSessionPopup extends React.Component {
     constructor(props) {
         super(props);
         this.authUser = getAuthUser();
-
         this.state = {
             select_timestamp: -1,
             disableSubmit: false,
@@ -154,6 +158,7 @@ class GroupSessionClass extends React.Component {
         super(props);
         this.authUser = getAuthUser();
         this.img_dimension = "30px";
+        this.LIMIT_SEE_MORE = 4;
         this.state = {
             data: [],
             isHiddenValidation: true,
@@ -195,40 +200,114 @@ class GroupSessionClass extends React.Component {
             });
         });
     }
+    createSeeMoreLink({ d, i, joinersId }) {
+        let styleSeeMore = {
+            width: "30px",
+            fontSize: "10px",
+            lineHeight: "12px",
+            marginLeft: "3px",
+            marginTop: "-3px",
+        }
+        let classSeeMore = this.props.forRec ? "text btn-link" : "text-muted"
+        const onClickSeeMore = (e) => {
+            if (!this.props.forRec) {
+                return;
+            }
+            // todo get from data-joiners
+            console.log("huhuhuhuhu")
+            let joiners = e.currentTarget.dataset.joiners;
+            joiners = JSON.parse(joiners);
+            let index = e.currentTarget.dataset.index
+            let joinersView = this.createJoinersViewPopup(index);
+            const componentView = () => {
+                return <div>{joinersView}</div>;
+            }
+            layoutActions.storeUpdateFocusCard("All Participants", componentView, {});
+        }
+
+        return <div className={classSeeMore}
+            onClick={onClickSeeMore}
+            style={styleSeeMore}
+            data-id={d.ID}
+            data-index={i}
+            data-joiners={JSON.stringify(joinersId)}>
+            and {d.joiners.length - this.LIMIT_SEE_MORE} others
+        </div>;
+    }
+    createJoinersViewPopup(index) {
+        let d = this.state.data[index];
+        var joiners = d.joiners.map((dj, di) => {
+            dj = dj.user;
+            // var imgView = createImageElement(dj.img_url, dj.img_pos
+            //     , dj.img_size, this.img_dimension, "");
+            // var name = createUserTitle(dj);
+            var name = createUserTitle2Line(dj)
+            return <ProfileCard type="student"
+                title={name}
+                img_url={dj.img_url} img_pos={dj.img_pos}
+                img_size={dj.img_size}
+                body={null}></ProfileCard>
+        });
+
+        return <div style={{
+            marginTop: "10px",
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap"
+        }}>
+            {joiners}
+        </div>;
+
+    }
+    createJoinersView(d, extraCount) {
+        var joiners = d.joiners.map((dj, di) => {
+            if (extraCount > 1 && di >= this.LIMIT_SEE_MORE) {
+                return;
+            }
+            dj = dj.user;
+            var imgView = createImageElement(dj.img_url, dj.img_pos
+                , dj.img_size, this.img_dimension, "");
+
+            var studentName = null;
+            var onClickJoiner = () => { };
+            if (this.props.forRec) {
+                studentName = dj.first_name + " " + dj.last_name;
+                onClickJoiner = () => layoutActions.storeUpdateFocusCard(studentName, UserPopup, { id: dj.ID });
+            }
+
+            return <div className="join-item" onClick={onClickJoiner}>
+                <Tooltip
+                    bottom="37px"
+                    left="-71px"
+                    width="140px"
+                    debug={false}
+                    alignCenter={true}
+                    content={imgView}
+                    tooltip={studentName}>
+                </Tooltip>
+            </div>
+        });
+
+        return joiners;
+    }
     createView(data) {
         var list = data.map((d, i) => {
-
-            var joiners = d.joiners.map((dj, di) => {
-                dj = dj.user;
-                var imgView = createImageElement(dj.img_url, dj.img_pos
-                    , dj.img_size, this.img_dimension, "");
-
-                var studentName = null;
-                var onClickJoiner = () => { };
-                if (this.props.forRec) {
-                    studentName = dj.first_name + " " + dj.last_name;
-                    onClickJoiner = () => layoutActions.storeUpdateFocusCard(studentName, UserPopup, { id: dj.ID });
-                }
-
-                return <div className="join-item"
-                    onClick={onClickJoiner}>
-                    <Tooltip
-                        bottom="37px"
-                        left="-71px"
-                        width="140px"
-                        debug={false}
-                        alignCenter={true}
-                        content={imgView}
-                        tooltip={studentName}>
-                    </Tooltip>
-
-                </div>
-            });
+            let extraCount = d.joiners.length - this.LIMIT_SEE_MORE;
+            var joiners = this.createJoinersView(d, extraCount);
 
             var joinersId = d.joiners.map((dj, di) => {
                 dj = dj.user;
                 return dj.ID;
             });
+
+            // See More Punya Button
+            if (extraCount > 1 && d.joiners.length > this.LIMIT_SEE_MORE) {
+                joiners.push(this.createSeeMoreLink({
+                    d: d,
+                    i: i,
+                    joinersId: joinersId
+                }));
+            }
 
             if (d.joiners.length <= 0) {
                 joiners = <small className="text-muted">No Participant Yet</small>;
@@ -334,6 +413,42 @@ class GroupSessionClass extends React.Component {
         });
     }
 
+    openWhatsNextAlert(gs, greenMes) {
+        var actData = [
+            {
+                icon: "envelope"
+                , color: "#007BB4"
+                , text: <span>You will be <b>notified through email</b> an hour before the session started</span>
+            },
+            {
+                icon: "video-camera"
+                , color: "#007BB4"
+                , text: <span>A link to join video call will be created under <b>'Group Session'</b> section in Home page</span>
+            }
+        ];
+        let list = createIconList("sm", actData, "400px", {
+            customTextWidth: "325px",
+            customIconDimension: "40px",
+            customIconFont: "initial"
+        });
+
+        var mes = <div>
+            <h3 className="text-success">{greenMes}</h3>
+            The group session will start on <u>{Time.getString(gs.start_time)}</u>  (Your local time)
+            <h3 className="text-primary">Whats Next?</h3>
+            {list}
+        </div>;
+
+        // kkena tutup takut student boleh join 2 kali
+        layoutActions.storeHideFocusCard();
+
+        hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
+        emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, this.props.company_id);
+        layoutActions.customBlockLoader(mes, "Got It!", () => {
+            layoutActions.storeHideBlockLoader();
+        }, undefined, true);
+    }
+
     successHandlerForValidation() {
         // var e = this.state.eventForValidation;
         // var id = e.currentTarget.dataset.id;
@@ -343,40 +458,52 @@ class GroupSessionClass extends React.Component {
         d[GroupSessionJoin.GROUP_SESSION_ID] = Number.parseInt(id);
         console.log(d);
 
-        // remove limit join group session
-        //var err = activityActions.invalidJoinGroupSession(this.props.company_id)
-        var err = activityActions.invalidJoinGroupSession(id)
-
-        if (err !== false) {
-            layoutActions.errorBlockLoader(err);
-            return;
-        }
-
 
         layoutActions.loadingBlockLoader("Joining... Please Wait");
 
         // 1. backed validation check if still has space
-        var query = `query{group_session (ID:${id}){joiners{ID} limit_join start_time }}`;
+        //var query = `query{group_session (ID:${id}){joiners{ID} limit_join start_time }}`;
+        var query = `query{group_session (ID:${id}){joiners{ID} start_time }}`;
         getAxiosGraphQLQuery(query).then((res) => {
             var gs = res.data.data.group_session;
-            if (gs.joiners.length >= gs.limit_join) {
-                var mes = `Sorry. Only ${gs.limit_join} students are allowed to join in one session. Please choose another session`;
-                layoutActions.errorBlockLoader(mes);
+
+            var err = activityActions.invalidJoinGroupSession(id)
+            if (err !== false) {
+                this.openWhatsNextAlert(gs, "You Already Joined This Session!")
                 return;
             }
+
+            // remove limit join group session
+            //var err = activityActions.invalidJoinGroupSession(this.props.company_id)
+
+            // remove limit
+            // if (gs.joiners.length >= gs.limit_join) {
+            //     var mes = `Sorry. Only ${gs.limit_join} students are allowed to join in one session. Please choose another session`;
+            //     layoutActions.errorBlockLoader(mes);
+            //     return;
+            // }
 
             // 2. add to db
             var query = `mutation { add_group_session_join 
         (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
             getAxiosGraphQLQuery(query).then((res) => {
-                console.log(res.data.data.add_group_session_join);
-                var mes = <div>Request Complete.<br></br>
-                    The group session will start on <u>{Time.getString(gs.start_time)}</u>  (Your local time)</div>;
-                hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
-                emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, this.props.company_id);
-                layoutActions.successBlockLoader(mes);
-                layoutActions.storeHideFocusCard();
+
+                this.openWhatsNextAlert(gs, "Successfully Joined!")
+                // console.log(res.data.data.add_group_session_join);
+                // var mes = <div>
+                //     <h3 className="text-success">Successfully Joined!</h3>
+                //     The group session will start on <u>{Time.getString(gs.start_time)}</u>  (Your local time)
+                //     <br></br>
+                //     <h3 className="text-primary">Whats Next?</h3>
+                //     You will be notified (through email) an hour before the session started.
+                //     </div>;
+                // hallAction.storeLoadActivity([hallAction.ActivityType.GROUP_SESSION_JOIN]);
+                // emitHallActivity(hallAction.ActivityType.GROUP_SESSION_JOIN, null, this.props.company_id);
+                // layoutActions.customBlockLoader(mes, "Got It!");
+                // layoutActions.storeHideFocusCard();
+
+
             });
         });
     }
@@ -536,7 +663,7 @@ class GroupSessionClass extends React.Component {
         var header = null;
         if (this.props.forStudent) {
             header = <h3 style={{ marginTop: "10px" }}>
-                <small>or<br></br>Join A Group Session</small>
+                <small>Join A Group Session</small>
             </h3>;
             view = [view];
             view.push(<ValidationStudentAction

@@ -568,11 +568,12 @@ export default class Form extends React.Component {
             {(this.props.errorPosition === "top") ? formError : null}
             {formItems}
             {(this.props.errorPosition !== "top") ? formError : null}
-            {formSubmit}</form>);
+            {(this.props.hideSubmit) ? null : formSubmit}
+        </form>);
     }
 }
-
 Form.propTypes = {
+    hideSubmit : PropTypes.bool,
     onSubmit: PropTypes.func.isRequired, //function(data_form)
     //[{header} | {name,type,required,placeholder,rows,defaultValue}]
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -588,6 +589,7 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
+    hideSubmit : false,
     defaultValues: {},
     btnColorClass: "primary"
 }

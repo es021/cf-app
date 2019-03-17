@@ -118,6 +118,7 @@ export default class ProfileCard extends React.Component {
     render() {
         var styleParent = {
             color: (this.props.theme == "dark") ? "white" : "black",
+            width : this.props.custom_width
         };
 
         var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
@@ -182,6 +183,7 @@ export default class ProfileCard extends React.Component {
 }
 
 ProfileCard.propTypes = {
+    custom_width : PropTypes.string,
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     id: PropTypes.number, // id to adjust save profile image
     title: PropTypes.string.isRequired,

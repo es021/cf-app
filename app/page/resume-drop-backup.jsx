@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { getAuthUser } from '../redux/actions/auth-actions';
-import { storeHideFocusCard, storeUpdateFocusCard } from '../redux/actions/layout-actions';
+import { storeHideFocusCard } from '../redux/actions/layout-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { ResumeDrop, UserEnum } from '../../config/db-config';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
+import ValidationStudentAction from '../component/validation-student-action';
 import { Loader } from '../component/loader';
 import PropTypes from 'prop-types';
-import { createIconList } from '../component/list';
+
 import { RootPath } from '../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import obj2arg from 'graphql-obj2arg';
 import { Time } from '../lib/time';
-import CompanyPopup from './partial/popup/company-popup';
-
-//import ValidationStudentAction from '../component/validation-student-action';
-//import { hasResume, hasCV } from '../component/doc-link-form.jsx';
+import { hasResume, hasCV } from '../component/doc-link-form.jsx';
 
 import { getFeedbackPopupView } from './partial/analytics/feedback';
 
@@ -24,7 +22,6 @@ export default class ResumeDropPage extends React.Component {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
         this.state = {
-            isEdit: false,
             error: null,
             disableSubmit: false,
             success: null,
@@ -38,22 +35,6 @@ export default class ResumeDropPage extends React.Component {
         };
     }
 
-    getFormItems(isEdit) {
-        let items = [{
-            name: ResumeDrop.DOC_LINKS,
-            type: "checkbox",
-            // EUR CHANGES
-            label: isEdit ? "Documents Submitted" : "Documents To Be Submitted",
-            required: true,
-            disabled: true,
-            sublabel: <NavLink onClick={() => { storeHideFocusCard() }}
-                to={`${RootPath}/app/edit-profile/doc-link`}>Add More Documents</NavLink>,
-            data: null,
-        }]
-
-        return items;
-    }
-
     componentWillMount() {
         if (this.props.match) {
             this.company_id = this.props.match.params.company_id
@@ -64,10 +45,25 @@ export default class ResumeDropPage extends React.Component {
         this.company_id = Number.parseInt(this.company_id);
         this.defaultValues = {};
         this.isEdit = false;
-
-        this.formItems = this.getFormItems(false);
-        this.formItemsEdit = this.getFormItems(true);
-
+        this.formItems = [{
+            name: ResumeDrop.DOC_LINKS,
+            type: "checkbox",
+            // EUR CHANGES
+            label: "Document To Be Submitted",
+            //label: "Select Documents",
+            required: true,
+            disabled: true,
+            sublabel: <NavLink onClick={() => { storeHideFocusCard() }}
+                to={`${RootPath}/app/edit-profile/doc-link`}>Add More Documents</NavLink>,
+            data: null,
+        },
+            // {
+            //     name: ResumeDrop.MESSAGE,
+            //     type: "textarea",
+            //     label: "Message (optional)",
+            //     placeholder: "Write Down Your Message Here..."
+            // }
+        ];
         this.loadData();
     }
 
@@ -185,36 +181,6 @@ export default class ResumeDropPage extends React.Component {
         });
     }
 
-    getWhatsNextView() {
-        var actData = [
-            {
-                icon: "file-text"
-                , color: "#007BB4"
-                , text: <span><b>{this.state.data.company.name}</b> will review your resume</span>
-            },
-            {
-                icon: "envelope"
-                , color: "#007BB4"
-                , text: <span>You will be <b>notified through email</b> if you are selected for 1-1 session</span>
-            }
-        ];
-        let list = createIconList("sm", actData, "400px", {
-            customTextWidth : "350px",
-            customIconDimension: "40px",
-            customIconFont: "initial"
-        });
-        const onClickGotIt = () => {
-            storeUpdateFocusCard(this.state.data.company.name, CompanyPopup, { id: this.props.company_id });
-        }
-        let v = <div><h4 className="text-primary">Whats Next?</h4>
-            {list}
-            <button onClick={onClickGotIt}
-                className="btn btn-primary">Got It!</button>
-        </div>
-
-        return v;
-    }
-
     render() {
         if (!this.props.company_id) {
             document.setTitle(`Resume Drop`);
@@ -226,7 +192,7 @@ export default class ResumeDropPage extends React.Component {
 
         } else {
             var v = null;
-            var submitedText = null;
+            var existed = null;
 
             var no_doc_link = typeof this.state.data.doc_links === "undefined"
                 || this.state.data.doc_links === null
@@ -269,13 +235,9 @@ export default class ResumeDropPage extends React.Component {
                     // });
                     this.defaultValues[ResumeDrop.MESSAGE] = this.state.data.resume_drop.message;
 
-                    submitedText = <h4 className="text-primary">
-                        {`Resume Successfully Submitted`}
-                        <br></br>
-                        <small>
-                            On {Time.getString(this.state.data.resume_drop.updated_at)}
-                        </small>
-                    </h4>;
+                    existed = <i className="text-success">
+                        {`Resume submitted on ${Time.getString(this.state.data.resume_drop.updated_at)}`}
+                        <br></br><br></br></i>;
 
                 }
 
@@ -288,19 +250,15 @@ export default class ResumeDropPage extends React.Component {
                 if (this.formItems[0].data === null) {
                     this.formItems[0].data = docs;
                 }
-                if (this.formItemsEdit[0].data === null) {
-                    this.formItemsEdit[0].data = docs;
-                }
 
                 // create form
-                var checkboxForm = <Form className="form-row"
-                    items={(this.isEdit) ? this.formItemsEdit : this.formItems}
+                var v = <Form className="form-row"
+                    items={this.formItems}
                     onSubmit={this.formOnSubmit}
                     submitText={(this.isEdit) ? "Save Change" : "Submit"}
                     defaultValues={this.defaultValues}
                     disableSubmit={this.state.disableSubmit}
                     error={this.state.error}
-                    hideSubmit={(this.isEdit) ? true : false}
                     success={this.state.success}></Form>;
             }
 
@@ -310,20 +268,10 @@ export default class ResumeDropPage extends React.Component {
                 document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
             }
 
-
-            if (this.isEdit) {
-                view = <div>{title}
-                    {submitedText}
-                    {checkboxForm}
-                    <hr></hr>
-                    {this.getWhatsNextView()}
-                </div>;
-            } else {
-                view = <div>
-                    {title}
-                    {checkboxForm}
-                </div>
-            }
+            view = <div>{title}
+                {existed}
+                {v}
+            </div>;
         }
 
         return (<div>

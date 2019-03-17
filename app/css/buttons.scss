@@ -21,6 +21,13 @@ a.dark:hover,
     border-radius: 0 !important;
 }
 
+.text.btn-link{
+    cursor: pointer;
+}
+.text.btn-link:active{
+    opacity: 0.8;
+}
+
 @include button_color("btn-primary",$COLOR_DARK);
 @include button_color("btn-blue",#286090);
 

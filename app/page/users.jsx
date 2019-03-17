@@ -10,9 +10,18 @@ import List from '../component/list';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 
-export function createUserTitle(d, search = "", hideEmail) {
+
+export function createUserTitle(d, search = "", hideEmail, nameBreakLine) {
     hideEmail = typeof hideEmail === "undefined" ? false : hideEmail
-    var name = `${d.first_name} ${d.last_name}`;
+    nameBreakLine = typeof nameBreakLine === "undefined" ? false : nameBreakLine
+
+    var name = ``;
+    if (nameBreakLine) {
+        name = `${d.first_name}<br><small>${d.last_name}</small>`
+    } else {
+        name = `${d.first_name} ${d.last_name}`
+    }
+
     var focusedName = name.focusSubstring(search);
 
     focusedName = <a onClick={() => {
@@ -29,6 +38,12 @@ export function createUserTitle(d, search = "", hideEmail) {
     }
     return <span>{focusedName}{focusedEmail}</span>;
 }
+
+export function createUserTitle2Line(d) {
+    let nameBreakLine = true;
+    return createUserTitle(d, "", undefined, nameBreakLine)
+}
+
 
 class UsersPage extends React.Component {
     constructor(props) {

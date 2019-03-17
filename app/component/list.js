@@ -349,6 +349,7 @@ export class ProfileListItem extends Component {
 }
 
 ProfileListItem.propTypes = {
+    custom_width : PropTypes.string,
     list_type: PropTypes.oneOf(["card"]),
     list_type_extra: PropTypes.string,
     title: PropTypes.any.isRequired,
@@ -364,7 +365,8 @@ ProfileListItem.propTypes = {
 };
 
 ProfileListItem.defaultProps = {
-    list_type_extra: ""
+    list_type_extra: "",
+    custom_width : null,
 };
 
 
@@ -489,6 +491,44 @@ export class CustomList extends Component {
         return <li onClick={this.props.onClick} className={liClassName} key={i}>{d}</li>;
     }
 
+
+    getIconList(d, i) {
+        var style = {
+            background: d.color,
+            color: "white",
+            fontSize: this.props.il_font,
+            width: this.props.il_dimension,
+            height: this.props.il_dimension,
+            float : "left"
+        };
+
+        var styleText = {
+            float : "right",
+            textAlign: "left",
+            width : this.props.il_text_width
+        }
+
+        var text = null;
+        if(typeof d.text !== "undefined"){
+            text = d.text;
+        }
+        
+        if(typeof d.isNavLink === "undefined"){
+            d.isNavLink = false;
+        }
+
+ 
+
+        var content = <li className={`li-${this.props.className}`} key={i}>
+            <div style={style} className="icon-circle" >
+                <i className={`fa fa-${d.icon}`}></i>
+            </div>
+            <div style={styleText}>{text}</div>
+        </li>;
+
+        return content;
+    }
+
     getIconLinkLi(d, i) {
         var style = {
             background: d.color,
@@ -580,6 +620,9 @@ export class CustomList extends Component {
                 case "icon-link":
                     return this.getIconLinkLi(d, i);
                     break;
+                case "icon-list":
+                    return this.getIconList(d, i);
+                    break;
                 case "icon":
                     return this.getIconLi(d, i);
                     break;
@@ -608,6 +651,7 @@ export class CustomList extends Component {
 
 CustomList.propTypes = {
     // specifically for iconLink
+    il_text_width : PropTypes.string,
     il_dimension: PropTypes.string,
     il_font: PropTypes.string,
     il_tooltip: PropTypes.object,
@@ -615,12 +659,13 @@ CustomList.propTypes = {
     alignCenter: PropTypes.bool,
     items: PropTypes.array.isRequired,
     emptyMessage: PropTypes.any,
-    className: PropTypes.oneOf(["empty", "normal", "icon", "label", "icon-link"]),
+    className: PropTypes.oneOf(["empty", "normal", "icon", "label", "icon-link", "icon-list"]),
     onClick: PropTypes.func,
     ux: PropTypes.bool // added class "li-ux" if true then is user interactive, on hover on active
 };
 
 CustomList.defaultProps = {
+    il_text_width : null,
     il_dimension: "26px",
     il_font: "initial",
     il_tooltip: {},
@@ -662,4 +707,43 @@ export function createIconLink(size, items, alignCenter = true, onClick = null, 
 
         items={items}>
     </CustomList>
+}
+
+
+// to create icon link list
+// with different size
+export function createIconList(size, items, width, 
+    {customTextWidth, customIconDimension, customIconFont}) {
+    var dimension = "";
+    var font = "";
+    switch (size) {
+        case "sm":
+            dimension = "26px";
+            font = "initial"
+            break;
+        case "lg":
+            dimension = "70px";
+            font = "35px";
+            break;
+    }
+
+
+    if(customIconDimension){
+        dimension = customIconDimension
+    }
+    if(customIconFont){
+        font = customIconFont
+    }
+
+    let alignCenter = true;
+    return <div className="text-center" 
+        style={{maxWidth : width, margin:"auto"}}>
+        <CustomList className={"icon-list"}
+            il_text_width={customTextWidth}
+            il_dimension={dimension}
+            il_font={font}
+            alignCenter={alignCenter}
+            items={items}>
+        </CustomList>
+    </div>
 }

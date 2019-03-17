@@ -100,6 +100,11 @@ export default class HallPage extends React.Component {
             gSesion = <PageSection showOverflow={true} title="" body={gSesion}></PageSection>;
         }
 
+        var companyBooth = null;
+        if (isRoleStudent()) {
+            companyBooth = <PageSection showOverflow={true} title={null} body={CompaniesSection}></PageSection>;
+        }
+
         var midView = null;
         if (isRoleRec()) {
 
@@ -119,15 +124,15 @@ export default class HallPage extends React.Component {
             midView = <PageSection showOverflow={true} title={null} body={ActivitySection}></PageSection>;
         }
 
+        let titlePage = isRoleRec() ?
+            <h2>Welcome To {this.title}</h2>:
+            <h4>Welcome To {this.title}</h4>;
         return (<div>
-            {this.props.isPreEvent ?
-                <div className="line"></div>
-                :
-                <h2>Welcome To {this.title}</h2>
-            }
+            {this.props.isPreEvent ? <div className="line"></div>
+                : titlePage}
             {gSesion}
+            {companyBooth}
             {midView}
-            {isRoleStudent() ? <PageSection showOverflow={true} title="Company Booth" body={CompaniesSection}></PageSection> : null}
         </div>);
     }
 }

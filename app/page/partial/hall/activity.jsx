@@ -45,6 +45,25 @@ class ActvityList extends React.Component {
         this.confirmAcceptRejectPrescreen = this.confirmAcceptRejectPrescreen.bind(this);
 
         this.authUser = getAuthUser();
+        this.state = {
+            time: Date.now()
+        }
+        this.interval = null;
+
+        // update every 30 secs
+        this.UPDATE_INTERVAL = 30 * 1000;
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            this.setState(() => {
+                return { time: Date.now() }
+            })
+        }, this.UPDATE_INTERVAL)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     cancelJoinGroupSession(e) {
@@ -268,6 +287,37 @@ class ActvityList extends React.Component {
         layoutActions.confirmBlockLoader(mes, confirmUpdate);
     }
 
+    getTimeStrNew(unixtime, showTimeOnly) {
+        // debug
+        //unixtime = (1552804854865/1000) + 500;
+
+        let timeStr = Time.getString(unixtime);
+
+        if (showTimeOnly) {
+            return timeStr;
+        }
+
+        let passedText = "Waiting For Recruiter"
+        let happeningIn = Time.getHapenningIn(unixtime, {
+            passedText: isRoleStudent() ? passedText : null,
+            startCountMinute: 24 * 60 // 24 hours
+        });
+
+        if (happeningIn != null) {
+            if (happeningIn != passedText) {
+                happeningIn = <span>Starting In {happeningIn}</span>
+            }
+            happeningIn = <div style={{ marginBottom: "-6px", fontWeight: "bold" }}
+                className="text-primary">
+                {happeningIn}
+            </div>
+            return <span>{happeningIn}<br></br>{timeStr}</span>;
+        } else {
+            return timeStr;
+        }
+
+    }
+
     render() {
         var body = null;
         console.log(this.props);
@@ -302,6 +352,7 @@ class ActvityList extends React.Component {
                 var badge_tooltip = null;
                 var body = null;
                 var crtSession = null;
+                var custom_width = "150px";
 
                 if (isRoleRec()) {
 
@@ -355,7 +406,6 @@ class ActvityList extends React.Component {
                             <br></br>
                             {Time.getAgo(d.created_at)}
                         </span>;
-
                         body = <div>
                             <a onClick={() => joinVideoCall(d.join_url, d.session_id, () => {
                                 hallAction.storeLoadActivity([hallAction.ActivityType.ZOOM_INVITE]);
@@ -368,7 +418,13 @@ class ActvityList extends React.Component {
                     // Scheduled Session Card View
 
                     case hallAction.ActivityType.PRESCREEN:
-                        subtitle = `${Time.getString(d.appointment_time)}`;
+
+                        if (d.status == PrescreenEnum.STATUS_REJECTED) {
+                            subtitle = this.getTimeStrNew(d.appointment_time, true);
+                        } else {
+                            subtitle = this.getTimeStrNew(d.appointment_time, false);
+                        }
+
                         //body = <div style={{ height: "30px" }}></div>;
                         var ps_type = (d.special_type == null || d.special_type == "")
                             ? PrescreenEnum.ST_PRE_SCREEN : d.special_type;
@@ -503,11 +559,24 @@ class ActvityList extends React.Component {
                     // group session Card View
                     case hallAction.ActivityType.GROUP_SESSION_JOIN:
                         if (isRoleStudent()) {
-                            subtitle = `${Time.getString(d.start_time)}`;
+
+                            if (d.title != null && d.title != "") {
+                                title = <small>{d.title}</small>;
+                            } else {
+                                title = <small>Group Session with {title}</small>;
+                            }
+                            title = <b>{title}</b>
+
                             var hasStart = false;
                             if (!d.is_expired && d.join_url != "" && d.join_url != null) {
                                 hasStart = true;
-                                subtitle = <div>Video Call Has Started</div>;
+                                subtitle = "Video Call Has Started";
+                            } else {
+                                if (d.is_canceled || d.is_expired) {
+                                    subtitle = this.getTimeStrNew(d.start_time, true);
+                                } else {
+                                    subtitle = this.getTimeStrNew(d.start_time, false);
+                                }
                             }
 
                             const isExpiredHandler = () => {
@@ -570,6 +639,7 @@ class ActvityList extends React.Component {
                 var img_position = (isRoleRec()) ? obj.img_pos : obj.img_position;
                 return <ProfileListItem className="" title={title} list_type="card"
                     img_url={obj.img_url}
+                    custom_width={custom_width}
                     img_pos={img_position}
                     img_size={obj.img_size}
                     img_dimension="50px"

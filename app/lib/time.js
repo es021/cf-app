@@ -376,7 +376,53 @@ Time.prototype.convertDBTimeToUnix = function (db_time) {
 };
 
 
+Time.prototype.getHapenningIn = function (unixtimestamp, {
+    passedText,
+    startCountMinute
+}) {
+    if (typeof unixtimestamp === "string") {
+        unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+    }
 
+    startCountMinute = typeof startCountMinute === "undefined" ? 0 : startCountMinute;
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var msStartCount = startCountMinute * msPerMinute;
+
+    var current = new Date();
+
+    var next = new Date(unixtimestamp * 1000);
+    var timeLeft = next - current;
+
+    if (msStartCount > 0) {
+        if (timeLeft > msStartCount) {
+            return null;
+        }
+    }
+
+    if (timeLeft <= 0) {
+        return passedText;
+    }
+
+    if (timeLeft < msPerMinute) {
+        return Math.round(timeLeft / 1000) + ' seconds';
+    } else if (timeLeft < msPerHour) {
+        return Math.round(timeLeft / msPerMinute) + ' minutes';
+    } else if (timeLeft < msPerDay) {
+        return Math.round(timeLeft / msPerHour) + ' hours';
+    } else if (timeLeft < msPerMonth) {
+        return Math.round(timeLeft / msPerDay) + ' days';
+    } else if (timeLeft < msPerYear) {
+        return Math.round(timeLeft / msPerMonth) + ' months';
+    } else {
+        return Math.round(timeLeft / msPerYear) + ' years';
+    }
+}
 
 Time.prototype.getAgo = function (unixtimestamp) {
     if (typeof unixtimestamp === "string") {
