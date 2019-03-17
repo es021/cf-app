@@ -304,8 +304,8 @@ export default class CompanyPopup extends Component {
         </div>
     }
 
-    getAskForum(){
-        return  null;
+    getAskForum() {
+        return null;
     }
 
     getBanner() {
@@ -335,6 +335,62 @@ export default class CompanyPopup extends Component {
             , ResumeDropPopup, { company_id: data.ID })
     }
 
+    getStudentAction(data) {
+        var actData = [
+            {
+                label: "Ask Questions In Company Forum"
+                , url: `${RootPath}/app/forum/company_${data.ID}`
+                , icon: "comments"
+                , color: "#007BB4"
+            }, {
+                label: "Drop Your Resume"
+                , onClick: () => {
+                    this.setState((prevState) => {
+                        return {
+                            isHiddenValidation: false,
+                            keyValidation: (new Date()).getTime(),
+                        }
+                    })
+                }
+                , icon: "download"
+                , color: "#efa30b"
+            }
+        ];
+
+        // var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+        //     <div>
+        //         <h2 style={{ marginTop: "0" }}>
+        //             <small>Check These Out!</small>
+        //         </h2>
+        //         {createIconLink("lg", actData, true)}
+        //     </div>;
+
+        // tukar action kepada button
+        const onClickResume = () => {
+            this.setState((prevState) => {
+                return {
+                    isHiddenValidation: false,
+                    keyValidation: (new Date()).getTime(),
+                }
+            })
+        };
+        var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+            <div>
+                <button className="btn btn-blue btn-block" onClick={onClickResume}>
+                    <i className="fa fa-download left"></i>
+                    Drop Your Resume
+                </button>
+                <NavLink to={`${RootPath}/app/forum/company_${data.ID}`}
+                    onClick={() => { layoutActions.storeHideFocusCard() }}
+                    className="btn btn-primary btn-block">
+                    <i className="fa fa-comments left"></i>
+                    Ask A Question
+                </NavLink>
+            </div>
+
+        return action;
+    }
+
     render() {
         var id = null;
         var data = this.state.data;
@@ -359,34 +415,7 @@ export default class CompanyPopup extends Component {
             // ##################################################################################
             // for action
 
-            var actData = [
-                {
-                    label: "Ask Questions In Company Forum"
-                    , url: `${RootPath}/app/forum/company_${data.ID}`
-                    , icon: "comments"
-                    , color: "#007BB4"
-                }, {
-                    label: "Drop Your Resume"
-                    , onClick: () => {
-                        this.setState((prevState) => {
-                            return {
-                                isHiddenValidation: false,
-                                keyValidation: (new Date()).getTime(),
-                            }
-                        })
-                    }
-                    , icon: "download"
-                    , color: "#efa30b"
-                }
-            ];
-
-            var action = (!isRoleStudent() || this.props.displayOnly) ? null :
-                <div>
-                    <h2 style={{ marginTop: "0" }}>
-                        <small>Check These Out!</small>
-                    </h2>
-                    {createIconLink("lg", actData, true)}
-                </div>;
+            var action = this.getStudentAction(data);
 
             // ##################################################################################
             // create body
@@ -425,6 +454,7 @@ export default class CompanyPopup extends Component {
 
             var rightBody = <div>
                 {action}
+                <hr></hr>
                 {gSession}
             </div>
 

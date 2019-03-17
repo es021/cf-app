@@ -6,7 +6,7 @@ import { createImageElement } from '../component/profile-card';
 import Tooltip from '../component/tooltip';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
-import { getAuthUser, getCF, isRoleOrganizer, isRoleAdmin, isRoleStudent } from '../redux/actions/auth-actions';
+import { getAuthUser, getCF, isRoleOrganizer, isRoleAdmin, isRoleStudent, isRoleRec } from '../redux/actions/auth-actions';
 import obj2arg from 'graphql-obj2arg';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { createUserTitle } from './users';
@@ -65,7 +65,7 @@ const addNewForumItem = function (type, entity_id, content, is_owner, success) {
 }
 
 const renderForumItem = function (d, is_reply = false, toogleAddReply = null, onCommentDeleted = null, isForumOwner = false) {
-    var user_title = (d.user.role === UserEnum.ROLE_STUDENT)
+    var user_title = (d.user.role === UserEnum.ROLE_STUDENT && isRoleRec())
         ? createUserTitle(d.user)
         : d.user.first_name + " " + d.user.last_name;
 
