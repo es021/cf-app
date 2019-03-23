@@ -26,7 +26,8 @@ const {
     GroupSessionJoinType,
     GroupSessionType,
     QsPopupType,
-    QsPopupAnswerType
+    QsPopupAnswerType,
+    EntityRemovedType
 } = require('./all-type.js');
 
 
@@ -57,7 +58,8 @@ const {
     GroupSession,
     GroupSessionJoin,
     QsPopup,
-    QsPopupAnswer
+    QsPopupAnswer,
+    EntityRemoved
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -96,6 +98,29 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/* entity_removed  ******************/
+fields["add_entity_removed"] = {
+    type: EntityRemovedType,
+    args: {
+        entity: {
+            type:  new GraphQLNonNull(GraphQLString)
+        },
+        entity_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        user_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(EntityRemoved.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
 
 
 /* qs_popup  ******************/

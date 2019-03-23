@@ -141,6 +141,9 @@ fields["group_sessions"] = {
         user_id: { type: GraphQLInt },
         discard_expired : {type : GraphQLBoolean},
         discard_canceled : {type : GraphQLBoolean},
+        discard_removed : {type : GraphQLBoolean},
+        discard_removed_user_id : { type: GraphQLInt },
+
         order_by : {type: GraphQLString}
     },
     resolve(parentValue, arg, context, info) {
@@ -590,6 +593,9 @@ fields["prescreens"] = {
         offset: { type: GraphQLInt },
         not_prescreen: { type: GraphQLInt },
         order_by: { type: GraphQLString },
+
+        discard_removed : { type: GraphQLBoolean },
+        discard_removed_user_id : { type: GraphQLInt },
 
         //search query
         student_name: { type: GraphQLString },

@@ -4,6 +4,10 @@ const {
     GroupSessionJoin
 } = require('../../config/db-config');
 
+const {
+    EntityRemovedQuery
+} = require('./entity-removed-query.js');
+
 class GroupSessionQuery {
     getGroupSession(params, extra) {
         var id_where = (typeof params.ID === "undefined") ? "1=1" :
@@ -25,9 +29,16 @@ class GroupSessionQuery {
 
 
         if (typeof params.user_id !== "undefined") {
+            let removed_where = EntityRemovedQuery.getNotIn(
+                params.discard_removed,
+                GroupSessionJoin.TABLE,
+                'oth.ID',
+                params.discard_removed_user_id);
+
             from_extra = `LEFT OUTER JOIN ${GroupSessionJoin.TABLE} oth 
                 ON oth.group_session_id = main.ID 
-                and oth.user_id = ${params.user_id}`;
+                and oth.user_id = ${params.user_id} 
+                AND ${removed_where}`;
             user_where = ` oth.user_id = ${params.user_id} and oth.is_canceled = 0 `;
             user_select = ` oth.ID as join_id, `;
         }
@@ -152,7 +163,8 @@ class GroupSessionExec {
                 if (typeof field["joiners"] !== "undefined") {
                     var group_session_id = res[i]["ID"];
                     res[i]["joiners"] = OBJ.group_session_joins({
-                        group_session_id: group_session_id, is_canceled: 0
+                        group_session_id: group_session_id,
+                        is_canceled: 0
                     }, field["joiners"]);
                 }
             }
