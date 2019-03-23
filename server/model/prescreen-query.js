@@ -3,9 +3,13 @@ const {
     UserQuery
 } = require('./user-query.js');
 const {
+    EntityRemovedQuery
+} = require('./entity-removed-query.js');
+const {
     UserMeta,
     User,
-    PrescreenEnum
+    PrescreenEnum,
+    Prescreen
 } = require('../../config/db-config');
 
 
@@ -45,20 +49,26 @@ class PrescreenQuery {
         var com_where = (typeof params.company_id === "undefined") ? "1=1" :
             `company_id = '${params.company_id}'`;
 
+        var removed_where = EntityRemovedQuery.getNotIn(
+            params.discard_removed,
+            Prescreen.TABLE,
+            'ps.ID',
+            params.discard_removed_user_id);
         // external search query ------------------------------------------
 
         var search_user = UserQuery.getSearchNameOrEmail("student_id", params.student_name, params.student_email);
         var search_uni = UserQuery.getSearchUniversity("student_id", params.student_university);
 
-        // limit and order by
+        // limit and order by)
         var limit = (typeof params.page !== "undefined" &&
             typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
 
-        var sql = `from pre_screens where ${id_where} and ${student_where} 
+        var sql = `from pre_screens ps where ${id_where} and ${student_where} 
             and ${status_where} and ${com_where} 
             and ${search_user} and ${search_uni} and ${st_where}
-            and ${not_ps_where}
+            and ${not_ps_where} 
+            AND ${removed_where}
             ${order_by}`;
 
         if (extra.count) {
@@ -81,7 +91,7 @@ class PrescreenExec {
         } = require('./user-query.js');
 
         var sql = PrescreenQuery.getPrescreen(params, extra);
-        //console.log(sql);
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
             if (extra.count) {

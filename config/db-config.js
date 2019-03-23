@@ -520,6 +520,10 @@ const CFS = {
     TABLE: "cfs",
 }
 
+const EntityRemoved = {
+    TABLE: "entity_removed",
+}
+
 const CFSMeta = {
     TABLE: "cfs_meta",
     TITLE: "title",
@@ -602,5 +606,6 @@ module.exports = {
     CFS,
     CFSMeta,
     CFSMetaObject,
-    CFSMetaOrg
+    CFSMetaOrg,
+    EntityRemoved
 };

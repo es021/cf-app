@@ -470,6 +470,10 @@ class UserExec {
                 if (typeof field["group_sessions"] !== "undefined") {
                     var par = {};
                     par["user_id"] = user_id;
+
+                    par["discard_removed"] = true;
+                    par["discard_removed_user_id"] = user_id;
+                    
                     // order yg join url ada dulu, then by expired
                     par["order_by"] = "main.is_expired asc, main.is_canceled asc, main.join_url desc";
                     res[i]["group_sessions"] = GroupSessionExec.group_sessions(par, field["group_sessions"]);
@@ -556,7 +560,9 @@ class UserExec {
                         status: PrescreenEnum.STATUS_WAIT_CONFIRM,
                         status_2: PrescreenEnum.STATUS_APPROVED,
                         status_3: PrescreenEnum.STATUS_REJECTED,
-                        order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`
+                        order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
+                        discard_removed : true,
+                        discard_removed_user_id : user_id
                     };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;

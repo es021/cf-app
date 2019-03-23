@@ -592,6 +592,18 @@ const QsPopupAnswerType = new GraphQLObjectType({
 });
 
 
+const EntityRemovedType = new GraphQLObjectType({
+    name: 'EntityRemoved',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        entity: { type: GraphQLString },
+        entity_id: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+    })
+});
+
+
+
 module.exports = {
     QsPopupType, QsPopupAnswerType
     , UserType
@@ -621,5 +633,6 @@ module.exports = {
     , GroupSessionType
     , GroupSessionJoinType
     , CfsType
+    , EntityRemovedType
     //, CFType
 };
