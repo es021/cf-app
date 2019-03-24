@@ -1,34 +1,42 @@
 @import "define/mixin.scss";
 @import "define/variable.scss";
 
-a{
-    cursor:pointer;   
+a {
+    cursor: pointer;
 }
 
 a.dark,
-.button-icon.dark{
-    color:lighten($COLOR_LINK, 10);
+.button-icon.dark {
+    color: lighten($COLOR_LINK, 10);
 }
 
 a.dark:hover,
-.button-icon.dark:hover{
-    color:lighten($COLOR_LINK, 20);
+.button-icon.dark:hover {
+    color: lighten($COLOR_LINK, 20);
 }
 
 
 
-.btn{
+.btn {
     border-radius: 0 !important;
 }
 
-.text.btn-link{
+.text.btn-link {
     cursor: pointer;
 }
-.text.btn-link:active{
+
+.text.btn-link:active {
     opacity: 0.8;
 }
 
-@include button_color("btn-primary",$COLOR_DARK);
-@include button_color("btn-blue",#286090);
+.btn-delete-card {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    padding: 0;
+    color: $COLOR-RED;
+    width: auto !important;
+}
 
-
+@include button_color("btn-primary", $COLOR_DARK);
+@include button_color("btn-blue", #286090);

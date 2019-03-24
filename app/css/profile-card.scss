@@ -91,4 +91,13 @@
         text-align: center;
         width: 100%;
     }
+
+
+    opacity: 1;
+    transition: opacity 700ms;
+}
+
+
+.profile-card.profile-card-hidden{
+    opacity: 0;
 }
