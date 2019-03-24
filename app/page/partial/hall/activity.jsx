@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import obj2arg from "graphql-obj2arg";
 import ProfileCard from '../../../component/profile-card';
-import { Prescreen, PrescreenEnum, SessionRequestEnum } from '../../../../config/db-config';
+import { Prescreen, PrescreenEnum, SessionRequestEnum, EntityRemoved, GroupSessionJoin } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';
 import { Time } from '../../../lib/time';
@@ -88,6 +88,41 @@ class ActvityList extends React.Component {
 
         layoutActions.confirmBlockLoader(`Canceling participation for group session with ${company_name}?`
             , confirmCancel);
+    }
+
+    getRemoveButton(hasRemove, entity, entity_id) {
+        if (!hasRemove) {
+            return null;
+        }
+
+        const onClickRemove = (e) => {
+            let entity = e.currentTarget.dataset.entity;
+            let entity_id = e.currentTarget.dataset.entity_id;
+
+            let ins = {};
+            ins[EntityRemoved.ENTITY] = entity;
+            ins[EntityRemoved.ENTITY_ID] = Number.parseInt(entity_id);
+            ins[EntityRemoved.USER_ID] = this.authUser.ID;
+            let q = `mutation { add_entity_removed (${obj2arg(ins, { noOuterBraces: true })})
+                { ID } }`
+
+            let parentButton = e.currentTarget.parentNode;
+            let parentPcBody = parentButton.parentNode;
+            let parentCard = parentPcBody.parentNode;
+            parentCard.className = parentCard.className += "profile-card-hidden";
+            //console.log(parentCard);
+            setTimeout(() => {
+                parentCard.hidden = true;
+            }, 700)
+            getAxiosGraphQLQuery(q).then((data) => { });
+        }
+
+        return <div onClick={(e) => { onClickRemove(e) }}
+            data-entity={entity}
+            data-entity_id={entity_id}
+            className="btn btn-link btn-delete-card">
+            <i className="fa fa-times"></i>
+        </div>
     }
 
     cancelQueue(e) {
@@ -353,6 +388,9 @@ class ActvityList extends React.Component {
                 var body = null;
                 var crtSession = null;
                 var custom_width = "150px";
+                var hasRemove = null;
+                var removeEntity = null;
+                var removeEntityId = null;
 
                 if (isRoleRec()) {
 
@@ -392,27 +430,27 @@ class ActvityList extends React.Component {
                     // #############################################################
                     // Panel Interview Card View
 
-                    case hallAction.ActivityType.ZOOM_INVITE:
-                        subtitle = <span>Hosted by
-                        <div className="break-all">
-                                <Tooltip
-                                    bottom={"13px"}
-                                    left={"-22px"}
-                                    width={"131px"}
-                                    tooltip={d.recruiter.user_email}
-                                    content={<b>{d.recruiter.first_name} {d.recruiter.last_name}</b>}>
-                                </Tooltip>
-                            </div>
-                            <br></br>
-                            {Time.getAgo(d.created_at)}
-                        </span>;
-                        body = <div>
-                            <a onClick={() => joinVideoCall(d.join_url, d.session_id, () => {
-                                hallAction.storeLoadActivity([hallAction.ActivityType.ZOOM_INVITE]);
-                            })} className="btn btn-sm btn-blue">Join Interview</a>
-                        </div>;
+                    // case hallAction.ActivityType.ZOOM_INVITE:
+                    //     subtitle = <span>Hosted by
+                    //     <div className="break-all">
+                    //             <Tooltip
+                    //                 bottom={"13px"}
+                    //                 left={"-22px"}
+                    //                 width={"131px"}
+                    //                 tooltip={d.recruiter.user_email}
+                    //                 content={<b>{d.recruiter.first_name} {d.recruiter.last_name}</b>}>
+                    //             </Tooltip>
+                    //         </div>
+                    //         <br></br>
+                    //         {Time.getAgo(d.created_at)}
+                    //     </span>;
+                    //     body = <div>
+                    //         <a onClick={() => joinVideoCall(d.join_url, d.session_id, () => {
+                    //             hallAction.storeLoadActivity([hallAction.ActivityType.ZOOM_INVITE]);
+                    //         })} className="btn btn-sm btn-blue">Join Interview</a>
+                    //     </div>;
 
-                        break;
+                    //     break;
 
                     // #############################################################
                     // Scheduled Session Card View
@@ -468,6 +506,9 @@ class ActvityList extends React.Component {
                                 label_color_status = "danger";
                                 textStatus = "Interview Rejected";
                                 crtSession = null;
+                                hasRemove = true;
+                                removeEntity = Prescreen.TABLE;
+                                removeEntityId = d.ID;
                                 break;
                             case PrescreenEnum.STATUS_APPROVED:
                                 if (isRoleRec()) break;
@@ -508,50 +549,50 @@ class ActvityList extends React.Component {
 
                     // #############################################################
                     // Interview Request Card View
-                    case hallAction.ActivityType.SESSION_REQUEST:
-                        subtitle = `${Time.getAgo(d.created_at)}`;
+                    // case hallAction.ActivityType.SESSION_REQUEST:
+                    //     subtitle = `${Time.getAgo(d.created_at)}`;
 
-                        if (d.status === SessionRequestEnum.STATUS_PENDING) {
-                            /*var pend = <div style={{ marginBottom: "10px" }}>
-                                <label className={`label label-info`}>Pending</label>
-                            </div>;*/
-                            var pend = null;
+                    //     if (d.status === SessionRequestEnum.STATUS_PENDING) {
+                    //         /*var pend = <div style={{ marginBottom: "10px" }}>
+                    //             <label className={`label label-info`}>Pending</label>
+                    //         </div>;*/
+                    //         var pend = null;
 
-                            if (isRoleRec()) {
-                                body = <div>
-                                    {createUserDocLinkList(obj.doc_links, obj.ID, true, true)}
-                                    <div onClick={() => { this.openSIForm(d.ID, obj.ID) }}
-                                        className="btn btn-sm btn-success">Schedule Session</div>
+                    //         if (isRoleRec()) {
+                    //             body = <div>
+                    //                 {createUserDocLinkList(obj.doc_links, obj.ID, true, true)}
+                    //                 <div onClick={() => { this.openSIForm(d.ID, obj.ID) }}
+                    //                     className="btn btn-sm btn-success">Schedule Session</div>
 
-                                    <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-                                        onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_REJECTED) }}
-                                        className="btn btn-sm btn-danger">Reject Request</div>
-                                </div>;
+                    //                 <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                    //                     onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_REJECTED) }}
+                    //                     className="btn btn-sm btn-danger">Reject Request</div>
+                    //             </div>;
 
-                            } else {
-                                body = <div>{pend}
-                                    <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-                                        onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_CANCELED) }}
-                                        className="btn btn-sm btn-primary">Cancel Request</div>
-                                </div>;
-                            }
-                        }
+                    //         } else {
+                    //             body = <div>{pend}
+                    //                 <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                    //                     onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_CANCELED) }}
+                    //                     className="btn btn-sm btn-primary">Cancel Request</div>
+                    //             </div>;
+                    //         }
+                    //     }
 
-                        // if rec view rejected in not shown
-                        if (d.status === SessionRequestEnum.STATUS_REJECTED) {
-                            var rej = <div style={{ marginBottom: "10px" }}>
-                                <label className={`label label-danger`}>Rejected</label>
-                            </div>;
-                            body = <div>{rej}<small className="text-muted">Try again later</small></div>;
-                            /*
-                            body = <div>{rej}
-                                {isRoleRec() ? <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-                                    onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_PENDING) }}
-                                    className="btn btn-sm btn-blue">Cancel Rejection</div> : null}
-                            </div>
-                            */
-                        }
-                        break;
+                    //     // if rec view rejected in not shown
+                    //     if (d.status === SessionRequestEnum.STATUS_REJECTED) {
+                    //         var rej = <div style={{ marginBottom: "10px" }}>
+                    //             <label className={`label label-danger`}>Rejected</label>
+                    //         </div>;
+                    //         body = <div>{rej}<small className="text-muted">Try again later</small></div>;
+                    //         /*
+                    //         body = <div>{rej}
+                    //             {isRoleRec() ? <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                    //                 onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_PENDING) }}
+                    //                 className="btn btn-sm btn-blue">Cancel Rejection</div> : null}
+                    //         </div>
+                    //         */
+                    //     }
+                    //     break;
 
 
 
@@ -611,12 +652,14 @@ class ActvityList extends React.Component {
                                     showNotification(notiId, popupBody);
                                 }
                             }
-
+                            let isGsHasRemove = false;
                             if (d.is_canceled) {
                                 body = <button disabled="disabled" className="btn btn-sm btn-danger">Canceled</button>
+                                isGsHasRemove = true;
                             }
                             else if (d.is_expired) {
                                 body = <button disabled="disabled" className="btn btn-sm btn-danger">Ended</button>
+                                isGsHasRemove = true;
                             } else {
                                 if (hasStart) {
                                     openNotificationStart();
@@ -631,10 +674,22 @@ class ActvityList extends React.Component {
                                 }
 
                             }
+
+                            if (isGsHasRemove) {
+                                hasRemove = true;
+                                removeEntity = GroupSessionJoin.TABLE;
+                                removeEntityId = d.join_id;
+                            }
+
                         }
 
                         break;
                 }
+
+                body = <div>
+                    {this.getRemoveButton(hasRemove, removeEntity, removeEntityId)}
+                    {body}
+                </div>
 
                 var img_position = (isRoleRec()) ? obj.img_pos : obj.img_position;
                 return <ProfileListItem className="" title={title} list_type="card"

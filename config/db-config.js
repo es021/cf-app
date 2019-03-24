@@ -522,6 +522,9 @@ const CFS = {
 
 const EntityRemoved = {
     TABLE: "entity_removed",
+    ENTITY : "entity",
+    ENTITY_ID : "entity_id",
+    USER_ID : "user_id",
 }
 
 const CFSMeta = {
