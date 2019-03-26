@@ -1,6 +1,8 @@
 import React, { PropTypes } from "react";
 import { NavLink } from "react-router-dom";
 import GeneralFormPage from "../../../component/general-form";
+import { ButtonExport } from '../../../component/buttons';
+
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import {
   isComingSoon,
@@ -576,7 +578,10 @@ export class StudentListing extends React.Component {
   getContentBelowFilter() {
     console.log("getContentBelowFilter", this.state.search)
     //let hasFilter = typeof this.searchParams === "string" && this.searchParams != ""
-    return null;
+    
+    return <ButtonExport action="student_listing" text="Export All Student Listing"
+      filter={{ company_id: this.props.company_id, cf: getCF(), for_rec : "1" }}>
+    </ButtonExport>;
   }
   render() {
     var view = null;

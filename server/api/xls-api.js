@@ -61,7 +61,7 @@ class XLSApi {
                 return this.session_requests(filter.company_id);
                 break;
             case 'student_listing':
-                return this.student_listing(filter.company_id, filter.cf);
+                return this.student_listing(filter.company_id, filter.cf, filter.for_rec);
                 break;
         }
     }
@@ -106,7 +106,10 @@ class XLSApi {
     }
 
     //EUR FIX
-    student_listing(cid, cf) {
+    student_listing(cid, cf, for_rec) {
+        // debug
+        for_rec = typeof for_rec === "undefined" ? false : for_rec;
+
         // 0. create filename
         var filename = `Student Listing - Company ${cid}`;
 
@@ -137,11 +140,29 @@ class XLSApi {
                 }
             }
             newData = this.restructAppendDocLinks(newData, "student_doc_links");
+
+            // removed some data for recruiter
+            if (for_rec) {
+                var toRemoved = ["student_ID", "created_at"];
+                for (var i in toRemoved) {
+                    delete newData[toRemoved[i]];
+                }
+            }
+
             return newData;
         };
 
-        // 3 . fetch and return
-        return this.fetchAndReturn(query, "student_listing", filename, headers, null, restructData);
+        // 3. rename title use company name
+        const renameTitle = (originalTitle, dataIndex0) => {
+            let toRet = originalTitle;
+            if (typeof dataIndex0["company_name"] !== "undefined") {
+                toRet = `Student Listing - ${dataIndex0["company_name"]}`;
+            }
+            return toRet;
+        }
+
+        // 4. fetch and return
+        return this.fetchAndReturn(query, "student_listing", filename, headers, null, restructData, renameTitle);
     }
 
 
@@ -378,8 +399,20 @@ class XLSApi {
         return d;
     }
 
-    fetchAndReturn(query, dataField, filename, headers = null, rowHook = null, restructData = null) {
+    fetchAndReturn(query, dataField, filename, headers = null, rowHook = null, restructData = null, renameTitle = null) {
         return getAxiosGraphQLQuery(query).then((res) => {
+
+            if (renameTitle != null) {
+                let datas = res.data.data[dataField];
+                if (datas.length > 0) {
+                    let dataIndex0 = datas[0];
+                    if (restructData !== null) {
+                        dataIndex0 = restructData(dataIndex0);
+                    }
+                    filename = renameTitle(filename, dataIndex0);
+                }
+            }
+
             var content = this.generateTable(filename, res.data.data[dataField], headers, rowHook, restructData);
 
             return {
@@ -430,6 +463,7 @@ class XLSApi {
 
     // row hook to handle field of type list, such as doc_links
     generateTable(title, datas, headers = null, rowHook = null, restructData = null) {
+
         var fileTitle = `<tr>
             <h2>${title}</h2>
             ** Data as of ${Time.getString("now")} **<br>
