@@ -39,13 +39,13 @@ class CompanyQuery {
             ? `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc`
             : `order by ${params.order_by}`;
 
-        var sql = `select c.* from ${Company.TABLE} c where 1=1 
+        var sql = `select c.*, c.img_position as img_pos from ${Company.TABLE} c where 1=1 
             and ${ignore_type} and ${id_where} 
             and ${include_sponsor} and ${type_where} 
             and ${cf_where} and ${ps_where}
             ${order_by}`;
 
-        //console.log(sql);
+        console.log(sql);
         return sql;
     }
 }
@@ -170,8 +170,14 @@ class CompanyExec {
     }
 
     company(id, field) {
-        return this.getCompanyHelper("single", { ID: id }, field);
+        let param = {};
+        if(typeof id === "object"){
+            param = id;
+        } else{
+            param = {ID: id }
+        }
 
+        return this.getCompanyHelper("single", param, field);
     }
 
     companies(arg, field) {

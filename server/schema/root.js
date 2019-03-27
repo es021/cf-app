@@ -27,7 +27,8 @@ const { UserType
     , DocLinkType
     , CfsType
     , QsPopupType
-    , QsPopupAnswerType } = require('./all-type.js');
+    , QsPopupAnswerType
+    , NotificationType } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
 
@@ -56,6 +57,7 @@ const { StudentListingExec } = require('../model/student-listing-query.js');
 const { GroupSessionExec } = require('../model/group-session-query.js');
 const { QsPopupExec } = require('../model/qs-popup-query.js');
 const { CFExec } = require('../model/cf-query.js');
+const { NotificationExec } = require('../model/notification-query');
 const DB = require('../model/DB.js');
 
 const {
@@ -71,6 +73,25 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/*******************************************/
+/* notifications ******************/
+fields["notifications"] = {
+    type: new GraphQLList(NotificationType),
+    args: {
+        ID: { type: GraphQLInt},
+        user_id: { type: GraphQLInt},
+        cf: { type: GraphQLString },
+        order_by : {type: GraphQLString},
+        page : { type: GraphQLInt },
+        offset : { type: GraphQLInt },
+     },
+    resolve(parentValue, arg, context, info) {
+        return NotificationExec.notifications(arg, graphqlFields(info));
+    }
+};
+
 
 /*******************************************/
 /* qs_popup ******************/

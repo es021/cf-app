@@ -197,7 +197,7 @@ const PasswordReset = {
 
 const Prescreen = {
     TABLE: "pre_screens",
-    ID : "ID",
+    ID: "ID",
     STUDENT_ID: "student_id",
     COMPANY_ID: "company_id",
     CREATED_AT: "created_at",
@@ -458,11 +458,11 @@ const LogEnum = {
     EVENT_CLICK_USER_DOC: "click_user_doc", // data -> user_id
     EVENT_VISIT_COMPANY: "visit_company", // data -> company_id
     EVENT_VISIT_VACANCY: "visit_vacancy", // data -> vacancy_id
-    EVENT_CALL_GRUVEO : "call_gruveo", // data -> session_id
-    EVENT_CALL_ZOOM : "call_zoom", // data -> session_id
-    EVENT_CLICK_LEFT_BAR : "click_left_bar", // label
-    EVENT_CLICK_GOT_QUESTION : "click_got_question", // <empty>
-    EVENT_CLICK_GALLERY : "click_gallery", // data-> label, url, student_id, company_id
+    EVENT_CALL_GRUVEO: "call_gruveo", // data -> session_id
+    EVENT_CALL_ZOOM: "call_zoom", // data -> session_id
+    EVENT_CLICK_LEFT_BAR: "click_left_bar", // label
+    EVENT_CLICK_GOT_QUESTION: "click_got_question", // <empty>
+    EVENT_CLICK_GALLERY: "click_gallery", // data-> label, url, student_id, company_id
 };
 
 const ZoomInvite = {
@@ -516,15 +516,36 @@ const QsPopupAnswer = {
     ANSWER: "answer"
 };
 
+const Notifications = {
+    TABLE: "notifications",
+    ID: "ID",
+    USER_ID: "user_id",
+    CF: "cf",
+    TEXT: "text",
+    TYPE: "type",
+    IS_READ: "is_read",
+    IMG_ENTITY: "img_entity",
+    IMG_ID: "img_id",
+    CREATED_AT: "created_at",
+}
+
+const NotificationsEnum = {
+    TYPE_CREATE_PRIVATE_SESSION: "CREATE_PRIVATE_SESSION",
+    TYPE_REMIND_PRIVATE_SESSION: "REMIND_PRIVATE_SESSION",
+    TYPE_REMIND_GROUP_SESSION: "REMIND_GROUP_SESSION",
+    IMG_ENTITY_USER : "user",
+    IMG_ENTITY_COMPANY : "company",
+};
+
 const CFS = {
     TABLE: "cfs",
 }
 
 const EntityRemoved = {
     TABLE: "entity_removed",
-    ENTITY : "entity",
-    ENTITY_ID : "entity_id",
-    USER_ID : "user_id",
+    ENTITY: "entity",
+    ENTITY_ID: "entity_id",
+    USER_ID: "user_id",
 }
 
 const CFSMeta = {
@@ -610,5 +631,7 @@ module.exports = {
     CFSMeta,
     CFSMetaObject,
     CFSMetaOrg,
-    EntityRemoved
+    EntityRemoved,
+    Notifications,
+    NotificationsEnum
 };

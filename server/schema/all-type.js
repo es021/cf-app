@@ -8,6 +8,22 @@ const {
     GraphQLBoolean
 } = require('graphql');
 
+const NotificationType = new GraphQLObjectType({
+    name: 'Notification',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+        text: { type: GraphQLString },
+        type: { type: GraphQLString },
+        cf: { type: GraphQLString },
+        is_read: { type: GraphQLInt },
+        img_entity: { type: GraphQLString },
+        img_id: { type: GraphQLInt },
+        created_at: { type: GraphQLString },
+        img_obj : {type : UserType},
+    })
+});
+
 const SkillType = new GraphQLObjectType({
     name: 'Skill',
     fields: () => ({
@@ -634,5 +650,6 @@ module.exports = {
     , GroupSessionJoinType
     , CfsType
     , EntityRemovedType
+    , NotificationType
     //, CFType
 };

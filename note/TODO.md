@@ -1,21 +1,32 @@
-##### Entity Removed -----------------------------------------------------------
-create table in prod
-create mutation add for entity removed
-add delete button for 
-- gs(entity_id = join_id) - GroupSessionJoin.TABLE n 
-- ps(entity_id = ID) - Prescreen.TABLE
-mutation{
-  add_entity_removed(entity:"pre_screens", entity_id:136, user_id:1) {
+##### List On Notification (Facebook style notification) ---------------------
+Other User Trigger :
+- 1-1 session created by rec -> popup card (tempat yg sama dgn socket action)
+
+Server Trigger :
+- A few minutes before 1-1 session
+- A few minutes before group session
+
+hantar trigger utk fetch new notification je
+
+query{
+  notifications(user_id : 136){
     ID
-    entity
-    entity_id
     user_id
+    text
+    cf
+    is_read
+    img_obj{
+      img_url
+      img_pos
+      img_size
+    }
   }
 }
 
+
 ##### Student Listing Export -------------------------------------------------
-- Download All As Excel 
-    - format sama student listing excel kecuali takde sponsor
+## DONE - Download All As Excel  
+## DONE - format sama student listing excel kecuali takde sponsor
 - Download All Documents 
     (Renamed => Aiman_Resume, Aiman_Recommendation) *less priority*
 
@@ -25,10 +36,13 @@ mutation{
 #- Informing What's Next Lepas Drop Resume 
 #    - You will be notified
 
-##### List On Notification (Facebook style notification) ---------------------
-- 1-1 session created by rec -> popup card
-- A few minutes before 1-1 session
-- A few minutes before group session
+##### Entity Removed -----------------------------------------------------------
+## DONE
+## DONE create table in prod
+## DONE create mutation add for entity removed
+## DONE add delete button for 
+## DONE - gs(entity_id = join_id) - GroupSessionJoin.TABLE n 
+## DONE - ps(entity_id = ID) - Prescreen.TABLE
 
 
 ##### Group Session -----------------------------------------------------------
