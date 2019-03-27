@@ -124,6 +124,21 @@ $banner_height : 130px;
     }
 }
 
+#focus-card.no-margin{
+    .#{$fc}content{
+        .#{$fc}body{
+            padding: 0;
+            margin: 0;
+            min-height: 0vh;
+        }
+    }
+}
+
+#focus-card.fc-NotificationFeed{
+    .#{$fc}content{
+        @include center_horizontal(700px);
+    }
+}
 
 @media only screen and (min-width: 800px){
     #focus-card.fc-CompanyPopup{

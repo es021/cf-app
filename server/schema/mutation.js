@@ -27,7 +27,8 @@ const {
     GroupSessionType,
     QsPopupType,
     QsPopupAnswerType,
-    EntityRemovedType
+    EntityRemovedType,
+    NotificationType
 } = require('./all-type.js');
 
 
@@ -59,7 +60,8 @@ const {
     GroupSessionJoin,
     QsPopup,
     QsPopupAnswer,
-    EntityRemoved
+    EntityRemoved,
+    Notifications
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -100,12 +102,65 @@ const {
 var fields = {};
 
 
+
+/* notification  ******************/
+fields["add_notification"] = {
+    type: NotificationType,
+    args: {
+        user_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        text: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        type: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        cf: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        img_entity: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        img_id: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(Notifications.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+fields["edit_notification"] = {
+    type: NotificationType,
+    args: {
+        ID: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        is_read: {
+            type: GraphQLInt
+        },
+    },
+    resolve(parentValue, arg, context, info) {
+        try {
+            return DB.update(QsPopup.TABLE, arg).then(function (res) {
+                return res;
+            });
+        } catch (err) {
+            return {};
+        }
+    }
+};
+
+
 /* entity_removed  ******************/
 fields["add_entity_removed"] = {
     type: EntityRemovedType,
     args: {
         entity: {
-            type:  new GraphQLNonNull(GraphQLString)
+            type: new GraphQLNonNull(GraphQLString)
         },
         entity_id: {
             type: new GraphQLNonNull(GraphQLInt)
@@ -1531,7 +1586,7 @@ fields["edit_prescreen"] = {
         return DB.update(Prescreen.TABLE, arg).then(function (res) {
 
             // to update Availability if rejected
-            if(res[Prescreen.STATUS] == PrescreenEnum.STATUS_REJECTED){
+            if (res[Prescreen.STATUS] == PrescreenEnum.STATUS_REJECTED) {
                 let updAvQuery = `UPDATE ${Availability.TABLE} av
                 SET is_booked = 0, company_id = null, prescreen_id = null 
                 WHERE 1=1
@@ -1541,7 +1596,7 @@ fields["edit_prescreen"] = {
                 AND av.timestamp = '${res[Prescreen.APPNMENT_TIME]}' `;
                 DB.query(updAvQuery);
             }
-          
+
             return res;
         });
     }
