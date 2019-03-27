@@ -45,7 +45,7 @@ class CompanyQuery {
             and ${cf_where} and ${ps_where}
             ${order_by}`;
 
-        console.log(sql);
+        //console.log(sql);
         return sql;
     }
 }
