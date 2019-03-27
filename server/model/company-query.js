@@ -171,12 +171,11 @@ class CompanyExec {
 
     company(id, field) {
         let param = {};
-        if(typeof id === "object"){
+        if(typeof id === "object" && id != null){
             param = id;
         } else{
-            param = {ID: id }
+            param = {ID: id}
         }
-
         return this.getCompanyHelper("single", param, field);
     }
 

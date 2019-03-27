@@ -6,6 +6,9 @@ Server Trigger :
 - A few minutes before 1-1 session
 - A few minutes before group session
 
+tengok dasboard camne kita fire event utk auto update
+kena update kat left bar ade number warna merah
+
 hantar trigger utk fetch new notification je
 
 query{

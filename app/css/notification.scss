@@ -1,0 +1,101 @@
+@import "define/variable.scss";
+
+.notification {
+    background: darken($COLOR_BACKGROUND, 10);
+    box-shadow: 2px 4px 6px -3px rgba(0,0,0,0.7);
+    border: 1px solid #b7b7b7;
+
+    .not_body {
+        margin: 0;
+
+        .not_item:last-of-type {
+            border-bottom: none;
+        }
+
+        .not_item {
+            cursor: pointer;
+            border-bottom: 1px solid #b7b7b7;
+            min-height: 70px;
+            padding: 8px;
+            display: flex;
+
+            .not_item_content {
+                display: flex;
+                flex-flow: column;
+                justify-content: center;
+
+                text-align: left;
+                word-wrap: break-word;
+                line-height: 17px;
+
+                .not_item_text {
+                    font-size: 13px;
+                    margin-bottom: 4px;
+                }
+
+                .not_item_subtext {
+                    display: flex;
+                    align-items: center;
+                    align-content: center;
+
+                    .not_item_time {
+                        font-size: 13px;
+                        color: #786f6f;
+                    }
+
+                    .not_item_icon {
+                        font-size: 10px;
+                        margin-right: 5px;
+                        color: white;
+                        background: black;
+                        height: 18px;
+                        width: 18px;
+                        border-radius: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+
+            .not_item_img {
+                margin-right: 10px;
+                margin-top: 3px;
+
+                .profile-card {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+
+        .not_item:last-of-type {
+            margin-bottom: none;
+        }
+
+        // background color
+        .not_item {
+            background-color: white;
+        }
+
+        .not_item:hover {
+            background-color: darken(white, 10);
+        }
+
+        .not_item:active {
+            background-color: darken(white, 15);
+        }
+
+        .not_item.item_new {
+            background-color: #d0def0;
+        }
+
+        .not_item.item_new:hover {
+            background-color: darken(#d0def0, 10);
+        }
+
+        .not_item.item_new:active {
+            background-color: darken(#d0def0, 15);
+        }
+    }
+}

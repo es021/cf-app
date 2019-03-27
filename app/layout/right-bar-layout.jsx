@@ -145,6 +145,7 @@ export default class RightBarLayout extends React.Component {
         return null;
     }
 
+
     render() {
         return (<right_bar id="right_bar">
             {this.dashboard}

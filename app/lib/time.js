@@ -357,10 +357,25 @@ Time.prototype.convertDBTimeToUnix = function (db_time) {
                 var usedGMT = 0;
                 if (strDate.toUpperCase().indexOf('GMT') >= 0) {
                     date = new Date(Date.UTC(yr, mnth - 1, dy, hr, mn, sec));
+                    usedGMT = 1;
+
+                    // format server digital ocean
+                    // Wed Mar 27 2019 12:16:54 GMT (+08)
                     var strArr = strDate.split("(");
                     strArr = strArr[1].split(")");
                     offsetHourGMT = strArr[0];
-                    usedGMT = 1;
+
+                    // New utk format ->
+                    // Wed Mar 27 2019 12:16:54 GMT+0800 (Malay Peninsula Standard Time)
+                    if (strDate.toUpperCase().indexOf('GMT+') >= 0 || strDate.toUpperCase().indexOf('GMT-') >= 0) {
+                        let strArr2 = strDate.split("GMT");
+                        strArr2 = strArr2[1].split(" ");
+                        offsetHourGMT = strArr2[0];
+                        if (offsetHourGMT.length > 3) {
+                            offsetHourGMT = offsetHourGMT.substring(0, 3)
+                        }
+                    }
+
                 } else {
                     date = new Date(yr, mnth - 1, dy, hr, mn, sec);
                 }
@@ -428,6 +443,8 @@ Time.prototype.getAgo = function (unixtimestamp) {
     if (typeof unixtimestamp === "string") {
         unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
     }
+
+    console.log("unixtimestamp", unixtimestamp);
 
     var msPerMinute = 60 * 1000;
     var msPerHour = msPerMinute * 60;

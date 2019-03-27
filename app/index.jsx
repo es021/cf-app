@@ -38,11 +38,11 @@ require("./css/left-bar.scss");
 require("./css/right-bar.scss");
 //require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
-import * as Navigation from "./component/navigation";
+import * as Navigation from "./component/navigation.jsx";
 import HeaderLayout from "./layout/header-layout";
 import FooterLayout from "./layout/footer-layout";
 import LeftBarLayout from "./layout/left-bar-layout.jsx";
-import RightBarLayout from "./layout/right-bar-layout";
+import RightBarLayout from "./layout/right-bar-layout.jsx";
 
 //singleton
 import FocusCard from "./component/focus-card";
