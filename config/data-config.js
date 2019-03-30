@@ -152,6 +152,7 @@ const Country = [
     "Austria",
     "Belgium",
     "Bulgaria",
+    "Canada",
     "Croatia",
     "Cyprus",
     "Czech Republic",

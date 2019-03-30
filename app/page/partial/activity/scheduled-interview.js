@@ -413,7 +413,9 @@ export class ScheduledInterview extends React.Component {
             sublabel: "Created From",
             required: true,
             disabled: edit || this.props.formOnly,
-            data: ["", PrescreenEnum.ST_INTV_REQUEST
+            data: [""
+                , PrescreenEnum.ST_NEW
+                , PrescreenEnum.ST_INTV_REQUEST
                 , PrescreenEnum.ST_RESUME_DROP
                 , PrescreenEnum.ST_NEXT_ROUND
                 , PrescreenEnum.ST_PROFILE
