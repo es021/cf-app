@@ -7,6 +7,11 @@ import { addLog } from '../redux/actions/other-actions';
 
 
 require("../css/gallery.scss");
+export function isGalleryIframe(type, url) {
+    return type == DocLinkEnum.TYPE_DOC
+        || url.containText("youtube")
+        || url.containText("youtu.be")
+}
 
 export class Gallery extends React.Component {
     constructor(props) {
@@ -126,6 +131,11 @@ export class Gallery extends React.Component {
             </ButtonIcon>
     }
 
+    getYoutubeIframe(embed) {
+        var newUrl = "https://www.youtube.com/embed/" + embed;
+        return <iframe src={newUrl} allowfullscreen="1" frameBorder="0"></iframe>
+    }
+
     render() {
         var data = this.props.data;
 
@@ -156,8 +166,12 @@ export class Gallery extends React.Component {
             } else if (d.url.containText("youtube")) {
                 //src="https://www.youtube.com/embed/tzayZzSebrY"
                 var embed = getParamUrl(d.url, "v");
-                var newUrl = "https://www.youtube.com/embed/" + embed;
-                preview = <iframe src={newUrl} frameBorder="0"></iframe>;
+                preview = this.getYoutubeIframe(embed);
+            } else if (d.url.containText("youtu.be")) {
+                //https://youtu.be/RNMTDv-w9MU
+                let temp = d.url.split("/");
+                let embed = temp[temp.length - 1];
+                preview = this.getYoutubeIframe(embed);
             } else if (d.url.containText("facebook")) {
                 icon = "facebook-f";
                 iconColor = "#3B5998";

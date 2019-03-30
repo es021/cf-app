@@ -19,7 +19,7 @@ import ResumeDropPopup from './resume-drop-popup';
 import { addLog } from '../../../redux/actions/other-actions';
 import { getFeedbackPopupView } from '../analytics/feedback';
 import { GroupSessionView } from '../hall/group-session';
-import { Gallery } from '../../../component/gallery';
+import { Gallery, isGalleryIframe } from '../../../component/gallery';
 import ValidationStudentAction from '../../../component/validation-student-action';
 
 
@@ -287,7 +287,8 @@ export default class CompanyPopup extends Component {
         for (var i in doc_links) {
 
             var item = doc_links[i];
-            var isIframe = item.type == DocLinkEnum.TYPE_DOC || item.url.containText("youtube");
+            //var isIframe = item.type == DocLinkEnum.TYPE_DOC || item.url.containText("youtube");
+            var isIframe = isGalleryIframe(item.type, item.url);
 
             if (isIframe) {
                 iframe.push(item);
