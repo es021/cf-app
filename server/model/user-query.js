@@ -560,6 +560,8 @@ class UserExec {
                         status: PrescreenEnum.STATUS_WAIT_CONFIRM,
                         status_2: PrescreenEnum.STATUS_APPROVED,
                         status_3: PrescreenEnum.STATUS_REJECTED,
+                        status_4: PrescreenEnum.STATUS_STARTED,
+                        status_5: PrescreenEnum.STATUS_ENDED,
                         order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
                         discard_removed : true,
                         discard_removed_user_id : user_id

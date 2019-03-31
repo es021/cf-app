@@ -1,8 +1,10 @@
 @import "define/variable.scss";
+
 .profile-card.edit-img {
     .#{$PROFILE_CARD}picture {
         cursor: move;
     }
+
     .arrows {
         display: flex;
     }
@@ -16,9 +18,11 @@
     word-break: break-all;
     margin: 20px 5px;
     line-height: 20px;
+
     .#{$PROFILE_CARD}badge {
         position: absolute;
-        right: 5px;
+        //right: 5px;
+        left: 5px;
         color: white;
         background: #5cb85c;
         border-radius: 100%;
@@ -26,30 +30,36 @@
         width: 20px;
         top: 5px;
         cursor: pointer;
+
         .#{$PROFILE_CARD}badge-tooltip-arrow {
             display: none;
             position: absolute;
             z-index: 5;
             width: 6px;
-            top: 7px;
-            left: -7px;
+            // top: 7px;
+            // left: -7px;
+            top: 4px;
+            left: 12px;
             border: rgba(0, 0, 0, 0) solid 3px;
-            border-left: black 7px solid;
+            border-right: black 7px solid;
         }
+
         .#{$PROFILE_CARD}badge-tooltip {
             background: black;
             display: none;
             position: absolute;
             z-index: 5;
-            top: 0px;
-            left: -127px;
+            // top: 0px;
+            // left: -127px;
+            top: -2px;
+            left: 22px;
             font-size: 11px;
             padding: 3px 3px;
             width: 120px;
             line-height: 13px;
         }
     }
-    
+
     .#{$PROFILE_CARD}badge.small {
         height: 15px;
         width: 15px;
@@ -58,19 +68,23 @@
     .#{$PROFILE_CARD}badge:hover .#{$PROFILE_CARD}badge-tooltip {
         display: initial;
     }
+
     .#{$PROFILE_CARD}badge:hover .#{$PROFILE_CARD}badge-tooltip-arrow {
         display: initial;
     }
+
     .#{$PROFILE_CARD}picture {
         background-color: white;
         border-radius: 100%;
         position: relative;
         background-repeat: no-repeat;
+
         .#{$PROFILE_CARD}picture-ops {
             position: absolute;
             bottom: 4px;
             right: 0;
             z-index: 3;
+
             .button-icon {
                 background: whitesmoke;
                 padding: 5px;
@@ -79,14 +93,17 @@
             }
         }
     }
+
     .#{$PROFILE_CARD}title {
         margin-top: 3px;
         font-size: 16px;
     }
+
     .#{$PROFILE_CARD}subtitle {
         font-size: 13px;
         opacity: 0.80;
     }
+
     .#{$PROFILE_CARD}body {
         text-align: center;
         width: 100%;
@@ -98,6 +115,6 @@
 }
 
 
-.profile-card.profile-card-hidden{
+.profile-card.profile-card-hidden {
     opacity: 0;
 }

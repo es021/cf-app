@@ -202,6 +202,9 @@ const Prescreen = {
     COMPANY_ID: "company_id",
     CREATED_AT: "created_at",
     APPNMENT_TIME: "appointment_time",
+    START_URL: "start_url",
+    JOIN_URL: "join_url",
+    IS_EXPIRED: "is_expired",
     SPECIAL_TYPE: "special_type",
     STATUS: "status",
     UPDATED_BY: "updated_by"
@@ -211,9 +214,11 @@ const Prescreen = {
 const PrescreenEnum = {
     // New SI Flow
     STATUS_PENDING: "Pending", // yang lama
+    STATUS_STARTED: "0_Started", // recruiter create session
     STATUS_WAIT_CONFIRM: "1_Waiting", // recruiter schedule for interview (in student listing)
     STATUS_APPROVED: "2_Approved", // approve by student (tru email action)
     STATUS_REJECTED: "3_Rejected", // reject by student (tru email action)
+    STATUS_ENDED: "4_Ended", // dh started and then dia expired dh video call
     STATUS_DONE: "Done", // session created
 
     ST_NEXT_ROUND: "Next Round", // from session
@@ -533,8 +538,8 @@ const NotificationsEnum = {
     TYPE_CREATE_PRIVATE_SESSION: "CREATE_PRIVATE_SESSION",
     TYPE_REMIND_PRIVATE_SESSION: "REMIND_PRIVATE_SESSION",
     TYPE_REMIND_GROUP_SESSION: "REMIND_GROUP_SESSION",
-    IMG_ENTITY_USER : "user",
-    IMG_ENTITY_COMPANY : "company",
+    IMG_ENTITY_USER: "user",
+    IMG_ENTITY_COMPANY: "company",
 };
 
 const CFS = {

@@ -72,7 +72,7 @@ export function loadActivity(types = AllActivityType) {
                 select += ` session_requests { ID status created_at ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.PRESCREEN:
-                select += ` prescreens { ID appointment_time special_type status ${getEntitySelect(role, d)}} `;
+                select += ` prescreens { ID is_expired join_url start_url appointment_time updated_at special_type status ${getEntitySelect(role, d)}} `;
                 break;
             case ActivityType.ZOOM_INVITE:
                 select += (isRoleRec()) ? ` zoom_invites { ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, d)}} ` : "";

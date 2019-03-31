@@ -1578,6 +1578,15 @@ fields["edit_prescreen"] = {
         special_type: {
             type: GraphQLString
         },
+        join_url: {
+            type: GraphQLString
+        },
+        start_url: {
+            type: GraphQLString
+        },
+        is_expired: {
+            type: GraphQLInt
+        },
         appointment_time: {
             type: GraphQLInt
         }
