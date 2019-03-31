@@ -1,3 +1,9 @@
+#DONE // Flow Video call baru => 1-1 session macam group session
+// header title by career fair
+// ask a question dlm company booth (drop resume click here)
+// go to forum kecik je
+// bar sume kat atas (macam linked in)
+
 ##### List On Notification (Facebook style notification) ---------------------
 Other User Trigger :
 - 1-1 session created by rec -> popup card (tempat yg sama dgn socket action)
@@ -25,6 +31,7 @@ query{
     }
   }
 }
+
 
 
 ##### Student Listing Export -------------------------------------------------

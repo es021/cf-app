@@ -14,8 +14,8 @@ import { getCF, getCFObj, getAuthUser, isRoleAdmin, isRoleOrganizer, isRoleRec, 
 import { addLog } from '../redux/actions/other-actions';
 import { LogEnum } from '../../config/db-config';
 import { Ads } from '../../config/ads-config';
-import {QsPopupView} from '../page/partial/analytics/qs-popup.jsx';
-import {ImageUrl } from '../../config/app-config';
+import { QsPopupView } from '../page/partial/analytics/qs-popup.jsx';
+import { ImageUrl } from '../../config/app-config';
 
 require("../css/ads.scss");
 
@@ -34,8 +34,8 @@ export default class RightBarLayout extends React.Component {
         this.qs_popup = this.getQsPopup();
     }
 
-    getQsPopup(){
-        if(!isRoleRec() && !isRoleStudent()){
+    getQsPopup() {
+        if (!isRoleRec() && !isRoleStudent()) {
             return null;
         }
         //            <h4>Question Of The Day</h4>
@@ -48,7 +48,8 @@ export default class RightBarLayout extends React.Component {
     }
 
     getEventPage() {
-        if (this.CFObj.page_banner !== null && this.CFObj.page_url !== null) {
+        if (this.CFObj.page_banner !== null && this.CFObj.page_banner !== "null"
+            && this.CFObj.page_url !== null && this.CFObj.page_url !== "null") {
             let imgUrl = `${ImageUrl}${this.CFObj.page_banner}`;
             return <div className="right-bar-item">
                 <div className="body">

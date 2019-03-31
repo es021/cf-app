@@ -39,6 +39,8 @@ import obj2arg from 'graphql-obj2arg';
 import ValidationStudentAction from '../../../component/validation-student-action';
 import CompanyPopup from '../popup/company-popup';
 
+import * as HallViewHelper from '../../view-helper/hall-view-helper';
+
 
 require("../../../css/group-session.scss");
 // remove limit join
@@ -159,6 +161,7 @@ class GroupSessionClass extends React.Component {
         this.authUser = getAuthUser();
         this.img_dimension = "30px";
         this.LIMIT_SEE_MORE = 4;
+        this.loadData = this.loadData.bind(this);
         this.state = {
             data: [],
             isHiddenValidation: true,
@@ -340,7 +343,13 @@ class GroupSessionClass extends React.Component {
                     action = <div className="action btn btn-success btn-sm" data-id={d.ID}
                         data-joiners={JSON.stringify(joinersId)}
                         data-start_time={d.start_time}
-                        onClick={(e) => { this.startVideoCall(e) }}>
+                        onClick={(e) => {
+                            HallViewHelper.startVideoCall(e, {
+                                type: HallViewHelper.TYPE_GROUP_SESSION,
+                                user_id: this.authUser.ID,
+                                bindedSuccessHandler: this.loadData
+                            })
+                        }}>
                         Start Video Call
                     </div>
                 }

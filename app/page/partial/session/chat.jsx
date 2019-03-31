@@ -26,11 +26,11 @@ require("../../../css/chat.scss");
 
 // New Gruveo
 export function isGruveoLink(join_url) {
-    const isGruveo = join_url.indexOf("video-call?room_code");
+    const isGruveo = join_url.indexOf("video-call?room_code") >= 0;
     return isGruveo;
 }
 
-export function addLogCreateCall({ isZoom, isGruveo, session_id, group_session_id, url }) {
+export function addLogCreateCall({ isZoom, isGruveo, pre_screen_id, session_id, group_session_id, url }) {
     let log = null;
     let param = {};
 
@@ -38,6 +38,10 @@ export function addLogCreateCall({ isZoom, isGruveo, session_id, group_session_i
         log = LogEnum.EVENT_CALL_GRUVEO;
     } else if (isZoom == true) {
         log = LogEnum.EVENT_CALL_ZOOM;
+    }
+
+    if (typeof pre_screen_id !== "undefined") {
+        param.pre_screen_id = pre_screen_id;
     }
 
     if (typeof session_id !== "undefined") {
@@ -70,46 +74,86 @@ export function createGruveoLink(id, isGroupSession) {
     return toRet;
 }
 
-export function joinVideoCall(join_url, session_id, expiredHandler = null, group_session_id = null) {
-    window.open(join_url);
+export function joinVideoCall(join_url, session_id, expiredHandler = null, group_session_id = null, pre_screen_id = null, start_url = null) {
+    let isJoin = false;
+    let windowPopup = null;
+    let windowId = "zoom_" + Date.now();
+    let windowParam = `scrollbars=no,resizable=no,status=no,location=no, toolbar=no,menubar=no,
+                width=600,height=400,left=100,top=100`;
+    if (start_url != null) {
+        windowPopup = window.open(start_url, windowId, windowParam);
+    } else {
+        isJoin = true;
+        windowPopup = window.open(join_url, windowId, windowParam);
+    }
     if (isGruveoLink(join_url)) {
         return;
     }
-    /*
-    if (this.props.disableChat) {
-        layoutActions.errorBlockLoader("Session Has Expired. Unable To Join Video Call Session");
-        return;
-    }
-    */
 
+    // #####################################################
+    // start post join action
     layoutActions.loadingBlockLoader("Please Wait..");
-
-    //check if expired
-    const successInterceptor = (data) => {
-        if (data == 1) {
-            layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
-            if (expiredHandler != null) {
-                expiredHandler();
-            }
-        } else {
+    var loaded = 0;
+    var toLoad = isJoin ? 2 : 1;
+    var hasError = false;
+    const closeBlockLoader = () => {
+        loaded++;
+        if (loaded >= toLoad && !hasError) {
             layoutActions.storeHideBlockLoader();
         }
-    };
+    }
 
+    // 0. prepare data for zoom_ajax request
     var data = {
-        query: "is_meeting_expired",
         join_url: join_url
     };
-
+    if (pre_screen_id !== null) {
+        data.pre_screen_id = pre_screen_id;
+    }
     if (session_id !== null) {
         data.session_id = session_id;
     }
-
     if (group_session_id !== null) {
         data.group_session_id = group_session_id;
     }
 
-    getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
+    // 1. check if expired
+    const successInterceptorExpired = (data) => {
+        if (data == 1) {
+            windowPopup.close();
+            layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
+            hasError = true;
+            if (expiredHandler != null) {
+                expiredHandler();
+            }
+        } else {
+            closeBlockLoader()
+        }
+    };
+    getWpAjaxAxios("wzs21_zoom_ajax", {
+        query: "is_meeting_expired", ...data
+    }, successInterceptorExpired, true);
+
+
+    // 2. check if recruiter not ready
+    if (isJoin) {
+        const successInterceptorStatus = (data) => {
+            let recNotReady = false;
+            if (data.status == 0 && typeof data.error === "undefined") {
+                recNotReady = true;
+            }
+            if (recNotReady) {
+                windowPopup.close();
+                layoutActions.errorBlockLoader("Recruiter is not ready yet. Please try again in a few minutes");
+                hasError = true;
+            } else {
+                closeBlockLoader()
+            }
+        };
+        getWpAjaxAxios("wzs21_zoom_ajax", {
+            query: "get_meeting_status", ...data
+        }, successInterceptorStatus, true);
+    }
 }
 
 class Chat extends React.Component {

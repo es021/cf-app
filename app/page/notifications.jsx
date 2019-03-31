@@ -24,7 +24,7 @@ export class NotificationFeed extends React.Component {
     this.addFeedToView = this.addFeedToView.bind(this);
     this.listComponentDidUpdate = this.listComponentDidUpdate.bind(this);
     this.renderList = this.renderList.bind(this);
-    this.offset = 2;
+    this.offset = 10;
 
     this.state = {
       extraData: []

@@ -1,3 +1,21 @@
+-- ###############################
+-- copy cf meta
+INSERT INTO cfs_meta (cf_name, meta_key, meta_value) 
+SELECT 'CHN', meta_key, meta_value FROM cfs_meta 
+where cf_name = 'USA19' 
+
+-- ###############################
+-- change request
+ALTER TABLE `pre_screens` ADD `join_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL AFTER `appointment_time`, ADD `start_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL AFTER `join_url`, ADD `is_expired` SMALLINT(1) NOT NULL AFTER `start_url`;
+ALTER TABLE `zoom_meetings` ADD `pre_screen_id` BIGINT(20) NOT NULL AFTER `group_session_id`, ADD INDEX (`pre_screen_id`);
+ALTER TABLE `zoom_meetings` CHANGE `pre_screen_id` `pre_screen_id` BIGINT(20) NULL; 
+ALTER TABLE `wp_career_fair`.`zoom_meetings` ADD INDEX (`group_session_id`); 
+
+-- ###############################
+-- New CF China
+INSERT INTO `cfs` (`ID`, `name`, `country`, `time`, `is_active`, `cf_order`, `created_at`, `updated_at`) VALUES ('7', 'CHN', 'CHINA', '17-18, May 2019', '1', '6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+
+-- ###############################
 -- new approved status
 -- // New SI Flow
 UPDATE pre_screens SET status = '2_Approved' WHERE status = 'Approved' 

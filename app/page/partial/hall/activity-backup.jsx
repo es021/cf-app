@@ -30,7 +30,6 @@ import { isRoleRec, isRoleStudent } from '../../../redux/actions/auth-actions';
 import { joinVideoCall } from '../session/chat';
 
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
-import * as HallViewHelper from '../../view-helper/hall-view-helper';
 
 require('../../../css/border-card.scss');
 
@@ -211,15 +210,6 @@ class ActvityList extends React.Component {
         layoutActions.confirmBlockLoader(mes, confirmUpdate);
     }
 
-    startVideoCallPreScreen(e) {
-        HallViewHelper.startVideoCall(e, {
-            type: HallViewHelper.TYPE_PRIVATE_SESSION,
-            user_id: this.authUser.ID,
-            bindedSuccessHandler: () => {
-                hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
-            }
-        })
-    }
 
     createSession(e) {
         var invalid = activityActions.invalidSession();
@@ -466,13 +456,8 @@ class ActvityList extends React.Component {
                     // Scheduled Session Card View
 
                     case hallAction.ActivityType.PRESCREEN:
-                        let btnJoinVCall = null;
-                        var btnStartVCall = null;
-                        var btnEndedVCall = null;
-                        var btnAcceptReject = null;
 
-                        if (d.status == PrescreenEnum.STATUS_REJECTED
-                            || d.status == PrescreenEnum.STATUS_ENDED) {
+                        if (d.status == PrescreenEnum.STATUS_REJECTED) {
                             subtitle = this.getTimeStrNew(d.appointment_time, true);
                         } else {
                             subtitle = this.getTimeStrNew(d.appointment_time, false);
@@ -487,24 +472,23 @@ class ActvityList extends React.Component {
                         }
 
                         // label for special type
-                        // var label_color_type = "";
-                        // switch (ps_type) {
-                        //     case PrescreenEnum.ST_NEXT_ROUND:
-                        //         label_color_type = "success";
-                        //         break;
-                        //     case PrescreenEnum.ST_PRE_SCREEN:
-                        //         label_color_type = "info";
-                        //         break;
-                        //     default:
-                        //         label_color_type = "primary";
-                        //         break;
-                        // }
-                        // let labelType = <div style={{ marginBottom: "7px" }}>
-                        //     <label className={`label label-${label_color_type}`}>
-                        //         {ps_type}
-                        //     </label>
-                        // </div>
-
+                        var label_color_type = "";
+                        switch (ps_type) {
+                            case PrescreenEnum.ST_NEXT_ROUND:
+                                label_color_type = "success";
+                                break;
+                            case PrescreenEnum.ST_PRE_SCREEN:
+                                label_color_type = "info";
+                                break;
+                            default:
+                                label_color_type = "primary";
+                                break;
+                        }
+                        let labelType = <div style={{ marginBottom: "7px" }}>
+                            <label className={`label label-${label_color_type}`}>
+                                {ps_type}
+                            </label>
+                        </div>
 
                         // label for status
                         // New SI Flow
@@ -512,23 +496,11 @@ class ActvityList extends React.Component {
                         var textStatus = "";
                         switch (d.status) {
                             case PrescreenEnum.STATUS_WAIT_CONFIRM:
-                                // New Flow
-                                if (isRoleStudent()) {
-                                    btnAcceptReject = <div>
-                                        <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-                                            onClick={(e) => { this.confirmAcceptRejectPrescreen(e, PrescreenEnum.STATUS_APPROVED) }}
-                                            className="btn btn-sm btn-success">Accept Interview</div>
+                                if (isRoleStudent()) break;
 
-                                        <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-                                            onClick={(e) => { this.confirmAcceptRejectPrescreen(e, PrescreenEnum.STATUS_REJECTED) }}
-                                            className="btn btn-sm btn-danger">Reject Interview</div>
-                                    </div>;
-                                }
-                                if (isRoleRec()) {
-                                    label_color_status = "primary";
-                                    textStatus = "Waiting Confirmation";
-                                    crtSession = null;
-                                }
+                                label_color_status = "primary";
+                                textStatus = "Waiting Confirmation";
+                                crtSession = null;
                                 break;
                             case PrescreenEnum.STATUS_REJECTED:
                                 label_color_status = "danger";
@@ -539,92 +511,10 @@ class ActvityList extends React.Component {
                                 removeEntityId = d.ID;
                                 break;
                             case PrescreenEnum.STATUS_APPROVED:
-                                if (isRoleRec()) {
-                                    btnStartVCall = <div data-appointment_time={d.appointment_time}
-                                        data-participant_id={obj.ID} data-id={d.ID}
-                                        onClick={this.startVideoCallPreScreen.bind(this)}
-                                        className="btn btn-sm btn-success">
-                                        Start Video Call
-                                    </div>;
-                                    break;
-                                }
+                                if (isRoleRec()) break;
 
                                 label_color_status = "success";
                                 textStatus = "Accepted";
-                                break;
-                            case PrescreenEnum.STATUS_ENDED:
-                                btnEndedVCall = <div className="action btn btn-danger btn-sm"
-                                    disabled="disabled">
-                                    Ended
-                                </div>;
-                                crtSession = null;
-                                hasRemove = true;
-                                removeEntity = Prescreen.TABLE;
-                                removeEntityId = d.ID;
-
-                                break;
-                            case PrescreenEnum.STATUS_STARTED:
-                                let isExpiredHandler = () => {
-                                    var mes = <div>
-                                        Unable to join.<br></br>This 1-1 session has ended.
-                                    </div>;
-                                    layoutActions.errorBlockLoader(mes);
-                                    let updData = {}
-                                    updData[Prescreen.ID] = d.ID;
-                                    updData[Prescreen.IS_EXPIRED] = 1;
-                                    updData[Prescreen.STATUS] = PrescreenEnum.STATUS_ENDED;
-                                    updData[Prescreen.UPDATED_BY] = this.authUser.ID;
-                                    var q = `mutation {edit_prescreen (${obj2arg(updData, {
-                                        noOuterBraces: true
-                                    })}){ID}}`;
-                                    getAxiosGraphQLQuery(q).then((res) => {
-                                        hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
-                                    })
-                                }
-                                var hasStart = false;
-                                if (!d.is_expired && d.join_url != "" && d.join_url != null) {
-                                    hasStart = true;
-                                    subtitle = "Video Call Has Started";
-                                } else {
-                                    if (d.is_expired) {
-                                        subtitle = this.getTimeStrNew(d.appointment_time, true);
-                                    } else {
-                                        subtitle = this.getTimeStrNew(d.appointment_time, false);
-                                    }
-                                }
-                                if (hasStart && isRoleStudent()) {
-                                    // bukak join url
-                                    btnJoinVCall = <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, null, d.ID)}
-                                        className="btn btn-sm btn-blue">Join Video Call</a>
-
-                                    const openNotificationStart_PS = () => {
-                                        // block loader to inform the video call has started
-                                        // if time updated is less than bufferMin
-                                        var bufferMin = 2;
-                                        var diff = Time.getUnixTimestampNow() - Time.convertDBTimeToUnix(d.updated_at);
-                                        if (diff <= bufferMin * 60) {
-                                            var popupBody = <div>
-                                                <br></br>
-                                                1-1 session with<br></br><b>{obj.name}</b>
-                                                <br></br>has started<br></br><br></br>
-                                                {btnJoinVCall}
-                                            </div>
-                                            var notiId = `pre-screen-${d.ID}`;
-                                            showNotification(notiId, popupBody);
-                                        }
-                                    }
-                                    openNotificationStart_PS();
-                                }
-                                if (hasStart && isRoleRec()) {
-                                    // bukak start url
-                                    btnJoinVCall = <a onClick={() => joinVideoCall(d.join_url, null,
-                                        isExpiredHandler, null, d.ID, d.start_url)}
-                                        className="action btn btn-primary btn-sm">
-                                        Started
-                                    </a>;
-                                }
-
-
                                 break;
                         }
                         let labelStatus = <div style={{ marginBottom: "7px" }}>
@@ -635,16 +525,24 @@ class ActvityList extends React.Component {
 
 
 
+                        // New Flow
+                        let acceptReject = <div>
+                            <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                onClick={(e) => { this.confirmAcceptRejectPrescreen(e, PrescreenEnum.STATUS_APPROVED) }}
+                                className="btn btn-sm btn-success">Accept Interview</div>
 
+                            <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
+                                onClick={(e) => { this.confirmAcceptRejectPrescreen(e, PrescreenEnum.STATUS_REJECTED) }}
+                                className="btn btn-sm btn-danger">Reject Interview</div>
+                        </div>;
 
                         body = <div>
                             {isRoleRec() ? createUserDocLinkList(obj.doc_links, obj.ID, true, true) : null}
                             {/* labelType */}
-                            {btnStartVCall == null ? labelStatus : null}
-                            {(isRoleRec()) ? btnStartVCall : null}
-                            {(d.status == PrescreenEnum.STATUS_WAIT_CONFIRM) ? btnAcceptReject : null}
-                            {(d.status == PrescreenEnum.STATUS_STARTED) ? btnJoinVCall : null}
-                            {(d.status == PrescreenEnum.STATUS_ENDED) ? btnEndedVCall : null}
+                            {crtSession == null ? labelStatus : null}
+                            {(isRoleRec()) ? crtSession : null}
+                            {(isRoleStudent() && d.status == PrescreenEnum.STATUS_WAIT_CONFIRM) ?
+                                acceptReject : null}
                         </div>;
                         break;
 
@@ -736,7 +634,7 @@ class ActvityList extends React.Component {
                             var btnJoin = <a onClick={() => joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)}
                                 className="btn btn-sm btn-blue">Join Video Call</a>
 
-                            const openNotificationStart_GS = () => {
+                            const openNotificationStart = () => {
                                 // block loader to inform the video call has started
                                 // if time updated is less than bufferMin
                                 var bufferMin = 2;
@@ -764,7 +662,7 @@ class ActvityList extends React.Component {
                                 isGsHasRemove = true;
                             } else {
                                 if (hasStart) {
-                                    openNotificationStart_GS();
+                                    openNotificationStart();
                                     body = <div>
                                         {btnJoin}
                                     </div>;
@@ -870,33 +768,33 @@ class ActivitySection extends React.Component {
         var d = this.props.activity;
 
         // title session
-        // var title_s = this.createTitleWithTooltip(
-        //     <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>,
-        //     (isRoleStudent())
-        //         ? "Active one-to-one sessions will be show here. Join/rejoin session whenever it is active"
-        //         : "Create sesssion with student from the Scheduled Private Session.")
+        var title_s = this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION)}>Active Session</a>,
+            (isRoleStudent())
+                ? "Active one-to-one sessions will be show here. Join/rejoin session whenever it is active"
+                : "Create sesssion with student from the Scheduled Private Session.")
 
         // title Zoom invitation
-        // var title_zi = (isRoleRec()) ? this.createTitleWithTooltip(
-        //     <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>,
-        //     null) : null;
+        var title_zi = (isRoleRec()) ? this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.ZOOM_INVITE)}>Panel Interview Invitation</a>,
+            null) : null;
 
         //title queue
         //var title_q = <a onClick={() => this.refresh(hallAction.ActivityType.QUEUE)}>Queuing</a>;
 
         //title interview request
-        // var tt_sr = <ol>
-        //     {(isRoleStudent())
-        //         ? <li>Visit company booths below to request for interview</li>
-        //         : <li>Students will send interview request during Career Fair</li>}
-        //     {(d.session_requests && d.session_requests.length > 0)
-        //         ? <li>Approved interview request will appear under Scheduled Session</li>
-        //         : null}
-        // </ol>;
+        var tt_sr = <ol>
+            {(isRoleStudent())
+                ? <li>Visit company booths below to request for interview</li>
+                : <li>Students will send interview request during Career Fair</li>}
+            {(d.session_requests && d.session_requests.length > 0)
+                ? <li>Approved interview request will appear under Scheduled Session</li>
+                : null}
+        </ol>;
 
-        // var title_sr = this.createTitleWithTooltip(
-        //     <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Session Request</a>
-        //     , tt_sr)
+        var title_sr = this.createTitleWithTooltip(
+            <a onClick={() => this.refresh(hallAction.ActivityType.SESSION_REQUEST)}>Session Request</a>
+            , tt_sr)
 
         // title Scheduled Session
         /*
@@ -915,7 +813,7 @@ class ActivitySection extends React.Component {
         var title_p = this.createTitleWithTooltip(
             <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}
             >
-                Private Session{/* Scheduled Private Session */}
+                Scheduled Private Session
             </a>
             , tt_p)
 
@@ -928,20 +826,20 @@ class ActivitySection extends React.Component {
         var subtitle_gs = null;
 
 
-        //var size_s = (isRoleRec()) ? "12" : "12";
+        var size_s = (isRoleRec()) ? "12" : "12";
         //var size_q = (isRoleRec()) ? "12" : "6";
-        //var size_zi = (isRoleRec()) ? "12" : "12";
-        //var size_sr = (isRoleRec()) ? "12" : "12";
+        var size_zi = (isRoleRec()) ? "12" : "12";
+        var size_sr = (isRoleRec()) ? "12" : "12";
         var size_p = (isRoleRec()) ? "12" : "12";
 
         //horizontal
-        // var s = <div className={`col-sm-${size_s} no-padding`}>
-        //     <ActvityList
-        //         bc_type="vertical"
-        //         online_users={this.props.online_users}
-        //         fetching={d.fetching.sessions}
-        //         type={hallAction.ActivityType.SESSION}
-        //         title={title_s} list={d.sessions}></ActvityList></div>;
+        var s = <div className={`col-sm-${size_s} no-padding`}>
+            <ActvityList
+                bc_type="vertical"
+                online_users={this.props.online_users}
+                fetching={d.fetching.sessions}
+                type={hallAction.ActivityType.SESSION}
+                title={title_s} list={d.sessions}></ActvityList></div>;
 
         // zoom invitation
         // var zi = (isRoleRec()) ? <div className={`col-sm-${size_zi} no-padding`}>
@@ -1006,25 +904,18 @@ class ActivitySection extends React.Component {
 
         return (isRoleRec()) ?
             <div>
-                {p}
-                {/* {s} */}
+                {p}{s}
             </div>
             : <div>
-                <div className={`col-md-6 no-padding`}>
-                    {gs}
-                </div>
-                <div className={`col-md-6 no-padding`}>
-                    {p}
-                </div>
-                {/* <div className={`col-md-5 no-padding`}>
+                <div className={`col-md-5 no-padding`}>
                     {gs}
                 </div>
                 <div className={`col-md-4 no-padding`}>
                     {p}
                 </div>
-                {<div className={`col-md-3 no-padding`}>
+                <div className={`col-md-3 no-padding`}>
                     {s}
-                </div>} */}
+                </div>
             </div>;
     }
 }
