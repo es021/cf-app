@@ -1,9 +1,9 @@
 import React, {
   Component
-} from "../../../../../../../Users/Infomina Fakhuradzee/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/react";
-import PropTypes from "../../../../../../../Users/Infomina Fakhuradzee/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/prop-types";
+} from "react";
+import PropTypes from "prop-types";
 import PageSection from "../../../component/page-section";
-import { NavLink } from "../../../../../../../Users/Infomina Fakhuradzee/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import ProfileCard from "../../../component/profile-card";
 import List, { SimpleListItem, ProfileListItem } from "../../../component/list";
