@@ -9,30 +9,19 @@ import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec, isRoleStudent, isRoleAdmin } from '../../../redux/actions/auth-actions';
 import { DocLinkEnum, CompanyEnum, LogEnum } from '../../../../config/db-config';
 import { CustomList, createIconLink } from '../../../component/list';
-
 import * as activityActions from '../../../redux/actions/activity-actions';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import * as hallAction from '../../../redux/actions/hall-actions';
 import { emitQueueStatus, emitHallActivity } from '../../../socket/socket-client';
-import { RootPath } from '../../../../config/app-config';
-
+import { RootPath, ImgConfig } from '../../../../config/app-config';
 import VacancyPopup from './vacancy-popup';
 import ResumeDropPopup from './resume-drop-popup';
-
 import { addLog } from '../../../redux/actions/other-actions';
-
 import { getFeedbackPopupView } from '../analytics/feedback';
-
 import { GroupSessionView } from '../hall/group-session';
+import { Gallery, isGalleryIframe } from '../../../component/gallery';
+import ValidationStudentAction from '../../../component/validation-student-action';
 
-// indicator for company group session
-export const isCompanyGsOpen = function (company) {
-    return company.status == CompanyEnum.STS_GS && company.group_url != "";
-}
-
-export const isCompanyGsStarted = function (status, group_url) {
-    return company.status == CompanyEnum.STS_GS && company.group_url == "";
-}
 
 class VacancyList extends React.Component {
     constructor(props) {
@@ -84,13 +73,48 @@ VacancyList.propTypes = {
     company_id: PropTypes.number.isRequired
 };
 
+// #####################################################################
+// #####################################################################
+// #####################################################################
+
+// Ask a Question style instagram
+class ActionBox extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            
+        }
+    }
+
+    componentWillMount() {}
+
+    render(){
+        return <div>
+            {this.props.title}
+        </div>
+    }
+}
+
+ActionBox.propTypes = {
+    title : PropTypes.string.isRequired,
+    isQuestion : PropTypes.bool,
+    qs_onSubmit : PropTypes.func,
+    isButton : PropTypes.bool,
+    btn_onClick : PropTypes.func
+}
+
+// #####################################################################
+// #####################################################################
+// #####################################################################
 
 export default class CompanyPopup extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data: null,
-            loading: true
+            loading: true,
+            isHiddenValidation: true,
+            keyValidation: 0
         }
 
         this.authUser = getAuthUser();
@@ -131,13 +155,16 @@ export default class CompanyPopup extends Component {
                 name
                 tagline
                 description
-                img_url
                 status
                 group_url
+                img_url
                 img_position
                 img_size
+                banner_url
+                banner_position
+                banner_size
                 rec_privacy
-                doc_links{label url type}
+                doc_links{ID label url type}
                 more_info
                 ${rec_query}
                 vacancies{
@@ -241,8 +268,8 @@ export default class CompanyPopup extends Component {
         if (list.length === 0) {
             return <div className="text-muted">Nothing To Show Here</div>;
         }
-        console.log(rec_privacy);
-        console.log(this.isRec);
+        // console.log(rec_privacy);
+        // console.log(this.isRec);
         if (rec_privacy && !this.isRec) {
             return <div className="text-muted">This information is private</div>;
         }
@@ -281,6 +308,136 @@ export default class CompanyPopup extends Component {
         }
     }
 
+    getDocLinks(doc_links) {
+        if (doc_links.length <= 0) {
+            return null;
+        }
+
+        var iframe = [];
+        var link = [];
+
+        // separate document and link
+        for (var i in doc_links) {
+
+            var item = doc_links[i];
+            //var isIframe = item.type == DocLinkEnum.TYPE_DOC || item.url.containText("youtube");
+            var isIframe = isGalleryIframe(item.type, item.url);
+
+            if (isIframe) {
+                iframe.push(item);
+            } else {
+                link.push(item);
+            }
+        }
+
+
+        return <div>
+            <Gallery company_id={this.props.id} data={link} size="lg"></Gallery>
+            <br></br>
+            <Gallery company_id={this.props.id} data={iframe} size="lg"></Gallery>
+        </div>
+    }
+
+    getAskForum() {
+        return null;
+    }
+
+    getBanner() {
+        var data = this.state.data;
+
+        const isInvalid = (d) => {
+            if (typeof d === "undefined" || d == "" || d == null || d == "null") {
+                return true;
+            }
+
+            return false;
+        }
+
+        data.banner_url = isInvalid(data.banner_url) ? ImgConfig.DefCompanyBanner : data.banner_url;
+        var style = {
+            backgroundImage: "url(" + data.banner_url + ")",
+            backgroundSize: isInvalid(data.banner_size) ? "" : data.banner_size,
+            backgroundPosition: isInvalid(data.banner_position) ? "center center" : data.banner_position,
+        };
+
+        return <div className="fc-banner" style={style}></div>;
+    }
+
+    openResumeDrop() {
+        var data = this.state.data;
+        layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
+            , ResumeDropPopup, { company_id: data.ID })
+    }
+
+    getStudentActionBox(data){
+        if(!isRoleStudent() || this.props.displayOnly){
+            return null;
+        } 
+
+        return <ActionBox title="Ask Us Anything"
+            isQuestion={true} 
+            qs_onSubmit={(data)=>{
+                console.log(data)
+            }}>
+        </ActionBox>
+
+    }
+    getStudentAction(data) {
+        // var actData = [
+        //     {
+        //         label: "Ask Questions In Company Forum"
+        //         , url: `${RootPath}/app/forum/company_${data.ID}`
+        //         , icon: "comments"
+        //         , color: "#007BB4"
+        //     }, {
+        //         label: "Drop Your Resume"
+        //         , onClick: () => {
+        //             this.setState((prevState) => {
+        //                 return {
+        //                     isHiddenValidation: false,
+        //                     keyValidation: (new Date()).getTime(),
+        //                 }
+        //             })
+        //         }
+        //         , icon: "download"
+        //         , color: "#efa30b"
+        //     }
+        // ];
+
+        // var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+        //     <div>
+        //         <h2 style={{ marginTop: "0" }}>
+        //             <small>Check These Out!</small>
+        //         </h2>
+        //         {createIconLink("lg", actData, true)}
+        //     </div>;
+
+        // tukar action kepada button
+        const onClickResume = () => {
+            this.setState((prevState) => {
+                return {
+                    isHiddenValidation: false,
+                    keyValidation: (new Date()).getTime(),
+                }
+            })
+        };
+        var action = (!isRoleStudent() || this.props.displayOnly) ? null :
+            <div>
+                <button className="btn btn-blue btn-block" onClick={onClickResume}>
+                    <i className="fa fa-download left"></i>
+                    Drop Your Resume
+                </button>
+                <NavLink to={`${RootPath}/app/forum/company_${data.ID}`}
+                    onClick={() => { layoutActions.storeHideFocusCard() }}
+                    className="btn btn-primary btn-block">
+                    <i className="fa fa-comments left"></i>
+                    Ask A Question
+                </NavLink>
+            </div>
+
+        return action;
+    }
+
     render() {
         var id = null;
         var data = this.state.data;
@@ -291,33 +448,8 @@ export default class CompanyPopup extends Component {
         } else {
             const vacancies = this.getVacancies(data.ID);
             const recs = this.getRecs(data.recruiters, data.rec_privacy);
-
-            //document and link
-            var dl = data.doc_links.map((d, i) => {
-                var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
-                return <span><i className={`fa left fa-${icon}`}></i>
-                    <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
-                </span>;
-            });
-
-            const doc_link = <CustomList className="label" items={dl}></CustomList>;
-
-            //<div className="btn btn-lg btn-primary" onClick={this.startQueue}>
-            //<i className="fa fa-sign-in left"></i>
-            //Queue Now</div>
-
-            // var action = (!isRoleStudent() || this.props.displayOnly) ? null :
-            //     <div className="btn-group btn-group-justified">
-            //         <div className="btn btn-lg btn-blue" onClick={this.addSessionRequest}>
-            //             <i className="fa fa-sign-in left"></i>
-            //             Request For Interview</div>
-            //         <a target="_blank"
-            //             onClick={() => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
-            //                 , ResumeDropPopup, { company_id: data.ID })}
-            //             className="btn btn-lg btn-default">
-            //             <i className="fa fa-download left"></i>
-            //             Drop Resume</a>
-            //     </div>;
+            const doc_link = this.getDocLinks(data.doc_links);
+            const askForum = this.getAskForum();
 
             // ##################################################################################
             // for group session
@@ -330,69 +462,94 @@ export default class CompanyPopup extends Component {
             // ##################################################################################
             // for action
 
-            var actData = [
-                // data.status == CompanyEnum.STS_GS
-                //     ? {
-                //         label: "Join Group Session"
-                //         , onClick: () => this.joinGroupSession(data)
-                //         , icon: "users"
-                //         , color: "#449d44"
-                //     } :
-                //     {
-                //         label: "Request For Private Session"
-                //         , onClick: this.addSessionRequest
-                //         , icon: "sign-in"
-                //         , color: "#c62323"
-                //     }
-                , {
-                    label: "Ask Questions In Company Forum"
-                    , url: `${RootPath}/app/forum/company_${data.ID}`
-                    , icon: "comments"
-                    , color: "#007BB4"
-                }, {
-                    label: "Drop Your Resume"
-                    , onClick: () => layoutActions.storeUpdateFocusCard(`Resume Drop - ${data.name}`
-                        , ResumeDropPopup, { company_id: data.ID })
-                    , icon: "download"
-                    , color: "#efa30b"
-                }
-            ];
-
-            var action = (!isRoleStudent() || this.props.displayOnly) ? null :
-                <div>
-                    <h2 style={{ marginTop: "0" }}>
-                        <small>Check These Out!</small>
-                    </h2>
-                    {createIconLink("lg", actData, true)}
-                </div>;
+            var action = this.getStudentAction(data);
+            var actionBox = this.getStudentActionBox(data);
 
             // ##################################################################################
             // create body
 
-            var pcBody = <div>
+            // var pcBody = <div>
+            //     <div>
+            //         {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
+            //         <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
+            //         <PageSection canToggle={this.props.canToggle} className="left" title="Document & Link" body={doc_link}></PageSection>
+            //         {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
+            //         {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
+            //     </div>
+            //     {action}
+            //     {gSession}
+            //     {(this.props.displayOnly) ? null :
+            //         <div>
+            //             <br></br>
+            //             <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+            //         </div>
+            //     }
+            // </div>;
+
+            // view = <div>
+            //     <ProfileCard type="company"
+            //         title={data.name} subtitle={data.tagline}
+            //         img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
+            //         body={pcBody}></ProfileCard>
+            // </div>;
+
+            //
+            var profilePic = <ProfileCard type="company"
+                img_dimension={"130px"}
+                img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
+                title={<h3>{data.name}</h3>} subtitle={data.tagline}
+                body={null}></ProfileCard>;
+
+            var rightBody = <div>
+                {action}
+                <hr></hr>
+                {gSession}
+            </div>
+
+            var maxHeight = 143;
+            var leftBody = <div>
                 <div>
-                    {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
-                    <PageSection canToggle={this.props.canToggle} className="left" title="Document & Link" body={doc_link}></PageSection>
-                    {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
+                    {actionBox}
+                    {(askForum == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Ask Us Anything" body={askForum}></PageSection>}
+                    {(doc_link == null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Gallery" body={doc_link}></PageSection>}
+                    {(data.description == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
+                    <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Details" body={vacancies}></PageSection>
+                    {(data.more_info == "") ? null : <PageSection maxHeight={maxHeight} canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
                     {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
                 </div>
-                {action}
-                {gSession}
-                {(this.props.displayOnly) ? null :
-                    <div>
-                        <br></br>
-                        <a onClick={layoutActions.storeHideFocusCard}>Close</a>
-                    </div>
-                }
             </div>;
 
-            view = <div>
-                <ProfileCard type="company"
-                    title={data.name} subtitle={data.tagline}
-                    img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
-                    body={pcBody}></ProfileCard>
-            </div>;
+            view = (this.props.displayOnly)
+                ?
+                <div>
+                    {profilePic}
+                    {rightBody}
+                    {leftBody}
+                </div>
+                :
+                <div>
+                    <ValidationStudentAction
+                        key={this.state.keyValidation}
+                        isHidden={this.state.isHiddenValidation}
+                        successHandler={() => this.openResumeDrop()}>
+                    </ValidationStudentAction>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-3 com-pop-left">
+                                <div className="com-pop-pic">{profilePic}</div>
+                                {rightBody}
+                            </div>
+                            <div className="col-md-9">
+                                {leftBody}
+                            </div>
+                        </div>
+                        <div>
+                            <br></br>
+                            <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+                        </div>
+                    </div>
+                    {this.getBanner()}
+                </div>;
         }
 
         return (view);
