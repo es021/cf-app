@@ -1,0 +1,129 @@
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import PageSection from "../component/page-section";
+import { NavLink } from "react-router-dom";
+import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { Loader } from "../component/loader";
+import {
+  getAuthUser,
+  isRoleRec,
+  isRoleStudent,
+  isRoleAdmin
+} from "../redux/actions/auth-actions";
+import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
+require("../css/action-box.scss");
+
+// Ask a Question style instagram
+export default class ActionBox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hideSubmit: true
+    };
+    this.btnClass = "dark-green";
+    this.inputName = "inputName";
+    this.inputPlaceHolder = "Type here";
+    this.inputRef = null;
+    this.inputVal = "";
+  }
+
+  componentWillMount() {}
+
+  v_Input() {
+    const onChange = () => {
+      let v = this.inputRef.value;
+      this.inputVal = v;
+      if (v == "" || v == null) {
+        // empty
+        this.setState(prevState => {
+          return { hideSubmit: true };
+        });
+      }
+
+      if (this.state.hideSubmit) {
+        this.setState(prevState => {
+          return { hideSubmit: false };
+        });
+      }
+    };
+    var formClass = "form-control input-sm";
+    var input = (
+      <textarea
+        className={formClass}
+        onChange={() => {
+          onChange();
+        }}
+        name={this.inputName}
+        rows={1}
+        placeholder={this.inputPlaceHolder}
+        ref={r => (this.inputRef = r)}
+      />
+    );
+
+    return input;
+  }
+  v_BtnSubmit() {
+    const onClickSubmit = () => {
+      if (this.props.qs_onSubmit) {
+        this.props.qs_onSubmit(this.inputVal);
+      }
+    };
+    return this.state.hideSubmit ? null : (
+      <button
+        className={`btn btn-sm btn-block btn-${this.btnClass}`}
+        onClick={() => {
+          onClickSubmit();
+        }}
+      >
+        Submit
+      </button>
+    );
+  }
+  v_BtnClick() {
+    const onClickBtn = () => {
+      if (this.props.btn_onClick) {
+        this.props.btn_onClick();
+      }
+    };
+    return (
+      <button
+        className={`btn btn-sm btn-block btn-${this.btnClass}`}
+        onClick={() => {
+          onClickBtn();
+        }}
+      >
+        Click Here
+      </button>
+    );
+  }
+  render() {
+    return (
+      <div className="action-box">
+        <div className="ab-title">{this.props.title}</div>
+        {this.props.isQuestion ? (
+          <div className="ab-input">{this.v_Input()}</div>
+        ) : null}
+        {this.props.isQuestion ? (
+          <div className="ab-btn-submit">{this.v_BtnSubmit()}</div>
+        ) : null}
+        {this.props.isButton ? (
+          <div className="ab-btn-click">{this.v_BtnClick()}</div>
+        ) : null}
+      </div>
+    );
+  }
+}
+
+ActionBox.propTypes = {
+  title: PropTypes.string.isRequired,
+
+  isQuestion: PropTypes.bool,
+  qs_onSubmit: PropTypes.func,
+
+  isButton: PropTypes.bool,
+  btn_onClick: PropTypes.func
+};
+ActionBox.propTypes.defaultProps = {
+  isQuestion: false,
+  isButton: false
+};

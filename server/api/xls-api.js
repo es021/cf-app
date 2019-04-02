@@ -16,6 +16,7 @@ class XLSApi {
         looking_for
         study_place
         university
+        study_field
         major 
         minor
         cgpa 

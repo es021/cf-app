@@ -161,6 +161,7 @@ class EditProfile extends React.Component {
             sponsor
             gender
             cgpa
+            study_field
             major
             minor
             mas_state

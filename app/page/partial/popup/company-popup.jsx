@@ -1,7 +1,6 @@
-import React, {
-  Component
-} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import obj2arg from "graphql-obj2arg";
 import PageSection from "../../../component/page-section";
 import { NavLink } from "react-router-dom";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
@@ -27,7 +26,7 @@ import {
   emitQueueStatus,
   emitHallActivity
 } from "../../../socket/socket-client";
-import { RootPath, ImgConfig } from "../../../../config/app-config";
+import { RootPath, ImgConfig, AppPath } from "../../../../config/app-config";
 import VacancyPopup from "./vacancy-popup";
 import ResumeDropPopup from "./resume-drop-popup";
 import { addLog } from "../../../redux/actions/other-actions";
@@ -35,8 +34,10 @@ import { getFeedbackPopupView } from "../analytics/feedback";
 import { GroupSessionView } from "../hall/group-session";
 import { Gallery, isGalleryIframe } from "../../../component/gallery";
 import ValidationStudentAction from "../../../component/validation-student-action";
+import ActionBox from "../../../component/action-box";
 
-// ################
+// #################################################################
+// #################################################################
 
 class VacancyList extends React.Component {
   constructor(props) {
@@ -108,136 +109,19 @@ VacancyList.propTypes = {
 // #####################################################################
 // #####################################################################
 // #####################################################################
-require("../../../css/action-box.scss");
-// Ask a Question style instagram
-class ActionBox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hideSubmit: true
-    };
-
-    this.inputName = "inputName";
-    this.inputPlaceHolder = "Write Anything";
-    this.inputRef = null;
-    this.inputVal = "";
-  }
-
-  componentWillMount() {}
-
-  v_Input() {
-    const onChange = () => {
-      let v = this.inputRef.value;
-      this.inputVal = v;
-      if (v == "" || v == null) {
-        // empty
-        this.setState(prevState => {
-          return { hideSubmit: true };
-        });
-      }
-
-      if (this.state.hideSubmit) {
-        this.setState(prevState => {
-          return { hideSubmit: false };
-        });
-      }
-    };
-    var formClass = "form-control input-sm";
-    var input = (
-      <textarea
-        className={formClass}
-        onChange={() => {
-          onChange();
-        }}
-        name={this.inputName}
-        rows={1}
-        placeholder={this.inputPlaceHolder}
-        ref={r => (this.inputRef = r)}
-      />
-    );
-
-    return input;
-  }
-  v_BtnSubmit() {
-    const onClickSubmit = () => {
-      if (this.props.qs_onSubmit) {
-        this.props.qs_onSubmit(this.inputVal);
-      }
-    };
-    return this.state.hideSubmit ? null : (
-      <button
-        className="btn btn-sm btn-block btn-default"
-        onClick={() => {
-          onClickSubmit();
-        }}
-      >
-        Submit
-      </button>
-    );
-  }
-  v_BtnClick() {
-    const onClickBtn = () => {
-      if (this.props.btn_onClick) {
-        this.props.btn_onClick();
-      }
-    };
-    return (
-      <button
-        className="btn btn-sm btn-block btn-default"
-        onClick={() => {
-          onClickBtn();
-        }}
-      >
-        Click Here
-      </button>
-    );
-  }
-  render() {
-    return (
-      <div className="action-box">
-        <div className="ab-title">{this.props.title}</div>
-        {this.props.isQuestion ? (
-          <div className="ab-input">{this.v_Input()}</div>
-        ) : null}
-        {this.props.isQuestion ? (
-          <div className="ab-btn-submit">{this.v_BtnSubmit()}</div>
-        ) : null}
-        {this.props.isButton ? (
-          <div className="ab-btn-click">{this.v_BtnClick()}</div>
-        ) : null}
-      </div>
-    );
-  }
-}
-
-ActionBox.propTypes = {
-  title: PropTypes.string.isRequired,
-
-  isQuestion: PropTypes.bool,
-  qs_onSubmit: PropTypes.func,
-
-  isButton: PropTypes.bool,
-  btn_onClick: PropTypes.func
-};
-ActionBox.propTypes.defaultProps = {
-  isQuestion: false,
-  isButton: false
-};
-
-// #####################################################################
-// #####################################################################
-// #####################################################################
 
 export default class CompanyPopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      qsLastSubmitted: Date.now(),
       data: null,
       loading: true,
       isHiddenValidation: true,
       keyValidation: 0
     };
 
+    this.forum_id = "company_" + this.props.id;
     this.authUser = getAuthUser();
     this.isRec = getAuthUser().rec_company == this.props.id || isRoleAdmin();
     this.FEEDBACK_LIMIT_SR = 3;
@@ -540,68 +424,61 @@ export default class CompanyPopup extends Component {
   }
 
   getStudentActionBox(data) {
-    // debug
-    return null;
-
     if (!isRoleStudent() || this.props.displayOnly) {
       return null;
     }
 
-    return (
-      <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-6`}>
-          <ActionBox
-            title="Ask Us Anything"
-            isQuestion={true}
-            qs_onSubmit={data => {
-              console.log("qs_onSubmit", data);
-            }}
-          />
-        </div>
-        <div className={`col-md-6`}>
-          <ActionBox
-            title="Drop Your Resume"
-            isButton={true}
-            btn_onClick={() => {
-              console.log("btn_onClick");
-            }}
-          />
-        </div>
+    const qs_successView = (
+      <div>
+        <h3 className="text-success">Successfully Submitted Your Question</h3>
+        See your posted question in
+        <br />
+        <NavLink
+          onClick={e => {
+            layoutActions.storeHideBlockLoader();
+            layoutActions.storeHideFocusCard();
+          }}
+          to={AppPath + `/forum/${this.forum_id}`}
+        >
+          company forum
+        </NavLink>
+        <br />
+        <br />
+        <button
+          onClick={e => {
+            layoutActions.storeHideBlockLoader();
+          }}
+          className="btn btn-sm btn-blue"
+        >
+          Got It!
+        </button>
       </div>
     );
-  }
-  getStudentAction(data) {
-    // var actData = [
-    //     {
-    //         label: "Ask Questions In Company Forum"
-    //         , url: `${RootPath}/app/forum/company_${data.ID}`
-    //         , icon: "comments"
-    //         , color: "#007BB4"
-    //     }, {
-    //         label: "Drop Your Resume"
-    //         , onClick: () => {
-    //             this.setState((prevState) => {
-    //                 return {
-    //                     isHiddenValidation: false,
-    //                     keyValidation: (new Date()).getTime(),
-    //                 }
-    //             })
-    //         }
-    //         , icon: "download"
-    //         , color: "#efa30b"
-    //     }
-    // ];
 
-    // var action = (!isRoleStudent() || this.props.displayOnly) ? null :
-    //     <div>
-    //         <h2 style={{ marginTop: "0" }}>
-    //             <small>Check These Out!</small>
-    //         </h2>
-    //         {createIconLink("lg", actData, true)}
-    //     </div>;
+    const qs_onSubmit = data => {
+      layoutActions.loadingBlockLoader("Submitting Your Question...");
 
-    // tukar action kepada button
-    const onClickResume = () => {
+      // todos insert to forum
+      var ins = {
+        user_id: getAuthUser().ID,
+        content: data,
+        is_owner: 0,
+        forum_id: this.forum_id
+      };
+
+      let query = `mutation{ add_forum_comment (${obj2arg(ins, {
+        noOuterBraces: true
+      })}) { ID } }`;
+      getAxiosGraphQLQuery(query).then(res => {
+        this.setState(prevState => {
+          return { qsLastSubmitted: Date.now() };
+        });
+
+        layoutActions.customViewBlockLoader(null, qs_successView);
+      });
+    };
+
+    const btn_onClickResume = () => {
       this.setState(prevState => {
         return {
           isHiddenValidation: false,
@@ -609,28 +486,59 @@ export default class CompanyPopup extends Component {
         };
       });
     };
-    var action =
-      !isRoleStudent() || this.props.displayOnly ? null : (
-        <div>
-          <button className="btn btn-blue btn-block" onClick={onClickResume}>
-            <i className="fa fa-download left" />
-            Drop Your Resume
-          </button>
-          <NavLink
-            to={`${RootPath}/app/forum/company_${data.ID}`}
-            onClick={() => {
-              layoutActions.storeHideFocusCard();
-            }}
-            className="btn btn-primary btn-block"
-          >
-            <i className="fa fa-comments left" />
-            Ask A Question
-          </NavLink>
-        </div>
-      );
 
-    return action;
+    return (
+      <div className="row" style={{ marginTop: "15px" }}>
+        <div className={`col-md-6`}>
+          <ActionBox
+            key={this.state.qsLastSubmitted}
+            title="Ask Us A Question"
+            isQuestion={true}
+            qs_onSubmit={qs_onSubmit}
+          />
+        </div>
+        <div className={`col-md-6`}>
+          <ActionBox
+            title="Drop Your Resume"
+            isButton={true}
+            btn_onClick={btn_onClickResume}
+          />
+        </div>
+      </div>
+    );
   }
+  // getStudentAction(data) {
+  //   // tukar action kepada button
+  //   const onClickResume = () => {
+  //     this.setState(prevState => {
+  //       return {
+  //         isHiddenValidation: false,
+  //         keyValidation: new Date().getTime()
+  //       };
+  //     });
+  //   };
+  //   var action =
+  //     !isRoleStudent() || this.props.displayOnly ? null : (
+  //       <div>
+  //         <button className="btn btn-blue btn-block" onClick={onClickResume}>
+  //           <i className="fa fa-download left" />
+  //           Drop Your Resume
+  //         </button>
+  //         <NavLink
+  //           to={`${RootPath}/app/forum/company_${data.ID}`}
+  //           onClick={() => {
+  //             layoutActions.storeHideFocusCard();
+  //           }}
+  //           className="btn btn-primary btn-block"
+  //         >
+  //           <i className="fa fa-comments left" />
+  //           Ask A Question
+  //         </NavLink>
+  //       </div>
+  //     );
+
+  //   return action;
+  // }
 
   render() {
     var id = null;
@@ -662,7 +570,7 @@ export default class CompanyPopup extends Component {
       // ##################################################################################
       // for action
 
-      var action = this.getStudentAction(data);
+      //var action = this.getStudentAction(data);
       var actionBox = this.getStudentActionBox(data);
 
       // ##################################################################################
@@ -707,11 +615,31 @@ export default class CompanyPopup extends Component {
         />
       );
 
+      // var rightBody = (
+      //   <div>
+      //     {action}
+      //     <hr />
+      //     {gSession}
+      //   </div>
+      // );
+
+      var forumLink = (
+        <NavLink
+          onClick={e => {
+            layoutActions.storeHideBlockLoader();
+            layoutActions.storeHideFocusCard();
+          }}
+          to={AppPath + `/forum/${this.forum_id}`}
+        >
+          <small>Go To Company Forum</small>
+        </NavLink>
+      );
+
       var rightBody = (
         <div>
-          {action}
-          <hr />
           {gSession}
+          <hr />
+          {this.props.displayOnly ? null : forumLink}
         </div>
       );
 

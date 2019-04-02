@@ -243,7 +243,8 @@ class ForumItem extends React.Component {
         var action = [<span className="frm-action">{this.props.timestamp}</span>];
         if (this.isMine) {
             action.push(<a onClick={this.openEditPopup} className="frm-action">Edit</a>);
-            action.push(<a onClick={this.openDeletePopup} className="frm-action">Delete</a>);
+            // remove delete
+            //action.push(<a onClick={this.openDeletePopup} className="frm-action">Delete</a>);
         }
         if (!this.props.is_reply) {
             action.push(<a className="frm-action"

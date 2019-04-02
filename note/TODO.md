@@ -1,8 +1,9 @@
-#DONE // Flow Video call baru => 1-1 session macam group session
-#DONE // header title by career fair
-// ask a question dlm company booth (drop resume click here)
-// go to forum kecik je
+# DONE // Flow Video call baru => 1-1 session macam group session
+# DONE // header title by career fair
+# // ask a question dlm company booth (drop resume click here)
+# // go to forum kecik je
 // bar sume kat atas (macam linked in)
+# Study Field
 
 ##### List On Notification (Facebook style notification) ---------------------
 Other User Trigger :
@@ -65,8 +66,8 @@ Company Profile
 - new page - instead of popup
 - more space
 
-Register
-- Major ad selection n free text (like document label)
+# Register
+# - Major ad selection n free text (like document label)
  
 ##### Resume Drop ---------------------------------------------------------------
 #- Whats Next Lepas Drop Resume
