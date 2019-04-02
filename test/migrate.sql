@@ -1,3 +1,7 @@
+ALTER TABLE `pre_screens` CHANGE `join_url` `join_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL;
+ALTER TABLE `pre_screens` CHANGE `start_url` `start_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL;
+ALTER TABLE `pre_screens` CHANGE `is_expired` `is_expired` SMALLINT(1) NOT NULL DEFAULT '0';
+
 -- ###############################
 -- copy cf meta
 INSERT INTO cfs_meta (cf_name, meta_key, meta_value) 

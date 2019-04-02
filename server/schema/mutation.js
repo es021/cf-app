@@ -675,6 +675,9 @@ fields["edit_user"] = {
         cgpa: {
             type: GraphQLString
         },
+        study_field: {
+            type: GraphQLString
+        },
         major: {
             type: GraphQLString
         },

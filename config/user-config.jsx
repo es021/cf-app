@@ -8,7 +8,7 @@ import {
 import { ButtonLink } from '../app/component/buttons';
 import { getDataCareerFair } from '../app/component/form';
 import { DocumentUrl } from './app-config';
-import { Month, Year, Sponsor, MasState, Country } from './data-config';
+import { Month, Year, Sponsor, MasState, Country , StudyField} from './data-config';
 import { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 export const TotalRegisterStep = 3;
 
@@ -109,6 +109,14 @@ export const UserFormItem = [
     // register:1, editStudent: 1, editRec: 1 },
     {
         header: "Degree Related Information",
+        register: 2, editStudent: 1, editRec: 0
+    },
+    {
+        label: "Field Of Study",
+        name: UserMeta.STUDY_FIELD,
+        type: "select",
+        data: StudyField,
+        //required: true,
         register: 2, editStudent: 1, editRec: 0
     },
     {

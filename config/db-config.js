@@ -106,6 +106,7 @@ const UserMeta = {
     AVAILABLE_YEAR: "available_year",
     SPONSOR: "sponsor",
     CGPA: "cgpa",
+    STUDY_FIELD : "study_field",
     MAJOR: "major",
     MINOR: "minor",
     GENDER: "gender",

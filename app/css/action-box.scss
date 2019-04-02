@@ -1,11 +1,14 @@
 .action-box{
-    background: #449d44;
+    background: #cbeecb;
+    border : solid 1px green;
     padding: 10px;
     border-radius: 10px;
     max-width: 400px;
-    height: 100px;
+    min-height: 100px;
+    margin: auto;
+    margin-bottom: 10px;
     .ab-title{
-        color: white;
+        color: green;
         font-size: 20px;
         margin-bottom: 5px;
     }

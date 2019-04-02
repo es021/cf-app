@@ -91,6 +91,7 @@ const UserType = new GraphQLObjectType({
         available_year: { type: GraphQLString },
         sponsor: { type: GraphQLString },
         cgpa: { type: GraphQLString },
+        study_field: { type: GraphQLString },
         major: { type: GraphQLString },
         minor: { type: GraphQLString },
 

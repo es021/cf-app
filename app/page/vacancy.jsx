@@ -7,7 +7,7 @@ import ProfileCard from '../component/profile-card';
 import PageSection from '../component/page-section';
 import { CustomList } from '../component/list';
 import NotFoundPage from './not-found';
-import FacebookProvider, { Page, ShareButton } from 'react-facebook';
+//import FacebookProvider, { Page, ShareButton } from 'react-facebook';
 import { AppConfig, RootPath, SiteUrl } from '../../config/app-config';
 import { NavLink } from 'react-router-dom';
 import { addLog } from '../redux/actions/other-actions';
@@ -97,10 +97,10 @@ export default class VacancyPage extends React.Component {
 
                 var about = <div>
                     <CustomList className="empty" items={items}></CustomList>
-                    <FacebookProvider appId={AppConfig.FbAppId}>
+                    {/* <FacebookProvider appId={AppConfig.FbAppId}>
                         <ShareButton iconClassName="fa fa-facebook left" className="btn btn-blue btn-sm"
                             href={share_url}>Share</ShareButton>
-                    </FacebookProvider>
+                    </FacebookProvider> */}
 
                 </div>;
 

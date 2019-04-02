@@ -11,6 +11,7 @@ const RequiredFieldStudent = [
     //`${User.PASSWORD}-confirm`,
     UserMeta.PHONE_NUMBER,
     UserMeta.MAS_STATE,
+    UserMeta.STUDY_FIELD,
     UserMeta.MAJOR,
     //UserMeta.MINOR,
     UserMeta.UNIVERSITY,
