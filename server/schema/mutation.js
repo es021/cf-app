@@ -116,6 +116,9 @@ fields["add_notification"] = {
         type: {
             type: new GraphQLNonNull(GraphQLString)
         },
+        param: {
+            type: GraphQLString
+        },
         cf: {
             type: new GraphQLNonNull(GraphQLString)
         },
@@ -145,7 +148,7 @@ fields["edit_notification"] = {
     },
     resolve(parentValue, arg, context, info) {
         try {
-            return DB.update(QsPopup.TABLE, arg).then(function (res) {
+            return DB.update(Notifications.TABLE, arg).then(function (res) {
                 return res;
             });
         } catch (err) {

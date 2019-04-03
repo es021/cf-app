@@ -11,10 +11,12 @@ const {
 const NotificationType = new GraphQLObjectType({
     name: 'Notification',
     fields: () => ({
+        ttl: { type: GraphQLInt },
         ID: { type: GraphQLInt },
         user_id: { type: GraphQLInt },
         text: { type: GraphQLString },
         type: { type: GraphQLString },
+        param: { type: GraphQLString },
         cf: { type: GraphQLString },
         is_read: { type: GraphQLInt },
         img_entity: { type: GraphQLString },

@@ -8,7 +8,8 @@ import {
     Prescreen,
     UserEnum,
     ZoomInvite,
-    GroupSessionJoin
+    GroupSessionJoin,
+    Notifications
 } from '../../../config/db-config';
 import {
     getAuthUser,
@@ -27,7 +28,8 @@ export const ActivityType = {
     SESSION_REQUEST: SessionRequest.TABLE,
     PRESCREEN: Prescreen.TABLE,
     ZOOM_INVITE: ZoomInvite.TABLE,
-    GROUP_SESSION_JOIN: GroupSessionJoin.TABLE
+    GROUP_SESSION_JOIN: GroupSessionJoin.TABLE,
+    NOTIFICATION_COUNT: Notifications.TABLE,
 };
 
 var AllActivityType = [];
@@ -84,9 +86,29 @@ export function loadActivity(types = AllActivityType) {
 
     });
 
+    var query = null;
     if (select != "") {
-        var query = `query{user(ID:${user_id}){${select}}}`;
+        query = `query{user(ID:${user_id}){${select}}}`;
 
+    }
+
+    // untuk yang independent query
+    if (types.length == 1 && types[0] == ActivityType.NOTIFICATION_COUNT) {
+        if (typeof user_id !== "undefined") {
+            query = `query{
+              notifications(user_id : ${user_id}, is_read:0, ttl:true){
+               ttl
+              }
+            }`;
+            console.log("asdasdasdasdasd",query)
+            console.log("asdasdasdasdasd",query)
+            console.log("asdasdasdasdasd",query)
+            console.log("asdasdasdasdasd",query)
+
+        }
+    }
+
+    if (query != null) {
         return function (dispatch) {
             dispatch({
                 type: ACTIVITY + type,
