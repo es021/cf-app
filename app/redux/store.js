@@ -6,10 +6,12 @@ import promise from "redux-promise-middleware";
 /* import all reducer */
 import userReducer from "./reducer/user-reducer";
 import authReducer from "./reducer/auth-reducer";
+import generalReducer from "./reducer/general-reducer";
 import hallReducer from "./reducer/hall-reducer";
 import layoutReducer from "./reducer/layout-reducer";
 
 const allReducers = {
+	general : generalReducer,
 	user: userReducer,
 	auth: authReducer,
 	hall: hallReducer,

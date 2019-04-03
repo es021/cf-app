@@ -8,16 +8,23 @@ class NotificationExec {
     getQuery(params) {
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `${Notifications.ID} = ${params.ID}`;
         var user_id_where = (typeof params.user_id === "undefined") ? "1=1" : `${Notifications.USER_ID} = ${params.user_id}`;
-        //var type_where = (typeof params.type === "undefined") ? "1=1" : `${Notifications.TYPE} = '${params.type}'`;
+        var is_read_where = (typeof params.is_read === "undefined") ? "1=1" : `${Notifications.IS_READ} = '${params.is_read}'`;
         var cf_where = (typeof params.cf === "undefined") ? "1=1" : `${Notifications.CF} = '${params.cf}'`;
         var order_by = "ORDER BY " + ((typeof params.order_by === "undefined") ? `${Notifications.CREATED_AT} desc` : `${params.order_by}`);
         var limit = DB.prepareLimit(params.page, params.offset);
 
-        return `select * from ${Notifications.TABLE} 
+
+        let sqlBody = ` from ${Notifications.TABLE} 
             where ${id_where} 
             and ${user_id_where} 
             and ${cf_where} 
-        ${order_by} ${limit}`;
+            and ${is_read_where} `;
+
+        if(params.ttl == "1"){
+            return `select count(*) as ttl ${sqlBody}`;
+        }
+
+        return `select * ${sqlBody} ${order_by} ${limit}`;
     }
 
     notifications(params, field, extra = {}) {
@@ -29,6 +36,7 @@ class NotificationExec {
         } = require('./company-query.js');
 
         var sql = this.getQuery(params);
+        //console.log(sql)
         var toRet = DB.query(sql).then(function (res) {
 
             for (var i in res) {

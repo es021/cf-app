@@ -11,6 +11,7 @@ import { createImageElement, PCType } from "../component/profile-card";
 import { socketOn, emitLiveFeed } from "../socket/socket-client";
 import { BOTH } from "../../config/socket-config";
 import { NotificationsEnum } from "../../config/db-config";
+import * as hallAction from "../redux/actions/hall-actions";
 
 require("../css/notification.scss");
 
@@ -22,9 +23,12 @@ export class NotificationFeed extends React.Component {
     this.loadData = this.loadData.bind(this);
     this.getDataFromRes = this.getDataFromRes.bind(this);
     this.addFeedToView = this.addFeedToView.bind(this);
+    this.itemOnClick = this.itemOnClick.bind(this);
     this.listComponentDidUpdate = this.listComponentDidUpdate.bind(this);
     this.renderList = this.renderList.bind(this);
     this.offset = 10;
+
+    this.rawData = {};
 
     this.state = {
       extraData: []
@@ -85,16 +89,42 @@ export class NotificationFeed extends React.Component {
 
   // from socket trigger
   addFeedToView(d) {
+    this.rawData[d.ID] = d;
+
     this.scrollTo = "top";
     var newData = this.renderList(d, 0, true);
     // add to view
     this.setState(prevState => {
       prevState.extraData.push(newData);
+
       return { extraData: prevState.extraData };
     });
   }
 
+  updateIsRead(id) {
+    let d = this.rawData[id];
+    if (d.is_read == 1) {
+      return;
+    }
+    var query = `mutation{
+      edit_notification(ID:${id}, is_read:1)
+      { ID is_read }
+    }`;
+    getAxiosGraphQLQuery(query).then(res => {
+      this.rawData[id].is_read = 1;
+      hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
+    });
+  }
+
+  itemOnClick(e) {
+    let id = e.currentTarget.dataset.id;
+
+    this.updateIsRead(id);
+  }
+
   renderList(d, i, isExtraData = false) {
+    this.rawData[d.ID] = d;
+
     var isNew = d.is_read != "1";
 
     let img = createImageElement(
@@ -127,7 +157,11 @@ export class NotificationFeed extends React.Component {
     }
 
     var item = (
-      <div className={`not_item ${isNew ? "item_new" : ""} `}>
+      <div
+        onClick={this.itemOnClick}
+        data-id={d.ID}
+        className={`not_item ${isNew ? "item_new" : ""} `}
+      >
         <div className="not_item_img">{img}</div>
         <div className="not_item_content">
           <p

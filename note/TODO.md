@@ -6,6 +6,7 @@
 # Study Field
 
 ##### List On Notification (Facebook style notification) ---------------------
+Mark as Read All
 Other User Trigger :
 - 1-1 session created by rec -> popup card (tempat yg sama dgn socket action)
 

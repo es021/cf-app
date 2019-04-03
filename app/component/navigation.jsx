@@ -84,17 +84,18 @@ function getMenuItem(COMING_SOON) {
   var homeComponent = getHomeComponent(COMING_SOON);
 
   var menuItem = [
-    // {
-    //   url: null,
-    //   label: "Notification",
-    //   icon: "bell",
-    //   component: homeComponent,
-    //   is_popup: true,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false
-    // },
+    {
+      url: null,
+      label: "Notification",
+      icon: "bell",
+      component: homeComponent,
+      count_attr: "count_notification",
+      is_popup: true,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false
+    },
     {
       url: "/",
       label: "Home",
@@ -577,7 +578,7 @@ function isBarValid(isHeader, isLog, d) {
   return true;
 }
 
-export function getBar(path, COMING_SOON, isHeader = false) {
+export function getBar(path, { COMING_SOON, isHeader, count_notification }) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
 
@@ -629,12 +630,32 @@ export function getBar(path, COMING_SOON, isHeader = false) {
         }
       }
     };
+
+    // get item count
+    let item_count = null;
+    if (d.count_attr !== "undefined") {
+      let countVal = 0;
+      switch (d.count_attr) {
+        case "count_notification":
+          countVal = count_notification;
+          break;
+      }
+
+      if (typeof countVal !== "undefined" && countVal != null && countVal > 0) {
+        item_count = <span className="menu_count">{countVal}</span>;
+      }
+    }
+
+    // create item
     let item_li = (
       <li>
         {isHeader ? "" : <i className={`fa fa-${d.icon}`} />}
         <span className="menu_label">{d.label}</span>
+        {item_count}
       </li>
     );
+
+    // handle for normal url or popup
     if (d.is_popup == true) {
       return (
         <a

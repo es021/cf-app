@@ -82,10 +82,13 @@ fields["notifications"] = {
     args: {
         ID: { type: GraphQLInt},
         user_id: { type: GraphQLInt},
+        is_read : { type: GraphQLInt},
         cf: { type: GraphQLString },
         order_by : {type: GraphQLString},
         page : { type: GraphQLInt },
         offset : { type: GraphQLInt },
+
+        ttl : { type: GraphQLBoolean},
      },
     resolve(parentValue, arg, context, info) {
         return NotificationExec.notifications(arg, graphqlFields(info));

@@ -75,6 +75,8 @@ export default function hallReducer(state = hallReducerInitState, action) {
                 newState.fetching["zoom_invites"] = true;
             } else if (action.type.indexOf(hallAction.ActivityType.GROUP_SESSION_JOIN) > -1) {
                 newState.fetching["group_session_joins"] = true;
+            } else if (action.type.indexOf(hallAction.ActivityType.NOTIFICATION_COUNT) > -1) {
+                newState.fetching["notification_count"] = true;
             }
         }
 
@@ -94,34 +96,37 @@ export default function hallReducer(state = hallReducerInitState, action) {
             newState["fetching"] = false;
         } else {
             newState["fetching"] = state[key]["fetching"];
-            if (data.user.sessions) {
+            if (data.user && data.user.sessions) {
                 newState["sessions"] = data.user.sessions;
                 newState.fetching["sessions"] = false;
             }
-            if (data.user.queues) {
+            if (data.user && data.user.queues) {
                 newState["queues"] = data.user.queues;
                 newState.fetching["queues"] = false;
             }
-            if (data.user.session_requests) {
+            if (data.user && data.user.session_requests) {
                 newState["session_requests"] = data.user.session_requests;
                 newState.fetching["session_requests"] = false;
             }
-            if (data.user.prescreens) {
+            if (data.user && data.user.prescreens) {
                 newState["prescreens"] = data.user.prescreens;
                 newState.fetching["prescreens"] = false;
             }
-            if (data.user.zoom_invites) {
+            if (data.user && data.user.zoom_invites) {
                 newState["zoom_invites"] = data.user.zoom_invites;
                 newState.fetching["zoom_invites"] = false;
             }
-            if (data.user.group_sessions) {
+            if (data.user && data.user.group_sessions) {
                 newState["group_session_joins"] = data.user.group_sessions;
                 newState.fetching["group_session_joins"] = false;
+            }
+            if (data.notifications && data.notifications[0]) {
+                newState["notification_count"] = data.notifications[0].ttl;
+                newState.fetching["notification_count"] = false;
             }
         }
 
         newState = getNewState(state[key], newState);
-
         newObj[key] = newState;
         return getNewState(state, newObj);
 
