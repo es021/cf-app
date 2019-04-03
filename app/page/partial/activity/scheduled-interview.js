@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { RootPath } from '../../../../config/app-config';
 import { Time } from '../../../lib/time';
 import GeneralFormPage from '../../../component/general-form';
-import ScheduledInterviewNew from './scheduled-interview-new';
+import ScheduledInterviewNew from './scheduled-interview-new.jsx';
 import { createUserTitle } from '../../users';
 import { emitHallActivity } from '../../../socket/socket-client';
 import Tooltip from '../../../component/tooltip';

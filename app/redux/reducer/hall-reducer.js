@@ -39,7 +39,7 @@ const hallReducerInitState = {
 export default function hallReducer(state = hallReducerInitState, action) {
     var key = "";
     var newObj = {};
-
+  console.log("Action")
     //set key here
     if (action.type.indexOf(hallAction.TRAFFIC) > -1) {
         key = "traffic";
