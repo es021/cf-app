@@ -38,7 +38,6 @@ for (var k in ActivityType) {
 }
 
 function getEntitySelect(role, type) {
-
     var extra = "";
     if (role === UserEnum.ROLE_RECRUITER && (type == ActivityType.SESSION_REQUEST || type == ActivityType.PRESCREEN)) {
         extra = "doc_links {ID url label}";
@@ -49,49 +48,9 @@ function getEntitySelect(role, type) {
         ` student{ID first_name last_name img_url img_pos img_size ${extra} } `;
 }
 
-export const ACTIVITY = "ACTIVITY";
-export function loadActivity(types = AllActivityType) {
-
-    var role = getAuthUser().role;
+function getIndependentQuery(oriQuery, types) {
     var user_id = getAuthUser().ID;
-    var select = "";
-    var type = "";
-
-    if (typeof types === "string") {
-        types = [types];
-    }
-
-    types.map((d, i) => {
-        type += ":" + d;
-        switch (d) {
-            case ActivityType.SESSION:
-                select += ` sessions { ID created_at ${getEntitySelect(role, d)}} `;
-                break;
-            case ActivityType.QUEUE:
-                select += ` queues { ID queue_num created_at ${getEntitySelect(role, d)}} `;
-                break;
-            case ActivityType.SESSION_REQUEST:
-                select += ` session_requests { ID status created_at ${getEntitySelect(role, d)}} `;
-                break;
-            case ActivityType.PRESCREEN:
-                select += ` prescreens { ID is_expired join_url start_url appointment_time updated_at special_type status ${getEntitySelect(role, d)}} `;
-                break;
-            case ActivityType.ZOOM_INVITE:
-                select += (isRoleRec()) ? ` zoom_invites { ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, d)}} ` : "";
-                break;
-            case ActivityType.GROUP_SESSION_JOIN:
-                select += (isRoleStudent()) ? ` group_sessions { ID title join_id updated_at start_time is_expired is_canceled join_url ${getEntitySelect(role, d)} }` : "";
-                break;
-        }
-
-    });
-
-    var query = null;
-    if (select != "") {
-        query = `query{user(ID:${user_id}){${select}}}`;
-
-    }
-
+    var query = oriQuery;
     // untuk yang independent query
     if (types.length == 1 && types[0] == ActivityType.NOTIFICATION_COUNT) {
         if (typeof user_id !== "undefined") {
@@ -100,13 +59,84 @@ export function loadActivity(types = AllActivityType) {
                ttl
               }
             }`;
-            console.log("asdasdasdasdasd",query)
-            console.log("asdasdasdasdasd",query)
-            console.log("asdasdasdasdasd",query)
-            console.log("asdasdasdasdasd",query)
-
         }
     }
+    return query;
+}
+
+export function getActivityQueryAttr(type) {
+    let select = "";
+    var role = getAuthUser().role;
+    switch (type) {
+        case ActivityType.SESSION:
+            select = ` ID created_at ${getEntitySelect(role, type)} `;
+            break;
+        case ActivityType.QUEUE:
+            select = ` ID queue_num created_at ${getEntitySelect(role, type)} `;
+            break;
+        case ActivityType.SESSION_REQUEST:
+            select = ` ID status created_at ${getEntitySelect(role, type)} `;
+            break;
+        case ActivityType.PRESCREEN:
+            select = ` ID is_expired join_url start_url appointment_time updated_at special_type status ${getEntitySelect(role, type)} `;
+            break;
+        case ActivityType.ZOOM_INVITE:
+            select = ` ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, type)} `;
+            break;
+        case ActivityType.GROUP_SESSION_JOIN:
+            select = ` ID title join_id updated_at start_time is_expired is_canceled join_url ${getEntitySelect(role, type)} `;
+            break;
+    }
+    return select;
+}
+
+export function getActivityQuery(types) {
+    var user_id = getAuthUser().ID;
+    var select = "";
+    if (typeof types === "string") {
+        types = [types];
+    }
+    types.map((d, i) => {
+        switch (d) {
+            case ActivityType.SESSION:
+                select += ` sessions { ${getActivityQueryAttr(d)}} `;
+                break;
+            case ActivityType.QUEUE:
+                select += ` queues { ${getActivityQueryAttr(d)}} `;
+                break;
+            case ActivityType.SESSION_REQUEST:
+                select += ` session_requests { ${getActivityQueryAttr(d)}} `;
+                break;
+            case ActivityType.PRESCREEN:
+                select += ` prescreens { ${getActivityQueryAttr(d)}} `;
+                break;
+            case ActivityType.ZOOM_INVITE:
+                select += (isRoleRec()) ? ` zoom_invites { ${getActivityQueryAttr(d)}} ` : "";
+                break;
+            case ActivityType.GROUP_SESSION_JOIN:
+                select += (isRoleStudent()) ? ` group_sessions { ${getActivityQueryAttr(d)} }` : "";
+                break;
+        }
+    });
+    var query = null;
+    if (select != "") {
+        query = `query{user(ID:${user_id}){${select}}}`;
+    }
+    return query;
+}
+
+export const ACTIVITY = "ACTIVITY";
+export function loadActivity(types = AllActivityType) {
+    var type = "";
+    if (typeof types === "string") {
+        types = [types];
+    }
+    types.map((d) => {
+        type += ":" + d;
+    });
+
+    var query = getActivityQuery(types);
+    query = getIndependentQuery(query, types);
 
     if (query != null) {
         return function (dispatch) {
@@ -116,7 +146,6 @@ export function loadActivity(types = AllActivityType) {
             });
         };
     }
-
 }
 
 export function storeLoadActivity(types = AllActivityType) {

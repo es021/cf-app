@@ -4,6 +4,7 @@
 # // go to forum kecik je
 // bar sume kat atas (macam linked in)
 # Study Field
+ActivitySingle btn action tak reload view -- 1_Waiting
 
 ##### List On Notification (Facebook style notification) ---------------------
 Mark as Read All

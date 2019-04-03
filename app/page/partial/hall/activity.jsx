@@ -365,7 +365,9 @@ class ActvityList extends React.Component {
 
     render() {
         var body = null;
-        console.log(this.props);
+        // console.log("ActivityList",this.props);
+        // console.log("ActivityList",this.props);
+        // console.log("ActivityList",this.props);
         if (this.props.fetching) {
             body = <Loader isCenter={true} size="2"></Loader>;
         } else {
@@ -837,6 +839,69 @@ ActvityList.propTypes = {
 ActvityList.defaultProps = {
     subtitle: null
 };
+
+// ##################################################################################################################
+// ##################################################################################################################
+// ##################################################################################################################
+
+export class ActivitySingle extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading : true,
+            data : {},
+        }
+    }
+    componentWillMount() {
+        this.loadData();
+    }
+    loadData(){
+        let entity = null;
+        switch(this.props.type){
+            case hallAction.ActivityType.PRESCREEN : 
+                entity = "prescreen";
+            break;
+        }
+        if(entity == null){
+            this.setState((prevState)=>{
+                return {loading : false};
+            })
+        }else{
+            let q = ` query {${entity} (ID:${this.props.id}){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;;
+            getAxiosGraphQLQuery(q).then((res)=>{
+                this.setState((prevState)=>{
+                    return {data : res.data.data[entity], loading : false};
+                })
+            })
+        }
+    }
+    render(){
+        let v = null;
+        if(this.state.loading){
+            v = <Loader size="2"></Loader>
+        }else{
+            let list = [this.state.data];
+            v = <ActvityList
+            bc_type="vertical"
+            online_users={{}}
+            fetching={false}
+            type={this.props.type}
+            title={null}
+            subtitle={null}
+            list={list}></ActvityList>
+        }
+        return v;
+    }
+}
+ActivitySingle.propTypes = {
+    type: PropTypes.string.isRequired,
+    id : PropTypes.number.isRequired
+}
+
+// ##################################################################################################################
+// ##################################################################################################################
+// ##################################################################################################################
+
 
 const sec = "act-sec";
 class ActivitySection extends React.Component {

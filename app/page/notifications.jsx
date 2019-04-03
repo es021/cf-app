@@ -5,15 +5,53 @@ import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 
 import { getAuthUser, getCF } from "../redux/actions/auth-actions";
+import * as layoutAction from "../redux/actions/layout-actions";
 import obj2arg from "graphql-obj2arg";
 import { createImageElement, PCType } from "../component/profile-card";
+import { emitHallActivity } from "../socket/socket-client";
 
 import { socketOn, emitLiveFeed } from "../socket/socket-client";
 import { BOTH } from "../../config/socket-config";
-import { NotificationsEnum } from "../../config/db-config";
+import { NotificationsEnum, Prescreen } from "../../config/db-config";
 import * as hallAction from "../redux/actions/hall-actions";
+import { ActivitySingle } from "./partial/hall/activity";
 
 require("../css/notification.scss");
+
+export function addNotification({
+  user_id,
+  param,
+  text,
+  type,
+  img_entity,
+  img_id,
+  successHandler
+}) {
+  if (typeof param !== "object") {
+    param = {};
+  }
+
+  let p = {
+    user_id: user_id,
+    cf: getCF(),
+    param: JSON.stringify(param),
+    text: text,
+    type: type,
+    img_entity,
+    img_id
+  };
+
+  var query = `mutation{
+    add_notification(${obj2arg(p, { noOuterBraces: true })}){
+      ID
+    }
+  }`;
+
+  getAxiosGraphQLQuery(query).then(res => {
+    successHandler(res.data.data.add_notification);
+    emitHallActivity(hallAction.ActivityType.NOTIFICATION_COUNT, user_id, null);
+  });
+}
 
 export class NotificationFeed extends React.Component {
   constructor(props) {
@@ -37,29 +75,24 @@ export class NotificationFeed extends React.Component {
   }
 
   componentDidMount() {
-    socketOn(BOTH.LIVE_FEED, data => {
-      this.addFeedToView(data);
-    });
+    // socketOn(BOTH.LIVE_FEED, data => {
+    //   this.addFeedToView(data);
+    // });
   }
 
   listComponentDidUpdate() {
-    //console.log("listComponentDidUpdate")
-    //console.log(this.scrollTo);
-
-    if (this.scrollTo == "bottom") {
-      //scroll to bottom
-      this.dashBody.scrollTop = 99999999;
-      //console.log("go bottom");
-    }
-
-    if (this.scrollTo == "top") {
-      //scroll to top
-      this.dashBody.scrollTop = 0;
-      //console.log("go top");
-    }
-
-    //console.log(this.dashBody.scrollTop);
-    this.scrollTo == "";
+    // if (this.scrollTo == "bottom") {
+    //   //scroll to bottom
+    //   this.dashBody.scrollTop = 99999999;
+    //   //console.log("go bottom");
+    // }
+    // if (this.scrollTo == "top") {
+    //   //scroll to top
+    //   this.dashBody.scrollTop = 0;
+    //   //console.log("go top");
+    // }
+    // //console.log(this.dashBody.scrollTop);
+    // this.scrollTo == "";
   }
 
   // ##############################################################
@@ -69,7 +102,7 @@ export class NotificationFeed extends React.Component {
             notifications(user_id:${this.authUser.ID}, 
             cf:"${this.cf}", 
             page:${page}, offset:${offset}){
-            ID text is_read type created_at img_obj{img_pos img_url img_size} }}`;
+            ID text is_read type param created_at img_obj{img_pos img_url img_size} }}`;
     // console.log("query",query)
     // console.log("query",query)
     // console.log("query",query)
@@ -116,10 +149,48 @@ export class NotificationFeed extends React.Component {
     });
   }
 
+  getParamObj(d) {
+    let param = d.param;
+    try {
+      param = JSON.parse(param);
+    } catch (err) {
+      param = null;
+    }
+    return param;
+  }
   itemOnClick(e) {
     let id = e.currentTarget.dataset.id;
-
     this.updateIsRead(id);
+
+    let d = this.rawData[id];
+    let param = this.getParamObj(d);
+    switch (d.type) {
+      case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
+        if (param !== null) {
+          let preScreenId = param[Prescreen.ID];
+          layoutAction.storeUpdateFocusCard("Private Session", ActivitySingle, {
+            id: preScreenId,
+            type: hallAction.ActivityType.PRESCREEN
+          });
+        }
+        break;
+    }
+  }
+  getNotificationText(d) {
+    let toRet = d.text;
+    let param = this.getParamObj(d);
+
+    switch (d.type) {
+      case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
+        if (param !== null) {
+          toRet += ` on <u>${Time.getString(
+            param[Prescreen.APPNMENT_TIME]
+          )}</u> (your local time)`;
+        }
+        break;
+    }
+
+    return toRet;
   }
 
   renderList(d, i, isExtraData = false) {
@@ -143,7 +214,7 @@ export class NotificationFeed extends React.Component {
 
     switch (d.type) {
       case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
-        icon = "comments";
+        icon = "video-camera";
         iconColor = greenColor;
         break;
       case NotificationsEnum.TYPE_REMIND_PRIVATE_SESSION:
@@ -166,7 +237,7 @@ export class NotificationFeed extends React.Component {
         <div className="not_item_content">
           <p
             className="not_item_text"
-            dangerouslySetInnerHTML={{ __html: d.text }}
+            dangerouslySetInnerHTML={{ __html: this.getNotificationText(d) }}
           />
           <div className="not_item_subtext">
             <div className="not_item_icon" style={{ background: iconColor }}>

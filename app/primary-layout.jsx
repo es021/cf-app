@@ -59,6 +59,10 @@ class PrimaryLayout extends React.Component {
   componentWillMount() {
     initSocket();
     this.loadCf();
+  }
+
+  componentDidMount(){
+    // takleh panggil ni store action kat dalam componentWillMount
     hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
   }
 
