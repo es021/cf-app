@@ -84,18 +84,18 @@ function getMenuItem(COMING_SOON) {
   var homeComponent = getHomeComponent(COMING_SOON);
 
   var menuItem = [
-    {
-      url: null,
-      label: "Notification",
-      icon: "bell",
-      component: homeComponent,
-      count_attr: "count_notification",
-      is_popup: true,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false
-    },
+    // {
+    //   url: null,
+    //   label: "Notification",
+    //   icon: "bell",
+    //   component: homeComponent,
+    //   count_attr: "count_notification",
+    //   is_popup: true,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false
+    // },
     {
       url: "/",
       label: "Home",
