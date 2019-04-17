@@ -200,7 +200,7 @@ export default class ResumeDropPage extends React.Component {
             }
         ];
         let list = createIconList("sm", actData, "400px", {
-            customTextWidth : "350px",
+            customTextWidth: "350px",
             customIconDimension: "40px",
             customIconFont: "initial"
         });
@@ -222,6 +222,7 @@ export default class ResumeDropPage extends React.Component {
         }
 
         var view = null
+        var isFeedback = false;
         if (this.state.loading) {
             view = <Loader text="Loading information..." size="3"></Loader>;
 
@@ -236,11 +237,12 @@ export default class ResumeDropPage extends React.Component {
             console.log("no_doc_link", no_doc_link);
             console.log("this.state.data.doc_links", this.state.data.doc_links);
 
-            console.log("this.state.data.resume_drops_limit",this.state.data.resume_drops_limit);
-            console.log("isEdit",this.isEdit);
+            console.log("this.state.data.resume_drops_limit", this.state.data.resume_drops_limit);
+            console.log("isEdit", this.isEdit);
             // has limit need to fill feedback
             if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
-                view = getFeedbackPopupView();
+                view = <div><br></br>{getFeedbackPopupView()}</div>;
+                isFeedback = true;
             }
             // no doc
             // else if (no_doc_link) {
@@ -307,25 +309,27 @@ export default class ResumeDropPage extends React.Component {
                     success={this.state.success}></Form>;
             }
 
-            var title = (this.props.company_id) ? <br></br> : <h4>{this.state.data.company.name}</h4>;
+            if (!isFeedback) {
+                var title = (this.props.company_id) ? <br></br> : <h4>{this.state.data.company.name}</h4>;
 
-            if (!this.props.company_id) {
-                document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
-            }
+                if (!this.props.company_id) {
+                    document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
+                }
 
 
-            if (this.isEdit) {
-                view = <div>{title}
-                    {submitedText}
-                    {checkboxForm}
-                    <hr></hr>
-                    {this.getWhatsNextView()}
-                </div>;
-            } else {
-                view = <div>
-                    {title}
-                    {checkboxForm}
-                </div>
+                if (this.isEdit) {
+                    view = <div>{title}
+                        {submitedText}
+                        {checkboxForm}
+                        <hr></hr>
+                        {this.getWhatsNextView()}
+                    </div>;
+                } else {
+                    view = <div>
+                        {title}
+                        {checkboxForm}
+                    </div>
+                }
             }
         }
 
@@ -333,7 +337,6 @@ export default class ResumeDropPage extends React.Component {
             {(this.props.company_id) ? null : <h3>Resume Drop</h3>}
             {view}
         </div >);
-
 
     }
 }

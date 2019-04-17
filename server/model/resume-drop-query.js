@@ -43,7 +43,7 @@ class ResumeDropExec {
 
     resume_drops_limit(params, field, extra = {}) {
         var sql = ResumeDropQuery.getResumeDropError(params.user_id);
-        console.log(sql);
+        //console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             var ttl_resume = res[0].ttl_resume;
             var feedback = res[0].feedback;
