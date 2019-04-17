@@ -86,7 +86,7 @@ export default class ResumeDropPage extends React.Component {
 
         const finishLoad = () => {
             loaded++;
-
+            console.log("loaded", loaded, toLoad, data);
             if (loaded >= toLoad) {
                 this.setState(() => {
                     return { data: data, loading: false };
@@ -236,9 +236,11 @@ export default class ResumeDropPage extends React.Component {
             console.log("no_doc_link", no_doc_link);
             console.log("this.state.data.doc_links", this.state.data.doc_links);
 
+            console.log("this.state.data.resume_drops_limit",this.state.data.resume_drops_limit);
+            console.log("isEdit",this.isEdit);
             // has limit need to fill feedback
             if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
-                v = getFeedbackPopupView();
+                view = getFeedbackPopupView();
             }
             // no doc
             // else if (no_doc_link) {
