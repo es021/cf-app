@@ -74,12 +74,13 @@ export default class ResumeDropPage extends React.Component {
     loadData() {
         var data = {
             resume_drop: null,
+            resume_drops_limit: null,
             company: null,
             doc_links: null
         }
 
         var loaded = 0;
-        var toLoad = 3;
+        var toLoad = 4;
 
         var user_id = getAuthUser().ID;
 
