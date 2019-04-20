@@ -68,7 +68,7 @@ export class AuditoriumFeed extends React.Component {
     loadData(page, offset) {
 
         var query = `query{
-            auditoriums(page:${page},offset:${offset},cf:"${getCF()}",order_by:"start_time asc",now_only:true) {
+            auditoriums(page:${page},offset:${offset},cf:"${getCF()}",order_by:"start_time asc",now_only:false) {
               ID
               company{ID name img_url img_position img_size}
               type

@@ -19,6 +19,7 @@ RM 480.52
   - Announcement - hide dulu
   - After feedback page not found - /cf/app/career-fair
   - Webinar
+    # copy data production auditorium dulu
     # When creating a new one, admin needs to put link in “recorded field”
     # Webinar box disappears when start date has passed. 
       Issue is to show recorded webinar not possible as we need to adjust start date to a future point in time
