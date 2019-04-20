@@ -15,9 +15,7 @@ class ZoomAPI {
         }
         this.API_URL = "https://api.zoom.us/v2/";
         this.ADMIN_ID = "-D5eW-CMTJCocauHSguLjw";
-
     }
-
 
     get(action) {
         axios.get(this.API_URL + action, this.API_CONFIG).then((res) => {
