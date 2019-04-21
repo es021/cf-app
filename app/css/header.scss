@@ -1,5 +1,5 @@
 @import "define/variable.scss";
-$MENU_SMALL_WIDTH: 100px;
+$MENU_SMALL_WIDTH: 130px;
 header {
     text-align: left;
     display: flex;
@@ -39,7 +39,10 @@ header {
                 font-weight: bold;
             }
             a {
-                margin-right: 35px;
+                margin-right: 20px;
+            }
+            a:last-of-type{
+                margin-right: 0px;
             }
         }
     } // menu small

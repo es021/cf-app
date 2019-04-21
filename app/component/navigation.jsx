@@ -93,7 +93,7 @@ function getMenuItem(COMING_SOON) {
     //   is_popup: true,
     //   bar_app: true,
     //   bar_auth: false,
-    //   hd_app: false,
+    //   hd_app: true,
     //   hd_auth: false
     // },
     {
@@ -113,7 +113,7 @@ function getMenuItem(COMING_SOON) {
       component: ManageCompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       routeOnly: isRoleAdmin() || isRoleOrganizer(),
       default_param: { id: getAuthUser().rec_company, current: "about" },
@@ -127,7 +127,7 @@ function getMenuItem(COMING_SOON) {
       component: UsersPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -139,7 +139,7 @@ function getMenuItem(COMING_SOON) {
       component: CompaniesPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -151,7 +151,7 @@ function getMenuItem(COMING_SOON) {
       component: RecruiterPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -163,21 +163,7 @@ function getMenuItem(COMING_SOON) {
       component: DashboardPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
-    },
-    {
-      // Admin Only
-      url: "/auditorium-management",
-      // EUR FIX
-      label: "Webinar",
-      //label: "Auditorium",
-      icon: "microphone",
-      component: AuditoriumManagement,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -189,7 +175,7 @@ function getMenuItem(COMING_SOON) {
       component: AnalyticPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       default_param: { current: "subscriber" },
       disabled: !isRoleAdmin()
@@ -202,9 +188,22 @@ function getMenuItem(COMING_SOON) {
       component: SupportPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleSupport()
+    },
+    {
+      // Student Only
+      url: "/edit-profile/:current",
+      label: "My Profile",
+      icon: "user",
+      component: EditProfilePage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      default_param: { current: "profile" },
+      disabled: !isRoleStudent()
     },
     {
       // Student Only
@@ -214,7 +213,7 @@ function getMenuItem(COMING_SOON) {
       component: EditProfilePage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       default_param: { current: "doc-link" },
       disabled: !isRoleStudent()
@@ -227,7 +226,7 @@ function getMenuItem(COMING_SOON) {
       component: EditProfilePage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       default_param: { current: "skills" },
       disabled: !isRoleStudent()
@@ -240,7 +239,7 @@ function getMenuItem(COMING_SOON) {
       component: EditProfilePage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       default_param: { current: "availability" },
       disabled: !isRoleStudent()
@@ -253,37 +252,37 @@ function getMenuItem(COMING_SOON) {
     //     component: HallPage,
     //     bar_app: true,
     //     bar_auth: false,
-    //     hd_app: false,
+    //     hd_app: true,
     //     hd_auth: false,
     //     // is not coming soon and one of the row then show = !disabled
     //     disabled: isDisabled("career-fair", COMING_SOON)
     // },
     {
       url: "/my-activity/:current",
-      label: isRoleRec() ? "Student Listing" : "My Activity",
+      label: isRoleRec() ? "Interested Candidates" : "My Activity",
       icon: isRoleRec() ? "users" : "list-ul",
       component: ActivityPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       default_param: { current: isRoleRec() ? "student-listing" : "session" },
       //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
       // remove mmy activity from student
       disabled: !isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
     },
-    {
-      url: "/my-activity/:current",
-      label: "All Student",
-      icon: "address-book-o",
-      component: ActivityPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      default_param: { current: "all-student" },
-      disabled: !isRoleRec()
-    },
+    // {
+    //   url: "/my-activity/:current",
+    //   label: "All Student",
+    //   icon: "address-book-o",
+    //   component: ActivityPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   default_param: { current: "all-student" },
+    //   disabled: !isRoleRec()
+    // },
     {
       url: "/manage-company/:id/:current",
       label: "Add Job Opportunity",
@@ -291,10 +290,24 @@ function getMenuItem(COMING_SOON) {
       component: ManageCompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       default_param: { id: getAuthUser().rec_company, current: "vacancy" },
       disabled: !isRoleRec()
+    },
+    {
+      // Admin Only
+      url: "/auditorium-management",
+      // EUR FIX
+      label: "Manage Webinar",
+      //label: "Auditorium",
+      icon: "microphone",
+      component: AuditoriumManagement,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
     {
       url: "/auditorium",
@@ -305,7 +318,7 @@ function getMenuItem(COMING_SOON) {
       component: AuditoriumFeed,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: false //isDisabled("auditorium", COMING_SOON)
     },
@@ -316,7 +329,7 @@ function getMenuItem(COMING_SOON) {
       component: ForumPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleRec()
     },
@@ -327,24 +340,24 @@ function getMenuItem(COMING_SOON) {
       component: Overview,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       // EUR FIX
       disabled: !isRoleAdmin()
       //disabled: COMING_SOON
       //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
     },
-    {
-      url: "/about",
-      label: "About",
-      icon: "question",
-      component: null,
-      href: LandingUrl,
-      bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-      bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-      hd_app: true,
-      hd_auth: true
-    },
+    // {
+    //   url: "/about",
+    //   label: "About",
+    //   icon: "question",
+    //   component: null,
+    //   href: LandingUrl,
+    //   bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+    //   bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
+    //   hd_app: true,
+    //   hd_auth: true
+    // },
     // {
     //     url: "/faq",
     //     label: "FAQ",
@@ -376,16 +389,16 @@ function getMenuItem(COMING_SOON) {
       hd_auth: true,
       allRoute: true
     },
-    {
-      url: "/logout",
-      label: "Logout",
-      icon: "sign-out",
-      component: LogoutPage,
-      bar_app: false,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false
-    },
+    // {
+    //   url: "/logout",
+    //   label: "Logout",
+    //   icon: "sign-out",
+    //   component: LogoutPage,
+    //   bar_app: false,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false
+    // },
     {
       url: "/sign-up",
       label: "Sign Up",
@@ -513,7 +526,7 @@ function getMenuItem(COMING_SOON) {
 export function getRoute(path, COMING_SOON) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
-  var routes = menuItem.map(function(d, i) {
+  var routes = menuItem.map(function (d, i) {
     //restricted
     if (d.disabled) {
       return false;
@@ -582,7 +595,7 @@ export function getBar(path, { COMING_SOON, isHeader, count_notification }) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
 
-  var menuList = menuItem.map(function(d, i) {
+  var menuList = menuItem.map(function (d, i) {
     var exact = d.url === "/" ? true : false;
 
     if (d.routeOnly) {
@@ -649,7 +662,8 @@ export function getBar(path, { COMING_SOON, isHeader, count_notification }) {
     // create item
     let item_li = (
       <li>
-        {isHeader ? "" : <i className={`fa fa-${d.icon}`} />}
+        <i className={`fa fa-${d.icon} left`} />
+        {/* {isHeader ? "" : <i className={`fa fa-${d.icon}`} />} */}
         <span className="menu_label">{d.label}</span>
         {item_count}
       </li>

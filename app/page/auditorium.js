@@ -68,7 +68,8 @@ export class AuditoriumFeed extends React.Component {
     loadData(page, offset) {
 
         var query = `query{
-            auditoriums(page:${page},offset:${offset},cf:"${getCF()}",order_by:"start_time asc",now_only:false) {
+            auditoriums(page:${page},offset:${offset},cf:"${getCF()}",order_by:"start_time asc",
+            now_only:false) {
               ID
               company{ID name img_url img_position img_size}
               type
@@ -112,20 +113,20 @@ export class AuditoriumFeed extends React.Component {
         var timeNow = Time.getUnixTimestampNow();
 
         // DEBUG for Now
-        if (i == 0 && false) {
-            d.start_time = timeNow;
-            d.end_time = timeNow;
-        }
+        // if (i == 0 && false) {
+        //     d.start_time = timeNow;
+        //     d.end_time = timeNow;
+        // }
 
         var item = [];
 
-        if (!this.hasNow && d.start_time >= timeNow && d.end_time <= timeNow) {
-            item.push(<h3>Now</h3>);
-            this.hasNow = true;
-        } else if (!this.hasUpNext) {
-            item.push(<h3>Up Next</h3>);
-            this.hasUpNext = true;
-        }
+        // if (!this.hasNow && d.start_time >= timeNow && d.end_time <= timeNow) {
+        //     item.push(<h3>Now</h3>);
+        //     this.hasNow = true;
+        // } else if (!this.hasUpNext) {
+        //     item.push(<h3>Up Next</h3>);
+        //     this.hasUpNext = true;
+        // }
 
         var isNew = isExtraData;
         var details = <div>

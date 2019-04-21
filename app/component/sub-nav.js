@@ -23,6 +23,11 @@ export default class SubNav extends React.Component {
         return React.createElement(com, props);
     }
 
+    getCurItem(){
+        var item = this.props.items[this.props.defaultItem];
+        return item;
+    }
+
     changeItem(e) {
         var k = e.currentTarget.id;
         this.setState((prevState) => {
@@ -35,6 +40,11 @@ export default class SubNav extends React.Component {
         for (var k in this.props.items) {
             var active = (k === this.props.defaultItem) ? "active" : "";
             var item = this.props.items[k];
+            
+            if(item.routeOnly){
+                continue;
+            }
+
             if (item.onClick) {
                 li.push(<a><li id={k} className={active}
                     onClick={item.onClick}>
@@ -59,9 +69,7 @@ export default class SubNav extends React.Component {
         console.log("render");
         const sn = "sn-";
         var view = <div className="sub-nav">
-            <div className={`${sn}header`}>
-                {this.getNavList()}
-            </div>
+            {this.getCurItem().routeOnly === true ? null : <div className={`${sn}header`}>{this.getNavList()}</div>}
             <div key={this.state.key} className={`${sn}body`}>
                 {this.getCurComponent()}
             </div>
@@ -76,3 +84,5 @@ SubNav.propTypes = {
     route: PropTypes.string.isRequired,
     defaultItem: PropTypes.string
 };
+
+
