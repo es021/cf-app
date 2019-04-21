@@ -48,6 +48,8 @@ header {
     flex-flow: row;
     .main {
         padding: 20px;
+        max-width: 1000px;
+        margin: auto;
         flex: 3;
     }
     right_bar {
@@ -82,19 +84,40 @@ footer {
 }
 
 .primary-layout.landing-page {
-    header,
+    .main{
+        max-width: none;
+    }
     .content,
     footer {
         padding-left: 0;
     }
 }
 
-@media only screen and (min-width: 1000px) {
-    .primary-layout.landing-page {
+@media only screen and (min-width: 1180px) {
+    // .primary-layout.landing-page {
+    //     header {
+    //         padding: 0 111px;
+    //     }
+    // }
+
+    .primary-layout {
         header {
-            padding: 0 111px;
+            padding-left: 111px;
+            padding-right: 111px;
         }
     }
+
+    // .primary-layout {
+    //     .main {
+    //         .sub-nav{
+    //             .sn-header{
+    //                 padding-left: 111px;
+    //                 padding-right: 111px;
+    //             }
+    //         }
+         
+    //     }
+    // }
 }
 
 @media only screen and (max-width: $LAYOUT_MD) {

@@ -29,7 +29,7 @@ export default class ActivityPage extends React.Component {
 
         if (isRoleRec()) {
             item["student-listing"] = {
-                label: "Student Listing",
+                label: "Interested Candidates",
                 component: StudentListing,
                 props: { company_id: this.company_id },
                 icon: "users"

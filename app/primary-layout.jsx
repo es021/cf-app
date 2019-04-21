@@ -166,11 +166,11 @@ class PrimaryLayout extends React.Component {
       COMING_SOON: COMING_SOON,
       isHeader: true
     });
-    var sideMenu = Navigation.getBar(path, {
-      COMING_SOON: COMING_SOON,
-      isHeader: false,
-      count_notification: this.props.notification_count
-    });
+    // var sideMenu = Navigation.getBar(path, {
+    //   COMING_SOON: COMING_SOON,
+    //   isHeader: false,
+    //   count_notification: this.props.notification_count
+    // });
     var route = Navigation.getRoute(path, COMING_SOON);
 
     if (!isAuthorized()) {
@@ -190,10 +190,10 @@ class PrimaryLayout extends React.Component {
           <SupportChat />
           <BlockLoader />
           <HeaderLayout menuList={headerMenu} />
-          <LeftBarLayout menuList={sideMenu} />
+          {/* <LeftBarLayout menuList={sideMenu} /> */}
           <div className="content">
             <div className="main">{route}</div>
-            <RightBarLayout />
+            {/* <RightBarLayout /> */}
           </div>
           <FooterLayout />
         </div>

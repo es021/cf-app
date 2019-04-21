@@ -5,11 +5,17 @@ $bck_col : white;
 .sub-nav{
 
     .#{$SUB_NAV}header{
-        background: $bck_col;
+        //background: $bck_col;
         // this is content padding
         margin: -20px;
         margin-bottom: 10px;
         padding-top: 10px;
+
+        // width: 100vw;
+        // position: absolute;
+        // left: 0;
+        // top: $HEADER_HEIGHT + 5;
+        // max-width: 100%;
 
         ul{
             margin: 0 10px;

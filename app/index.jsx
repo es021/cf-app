@@ -22,22 +22,18 @@ import {
 import { addLog } from "./redux/actions/other-actions";
 import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
 import PrimaryLayout from "./primary-layout.jsx";
-//console.log(process.env.NODE_ENV);
 
-require("./css/general.scss");
-
-//console.log(User);
+//require("./lib/AutoComplete.js");
+//require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
 require("./lib/util.js");
-//require("./lib/AutoComplete.js");
 
+require("./css/general.scss");
 require("./css/app.scss");
 require("./css/content.scss");
 require("./css/header.scss");
-require("./css/left-bar.scss");
-require("./css/right-bar.scss");
-//require("./lib/font-awesome-4.7.0/css/font-awesome.css");
-
+ require("./css/left-bar.scss");
+// require("./css/right-bar.scss");
 
 import AuthorizedRoute from "./component/authorize-route";
 import { RootPath } from "../config/app-config";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
+//import { render } from "react-dom";
 import {
   BrowserRouter,
   Route,
@@ -8,36 +8,17 @@ import {
   Redirect
 } from "react-router-dom";
 import { getAxiosGraphQLQuery } from "../helper/api-helper";
-import { Provider } from "react-redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Loader } from "./component/loader";
-import { store } from "./redux/store.js";
-
 import {
   isAuthorized,
   isComingSoon,
-  setLocalStorageCf,
-  getAuthUser
+  setLocalStorageCf
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
-import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
-
-//console.log(process.env.NODE_ENV);
-
-//import {User} from '../config/db-config';
-require("./css/general.scss");
-
-//console.log(User);
-
-require("./lib/util.js");
-//require("./lib/AutoComplete.js");
-
-require("./css/app.scss");
-require("./css/content.scss");
-require("./css/header.scss");
-require("./css/left-bar.scss");
-require("./css/right-bar.scss");
-//require("./lib/font-awesome-4.7.0/css/font-awesome.css");
+import { LogEnum, CFSMetaObject } from "../config/db-config";
 
 import * as Navigation from "./component/navigation.jsx";
 import HeaderLayout from "./layout/header-layout.jsx";
@@ -51,9 +32,24 @@ import { SupportChat } from "./page/support";
 import BlockLoader from "./component/block-loader.jsx";
 import { initSocket } from "./socket/socket-client";
 
+import * as hallAction from "./redux/actions/hall-actions";
+
+//state is from redux reducer
+// with multiple objects
+function mapStateToProps(state, ownProps) {
+  return {
+    notification_count: state.hall.activity.notification_count
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
+}
+
 class PrimaryLayout extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       loadingCf: true,
       count_notification: 0
@@ -63,27 +59,11 @@ class PrimaryLayout extends React.Component {
   componentWillMount() {
     initSocket();
     this.loadCf();
-    this.loadNotification();
   }
 
-  loadNotification() {
-    let userId = getAuthUser().ID;
-    if (typeof userId !== "undefined") {
-      let query = `query{
-        notifications(user_id : ${userId}, is_read:0, ttl:true){
-         ttl
-        }
-      }`;
-
-      getAxiosGraphQLQuery(query).then(res => {
-        var noti = res.data.data.notifications[0];
-        this.setState(prevState => {
-          return {
-            count_notification: noti.ttl
-          };
-        });
-      });
-    }
+  componentDidMount(){
+    // takleh panggil ni store action kat dalam componentWillMount
+    hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
   }
 
   loadCf() {
@@ -189,7 +169,7 @@ class PrimaryLayout extends React.Component {
     var sideMenu = Navigation.getBar(path, {
       COMING_SOON: COMING_SOON,
       isHeader: false,
-      count_notification: this.state.count_notification
+      count_notification: this.props.notification_count
     });
     var route = Navigation.getRoute(path, COMING_SOON);
 
@@ -222,16 +202,7 @@ class PrimaryLayout extends React.Component {
   }
 }
 
-import AuthorizedRoute from "./component/authorize-route";
-import { RootPath } from "../config/app-config";
-const App = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        <AuthorizedRoute path={`${RootPath}/app`} component={PrimaryLayout} />
-        <Route path={`${RootPath}/auth`} component={PrimaryLayout} />
-      </Switch>
-    </BrowserRouter>
-  </Provider>
-);
-render(<App />, document.getElementById("app"));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrimaryLayout);

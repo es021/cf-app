@@ -579,7 +579,7 @@ export class StudentListing extends React.Component {
     console.log("getContentBelowFilter", this.state.search)
     //let hasFilter = typeof this.searchParams === "string" && this.searchParams != ""
     
-    return <ButtonExport action="student_listing" text="Export All Student Listing"
+    return <ButtonExport action="student_listing" text="Export All Interested Candidates"
       filter={{ company_id: this.props.company_id, cf: getCF(), for_rec : "1" }}>
     </ButtonExport>;
   }
@@ -642,7 +642,7 @@ export class StudentListing extends React.Component {
     //        {isComingSoon() ? "isComingSoon()" : "not isComingSoon()"}
     //        {this.state.loadPriv} |  {this.state.privs}
 
-    let title = this.props.isAllStudent ? "All Student" : "Student Listing";
+    let title = this.props.isAllStudent ? "All Student" : "Interested Candidates";
     document.setTitle(title);
 
     return (

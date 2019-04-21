@@ -20,6 +20,8 @@ import DocLinkPage from '../component/doc-link-form.jsx';
 import PasswordResetPage from './password-reset';
 import AvailabilityView from './availability';
 import { getEditProfileFormItem } from '../../config/user-config';
+import LogoutPage from "../page/logout";
+
 
 class StudentDocLink extends React.Component {
     render() {
@@ -454,33 +456,35 @@ export default class EditProfilePage extends React.Component {
     componentWillMount() {
         this.item = {
             "profile": {
-                label: "Edit Profile",
+                label: "My Profile",
                 component: EditProfile,
-                icon: "edit"
+                icon: "user"
             }
         };
 
         const authUser = getAuthUser();
 
-
         if (isRoleStudent()) {
             this.item["doc-link"] = {
-                label: "Document & Link",
+                label: "Upload Document",
                 component: StudentDocLink,
+                routeOnly: true,
                 icon: "file-text"
             };
             this.item["skills"] = {
-                label: "Skills",
+                label: "Add Skills",
                 component: Skills,
-                icon: "th-list"
+                routeOnly: true,
+                icon: "star"
             };
             this.item["availability"] = {
-                label: "Availability",
+                label: "Manage Availability",
                 component: AvailabilityView,
                 props: {
                     user_id: authUser.ID,
                     set_only: true
                 },
+                routeOnly: true,
                 icon: "clock-o"
             };
         }
@@ -502,12 +506,23 @@ export default class EditProfilePage extends React.Component {
             component: null,
             icon: "eye"
         }
+
+        this.item["logout"] = {
+            label: "Logout",
+            component: LogoutPage,
+            icon: "sign-out"
+        }
     }
 
     render() {
+        let defaultItem = this.props.match.params.current;
 
         var title = this.item[this.props.match.params.current].label;
         document.setTitle(title);
-        return <SubNav route="edit-profile" items={this.item} defaultItem={this.props.match.params.current}></SubNav>;
+        return <SubNav
+            route="edit-profile"
+            items={this.item}
+            defaultItem={defaultItem}>
+        </SubNav>;
     }
 }

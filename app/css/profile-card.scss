@@ -118,3 +118,9 @@
 .profile-card.profile-card-hidden {
     opacity: 0;
 }
+
+.profile-card.with-border{
+    .pc-picture {
+        border: #cbd9e5 0.2px solid;
+    }
+}

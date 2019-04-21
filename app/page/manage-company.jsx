@@ -467,15 +467,16 @@ export default class ManageCompanyPage extends React.Component {
 
         var item = {
             "about": {
-                label: "Edit Company",
+                label: "My Company",
                 component: AboutSubPage,
                 props: { company_id: this.company_id },
-                icon: "edit"
+                icon: "building"
             },
             "vacancy": {
                 label: "Job Opportunities",
                 component: VacancySubPage,
                 props: { company_id: this.company_id },
+                routeOnly : isRoleRec(),
                 icon: "star"
             },
             "doc-link": {
