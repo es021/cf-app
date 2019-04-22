@@ -18,6 +18,7 @@ import {
   getCFObj,
   getAuthUser
 } from "../redux/actions/auth-actions";
+import { HallGallery } from "./partial/hall/hall-gallery";
 
 require("../css/hall.scss");
 
@@ -78,7 +79,11 @@ export default class HallPage extends React.Component {
     //   </div>
     // );
 
-    return <div className="gallery-section">Gallery</div>;
+    return (
+      <div className="gallery-section main-width">
+        <HallGallery />
+      </div>
+    );
   }
   getTitle() {
     var logo = null;
@@ -112,8 +117,13 @@ export default class HallPage extends React.Component {
   }
   getSponsor() {
     return (
-      <div className="sponsor-section">
-        <SponsorList title={false} part_com={false} type="hall-page" sponsor_size="md" />
+      <div className="sponsor-section main-width">
+        <SponsorList
+          title={false}
+          part_com={false}
+          type="hall-page"
+          sponsor_size="md"
+        />
       </div>
     );
   }

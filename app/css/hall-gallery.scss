@@ -1,0 +1,60 @@
+@import "define/variable.scss";
+
+$HG_HEIGHT : 200px;
+$HG_WIDTH : 300px;
+$OFFSET : 30px;
+
+.hall-gallery {
+
+    .hg-item {
+        height: $HG_HEIGHT;
+        width: $HG_WIDTH;
+        background: gray;
+        border: solid 1px black;
+    }
+
+    .hg-item.container {
+        position: relative;
+
+        .hg-item.left-2 {
+            background: red;
+            position: absolute;
+            top: 0;
+            left: $OFFSET * -2;
+            z-index: 1;
+        }
+
+        .hg-item.left-1 {
+            background: blue;
+            position: absolute;
+            top: 0;
+            left: $OFFSET * -1;
+            z-index: 2;
+        }
+
+        .hg-item.center {
+            background: yellow;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 3;
+        }
+
+        .hg-item.right-1 {
+            background: green;
+            position: absolute;
+            top: 0;
+            left: $OFFSET * 1;
+            z-index: 2;
+        }
+
+        .hg-item.right-2 {
+            background: black;
+            position: absolute;
+            top: 0;
+            left: $OFFSET * 2;
+            z-index: 1;
+        }
+    }
+
+}
