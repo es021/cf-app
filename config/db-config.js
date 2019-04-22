@@ -563,6 +563,8 @@ const CFSMeta = {
     SCHEDULE: "schedule",
     OVERRIDE_COMING_SOON: "override_coming_soon",
     LOGO: "logo",
+    LOGO_HEIGHT_SM: "logo_height_sm",
+    LOGO_WIDTH_SM: "logo_width_sm",
     LOGO_HEIGHT: "logo_height",
     LOGO_WIDTH: "logo_width",
     LOGO_POSITION: "logo_position",

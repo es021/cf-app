@@ -81,7 +81,9 @@ class PrimaryLayout extends React.Component {
 		banner_pos
 		schedule
 		override_coming_soon
-		logo
+    logo
+    logo_height_sm
+		logo_width_sm
 		logo_height
 		logo_width
 		logo_position
