@@ -1,4 +1,5 @@
 @import "define/variable.scss";
+
 * {
     word-break: keep-all !important;
     overflow-wrap: break-word;
@@ -46,14 +47,23 @@ header {
     width: 100%;
     display: flex;
     flex-flow: row;
-    .main {
+
+    // {
+    //     padding: 20px;
+    //     max-width: $MAX_WIDTH_MAIN;
+    //     margin-left: auto;
+    //     margin-right: auto;
+    // }
+
+    .main, .main-width {
         padding: 20px;
-        max-width: 1000px;
+        max-width: $MAX_WIDTH_MAIN;
         //margin: auto;
         margin-left: auto;
         margin-right: auto;
         flex: 3;
     }
+
     right_bar {
         flex: 1;
         background: darken($COLOR_BACKGROUND, 10);
@@ -86,9 +96,10 @@ footer {
 }
 
 .primary-layout.landing-page {
-    .main{
+    .main {
         max-width: none;
     }
+
     .content,
     footer {
         padding-left: 0;
@@ -117,26 +128,31 @@ footer {
     //                 padding-right: 111px;
     //             }
     //         }
-         
+
     //     }
     // }
 }
 
 @media only screen and (max-width: $LAYOUT_MD) {
+
     header,
     .content,
     footer {
         padding-left: $LEFTBAR_MD_WIDTH;
     }
+
     left_bar {
         width: $LEFTBAR_MD_WIDTH;
     }
+
     .content {
         flex-flow: column;
+
         .main {
             padding: 15px;
             flex: 1;
         }
+
         right_bar {
             flex: 1;
             min-height: 100px;
@@ -149,11 +165,14 @@ footer {
 /**Layout for Small Size 360px */
 
 @media only screen and (max-width: $LAYOUT_SM) {
+
     header,
     .content,
     footer {
         padding-left: 0;
-    } //hide left bar and position it under header bar
+    }
+
+    //hide left bar and position it under header bar
     left_bar {
         width: 100%;
         height: $LEFTBAR_SM_HEIGHT;
@@ -162,12 +181,15 @@ footer {
         display: flex;
         align-items: center;
     }
+
     .content {
         padding-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
+
         .main {
             padding: 10px;
         }
     }
+
     .landing-page .content {
         //margin-top:$HEADER_HEIGHT;
         //margin-top:0;
