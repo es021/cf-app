@@ -119,7 +119,7 @@ export default class RightBarLayout extends React.Component {
         return <div className="right-bar-item">
             <h4>Sponsors</h4>
             <div className="body">
-                <SponsorList type="right-bar"
+                <SponsorList type=""
                     title={false}
                     part_com={false}
                     sponsor_size="sm"></SponsorList>

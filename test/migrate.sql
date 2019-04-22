@@ -1,5 +1,11 @@
 
 -- ###############################
+-- POST USA19
+
+-- add logo_height_sm and log_width_sm
+SELECT * FROM `cfs_meta` where meta_key like '%logo%'
+
+-- ###############################
 -- 03/04/2019
 
 ALTER TABLE `notifications` ADD `param` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `type`; 

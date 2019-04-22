@@ -49,7 +49,9 @@ header {
     .main {
         padding: 20px;
         max-width: 1000px;
-        margin: auto;
+        //margin: auto;
+        margin-left: auto;
+        margin-right: auto;
         flex: 3;
     }
     right_bar {

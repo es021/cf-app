@@ -1,0 +1,46 @@
+@import "define/variable.scss";
+
+body.body-hall-page {
+    .main {
+        padding: 0px;
+    }
+}
+
+$TITLE_HEIGHT:130px;
+
+.hall-page {
+
+    .title-section {
+        font-size: 18px;
+        padding: 15px;
+        background: #e6e6e6;
+        color: $COLOR_DARK;
+        border-top: 1px solid $COLOR_TITLE;
+        border-bottom: 1px solid $COLOR_TITLE;
+        height: $TITLE_HEIGHT;
+        width: 100%;
+        position: absolute;
+        left: 0;
+    }
+
+    .gallery-section {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sponsor-section {
+        padding: 10px 0;
+        margin-top: $TITLE_HEIGHT;
+
+        .sponsor-card {
+            border-radius: 5px;
+            overflow: hidden;
+            .title{
+                height: 25px;
+            }
+        }
+    }
+
+}

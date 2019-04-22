@@ -154,6 +154,8 @@ const CfsType = new GraphQLObjectType({
         schedule: { type: GraphQLString },
         override_coming_soon: { type: GraphQLBoolean },
         logo: { type: GraphQLString },
+        logo_height_sm: { type: GraphQLString },
+        logo_width_sm: { type: GraphQLString },
         logo_height: { type: GraphQLString },
         logo_width: { type: GraphQLString },
         logo_position: { type: GraphQLString },
