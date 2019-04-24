@@ -1,60 +1,88 @@
 @import "define/variable.scss";
 
-$HG_HEIGHT : 200px;
-$HG_WIDTH : 300px;
-$OFFSET : 30px;
+$HG_HEIGHT_CENTER : 200px;
+$HG_WIDTH_CENTER : 300px;
+
+$HG_HEIGHT_1 : 170px;
+$HG_WIDTH_1 : 250px;
+
+$HG_HEIGHT_2 : 100px;
+$HG_WIDTH_2 : 200px;
+
+$OFFSET : -30px;
 
 .hall-gallery {
 
     .hg-item {
-        height: $HG_HEIGHT;
-        width: $HG_WIDTH;
         background: gray;
         border: solid 1px black;
+        transition: width 0.3s ease, height 0.3s ease, left 0.5s ease, right 0.5s ease, z-index 0.5s ease;
+        //transition: left 0.5s ease ;
     }
 
     .hg-item.container {
         position: relative;
+        height: $HG_HEIGHT_CENTER;
+        width: $HG_WIDTH_CENTER;
+        background: rgba(0, 0, 0, 0);
+        border: none;
 
         .hg-item.left-2 {
+            height: $HG_HEIGHT_2;
+            width: $HG_WIDTH_2;
             background: red;
             position: absolute;
             top: 0;
-            left: $OFFSET * -2;
+            left: $OFFSET * 2;
             z-index: 1;
         }
 
         .hg-item.left-1 {
+            height: $HG_HEIGHT_1;
+            width: $HG_WIDTH_1;
             background: blue;
-            position: absolute;
-            top: 0;
-            left: $OFFSET * -1;
-            z-index: 2;
-        }
-
-        .hg-item.center {
-            background: yellow;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 3;
-        }
-
-        .hg-item.right-1 {
-            background: green;
             position: absolute;
             top: 0;
             left: $OFFSET * 1;
             z-index: 2;
         }
 
+        .hg-item.center {
+            height: $HG_HEIGHT_CENTER;
+            width: $HG_WIDTH_CENTER;
+            background: yellow;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 3;
+        }
+
+        .hg-item.right-1 {
+            height: $HG_HEIGHT_1;
+            width: $HG_WIDTH_1;
+            background: green;
+            position: absolute;
+            top: 0;
+            //right: $OFFSET * 1;
+            left: $OFFSET * -1;
+            left: 80px;
+            z-index: 2;
+        }
+
         .hg-item.right-2 {
+            height: $HG_HEIGHT_2;
+            width: $HG_WIDTH_2;
             background: black;
             position: absolute;
             top: 0;
-            left: $OFFSET * 2;
+            //right: $OFFSET * 2;
+            left: $OFFSET * -2;
+            left: 160px;
             z-index: 1;
         }
     }
+
+   
 
 }
