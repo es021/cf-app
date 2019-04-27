@@ -1,88 +1,259 @@
 @import "define/variable.scss";
 
-$HG_HEIGHT_CENTER : 200px;
-$HG_WIDTH_CENTER : 300px;
+$HG_HEIGHT_CENTER_FULL : 300px;
+$HG_WIDTH_CENTER_FULL : 500px;
 
-$HG_HEIGHT_1 : 170px;
-$HG_WIDTH_1 : 250px;
+$HG_HEIGHT_CENTER_LG : $HG_HEIGHT_CENTER_FULL / 1.2;
+$HG_WIDTH_CENTER_LG : $HG_WIDTH_CENTER_FULL / 1.2;
 
-$HG_HEIGHT_2 : 100px;
-$HG_WIDTH_2 : 200px;
+$HG_HEIGHT_CENTER_MD : $HG_HEIGHT_CENTER_FULL / 1.3;
+$HG_WIDTH_CENTER_MD : $HG_WIDTH_CENTER_FULL / 1.3;
 
-$OFFSET : -30px;
+$HG_HEIGHT_CENTER_SM : $HG_HEIGHT_CENTER_FULL / 1.6;
+$HG_WIDTH_CENTER_SM : $HG_WIDTH_CENTER_FULL / 1.6;
 
-.hall-gallery {
+$OFFSET_FULL : 60px;
+$OFFSET_LG : 45px;
+$OFFSET_MD : 30px;
+$OFFSET_SM : 0px;
 
-    .hg-item {
-        background: gray;
-        border: solid 1px black;
-        transition: width 0.3s ease, height 0.3s ease, left 0.5s ease, right 0.5s ease, z-index 0.5s ease;
-        //transition: left 0.5s ease ;
+@mixin hg_size_and_position($offsetVar, $hg_height_center, $hg_width_center) {
+    $hg_height_1: $hg_height_center / 1.2;
+    $hg_width_1: $hg_width_center / 1.2;
+
+    $hg_height_2: $hg_height_center / 1.5;
+    $hg_width_2: $hg_width_center / 1.5;
+
+    $top_1: ($hg_height_center - $hg_height_1) / 2;
+    $top_2: ($hg_height_center - $hg_height_2) / 2;
+
+    $arrow_height: 40px;
+    $arrow_width: 40px;
+    $arrow_top: ($hg_height_center - $arrow_height) / 2;
+
+    .hg-item.hg-container {
+        height: $hg_height_center;
+        width: $hg_width_center;
+
+        .hg-item.left-2 {
+            height: $hg_height_2;
+            width: $hg_width_2;
+            top: $top_2;
+            left: $offsetVar * -2;
+        }
+
+        .hg-item.left-1 {
+            height: $hg_height_1;
+            width: $hg_width_1;
+            top: $top_1;
+            left: $offsetVar * -1;
+        }
+
+        .hg-item.center {
+            height: $hg_height_center;
+            width: $hg_width_center;
+            left: 0;
+        }
+
+        .hg-item.right-1 {
+            height: $hg_height_1;
+            width: $hg_width_1;
+            top: $top_1;
+            left: ($hg_width_center - $hg_width_1) + $offsetVar;
+        }
+
+        .hg-item.right-2 {
+            height: $hg_height_2;
+            width: $hg_width_2;
+            top: $top_2;
+            left: ($hg_width_center - $hg_width_2) + $offsetVar * 2;
+        }
+
+        .hg-arrow {
+            height: $arrow_height;
+            width: $arrow_width;
+            top: $arrow_top;
+        }
+
+        .left-arrow {
+            left: $offsetVar * -3;
+        }
+
+        .right-arrow {
+            left: ($hg_width_center - $arrow_width) + $offsetVar * 3;
+        }
     }
 
-    .hg-item.container {
+
+}
+
+.hall-gallery {
+    max-width: 100%;
+
+    .hg-item {
+        background: darkgray;
+        border-radius: 7px;
+        border: solid 1px white;
+        transition: width 0.4s ease, height 0.3s ease, left 0.5s ease, top 0.2s ease, z-index 0.5s ease;
+        display: flex;
+        flex-flow: row;
+        overflow: hidden;
+        cursor: pointer;
+
+        .hg-item-title {
+            width: 100%;
+            align-self: flex-end;
+            color: white;
+            text-align: left;
+            padding: 7px 10px;
+            background: rgba(0, 0, 0, 0.4);
+            transition: opacity 0.4s ease, margin-bottom 0.4s ease;
+            margin-bottom: -40px;
+            opacity: 0;
+        }
+    }
+
+    .hg-item.center:hover {
+        .hg-item-title {
+            margin-bottom: 0px;
+            opacity: 1;
+        }
+    }
+
+    .hg-item.hg-container {
+        overflow: initial;
         position: relative;
-        height: $HG_HEIGHT_CENTER;
-        width: $HG_WIDTH_CENTER;
+        //height: $HG_HEIGHT_CENTER;
+        //width: $HG_WIDTH_CENTER;
         background: rgba(0, 0, 0, 0);
+        box-shadow: none;
         border: none;
 
         .hg-item.left-2 {
-            height: $HG_HEIGHT_2;
-            width: $HG_WIDTH_2;
-            background: red;
             position: absolute;
-            top: 0;
-            left: $OFFSET * 2;
+
             z-index: 1;
         }
 
         .hg-item.left-1 {
-            height: $HG_HEIGHT_1;
-            width: $HG_WIDTH_1;
-            background: blue;
             position: absolute;
-            top: 0;
-            left: $OFFSET * 1;
             z-index: 2;
         }
 
         .hg-item.center {
-            height: $HG_HEIGHT_CENTER;
-            width: $HG_WIDTH_CENTER;
-            background: yellow;
             position: absolute;
             top: 0;
-            left: 0;
             right: 0;
             z-index: 3;
         }
 
         .hg-item.right-1 {
-            height: $HG_HEIGHT_1;
-            width: $HG_WIDTH_1;
-            background: green;
             position: absolute;
-            top: 0;
-            //right: $OFFSET * 1;
-            left: $OFFSET * -1;
-            left: 80px;
             z-index: 2;
         }
 
         .hg-item.right-2 {
-            height: $HG_HEIGHT_2;
-            width: $HG_WIDTH_2;
-            background: black;
             position: absolute;
-            top: 0;
-            //right: $OFFSET * 2;
-            left: $OFFSET * -2;
-            left: 160px;
             z-index: 1;
         }
+
+        // #################################
+        // handler hover event
+        .hg-item:hover {
+            box-shadow: 1px 2px 6px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .hg-item:active {
+            box-shadow: none;
+        }
+
+        // ###########################
+        // Arrow
+        .hg-arrow {
+            position: absolute;
+            // height: $arrow_height;
+            // width: $arrow_width;
+            // top: $arrow_top;
+            z-index: 10;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            color: darkgray;
+        }
+
+        .hg-arrow:hover {
+            opacity: 0.7;
+        }
+
+        .hg-arrow:active {
+            opacity: 1;
+        }
+
+
     }
 
-   
+    // ##################################
+    // Position and Size
+    @include hg_size_and_position($OFFSET_FULL, $HG_HEIGHT_CENTER_FULL, $HG_WIDTH_CENTER_FULL);
 
+    @media only screen and (max-width: 1000px) {
+        @include hg_size_and_position($OFFSET_LG, $HG_HEIGHT_CENTER_LG, $HG_WIDTH_CENTER_LG);
+    }
+
+    @media only screen and (max-width: 700px) {
+        @include hg_size_and_position($OFFSET_MD, $HG_HEIGHT_CENTER_MD, $HG_WIDTH_CENTER_MD);
+    }
+
+    @media only screen and (max-width: 635px) {
+        @include hg_size_and_position($OFFSET_SM, $HG_HEIGHT_CENTER_SM, $HG_WIDTH_CENTER_SM);
+
+        .hg-item {
+            max-width: 100%;
+        }
+
+        .hg-item.hg-container {
+            display: flex;
+            flex-flow: row;
+            justify-content: space-between;
+            width: 100vw;
+
+            .hg-arrow {
+                color: white;
+                position: initial;
+                font-size: 30px;
+                height: 100%;
+                width: 100%;
+                flex-flow: column;
+            }
+
+            .hg-arrow.left-arrow {
+                align-items: flex-start;
+                padding-left: 15px;
+            }
+
+            .hg-arrow.right-arrow {
+                align-items: flex-end;
+                padding-right: 15px;
+            }
+
+            .hg-arrow:hover {
+                background: rgba(0, 0, 0, 0.4);
+            }
+
+            .hg-item.center {
+                border: none;
+                border-radius: 0px;
+                width: 100vw;
+            }
+
+            .hg-item.left-1,
+            .hg-item.left-2,
+            .hg-item.right-1,
+            .hg-item.right-2 {
+                display: none;
+            }
+        }
+    }
 }

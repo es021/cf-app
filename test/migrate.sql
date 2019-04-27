@@ -3,7 +3,12 @@
 -- POST USA19
 
 -- add logo_height_sm and log_width_sm
-SELECT * FROM `cfs_meta` where meta_key like '%logo%'
+INSERT INTO `cfs_meta`(`cf_name`, `meta_key`, `meta_value`) 
+VALUES 
+("EUR","logo_height_hall","68px"),
+("EUR","logo_width_hall","150px"),
+("EUR","logo_margin_hall","-11px 0px -6px 0px")
+
 
 -- ###############################
 -- 03/04/2019
