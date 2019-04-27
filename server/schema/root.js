@@ -24,6 +24,7 @@ const { UserType
     , StudentListingType
     , GroupSessionJoinType
     , GroupSessionType
+    , HallGalleryType
     , DocLinkType
     , CfsType
     , QsPopupType
@@ -58,6 +59,7 @@ const { GroupSessionExec } = require('../model/group-session-query.js');
 const { QsPopupExec } = require('../model/qs-popup-query.js');
 const { CFExec } = require('../model/cf-query.js');
 const { NotificationExec } = require('../model/notification-query');
+const { HallGalleryExec } = require('../model/hall-gallery-query');
 const DB = require('../model/DB.js');
 
 const {
@@ -73,6 +75,24 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/*******************************************/
+/* hall_galleries ******************/
+fields["hall_galleries"] = {
+    type: new GraphQLList(HallGalleryType),
+    args: {
+        ID: { type: GraphQLInt},
+        is_active : { type: GraphQLInt},
+        cf: { type: GraphQLString },
+        order_by : {type: GraphQLString},
+        page : { type: GraphQLInt },
+        offset : { type: GraphQLInt },
+     },
+    resolve(parentValue, arg, context, info) {
+        return HallGalleryExec.hall_galleries(arg, graphqlFields(info));
+    }
+};
 
 
 /*******************************************/

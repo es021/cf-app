@@ -563,8 +563,9 @@ const CFSMeta = {
     SCHEDULE: "schedule",
     OVERRIDE_COMING_SOON: "override_coming_soon",
     LOGO: "logo",
-    LOGO_HEIGHT_SM: "logo_height_sm",
-    LOGO_WIDTH_SM: "logo_width_sm",
+    LOGO_HEIGHT_HALL: "logo_height_hall",
+    LOGO_WIDTH_HALL: "logo_width_hall",
+    LOGO_MARGIN_HALL: "logo_margin_hall",
     LOGO_HEIGHT: "logo_height",
     LOGO_WIDTH: "logo_width",
     LOGO_POSITION: "logo_position",
@@ -591,6 +592,19 @@ const CFSMetaObject = [
 ];
 
 const CFSMetaOrg = [CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED];
+
+const HallGallery = {
+    TABLE: "hall_gallery",
+    ID : "ID",
+    ITEM_ORDER : "item_order",
+    CF : "cf",
+    IS_ACTIVE : "is_active"
+}
+
+const HallGalleryEnum = {
+    TYPE_IMAGE : "image",
+    TYPE_VIDEO : "video",
+}
 
 module.exports = {
     QsPopup,
@@ -641,5 +655,7 @@ module.exports = {
     CFSMetaOrg,
     EntityRemoved,
     Notifications,
-    NotificationsEnum
+    NotificationsEnum,
+    HallGallery,
+    HallGalleryEnum
 };

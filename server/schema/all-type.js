@@ -154,8 +154,9 @@ const CfsType = new GraphQLObjectType({
         schedule: { type: GraphQLString },
         override_coming_soon: { type: GraphQLBoolean },
         logo: { type: GraphQLString },
-        logo_height_sm: { type: GraphQLString },
-        logo_width_sm: { type: GraphQLString },
+        logo_height_hall: { type: GraphQLString },
+        logo_width_hall: { type: GraphQLString },
+        logo_margin_hall: { type: GraphQLString },
         logo_height: { type: GraphQLString },
         logo_width: { type: GraphQLString },
         logo_position: { type: GraphQLString },
@@ -629,6 +630,26 @@ const EntityRemovedType = new GraphQLObjectType({
 });
 
 
+const HallGalleryType = new GraphQLObjectType({
+    name: 'HallGallery',
+    fields: () => ({
+        ID: { type: GraphQLInt },
+        item_order: { type: GraphQLInt },
+        is_active: { type: GraphQLInt },
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        type: { type: GraphQLString },
+        img_url: { type: GraphQLString },
+        img_size: { type: GraphQLString },
+        img_pos: { type: GraphQLString },
+        video_url: { type: GraphQLString },
+        created_at: { type: GraphQLString },
+        created_by: { type: GraphQLInt },
+        updated_at: { type: GraphQLString },
+        updated_by: { type: GraphQLInt }
+    })
+});
+
 
 module.exports = {
     QsPopupType, QsPopupAnswerType
@@ -661,5 +682,6 @@ module.exports = {
     , CfsType
     , EntityRemovedType
     , NotificationType
+    , HallGalleryType
     //, CFType
 };

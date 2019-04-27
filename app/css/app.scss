@@ -55,14 +55,30 @@ header {
     //     margin-right: auto;
     // }
 
-    .main, .main-width {
+    .main,
+    .main-width {
         padding: 20px;
         max-width: $MAX_WIDTH_MAIN;
+
         //margin: auto;
         margin-left: auto;
         margin-right: auto;
         flex: 3;
     }
+
+    @media only screen and (max-width: $MAX_WIDTH_MAIN) {
+
+        .main,
+        .main-width {
+            max-width: 100vw;
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+
 
     right_bar {
         flex: 1;
@@ -98,6 +114,7 @@ footer {
 .primary-layout.landing-page {
     .main {
         max-width: none;
+        //max-width: 100vw;
     }
 
     .content,
@@ -133,33 +150,33 @@ footer {
     // }
 }
 
-@media only screen and (max-width: $LAYOUT_MD) {
+// @media only screen and (max-width: $LAYOUT_MD) {
 
-    header,
-    .content,
-    footer {
-        padding-left: $LEFTBAR_MD_WIDTH;
-    }
+//     header,
+//     .content,
+//     footer {
+//         padding-left: $LEFTBAR_MD_WIDTH;
+//     }
 
-    left_bar {
-        width: $LEFTBAR_MD_WIDTH;
-    }
+//     left_bar {
+//         width: $LEFTBAR_MD_WIDTH;
+//     }
 
-    .content {
-        flex-flow: column;
+//     .content {
+//         flex-flow: column;
 
-        .main {
-            padding: 15px;
-            flex: 1;
-        }
+//         .main {
+//             padding: 15px;
+//             flex: 1;
+//         }
 
-        right_bar {
-            flex: 1;
-            min-height: 100px;
-            min-width: 100%;
-        }
-    }
-}
+//         right_bar {
+//             flex: 1;
+//             min-height: 100px;
+//             min-width: 100%;
+//         }
+//     }
+// }
 
 
 /**Layout for Small Size 360px */

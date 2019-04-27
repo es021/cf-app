@@ -3,7 +3,8 @@
 body.body-hall-page {
     .main {
         padding: 0px;
-        max-width: none;
+        //max-width: none;
+        max-width: 100%;
     }
 }
 
@@ -16,6 +17,11 @@ body.body-hall-page {
         color: $COLOR_DARK;
         border-top: 1px solid $COLOR_TITLE;
         border-bottom: 1px solid $COLOR_TITLE;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
 
         // width: 100%;
         // position: absolute;
