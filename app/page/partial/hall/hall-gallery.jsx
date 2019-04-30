@@ -25,14 +25,11 @@ import { Time } from "../../../lib/time";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import AvailabilityView from "../../availability";
 
-
 import obj2arg from "graphql-obj2arg";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import React from "react";
-import {
-  HallGallery,
-  HallGalleryEnum
-} from "../../../../config/db-config";
+import { getYoutubeIframe } from "../../../component/gallery";
+import { HallGallery, HallGalleryEnum } from "../../../../config/db-config";
 
 require("../../../css/hall-gallery.scss");
 // remove limit join
@@ -53,11 +50,12 @@ export class HallGalleryView extends React.Component {
     let defaultItems = [
       {
         ID: "1",
-        title: "Test Image 1",
-        type: "image",
-        img_url: "http://localhost:4000/asset/image/banner/EUR.jpg",
-        img_pos: "center center",
-        img_size: "cover",
+        title: "Test Video 1",
+        type: HallGalleryEnum.TYPE_VIDEO,
+        // img_url: "http://localhost:4000/asset/image/banner/EUR.jpg",
+        // img_pos: "center center",
+        // img_size: "cover",
+        video_url: "https://youtu.be/RNMTDv-w9MU"
       },
       {
         ID: "2",
@@ -65,7 +63,7 @@ export class HallGalleryView extends React.Component {
         type: "image",
         img_url: "http://localhost:4000/asset/image/banner/EUR.jpg",
         img_pos: "center center",
-        img_size: "cover",
+        img_size: "cover"
       },
       {
         ID: "3",
@@ -73,7 +71,7 @@ export class HallGalleryView extends React.Component {
         type: "image",
         img_url: "http://localhost:4000/asset/image/banner/EUR.jpg",
         img_pos: "center center",
-        img_size: "cover",
+        img_size: "cover"
       },
       {
         ID: "4",
@@ -81,7 +79,7 @@ export class HallGalleryView extends React.Component {
         type: "image",
         img_url: "http://localhost:4000/asset/image/banner/EUR.jpg",
         img_pos: "center center",
-        img_size: "cover",
+        img_size: "cover"
       },
       {
         ID: "5",
@@ -89,7 +87,7 @@ export class HallGalleryView extends React.Component {
         type: "image",
         img_url: "http://localhost:4000/asset/image/banner/EUR.jpg",
         img_pos: "center center",
-        img_size: "cover",
+        img_size: "cover"
       }
     ];
 
@@ -100,11 +98,16 @@ export class HallGalleryView extends React.Component {
   }
   componentWillMount() {
     // initialize all this
+    // debug
     // this.currentIndex = 0;
     // this.items = this.getAllItem();
     // this.itemViews = this.items.map((d, i) => {
     //   return this.createItemView(d, i);
     // });
+    // this.setState(prevState => {
+    //   return { loading: false };
+    // });
+    // return;
 
     // load data
     let q = `query{
@@ -123,10 +126,10 @@ export class HallGalleryView extends React.Component {
     }`;
 
     getAxiosGraphQLQuery(q).then(res => {
-      this.setState((prevState) => {
-        let hg = res.data.data.hall_galleries
+      this.setState(prevState => {
+        let hg = res.data.data.hall_galleries;
         return { loading: false, data: hg };
-      })
+      });
     });
   }
 
@@ -230,9 +233,9 @@ export class HallGalleryView extends React.Component {
     className = `hg-item ${className}`;
 
     let classNameTitle = "hg-item-title";
-    let id = `hg-item-id-${d.ID}`
+    let id = `hg-item-id-${d.ID}`;
 
-    const onClick = (e) => {
+    const onClick = e => {
       let curClass = e.currentTarget.className;
       // console.log(curClass);
       // console.log(id);
@@ -249,7 +252,7 @@ export class HallGalleryView extends React.Component {
         this.nextOnClick();
         this.nextOnClick();
       }
-    }
+    };
 
     // #######################################
     // start create view
@@ -257,19 +260,37 @@ export class HallGalleryView extends React.Component {
       let imgStyle = {
         backgroundImage: `url('${d.img_url}')`,
         backgroundPosition: d.img_pos,
-        backgroundSize: d.img_size,
+        backgroundSize: d.img_size
       };
       return (
-        <div id={id} onClick={(e) => { onClick(e) }}
-          className={className} style={imgStyle}>
+        <div
+          id={id}
+          onClick={e => {
+            onClick(e);
+          }}
+          className={className}
+          style={imgStyle}
+        >
           <div className={classNameTitle}>
-            {d.title}<br></br>
+            {d.title}
+            <br />
             <small>{d.description}</small>
           </div>
         </div>
       );
+    } else if (d.type == HallGalleryEnum.TYPE_VIDEO) {
+      return (
+        <div
+          id={id}
+          onClick={e => {
+            onClick(e);
+          }}
+          className={className}
+        >
+          {getYoutubeIframe(d.video_url)}
+        </div>
+      );
     }
-
   }
 
   getItemByOffset(offset, currentIndex) {
@@ -302,7 +323,7 @@ export class HallGalleryView extends React.Component {
   render() {
     let v = null;
     if (this.state.loading) {
-      v = <Loader text="Loading Gallery..." size="3"></Loader>
+      v = <Loader text="Loading Gallery..." size="3" />;
     } else {
       this.currentIndex = 0;
       this.items = this.getAllItem();
@@ -310,25 +331,35 @@ export class HallGalleryView extends React.Component {
         return this.createItemView(d, i);
       });
 
-      let leftArrow = <div className="hg-arrow left-arrow"
-        onClick={() => {
-          this.prevOnClick();
-        }}>
-        <i className="fa fa-angle-left"></i>
-      </div>;
+      let leftArrow = (
+        <div
+          className="hg-arrow left-arrow"
+          onClick={() => {
+            this.prevOnClick();
+          }}
+        >
+          <i className="fa fa-angle-left" />
+        </div>
+      );
 
-      let rightArrow = <div className="hg-arrow right-arrow"
-        onClick={() => {
-          this.nextOnClick();
-        }}>
-        <i className="fa fa-angle-right"></i>
-      </div>;
+      let rightArrow = (
+        <div
+          className="hg-arrow right-arrow"
+          onClick={() => {
+            this.nextOnClick();
+          }}
+        >
+          <i className="fa fa-angle-right" />
+        </div>
+      );
 
-      v = <div className="hg-item hg-container">
-        {leftArrow}
-        {this.itemViews}
-        {rightArrow}
-      </div>;
+      v = (
+        <div className="hg-item hg-container">
+          {leftArrow}
+          {this.itemViews}
+          {rightArrow}
+        </div>
+      );
     }
 
     return (
