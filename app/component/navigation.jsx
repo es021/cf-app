@@ -30,7 +30,7 @@ import SessionPage from "../page/session";
 import { FaqPage, AllowCookiePage, ContactUsPage } from "../page/static";
 import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
-import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium";
+import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";
 import DashboardPage from "../page/dashboard";
 import PasswordResetPage from "../page/password-reset";
 import PasswordForgotPage from "../page/password-forgot";

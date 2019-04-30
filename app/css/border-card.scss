@@ -1,10 +1,12 @@
 @import "define/variable.scss";
 $theme: lighten($COLOR_LINK, 10);
+
 .border-card {
     border: solid 1px $theme;
     margin: 10px;
     margin-bottom: 15px;
    
+    
     .bc-title {
         // EUR FIX
         font-size: 17px;
@@ -20,6 +22,10 @@ $theme: lighten($COLOR_LINK, 10);
         display: flex;
         //min-height: 205px;
     }
+}
+
+.border-card.bc-rounded{
+    border-radius: 10px;
 }
 
 .bc-vertical {

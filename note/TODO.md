@@ -16,20 +16,24 @@ RM 480.52
 07/15 - Pilot
 
 # New TODO
+
+########################################################################
+
 1. Bug Fixing
   - https://docs.google.com/document/d/14foK88Y3RqloZhxWw1qvGVHCuQTtuRgYpK7tw98eXjU/edit
-  - “About” - remove
-  - Announcement - hide dulu
+  # - “About” - remove
+  # - Announcement - hide dulu
   - After feedback page not found - /cf/app/career-fair
-  - Webinar
-    # copy data production auditorium dulu
-    # When creating a new one, admin needs to put link in “recorded field”
-    # Webinar box disappears when start date has passed. 
-      Issue is to show recorded webinar not possible as we need to adjust start date to a future point in time
-  - Prescreening is broken kalau create from user popup
+#- Webinar
+  # copy data production auditorium dulu
+  # When creating a new one, admin needs to put link in “recorded field”
+  # Webinar box disappears when start date has passed. 
+  # Issue is to show recorded webinar not possible as we need to adjust start date to a future point in time
+  # - Prescreening is broken kalau create from user popup
   - Online chat support
     # Offline - online bug, when support account already logged i
 
+########################################################################
 2. Registration
   - Buang activation email limitation (Buang Drop Resume limitation)
   - Field of study
@@ -47,25 +51,30 @@ RM 480.52
   - Last page is what the should do next
       # Business team Have to write 
 
+########################################################################
 3. Homepage skeleton
   - https://drive.google.com/drive/folders/1vj3lwZqzIf9Q6kqr5zKYaGh7eRILG0rC?ths=true
   - Siapkan Notification
     # 
-  - Right and left bar layout buang
-  - Sponsor
-  - Header
-    # bar sume kat atas (macam linked in)
-  - Placeholer for home gallery
-  - etc
+#- Right and left bar layout buang
+#- Sponsor
+#- Header
+  # bar sume kat atas (macam linked in)
+#- Placeholer for home gallery
+#- etc
 
+########################################################################
 4. Home Student
   - https://drive.google.com/drive/folders/1vj3lwZqzIf9Q6kqr5zKYaGh7eRILG0rC?ths=true
   - Scheduled Session Placeholder
   - Webinar
+    - Join, Watch, 1 Apr 10.00PM
   - Company Booth 
     # Ada bagde macam GraduateLand
     # boleh bukak lepas event start je
     
+########################################################################
+
 5. Home Recruiter
   - https://drive.google.com/drive/folders/1vj3lwZqzIf9Q6kqr5zKYaGh7eRILG0rC?ths=true
   - Interested Candidate
@@ -73,11 +82,15 @@ RM 480.52
   - Scheduled Session Placeholder
   - Webinar
   - Go Live
+    
+########################################################################
 
 6. Home Gallery
   - Twitch.com
   - Video/Image (Hover Desc)
   - Admin Management 
+
+########################################################################
 
 7. Daily.co (Activity)
   - Time zone converter in activity card (toggle timing mcm coachella)
@@ -87,6 +100,8 @@ RM 480.52
     # recruiter window id
     # student lepas 15 min tukar ke join video call, btn join tu hilang
 
+########################################################################
+
 8. Company Page
   - https://drive.google.com/drive/folders/1vj3lwZqzIf9Q6kqr5zKYaGh7eRILG0rC?ths=true
   - redesign
@@ -94,10 +109,14 @@ RM 480.52
   - no popup
   - Chat button place holder
 
+########################################################################
+
 9. Chat/Inbox
   - Chat view for recruiter
     # macam facebook?
     # Macam GraduateLand
+
+########################################################################
 
 10. Mock Interview
   - Register -> Pilih Schedule ->  Join
