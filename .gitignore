@@ -6,4 +6,5 @@ package.json
 package-lock.json
 public/upload/
 server/secret/
+server/api/zoom-api.js
 server/php-api/lib/secret.php
