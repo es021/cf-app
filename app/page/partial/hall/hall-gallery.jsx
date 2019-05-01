@@ -99,15 +99,15 @@ export class HallGalleryView extends React.Component {
   componentWillMount() {
     // initialize all this
     // debug
-    this.currentIndex = 0;
-    this.items = this.getAllItem();
-    this.itemViews = this.items.map((d, i) => {
-      return this.createItemView(d, i);
-    });
-    this.setState(prevState => {
-      return { loading: false };
-    });
-    return;
+    // this.currentIndex = 0;
+    // this.items = this.getAllItem();
+    // this.itemViews = this.items.map((d, i) => {
+    //   return this.createItemView(d, i);
+    // });
+    // this.setState(prevState => {
+    //   return { loading: false };
+    // });
+    // return;
 
     // load data
     let q = `query{

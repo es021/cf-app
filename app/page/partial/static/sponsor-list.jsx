@@ -28,6 +28,8 @@ export default class SponsorList extends React.Component {
         return "100px";
       case "sm":
         return "50px";
+      default:
+        return size;
     }
   }
 
@@ -48,7 +50,7 @@ export default class SponsorList extends React.Component {
 
     var query = `query{companies(cf:"${
       this.CF
-    }", ignore_type:"(${ignore_type})", include_sponsor:1)
+      }", ignore_type:"(${ignore_type})", include_sponsor:1)
         {name cf type img_url img_position img_size}}`;
 
     getAxiosGraphQLQuery(query).then(res => {
@@ -79,9 +81,9 @@ export default class SponsorList extends React.Component {
       " " + (isSponsor ? this.props.sponsor_size : this.props.part_com_size);
 
     let strSponsor = CompanyEnum.getTypeStr(d.type);
-    if(this.isHallPage()){
-        strSponsor =  strSponsor.replaceAll(" Sponsor","");
-    }
+    // if (this.isHallPage()) {
+    //   strSponsor = strSponsor.replaceAll(" Sponsor", "");
+    // }
 
     return (
       <div className={`sponsor-card ${className}`}>
@@ -115,7 +117,7 @@ export default class SponsorList extends React.Component {
       <div style={parentStyle}>
         <div>
           {this.props.title && sponsor.length > 0 ? <h1>Sponsors</h1> : null}
-          <ul className="sponsor-container">{sponsor}</ul>
+          <ul className={`sponsor-container`}>{sponsor}</ul>
         </div>
         {!this.props.part_com ? null : (
           <div>

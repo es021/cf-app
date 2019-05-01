@@ -37,13 +37,54 @@ body.body-hall-page {
 
     .sponsor-section {
         padding: 10px 0;
+
         .sponsor-card {
-            border-radius: 5px;
+            border-radius: 7px;
             overflow: hidden;
+
             .title {
-                height: 25px;
+                font-weight: initial;
+                width: 130px;
+                padding: 0px 3px;
             }
         }
     }
 
+    $HWW_ALL :480px;
+    $HWW_IMAGE :100px;
+    $HWW_ACTION :140px;
+    $HWW_DETAILS : $HWW_ALL - $HWW_IMAGE - $HWW_ACTION;
+
+    .hall-webinar {
+        display: flex;
+        width: $HWW_ALL;
+        justify-content: space-between;
+        border: 1px solid gray;
+        margin-bottom: 10px;
+
+        .hw-image {
+            width: $HWW_IMAGE;
+            align-self: center;
+        }
+
+        .hw-details {
+            padding: 5px 7px;
+            align-self: center;
+            width: $HWW_DETAILS;
+        }
+
+        .hw-action {
+            cursor: pointer;
+            width: $HWW_ACTION;
+            background: #449d44;
+            color: white;
+            a{
+                color: white;
+
+            }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }

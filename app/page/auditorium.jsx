@@ -6,6 +6,7 @@ import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 
 import GeneralFormPage from "../component/general-form";
+import ProfileCard from "../component/profile-card";
 import {
   getAuthUser,
   getCF,
@@ -92,36 +93,32 @@ export class WebinarHall extends React.Component {
   }
 
   renderList(d, i, isExtraData = false) {
-    var item = [];
-    var details = (
-      <div>
-        {"with "}
-        <a
-          onClick={() =>
-            layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
-              id: d.company.ID,
-              toggleable: false
-            })
-          }
-        >
-          {d.company.name}
-        </a>
-        <br />
-        <small>
-          <i className="fa fa-calendar left" />
-          {Time.getDate(d.start_time)}
-          <br />
-          <i className="fa fa-clock-o left" />
-          {Time.getStringShort(d.start_time) +
-            " - " +
-            Time.getStringShort(d.end_time)}
-          <br />
-          {d.moderator != null && d.moderator != "" ? (
-            <span>Moderator - {d.moderator}</span>
-          ) : null}
-        </small>
-      </div>
-    );
+
+
+    let img = <div className="hw-image" ><ProfileCard type="company"
+      img_url={d.company.img_url} img_pos={d.company.img_pos}
+      img_size={d.company.img_size}
+      img_dimension={"65px"}
+      body={null}></ProfileCard></div>
+
+    let detailStyle = {
+      fontSize: "15px",
+      textAlign: "left"
+    }
+    let details = <div className="hw-details" style={detailStyle}>
+      <b>{d.title}</b><br></br>
+      {"with "}
+      <a
+        onClick={() =>
+          layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
+            id: d.company.ID,
+            toggleable: false
+          })
+        }
+      >
+        {d.company.name}
+      </a>
+    </div>
 
     var action_disabled = true;
     var action_link = "";
@@ -139,26 +136,19 @@ export class WebinarHall extends React.Component {
       action_color = "blue";
     }
 
-    item.push(
-      <ProfileListWide
-        title={d.title}
-        img_url={d.company.img_url}
-        img_pos={d.company.img_position}
-        img_size={d.company.img_size}
-        img_dimension={"80px"}
-        body={details}
-        action_color={action_color}
-        action_text={action_text}
-        action_handler={() => {
-          window.open(action_link);
-        }}
-        action_disabled={action_disabled}
-        type="company"
-        key={i}
-      />
-    );
+    let action = <div className="hw-action"></div>;
+    if (!action_disabled) {
+      action = <a className="hw-action" href={action_link} target="_blank">
+        {action_text}
+      </a>
+    }
 
-    return item;
+    let v = <div className="hall-webinar">
+      {img}
+      {details}
+      {action}
+    </div>
+    return v;
   }
 
   render() {

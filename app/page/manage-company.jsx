@@ -464,7 +464,6 @@ export default class ManageCompanyPage extends React.Component {
     getSubNavItem() {
         this.sub_page = (this.props.match.params.current) ? this.props.match.params.current : "about";
         this.company_id = Number.parseInt(this.props.match.params.id);
-
         var item = {
             "about": {
                 label: "My Company",

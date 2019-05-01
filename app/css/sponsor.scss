@@ -1,15 +1,20 @@
 @import 'define/variable.scss';
+
+
+
 .sponsor-container {
     margin-bottom: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+
     .sponsor-card {
         text-align: center;
         border: lightgray 1px solid;
         margin: 10px;
         background: white;
+
         .title {
             width: 100px;
             height: 40px;
@@ -20,15 +25,17 @@
             line-height: 15px;
             font-weight: bold;
         }
+
         .image {
             margin: auto;
             background-repeat: no-repeat;
         }
 
-        a:hover .image{
+        a:hover .image {
             box-shadow: 2px 4px 9px 0px rgba(0, 0, 0, 0.5);
         }
     }
+
     @mixin sponsor-size($size, $dimension, $font) {
         .sponsor-card.#{$size} {
             .title {
@@ -37,18 +44,22 @@
             }
         }
     }
+
     @include sponsor-size("lg", 150px, 100%);
     @include sponsor-size("md", 100px, 100%);
     @include sponsor-size("sm", 50px, 80%);
+
     @mixin sponsor-color($type, $color) {
         .sponsor-card.#{$type} {
             border-color: darken($color, 20);
+
             .title {
                 color: darken($color, 60);
                 background: darken($color, 20);
             }
         }
     }
+
     @include sponsor-color("blue", $COLOR_BLUE);
     @include sponsor-color("gold", $COLOR_GOLD);
     @include sponsor-color("silver", $COLOR_SILVER);
