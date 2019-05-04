@@ -40,6 +40,11 @@ export default class SponsorList extends React.Component {
       ignore_types.push(CompanyEnum.TYPE_NORMAL);
     }
 
+    ignore_types = [
+      ...ignore_types,
+      ...this.props.ignore_types
+    ]
+
     var ignore_type = "";
     ignore_types.map((d, i) => {
       ignore_type += `${d}`;
@@ -82,7 +87,7 @@ export default class SponsorList extends React.Component {
 
     let strSponsor = CompanyEnum.getTypeStr(d.type);
     // if (this.isHallPage()) {
-    //   strSponsor = strSponsor.replaceAll(" Sponsor", "");
+    //   strSponsorstrSponsor = strSponsor.replaceAll(" Sponsor", "");
     // }
 
     return (
@@ -138,10 +143,12 @@ SponsorList.propTypes = {
   part_com: PropTypes.bool,
   title: PropTypes.bool,
   sponsor_size: PropTypes.oneOf("lg", "md", "sm"),
-  part_com_size: PropTypes.oneOf("lg", "md", "sm")
+  part_com_size: PropTypes.oneOf("lg", "md", "sm"),
+  ignore_types: PropTypes.array
 };
 
 SponsorList.defaultProps = {
+  ignore_types: [],
   sponsor_size: "lg",
   part_com_size: "md",
   part_com: true,

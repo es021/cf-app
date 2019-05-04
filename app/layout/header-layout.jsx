@@ -13,12 +13,13 @@ export default class HeaderLayout extends React.Component {
   render() {
     let authUser = getAuthUser();
     let userIcon = isAuthorized() ? <NavLink to={`${RootPath}/app/edit-profile/profile`} >
-      {createImageElement(authUser.img_url, authUser.img_pos, authUser.img_size, "40px", "with-border")}
+      {createImageElement(authUser.img_url, authUser.img_pos, authUser.img_size, "40px", "with-border hover-shadow")}
       {/* <ProfileCard type="student" theme="dark"
         title={null} subtitle={null}
         img_url={authUser.img_url} img_pos={authUser.img_pos} img_size={authUser.img_size}
         body={null}></ProfileCard> */}
     </NavLink> : null;
+
 
     console.log("authUser", authUser);
     console.log("authUser", authUser);

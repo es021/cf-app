@@ -12,6 +12,7 @@ import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
 import { RootPath, ImageUrl } from "../../config/app-config";
+import { CompanyEnum } from "../../config/db-config";
 import {
   isRoleRec,
   isRoleStudent,
@@ -123,6 +124,7 @@ export default class HallPage extends React.Component {
     return (
       <div className="sponsor-section main-width">
         <SponsorList
+        ignore_types={[CompanyEnum.TYPE_BRONZE]}
           title={false}
           part_com={false}
           type="hall-page"
@@ -135,10 +137,10 @@ export default class HallPage extends React.Component {
   getActivityAndWebinar() {
     return (
       <div className="activity-section container">
-        <div className={`col-md-6 no-padding`}>
+        <div className={`col-lg-6 no-padding`}>
           <ActivitySection />
         </div>
-        <div className={`col-md-6 no-padding`}>
+        <div className={`col-lg-6 no-padding`}>
           <WebinarHall />
         </div>
       </div>

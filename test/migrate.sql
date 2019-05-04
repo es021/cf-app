@@ -1,3 +1,7 @@
+-- ##################################
+-- ANE 
+ALTER TABLE `cfs` ADD `is_load` TINYINT(1) NOT NULL DEFAULT '1' AFTER `is_active`;
+
 -- #######################################
 -- HALL GALLERY
 
@@ -53,6 +57,13 @@ VALUES
 ("EUR","logo_margin_hall","-11px 0px -6px 0px")
 
 
+
+
+
+
+
+
+-- DONE MIGRATED ---------------------------------------------------------------------------
 -- ###############################
 -- 03/04/2019
 
@@ -68,7 +79,7 @@ ALTER TABLE `pre_screens` CHANGE `is_expired` `is_expired` SMALLINT(1) NOT NULL 
 -- ###############################
 -- copy cf meta
 INSERT INTO cfs_meta (cf_name, meta_key, meta_value) 
-SELECT 'CHN', meta_key, meta_value FROM cfs_meta 
+SELECT 'ANE', meta_key, meta_value FROM cfs_meta 
 where cf_name = 'USA19' 
 
 -- ###############################
@@ -80,7 +91,8 @@ ALTER TABLE `wp_career_fair`.`zoom_meetings` ADD INDEX (`group_session_id`);
 
 -- ###############################
 -- New CF China
-INSERT INTO `cfs` (`ID`, `name`, `country`, `time`, `is_active`, `cf_order`, `created_at`, `updated_at`) VALUES ('7', 'CHN', 'CHINA', '17-18, May 2019', '1', '6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+INSERT INTO `cfs` (`ID`, `name`, `country`, `time`, `is_active`, `cf_order`, `created_at`, `updated_at`) 
+VALUES ('7', 'CHN', 'CHINA', '17-18, May 2019', '1', '6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 
 -- ###############################
 -- new approved status

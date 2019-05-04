@@ -1,5 +1,40 @@
 @import "define/variable.scss";
 
+// ####################################
+// CONSTANTS 
+$HWW_ALL: 480px;
+$HWW_IMAGE: 100px;
+$HWW_ACTION: 125px;
+
+$HWW_ALL_SM : 415px;
+$HWW_IMAGE_SM: 70px;
+$HWW_ACTION_SM: 100px;
+
+// ####################################
+// MIXIN
+@mixin hall_webinar_size_and_position($widthAll, $widthImage, $widthAction) {
+    $widthDetails: $widthAll - $widthImage - $widthAction;
+
+    .hall-webinar {
+        width: $widthAll;
+
+        .hw-image {
+            width: $widthImage;
+
+        }
+
+        .hw-details {
+            width: $widthDetails;
+        }
+
+        .hw-action,
+        .hw-time {
+            width: $widthAction;
+
+        }
+    }
+}
+
 body.body-hall-page {
     .main {
         padding: 0px;
@@ -50,41 +85,56 @@ body.body-hall-page {
         }
     }
 
-    $HWW_ALL :480px;
-    $HWW_IMAGE :100px;
-    $HWW_ACTION :140px;
-    $HWW_DETAILS : $HWW_ALL - $HWW_IMAGE - $HWW_ACTION;
+
 
     .hall-webinar {
+        border-radius: 7px;
+        overflow: hidden;
         display: flex;
-        width: $HWW_ALL;
         justify-content: space-between;
-        border: 1px solid gray;
-        margin-bottom: 10px;
+        background: white;
+        margin-bottom: 20px;
+        box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
 
         .hw-image {
-            width: $HWW_IMAGE;
             align-self: center;
+
+            .profile-card {
+                margin: 10px;
+            }
         }
 
         .hw-details {
             padding: 5px 7px;
             align-self: center;
-            width: $HWW_DETAILS;
         }
 
-        .hw-action {
-            cursor: pointer;
-            width: $HWW_ACTION;
-            background: #449d44;
+        .hw-action,
+        .hw-time {
+            font-size: 17px;
             color: white;
-            a{
-                color: white;
-
-            }
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
+        .hw-action:hover {
+            text-decoration: none;
+        }
+
+
+        .hw-action {
+            .fa{
+                font-size: 45px;
+            }
+            cursor: pointer;
+        }
+
+        .hw-time {
+            background: #e1e1e1;
+            color: #3f3d3d;
+        }
     }
+
+    @include hall_webinar_size_and_position($HWW_ALL, $HWW_IMAGE, $HWW_ACTION);
 }

@@ -67,7 +67,7 @@ class PrimaryLayout extends React.Component {
   }
 
   loadCf() {
-    var query = `query{cfs(is_active:1){
+    var query = `query{cfs(is_load:1){
 		ID
 		name
 		country

@@ -17,7 +17,7 @@ export default class ValidationStudentAction extends React.Component {
         this.state = {
             hasResume: false,
             //hasAcademicTrans: false,
-            emailVerified: false,
+            //emailVerified: false,
             profileCompleted: false,
             loading: true,
             user_email: null,
@@ -28,21 +28,21 @@ export default class ValidationStudentAction extends React.Component {
     isAllTrue() {
         return this.state.hasResume
             //&& this.state.hasAcademicTrans
-            && this.state.emailVerified
+            //&& this.state.emailVerified
             && this.state.profileCompleted;
     }
 
 
     getList() {
         var list = {};
-        list.emailVerified = {
-            label: "Verifiy Your Email",
-            icon: "envelope",
-            desc: <div>Please check your email (<b>{this.state.user_email}</b>) for the activation link.
-                If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
-            </div>,
-            action: null,
-        };
+        // list.emailVerified = {
+        //     label: "Verifiy Your Email",
+        //     icon: "envelope",
+        //     desc: <div>Please check your email (<b>{this.state.user_email}</b>) for the activation link.
+        //         If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
+        //     </div>,
+        //     action: null,
+        // };
 
         list.profileCompleted = {
             label: "Complete Your Profile",
@@ -75,7 +75,10 @@ export default class ValidationStudentAction extends React.Component {
 
     componentWillMount() {
         var user_id = getAuthUser().ID;
-        var query = `query{user(ID:${user_id}){ user_email is_profile_completed is_active doc_links{ID label url} }}`;
+
+        // is_active
+        
+        var query = `query{user(ID:${user_id}){ user_email is_profile_completed doc_links{ID label url} }}`;
         getAxiosGraphQLQuery(query).then((res) => {
             var userData = res.data.data.user;
             var dl = userData.doc_links;
@@ -85,7 +88,7 @@ export default class ValidationStudentAction extends React.Component {
                     loading: false,
                     hasResume: hasResume(dl) || hasCV(dl),
                     //hasAcademicTrans: hasAcademicTranscript(dl),
-                    emailVerified: userData.is_active,
+                    //emailVerified: userData.is_active,
                     profileCompleted: userData.is_profile_completed
                 }
             })

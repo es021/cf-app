@@ -24,6 +24,7 @@ class CFQuery {
     getCF(params, field) {
         var order_by = "ORDER BY cf_order desc";
         var is_active = (typeof params.is_active === "undefined") ? "1=1" : `is_active = '${params.is_active}'`;
+        var is_load = (typeof params.is_load === "undefined") ? "1=1" : `is_load = '${params.is_load}'`;
 
         let selMeta = "";
         for (var i in CFSMeta) {
@@ -35,7 +36,7 @@ class CFQuery {
         }
 
         return `select c.* ${selMeta} from ${CFS.TABLE} c
-            where ${is_active} ${order_by}`;
+            where ${is_active} AND ${is_load} ${order_by}`;
 
         // var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = "${params.ID}"`;
         // var can_login_where = (typeof params.can_login === "undefined") ? "1=1" : `can_login = '${params.can_login}'`;

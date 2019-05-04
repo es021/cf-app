@@ -51,19 +51,20 @@ export class WebinarHall extends React.Component {
   // function for list
   loadData(page, offset) {
     var query = `query{
-                auditoriums(page:${page},offset:${offset},cf:"${getCF()}",order_by:"start_time asc",
-                now_only:false) {
-                  ID
-                  company{ID name img_url img_position img_size}
-                  type
-                  title
-                  link
-                  recorded_link
-                  moderator
-                  start_time
-                  end_time
-                }
-              }`;
+        auditoriums(page:${page},offset:${offset},cf:"${getCF()}",
+        order_by:"link desc, recorded_link asc, start_time asc", 
+        now_only:false) {
+          ID
+          company{ID name img_url img_position img_size}
+          type
+          title
+          link
+          recorded_link
+          moderator
+          start_time
+          end_time
+        }
+      }`;
     console.log(query);
     return getAxiosGraphQLQuery(query);
   }
@@ -99,6 +100,7 @@ export class WebinarHall extends React.Component {
       img_url={d.company.img_url} img_pos={d.company.img_pos}
       img_size={d.company.img_size}
       img_dimension={"65px"}
+      className={"with-border"}
       body={null}></ProfileCard></div>
 
     let detailStyle = {
@@ -125,28 +127,38 @@ export class WebinarHall extends React.Component {
     var action_text = "";
     var action_color = "";
     if (d.recorded_link != null && d.recorded_link != "") {
+      // Has Recorded Video
       action_disabled = false;
       action_link = d.recorded_link;
-      action_text = "Watch Recorded Video";
-      action_color = "success";
+      action_text = <span><i className="fa fa-play-circle"></i><br></br>Watch</span>;
+      action_color = "danger";
     } else if (d.link != null && d.link != "") {
+      // Has Join Link
       action_disabled = false;
       action_link = d.link;
-      action_text = "Join Now";
-      action_color = "blue";
+      action_text = <span><i className="fa fa-sign-in"></i><br></br>Join Now</span>;
+      action_color = "success";
     }
 
-    let action = <div className="hw-action"></div>;
+    let rightBox = null;
     if (!action_disabled) {
-      action = <a className="hw-action" href={action_link} target="_blank">
+      rightBox = <a className={`hw-action btn-${action_color}`} href={action_link} target="_blank">
         {action_text}
       </a>
+    } else {
+      // Display Time
+      rightBox = <div className="hw-time">
+        <div>
+          <div style={{ fontSize: "15px" }}>{Time.getDate(d.start_time)}</div>
+          <div style={{ fontSize: "20px" }}>{Time.getStringShort(d.start_time)}</div>
+        </div>
+      </div>
     }
 
     let v = <div className="hall-webinar">
       {img}
       {details}
-      {action}
+      {rightBox}
     </div>
     return v;
   }

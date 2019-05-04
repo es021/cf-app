@@ -1,5 +1,4 @@
-# Home Webservice
-navigation susun ikut txn number
+# Buang perkataan sponsordf
 
 # POST USA19 CHANGES
 RM 350.94 - new domain
@@ -96,7 +95,7 @@ RM 480.52
   - Time zone converter in activity card (toggle timing mcm coachella)
   - Live Session
   - 1-1
-    # 1-1 session
+    # 1-1 sessiond
     # recruiter window id
     # student lepas 15 min tukar ke join video call, btn join tu hilang
 

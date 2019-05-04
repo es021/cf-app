@@ -396,15 +396,15 @@ const CompanyEnum = {
     getTypeStr: (type) => {
         switch (type) {
             case -1:
-                return "Platinum Sponsor";
+                return "Platinum";
             case 0:
                 return "Special";
             case 1:
-                return "Gold Sponsor";
+                return "Gold";
             case 2:
-                return "Silver Sponsor";
+                return "Silver";
             case 3:
-                return "Bronze Sponsor";
+                return "Bronze";
             case 4:
                 return "Normal";
         }

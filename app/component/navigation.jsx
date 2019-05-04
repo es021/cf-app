@@ -19,6 +19,7 @@ import UsersPage from "../page/users";
 import CompaniesPage from "../page/companies";
 import RecruiterPage from "../page/recruiters";
 import HallPage from "../page/hall";
+import HallPageOld from "../page/hall-old";
 import ActAccountPage from "../page/activate-account";
 import EditProfilePage from "../page/edit-profile";
 import ManageCompanyPage from "../page/manage-company";
@@ -60,8 +61,12 @@ function getHomeComponent(COMING_SOON) {
     if (COMING_SOON) {
       var homeComponent = ComingSoonPage;
     } else {
-      if (isRoleStudent()) homeComponent = HallPage;
-      else if (isRoleRec()) homeComponent = HallPage;
+      // if (isRoleStudent()) homeComponent = HallPage;
+      // else if (isRoleRec()) homeComponent = HallPage;
+      // else if (isRoleAdmin()) homeComponent = CompaniesPage;
+
+      if (isRoleStudent()) homeComponent = HallPageOld;
+      else if (isRoleRec()) homeComponent = HallPageOld;
       else if (isRoleAdmin()) homeComponent = CompaniesPage;
     }
   } else {

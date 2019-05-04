@@ -431,6 +431,7 @@ fields["cfs"] = {
     type: new GraphQLList(CfsType),
     args: {
         is_active : { type: GraphQLInt },
+        is_load : { type: GraphQLInt },
     },
     resolve(parentValue, arg, context, info) {
         return CFExec.cfs(arg, graphqlFields(info), {});

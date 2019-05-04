@@ -119,8 +119,24 @@
     opacity: 0;
 }
 
-.profile-card.with-border{
+.profile-card.with-border {
     .pc-picture {
         border: #cbd9e5 0.2px solid;
+    }
+}
+
+.profile-card.hover-shadow:hover {
+    .pc-picture {
+        opacity: 0.7;
+        box-shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.profile-card.hover-shadow:active {
+    opacity: 1;
+
+    .pc-picture {
+        opacity: 0.7;
+        box-shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0);
     }
 }
