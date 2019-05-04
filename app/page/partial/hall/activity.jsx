@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import obj2arg from "graphql-obj2arg";
-import ProfileCard from "../../../component/profile-card";
+import ProfileCard from "../../../component/profile-card.jsx";
 import {
   Prescreen,
   PrescreenEnum,
@@ -140,7 +140,7 @@ class ActvityList extends React.Component {
       setTimeout(() => {
         parentCard.hidden = true;
       }, 700);
-      getAxiosGraphQLQuery(q).then(data => {});
+      getAxiosGraphQLQuery(q).then(data => { });
     };
 
     return (
@@ -437,6 +437,8 @@ class ActvityList extends React.Component {
       body = <Loader isCenter={true} size="2" />;
     } else {
       body = this.props.list.map((d, i) => {
+        // todos for type here
+
         var obj = isRoleRec() ? d.student : d.company;
 
         if (typeof obj === "undefined") {
@@ -520,16 +522,16 @@ class ActvityList extends React.Component {
             body = isRoleRec() ? (
               crtSession
             ) : (
-              <div
-                id={d.ID}
-                data-company_id={obj.ID}
-                data-company_name={obj.name}
-                onClick={this.cancelQueue.bind(this)}
-                className="btn btn-sm btn-danger"
-              >
-                Cancel Queue
+                <div
+                  id={d.ID}
+                  data-company_id={obj.ID}
+                  data-company_name={obj.name}
+                  onClick={this.cancelQueue.bind(this)}
+                  className="btn btn-sm btn-danger"
+                >
+                  Cancel Queue
               </div>
-            );
+              );
             break;
 
           // #############################################################
@@ -904,7 +906,7 @@ class ActvityList extends React.Component {
                 layoutActions.errorBlockLoader(mes);
                 var q = `mutation {edit_group_session(ID:${
                   d.ID
-                }, is_expired:1){ID}}`;
+                  }, is_expired:1){ID}}`;
                 getAxiosGraphQLQuery(q).then(res => {
                   hallAction.storeLoadActivity([
                     hallAction.ActivityType.GROUP_SESSION_JOIN
@@ -1090,7 +1092,7 @@ export class ActivitySingle extends React.Component {
     } else {
       let q = ` query {${entity} (ID:${
         this.props.id
-      }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
+        }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
       getAxiosGraphQLQuery(q).then(res => {
         this.setState(prevState => {
           return { data: res.data.data[entity], loading: false };
@@ -1194,15 +1196,15 @@ class ActivitySection extends React.Component {
     var size_p = isRoleRec() ? "12" : "12";
 
     //Group Session
-    // var gs = <div className={`col-sm-${size_p} no-padding`}>
-    //     <ActvityList
-    //         bc_type="vertical"
-    //         online_users={this.props.online_users}
-    //         fetching={d.fetching.group_session_joins}
-    //         type={hallAction.ActivityType.GROUP_SESSION_JOIN}
-    //         title={title_gs}
-    //         subtitle={subtitle_gs}
-    //         list={d.group_session_joins}></ActvityList></div>;
+    var gs =
+      <ActvityList
+        bc_type="vertical"
+        online_users={this.props.online_users}
+        fetching={d.fetching.group_session_joins}
+        type={hallAction.ActivityType.GROUP_SESSION_JOIN}
+        title={title_gs}
+        subtitle={subtitle_gs}
+        list={d.group_session_joins}></ActvityList>
 
     //Scheduled Session
     var p = (
@@ -1217,7 +1219,43 @@ class ActivitySection extends React.Component {
       />
     );
 
-    return <div>{p}</div>;
+    // Gabung ps and gs
+    var title = this.createTitleWithTooltip(
+      <a
+        onClick={() => this.refresh([hallAction.ActivityType.PRESCREEN
+          , hallAction.ActivityType.GROUP_SESSION_JOIN])}
+      >
+        My Activity
+      </a>,
+      "Your activity"
+    );
+    var subtitle = null;
+    let list = [];
+    for (var i in d.group_session_joins) {
+      let newObj = d.group_session_joins[i]
+      newObj._type = hallAction.ActivityType.GROUP_SESSION_JOIN;
+      list.push(newObj);
+    }
+    for (var i in d.prescreens) {
+      let newObj = d.prescreens[i]
+      newObj._type = hallAction.ActivityType.PRESCREEN;
+      list.push(newObj);
+    }
+    let fetching = this.props.online_users || d.fetching.group_session_joins
+
+    var ps_gs = <ActvityList
+      bc_type="vertical"
+      online_users={this.props.online_users}
+      fetching={d.fetching.group_session_joins}
+      type={hallAction.ActivityType.GROUP_SESSION_JOIN}
+      title={title}
+      subtitle={subtitle}
+      list={d.group_session_joins}></ActvityList>
+
+
+    // todos
+
+    return <div>{gs}{p}</div>;
   }
 }
 

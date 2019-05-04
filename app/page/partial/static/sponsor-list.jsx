@@ -4,7 +4,7 @@ import { CompanyEnum } from "../../../../config/db-config";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import { getCF, getCFOrg } from "../../../redux/actions/auth-actions";
-import { getStyleImageObj } from "../../../component/profile-card";
+import { getStyleImageObj, createImageElement, PCType } from "../../../component/profile-card.jsx";
 import { getCompanyCSSClass } from "../hall/companies";
 import { ImgConfig } from "../../../../config/app-config";
 
@@ -89,13 +89,21 @@ export default class SponsorList extends React.Component {
     // if (this.isHallPage()) {
     //   strSponsorstrSponsor = strSponsor.replaceAll(" Sponsor", "");
     // }
+    if (this.isHallPage()) {
+      return createImageElement(d.img_url, d.img_pos, d.img_size
+        , "130px"
+        , "with-border no-vertical-margin"
+        , PCType.Company,
+        { borderRadius: "7px" });
+    } else {
+      return (
+        <div className={`sponsor-card ${className}`}>
+          <div className="image" style={style} />
+          {!isSponsor ? null : <div className="title">{strSponsor}</div>}
+        </div>
+      );
+    }
 
-    return (
-      <div className={`sponsor-card ${className}`}>
-        <div className="image" style={style} />
-        {!isSponsor ? null : <div className="title">{strSponsor}</div>}
-      </div>
-    );
   }
 
   render() {

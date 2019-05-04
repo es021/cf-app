@@ -21,7 +21,7 @@ import { Time } from "../../../lib/time";
 import { emitHallActivity } from "../../../socket/socket-client";
 import { Loader } from "../../../component/loader";
 import AvailabilityView from "../../availability";
-import ProfileCard from "../../../component/profile-card";
+import ProfileCard from "../../../component/profile-card.jsx";
 import obj2arg from "graphql-obj2arg";
 
 // included in my-activity for recruiter

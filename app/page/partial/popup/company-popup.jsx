@@ -4,7 +4,7 @@ import obj2arg from "graphql-obj2arg";
 import PageSection from "../../../component/page-section";
 import { NavLink } from "react-router-dom";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
-import ProfileCard from "../../../component/profile-card";
+import ProfileCard from "../../../component/profile-card.jsx";
 import List, { SimpleListItem, ProfileListItem } from "../../../component/list";
 import { Loader } from "../../../component/loader";
 import {

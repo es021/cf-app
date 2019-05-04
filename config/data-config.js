@@ -102,7 +102,15 @@ const Year = [
     "2030",
 ];
 
-
+const DegreeLevel = [
+    "",
+    "Doctoral",
+    "Executive",
+    "Master",
+    "Bachelor",
+    "Foundation",
+    "SPM",
+];
 
 const Sponsor = [
     "",
@@ -781,6 +789,7 @@ const StudyField = [
 // ];
 
 module.exports = {
+    DegreeLevel,
     getMonthLabel,
     Month,
     StudyField,

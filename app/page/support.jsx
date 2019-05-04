@@ -6,7 +6,7 @@ import { getAuthUser } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Loader } from '../component/loader';
 import { createUserTitle } from './users';
-import { createImageElement } from '../component/profile-card';
+import { createImageElement } from '../component/profile-card.jsx';
 import { Time } from '../lib/time';
 
 import { BOTH } from '../../config/socket-config';

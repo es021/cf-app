@@ -20,9 +20,9 @@ RM 480.52
 
 1. Bug Fixing
   - https://docs.google.com/document/d/14foK88Y3RqloZhxWw1qvGVHCuQTtuRgYpK7tw98eXjU/edit
-  # - “About” - remove
-  # - Announcement - hide dulu
-  - After feedback page not found - /cf/app/career-fair
+# - “About” - remove
+# - Announcement - hide dulu
+# - After feedback page not found - /cf/app/career-fair
 #- Webinar
   # copy data production auditorium dulu
   # When creating a new one, admin needs to put link in “recorded field”
@@ -34,17 +34,17 @@ RM 480.52
 
 ########################################################################
 2. Registration
-  - Buang activation email limitation (Buang Drop Resume limitation)
+# - Buang activation email limitation (Buang Drop Resume limitation)
   - Field of study
       # How did we get the list
       # Find list that is easy for us
-  - Degree level
-      # Doctoral
-      # Executive
-      # Master
-      # Bachelor
-      # Foundation
-      # SPM
+#- Degree level
+  # Doctoral
+  # Executive
+  # Master
+  # Bachelor
+  # Foundation
+  # SPM
   - Degree name
       # Can add
   - Last page is what the should do next
@@ -66,8 +66,8 @@ RM 480.52
 4. Home Student
   - https://drive.google.com/drive/folders/1vj3lwZqzIf9Q6kqr5zKYaGh7eRILG0rC?ths=true
   - Scheduled Session Placeholder
-  - Webinar
-    - Join, Watch, 1 Apr 10.00PM
+#- Webinar
+  #- Join, Watch, 1 Apr 10.00PM
   - Company Booth 
     # Ada bagde macam GraduateLand
     # boleh bukak lepas event start je

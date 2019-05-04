@@ -8,7 +8,7 @@ import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import { getAuthUser, isRoleRec, isRoleStudent, updateAuthUser } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
-import ProfileCard from '../component/profile-card';
+import ProfileCard from '../component/profile-card.jsx';
 import SubNav from '../component/sub-nav';
 import { CustomList } from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
@@ -163,6 +163,7 @@ class EditProfile extends React.Component {
             sponsor
             gender
             cgpa
+            degree_level
             study_field
             major
             minor

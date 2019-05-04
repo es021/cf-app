@@ -7,7 +7,7 @@ import { SessionEnum, Prescreen, PrescreenEnum } from '../../../../config/db-con
 import { RootPath } from '../../../../config/app-config';
 //importing for list
 import List, { CustomList, ProfileListWide } from '../../../component/list';
-import { getImageObj } from '../../../component/profile-card';
+import { getImageObj } from '../../../component/profile-card.jsx';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';

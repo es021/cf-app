@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PageSection from '../../../component/page-section';
 import { NavLink } from 'react-router-dom';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
-import ProfileCard from '../../../component/profile-card';
+import ProfileCard from '../../../component/profile-card.jsx';
 import List, { SimpleListItem, ProfileListItem } from '../../../component/list';
 import { Loader } from '../../../component/loader';
 import { getAuthUser, isRoleRec, isRoleStudent, isRoleAdmin } from '../../../redux/actions/auth-actions';

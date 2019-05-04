@@ -69,6 +69,7 @@ const UserType = new GraphQLObjectType({
         role: { type: GraphQLString },
         cf: { type: new GraphQLList(GraphQLString) },
         user_registered: { type: GraphQLString },
+        degree_level: { type: GraphQLString },
 
         //active activity
         queues: { type: new GraphQLList(QueueType) },

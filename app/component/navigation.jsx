@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LandingUrl } from "../../config/app-config";
+import { LandingUrl, IsNewHall } from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
 import LoginPage from "../page/login";
@@ -61,13 +61,17 @@ function getHomeComponent(COMING_SOON) {
     if (COMING_SOON) {
       var homeComponent = ComingSoonPage;
     } else {
-      // if (isRoleStudent()) homeComponent = HallPage;
-      // else if (isRoleRec()) homeComponent = HallPage;
-      // else if (isRoleAdmin()) homeComponent = CompaniesPage;
 
-      if (isRoleStudent()) homeComponent = HallPageOld;
-      else if (isRoleRec()) homeComponent = HallPageOld;
-      else if (isRoleAdmin()) homeComponent = CompaniesPage;
+      if (IsNewHall) {
+        if (isRoleStudent()) homeComponent = HallPage;
+        else if (isRoleRec()) homeComponent = HallPage;
+        else if (isRoleAdmin()) homeComponent = CompaniesPage;
+      } else {
+        if (isRoleStudent()) homeComponent = HallPageOld;
+        else if (isRoleRec()) homeComponent = HallPageOld;
+        else if (isRoleAdmin()) homeComponent = CompaniesPage;
+      }
+
     }
   } else {
     homeComponent = LandingPage;

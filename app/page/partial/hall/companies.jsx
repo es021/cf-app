@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as hallAction from '../../../redux/actions/hall-actions';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
-import ProfileCard from '../../../component/profile-card';
+import ProfileCard from '../../../component/profile-card.jsx';
 import { CompanyEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import * as layoutActions from '../../../redux/actions/layout-actions';

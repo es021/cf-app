@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { AppConfig, ImgConfig, RootPath } from "../../config/app-config";
 import { getCFObj, getAuthUser, isAuthorized } from "../redux/actions/auth-actions";
 import { ButtonIcon } from "../component/buttons";
-import { createImageElement } from '../component/profile-card';
+import { createImageElement } from '../component/profile-card.jsx';
 import { NavLink } from "react-router-dom";
 
 export default class HeaderLayout extends React.Component {

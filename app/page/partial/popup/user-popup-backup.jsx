@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { DocLinkEnum, UserEnum, LogEnum, PrescreenEnum } from '../../../../config/db-config';
-import ProfileCard from '../../../component/profile-card';
+import ProfileCard from '../../../component/profile-card.jsx';
 import PageSection from '../../../component/page-section';
 import { CustomList, createIconLink } from '../../../component/list';
 import * as layoutActions from '../../../redux/actions/layout-actions';

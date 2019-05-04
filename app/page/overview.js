@@ -9,7 +9,7 @@ import { Time } from '../lib/time';
 import { Loader } from '../component/loader';
 import Tooltip from '../component/tooltip';
 import { isRoleRec, getAuthUser, isRoleStudent, getCF } from '../redux/actions/auth-actions';
-import { getStyleImageObj } from '../component/profile-card';
+import { getStyleImageObj } from '../component/profile-card.jsx';
 
 require("../css/overview.scss");
 

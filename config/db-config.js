@@ -111,6 +111,7 @@ const UserMeta = {
     MINOR: "minor",
     GENDER: "gender",
 
+    DEGREE_LEVEL : "degree_level",
 
     MAS_POSTCODE: "mas_postcode",
     MAS_STATE: "mas_state",

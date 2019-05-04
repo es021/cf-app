@@ -13,12 +13,11 @@ require("../css/profile-card.scss");
  */
 
 
-
 export const PCType = {
     STUDENT: "student",
     RECRUITER: "recruiter",
     COMPANY: "company",
-    BANNER : "banner",
+    BANNER: "banner",
 };
 const pc = "pc-";
 
@@ -35,10 +34,10 @@ export const getImageObj = function (obj) {
     }
 }
 
-export const createImageElement = function (img_url, img_pos, img_size, img_dimension, className, type = PCType.STUDENT) {
+export const createImageElement = function (img_url, img_pos, img_size, img_dimension, className, type = PCType.STUDENT, customStyle) {
     return <ProfileCard type={type} img_url={img_url} img_pos={img_pos} img_size={img_size}
         title={null} body={null} subtitle={null} img_dimension={img_dimension}
-        className={className}></ProfileCard>;
+        className={className} customStyle={customStyle}></ProfileCard>;
 }
 
 export const getDefaultProfileImg = function (type, url = null) {
@@ -79,11 +78,11 @@ export const getStyleImageObj = function (type, img_url, img_size, img_pos, dime
         }
     }
 
-    if(type == PCType.BANNER){
+    if (type == PCType.BANNER) {
         stylePicture["height"] = "130px";
         stylePicture["width"] = "100%";
         stylePicture["borderRadius"] = "0%"
-    }else{
+    } else {
         stylePicture["height"] = dimension
         stylePicture["width"] = dimension;
     }
@@ -101,7 +100,7 @@ export default class ProfileCard extends React.Component {
     openPictureOps(stylePicture) {
         var type = (this.props.type == PCType.COMPANY) ? "company" : "user";
 
-        if(this.props.type == PCType.BANNER){
+        if (this.props.type == PCType.BANNER) {
             type = "banner";
         }
 
@@ -118,13 +117,21 @@ export default class ProfileCard extends React.Component {
     render() {
         var styleParent = {
             color: (this.props.theme == "dark") ? "white" : "black",
-            width : this.props.custom_width
+            width: this.props.custom_width
         };
 
         var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
 
         var stylePicture = getStyleImageObj(this.props.type,
             this.props.img_url, this.props.img_size, this.props.img_pos, dimension);
+
+
+        if (this.props.customStyle != null) {
+            stylePicture = {
+                ...stylePicture,
+                ...this.props.customStyle
+            }
+        }
 
         // if (typeof this.props.img_url === "undefined" || this.props.img_url == null || this.props.img_url == "") {
         //     stylePicture = this.getDefaultProfileImg(this.props.type);
@@ -183,7 +190,7 @@ export default class ProfileCard extends React.Component {
 }
 
 ProfileCard.propTypes = {
-    custom_width : PropTypes.string,
+    custom_width: PropTypes.string,
     type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY]).isRequired,
     id: PropTypes.number, // id to adjust save profile image
     title: PropTypes.string.isRequired,
@@ -196,8 +203,13 @@ ProfileCard.propTypes = {
     img_size: PropTypes.string,
     add_img_ops: PropTypes.bool,
     img_dimension: PropTypes.string,
+    customStyle: PropTypes.object,
     className: PropTypes.string,
     theme: PropTypes.oneOf(["dark"]),
     header: PropTypes.element, // put as the first child of profile card,
     body: PropTypes.element // append to pc-body
 };
+
+ProfileCard.defaultProps = {
+    customStyle: null
+}

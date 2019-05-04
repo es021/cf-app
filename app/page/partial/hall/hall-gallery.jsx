@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import { GeneralForm } from "../../../component/general-form";
-import ProfileCard from "../../../component/profile-card";
+import ProfileCard from "../../../component/profile-card.jsx";
 import { ButtonLink } from "../../../component/buttons";
 import { ProfileListItem } from "../../../component/list";
 import { RootPath, IsGruveoEnable } from "../../../../config/app-config";

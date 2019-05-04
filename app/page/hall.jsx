@@ -124,7 +124,7 @@ export default class HallPage extends React.Component {
     return (
       <div className="sponsor-section main-width">
         <SponsorList
-        ignore_types={[CompanyEnum.TYPE_BRONZE]}
+          //ignore_types={[CompanyEnum.TYPE_BRONZE]}
           title={false}
           part_com={false}
           type="hall-page"

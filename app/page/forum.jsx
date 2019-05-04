@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ForumComment, ForumReply, UserEnum, PrescreenEnum } from '../../config/db-config';
 import List from '../component/list';
-import { createImageElement } from '../component/profile-card';
+import { createImageElement } from '../component/profile-card.jsx';
 import Tooltip from '../component/tooltip';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';

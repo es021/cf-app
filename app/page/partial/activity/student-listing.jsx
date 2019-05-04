@@ -13,7 +13,7 @@ import {
 import UserPopup from "../popup/user-popup";
 //importing for list
 import List, { CustomList, ProfileListWide } from "../../../component/list";
-import { getImageObj } from "../../../component/profile-card";
+import { getImageObj } from "../../../component/profile-card.jsx";
 import { Loader } from "../../../component/loader";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import { Time } from "../../../lib/time";

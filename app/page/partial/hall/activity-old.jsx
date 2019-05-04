@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import obj2arg from "graphql-obj2arg";
-import ProfileCard from '../../../component/profile-card';
+import ProfileCard from '../../../component/profile-card.jsx';
 import { Prescreen, PrescreenEnum, SessionRequestEnum, EntityRemoved, GroupSessionJoin } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import { ProfileListItem } from '../../../component/list';

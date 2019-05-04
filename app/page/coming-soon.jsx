@@ -12,12 +12,11 @@ import Form, { toggleSubmit, checkDiff } from '../component/form';
 import { Prescreen, PrescreenEnum } from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
 import { NavLink } from 'react-router-dom';
-import { RootPath } from '../../config/app-config';
+import { RootPath, IsNewHall } from '../../config/app-config';
 import { createCompanyTitle } from './companies';
 import CompaniesSection from './partial/hall/companies';
 import HallPage from './hall';
-
-
+import HallPageOld from './hall-old';
 
 
 export function getCFTimeDetail(date, time, time_mas) {
@@ -280,7 +279,12 @@ export default class ComingSoonPage extends React.Component {
 
         let recHall = null;
         if (isRoleRec()) {
-            recHall = <HallPage isPreEvent={true}></HallPage>
+            if(IsNewHall){
+                recHall = <HallPage isPreEvent={true}></HallPage> 
+            }else{
+                recHall = <HallPageOld isPreEvent={true}></HallPageOld> 
+            }
+            //recHall = <HallPage isPreEvent={true}></HallPage> 
         }
 
         return (<div>

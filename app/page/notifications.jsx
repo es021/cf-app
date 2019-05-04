@@ -7,7 +7,7 @@ import { Time } from "../lib/time";
 import { getAuthUser, getCF } from "../redux/actions/auth-actions";
 import * as layoutAction from "../redux/actions/layout-actions";
 import obj2arg from "graphql-obj2arg";
-import { createImageElement, PCType } from "../component/profile-card";
+import { createImageElement, PCType } from "../component/profile-card.jsx";
 import { emitHallActivity } from "../socket/socket-client";
 
 import { socketOn, emitLiveFeed } from "../socket/socket-client";

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getStyleImageObj } from '../../../component/profile-card';
+import { getStyleImageObj } from '../../../component/profile-card.jsx';
 import { Loader } from '../../../component/loader';
 
 

@@ -16,7 +16,7 @@ VacancyPopup.propTypes = {
 import {Loader} from '../../../component/loader';
 import {getAxiosGraphQLQuery} from '../../../../helper/api-helper';
 import {DocLinkEnum} from '../../../../config/db-config';
-import ProfileCard from '../../../component/profile-card';
+import ProfileCard from '../../../component/profile-card.jsx';
 import PageSection from '../../../component/page-section';
 import {CustomList} from '../../../component/list';
 class VacancyPopu111p extends Component {

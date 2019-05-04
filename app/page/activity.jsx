@@ -42,8 +42,6 @@ export default class ActivityPage extends React.Component {
             }
         }
 
-
-
         item["session"] = {
             label: "Past Sessions",
             component: SessionsList,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Loader } from '../component/loader';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { DocLinkEnum, LogEnum } from '../../config/db-config';
-import ProfileCard from '../component/profile-card';
+import ProfileCard from '../component/profile-card.jsx';
 import PageSection from '../component/page-section';
 import { CustomList } from '../component/list';
 import NotFoundPage from './not-found';

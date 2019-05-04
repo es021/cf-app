@@ -681,6 +681,9 @@ fields["edit_user"] = {
         study_field: {
             type: GraphQLString
         },
+        degree_level: {
+            type: GraphQLString
+        },
         major: {
             type: GraphQLString
         },

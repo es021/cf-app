@@ -6,7 +6,7 @@ import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 
 import GeneralFormPage from "../component/general-form";
-import ProfileCard from "../component/profile-card";
+import ProfileCard from "../component/profile-card.jsx";
 import {
   getAuthUser,
   getCF,

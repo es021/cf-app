@@ -8,7 +8,7 @@ import SponsorList from './partial/static/sponsor-list';
 import { Time } from '../lib/time';
 import Timer from '../component/timer';
 import { getCFTimeDetail } from './coming-soon';
-import { getStyleImageObj } from '../component/profile-card';
+import { getStyleImageObj } from '../component/profile-card.jsx';
 
 require("../css/home.scss");
 

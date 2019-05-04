@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import ProfileCard from '../component/profile-card';
+import ProfileCard from '../component/profile-card.jsx';
 import { isAuthorized, getAuthUser } from '../redux/actions/auth-actions';
 import { getWindowWidth } from '../lib/util';
 import { getPositionStr } from '../component/profile-card-img';

@@ -115,6 +115,9 @@
 }
 
 
+// ###############################################
+// Custom class
+
 .profile-card.profile-card-hidden {
     opacity: 0;
 }
@@ -139,4 +142,9 @@
         opacity: 0.7;
         box-shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0);
     }
+}
+
+.profile-card.no-vertical-margin{
+    margin-top : 0px;
+    margin-bottom : 0px;
 }

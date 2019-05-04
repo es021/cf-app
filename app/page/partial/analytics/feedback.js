@@ -467,7 +467,7 @@ export class FeedbackForm extends React.Component {
             v = <div>Your feedback has been successfully submitted
                 <br></br>Thank you for your time.
                 <br></br><br></br>
-                <NavLink className="btn btn-blue" to={`${RootPath}/app/career-fair`}>
+                <NavLink className="btn btn-blue" to={`${RootPath}/app/`}>
                     Go Back To Career Fair</NavLink>
             </div>;
         }

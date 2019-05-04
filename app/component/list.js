@@ -329,7 +329,7 @@ List.defaultProps = {
 /*******************************************************************************************/
 /*******************************************************************************************/
 
-import ProfileCard, { PCType } from './profile-card';
+import ProfileCard, { PCType } from './profile-card.jsx';
 import { Page } from 'react-facebook';
 
 export class ProfileListItem extends Component {
