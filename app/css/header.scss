@@ -1,72 +1,104 @@
 @import "define/variable.scss";
 $MENU_SMALL_WIDTH: 130px;
+
 header {
     text-align: left;
     display: flex;
     align-items: center;
-    z-index: 5;
+    z-index: 10;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); // logo
+
     .img {
         height: 100%;
         margin-left: 10px;
         margin-right: 2px;
         padding: 2px;
+
         img {
             height: 100%;
         }
     }
+
     .title {
+        color: $COLOR_HEADER_TITLE;
         line-height: 15px;
+        small{
+            color: $COLOR_HEADER_SUBTITLE;
+        }
     }
+
     .menu,
     .menu-small {
         flex-grow: 2;
         padding: 0 10px;
+
         ul {
             margin: 0;
             list-style: none;
             padding: 0;
         }
+
+        a {
+            color: $COLOR_HEADER_LINK;
+            text-decoration: none;
+        }
+
+        a:hover{
+            text-decoration: none;
+            color: $COLOR_HEADER_LINK_ACTIVE;
+        }
     }
+
     .menu {
         ul {
             display: flex;
             align-items: center;
             flex-flow: row wrap;
             justify-content: flex-end;
+
             .active {
-                border-bottom: #337ab7 solid 2px;
+                //border-bottom: $COLOR_HEADER_LINK solid 2px;
                 font-weight: bold;
+                color: $COLOR_HEADER_LINK_ACTIVE;
             }
+
             a {
                 margin-left: 20px;
             }
+
+
             // a:last-of-type{
             //     margin-right: 0px;
             // }
         }
-    } // menu small
+    }
+
+    // menu small
     .menu-small {
         display: none;
         text-align: right;
+
         .button-icon {
             height: 100%;
         }
+
         .button-icon:hover+ul,
         ul:hover {
             display: initial;
             right: 0;
         }
+
         ul {
             position: absolute;
             right: -$MENU_SMALL_WIDTH;
             width: $MENU_SMALL_WIDTH;
             transition: right 0.2s ease-out;
             height: 100vh;
-            background: white;
+            background: $COLOR_HEADER;
             top: 40px;
             padding: 10px 0;
         }
+
         li {
             padding: 0 10px;
         }
@@ -74,11 +106,13 @@ header {
 }
 
 @media only screen and (max-width: $LAYOUT_LG) {
+
     //Change Menu to button
     header {
         .menu {
             display: none;
         }
+
         .menu-small {
             display: initial;
         }
@@ -86,6 +120,7 @@ header {
 }
 
 @media only screen and (max-width: $LAYOUT_SM) {
+
     //Change Menu to button
     header {
         .title {

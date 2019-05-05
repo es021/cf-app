@@ -1,4 +1,10 @@
-# Buang perkataan sponsordf
+# IMPORTANT REMINDER
+-- try coming soon page
+-- control what rec can see when clicked on company page
+
+# activity.jsx
+
+# Buang perkataan sponsor
 
 # POST USA19 CHANGES
 RM 350.94 - new domain

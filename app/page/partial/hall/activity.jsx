@@ -428,11 +428,426 @@ class ActvityList extends React.Component {
     }
   }
 
+  addRemoveButton(body, hasRemove, removeEntity, removeEntityId) {
+    body = (
+      <div>
+        {this.getRemoveButton(hasRemove, removeEntity, removeEntityId)}
+        {body}
+      </div>
+    );
+
+    return body;
+  }
+
+  // return body n subtitle
+  renderGroupSessionJoin(d, obj, title) {
+    // 2. subtitle and body
+    var subtitle = null;
+    //var crtSession = null;
+    var hasRemove = null;
+    var removeEntity = null;
+    var removeEntityId = null;
+    var body = null;
+
+    if (isRoleStudent()) {
+      if (d.title != null && d.title != "") {
+        title = <small>{d.title}</small>;
+      } else {
+        title = <small>Group Session with {title}</small>;
+      }
+      title = <b>{title}</b>;
+
+      var hasStart = false;
+      if (!d.is_expired && d.join_url != "" && d.join_url != null) {
+        hasStart = true;
+        subtitle = "Video Call Has Started";
+      } else {
+        if (d.is_canceled || d.is_expired) {
+          subtitle = this.getTimeStrNew(d.start_time, true);
+        } else {
+          subtitle = this.getTimeStrNew(d.start_time, false);
+        }
+      }
+
+      const isExpiredHandler = () => {
+        var mes = (
+          <div>
+            Unable to join.
+                    <br />
+            This group session has ended.
+                  </div>
+        );
+        layoutActions.errorBlockLoader(mes);
+        var q = `mutation {edit_group_session(ID:${
+          d.ID
+          }, is_expired:1){ID}}`;
+        getAxiosGraphQLQuery(q).then(res => {
+          hallAction.storeLoadActivity([
+            hallAction.ActivityType.GROUP_SESSION_JOIN
+          ]);
+        });
+      };
+
+      var btnJoin = (
+        <a onClick={() =>
+          joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
+        }
+          className="btn btn-sm btn-blue">
+          Join Video Call
+        </a>
+      );
+
+      const openNotificationStart_GS = () => {
+        // block loader to inform the video call has started
+        // if time updated is less than bufferMin
+        var bufferMin = 2;
+        var diff =
+          Time.getUnixTimestampNow() -
+          Time.convertDBTimeToUnix(d.updated_at);
+        if (diff <= bufferMin * 60) {
+          var popupBody = (
+            <div>
+              <br />
+              Group session with
+                      <br />
+              <b>{obj.name}</b>
+              <br />
+              has started
+                      <br /> <br />
+              {btnJoin}
+            </div>
+          );
+          var notiId = `group-session-${d.ID}`;
+          showNotification(notiId, popupBody);
+        }
+      };
+      let isGsHasRemove = false;
+      if (d.is_canceled) {
+        body = (
+          <button disabled="disabled" className="btn btn-sm btn-danger">
+            Canceled
+          </button>
+        );
+        isGsHasRemove = true;
+      } else if (d.is_expired) {
+        body = (
+          <button disabled="disabled" className="btn btn-sm btn-danger">
+            Ended
+          </button>
+        );
+        isGsHasRemove = true;
+      } else {
+        if (hasStart) {
+          openNotificationStart_GS();
+          body = <div>{btnJoin}</div>;
+        } else {
+          body = (
+            <div
+              id={d.join_id}
+              data-company_id={obj.ID}
+              data-company_name={obj.name}
+              onClick={this.cancelJoinGroupSession.bind(this)}
+              className="btn btn-sm btn-primary">
+              Cancel Session
+            </div>
+          );
+        }
+      }
+
+      if (isGsHasRemove) {
+        hasRemove = true;
+        removeEntity = GroupSessionJoin.TABLE;
+        removeEntityId = d.join_id;
+      }
+    }
+
+
+    body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
+
+    let topLabel = <div style={{ fontSize: "90%" }} className="label label-success">
+      <i className="fa fa-users left"></i>
+      Live Call
+    </div>
+
+
+
+    return {
+      body: body,
+      subtitle: subtitle,
+      title: title,
+      topLabel: topLabel
+    }
+
+  }
+
+
+  // return body n subtitle
+  renderPreScreen(d, obj) {
+    // 2. subtitle and body
+    var subtitle = null;
+    var body = null;
+    //var crtSession = null;
+    var hasRemove = null;
+    var removeEntity = null;
+    var removeEntityId = null;
+
+    let btnJoinVCall = null;
+    var btnStartVCall = null;
+    var btnEndedVCall = null;
+    var btnAcceptReject = null;
+
+    if (
+      d.status == PrescreenEnum.STATUS_REJECTED ||
+      d.status == PrescreenEnum.STATUS_ENDED
+    ) {
+      subtitle = this.getTimeStrNew(d.appointment_time, true);
+    } else {
+      subtitle = this.getTimeStrNew(d.appointment_time, false);
+    }
+
+    //body = <div style={{ height: "30px" }}></div>;
+    var ps_type =
+      d.special_type == null || d.special_type == ""
+        ? PrescreenEnum.ST_PRE_SCREEN
+        : d.special_type;
+
+    if (isNormalSI(ps_type)) {
+      ps_type = "Scheduled Session";
+    }
+
+    // label for status
+    // New SI Flow
+    var label_color_status = "";
+    var textStatus = "";
+    switch (d.status) {
+      case PrescreenEnum.STATUS_WAIT_CONFIRM:
+        // New Flow
+        if (isRoleStudent()) {
+          btnAcceptReject = (
+            <div>
+              <div
+                id={d.ID}
+                data-other_id={obj.ID}
+                data-other_name={obj.name}
+                onClick={e => {
+                  this.confirmAcceptRejectPrescreen(
+                    e,
+                    PrescreenEnum.STATUS_APPROVED
+                  );
+                }}
+                className="btn btn-sm btn-success"
+              >
+                Accept Interview
+              </div>
+
+              <div
+                id={d.ID}
+                data-other_id={obj.ID}
+                data-other_name={obj.name}
+                onClick={e => {
+                  this.confirmAcceptRejectPrescreen(
+                    e,
+                    PrescreenEnum.STATUS_REJECTED
+                  );
+                }}
+                className="btn btn-sm btn-danger"
+              >
+                Reject Interview
+              </div>
+            </div>
+          );
+        }
+        if (isRoleRec()) {
+          label_color_status = "primary";
+          textStatus = "Waiting Confirmation";
+          //crtSession = null;
+        }
+        break;
+      case PrescreenEnum.STATUS_REJECTED:
+        label_color_status = "danger";
+        textStatus = "Interview Rejected";
+        //crtSession = null;
+        hasRemove = true;
+        removeEntity = Prescreen.TABLE;
+        removeEntityId = d.ID;
+        break;
+      case PrescreenEnum.STATUS_APPROVED:
+        if (isRoleRec()) {
+          btnStartVCall = (
+            <div
+              data-appointment_time={d.appointment_time}
+              data-participant_id={obj.ID}
+              data-id={d.ID}
+              onClick={this.startVideoCallPreScreen.bind(this)}
+              className="btn btn-sm btn-success"
+            >
+              Start Video Call
+            </div>
+          );
+          break;
+        }
+
+        label_color_status = "success";
+        textStatus = "Accepted";
+        break;
+      case PrescreenEnum.STATUS_ENDED:
+        btnEndedVCall = (
+          <div
+            className="action btn btn-danger btn-sm"
+            disabled="disabled"
+          >
+            Ended
+          </div>
+        );
+        ///crtSession = null;
+        hasRemove = true;
+        removeEntity = Prescreen.TABLE;
+        removeEntityId = d.ID;
+
+        break;
+      case PrescreenEnum.STATUS_STARTED:
+        let isExpiredHandler = () => {
+          var mes = (
+            <div>
+              Unable to join.
+              <br />
+              This 1-1 session has ended.
+            </div>
+          );
+          layoutActions.errorBlockLoader(mes);
+          let updData = {};
+          updData[Prescreen.ID] = d.ID;
+          updData[Prescreen.IS_EXPIRED] = 1;
+          updData[Prescreen.STATUS] = PrescreenEnum.STATUS_ENDED;
+          updData[Prescreen.UPDATED_BY] = this.authUser.ID;
+          var q = `mutation {edit_prescreen (${obj2arg(updData, {
+            noOuterBraces: true
+          })}){ID}}`;
+          getAxiosGraphQLQuery(q).then(res => {
+            hallAction.storeLoadActivity([
+              hallAction.ActivityType.PRESCREEN
+            ]);
+          });
+        };
+        var hasStart = false;
+        if (!d.is_expired && d.join_url != "" && d.join_url != null) {
+          hasStart = true;
+          subtitle = "Video Call Has Started";
+        } else {
+          if (d.is_expired) {
+            subtitle = this.getTimeStrNew(d.appointment_time, true);
+          } else {
+            subtitle = this.getTimeStrNew(d.appointment_time, false);
+          }
+        }
+        if (hasStart && isRoleStudent()) {
+          // bukak join url
+          btnJoinVCall = (
+            <a
+              onClick={() =>
+                joinVideoCall(
+                  d.join_url,
+                  null,
+                  isExpiredHandler,
+                  null,
+                  d.ID
+                )
+              }
+              className="btn btn-sm btn-blue"
+            >
+              Join Video Call
+            </a>
+          );
+
+          const openNotificationStart_PS = () => {
+            // block loader to inform the video call has started
+            // if time updated is less than bufferMin
+            var bufferMin = 2;
+            var diff =
+              Time.getUnixTimestampNow() -
+              Time.convertDBTimeToUnix(d.updated_at);
+            if (diff <= bufferMin * 60) {
+              var popupBody = (
+                <div>
+                  <br />
+                  1-1 session with
+                  <br />
+                  <b>{obj.name}</b>
+                  <br />
+                  has started
+                  <br />
+                  <br />
+                  {btnJoinVCall}
+                </div>
+              );
+              var notiId = `pre-screen-${d.ID}`;
+              showNotification(notiId, popupBody);
+            }
+          };
+          openNotificationStart_PS();
+        }
+        if (hasStart && isRoleRec()) {
+          // bukak start url
+          btnJoinVCall = (
+            <a
+              onClick={() =>
+                joinVideoCall(
+                  d.join_url,
+                  null,
+                  isExpiredHandler,
+                  null,
+                  d.ID,
+                  d.start_url
+                )
+              }
+              className="action btn btn-primary btn-sm"
+            >
+              Started
+            </a>
+          );
+        }
+
+        break;
+    }
+    let labelStatus = (
+      <div style={{ marginBottom: "7px" }}>
+        <label className={`label label-${label_color_status}`}>
+          {textStatus}
+        </label>
+      </div>
+    );
+
+    let topLabel = <div style={{ fontSize: "90%" }} className="label label-danger">
+      <i className="fa fa-user left"></i>
+      Private Call
+      </div>
+
+    body = (
+      <div>
+        {isRoleRec()
+          ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
+          : null}
+        {btnStartVCall == null ? labelStatus : null}
+        {isRoleRec() ? btnStartVCall : null}
+        {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM
+          ? btnAcceptReject
+          : null}
+        {d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null}
+        {d.status == PrescreenEnum.STATUS_ENDED ? btnEndedVCall : null}
+      </div>
+    );
+
+    body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
+
+    return {
+      body: body,
+      subtitle: subtitle,
+      topLabel: topLabel
+    }
+  }
+
   render() {
     var body = null;
-    // console.log("ActivityList",this.props);
-    // console.log("ActivityList",this.props);
-    // console.log("ActivityList",this.props);
     if (this.props.fetching) {
       body = <Loader isCenter={true} size="2" />;
     } else {
@@ -469,541 +884,51 @@ class ActvityList extends React.Component {
           title = obj.name;
         }
 
-        // 2. subtitle and body
+        var custom_width = "180px";
         var subtitle = null;
+        var objTemp = null;
+        var topLabel = null;
         var badge = null;
         var badge_tooltip = null;
-        var body = null;
-        var crtSession = null;
-        var custom_width = "150px";
-        var hasRemove = null;
-        var removeEntity = null;
-        var removeEntityId = null;
 
         if (isRoleRec()) {
           //show online status for rec
           badge = this.props.online_users[obj.ID] == 1 ? "" : null;
           badge_tooltip = `User Currently Online`;
-
-          crtSession = (
-            <div
-              data-pid={obj.ID}
-              data-entity_id={d.ID}
-              data-entity={this.props.type}
-              onClick={this.createSession.bind(this)}
-              className="btn btn-sm btn-primary"
-            >
-              Create Session
-            </div>
-          );
         }
 
-        switch (this.props.type) {
-          // #############################################################
-          // Active Session Card View
+        let _type = d._type;
 
-          case hallAction.ActivityType.SESSION:
-            subtitle = `${Time.getAgo(d.created_at)}`;
-            body = (
-              <NavLink to={`${RootPath}/app/session/${d.ID}`}>
-                <div className="btn btn-sm btn-success">Go To Session</div>
-              </NavLink>
-            );
-            break;
 
-          case hallAction.ActivityType.QUEUE:
-            subtitle = `${Time.getAgo(d.created_at)}`;
-
-            if (!isRoleRec()) {
-              badge = `${d.queue_num}`;
-              badge_tooltip = `Your queue number`;
-            }
-
-            body = isRoleRec() ? (
-              crtSession
-            ) : (
-                <div
-                  id={d.ID}
-                  data-company_id={obj.ID}
-                  data-company_name={obj.name}
-                  onClick={this.cancelQueue.bind(this)}
-                  className="btn btn-sm btn-danger"
-                >
-                  Cancel Queue
-              </div>
-              );
-            break;
-
-          // #############################################################
-          // Panel Interview Card View
-
-          // case hallAction.ActivityType.ZOOM_INVITE:
-          //     subtitle = <span>Hosted by
-          //     <div className="break-all">
-          //             <Tooltip
-          //                 bottom={"13px"}
-          //                 left={"-22px"}
-          //                 width={"131px"}
-          //                 tooltip={d.recruiter.user_email}
-          //                 content={<b>{d.recruiter.first_name} {d.recruiter.last_name}</b>}>
-          //             </Tooltip>
-          //         </div>
-          //         <br></br>
-          //         {Time.getAgo(d.created_at)}
-          //     </span>;
-          //     body = <div>
-          //         <a onClick={() => joinVideoCall(d.join_url, d.session_id, () => {
-          //             hallAction.storeLoadActivity([hallAction.ActivityType.ZOOM_INVITE]);
-          //         })} className="btn btn-sm btn-blue">Join Interview</a>
-          //     </div>;
-
-          //     break;
-
+        switch (_type) {
           // #############################################################
           // Scheduled Session Card View
 
           case hallAction.ActivityType.PRESCREEN:
-            let btnJoinVCall = null;
-            var btnStartVCall = null;
-            var btnEndedVCall = null;
-            var btnAcceptReject = null;
-
-            if (
-              d.status == PrescreenEnum.STATUS_REJECTED ||
-              d.status == PrescreenEnum.STATUS_ENDED
-            ) {
-              subtitle = this.getTimeStrNew(d.appointment_time, true);
-            } else {
-              subtitle = this.getTimeStrNew(d.appointment_time, false);
-            }
-
-            //body = <div style={{ height: "30px" }}></div>;
-            var ps_type =
-              d.special_type == null || d.special_type == ""
-                ? PrescreenEnum.ST_PRE_SCREEN
-                : d.special_type;
-
-            if (isNormalSI(ps_type)) {
-              ps_type = "Scheduled Session";
-            }
-
-            // label for special type
-            // var label_color_type = "";
-            // switch (ps_type) {
-            //     case PrescreenEnum.ST_NEXT_ROUND:
-            //         label_color_type = "success";
-            //         break;
-            //     case PrescreenEnum.ST_PRE_SCREEN:
-            //         label_color_type = "info";
-            //         break;
-            //     default:
-            //         label_color_type = "primary";
-            //         break;
-            // }
-            // let labelType = <div style={{ marginBottom: "7px" }}>
-            //     <label className={`label label-${label_color_type}`}>
-            //         {ps_type}
-            //     </label>
-            // </div>
-
-            // label for status
-            // New SI Flow
-            var label_color_status = "";
-            var textStatus = "";
-            switch (d.status) {
-              case PrescreenEnum.STATUS_WAIT_CONFIRM:
-                // New Flow
-                if (isRoleStudent()) {
-                  btnAcceptReject = (
-                    <div>
-                      <div
-                        id={d.ID}
-                        data-other_id={obj.ID}
-                        data-other_name={obj.name}
-                        onClick={e => {
-                          this.confirmAcceptRejectPrescreen(
-                            e,
-                            PrescreenEnum.STATUS_APPROVED
-                          );
-                        }}
-                        className="btn btn-sm btn-success"
-                      >
-                        Accept Interview
-                      </div>
-
-                      <div
-                        id={d.ID}
-                        data-other_id={obj.ID}
-                        data-other_name={obj.name}
-                        onClick={e => {
-                          this.confirmAcceptRejectPrescreen(
-                            e,
-                            PrescreenEnum.STATUS_REJECTED
-                          );
-                        }}
-                        className="btn btn-sm btn-danger"
-                      >
-                        Reject Interview
-                      </div>
-                    </div>
-                  );
-                }
-                if (isRoleRec()) {
-                  label_color_status = "primary";
-                  textStatus = "Waiting Confirmation";
-                  crtSession = null;
-                }
-                break;
-              case PrescreenEnum.STATUS_REJECTED:
-                label_color_status = "danger";
-                textStatus = "Interview Rejected";
-                crtSession = null;
-                hasRemove = true;
-                removeEntity = Prescreen.TABLE;
-                removeEntityId = d.ID;
-                break;
-              case PrescreenEnum.STATUS_APPROVED:
-                if (isRoleRec()) {
-                  btnStartVCall = (
-                    <div
-                      data-appointment_time={d.appointment_time}
-                      data-participant_id={obj.ID}
-                      data-id={d.ID}
-                      onClick={this.startVideoCallPreScreen.bind(this)}
-                      className="btn btn-sm btn-success"
-                    >
-                      Start Video Call
-                    </div>
-                  );
-                  break;
-                }
-
-                label_color_status = "success";
-                textStatus = "Accepted";
-                break;
-              case PrescreenEnum.STATUS_ENDED:
-                btnEndedVCall = (
-                  <div
-                    className="action btn btn-danger btn-sm"
-                    disabled="disabled"
-                  >
-                    Ended
-                  </div>
-                );
-                crtSession = null;
-                hasRemove = true;
-                removeEntity = Prescreen.TABLE;
-                removeEntityId = d.ID;
-
-                break;
-              case PrescreenEnum.STATUS_STARTED:
-                let isExpiredHandler = () => {
-                  var mes = (
-                    <div>
-                      Unable to join.
-                      <br />
-                      This 1-1 session has ended.
-                    </div>
-                  );
-                  layoutActions.errorBlockLoader(mes);
-                  let updData = {};
-                  updData[Prescreen.ID] = d.ID;
-                  updData[Prescreen.IS_EXPIRED] = 1;
-                  updData[Prescreen.STATUS] = PrescreenEnum.STATUS_ENDED;
-                  updData[Prescreen.UPDATED_BY] = this.authUser.ID;
-                  var q = `mutation {edit_prescreen (${obj2arg(updData, {
-                    noOuterBraces: true
-                  })}){ID}}`;
-                  getAxiosGraphQLQuery(q).then(res => {
-                    hallAction.storeLoadActivity([
-                      hallAction.ActivityType.PRESCREEN
-                    ]);
-                  });
-                };
-                var hasStart = false;
-                if (!d.is_expired && d.join_url != "" && d.join_url != null) {
-                  hasStart = true;
-                  subtitle = "Video Call Has Started";
-                } else {
-                  if (d.is_expired) {
-                    subtitle = this.getTimeStrNew(d.appointment_time, true);
-                  } else {
-                    subtitle = this.getTimeStrNew(d.appointment_time, false);
-                  }
-                }
-                if (hasStart && isRoleStudent()) {
-                  // bukak join url
-                  btnJoinVCall = (
-                    <a
-                      onClick={() =>
-                        joinVideoCall(
-                          d.join_url,
-                          null,
-                          isExpiredHandler,
-                          null,
-                          d.ID
-                        )
-                      }
-                      className="btn btn-sm btn-blue"
-                    >
-                      Join Video Call
-                    </a>
-                  );
-
-                  const openNotificationStart_PS = () => {
-                    // block loader to inform the video call has started
-                    // if time updated is less than bufferMin
-                    var bufferMin = 2;
-                    var diff =
-                      Time.getUnixTimestampNow() -
-                      Time.convertDBTimeToUnix(d.updated_at);
-                    if (diff <= bufferMin * 60) {
-                      var popupBody = (
-                        <div>
-                          <br />
-                          1-1 session with
-                          <br />
-                          <b>{obj.name}</b>
-                          <br />
-                          has started
-                          <br />
-                          <br />
-                          {btnJoinVCall}
-                        </div>
-                      );
-                      var notiId = `pre-screen-${d.ID}`;
-                      showNotification(notiId, popupBody);
-                    }
-                  };
-                  openNotificationStart_PS();
-                }
-                if (hasStart && isRoleRec()) {
-                  // bukak start url
-                  btnJoinVCall = (
-                    <a
-                      onClick={() =>
-                        joinVideoCall(
-                          d.join_url,
-                          null,
-                          isExpiredHandler,
-                          null,
-                          d.ID,
-                          d.start_url
-                        )
-                      }
-                      className="action btn btn-primary btn-sm"
-                    >
-                      Started
-                    </a>
-                  );
-                }
-
-                break;
-            }
-            let labelStatus = (
-              <div style={{ marginBottom: "7px" }}>
-                <label className={`label label-${label_color_status}`}>
-                  {textStatus}
-                </label>
-              </div>
-            );
-
-            body = (
-              <div>
-                {isRoleRec()
-                  ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
-                  : null}
-                {/* labelType */}
-                {btnStartVCall == null ? labelStatus : null}
-                {isRoleRec() ? btnStartVCall : null}
-                {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM
-                  ? btnAcceptReject
-                  : null}
-                {d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null}
-                {d.status == PrescreenEnum.STATUS_ENDED ? btnEndedVCall : null}
-              </div>
-            );
+            objTemp = this.renderPreScreen(d, obj)
+            body = objTemp.body;
+            subtitle = objTemp.subtitle;
+            topLabel = objTemp.topLabel;
             break;
-
-          // #############################################################
-          // Interview Request Card View
-          // case hallAction.ActivityType.SESSION_REQUEST:
-          //     subtitle = `${Time.getAgo(d.created_at)}`;
-
-          //     if (d.status === SessionRequestEnum.STATUS_PENDING) {
-          //         /*var pend = <div style={{ marginBottom: "10px" }}>
-          //             <label className={`label label-info`}>Pending</label>
-          //         </div>;*/
-          //         var pend = null;
-
-          //         if (isRoleRec()) {
-          //             body = <div>
-          //                 {createUserDocLinkList(obj.doc_links, obj.ID, true, true)}
-          //                 <div onClick={() => { this.openSIForm(d.ID, obj.ID) }}
-          //                     className="btn btn-sm btn-success">Schedule Session</div>
-
-          //                 <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-          //                     onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_REJECTED) }}
-          //                     className="btn btn-sm btn-danger">Reject Request</div>
-          //             </div>;
-
-          //         } else {
-          //             body = <div>{pend}
-          //                 <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-          //                     onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_CANCELED) }}
-          //                     className="btn btn-sm btn-primary">Cancel Request</div>
-          //             </div>;
-          //         }
-          //     }
-
-          //     // if rec view rejected in not shown
-          //     if (d.status === SessionRequestEnum.STATUS_REJECTED) {
-          //         var rej = <div style={{ marginBottom: "10px" }}>
-          //             <label className={`label label-danger`}>Rejected</label>
-          //         </div>;
-          //         body = <div>{rej}<small className="text-muted">Try again later</small></div>;
-          //         /*
-          //         body = <div>{rej}
-          //             {isRoleRec() ? <div id={d.ID} data-other_id={obj.ID} data-other_name={obj.name}
-          //                 onClick={(e) => { this.confirmUpdateSessionRequest(e, SessionRequestEnum.STATUS_PENDING) }}
-          //                 className="btn btn-sm btn-blue">Cancel Rejection</div> : null}
-          //         </div>
-          //         */
-          //     }
-          //     break;
 
           // #############################################################
           // group session Card View
           case hallAction.ActivityType.GROUP_SESSION_JOIN:
-            if (isRoleStudent()) {
-              if (d.title != null && d.title != "") {
-                title = <small>{d.title}</small>;
-              } else {
-                title = <small>Group Session with {title}</small>;
-              }
-              title = <b>{title}</b>;
-
-              var hasStart = false;
-              if (!d.is_expired && d.join_url != "" && d.join_url != null) {
-                hasStart = true;
-                subtitle = "Video Call Has Started";
-              } else {
-                if (d.is_canceled || d.is_expired) {
-                  subtitle = this.getTimeStrNew(d.start_time, true);
-                } else {
-                  subtitle = this.getTimeStrNew(d.start_time, false);
-                }
-              }
-
-              const isExpiredHandler = () => {
-                var mes = (
-                  <div>
-                    Unable to join.
-                    <br />
-                    This group session has ended.
-                  </div>
-                );
-                layoutActions.errorBlockLoader(mes);
-                var q = `mutation {edit_group_session(ID:${
-                  d.ID
-                  }, is_expired:1){ID}}`;
-                getAxiosGraphQLQuery(q).then(res => {
-                  hallAction.storeLoadActivity([
-                    hallAction.ActivityType.GROUP_SESSION_JOIN
-                  ]);
-                });
-              };
-
-              var btnJoin = (
-                <a
-                  onClick={() =>
-                    joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
-                  }
-                  className="btn btn-sm btn-blue"
-                >
-                  Join Video Call
-                </a>
-              );
-
-              const openNotificationStart_GS = () => {
-                // block loader to inform the video call has started
-                // if time updated is less than bufferMin
-                var bufferMin = 2;
-                var diff =
-                  Time.getUnixTimestampNow() -
-                  Time.convertDBTimeToUnix(d.updated_at);
-                if (diff <= bufferMin * 60) {
-                  var popupBody = (
-                    <div>
-                      <br />
-                      Group session with
-                      <br />
-                      <b>{obj.name}</b>
-                      <br />
-                      has started
-                      <br /> <br />
-                      {btnJoin}
-                    </div>
-                  );
-                  var notiId = `group-session-${d.ID}`;
-                  showNotification(notiId, popupBody);
-                }
-              };
-              let isGsHasRemove = false;
-              if (d.is_canceled) {
-                body = (
-                  <button disabled="disabled" className="btn btn-sm btn-danger">
-                    Canceled
-                  </button>
-                );
-                isGsHasRemove = true;
-              } else if (d.is_expired) {
-                body = (
-                  <button disabled="disabled" className="btn btn-sm btn-danger">
-                    Ended
-                  </button>
-                );
-                isGsHasRemove = true;
-              } else {
-                if (hasStart) {
-                  openNotificationStart_GS();
-                  body = <div>{btnJoin}</div>;
-                } else {
-                  body = (
-                    <div
-                      id={d.join_id}
-                      data-company_id={obj.ID}
-                      data-company_name={obj.name}
-                      onClick={this.cancelJoinGroupSession.bind(this)}
-                      className="btn btn-sm btn-primary"
-                    >
-                      Cancel Session
-                    </div>
-                  );
-                }
-              }
-
-              if (isGsHasRemove) {
-                hasRemove = true;
-                removeEntity = GroupSessionJoin.TABLE;
-                removeEntityId = d.join_id;
-              }
-            }
-
+            objTemp = this.renderGroupSessionJoin(d, obj, title)
+            body = objTemp.body;
+            title = objTemp.title;
+            subtitle = objTemp.subtitle;
+            topLabel = objTemp.topLabel;
             break;
         }
 
-        body = (
-          <div>
-            {this.getRemoveButton(hasRemove, removeEntity, removeEntityId)}
-            {body}
-          </div>
-        );
+        var header = <div style={{ marginTop: "10px" }}>{topLabel}</div>
 
         var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
         return (
           <ProfileListItem
             className=""
+            header={header}
             title={title}
             list_type="card"
             img_url={obj.img_url}
@@ -1196,66 +1121,90 @@ class ActivitySection extends React.Component {
     var size_p = isRoleRec() ? "12" : "12";
 
     //Group Session
-    var gs =
-      <ActvityList
-        bc_type="vertical"
-        online_users={this.props.online_users}
-        fetching={d.fetching.group_session_joins}
-        type={hallAction.ActivityType.GROUP_SESSION_JOIN}
-        title={title_gs}
-        subtitle={subtitle_gs}
-        list={d.group_session_joins}></ActvityList>
+    // var gs =
+    //   <ActvityList
+    //     bc_type="vertical"
+    //     online_users={this.props.online_users}
+    //     fetching={d.fetching.group_session_joins}
+    //     type={hallAction.ActivityType.GROUP_SESSION_JOIN}
+    //     title={title_gs}
+    //     subtitle={subtitle_gs}
+    //     list={d.group_session_joins}></ActvityList>
 
-    //Scheduled Session
-    var p = (
-      <ActvityList
-        bc_type="vertical"
-        online_users={this.props.online_users}
-        fetching={d.fetching.prescreens}
-        type={hallAction.ActivityType.PRESCREEN}
-        title={title_p}
-        subtitle={subtitle_p}
-        list={d.prescreens}
-      />
-    );
+    // //Scheduled Session
+    // var p = (
+    //   <ActvityList
+    //     bc_type="vertical"
+    //     online_users={this.props.online_users}
+    //     fetching={d.fetching.prescreens}
+    //     type={hallAction.ActivityType.PRESCREEN}
+    //     title={title_p}
+    //     subtitle={subtitle_p}
+    //     list={d.prescreens}
+    //   />
+    // );
 
+    // ############################3
     // Gabung ps and gs
+
+    // 1. title
     var title = this.createTitleWithTooltip(
       <a
-        onClick={() => this.refresh([hallAction.ActivityType.PRESCREEN
-          , hallAction.ActivityType.GROUP_SESSION_JOIN])}
+        onClick={() => {
+          let toRefresh = [hallAction.ActivityType.PRESCREEN];
+          if (isRoleStudent()) {
+            toRefresh.push(hallAction.ActivityType.GROUP_SESSION_JOIN)
+          }
+          this.refresh(toRefresh);
+        }}
       >
         My Activity
       </a>,
-      "Your activity"
+      "You can access your private call and live call here"
     );
+
+
+    // 2. subtitle
     var subtitle = null;
+
+    // 3. list
     let list = [];
-    for (var i in d.group_session_joins) {
-      let newObj = d.group_session_joins[i]
-      newObj._type = hallAction.ActivityType.GROUP_SESSION_JOIN;
-      list.push(newObj);
-    }
+    //// 3.a  add private call
     for (var i in d.prescreens) {
       let newObj = d.prescreens[i]
       newObj._type = hallAction.ActivityType.PRESCREEN;
       list.push(newObj);
     }
-    let fetching = this.props.online_users || d.fetching.group_session_joins
+    //// 3.b  add live call (for student only)
+    if (isRoleStudent()) {
+      for (var i in d.group_session_joins) {
+        let newObj = d.group_session_joins[i]
+        newObj._type = hallAction.ActivityType.GROUP_SESSION_JOIN;
+        list.push(newObj);
+      }
+    }
 
+    // 4. fetching
+    let fetching = true;
+    if (isRoleStudent()) {
+      fetching = d.fetching.prescreens || d.fetching.group_session_joins;
+    } else {
+      fetching = d.fetching.prescreens;
+    }
+
+
+    // 5. view
     var ps_gs = <ActvityList
       bc_type="vertical"
       online_users={this.props.online_users}
-      fetching={d.fetching.group_session_joins}
-      type={hallAction.ActivityType.GROUP_SESSION_JOIN}
+      fetching={fetching}
+      type={null}
       title={title}
       subtitle={subtitle}
-      list={d.group_session_joins}></ActvityList>
-
+      list={list}></ActvityList>
 
     // todos
-
-    return <div>{gs}{p}</div>;
+    return <div>{ps_gs}</div>;
   }
 }
 

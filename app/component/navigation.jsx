@@ -215,6 +215,19 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleStudent()
     },
     {
+      url: "/auditorium",
+      // EUR FIX
+      //label: "Auditorium",
+      label: "Webinar",
+      icon: "microphone",
+      component: AuditoriumFeed,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: IsNewHall //isDisabled("auditorium", COMING_SOON)
+    },
+    {
       // Student Only
       url: "/edit-profile/:current",
       label: "Upload Document",
@@ -317,19 +330,6 @@ function getMenuItem(COMING_SOON) {
       hd_app: true,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
-    },
-    {
-      url: "/auditorium",
-      // EUR FIX
-      //label: "Auditorium",
-      label: "Webinar",
-      icon: "microphone",
-      component: AuditoriumFeed,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      disabled: false //isDisabled("auditorium", COMING_SOON)
     },
     {
       url: "/company-forum",

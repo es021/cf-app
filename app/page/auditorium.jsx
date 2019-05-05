@@ -34,7 +34,8 @@ export class WebinarHall extends React.Component {
     this.offset = 10;
 
     this.state = {
-      extraData: []
+      extraData: [],
+      key: 0
     };
 
     this.isInit = true;
@@ -104,22 +105,24 @@ export class WebinarHall extends React.Component {
       body={null}></ProfileCard></div>
 
     let detailStyle = {
-      fontSize: "15px",
+      fontSize: "14px",
       textAlign: "left"
     }
     let details = <div className="hw-details" style={detailStyle}>
       <b>{d.title}</b><br></br>
-      {"with "}
-      <a
-        onClick={() =>
-          layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
-            id: d.company.ID,
-            toggleable: false
-          })
-        }
-      >
-        {d.company.name}
-      </a>
+      <small>
+        {"with "}
+        <a
+          onClick={() =>
+            layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
+              id: d.company.ID,
+              toggleable: false
+            })
+          }
+        >
+          {d.company.name}
+        </a>
+      </small>
     </div>
 
     var action_disabled = true;
@@ -164,13 +167,21 @@ export class WebinarHall extends React.Component {
   }
 
   render() {
-    let title = "Webinar";
+    var title = <a onClick={() => {
+      this.setState((prevState) => {
+        return { key: prevState.key + 1 }
+      })
+    }}>
+      Webinar
+    </a>
+
     let subtitle = null;
     let body = (
       <List
+        key={this.state.key}
         type="append-bottom"
         appendText="Load More Webinar"
-        listClass="db_body"
+        listClass="bc-body"
         listRef={v => (this.dashBody = v)}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
@@ -186,12 +197,14 @@ export class WebinarHall extends React.Component {
           <br />
           <small>{subtitle}</small>
         </h4>
-        <div className="bc-body">{body}</div>
+        {body}
       </div>
     );
   }
 }
 
+// END of WebinarHall
+// ############################################################
 
 export class AuditoriumFeed extends React.Component {
   constructor(props) {
@@ -205,7 +218,7 @@ export class AuditoriumFeed extends React.Component {
     this.offset = 10;
 
     this.state = {
-      extraData: []
+      extraData: [],
     };
 
     this.hasUpNext = false;
@@ -219,27 +232,6 @@ export class AuditoriumFeed extends React.Component {
       this.addFeedToView(data);
     });
   }
-
-  // listComponentDidUpdate() {
-  //     //console.log("listComponentDidUpdate")
-  //     //console.log(this.scrollTo);
-
-  //     if (this.scrollTo == "bottom") {
-  //         //scroll to bottom
-  //         this.dashBody.scrollTop = 99999999;
-  //         //console.log("go bottom");
-
-  //     }
-
-  //     if (this.scrollTo == "top") {
-  //         //scroll to top
-  //         this.dashBody.scrollTop = 0;
-  //         //console.log("go top");
-  //     }
-
-  //     //console.log(this.dashBody.scrollTop);
-  //     this.scrollTo == "";
-  // }
 
   // ##############################################################
   // function for list
@@ -402,6 +394,7 @@ export class AuditoriumFeed extends React.Component {
     );
   }
 }
+// END of AuditoriumFeed
 
 // ###########################################################################################
 // AUDITORIUM MANAGEMENT PAGE ###########################################################

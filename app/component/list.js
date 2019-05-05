@@ -349,6 +349,7 @@ export class ProfileListItem extends Component {
 }
 
 ProfileListItem.propTypes = {
+    header: PropTypes.element, // put as the first child of profile card,
     custom_width : PropTypes.string,
     list_type: PropTypes.oneOf(["card"]),
     list_type_extra: PropTypes.string,

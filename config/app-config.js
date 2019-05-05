@@ -14,7 +14,7 @@ var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
 
 const IsGruveoEnable = false;
-const IsNewHall = false;
+const IsNewHall = true;
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {

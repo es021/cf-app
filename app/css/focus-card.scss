@@ -15,7 +15,7 @@ $banner_height : 130px;
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 9;
+        z-index: 11;
     }
 
     .#{$fc}content{
@@ -24,7 +24,7 @@ $banner_height : 130px;
         background: whitesmoke;
         position:fixed;
         top:0;
-        z-index: 10;
+        z-index: 12;
         @include center_horizontal($fc_width);
 
         .#{$fc}header{
@@ -86,7 +86,6 @@ $banner_height : 130px;
             position: absolute;
             left: 0;
             top: 0;
-            //z-index: 11;
         }
 
         .container-fluid{
@@ -110,14 +109,6 @@ $banner_height : 130px;
                  }
              }
         }
-    
-//         .profile-card{
-//             z-index: 12;
-//             height: 150px;
-// width: 150px;
-// top: -70px;
-//         }
-    
     }
   
     .#{$fc}body{

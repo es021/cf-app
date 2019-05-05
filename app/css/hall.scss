@@ -2,9 +2,9 @@
 
 // ####################################
 // CONSTANTS 
-$HWW_ALL: 480px;
-$HWW_IMAGE: 100px;
-$HWW_ACTION: 125px;
+$HWW_ALL: 420px;
+$HWW_IMAGE: 90px;
+$HWW_ACTION: 120px;
 
 $HWW_ALL_SM : 415px;
 $HWW_IMAGE_SM: 70px;
@@ -46,12 +46,13 @@ body.body-hall-page {
 
 .hall-page {
     .title-section {
-        font-size: 18px;
+        font-size: 25px;
+        font-weight: bold;
         padding: 15px;
         background: #e6e6e6;
         color: $COLOR_DARK;
-        border-top: 1px solid $COLOR_TITLE;
-        border-bottom: 1px solid $COLOR_TITLE;
+        //border-top: 1px solid $COLOR_TITLE;
+        //border-bottom: 1px solid $COLOR_TITLE;
 
         display: flex;
         justify-content: center;
@@ -91,16 +92,18 @@ body.body-hall-page {
         border-radius: 7px;
         overflow: hidden;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         background: white;
+        margin: 0px 5px;
         margin-bottom: 20px;
-        box-shadow: 2px 4px 6px -3px rgba(0, 0, 0, 0.7);
+        box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
 
         .hw-image {
             align-self: center;
 
             .profile-card {
-                margin: 10px;
+                margin: 10px 0px;
             }
         }
 
@@ -124,9 +127,10 @@ body.body-hall-page {
 
 
         .hw-action {
-            .fa{
+            .fa {
                 font-size: 45px;
             }
+
             cursor: pointer;
         }
 
@@ -137,4 +141,24 @@ body.body-hall-page {
     }
 
     @include hall_webinar_size_and_position($HWW_ALL, $HWW_IMAGE, $HWW_ACTION);
+
+    @media only screen and (max-width: 500px) {
+        .hall-webinar {
+            width: 180px;
+            margin: 10px;
+
+            .hw-image,
+            .hw-details,
+            .hw-action,
+            .hw-time {
+                width: 100%;
+            }
+
+            .hw-details,
+            .hw-action,
+            .hw-time {
+                padding: 10px;
+            }
+        }
+    }
 }

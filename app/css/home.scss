@@ -1,14 +1,18 @@
 @import "define/variable.scss";
+
 body.landing-page {
     //background-image: url("https://seedsjobfairapp.com/image/home/1_sm.jpg") !important;
     background-size: cover !important; //background-position: center center !important;
     background-attachment: fixed !important;
+
     header {
         transition: background-color 0.3s ease;
         transition: color 0.3s ease;
     }
+
     .content {
         background: rgba(0, 0, 0, 0.5) !important;
+
         .main {
             padding: 0 !important;
         }
@@ -21,14 +25,24 @@ body.landing-page.top {
         background-color: rgba(0, 0, 0, 0);
         box-shadow: none;
         color: white;
+
         .menu-small {
             ul {
                 background: rgba(0, 0, 0, 0.7);
             }
         }
-        a {
+
+        a,
+        .title {
             color: white;
         }
+
+        .title {
+            small {
+                color: white;
+            }
+        }
+
         a.active {
             border-bottom-color: white;
         }
@@ -42,13 +56,16 @@ body.landing-page.top {
         flex-direction: column;
         color: whitesmoke;
         padding-bottom: 40px;
+
         h1 {
             text-transform: uppercase;
+
             .subtitle {
                 text-transform: initial;
                 font-size: 80%;
             }
         }
+
         h1,
         h2,
         h3,
@@ -57,23 +74,28 @@ body.landing-page.top {
         h6 {
             color: white;
         }
+
         small {
             opacity: 0.9;
             color: white;
         }
+
         .item-small {
             width: 90%;
             max-width: 500px;
             margin: auto;
         }
+
         .item-login {
             background: rgba(0, 0, 0, 0.5);
             padding: 20px;
+
             h3 {
                 margin-top: 0;
             }
         }
     }
+
     #home-body {
         background: $COLOR_BACKGROUND;
         min-height: 350px;

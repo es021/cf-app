@@ -1,7 +1,7 @@
 @import "define/variable.scss";
 
-$HG_HEIGHT_CENTER_FULL : 300px;
-$HG_WIDTH_CENTER_FULL : 500px;
+$HG_HEIGHT_CENTER_FULL : 360px;
+$HG_WIDTH_CENTER_FULL : 600px;
 
 $HG_HEIGHT_CENTER_LG : $HG_HEIGHT_CENTER_FULL / 1.2;
 $HG_WIDTH_CENTER_LG : $HG_WIDTH_CENTER_FULL / 1.2;
@@ -180,7 +180,7 @@ $OFFSET_SM : 0px;
             // height: $arrow_height;
             // width: $arrow_width;
             // top: $arrow_top;
-            z-index: 10;
+            z-index: 7;
 
             display: flex;
             justify-content: center;
