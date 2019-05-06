@@ -5,7 +5,7 @@ import { CustomList, createIconLink } from '../component/list';
 import { NavLink } from 'react-router-dom';
 import ActivitySection from './partial/hall/activity-old';
 import { GroupSessionView } from './partial/hall/group-session';
-import CompaniesSection from './partial/hall/companies';
+import CompaniesSection from './partial/hall/companies-old';
 import ForumPage from './forum';
 
 import { UserEnum } from '../../config/db-config';

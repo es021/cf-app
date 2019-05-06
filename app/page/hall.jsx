@@ -146,6 +146,22 @@ export default class HallPage extends React.Component {
       </div>
     );
   }
+
+  getCompanyBooth() {
+    return (
+      <div className="company-section">
+        <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+          <div className="title-section">
+            <div>Company Booth</div>
+          </div>
+          <div className="main-width main-width-lg">
+            <CompaniesSection />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     document.setTitle("Career Fair");
 
@@ -155,48 +171,9 @@ export default class HallPage extends React.Component {
         {this.getTitle()}
         {this.getSponsor()}
         {this.getActivityAndWebinar()}
+        {isRoleStudent() ? this.getCompanyBooth() : null}
       </div>
     );
-
-    // var gSesion = null;
-    // if (isRoleRec()) {
-    //     gSesion = <GroupSessionView forRec={true} company_id={this.authUser.rec_company}></GroupSessionView>;
-    //     gSesion = <PageSection showOverflow={true} title="" body={gSesion}></PageSection>;
-    // }
-
-    // var companyBooth = null;
-    // if (isRoleStudent()) {
-    //     companyBooth = <PageSection showOverflow={true} title={null} body={CompaniesSection}></PageSection>;
-    // }
-
-    // var midView = null;
-    // if (isRoleRec()) {
-
-    //     var forum = <ForumPage isHomePage={true} forum_id={`company_${getAuthUser().company_id}`}></ForumPage>;
-    //     midView = <div className="container-fluid" >
-    //         <div className="row" >
-    //             <div className="col-md-6" style={{ marginTop: "20px" }}>
-    //                 <PageSection showOverflow={true} title={null} body={ActivitySection}></PageSection>
-    //             </div>
-    //             <div className="col-md-6">
-    //                 <PageSection showOverflow={true} title="" body={forum}></PageSection>
-    //             </div>
-    //         </div>
-    //     </div>
-    // } else {
-    //     midView = <PageSection showOverflow={true} title={null} body={ActivitySection}></PageSection>;
-    // }
-
-    // let titlePage = isRoleRec() ?
-    //     <h2>Welcome To {this.title}</h2>:
-    //     <h4>Welcome To {this.title}</h4>;
-    // return (<div>
-    //     {this.props.isPreEvent ? <div className="line"></div>
-    //         : titlePage}
-    //     {gSesion}
-    //     {companyBooth}
-    //     {midView}
-    // </div>);
   }
 }
 

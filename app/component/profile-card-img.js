@@ -12,6 +12,9 @@ import { UploadUrl } from '../../config/app-config.js';
 require("../css/profile-card.scss");
 const pc = "pc-";
 
+export const BANNER_WIDTH = 870;
+export const BANNER_HEIGHT = 200;
+
 export function getSizeStr(sizeStr) {
     if (sizeStr == null) {
         return "cover";
@@ -22,6 +25,9 @@ export function getSizeStr(sizeStr) {
 
 //default is 100px
 export function getPositionStr(dimension, posStr, unit = "px", toString = false) {
+
+    let DEBUG = posStr == "602px -16px";
+
     if (posStr == null) {
         return "50% 50%";
     }
@@ -29,13 +35,27 @@ export function getPositionStr(dimension, posStr, unit = "px", toString = false)
         return posStr;
     }
 
-    const def = 100;
+    // untuk profile picture
+    var DEF_X = 100;
+    var DEF_Y = 100;
+
+    let dimensionX = dimension;
+    let dimensionY = dimension;
+
     if (typeof dimension == "string") {
         dimension = Number(dimension.replace("px", ""));
+        dimensionX = dimension;
+        dimensionY = dimension;
+    }else if(typeof dimension == "object"){
+        // untuk banner
+        DEF_X = BANNER_WIDTH;
+        DEF_Y = BANNER_HEIGHT;
+        dimensionX = Number(dimension.x.replace("px", ""));
+        dimensionY = Number(dimension.y.replace("px", ""));
     }
 
     var ret = {};
-
+    
     try {
         var temp = posStr.split(unit);
         ret.x = Number(temp[0]);
@@ -45,12 +65,20 @@ export function getPositionStr(dimension, posStr, unit = "px", toString = false)
         ret.y = 0;
     }
 
-    ret.x = ret.x / (def / dimension);
-    ret.y = ret.y / (def / dimension);
+    ret.x = ret.x / (DEF_X / dimensionX);
+    ret.y = ret.y / (DEF_Y / dimensionY);
+
+    if(DEBUG){
+        console.log("----------------------------------------------------------")
+        console.log("ret",ret)
+        console.log("def",DEF_X)
+        console.log("dimensionX",dimensionX)
+        console.log("dimensionY",dimensionY)
+    }
+
     if (toString) {
         return `${ret.x}px ${ret.y}px`;
     }
-
 
     return ret;
 }
@@ -73,12 +101,11 @@ export default class ProfileCardImg extends React.Component {
         this.ARROW_DIM_POS = "45px";
 
         if(this.props.type == "banner"){
-            this.DIMENSION_HEIGHT = "130px";
+            this.DIMENSION_HEIGHT = BANNER_HEIGHT + "px";
             this.DIMENSION_WIDTH = "100%";
             this.BORDER_RADIUS = "0%";
             this.ARROW_DIM_NEG = "-15px";
             this.ARROW_DIM_POS = "50%";
-
         }
 
        

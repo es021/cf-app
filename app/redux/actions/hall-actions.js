@@ -182,6 +182,9 @@ export function loadCompanies() {
                             img_url
                             img_size
                             img_position
+                            banner_url
+                            banner_size
+                            banner_position
                             name
                             type
                             status

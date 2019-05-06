@@ -5,7 +5,6 @@ import * as hallAction from '../../../redux/actions/hall-actions';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import ProfileCard from '../../../component/profile-card.jsx';
-import {BANNER_WIDTH, BANNER_HEIGHT} from '../../../component/profile-card-img';
 import { CompanyEnum } from '../../../../config/db-config';
 import { ButtonLink } from '../../../component/buttons';
 import * as layoutActions from '../../../redux/actions/layout-actions';
@@ -18,9 +17,7 @@ import { getAuthUser, isAuthorized } from '../../../redux/actions/auth-actions';
 
 import CompanyPopup from '../popup/company-popup';
 
-require('../../../css/company-sec.scss');
-
-
+require('../../../css/company-sec-old.scss');
 
 export const getCompanyCSSClass = function (type) {
     var className = "";
@@ -45,13 +42,14 @@ export const getCompanyCSSClass = function (type) {
     return className;
 };
 
-const sec = "com-sec";
+const sec = "com-sec-old";
 
 //real time with socket need to use redux    
 class CompanyBooth extends React.Component {
     constructor(props) {
         super(props);
         this.getCount = this.getCount.bind(this);
+        this.getStatus = this.getStatus.bind(this);
         this.ID = this.props.company.ID;
     }
 
@@ -105,6 +103,52 @@ class CompanyBooth extends React.Component {
         return counts;
     }
 
+    getStatus() {
+        return null;
+        
+        var clr = "";
+        var tt = "";
+        var left = "";
+        var statusLabel = this.props.company.status;
+        switch (this.props.company.status) {
+            case CompanyEnum.STS_OPEN:
+                clr = "success";
+                tt = "Open for session request";
+                left = "51";
+                break;
+            case CompanyEnum.STS_CLOSED:
+                tt = "Recruiters are not available currently";
+                clr = "danger";
+                left = "45";
+                break;
+            case CompanyEnum.STS_PS:
+                tt = "Only attending prescreening sessions currently";
+                clr = "primary";
+                left = "24";
+                break;
+            case CompanyEnum.STS_RD:
+                tt = "Only open for resume drops currently";
+                clr = "info";
+                left = "17";
+                break;
+            case CompanyEnum.STS_GS:
+                tt = "Group session is currently open";
+                clr = "primary";
+                left = "17";
+                break;
+        }
+
+        var label = <div className={`label label-${clr}`}>{statusLabel}</div>;
+
+        return <Tooltip
+            content={label}
+            tooltip={tt}
+            bottom="20px"
+            left={`-${left}px`}
+            width="140px">
+        </Tooltip>;
+    }
+
     render() {
         var onClick = () => {
             layoutActions.storeUpdateFocusCard(this.props.company.name, CompanyPopup, { isPreEvent: this.props.isPreEvent, id: this.props.company.ID });
@@ -115,22 +159,14 @@ class CompanyBooth extends React.Component {
         if (!this.props.isPreEvent) {
             pcBody = <span>
                 {this.getCount()}
+                {this.getStatus()}
             </span>
         }
 
-        let header = <div style={{marginTop:"30px"}}></div>        
-        //var className = getCompanyCSSClass(this.props.company.type);
-        var className = "";
+        var className = getCompanyCSSClass(this.props.company.type);
 
         return (<ProfileCard className={className} onClick={onClick} type="company"
-            header={header}
             title={pcTitle}
-
-            custom_width={(BANNER_WIDTH / 2.5) + "px"}
-            banner_height={(BANNER_HEIGHT / 2.5) + "px"}
-            addBanner={true}
-            
-            banner_url={this.props.company.banner_url} banner_pos={this.props.company.banner_position} banner_size={this.props.company.banner_size}
             img_url={this.props.company.img_url} img_pos={this.props.company.img_position} img_size={this.props.company.img_size}
             body={pcBody}></ProfileCard>);
     }
@@ -154,6 +190,7 @@ class CompaniesSection extends React.Component {
         this.page = 1;
 
         this.refreshTraffic = this.refreshTraffic.bind(this);
+        console.log("Hall", "HallPage");
         this.traffic = {};
     }
 

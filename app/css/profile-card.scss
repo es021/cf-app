@@ -73,6 +73,16 @@
         display: initial;
     }
 
+    .#{$PROFILE_CARD}banner {
+        background-repeat: no-repeat;
+        background-color: white;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        border-bottom: #d2eed2 1px solid;
+    }
+
     .#{$PROFILE_CARD}picture {
         background-color: white;
         border-radius: 100%;

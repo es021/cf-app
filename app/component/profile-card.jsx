@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ButtonIcon } from './buttons';
 import * as layoutActions from '../redux/actions/layout-actions';
 
-import ProfileCardImg, { getPositionStr, getSizeStr } from '../component/profile-card-img';
+import ProfileCardImg, { getPositionStr, getSizeStr, BANNER_HEIGHT } from '../component/profile-card-img';
 import Form, { toggleSubmit } from '../component/form';
 
 require("../css/profile-card.scss");
@@ -66,6 +66,7 @@ export const getDefaultProfileImg = function (type, url = null) {
 }
 
 export const getStyleImageObj = function (type, img_url, img_size, img_pos, dimension) {
+
     var stylePicture = null;
 
     if (typeof img_url === "undefined" || img_url == null || img_url == "") {
@@ -79,7 +80,7 @@ export const getStyleImageObj = function (type, img_url, img_size, img_pos, dime
     }
 
     if (type == PCType.BANNER) {
-        stylePicture["height"] = "130px";
+        stylePicture["height"] = BANNER_HEIGHT + "px";
         stylePicture["width"] = "100%";
         stylePicture["borderRadius"] = "0%"
     } else {
@@ -119,6 +120,13 @@ export default class ProfileCard extends React.Component {
             color: (this.props.theme == "dark") ? "white" : "black",
             width: this.props.custom_width
         };
+
+        if (this.props.customStyleParent != null) {
+            styleParent = {
+                ...styleParent,
+                ...this.props.customStyleParent
+            }
+        }
 
         var dimension = (this.props.img_dimension) ? this.props.img_dimension : "100px";
 
@@ -173,8 +181,22 @@ export default class ProfileCard extends React.Component {
             className += " " + this.props.className;
         }
 
+        // New Banner for profile pic
+        let banner = null;
+        if(this.props.addBanner){
+            let dimensionBanner = {
+                x : this.props.custom_width,
+                y : this.props.banner_height
+            }
+            let styleBanner =  getStyleImageObj(PCType.BANNER, this.props.banner_url, 
+                this.props.banner_size, this.props.banner_pos, dimensionBanner);
+            styleBanner.height = this.props.banner_height;
+            banner = <div className={`${pc}banner`} style={styleBanner}></div>
+        }
+       
         //this.openPictureOps(stylePicture);
         return (<div onClick={this.props.onClick} className={className} style={styleParent}>
+            {banner}
             {(this.props.header) ? this.props.header : null}
             {badge}
             <div className={`${pc}picture`} style={stylePicture}>
@@ -198,11 +220,19 @@ ProfileCard.propTypes = {
     badge: PropTypes.string,
     badge_tooltip: PropTypes.string,
     onClick: PropTypes.func,
+
+    addBanner : PropTypes.bool,
+    banner_height : PropTypes.string,
+    banner_url: PropTypes.string,
+    banner_pos: PropTypes.string,
+    banner_size: PropTypes.string,
+    
     img_url: PropTypes.string,
     img_pos: PropTypes.string,
     img_size: PropTypes.string,
     add_img_ops: PropTypes.bool,
     img_dimension: PropTypes.string,
+    customStyleParent : PropTypes.object,
     customStyle: PropTypes.object,
     className: PropTypes.string,
     theme: PropTypes.oneOf(["dark"]),
@@ -211,5 +241,7 @@ ProfileCard.propTypes = {
 };
 
 ProfileCard.defaultProps = {
-    customStyle: null
+    addBanner : false,
+    customStyle: null,
+    customStyleParent : null
 }

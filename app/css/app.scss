@@ -66,6 +66,10 @@ header {
         flex: 3;
     }
 
+    .main-width.main-width-lg{
+        max-width: $MAX_WIDTH_MAIN_LG;
+    }
+
     @media only screen and (max-width: $MAX_WIDTH_MAIN) {
 
         .main,

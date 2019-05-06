@@ -9,6 +9,7 @@ import obj2arg from 'graphql-obj2arg';
 import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin, getCFObj } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card.jsx';
+import {BANNER_HEIGHT, BANNER_WIDTH} from '../component/profile-card-img';
 import SubNav from '../component/sub-nav';
 import List, { CustomList } from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
@@ -415,6 +416,8 @@ class AboutSubPage extends React.Component {
         } else {
             content = <div>
                 <ProfileCard type="banner"
+                    customStyleParent={{margin:"auto"}}
+                    custom_width={BANNER_WIDTH + "px"}
                     id={this.state.data.ID}
                     add_img_ops={true}
                     img_url={this.state.data.banner_url}
