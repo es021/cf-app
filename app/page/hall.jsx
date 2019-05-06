@@ -8,6 +8,7 @@ import { GroupSessionView } from "./partial/hall/group-session";
 import CompaniesSection from "./partial/hall/companies";
 import ForumPage from "./forum";
 
+
 import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
@@ -20,6 +21,7 @@ import {
   getAuthUser
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
+import {setBodyFullWidth} from "../../helper/general-helper";
 
 require("../css/hall.scss");
 
@@ -34,8 +36,9 @@ export default class HallPage extends React.Component {
   }
 
   componentWillMount() {
-    this.body = document.getElementsByTagName("body")[0];
-    this.body.className += " body-hall-page ";
+    // this.body = document.getElementsByTagName("body")[0];
+    // this.body.className += " body-full-width ";
+    setBodyFullWidth();
   }
 
   componentWillUnmount() {
@@ -136,7 +139,7 @@ export default class HallPage extends React.Component {
 
   getActivityAndWebinar() {
     return (
-      <div className="activity-section main-width">
+      <div className="activity-section main-width main-width-lg">
         <div className={`col-md-6 no-padding`}>
           <ActivitySection />
         </div>

@@ -172,6 +172,9 @@ export function loadTraffic() {
 
 export const FETCH_COMPANIES = "FETCH_COMPANIES";
 export function loadCompanies() {
+    // vacancies_count
+    // status
+    // group_url
     return function (dispatch) {
         dispatch({
             type: FETCH_COMPANIES,
@@ -186,10 +189,8 @@ export function loadCompanies() {
                             banner_size
                             banner_position
                             name
-                            type
-                            status
-                            group_url
-                            vacancies_count
+                            tagline
+                            type  
                         }
                 }`)
         });

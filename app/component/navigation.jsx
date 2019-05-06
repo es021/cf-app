@@ -23,6 +23,7 @@ import HallPageOld from "../page/hall-old";
 import ActAccountPage from "../page/activate-account";
 import EditProfilePage from "../page/edit-profile";
 import ManageCompanyPage from "../page/manage-company";
+import CompanyPage from "../page/company";
 import ActivityPage from "../page/activity";
 import ResumeDropPage from "../page/resume-drop";
 import VacancyPage from "../page/vacancy";
@@ -423,6 +424,15 @@ function getMenuItem(COMING_SOON) {
   /**** ROUTE ONLY *******/
   menuItem.push(
     ...[
+      {
+        url: "/company/:id",
+        component: CompanyPage,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false,
+        routeOnly: true
+      },
       {
         url: "/forum/:forum_id",
         component: ForumPage,

@@ -24,6 +24,16 @@ footer {
     text-align: center;
 }
 
+body.body-full-width {
+    .main {
+        padding: 0px;
+        //max-width: none;
+        max-width: 100%;
+    }
+}
+
+
+
 header,
 content,
 left_bar,

@@ -11,7 +11,8 @@ import {
   getAuthUser,
   getCF,
   isRoleOrganizer,
-  isRoleAdmin
+  isRoleAdmin,
+  isRoleRec
 } from "../redux/actions/auth-actions";
 import obj2arg from "graphql-obj2arg";
 import { getDataCareerFair } from "../component/form";
@@ -108,20 +109,20 @@ export class WebinarHall extends React.Component {
       fontSize: "14px",
       textAlign: "left"
     }
+    let companyName = isRoleRec() ? d.company.name : 
+    <a onClick={() =>
+        layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
+          id: d.company.ID,
+          toggleable: false
+        })
+      }
+    >{d.company.name}</a>
+    
     let details = <div className="hw-details" style={detailStyle}>
       <b>{d.title}</b><br></br>
       <small>
         {"with "}
-        <a
-          onClick={() =>
-            layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
-              id: d.company.ID,
-              toggleable: false
-            })
-          }
-        >
-          {d.company.name}
-        </a>
+        {companyName}
       </small>
     </div>
 

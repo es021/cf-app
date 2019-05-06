@@ -111,11 +111,17 @@ class CompanyBooth extends React.Component {
         };
 
         var pcTitle = this.props.company.name;
+        var pcSubtitle = this.props.company.tagline;
         var pcBody = null;
+        var badge = null;
+        var badge_tooltip = null;
+
         if (!this.props.isPreEvent) {
-            pcBody = <span>
-                {this.getCount()}
-            </span>
+            // pcBody = <span>
+            //     {this.getCount()}
+            // </span>
+            badge = this.props.onlineRec > 0 ? "" : null;
+            badge_tooltip = `Company Currently Online`;
         }
 
         let header = <div style={{marginTop:"30px"}}></div>        
@@ -125,6 +131,9 @@ class CompanyBooth extends React.Component {
         return (<ProfileCard className={className} onClick={onClick} type="company"
             header={header}
             title={pcTitle}
+            subtitle={pcSubtitle}
+            badge={badge}
+            badge_tooltip={badge_tooltip}
 
             custom_width={(BANNER_WIDTH / 2.5) + "px"}
             banner_height={(BANNER_HEIGHT / 2.5) + "px"}

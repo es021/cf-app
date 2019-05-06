@@ -4,61 +4,78 @@
 // companies section ---------------------
 $com-sec : "com-sec";
 
-.#{$com-sec}{ 
+.#{$com-sec} {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
 
-    .profile-card:hover{
+    .profile-card:hover {
         box-shadow: 1px 2px 11px -2px rgba(0, 0, 0, 0.8);
     }
 
-    .profile-card:active{
+    .profile-card:active {
         box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
     }
 
-    .profile-card{
+    .profile-card {
         border-radius: 7px;
         overflow: hidden;
-        margin: 8px 8px;
+        margin: 10px;
         width: 180px;
-        padding: 10px 7px; 
+        padding: 10px 7px;
         background: white;
         //box-shadow: 2px 4px 6px -3px rgba(0,0,0,0.7);
         box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
         cursor: pointer;
         //border: darken($COLOR_BACKGROUND,10) 1px solid;
 
-        .pc-title{
-            min-height: 40px;
+        .pc-badge {
+            top: 117px;
+            left: 196px;
+            z-index: 1;
+            width: 20px;
+            height: 20px;
+        }
+
+        .pc-title {
+            color: #3f3838;
+            font-weight: bold;
+            font-size: 20px;
+            //min-height: 40px;
             display: flex;
             align-items: center;
+            margin-top: 15px;
         }
 
-        .pc-picture{
-            border: darken($COLOR_BACKGROUND,10) 1px solid;
+        .pc-subtitle{
+            margin-bottom: 10px;
         }
 
-        ul.#{$com-sec}-status{
+        .pc-picture {
+            border: darken($COLOR_BACKGROUND, 10) 1px solid;
+        }
+
+        ul.#{$com-sec}-status {
             display: flex;
             flex-flow: row wrap;
             justify-content: center;
             margin-top: 5px;
             margin: 0;
 
-            li{
+            li {
                 opacity: 0.75;
                 //width: 48px;
                 // EUR FIX
                 width: 74px;
                 padding: 2px 0px;
-                margin: 1px 3px;  
-                margin-bottom : 4px; // EUR FIX
-                .#{$com-sec}-count{
+                margin: 1px 3px;
+                margin-bottom: 4px; // EUR FIX
+
+                .#{$com-sec}-count {
                     font-size: 25px;
                 }
 
-                .#{$com-sec}-label{
+                .#{$com-sec}-label {
                     text-align: center;
                     font-size: 9px;
                     line-height: 12px;
@@ -73,32 +90,33 @@ $com-sec : "com-sec";
     // }
 
 
-    @mixin company-card($type,$color) {
-        .profile-card.#{$type}{
+    @mixin company-card($type, $color) {
+        .profile-card.#{$type} {
             //border-color: darken($color, 10);
 
-            @include background-gradient($color,white);
+            @include background-gradient($color, white);
 
-            .pc-title{
-                color:darken($color, 50);
+            .pc-title {
+                color: darken($color, 50);
             }
 
-            .pc-picture{
-                border-color: darken($color,10);
+            .pc-picture {
+                border-color: darken($color, 10);
             }
         }
 
-        .profile-card.#{$type}:hover{
-            @include background-gradient(darken($color, 7),white);
+        .profile-card.#{$type}:hover {
+            @include background-gradient(darken($color, 7), white);
         }
-        .profile-card.#{$type}:active{
-            @include background-gradient(darken($color, 13),white);
+
+        .profile-card.#{$type}:active {
+            @include background-gradient(darken($color, 13), white);
         }
     }
 
-    @include company-card("blue",$COLOR_BLUE);
-    @include company-card("gold",$COLOR_GOLD);
-    @include company-card("silver",$COLOR_SILVER);
-    @include company-card("bronze",$COLOR_BRONZE);
+    @include company-card("blue", $COLOR_BLUE);
+    @include company-card("gold", $COLOR_GOLD);
+    @include company-card("silver", $COLOR_SILVER);
+    @include company-card("bronze", $COLOR_BRONZE);
 
 }
