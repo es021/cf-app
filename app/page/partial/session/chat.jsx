@@ -264,11 +264,37 @@ class Chat extends React.Component {
         return this.MESSAGE_JSON + JSON.stringify(am);
     }
 
+    isSelfCompany(){
+        return this.props.is_company_self;
+    }
+
+    isOtherCompany(){
+        return this.props.is_company_other;
+    }
+
+    getWhichCompany(selfKey, otherKey){
+        if(this.props.is_company_chat === true){
+            if(this.props.is_company_self){
+                return selfKey
+            }
+
+            if(this.props.is_company_other){
+                return otherKey
+            }
+        }
+
+        return "";
+    }
+
     // ##############################################################
     // function for list
     loadData(page, offset) {
+
+        // todos
         var query = `query{
-            messages(user_1:${this.props.self_id},user_2:${this.props.other_id},page:${page},offset:${offset}){
+            messages(which_company : "${this.getWhichCompany("user_1", "user_2")}",
+                user_1:${this.props.self_id}, user_2:${this.props.other_id}, 
+                page:${page},offset:${offset}){
                 id_message_number message from_user_id created_at}}`;
 
         return getAxiosGraphQLQuery(query);
@@ -312,16 +338,18 @@ class Chat extends React.Component {
         var ins = {
             sender_id: this.props.self_id,
             receiver_id: this.props.other_id,
+            which_company : this.getWhichCompany("sender_id","receiver_id"),
             message: mes
         }
 
         // add to db
-        var query = `mutation{add_message(${obj2arg(ins, { noOuterBraces: true })})
-        {id_message_number}}`;
+        // todos
+        var query = `mutation{add_message(${obj2arg(ins, { noOuterBraces: true })}) {id_message_number}}`;
         getAxiosGraphQLQuery(query);
 
         // add to socket
-        emitChatMessage(this.props.self_id, this.props.other_id, mes, Time.getUnixTimestampNow());
+        // todos
+        emitChatMessage(this.props.self_id, this.props.other_id, this.props.is_company_other, mes, Time.getUnixTimestampNow());
 
         // empty value
         this.chatInput.value = "";
@@ -639,6 +667,9 @@ class Chat extends React.Component {
 }
 
 Chat.propTypes = {
+    is_company_chat : PropTypes.bool,
+    is_company_self : PropTypes.bool,
+    is_company_other : PropTypes.bool,
     can_do_multiple: PropTypes.bool,
     self_id: PropTypes.number.isRequired,
     isRec: PropTypes.bool.isRequired,
@@ -649,6 +680,9 @@ Chat.propTypes = {
 };
 
 Chat.defaultProps = {
+    is_company_chat : false,
+    is_company_self : false,
+    is_company_other : false,
     can_do_multiple: false
 };
 

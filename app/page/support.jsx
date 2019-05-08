@@ -164,7 +164,7 @@ export class SupportPage extends React.Component {
 
     loadChatList() {
 
-        var query = `query{ support_sessions {  
+        var query = `query{ support_sessions(support_id:${SupportUserID}) {  
             ID
             support_id
             created_at

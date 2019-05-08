@@ -368,6 +368,7 @@ fields["messages"] = {
     args: {
         user_1: { type: new GraphQLNonNull(GraphQLInt) },
         user_2: { type: new GraphQLNonNull(GraphQLInt) },
+        which_company: { type: GraphQLString },
         page: { type: GraphQLInt },
         offset: { type: GraphQLInt }
     },

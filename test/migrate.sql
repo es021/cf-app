@@ -1,4 +1,8 @@
 -- ##################################
+-- Company Chat
+ALTER TABLE `wp_career_fair`.`support_sessions` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`, `support_id`) USING BTREE;
+
+-- ##################################
 -- ANE 
 ALTER TABLE `cfs` ADD `is_load` TINYINT(1) NOT NULL DEFAULT '1' AFTER `is_active`;
 

@@ -415,10 +415,13 @@ fields["add_message"] = {
         },
         message: {
             type: new GraphQLNonNull(GraphQLString)
+        },
+        which_company: {
+            type: GraphQLString
         }
     },
     resolve(parentValue, arg, context, info) {
-        return MessageExec.insert(arg.sender_id, arg.receiver_id, arg.message).then(function (res) {
+        return MessageExec.insert(arg.sender_id, arg.receiver_id, arg.message, arg.which_company).then(function (res) {
             return res;
         });
     }

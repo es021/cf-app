@@ -3,6 +3,10 @@ const { SupportSession } = require('../../config/db-config');
 const { TestUser } = require('../../config/app-config');
 
 class SupportSessionExec {
+    getQueryByUserAndSupportId(user_id, support_id){
+        return `select ss.ID from ${SupportSession.TABLE} ss where ss.user_id = ${user_id} and ss.support_id = ${support_id}`;
+    }
+
     getQueryByUserId(user_id){
         return `select ss.ID from ${SupportSession.TABLE} ss where ss.user_id = ${user_id}`;
     }

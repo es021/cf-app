@@ -1,27 +1,53 @@
 const DB = require('./DB.js');
-const { Message, SupportSession } = require('../../config/db-config');
-const { SupportUserID } = require('../../config/app-config');
+const {
+    Message,
+    SupportSession
+} = require('../../config/db-config');
+const {
+    SupportUserID
+} = require('../../config/app-config');
 
 class MessageExec {
 
-    getPreId(user_1, user_2) {
+    getPreId(user_1, user_2, which_company) {
+        let isUser1Company = which_company == "user_1" || which_company == "sender_id";
+        let isUser2Company = which_company == "user_2" || which_company == "receiver_id";
+
         var lower = 0;
         var higher = 0;
+        let lowerEntity = "user";
+        let higherEntity = "user";
+
         if (user_1 < user_2) {
             lower = user_1;
             higher = user_2;
+
+            if (isUser1Company) {
+                lowerEntity = "company";
+            }
+            if (isUser2Company) {
+                higherEntity = "company";
+            }
+
         } else {
             lower = user_2;
             higher = user_1;
+
+            if (isUser1Company) {
+                higherEntity = "company";
+            }
+            if (isUser2Company) {
+                lowerEntity = "company";
+            }
         }
 
-        return `user${lower}:user${higher}`;
+        return `${lowerEntity}${lower}:${higherEntity}${higher}`;
     }
-    
+
     //params
     // user_1, user_2, page, offset
     getQuery(params, extra) {
-        var pre_id = this.getPreId(params.user_1, params.user_2);
+        var pre_id = this.getPreId(params.user_1, params.user_2, params.which_company);
         var id_where = `id_message_number like '${pre_id}%' `;
         var order_by = `order by created_at desc`;
 
@@ -49,15 +75,18 @@ class MessageExec {
         return toRet;
     }
 
-    insert(sender_id, receiver_id, message) {
-        var pre_id = this.getPreId(sender_id, receiver_id);
+    insert(sender_id, receiver_id, message, which_company) {
+        var pre_id = this.getPreId(sender_id, receiver_id, which_company);
 
         // check if receiver_id is in support user id
-        if (SupportUserID == receiver_id) {
-            const { SupportSessionExec } = require('./support-session-query.js');
+        if (SupportUserID == receiver_id || which_company == "receiver_id") {
+            const {
+                SupportSessionExec
+            } = require('./support-session-query.js');
 
             // check if session with this user id already exist
-            DB.query(SupportSessionExec.getQueryByUserId(sender_id)).then((res) => {
+            //DB.query(SupportSessionExec.getQueryByUserId(sender_id)).then((res) => {
+            DB.query(SupportSessionExec.getQueryByUserAndSupportId(sender_id, receiver_id)).then((res) => {
                 if (res.length <= 0) {
                     //create support sessions
                     var ss = {
@@ -65,7 +94,7 @@ class MessageExec {
                         support_id: receiver_id,
                         message_count_id: pre_id
                     };
-                    DB.insert(SupportSession.TABLE, ss).then((res) => { }, (err) => { });
+                    DB.insert(SupportSession.TABLE, ss).then((res) => {}, (err) => {});
                 }
             });
         }
@@ -101,7 +130,9 @@ class MessageExec {
 }
 
 MessageExec = new MessageExec();
-module.exports = { MessageExec };
+module.exports = {
+    MessageExec
+};
 
 function getSessionThatHasMessage() {
     sql = `select distinct s.ID , s.participant_id, s.host_id, m.* 

@@ -42,7 +42,7 @@ class SocketServer {
     init() {
         this.printHeader("Initiating Socket Server");
         //initialize
-        //this.initDB(BOTH.QUEUE_STATUS, null);
+        this.initDB(BOTH.QUEUE_STATUS, null);
 
         if (this.isProd) {
             this.io.of('/socket').on(BOTH.CONNECTION, (client) => {
@@ -70,101 +70,101 @@ class SocketServer {
         client.on(BOTH.STATE, (d) => { this.onState(client, d) });
         client.on(BOTH.HALL_ACTIVITY, (d) => { this.onHallActivity(client, d) });
 
-        //this.initDBTrigger(client);
+        this.initDBTrigger(client);
     }
 
     // #################################################################
     // DB RELATED
 
-    // initDB(event, data) {
-    //     switch (event) {
-    //         case BOTH.QUEUE_STATUS:
-    //             //get total queue and students for each company
-    //             // var sql = "SELECT c.ID as company_id, COALESCE(ttl.total, 0) as total, COALESCE(ttl.students, '') as students ";
-    //             // sql += "FROM companies c LEFT JOIN ";
-    //             // sql += "(SELECT company_id, COUNT(*) as total, GROUP_CONCAT(student_id) as students ";
-    //             // sql += "FROM in_queues WHERE status = 'Queuing' GROUP BY company_id) ttl ";
-    //             // sql += "ON c.ID = ttl.company_id";
+    initDB(event, data) {
+        switch (event) {
+            case BOTH.QUEUE_STATUS:
+                //get total queue and students for each company
+                // var sql = "SELECT c.ID as company_id, COALESCE(ttl.total, 0) as total, COALESCE(ttl.students, '') as students ";
+                // sql += "FROM companies c LEFT JOIN ";
+                // sql += "(SELECT company_id, COUNT(*) as total, GROUP_CONCAT(student_id) as students ";
+                // sql += "FROM in_queues WHERE status = 'Queuing' GROUP BY company_id) ttl ";
+                // sql += "ON c.ID = ttl.company_id";
 
-    //             var sql = `select c.ID as company_id, q.student_id, q.created_at from companies c 
-    //                 left outer join in_queues q on q.status = "Queuing" and q.company_id = c.ID 
-    //                 order by c.ID, q.created_at asc `;
+                var sql = `select c.ID as company_id, q.student_id, q.created_at from companies c 
+                    left outer join in_queues q on q.status = "Queuing" and q.company_id = c.ID 
+                    order by c.ID, q.created_at asc `;
 
-    //             var eventData = data;
-    //             //init for the first time app start
-    //             DB.query(sql).then((res) => {
-    //                 this.state.queue = {};
-    //                 this.state.queue_detail = {};
+                var eventData = data;
+                //init for the first time app start
+                DB.query(sql).then((res) => {
+                    this.state.queue = {};
+                    this.state.queue_detail = {};
 
-    //                 for (var i in res) {
+                    for (var i in res) {
 
-    //                     var r = res[i];
-    //                     if (!this.state.queue_detail[r.company_id]) {
-    //                         this.state.queue_detail[r.company_id] = [];
-    //                     }
+                        var r = res[i];
+                        if (!this.state.queue_detail[r.company_id]) {
+                            this.state.queue_detail[r.company_id] = [];
+                        }
 
-    //                     if (r.student_id != "" && r.student_id != null) {
-    //                         this.state.queue_detail[r.company_id].push(r.student_id);
-    //                     }
+                        if (r.student_id != "" && r.student_id != null) {
+                            this.state.queue_detail[r.company_id].push(r.student_id);
+                        }
 
-    //                 }
+                    }
 
-    //                 for (var company_id in this.state.queue_detail) {
-    //                     this.state.queue[company_id] = this.state.queue_detail[company_id].length;
-    //                 }
+                    for (var company_id in this.state.queue_detail) {
+                        this.state.queue[company_id] = this.state.queue_detail[company_id].length;
+                    }
 
-    //                 this.updateEmitQueue(event, false);
+                    this.updateEmitQueue(event, false);
 
-    //                 //if add Queue, we need to emit after db data is updated
-    //                 if (eventData !== undefined && eventData !== null && eventData.action === "addQueue") {
-    //                     this.emitCFTriggerToQueue(eventData);
-    //                 }
-    //             });
-    //             break;
-    //     }
-    // }
+                    //if add Queue, we need to emit after db data is updated
+                    if (eventData !== undefined && eventData !== null && eventData.action === "addQueue") {
+                        this.emitCFTriggerToQueue(eventData);
+                    }
+                });
+                break;
+        }
+    }
 
     //initialize all on event that causing to query database
-    // initDBTrigger(client) {
-    //     //this is triggered by startQueue and cancelQueue and createSessionSuccess in Client side
-    //     //pass in data {company_id, student_id, action}
-    //     // action : removeQueue | addQueue
-    //     client.on(BOTH.QUEUE_STATUS, (data) => {
+    initDBTrigger(client) {
+        //this is triggered by startQueue and cancelQueue and createSessionSuccess in Client side
+        //pass in data {company_id, student_id, action}
+        // action : removeQueue | addQueue
+        client.on(BOTH.QUEUE_STATUS, (data) => {
 
-    //         //if remove Queue, we need to emit first before db data is updated
-    //         if (data !== undefined && data !== null && data.action === "removeQueue") {
-    //             this.emitCFTriggerToQueue(data);
-    //         }
+            //if remove Queue, we need to emit first before db data is updated
+            if (data !== undefined && data !== null && data.action === "removeQueue") {
+                this.emitCFTriggerToQueue(data);
+            }
 
-    //         //do we really need to query again? -- at least it is consistent
-    //         this.initDB(BOTH.QUEUE_STATUS, data);
+            //do we really need to query again? -- at least it is consistent
+            this.initDB(BOTH.QUEUE_STATUS, data);
 
-    //     });
-    // }
+        });
+    }
 
-    // emitCFTriggerToQueue(data) {
-    //     //emit trigger cf to related students
-    //     //this is to update in student queueing list 
-    //     for (var i in this.state.clients) {
-    //         if (data !== undefined && data !== null) {
-    //             try {
-    //                 var cur_student_index = this.state.queue_detail[data.company_id].indexOf(i);
-    //                 var trigger_student_index = this.state.queue_detail[data.company_id].indexOf(data.student_id);
-    //                 //console.log("cur_student_index :" + cur_student_index);
-    //                 //console.log("trigger_student_index :" + trigger_student_index);
-    //                 // if student is in queue detail for this company
-    //                 // and not same as the one who trigerred it
-    //                 // and queue is more than the one who trigger it
-    //                 // thus we only emit the trigger to users that effected only
-    //                 if (cur_student_index > -1 && i != data.student_id && cur_student_index > trigger_student_index) {
-    //                     this.emitToClient(this.state.clients[i], BOTH.QUEUE_STATUS, this.state.queue);
-    //                 }
-    //             } catch (err) {
-    //                 console.log(err);
-    //             }
-    //         }
-    //     }
-    // }
+    emitCFTriggerToQueue(data) {
+        //emit trigger cf to related students
+        //this is to update in student queueing list 
+        for (var i in this.state.clients) {
+            if (data !== undefined && data !== null) {
+                try {
+                    var cur_student_index = this.state.queue_detail[data.company_id].indexOf(i);
+                    var trigger_student_index = this.state.queue_detail[data.company_id].indexOf(data.student_id);
+                    //console.log("cur_student_index :" + cur_student_index);
+                    //console.log("trigger_student_index :" + trigger_student_index);
+                    // if student is in queue detail for this company
+                    // and not same as the one who trigerred it
+                    // and queue is more than the one who trigger it
+                    // thus we only emit the trigger to users that effected only
+                    if (cur_student_index > -1 && i != data.student_id && cur_student_index > trigger_student_index) {
+                        this.emitToClient(this.state.clients[i], BOTH.QUEUE_STATUS, this.state.queue);
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        }
+    }
 
     // #################################################################
     // ON HELPER FUNCTION START
@@ -222,20 +222,9 @@ class SocketServer {
     // {from_id, to_id, message, created_at}
     onChatMessage(client, data) {
         this.printHeader('[send_message] : ID ' + client.id);
-
-        if(data.is_to_company){
-            //console.log("emit to company CHAT_MESSAGE")
-            for (var to_id_rec in this.state.online_company[data.to_id]) {
-                var to_client_rec = this.state.clients[to_id_rec];
-                if (to_client_rec && to_client_rec.isOnline()) {
-                    this.emitToClient(to_client_rec, BOTH.CHAT_MESSAGE, data);
-                }
-            }
-        }else{
-            var to_client = this.state.clients[data.to_id];
-            if (to_client && to_client.isOnline()) {
-                this.emitToClient(to_client, BOTH.CHAT_MESSAGE, data);
-            }
+        var to_client = this.state.clients[data.to_id];
+        if (to_client && to_client.isOnline()) {
+            this.emitToClient(to_client, BOTH.CHAT_MESSAGE, data);
         }
     }
 
