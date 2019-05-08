@@ -13,7 +13,7 @@ import { Prescreen, PrescreenEnum } from '../../config/db-config';
 import obj2arg from 'graphql-obj2arg';
 import { NavLink } from 'react-router-dom';
 import { RootPath, IsNewHall } from '../../config/app-config';
-import { createCompanyTitle } from './companies';
+import { createCompanyTitle } from './companies-admin';
 import CompaniesSection from './partial/hall/companies';
 import HallPage from './hall';
 import HallPageOld from './hall-old';

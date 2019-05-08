@@ -2,7 +2,25 @@
 
 .company-page{
     .banner{
-        height: 200px;
         width: 100%;
+        background: white;
+    }
+
+    .com-pop-left{
+        margin-top:-150px;
+    }
+    .com-pop-pic{
+         //z-index: 13;
+         position: relative;
+         //border-bottom: 1px darkgray solid;
+         .profile-card{
+             .pc-picture{
+                border: 1px solid darkgray;
+             }
+             .pc-title{
+                // margin: 6px 0px;
+                // font-size: 20px;
+             }
+         }
     }
 }

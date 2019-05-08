@@ -92,23 +92,23 @@ $banner_height : 130px;
             margin-top: $banner_height;
 
         }
-        .com-pop-left{
-            margin-top:-90px;
-        }
-        .com-pop-pic{
-             z-index: 13;
-             position: relative;
-             //border-bottom: 1px darkgray solid;
-             .profile-card{
-                 .pc-picture{
-                    border: 1px solid darkgray;
-                 }
-                 .pc-title{
-                    // margin: 6px 0px;
-                    // font-size: 20px;
-                 }
-             }
-        }
+        // .com-pop-left{
+        //     margin-top:-90px;
+        // }
+        // .com-pop-pic{
+        //      z-index: 13;
+        //      position: relative;
+        //      //border-bottom: 1px darkgray solid;
+        //      .profile-card{
+        //          .pc-picture{
+        //             border: 1px solid darkgray;
+        //          }
+        //          .pc-title{
+        //             // margin: 6px 0px;
+        //             // font-size: 20px;
+        //          }
+        //      }
+        // }
     }
   
     .#{$fc}body{

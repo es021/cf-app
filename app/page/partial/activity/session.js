@@ -10,7 +10,7 @@ import List, { CustomList } from '../../../component/list';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
-import { createCompanyTitle } from '../../companies';
+import { createCompanyTitle } from '../../companies-admin';
 import { openSIAddForm } from '../../partial/activity/scheduled-interview';
 
 export class SessionsList extends React.Component {

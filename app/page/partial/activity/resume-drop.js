@@ -11,7 +11,7 @@ import { getImageObj } from '../../../component/profile-card.jsx';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
 import { createUserTitle } from '../../users';
-import { createCompanyTitle } from '../../companies';
+import { createCompanyTitle } from '../../companies-admin';
 import { openSIAddForm, openSIFormNew } from '../../partial/activity/scheduled-interview';
 import { createUserDocLinkList } from '../popup/user-popup';
 import { openFeedbackBlockRec } from '../analytics/feedback';

@@ -26,12 +26,17 @@ import { getFeedbackPopupView } from "./partial/analytics/feedback";
 import { GroupSessionView } from "./partial/hall/group-session";
 import { Gallery, isGalleryIframe } from "../component/gallery";
 import ValidationStudentAction from "../component/validation-student-action";
+import { BANNER_HEIGHT, BANNER_WIDTH } from "../component/profile-card-img";
+import { getStyleBannerObj } from "../component/profile-card";
 import ActionBox from "../component/action-box";
 
 import VacancyPopup from "./partial/popup/vacancy-popup";
 import ResumeDropPopup from "./partial/popup/resume-drop-popup";
 
-import { setBodyFullWidth } from "../../helper/general-helper";
+import {
+  setBodyFullWidth,
+  unsetBodyFullWidth
+} from "../../helper/general-helper";
 
 // #################################################################
 // #################################################################
@@ -112,6 +117,7 @@ export default class CompanyPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //bannerKey: this.getBodyWidth(),
       qsLastSubmitted: Date.now(),
       data: null,
       loading: true,
@@ -134,6 +140,14 @@ export default class CompanyPage extends Component {
     this.getRecs = this.getRecs.bind(this);
     this.startQueue = this.startQueue.bind(this);
     this.addSessionRequest = this.addSessionRequest.bind(this);
+  }
+
+  getBodyWidth() {
+    return document.body.clientWidth;
+  }
+
+  componentWillUnmount() {
+    unsetBodyFullWidth();
   }
 
   componentWillMount() {
@@ -389,27 +403,32 @@ export default class CompanyPage extends Component {
   }
 
   getBanner() {
+    // window.addEventListener("resize", event => {
+    //   this.setState(prevState => {
+    //     let newWidth = this.getBodyWidth();
+    //     if (prevState.bannerKey - newWidth >= 100) {
+    //       return { bannerKey: newWidth };
+    //     }
+    //   });
+    // });
+
     var data = this.state.data;
 
-    const isInvalid = d => {
-      if (typeof d === "undefined" || d == "" || d == null || d == "null") {
-        return true;
-      }
+    let width = this.getBodyWidth();
+    let height = (width / BANNER_WIDTH) * BANNER_HEIGHT;
 
-      return false;
-    };
+    width += "px";
+    height += "px";
 
-    data.banner_url = isInvalid(data.banner_url)
-      ? ImgConfig.DefCompanyBanner
-      : data.banner_url;
-    var style = {
-      backgroundImage: "url(" + data.banner_url + ")",
-      backgroundSize: isInvalid(data.banner_size) ? "" : data.banner_size,
-      backgroundPosition: isInvalid(data.banner_position)
-        ? "center center"
-        : data.banner_position
-    };
+    var style = getStyleBannerObj(
+      data.banner_url,
+      data.banner_size,
+      data.banner_position,
+      width,
+      height
+    );
 
+    //return <div key={this.state.bannerKey} className="banner" style={style} />;
     return <div className="banner" style={style} />;
   }
 
@@ -485,10 +504,19 @@ export default class CompanyPage extends Component {
         };
       });
     };
+    
+    const btn_onClickChat = () => {
+      this.setState(prevState => {
+        return {
+          isHiddenValidation: false,
+          keyValidation: new Date().getTime()
+        };
+      });
+    };
 
     return (
       <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-6`}>
+        <div className={`col-md-4`}>
           <ActionBox
             key={this.state.qsLastSubmitted}
             title="Ask Us A Question"
@@ -496,11 +524,18 @@ export default class CompanyPage extends Component {
             qs_onSubmit={qs_onSubmit}
           />
         </div>
-        <div className={`col-md-6`}>
+        <div className={`col-md-4`}>
           <ActionBox
             title="Drop Your Resume"
             isButton={true}
             btn_onClick={btn_onClickResume}
+          />
+        </div>
+        <div className={`col-md-4`}>
+          <ActionBox
+            title="Chat With Recruiter"
+            isButton={true}
+            btn_onClick={btn_onClickChat}
           />
         </div>
       </div>
@@ -572,39 +607,11 @@ export default class CompanyPage extends Component {
       //var action = this.getStudentAction(data);
       var actionBox = this.getStudentActionBox(data);
 
-      // ##################################################################################
-      // create body
-
-      // var pcBody = <div>
-      //     <div>
-      //         {(data.description == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="About" body={<p>{data.description}</p>}></PageSection>}
-      //         <PageSection canToggle={this.props.canToggle} initShow={true} className="left" title="Job Opportunities" body={vacancies}></PageSection>
-      //         <PageSection canToggle={this.props.canToggle} className="left" title="Document & Link" body={doc_link}></PageSection>
-      //         {(data.more_info == "") ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Additional Information" body={<p>{data.more_info}</p>}></PageSection>}
-      //         {(recs === null) ? null : <PageSection canToggle={this.props.canToggle} className="left" title="Recruiters" body={recs}></PageSection>}
-      //     </div>
-      //     {action}
-      //     {gSession}
-      //     {(this.props.displayOnly) ? null :
-      //         <div>
-      //             <br></br>
-      //             <a onClick={layoutActions.storeHideFocusCard}>Close</a>
-      //         </div>
-      //     }
-      // </div>;
-
-      // view = <div>
-      //     <ProfileCard type="company"
-      //         title={data.name} subtitle={data.tagline}
-      //         img_url={data.img_url} img_pos={data.img_position} img_size={data.img_size}
-      //         body={pcBody}></ProfileCard>
-      // </div>;
-
-      //
       var profilePic = (
         <ProfileCard
           type="company"
-          img_dimension={"130px"}
+          img_dimension={"200px"}
+          className={"with-border"}
           img_url={data.img_url}
           img_pos={data.img_position}
           img_size={data.img_size}
@@ -613,14 +620,6 @@ export default class CompanyPage extends Component {
           body={null}
         />
       );
-
-      // var rightBody = (
-      //   <div>
-      //     {action}
-      //     <hr />
-      //     {gSession}
-      //   </div>
-      // );
 
       var forumLink = (
         <NavLink

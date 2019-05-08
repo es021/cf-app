@@ -114,9 +114,9 @@ $com-sec : "com-sec";
         }
     }
 
-    @include company-card("blue", $COLOR_BLUE);
-    @include company-card("gold", $COLOR_GOLD);
-    @include company-card("silver", $COLOR_SILVER);
-    @include company-card("bronze", $COLOR_BRONZE);
+    // @include company-card("blue", $COLOR_BLUE);
+    // @include company-card("gold", $COLOR_GOLD);
+    // @include company-card("silver", $COLOR_SILVER);
+    // @include company-card("bronze", $COLOR_BRONZE);
 
 }

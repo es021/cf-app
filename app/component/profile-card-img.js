@@ -16,7 +16,7 @@ export const BANNER_WIDTH = 870;
 export const BANNER_HEIGHT = 200;
 
 export function getSizeStr(sizeStr) {
-    if (sizeStr == null) {
+    if (typeof sizeStr === "undefined" || sizeStr == "" || sizeStr == null) {
         return "cover";
     }
 
@@ -28,7 +28,7 @@ export function getPositionStr(dimension, posStr, unit = "px", toString = false)
 
     let DEBUG = posStr == "602px -16px";
 
-    if (posStr == null) {
+    if (typeof posStr === "undefined" || posStr == "" || posStr == null) {
         return "50% 50%";
     }
     if (posStr.indexOf("%") >= 0) {

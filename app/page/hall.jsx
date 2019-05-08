@@ -8,7 +8,6 @@ import { GroupSessionView } from "./partial/hall/group-session";
 import CompaniesSection from "./partial/hall/companies";
 import ForumPage from "./forum";
 
-
 import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
@@ -21,7 +20,7 @@ import {
   getAuthUser
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
-import {setBodyFullWidth} from "../../helper/general-helper";
+import { setBodyFullWidth , unsetBodyFullWidth} from "../../helper/general-helper";
 
 require("../css/hall.scss");
 
@@ -42,7 +41,7 @@ export default class HallPage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.body.className = "";
+    unsetBodyFullWidth();
   }
 
   getHighlight() {
@@ -158,7 +157,7 @@ export default class HallPage extends React.Component {
             <div>Company Booth</div>
           </div>
           <div className="main-width main-width-lg">
-            <CompaniesSection />
+            <CompaniesSection {...this.props} />
           </div>
         </div>
       </div>

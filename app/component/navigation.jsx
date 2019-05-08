@@ -16,7 +16,7 @@ import SignUpPage from "../page/sign-up";
 import AboutPage from "../page/about";
 import LogoutPage from "../page/logout";
 import UsersPage from "../page/users";
-import CompaniesPage from "../page/companies";
+import CompaniesPage from "../page/companies-admin";
 import RecruiterPage from "../page/recruiters";
 import HallPage from "../page/hall";
 import HallPageOld from "../page/hall-old";

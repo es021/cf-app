@@ -2,6 +2,8 @@
 -- try coming soon page
 -- control what rec can see when clicked on company page
 
+# Company Chat Page
+
 # activity.jsx
 
 # Buang perkataan sponsor
