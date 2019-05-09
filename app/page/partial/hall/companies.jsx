@@ -18,6 +18,7 @@ import { BOTH, S2C, C2S } from "../../../../config/socket-config";
 import { socketOn } from "../../../socket/socket-client";
 
 import { getAuthUser, isAuthorized } from "../../../redux/actions/auth-actions";
+import { isCompanyOnline } from "../../../redux/actions/user-actions";
 
 import CompanyPopup from "../popup/company-popup";
 
@@ -118,17 +119,19 @@ class CompanyBooth extends React.Component {
     var badge = null;
     var badge_tooltip = null;
 
-    if (!this.props.isPreEvent) {
-      // pcBody = <span>
-      //     {this.getCount()}
-      // </span>
-      badge = this.props.onlineRec > 0 ? "" : null;
-      badge_tooltip = `Company Currently Online`;
-    }
+    // if (!this.props.isPreEvent) {
+    //   // pcBody = <span>
+    //   //     {this.getCount()}
+    //   // </span>
+    //   badge = this.props.onlineRec > 0 ? "" : null;
+    //   badge_tooltip = `Company Currently Online`;
+    // }
 
     let header = <div style={{ marginTop: "30px" }} />;
     //var className = getCompanyCSSClass(this.props.company.type);
     var className = "";
+
+    let isShowOnlineBar = isCompanyOnline(this.props.online_companies, this.props.company.ID);
 
     return (
       <ProfileCard
@@ -143,6 +146,7 @@ class CompanyBooth extends React.Component {
         custom_width={BANNER_WIDTH / 2.5 + "px"}
         banner_height={BANNER_HEIGHT / 2.5 + "px"}
         addBanner={true}
+        isShowOnlineBar={isShowOnlineBar}
         banner_url={this.props.company.banner_url}
         banner_pos={this.props.company.banner_position}
         banner_size={this.props.company.banner_size}
@@ -181,13 +185,13 @@ class CompaniesSection extends React.Component {
 
     //this.props.loadTraffic();
 
-    socketOn(S2C.ONLINE_COMPANY, data => {
-      this.props.setNonAxios("onlineCompanies", data);
-    });
+    // socketOn(S2C.ONLINE_COMPANY, data => {
+    //   this.props.setNonAxios("onlineCompanies", data);
+    // });
 
-    socketOn(BOTH.QUEUE_STATUS, data => {
-      this.props.setNonAxios("queueCompanies", data);
-    });
+    // socketOn(BOTH.QUEUE_STATUS, data => {
+    //   this.props.setNonAxios("queueCompanies", data);
+    // });
   }
 
   componentDidMount() {
@@ -223,21 +227,21 @@ class CompaniesSection extends React.Component {
             : null;
 
         //this is from socket
-        var onlineRec = this.props.onlineCompanies[d.ID]
-          ? Object.keys(this.props.onlineCompanies[d.ID]).length
-          : 0;
+        // var onlineRec = this.props.onlineCompanies[d.ID]
+        //   ? Object.keys(this.props.onlineCompanies[d.ID]).length
+        //   : 0;
 
-        var countQueue = this.props.queueCompanies[d.ID]
-          ? this.props.queueCompanies[d.ID]
-          : 0;
+        // var countQueue = this.props.queueCompanies[d.ID]
+        //   ? this.props.queueCompanies[d.ID]
+        //   : 0;
 
         return (
           <CompanyBooth
             {...this.props}
             isPreEvent={this.props.isPreEvent}
             key={i}
-            onlineRec={onlineRec}
-            countQueue={countQueue}
+            // onlineRec={onlineRec}
+            // countQueue={countQueue}
             company={d}
             traffic={trf}
           />
@@ -260,8 +264,9 @@ class CompaniesSection extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     traffic: state.hall.traffic,
+    online_companies : state.user.online_companies,
     companies: state.hall.companies,
-    onlineCompanies: state.hall.onlineCompanies,
+    //onlineCompanies: state.hall.onlineCompanies,
     queueCompanies: state.hall.queueCompanies
   };
 }

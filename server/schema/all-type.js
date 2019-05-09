@@ -347,6 +347,7 @@ const CompanyType = new GraphQLObjectType({
         img_url: { type: GraphQLString },
         img_size: { type: GraphQLString },
         img_position: { type: GraphQLString },
+        img_pos: { type: GraphQLString },
         
         banner_url: { type: GraphQLString },
         banner_size: { type: GraphQLString },
@@ -590,7 +591,9 @@ const SupportSessionType = new GraphQLObjectType({
         last_message: { type: GraphQLString },
 
         created_at: { type: GraphQLString },
-        user: { type: UserType }
+        user: { type: UserType },
+        company: { type: CompanyType },
+        support : { type: UserType },
     })
 });
 

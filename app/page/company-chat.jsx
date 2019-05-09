@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import Chat from "./partial/session/chat.jsx";
 import { SupportUserID } from "../../config/app-config";
 import { SupportSession, LogEnum } from "../../config/db-config";
-import { getAuthUser } from "../redux/actions/auth-actions";
+import {
+  getAuthUser,
+  isRoleStudent,
+  isRoleRec
+} from "../redux/actions/auth-actions";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Loader } from "../component/loader";
 import { createUserTitle } from "./users";
@@ -15,9 +19,10 @@ import { addLog } from "../redux/actions/other-actions.js";
 
 require("../css/forum.scss");
 require("../css/support-chat.scss");
+require("../css/company-chat.scss");
 
-// support chat floating at bottom right page
-export class CompanyChatForStudent extends React.Component {
+// Link from
+export class CompanyChatStarter extends React.Component {
   constructor(props) {
     super(props);
 
@@ -77,7 +82,7 @@ export class CompanyChatForStudent extends React.Component {
   }
 
   render() {
-    return <div id="company-chat">{this.getChatBox()}</div>;
+    return <div className="company-chat-student">{this.getChatBox()}</div>;
   }
 }
 
@@ -87,7 +92,7 @@ export class CompanyChatForStudent extends React.Component {
 // only limit to one support account
 // to prevent from real time conflict
 
-export class CompanyChatForRec extends React.Component {
+export class CompanyChatInbox extends React.Component {
   constructor(props) {
     super(props);
     this.authUser = getAuthUser();
@@ -96,10 +101,11 @@ export class CompanyChatForRec extends React.Component {
     this.changeChat = this.changeChat.bind(this);
     this.loadChatList = this.loadChatList.bind(this);
 
-    if (this.props.match) {
-      this.ID = this.props.match.params.id;
-    } else {
-      this.ID = this.props.id;
+    this.authUser = getAuthUser();
+    if (isRoleStudent()) {
+      this.userId = this.authUser.ID;
+    } else if (isRoleRec()) {
+      this.companyId = this.authUser.rec_company;
     }
 
     this.state = {
@@ -147,14 +153,66 @@ export class CompanyChatForRec extends React.Component {
     });
   }
 
+  getEntityObj(data) {
+    let entity = {};
+    if (data.support_id == SupportUserID) {
+      entity = {
+        ID: data.support.ID,
+        first_name: data.support.first_name,
+        last_name: data.support.last_name,
+        img_url: data.support.img_url,
+        img_pos: data.support.img_pos,
+        img_size: data.support.img_size
+      };
+    } else if (isRoleRec()) {
+      entity = {
+        ID: data.user.ID,
+        first_name: data.user.first_name,
+        last_name: data.user.last_name,
+        img_url: data.user.img_url,
+        img_pos: data.user.img_pos,
+        img_size: data.user.img_size
+      };
+    } else if (isRoleStudent()) {
+      entity = {
+        ID: data.company.ID,
+        first_name: data.company.name,
+        last_name: "",
+        img_url: data.company.img_url,
+        img_pos: data.company.img_pos,
+        img_size: data.company.img_size
+      };
+    }
+
+    return {
+      ...data,
+      entity: entity
+    };
+  }
+
   loadChatList() {
-    var query = `query{ support_sessions(support_id:${this.ID}) {  
+    let param = ``;
+    let field = "";
+    let fieldUser = `user { ID first_name last_name img_url img_pos img_size}`;
+    let fieldSupport = `support { ID first_name last_name img_url img_pos img_size}`;
+    let fieldCompany = `company { ID name img_url img_pos img_size}`;
+
+    if (isRoleStudent()) {
+      param = `user_id:${this.userId}`;
+      field = `${fieldUser} ${fieldCompany}`;
+    } else if (isRoleRec()) {
+      param = `support_id:${this.companyId}`;
+      field = `${fieldUser}`;
+    }
+
+    var query = `query{ support_sessions(${param}) {  
             ID
+            user_id
             support_id
             created_at
             last_message_time
             last_message
-            user { ID first_name last_name img_url img_pos img_size}
+            ${field} ${fieldSupport}
           }}`;
 
     getAxiosGraphQLQuery(query).then(res => {
@@ -163,11 +221,10 @@ export class CompanyChatForRec extends React.Component {
         var data = {};
         var current = 0;
 
-        console.log(sessions);
-
         for (var i in sessions) {
           var d = sessions[i];
-          var uid = d.user.ID;
+          d = this.getEntityObj(d);
+          var uid = d.entity.ID;
           if (i == 0) {
             current = this.getKey(uid);
           }
@@ -191,23 +248,25 @@ export class CompanyChatForRec extends React.Component {
   }
 
   getKey(user_id) {
-    return "u:" + user_id;
+    return "chat:" + user_id;
   }
 
   getChatBox() {
     var s = this.state.sessions[this.state.current_user];
     if (typeof s !== "undefined") {
-      var other_data = s.user;
-      var other_id = s.user.ID;
-      var self_id = Number.parseInt(this.ID);
+      var other_data = s.entity;
+      var other_id = s.entity.ID;
+      var self_id = isRoleRec() ? this.companyId : this.userId;
+      let is_company_self = isRoleRec();
+      let is_company_other = isRoleStudent();
 
       // CompanyChatForRec
       return (
         <div key={this.state.current_user}>
           <Chat
-            is_company_chat={true}
-            is_company_self={true}
-            is_company_other={false}
+            is_company_chat={other_id != SupportUserID}
+            is_company_self={is_company_self}
+            is_company_other={is_company_other}
             session_id={null}
             disableChat={false}
             other_id={other_id}
@@ -234,11 +293,11 @@ export class CompanyChatForRec extends React.Component {
     console.log(this.state.sessions);
     for (var i in this.state.sessions) {
       var d = this.state.sessions[i];
-      var title = createUserTitle(d.user);
+      var title = createUserTitle(d.entity);
       var imgView = createImageElement(
-        d.user.img_url,
-        d.user.img_pos,
-        d.user.img_size,
+        d.entity.img_url,
+        d.entity.img_pos,
+        d.entity.img_size,
         "45px",
         "frm-image"
       );
@@ -253,26 +312,10 @@ export class CompanyChatForRec extends React.Component {
           </small>
         );
 
-      var action = (
-        <span>
-          {d.last_message_time !== null
-            ? Time.getString(d.last_message_time) + " | "
-            : null}
-          <a
-            id={d.user.ID}
-            onClick={ev => {
-              this.changeChat(ev.currentTarget.id);
-            }}
-          >
-            <b>Open Chat</b>
-          </a>
-        </span>
-      );
-
       view.push(
         <div
           key={i}
-          id={d.user.ID}
+          id={d.entity.ID}
           className={"forum chat-list"}
           onClick={ev => {
             this.changeChat(ev.currentTarget.id);
@@ -294,7 +337,7 @@ export class CompanyChatForRec extends React.Component {
   }
 
   render() {
-    document.setTitle("Support");
+    document.setTitle("Inbox");
     var view = null;
 
     if (this.state.loading) {
@@ -313,7 +356,7 @@ export class CompanyChatForRec extends React.Component {
       view.push(
         <div className="col-md-6 no-padding padding-right">
           <h4>
-            Tech Support
+            Inbox
             <br />
             {newBtn}
           </h4>
@@ -323,6 +366,6 @@ export class CompanyChatForRec extends React.Component {
       view.push(<div className="col-md-6 no-padding">{this.getChatBox()}</div>);
     }
 
-    return <div>{view}</div>;
+    return <div className="company-chat-inbox">{view}</div>;
   }
 }

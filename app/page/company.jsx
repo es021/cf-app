@@ -504,38 +504,29 @@ export default class CompanyPage extends Component {
         };
       });
     };
-    
-    const btn_onClickChat = () => {
-      this.setState(prevState => {
-        return {
-          isHiddenValidation: false,
-          keyValidation: new Date().getTime()
-        };
-      });
-    };
 
     return (
       <div className="row" style={{ marginTop: "15px" }}>
         <div className={`col-md-4`}>
           <ActionBox
             key={this.state.qsLastSubmitted}
-            title="Ask Us A Question"
+            title={<div><i className="fa fa-bullhorn left"></i><b>Ask Us A Question</b></div>}
             isQuestion={true}
             qs_onSubmit={qs_onSubmit}
           />
         </div>
         <div className={`col-md-4`}>
           <ActionBox
-            title="Drop Your Resume"
+            title={<div><i className="fa fa-download left"></i><b>Drop Your Resume</b></div>}
             isButton={true}
             btn_onClick={btn_onClickResume}
           />
         </div>
         <div className={`col-md-4`}>
           <ActionBox
-            title="Chat With Recruiter"
-            isButton={true}
-            btn_onClick={btn_onClickChat}
+            title={<div><i className="fa fa-comments left"></i><b>Chat With Recruiter</b></div>}
+            isNavLink={true}
+            navlink_url={`${AppPath}/company-chat/${this.ID}`}
           />
         </div>
       </div>

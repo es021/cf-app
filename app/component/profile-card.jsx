@@ -262,6 +262,11 @@ export default class ProfileCard extends React.Component {
       banner = <div className={`${pc}banner`} style={styleBanner} />;
     }
 
+    let onlineBar = null;
+    if (this.props.isShowOnlineBar) {
+      onlineBar = <div className={`${pc}online-bar`}>Online</div>;
+    }
+
     //this.openPictureOps(stylePicture);
     return (
       <div
@@ -270,6 +275,7 @@ export default class ProfileCard extends React.Component {
         style={styleParent}
       >
         {banner}
+        {onlineBar}
         {this.props.header ? this.props.header : null}
         {badge}
         <div className={`${pc}picture`} style={stylePicture}>
@@ -298,6 +304,8 @@ ProfileCard.propTypes = {
   badge_tooltip: PropTypes.string,
   onClick: PropTypes.func,
 
+  isShowOnlineBar : PropTypes.bool,
+
   addBanner: PropTypes.bool,
   banner_height: PropTypes.string,
   banner_url: PropTypes.string,
@@ -318,6 +326,7 @@ ProfileCard.propTypes = {
 };
 
 ProfileCard.defaultProps = {
+  isShowOnlineBar : false,
   addBanner: false,
   customStyle: null,
   customStyleParent: null

@@ -68,7 +68,6 @@ class CompanyExec {
         var isSingle = (type === "single");
         var sql = CompanyQuery.getCompany(params, field);
 
-
         return DB.query(sql).then(function (res) {
 
             for (var i in res) {
@@ -99,6 +98,11 @@ class CompanyExec {
                 // Cf ****************************************************
                 if (typeof field["cf"] !== "undefined") {
                     res[i]["cf"] = DB.getCF("company", company_id);
+                }
+              
+                // Cf ****************************************************
+                if (typeof field["img_pos"] !== "undefined") {
+                    res[i]["img_pos"] = res[i]["img_position"]
                 }
 
                 //Add active_sessions ***********************************

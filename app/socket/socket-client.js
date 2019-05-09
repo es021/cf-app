@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import { Url, BOTH, S2C, C2S } from '../../config/socket-config';
 import { RootPath } from '../../config/app-config';
 import { getAuthUser, getCF, isAuthorized, isRoleRec } from '../redux/actions/auth-actions';
-import { setOnlineUsers } from '../redux/actions/user-actions';
+import { setOnlineUsers, setOnlineCompanies } from '../redux/actions/user-actions';
 import { customBlockLoader, getCurrentPath } from '../redux/actions/layout-actions';
 import { storeLoadActivity } from '../redux/actions/hall-actions';
 
@@ -70,6 +70,10 @@ function initOn() {
 
     socketOn(S2C.ONLINE_USER, (data) => {
         setOnlineUsers(data);
+    });
+
+    socketOn(S2C.ONLINE_COMPANY, (data) => {
+        setOnlineCompanies(data);
     });
 
     socketOn(BOTH.CHAT_OPEN_CLOSE, (data) => {

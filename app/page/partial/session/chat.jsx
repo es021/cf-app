@@ -11,6 +11,7 @@ import obj2arg from 'graphql-obj2arg';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import { getOtherRecs } from '../../../redux/actions/auth-actions';
 import { ActivityType } from '../../../redux/actions/hall-actions';
+import {  isCompanyOnline } from '../../../redux/actions/user-actions';
 import { addLog } from "../../../redux/actions/other-actions";
 import { LogEnum } from "../../../../config/db-config";
 import { connect } from 'react-redux';
@@ -539,7 +540,13 @@ class Chat extends React.Component {
                 label={label}>
             </ButtonLink>;*/
 
-        var status = (this.props.online_users[d.ID] == 1) ? "Online" : "Offline";
+
+        var status = null;
+        if(this.props.is_company_other){
+            status = isCompanyOnline(this.props.online_companies, this.props.other_id) ? "Online" : "Offline";
+        }else{
+            status = (this.props.online_users[d.ID] == 1) ? "Online" : "Offline";
+        }
 
         var info = <ProfileListItem title={title}
             img_url={d.img_url}
@@ -688,7 +695,8 @@ Chat.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
     return {
-        online_users: state.user.online_users
+        online_users: state.user.online_users,
+        online_companies : state.user.online_companies
     };
 }
 

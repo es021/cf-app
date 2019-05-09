@@ -13,6 +13,7 @@ import {
 import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
 require("../css/action-box.scss");
 
+
 // Ask a Question style instagram
 export default class ActionBox extends Component {
   constructor(props) {
@@ -20,7 +21,6 @@ export default class ActionBox extends Component {
     this.state = {
       hideSubmit: true
     };
-    this.btnClass = "dark-green";
     this.inputName = "inputName";
     this.inputPlaceHolder = "Type here";
     this.inputRef = null;
@@ -70,7 +70,7 @@ export default class ActionBox extends Component {
     };
     return this.state.hideSubmit ? null : (
       <button
-        className={`btn btn-sm btn-block btn-${this.btnClass}`}
+        className={`btn btn-sm btn-block btn-${this.props.btnClass}`}
         onClick={() => {
           onClickSubmit();
         }}
@@ -87,7 +87,7 @@ export default class ActionBox extends Component {
     };
     return (
       <button
-        className={`btn btn-sm btn-block btn-${this.btnClass}`}
+        className={`btn btn-sm btn-block btn-${this.props.btnClass}`}
         onClick={() => {
           onClickBtn();
         }}
@@ -109,6 +109,9 @@ export default class ActionBox extends Component {
         {this.props.isButton ? (
           <div className="ab-btn-click">{this.v_BtnClick()}</div>
         ) : null}
+        {this.props.isNavLink ? (
+          <NavLink className="ab-btn-click" to={this.props.navlink_url}>{this.v_BtnClick()}</NavLink>
+        ) : null}
       </div>
     );
   }
@@ -117,13 +120,21 @@ export default class ActionBox extends Component {
 ActionBox.propTypes = {
   title: PropTypes.string.isRequired,
 
+  isNavLink: PropTypes.bool,
+  navlink_url: PropTypes.string,
+
   isQuestion: PropTypes.bool,
   qs_onSubmit: PropTypes.func,
 
   isButton: PropTypes.bool,
-  btn_onClick: PropTypes.func
+  btn_onClick: PropTypes.func,
+
+  btnClass : PropTypes.string
 };
-ActionBox.propTypes.defaultProps = {
+
+ActionBox.defaultProps = {
   isQuestion: false,
-  isButton: false
+  isButton: false,
+  isNavLink: false,
+  btnClass : "dark-green"
 };

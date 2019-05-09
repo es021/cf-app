@@ -37,6 +37,19 @@ $com-sec : "com-sec";
             height: 20px;
         }
 
+        .pc-online-bar {
+            background: #47c947;
+            height: 28px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 79px;
+            color: white;
+            text-align: right;
+            padding: 5px 9px;
+            font-weight: bold;
+        }
+
         .pc-title {
             color: #3f3838;
             font-weight: bold;
@@ -47,7 +60,7 @@ $com-sec : "com-sec";
             margin-top: 15px;
         }
 
-        .pc-subtitle{
+        .pc-subtitle {
             margin-bottom: 10px;
         }
 

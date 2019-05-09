@@ -32,6 +32,8 @@ const hallReducerInitState = {
         error: null
     },
     // from socket
+
+    // dah tak pakai dah, kita pakai kat store.user.online_companies
     onlineCompanies: [],
     queueCompanies: []
 };

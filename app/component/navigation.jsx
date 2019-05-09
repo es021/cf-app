@@ -30,7 +30,7 @@ import VacancyPage from "../page/vacancy";
 import ExternalActionPage from "../page/external-action";
 import SessionPage from "../page/session";
 import { FaqPage, AllowCookiePage, ContactUsPage } from "../page/static";
-import { CompanyChatForRec, CompanyChatForStudent } from "../page/company-chat";
+import { CompanyChatInbox, CompanyChatStarter } from "../page/company-chat";
 import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
 import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";
@@ -343,6 +343,17 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleRec()
     },
     {
+      url: "/my-inbox",
+      label: "Inbox",
+      icon: "envelope-o",
+      component: CompanyChatInbox,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleRec() && !isRoleStudent()
+    },
+    {
       url: "/overview",
       label: "Overview",
       icon: "desktop",
@@ -424,22 +435,13 @@ function getMenuItem(COMING_SOON) {
   menuItem.push(
     ...[
       {
-        url: "/company-chat-student/:id",
-        component: CompanyChatForStudent,
+        url: "/company-chat/:id",
+        component: CompanyChatStarter,
         bar_app: true,
         bar_auth: false,
         hd_app: true,
         hd_auth: false,
         routeOnly: isRoleStudent()
-      },
-      {
-        url: "/company-chat-recruiter/:id",
-        component: CompanyChatForRec,
-        bar_app: true,
-        bar_auth: false,
-        hd_app: true,
-        hd_auth: false,
-        routeOnly: isRoleAdmin() || isRoleRec()
       },
       {
         url: "/company/:id",

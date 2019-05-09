@@ -279,7 +279,8 @@ fields["session_requests"] = {
 fields["support_sessions"] = {
     type: new GraphQLList(SupportSessionType),
     args: {
-        support_id: { type: GraphQLInt }
+        support_id: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
     },
     resolve(parentValue, arg, context, info) {
         return SupportSessionExec.support_sessions(arg, graphqlFields(info));
