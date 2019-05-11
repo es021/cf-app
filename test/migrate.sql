@@ -1,6 +1,44 @@
 -- ##################################
--- Company Chat
-ALTER TABLE `wp_career_fair`.`support_sessions` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`, `support_id`) USING BTREE;
+-- Company Chat ( Support Session Table )
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+CREATE TABLE `support_sessions` (
+  `ID` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `support_id` bigint(20) NOT NULL,
+  `message_count_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `support_sessions`
+--
+
+INSERT INTO `support_sessions` (`ID`, `user_id`, `support_id`, `message_count_id`, `created_at`) VALUES
+(1, 1449, 681, 'user681:user1449', '2019-02-05 03:12:02'),
+(2, 1265, 681, 'user681:user1265', '2019-02-12 00:23:33'),
+(3, 1480, 681, 'user681:user1480', '2019-02-17 21:30:12'),
+(4, 1315, 681, 'user681:user1315', '2019-02-18 01:40:34'),
+(5, 1310, 681, 'user681:user1310', '2019-02-18 15:15:29'),
+(6, 317, 681, 'user317:user681', '2019-03-30 15:16:56'),
+(7, 1827, 681, 'user681:user1827', '2019-04-05 13:54:19'),
+(8, 840, 681, 'user681:user840', '2019-04-16 01:27:59'),
+(9, 1889, 681, 'user681:user1889', '2019-04-16 15:43:24'),
+(10, 386, 681, 'user386:user681', '2019-04-16 21:05:29'),
+(11, 225, 681, 'user225:user681', '2019-04-20 02:19:38');
+
+--
+-- Indexes for table `support_sessions`
+--
+ALTER TABLE `support_sessions`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`support_id`) USING BTREE;
+
+ALTER TABLE `support_sessions`
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 
 -- ##################################
 -- ANE 

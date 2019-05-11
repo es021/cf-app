@@ -5,6 +5,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import { getCF, isRoleOrganizer } from '../redux/actions/auth-actions';
 import CompanyPopup from './partial/popup/company-popup';
 import obj2arg from 'graphql-obj2arg';
+import { IsNewHall } from '../../config/app-config'
 
 //importing for list
 import List from '../component/list';
@@ -12,11 +13,29 @@ import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Redirect, NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 import { CompanyEnum, Company } from '../../config/db-config';
+import { AppPath } from '../../config/app-config';
 
-export function createCompanyTitle(d, search = "") {
+function createCompanyTitleLink(d, search = "") {
     if (d == null) {
         return null;
     }
+    var name = d.name;
+    var focusedName = name.focusSubstring(search);
+    focusedName = <NavLink target="_blank" to={AppPath + `/company/${d.ID}`} dangerouslySetInnerHTML={{ __html: focusedName }} ></NavLink>;
+    return <span>{focusedName}</span>;
+
+
+}
+
+export function createCompanyTitle(d, search = "") {
+    if (IsNewHall) {
+        return createCompanyTitleLink(d, search);
+    }
+
+    if (d == null) {
+        return null;
+    }
+
     var name = d.name;
     var focusedName = name.focusSubstring(search);
     focusedName = <a onClick={() => {
@@ -25,6 +44,8 @@ export function createCompanyTitle(d, search = "") {
 
     return <span>{focusedName}</span>;
 }
+
+
 
 class CompaniesPage extends React.Component {
     constructor(props) {

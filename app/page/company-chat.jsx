@@ -9,6 +9,7 @@ import {
 } from "../redux/actions/auth-actions";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Loader } from "../component/loader";
+import CompaniesSection from "./partial/hall/companies";
 import { createUserTitle } from "./users";
 import { createImageElement } from "../component/profile-card.jsx";
 import { Time } from "../lib/time";
@@ -16,6 +17,8 @@ import { Time } from "../lib/time";
 import { BOTH } from "../../config/socket-config";
 import { socketOn } from "../socket/socket-client";
 import { addLog } from "../redux/actions/other-actions.js";
+import EmptyState from "../component/empty-state.jsx";
+import { createCompanyTitle } from "./companies-admin.jsx";
 
 require("../css/forum.scss");
 require("../css/support-chat.scss");
@@ -63,21 +66,32 @@ export class CompanyChatStarter extends React.Component {
         </div>
       );
     } else {
-      return (
-        // CompanyChatForStudent
-        <div>
-          <Chat
-            is_company_chat={true}
-            is_company_self={false}
-            is_company_other={true}
-            session_id={null}
-            disableChat={false}
-            other_id={Number.parseInt(this.ID)}
-            other_data={this.state.company}
-            self_id={this.self_id}
-          />
+      let view = [];
+      view.push(<div className="col-sm-6 ">
+        <Chat
+          is_company_chat={true}
+          is_company_self={false}
+          is_company_other={true}
+          session_id={null}
+          disableChat={false}
+          other_id={Number.parseInt(this.ID)}
+          other_data={this.state.company}
+          self_id={this.self_id}
+        />
+      </div>);
+
+      view.push(
+        <div className="col-sm-6 text-left">
+          <h4>While you're waiting...</h4>
+          <ul style={{ paddingLeft: "40px" }} className="normal text-muted">
+            <li>Remember to research the job that you're going to talk about.</li>
+            <li>Waiting time may vary, so be patient with response time.</li>
+            <li>Your conversation will be saved in your inbox.</li>
+          </ul>
         </div>
       );
+
+      return view;
     }
   }
 
@@ -157,6 +171,7 @@ export class CompanyChatInbox extends React.Component {
     let entity = {};
     if (data.support_id == SupportUserID) {
       entity = {
+        _type: "user",
         ID: data.support.ID,
         first_name: data.support.first_name,
         last_name: data.support.last_name,
@@ -166,6 +181,7 @@ export class CompanyChatInbox extends React.Component {
       };
     } else if (isRoleRec()) {
       entity = {
+        _type: "user",
         ID: data.user.ID,
         first_name: data.user.first_name,
         last_name: data.user.last_name,
@@ -175,8 +191,10 @@ export class CompanyChatInbox extends React.Component {
       };
     } else if (isRoleStudent()) {
       entity = {
+        _type: "company",
         ID: data.company.ID,
         first_name: data.company.name,
+        name : data.company.name, // needed to create company title link
         last_name: "",
         img_url: data.company.img_url,
         img_pos: data.company.img_pos,
@@ -277,7 +295,8 @@ export class CompanyChatInbox extends React.Component {
       );
     }
 
-    return <div className="text-muted">Nothing To Show Here</div>;
+    return null;
+    //return <div className="text-muted">Nothing To Show Here</div>;
   }
 
   changeChat(user_id) {
@@ -293,7 +312,10 @@ export class CompanyChatInbox extends React.Component {
     console.log(this.state.sessions);
     for (var i in this.state.sessions) {
       var d = this.state.sessions[i];
-      var title = createUserTitle(d.entity);
+      var title = d.entity._type == "user"
+        ? createUserTitle(d.entity)
+        : createCompanyTitle(d.entity);
+
       var imgView = createImageElement(
         d.entity.img_url,
         d.entity.img_pos,
@@ -307,10 +329,10 @@ export class CompanyChatInbox extends React.Component {
         d.last_message != null ? (
           d.last_message
         ) : (
-          <small className="text-muted">
-            <i>Nothing To Show Here</i>
-          </small>
-        );
+            <small className="text-muted">
+              <i>Nothing To Show Here</i>
+            </small>
+          );
 
       view.push(
         <div
@@ -336,6 +358,29 @@ export class CompanyChatInbox extends React.Component {
     return view;
   }
 
+  getEmptyState() {
+    let view = null;
+    // Empty State For Company Chat
+    let emptyStateBody = [<div className="text-muted">
+      It looks like you have nothing in your inbox.
+    </div>];
+
+    if (isRoleStudent()) {
+      emptyStateBody.push(<div>
+        <div className="text-muted">Start a chat with one of the companies below.</div>
+        <br></br><br></br>
+        <CompaniesSection {...this.props} />
+      </div>)
+    } else if (isRoleRec()) {
+      emptyStateBody.push(<div className="text-muted">
+        Come back again another time.
+      </div>)
+    }
+    view = <EmptyState body={emptyStateBody}></EmptyState>;
+
+    return view;
+  }
+
   render() {
     document.setTitle("Inbox");
     var view = null;
@@ -353,17 +398,21 @@ export class CompanyChatInbox extends React.Component {
           </b>
         );
 
-      view.push(
-        <div className="col-md-6 no-padding padding-right">
-          <h4>
-            Inbox
-            <br />
-            {newBtn}
-          </h4>
-          {this.getChatList()}
-        </div>
-      );
-      view.push(<div className="col-md-6 no-padding">{this.getChatBox()}</div>);
+      if (Object.keys(this.state.sessions).length <= 0) {
+        view = this.getEmptyState();
+      } else {
+        view.push(
+          <div className="col-sm-6 ">
+            <h4>
+              Inbox
+                <br />
+              {newBtn}
+            </h4>
+            {this.getChatList()}
+          </div>
+        );
+        view.push(<div className="col-sm-6 ">{this.getChatBox()}</div>);
+      }
     }
 
     return <div className="company-chat-inbox">{view}</div>;

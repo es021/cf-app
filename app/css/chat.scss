@@ -1,7 +1,10 @@
 @import "define/variable.scss";
 
-$THEME_1: #286090;
-$THEME_2: lightblue;
+// $THEME_1: #286090;
+// $THEME_2: lightblue;
+$THEME_1: $COLOR_DARK;
+$THEME_2:$COLOR_HEADER_LINK;
+
 $MARGIN: 30%;
 #chat {
     margin: auto;
@@ -42,6 +45,9 @@ $MARGIN: 30%;
             
             .profile-card {
                 margin: 7px 8px;
+                .pc-picture{
+                    margin-right: 10px;
+                }
                 .pc-title,
                 .pc-subtitle {
                     color: white;
@@ -114,6 +120,14 @@ $MARGIN: 30%;
             flex-grow: 3;
             padding: 3px 5px;
         }
-        button {}
+        button {
+            background-color: $THEME_1;
+        }
+        button:hover{
+            background-color: darken($THEME_1,10);
+        }
+        button:active{
+            background-color: $THEME_1;
+        }
     }
 }

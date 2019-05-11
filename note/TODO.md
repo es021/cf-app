@@ -2,9 +2,20 @@
 -- try coming soon page
 -- control what rec can see when clicked on company page
 
-# Company Chat Page
+# Pending
+- Inbox
+    - design inbox list better (cater too many items in list)
+    - notification (new messages)
+- Company Page
+    - Go Live feature
+    - Rsvp go live (for student)
+- Hall 
+    - Time converter
+    - Action button for recruiter
+- Hall Gallery
+    - video clickable
+    - admin manage page
 
-# activity.jsx
 
 # Buang perkataan sponsor
 
