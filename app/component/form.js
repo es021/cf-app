@@ -7,6 +7,9 @@ import { getAllCF } from '../redux/actions/auth-actions';
 
 require('../css/form.scss');
 
+export function isValueEmpty(v){
+    return v == "" || typeof v === "undefined" || v == null;
+}
 export function toggleSubmit(obj, newState = {}) {
     obj.setState((prevState) => {
         newState.disableSubmit = !prevState.disableSubmit;

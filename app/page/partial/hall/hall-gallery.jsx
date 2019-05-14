@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
-import { GeneralForm } from "../../../component/general-form";
 import ProfileCard from "../../../component/profile-card.jsx";
 import { ButtonLink } from "../../../component/buttons";
 import { ProfileListItem } from "../../../component/list";
@@ -10,7 +9,11 @@ import { RootPath, IsGruveoEnable } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
 import { getAuthUser, getCF } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";
-import Form, { toggleSubmit, getDataCareerFair } from "../../../component/form";
+import Form, {
+  toggleSubmit,
+  getDataCareerFair,
+  isValueEmpty
+} from "../../../component/form";
 import { createIconList } from "../../../component/list";
 import * as activityActions from "../../../redux/actions/activity-actions";
 import { createUserTitle2Line } from "../../users";
@@ -543,7 +546,7 @@ export class ManageHallGallery extends React.Component {
       });
     };
 
-    this.forceDiff = [HallGallery.TYPE];
+    
 
     this.renderRow = (d, i) => {
       var row = [];
@@ -584,6 +587,16 @@ export class ManageHallGallery extends React.Component {
       return row;
     };
 
+    // if used in formWillSubmit, better put in force diff
+    this.forceDiff = [
+      HallGallery.IS_ACTIVE,
+      HallGallery.TYPE,
+      HallGallery.VIDEO_URL,
+      HallGallery.IMG_URL,
+      HallGallery.IMG_POS,
+      HallGallery.IMG_SIZE
+    ];
+
     this.formWillSubmit = (d, edit) => {
       var parseInt = [HallGallery.IS_ACTIVE];
 
@@ -594,13 +607,26 @@ export class ManageHallGallery extends React.Component {
       }
 
       if (d[HallGallery.TYPE] === HallGalleryEnum.TYPE_IMAGE) {
-        if (d[HallGallery.IMG_URL] == "") {
+        d[HallGallery.VIDEO_URL] = "";
+
+        if (isValueEmpty(d[HallGallery.IMG_URL])) {
           return "Please fill in 'Image Url' field";
+        } else {
+          if (isValueEmpty(d[HallGallery.IMG_POS])) {
+            d[HallGallery.IMG_POS] = "center center";
+          }
+          if (isValueEmpty(d[HallGallery.IMG_SIZE])) {
+            d[HallGallery.IMG_SIZE] = "cover";
+          }
         }
       }
 
       if (d[HallGallery.TYPE] === HallGalleryEnum.TYPE_VIDEO) {
-        if (d[HallGallery.VIDEO_URL] == "") {
+        d[HallGallery.IMG_URL] = "";
+        d[HallGallery.IMG_POS] = "";
+        d[HallGallery.IMG_SIZE] = "";
+
+        if (isValueEmpty(d[HallGallery.VIDEO_URL])) {
           return "Please fill in 'Video Url' field";
         }
       }

@@ -65,6 +65,7 @@ export function _GET(parameterName) {
     return result;
 }
 
+
 String.prototype.containText = function (text) {
     return this.toUpperCase().indexOf(text.toUpperCase()) >= 0;
 }
