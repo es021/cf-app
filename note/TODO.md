@@ -3,6 +3,7 @@
 -- control what rec can see when clicked on company page
 
 # Pending
+- Log Error in api-helper alert() : create new db
 - Manage Hall Gallery
 - Inbox
     - design inbox list better (cater too many items in list)
