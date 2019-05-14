@@ -56,6 +56,7 @@ import {
   isComingSoon
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
+import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -158,6 +159,18 @@ function getMenuItem(COMING_SOON) {
       label: "Recruiters",
       icon: "black-tie",
       component: RecruiterPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
+    },
+    {
+      // Admin Only
+      url: "/hall-gallery",
+      label: "Hall Gallery",
+      icon: "home",
+      component: ManageHallGallery,
       bar_app: true,
       bar_auth: false,
       hd_app: true,

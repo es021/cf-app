@@ -8,13 +8,9 @@ import { ButtonLink } from "../../../component/buttons";
 import { ProfileListItem } from "../../../component/list";
 import { RootPath, IsGruveoEnable } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
-import { getAuthUser } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCF } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";
-import {
-  emitQueueStatus,
-  emitHallActivity
-} from "../../../socket/socket-client";
-import Form, { toggleSubmit } from "../../../component/form";
+import Form, { toggleSubmit, getDataCareerFair } from "../../../component/form";
 import { createIconList } from "../../../component/list";
 import * as activityActions from "../../../redux/actions/activity-actions";
 import { createUserTitle2Line } from "../../users";
@@ -24,12 +20,17 @@ import * as layoutActions from "../../../redux/actions/layout-actions";
 import { Time } from "../../../lib/time";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import AvailabilityView from "../../availability";
-
 import obj2arg from "graphql-obj2arg";
 import * as hallAction from "../../../redux/actions/hall-actions";
+
 import React from "react";
 import { getYoutubeIframe } from "../../../component/gallery";
 import { HallGallery, HallGalleryEnum } from "../../../../config/db-config";
+import GeneralFormPage from "../../../component/general-form";
+import {
+  setBodyFullWidth,
+  unsetBodyFullWidth
+} from "../../../../helper/general-helper";
 
 require("../../../css/hall-gallery.scss");
 // remove limit join
@@ -371,3 +372,276 @@ export class HallGalleryView extends React.Component {
 }
 
 HallGallery.propTypes = {};
+
+// #########################################################################################################
+// #########################################################################################################
+
+export class ManageHallGallery extends React.Component {
+  constructor(props) {
+    super(props);
+    this.authUser = getAuthUser();
+    this.cf = getCF();
+  }
+
+  componentWillUnmount() {
+    unsetBodyFullWidth();
+  }
+
+  componentWillMount() {
+    setBodyFullWidth();
+
+    this.DATA_CF = getDataCareerFair();
+    this.FIELD_SELECT =
+      "ID cf is_active item_order type title description img_url img_pos img_size video_url";
+    this.offset = 20;
+    this.tableHeader = (
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>CF</th>
+          <th>Is Active</th>
+          <th>Item Order</th>
+          <th>Type</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Img Meta</th>
+          <th>Video Meta</th>
+        </tr>
+      </thead>
+    );
+
+    //##########################################
+    //  search
+    this.searchParams = "";
+    this.search = {};
+    this.searchFormItem = [
+      { header: "Enter Your Search Query" },
+      {
+        label: "Career Fair",
+        name: HallGallery.CF,
+        type: "radio",
+        data: this.DATA_CF
+      }
+    ];
+
+    this.searchFormOnSubmit = d => {
+      this.search = d;
+      this.searchParams = "";
+      if (d != null) {
+        this.searchParams += d.cf !== "" ? `cf:"${d.cf}",` : "";
+      }
+    };
+
+    this.loadData = (page, offset) => {
+      var q = `query{hall_galleries(${this.searchParams} 
+              order_by: "cf asc, is_active desc, item_order asc", page:${page}, offset:${offset}) 
+            { ${this.FIELD_SELECT} } }`;
+      console.log(q);
+      return getAxiosGraphQLQuery(q);
+    };
+
+    this.getDataFromRes = res => {
+      return res.data.data.hall_galleries;
+    };
+
+    // create form add new default
+    this.newFormDefault = {};
+    this.newFormDefault[HallGallery.CF] = this.cf;
+    this.newFormDefault[HallGallery.IS_ACTIVE] = 1;
+    this.newFormDefault[HallGallery.ITEM_ORDER] = 0;
+
+    this.getFormItem = edit => {
+      var ret = [{ header: "Hall Gallery Form" }];
+      ret.push(
+        ...[
+          {
+            label: "Career Fair",
+            name: HallGallery.CF,
+            type: "radio",
+            data: this.DATA_CF,
+            required: true
+          },
+          {
+            label: "Title",
+            name: HallGallery.TITLE,
+            type: "text",
+            required: true
+          },
+          {
+            label: "Description",
+            name: HallGallery.DESCRIPTION,
+            type: "textarea",
+            rows: 2
+          },
+          {
+            label: "Is Active?",
+            name: HallGallery.IS_ACTIVE,
+            type: "radio",
+            data: [{ key: 1, label: "Yes" }, { key: 0, label: "No" }],
+            required: true
+          },
+          {
+            label: "Item Order",
+            name: HallGallery.ITEM_ORDER,
+            type: "number"
+          },
+          {
+            label: "Type",
+            name: HallGallery.TYPE,
+            type: "select",
+            data: ["", HallGalleryEnum.TYPE_IMAGE, HallGalleryEnum.TYPE_VIDEO],
+            required: true
+          },
+          {
+            label: "Image Url",
+            name: HallGallery.IMG_URL,
+            type: "text"
+          },
+          {
+            label: "Image Position",
+            name: HallGallery.IMG_POS,
+            type: "text"
+          },
+          {
+            label: "Image Size",
+            name: HallGallery.IMG_SIZE,
+            type: "text"
+          },
+          {
+            label: "Video Url",
+            name: HallGallery.VIDEO_URL,
+            type: "text"
+          }
+        ]
+      );
+
+      var extra = [];
+      if (edit) {
+        // extra = [
+        //   {
+        //     label: "Is Active",
+        //     name: HallGallery.IS_DISABLED,
+        //     type: "select",
+        //     data: [{ key: 0, label: "Yes" }, { key: 1, label: "No" }],
+        //     required: true
+        //   }
+        // ];
+      }
+
+      ret.push(...extra);
+
+      return ret;
+    };
+
+    this.getEditFormDefault = ID => {
+      const query = `query
+          {hall_galleries(ID: ${ID}){ ${this.FIELD_SELECT} }}`;
+
+      return getAxiosGraphQLQuery(query).then(res => {
+        var hg = res.data.data.hall_galleries[0];
+        return hg;
+      });
+    };
+
+    this.forceDiff = [HallGallery.TYPE];
+
+    this.renderRow = (d, i) => {
+      var row = [];
+      var discard = ["img_pos", "img_size"];
+      for (var key in d) {
+        if (discard.indexOf(key) >= 0) {
+          continue;
+        }
+        if (key == "img_url") {
+          let v = [
+            <li>
+              <b>Url</b> : {d.img_url}
+            </li>,
+            <li>
+              <b>Position</b> : {d.img_pos}
+            </li>,
+            <li>
+              <b>Size</b> : {d.img_size}
+            </li>
+          ];
+          row.push(
+            <td>
+              <ul>{v}</ul>
+            </td>
+          );
+        } else if (key == "is_active") {
+          var is_active =
+            d.is_active == "0" ? (
+              <label className="label label-danger">Not Active</label>
+            ) : (
+              <label className="label label-success">Active</label>
+            );
+          row.push(<td className="text-center">{is_active}</td>);
+        } else {
+          row.push(<td>{d[key]}</td>);
+        }
+      }
+      return row;
+    };
+
+    this.formWillSubmit = (d, edit) => {
+      var parseInt = [HallGallery.IS_ACTIVE];
+
+      for (var i in parseInt) {
+        if (typeof d[parseInt[i]] === "string") {
+          d[parseInt[i]] = Number.parseInt(d[parseInt[i]]);
+        }
+      }
+
+      if (d[HallGallery.TYPE] === HallGalleryEnum.TYPE_IMAGE) {
+        if (d[HallGallery.IMG_URL] == "") {
+          return "Please fill in 'Image Url' field";
+        }
+      }
+
+      if (d[HallGallery.TYPE] === HallGalleryEnum.TYPE_VIDEO) {
+        if (d[HallGallery.VIDEO_URL] == "") {
+          return "Please fill in 'Video Url' field";
+        }
+      }
+
+      if (edit) {
+        d.updated_by = this.authUser.ID;
+      } else {
+        d.created_by = this.authUser.ID;
+      }
+
+      return d;
+    };
+  }
+
+  render() {
+    document.setTitle("Manage Hall Gallery");
+    return (
+      <div className="main-width main-width-lg">
+        <h3>Manage Hall Gallery</h3>
+        <GeneralFormPage
+          entity_singular="Hall Gallery"
+          entity="hall_gallery"
+          addButtonText="Add New Hall Gallery"
+          dataTitle={this.dataTitle}
+          forceDiff={this.forceDiff}
+          getFormItem={this.getFormItem}
+          newFormDefault={this.newFormDefault}
+          getEditFormDefault={this.getEditFormDefault}
+          noMutation={true}
+          formWillSubmit={this.formWillSubmit}
+          canEdit={true}
+          canAdd={true}
+          dataOffset={20}
+          searchFormItem={this.searchFormItem}
+          searchFormOnSubmit={this.searchFormOnSubmit}
+          tableHeader={this.tableHeader}
+          renderRow={this.renderRow}
+          getDataFromRes={this.getDataFromRes}
+          loadData={this.loadData}
+        />
+      </div>
+    );
+  }
+}

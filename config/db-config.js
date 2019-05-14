@@ -599,7 +599,16 @@ const HallGallery = {
     ID : "ID",
     ITEM_ORDER : "item_order",
     CF : "cf",
-    IS_ACTIVE : "is_active"
+    IS_ACTIVE : "is_active",
+    TITLE: "title",
+    DESCRIPTION : "description",
+    TYPE : "type",
+    IMG_URL : "img_url",
+    IMG_POS : "img_pos",
+    IMG_SIZE : "img_size",
+    VIDEO_URL : "video_url",
+    CREATED_BY : "created_by",
+    UPDATED_BY : "updated_by"
 }
 
 const HallGalleryEnum = {

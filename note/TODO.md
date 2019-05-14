@@ -3,11 +3,12 @@
 -- control what rec can see when clicked on company page
 
 # Pending
+- Manage Hall Gallery
 - Inbox
     - design inbox list better (cater too many items in list)
     - notification (new messages)
 - Company Page
-    - Go Live feature
+    - Go Live feature - how to create?
     - Rsvp go live (for student)
 - Hall 
     - Time converter
@@ -15,6 +16,7 @@
 - Hall Gallery
     - video clickable
     - admin manage page
+- daily.co
 
 
 # Buang perkataan sponsor

@@ -638,6 +638,7 @@ const HallGalleryType = new GraphQLObjectType({
     name: 'HallGallery',
     fields: () => ({
         ID: { type: GraphQLInt },
+        cf: { type: GraphQLString },
         item_order: { type: GraphQLInt },
         is_active: { type: GraphQLInt },
         title: { type: GraphQLString },

@@ -28,7 +28,8 @@ const {
     QsPopupType,
     QsPopupAnswerType,
     EntityRemovedType,
-    NotificationType
+    NotificationType,
+    HallGalleryType
 } = require('./all-type.js');
 
 
@@ -61,7 +62,8 @@ const {
     QsPopup,
     QsPopupAnswer,
     EntityRemoved,
-    Notifications
+    Notifications,
+    HallGallery
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -179,6 +181,103 @@ fields["add_entity_removed"] = {
     }
 };
 
+
+/* hall_gallery  ******************/
+fields["add_hall_gallery"] = {
+    type: HallGalleryType,
+    args: {
+        cf: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        type: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        item_order: {
+            type: GraphQLInt
+        },
+        is_active: {
+            type: GraphQLInt
+        },
+        title: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        description: {
+            type: GraphQLString
+        },
+        img_url: {
+            type: GraphQLString
+        },
+        img_pos: {
+            type: GraphQLString
+        },
+        img_size: {
+            type: GraphQLString
+        },
+        video_url: {
+            type: GraphQLString
+        },
+        created_by: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        return DB.insert(HallGallery.TABLE, arg).then(function (res) {
+            return res;
+        });
+    }
+};
+
+
+fields["edit_hall_gallery"] = {
+    type: HallGalleryType,
+    args: {
+        ID: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+        cf: {
+            type: GraphQLString
+        },
+        type: {
+            type: GraphQLString
+        },
+        item_order: {
+            type: GraphQLInt
+        },
+        is_active: {
+            type: GraphQLInt
+        },
+        title: {
+            type: GraphQLString
+        },
+        description: {
+            type: GraphQLString
+        },
+        img_url: {
+            type: GraphQLString
+        },
+        img_pos: {
+            type: GraphQLString
+        },
+        img_size: {
+            type: GraphQLString
+        },
+        video_url: {
+            type: GraphQLString
+        },
+        updated_by: {
+            type: new GraphQLNonNull(GraphQLInt)
+        }
+    },
+    resolve(parentValue, arg, context, info) {
+        try {
+            return DB.update(HallGallery.TABLE, arg).then(function (res) {
+                return res;
+            });
+        } catch (err) {
+            return {};
+        }
+    }
+};
 
 
 /* qs_popup  ******************/
