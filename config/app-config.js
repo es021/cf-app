@@ -1,3 +1,12 @@
+// ###################################################
+// Indicator
+
+const IsGruveoEnable = false;
+const IsNewHall = true;
+
+// Indicator
+// ###################################################
+
 console.log("environment - " + process.env.NODE_ENV);
 var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
 var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
@@ -13,8 +22,6 @@ var ImageUrl = AssetUrl + "/asset/image";
 var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
 
-const IsGruveoEnable = false;
-const IsNewHall = true;
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
 if (isProd) {

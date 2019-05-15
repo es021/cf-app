@@ -22,6 +22,7 @@ import { BOTH } from "../../config/socket-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import CompanyPopup from "./partial/popup/company-popup";
 import { Loader } from "../component/loader";
+import ToogleTimezone from "../component/toggle-timezone";
 
 export class WebinarHall extends React.Component {
   constructor(props) {
@@ -153,6 +154,7 @@ export class WebinarHall extends React.Component {
       // Display Time
       rightBox = <div className="hw-time">
         <div>
+          <ToogleTimezone></ToogleTimezone>
           <div style={{ fontSize: "15px" }}>{Time.getDate(d.start_time)}</div>
           <div style={{ fontSize: "20px" }}>{Time.getStringShort(d.start_time)}</div>
         </div>
