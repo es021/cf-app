@@ -95,12 +95,13 @@ class StudentListingQuery {
         // ###################################################################
         // ALL STUDENT QUERY
         // untuk cater company : -1 (all student page)
-
+        
+        // INNER JOIN doc_link dl ON u.ID = dl.user_id AND dl.type = 'document' 
+        // AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
+        
         var sqlAll = `
         SELECT DISTINCT u.ID as student_id, u.user_registered
         FROM wp_cf_users u 
-            INNER JOIN doc_link dl ON u.ID = dl.user_id AND dl.type = 'document' 
-            AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
         WHERE 1=1 
         AND ${join_search_student}
         AND ${join_search_major}
@@ -114,7 +115,7 @@ class StudentListingQuery {
 
         // console.log(sql);
         // console.log(sqlAll);
-        
+
         return params.company_id <= 0 ? sqlAll : sql;
     }
 

@@ -1,19 +1,55 @@
 @import "define/variable.scss";
 
+$COLOR_LEFT : #2d2d9b;
+$COLOR_RIGHT : #c30b1a;
 
-@mixin as_dimension($parentWidth, $parentHeight, $sliderDimension, $sliderLeft, $sliderBottom) {
+@mixin as_dimension($parentWidth, $parentHeight,
+    $sliderOffsetTranslate, $sliderDimension, $sliderLeft, $sliderBottom,
+    $textPadding) {
     .app-switch {
         width: $parentWidth;
         height: $parentHeight;
-    }
 
-    .as-slider:before {
-        height: $sliderDimension;
-        width: $sliderDimension;
-        left: $sliderLeft;
-        bottom: $sliderBottom;
+        $offsetTranslate: ($parentWidth / 2) + $sliderOffsetTranslate;
+
+        input:checked+.as-slider:before {
+            -webkit-transform: translateX($offsetTranslate);
+            -ms-transform: translateX($offsetTranslate);
+            transform: translateX($offsetTranslate);
+        }
+
+        .as-slider:before {
+            height: $sliderDimension;
+            width: $sliderDimension;
+            left: $sliderLeft;
+            bottom: $sliderBottom;
+        }
+
+        .as-text-container {
+            .as-text {
+                padding: $textPadding;
+            }
+        }
     }
 }
+
+@include as_dimension(80px, // parentWidth
+    34px, // parentHeight
+    6px, // sliderOffsetTranslate
+    26px, // sliderDimension
+    4px, // sliderLeft
+    4px, // sliderBottom
+    7px 10px // textPadding
+);
+
+// @include as_dimension(50px, // parentWidth
+//     24px, // parentHeight
+//     6px, // sliderOffsetTranslate
+//     15px, // sliderDimension
+//     4px, // sliderLeft
+//     4px, // sliderBottom
+//     7px 10px // textPadding
+// );
 
 .app-switch {
     position: relative;
@@ -28,18 +64,18 @@
     }
 
     input:checked+.as-slider {
-        background-color: green;
+        background-color: $COLOR_LEFT;
     }
 
     input:focus+.as-slider {
         box-shadow: 0 0 1px #2196F3;
     }
 
-    input:checked+.as-slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
+    // input:checked+.as-slider:before {
+    //     -webkit-transform: translateX(26px);
+    //     -ms-transform: translateX(26px);
+    //     transform: translateX(26px);
+    // }
 
     .as-slider {
         position: absolute;
@@ -48,7 +84,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: red;
+        background-color: $COLOR_RIGHT;
         -webkit-transition: .4s;
         transition: .4s;
     }
@@ -95,7 +131,7 @@
         .as-text {
             position: absolute;
             color: white;
-            top : 0;
+            top: 0;
             font-size: 13px;
         }
 
@@ -112,5 +148,3 @@
         }
     }
 }
-
-@include as_dimension(60px, 34px, 26px, 4px, 4px);

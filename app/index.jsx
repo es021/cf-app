@@ -22,6 +22,7 @@ import {
 import { addLog } from "./redux/actions/other-actions";
 import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
 import PrimaryLayout from "./primary-layout.jsx";
+import TestLayout from "./layout/test-layout.jsx";
 
 //require("./lib/AutoComplete.js");
 //require("./lib/font-awesome-4.7.0/css/font-awesome.css");
@@ -43,6 +44,7 @@ const App = () => (
       <Switch>
         <AuthorizedRoute path={`${RootPath}/app`} component={PrimaryLayout} />
         <Route path={`${RootPath}/auth`} component={PrimaryLayout} />
+        <Route path={`${RootPath}/test`} component={TestLayout} />
       </Switch>
     </BrowserRouter>
   </Provider>
