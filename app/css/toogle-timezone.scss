@@ -5,7 +5,7 @@ $COLOR_RIGHT : #c30b1a;
 
 @mixin as_dimension($parentWidth, $parentHeight,
     $sliderOffsetTranslate, $sliderDimension, $sliderLeft, $sliderBottom,
-    $textPadding) {
+    $textPaddingLeft, $textPaddingRight, $textFontSize) {
     .app-switch {
         width: $parentWidth;
         height: $parentHeight;
@@ -27,30 +27,44 @@ $COLOR_RIGHT : #c30b1a;
 
         .as-text-container {
             .as-text {
-                padding: $textPadding;
+                font-size: $textFontSize;
+            }
+
+            .text-left {
+                padding: $textPaddingLeft;
+            }
+
+            .text-right {
+                padding: $textPaddingRight;
             }
         }
     }
 }
 
-@include as_dimension(80px, // parentWidth
-    34px, // parentHeight
-    6px, // sliderOffsetTranslate
-    26px, // sliderDimension
-    4px, // sliderLeft
-    4px, // sliderBottom
-    7px 10px // textPadding
-);
-
-// @include as_dimension(50px, // parentWidth
-//     24px, // parentHeight
+// @include as_dimension(80px, // parentWidth
+//     34px, // parentHeight
 //     6px, // sliderOffsetTranslate
-//     15px, // sliderDimension
+//     26px, // sliderDimension
 //     4px, // sliderLeft
 //     4px, // sliderBottom
-//     7px 10px // textPadding
+//     7px 10px, // textPaddingLeft
+//     7px 10px, // textPaddingRight
+//     13px // textFont
 // );
 
+@include as_dimension(50px, // parentWidth
+    24px, // parentHeight
+    2px, // sliderOffsetTranslate
+    15px, // sliderDimension
+    4px, // sliderLeft
+    4px, // sliderBottom
+    4px 8px, // textPaddingLeft
+    4px 4px, // textPaddingRight
+    11px // textFont
+);
+.as-slider:hover{
+    box-shadow: 4px 3px 7px -2px rgba(0, 0, 0, 0.5);
+}
 .app-switch {
     position: relative;
     display: inline-block;
@@ -68,7 +82,7 @@ $COLOR_RIGHT : #c30b1a;
     }
 
     input:focus+.as-slider {
-        box-shadow: 0 0 1px #2196F3;
+        //box-shadow: 0 0 1px #2196F3;
     }
 
     // input:checked+.as-slider:before {
@@ -132,7 +146,7 @@ $COLOR_RIGHT : #c30b1a;
             position: absolute;
             color: white;
             top: 0;
-            font-size: 13px;
+            transition: opacity 0.3s ease;
         }
 
         .text-left {

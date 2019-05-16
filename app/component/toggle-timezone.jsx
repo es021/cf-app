@@ -1,36 +1,69 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-require('../css/toogle-timezone.scss');
+import { Time } from "../lib/time";
+require("../css/toogle-timezone.scss");
 
 export default class ToogleTimezone extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    let defaultTime = Time.getString(this.props.unixtimestamp);
+
+    this.state = {
+      isDefaultTime: false,
+      body: this.props.createBody(defaultTime)
+    };
+
+    this.myTimezone = Time.getTimezoneShort();
+    this.defaultTimezone = "MYT";
+    if (this.myTimezone == "MT") {
+      this.myTimezone = this.defaultTimezone;
+    }
   }
-  componentDidMount() {}
+
+  onClickCheckbox() {
+    this.setState(prevState => {
+      let newBody = null;
+      if (prevState.isDefaultTime) {
+        newBody = this.props.createBody(
+          Time.getString(this.props.unixtimestamp)
+        );
+      } else {
+        newBody = this.props.createBody(
+          Time.getStringMas(this.props.unixtimestamp)
+        );
+      }
+      return {
+        body: newBody,
+        isDefaultTime: !prevState.isDefaultTime
+      };
+    });
+  }
   render() {
-    return (
-      <div>
-        <label className="app-switch">
-          <input type="checkbox" />
-          <span className="as-slider round">
-            <div className="as-text-container">
-              <div className="as-text text-left">Left</div>
-              <div className="as-text text-right">Right</div>
-            </div>
-          </span>
-        </label>
-      </div>
+    let toggler = (
+      <label className="app-switch">
+        <input
+          type="checkbox"
+          onClick={ev => {
+            this.onClickCheckbox();
+          }}
+        />
+        <span className="as-slider round">
+          <div className="as-text-container">
+            <div className="as-text text-left">{this.defaultTimezone}</div>
+            <div className="as-text text-right">{this.myTimezone}</div>
+          </div>
+        </span>
+      </label>
     );
+
+    return <div>{this.props.createView(this.state.body, toggler)}</div>;
   }
 }
 
 ToogleTimezone.propTypes = {
-  aaaa: PropTypes.string.isRequired,
+  unixtimestamp: PropTypes.any.isRequired,
+  createBody: PropTypes.func,
+  createView: PropTypes.func
 };
 
-ToogleTimezone.defaultProps = {
-  
-};
-
+ToogleTimezone.defaultProps = {};

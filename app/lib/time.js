@@ -484,8 +484,47 @@ Time.prototype.getStringShort = function (unixtimestamp, getSecond) {
 Time.prototype.getDate = function (unixtimestamp) {
     return this.getString(unixtimestamp, false, false, true);
 };
+
+// #######################################
+// MAS
+Time.prototype.getStringShortMas = function (unixtimestamp, getSecond) {
+    let isTimezoneMas = true;
+    return this.getString(unixtimestamp, false, true, false, false, getSecond, undefined, undefined, isTimezoneMas);
+};
+
+Time.prototype.getDateMas = function (unixtimestamp) {
+    let isTimezoneMas = true;
+    return this.getString(unixtimestamp, false, false, true, undefined, undefined, undefined, undefined, isTimezoneMas);
+};
+
+Time.prototype.getStringMas = function (unixtimestamp) {
+    let isTimezoneMas = true;
+    return this.getString(unixtimestamp, undefined, undefined, undefined, undefined, undefined, undefined, undefined, isTimezoneMas);
+}
+
+Time.prototype.changeToMalaysiaTimezone = function (date) {
+    let timezone = "Asia/Kuala_Lumpur";
+
+    var invdate = new Date(date.toLocaleString('en-US', {
+        timeZone: timezone
+    }));
+
+    // then invdate will be 07:00 in Toronto
+    // and the diff is 5 hours
+    var diff = invdate.getTime() - date.getTime()
+
+    // console.log("date", date);
+    // console.log("invdate", invdate);
+    // console.log("diff", diff);
+
+    // so 12:00 in Toronto is 17:00 UTC
+    return new Date(date.getTime() + diff);
+}
+// MAS
+// #######################################
+
 // mysql UNIX_TIMESTAMP(column)
-Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false, monthOnly = false, yearOnly = false) {
+Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false, monthOnly = false, yearOnly = false, isTimezoneMas = false) {
 
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
@@ -505,6 +544,10 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     include_timezone = (typeof include_timezone === "undefined") ? false : include_timezone;
     var newDate = new Date(unixtimestamp * 1000);
+
+    if (isTimezoneMas === true) {
+        newDate = this.changeToMalaysiaTimezone(newDate);
+    }
 
     var hour = newDate.getHours();
     var minute = newDate.getMinutes();
@@ -583,6 +626,36 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     return toReturn;
 };
+
+
+
+Time.prototype.getTimezoneShort = function (dateInput = null) {
+    var dateObject = dateInput || new Date(),
+        dateString = dateObject + "",
+        tzAbbr = (
+            // Works for the majority of modern browsers
+            dateString.match(/\(([^\)]+)\)$/) ||
+            // IE outputs date strings in a different format:
+            dateString.match(/([A-Z]+) [\d]{4}$/)
+        );
+
+    if (tzAbbr) {
+        // Old Firefox uses the long timezone name (e.g., "Central
+        // Daylight Time" instead of "CDT")
+        tzAbbr = tzAbbr[1].match(/[A-Z]/g).join("");
+    }
+
+    // Uncomment these lines to return a GMT offset for browsers
+    // that don't include the user's zone abbreviation (e.g.,
+    // "GMT-0500".) I prefer to have `null` in this case, but
+    // you may not!
+    // First seen on: http://stackoverflow.com/a/12496442
+    // if (!tzAbbr && /(GMT\W*\d{4})/.test(dateString)) {
+    // 	return RegExp.$1;
+    // }
+
+    return tzAbbr;
+}
 
 Time.prototype.getTimezone = function (date = null) {
     if (date === null) {
