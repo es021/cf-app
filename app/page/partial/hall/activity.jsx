@@ -40,6 +40,7 @@ import { joinVideoCall } from "../session/chat";
 
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
+import ToogleTimezone from "../../../component/toggle-timezone";
 
 require("../../../css/border-card.scss");
 
@@ -140,7 +141,7 @@ class ActvityList extends React.Component {
       setTimeout(() => {
         parentCard.hidden = true;
       }, 700);
-      getAxiosGraphQLQuery(q).then(data => { });
+      getAxiosGraphQLQuery(q).then(data => {});
     };
 
     return (
@@ -390,43 +391,148 @@ class ActvityList extends React.Component {
 
   getTimeStrNew(unixtime, showTimeOnly) {
     // debug
-    //unixtime = (1552804854865/1000) + 500;
+    // unixtime = (1552804854865/1000) + 500;
+    // let bodyToRet = null;
 
-    let timeStr = Time.getString(unixtime);
+    // let timeStr = Time.getString(unixtime);
 
-    if (showTimeOnly) {
-      return timeStr;
-    }
+    // if (showTimeOnly) {
+    //   return timeStr;
+    // }
 
-    let passedText = "Waiting For Recruiter";
-    let happeningIn = Time.getHapenningIn(unixtime, {
-      passedText: isRoleStudent() ? passedText : null,
-      startCountMinute: 24 * 60 // 24 hours
-    });
+    // let passedText = "Waiting For Recruiter";
+    // let happeningIn = Time.getHapenningIn(unixtime, {
+    //   passedText: isRoleStudent() ? passedText : null,
+    //   startCountMinute: 24 * 60 // 24 hours
+    // });
 
-    if (happeningIn != null) {
-      if (happeningIn != passedText) {
-        happeningIn = <span>Starting In {happeningIn}</span>;
+    // if (happeningIn != null) {
+    //   if (happeningIn != passedText) {
+    //     happeningIn = <span>Starting In {happeningIn}</span>;
+    //   }
+    //   happeningIn = (
+    //     <div
+    //       style={{ marginBottom: "-6px", fontWeight: "bold" }}
+    //       className="text-primary"
+    //     >
+    //       {happeningIn}
+    //       <br />
+    //     </div>
+    //   );
+
+    //   bodyToRet = (
+    //     <span>
+    //       {happeningIn}
+    //       <br />
+    //       {timeStr}
+    //     </span>
+    //   );
+    // } else {
+    //   bodyToRet = timeStr;
+    // }
+
+    const createBody = timeStr => {
+      // 1. create happening in
+
+      if (showTimeOnly) {
+        return timeStr;
       }
-      happeningIn = (
-        <div
-          style={{ marginBottom: "-6px", fontWeight: "bold" }}
-          className="text-primary"
-        >
-          {happeningIn}
+
+      let passedText = "Waiting For Recruiter";
+      let happeningIn = Time.getHapenningIn(unixtime, {
+        passedText: isRoleStudent() ? passedText : null,
+        startCountMinute: 24 * 60 // 24 hours
+      });
+
+      if (happeningIn != null) {
+        if (happeningIn != passedText) {
+          happeningIn = <span>Starting In {happeningIn}</span>;
+        }
+        happeningIn = (
+          <div
+            style={{ marginBottom: "-6px", fontWeight: "bold" }}
+            className="text-primary"
+          >
+            {happeningIn}
+            <br />
+          </div>
+        );
+        return (
+          <span>
+            {happeningIn}
+            <br />
+            {timeStr}
+          </span>
+        );
+      } else {
+        return timeStr;
+      }
+    };
+
+    const createView = (body, toggler) => {
+      return (
+        <div>
+          {body}
+          <div style={{marginTop:"5px"}}></div>
+          {toggler}
         </div>
       );
-      return (
-        <span>
-          {happeningIn}
-          <br />
-          {timeStr}
-        </span>
-      );
-    } else {
-      return timeStr;
-    }
+    };
+
+    return (
+      <ToogleTimezone
+        createDefaultTime={unix => {
+          return Time.getString(unix);
+        }}
+        createAlternateTime={unix => {
+          return Time.getStringMas(unix);
+        }}
+        unixtimestamp={unixtime}
+        createBody={createBody}
+        createView={createView}
+      />
+    );
   }
+
+  // getTimeStrNew(unixtime, showTimeOnly) {
+  //   // debug
+  //   //unixtime = (1552804854865/1000) + 500;
+
+  //   let timeStr = Time.getString(unixtime);
+
+  //   if (showTimeOnly) {
+  //     return timeStr;
+  //   }
+
+  //   let passedText = "Waiting For Recruiter";
+  //   let happeningIn = Time.getHapenningIn(unixtime, {
+  //     passedText: isRoleStudent() ? passedText : null,
+  //     startCountMinute: 24 * 60 // 24 hours
+  //   });
+
+  //   if (happeningIn != null) {
+  //     if (happeningIn != passedText) {
+  //       happeningIn = <span>Starting In {happeningIn}</span>;
+  //     }
+  //     happeningIn = (
+  //       <div
+  //         style={{ marginBottom: "-6px", fontWeight: "bold" }}
+  //         className="text-primary"
+  //       >
+  //         {happeningIn}
+  //       </div>
+  //     );
+  //     return (
+  //       <span>
+  //         {happeningIn}
+  //         <br />
+  //         {timeStr}
+  //       </span>
+  //     );
+  //   } else {
+  //     return timeStr;
+  //   }
+  // }
 
   addRemoveButton(body, hasRemove, removeEntity, removeEntityId) {
     body = (
@@ -473,14 +579,12 @@ class ActvityList extends React.Component {
         var mes = (
           <div>
             Unable to join.
-                    <br />
+            <br />
             This group session has ended.
-                  </div>
+          </div>
         );
         layoutActions.errorBlockLoader(mes);
-        var q = `mutation {edit_group_session(ID:${
-          d.ID
-          }, is_expired:1){ID}}`;
+        var q = `mutation {edit_group_session(ID:${d.ID}, is_expired:1){ID}}`;
         getAxiosGraphQLQuery(q).then(res => {
           hallAction.storeLoadActivity([
             hallAction.ActivityType.GROUP_SESSION_JOIN
@@ -489,10 +593,12 @@ class ActvityList extends React.Component {
       };
 
       var btnJoin = (
-        <a onClick={() =>
-          joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
-        }
-          className="btn btn-sm btn-blue">
+        <a
+          onClick={() =>
+            joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
+          }
+          className="btn btn-sm btn-blue"
+        >
           Join Video Call
         </a>
       );
@@ -502,18 +608,17 @@ class ActvityList extends React.Component {
         // if time updated is less than bufferMin
         var bufferMin = 2;
         var diff =
-          Time.getUnixTimestampNow() -
-          Time.convertDBTimeToUnix(d.updated_at);
+          Time.getUnixTimestampNow() - Time.convertDBTimeToUnix(d.updated_at);
         if (diff <= bufferMin * 60) {
           var popupBody = (
             <div>
               <br />
               Group session with
-                      <br />
+              <br />
               <b>{obj.name}</b>
               <br />
               has started
-                      <br /> <br />
+              <br /> <br />
               {btnJoin}
             </div>
           );
@@ -547,7 +652,8 @@ class ActvityList extends React.Component {
               data-company_id={obj.ID}
               data-company_name={obj.name}
               onClick={this.cancelJoinGroupSession.bind(this)}
-              className="btn btn-sm btn-primary">
+              className="btn btn-sm btn-primary"
+            >
               Cancel Session
             </div>
           );
@@ -561,25 +667,22 @@ class ActvityList extends React.Component {
       }
     }
 
-
     body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
 
-    let topLabel = <div style={{ fontSize: "90%" }} className="label label-success">
-      <i className="fa fa-users left"></i>
-      Live Call
-    </div>
-
-
+    let topLabel = (
+      <div style={{ fontSize: "90%" }} className="label label-success">
+        <i className="fa fa-users left" />
+        Live Call
+      </div>
+    );
 
     return {
       body: body,
       subtitle: subtitle,
       title: title,
       topLabel: topLabel
-    }
-
+    };
   }
-
 
   // return body n subtitle
   renderPreScreen(d, obj) {
@@ -692,10 +795,7 @@ class ActvityList extends React.Component {
         break;
       case PrescreenEnum.STATUS_ENDED:
         btnEndedVCall = (
-          <div
-            className="action btn btn-danger btn-sm"
-            disabled="disabled"
-          >
+          <div className="action btn btn-danger btn-sm" disabled="disabled">
             Ended
           </div>
         );
@@ -724,9 +824,7 @@ class ActvityList extends React.Component {
             noOuterBraces: true
           })}){ID}}`;
           getAxiosGraphQLQuery(q).then(res => {
-            hallAction.storeLoadActivity([
-              hallAction.ActivityType.PRESCREEN
-            ]);
+            hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
           });
         };
         var hasStart = false;
@@ -745,13 +843,7 @@ class ActvityList extends React.Component {
           btnJoinVCall = (
             <a
               onClick={() =>
-                joinVideoCall(
-                  d.join_url,
-                  null,
-                  isExpiredHandler,
-                  null,
-                  d.ID
-                )
+                joinVideoCall(d.join_url, null, isExpiredHandler, null, d.ID)
               }
               className="btn btn-sm btn-blue"
             >
@@ -817,10 +909,12 @@ class ActvityList extends React.Component {
       </div>
     );
 
-    let topLabel = <div style={{ fontSize: "90%" }} className="label label-danger">
-      <i className="fa fa-user left"></i>
-      Private Call
+    let topLabel = (
+      <div style={{ fontSize: "90%" }} className="label label-danger">
+        <i className="fa fa-user left" />
+        Private Call
       </div>
+    );
 
     body = (
       <div>
@@ -829,9 +923,7 @@ class ActvityList extends React.Component {
           : null}
         {btnStartVCall == null ? labelStatus : null}
         {isRoleRec() ? btnStartVCall : null}
-        {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM
-          ? btnAcceptReject
-          : null}
+        {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null}
         {d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null}
         {d.status == PrescreenEnum.STATUS_ENDED ? btnEndedVCall : null}
       </div>
@@ -843,7 +935,7 @@ class ActvityList extends React.Component {
       body: body,
       subtitle: subtitle,
       topLabel: topLabel
-    }
+    };
   }
 
   render() {
@@ -899,13 +991,12 @@ class ActvityList extends React.Component {
 
         let _type = d._type;
 
-
         switch (_type) {
           // #############################################################
           // Scheduled Session Card View
 
           case hallAction.ActivityType.PRESCREEN:
-            objTemp = this.renderPreScreen(d, obj)
+            objTemp = this.renderPreScreen(d, obj);
             body = objTemp.body;
             subtitle = objTemp.subtitle;
             topLabel = objTemp.topLabel;
@@ -914,7 +1005,7 @@ class ActvityList extends React.Component {
           // #############################################################
           // group session Card View
           case hallAction.ActivityType.GROUP_SESSION_JOIN:
-            objTemp = this.renderGroupSessionJoin(d, obj, title)
+            objTemp = this.renderGroupSessionJoin(d, obj, title);
             body = objTemp.body;
             title = objTemp.title;
             subtitle = objTemp.subtitle;
@@ -922,7 +1013,7 @@ class ActvityList extends React.Component {
             break;
         }
 
-        var header = <div style={{ marginTop: "10px" }}>{topLabel}</div>
+        var header = <div style={{ marginTop: "10px" }}>{topLabel}</div>;
 
         var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
         return (
@@ -967,8 +1058,6 @@ class ActvityList extends React.Component {
     );
   }
 }
-
-
 
 ActvityList.propTypes = {
   type: PropTypes.oneOf([
@@ -1017,7 +1106,7 @@ export class ActivitySingle extends React.Component {
     } else {
       let q = ` query {${entity} (ID:${
         this.props.id
-        }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
+      }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
       getAxiosGraphQLQuery(q).then(res => {
         this.setState(prevState => {
           return { data: res.data.data[entity], loading: false };
@@ -1153,7 +1242,7 @@ class ActivitySection extends React.Component {
         onClick={() => {
           let toRefresh = [hallAction.ActivityType.PRESCREEN];
           if (isRoleStudent()) {
-            toRefresh.push(hallAction.ActivityType.GROUP_SESSION_JOIN)
+            toRefresh.push(hallAction.ActivityType.GROUP_SESSION_JOIN);
           }
           this.refresh(toRefresh);
         }}
@@ -1163,7 +1252,6 @@ class ActivitySection extends React.Component {
       "You can access your private call and live call here"
     );
 
-
     // 2. subtitle
     var subtitle = null;
 
@@ -1171,14 +1259,14 @@ class ActivitySection extends React.Component {
     let list = [];
     //// 3.a  add private call
     for (var i in d.prescreens) {
-      let newObj = d.prescreens[i]
+      let newObj = d.prescreens[i];
       newObj._type = hallAction.ActivityType.PRESCREEN;
       list.push(newObj);
     }
     //// 3.b  add live call (for student only)
     if (isRoleStudent()) {
       for (var i in d.group_session_joins) {
-        let newObj = d.group_session_joins[i]
+        let newObj = d.group_session_joins[i];
         newObj._type = hallAction.ActivityType.GROUP_SESSION_JOIN;
         list.push(newObj);
       }
@@ -1192,16 +1280,18 @@ class ActivitySection extends React.Component {
       fetching = d.fetching.prescreens;
     }
 
-
     // 5. view
-    var ps_gs = <ActvityList
-      bc_type="vertical"
-      online_users={this.props.online_users}
-      fetching={fetching}
-      type={null}
-      title={title}
-      subtitle={subtitle}
-      list={list}></ActvityList>
+    var ps_gs = (
+      <ActvityList
+        bc_type="vertical"
+        online_users={this.props.online_users}
+        fetching={fetching}
+        type={null}
+        title={title}
+        subtitle={subtitle}
+        list={list}
+      />
+    );
 
     // todos
     return <div>{ps_gs}</div>;

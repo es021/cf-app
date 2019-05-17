@@ -2,7 +2,7 @@
 // Indicator
 
 const IsGruveoEnable = false;
-const IsNewHall = false;
+const IsNewHall = true;
 
 // Indicator
 // ###################################################

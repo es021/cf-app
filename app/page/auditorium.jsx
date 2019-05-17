@@ -97,8 +97,6 @@ export class WebinarHall extends React.Component {
   }
 
   renderList(d, i, isExtraData = false) {
-
-
     let img = <div className="hw-image" ><ProfileCard type="company"
       img_url={d.company.img_url} img_pos={d.company.img_pos}
       img_size={d.company.img_size}
@@ -152,13 +150,43 @@ export class WebinarHall extends React.Component {
       </a>
     } else {
       // Display Time
-      rightBox = <div className="hw-time">
-        <div>
-          <ToogleTimezone></ToogleTimezone>
-          <div style={{ fontSize: "15px" }}>{Time.getDate(d.start_time)}</div>
-          <div style={{ fontSize: "20px" }}>{Time.getStringShort(d.start_time)}</div>
+      var styleDate = { fontSize: "15px" }
+      var styleTime = { fontSize: "20px" }
+      // ToogleTimezone
+      const createBody = timeStr => {
+        return timeStr
+      };
+  
+      const createView = (body, toggler) => {
+        return <div className="hw-time">
+          {body} {toggler}
         </div>
-      </div>
+      };
+
+      rightBox = <ToogleTimezone
+        createDefaultTime={unix => {
+          return <div>
+            <div style={styleDate}>{Time.getDate(unix)}</div>
+            <div style={styleTime}>{Time.getStringShort(unix)}</div>
+          </div>
+        }}
+        createAlternateTime={unix => {
+          return <div>
+            <div style={styleDate}>{Time.getDateMas(unix)}</div>
+            <div style={styleTime}>{Time.getStringShortMas(unix)}</div>
+          </div>
+        }}
+        unixtimestamp={d.start_time}
+        createBody={createBody}
+        createView={createView}
+      /> 
+
+      // rightBox = <div className="hw-time">
+      //   <div>
+      //     <div style={{ fontSize: "15px" }}>{Time.getDate(d.start_time)}</div>
+      //     <div style={{ fontSize: "20px" }}>{Time.getStringShort(d.start_time)}</div>
+      //   </div>
+      // </div>
     }
 
     let v = <div className="hall-webinar">

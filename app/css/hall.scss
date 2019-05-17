@@ -116,7 +116,6 @@ $HWW_ACTION_SM: 100px;
             text-decoration: none;
         }
 
-
         .hw-action {
             .fa {
                 font-size: 45px;
@@ -126,8 +125,10 @@ $HWW_ACTION_SM: 100px;
         }
 
         .hw-time {
+            height: 100%;
             background: #e1e1e1;
             color: #3f3d3d;
+            flex-flow: column;
         }
     }
 

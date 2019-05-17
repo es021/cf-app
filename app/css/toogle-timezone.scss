@@ -1,7 +1,7 @@
 @import "define/variable.scss";
 
-$COLOR_LEFT : #2d2d9b;
-$COLOR_RIGHT : #c30b1a;
+$COLOR_LEFT : #c81d1d;
+$COLOR_RIGHT : #3a445d;
 
 @mixin as_dimension($parentWidth, $parentHeight,
     $sliderOffsetTranslate, $sliderDimension, $sliderLeft, $sliderBottom,
@@ -52,14 +52,14 @@ $COLOR_RIGHT : #c30b1a;
 //     13px // textFont
 // );
 
-@include as_dimension(50px, // parentWidth
+@include as_dimension(55px, // parentWidth
     24px, // parentHeight
-    2px, // sliderOffsetTranslate
+    5px, // sliderOffsetTranslate
     15px, // sliderDimension
     4px, // sliderLeft
     4px, // sliderBottom
-    4px 8px, // textPaddingLeft
-    4px 4px, // textPaddingRight
+    5px 8px, // textPaddingLeft
+    5px 7px, // textPaddingRight
     11px // textFont
 );
 .as-slider:hover{

@@ -6,7 +6,7 @@ require("../css/toogle-timezone.scss");
 export default class ToogleTimezone extends React.Component {
   constructor(props) {
     super(props);
-    let defaultTime = Time.getString(this.props.unixtimestamp);
+    let defaultTime = this.props.createDefaultTime(this.props.unixtimestamp);
 
     this.state = {
       isDefaultTime: false,
@@ -25,11 +25,11 @@ export default class ToogleTimezone extends React.Component {
       let newBody = null;
       if (prevState.isDefaultTime) {
         newBody = this.props.createBody(
-          Time.getString(this.props.unixtimestamp)
+          this.props.createDefaultTime(this.props.unixtimestamp)
         );
       } else {
         newBody = this.props.createBody(
-          Time.getStringMas(this.props.unixtimestamp)
+          this.props.createAlternateTime(this.props.unixtimestamp)
         );
       }
       return {
@@ -63,7 +63,9 @@ export default class ToogleTimezone extends React.Component {
 ToogleTimezone.propTypes = {
   unixtimestamp: PropTypes.any.isRequired,
   createBody: PropTypes.func,
-  createView: PropTypes.func
+  createView: PropTypes.func,
+  createDefaultTime: PropTypes.func,
+  createAlternateTime: PropTypes.func
 };
 
 ToogleTimezone.defaultProps = {};
