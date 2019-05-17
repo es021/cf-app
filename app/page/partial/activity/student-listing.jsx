@@ -578,9 +578,12 @@ export class StudentListing extends React.Component {
   getContentBelowFilter() {
     console.log("getContentBelowFilter", this.state.search)
     //let hasFilter = typeof this.searchParams === "string" && this.searchParams != ""
-    
-    return <ButtonExport action="student_listing" text="Export All Interested Candidates"
-      filter={{ company_id: this.props.company_id, cf: getCF(), for_rec : "1" }}>
+    // todos
+    let cId = (this.props.isAllStudent) ? -1 : this.props.company_id;
+    let label = (this.props.isAllStudent) ? "Export All Students" : "Export All Interested Candidates";
+
+    return <ButtonExport action="student_listing" text={label}
+      filter={{ company_id: cId, cf: getCF(), for_rec : "1" }}>
     </ButtonExport>;
   }
   render() {
