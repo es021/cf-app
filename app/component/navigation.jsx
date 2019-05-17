@@ -364,7 +364,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
-      disabled: !isRoleRec() && !isRoleStudent()
+      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
     },
     {
       url: "/overview",

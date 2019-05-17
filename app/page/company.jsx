@@ -25,7 +25,9 @@ import { addLog } from "../redux/actions/other-actions";
 import { getFeedbackPopupView } from "./partial/analytics/feedback";
 import { GroupSessionView } from "./partial/hall/group-session";
 import { Gallery, isGalleryIframe } from "../component/gallery";
-import ValidationStudentAction from "../component/validation-student-action";
+import ValidationStudentAction, {
+  ValidationSource
+} from "../component/validation-student-action";
 import { BANNER_HEIGHT, BANNER_WIDTH } from "../component/profile-card-img";
 import { getStyleBannerObj } from "../component/profile-card";
 import ActionBox from "../component/action-box";
@@ -510,21 +512,36 @@ export default class CompanyPage extends Component {
         <div className={`col-md-4`}>
           <ActionBox
             key={this.state.qsLastSubmitted}
-            title={<div><i className="fa fa-bullhorn left"></i><b>Ask Us A Question</b></div>}
+            title={
+              <div>
+                <i className="fa fa-bullhorn left" />
+                <b>Ask Us A Question</b>
+              </div>
+            }
             isQuestion={true}
             qs_onSubmit={qs_onSubmit}
           />
         </div>
         <div className={`col-md-4`}>
           <ActionBox
-            title={<div><i className="fa fa-download left"></i><b>Drop Your Resume</b></div>}
+            title={
+              <div>
+                <i className="fa fa-download left" />
+                <b>Drop Your Resume</b>
+              </div>
+            }
             isButton={true}
             btn_onClick={btn_onClickResume}
           />
         </div>
         <div className={`col-md-4`}>
           <ActionBox
-            title={<div><i className="fa fa-comments left"></i><b>Chat With Recruiter</b></div>}
+            title={
+              <div>
+                <i className="fa fa-comments left" />
+                <b>Chat With Recruiter</b>
+              </div>
+            }
             isNavLink={true}
             navlink_url={`${AppPath}/company-chat/${this.ID}`}
           />
@@ -700,6 +717,7 @@ export default class CompanyPage extends Component {
         <div className="company-page">
           {this.getBanner()}
           <ValidationStudentAction
+            source={ValidationSource.DROP_RESUME}
             key={this.state.keyValidation}
             isHidden={this.state.isHiddenValidation}
             successHandler={() => this.openResumeDrop()}

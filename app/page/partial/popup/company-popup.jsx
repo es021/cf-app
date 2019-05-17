@@ -33,7 +33,7 @@ import { addLog } from "../../../redux/actions/other-actions";
 import { getFeedbackPopupView } from "../analytics/feedback";
 import { GroupSessionView } from "../hall/group-session";
 import { Gallery, isGalleryIframe } from "../../../component/gallery";
-import ValidationStudentAction from "../../../component/validation-student-action";
+import ValidationStudentAction, { ValidationSource } from "../../../component/validation-student-action";
 import ActionBox from "../../../component/action-box";
 
 // #################################################################
@@ -710,6 +710,7 @@ export default class CompanyPopup extends Component {
       ) : (
         <div>
           <ValidationStudentAction
+            source={ValidationSource.DROP_RESUME}
             key={this.state.keyValidation}
             isHidden={this.state.isHiddenValidation}
             successHandler={() => this.openResumeDrop()}
