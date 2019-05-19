@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react";
 import { NavLink } from "react-router-dom";
 import GeneralFormPage from "../../../component/general-form";
-import { ButtonExport } from '../../../component/buttons';
+import { ButtonExport } from '../../../component/buttons.jsx';
 
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import {

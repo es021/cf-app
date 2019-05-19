@@ -3,7 +3,7 @@ import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, checkDiff, getDataCareerFair } from '../component/form';
 import { Session, Prescreen, PrescreenEnum, UserMeta, User, Vacancy, VacancyEnum, UserEnum, Skill } from '../../config/db-config';
 import { Company, CompanyEnum, DocLink, DocLinkEnum } from '../../config/db-config';
-import { ButtonLink } from '../component/buttons';
+import { ButtonLink } from '../component/buttons.jsx';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin, getCFObj } from '../redux/actions/auth-actions';

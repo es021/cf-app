@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ImgConfig } from "../../config/app-config";
 import PropTypes from "prop-types";
-import { ButtonIcon } from "./buttons";
+import { ButtonIcon } from "./buttons.jsx";
 import * as layoutActions from "../redux/actions/layout-actions";
 
 import ProfileCardImg, {

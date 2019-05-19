@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import Chat from "./partial/session/chat.jsx";
-import { SupportUserID } from "../../config/app-config";
+import { SupportUserID, RootPath } from "../../config/app-config";
 import { SupportSession, LogEnum } from "../../config/db-config";
 import {
   getAuthUser,
   isRoleStudent,
   isRoleRec
 } from "../redux/actions/auth-actions";
+import { NavLink } from "react-router-dom";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Loader } from "../component/loader";
 import CompaniesSection from "./partial/hall/companies";
@@ -84,9 +85,9 @@ export class CompanyChatStarter extends React.Component {
         <div className="col-sm-6 text-left">
           <h4>While you're waiting...</h4>
           <ul style={{ paddingLeft: "40px" }} className="normal text-muted">
-            <li>Remember to research the job that you're going to talk about.</li>
+            <li>Remember to research about <NavLink target="_blank" to={`${RootPath}/app/company/${this.ID}`}>{this.state.company.first_name}</NavLink></li>
             <li>Waiting time may vary, so be patient with response time.</li>
-            <li>Your conversation will be saved in your inbox.</li>
+            <li>This conversation will be saved in  <NavLink target="_blank" to={`${RootPath}/app/my-inbox`}>your inbox.</NavLink></li>
           </ul>
         </div>
       );
@@ -96,6 +97,7 @@ export class CompanyChatStarter extends React.Component {
   }
 
   render() {
+    document.setTitle(`Chat With ${this.state.company.first_name}`);
     return <div className="company-chat-student">{this.getChatBox()}</div>;
   }
 }
@@ -114,6 +116,9 @@ export class CompanyChatInbox extends React.Component {
     this.getChatList = this.getChatList.bind(this);
     this.changeChat = this.changeChat.bind(this);
     this.loadChatList = this.loadChatList.bind(this);
+
+    this.isChangeChat = false;
+    this.chatListBody = null;
 
     this.authUser = getAuthUser();
     if (isRoleStudent()) {
@@ -194,7 +199,7 @@ export class CompanyChatInbox extends React.Component {
         _type: "company",
         ID: data.company.ID,
         first_name: data.company.name,
-        name : data.company.name, // needed to create company title link
+        name: data.company.name, // needed to create company title link
         last_name: "",
         img_url: data.company.img_url,
         img_pos: data.company.img_pos,
@@ -300,6 +305,7 @@ export class CompanyChatInbox extends React.Component {
   }
 
   changeChat(user_id) {
+    this.isChangeChat = true;
     var keyId = this.getKey(user_id);
     this.setState(prevState => {
       prevState.sessions[keyId].isNew = false;
@@ -307,11 +313,45 @@ export class CompanyChatInbox extends React.Component {
     });
   }
 
+  getEntityKey(d) {
+    let dataTemp = this.getEntityObj(d);
+    return this.getKey(dataTemp.entity.ID);
+  }
+
+  getOrderArr() {
+    let toRet = [];
+    let objectOrder = {};
+    for (var key in this.state.sessions) {
+      var d = this.state.sessions[key];
+      let orderKey = "order" + Time.convertDBTimeToUnix(d.last_message_time) + "::" + d.support_id;
+
+      objectOrder[orderKey] = d;
+    }
+
+    let keys = Object.keys(objectOrder);
+    keys.sort();
+
+    // sort desc
+    for (var i = keys.length - 1; i >= 0; i--) {
+      let d = objectOrder[keys[i]];
+      let chatKey = this.getEntityKey(d);
+      toRet.push(chatKey);
+    }
+
+    return toRet;
+
+  }
+
   getChatList() {
     var view = [];
-    console.log(this.state.sessions);
-    for (var i in this.state.sessions) {
-      var d = this.state.sessions[i];
+
+    // order by last message time
+    let orderArr = this.getOrderArr();
+
+    //for (var i in this.state.sessions) {
+    for (var i in orderArr) {
+      let key = orderArr[i];
+      var d = this.state.sessions[key];
       var title = d.entity._type == "user"
         ? createUserTitle(d.entity)
         : createCompanyTitle(d.entity);
@@ -336,7 +376,7 @@ export class CompanyChatInbox extends React.Component {
 
       view.push(
         <div
-          key={i}
+          key={key}
           id={d.entity.ID}
           className={"forum chat-list"}
           onClick={ev => {
@@ -381,6 +421,14 @@ export class CompanyChatInbox extends React.Component {
     return view;
   }
 
+  componentDidUpdate() {
+    if (!this.isChangeChat) {
+      this.chatListBody.scrollTop = 0;
+    }
+
+    this.isChangeChat = false;
+  }
+
   render() {
     document.setTitle("Inbox");
     var view = null;
@@ -402,13 +450,18 @@ export class CompanyChatInbox extends React.Component {
         view = this.getEmptyState();
       } else {
         view.push(
-          <div className="col-sm-6 ">
-            <h4>
-              Inbox
-                <br />
-              {newBtn}
-            </h4>
-            {this.getChatList()}
+          <div className="col-sm-6">
+            <div id="chat-list">
+              <div className="cl-header">
+                <div className="clh-title">
+                  Inbox
+                </div>
+                {newBtn}
+              </div>
+              <div className="cl-body" ref={(v) => this.chatListBody = v} >
+                {this.getChatList()}
+              </div>
+            </div>
           </div>
         );
         view.push(<div className="col-sm-6 ">{this.getChatBox()}</div>);

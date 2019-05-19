@@ -1,4 +1,10 @@
 -- ##################################
+-- Create Reserved company Id to avoid clash in support_session
+
+INSERT INTO `companies` (`ID`, `name`, `tagline`, `description`, `more_info`, `img_url`, `img_position`, `img_size`, `banner_url`, `banner_position`, `banner_size`, `status`, `rec_privacy`, `sponsor_only`, `type`, `is_confirmed`, `group_url`, `accept_prescreen`, `priviledge`, `created_at`, `updated_at`) 
+VALUES ('681', 'ReservedForSupportId', NULL, NULL, NULL, NULL, 'center center', NULL, NULL, 'center center', NULL, 'Open', '0', '0', '4', '0', NULL, '0', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- ##################################
 -- Company Chat ( Support Session Table )
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";

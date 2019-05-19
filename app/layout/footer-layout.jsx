@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppConfig, ImgConfig } from '../../config/app-config';
-import { ButtonIcon } from '../component/buttons';
+import { ButtonIcon } from '../component/buttons.jsx';
 import { getCFOrg } from '../redux/actions/auth-actions';
 
 //import {openNewTab} from '../lib/util';

@@ -14,7 +14,7 @@ import {
   EntityRemoved,
   GroupSessionJoin
 } from "../../../../config/db-config";
-import { ButtonLink } from "../../../component/buttons";
+import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
 import { Time } from "../../../lib/time";
 import { showNotification } from "../../../lib/notification";

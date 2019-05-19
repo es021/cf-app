@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { ButtonLink, ButtonExport } from '../component/buttons';
+import { ButtonLink, ButtonExport } from '../component/buttons.jsx';
 import GeneralFormPage from '../component/general-form';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { getCF } from '../redux/actions/auth-actions';

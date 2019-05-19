@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AppConfig, ImgConfig, RootPath } from "../../config/app-config";
 import { getCFObj, getAuthUser, isAuthorized } from "../redux/actions/auth-actions";
-import { ButtonIcon } from "../component/buttons";
+import { ButtonIcon } from "../component/buttons.jsx";
 import { createImageElement } from '../component/profile-card.jsx';
 import { NavLink } from "react-router-dom";
 
@@ -19,10 +19,6 @@ export default class HeaderLayout extends React.Component {
         img_url={authUser.img_url} img_pos={authUser.img_pos} img_size={authUser.img_size}
         body={null}></ProfileCard> */}
     </NavLink> : null;
-
-
-    console.log("authUser", authUser);
-    console.log("authUser", authUser);
 
     return (
       <header>

@@ -5,13 +5,20 @@
 $THEME_1: $COLOR_DARK;
 $THEME_2:$COLOR_HEADER_LINK;
 
+$CHAT_HEIGHT_HEADER : 64px;
+$CHAT_HEIGHT_BODY : 315px;
+$CHAT_HEIGHT_TEXT_BOX : 80px;
+$CHAT_HEIGHT_TOTAL : $CHAT_HEIGHT_HEADER+$CHAT_HEIGHT_BODY+$CHAT_HEIGHT_TEXT_BOX;
+
 $MARGIN: 30%;
+
 #chat {
     margin: auto;
     margin-bottom: 20px;
+
     .chat-header {
 
-        .profile-card.profile-li{
+        .profile-card.profile-li {
             grid-template-columns: 1fr 8fr;
             grid-template-rows: 1fr 1fr;
         }
@@ -20,12 +27,12 @@ $MARGIN: 30%;
         color: white;
         display: flex;
         flex-wrap: wrap;
-        
+
         a {
             color: white;
         }
 
-        .ch-action{
+        .ch-action {
             position: absolute;
             right: 22px;
             top: 40px;
@@ -37,37 +44,44 @@ $MARGIN: 30%;
                 right: 9px;
             }
         }
-        .ch-info {
 
+        .ch-info {
+            height: $CHAT_HEIGHT_HEADER;
             //.profile-card.profile-li {
-                //grid-template-columns : 1fr 6fr;
+            //grid-template-columns : 1fr 6fr;
             //}
-            
+
             .profile-card {
                 margin: 7px 8px;
-                .pc-picture{
+
+                .pc-picture {
                     margin-right: 10px;
                 }
+
                 .pc-title,
                 .pc-subtitle {
                     color: white;
                 }
             }
+
             flex-grow: 3;
         }
     }
+
     .chat-box {
         border: 1px solid $THEME_1;
         border-bottom: none;
-        height: 315px;
+        height: $CHAT_HEIGHT_BODY;
         overflow-y: scroll;
         padding: 10px 5px;
         margin: 0;
+
         .chat-item {
             text-align: left;
             margin: 5px 0px;
             padding: 4px 2px;
             padding: 5px;
+
             .timestamp {
                 font-size: 9px;
                 display: block;
@@ -75,33 +89,40 @@ $MARGIN: 30%;
                 color: gray;
             }
         }
+
         .chat-item:last-of-type {
             margin-bottom: 10px;
         }
+
         .self-item {
             margin-left: $MARGIN;
             background: white;
             color: $THEME_1;
             border: solid 1px $THEME_1;
         }
+
         .other-item {
             margin-right: $MARGIN;
             background: $THEME_1;
             border: solid 1px $THEME_1;
             color: white;
+
             a,
             a:hover {
                 opacity: 0.9;
                 color: white;
                 text-decoration: underline;
             }
+
             a:hover {
                 opacity: 1;
             }
+
             .timestamp {
                 color: $THEME_2;
             }
         }
+
         .special-item {
             display: table;
             margin: auto;
@@ -114,20 +135,50 @@ $MARGIN: 30%;
             text-align: center;
         }
     }
+
     .chat-input {
+        height: $CHAT_HEIGHT_TEXT_BOX;
         display: flex;
+
         textarea {
             flex-grow: 3;
             padding: 3px 5px;
         }
+
         button {
             background-color: $THEME_1;
         }
-        button:hover{
-            background-color: darken($THEME_1,10);
+
+        button:hover {
+            background-color: darken($THEME_1, 10);
         }
-        button:active{
+
+        button:active {
             background-color: $THEME_1;
         }
+    }
+}
+
+
+#chat-list {
+    border: solid 1px $THEME_1;
+    height: $CHAT_HEIGHT_TOTAL;
+
+    .cl-header {
+        text-align: left;
+        padding: 10px;
+        background: $THEME_1;
+        height: $CHAT_HEIGHT_HEADER;
+        color: white;
+
+        .clh-title {
+            font-size: 16px;
+        }
+    }
+
+    .cl-body {
+        height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX;
+        overflow: scroll;
+
     }
 }

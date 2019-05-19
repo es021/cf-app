@@ -114,3 +114,30 @@ import {
 document.setTitle = function (title) {
     document.title = `${getCF()} | ${title}`;
 };
+
+
+// #############################################################
+
+console.error = function (err, err2, err3, err4, err5) {
+    let discardArr = ["Warning:"];
+
+    for (var i in discardArr) {
+      if (err.indexOf(discardArr[i]) == 0) {
+        //console.log("discard error logging");
+        return;
+      }
+    }
+
+    let otherErrs = [err2, err3, err4, err5];
+
+    let color = "color: #FE0505";
+    console.log("%c" + err, color);
+    err = err.toString();
+
+    for (var i in otherErrs) {
+      if (typeof otherErrs[i] !== "undefined") {
+        console.log("%c" + otherErrs[i], color);
+        err += " " + otherErrs[i].toString();
+      }
+    }
+  };

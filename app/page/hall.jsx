@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { CustomList, createIconLink } from "../component/list";
+import { ButtonArrowAction } from "../component/buttons.jsx";
 import { NavLink } from "react-router-dom";
 
 import PageSection from "../component/page-section";
@@ -20,7 +21,7 @@ import {
   getAuthUser
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
-import { setBodyFullWidth , unsetBodyFullWidth} from "../../helper/general-helper";
+import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
 
 require("../css/hall.scss");
 
@@ -164,6 +165,52 @@ export default class HallPage extends React.Component {
     );
   }
 
+  goLiveOnClick(isInner) {
+    if (isInner) {
+      this.isCheckWhenLive = true;
+      console.log("check when");
+    } else if (!this.isCheckWhenLive) {
+      console.log("go live for REAL");
+    }
+
+    if(!isInner){
+      this.isCheckWhenLive = false;
+    }
+  }
+
+  getRecruiterAction() {
+    let minWidth = "300px";
+
+    //  ts-outline
+    return <div className="title-sectaion">
+      <div className="main-width">
+
+        <NavLink className="btn btn-lg btn-success btn-action"
+          to={`${RootPath}/app/my-activity/student-listing`}>
+          <i className="fa fa-3x fa-users"></i>
+          <br></br>
+          <b>Interested Candidates</b>
+          <br></br>
+          <small>See who's interested in {this.authUser.company.name}</small>
+        </NavLink>
+
+        <div className="btn btn-lg btn-danger btn-action"
+          onClick={() => { this.goLiveOnClick(false);  }}>
+          <i className="fa fa-3x fa-podcast"></i>
+          <br></br>
+          <b>Go Live</b>
+          <br></br>
+          <small>
+            <div
+              onClick={() => { this.goLiveOnClick(true); }}
+              className="inner-link">When are you live?</div>
+          </small>
+        </div>
+
+      </div >
+    </div >
+  }
+
   render() {
     document.setTitle("Career Fair");
 
@@ -172,6 +219,7 @@ export default class HallPage extends React.Component {
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
+        {isRoleRec() ? this.getRecruiterAction() : null}
         {this.getActivityAndWebinar()}
         {isRoleStudent() ? this.getCompanyBooth() : null}
       </div>

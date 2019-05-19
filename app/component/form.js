@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Loader } from './loader';
-import { ButtonLink } from './buttons';
+import { ButtonLink } from './buttons.jsx';
 import { ImgConfig } from '../../config/app-config';
 import { getAllCF } from '../redux/actions/auth-actions';
 

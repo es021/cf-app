@@ -8,7 +8,7 @@ import { Loader } from '../../../component/loader';
 import obj2arg from "graphql-obj2arg";
 import ProfileCard from '../../../component/profile-card.jsx';
 import { Prescreen, PrescreenEnum, SessionRequestEnum, EntityRemoved, GroupSessionJoin } from '../../../../config/db-config';
-import { ButtonLink } from '../../../component/buttons';
+import { ButtonLink } from '../../../component/buttons.jsx';
 import { ProfileListItem } from '../../../component/list';
 import { Time } from '../../../lib/time';
 import { showNotification } from '../../../lib/notification';

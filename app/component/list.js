@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ButtonLink } from './buttons';
+import { ButtonLink } from './buttons.jsx';
 import { Loader } from './loader';
 import PropTypes from 'prop-types';
 import Tooltip from './tooltip';

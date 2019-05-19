@@ -5,7 +5,7 @@ import {
     UserMeta,
     UserEnum
 } from './db-config';
-import { ButtonLink } from '../app/component/buttons';
+import { ButtonLink } from '../app/component/buttons.jsx';
 import { getDataCareerFair } from '../app/component/form';
 import { DocumentUrl } from './app-config';
 import { Month, Year, Sponsor, MasState, Country } from './data-config';

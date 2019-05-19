@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getXLSUrl } from '../redux/actions/other-actions';
+import { NavLink } from "react-router-dom";
 
 require("../css/buttons.scss");
 
@@ -12,9 +13,9 @@ export class ButtonExport extends React.Component {
 
     render() {
         var style = {
-            marginBottom : "5px"
+            marginBottom: "5px"
         }
-        return (<a style={style}className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>
+        return (<a style={style} className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>
             {this.props.text}
         </a>);
     }
@@ -29,6 +30,7 @@ ButtonExport.propsType = {
 ButtonExport.defaultProps = {
     text: "Export Data"
 };
+
 
 export class ButtonLink extends React.Component {
     constructor(props) {

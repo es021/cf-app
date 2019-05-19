@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import ProfileCard from "../../../component/profile-card.jsx";
-import { ButtonLink } from "../../../component/buttons";
+import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
 import { RootPath, IsGruveoEnable } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";

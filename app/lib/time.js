@@ -171,6 +171,10 @@ Time.prototype.getUnixTimestampNow = function () {
 Time.prototype.convertDBTimeToUnix = function (db_time) {
     //return Date.parse(db_time) / 1000;
 
+    if(typeof db_time !== "string"){
+        return db_time
+    }
+
     function stripAll(str, arr) {
         for (var i in arr) {
             str = str.replace(arr[i], "");

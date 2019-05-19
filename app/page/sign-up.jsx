@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Form, { toggleSubmit, getDataCareerFair } from '../component/form';
 import { UserMeta, User, UserEnum } from '../../config/db-config';
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
-//import { ButtonLink } from '../component/buttons';
+//import { ButtonLink } from '../component/buttons.jsx';
 import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
 import { RootPath, DocumentUrl, LandingUrl } from '../../config/app-config';
 import AvailabilityView from './availability';

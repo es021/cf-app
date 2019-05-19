@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { BOTH } from '../../../../config/socket-config';
 import { emitChatMessage, socketOn, emitHallActivity } from '../../../socket/socket-client';
 
-//import { ButtonLink } from '../../../component/buttons';
+//import { ButtonLink } from '../../../component/buttons.jsx';
 //import UserPopup from '../popup/user-popup';
 //import { Redirect, NavLink } from 'react-router-dom';
 

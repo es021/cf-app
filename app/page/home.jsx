@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ButtonLink} from '../component/buttons';
+import {ButtonLink} from '../component/buttons.jsx';
 import LoginPage from './login';
 
 import {RootPath, AppConfig} from '../../config/app-config';

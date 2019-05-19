@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { DocLinkEnum, LogEnum } from "../../config/db-config";
-import { ButtonIcon } from "./buttons";
+import { ButtonIcon } from "./buttons.jsx";
 import { getParamUrl, scrollToX } from "../lib/util";
 import { addLog } from "../redux/actions/other-actions";
 

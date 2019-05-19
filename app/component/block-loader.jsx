@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as layoutActions from '../redux/actions/layout-actions';
 import { store } from '../redux/store';
-import { ButtonIcon } from './buttons';
+import { ButtonIcon } from './buttons.jsx';
 import { Loader } from './loader';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';

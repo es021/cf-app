@@ -10,7 +10,7 @@ import {
   BANNER_HEIGHT
 } from "../../../component/profile-card-img";
 import { CompanyEnum } from "../../../../config/db-config";
-import { ButtonLink } from "../../../component/buttons";
+import { ButtonLink } from "../../../component/buttons.jsx";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import Tooltip from "../../../component/tooltip";
 

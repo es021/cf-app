@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import ProfileCard from '../../../component/profile-card.jsx';
 import { CompanyEnum } from '../../../../config/db-config';
-import { ButtonLink } from '../../../component/buttons';
+import { ButtonLink } from '../../../component/buttons.jsx';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import Tooltip from '../../../component/tooltip';
 

@@ -54,8 +54,8 @@ class VacancyList extends React.Component {
     return getAxiosGraphQLQuery(`
         query{
             vacancies(company_id:${
-              this.props.company_id
-            }, page:${page}, offset:${offset}){
+      this.props.company_id
+      }, page:${page}, offset:${offset}){
                 ID
                 title
                 type
@@ -511,19 +511,6 @@ export default class CompanyPage extends Component {
       <div className="row" style={{ marginTop: "15px" }}>
         <div className={`col-md-4`}>
           <ActionBox
-            key={this.state.qsLastSubmitted}
-            title={
-              <div>
-                <i className="fa fa-bullhorn left" />
-                <b>Ask Us A Question</b>
-              </div>
-            }
-            isQuestion={true}
-            qs_onSubmit={qs_onSubmit}
-          />
-        </div>
-        <div className={`col-md-4`}>
-          <ActionBox
             title={
               <div>
                 <i className="fa fa-download left" />
@@ -544,6 +531,19 @@ export default class CompanyPage extends Component {
             }
             isNavLink={true}
             navlink_url={`${AppPath}/company-chat/${this.ID}`}
+          />
+        </div>
+        <div className={`col-md-4`}>
+          <ActionBox
+            key={this.state.qsLastSubmitted}
+            title={
+              <div>
+                <i className="fa fa-bullhorn left" />
+                <b>Ask Us A Question</b>
+              </div>
+            }
+            isQuestion={true}
+            qs_onSubmit={qs_onSubmit}
           />
         </div>
       </div>
@@ -583,13 +583,17 @@ export default class CompanyPage extends Component {
   // }
 
   render() {
+
     var id = null;
     var data = this.state.data;
     var view = null;
 
+
     if (this.state.loading) {
       view = <Loader size="3" text="Loading Company Information..." />;
     } else {
+      document.setTitle(`${data.name}`);
+
       const vacancies = this.getVacancies(data.ID);
       const recs = this.getRecs(data.recruiters, data.rec_privacy);
       const doc_link = this.getDocLinks(data.doc_links);
@@ -714,29 +718,29 @@ export default class CompanyPage extends Component {
           {leftBody}
         </div>
       ) : (
-        <div className="company-page">
-          {this.getBanner()}
-          <ValidationStudentAction
-            source={ValidationSource.DROP_RESUME}
-            key={this.state.keyValidation}
-            isHidden={this.state.isHiddenValidation}
-            successHandler={() => this.openResumeDrop()}
-          />
-          <div className="main-width main-width-lg container-fluid">
-            <div className="row">
-              <div className="col-md-3 com-pop-left">
-                <div className="com-pop-pic">{profilePic}</div>
-                {rightBody}
+          <div className="company-page">
+            {this.getBanner()}
+            <ValidationStudentAction
+              source={ValidationSource.DROP_RESUME}
+              key={this.state.keyValidation}
+              isHidden={this.state.isHiddenValidation}
+              successHandler={() => this.openResumeDrop()}
+            />
+            <div className="main-width main-width-lg container-fluid">
+              <div className="row">
+                <div className="col-md-3 com-pop-left">
+                  <div className="com-pop-pic">{profilePic}</div>
+                  {rightBody}
+                </div>
+                <div className="col-md-9">{leftBody}</div>
               </div>
-              <div className="col-md-9">{leftBody}</div>
-            </div>
-            <div>
-              <br />
-              <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+              <div>
+                <br />
+                <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
     }
 
     return view;

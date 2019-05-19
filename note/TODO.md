@@ -4,19 +4,19 @@
 
 # Pending
 - Log Error in api-helper alert() : create new db
-- Manage Hall Gallery
+# - Manage Hall Gallery
 - Inbox
-    - design inbox list better (cater too many items in list)
+# - design inbox list better (cater too many items in list)
     - notification (new messages)
 - Company Page
     - Go Live feature - how to create?
     - Rsvp go live (for student)
 - Hall 
-    - Time converter
+# - Time converter
     - Action button for recruiter
 - Hall Gallery
     - video clickable
-    - admin manage page
+# - admin manage page
 - daily.co
 
 

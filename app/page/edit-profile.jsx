@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Form, { toggleSubmit, checkDiff } from '../component/form';
 import { UserMeta, User, UserEnum, Skill, DocLink, DocLinkEnum } from '../../config/db-config';
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
-//import { ButtonLink } from '../component/buttons';
+//import { ButtonLink } from '../component/buttons.jsx';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import { getAuthUser, isRoleRec, isRoleStudent, updateAuthUser } from '../redux/actions/auth-actions';

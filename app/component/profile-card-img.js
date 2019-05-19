@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ButtonIcon } from './buttons';
+import { ButtonIcon } from './buttons.jsx';
 import { Uploader, uploadFile, FileType } from './uploader';
 import Form, { toggleSubmit, checkDiff } from './form';
 import { User, UserMeta } from '../../config/db-config';
