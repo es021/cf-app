@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Auditorium, AuditoriumEnum } from "../../config/db-config";
+import { AppPath } from "../../config/app-config";
 import List, { ProfileListWide } from "../component/list";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
+import { NavLink } from "react-router-dom";
 
 import GeneralFormPage from "../component/general-form";
 import ProfileCard from "../component/profile-card.jsx";
@@ -48,7 +50,6 @@ export class WebinarHall extends React.Component {
       this.addFeedToView(data);
     });
   }
-
 
   // ##############################################################
   // function for list
@@ -97,33 +98,50 @@ export class WebinarHall extends React.Component {
   }
 
   renderList(d, i, isExtraData = false) {
-    let img = <div className="hw-image" ><ProfileCard type="company"
-      img_url={d.company.img_url} img_pos={d.company.img_pos}
-      img_size={d.company.img_size}
-      img_dimension={"65px"}
-      className={"with-border"}
-      body={null}></ProfileCard></div>
+    let img = (
+      <div className="hw-image">
+        <ProfileCard
+          type="company"
+          img_url={d.company.img_url}
+          img_pos={d.company.img_pos}
+          img_size={d.company.img_size}
+          img_dimension={"65px"}
+          className={"with-border"}
+          body={null}
+        />
+      </div>
+    );
 
     let detailStyle = {
       fontSize: "14px",
       textAlign: "left"
-    }
-    let companyName = isRoleRec() ? d.company.name : 
-    <a onClick={() =>
-        layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
-          id: d.company.ID,
-          toggleable: false
-        })
-      }
-    >{d.company.name}</a>
+    };
     
-    let details = <div className="hw-details" style={detailStyle}>
-      <b>{d.title}</b><br></br>
-      <small>
-        {"with "}
-        {companyName}
-      </small>
-    </div>
+    let companyName = isRoleRec() ? (
+      d.company.name
+    ) : (
+      <NavLink to={`${AppPath}/company/${d.company.ID}`}>
+        {d.company.name}
+      </NavLink>
+    );
+    // <a onClick={() =>
+    //     layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
+    //       id: d.company.ID,
+    //       toggleable: false
+    //     })
+    //   }
+    // >{d.company.name}</a>
+
+    let details = (
+      <div className="hw-details" style={detailStyle}>
+        <b>{d.title}</b>
+        <br />
+        <small>
+          {"with "}
+          {companyName}
+        </small>
+      </div>
+    );
 
     var action_disabled = true;
     var action_link = "";
@@ -133,53 +151,77 @@ export class WebinarHall extends React.Component {
       // Has Recorded Video
       action_disabled = false;
       action_link = d.recorded_link;
-      action_text = <span><i className="fa fa-play-circle"></i><br></br>Watch</span>;
+      action_text = (
+        <span>
+          <i className="fa fa-play-circle" />
+          <br />Watch
+        </span>
+      );
       action_color = "danger";
     } else if (d.link != null && d.link != "") {
       // Has Join Link
       action_disabled = false;
       action_link = d.link;
-      action_text = <span><i className="fa fa-sign-in"></i><br></br>Join Now</span>;
+      action_text = (
+        <span>
+          <i className="fa fa-sign-in" />
+          <br />Join Now
+        </span>
+      );
       action_color = "success";
     }
 
     let rightBox = null;
     if (!action_disabled) {
-      rightBox = <a className={`hw-action btn-${action_color}`} href={action_link} target="_blank">
-        {action_text}
-      </a>
+      rightBox = (
+        <a
+          className={`hw-action btn-${action_color}`}
+          href={action_link}
+          target="_blank"
+        >
+          {action_text}
+        </a>
+      );
     } else {
       // Display Time
-      var styleDate = { fontSize: "15px" }
-      var styleTime = { fontSize: "20px" }
+      var styleDate = { fontSize: "15px" };
+      var styleTime = { fontSize: "20px" };
       // ToogleTimezone
       const createBody = timeStr => {
-        return timeStr
-      };
-  
-      const createView = (body, toggler) => {
-        return <div className="hw-time">
-          {body} {toggler}
-        </div>
+        return timeStr;
       };
 
-      rightBox = <ToogleTimezone
-        createDefaultTime={unix => {
-          return <div>
-            <div style={styleDate}>{Time.getDate(unix)}</div>
-            <div style={styleTime}>{Time.getStringShort(unix)}</div>
+      const createView = (body, toggler) => {
+        return (
+          <div className="hw-time">
+            {body} {toggler}
           </div>
-        }}
-        createAlternateTime={unix => {
-          return <div>
-            <div style={styleDate}>{Time.getDateMas(unix)}</div>
-            <div style={styleTime}>{Time.getStringShortMas(unix)}</div>
-          </div>
-        }}
-        unixtimestamp={d.start_time}
-        createBody={createBody}
-        createView={createView}
-      /> 
+        );
+      };
+
+      rightBox = (
+        <ToogleTimezone
+          createDefaultTime={unix => {
+            return (
+              <div>
+                <div style={styleDate}>{Time.getDate(unix)}</div>
+                <div style={styleTime}>{Time.getStringShort(unix)}</div>
+              </div>
+            );
+          }}
+          createAlternateTime={unix => {
+            return (
+              <div>
+                <div style={styleDate}>{Time.getDateMas(unix)}</div>
+                <div style={styleTime}>{Time.getStringShortMas(unix)}</div>
+              </div>
+            );
+          }}
+          unixtimestamp={d.start_time}
+          createBody={createBody}
+          createView={createView}
+        />
+      );
 
       // rightBox = <div className="hw-time">
       //   <div>
@@ -189,22 +231,28 @@ export class WebinarHall extends React.Component {
       // </div>
     }
 
-    let v = <div className="hall-webinar">
-      {img}
-      {details}
-      {rightBox}
-    </div>
+    let v = (
+      <div className="hall-webinar">
+        {img}
+        {details}
+        {rightBox}
+      </div>
+    );
     return v;
   }
 
   render() {
-    var title = <a onClick={() => {
-      this.setState((prevState) => {
-        return { key: prevState.key + 1 }
-      })
-    }}>
-      Webinar
-    </a>
+    var title = (
+      <a
+        onClick={() => {
+          this.setState(prevState => {
+            return { key: prevState.key + 1 };
+          });
+        }}
+      >
+        Webinar
+      </a>
+    );
 
     let subtitle = null;
     let body = (
@@ -249,7 +297,7 @@ export class AuditoriumFeed extends React.Component {
     this.offset = 10;
 
     this.state = {
-      extraData: [],
+      extraData: []
     };
 
     this.hasUpNext = false;

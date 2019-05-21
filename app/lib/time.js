@@ -1,4 +1,8 @@
-var Time = function () {};
+var Time = function () {
+    this.ALT_TIMEZONE_SHORT = "MYT";
+    this.ALTERNATE_TIMEZONE = "Asia/Kuala_Lumpur";
+    // this.ALTERNATE_TIMEZONE = "America/Sitka";
+};
 
 Time.prototype.getDateDay = function (unixtimestamp) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
@@ -24,7 +28,7 @@ Time.prototype.getDateDay = function (unixtimestamp) {
     return `${date.getFullYear()}-${m}-${d}`;
 }
 
-Time.prototype.getDateDayStr = function (unixtimestamp) {
+Time.prototype.getDateDayStr = function (unixtimestamp, isTimezoneMas) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
@@ -33,10 +37,21 @@ Time.prototype.getDateDayStr = function (unixtimestamp) {
         unixtimestamp = this.getUnixTimestampNow();
     }
 
+    isTimezoneMas = typeof isMas === "undefined" ? false : isTimezoneMas;
+
     var date = new Date(unixtimestamp * 1000);
+    if (isTimezoneMas === true) {
+        date = this.convertToAlternateTimezone(date);
+    }
+
     var arr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return arr[date.getDay()];
 }
+
+Time.prototype.getDateDayStrMas = function (unixtimestamp) {
+    return this.getDateDayStr(unixtimestamp, true);
+}
+
 
 Time.prototype.getDateTime = function (unixtimestamp, format12H) {
 
@@ -171,7 +186,7 @@ Time.prototype.getUnixTimestampNow = function () {
 Time.prototype.convertDBTimeToUnix = function (db_time) {
     //return Date.parse(db_time) / 1000;
 
-    if(typeof db_time !== "string"){
+    if (typeof db_time !== "string") {
         return db_time
     }
 
@@ -506,8 +521,8 @@ Time.prototype.getStringMas = function (unixtimestamp) {
     return this.getString(unixtimestamp, undefined, undefined, undefined, undefined, undefined, undefined, undefined, isTimezoneMas);
 }
 
-Time.prototype.changeToMalaysiaTimezone = function (date) {
-    let timezone = "Asia/Kuala_Lumpur";
+Time.prototype.convertToAlternateTimezone = function (date) {
+    let timezone = this.ALTERNATE_TIMEZONE;
 
     var invdate = new Date(date.toLocaleString('en-US', {
         timeZone: timezone
@@ -550,7 +565,7 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     var newDate = new Date(unixtimestamp * 1000);
 
     if (isTimezoneMas === true) {
-        newDate = this.changeToMalaysiaTimezone(newDate);
+        newDate = this.convertToAlternateTimezone(newDate);
     }
 
     var hour = newDate.getHours();
@@ -633,7 +648,11 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
 
 
-Time.prototype.getTimezoneShort = function (dateInput = null) {
+Time.prototype.getTimezoneShortMas = function (dateInput = null) {
+    return this.getTimezoneShort(dateInput, true);
+}
+
+Time.prototype.getTimezoneShort = function (dateInput = null, isTimezoneMas = false) {
     var dateObject = dateInput || new Date(),
         dateString = dateObject + "",
         tzAbbr = (
@@ -642,6 +661,12 @@ Time.prototype.getTimezoneShort = function (dateInput = null) {
             // IE outputs date strings in a different format:
             dateString.match(/([A-Z]+) [\d]{4}$/)
         );
+
+    if (isTimezoneMas) {
+        dateObject = this.convertToAlternateTimezone(dateObject);
+    }
+
+    // console.log(isTimezoneMas,dateObject);
 
     if (tzAbbr) {
         // Old Firefox uses the long timezone name (e.g., "Central
@@ -661,9 +686,13 @@ Time.prototype.getTimezoneShort = function (dateInput = null) {
     return tzAbbr;
 }
 
-Time.prototype.getTimezone = function (date = null) {
+Time.prototype.getTimezone = function (date = null, isTimezoneMas = false) {
     if (date === null) {
         date = new Date();
+    }
+
+    if (isTimezoneMas) {
+        date = this.convertToAlternateTimezone(date);
     }
 
     try {
@@ -673,6 +702,9 @@ Time.prototype.getTimezone = function (date = null) {
     }
 };
 
+Time.prototype.getTimezoneMas = function (date = null) {
+    return this.getTimezone(date, true);
+}
 
 Time.prototype.getUnixFromDateTimeInput = function (date_input, time_input) {
     var datetime = date_input + "T" + time_input + ":00";

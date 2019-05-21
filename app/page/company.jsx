@@ -14,7 +14,7 @@ import {
   isRoleAdmin
 } from "../redux/actions/auth-actions";
 import { DocLinkEnum, CompanyEnum, LogEnum } from "../../config/db-config";
-import { CustomList, createIconLink } from "../component/list";
+//import { CustomList, createIconLink } from "../component/list";
 import * as activityActions from "../redux/actions/activity-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import * as hallAction from "../redux/actions/hall-actions";
@@ -23,7 +23,9 @@ import { RootPath, ImgConfig, AppPath } from "../../config/app-config";
 
 import { addLog } from "../redux/actions/other-actions";
 import { getFeedbackPopupView } from "./partial/analytics/feedback";
-import { GroupSessionView } from "./partial/hall/group-session";
+//import { GroupSessionView } from "./partial/hall/group-session";
+import { LiveSessionView } from "./partial/hall/live-session";
+
 import { Gallery, isGalleryIframe } from "../component/gallery";
 import ValidationStudentAction, {
   ValidationSource
@@ -605,7 +607,7 @@ export default class CompanyPage extends Component {
       var gSession =
         !isRoleStudent() || this.props.displayOnly ? null : (
           <div>
-            <GroupSessionView
+            <LiveSessionView
               forStudent={true}
               company_id={this.ID}
               user_id={this.authUser.ID}
@@ -647,9 +649,10 @@ export default class CompanyPage extends Component {
 
       var rightBody = (
         <div>
-          {gSession}
-          <hr />
           {this.props.displayOnly ? null : forumLink}
+          <br />
+          <br />
+          {gSession}
         </div>
       );
 
@@ -728,15 +731,11 @@ export default class CompanyPage extends Component {
             />
             <div className="main-width main-width-lg container-fluid">
               <div className="row">
-                <div className="col-md-3 com-pop-left">
+                <div style={{padding:"20px"}} className="col-md-3 com-pop-left">
                   <div className="com-pop-pic">{profilePic}</div>
                   {rightBody}
                 </div>
-                <div className="col-md-9">{leftBody}</div>
-              </div>
-              <div>
-                <br />
-                <a onClick={layoutActions.storeHideFocusCard}>Close</a>
+                <div style={{padding:"20px"}} className="col-md-9">{leftBody}</div>
               </div>
             </div>
           </div>

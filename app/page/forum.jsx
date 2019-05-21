@@ -661,13 +661,13 @@ export default class ForumPage extends React.Component {
                             </h3>
 
                         </div>
-                        {this.props.isHomePage ? null :
+                        {/* {this.props.isHomePage ? null :
                             <div className="col-md-4 forum-info">
                                 <CompanyPopup id={this.params.company_id} displayOnly={true}></CompanyPopup>
                                 <br></br>
                             </div>
-                        }
-                        <div className={`col-md-8 no-padding`}>{forum}</div>
+                        } */}
+                        <div className={`col-md-12 no-padding`}>{forum}</div>
                     </div>
                 }
 
@@ -678,7 +678,6 @@ export default class ForumPage extends React.Component {
     }
 
     render() {
-
 
 
         if (this.state.loading) {
