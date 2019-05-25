@@ -69,6 +69,29 @@ const TestUser = [136,
 
 const SupportUserID = 681;
 
+
+// function helloGold() {
+//     const returnInv = 10;
+//     const buyFee = 2.81;
+//     const sellFee = 4.04;
+
+//     let modal = 100;
+//     let pPerG = 173.07;
+//     let gEarn = modal * (100 - buyFee) / pPerG / 100;
+
+//     var newPPerG = 0;
+//     var rmEarned = 0;
+//     for (var i = 1; i <= 1000; i++) {
+//         newPPerG = pPerG + i;
+//         rmEarned = newPPerG * gEarn * (100 - sellFee) / 100;
+//         if (rmEarned > (modal * (100 + returnInv) / 100)) {
+//             break;
+//         }
+//     }
+//     console.log("buyP", pPerG, "||", "sellP :", newPPerG, "||", "rmEarned :", rmEarned);
+// }
+// helloGold();
+
 module.exports = {
     IsGruveoEnable,
     SocketUrl,

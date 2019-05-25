@@ -96,6 +96,14 @@ function fixCFAuth(auth, cf = null) {
     return auth;
 }
 
+function autoLogoutIfCFChange(curAuth) {
+    if (getCF !== null && getCF != curAuth.cf) {
+        curAuth.isAuthorized = false;
+        curAuth.cf = getCF;
+    }
+    return curAuth;
+}
+
 if (hasLocalStorageSupport) {
     auth = window.localStorage.getItem(AUTH_LOCAL_STORAGE);
 
@@ -109,7 +117,9 @@ if (hasLocalStorageSupport) {
         auth = authReducerInitState;
         setAuthLocalStorage(authReducerInitState);
     }
+
     auth = fixCFAuth(auth);
+    auth = autoLogoutIfCFChange(auth);
     setAuthLocalStorage(auth);
 }
 // need to find a fallback for safari
@@ -140,59 +150,54 @@ else {
 
 export default function authReducer(state = auth, action) {
     switch (action.type) {
-        case authActions.UPDATE_USER:
-            {
-                var newUser = getNewState(state.user, action.payload);
-                var newState = {
-                    user: newUser
-                };
+        case authActions.UPDATE_USER: {
+            var newUser = getNewState(state.user, action.payload);
+            var newState = {
+                user: newUser
+            };
 
-                setAuthLocalStorage(newState);
-                return getNewState(state, newState);
-            }
-        case authActions.DO_LOGOUT:
-            {
-                clearAuthLocalStorage();
-                return getNewState(state, fixCFAuth(authReducerInitState, state.cf));
-            }
-        case authActions.DO_LOGIN + '_PENDING':
-            {
-                var newState = {
-                    fetching: true,
-                    error: null
-                };
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
+        }
+        case authActions.DO_LOGOUT: {
+            clearAuthLocalStorage();
+            return getNewState(state, fixCFAuth(authReducerInitState, state.cf));
+        }
+        case authActions.DO_LOGIN + '_PENDING': {
+            var newState = {
+                fetching: true,
+                error: null
+            };
 
-                setAuthLocalStorage(newState);
-                return getNewState(state, newState);
-            }
-        case authActions.DO_LOGIN + '_FULFILLED':
-            {
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
+        }
+        case authActions.DO_LOGIN + '_FULFILLED': {
 
-                var user = action.payload.data;
-                var newState = {
-                    cf: user.cf,
-                    fetching: false,
-                    isAuthorized: (state.cookie) ? true : false,
-                    user: user,
-                    error: null
-                };
+            var user = action.payload.data;
+            var newState = {
+                cf: user.cf,
+                fetching: false,
+                isAuthorized: (state.cookie) ? true : false,
+                user: user,
+                error: null
+            };
 
-                setAuthLocalStorage(newState);
-                return getNewState(state, newState);
-            }
-        case authActions.DO_LOGIN + '_REJECTED':
-            {
-                var err = action.payload.response.data;
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
+        }
+        case authActions.DO_LOGIN + '_REJECTED': {
+            var err = action.payload.response.data;
 
-                var newState = {
-                    fetching: false,
-                    isAuthorized: false,
-                    error: err
-                };
+            var newState = {
+                fetching: false,
+                isAuthorized: false,
+                error: err
+            };
 
-                setAuthLocalStorage(newState);
-                return getNewState(state, newState);
-            }
+            setAuthLocalStorage(newState);
+            return getNewState(state, newState);
+        }
     }
 
     return state;

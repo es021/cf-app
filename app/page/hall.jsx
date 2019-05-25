@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { CustomList, createIconLink } from "../component/list";
-import { ButtonArrowAction } from "../component/buttons.jsx";
+import { ButtonArrowAction, ButtonAction } from "../component/buttons.jsx";
 import { NavLink } from "react-router-dom";
 
 import PageSection from "../component/page-section";
 import { GroupSessionView } from "./partial/hall/group-session";
 import CompaniesSection from "./partial/hall/companies";
 import ForumPage from "./forum";
-
+import { openLiveSession, createNewLiveSessionPopup } from "./partial/hall/live-session"
 import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
@@ -22,6 +22,8 @@ import {
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
+import Timer from "../component/timer";
+import { getCFTimeDetail } from "./coming-soon";
 
 require("../css/hall.scss");
 
@@ -165,50 +167,78 @@ export default class HallPage extends React.Component {
     );
   }
 
-  goLiveOnClick(isInner) {
-    if (isInner) {
-      this.isCheckWhenLive = true;
-      console.log("check when");
-    } else if (!this.isCheckWhenLive) {
-      console.log("go live for REAL");
-    }
+  // goLiveOnClick(isInner) {
+  //   if (isInner) {
+  //     this.isCheckWhenLive = true;
+  //     console.log("check when");
+  //   } else if (!this.isCheckWhenLive) {
+  //     console.log("go live for REAL");
+  //     openLiveSession(this.authUser.rec_company);
+  //   }
 
-    if(!isInner){
-      this.isCheckWhenLive = false;
-    }
-  }
+  //   if (!isInner) {
+  //     this.isCheckWhenLive = false;
+  //   }
+  // }
 
   getRecruiterAction() {
-    let minWidth = "300px";
-
     //  ts-outline
     return <div className="title-sectaion">
       <div className="main-width">
+        <ButtonAction
+          style={{ width: "350px" }}
+          btnClass="btn-lg btn-success"
+          to={`${RootPath}/app/my-activity/student-listing`}
+          icon="users"
+          iconSize="3x"
+          mainText={"Interested Candidates"}
+          subText={`See who's interested in ${this.authUser.company.name}`}
+        />
 
-        <NavLink className="btn btn-lg btn-success btn-action"
-          to={`${RootPath}/app/my-activity/student-listing`}>
-          <i className="fa fa-3x fa-users"></i>
-          <br></br>
-          <b>Interested Candidates</b>
-          <br></br>
-          <small>See who's interested in {this.authUser.company.name}</small>
-        </NavLink>
+        <ButtonAction
+          style={{ width: "350px" }}
+          btnClass="btn-lg btn-danger"
+          onClick={() => { openLiveSession(this.authUser.rec_company); }}
+          icon="podcast"
+          iconSize="3x"
+          mainText={"Go Live"}
+          subButtonText={`When are you live?`}
+          subButtonOnClick={() => {
+            console.log("check when");
+            createNewLiveSessionPopup(this.authUser.rec_company, () => {
+              console.log("yey")
+            })
+          }}
+        />
 
-        <div className="btn btn-lg btn-danger btn-action"
-          onClick={() => { this.goLiveOnClick(false);  }}>
-          <i className="fa fa-3x fa-podcast"></i>
-          <br></br>
-          <b>Go Live</b>
-          <br></br>
-          <small>
-            <div
-              onClick={() => { this.goLiveOnClick(true); }}
-              className="inner-link">When are you live?</div>
-          </small>
-        </div>
 
       </div >
     </div >
+  }
+
+
+  getTimerComingSoon() {
+    return null;
+    
+    var doneMes = <div>
+      Virtual Career Fair Starting Now
+      <br></br>
+      <small>Please Refresh Your Page</small>
+      <br></br>
+    </div>;
+
+    return <div>
+      <h1>
+        <small>Coming Soon</small>
+        <br></br>
+        {this.CFDetail.title}
+        <br></br>
+        <small>
+          {getCFTimeDetail(this.dateStr, this.CFDetail.time_str, this.CFDetail.time_str_mas)}
+        </small>
+      </h1>
+      <Timer end={this.CFDetail.start} doneMes={doneMes}></Timer>
+    </div>
   }
 
   render() {
@@ -216,6 +246,7 @@ export default class HallPage extends React.Component {
 
     return (
       <div className="hall-page">
+        {this.getTimerComingSoon()}
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}

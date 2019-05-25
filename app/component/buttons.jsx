@@ -91,3 +91,82 @@ ButtonIcon.propsType = {
     theme: PropTypes.oneOf(["dark"]),
     style: PropTypes.object
 };
+
+
+
+
+export class ButtonAction extends React.Component {
+
+    handleOnClick(isSub) {
+        if (isSub) {
+            this.isSub = true;
+            console.log("is sub");
+            this.props.subButtonOnClick();
+        } else if (!this.isSub) {
+            console.log("is main");
+            this.props.onClick();
+        }
+
+        if (!isSub) {
+            this.isSub = false;
+        }
+    }
+    render() {
+        let body = [
+            <i className={`fa fa-${this.props.iconSize} fa-${this.props.icon}`}></i>,
+            <br></br>,
+            <b>{this.props.mainText}</b>,
+            <br></br>
+        ]
+
+        let sub = null;
+        if (this.props.subText) {
+            sub = <small>{this.props.subText}</small>
+        }
+
+        if (this.props.subButtonText) {
+            sub = <small><div
+                onClick={() => { this.handleOnClick(true) }}
+                className="inner-link">
+                {this.props.subButtonText}
+            </div></small >;
+        }
+
+        body.push(sub);
+
+        if (this.props.to) {
+            return <NavLink style={this.props.style}
+                className={`btn ${this.props.btnClass} btn-action`}
+                to={this.props.to}>
+                {body}
+            </NavLink>
+        } else if (this.props.onClick) {
+            return <div style={this.props.style}
+                className={`btn ${this.props.btnClass} btn-action`}
+                onClick={() => { this.handleOnClick(false) }}>
+                {body}
+            </div>
+        }
+
+
+
+    }
+}
+
+ButtonAction.propsType = {
+    style: PropTypes.any,
+    to: PropTypes.any,
+    onClick: PropTypes.any,
+
+    btnClass: PropTypes.any,
+    iconSize: PropTypes.any,
+    icon: PropTypes.any,
+    // main text
+    mainText: PropTypes.any,
+
+    // sub text
+    subText: PropTypes.any,
+    subButtonText: PropTypes.any,
+    subButtonOnClick: PropTypes.any,
+
+};

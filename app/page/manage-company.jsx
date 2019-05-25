@@ -9,7 +9,7 @@ import obj2arg from 'graphql-obj2arg';
 import { getAuthUser, isRoleRec, updateAuthUser, isRoleOrganizer, isRoleAdmin, getCFObj } from '../redux/actions/auth-actions';
 import { Loader } from '../component/loader';
 import ProfileCard from '../component/profile-card.jsx';
-import {BANNER_HEIGHT, BANNER_WIDTH} from '../component/profile-card-img';
+import { BANNER_HEIGHT, BANNER_WIDTH } from '../component/profile-card-img';
 import SubNav from '../component/sub-nav';
 import List, { CustomList } from '../component/list';
 import * as layoutActions from '../redux/actions/layout-actions';
@@ -29,6 +29,7 @@ import { ResumeDrop } from './partial/activity/resume-drop';
 
 import { StudentListing } from './partial/activity/student-listing.jsx';
 import { ScheduledInterview } from './partial/activity/scheduled-interview';
+import CompanyPage from './company';
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -416,7 +417,7 @@ class AboutSubPage extends React.Component {
         } else {
             content = <div>
                 <ProfileCard type="banner"
-                    customStyleParent={{margin:"auto"}}
+                    customStyleParent={{ margin: "auto" }}
                     custom_width={BANNER_WIDTH + "px"}
                     id={this.state.data.ID}
                     add_img_ops={true}
@@ -425,7 +426,7 @@ class AboutSubPage extends React.Component {
                     img_size={this.state.data.banner_size}
                 ></ProfileCard>
 
-                <div style={{marginTop:"-90px"}}>
+                <div style={{ marginTop: "-90px" }}>
                     <ProfileCard type="company"
                         img_dimension={"130px"}
                         id={this.state.data.ID}
@@ -469,7 +470,7 @@ export default class ManageCompanyPage extends React.Component {
         this.company_id = Number.parseInt(this.props.match.params.id);
         var item = {
             "about": {
-                label: "My Company",
+                label: "Edit Company",
                 component: AboutSubPage,
                 props: { company_id: this.company_id },
                 icon: "building"
@@ -478,7 +479,7 @@ export default class ManageCompanyPage extends React.Component {
                 label: "Job Opportunities",
                 component: VacancySubPage,
                 props: { company_id: this.company_id },
-                routeOnly : isRoleRec(),
+                routeOnly: isRoleRec(),
                 icon: "star"
             },
             "doc-link": {
@@ -490,9 +491,10 @@ export default class ManageCompanyPage extends React.Component {
             "view": {
                 label: "View Company",
                 onClick: () => {
-                    layoutActions.storeUpdateFocusCard("My Company", CompanyPopup, {
-                        id: this.company_id
-                    });
+                    this.props.history.push(`/app/company/${this.company_id}`);
+                    // layoutActions.storeUpdateFocusCard("My Company", CompanyPopup, {
+                    //     id: this.company_id
+                    // });
                 },
                 component: null,
                 icon: "eye"
@@ -506,18 +508,18 @@ export default class ManageCompanyPage extends React.Component {
                 props: { company_id: this.company_id },
                 icon: "users"
             },
-            item["all-student"] = {
-                label: "All Student",
-                component: StudentListing,
-                props: { company_id: this.company_id, isAllStudent: true },
-                icon: "address-book-o"
-            },
-            item["session"] = {
-                label: "Past Sessions",
-                component: SessionsList,
-                props: { company_id: this.company_id, student_id: this.student_id, isRec: true },
-                icon: "comments"
-            }
+                item["all-student"] = {
+                    label: "All Student",
+                    component: StudentListing,
+                    props: { company_id: this.company_id, isAllStudent: true },
+                    icon: "address-book-o"
+                },
+                item["session"] = {
+                    label: "Past Sessions",
+                    component: SessionsList,
+                    props: { company_id: this.company_id, student_id: this.student_id, isRec: true },
+                    icon: "comments"
+                }
             item["resume-drop"] = {
                 label: "Resume Drop",
                 component: ResumeDrop,

@@ -1,4 +1,10 @@
 -- ##################################
+-- custom company message after resume dropped
+ALTER TABLE `companies` ADD `message_drop_resume` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `group_url`; 
+
+
+
+-- ##################################
 -- Create Reserved company Id to avoid clash in support_session
 
 INSERT INTO `companies` (`ID`, `name`, `tagline`, `description`, `more_info`, `img_url`, `img_position`, `img_size`, `banner_url`, `banner_position`, `banner_size`, `status`, `rec_privacy`, `sponsor_only`, `type`, `is_confirmed`, `group_url`, `accept_prescreen`, `priviledge`, `created_at`, `updated_at`) 
@@ -94,6 +100,14 @@ ALTER TABLE `hall_gallery`
   MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
+
+
+
+
+
+
+
+
 -- ###############################
 -- POST USA19
 
@@ -103,11 +117,6 @@ VALUES
 ("EUR","logo_height_hall","68px"),
 ("EUR","logo_width_hall","120px"),
 ("EUR","logo_margin_hall","-11px 0px -6px 0px")
-
-
-
-
-
 
 
 

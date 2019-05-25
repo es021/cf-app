@@ -1,3 +1,9 @@
+# Push Live TODO list
+10 June
+- migrate new table in database
+- disable chat with rec n live session kalau preEvent
+- gambar hall gallery
+
 # Live Session
 When are you live 
   - create time to go live. 
@@ -6,7 +12,10 @@ When are you live
     - list of upcoming live session (with rsvp count)
 
 Go Live 
-  - go to link
+  - kena bukak indicator yang student boleh masuk
+  - col baru (last_live_time)
+  - dalam masa 30 minit
+  - go to link (group_url)
 
 Socket tak offline kalau kita tutup window
 

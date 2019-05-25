@@ -8,7 +8,8 @@ import {
   getAuthUser,
   isRoleRec,
   isRoleStudent,
-  isRoleAdmin
+  isRoleAdmin,
+  doAfterValidateComingSoon
 } from "../redux/actions/auth-actions";
 import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
 require("../css/action-box.scss");
@@ -27,7 +28,7 @@ export default class ActionBox extends Component {
     this.inputVal = "";
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   v_Input() {
     const onChange = () => {
@@ -81,8 +82,19 @@ export default class ActionBox extends Component {
   }
   v_BtnClick() {
     const onClickBtn = () => {
-      if (this.props.btn_onClick) {
-        this.props.btn_onClick();
+      const doAction = () => {
+        if (this.props.btn_onClick) {
+          this.props.btn_onClick();
+        }
+        if (this.props.isNavLink) {
+          this.props.history.push(this.props.navlink_url);
+        }
+      }
+
+      if (this.props.isDoAfterComingSoon) {
+        doAfterValidateComingSoon(doAction);
+      } else {
+        doAction();
       }
     };
     return (
@@ -110,7 +122,8 @@ export default class ActionBox extends Component {
           <div className="ab-btn-click">{this.v_BtnClick()}</div>
         ) : null}
         {this.props.isNavLink ? (
-          <NavLink className="ab-btn-click" to={this.props.navlink_url}>{this.v_BtnClick()}</NavLink>
+          <div className="ab-btn-click">{this.v_BtnClick()}</div>
+          // <NavLink className="ab-btn-click" to={this.props.navlink_url}>{this.v_BtnClick()}</NavLink>
         ) : null}
       </div>
     );
@@ -118,6 +131,7 @@ export default class ActionBox extends Component {
 }
 
 ActionBox.propTypes = {
+  isDoAfterComingSoon: PropTypes.bool,
   title: PropTypes.string.isRequired,
 
   isNavLink: PropTypes.bool,
@@ -129,12 +143,13 @@ ActionBox.propTypes = {
   isButton: PropTypes.bool,
   btn_onClick: PropTypes.func,
 
-  btnClass : PropTypes.string
+  btnClass: PropTypes.string
 };
 
 ActionBox.defaultProps = {
+  isDoAfterComingSoon: false,
   isQuestion: false,
   isButton: false,
   isNavLink: false,
-  btnClass : "dark-green"
+  btnClass: "dark-green"
 };

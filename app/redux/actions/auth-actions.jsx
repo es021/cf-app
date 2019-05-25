@@ -1,3 +1,4 @@
+import React from "react";
 import axios from 'axios';
 import {
     store
@@ -95,7 +96,7 @@ export function getCFObj() {
 
 // return key of cf
 const ToReplaceCf = {
-   "USA": "USA19"
+    "USA": "USA19"
 }
 export function getCF() {
     let cf = store.getState().auth.cf;
@@ -109,22 +110,25 @@ export function getCF() {
 // CF - END
 // ############################################
 
+
 export function isComingSoon() {
     //return false;
 
-    if (isTestUser()) {
-        return false;
-    }
+    // if (isTestUser()) {
+    //     return false;
+    // }
 
 
     var isComingSoon = true;
     var cfObj = getCFObj();
 
     let override_coming_soon = cfObj.override_coming_soon;
+    console.log("override_coming_soon", override_coming_soon)
 
-    if (override_coming_soon == true) {
+    if (override_coming_soon === "true") {
         return false;
     }
+
 
     var timenow = Time.getUnixTimestampNow();
 
@@ -145,7 +149,27 @@ export function isComingSoon() {
         }
     }
 
+    console.log("isComingSoon", isComingSoon)
+
     return isComingSoon;
+}
+
+
+export function doAfterValidateComingSoon(actionHandler) {
+    if (isComingSoon()) {
+        var cfObj = getCFObj();
+
+        let mes = <div>
+            <h4 className="text-primary"><b>Try Again Soon</b></h4>
+            This action only allowed after the event started on
+            <br></br>
+            <u>{Time.getString(cfObj.start)}</u>
+        </div>;
+
+        customBlockLoader(mes);
+    } else {
+        actionHandler();
+    }
 }
 
 export function isAuthorized() {
@@ -244,6 +268,9 @@ export function login(email, password, cf) {
 import {
     emitLogout
 } from '../../socket/socket-client';
+import {
+    errorBlockLoader, customBlockLoader
+} from './layout-actions.js';
 
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {

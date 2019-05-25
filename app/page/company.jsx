@@ -24,7 +24,7 @@ import { RootPath, ImgConfig, AppPath } from "../../config/app-config";
 import { addLog } from "../redux/actions/other-actions";
 import { getFeedbackPopupView } from "./partial/analytics/feedback";
 //import { GroupSessionView } from "./partial/hall/group-session";
-import { LiveSessionView } from "./partial/hall/live-session";
+import { LiveSessionView, openLiveSession } from "./partial/hall/live-session";
 
 import { Gallery, isGalleryIframe } from "../component/gallery";
 import ValidationStudentAction, {
@@ -41,6 +41,7 @@ import {
   setBodyFullWidth,
   unsetBodyFullWidth
 } from "../../helper/general-helper";
+import { ButtonAction } from "../component/buttons";
 
 // #################################################################
 // #################################################################
@@ -511,7 +512,7 @@ export default class CompanyPage extends Component {
 
     return (
       <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-4`}>
+        <div className={`col-md-6`}>
           <ActionBox
             title={
               <div>
@@ -523,19 +524,21 @@ export default class CompanyPage extends Component {
             btn_onClick={btn_onClickResume}
           />
         </div>
-        <div className={`col-md-4`}>
+        <div className={`col-md-6`}>
           <ActionBox
+            {...this.props}
             title={
               <div>
                 <i className="fa fa-comments left" />
                 <b>Chat With Recruiter</b>
               </div>
             }
+            isDoAfterComingSoon={true}
             isNavLink={true}
             navlink_url={`${AppPath}/company-chat/${this.ID}`}
           />
         </div>
-        <div className={`col-md-4`}>
+        {/* <div className={`col-md-4`}>
           <ActionBox
             key={this.state.qsLastSubmitted}
             title={
@@ -547,7 +550,7 @@ export default class CompanyPage extends Component {
             isQuestion={true}
             qs_onSubmit={qs_onSubmit}
           />
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -607,6 +610,15 @@ export default class CompanyPage extends Component {
       var gSession =
         !isRoleStudent() || this.props.displayOnly ? null : (
           <div>
+            <ButtonAction
+              style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+              btnClass="btn-lg btn-success"
+              onClick={() => { openLiveSession(this.ID); }}
+              icon="podcast"
+              iconSize="2x"
+              mainText={"Join Live Session"}
+              subText={`with ${this.state.data.name}`}
+            />
             <LiveSessionView
               forStudent={true}
               company_id={this.ID}
@@ -635,23 +647,21 @@ export default class CompanyPage extends Component {
         />
       );
 
-      var forumLink = (
-        <NavLink
-          onClick={e => {
-            layoutActions.storeHideBlockLoader();
-            layoutActions.storeHideFocusCard();
-          }}
-          to={AppPath + `/forum/${this.forum_id}`}
-        >
-          <small>Go To Company Forum</small>
-        </NavLink>
-      );
+      // var forumLink = (
+      //   <NavLink
+      //     onClick={e => {
+      //       layoutActions.storeHideBlockLoader();
+      //       layoutActions.storeHideFocusCard();
+      //     }}
+      //     to={AppPath + `/forum/${this.forum_id}`}
+      //   >
+      //     <small>Go To Company Forum</small>
+      //   </NavLink>
+      // );
 
       var rightBody = (
         <div>
-          {this.props.displayOnly ? null : forumLink}
-          <br />
-          <br />
+          {/* {this.props.displayOnly ? null : forumLink} */}
           {gSession}
         </div>
       );
@@ -731,11 +741,11 @@ export default class CompanyPage extends Component {
             />
             <div className="main-width main-width-lg container-fluid">
               <div className="row">
-                <div style={{padding:"20px"}} className="col-md-3 com-pop-left">
+                <div style={{ padding: "20px" }} className="col-md-3 com-pop-left">
                   <div className="com-pop-pic">{profilePic}</div>
                   {rightBody}
                 </div>
-                <div style={{padding:"20px"}} className="col-md-9">{leftBody}</div>
+                <div style={{ padding: "20px" }} className="col-md-9">{leftBody}</div>
               </div>
             </div>
           </div>

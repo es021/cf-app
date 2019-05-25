@@ -61,13 +61,14 @@ import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
   if (isAuthorized()) {
-    if (COMING_SOON) {
-      var homeComponent = ComingSoonPage;
+    if (IsNewHall) {
+      // new hall takde pegi page coming soon
+      if (isRoleStudent()) homeComponent = HallPage;
+      else if (isRoleRec()) homeComponent = HallPage;
+      else if (isRoleAdmin()) homeComponent = CompaniesPage;
     } else {
-      if (IsNewHall) {
-        if (isRoleStudent()) homeComponent = HallPage;
-        else if (isRoleRec()) homeComponent = HallPage;
-        else if (isRoleAdmin()) homeComponent = CompaniesPage;
+      if (COMING_SOON) {
+        var homeComponent = ComingSoonPage;
       } else {
         if (isRoleStudent()) homeComponent = HallPageOld;
         else if (isRoleRec()) homeComponent = HallPageOld;
@@ -344,17 +345,17 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
-    {
-      url: "/company-forum",
-      label: "Forum",
-      icon: "comments",
-      component: ForumPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      disabled: !isRoleRec()
-    },
+    // {
+    //   url: "/company-forum",
+    //   label: "Forum",
+    //   icon: "comments",
+    //   component: ForumPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   disabled: !isRoleRec()
+    // },
     {
       url: "/my-inbox",
       label: "Inbox",
@@ -577,7 +578,7 @@ function getMenuItem(COMING_SOON) {
 export function getRoute(path, COMING_SOON) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
-  var routes = menuItem.map(function(d, i) {
+  var routes = menuItem.map(function (d, i) {
     //restricted
     if (d.disabled) {
       return false;
@@ -646,7 +647,7 @@ export function getBar(path, { COMING_SOON, isHeader, count_notification }) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
 
-  var menuList = menuItem.map(function(d, i) {
+  var menuList = menuItem.map(function (d, i) {
     var exact = d.url === "/" ? true : false;
 
     if (d.routeOnly) {

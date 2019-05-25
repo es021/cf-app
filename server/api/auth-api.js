@@ -121,7 +121,8 @@ class AuthAPI {
         //console.log(field);
         var user_query = `query{
             user(user_email:"${user_email}"){
-                ${field} company {cf name recruiters{ID user_email first_name last_name}}
+                ${field} company {cf name recruiters 
+                    {ID user_email first_name last_name}}
             }}`;
 
         return getAxiosGraphQLQuery(user_query).then((res) => {

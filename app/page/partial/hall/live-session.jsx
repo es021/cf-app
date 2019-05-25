@@ -21,7 +21,7 @@ import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
 import { RootPath, IsGruveoEnable } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
-import { getAuthUser } from "../../../redux/actions/auth-actions";
+import { getAuthUser, doAfterValidateComingSoon } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";
 import {
   emitQueueStatus,
@@ -62,10 +62,76 @@ import CompanyPopup from "../popup/company-popup";
 
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 
+// #########################################################################
+var w = null;
+export function openLiveSession(company_id) {
+  const getWindowId = (cId) => {
+    return "SJF_LIVE_SESSION";
+  }
+
+  const doAction = () => {
+    layoutActions.loadingBlockLoader("Please Wait..");
+    let q = `query { company (ID:${company_id}) { group_url } }`;
+    getAxiosGraphQLQuery(q).then((res) => {
+      let c = res.data.data.company;
+      layoutActions.loadingBlockLoader("Please Wait..");
+      if (c.group_url) {
+        let doTwice = false;
+        if (w != null) {
+          w.close();
+        } else {
+          doTwice = true;
+        }
+
+        w = window.open(c.group_url, getWindowId(company_id));
+        // buat twice unutk focus to the key, kalau case dah bukak n user refresh
+        if (doTwice) {
+          w.close();
+          w = window.open(c.group_url, getWindowId(company_id));
+        }
+
+        layoutActions.storeHideBlockLoader();
+      } else {
+        layoutActions.errorBlockLoader("Live session link is not set for this company");
+      }
+    })
+  }
+
+  doAfterValidateComingSoon(doAction);
+}
+
+export function getGroupSessionQueryFilter(cId) {
+  return `company_id:${cId}, discard_expired:true, discard_canceled:true , order_by:"start_time asc"`;
+}
+
+export function createNewLiveSessionPopup(company_id, finishHandler) {
+
+  layoutActions.loadingBlockLoader("Please Wait...");
+  let q = `query { group_sessions(${getGroupSessionQueryFilter(company_id)} ) 
+  {ID start_time} } `;
+
+  getAxiosGraphQLQuery(q).then((res) => {
+    let data = res.data.data.group_sessions;
+    layoutActions.storeHideBlockLoader();
+    layoutActions.storeUpdateFocusCard(
+      "Live Session",
+      NewLiveSessionPopup,
+      {
+        data: data,
+        company_id: company_id,
+        finishAdd: () => {
+          this.finishHandler();
+        }
+      }
+    );
+  })
+
+}
+
+// #########################################################################
 require("../../../css/live-session.scss");
 // remove limit join
 const LIMIT_JOIN = -1;
-
 class NewLiveSessionPopup extends React.Component {
   constructor(props) {
     super(props);
@@ -78,14 +144,14 @@ class NewLiveSessionPopup extends React.Component {
   }
   componentWillMount() {
     this.formItems = [
-      {
-        label: "Live Session Title",
-        sublabel: "What You Will Talk About?",
-        name: GroupSession.TITLE,
-        type: "text",
-        len: 50,
-        required: true
-      }
+      // {
+      //   label: "Live Session Title",
+      //   sublabel: "What You Will Talk About?",
+      //   name: GroupSession.TITLE,
+      //   type: "text",
+      //   len: 50,
+      //   required: true
+      // }
     ];
 
     this.countDataAv = {};
@@ -114,7 +180,7 @@ class NewLiveSessionPopup extends React.Component {
   }
   createGs(title) {
     var d = {};
-    d[GroupSession.TITLE] = title;
+    d[GroupSession.TITLE] = "";
     d[GroupSession.COMPANY_ID] = this.props.company_id;
     d[GroupSession.START_TIME] = Number.parseInt(this.state.select_timestamp);
     d[GroupSession.LIMIT_JOIN] = LIMIT_JOIN;
@@ -160,20 +226,38 @@ class NewLiveSessionPopup extends React.Component {
       </div>
     );
   }
+  getUpcomingLiveSession() {
+
+    return <div className="live-session-rec">
+      <h3><b>Your Live Session</b></h3>
+      <div>
+        <LiveSessionView
+          company_id={this.props.company_id}
+          forRec={true}>
+        </LiveSessionView>
+      </div>
+    </div>;
+  }
   render() {
+
     return (
       <div>
-        <AvailabilityView
-          select_timestamp={this.state.select_timestamp}
-          for_general={true}
-          select_for="Group Session"
-          count_data={this.countDataAv}
-          onSelect={(id, timestamp) => {
-            this.onSelectTime(id, timestamp);
-          }}
-        />
-        <br />
-        {this.getForm()}
+        {this.getUpcomingLiveSession()}
+
+        <div style={{ borderBottom: "solid 1px gray", margin: "30px 0px" }}></div>
+        <div>
+          <AvailabilityView
+            select_timestamp={this.state.select_timestamp}
+            for_general={true}
+            select_for="New Live Session"
+            count_data={this.countDataAv}
+            onSelect={(id, timestamp) => {
+              this.onSelectTime(id, timestamp);
+            }}
+          />
+          <br />
+          {this.getForm()}
+        </div>
       </div>
     );
   }
@@ -185,12 +269,14 @@ NewLiveSessionPopup.propTypes = {
   company_id: PropTypes.number.isRequired
 };
 
+
+
 class LiveSessionClass extends React.Component {
   constructor(props) {
     super(props);
     this.authUser = getAuthUser();
     this.img_dimension = "30px";
-    this.LIMIT_SEE_MORE = 4;
+    this.LIMIT_SEE_MORE = 5;
     this.loadData = this.loadData.bind(this);
     this.state = {
       data: [],
@@ -208,9 +294,7 @@ class LiveSessionClass extends React.Component {
       return { loading: true };
     });
 
-    var q = `query { group_sessions(company_id:${
-      this.props.company_id
-    }, discard_expired:true, discard_canceled:true)
+    var q = `query { group_sessions(${getGroupSessionQueryFilter(this.props.company_id)})
         { ID
           start_time 
           is_expired
@@ -237,7 +321,7 @@ class LiveSessionClass extends React.Component {
   }
   createSeeMoreLink({ d, i, joinersId }) {
     let styleSeeMore = {
-      width: "30px",
+      width: "35px",
       fontSize: "10px",
       lineHeight: "12px",
       marginLeft: "3px",
@@ -321,7 +405,7 @@ class LiveSessionClass extends React.Component {
       );
 
       var studentName = null;
-      var onClickJoiner = () => {};
+      var onClickJoiner = () => { };
       if (this.props.forRec) {
         studentName = dj.first_name + " " + dj.last_name;
         onClickJoiner = () =>
@@ -348,12 +432,20 @@ class LiveSessionClass extends React.Component {
     return joiners;
   }
   getListView(data) {
-    var list = data.map((d, i) => {
+    let arrNow = [];
+    let arrExpired = [];
+    let arrUpcoming = [];
+
+    data.map((d, i) => {
       let extraCount = d.joiners.length - this.LIMIT_SEE_MORE;
       var joiners = this.createJoinersView(d, extraCount);
 
+      let isJoined = false;
       var joinersId = d.joiners.map((dj, di) => {
         dj = dj.user;
+        if (dj.ID == this.authUser.ID) {
+          isJoined = true;
+        }
         return dj.ID;
       });
 
@@ -373,68 +465,97 @@ class LiveSessionClass extends React.Component {
       }
 
       var action = null;
-      if (d.is_expired) {
-        action = (
-          <div className="action btn btn-danger btn-sm" disabled="disabled">
-            Ended
-          </div>
-        );
-      } else if (this.props.forRec) {
-        if (d.join_url != null) {
-          const isExpiredHandler = () => {
-            var mes = <div>This group session has ended.</div>;
-            layoutActions.errorBlockLoader(mes);
-            var q = `mutation {edit_group_session(ID:${
-              d.ID
-            }, is_expired:1){ID}}`;
-            getAxiosGraphQLQuery(q).then(res => {
-              this.loadData();
-            });
-          };
-          //  href={d.start_url}
+
+      if (!this.props.forRec) {
+        if (isJoined) {
           action = (
-            <a
-              onClick={() =>
-                joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
-              }
-              className="action btn btn-primary btn-sm"
-              target="_blank"
+            <div
+              className="action btn btn-success btn-sm btn-disabled"
+              data-id={d.ID}
+              disabled={"true"}
+              onClick={e => {
+              }}
             >
-              Started
-            </a>
+              RSVP'ed
+            </div>
           );
         } else {
           action = (
             <div
               className="action btn btn-success btn-sm"
               data-id={d.ID}
-              data-joiners={JSON.stringify(joinersId)}
-              data-start_time={d.start_time}
               onClick={e => {
-                HallViewHelper.startVideoCall(e, {
-                  type: HallViewHelper.TYPE_GROUP_SESSION,
-                  user_id: this.authUser.ID,
-                  bindedSuccessHandler: this.loadData
-                });
+                this.joinGroupSession(e);
               }}
             >
-              Start Video Call
+              RSVP Now
             </div>
           );
         }
-      } else {
-        action = (
-          <div
-            className="action btn btn-success btn-sm"
-            data-id={d.ID}
-            onClick={e => {
-              this.joinGroupSession(e);
-            }}
-          >
-            RSVP
-          </div>
-        );
       }
+
+      // if (d.is_expired) {
+      //   action = (
+      //     <div className="action btn btn-danger btn-sm" disabled="disabled">
+      //       Ended
+      //     </div>
+      //   );
+      // } else if (this.props.forRec) {
+      //   if (d.join_url != null) {
+      //     const isExpiredHandler = () => {
+      //       var mes = <div>This group session has ended.</div>;
+      //       layoutActions.errorBlockLoader(mes);
+      //       var q = `mutation {edit_group_session(ID:${
+      //         d.ID
+      //         }, is_expired:1){ID}}`;
+      //       getAxiosGraphQLQuery(q).then(res => {
+      //         this.loadData();
+      //       });
+      //     };
+      //     //  href={d.start_url}
+      //     action = (
+      //       <a
+      //         onClick={() =>
+      //           joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
+      //         }
+      //         className="action btn btn-primary btn-sm"
+      //         target="_blank"
+      //       >
+      //         Started
+      //       </a>
+      //     );
+      //   } else {
+      //     action = (
+      //       <div
+      //         className="action btn btn-success btn-sm"
+      //         data-id={d.ID}
+      //         data-joiners={JSON.stringify(joinersId)}
+      //         data-start_time={d.start_time}
+      //         onClick={e => {
+      //           HallViewHelper.startVideoCall(e, {
+      //             type: HallViewHelper.TYPE_GROUP_SESSION,
+      //             user_id: this.authUser.ID,
+      //             bindedSuccessHandler: this.loadData
+      //           });
+      //         }}
+      //       >
+      //         Start Video Call
+      //       </div>
+      //     );
+      //   }
+      // } else {
+      //   action = (
+      //     <div
+      //       className="action btn btn-success btn-sm"
+      //       data-id={d.ID}
+      //       onClick={e => {
+      //         this.joinGroupSession(e);
+      //       }}
+      //     >
+      //       RSVP
+      //     </div>
+      //   );
+      // }
 
       var deleteBtn = null;
       if (this.props.forRec) {
@@ -452,12 +573,12 @@ class LiveSessionClass extends React.Component {
         );
       }
 
-      let title =
-        d.title == "" || d.title == null ? (
-          <div className="text-muted">Untitled Session</div>
-        ) : (
-          d.title
-        );
+      // let title =
+      //   d.title == "" || d.title == null ? (
+      //     <div className="text-muted">Untitled Session</div>
+      //   ) : (
+      //       d.title
+      //     );
 
       // create time date
       var styleDate = { fontSize: "15px" };
@@ -486,9 +607,9 @@ class LiveSessionClass extends React.Component {
 
       const createView = (body, toggler) => {
         return (
-          <div style={{display:"flex", alignItems : "center", justifyContent:"space-between"}}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>{body}</div>
-            <div style={{paddingRight:"10px"}}>{toggler}</div>
+            <div style={{ paddingRight: "10px" }}>{toggler}</div>
           </div>
         );
       };
@@ -509,41 +630,65 @@ class LiveSessionClass extends React.Component {
         />
       );
 
-      // TODOS
-      return (
-        <div className="gs-company">
-          <div className="header">
-            <div className={"header-container"}>
-              <div className="title" title={d.title}>
-                <b>{title}</b>
-              </div>
-              {timeDate}
-              {/* <div className="time">
-                <i className="fa fa-calendar left" />
-                <b>{Time.getDateDayStr(d.start_time)}</b>
-                {" - "}
-                {Time.getDate(d.start_time)}
-              </div>
-              <div className="time">
-                <i className="fa fa-clock-o left" />
-                {Time.getStringShort(d.start_time)}
-              </div> */}
-              {deleteBtn}
+      let offsetExpiredMin = 30 * 60;
+      let isNow = false;
+      let isTimePassed = false;
+      let timeNow = Time.getUnixTimestampNow()
+      if (timeNow >= d.start_time && timeNow <= d.start_time + offsetExpiredMin) {
+        isNow = true;
+      }
+      else if (timeNow > d.start_time + offsetExpiredMin) {
+        isTimePassed = true;
+      }
+
+      let label = "";
+      let className = "";
+      if (isNow) {
+        className = "gs-now";
+        label = "Happening Now"
+      }
+      else if (isTimePassed) {
+        className = "gs-expired";
+        label = "Ended"
+      } else {
+        className = "gs-upcoming";
+        label = "Upcoming"
+      }
+
+      let toAdd = <div className={`gs-company ${className}`}>
+        <div className="header">
+          <div className={"header-container"}>
+            {/* <div className="title" title={d.title}>
+              <b>{isTimePassed ? "Ended" : "Upcoming"}</b>
+            </div> */}
+            <div className="gs-label text-left">
+              <b>{label}</b>
             </div>
+            {timeDate}
+            {deleteBtn}
           </div>
-          <div className="joiner">{joiners}</div>
-          {action}
         </div>
-      );
+        <div className="joiner">{joiners}</div>
+        {action}
+      </div>
+
+      if (isNow) {
+        arrNow.push(toAdd);
+      }
+      else if (isTimePassed) {
+        arrExpired.push(toAdd);
+      } else {
+        arrUpcoming.push(toAdd);
+      }
     });
 
-    return list;
+    return [...arrNow, ...arrUpcoming, ...arrExpired];
   }
   createView(data) {
     var list = this.getListView(data);
     return (
       <div className="live-session">
-        {this.props.forRec ? this.createAddNewGs() : null}
+        {/* {this.props.forRec ? this.createAddNewGs() : null} */}
         {list}
         {this.props.forStudent && list.length == 0 ? (
           <small className="text-muted">
@@ -561,7 +706,7 @@ class LiveSessionClass extends React.Component {
     joiners = JSON.parse(joiners);
 
     layoutActions.confirmBlockLoader(
-      "Cancel RSVP For This Live Session?",
+      "Cancel This Live Session?",
       () => {
         layoutActions.loadingBlockLoader("Canceling...");
         var q = `mutation { edit_group_session (ID:${id}, is_canceled:1) { ID } } `;
@@ -675,12 +820,16 @@ class LiveSessionClass extends React.Component {
       //     return;
       // }
 
+
       // 2. add to db
       var query = `mutation { add_group_session_join 
         (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
       getAxiosGraphQLQuery(query).then(res => {
         this.openWhatsNextAlert(gs, "Successfully Rsvp'ed!");
+
+        // reload data
+        //this.loadData();
         // console.log(res.data.data.add_group_session_join);
         // var mes = <div>
         //     <h3 className="text-success">Successfully Joined!</h3>
@@ -872,29 +1021,29 @@ class LiveSessionClass extends React.Component {
     }
   }
 
-  createAddNewGs() {
-    const onClick = () => {
-      layoutActions.storeUpdateFocusCard(
-        "Schedule New Live Session",
-        NewLiveSessionPopup,
-        {
-          data: this.state.data,
-          company_id: this.props.company_id,
-          finishAdd: () => {
-            this.loadData();
-          }
-        }
-      );
-    };
+  // createAddNewGs() {
+  //   const onClick = () => {
+  //     layoutActions.storeUpdateFocusCard(
+  //       "Schedule New Live Session",
+  //       NewLiveSessionPopup,
+  //       {
+  //         data: this.state.data,
+  //         company_id: this.props.company_id,
+  //         finishAdd: () => {
+  //           this.loadData();
+  //         }
+  //       }
+  //     );
+  //   };
 
-    return (
-      <div className="gs-company add" onClick={onClick}>
-        <div>
-          <i className="fa fa-plus fa-3x" />
-        </div>
-      </div>
-    );
-  }
+  //   return (
+  //     <div className="gs-company add" onClick={onClick}>
+  //       <div>
+  //         <i className="fa fa-plus fa-3x" />
+  //       </div>
+  //     </div>
+  //   );
+  // }
   render() {
     var view = <Loader size="2" text="Loading Live Session..." />;
     if (!this.state.loading) {
@@ -911,7 +1060,7 @@ class LiveSessionClass extends React.Component {
             borderBottom: "solid darkgray 1px"
           }}
         >
-          <i className="fa fa-podcast left" /> Live Session With Recruiter
+          Live Session Schedule
         </h4>
       );
       view = [view];
@@ -927,17 +1076,17 @@ class LiveSessionClass extends React.Component {
       );
     }
 
-    if (this.props.forRec) {
-      header = (
-        <h3
-          onClick={() => {
-            this.loadData();
-          }}
-        >
-          <a className="btn-link">Live Session</a>
-        </h3>
-      );
-    }
+    // if (this.props.forRec) {
+    //   header = (
+    //     <h3
+    //       onClick={() => {
+    //         this.loadData();
+    //       }}
+    //     >
+    //       <a className="btn-link">Live Session</a>
+    //     </h3>
+    //   );
+    // }
 
     return (
       <div>

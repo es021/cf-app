@@ -6,7 +6,12 @@
     justify-content: center;
 
     .gs-company {
-        border-radius: 7px;
+        .app-switch {
+            margin-top: 6px;
+        }
+
+        overflow: hidden;
+        border-radius: 10px;
         margin: 10px 0px;
         width: 100%;
         // min-width: 200px;
@@ -18,7 +23,7 @@
         .header {
             display: flex;
             position: relative;
-            padding: 3px 0px;
+            padding: 3px 5px;
             justify-content: flex-start;
             align-items: center;
             border-bottom: 1px #e4e4e4 solid;
@@ -38,6 +43,10 @@
                 overflow: hidden;
                 border-bottom: #e4e4e4 1px solid;
                 margin-bottom: 3px;
+            }
+
+            .gs-label {
+                padding: 0px 5px;
             }
 
             .time {
@@ -134,4 +143,44 @@
     .gs-company.add:active {
         opacity: 1;
     }
+
+    .gs-company.gs-now {
+        
+        color : #449d44;
+    
+        // .header {
+        //     color: white;
+        //     background: #449d44;
+        // }
+    }
+
+    .gs-company.gs-upcoming {
+        color : #286090;
+       
+        // .header {
+        //     color: white;
+        //     background: #286090;
+        // }
+    }
+
+    .gs-company.gs-expired {
+        color : #c9302c;
+       
+        // .header {
+        //     color: white;
+        //     background: #c9302c;
+        // }
+
+    }
+}
+
+.live-session-rec {
+    .gs-company {
+        width: 260px;
+        margin: 10px;
+        // .app-switch{
+        //     margin-right: 20px;
+        // }
+    }
+
 }
