@@ -1,3 +1,37 @@
+# Live Session
+When are you live 
+  - create time to go live. 
+    - time (can choose multiple) (time event only)
+    - no title
+    - list of upcoming live session (with rsvp count)
+
+Go Live 
+  - go to link
+
+Socket tak offline kalau kita tutup window
+
+Pages 
+ - student listing
+
+Company Page
+  - Recruiter view 
+    - takde live session
+  - Student view 
+    - Wording - Live With (company_name)
+    - One button to join
+    - Time n RSVP
+
+Custom Message For Each Company After student drop resume
+
+Forum
+  - remove
+  - ask question remove
+
+Messaging
+  - unread message indicator
+  - notification
+  - boleh lepas start event je
+
 # IMPORTANT REMINDER
 -- try coming soon page
 -- control what rec can see when clicked on company page
