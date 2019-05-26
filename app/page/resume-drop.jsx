@@ -205,7 +205,8 @@ export default class ResumeDropPage extends React.Component {
             customIconFont: "initial"
         });
         const onClickGotIt = () => {
-            storeUpdateFocusCard(this.state.data.company.name, CompanyPopup, { id: this.props.company_id });
+            storeHideFocusCard();
+            //storeUpdateFocusCard(this.state.data.company.name, CompanyPopup, { id: this.props.company_id });
         }
         let v = <div><h4 className="text-primary">Whats Next?</h4>
             {list}

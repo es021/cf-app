@@ -19,7 +19,7 @@ import { store } from '../redux/store';
 import DocLinkPage from '../component/doc-link-form.jsx';
 import { SimpleListItem } from '../component/list';
 import PropTypes from 'prop-types';
-import { RootPath } from '../../config/app-config';
+import { RootPath, AppPath } from '../../config/app-config';
 import { Time } from '../lib/time';
 import GeneralFormPage from '../component/general-form';
 import Restricted from './partial/static/restricted';
@@ -491,7 +491,7 @@ export default class ManageCompanyPage extends React.Component {
             "view": {
                 label: "View Company",
                 onClick: () => {
-                    this.props.history.push(`/app/company/${this.company_id}`);
+                    this.props.history.push(`${AppPath}/company/${this.company_id}`);
                     // layoutActions.storeUpdateFocusCard("My Company", CompanyPopup, {
                     //     id: this.company_id
                     // });
