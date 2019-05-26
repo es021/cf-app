@@ -115,7 +115,7 @@ export class HallGalleryView extends React.Component {
 
     // load data
     let q = `query{
-      hall_galleries(cf :"EUR", is_active: 1, page:1, offset:5) {
+      hall_galleries(cf :"${getCF()}", is_active: 1, page:1, offset:5) {
         ID
         item_order
         is_active
