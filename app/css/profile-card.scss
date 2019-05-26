@@ -138,6 +138,7 @@
     }
 }
 
+
 .profile-card.hover-shadow:hover {
     .pc-picture {
         opacity: 0.7;
@@ -157,4 +158,13 @@
 .profile-card.no-vertical-margin{
     margin-top : 0px;
     margin-bottom : 0px;
+}
+
+
+// #######################3
+// for nav link
+a.profile-card,
+a.profile-card:focus,
+a.profile-card:active{
+    text-decoration: none;
 }

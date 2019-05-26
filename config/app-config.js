@@ -2,7 +2,13 @@
 // Indicator
 
 const IsGruveoEnable = false;
-const IsNewHall = true;
+
+var IsNewHall = true;
+// if (typeof location !== "undefined") {
+//     IsNewHall = location.href.indexOf("new=1") >= 0 ? true : false;
+//     console.log("location.href", location.href);
+//     console.log("IsNewHall", IsNewHall);
+// }
 
 // Indicator
 // ###################################################
@@ -67,6 +73,8 @@ const TestUser = [136,
     335, 336, 337, 338, 339, 340, 341, 342
 ];
 
+const OverrideComingSoonUser = [136, 137]
+
 const SupportUserID = 681;
 
 
@@ -98,6 +106,7 @@ module.exports = {
     LandingUrl,
     DocumentUrl,
     TestUser,
+    OverrideComingSoonUser,
     RootPath,
     AppPath,
     StaticUrl,

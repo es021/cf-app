@@ -264,8 +264,20 @@ export class HallGalleryView extends React.Component {
       let imgStyle = {
         backgroundImage: `url('${d.img_url}')`,
         backgroundPosition: d.img_pos,
-        backgroundSize: d.img_size
+        backgroundSize: d.img_size,
+        backgroundRepeat: "no-repeat"
       };
+
+      let titleDesc = d.title || d.description ?
+        <div className={classNameTitle}>
+          {!d.title ? null : <span>
+            {d.title}
+            <br />
+          </span>}
+          <small>{d.description}</small>
+        </div>
+        : null
+
       return (
         <div
           id={id}
@@ -275,11 +287,7 @@ export class HallGalleryView extends React.Component {
           className={className}
           style={imgStyle}
         >
-          <div className={classNameTitle}>
-            {d.title}
-            <br />
-            <small>{d.description}</small>
-          </div>
+          {titleDesc}
         </div>
       );
     } else if (d.type == HallGalleryEnum.TYPE_VIDEO) {
@@ -395,7 +403,7 @@ export class ManageHallGallery extends React.Component {
 
     this.DATA_CF = getDataCareerFair();
     this.FIELD_SELECT =
-      "ID cf is_active item_order type title description img_url img_pos img_size video_url";
+      "ID cf is_active item_order title description type img_url img_pos img_size video_url";
     this.offset = 20;
     this.tableHeader = (
       <thead>
@@ -404,11 +412,10 @@ export class ManageHallGallery extends React.Component {
           <th>CF</th>
           <th>Is Active</th>
           <th>Item Order</th>
-          <th>Type</th>
           <th>Title</th>
           <th>Description</th>
-          <th>Img Meta</th>
-          <th>Video Meta</th>
+          <th>Type</th>
+          <th>Meta</th>
         </tr>
       </thead>
     );
@@ -468,7 +475,6 @@ export class ManageHallGallery extends React.Component {
             label: "Title",
             name: HallGallery.TITLE,
             type: "text",
-            required: true
           },
           {
             label: "Description",
@@ -546,11 +552,11 @@ export class ManageHallGallery extends React.Component {
       });
     };
 
-    
+
 
     this.renderRow = (d, i) => {
       var row = [];
-      var discard = ["img_pos", "img_size"];
+      var discard = ["img_pos", "img_size", "video_url"];
       for (var key in d) {
         if (discard.indexOf(key) >= 0) {
           continue;
@@ -558,18 +564,22 @@ export class ManageHallGallery extends React.Component {
         if (key == "img_url") {
           let v = [
             <li>
-              <b>Url</b> : {d.img_url}
+              <b>Image Url</b> : <span>{d.img_url}</span>
             </li>,
             <li>
-              <b>Position</b> : {d.img_pos}
+              <b>Image Position</b> : <span>{d.img_pos}</span>
             </li>,
             <li>
-              <b>Size</b> : {d.img_size}
-            </li>
+              <b>Image Size</b> : <span>{d.img_size}</span>
+            </li>,
+            <li>
+              <br></br>
+              <b>Video Url</b> : <span>{d.video_url}</span>
+            </li>,
           ];
           row.push(
             <td>
-              <ul>{v}</ul>
+              <ul><div style={{ maxWidth: "40vw" }}>{v}</div></ul>
             </td>
           );
         } else if (key == "is_active") {
@@ -577,8 +587,8 @@ export class ManageHallGallery extends React.Component {
             d.is_active == "0" ? (
               <label className="label label-danger">Not Active</label>
             ) : (
-              <label className="label label-success">Active</label>
-            );
+                <label className="label label-success">Active</label>
+              );
           row.push(<td className="text-center">{is_active}</td>);
         } else {
           row.push(<td>{d[key]}</td>);
@@ -589,6 +599,8 @@ export class ManageHallGallery extends React.Component {
 
     // if used in formWillSubmit, better put in force diff
     this.forceDiff = [
+      HallGallery.TITLE,
+      HallGallery.DESCRIPTION,
       HallGallery.IS_ACTIVE,
       HallGallery.TYPE,
       HallGallery.VIDEO_URL,
@@ -598,6 +610,12 @@ export class ManageHallGallery extends React.Component {
     ];
 
     this.formWillSubmit = (d, edit) => {
+      for (var i in d) {
+        if (d[i] == null) {
+          d[i] = "";
+        }
+      }
+
       var parseInt = [HallGallery.IS_ACTIVE];
 
       for (var i in parseInt) {
@@ -616,7 +634,7 @@ export class ManageHallGallery extends React.Component {
             d[HallGallery.IMG_POS] = "center center";
           }
           if (isValueEmpty(d[HallGallery.IMG_SIZE])) {
-            d[HallGallery.IMG_SIZE] = "cover";
+            d[HallGallery.IMG_SIZE] = "100%";
           }
         }
       }

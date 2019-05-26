@@ -73,13 +73,18 @@ export const UserFormItem = [
         type: "text",
         placeholder: "HR Manager",
         register: 0, editStudent: 0, editRec: 1
-    }, {
+    }, 
+    {
+        header: "A Little More About Yourself",
+        register: 2, editStudent: 0, editRec: 0
+    },
+    {
         label: "Phone Number",
         name: UserMeta.PHONE_NUMBER,
         type: "text",
         placeholder: "XXX-XXXXXXX",
         //required: true,
-        register: 0, editStudent: 1, editRec: 0
+        register: 2, editStudent: 1, editRec: 0
     },
     // {
     //     label: "Gender",
@@ -90,7 +95,7 @@ export const UserFormItem = [
     // register:1, editStudent: 1, editRec: 0 },
     {
         header: "Where Do You Reside In Malaysia?",
-        register: 0, editStudent: 1, editRec: 0
+        register: 2, editStudent: 1, editRec: 0
     },
     {
         label: "State",
@@ -98,7 +103,7 @@ export const UserFormItem = [
         type: "select",
         data: MasState,
         //required: true,
-        register: 0, editStudent: 1, editRec: 0
+        register: 2, editStudent: 1, editRec: 0
     },
     // {
     //     label: "Postcode",

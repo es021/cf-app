@@ -65,6 +65,13 @@ class LoginPage extends React.Component {
 
         this.CF = getCF();
         this.defaultValues = {};
+
+
+        // for sign up page only
+        if (this.props.defaultLogin) {
+            this.defaultValues[User.EMAIL] = this.props.defaultLogin
+        }
+
         this.defaultValues[User.CF] = getCF();
     }
 
@@ -143,7 +150,7 @@ class LoginPage extends React.Component {
         } else {
             return (
                 <div>
-                    <h3>Login</h3>
+                    {this.props.title ? this.props.title : <h3>Login</h3>}
                     <Form className="form-row"
                         items={this.formItem}
                         disableSubmit={fetching}
@@ -158,8 +165,6 @@ class LoginPage extends React.Component {
     }
 }
 
-//<div>You must log in to view the page at {from.pathname}</div>
-
-
+//<div>You must log in to view the page at {from.pathname}</div>s
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

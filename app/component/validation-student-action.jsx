@@ -36,10 +36,10 @@ export default class ValidationStudentAction extends React.Component {
     if (this.props.source === ValidationSource.GROUP_SESSION) {
       return true;
     } else if (this.props.source === ValidationSource.DROP_RESUME) {
-      console.log("state",this.state);
-      console.log("state",this.state);
-      console.log("state",this.state);
-      console.log("state",this.state);
+      // console.log("state",this.state);
+      // console.log("state",this.state);
+      // console.log("state",this.state);
+      // console.log("state",this.state);
       return (
         this.state.hasResume &&
         //&& this.state.hasAcademicTrans

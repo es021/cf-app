@@ -199,7 +199,7 @@ fields["add_hall_gallery"] = {
             type: GraphQLInt
         },
         title: {
-            type: new GraphQLNonNull(GraphQLString)
+            type: GraphQLString
         },
         description: {
             type: GraphQLString

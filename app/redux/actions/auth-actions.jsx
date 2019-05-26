@@ -5,7 +5,8 @@ import {
 } from '../store.js';
 import {
     AppConfig,
-    TestUser
+    TestUser,
+    OverrideComingSoonUser
 } from '../../../config/app-config';
 import {
     AuthUserKey
@@ -114,9 +115,9 @@ export function getCF() {
 export function isComingSoon() {
     //return false;
 
-    // if (isTestUser()) {
-    //     return false;
-    // }
+    if (isOverrideComingSoonUser()) {
+        return false;
+    }
 
 
     var isComingSoon = true;
@@ -154,19 +155,30 @@ export function isComingSoon() {
     return isComingSoon;
 }
 
+export function gotItButton() {
+    return <button className="btn btn-sm btn-primary" onClick={
+        () => { storeHideBlockLoader() }
+    }>Got It</button>;
+}
 
-export function doAfterValidateComingSoon(actionHandler) {
+export function doAfterValidateComingSoon(actionHandler, subText = null) {
     if (isComingSoon()) {
         var cfObj = getCFObj();
 
         let mes = <div>
-            <h4 className="text-primary"><b>Try Again Soon</b></h4>
+            <h4 className="text-primary"><b>Come Back Later</b></h4>
             This action only allowed after the event started on
             <br></br>
             <u>{Time.getString(cfObj.start)}</u>
+            <br></br>
+            {subText == null
+                ? null
+                : <span><br></br>{subText}<br></br></span>}
+            <br></br>
+            {gotItButton()}
         </div>;
-
-        customBlockLoader(mes);
+        // customBlockLoader(mes, null, null, null, true)
+        customViewBlockLoaderSmall("", mes, true)
     } else {
         actionHandler();
     }
@@ -231,6 +243,10 @@ export function isTestUser() {
     return TestUser.indexOf(getAuthUser().ID) >= 0;
 }
 
+export function isOverrideComingSoonUser(){
+    return OverrideComingSoonUser.indexOf(getAuthUser().ID) >= 0;
+}
+
 // ############################################
 // REDUX ACTIONS
 
@@ -269,8 +285,9 @@ import {
     emitLogout
 } from '../../socket/socket-client';
 import {
-    errorBlockLoader, customBlockLoader
+    errorBlockLoader, customBlockLoader, storeHideBlockLoader, customViewBlockLoader, customViewBlockLoaderSmall
 } from './layout-actions.js';
+import layoutReducer from "../reducer/layout-reducer.js";
 
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {

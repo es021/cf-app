@@ -97,7 +97,11 @@ export function openLiveSession(company_id) {
     })
   }
 
-  doAfterValidateComingSoon(doAction);
+  let subText = null;
+  if (isRoleStudent()) {
+    subText = <span>In the meantime, you can <b>RSVP for live session</b> on the left side of the page.</span>;
+  }
+  doAfterValidateComingSoon(doAction, subText);
 }
 
 export function getGroupSessionQueryFilter(cId) {
@@ -691,10 +695,8 @@ class LiveSessionClass extends React.Component {
         {/* {this.props.forRec ? this.createAddNewGs() : null} */}
         {list}
         {this.props.forStudent && list.length == 0 ? (
-          <small className="text-muted">
-            This company does not have any live sessions yet.
-            <br />
-            Check again later.
+          <small className="text-muted text-left">
+            This company does not have any live sessions scheduled yet. Check again later.
           </small>
         ) : null}
       </div>
@@ -1060,7 +1062,7 @@ class LiveSessionClass extends React.Component {
             borderBottom: "solid darkgray 1px"
           }}
         >
-          Live Session Schedule
+          RSVP for Live Session
         </h4>
       );
       view = [view];

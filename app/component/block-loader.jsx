@@ -140,8 +140,12 @@ class BlockLoader extends React.Component {
         // add large class to noClose
         try {
             if (state.custom.noClose === true) {
-                className += " large";
+                if(state.custom.small !== true){
+                    className += " large";
+                }
             }
+
+           
         } catch (err) { }
 
         return (<div style={style} id="block-loader" >

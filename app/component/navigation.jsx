@@ -65,7 +65,7 @@ function getHomeComponent(COMING_SOON) {
       // new hall takde pegi page coming soon
       if (isRoleStudent()) homeComponent = HallPage;
       else if (isRoleRec()) homeComponent = HallPage;
-      else if (isRoleAdmin()) homeComponent = CompaniesPage;
+      else if (isRoleAdmin()) homeComponent = HallPage;
     } else {
       if (COMING_SOON) {
         var homeComponent = ComingSoonPage;
@@ -278,7 +278,8 @@ function getMenuItem(COMING_SOON) {
       hd_app: true,
       hd_auth: false,
       default_param: { current: "availability" },
-      disabled: !isRoleStudent()
+      //disabled: !isRoleStudent()
+      disabled: IsNewHall
     },
     // Remove For Eur
     // {
@@ -365,7 +366,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
-      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
+      disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
     },
     {
       url: "/overview",
@@ -423,16 +424,16 @@ function getMenuItem(COMING_SOON) {
       hd_auth: true,
       allRoute: true
     },
-    // {
-    //   url: "/logout",
-    //   label: "Logout",
-    //   icon: "sign-out",
-    //   component: LogoutPage,
-    //   bar_app: false,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false
-    // },
+    {
+      url: "/logout",
+      label: "Logout",
+      icon: "sign-out",
+      component: LogoutPage,
+      bar_app: false,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false
+    },
     {
       url: "/sign-up",
       label: "Sign Up",

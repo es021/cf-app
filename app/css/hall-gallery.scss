@@ -91,7 +91,7 @@ $OFFSET_SM : 0px;
     max-width: 100%;
 
     .hg-item {
-        background: darkgray;
+        background: $COLOR_DARK;
         border-radius: 7px;
         border: solid 1px white;
         transition: width 0.4s ease, height 0.3s ease, left 0.5s ease, top 0.2s ease, z-index 0.5s ease;
@@ -106,7 +106,7 @@ $OFFSET_SM : 0px;
             color: white;
             text-align: left;
             padding: 7px 10px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.8);
             transition: opacity 0.4s ease, margin-bottom 0.4s ease;
             margin-bottom: -40px;
             opacity: 0;

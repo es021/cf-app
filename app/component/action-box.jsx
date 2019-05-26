@@ -151,5 +151,5 @@ ActionBox.defaultProps = {
   isQuestion: false,
   isButton: false,
   isNavLink: false,
-  btnClass: "dark-green"
+  btnClass: "success"
 };

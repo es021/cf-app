@@ -17,8 +17,10 @@ import { CompanyEnum } from "../../config/db-config";
 import {
   isRoleRec,
   isRoleStudent,
+  isRoleAdmin,
   getCFObj,
-  getAuthUser
+  getAuthUser,
+  isComingSoon
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
@@ -122,6 +124,9 @@ export default class HallPage extends React.Component {
       <div className="title-section">
         <div>Welcome To {this.title}</div>
         {logo}
+        <div style={{ width: "100%" }}>
+          {this.getTimerComingSoon()}
+        </div>
       </div>
     );
   }
@@ -218,27 +223,12 @@ export default class HallPage extends React.Component {
 
 
   getTimerComingSoon() {
-    return null;
-    
-    var doneMes = <div>
-      Virtual Career Fair Starting Now
-      <br></br>
-      <small>Please Refresh Your Page</small>
-      <br></br>
-    </div>;
+    if (isComingSoon()) {
+      var doneMes = null;
+      return <Timer end={this.CFDetail.start} doneMes={doneMes}></Timer>
+    }
 
-    return <div>
-      <h1>
-        <small>Coming Soon</small>
-        <br></br>
-        {this.CFDetail.title}
-        <br></br>
-        <small>
-          {getCFTimeDetail(this.dateStr, this.CFDetail.time_str, this.CFDetail.time_str_mas)}
-        </small>
-      </h1>
-      <Timer end={this.CFDetail.start} doneMes={doneMes}></Timer>
-    </div>
+    return null
   }
 
   render() {
@@ -246,13 +236,12 @@ export default class HallPage extends React.Component {
 
     return (
       <div className="hall-page">
-        {this.getTimerComingSoon()}
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
         {isRoleRec() ? this.getRecruiterAction() : null}
-        {this.getActivityAndWebinar()}
-        {isRoleStudent() ? this.getCompanyBooth() : null}
+        {isRoleRec() || isRoleStudent() ? this.getActivityAndWebinar() : null}
+        {isRoleStudent() || isRoleAdmin() ? this.getCompanyBooth() : null}
       </div>
     );
   }

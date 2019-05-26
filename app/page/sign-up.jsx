@@ -9,6 +9,7 @@ import { RootPath, DocumentUrl, LandingUrl } from '../../config/app-config';
 import AvailabilityView from './availability';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
+import LoginPage from './login';
 
 import { getRegisterFormItem, TotalRegisterStep } from '../../config/user-config';
 
@@ -161,7 +162,8 @@ export default class SignUpPage extends React.Component {
         //     "first_name": "kakaka"
         // };
 
-        if (this.state.confirmed) {
+        //if (this.state.confirmed) {
+        if (this.state.success) {
             window.scrollTo(0, 0);
             let formItems = getRegisterFormItem(this.state.currentStep);
             // console.log(formItems);
@@ -170,7 +172,10 @@ export default class SignUpPage extends React.Component {
 
             let completeView = this.state.currentStep > TotalRegisterStep
                 ?
-                <div> <h3>Congratulation! You Have Completed Your Profile</h3></div>
+                <div>
+                    <h3>Congratulation! You Have Completed Your Profile</h3>
+                    <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
+                </div>
                 :
                 <div>
                     <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
@@ -193,16 +198,17 @@ export default class SignUpPage extends React.Component {
                 {completeView}
             </div>
         }
-        else if (this.state.success) {
-            window.scrollTo(0, 0);
+        // else if (this.state.success) {
+        //     window.scrollTo(0, 0);
 
-            //scroll to top
-            content = <div>
-                <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
-                <br></br>
-                <button className="btn btn-success btn-lg" onClick={() => { this.onConfirmClick() }}>Confirm</button>
-            </div>
-        } else {
+        //     //scroll to top
+        //     content = <div>
+        //         <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
+        //         <br></br>
+        //         <button className="btn btn-success btn-lg" onClick={() => { this.onConfirmClick() }}>Confirm</button>
+        //     </div>
+        // } 
+        else {
             let formItems = getRegisterFormItem(1);
             content = <div>
                 <h3>Student Registration<br></br></h3>

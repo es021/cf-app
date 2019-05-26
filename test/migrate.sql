@@ -1,8 +1,16 @@
+
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 -- ##################################
 -- custom company message after resume dropped
 ALTER TABLE `companies` ADD `message_drop_resume` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `group_url`; 
-
-
 
 -- ##################################
 -- Create Reserved company Id to avoid clash in support_session

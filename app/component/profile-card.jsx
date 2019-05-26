@@ -3,6 +3,7 @@ import { ImgConfig } from "../../config/app-config";
 import PropTypes from "prop-types";
 import { ButtonIcon } from "./buttons.jsx";
 import * as layoutActions from "../redux/actions/layout-actions";
+import { NavLink } from 'react-router-dom';
 
 import ProfileCardImg, {
   getPositionStr,
@@ -25,7 +26,7 @@ export const PCType = {
 const pc = "pc-";
 
 // return in from {img_url, img_size, img_pos}
-export const getImageObj = function(obj) {
+export const getImageObj = function (obj) {
   if (obj != null && typeof obj !== "undefined") {
     var r = {};
     r.img_url = obj.img_url;
@@ -38,7 +39,7 @@ export const getImageObj = function(obj) {
   }
 };
 
-export const createImageElement = function(
+export const createImageElement = function (
   img_url,
   img_pos,
   img_size,
@@ -63,7 +64,7 @@ export const createImageElement = function(
   );
 };
 
-export const getDefaultProfileImg = function(type, url = null) {
+export const getDefaultProfileImg = function (type, url = null) {
   if (url == null || url == "null") {
     switch (type) {
       case PCType.STUDENT:
@@ -88,7 +89,7 @@ export const getDefaultProfileImg = function(type, url = null) {
   };
 };
 
-export const getStyleImageObj = function(
+export const getStyleImageObj = function (
   type,
   img_url,
   img_size,
@@ -127,7 +128,7 @@ export const getStyleImageObj = function(
  * @param {String px} width
  * @param {String px} height
  */
-export const getStyleBannerObj = function(url, size, pos, width, height) {
+export const getStyleBannerObj = function (url, size, pos, width, height) {
   let dimensionBanner = {
     x: width,
     y: height
@@ -139,7 +140,7 @@ export const getStyleBannerObj = function(url, size, pos, width, height) {
     pos,
     dimensionBanner
   );
-  
+
   // add height
   styleBanner.height = height;
   styleBanner.backgroundRepeat = "no-repeat";
@@ -267,29 +268,60 @@ export default class ProfileCard extends React.Component {
       onlineBar = <div className={`${pc}online-bar`}>Online</div>;
     }
 
-    //this.openPictureOps(stylePicture);
-    return (
-      <div
+    let body = [
+      banner,
+      onlineBar,
+      this.props.header ? this.props.header : null,
+      badge,
+      <div className={`${pc}picture`} style={stylePicture}>
+        {img_ops}
+      </div>,
+      <div className={`${pc}title`}>{this.props.title}</div>,
+      this.props.subtitle ? (
+        <div className={`${pc}subtitle`}>{this.props.subtitle}</div>
+      ) : null,
+      <div className={`${pc}body`}>
+        {this.props.body ? this.props.body : null}
+      </div>,
+    ]
+
+    if (this.props.to) {
+      return <NavLink to={this.props.to}
+        className={className}
+        style={styleParent}>
+        {body}
+      </NavLink>
+
+    } else {
+      return <div
         onClick={this.props.onClick}
         className={className}
         style={styleParent}
-      >
-        {banner}
-        {onlineBar}
-        {this.props.header ? this.props.header : null}
-        {badge}
-        <div className={`${pc}picture`} style={stylePicture}>
-          {img_ops}
-        </div>
-        <div className={`${pc}title`}>{this.props.title}</div>
-        {this.props.subtitle ? (
-          <div className={`${pc}subtitle`}>{this.props.subtitle}</div>
-        ) : null}
-        <div className={`${pc}body`}>
-          {this.props.body ? this.props.body : null}
-        </div>
-      </div>
-    );
+      >{body}</div>
+    }
+    //this.openPictureOps(stylePicture);
+    // return (
+    //   <div
+    //     onClick={this.props.onClick}
+    //     className={className}
+    //     style={styleParent}
+    //   >
+    //     {banner}
+    //     {onlineBar}
+    //     {this.props.header ? this.props.header : null}
+    //     {badge}
+    //     <div className={`${pc}picture`} style={stylePicture}>
+    //       {img_ops}
+    //     </div>
+    //     <div className={`${pc}title`}>{this.props.title}</div>
+    //     {this.props.subtitle ? (
+    //       <div className={`${pc}subtitle`}>{this.props.subtitle}</div>
+    //     ) : null}
+    //     <div className={`${pc}body`}>
+    //       {this.props.body ? this.props.body : null}
+    //     </div>
+    //   </div>
+    // );
   }
 }
 
@@ -303,8 +335,9 @@ ProfileCard.propTypes = {
   badge: PropTypes.string,
   badge_tooltip: PropTypes.string,
   onClick: PropTypes.func,
+  to: PropTypes.string,
 
-  isShowOnlineBar : PropTypes.bool,
+  isShowOnlineBar: PropTypes.bool,
 
   addBanner: PropTypes.bool,
   banner_height: PropTypes.string,
@@ -326,7 +359,7 @@ ProfileCard.propTypes = {
 };
 
 ProfileCard.defaultProps = {
-  isShowOnlineBar : false,
+  isShowOnlineBar: false,
   addBanner: false,
   customStyle: null,
   customStyleParent: null

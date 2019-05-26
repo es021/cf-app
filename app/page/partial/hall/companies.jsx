@@ -5,11 +5,13 @@ import * as hallAction from "../../../redux/actions/hall-actions";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import ProfileCard from "../../../component/profile-card.jsx";
+import { NavLink } from 'react-router-dom';
 import {
   BANNER_WIDTH,
   BANNER_HEIGHT
 } from "../../../component/profile-card-img";
 import { CompanyEnum } from "../../../../config/db-config";
+import { AppPath } from "../../../../config/app-config";
 import { ButtonLink } from "../../../component/buttons.jsx";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import Tooltip from "../../../component/tooltip";
@@ -24,7 +26,7 @@ import CompanyPopup from "../popup/company-popup";
 
 require("../../../css/company-sec.scss");
 
-export const getCompanyCSSClass = function(type) {
+export const getCompanyCSSClass = function (type) {
   var className = "";
   switch (type) {
     case CompanyEnum.TYPE_SPECIAL:
@@ -135,8 +137,9 @@ class CompanyBooth extends React.Component {
 
     return (
       <ProfileCard
+        to={`${AppPath}/company/${this.props.company.ID}`}
+        //onClick={onClick}
         className={className}
-        onClick={onClick}
         type="company"
         header={header}
         title={pcTitle}
@@ -155,6 +158,7 @@ class CompanyBooth extends React.Component {
         img_size={this.props.company.img_size}
         body={pcBody}
       />
+      //</NavLink>
     );
   }
 }
@@ -264,7 +268,7 @@ class CompaniesSection extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     traffic: state.hall.traffic,
-    online_companies : state.user.online_companies,
+    online_companies: state.user.online_companies,
     companies: state.hall.companies,
     //onlineCompanies: state.hall.onlineCompanies,
     queueCompanies: state.hall.queueCompanies

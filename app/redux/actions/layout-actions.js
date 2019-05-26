@@ -59,19 +59,23 @@ export function confirmBlockLoader(title, yesHandler, noHandler) {
     }, null);
 }
 
-export function customBlockLoader(title, actionText, actionHandler, href, noClose = false, customView = null) {
+export function customBlockLoader(title, actionText, actionHandler, href, noClose = false, customView = null, small = false) {
     updateBlockLoader(null, null, null, null, {
         title: title,
         actionText: actionText,
         actionHandler: actionHandler,
         href: href,
         noClose: noClose,
-        customView: customView
+        customView: customView,
+        small: small
     });
 }
 
 export function customViewBlockLoader(title, customView, noClose = false) {
     customBlockLoader(title, null, null, null, noClose, customView);
+}
+export function customViewBlockLoaderSmall(title, customView, noClose = false) {
+    customBlockLoader(title, null, null, null, noClose, customView, true);
 }
 
 

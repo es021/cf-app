@@ -11,7 +11,8 @@ import {
   getAuthUser,
   isRoleRec,
   isRoleStudent,
-  isRoleAdmin
+  isRoleAdmin,
+  doAfterValidateComingSoon
 } from "../redux/actions/auth-actions";
 import { DocLinkEnum, CompanyEnum, LogEnum } from "../../config/db-config";
 //import { CustomList, createIconLink } from "../component/list";
@@ -510,10 +511,52 @@ export default class CompanyPage extends Component {
       });
     };
 
+    const btn_onClickChat = () => {
+      const doAction = () => {
+        this.props.history.push(`${AppPath}/company-chat/${this.ID}`)
+      }
+      doAfterValidateComingSoon(doAction);
+    };
+
     return (
       <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-6`}>
-          <ActionBox
+        <div className={`col-md-4`}>
+          <ButtonAction
+            style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+            btnClass="btn-lg btn-danger"
+            onClick={() => { openLiveSession(this.ID); }}
+            icon="podcast"
+            iconSize="2x"
+            mainText={"Join Live Session"}
+            // subText={`with ${this.state.data.name}`}
+            subText={null}
+          />
+        </div>
+        <div className={`col-md-4`}>
+          <ButtonAction
+            style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+            btnClass="btn-lg btn-success"
+            onClick={btn_onClickResume}
+            icon="download"
+            iconSize="2x"
+            mainText={"Drop Your Resume"}
+            subText={null}
+          />
+        </div>
+        <div className={`col-md-4`}>
+          <ButtonAction
+            style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+            btnClass="btn-lg btn-blue"
+            onClick={btn_onClickChat}
+            icon="comments"
+            iconSize="2x"
+            mainText={`Chat With ${this.state.data.name}`}
+            subText={null}
+          />
+        </div>
+      </div>
+
+      /* <ActionBox
             title={
               <div>
                 <i className="fa fa-download left" />
@@ -522,36 +565,31 @@ export default class CompanyPage extends Component {
             }
             isButton={true}
             btn_onClick={btn_onClickResume}
-          />
-        </div>
-        <div className={`col-md-6`}>
-          <ActionBox
-            {...this.props}
-            title={
-              <div>
-                <i className="fa fa-comments left" />
-                <b>Chat With Recruiter</b>
-              </div>
-            }
-            isDoAfterComingSoon={true}
-            isNavLink={true}
-            navlink_url={`${AppPath}/company-chat/${this.ID}`}
-          />
-        </div>
-        {/* <div className={`col-md-4`}>
-          <ActionBox
-            key={this.state.qsLastSubmitted}
-            title={
-              <div>
-                <i className="fa fa-bullhorn left" />
-                <b>Ask Us A Question</b>
-              </div>
-            }
-            isQuestion={true}
-            qs_onSubmit={qs_onSubmit}
-          />
-        </div> */}
-      </div>
+          /> */
+      /* <ActionBox
+          {...this.props}
+          title={
+            <div>
+              <i className="fa fa-comments left" />
+              <b>Chat With Recruiter</b>
+            </div>
+          }
+          isDoAfterComingSoon={true}
+          isNavLink={true}
+        /> */
+      /* <div className={`col-md-4`}>
+        <ActionBox
+          key={this.state.qsLastSubmitted}
+          title={
+            <div>
+              <i className="fa fa-bullhorn left" />
+              <b>Ask Us A Question</b>
+            </div>
+          }
+          isQuestion={true}
+          qs_onSubmit={qs_onSubmit}
+        />
+      </div> */
     );
   }
   // getStudentAction(data) {
@@ -610,15 +648,15 @@ export default class CompanyPage extends Component {
       var gSession =
         !isRoleStudent() || this.props.displayOnly ? null : (
           <div>
-            <ButtonAction
+            {/* <ButtonAction
               style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
-              btnClass="btn-lg btn-success"
+              btnClass="btn-lg btn-blue"
               onClick={() => { openLiveSession(this.ID); }}
               icon="podcast"
               iconSize="2x"
               mainText={"Join Live Session"}
               subText={`with ${this.state.data.name}`}
-            />
+            /> */}
             <LiveSessionView
               forStudent={true}
               company_id={this.ID}
