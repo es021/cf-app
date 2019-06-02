@@ -254,19 +254,19 @@ function getMenuItem(COMING_SOON) {
       default_param: { current: "doc-link" },
       disabled: !isRoleStudent()
     },
-    {
-      // Student Only
-      url: "/edit-profile/:current",
-      label: "Add Skills",
-      icon: "star",
-      component: EditProfilePage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      default_param: { current: "skills" },
-      disabled: !isRoleStudent()
-    },
+    // {
+    //   // Student Only
+    //   url: "/edit-profile/:current",
+    //   label: "Add Skills",
+    //   icon: "star",
+    //   component: EditProfilePage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   default_param: { current: "skills" },
+    //   disabled: !isRoleStudent()
+    // },
     {
       // Student Only
       url: "/edit-profile/:current",

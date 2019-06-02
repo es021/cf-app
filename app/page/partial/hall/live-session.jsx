@@ -694,9 +694,11 @@ class LiveSessionClass extends React.Component {
       <div className="live-session">
         {/* {this.props.forRec ? this.createAddNewGs() : null} */}
         {list}
-        {this.props.forStudent && list.length == 0 ? (
+        {list.length == 0 ? (
           <small className="text-muted text-left">
-            This company does not have any live sessions scheduled yet. Check again later.
+            {this.props.forStudent
+              ? "This company does not have any live session scheduled yet. Check again later."
+              : "It seems you don't have any live session scheduled yet."}
           </small>
         ) : null}
       </div>

@@ -475,7 +475,6 @@ export default class EditProfilePage extends React.Component {
             this.item["skills"] = {
                 label: "Add Skills",
                 component: Skills,
-                routeOnly: true,
                 icon: "star"
             };
             this.item["availability"] = {

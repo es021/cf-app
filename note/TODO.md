@@ -1,4 +1,8 @@
-deploy link baru utk test
+Clean Up Recruiter Page
+- empty state 'Your Live Session' (dalam popup create new)
+- 
+
+#deploy link baru utk test
 
 # Push Live TODO list
 10 June
