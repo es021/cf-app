@@ -1,21 +1,21 @@
-Clean Up Recruiter Page
-- empty state 'Your Live Session' (dalam popup create new)
-- 
+#Clean Up Recruiter Page
+#- empty state 'Your Live Session' (dalam popup create new)
+#- 
 
 #deploy link baru utk test
 
 # Push Live TODO list
-10 June
-- migrate new table in database
-- disable chat with rec n live session kalau preEvent
-- gambar hall gallery
+#10 June
+#- migrate new table in database
+#- disable chat with rec n live session kalau preEvent
+#- gambar hall gallery
 
 # Live Session
-When are you live 
-  - create time to go live. 
-    - time (can choose multiple) (time event only)
-    - no title
-    - list of upcoming live session (with rsvp count)
+# When are you live 
+  # - create time to go live. 
+  #  - time (can choose multiple) (time event only)
+  #  - no title
+  #  - list of upcoming live session (with rsvp count)
 
 Go Live 
   - kena bukak indicator yang student boleh masuk
@@ -25,27 +25,27 @@ Go Live
 
 Socket tak offline kalau kita tutup window
 
-Pages 
- - student listing
+#Pages 
+# - student listing
 
-Company Page
-  - Recruiter view 
-    - takde live session
-  - Student view 
-    - Wording - Live With (company_name)
-    - One button to join
-    - Time n RSVP
+#Company Page
+#  - Recruiter view 
+#    - takde live session
+#  - Student view 
+#    - Wording - Live With (company_name)
+#    - One button to join
+#   - Time n RSVP
 
-Custom Message For Each Company After student drop resume
+# Custom Message For Each Company After student drop resume
 
-Forum
-  - remove
-  - ask question remove
+#Forum
+#  - remove
+#  - ask question remove
 
 Messaging
   - unread message indicator
   - notification
-  - boleh lepas start event je
+#  - boleh lepas start event je
 
 # IMPORTANT REMINDER
 -- try coming soon page

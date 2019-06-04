@@ -159,9 +159,10 @@ export class CompanyChatInbox extends React.Component {
       this.setState(prevState => {
         var obj = prevState.sessions[keyId];
 
-        if (this.state.current_user != keyId) {
-          obj.isNew = true;
-        }
+        obj.isNew = true;
+        // if (this.state.current_user != keyId) {
+        //   obj.isNew = true;
+        // }
 
         obj.last_message = data.message;
         obj.last_message_time = data.created_at;

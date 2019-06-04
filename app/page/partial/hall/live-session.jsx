@@ -92,7 +92,7 @@ export function openLiveSession(company_id) {
 
         layoutActions.storeHideBlockLoader();
       } else {
-        layoutActions.errorBlockLoader("Live session link is not set for this company");
+        layoutActions.errorBlockLoader(<span>Live session link is not set for this company. Please contact us at <b>innovaseedssolutions@gmail.com</b></span>);
       }
     })
   }

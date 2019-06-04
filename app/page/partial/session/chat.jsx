@@ -152,7 +152,8 @@ export function joinVideoCall(join_url, session_id, expiredHandler = null, group
             }
         };
         getWpAjaxAxios("wzs21_zoom_ajax", {
-            query: "get_meeting_status", ...data
+            query: "get_meeting_status", 
+            ...data
         }, successInterceptorStatus, true);
     }
 }
@@ -193,7 +194,7 @@ class Chat extends React.Component {
 
         socketOn(BOTH.CHAT_MESSAGE, (data) => {
             if (this.props.other_id == data.from_id) {
-                this.addChatToView(data.from_id, data.message, data.created_at);
+                this.addChatToView(data.from_id, data.message, data.created_at, 0, data.id_message_number);
             }
         });
 
@@ -296,7 +297,7 @@ class Chat extends React.Component {
             messages(which_company : "${this.getWhichCompany("user_1", "user_2")}",
                 user_1:${this.props.self_id}, user_2:${this.props.other_id}, 
                 page:${page},offset:${offset}){
-                id_message_number message from_user_id created_at}}`;
+                id_message_number message has_read from_user_id created_at}}`;
 
         return getAxiosGraphQLQuery(query);
     }
@@ -305,8 +306,8 @@ class Chat extends React.Component {
         return res.data.data.messages;
     }
 
-    addChatToView(from, message, created_at) {
-        var mesObj = { from_user_id: from, message: message, created_at: created_at };
+    addChatToView(from, message, created_at, has_read = 1, id_message_number = null) {
+        var mesObj = { from_user_id: from, message: message, created_at: created_at, has_read: has_read, id_message_number:id_message_number};
         var newData = this.renderList(mesObj, 0, true);
 
         // add to view
@@ -346,16 +347,26 @@ class Chat extends React.Component {
         // add to db
         // todos
         var query = `mutation{add_message(${obj2arg(ins, { noOuterBraces: true })}) {id_message_number}}`;
-        getAxiosGraphQLQuery(query);
+        getAxiosGraphQLQuery(query).then((res)=>{
+            let id_message_number = res.data.data.add_message.id_message_number;
+            // add to socket
+            // todos
+            emitChatMessage(this.props.self_id, this.props.other_id, this.props.is_company_other, mes, Time.getUnixTimestampNow(), id_message_number);
 
-        // add to socket
-        // todos
-        emitChatMessage(this.props.self_id, this.props.other_id, this.props.is_company_other, mes, Time.getUnixTimestampNow());
+            // empty value
+            this.chatInput.value = "";
 
-        // empty value
-        this.chatInput.value = "";
+            this.addChatToView(this.props.self_id, mes, Time.getUnixTimestampNow(), 1, id_message_number); 
+        });
 
-        this.addChatToView(this.props.self_id, mes, Time.getUnixTimestampNow());
+        // // add to socket
+        // // todos
+        // emitChatMessage(this.props.self_id, this.props.other_id, this.props.is_company_other, mes, Time.getUnixTimestampNow());
+
+        // // empty value
+        // this.chatInput.value = "";
+
+        // this.addChatToView(this.props.self_id, mes, Time.getUnixTimestampNow(), 1);
     }
 
 
@@ -641,11 +652,26 @@ class Chat extends React.Component {
         var chatItem = <div className={`chat-item ${itemClass}`}>
             <p className="message">
                 {this.parseMessage(d.message)}
+                {/* <br></br>Has read - {d.has_read}
+                <br></br>Id - {d.id_message_number} */}
             </p>
             <div className="timestamp">
                 {date} - {Time.getStringShort(d.created_at)}
             </div>
         </div>;
+
+        // update has read to 1
+        if(d.has_read == 0){
+            // console.log(d.from_user_id,this.props.self_id )
+            // console.log(d.from_user_id,this.props.self_id )
+            // console.log(d.from_user_id,this.props.self_id )
+
+            if(d.from_user_id != this.props.self_id){
+                getAxiosGraphQLQuery(`mutation{edit_message
+                    (id_message_number :"${d.id_message_number}", has_read:1){
+                        has_read }}`);
+            }
+        }
 
         if (dateItem == null) {
             return chatItem;

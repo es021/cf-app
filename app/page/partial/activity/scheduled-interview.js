@@ -37,6 +37,50 @@ export function openSIFormNew(student_id, company_id){
     });
 }
 
+
+
+// Create 
+export function openSIFormAnytime(student_id, company_id) {
+
+    if (!(student_id && isRoleAdmin())) {
+        if (!(student_id && company_id)) {
+            layoutActions.errorBlockLoader("Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue");
+            return;
+        }
+    }
+
+    var defaultFormItem = {};
+    defaultFormItem[Prescreen.SPECIAL_TYPE] = PrescreenEnum.ST_NEW;
+    defaultFormItem[Prescreen.STUDENT_ID] = student_id;
+    defaultFormItem[Prescreen.STATUS] = PrescreenEnum.STATUS_WAIT_CONFIRM;
+
+    //if (isNormalSI(type)) {
+    var dt = Time.getInputFromUnix(Time.getUnixTimestampNow());
+    defaultFormItem[Prescreen.APPNMENT_TIME + "_DATE"] = dt.date;
+    //}
+
+    layoutActions.storeUpdateFocusCard("Add A New Scheduled Session", ScheduledInterview
+        , {
+            company_id: company_id
+            , isFormAnytime : true
+            , isFormHidden : (name) => {
+                let doHide = [
+                    Prescreen.SPECIAL_TYPE,
+                    Prescreen.STUDENT_ID,
+                    Prescreen.STATUS
+                ];
+                if(doHide.indexOf(name)>=0){
+                    return true;
+                }
+
+                return false;
+            }
+            , formOnly: true
+            , successAddHandlerExternal: (data)=>{console.log("success",data)}
+            , defaultFormItem: defaultFormItem
+        });
+}
+
 // Create Scheduled Interview 2
 export function openSIAddForm(student_id, company_id, type, success) {
 
@@ -101,6 +145,17 @@ export class ScheduledInterview extends React.Component {
                         to={link}>
                         Manage Scheduled Session</NavLink>
                 </div>;
+
+                if(this.props.isFormAnytime){
+                    mes = <div>New private call has been successfully scheduled. View call at{" "}
+                        <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
+                            to={`${RootPath}/app/`}>
+                            Home Page</NavLink>
+                        {" "}under My Activity section.
+                    </div>;
+                }
+
+
                 layoutActions.successBlockLoader(mes);
 
                 if (this.props.successAddHandlerExternal) {
@@ -280,13 +335,24 @@ export class ScheduledInterview extends React.Component {
                     = Time.getUnixFromDateTimeInput(d[Prescreen.APPNMENT_TIME + "_DATE"]
                         , d[Prescreen.APPNMENT_TIME + "_TIME"]);
 
-                //appointment time must be only on the last day
-                if (!isRoleAdmin()) {
-                    var lastDay = Time.convertDBTimeToUnix(getCFObj().end);
-                    if (d[Prescreen.APPNMENT_TIME] < lastDay && d[Prescreen.SPECIAL_TYPE] == PrescreenEnum.ST_NEXT_ROUND) {
-                        return `Next Round interview only allowed to be scheduled on the last day of the Career Fair. Please change the appoinment date and time to be later than ${Time.getString(lastDay)}`;
+                // appointment time must be bigger than current time
+                if(this.props.isFormAnytime){
+                    if(d[Prescreen.APPNMENT_TIME + "_DATE"] && d[Prescreen.APPNMENT_TIME + "_TIME"]){
+                        if(Time.getUnixTimestampNow() > d[Prescreen.APPNMENT_TIME]){
+                            return "Please enter value later than current time";
+                        }
+                    }else{
+                        return "Please fill in Appointment Time and Appointment Date";
                     }
                 }
+
+                //appointment time must be only on the last day
+                // if (!isRoleAdmin()) {
+                //     var lastDay = Time.convertDBTimeToUnix(getCFObj().end);
+                //     if (d[Prescreen.APPNMENT_TIME] < lastDay && d[Prescreen.SPECIAL_TYPE] == PrescreenEnum.ST_NEXT_ROUND) {
+                //         return `Next Round interview only allowed to be scheduled on the last day of the Career Fair. Please change the appoinment date and time to be later than ${Time.getString(lastDay)}`;
+                //     }
+                // }
             }
 
             delete (d[Prescreen.APPNMENT_TIME + "_DATE"]);
@@ -398,6 +464,7 @@ export class ScheduledInterview extends React.Component {
             ret.push({
                 label: "Company",
                 name: Prescreen.COMPANY_ID,
+                hidden : this.props.isFormHidden(Prescreen.COMPANY_ID),
                 type: "select",
                 sublabel: "Company",
                 required: true,
@@ -412,6 +479,7 @@ export class ScheduledInterview extends React.Component {
             type: "select",
             sublabel: "Created From",
             required: true,
+            hidden : this.props.isFormHidden(Prescreen.SPECIAL_TYPE),
             disabled: edit || this.props.formOnly,
             data: [""
                 , PrescreenEnum.ST_NEW
@@ -430,6 +498,7 @@ export class ScheduledInterview extends React.Component {
                 label: "Student",
                 sublabel: "Only showing students that already had session with the company",
                 name: Prescreen.STUDENT_ID,
+                hidden : this.props.isFormHidden(Prescreen.STUDENT_ID),
                 type: "select",
                 data: studentData,
                 required: true,
@@ -441,10 +510,12 @@ export class ScheduledInterview extends React.Component {
             label: "Status",
             sublabel: "Only session with status 'Approved' will be shown in Career Fair page under Scheduled Session",
             name: Prescreen.STATUS,
+            hidden : this.props.isFormHidden(Prescreen.STATUS),
             type: "select",
             required: true,
             disabled: this.props.formOnly,
-            data: [PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
+            data: [PrescreenEnum.STATUS_WAIT_CONFIRM,PrescreenEnum.STATUS_REJECTED,PrescreenEnum.STATUS_STARTED,
+                 PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_PENDING, PrescreenEnum.STATUS_DONE]
         },
         /*
         limit for today only
@@ -467,6 +538,7 @@ export class ScheduledInterview extends React.Component {
             label: "Appointment Date",
             sublabel: <span>Please enter your local time</span>,
             name: Prescreen.APPNMENT_TIME + "_DATE",
+            hidden : this.props.isFormHidden(Prescreen.APPNMENT_TIME + "_DATE"),
             type: "date",
             placeholder: "",
         },
@@ -474,6 +546,7 @@ export class ScheduledInterview extends React.Component {
             label: "Appointment Time",
             sublabel: "Please enter your local time",
             name: Prescreen.APPNMENT_TIME + "_TIME",
+            hidden : this.props.isFormHidden(Prescreen.APPNMENT_TIME + "_TIME"),
             type: "time",
             placeholder: ""
         }]);
@@ -512,6 +585,8 @@ export class ScheduledInterview extends React.Component {
 }
 
 ScheduledInterview.PropTypes = {
+    isFormAnytime : PropTypes.bool,
+    isFormHidden : PropTypes.func,
     company_id: PropTypes.number.isRequired,
     prescreen_only: PropTypes.bool,
     defaultFormItem: PropTypes.object,
@@ -520,6 +595,8 @@ ScheduledInterview.PropTypes = {
 };
 
 ScheduledInterview.defaultProps = {
+    isFormAnytime : false,
+    isFormHidden: (name) => {return false},
     prescreen_only: false,
     successAddHandlerExternal: false,
     prescreen_only: false,

@@ -35,6 +35,7 @@ const {
 
 //import all action for type
 const {
+    Message,
     Queue,
     ZoomInvite,
     FeedbackQs,
@@ -526,6 +527,28 @@ fields["add_message"] = {
     }
 };
 
+fields["edit_message"] = {
+    type: MessageType,
+    args: {
+        id_message_number: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        has_read: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
+    },
+    resolve(parentValue, arg, context, info) {
+        try {
+            return DB.update(Message.TABLE, arg, "id_message_number").then(function (res) {
+                return res;
+            });
+        } catch (err) {
+            return {};
+        }
+    }
+};
+
+
 /* availability ******************/
 fields["add_availability"] = {
     type: AvailabilityType,
@@ -680,6 +703,9 @@ fields["edit_company"] = {
             type: GraphQLInt
         },
         accept_prescreen: {
+            type: GraphQLString
+        },
+        message_drop_resume: {
             type: GraphQLString
         },
         group_url: {

@@ -9,7 +9,8 @@ import {
     UserEnum,
     ZoomInvite,
     GroupSessionJoin,
-    Notifications
+    Notifications,
+    Message
 } from '../../../config/db-config';
 import {
     getAuthUser,
@@ -30,6 +31,7 @@ export const ActivityType = {
     ZOOM_INVITE: ZoomInvite.TABLE,
     GROUP_SESSION_JOIN: GroupSessionJoin.TABLE,
     NOTIFICATION_COUNT: Notifications.TABLE,
+    INBOX_COUNT: Message.TABLE
 };
 
 var AllActivityType = [];
@@ -61,6 +63,28 @@ function getIndependentQuery(oriQuery, types) {
             }`;
         }
     }
+
+    // untuk yang independent query
+    if (types.length == 1 && types[0] == ActivityType.INBOX_COUNT) {
+        if (typeof user_id !== "undefined") {
+            if (isRoleStudent()) {
+                query = `query{
+                    messages_count(user_id : ${user_id}){
+                    total_unread
+                  }
+                }`;
+            } else if (isRoleRec()) {
+                var c_id = getAuthUser().rec_company;
+                query = `query{
+                    messages_count(company_id : ${c_id}){
+                    total_unread
+                  }
+                }`;
+            }
+
+        }
+    }
+
     return query;
 }
 

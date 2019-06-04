@@ -195,13 +195,14 @@ export const emitHallActivity = (entity, to_id, to_company) => {
     });
 };
 
-export const emitChatMessage = (from_id, to_id, is_to_company, message, created_at) => {
+export const emitChatMessage = (from_id, to_id, is_to_company, message, created_at, id_message_number) => {
     socketEmit(BOTH.CHAT_MESSAGE, {
         from_id: from_id,
         to_id: to_id,
         is_to_company : is_to_company,
         message: message,
-        created_at: created_at
+        created_at: created_at,
+        id_message_number : id_message_number
     });
 };
 

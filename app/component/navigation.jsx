@@ -361,6 +361,7 @@ function getMenuItem(COMING_SOON) {
       url: "/my-inbox",
       label: "Inbox",
       icon: "envelope-o",
+      count_attr: "count_inbox",
       component: CompanyChatInbox,
       bar_app: true,
       bar_auth: false,
@@ -579,7 +580,7 @@ function getMenuItem(COMING_SOON) {
 export function getRoute(path, COMING_SOON) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
-  var routes = menuItem.map(function (d, i) {
+  var routes = menuItem.map(function(d, i) {
     //restricted
     if (d.disabled) {
       return false;
@@ -644,11 +645,11 @@ function isBarValid(isHeader, isLog, d) {
   return true;
 }
 
-export function getBar(path, { COMING_SOON, isHeader, count_notification }) {
+export function getBar(path, { COMING_SOON, isHeader, count_notification, count_inbox }) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
 
-  var menuList = menuItem.map(function (d, i) {
+  var menuList = menuItem.map(function(d, i) {
     var exact = d.url === "/" ? true : false;
 
     if (d.routeOnly) {
@@ -705,10 +706,13 @@ export function getBar(path, { COMING_SOON, isHeader, count_notification }) {
         case "count_notification":
           countVal = count_notification;
           break;
+        case "count_inbox":
+          countVal = count_inbox;
+          break;
       }
 
       if (typeof countVal !== "undefined" && countVal != null && countVal > 0) {
-        item_count = <span className="menu_count">{countVal}</span>;
+        item_count = <div className="menu_count">{countVal}</div>;
       }
     }
 

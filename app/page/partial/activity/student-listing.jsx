@@ -18,7 +18,7 @@ import { Loader } from "../../../component/loader";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import { Time } from "../../../lib/time";
 import { createUserTitle } from "../../users";
-import { openSIFormNew } from "../../partial/activity/scheduled-interview";
+import { openSIFormNew, openSIFormAnytime} from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
 import { openFeedbackBlockRec } from "../analytics/feedback";
 import { CompanyEnum, UserEnum, PrescreenEnum } from "../../../../config/db-config";
@@ -37,7 +37,8 @@ export class StudentListingCard extends React.Component {
   }
 
   openSIForm(student_id) {
-    openSIFormNew(student_id, this.props.company_id);
+    openSIFormAnytime(student_id, this.props.company_id);
+    //openSIFormNew(student_id, this.props.company_id);
   }
 
   toggleShowMore() {
@@ -166,30 +167,55 @@ export class StudentListingCard extends React.Component {
     }
 
     var scheduledView = null;
-    if (d.student.booked_at.length > 0) {
+    if (d.student.prescreens_for_student_listing.length > 0) {
 
       // find index yang tak DONE lagi
       let baIndex = 0;
-      for (var ba in d.student.booked_at) {
+      for (var ba in d.student.prescreens_for_student_listing) {
         baIndex = ba;
-        let tempObj = d.student.booked_at[ba];
-        let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
+        let tempObj = d.student.prescreens_for_student_listing[ba];
+        let psStatus = (tempObj.status != null) ? tempObj.status : null;
         if (psStatus != null && psStatus != PrescreenEnum.STATUS_DONE) {
           break;
         }
       }
 
       // find yang tak DONE lagi
-      let tempObj = d.student.booked_at[baIndex];
-      let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
+      let tempObj = d.student.prescreens_for_student_listing[baIndex];
+      let psStatus = (tempObj.status != null) ? tempObj.status : null;
       scheduledView = <div style={{ marginBottom: "8px", marginTop: "0px" }}>
         <label
           className={`label label-success label-custom`}>
-          {psStatus == PrescreenEnum.STATUS_DONE ? "Session Created on " : "Scheduled Interview on "}
-          <b>{Time.getString(tempObj.timestamp)}</b>
+          {psStatus == PrescreenEnum.STATUS_STARTED ? "Session Created on " : "Scheduled Interview on "}
+          <b>{Time.getString(tempObj.appointment_time)}</b>
         </label>
       </div>
     }
+    // var scheduledView = null;
+    // if (d.student.booked_at.length > 0) {
+
+    //   // find index yang tak DONE lagi
+    //   let baIndex = 0;
+    //   for (var ba in d.student.booked_at) {
+    //     baIndex = ba;
+    //     let tempObj = d.student.booked_at[ba];
+    //     let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
+    //     if (psStatus != null && psStatus != PrescreenEnum.STATUS_DONE) {
+    //       break;
+    //     }
+    //   }
+
+    //   // find yang tak DONE lagi
+    //   let tempObj = d.student.booked_at[baIndex];
+    //   let psStatus = (tempObj.prescreen != null) ? tempObj.prescreen.status : null;
+    //   scheduledView = <div style={{ marginBottom: "8px", marginTop: "0px" }}>
+    //     <label
+    //       className={`label label-success label-custom`}>
+    //       {psStatus == PrescreenEnum.STATUS_DONE ? "Session Created on " : "Scheduled Interview on "}
+    //       <b>{Time.getString(tempObj.timestamp)}</b>
+    //     </label>
+    //   </div>
+    // }
 
     // title = (
     //   <div>
@@ -278,8 +304,8 @@ export class StudentListingCard extends React.Component {
         body={details}
         action_text={
           <small>
-            <i className="fa fa-clock-o left" />
-            Call Availability
+            <i className="fa fa-video-camera left" />
+            Schedule Call
           </small>
         }
         action_handler={actionHandler}
@@ -558,13 +584,12 @@ export class StudentListing extends React.Component {
             student_id
             created_at
             student{
-                booked_at {timestamp prescreen{status} }
+                prescreens_for_student_listing{status appointment_time}
                 university study_place major available_month available_year
                 ID first_name last_name user_email description looking_for
                 doc_links { type label url }
       }}}`;
-
-
+      // booked_at {timestamp prescreen{status} }
       // img_url img_pos img_size
 
       return getAxiosGraphQLQuery(query);

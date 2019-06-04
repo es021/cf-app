@@ -79,6 +79,8 @@ export default function hallReducer(state = hallReducerInitState, action) {
                 newState.fetching["group_session_joins"] = true;
             } else if (action.type.indexOf(hallAction.ActivityType.NOTIFICATION_COUNT) > -1) {
                 newState.fetching["notification_count"] = true;
+            } else if (action.type.indexOf(hallAction.ActivityType.INBOX_COUNT) > -1) {
+                newState.fetching["inbox_count"] = true;
             }
         }
 
@@ -125,6 +127,10 @@ export default function hallReducer(state = hallReducerInitState, action) {
             if (data.notifications && data.notifications[0]) {
                 newState["notification_count"] = data.notifications[0].ttl;
                 newState.fetching["notification_count"] = false;
+            }
+            if (data.messages_count) {
+                newState["inbox_count"] = data.messages_count.total_unread;
+                newState.fetching["inbox_count"] = false;
             }
         }
 

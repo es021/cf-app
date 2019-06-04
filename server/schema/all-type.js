@@ -84,6 +84,7 @@ const UserType = new GraphQLObjectType({
         // student listing
         // need to provide company_id
         booked_at : {type : new GraphQLList(AvailabilityType)},
+        prescreens_for_student_listing : {type : new GraphQLList(PrescreenType)},
 
         // student only        
         university: { type: GraphQLString },
@@ -263,7 +264,9 @@ const MessageType = new GraphQLObjectType({
         id_message_number: { type: GraphQLString },
         from_user_id: { type: GraphQLInt },
         message: { type: GraphQLString },
-        created_at: { type: GraphQLString }
+        has_read: { type: GraphQLInt },
+        created_at: { type: GraphQLString },
+        total_unread : { type: GraphQLInt },
     })
 });
 
@@ -352,6 +355,8 @@ const CompanyType = new GraphQLObjectType({
         banner_url: { type: GraphQLString },
         banner_size: { type: GraphQLString },
         banner_position: { type: GraphQLString },
+
+        message_drop_resume: { type: GraphQLString },
 
         status: { type: GraphQLString },
         rec_privacy: { type: GraphQLInt },

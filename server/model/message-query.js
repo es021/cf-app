@@ -112,7 +112,7 @@ class MessageExec {
             var ins_mes = {
                 id_message_number: id_message_number,
                 message: message,
-                from_user_id: sender_id
+                from_user_id: sender_id,
             };
 
             return DB.insert("messages", ins_mes, "id_message_number").then((res) => {
@@ -126,6 +126,19 @@ class MessageExec {
 
     messages(params, field, extra = {}) {
         return this.getMessageHelper(params, field, extra);
+    }
+    messages_count(params, field, extra = {}) {
+        let user_id = params.user_id ? `id_message_number like '%user${params.user_id}:%' ` : "1=1";
+        let company_id = params.company_id ? `id_message_number like '%company${params.company_id}:%' ` : "1=1";
+        let discard_self = `from_user_id != ${params.user_id ? params.user_id : params.company_id}`;
+
+        var sql = `SELECT count(*) AS total_unread FROM messages where 1=1 
+            AND ${user_id} AND ${company_id} AND ${discard_self}
+            AND has_read = 0 AND created_at > '2019-06-01 00:00:00'`;
+        var toRet = DB.query(sql).then(function (res) {
+            return res[0];
+        });
+        return toRet;
     }
 }
 

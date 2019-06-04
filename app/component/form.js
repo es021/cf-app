@@ -507,7 +507,7 @@ export default class Form extends React.Component {
             }
 
             //b. sublabel ----
-            var sublabel = (d.sublabel) ? <div className="form-sublabel">{
+            var sublabel = (d.sublabel && d.hidden !== true) ? <div className="form-sublabel">{
                 d.sublabel}</div> : null;
 
             // bootstrap form class

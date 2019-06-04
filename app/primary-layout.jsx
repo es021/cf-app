@@ -30,7 +30,10 @@ import RightBarLayout from "./layout/right-bar-layout.jsx";
 import FocusCard from "./component/focus-card";
 import { SupportChat } from "./page/support";
 import BlockLoader from "./component/block-loader.jsx";
-import { initSocket } from "./socket/socket-client";
+import { initSocket, socketOn } from "./socket/socket-client";
+import { BOTH } from '../config/socket-config';
+
+
 
 import * as hallAction from "./redux/actions/hall-actions";
 
@@ -38,7 +41,8 @@ import * as hallAction from "./redux/actions/hall-actions";
 // with multiple objects
 function mapStateToProps(state, ownProps) {
   return {
-    notification_count: state.hall.activity.notification_count
+    notification_count: state.hall.activity.notification_count,
+    inbox_count: state.hall.activity.inbox_count,
   };
 }
 
@@ -64,6 +68,17 @@ class PrimaryLayout extends React.Component {
   componentDidMount(){
     // takleh panggil ni store action kat dalam componentWillMount
     hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
+    hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
+
+    socketOn(BOTH.CHAT_MESSAGE, (data) => {
+      console.log("lalalsdllalsdla");
+      console.log("lalalsdllalsdla");
+      console.log("lalalsdllalsdla");
+      console.log("lalalsdllalsdla");
+      console.log("lalalsdllalsdla");
+      hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
+    });
+
   }
 
   loadCf() {
@@ -167,7 +182,9 @@ class PrimaryLayout extends React.Component {
     var COMING_SOON = isComingSoon();
     var headerMenu = Navigation.getBar(path, {
       COMING_SOON: COMING_SOON,
-      isHeader: true
+      isHeader: true,
+      count_notification: this.props.notification_count,
+      count_inbox: this.props.inbox_count
     });
     // var sideMenu = Navigation.getBar(path, {
     //   COMING_SOON: COMING_SOON,

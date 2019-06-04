@@ -535,22 +535,22 @@ export default class CompanyPage extends Component {
         <div className={`col-md-4`}>
           <ButtonAction
             style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
-            btnClass="btn-lg btn-success"
-            onClick={btn_onClickResume}
-            icon="download"
+            btnClass="btn-lg btn-blue"
+            onClick={btn_onClickChat}
+            icon="comments"
             iconSize="2x"
-            mainText={"Drop Your Resume"}
+            mainText={`Chat With ${this.state.data.name}`}
             subText={null}
           />
         </div>
         <div className={`col-md-4`}>
           <ButtonAction
             style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
-            btnClass="btn-lg btn-blue"
-            onClick={btn_onClickChat}
-            icon="comments"
+            btnClass="btn-lg btn-success"
+            onClick={btn_onClickResume}
+            icon="download"
             iconSize="2x"
-            mainText={`Chat With ${this.state.data.name}`}
+            mainText={"Drop Your Resume"}
             subText={null}
           />
         </div>

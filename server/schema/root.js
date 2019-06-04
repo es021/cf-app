@@ -380,6 +380,18 @@ fields["messages"] = {
     }
 };
 
+fields["messages_count"] = {
+    type: MessageType,
+    args: {
+        user_id :{ type: GraphQLInt },
+        company_id :{ type: GraphQLInt },
+    },
+    resolve(parentValue, arg, context, info) {
+        return MessageExec.messages_count(arg, graphqlFields(info));
+    }
+};
+
+
 
 /*******************************************/
 /* user ******************/

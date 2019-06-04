@@ -77,6 +77,7 @@ const AuditoriumEnum = {
 };
 
 const Message = {
+    TABLE : "messages",
     FROM_ID: "from_user_id",
     MESSAGE: "message",
     CREATED_AT: "created_at"
@@ -332,6 +333,7 @@ const Company = {
     MORE_INFO: "more_info",
     IMG_URL: "img_url",
     IMG_SIZE: "img_size",
+    MESSAGE_DROP_RESUME : "message_drop_resume",
     PRIVILEDGE: "priviledge",
     GROUP_URL: "group_url",
     IMG_POSITION: "img_position",

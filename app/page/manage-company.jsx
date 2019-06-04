@@ -235,6 +235,7 @@ class AboutSubPage extends React.Component {
               banner_size
               priviledge
               status
+              message_drop_resume
               group_url
               rec_privacy
               accept_prescreen
@@ -360,6 +361,13 @@ class AboutSubPage extends React.Component {
                 placeholder: "Anything you might want the student to know about the company. Upcoming events, benefits. culture, etc."
             },
             { header: "Advanced Settings" },
+            {
+                label: "Custom Message After Drop Resume",
+                name: Company.MESSAGE_DROP_RESUME,
+                type: "textarea",
+                rows: 6,
+                placeholder: "Write down custom message for students after they drop their resume"
+            },
             {
                 label: "Recruiter Information",
                 name: Company.REC_PRIVACY,

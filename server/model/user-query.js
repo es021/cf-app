@@ -473,7 +473,7 @@ class UserExec {
 
                     par["discard_removed"] = true;
                     par["discard_removed_user_id"] = user_id;
-                    
+
                     // order yg join url ada dulu, then by expired
                     par["order_by"] = "main.is_expired asc, main.is_canceled asc, main.join_url desc";
                     res[i]["group_sessions"] = GroupSessionExec.group_sessions(par, field["group_sessions"]);
@@ -553,6 +553,22 @@ class UserExec {
                     res[i]["booked_at"] = AvailabilityExec.availabilities(par, field["booked_at"]);
                 }
 
+                // prescreens_by_company ****************************************************
+                if (typeof field["prescreens_for_student_listing"] !== "undefined" &&
+                    typeof params.company_id !== "undefined") {
+                    var par = {
+                        status: PrescreenEnum.STATUS_WAIT_CONFIRM,
+                        status_2: PrescreenEnum.STATUS_APPROVED,
+                        status_3: PrescreenEnum.STATUS_STARTED,
+                        order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
+                        discard_removed: true,
+                        discard_removed_user_id: user_id,
+                        student_id : user_id,
+                        company_id :  params.company_id,
+                    };
+                    res[i]["prescreens_for_student_listing"] = PrescreenExec.prescreens(par, field["prescreens_for_student_listing"]);
+                }
+
                 // prescreens ****************************************************
                 if (typeof field["prescreens"] !== "undefined") {
                     // New SI Flow
@@ -563,8 +579,8 @@ class UserExec {
                         status_4: PrescreenEnum.STATUS_STARTED,
                         status_5: PrescreenEnum.STATUS_ENDED,
                         order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
-                        discard_removed : true,
-                        discard_removed_user_id : user_id
+                        discard_removed: true,
+                        discard_removed_user_id: user_id
                     };
                     if (role === UserEnum.ROLE_STUDENT) {
                         par["student_id"] = user_id;
