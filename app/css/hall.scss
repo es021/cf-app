@@ -87,6 +87,70 @@ $HWW_ACTION_SM: 100px;
     //     border-right: none;
     // }
 
+    .activity-section {
+        .my-activity {
+            .profile-card {
+                margin: 12px;
+
+                .left-label {
+                    .label {
+                        font-size: 90%;
+                        position: absolute;
+                        top: -8px;
+                        left: -10px;
+                        border-radius: 0;
+                        padding: 5px;
+                    }
+
+                    .label-arrow {
+                        position: absolute;
+                        top: 14px;
+                        left: -10px;
+                        border-right: 10px solid gray;
+                        border-bottom: 10px solid rgba(0, 0, 0, 0);
+                    }
+                }
+
+                .left-label-success {
+                    .label-arrow {
+                        border-right-color: #407340;
+                    }
+                }
+
+                .left-label-danger {
+                    .label-arrow {
+                        border-right-color: #603231;
+                    }
+                }
+
+
+                .pc-title {
+                    margin-top: 10px;
+                    width: 100%;
+                    text-align: center;
+                    font-weight: bold;
+                    justify-content: center;
+                    color: #565656;
+                    background: #e6e6e6;
+                }
+
+                .pc-subtitle {
+                    padding-top: 15px;
+                    opacity: 1;
+                    width: 100%;
+                    justify-content: center;
+                    margin-bottom: 0;
+                }
+
+                .pc-body {
+                    margin-top: 0;
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
     .gallery-section {
         //height: 200px;
         display: flex;

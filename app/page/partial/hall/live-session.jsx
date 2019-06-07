@@ -295,7 +295,7 @@ class LiveSessionClass extends React.Component {
   }
   loadData() {
     this.setState(prevState => {
-      return { loading: true };
+      return { loading: true, isHiddenValidation: true };
     });
 
     var q = `query { group_sessions(${getGroupSessionQueryFilter(this.props.company_id)})
@@ -785,6 +785,7 @@ class LiveSessionClass extends React.Component {
       "Got It!",
       () => {
         layoutActions.storeHideBlockLoader();
+        this.loadData();
       },
       undefined,
       true

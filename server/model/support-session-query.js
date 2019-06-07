@@ -3,8 +3,13 @@ const {
     SupportSession
 } = require('../../config/db-config');
 const {
-    TestUser, SupportUserID
+    TestUser,
+    SupportUserID
 } = require('../../config/app-config');
+
+const {
+    START_TOTAL_UNREAD_TIME
+} = require("./message-query");
 
 class SupportSessionExec {
     getQueryByUserAndSupportId(user_id, support_id) {
@@ -29,7 +34,14 @@ class SupportSessionExec {
         // last_message
         select += ", m.message as last_message";
 
-        return `select ss.* ${select} 
+
+        return `select ss.* ${select},
+            
+            (select count(*) from messages mx 
+                where mx.id_message_number like CONCAT(mc.id,':%') 
+                AND mx.from_user_id != ${params.support_id ? params.support_id : params.user_id}
+                AND mx.has_read = 0
+                AND mx.created_at > '${START_TOTAL_UNREAD_TIME}') as total_unread
             from ${SupportSession.TABLE} ss 
                 LEFT OUTER JOIN message_count mc on mc.id = ss.message_count_id
                 LEFT OUTER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
@@ -44,7 +56,7 @@ class SupportSessionExec {
             CompanyExec
         } = require('./company-query.js');
         var sql = this.getQuery(params);
-
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
                 var user_id = res[i]["user_id"];
@@ -54,7 +66,7 @@ class SupportSessionExec {
                         ID: user_id
                     }, field["user"]);
                 }
-                
+
                 if (typeof field["company"] !== "undefined") {
                     res[i]["company"] = CompanyExec.company(support_id, field["company"]);
                 }

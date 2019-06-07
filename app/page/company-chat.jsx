@@ -1,7 +1,10 @@
+// import { SupportSession, LogEnum } from "../../config/db-config";
+// import { addLog } from "../redux/actions/other-actions.js";
+
 import React, { Component } from "react";
 import Chat from "./partial/session/chat.jsx";
 import { SupportUserID, RootPath } from "../../config/app-config";
-import { SupportSession, LogEnum } from "../../config/db-config";
+
 import {
   getAuthUser,
   isRoleStudent,
@@ -17,9 +20,10 @@ import { Time } from "../lib/time";
 
 import { BOTH } from "../../config/socket-config";
 import { socketOn } from "../socket/socket-client";
-import { addLog } from "../redux/actions/other-actions.js";
 import EmptyState from "../component/empty-state.jsx";
 import { createCompanyTitle } from "./companies-admin.jsx";
+import { isCompanyOnline } from "../redux/actions/user-actions";
+import { connect } from "react-redux";
 
 require("../css/forum.scss");
 require("../css/support-chat.scss");
@@ -108,7 +112,7 @@ export class CompanyChatStarter extends React.Component {
 // only limit to one support account
 // to prevent from real time conflict
 
-export class CompanyChatInbox extends React.Component {
+class CompanyChatInbox extends React.Component {
   constructor(props) {
     super(props);
     this.authUser = getAuthUser();
@@ -144,13 +148,14 @@ export class CompanyChatInbox extends React.Component {
       // if not exist?
       // list of newChat
       if (typeof this.state.sessions[keyId] === "undefined") {
-        this.setState(prevState => {
-          var newChat = prevState.newChat;
-          if (newChat.indexOf(data.from_id) <= -1) {
-            newChat.push(data.from_id);
-          }
-          return { newChat: newChat };
-        });
+        // this.setState(prevState => {
+        //   var newChat = prevState.newChat;
+        //   if (newChat.indexOf(data.from_id) <= -1) {
+        //     newChat.push(data.from_id);
+        //   }
+        //   return { newChat: newChat };
+        // });
+        this.loadChatList();
         return;
       }
 
@@ -166,6 +171,7 @@ export class CompanyChatInbox extends React.Component {
 
         obj.last_message = data.message;
         obj.last_message_time = data.created_at;
+        obj.total_unread = 1;
         prevState.sessions[keyId] = obj;
 
         return { sessions: prevState.sessions };
@@ -236,6 +242,7 @@ export class CompanyChatInbox extends React.Component {
             created_at
             last_message_time
             last_message
+            total_unread
             ${field} ${fieldSupport}
           }}`;
 
@@ -249,7 +256,10 @@ export class CompanyChatInbox extends React.Component {
           var d = sessions[i];
           d = this.getEntityObj(d);
           var uid = d.entity.ID;
-          if (i == 0) {
+          
+          // init to the first one in list
+          // taknak initialize
+          if (i == 0 && false) {
             current = this.getKey(uid);
           }
           // to restrain order
@@ -288,6 +298,7 @@ export class CompanyChatInbox extends React.Component {
       return (
         <div key={this.state.current_user}>
           <Chat
+            is_hide_header={true}
             is_company_chat={other_id != SupportUserID}
             is_company_self={is_company_self}
             is_company_other={is_company_other}
@@ -299,9 +310,10 @@ export class CompanyChatInbox extends React.Component {
           />
         </div>
       );
+    }else{
+      return <div className="chat-box-empty">Please Select From Inbox List</div>
     }
 
-    return null;
     //return <div className="text-muted">Nothing To Show Here</div>;
   }
 
@@ -310,6 +322,7 @@ export class CompanyChatInbox extends React.Component {
     var keyId = this.getKey(user_id);
     this.setState(prevState => {
       prevState.sessions[keyId].isNew = false;
+      prevState.sessions[keyId].total_unread = 0;
       return { current_user: keyId, sessions: prevState.sessions };
     });
   }
@@ -357,15 +370,33 @@ export class CompanyChatInbox extends React.Component {
         ? createUserTitle(d.entity)
         : createCompanyTitle(d.entity);
 
+      let isOnline = false;
+      if (d.entity._type == "company") {
+        isOnline = isCompanyOnline(this.props.online_companies, d.entity.ID);
+      } else {
+        isOnline = this.props.online_users[d.entity.ID] == 1 ;
+      }
+
+      // console.log("this.props.online_users",this.props.online_users);
+      // console.log("this.props.online_companies",this.props.online_companies);
+      // console.log("isOnline",isOnline,d.entity);
+      
       var imgView = createImageElement(
         d.entity.img_url,
         d.entity.img_pos,
         d.entity.img_size,
         "45px",
-        "frm-image"
-      );
+        "frm-image",
+        undefined,
+        undefined,
+        isOnline
+      );  
 
+      var isCurrent = this.state.current_user === key;
       var isNew = typeof d.isNew !== "undefined" ? d.isNew : false;
+      if(d.total_unread > 0){
+        isNew = true;
+      }
       var body =
         d.last_message != null ? (
           d.last_message
@@ -375,17 +406,23 @@ export class CompanyChatInbox extends React.Component {
             </small>
           );
 
+      let countUnread = d.total_unread <= 0 ? null : 
+        <div className="frm-count">
+          {d.total_unread}
+        </div>
+
       view.push(
         <div
           key={key}
           id={d.entity.ID}
-          className={"forum chat-list"}
+          className={`forum chat-list ${isCurrent ? "selected" : ""}`}
           onClick={ev => {
             this.changeChat(ev.currentTarget.id);
           }}
         >
+          {countUnread}
           {imgView}
-          <div className="frm-body">
+          <div className={`frm-body`}>
             <div className="frm-title">{title}</div>
             <p className={`frm-content ${isNew ? "fc-blue" : ""}`}>{body}</p>
             <div className="frm-timestamp">
@@ -423,7 +460,7 @@ export class CompanyChatInbox extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.isChangeChat) {
+    if (!this.isChangeChat && this.chatListBody != null) {
       this.chatListBody.scrollTop = 0;
     }
 
@@ -451,7 +488,7 @@ export class CompanyChatInbox extends React.Component {
         view = this.getEmptyState();
       } else {
         view.push(
-          <div className="col-sm-6">
+          <div className="col-sm-12">
             <div id="chat-list">
               <div className="cl-header">
                 <div className="clh-title">
@@ -459,16 +496,47 @@ export class CompanyChatInbox extends React.Component {
                 </div>
                 {newBtn}
               </div>
-              <div className="cl-body" ref={(v) => this.chatListBody = v} >
-                {this.getChatList()}
+              <div className="cl-parent-body">
+                <div className="cl-body" ref={(v) => this.chatListBody = v} >
+                    {this.getChatList()}
+                </div>
+                <div className="cl-chat">{this.getChatBox()}</div>
               </div>
             </div>
           </div>
         );
-        view.push(<div className="col-sm-6 ">{this.getChatBox()}</div>);
+
+        // view.push(
+        //   <div className="col-sm-6">
+        //     <div id="chat-list">
+        //       <div className="cl-header">
+        //         <div className="clh-title">
+        //           Inbox
+        //         </div>
+        //         {newBtn}
+        //       </div>
+        //       <div className="cl-body" ref={(v) => this.chatListBody = v} >
+        //         {this.getChatList()}
+        //       </div>
+        //     </div>
+        //   </div>
+        // );
+        // view.push(<div className="col-sm-6 ">{this.getChatBox()}</div>);
       }
     }
 
     return <div className="company-chat-inbox">{view}</div>;
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+    online_users: state.user.online_users,
+    online_companies: state.user.online_companies
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(CompanyChatInbox);

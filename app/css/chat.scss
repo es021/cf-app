@@ -6,7 +6,7 @@ $THEME_1: $COLOR_DARK;
 $THEME_2:$COLOR_HEADER_LINK;
 
 $CHAT_HEIGHT_HEADER : 64px;
-$CHAT_HEIGHT_BODY : 315px;
+$CHAT_HEIGHT_BODY : 450px;
 $CHAT_HEIGHT_TEXT_BOX : 80px;
 $CHAT_HEIGHT_TOTAL : $CHAT_HEIGHT_HEADER+$CHAT_HEIGHT_BODY+$CHAT_HEIGHT_TEXT_BOX;
 
@@ -161,6 +161,7 @@ $MARGIN: 30%;
 
 
 #chat-list {
+    margin-bottom: 20px;
     border: solid 1px $THEME_1;
     height: $CHAT_HEIGHT_TOTAL;
 
@@ -176,9 +177,33 @@ $MARGIN: 30%;
         }
     }
 
+    .cl-parent-body {
+        display: flex;
+    }
+
     .cl-body {
-        height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX;
-        overflow: scroll;
+        // border: solid 1px $THEME_1;
+        width: 100%;
+        height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
+        overflow-y: scroll;
 
     }
+
+    .cl-chat {
+        width: 100%;
+
+        .chat-box {
+            border: none;
+        }
+
+        .chat-box-empty {
+            height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 21px;
+            color: darkgray;
+        }
+    }
+
 }

@@ -41,6 +41,7 @@ import { joinVideoCall } from "../session/chat";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import ToogleTimezone from "../../../component/toggle-timezone";
+import { openLiveSession } from "./live-session";
 
 require("../../../css/border-card.scss");
 
@@ -110,7 +111,7 @@ class ActvityList extends React.Component {
     };
 
     layoutActions.confirmBlockLoader(
-      `Canceling participation for group session with ${company_name}?`,
+      `Canceling RSVP for live session with ${company_name}?`,
       confirmCancel
     );
   }
@@ -473,7 +474,7 @@ class ActvityList extends React.Component {
       return (
         <div>
           {body}
-          <div style={{marginTop:"5px"}}></div>
+          <div style={{ marginTop: "5px" }} />
           {toggler}
         </div>
       );
@@ -556,17 +557,19 @@ class ActvityList extends React.Component {
     var body = null;
 
     if (isRoleStudent()) {
-      if (d.title != null && d.title != "") {
-        title = <small>{d.title}</small>;
-      } else {
-        title = <small>Group Session with {title}</small>;
-      }
-      title = <b>{title}</b>;
+      // if (d.title != null && d.title != "") {
+      //   title = <small>{d.title}</small>;
+      // } else {
+      //   //title = <small>Group Session with {title}</small>;
+      // }
+      // title = <b>{title}</b>;
 
       var hasStart = false;
-      if (!d.is_expired && d.join_url != "" && d.join_url != null) {
+      //if (!d.is_expired && d.join_url != "" && d.join_url != null) {
+      if (Time.getUnixTimestampNow() >= d.start_time) {
         hasStart = true;
-        subtitle = "Video Call Has Started";
+        //subtitle = "Video Call Has Started";
+        subtitle = this.getTimeStrNew(d.start_time, true);
       } else {
         if (d.is_canceled || d.is_expired) {
           subtitle = this.getTimeStrNew(d.start_time, true);
@@ -594,9 +597,10 @@ class ActvityList extends React.Component {
 
       var btnJoin = (
         <a
-          onClick={() =>
-            joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
-          }
+          onClick={() => {
+            //joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
+            openLiveSession(d.company.ID);
+          }}
           className="btn btn-sm btn-blue"
         >
           Join Video Call
@@ -654,7 +658,7 @@ class ActvityList extends React.Component {
               onClick={this.cancelJoinGroupSession.bind(this)}
               className="btn btn-sm btn-primary"
             >
-              Cancel Session
+              Cancel RSVP
             </div>
           );
         }
@@ -670,9 +674,9 @@ class ActvityList extends React.Component {
     body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
 
     let topLabel = (
-      <div style={{ fontSize: "90%" }} className="label label-success">
+      <div className="label label-success">
         <i className="fa fa-users left" />
-        Live Call
+        Live Session
       </div>
     );
 
@@ -680,7 +684,8 @@ class ActvityList extends React.Component {
       body: body,
       subtitle: subtitle,
       title: title,
-      topLabel: topLabel
+      topLabel: topLabel,
+      topLabelClass: "success"
     };
   }
 
@@ -910,7 +915,7 @@ class ActvityList extends React.Component {
     );
 
     let topLabel = (
-      <div style={{ fontSize: "90%" }} className="label label-danger">
+      <div className="label label-danger">
         <i className="fa fa-user left" />
         Private Call
       </div>
@@ -934,7 +939,8 @@ class ActvityList extends React.Component {
     return {
       body: body,
       subtitle: subtitle,
-      topLabel: topLabel
+      topLabel: topLabel,
+      topLabelClass: "danger"
     };
   }
 
@@ -980,6 +986,7 @@ class ActvityList extends React.Component {
         var subtitle = null;
         var objTemp = null;
         var topLabel = null;
+        var topLabelClass = "";
         var badge = null;
         var badge_tooltip = null;
 
@@ -1000,6 +1007,7 @@ class ActvityList extends React.Component {
             body = objTemp.body;
             subtitle = objTemp.subtitle;
             topLabel = objTemp.topLabel;
+            topLabelClass = objTemp.topLabelClass;
             break;
 
           // #############################################################
@@ -1010,16 +1018,23 @@ class ActvityList extends React.Component {
             title = objTemp.title;
             subtitle = objTemp.subtitle;
             topLabel = objTemp.topLabel;
+            topLabelClass = objTemp.topLabelClass;
             break;
         }
 
-        var header = <div style={{ marginTop: "10px" }}>{topLabel}</div>;
+        var labelType = (
+          <div className={`left-label left-label-${topLabelClass}`}>
+            <div className="label-arrow" />
+            {topLabel}
+          </div>
+        );
+        body = [body, labelType];
 
         var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
         return (
           <ProfileListItem
             className=""
-            header={header}
+            //header={labelType}
             title={title}
             list_type="card"
             img_url={obj.img_url}

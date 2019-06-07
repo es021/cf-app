@@ -71,11 +71,6 @@ class PrimaryLayout extends React.Component {
     hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
 
     socketOn(BOTH.CHAT_MESSAGE, (data) => {
-      console.log("lalalsdllalsdla");
-      console.log("lalalsdllalsdla");
-      console.log("lalalsdllalsdla");
-      console.log("lalalsdllalsdla");
-      console.log("lalalsdllalsdla");
       hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
     });
 

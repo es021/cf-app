@@ -30,7 +30,7 @@ import VacancyPage from "../page/vacancy";
 import ExternalActionPage from "../page/external-action";
 import SessionPage from "../page/session";
 import { FaqPage, AllowCookiePage, ContactUsPage } from "../page/static";
-import { CompanyChatInbox, CompanyChatStarter } from "../page/company-chat";
+import CompanyChatInbox, { CompanyChatStarter } from "../page/company-chat";
 import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
 import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";

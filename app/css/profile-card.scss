@@ -102,6 +102,16 @@
                 border-radius: 100%;
             }
         }
+
+        .#{$PROFILE_CARD}online {
+            background: #25b225;
+            height: 16px;
+            width: 16px;
+            border-radius: 100%;
+            position: absolute;
+            bottom: -3px;
+            right: -2px;
+        }
     }
 
     .#{$PROFILE_CARD}title {
@@ -155,9 +165,9 @@
     }
 }
 
-.profile-card.no-vertical-margin{
-    margin-top : 0px;
-    margin-bottom : 0px;
+.profile-card.no-vertical-margin {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 
@@ -165,6 +175,6 @@
 // for nav link
 a.profile-card,
 a.profile-card:focus,
-a.profile-card:active{
+a.profile-card:active {
     text-decoration: none;
 }

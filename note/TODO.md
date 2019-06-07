@@ -23,7 +23,7 @@ Go Live
   - dalam masa 30 minit
   - go to link (group_url)
 
-Socket tak offline kalau kita tutup window
+# Socket tak offline kalau kita tutup window
 
 #Pages 
 # - student listing

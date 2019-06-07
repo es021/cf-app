@@ -147,7 +147,7 @@ export default class HallPage extends React.Component {
   getActivityAndWebinar() {
     return (
       <div className="activity-section main-width main-width-lg">
-        <div className={`col-md-6 no-padding`}>
+        <div className={`col-md-6 no-padding my-activity`}>
           <ActivitySection />
         </div>
         <div className={`col-md-6 no-padding`}>

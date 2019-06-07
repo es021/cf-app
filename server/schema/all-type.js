@@ -595,6 +595,8 @@ const SupportSessionType = new GraphQLObjectType({
         // the message content
         last_message: { type: GraphQLString },
 
+        total_unread :  { type: GraphQLInt },
+
         created_at: { type: GraphQLString },
         user: { type: UserType },
         company: { type: CompanyType },

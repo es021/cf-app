@@ -7,6 +7,8 @@ const {
     SupportUserID
 } = require('../../config/app-config');
 
+const START_TOTAL_UNREAD_TIME = "2019-06-01 00:00:00";
+
 class MessageExec {
 
     getPreId(user_1, user_2, which_company) {
@@ -134,7 +136,7 @@ class MessageExec {
 
         var sql = `SELECT count(*) AS total_unread FROM messages where 1=1 
             AND ${user_id} AND ${company_id} AND ${discard_self}
-            AND has_read = 0 AND created_at > '2019-06-01 00:00:00'`;
+            AND has_read = 0 AND created_at > '${START_TOTAL_UNREAD_TIME}'`;
         var toRet = DB.query(sql).then(function (res) {
             return res[0];
         });
@@ -144,6 +146,7 @@ class MessageExec {
 
 MessageExec = new MessageExec();
 module.exports = {
+    START_TOTAL_UNREAD_TIME,
     MessageExec
 };
 

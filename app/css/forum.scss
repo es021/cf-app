@@ -1,8 +1,9 @@
 @import "define/variable.scss";
 
 $SHADOW : rgba(0, 0, 0, 0.2);
-.forum-info{
-    border:solid 1px $SHADOW;
+
+.forum-info {
+    border: solid 1px $SHADOW;
 }
 
 $MARGIN_COMMENT : 20px;
@@ -10,10 +11,12 @@ $MARGIN_REPLY: 45px;
 $MARGIN_IMAGE: 7px;
 
 //# text area ################
-.forum-textarea-comment, .forum-textarea-reply{
+.forum-textarea-comment,
+.forum-textarea-reply {
     display: flex;
     margin-left: $MARGIN_COMMENT;
-    .frm-txt-count{
+
+    .frm-txt-count {
         text-align: right;
         font-size: 80%;
         color: gray;
@@ -21,76 +24,86 @@ $MARGIN_IMAGE: 7px;
         padding-left: 5px;
     }
 
-    .text-red{
+    .text-red {
         color: red;
     }
 }
 
 
-.forum-textarea-reply{
+.forum-textarea-reply {
     margin-left: $MARGIN_REPLY + $MARGIN_IMAGE;
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 // parent list
-.forum-comment{
+.forum-comment {
     text-align: left;
     // to create margin between info at left
-    margin-left:$MARGIN_COMMENT;
-    border-bottom:dotted 1px $SHADOW;
-    border-top:none;
+    margin-left: $MARGIN_COMMENT;
+    border-bottom: dotted 1px $SHADOW;
+    border-top: none;
     padding-bottom: 10px;
-    small a.btn_link{
+
+    small a.btn_link {
         margin-left: $MARGIN_REPLY;
     }
 }
 
-@media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP){
-    .forum-comment, .forum-textarea-comment{
-        margin-left:0;
+@media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+
+    .forum-comment,
+    .forum-textarea-comment {
+        margin-left: 0;
     }
 }
 
 // #############################
 // forum item ------------------
 
-.forum{
+.forum {
     padding: 7px;
     display: flex;
     text-align: left;
-    .frm-image{
-        .pc-picture{
+
+    .frm-image {
+        .pc-picture {
             border: solid 1px $SHADOW;
         }
+
         margin: 0;
         margin-right: $MARGIN_IMAGE;
     }
-    .frm-body{
-        p{
+
+    .frm-body {
+        p {
             text-align: justify;
             padding-right: 5px;
         }
-        .frm-title{
-           font-weight: bold;
+
+        .frm-title {
+            font-weight: bold;
         }
-        
-        .frm-timestamp{
+
+        .frm-timestamp {
             margin-top: 4px;
             font-size: 80%;
             color: gray;
-            .frm-action{
+
+            .frm-action {
                 padding: 0 4px;
                 border-right: solid 1px $SHADOW;
             }
-            .frm-action:first-of-type{
+
+            .frm-action:first-of-type {
                 padding-left: 0;
             }
-            .frm-action:last-of-type{
+
+            .frm-action:last-of-type {
                 border-right: none;
             }
-        } 
+        }
 
-        .frm-content{
+        .frm-content {
             background: white;
             padding: 4px 10px;
             border-radius: 14px;
@@ -98,7 +111,7 @@ $MARGIN_IMAGE: 7px;
         }
 
         // use in support page
-        .frm-content.fc-blue{
+        .frm-content.fc-blue {
             color: white;
             font-weight: bold;
             background: #286090;
@@ -106,24 +119,44 @@ $MARGIN_IMAGE: 7px;
     }
 }
 
-.forum.frm-reply{
-    border-top:none;
+.forum.frm-reply {
+    border-top: none;
     margin-left: $MARGIN_REPLY;
 }
 
 //# chat list in support page ################
-.chat-list{
+.chat-list {
     border-bottom: 1px solid $SHADOW;
     cursor: pointer;
+    position: relative;
 
-    .frm-content{
+    .frm-count {
+        background: #286090;
+        height: 25px;
+        width: 25px;
+        border-radius: 100%;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .frm-content {
         height: 29px;
         overflow-y: hidden;
     }
+
+
 }
-.chat-list:hover{
+
+.chat-list:hover,
+.chat-list.selected {
     background: gainsboro;
 }
-.chat-list:last-of-type{
+
+.chat-list:last-of-type {
     border-bottom: none;
 }

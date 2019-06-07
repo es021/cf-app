@@ -16,6 +16,8 @@ export default class List extends React.Component {
         this.showLoadMore = this.showLoadMore.bind(this);
         this.renderDataContent = this.renderDataContent.bind(this);
 
+        this.isAppend = false;
+
         this.state = {
             listItem: null,
             fetching: true,
@@ -35,7 +37,12 @@ export default class List extends React.Component {
 
     componentDidUpdate() {
         if (this.props.componentDidUpdate) {
-            this.props.componentDidUpdate();
+            this.props.componentDidUpdate(this.isAppend);
+        }
+
+        // kalau siap append, fetching_append akan jadi false
+        if(this.state.fetching_append === false){
+            this.isAppend = false;
         }
     }
 
@@ -105,6 +112,7 @@ export default class List extends React.Component {
                 else {
                     // need to reverse?
                     if (this.isAppendType()) {
+                        
                         this.setState((prevState) => {
                             var listItem = prevState.listItem;
                             if (listItem == null) {
@@ -129,6 +137,7 @@ export default class List extends React.Component {
                                 }
                             });
 
+                           
                             return {
                                 listItem: listItem
                                 , fetching: false
@@ -256,7 +265,11 @@ export default class List extends React.Component {
             } else {
                 fetchBtn = (this.showLoadMore()) ?
                     <small style={{ marginLeft: "6px" }}>
-                        <ButtonLink onClick={() => this.load(this.NEXT)} label={this.props.appendText}></ButtonLink>
+                        <ButtonLink onClick={() => {
+                            this.isAppend = true;
+                            this.load(this.NEXT)
+                        }
+                    } label={this.props.appendText}></ButtonLink>
                     </small> : null;
             }
 

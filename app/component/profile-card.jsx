@@ -46,10 +46,12 @@ export const createImageElement = function (
   img_dimension,
   className,
   type = PCType.STUDENT,
-  customStyle
+  customStyle,
+  isOnline = false
 ) {
   return (
     <ProfileCard
+      isOnline={isOnline}
       type={type}
       img_url={img_url}
       img_pos={img_pos}
@@ -245,6 +247,17 @@ export default class ProfileCard extends React.Component {
         </div>
       );
     }
+
+    //online indicator
+    var img_online_indicator = null;
+    if(this.props.isOnline){
+      img_online_indicator = (
+        <div className={`${pc}online`}>
+        </div>
+      );
+    }
+
+
     var className = "profile-card";
     if (this.props.className) {
       className += " " + this.props.className;
@@ -275,6 +288,7 @@ export default class ProfileCard extends React.Component {
       badge,
       <div className={`${pc}picture`} style={stylePicture}>
         {img_ops}
+        {img_online_indicator}
       </div>,
       <div className={`${pc}title`}>{this.props.title}</div>,
       this.props.subtitle ? (
@@ -326,6 +340,7 @@ export default class ProfileCard extends React.Component {
 }
 
 ProfileCard.propTypes = {
+  isOnline : PropTypes.bool,
   custom_width: PropTypes.string,
   type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY])
     .isRequired,
@@ -359,6 +374,7 @@ ProfileCard.propTypes = {
 };
 
 ProfileCard.defaultProps = {
+  isOnline : false,
   isShowOnlineBar: false,
   addBanner: false,
   customStyle: null,
