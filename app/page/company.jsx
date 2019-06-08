@@ -539,7 +539,8 @@ export default class CompanyPage extends Component {
             onClick={btn_onClickChat}
             icon="comments"
             iconSize="2x"
-            mainText={`Chat With ${this.state.data.name}`}
+            mainText={`Chat With Us`}
+            /// ${this.state.data.name}
             subText={null}
           />
         </div>

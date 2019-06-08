@@ -82,6 +82,12 @@ h3.left {
     text-align: left;
 }
 
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .flex-wrap {
     justify-content: center;
     display: flex;

@@ -39,11 +39,20 @@ export default class ToogleTimezone extends React.Component {
           this.props.createAlternateTime(this.props.unixtimestamp)
         );
       }
+
       return {
         body: newBody,
         isDefaultTime: !prevState.isDefaultTime
       };
     });
+  }
+  getTextStyle(txt) {
+    let toRet = {}
+    if (txt.length > 3) {
+      toRet["fontSize"] = "75%";
+    }
+
+    return toRet;
   }
   render() {
     let toggler = (
@@ -56,8 +65,10 @@ export default class ToogleTimezone extends React.Component {
         />
         <span className="as-slider round">
           <div className="as-text-container">
-            <div className="as-text text-left">{this.defaultTimezone}</div>
-            <div className="as-text text-right">{this.myTimezone}</div>
+            <div style={this.getTextStyle(this.defaultTimezone)}
+              className="as-text text-left flex-center">{this.defaultTimezone}</div>
+            <div style={this.getTextStyle(this.myTimezone)}
+              className="as-text text-right flex-center">{this.myTimezone}</div>
           </div>
         </span>
       </label>

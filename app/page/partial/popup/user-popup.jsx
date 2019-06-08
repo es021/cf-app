@@ -432,10 +432,11 @@ export default class UserPopup extends Component {
 
             if (this.props.role === UserEnum.ROLE_STUDENT && !this.props.isSessionPage) {
                 view = <div>
+                    {this.getBanner()}
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12 com-pop-left" style={{ marginBottom: "-25px" }}>
-                                <div className="com-pop-pic">{profilePic}</div>
+                                <div className="com-pop-pic" style={{marginTop:"-65px"}}>{profilePic}</div>
                             </div>
                             <div className="col-md-6">
                                 {userBody.left}
@@ -445,7 +446,7 @@ export default class UserPopup extends Component {
                             </div>
                         </div>
                     </div>
-                    {this.getBanner()}
+                    
                 </div>;
             } else {
                 view = <div>

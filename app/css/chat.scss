@@ -5,12 +5,12 @@
 $THEME_1: $COLOR_DARK;
 $THEME_2:$COLOR_HEADER_LINK;
 
-$CHAT_HEIGHT_HEADER : 64px;
-$CHAT_HEIGHT_BODY : 450px;
+$CHAT_HEIGHT_HEADER : 65px;
+$CHAT_HEIGHT_BODY : 350px;
 $CHAT_HEIGHT_TEXT_BOX : 80px;
 $CHAT_HEIGHT_TOTAL : $CHAT_HEIGHT_HEADER+$CHAT_HEIGHT_BODY+$CHAT_HEIGHT_TEXT_BOX;
 
-$MARGIN: 30%;
+$MARGIN: 40%;
 
 #chat {
     margin: auto;
@@ -81,6 +81,7 @@ $MARGIN: 30%;
             margin: 5px 0px;
             padding: 4px 2px;
             padding: 5px;
+            border-radius: 5px;
 
             .timestamp {
                 font-size: 9px;
@@ -173,7 +174,20 @@ $MARGIN: 30%;
         color: white;
 
         .clh-title {
+            display: flex;
             font-size: 16px;
+            .clh-title-left{
+                width: 50%;
+            }
+            .clh-title-right{
+                .profile-card{
+                    margin: 0;
+                    padding: 0;
+                    margin-right: 15px;
+                }
+                display: flex;
+                width: 50%;
+            }
         }
     }
 
@@ -186,6 +200,7 @@ $MARGIN: 30%;
         width: 100%;
         height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
         overflow-y: scroll;
+        border-right: 1px solid;
 
     }
 

@@ -134,7 +134,7 @@ class CompanyChatInbox extends React.Component {
     this.state = {
       loading: true,
       sessions: [],
-      current_user: 0,
+      current_user: null,
       newChat: []
     };
   }
@@ -250,13 +250,13 @@ class CompanyChatInbox extends React.Component {
       this.setState(prevState => {
         var sessions = res.data.data.support_sessions;
         var data = {};
-        var current = 0;
+        var current = null;
 
         for (var i in sessions) {
           var d = sessions[i];
           d = this.getEntityObj(d);
           var uid = d.entity.ID;
-          
+
           // init to the first one in list
           // taknak initialize
           if (i == 0 && false) {
@@ -310,8 +310,8 @@ class CompanyChatInbox extends React.Component {
           />
         </div>
       );
-    }else{
-      return <div className="chat-box-empty">Please Select From Inbox List</div>
+    } else {
+      return <div className="chat-box-empty">Select Chat From Inbox</div>
     }
 
     //return <div className="text-muted">Nothing To Show Here</div>;
@@ -325,6 +325,14 @@ class CompanyChatInbox extends React.Component {
       prevState.sessions[keyId].total_unread = 0;
       return { current_user: keyId, sessions: prevState.sessions };
     });
+  }
+
+  getCurrentChatObj() {
+    if (this.state.current_user === null) {
+      return null;
+    }
+
+    return this.state.sessions[this.state.current_user];
   }
 
   getEntityKey(d) {
@@ -356,6 +364,32 @@ class CompanyChatInbox extends React.Component {
 
   }
 
+  getImageIcon(d) {
+    let isOnline = false;
+    if (d.entity._type == "company") {
+      isOnline = isCompanyOnline(this.props.online_companies, d.entity.ID);
+    } else {
+      isOnline = this.props.online_users[d.entity.ID] == 1;
+    }
+
+    // console.log("this.props.online_users",this.props.online_users);
+    // console.log("this.props.online_companies",this.props.online_companies);
+    // console.log("isOnline",isOnline,d.entity);
+
+    var imgView = createImageElement(
+      d.entity.img_url,
+      d.entity.img_pos,
+      d.entity.img_size,
+      "45px",
+      "frm-image",
+      undefined,
+      undefined,
+      isOnline
+    );
+
+    return imgView;
+  }
+
   getChatList() {
     var view = [];
 
@@ -370,31 +404,33 @@ class CompanyChatInbox extends React.Component {
         ? createUserTitle(d.entity)
         : createCompanyTitle(d.entity);
 
-      let isOnline = false;
-      if (d.entity._type == "company") {
-        isOnline = isCompanyOnline(this.props.online_companies, d.entity.ID);
-      } else {
-        isOnline = this.props.online_users[d.entity.ID] == 1 ;
-      }
+      // let isOnline = false;
+      // if (d.entity._type == "company") {
+      //   isOnline = isCompanyOnline(this.props.online_companies, d.entity.ID);
+      // } else {
+      //   isOnline = this.props.online_users[d.entity.ID] == 1;
+      // }
 
-      // console.log("this.props.online_users",this.props.online_users);
-      // console.log("this.props.online_companies",this.props.online_companies);
-      // console.log("isOnline",isOnline,d.entity);
-      
-      var imgView = createImageElement(
-        d.entity.img_url,
-        d.entity.img_pos,
-        d.entity.img_size,
-        "45px",
-        "frm-image",
-        undefined,
-        undefined,
-        isOnline
-      );  
+      // // console.log("this.props.online_users",this.props.online_users);
+      // // console.log("this.props.online_companies",this.props.online_companies);
+      // // console.log("isOnline",isOnline,d.entity);
+
+      // var imgView = createImageElement(
+      //   d.entity.img_url,
+      //   d.entity.img_pos,
+      //   d.entity.img_size,
+      //   "45px",
+      //   "frm-image",
+      //   undefined,
+      //   undefined,
+      //   isOnline
+      // );
+
+      var imgView = this.getImageIcon(d);
 
       var isCurrent = this.state.current_user === key;
       var isNew = typeof d.isNew !== "undefined" ? d.isNew : false;
-      if(d.total_unread > 0){
+      if (d.total_unread > 0) {
         isNew = true;
       }
       var body =
@@ -406,7 +442,7 @@ class CompanyChatInbox extends React.Component {
             </small>
           );
 
-      let countUnread = d.total_unread <= 0 ? null : 
+      let countUnread = d.total_unread <= 0 ? null :
         <div className="frm-count">
           {d.total_unread}
         </div>
@@ -487,18 +523,33 @@ class CompanyChatInbox extends React.Component {
       if (Object.keys(this.state.sessions).length <= 0) {
         view = this.getEmptyState();
       } else {
+        let titleRight = null;
+        try {
+          let d = this.getCurrentChatObj();
+          let imgIcon = this.getImageIcon(d);
+          titleRight = [
+            imgIcon,
+            <div className="flex-center">
+              {d.entity.first_name + " " + d.entity.last_name}
+            </div>
+          ]
+        } catch (err) { }
+
         view.push(
           <div className="col-sm-12">
             <div id="chat-list">
               <div className="cl-header">
                 <div className="clh-title">
-                  Inbox
+                  <div className="clh-title-left">
+                    Inbox
+                  </div>
+                  <div className="clh-title-right">{titleRight}</div>
                 </div>
                 {newBtn}
               </div>
               <div className="cl-parent-body">
                 <div className="cl-body" ref={(v) => this.chatListBody = v} >
-                    {this.getChatList()}
+                  {this.getChatList()}
                 </div>
                 <div className="cl-chat">{this.getChatBox()}</div>
               </div>

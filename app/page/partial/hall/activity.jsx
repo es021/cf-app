@@ -142,7 +142,7 @@ class ActvityList extends React.Component {
       setTimeout(() => {
         parentCard.hidden = true;
       }, 700);
-      getAxiosGraphQLQuery(q).then(data => {});
+      getAxiosGraphQLQuery(q).then(data => { });
     };
 
     return (
@@ -390,7 +390,12 @@ class ActvityList extends React.Component {
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
 
-  getTimeStrNew(unixtime, showTimeOnly) {
+  getTimeStrNew(unixtime, showTimeOnly, customText) {
+    const className = "time-container";
+
+    if (unixtime === undefined && showTimeOnly === undefined && customText !== undefined) {
+      return <div className={className}>{customText}</div>
+    }
     // debug
     // unixtime = (1552804854865/1000) + 500;
     // let bodyToRet = null;
@@ -472,7 +477,7 @@ class ActvityList extends React.Component {
 
     const createView = (body, toggler) => {
       return (
-        <div>
+        <div className={className}>
           {body}
           <div style={{ marginTop: "5px" }} />
           {toggler}
@@ -690,7 +695,7 @@ class ActvityList extends React.Component {
   }
 
   // return body n subtitle
-  renderPreScreen(d, obj) {
+  renderPreScreen(d, obj, title) {
     // 2. subtitle and body
     var subtitle = null;
     var body = null;
@@ -703,6 +708,8 @@ class ActvityList extends React.Component {
     var btnStartVCall = null;
     var btnEndedVCall = null;
     var btnAcceptReject = null;
+
+
 
     if (
       d.status == PrescreenEnum.STATUS_REJECTED ||
@@ -835,7 +842,7 @@ class ActvityList extends React.Component {
         var hasStart = false;
         if (!d.is_expired && d.join_url != "" && d.join_url != null) {
           hasStart = true;
-          subtitle = "Video Call Has Started";
+          subtitle = this.getTimeStrNew(undefined, undefined, "Video Call Has Started");
         } else {
           if (d.is_expired) {
             subtitle = this.getTimeStrNew(d.appointment_time, true);
@@ -923,9 +930,9 @@ class ActvityList extends React.Component {
 
     body = (
       <div>
-        {isRoleRec()
+        {/* {isRoleRec()
           ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
-          : null}
+          : null} */}
         {btnStartVCall == null ? labelStatus : null}
         {isRoleRec() ? btnStartVCall : null}
         {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null}
@@ -936,7 +943,17 @@ class ActvityList extends React.Component {
 
     body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
 
+    // ammend title
+    subtitle = [
+
+      isRoleRec()
+        ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
+        : null,
+      subtitle,
+    ]
+
     return {
+      title: title,
       body: body,
       subtitle: subtitle,
       topLabel: topLabel,
@@ -1003,8 +1020,9 @@ class ActvityList extends React.Component {
           // Scheduled Session Card View
 
           case hallAction.ActivityType.PRESCREEN:
-            objTemp = this.renderPreScreen(d, obj);
+            objTemp = this.renderPreScreen(d, obj, title);
             body = objTemp.body;
+            title = objTemp.title;
             subtitle = objTemp.subtitle;
             topLabel = objTemp.topLabel;
             topLabelClass = objTemp.topLabelClass;
@@ -1121,7 +1139,7 @@ export class ActivitySingle extends React.Component {
     } else {
       let q = ` query {${entity} (ID:${
         this.props.id
-      }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
+        }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
       getAxiosGraphQLQuery(q).then(res => {
         this.setState(prevState => {
           return { data: res.data.data[entity], loading: false };

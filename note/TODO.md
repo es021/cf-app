@@ -42,9 +42,9 @@ Go Live
 #  - remove
 #  - ask question remove
 
-Messaging
-  - unread message indicator
-  - notification
+#Messaging
+#  - unread message indicator
+#  - notification
 #  - boleh lepas start event je
 
 # IMPORTANT REMINDER
@@ -56,10 +56,10 @@ Messaging
 # - Manage Hall Gallery
 - Inbox
 # - design inbox list better (cater too many items in list)
-    - notification (new messages)
-- Company Page
-    - Go Live feature - how to create?
-    - Rsvp go live (for student)
+#    - notification (new messages)
+#- Company Page
+#    - Go Live feature - how to create?
+#    - Rsvp go live (for student)
 - Hall 
 # - Time converter
     - Action button for recruiter

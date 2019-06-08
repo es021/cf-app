@@ -816,8 +816,9 @@ class Chat extends React.Component {
                 <br></br>Id - {d.id_message_number} */}
         </p>
         <div className="timestamp">
-          {date} - {Time.getStringShort(d.created_at)}
+          {Time.getStringShort(d.created_at)}
         </div>
+        {/* {date} -  */}
       </div>
     );
 
