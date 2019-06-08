@@ -1,3 +1,30 @@
+####################################################
+# 104.131.105.183 #
+####################################################
+
+-Video gallery click change item kalau bukan kat center
+-schdule call takyah load student info
+
+Company Booth 
+    # Ada bagde macam GraduateLand
+    # boleh bukak lepas event start je
+  - live session count kat company booth?
+  - or easy access to rsvp for live session if there is any
+  - access to chat with rec
+  - or access to drop resume?
+
+Go Live 
+  - kena bukak indicator yang student boleh masuk
+  - col baru (last_live_time)
+  - dalam masa 30 minit
+  - go to link (group_url)
+
+- Hall Gallery
+    - video clickable
+- daily.co
+
+    
+
 #Clean Up Recruiter Page
 #- empty state 'Your Live Session' (dalam popup create new)
 #- 
@@ -16,12 +43,6 @@
   #  - time (can choose multiple) (time event only)
   #  - no title
   #  - list of upcoming live session (with rsvp count)
-
-Go Live 
-  - kena bukak indicator yang student boleh masuk
-  - col baru (last_live_time)
-  - dalam masa 30 minit
-  - go to link (group_url)
 
 # Socket tak offline kalau kita tutup window
 
@@ -48,26 +69,22 @@ Go Live
 #  - boleh lepas start event je
 
 # IMPORTANT REMINDER
--- try coming soon page
--- control what rec can see when clicked on company page
+#-- try coming soon page
+#-- control what rec can see when clicked on company page
 
 # Pending
 - Log Error in api-helper alert() : create new db
 # - Manage Hall Gallery
-- Inbox
+#- Inbox
 # - design inbox list better (cater too many items in list)
 #    - notification (new messages)
 #- Company Page
 #    - Go Live feature - how to create?
 #    - Rsvp go live (for student)
-- Hall 
+#- Hall 
 # - Time converter
-    - Action button for recruiter
-- Hall Gallery
-    - video clickable
+#    - Action button for recruiter
 # - admin manage page
-- daily.co
-
 
 # Buang perkataan sponsor
 
@@ -139,26 +156,24 @@ RM 480.52
   - Scheduled Session Placeholder
 #- Webinar
   #- Join, Watch, 1 Apr 10.00PM
-  - Company Booth 
-    # Ada bagde macam GraduateLand
-    # boleh bukak lepas event start je
+
     
 ########################################################################
 
 5. Home Recruiter
   - https://drive.google.com/drive/folders/1vj3lwZqzIf9Q6kqr5zKYaGh7eRILG0rC?ths=true
-  - Interested Candidate
-    # Scheduling boleh buat bila2(sekat by lepas current time)
-  - Scheduled Session Placeholder
-  - Webinar
-  - Go Live
+#  - Interested Candidate
+#    # Scheduling boleh buat bila2(sekat by lepas current time)
+#  - Scheduled Session Placeholder
+#  - Webinar
+#  - Go Live
     
 ########################################################################
 
-6. Home Gallery
-  - Twitch.com
-  - Video/Image (Hover Desc)
-  - Admin Management 
+#6. Home Gallery
+#  - Twitch.com
+#  - Video/Image (Hover Desc)
+#  - Admin Management 
 
 ########################################################################
 
