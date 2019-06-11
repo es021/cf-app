@@ -72,26 +72,41 @@ export class CompanyChatStarter extends React.Component {
       );
     } else {
       let view = [];
-      view.push(<div className="col-sm-6 ">
-        <Chat
-          is_company_chat={true}
-          is_company_self={false}
-          is_company_other={true}
-          session_id={null}
-          disableChat={false}
-          other_id={Number.parseInt(this.ID)}
-          other_data={this.state.company}
-          self_id={this.self_id}
-        />
-      </div>);
+      view.push(
+        <div className="col-sm-6 ">
+          <Chat
+            is_company_chat={true}
+            is_company_self={false}
+            is_company_other={true}
+            session_id={null}
+            disableChat={false}
+            other_id={Number.parseInt(this.ID)}
+            other_data={this.state.company}
+            self_id={this.self_id}
+          />
+        </div>
+      );
 
       view.push(
         <div className="col-sm-6 text-left">
           <h4>While you're waiting...</h4>
           <ul style={{ paddingLeft: "40px" }} className="normal text-muted">
-            <li>Remember to research about <NavLink target="_blank" to={`${RootPath}/app/company/${this.ID}`}>{this.state.company.first_name}</NavLink></li>
+            <li>
+              Remember to research about{" "}
+              <NavLink
+                target="_blank"
+                to={`${RootPath}/app/company/${this.ID}`}
+              >
+                {this.state.company.first_name}
+              </NavLink>
+            </li>
             <li>Waiting time may vary, so be patient with response time.</li>
-            <li>This conversation will be saved in  <NavLink target="_blank" to={`${RootPath}/app/my-inbox`}>your inbox.</NavLink></li>
+            <li>
+              This conversation will be saved in{" "}
+              <NavLink target="_blank" to={`${RootPath}/app/my-inbox`}>
+                your inbox.
+              </NavLink>
+            </li>
           </ul>
         </div>
       );
@@ -164,14 +179,20 @@ class CompanyChatInbox extends React.Component {
       this.setState(prevState => {
         var obj = prevState.sessions[keyId];
 
-        obj.isNew = true;
         // if (this.state.current_user != keyId) {
         //   obj.isNew = true;
         // }
 
         obj.last_message = data.message;
         obj.last_message_time = data.created_at;
-        obj.total_unread = 1;
+        if (prevState.current_user != keyId) {
+          if (!obj.total_unread) {
+            obj.total_unread = 0;
+          }
+          obj.total_unread++;
+          obj.isNew = true;
+        }
+        
         prevState.sessions[keyId] = obj;
 
         return { sessions: prevState.sessions };
@@ -311,7 +332,7 @@ class CompanyChatInbox extends React.Component {
         </div>
       );
     } else {
-      return <div className="chat-box-empty">Select Chat From Inbox</div>
+      return <div className="chat-box-empty">Select Chat From Inbox</div>;
     }
 
     //return <div className="text-muted">Nothing To Show Here</div>;
@@ -345,7 +366,11 @@ class CompanyChatInbox extends React.Component {
     let objectOrder = {};
     for (var key in this.state.sessions) {
       var d = this.state.sessions[key];
-      let orderKey = "order" + Time.convertDBTimeToUnix(d.last_message_time) + "::" + d.support_id;
+      let orderKey =
+        "order" +
+        Time.convertDBTimeToUnix(d.last_message_time) +
+        "::" +
+        d.support_id;
 
       objectOrder[orderKey] = d;
     }
@@ -361,7 +386,6 @@ class CompanyChatInbox extends React.Component {
     }
 
     return toRet;
-
   }
 
   getImageIcon(d) {
@@ -400,9 +424,10 @@ class CompanyChatInbox extends React.Component {
     for (var i in orderArr) {
       let key = orderArr[i];
       var d = this.state.sessions[key];
-      var title = d.entity._type == "user"
-        ? createUserTitle(d.entity)
-        : createCompanyTitle(d.entity);
+      var title =
+        d.entity._type == "user"
+          ? createUserTitle(d.entity)
+          : createCompanyTitle(d.entity);
 
       // let isOnline = false;
       // if (d.entity._type == "company") {
@@ -437,15 +462,15 @@ class CompanyChatInbox extends React.Component {
         d.last_message != null ? (
           d.last_message
         ) : (
-            <small className="text-muted">
-              <i>Nothing To Show Here</i>
-            </small>
-          );
+          <small className="text-muted">
+            <i>Nothing To Show Here</i>
+          </small>
+        );
 
-      let countUnread = d.total_unread <= 0 ? null :
-        <div className="frm-count">
-          {d.total_unread}
-        </div>
+      let countUnread =
+        d.total_unread <= 0 ? null : (
+          <div className="frm-count">{d.total_unread}</div>
+        );
 
       view.push(
         <div
@@ -475,22 +500,29 @@ class CompanyChatInbox extends React.Component {
   getEmptyState() {
     let view = null;
     // Empty State For Company Chat
-    let emptyStateBody = [<div className="text-muted">
-      It looks like you have nothing in your inbox.
-    </div>];
+    let emptyStateBody = [
+      <div className="text-muted">
+        It looks like you have nothing in your inbox.
+      </div>
+    ];
 
     if (isRoleStudent()) {
-      emptyStateBody.push(<div>
-        <div className="text-muted">Start a chat with one of the companies below.</div>
-        <br></br><br></br>
-        <CompaniesSection {...this.props} />
-      </div>)
+      emptyStateBody.push(
+        <div>
+          <div className="text-muted">
+            Start a chat with one of the companies below.
+          </div>
+          <br />
+          <br />
+          <CompaniesSection {...this.props} />
+        </div>
+      );
     } else if (isRoleRec()) {
-      emptyStateBody.push(<div className="text-muted">
-        Come back again another time.
-      </div>)
+      emptyStateBody.push(
+        <div className="text-muted">Come back again another time.</div>
+      );
     }
-    view = <EmptyState body={emptyStateBody}></EmptyState>;
+    view = <EmptyState body={emptyStateBody} />;
 
     return view;
   }
@@ -532,23 +564,21 @@ class CompanyChatInbox extends React.Component {
             <div className="flex-center">
               {d.entity.first_name + " " + d.entity.last_name}
             </div>
-          ]
-        } catch (err) { }
+          ];
+        } catch (err) {}
 
         view.push(
           <div className="col-sm-12">
             <div id="chat-list">
               <div className="cl-header">
                 <div className="clh-title">
-                  <div className="clh-title-left">
-                    Inbox
-                  </div>
+                  <div className="clh-title-left">Inbox</div>
                   <div className="clh-title-right">{titleRight}</div>
                 </div>
                 {newBtn}
               </div>
               <div className="cl-parent-body">
-                <div className="cl-body" ref={(v) => this.chatListBody = v} >
+                <div className="cl-body" ref={v => (this.chatListBody = v)}>
                   {this.getChatList()}
                 </div>
                 <div className="cl-chat">{this.getChatBox()}</div>

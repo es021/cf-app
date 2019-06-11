@@ -91,6 +91,10 @@ function isDisabled(page, COMING_SOON) {
   return true;
 }
 
+export function isPageMyInbox() {
+  return location.href.indexOf("my-inbox") >= 0;
+}
+
 function getMenuItem(COMING_SOON) {
   var homeComponent = getHomeComponent(COMING_SOON);
 
@@ -645,7 +649,10 @@ function isBarValid(isHeader, isLog, d) {
   return true;
 }
 
-export function getBar(path, { COMING_SOON, isHeader, count_notification, count_inbox }) {
+export function getBar(
+  path,
+  { COMING_SOON, isHeader, count_notification, count_inbox }
+) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
 

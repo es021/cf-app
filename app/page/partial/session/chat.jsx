@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 import { Loader } from "../../../component/loader";
 import Form from "../../../component/form";
+import * as Navigation from "../../../component/navigation";
 
 //importing for list
 import List, { ProfileListItem } from "../../../component/list";
@@ -24,6 +25,7 @@ import { BOTH } from "../../../../config/socket-config";
 import {
   emitChatMessage,
   socketOn,
+  socketOff,
   emitHallActivity
 } from "../../../socket/socket-client";
 
@@ -223,24 +225,41 @@ class Chat extends React.Component {
     this.MESSAGE_HTML = "MESSAGE_HTML";
 
     this.JSON_ZOOM = "ZOOM";
+    this.unmounted = false;
+  }
+
+  componentWillUnmount() {
+    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+
+    this.unmounted = true;
+    // socketOff(BOTH.CHAT_MESSAGE);
   }
 
   componentWillMount() {
     this.offset = 20;
 
     socketOn(BOTH.CHAT_MESSAGE, data => {
-        console.log("this.props.other_id",this.props.other_id)
-        console.log("this.props.other_id",this.props.other_id)
-        console.log("data",data)
-        console.log("data",data)
-      if (this.props.other_id == data.from_id) {
-        this.addChatToView(
-          data.from_id,
-          data.message,
-          data.created_at,
-          0,
-          data.id_message_number
-        );
+      if (Navigation.isPageMyInbox()) {
+        // console.log("this.props", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+        // console.log("this.unmounted",this.unmounted)
+        // console.log("this.props", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+        // console.log("this.props", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
+        // console.log("this.props.other_id",this.props.other_id);
+        // console.log("data.from_id",data.from_id);
+        if (this.props.other_id == data.from_id && !this.unmounted) {
+          // console.log("update done");
+          // console.log("update done");
+          this.addChatToView(
+            data.from_id,
+            data.message,
+            data.created_at,
+            0,
+            data.id_message_number
+          );
+        }
       }
     });
   }
@@ -667,8 +686,8 @@ class Chat extends React.Component {
     layoutActions.customBlockLoader(body, null, null, null);
   }
   getChatHeader() {
-    if(this.props.is_hide_header){
-        return null;
+    if (this.props.is_hide_header) {
+      return null;
     }
     var d = this.props.other_data;
 
@@ -815,9 +834,7 @@ class Chat extends React.Component {
           {/* <br></br>Has read - {d.has_read}
                 <br></br>Id - {d.id_message_number} */}
         </p>
-        <div className="timestamp">
-          {Time.getStringShort(d.created_at)}
-        </div>
+        <div className="timestamp">{Time.getStringShort(d.created_at)}</div>
         {/* {date} -  */}
       </div>
     );
@@ -836,7 +853,7 @@ class Chat extends React.Component {
     }
   }
 
-  updateToHasRead(id_message_number){
+  updateToHasRead(id_message_number) {
     getAxiosGraphQLQuery(`mutation{edit_message
         (id_message_number :"${id_message_number}", has_read:1){
             has_read }}`);
@@ -846,10 +863,10 @@ class Chat extends React.Component {
 
   componentDidUpdateList(isAppend) {
     if (!isAppend) {
-        this.scrollToBottom();
+      this.scrollToBottom();
     }
 
-    if(this.updateHasRead){
+    if (this.updateHasRead) {
       hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
       this.updateHasRead = false;
     }
