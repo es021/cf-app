@@ -84,6 +84,9 @@ const initializeAllRoute = function (app, root) {
                         routeResHandler(res, error);
                     });
                 break;
+            default:
+                routeResHandler(res, "Action Not Valid");
+                break;
         }
 
     });
