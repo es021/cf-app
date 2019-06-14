@@ -3,7 +3,7 @@
 ####################################################
 
 -Video gallery click change item kalau bukan kat center
--schdule call takyah load student info
+#DONE -schdule call takyah load student info
 
 Company Booth 
     # Ada bagde macam GraduateLand
@@ -21,7 +21,7 @@ Go Live
 
 - Hall Gallery
     - video clickable
-- daily.co
+#DONE - daily.co
 
     
 

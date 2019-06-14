@@ -62,7 +62,7 @@ export function openSIFormAnytime(student_id, company_id) {
     layoutActions.storeUpdateFocusCard("Add A New Scheduled Session", ScheduledInterview
         , {
             company_id: company_id
-            , isFormAnytime : true
+            , isFormStudentListing : true
             , isFormHidden : (name) => {
                 let doHide = [
                     Prescreen.SPECIAL_TYPE,
@@ -146,7 +146,7 @@ export class ScheduledInterview extends React.Component {
                         Manage Scheduled Session</NavLink>
                 </div>;
 
-                if(this.props.isFormAnytime){
+                if(this.props.isFormStudentListing){
                     mes = <div>New private call has been successfully scheduled. View call at{" "}
                         <NavLink onClick={() => { layoutActions.storeHideBlockLoader() }}
                             to={`${RootPath}/app/`}>
@@ -336,10 +336,10 @@ export class ScheduledInterview extends React.Component {
                         , d[Prescreen.APPNMENT_TIME + "_TIME"]);
 
                 // appointment time must be bigger than current time
-                if(this.props.isFormAnytime){
+                if(this.props.isFormStudentListing){
                     if(d[Prescreen.APPNMENT_TIME + "_DATE"] && d[Prescreen.APPNMENT_TIME + "_TIME"]){
                         if(Time.getUnixTimestampNow() > d[Prescreen.APPNMENT_TIME]){
-                            return "Please enter value later than current time";
+                            return `${Time.getString(d[Prescreen.APPNMENT_TIME])} is not a valid appointment time. Please choose appointment time later than current time.`;
                         }
                     }else{
                         return "Please fill in Appointment Time and Appointment Date";
@@ -394,6 +394,13 @@ export class ScheduledInterview extends React.Component {
 
         this.newFormDefault = this.props.defaultFormItem;
 
+        // ni utk create from student listing
+        this.getFormItem = (edit)=>{
+            var studentData = [{ key:this.props.defaultFormItem[Prescreen.STUDENT_ID], label: "This Student" }];
+            var singleStudent = this.props.formOnly;
+            return this.getFormData(edit, singleStudent, studentData, null);
+        }
+
         // create form add new default
         this.getFormItemAsync = (edit) => {
             var singleStudent = this.props.formOnly;
@@ -447,13 +454,14 @@ export class ScheduledInterview extends React.Component {
                             return this.getFormData(edit, singleStudent, studentData, companyData);
                         });
                     }
-
-
-
                 });
-
-
         }
+
+        // kalau utk isFormStudentListing kita taknak load user or company info dulu
+        if(this.props.isFormStudentListing === true){
+            this.getFormItemAsync = undefined;
+        }
+
     }
 
     getFormData(edit, singleStudent, studentData, companyData) {
@@ -573,6 +581,7 @@ export class ScheduledInterview extends React.Component {
             tableHeader={this.tableHeader}
             newFormDefault={this.newFormDefault}
             getEditFormDefault={this.getEditFormDefault}
+            getFormItem={this.getFormItem}
             getFormItemAsync={this.getFormItemAsync}
             renderRow={this.renderRow}
             getDataFromRes={this.getDataFromRes}
@@ -585,7 +594,7 @@ export class ScheduledInterview extends React.Component {
 }
 
 ScheduledInterview.PropTypes = {
-    isFormAnytime : PropTypes.bool,
+    isFormStudentListing : PropTypes.bool,
     isFormHidden : PropTypes.func,
     company_id: PropTypes.number.isRequired,
     prescreen_only: PropTypes.bool,
@@ -595,7 +604,7 @@ ScheduledInterview.PropTypes = {
 };
 
 ScheduledInterview.defaultProps = {
-    isFormAnytime : false,
+    isFormStudentListing : false,
     isFormHidden: (name) => {return false},
     prescreen_only: false,
     successAddHandlerExternal: false,
