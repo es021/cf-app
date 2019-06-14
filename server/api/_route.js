@@ -75,6 +75,15 @@ const initializeAllRoute = function (app, root) {
                         routeResHandler(res, error);
                     });
                 break;
+            case 'delete-room':
+                var name = req.body.name;
+                DailyCoApi.deleteRoom(name)
+                    .then((response) => {
+                        routeResHandler(res, response);
+                    }).catch((error) => {
+                        routeResHandler(res, error);
+                    });
+                break;
         }
 
     });

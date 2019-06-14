@@ -1,5 +1,7 @@
-
-
+CREATE TABLE `wp_career_fair`.`ps_daily_co_deleted`
+ ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , `pre_screens_id` BIGINT(20) NOT NULL ,
+  `room_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`ID`)) ENGINE = InnoDB; 
 
 -- ##############################################################
 -- ##############################################################

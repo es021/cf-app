@@ -119,7 +119,7 @@ export function joinVideoCall(
     isJoin = true;
     windowPopup = window.open(join_url, windowId, windowParam);
   }
-  if (isGruveoLink(join_url)) {
+  if (isGruveoLink(join_url) || isDailyCoLink(join_url)) {
     return;
   }
 

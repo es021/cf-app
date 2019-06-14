@@ -122,6 +122,18 @@ function postAxios(requestUrl, params, headers) {
     return axios.post(requestUrl, JSON.stringify(params), config);
 }
 
+function deleteAxios(requestUrl, headers) {
+    var config = {
+        proxy: false
+    };
+
+    if (typeof headers !== "undefined") {
+        config.headers = headers;
+    }
+
+    return axios.delete(requestUrl, config);
+}
+
 function getPHPApiAxios(script, params) {
     var requestUrl = AppConfig.PHPApi + `${script}.php`;
     console.log(requestUrl);
@@ -169,6 +181,7 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 
 //Export functions 
 module.exports = {
+    deleteAxios,
     postAxios,
     getStaticAxios,
     getAxiosGraphQLQuery,

@@ -1,5 +1,6 @@
 const {
-    postAxios
+    postAxios,
+    deleteAxios
 } = require('../../helper/api-helper');
 
 const {
@@ -7,14 +8,39 @@ const {
 } = require('../secret/secret');
 
 const DailyCo = {
+    RootUrl: "https://api.daily.co/v1",
     ApiKey: Secret.DAILY_CO_KEY
 }
 
-class DailyCoApi {
-    constructor() {
 
+class DailyCoApi {
+    constructor() {}
+
+    getHeaders() {
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${DailyCo.ApiKey}`
+        };
+    }
+    returnError(error) {
+        let err = "Server Error";
+        console.log("[createNewRoom error]", error.response.data.error);
+        try {
+            err = error.response.data.error;
+        } catch (err) {}
+        return err;
     }
 
+    deleteRoom(name) {
+        let url = `${DailyCo.RootUrl}/rooms/${name}`;
+        let headers = this.getHeaders();
+
+        return deleteAxios(url, headers).then((res) => {
+            return res.data;
+        }).catch((error) => {
+            return this.returnError(error);
+        });
+    }
     createNewRoom() {
         //console.log("createNewRoom")
         /**
@@ -24,24 +50,16 @@ class DailyCoApi {
             https://api.daily.co/v1/rooms
         */
 
-        let url = `https://api.daily.co/v1/rooms`;
+        let url = `${DailyCo.RootUrl}/rooms`;
         let params = {
             generate_name: true,
         };
-        let headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${DailyCo.ApiKey}`
-        }
+        let headers = this.getHeaders();
 
         return postAxios(url, params, headers).then((res) => {
-            //console.log("[createNewRoom success]", res.data);
             return res.data;
         }).catch((error) => {
-            let err = "Server Error";
-            try {
-                err = error.response.data.error;
-            } catch (err) {}
-            return err;
+            return this.returnError(error);
         });
     }
 }

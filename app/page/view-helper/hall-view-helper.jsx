@@ -131,6 +131,7 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
 
     postAxios(DailyCoCreateRoomUrl, {})
       .then(data => {
+        data = data.data;
         console.log("DailyCoCreateRoomUrl", data);
         if (data == null || data == "" || typeof data != "object") {
           layoutActions.errorBlockLoader(
@@ -161,6 +162,11 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
       })
       .catch(err => {
         console.log("DailyCoCreateRoomUrl", err);
+        console.log("DailyCoCreateRoomUrl", err.data);
+        layoutActions.errorBlockLoader(
+          "Failed to create video call session. Please check your internet connection"
+        );
+        return;
       });
   };
 
