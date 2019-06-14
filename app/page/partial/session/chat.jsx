@@ -41,7 +41,13 @@ export function isGruveoLink(join_url) {
   return isGruveo;
 }
 
+export function isDailyCoLink(join_url) {
+  const isDailyCo = join_url.indexOf("daily.co") >= 0;
+  return isDailyCo;
+}
+
 export function addLogCreateCall({
+  isDailyCo,
   isZoom,
   isGruveo,
   pre_screen_id,
@@ -56,6 +62,8 @@ export function addLogCreateCall({
     log = LogEnum.EVENT_CALL_GRUVEO;
   } else if (isZoom == true) {
     log = LogEnum.EVENT_CALL_ZOOM;
+  } else if (isDailyCo == true) {
+    log = LogEnum.EVENT_CALL_DAILY_CO;
   }
 
   if (typeof pre_screen_id !== "undefined") {
@@ -70,7 +78,7 @@ export function addLogCreateCall({
     param.group_session_id = group_session_id;
   }
 
-  // for gruveo
+  // for gruveo and daily co
   if (typeof url !== "undefined") {
     param.url = url;
   }

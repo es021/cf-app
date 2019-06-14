@@ -468,6 +468,7 @@ const LogEnum = {
     EVENT_VISIT_COMPANY: "visit_company", // data -> company_id
     EVENT_VISIT_VACANCY: "visit_vacancy", // data -> vacancy_id
     EVENT_CALL_GRUVEO: "call_gruveo", // data -> session_id
+    EVENT_CALL_DAILY_CO: "call_daily_co", // data -> session_id
     EVENT_CALL_ZOOM: "call_zoom", // data -> session_id
     EVENT_CLICK_LEFT_BAR: "click_left_bar", // label
     EVENT_CLICK_GOT_QUESTION: "click_got_question", // <empty>

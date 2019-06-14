@@ -59,6 +59,27 @@ const initializeAllRoute = function (app, root) {
     // });
 
 
+    // Route For Daily Co -------------------------------------------------------------------
+    const {
+        DailyCoApi
+    } = require('./daily-co-api');
+
+    app.post(root + '/daily-co/:action', function (req, res, next) {
+        var action = req.params.action;
+        switch (action) {
+            case 'create-room':
+                DailyCoApi.createNewRoom()
+                    .then((response) => {
+                        routeResHandler(res, response);
+                    }).catch((error) => {
+                        routeResHandler(res, error);
+                    });
+                break;
+        }
+
+    });
+
+
     // Route To Store in Meta -------------------------------------------------------------------
     const {
         MetaAPI

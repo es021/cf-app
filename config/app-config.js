@@ -1,9 +1,10 @@
 // ###################################################
 // Indicator
 
-const IsGruveoEnable = false;
-
+const IsDailyCoEnable = true;
 var IsNewHall = true;
+
+const IsGruveoEnable = false;
 // if (typeof location !== "undefined") {
 //     IsNewHall = location.href.indexOf("new=1") >= 0 ? true : false;
 //     console.log("location.href", location.href);
@@ -27,6 +28,7 @@ var StaticUrl = AssetUrl + "/static";
 var ImageUrl = AssetUrl + "/asset/image";
 var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
+var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
@@ -101,6 +103,8 @@ const SupportUserID = 681;
 // helloGold();
 
 module.exports = {
+    IsDailyCoEnable,
+    DailyCoCreateRoomUrl,
     IsGruveoEnable,
     SocketUrl,
     LandingUrl,

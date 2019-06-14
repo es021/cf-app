@@ -6,6 +6,6 @@ npm-debug.log
 package.json
 package-lock.json
 public/upload/
-server/secret/
+server/secret/secret.js
 server/api/zoom-api.js
 server/php-api/lib/secret.php
