@@ -456,7 +456,7 @@ function getMenuItem(COMING_SOON) {
   menuItem.push(
     ...[
       {
-        url: "/time-converter",
+        url: "/my-local-time",
         component: TimeConverterPage,
         bar_app: true,
         bar_auth: true,

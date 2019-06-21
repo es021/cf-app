@@ -28,7 +28,7 @@ Time.prototype.getDateDay = function (unixtimestamp) {
     return `${date.getFullYear()}-${m}-${d}`;
 }
 
-Time.prototype.getDateDayStr = function (unixtimestamp, isTimezoneMas) {
+Time.prototype.getDateDayStr = function (unixtimestamp, isTimezoneMas, isFull = false) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
     }
@@ -45,12 +45,24 @@ Time.prototype.getDateDayStr = function (unixtimestamp, isTimezoneMas) {
     }
 
     var arr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    if (isFull) {
+        arr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    }
     return arr[date.getDay()];
+}
+
+Time.prototype.getDateDayStrFull = function (unixtimestamp, isTimezoneMas) {
+    return this.getDateDayStr(unixtimestamp, isTimezoneMas, true);
 }
 
 Time.prototype.getDateDayStrMas = function (unixtimestamp) {
     return this.getDateDayStr(unixtimestamp, true);
 }
+
+Time.prototype.getDateDayStrMasFull = function (unixtimestamp) {
+    return this.getDateDayStr(unixtimestamp, true, true);
+}
+
 
 
 Time.prototype.getDateTime = function (unixtimestamp, format12H) {
@@ -409,7 +421,6 @@ Time.prototype.convertDBTimeToUnix = function (db_time) {
     return dbToTimeUnix(db_time);
 };
 
-
 Time.prototype.getHapenningIn = function (unixtimestamp, {
     passedText,
     startCountMinute
@@ -432,6 +443,9 @@ Time.prototype.getHapenningIn = function (unixtimestamp, {
 
     var next = new Date(unixtimestamp * 1000);
     var timeLeft = next - current;
+
+    console.log("msStartCount", msStartCount);
+    console.log("timeLeft", timeLeft);
 
     if (msStartCount > 0) {
         if (timeLeft > msStartCount) {
@@ -461,6 +475,7 @@ Time.prototype.getHapenningIn = function (unixtimestamp, {
 Time.prototype.getAgo = function (unixtimestamp) {
     if (typeof unixtimestamp === "string") {
         unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+        console.log("yoo")
     }
 
     console.log("unixtimestamp", unixtimestamp);
@@ -495,6 +510,22 @@ Time.prototype.getAgo = function (unixtimestamp) {
         return Math.round(elapsed / msPerYear) + ' years ago';
     }
 };
+
+
+Time.prototype.getHappeningAgo = function (unixtime, {
+    happeningHandler,
+    agoHandler
+}) {
+    let happText = this.getHapenningIn(unixtime, {
+        passedText: null,
+        startCountMinute: 0
+    });
+    if (happText == null) {
+        return agoHandler(this.getAgo(unixtime));
+    } else {
+        return happeningHandler(happText);
+    }
+}
 
 Time.prototype.getStringShort = function (unixtimestamp, getSecond) {
     return this.getString(unixtimestamp, false, true, false, false, getSecond);
