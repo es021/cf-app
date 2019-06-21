@@ -35,6 +35,7 @@ import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
 import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";
 import DashboardPage from "../page/dashboard";
+import TimeConverterPage from "../page/time-converter";
 import PasswordResetPage from "../page/password-reset";
 import PasswordForgotPage from "../page/password-forgot";
 import ForumPage from "../page/forum";
@@ -454,6 +455,15 @@ function getMenuItem(COMING_SOON) {
   /**** ROUTE ONLY *******/
   menuItem.push(
     ...[
+      {
+        url: "/time-converter",
+        component: TimeConverterPage,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
       {
         url: "/company-chat/:id",
         component: CompanyChatStarter,
