@@ -9,6 +9,22 @@ export function openNewTab(url) {
     win.focus();
 }
 
+export function getDangerousHtml(str) {
+    let toSet = str;
+    if (typeof str === "string") {
+        if (str.indexOf("<script>") >= 0) {
+            toSet = str;
+            toSet = toSet.replaceAll("<script>","");
+            toSet = toSet.replaceAll("</script>","");
+        }
+    }
+
+    return {
+        __html: toSet
+    };
+
+}
+
 export function getWindowWidth() {
     var width = window.innerWidth ||
         document.documentElement.clientWidth ||
@@ -122,10 +138,10 @@ console.error = function (err, err2, err3, err4, err5) {
     let discardArr = ["Warning:"];
 
     for (var i in discardArr) {
-      if (err.indexOf(discardArr[i]) == 0) {
-        //console.log("discard error logging");
-        return;
-      }
+        if (err.indexOf(discardArr[i]) == 0) {
+            //console.log("discard error logging");
+            return;
+        }
     }
 
     let otherErrs = [err2, err3, err4, err5];
@@ -135,9 +151,9 @@ console.error = function (err, err2, err3, err4, err5) {
     err = err.toString();
 
     for (var i in otherErrs) {
-      if (typeof otherErrs[i] !== "undefined") {
-        console.log("%c" + otherErrs[i], color);
-        err += " " + otherErrs[i].toString();
-      }
+        if (typeof otherErrs[i] !== "undefined") {
+            console.log("%c" + otherErrs[i], color);
+            err += " " + otherErrs[i].toString();
+        }
     }
-  };
+};

@@ -43,6 +43,7 @@ import {
   unsetBodyFullWidth
 } from "../../helper/general-helper";
 import { ButtonAction } from "../component/buttons";
+import { getDangerousHtml } from "../lib/util";
 
 // #################################################################
 // #################################################################
@@ -732,7 +733,8 @@ export default class CompanyPage extends Component {
                 canToggle={this.props.canToggle}
                 className="left"
                 title="About"
-                body={<p>{data.description}</p>}
+                //body={<p>{data.description}</p>}
+                body={<p dangerouslySetInnerHTML={getDangerousHtml(data.description)}></p>}
               />
             )}
             <PageSection
@@ -748,7 +750,8 @@ export default class CompanyPage extends Component {
                 canToggle={this.props.canToggle}
                 className="left"
                 title="Additional Information"
-                body={<p>{data.more_info}</p>}
+                //body={<p>{data.more_info}</p>}
+                body={<p dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}></p>}
               />
             )}
             {recs === null ? null : (
