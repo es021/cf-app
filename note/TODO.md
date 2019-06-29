@@ -2,6 +2,25 @@
 ssh root@104.131.105.183
 ####################################################
 
+SET PRIVILEDGES
+<!-- 
+1. Ubah all Students
+- buang interested candidates
+All Students : ANE, EUR, NZL
+Shell
+All Students : ANE 
+-->
+
+2 When Are you live?
+- kalau ada : Next Live at xxxxx
+- kalau takde : Click here to set your live session
+
+<!-- 3. Online Student indicator kat card activity tukar mcam kat chat -->
+
+<!-- 4. letak company booth kat recruiter punya page gak -->
+
+####################################################
+
 Create Time Converter To Local Page
   http://www.convert-unix-time.com/
   converter page

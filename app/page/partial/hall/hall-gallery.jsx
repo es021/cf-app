@@ -337,6 +337,9 @@ export class HallGalleryView extends React.Component {
     if (this.state.loading) {
       v = <Loader text="Loading Gallery..." size="3" />;
     } else {
+      if (this.state.data.length <= 0) {
+        return null;
+      }
       this.currentIndex = 0;
       this.items = this.getAllItem();
       this.itemViews = this.items.map((d, i) => {

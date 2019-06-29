@@ -7,6 +7,10 @@ import {
 import {
     store
 } from '../store.js';
+import {
+    isRoleRec,
+    getAuthUser
+} from "./auth-actions";
 
 export const SET_ONLINE_USERS = "SET_ONLINE_USERS";
 export const SET_ONLINE_COMPANIES = "SET_ONLINE_COMPANIES";
@@ -26,7 +30,18 @@ export function setOnlineCompanies(data) {
     });
 };
 
+export function isUserOnline(store_online_users, userId) {
+    return store_online_users[userId] == 1
+}
+
 export function isCompanyOnline(store_online_companies, companyId) {
+    // check if you are rec of the company
+    try {
+        if (isRoleRec() && getAuthUser().rec_company == companyId) {
+            return true;
+        }
+    } catch (err) {}
+
     try {
         let online_companies = store_online_companies;
         let cObj = online_companies[companyId];

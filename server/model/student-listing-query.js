@@ -95,13 +95,13 @@ class StudentListingQuery {
         // ###################################################################
         // ALL STUDENT QUERY
         // untuk cater company : -1 (all student page)
-        
+
         // INNER JOIN doc_link dl ON u.ID = dl.user_id AND dl.type = 'document' 
         // AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
-        
-        var sqlAll = `
-        SELECT DISTINCT u.ID as student_id, u.user_registered
-        FROM wp_cf_users u 
+
+         var sqlAll = `
+        SELECT DISTINCT u.ID as student_id, u.user_registered, count(dc.ID) as count_dc
+        FROM wp_cf_users u left outer join doc_link dc ON u.ID = dc.user_id
         WHERE 1=1 
         AND ${join_search_student}
         AND ${join_search_major}
@@ -109,13 +109,33 @@ class StudentListingQuery {
         AND ${join_search_work_av}
         AND ${join_search_looking_for}
         AND ${join_cf}
-        ORDER BY u.user_registered asc
+        GROUP BY u.ID
+        ORDER BY count_dc desc, u.user_registered desc
         ${limit} `;
+         
+        // var sqlAll = `
+        // SELECT DISTINCT u.ID as student_id, u.user_registered
+        // FROM wp_cf_users u
+        // WHERE 1=1 
+        // AND ${join_search_student}
+        // AND ${join_search_major}
+        // AND ${join_search_place}
+        // AND ${join_search_work_av}
+        // AND ${join_search_looking_for}
+        // AND ${join_cf}
+        // ORDER BY u.user_registered asc
+        // ${limit} `;
+
         sqlAll = sqlAll.replaceAll("j.user_id", "u.ID")
 
         // console.log(sql);
-        // console.log(sqlAll);
-
+        console.log("---------------------------------------------")
+        console.log("---------------------------------------------")
+        console.log("---------------------------------------------")
+        console.log(sqlAll);
+        console.log("---------------------------------------------")
+        console.log("---------------------------------------------")
+        console.log("---------------------------------------------")
         return params.company_id <= 0 ? sqlAll : sql;
     }
 
@@ -124,7 +144,6 @@ class StudentListingQuery {
 
 StudentListingQuery = new StudentListingQuery();
 class StudentListingExec {
-
     student_listing(params, field, extra = {}) {
         var {
             CompanyExec
@@ -132,12 +151,8 @@ class StudentListingExec {
         var {
             UserExec
         } = require('./user-query.js');
-        // var {
-        //     DocLinkExec
-        // } = require('./doclink-query.js');
 
         var sql = StudentListingQuery.getStudentListing(params, field, extra);
-
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
                 var student_id = res[i]["student_id"];
@@ -153,10 +168,8 @@ class StudentListingExec {
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
             }
-
             return res;
         });
-
         return toRet;
     }
 }

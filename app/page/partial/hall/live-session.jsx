@@ -104,6 +104,41 @@ export function openLiveSession(company_id) {
   doAfterValidateComingSoon(doAction, subText);
 }
 
+const OFFSET_ENDED_MIN = 30 * 60;
+function getSessionStatus(start_time) {
+  let isNow = false;
+  let isTimePassed = false;
+  let timeNow = Time.getUnixTimestampNow()
+  if (timeNow >= start_time && timeNow <= start_time + OFFSET_ENDED_MIN) {
+    isNow = true;
+  }
+  else if (timeNow > start_time + OFFSET_ENDED_MIN) {
+    isTimePassed = true;
+  }
+
+  if (isNow) {
+    return "now"
+  }
+  else if (isTimePassed) {
+    return "ended";
+  } else {
+    return "upcoming";
+  }
+}
+
+export function __IS_GROUP_SESSION_NOW(start_time) {
+  return getSessionStatus(start_time) == "now";
+}
+
+export function __IS_GROUP_SESSION_ENDED(start_time) {
+  return getSessionStatus(start_time) == "ended";
+}
+
+export function __IS_GROUP_SESSION_UPCOMING(start_time) {
+  return getSessionStatus(start_time) == "upcoming";
+}
+
+
 export function getGroupSessionQueryFilter(cId) {
   return `company_id:${cId}, discard_expired:true, discard_canceled:true , order_by:"start_time asc"`;
 }
@@ -634,24 +669,24 @@ class LiveSessionClass extends React.Component {
         />
       );
 
-      let offsetExpiredMin = 30 * 60;
-      let isNow = false;
-      let isTimePassed = false;
-      let timeNow = Time.getUnixTimestampNow()
-      if (timeNow >= d.start_time && timeNow <= d.start_time + offsetExpiredMin) {
-        isNow = true;
-      }
-      else if (timeNow > d.start_time + offsetExpiredMin) {
-        isTimePassed = true;
-      }
+      // let offsetExpiredMin = 30 * 60;
+      // let isNow = false;
+      // let isTimePassed = false;
+      // let timeNow = Time.getUnixTimestampNow()
+      // if (timeNow >= d.start_time && timeNow <= d.start_time + offsetExpiredMin) {
+      //   isNow = true;
+      // }
+      // else if (timeNow > d.start_time + offsetExpiredMin) {
+      //   isTimePassed = true;
+      // }
 
       let label = "";
       let className = "";
-      if (isNow) {
+      if (__IS_GROUP_SESSION_NOW(d.start_time)) {
         className = "gs-now";
         label = "Happening Now"
       }
-      else if (isTimePassed) {
+      else if (__IS_GROUP_SESSION_ENDED(d.start_time)) {
         className = "gs-expired";
         label = "Ended"
       } else {
@@ -676,10 +711,10 @@ class LiveSessionClass extends React.Component {
         {action}
       </div>
 
-      if (isNow) {
+      if (__IS_GROUP_SESSION_NOW(d.start_time)) {
         arrNow.push(toAdd);
       }
-      else if (isTimePassed) {
+      else if (__IS_GROUP_SESSION_ENDED(d.start_time)) {
         arrExpired.push(toAdd);
       } else {
         arrUpcoming.push(toAdd);

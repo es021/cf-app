@@ -18,7 +18,7 @@ import { Loader } from "../../../component/loader";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import { Time } from "../../../lib/time";
 import { createUserTitle } from "../../users";
-import { openSIFormNew, openSIFormAnytime} from "../../partial/activity/scheduled-interview";
+import { openSIFormNew, openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
 import { openFeedbackBlockRec } from "../analytics/feedback";
 import { CompanyEnum, UserEnum, PrescreenEnum } from "../../../../config/db-config";
@@ -579,7 +579,7 @@ export class StudentListing extends React.Component {
       let companyIdInq = this.props.isAllStudent ? -1 : this.props.company_id;
       var query = `query{
           student_listing(${this.searchParams} company_id:${companyIdInq}, 
-          cf:"${getCF()}", page: ${page}, offset:${offset}) 
+          cf:"${this.getCfStr()}", page: ${page}, offset:${offset}) 
           {
             student_id
             created_at
@@ -589,6 +589,8 @@ export class StudentListing extends React.Component {
                 ID first_name last_name user_email description looking_for
                 doc_links { type label url }
       }}}`;
+
+      //alert(query)
       // booked_at {timestamp prescreen{status} }
       // img_url img_pos img_size
 
@@ -599,16 +601,43 @@ export class StudentListing extends React.Component {
       return res.data.data.student_listing;
     };
   }
+  getCfStr() {
+    let cfs = [];
+    if (this.props.isAllStudent) {
+      cfs.push(getCF());
+      if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_ANE)) {
+        cfs.push("ANE");
+      }
+      if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_EUR)) {
+        cfs.push("EUR");
+      }
+      if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_NZL)) {
+        cfs.push("NZL");
+      }
+    }
 
+    let cfStr = "";
+    if (Array.isArray(cfs) && cfs.length > 0) {
+      cfs.map((d, i) => {
+        console.log(d);
+        cfStr += ((i > 0) ? "," : "") + d;
+      })
+    } else {
+      cfStr = getCF();
+    }
+
+    //console.log("cfStr", cfStr);
+    return cfStr;
+  }
   getContentBelowFilter() {
     console.log("getContentBelowFilter", this.state.search)
     //let hasFilter = typeof this.searchParams === "string" && this.searchParams != ""
     // todos
     let cId = (this.props.isAllStudent) ? -1 : this.props.company_id;
-    let label = (this.props.isAllStudent) ? "Export All Students" : "Export All Interested Candidates";
+    let label = `Export ${this.props.title}`;
 
     return <ButtonExport action="student_listing" text={label}
-      filter={{ company_id: cId, cf: getCF(), for_rec : "1" }}>
+      filter={{ company_id: cId, cf: this.getCfStr(), for_rec: "1" }}>
     </ButtonExport>;
   }
   render() {
@@ -670,7 +699,7 @@ export class StudentListing extends React.Component {
     //        {isComingSoon() ? "isComingSoon()" : "not isComingSoon()"}
     //        {this.state.loadPriv} |  {this.state.privs}
 
-    let title = this.props.isAllStudent ? "All Student" : "Interested Candidates";
+    let title = this.props.title;
     document.setTitle(title);
 
     return (
@@ -686,9 +715,11 @@ StudentListing.propTypes = {
   company_id: PropTypes.number.isRequired,
   isRec: PropTypes.bool,
   isAllStudent: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 StudentListing.defaultProps = {
   isRec: true,
-  isAllStudent: false
+  isAllStudent: false,
+  title: null
 };

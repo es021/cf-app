@@ -3,17 +3,24 @@ import PropTypes from "prop-types";
 import { CustomList, createIconLink } from "../component/list";
 import { ButtonArrowAction, ButtonAction } from "../component/buttons.jsx";
 import { NavLink } from "react-router-dom";
-
+import { getGroupSessionQueryFilter } from "./partial/hall/live-session";
 import PageSection from "../component/page-section";
 import { GroupSessionView } from "./partial/hall/group-session";
 import CompaniesSection from "./partial/hall/companies";
 import ForumPage from "./forum";
-import { openLiveSession, createNewLiveSessionPopup } from "./partial/hall/live-session"
+import {
+  openLiveSession, createNewLiveSessionPopup,
+  __IS_GROUP_SESSION_NOW, __IS_GROUP_SESSION_ENDED, __IS_GROUP_SESSION_UPCOMING
+} from "./partial/hall/live-session"
+
 import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
 import { RootPath, ImageUrl } from "../../config/app-config";
 import { CompanyEnum } from "../../config/db-config";
+import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { Time } from "../lib/time";
+
 import {
   isRoleRec,
   isRoleStudent,
@@ -37,12 +44,42 @@ export default class HallPage extends React.Component {
     this.title = this.CFDetail.title;
 
     this.authUser = getAuthUser();
+
+    this.state = {
+      next_live_session_time: null,
+    }
   }
 
   componentWillMount() {
     // this.body = document.getElementsByTagName("body")[0];
     // this.body.className += " body-full-width ";
     setBodyFullWidth();
+  }
+
+
+  componentDidMount() {
+    if (isRoleRec()) {
+      let company_id = getAuthUser().rec_company;
+      let q = `query { group_sessions(${getGroupSessionQueryFilter(company_id)} ) 
+        {ID start_time} } `;
+
+      getAxiosGraphQLQuery(q).then(res => {
+        this.setState((prevState) => {
+          let gs = res.data.data.group_sessions;
+          let smallest = null;
+          for (var i in gs) {
+            let start_time = gs[i].start_time;
+            if (__IS_GROUP_SESSION_NOW(start_time) || __IS_GROUP_SESSION_UPCOMING(start_time)) {
+              if (smallest == null || start_time < smallest) {
+                smallest = start_time;
+              }
+            }
+          }
+
+          return { next_live_session_time: smallest };
+        });
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -187,7 +224,18 @@ export default class HallPage extends React.Component {
   // }
 
   getRecruiterAction() {
-    //  ts-outline
+    /**
+     * 2 When Are you live?
+      - kalau ada : Next Live at xxxxx
+      - kalau takde : Click here to set your live session
+      // this.state.next_live_session_time
+    */
+    let nextSessionStr = "Click here to set your live session";
+    if (this.state.next_live_session_time != null &&
+      this.state.next_live_session_time > 0) {
+      nextSessionStr = `Next Live @ ${Time.getString(this.state.next_live_session_time)}`
+    }
+
     return <div className="title-sectaion">
       <div className="main-width">
         <ButtonAction
@@ -199,7 +247,6 @@ export default class HallPage extends React.Component {
           mainText={"Interested Candidates"}
           subText={`See who's interested in ${this.authUser.company.name}`}
         />
-
         <ButtonAction
           style={{ width: "350px" }}
           btnClass="btn-lg btn-danger"
@@ -207,7 +254,7 @@ export default class HallPage extends React.Component {
           icon="podcast"
           iconSize="3x"
           mainText={"Go Live"}
-          subButtonText={`When are you live?`}
+          subButtonText={nextSessionStr}
           subButtonOnClick={() => {
             console.log("check when");
             createNewLiveSessionPopup(this.authUser.rec_company, () => {
@@ -239,9 +286,10 @@ export default class HallPage extends React.Component {
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
-        {isRoleRec() ? this.getRecruiterAction() : null}
+        {isRoleRec() ? this.getRecruiterAction(this.state) : null}
         {isRoleRec() || isRoleStudent() ? this.getActivityAndWebinar() : null}
-        {isRoleStudent() || isRoleAdmin() ? this.getCompanyBooth() : null}
+        {/* {isRoleStudent() || isRoleAdmin() ? this.getCompanyBooth() : null} */}
+        {this.getCompanyBooth()}
       </div>
     );
   }

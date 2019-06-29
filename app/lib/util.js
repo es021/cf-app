@@ -14,8 +14,8 @@ export function getDangerousHtml(str) {
     if (typeof str === "string") {
         if (str.indexOf("<script>") >= 0) {
             toSet = str;
-            toSet = toSet.replaceAll("<script>","");
-            toSet = toSet.replaceAll("</script>","");
+            toSet = toSet.replaceAll("<script>", "");
+            toSet = toSet.replaceAll("</script>", "");
         }
     }
 
@@ -81,6 +81,13 @@ export function _GET(parameterName) {
     return result;
 }
 
+String.prototype.parseJson = function () {
+    try {
+        return JSON.parse(this);
+    } catch (err) {
+        return null;
+    };
+}
 
 String.prototype.containText = function (text) {
     return this.toUpperCase().indexOf(text.toUpperCase()) >= 0;

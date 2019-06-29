@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAuthUser, isRoleRec, isRoleStudent } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, isRoleStudent, getCF } from '../redux/actions/auth-actions';
 import SubNav from '../component/sub-nav';
 import { SessionsList } from './partial/activity/session';
 import { ResumeDrop } from './partial/activity/resume-drop';
@@ -29,17 +29,22 @@ export default class ActivityPage extends React.Component {
 
         if (isRoleRec()) {
             item["student-listing"] = {
-                label: "Interested Candidates",
+                label: "Student Listing",
                 component: StudentListing,
-                props: { company_id: this.company_id },
+                // props: { company_id: this.company_id },
+                props: {
+                    title: "Student Listing",
+                    company_id: this.company_id,
+                    isAllStudent: true
+                },
                 icon: "users"
             }
-            item["all-student"] = {
-                label: "All Student",
-                component: StudentListing,
-                props: { company_id: this.company_id, isAllStudent: true },
-                icon: "address-book-o",
-            }
+            // item["all-student"] = {
+            //     label: "All Student",
+            //     component: StudentListing,
+            //     props: { company_id: this.company_id, isAllStudent: true },
+            //     icon: "address-book-o",
+            // }
         }
 
         item["session"] = {

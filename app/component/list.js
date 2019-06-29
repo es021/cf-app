@@ -362,6 +362,7 @@ export class ProfileListItem extends Component {
 }
 
 ProfileListItem.propTypes = {
+    isOnline : PropTypes.bool,
     header: PropTypes.element, // put as the first child of profile card,
     custom_width : PropTypes.string,
     list_type: PropTypes.oneOf(["card"]),
@@ -379,6 +380,7 @@ ProfileListItem.propTypes = {
 };
 
 ProfileListItem.defaultProps = {
+    isOnline : false,
     list_type_extra: "",
     custom_width : null,
 };

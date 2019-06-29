@@ -12,14 +12,32 @@ class CFQuery {
 
         // user or company
         if (typeof entity === "undefined") {
-            return "1=1";
+        return "1=1";
         }
 
-        let toRet = `'${cf}' IN (select ms.cf from cf_map ms 
-            where ms.entity = '${entity}'
-            and ms.entity_id = ${field})`;
+        let cfArr = null;
+        if (cf.indexOf(",") >= 0) {
+            cfArr = cf.split(",");
+        }
 
-        return toRet;
+        const template = (_field, _entity, _cf) => {
+            return `'${_cf}' IN (select ms.cf from cf_map ms 
+                where ms.entity = '${_entity}'
+                and ms.entity_id = ${_field})`
+        }
+
+        if (cfArr != null && Array.isArray(cfArr)) {
+            let toRet = "";
+            for (var i in cfArr) {
+                if (i > 0) {
+                    toRet += " OR ";
+                }
+                toRet += template(field, entity, cfArr[i]);
+            }
+            return `( ${toRet} )`;
+        } else {
+            return template(field, entity, cf);
+        }
     }
     getCF(params, field) {
         var order_by = "ORDER BY cf_order desc";

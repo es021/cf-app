@@ -27,7 +27,7 @@ import {
   emitQueueStatus,
   emitHallActivity
 } from "../../../socket/socket-client";
-
+import { isUserOnline, isCompanyOnline} from "../../../redux/actions/user-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import * as activityActions from "../../../redux/actions/activity-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
@@ -1007,11 +1007,11 @@ class ActvityList extends React.Component {
         var badge = null;
         var badge_tooltip = null;
 
-        if (isRoleRec()) {
-          //show online status for rec
-          badge = this.props.online_users[obj.ID] == 1 ? "" : null;
-          badge_tooltip = `User Currently Online`;
-        }
+        // if (isRoleRec()) {
+        //   //show online status for rec
+        //   badge = this.props.online_users[obj.ID] == 1 ? "" : null;
+        //   badge_tooltip = `User Currently Online`;
+        // }
 
         let _type = d._type;
 
@@ -1049,8 +1049,17 @@ class ActvityList extends React.Component {
         body = [body, labelType];
 
         var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
+        let isOnlineCard = false;
+        if(isRoleRec()){
+          isOnlineCard = isUserOnline(this.props.online_users, obj.ID);
+        }
+        if(isRoleStudent()){
+          isOnlineCard  = isCompanyOnline(this.props.online_companies, obj.ID);
+        }
+
         return (
           <ProfileListItem
+            isOnline={isOnlineCard}
             className=""
             //header={labelType}
             title={title}
@@ -1103,7 +1112,8 @@ ActvityList.propTypes = {
   bc_type: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   fetching: PropTypes.bool.isRequired,
-  online_users: PropTypes.object.isRequired
+  online_users: PropTypes.object.isRequired,
+  online_companies: PropTypes.object.isRequired,
 };
 
 ActvityList.defaultProps = {
@@ -1318,6 +1328,7 @@ class ActivitySection extends React.Component {
       <ActvityList
         bc_type="vertical"
         online_users={this.props.online_users}
+        online_companies={this.props.online_companies}
         fetching={fetching}
         type={null}
         title={title}
@@ -1335,7 +1346,8 @@ class ActivitySection extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     activity: state.hall.activity,
-    online_users: state.user.online_users
+    online_users: state.user.online_users,
+    online_companies: state.user.online_companies,
   };
 }
 

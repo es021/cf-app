@@ -215,6 +215,42 @@ class AboutSubPage extends React.Component {
         };
     }
 
+    getDataPriv() {
+        let dataPriv = [
+            { key: "0", label: "No Privilege" }
+            , {
+                key: CompanyEnum.PRIV.ACCESS_ALL_STUDENT
+                , label: "Access ALL Student Resume"
+            }
+            , {
+                key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
+                , label: "Access Resume Drop BEFORE Event"
+            }
+            , {
+                key: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT
+                , label: "Access Resume Drop DURING Event"
+            }
+            , {
+                key: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+                , label: "Schedule 1-1 Session"
+            }
+        ];
+
+        let allKeys = dataPriv.map((d, i) => {
+            return d.key;
+        })
+        for (var i in CompanyEnum.PRIV) {
+            if (allKeys.indexOf(CompanyEnum.PRIV[i]) <= -1) {
+                dataPriv.push({
+                    key: CompanyEnum.PRIV[i],
+                    label: CompanyEnum.PRIV[i],
+                })
+            }
+        }
+
+        return dataPriv;
+    }
+
     componentWillMount() {
         this.company_id = this.props.company_id;
 
@@ -257,6 +293,8 @@ class AboutSubPage extends React.Component {
             var dataCF = getDataCareerFair();
             dataCF.push({ key: "NONE", label: "No Career Fair" });
 
+
+
             this.formItems.push(...[
                 { header: "Admin Only" },
                 {
@@ -270,25 +308,7 @@ class AboutSubPage extends React.Component {
                     label: "Priviledge",
                     name: Company.PRIVILEDGE,
                     type: "checkbox",
-                    data: [
-                        { key: "0", label: "No Privilege" }
-                        , {
-                            key: CompanyEnum.PRIV.ACCESS_ALL_STUDENT
-                            , label: "Access ALL Student Resume"
-                        }
-                        , {
-                            key: CompanyEnum.PRIV.ACCESS_RS_PRE_EVENT
-                            , label: "Access Resume Drop BEFORE Event"
-                        }
-                        , {
-                            key: CompanyEnum.PRIV.ACCESS_RS_DURING_EVENT
-                            , label: "Access Resume Drop DURING Event"
-                        }
-                        , {
-                            key: CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
-                            , label: "Schedule 1-1 Session"
-                        }
-                    ]
+                    data: this.getDataPriv()
                 }, {
                     label: "Type",
                     name: Company.TYPE,
@@ -513,21 +533,21 @@ export default class ManageCompanyPage extends React.Component {
             item["student-listing"] = {
                 label: "Student Listing",
                 component: StudentListing,
-                props: { company_id: this.company_id },
+                props: { title: "Student Listing", company_id: this.company_id, isAllStudent: true },
                 icon: "users"
-            },
-                item["all-student"] = {
-                    label: "All Student",
-                    component: StudentListing,
-                    props: { company_id: this.company_id, isAllStudent: true },
-                    icon: "address-book-o"
-                },
-                item["session"] = {
-                    label: "Past Sessions",
-                    component: SessionsList,
-                    props: { company_id: this.company_id, student_id: this.student_id, isRec: true },
-                    icon: "comments"
-                }
+            }
+            // item["all-student"] = {
+            //     label: "All Student",
+            //     component: StudentListing,
+            //     props: { title: "All Student", company_id: this.company_id, isAllStudent: true },
+            //     icon: "address-book-o"
+            // }
+            item["session"] = {
+                label: "Past Sessions",
+                component: SessionsList,
+                props: { company_id: this.company_id, student_id: this.student_id, isRec: true },
+                icon: "comments"
+            }
             item["resume-drop"] = {
                 label: "Resume Drop",
                 component: ResumeDrop,
