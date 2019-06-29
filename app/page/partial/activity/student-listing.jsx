@@ -613,7 +613,7 @@ export class StudentListing extends React.Component {
 
   getCfStr() {
     let cfs = [];
-    if (this.props.isAllStudent) {
+    if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_COMBINE_CF)) {
       cfs.push(getCF());
       if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_ANE)) {
         cfs.push("ANE");
