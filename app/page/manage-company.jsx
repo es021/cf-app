@@ -533,7 +533,10 @@ export default class ManageCompanyPage extends React.Component {
             item["student-listing"] = {
                 label: "Student Listing",
                 component: StudentListing,
-                props: { title: "Student Listing", company_id: this.company_id, isAllStudent: true },
+                props: {
+                    title: "Student Listing",
+                    company_id: this.company_id,
+                },
                 icon: "users"
             }
             // item["all-student"] = {

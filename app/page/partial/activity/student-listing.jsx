@@ -606,8 +606,8 @@ export class StudentListing extends React.Component {
     let toRet = this.props.isAllStudent ? -1 : this.props.company_id;
     if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_COMBINE_CF)) {
       toRet = -1
-    }
-
+    } 
+    
     return toRet;
   }
 
