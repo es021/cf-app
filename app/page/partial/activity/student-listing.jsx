@@ -576,7 +576,7 @@ export class StudentListing extends React.Component {
 
     // TODO
     this.loadData = (page, offset) => {
-      let companyIdInq = this.props.isAllStudent ? -1 : this.props.company_id;
+      let companyIdInq = this.getCompanyIdQuery();
       var query = `query{
           student_listing(${this.searchParams} company_id:${companyIdInq}, 
           cf:"${this.getCfStr()}", page: ${page}, offset:${offset}) 
@@ -601,6 +601,16 @@ export class StudentListing extends React.Component {
       return res.data.data.student_listing;
     };
   }
+
+  getCompanyIdQuery() {
+    let toRet = this.props.isAllStudent ? -1 : this.props.company_id;
+    if (CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.AAS_COMBINE_CF)) {
+      toRet = -1
+    }
+
+    return toRet;
+  }
+
   getCfStr() {
     let cfs = [];
     if (this.props.isAllStudent) {
@@ -630,14 +640,10 @@ export class StudentListing extends React.Component {
     return cfStr;
   }
   getContentBelowFilter() {
-    console.log("getContentBelowFilter", this.state.search)
-    //let hasFilter = typeof this.searchParams === "string" && this.searchParams != ""
-    // todos
-    let cId = (this.props.isAllStudent) ? -1 : this.props.company_id;
+    //console.log("getContentBelowFilter", this.state.search)
     let label = `Export ${this.props.title}`;
-
     return <ButtonExport action="student_listing" text={label}
-      filter={{ company_id: cId, cf: this.getCfStr(), for_rec: "1" }}>
+      filter={{ company_id: this.getCompanyIdQuery(), cf: this.getCfStr(), for_rec: "1" }}>
     </ButtonExport>;
   }
   render() {

@@ -11,9 +11,9 @@ Shell
 All Students : ANE 
 -->
 
-2 When Are you live?
+<!-- 2 When Are you live?
 - kalau ada : Next Live at xxxxx
-- kalau takde : Click here to set your live session
+- kalau takde : Click here to set your live session -->
 
 <!-- 3. Online Student indicator kat card activity tukar mcam kat chat -->
 

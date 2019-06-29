@@ -35,7 +35,6 @@ export default class ActivityPage extends React.Component {
                 props: {
                     title: "Student Listing",
                     company_id: this.company_id,
-                    isAllStudent: true
                 },
                 icon: "users"
             }
