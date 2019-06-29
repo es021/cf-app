@@ -100,7 +100,8 @@ class StudentListingQuery {
         // AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
 
          var sqlAll = `
-        SELECT DISTINCT u.ID as student_id, u.user_registered, count(dc.ID) as count_dc
+        SELECT DISTINCT u.ID as student_id, u.user_registered, 
+        (CASE WHEN count(dc.ID) >  0 THEN 1 ELSE 0 END) as has_dc
         FROM wp_cf_users u left outer join doc_link dc ON u.ID = dc.user_id
         WHERE 1=1 
         AND ${join_search_student}
@@ -110,7 +111,7 @@ class StudentListingQuery {
         AND ${join_search_looking_for}
         AND ${join_cf}
         GROUP BY u.ID
-        ORDER BY count_dc desc, u.user_registered desc
+        ORDER BY has_dc desc, u.user_registered desc
         ${limit} `;
          
         // var sqlAll = `
