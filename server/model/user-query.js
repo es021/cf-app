@@ -70,7 +70,7 @@ class UserQuery {
     }
 
     getSearchEmail(field, search_params) {
-        return `(${this.selectUserField(field, User.EMAIL)}) like '%${search_params}%'`;
+        return `(${this.selectUserField(field, User.EMAIL)} limit 0,1) like '%${search_params}%'`;
     }
 
     getSearchNameOrEmail(field, search_name, search_email) {
