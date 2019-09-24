@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getXLSUrl } from '../redux/actions/other-actions';
 import { NavLink } from "react-router-dom";
 
-require("../css/buttons.scss");
+// require("../css/buttons.scss");
 
 export class ButtonExport extends React.Component {
 

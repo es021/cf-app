@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-require('../css/page-sec.scss');
+// require('../css/page-sec.scss');
 
 const sec = "page-sec";
 

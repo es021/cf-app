@@ -34,7 +34,7 @@ import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helpe
 import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
 
-require("../css/hall.scss");
+// require("../css/hall.scss");
 
 export default class HallPage extends React.Component {
   constructor(props) {

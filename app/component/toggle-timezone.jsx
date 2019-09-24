@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Time } from "../lib/time";
-require("../css/toogle-timezone.scss");
+// require("../css/toogle-timezone.scss");
 
 export default class ToogleTimezone extends React.Component {
   constructor(props) {

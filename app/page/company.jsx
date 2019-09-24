@@ -47,7 +47,7 @@ import { getDangerousHtml } from "../lib/util";
 
 // #################################################################
 // #################################################################
-require("../css/company-page.scss");
+// require("../css/company-page.scss");
 
 class VacancyList extends React.Component {
   constructor(props) {

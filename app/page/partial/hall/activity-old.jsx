@@ -32,7 +32,7 @@ import { joinVideoCall } from '../session/chat';
 import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
 import * as HallViewHelper from '../../view-helper/hall-view-helper';
 
-require('../../../css/border-card.scss');
+// require('../../../css/border-card.scss');
 
 class ActvityList extends React.Component {
 

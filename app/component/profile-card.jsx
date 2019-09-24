@@ -12,7 +12,7 @@ import ProfileCardImg, {
 } from "../component/profile-card-img";
 import Form, { toggleSubmit } from "../component/form";
 
-require("../css/profile-card.scss");
+// require("../css/profile-card.scss");
 /*
  This Component will create a standardize circle picture and title and subtitle and also some children to be append to body
  */

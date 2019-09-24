@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-require('../css/tooltip.scss');
+// require('../css/tooltip.scss');
 
 export default class Tooltip extends React.Component {
 

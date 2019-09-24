@@ -5,7 +5,7 @@ import { ButtonIcon } from "./buttons.jsx";
 import { getParamUrl, scrollToX } from "../lib/util";
 import { addLog } from "../redux/actions/other-actions";
 
-require("../css/gallery.scss");
+// require("../css/gallery.scss");
 export function isGalleryIframe(type, url) {
   return (
     type == DocLinkEnum.TYPE_DOC ||

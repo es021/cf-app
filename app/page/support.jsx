@@ -13,8 +13,8 @@ import { BOTH } from '../../config/socket-config';
 import { socketOn } from '../socket/socket-client';
 import { addLog } from '../redux/actions/other-actions.js';
 
-require('../css/forum.scss');
-require('../css/support-chat.scss');
+// require('../css/forum.scss');
+// require('../css/support-chat.scss');
 
 // support chat floating at bottom right page
 export class SupportChat extends React.Component {

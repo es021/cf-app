@@ -9,7 +9,7 @@ import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { updateAuthUser } from '../redux/actions/auth-actions';
 import { UploadUrl } from '../../config/app-config.js';
 
-require("../css/profile-card.scss");
+// require("../css/profile-card.scss");
 const pc = "pc-";
 
 export const BANNER_WIDTH = 870;

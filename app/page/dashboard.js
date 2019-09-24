@@ -13,7 +13,7 @@ import { getDataCareerFair } from '../component/form';
 import { socketOn, emitLiveFeed } from '../socket/socket-client';
 import { BOTH } from '../../config/socket-config';
 
-require("../css/dashboard.scss");
+// require("../css/dashboard.scss");
 
 export class DashboardFeed extends React.Component {
     constructor(props) {

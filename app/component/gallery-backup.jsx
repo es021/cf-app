@@ -6,7 +6,7 @@ import { getParamUrl, scrollToX } from '../lib/util';
 import { addLog } from '../redux/actions/other-actions';
 
 
-require("../css/gallery.scss");
+// require("../css/gallery.scss");
 
 export class Gallery extends React.Component {
     constructor(props) {

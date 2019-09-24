@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { SessionRating, SessionRatingEnum } from '../../../../config/db-config';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 
-require("../../../css/session-note.scss");
+// require("../../../css/session-note.scss");
 
 export default class SessionRatingsSection extends React.Component {
     constructor(props) {

@@ -22,7 +22,7 @@ import { emitChatMessage, socketOn, emitHallActivity } from '../../../socket/soc
 //import { Redirect, NavLink } from 'react-router-dom';
 
 
-require("../../../css/chat.scss");
+// require("../../../css/chat.scss");
 
 // New Gruveo
 export function isGruveoLink(join_url) {

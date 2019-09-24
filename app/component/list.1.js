@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Tooltip from './tooltip';
 import { NavLink } from 'react-router-dom';
 
-require("../css/list.scss");
+// require("../css/list.scss");
 
 export default class List extends React.Component {
     constructor(props) {

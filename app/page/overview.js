@@ -11,7 +11,7 @@ import Tooltip from '../component/tooltip';
 import { isRoleRec, getAuthUser, isRoleStudent, getCF } from '../redux/actions/auth-actions';
 import { getStyleImageObj } from '../component/profile-card.jsx';
 
-require("../css/overview.scss");
+// require("../css/overview.scss");
 
 export class Overview extends React.Component {
     constructor(props) {

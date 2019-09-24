@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Time } from "../lib/time";
 import { _GET } from "../lib/util";
 
-require("../css/time-converter.scss");
+// require("../css/time-converter.scss");
 
 export default class TimeConverterPage extends React.Component {
   componentWillMount() {}

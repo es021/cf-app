@@ -7,7 +7,7 @@ import { store } from '../redux/store';
 import { ButtonIcon } from './buttons.jsx';
 import PropTypes from 'prop-types';
 
-require("../css/focus-card.scss");
+// require("../css/focus-card.scss");
 
 //state is from redux reducer
 // with multiple objects

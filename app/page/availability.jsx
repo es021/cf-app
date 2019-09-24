@@ -9,7 +9,7 @@ import Tooltip from '../component/tooltip';
 
 
 // min interval
-require('../css/availability.scss');
+// require('../css/availability.scss');
 
 const IS_SET = "is-set";
 const IS_BOOKED = "is-booked";

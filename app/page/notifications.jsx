@@ -16,7 +16,7 @@ import { NotificationsEnum, Prescreen } from "../../config/db-config";
 import * as hallAction from "../redux/actions/hall-actions";
 import { ActivitySingle } from "./partial/hall/activity";
 
-require("../css/notification.scss");
+// require("../css/notification.scss");
 
 export function addNotification({
   user_id,

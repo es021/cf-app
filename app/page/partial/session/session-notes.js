@@ -6,7 +6,7 @@ import { Time } from '../../../lib/time';
 import GeneralFormPage from '../../../component/general-form';
 import { SessionNotes } from '../../../../config/db-config';
 
-require("../../../css/session-note.scss");
+// require("../../../css/session-note.scss");
 
 export default class SessionNotesSection extends React.Component {
     constructor(props) {

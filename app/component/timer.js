@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Time } from '../lib/time';
 
-require('../css/timer.scss');
+// require('../css/timer.scss');
 
 export default class Timer extends React.Component {
     constructor(props) {

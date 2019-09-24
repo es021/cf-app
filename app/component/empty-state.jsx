@@ -13,7 +13,7 @@ import {
   isRoleAdmin
 } from "../redux/actions/auth-actions";
 
-require("../css/action-box.scss");
+// require("../css/action-box.scss");
 
 
 // Ask a Question style instagram

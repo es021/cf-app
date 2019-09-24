@@ -5,7 +5,7 @@ import { ButtonLink } from './buttons.jsx';
 import { ImgConfig } from '../../config/app-config';
 import { getAllCF } from '../redux/actions/auth-actions';
 
-require('../css/form.scss');
+// require('../css/form.scss');
 
 export function isValueEmpty(v){
     return v == "" || typeof v === "undefined" || v == null;

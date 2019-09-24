@@ -17,7 +17,7 @@ import { Ads } from '../../config/ads-config';
 import { QsPopupView } from '../page/partial/analytics/qs-popup.jsx';
 import { ImageUrl } from '../../config/app-config';
 
-require("../css/ads.scss");
+// require("../css/ads.scss");
 
 export default class RightBarLayout extends React.Component {
     constructor(props) {

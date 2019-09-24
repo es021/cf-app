@@ -10,7 +10,7 @@ import Timer from '../component/timer';
 import { getCFTimeDetail } from './coming-soon';
 import { getStyleImageObj } from '../component/profile-card.jsx';
 
-require("../css/home.scss");
+// require("../css/home.scss");
 
 export default class LandingPage extends React.Component {
 

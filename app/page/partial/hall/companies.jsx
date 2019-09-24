@@ -24,7 +24,7 @@ import { isCompanyOnline } from "../../../redux/actions/user-actions";
 
 import CompanyPopup from "../popup/company-popup";
 
-require("../../../css/company-sec.scss");
+// require("../../../css/company-sec.scss");
 
 export const getCompanyCSSClass = function (type) {
   var className = "";

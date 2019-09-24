@@ -12,7 +12,7 @@ import {
   doAfterValidateComingSoon
 } from "../redux/actions/auth-actions";
 import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
-require("../css/action-box.scss");
+// require("../css/action-box.scss");
 
 
 // Ask a Question style instagram

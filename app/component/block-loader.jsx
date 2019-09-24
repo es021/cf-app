@@ -9,7 +9,7 @@ import { Loader } from './loader';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-require("../css/block-loader.scss");
+// require("../css/block-loader.scss");
 
 //state is from redux reducer
 // with multiple objects

@@ -5,7 +5,7 @@ import LoginPage from './login';
 import {RootPath, AppConfig} from '../../config/app-config';
 import { Redirect, NavLink} from 'react-router-dom';
 
-require("../css/home.scss");
+// require("../css/home.scss");
 
 export default class HomePage extends React.Component {
     componentWillMount() {

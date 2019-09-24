@@ -5,7 +5,7 @@ import { getCFOrg } from '../redux/actions/auth-actions';
 
 //import {openNewTab} from '../lib/util';
 
-require("../css/footer.scss");
+// require("../css/footer.scss");
 
 class FixedImg extends React.Component {
     render() {

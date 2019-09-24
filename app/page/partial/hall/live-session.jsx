@@ -168,7 +168,7 @@ export function createNewLiveSessionPopup(company_id, finishHandler) {
 }
 
 // #########################################################################
-require("../../../css/live-session.scss");
+// require("../../../css/live-session.scss");
 // remove limit join
 const LIMIT_JOIN = -1;
 class NewLiveSessionPopup extends React.Component {

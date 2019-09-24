@@ -8,7 +8,7 @@ import { getStyleImageObj, createImageElement, PCType } from "../../../component
 import { getCompanyCSSClass } from "../hall/companies";
 import { ImgConfig } from "../../../../config/app-config";
 
-require("../../../css/sponsor.scss");
+// require("../../../css/sponsor.scss");
 
 export default class SponsorList extends React.Component {
   constructor(props) {

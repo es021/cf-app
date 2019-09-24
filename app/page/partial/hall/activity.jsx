@@ -43,7 +43,7 @@ import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import ToogleTimezone from "../../../component/toggle-timezone";
 import { openLiveSession } from "./live-session";
 
-require("../../../css/border-card.scss");
+// require("../../../css/border-card.scss");
 
 class ActvityList extends React.Component {
   constructor(props) {

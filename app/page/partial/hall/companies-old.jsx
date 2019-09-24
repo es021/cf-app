@@ -5,7 +5,7 @@ import * as hallAction from '../../../redux/actions/hall-actions';
 import PropTypes from 'prop-types';
 import { Loader } from '../../../component/loader';
 import ProfileCard from '../../../component/profile-card.jsx';
-import { CompanyEnum } from '../../../../config/db-config';
+import { CompanyEnum } from '../../../../config/db-config'; 
 import { ButtonLink } from '../../../component/buttons.jsx';
 import * as layoutActions from '../../../redux/actions/layout-actions';
 import Tooltip from '../../../component/tooltip';
@@ -17,7 +17,7 @@ import { getAuthUser, isAuthorized } from '../../../redux/actions/auth-actions';
 
 import CompanyPopup from '../popup/company-popup';
 
-require('../../../css/company-sec-old.scss');
+// require('../../../css/company-sec-old.scss');
 
 export const getCompanyCSSClass = function (type) {
     var className = "";

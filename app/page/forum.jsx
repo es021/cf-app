@@ -15,7 +15,7 @@ import { Loader } from '../component/loader';
 import { openSIAddForm } from './partial/activity/scheduled-interview';
 import { openFeedbackBlockRec } from './partial/analytics/feedback';
 
-require('../css/forum.scss');
+// require('../css/forum.scss');
 
 const OFFSET_COMMENT = 10;
 const OFFSET_REPLY = 2;

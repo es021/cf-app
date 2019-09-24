@@ -60,7 +60,7 @@ import CompanyPopup from "../popup/company-popup";
 
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 
-require("../../../css/group-session.scss");
+// require("../../../css/group-session.scss");
 // remove limit join
 const LIMIT_JOIN = -1;
 

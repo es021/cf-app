@@ -35,7 +35,7 @@ import {
   unsetBodyFullWidth
 } from "../../../../helper/general-helper";
 
-require("../../../css/hall-gallery.scss");
+// require("../../../css/hall-gallery.scss");
 // remove limit join
 
 const LIMIT = 5;

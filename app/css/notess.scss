@@ -1,9 +1,9 @@
 // function 
-$first-width: 5px;
-$second-width: 5px;
+// $first-width: 5px;
+// $second-width: 5px;
 
-@function adjust_width($n) {
-   @return $n * $first-width + ($n - 1) * $second-width;
-}
+// @function adjust_width($n) {
+//    @return $n * $first-width + ($n - 1) * $second-width;
+// }
 
-#set_width { padding-left: adjust_width(10); }
+// #set_width { padding-left: adjust_width(10); }

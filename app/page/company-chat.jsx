@@ -25,9 +25,9 @@ import { createCompanyTitle } from "./companies-admin.jsx";
 import { isCompanyOnline } from "../redux/actions/user-actions";
 import { connect } from "react-redux";
 
-require("../css/forum.scss");
-require("../css/support-chat.scss");
-require("../css/company-chat.scss");
+// require("../css/forum.scss");
+// require("../css/support-chat.scss");
+// require("../css/company-chat.scss");
 
 // Link from
 export class CompanyChatStarter extends React.Component {
