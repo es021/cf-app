@@ -1,3 +1,25 @@
+-- INSERT INTO `ref_city` (`code`, `label`) VALUES ('001', 'Kua')
+-- INSERT INTO `ref_state` (`code`, `label`) VALUES ('001', 'Kua')
+
+CREATE TABLE `wp_career_fair`.`ref_city` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+ `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
+
+CREATE TABLE `wp_career_fair`.`ref_state` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+ `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
+
+CREATE TABLE `wp_career_fair`.`ref_country` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+ `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
+
+
 -- ##############################################################
 -- ##############################################################
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION

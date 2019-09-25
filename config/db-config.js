@@ -349,6 +349,7 @@ const CompanyEnum = {
     STS_GS: "Group Session",
 
     PRIV: {
+        JOB_POSTING_ONLY : "JOB_POSTING_ONLY",
         AAS_ANE: "ACCESS_ALL_STUDENT_ANE",
         AAS_EUR: "ACCESS_ALL_STUDENT_EUR",
         AAS_NZL: "ACCESS_ALL_STUDENT_NZL",
