@@ -4,6 +4,7 @@ compress
 nbproject
 npm-debug.log
 package.json
+note/note-ignore
 package-lock.json
 public/upload/
 server/secret/secret.js
