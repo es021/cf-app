@@ -5,63 +5,62 @@ $width : 300px;
 $height : 150px;
 $prefix : "bl-";
 
-#block-loader {    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    z-index: 30;
-    top: 0;
-    margin: 0;
+#block-loader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 30;
+	top: 0;
+	margin: 0;
 
-    .#{$prefix}background{
-        display: block;
-        background: rgba(0,0,0,0.7);
-        height: 100vh;
-        width: 100vw;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 31;
-    }
+	.#{$prefix}background {
+		display: block;
+		background: rgba(0, 0, 0, 0.7);
+		height: 100vh;
+		width: 100vw;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 31;
+	}
 
-    .#{$prefix}content{
-        width: 100%;
-        background: whitesmoke;
+	.#{$prefix}content {
+		width: 100%;
+		background: whitesmoke;
 
-        position:fixed;
-        z-index: 32;
+		position: fixed;
+		z-index: 32;
 
-        overflow-x: hidden;
+		overflow-x: hidden;
 
-        border-radius: 10px;
-        min-height:$height;
-        width:$width;
+		border-radius: 10px;
+		min-height: $height;
+		width: $width;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-flow: column;
-        padding: 10px 25px;;
-        margin-bottom: 80px;
-        padding-bottom: 20px;
-    } 
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-flow: column;
+		padding: 10px 25px;
+		margin-bottom: 80px;
+		padding-bottom: 20px;
+	}
 
-    .#{$prefix}content.large{
-        min-height: 300px;
-        width: 450px;
-    }
+	.#{$prefix}content.large {
+		min-height: 300px;
+		width: 450px;
+	}
 }
 
-@media only screen and (max-width: $width){
-    #block-loader {
-        .#{$prefix}content{
-            width: 100%;
-            margin-left: 0px;
-            left: 0;
-        }
-    }
+@media only screen and (max-width: $width) {
+	#block-loader {
+		.#{$prefix}content {
+			width: 100%;
+			margin-left: 0px;
+			left: 0;
+		}
+	}
 }
-

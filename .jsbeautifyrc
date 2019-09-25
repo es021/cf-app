@@ -1,0 +1,8 @@
+{
+	"indent_size": 1,
+	"indent_char": "\t",
+	"css": {
+		"indent_size": 1
+    },
+    "wrap_attributes" : "force-aligned"
+}

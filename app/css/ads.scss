@@ -1,13 +1,14 @@
-.huhu{
-    min-height: 100px;
-    padding: 10px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    .huhu-text{
-        color:white;
-        font-size: 20px;
-        line-height: 26px;
-        font-weight: bold;
-    }
+.huhu {
+	min-height: 100px;
+	padding: 10px;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+
+	.huhu-text {
+		color: white;
+		font-size: 20px;
+		line-height: 26px;
+		font-weight: bold;
+	}
 }
