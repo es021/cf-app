@@ -768,7 +768,10 @@ fields["add_vacancy"] = {
 		created_by: __.IntNonNull,
 		description: __.String,
 		requirement: __.String,
-		application_url: __.String
+		application_url: __.String,
+		ref_city: __.Int,
+		ref_state: __.Int,
+		ref_country: __.Int,
 	},
 	resolve(parentValue, arg, context, info) {
 		return DB.insert(Vacancy.TABLE, arg).then(function(res) {
@@ -785,7 +788,10 @@ fields["edit_vacancy"] = {
 		type: __.String,
 		description: __.String,
 		requirement: __.String,
-		application_url: __.String
+		application_url: __.String,
+		ref_city: __.Int,
+		ref_state: __.Int,
+		ref_country: __.Int,
 	},
 	resolve(parentValue, arg, context, info) {
 		return DB.update(Vacancy.TABLE, arg).then(function(res) {

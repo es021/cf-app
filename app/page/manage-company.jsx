@@ -103,6 +103,7 @@ class VacancySubPage extends React.Component {
                   requirement
                   type
                   application_url
+                  location
                 }
               }`;
 

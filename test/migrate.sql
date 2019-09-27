@@ -1,18 +1,33 @@
--- INSERT INTO `ref_city` (`code`, `label`) VALUES ('001', 'Kua')
--- INSERT INTO `ref_state` (`code`, `label`) VALUES ('001', 'Kua')
 
+-- new table interested
+CREATE TABLE `wp_career_fair`.`interested` ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`user_id` BIGINT(20) NOT NULL , 
+`entity` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`entity_id` BIGINT(20) NOT NULL , `is_interested` TINYINT NOT NULL DEFAULT '1' , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`ID`), 
+UNIQUE (`user_id`, `entity`, `entity_id`)) ENGINE = InnoDB;
+
+-- add location column  in vacancies
+ALTER TABLE `vacancies` ADD `ref_city` BIGINT(20) NULL DEFAULT NULL AFTER `application_url`, 
+ADD `ref_state` BIGINT(20) NULL DEFAULT NULL AFTER `ref_city`,
+ADD `ref_country` BIGINT(20) NULL DEFAULT NULL AFTER `ref_state`;
+
+-- new table ref_city
 CREATE TABLE `wp_career_fair`.`ref_city` 
 ( `ID` INT NOT NULL AUTO_INCREMENT , 
 `code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
  `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
 PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
 
+-- new table ref_state
 CREATE TABLE `wp_career_fair`.`ref_state` 
 ( `ID` INT NOT NULL AUTO_INCREMENT , 
 `code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
  `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
 PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
 
+-- new table ref_country
 CREATE TABLE `wp_career_fair`.`ref_country` 
 ( `ID` INT NOT NULL AUTO_INCREMENT , 
 `code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,

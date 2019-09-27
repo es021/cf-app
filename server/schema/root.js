@@ -27,6 +27,7 @@ const {
 	GroupSessionType,
 	HallGalleryType,
 	DocLinkType,
+	VacancySuggestionType,
 	CfsType,
 	QsPopupType,
 	QsPopupAnswerType,
@@ -116,8 +117,8 @@ const {
 	HallGalleryExec
 } = require('../model/hall-gallery-query');
 const {
-	JobSuggestionExec
-} = require('../model/job-suggestion-query.js');
+	VacancySuggestionExec
+} = require('../model/vacancy-suggestion-query.js');
 const DB = require('../model/DB.js');
 const {
 	__
@@ -140,8 +141,8 @@ var fields = {};
 
 /*******************************************/
 /* hall_galleries ******************/
-fields["job_suggestions"] = {
-	type: new GraphQLList(VacancyType),
+fields["vacancy_suggestions"] = {
+	type: new GraphQLList(VacancySuggestionType),
 	args: {
 		user_id: __.IntNonNull,
 		cf: __.String,
@@ -149,7 +150,7 @@ fields["job_suggestions"] = {
 		offset: __.Int,
 	},
 	resolve(parentValue, arg, context, info) {
-		return JobSuggestionExec.job_suggestions(arg, graphqlFields(info));
+		return VacancySuggestionExec.list(arg, graphqlFields(info));
 	}
 };
 
@@ -678,7 +679,8 @@ fields["availabilities"] = {
 fields["vacancy"] = {
 	type: VacancyType,
 	args: {
-		ID: __.Int
+		ID: __.Int,
+		user_id: __.Int,
 	},
 	resolve(parentValue, arg, context, info) {
 		return VacancyExec.vacancy(arg, graphqlFields(info));
@@ -690,6 +692,7 @@ fields["vacancies"] = {
 	args: {
 		title: __.String,
 		type: __.String,
+		user_id: __.Int,
 		company_id: __.Int,
 		page: __.Int,
 		offset: __.Int,
