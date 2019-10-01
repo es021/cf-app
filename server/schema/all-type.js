@@ -13,6 +13,25 @@ const {
 	__
 } = require("../../config/graphql-config");
 
+const MultiType = new GraphQLObjectType({
+	name: 'Multi',
+	fields: () => ({
+		ID: __.Int,
+		entity: __.String,
+		entity_id: __.Int,
+		val: __.String,
+		created_at: __.String,
+	})
+});
+
+const MultiRefType = new GraphQLObjectType({
+	name: 'MultiRef',
+	fields: () => ({
+		ID: __.Int,
+		val: __.String,
+	})
+});
+
 const NotificationType = new GraphQLObjectType({
 	name: 'Notification',
 	fields: () => ({
@@ -737,6 +756,8 @@ module.exports = {
 	HallGalleryType,
 	VacancySuggestionType,
 	InterestedType,
-	LocationType
+	LocationType,
+	MultiType,
+	MultiRefType
 	//, CFType
 };

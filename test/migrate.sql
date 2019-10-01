@@ -1,3 +1,41 @@
+-- new table 
+-- multi_interested_role
+ID, entity, entity_id, val, created_at
+CREATE TABLE `wp_career_fair`.`multi_interested_role` ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`entity` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`entity_id` BIGINT(20) NOT NULL , 
+`val` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+PRIMARY KEY (`ID`), UNIQUE (`entity`, `entity_id`)) ENGINE = InnoDB;
+
+-- multi_ref (takde code column)
+-- new table multi_ref_interested_role
+CREATE TABLE `wp_career_fair`.`multi_ref_interested_role` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+ `val` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+PRIMARY KEY (`ID`), INDEX (`val`)) ENGINE = InnoDB;
+
+-- new ref table format
+DROP TABLE `wp_career_fair`.`ref_city` ;
+CREATE TABLE `wp_career_fair`.`ref_city` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+ `label` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE (`code`), INDEX (`label`)) ENGINE = InnoDB;
+
+DROP TABLE `wp_career_fair`.`ref_state` ;
+CREATE TABLE `wp_career_fair`.`ref_state` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+ `label` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE (`code`), INDEX (`label`)) ENGINE = InnoDB;
+
+DROP TABLE `wp_career_fair`.`ref_country` ;
+CREATE TABLE `wp_career_fair`.`ref_country` 
+( `ID` INT NOT NULL AUTO_INCREMENT , 
+`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+ `label` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE (`code`), INDEX (`label`)) ENGINE = InnoDB;
 
 -- new table interested
 CREATE TABLE `wp_career_fair`.`interested` ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
@@ -13,26 +51,6 @@ ALTER TABLE `vacancies` ADD `ref_city` BIGINT(20) NULL DEFAULT NULL AFTER `appli
 ADD `ref_state` BIGINT(20) NULL DEFAULT NULL AFTER `ref_city`,
 ADD `ref_country` BIGINT(20) NULL DEFAULT NULL AFTER `ref_state`;
 
--- new table ref_city
-CREATE TABLE `wp_career_fair`.`ref_city` 
-( `ID` INT NOT NULL AUTO_INCREMENT , 
-`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
- `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
-PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
-
--- new table ref_state
-CREATE TABLE `wp_career_fair`.`ref_state` 
-( `ID` INT NOT NULL AUTO_INCREMENT , 
-`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
- `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
-PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
-
--- new table ref_country
-CREATE TABLE `wp_career_fair`.`ref_country` 
-( `ID` INT NOT NULL AUTO_INCREMENT , 
-`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
- `label` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
-PRIMARY KEY (`ID`), UNIQUE (`code`)) ENGINE = InnoDB;
 
 
 -- ##############################################################

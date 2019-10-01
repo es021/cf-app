@@ -31,7 +31,9 @@ const {
 	CfsType,
 	QsPopupType,
 	QsPopupAnswerType,
-	NotificationType
+	NotificationType,
+	MultiType,
+	MultiRefType
 } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
@@ -121,6 +123,12 @@ const {
 } = require('../model/vacancy-suggestion-query.js');
 const DB = require('../model/DB.js');
 const {
+	MultiExec
+} = require('../model/multi-query.js');
+const {
+	MultiRefExec
+} = require('../model/multi-ref-query.js');
+const {
 	__
 } = require("../../config/graphql-config");
 
@@ -138,6 +146,36 @@ __.String
 // START CREATE FIELDS
 var fields = {};
 
+/*******************************************/
+/* multi ******************/
+fields["multis"] = {
+	type: new GraphQLList(MultiType),
+	args: {
+		table_name: __.StringNonNull,
+		entity: __.String,
+		entity_id: __.Int	,
+		page: __.Int,
+		offset: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return MultiExec.list(arg, graphqlFields(info));
+	}
+};
+
+/*******************************************/
+/* multi_refs ******************/
+fields["multi_refs"] = {
+	type: new GraphQLList(MultiRefType),
+	args: {
+		table_name: __.StringNonNull,
+		val: __.String,
+		page: __.Int,
+		offset: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return MultiRefExec.list(arg, graphqlFields(info));
+	}
+};
 
 /*******************************************/
 /* hall_galleries ******************/
