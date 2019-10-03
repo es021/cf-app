@@ -8,11 +8,13 @@ class MultiRefExec {
 
 		let table_name = param.table_name;
 		let val = (!param.val) ? "1=1" : ` val like '%${param.val}%' `;
+		let category = (!param.category) ? "1=1" : ` category = '${param.category}' `;
+
 		var limit = DB.prepareLimit(param.page, param.offset);
 
 		let sql = `
 			select * from multi_ref_${table_name} where 1=1
-			and ${val}
+			and ${val} and ${category}
 			${limit}
 		`;
 		return sql;

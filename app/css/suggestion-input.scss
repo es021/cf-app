@@ -1,0 +1,24 @@
+.suggestion-input {
+	.input-field {
+		padding: 10px;
+		background: black;
+	}
+
+	.suggestion-list {
+		background: white;
+
+		li {
+			padding: 7px;
+			border-bottom: gray solid 1px;
+			cursor: pointer;
+		}
+
+		li:last-of-type {
+			border-bottom: none;
+		}
+
+		li:hover {
+			background: whitesmoke;
+		}
+	}
+}

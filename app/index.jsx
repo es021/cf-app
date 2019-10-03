@@ -35,7 +35,7 @@ let scss = ['action-box', 'app', 'availability', 'block-loader',
   'hall-gallery', 'header', 'home', 'left-bar', 'list', 'live-session',
   'notess', 'notification', 'overview', 'page-sec', 'profile-card',
   'qs-popup', 'right-bar', 'session-note', 'sponsor', 'sub-nav', 'support-chat',
-  'time-converter', 'timer', 'toogle-timezone', 'tooltip']
+  'time-converter', 'timer', 'toogle-timezone', 'tooltip','suggestion-input']
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");
 }

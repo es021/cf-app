@@ -169,6 +169,7 @@ fields["multi_refs"] = {
 	args: {
 		table_name: __.StringNonNull,
 		val: __.String,
+		category: __.String,
 		page: __.Int,
 		offset: __.Int,
 	},
