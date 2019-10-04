@@ -13,7 +13,11 @@ export default class TestLayout extends React.Component {
     return (
       <div style={{ padding: "10px", background: "white" }}>
         <h4>TESTING</h4>
-        <MultiInput table_name={"interested_role"}></MultiInput>
+        <MultiInput
+          label={"What Are You?"}
+          list_title={"Popular in your area"}
+          table_name={"interested_role"}
+        ></MultiInput>
         <h4>SOMETHING ELSE HERE</h4>
       </div>
     );

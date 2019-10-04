@@ -29,6 +29,7 @@ export default class MultiInput extends React.Component {
     this.setDefaultList();
   }
   setDefaultList() {
+
     // kena optimize based on major n sebagainya
     let q = `query{ 
       multi_refs(table_name :"${this.props.table_name}", page:1, offset:10) {
@@ -65,7 +66,7 @@ export default class MultiInput extends React.Component {
 
     // toggle is selected
     this.setState(prevState => {
-      console.log("prevState", prevState, i);
+      // console.log("prevState", prevState, i);
 
       prevState.list[i].isSelected = !prevState.list[i].isSelected;
       // updateDb here
@@ -78,7 +79,9 @@ export default class MultiInput extends React.Component {
       return null;
     } else {
       let v = this.state.list.map((d, i) => {
-        let icon = <i className={`fa fa-${!d.isSelected ? "check" :"times"}`}></i>
+        let icon = (
+          <i className={`fa fa-${!d.isSelected ? "plus" : "times"}`}></i>
+        );
         return (
           <li
             onClick={this.onClickListItem}
@@ -98,17 +101,22 @@ export default class MultiInput extends React.Component {
     var d = {};
     return (
       <div className="multi-input">
-        MultiInput<br></br>
-        <SuggestionInput
-          onChoose={this.onChooseSuggestion}
-          table_name={this.props.table_name}
-        ></SuggestionInput>
-        <div className="multi-input-list">{this.getListView()}</div>
+        <div className="mi-label">{this.props.label}</div>
+        <div className="mi-input">
+          <SuggestionInput
+            onChoose={this.onChooseSuggestion}
+            table_name={this.props.table_name}
+          ></SuggestionInput>
+        </div>
+        <div className="mi-list-title">{this.props.list_title}</div>
+        <div className="mi-list">{this.getListView()}</div>
       </div>
     );
   }
 }
 
 MultiInput.propTypes = {
-  table_name: PropTypes.string
+  table_name: PropTypes.string,
+  label: PropTypes.string,
+  list_title: PropTypes.string
 };

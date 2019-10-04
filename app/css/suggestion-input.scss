@@ -1,25 +1,36 @@
 .suggestion-input {
 	.input-field {
-		padding: 10px;
-		background: black;
+		input {
+			border: darkgray 1px solid;
+			padding: 4px 11px;
+			border-radius: 3px;
+			width: 50%;
+		}
 	}
 
 	.suggestion-list {
 		background: white;
+		width: 50%;
+		border: gray solid 1px;
+		border-top: none;
+		border-bottom: none;
 
-		li {
-			padding: 7px;
-			border-bottom: gray solid 1px;
-			cursor: pointer;
+		ul {
+			padding: 0;
+			margin: 0;
+
+			li {
+				padding: 4px 7px;
+				border-bottom: gray solid 1px;
+				cursor: pointer;
+			}
+
+			li:hover,
+			li.highlight {
+				background: whitesmoke;
+			}
 		}
 
-		li:last-of-type {
-			border-bottom: none;
-		}
 
-		li:hover,
-		li.highlight {
-			background: whitesmoke;
-		}
 	}
 }

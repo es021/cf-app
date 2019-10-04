@@ -66,10 +66,23 @@ export default class SuggestionInput extends React.Component {
         this.iterateHighlightedIndex(-1);
         break;
       case "Enter":
-        let obj = this.state.suggestion[this.state.highlightIndex];
-        let v = obj.val;
-        console.log("enter", v);
-        this.onClickSuggestion(null, v);
+        let v = null;
+        if (
+          this.state.highlightIndex != null &&
+          this.state.highlightIndex >= 0 &&
+          this.state.highlightIndex <= this.state.suggestion.length - 1
+        ) {
+          let obj = this.state.suggestion[this.state.highlightIndex];
+          v = obj.val;
+        } else if (this.state.suggestion.length == 1) {
+          let obj = this.state.suggestion[0];
+          v = obj.val;
+        }
+        // console.log("enter", v);
+        if (v != null) {
+          this.onClickSuggestion(null, v);
+        }
+
         break;
     }
   }
@@ -98,10 +111,8 @@ export default class SuggestionInput extends React.Component {
   onClickSuggestion(e, customVal = null) {
     let v = "";
     if (
-      customVal != null &&
-      this.state.highlightIndex != null &&
-      this.state.highlightIndex >= 0 &&
-      this.state.highlightIndex <= this.state.suggestion.length - 1
+      customVal != null
+      // kalau ada satu je
     ) {
       v = customVal;
     } else {
