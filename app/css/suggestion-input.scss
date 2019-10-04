@@ -17,7 +17,8 @@
 			border-bottom: none;
 		}
 
-		li:hover {
+		li:hover,
+		li.highlight {
 			background: whitesmoke;
 		}
 	}

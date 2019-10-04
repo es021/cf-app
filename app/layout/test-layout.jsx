@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SuggestionInput from "../component/suggestion-input";
+import MultiInput from "../component/multi-input";
 
 export default class TestLayout extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class TestLayout extends React.Component {
     return (
       <div style={{ padding: "10px", background: "white" }}>
         <h4>TESTING</h4>
-        <SuggestionInput table_name={"interested_role"}></SuggestionInput>
+        <MultiInput table_name={"interested_role"}></MultiInput>
         <h4>SOMETHING ELSE HERE</h4>
       </div>
     );

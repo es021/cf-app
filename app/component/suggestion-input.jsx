@@ -14,24 +14,71 @@ export default class SuggestionInput extends React.Component {
     this.onFocus = this.onFocus.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onClickSuggestion = this.onClickSuggestion.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     // state
     this.state = {
+      highlightIndex: null,
       showSuggestion: false,
       suggestion: []
     };
   }
   componentWillMount() {}
-  onBlur(e) {
-    console.log("onBlur", e);
+  closeSuggestionList() {
     setTimeout(() => {
       this.setState(prevState => {
-        return { showSuggestion: false };
+        return { showSuggestion: false, highlightIndex: null };
       });
     }, 150);
   }
+  emptySuggestionList() {
+    setTimeout(() => {
+      this.setState(prevState => {
+        return { suggestion: [], highlightIndex: null };
+      });
+    }, 150);
+  }
+  iterateHighlightedIndex(offset) {
+    this.setState(prevState => {
+      let v = prevState.highlightIndex;
+      if (v == null) {
+        v = 0;
+      } else {
+        v += offset;
+      }
+
+      if (v < 0) {
+        v = 0;
+      } else if (v >= prevState.suggestion.length) {
+        v = prevState.suggestion.length - 1;
+      }
+
+      return { highlightIndex: v };
+    });
+  }
+  onKeyDown(e) {
+    // console.log("onKeyDown", e.key);
+    switch (e.key) {
+      case "ArrowDown":
+        this.iterateHighlightedIndex(1);
+        break;
+      case "ArrowUp":
+        this.iterateHighlightedIndex(-1);
+        break;
+      case "Enter":
+        let obj = this.state.suggestion[this.state.highlightIndex];
+        let v = obj.val;
+        console.log("enter", v);
+        this.onClickSuggestion(null, v);
+        break;
+    }
+  }
+  onBlur(e) {
+    // console.log("onBlur", e);
+    this.closeSuggestionList();
+  }
   onFocus(e) {
-    console.log("onFocus", e);
+    // console.log("onFocus", e);
     this.setState(prevState => {
       return { showSuggestion: true };
     });
@@ -48,11 +95,25 @@ export default class SuggestionInput extends React.Component {
       });
     }
   }
-  onClickSuggestion(e) {
-    let v = e.currentTarget.dataset.v;
-    this.ref.value = "";
+  onClickSuggestion(e, customVal = null) {
+    let v = "";
+    if (
+      customVal != null &&
+      this.state.highlightIndex != null &&
+      this.state.highlightIndex >= 0 &&
+      this.state.highlightIndex <= this.state.suggestion.length - 1
+    ) {
+      v = customVal;
+    } else {
+      v = e.currentTarget.dataset.v;
+    }
 
-    console.log("v", v);
+    this.ref.value = "";
+    this.emptySuggestionList();
+
+    if (this.props.onChoose) {
+      this.props.onChoose(v);
+    }
   }
   fetchSuggestion(v) {
     let q = `query{ 
@@ -63,11 +124,28 @@ export default class SuggestionInput extends React.Component {
 
     graphql(q).then(res => {
       this.setState(prevState => {
-        let fetchedData = res.data.data.multi_refs;
-        if (fetchedData.length == 0) {
-          fetchedData.push({ val: v });
+        let suggestion = res.data.data.multi_refs;
+        if (suggestion.length == 0) {
+          suggestion.push({ val: v });
+        } else {
+          let inserted = [];
+
+          // filter same val
+          let filteredSuggestion = [];
+          for (var i in suggestion) {
+            let d = suggestion[i];
+            let val = d.val;
+            if (inserted.indexOf(val) >= 0) {
+              continue;
+            } else {
+              inserted.push(val);
+              filteredSuggestion.push(d);
+            }
+          }
+          suggestion = filteredSuggestion;
         }
-        return { suggestion: fetchedData, showSuggestion: true };
+
+        return { suggestion: suggestion, showSuggestion: true };
       });
     });
   }
@@ -75,18 +153,20 @@ export default class SuggestionInput extends React.Component {
     if (this.state.suggestion.length <= 0 || !this.state.showSuggestion) {
       return null;
     } else {
-      let inserted = [];
       let suggestion = this.state.suggestion.map((d, i) => {
         let val = d.val;
-        if (inserted.indexOf(val) <= -1) {
-          inserted.push(val);
-          return (
-            <li data-v={val} onClick={this.onClickSuggestion}>
-              {d.val}
-            </li>
-          );
-        }
+        let className = this.state.highlightIndex == i ? "highlight" : "";
+        return (
+          <li
+            className={className}
+            data-v={val}
+            onClick={this.onClickSuggestion}
+          >
+            {d.val}
+          </li>
+        );
       });
+
       let v = <ul>{suggestion}</ul>;
       return v;
     }
@@ -94,7 +174,7 @@ export default class SuggestionInput extends React.Component {
   render() {
     var d = {};
     return (
-      <div className="suggestion-input">
+      <div onKeyDown={this.onKeyDown} className="suggestion-input">
         <div className="input-field">
           <input
             onBlur={this.onBlur}
