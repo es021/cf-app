@@ -29,7 +29,8 @@ const MultiRefType = new GraphQLObjectType({
 	fields: () => ({
 		ID: __.Int,
 		val: __.String,
-		category: __.String
+		category: __.String,
+		multi: __.IsType(MultiType)
 	})
 });
 

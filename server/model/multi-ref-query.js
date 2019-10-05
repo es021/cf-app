@@ -1,11 +1,7 @@
 const DB = require('./DB.js');
 
 class MultiRefExec {
-	querySingle(param) {
-		return "";
-	}
-	queryList(param) {
-
+	query(param) {
 		let table_name = param.table_name;
 		let val = (!param.val) ? "1=1" : ` val like '%${param.val}%' `;
 		let category = (!param.category) ? "1=1" : ` category = '${param.category}' `;
@@ -23,10 +19,24 @@ class MultiRefExec {
 		return type == "single";
 	}
 	getHelper(type, param, field, extra = {}) {
-		var sql = this.isSingle(type) ? this.querySingle(param, extra) : this.queryList(param, extra);
+		var {
+			MultiExec
+		} = require('./multi-query.js');
+		var sql = this.query(param, extra);
 		console.log("[MultiRefExec]", sql);
 		var toRet = DB.query(sql).then((res) => {
-			for (var i in res) {}
+			for (var i in res) {
+				let val = res[i]["val"];
+				if (typeof field["multi"] !== "undefined") {
+					let p = {
+						table_name: param.table_name,
+						entity: param.entity,
+						entity_id: param.entity_id,
+						val: val,
+					}
+					res[i]["multi"] = MultiExec.single(p, field["multi"]);
+				}
+			}
 			if (this.isSingle(type)) {
 				return res[0];
 			} else {

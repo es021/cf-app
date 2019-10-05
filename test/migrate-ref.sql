@@ -13,9 +13,9 @@ INSERT INTO ref_state (code, label) VALUES ('10', 'Selangor');
 INSERT INTO ref_state (code, label) VALUES ('11', 'Terengganu'); 
 INSERT INTO ref_state (code, label) VALUES ('12', 'Sabah'); 
 INSERT INTO ref_state (code, label) VALUES ('13', 'Sarawak'); 
-INSERT INTO ref_state (code, label) VALUES ('14', 'W.Persekutuan(kl)'); 
-INSERT INTO ref_state (code, label) VALUES ('15', 'W.Persekutuan(labuan)'); 
-INSERT INTO ref_state (code, label) VALUES ('16', 'W.Persekutuan(putrajaya)'); 
+INSERT INTO ref_state (code, label) VALUES ('14', 'W.Persekutuan (KL)'); 
+INSERT INTO ref_state (code, label) VALUES ('15', 'W.Persekutuan (Labuan)'); 
+INSERT INTO ref_state (code, label) VALUES ('16', 'W.Persekutuan (Putrajaya)'); 
 
 
 INSERT INTO ref_city (code, label) VALUES ('0101', 'Asahan'); 

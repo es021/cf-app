@@ -153,7 +153,7 @@ fields["multis"] = {
 	args: {
 		table_name: __.StringNonNull,
 		entity: __.String,
-		entity_id: __.Int	,
+		entity_id: __.Int,
 		page: __.Int,
 		offset: __.Int,
 	},
@@ -170,8 +170,13 @@ fields["multi_refs"] = {
 		table_name: __.StringNonNull,
 		val: __.String,
 		category: __.String,
+
+		entity_id: __.Int, // for default suggestion feature
+		entity: __.String, // for default suggestion feature
+		
 		page: __.Int,
 		offset: __.Int,
+		
 	},
 	resolve(parentValue, arg, context, info) {
 		return MultiRefExec.list(arg, graphqlFields(info));

@@ -29,7 +29,8 @@ const {
 	QsPopupAnswerType,
 	EntityRemovedType,
 	NotificationType,
-	HallGalleryType
+	HallGalleryType,
+	MultiType
 } = require('./all-type.js');
 
 
@@ -81,6 +82,9 @@ const {
 const {
 	ResumeDropExec
 } = require('../model/resume-drop-query.js');
+const {
+	MultiExec
+} = require('../model/multi-query');
 const DB = require('../model/DB.js');
 const {
 	__
@@ -101,6 +105,41 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/* multi_  ******************/
+fields["add_multi"] = {
+	type: MultiType,
+	args: {
+		table_name: __.StringNonNull,
+		entity: __.StringNonNull,
+		entity_id: __.IntNonNull,
+		val: __.StringNonNull,
+	},
+	resolve(parentValue, arg, context, info) {
+		let param = {
+			entity: arg.entity,
+			entity_id: arg.entity_id,
+			val: arg.val,
+		}
+		let table_name = "multi_" + arg.table_name;
+		return DB.insert(table_name, param).then(function(res) {
+			return res;
+		});
+	}
+};
+
+fields["delete_multi"] = {
+	type: GraphQLInt,
+	args: {
+		table_name: __.StringNonNull,
+		ID: __.IntNonNull
+	},
+	resolve(parentValue, arg, context, info) {
+		let table_name = "multi_" + arg.table_name;
+		return DB.delete(table_name, arg.ID);
+	}
+};
 
 
 /* notification  ******************/

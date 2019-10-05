@@ -6,6 +6,22 @@ const {
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 
+const getGraphQlErrorMes = (rawMes) => {
+	let mes = "";
+	let customMes = null
+	if (rawMes.indexOf("ERR_DUP_ENTRY") >= 0) {
+		customMes = "Record Already Exist";
+	}
+
+	if (customMes != null) {
+		mes += `${customMes}\n\n${rawMes}`;
+	} else {
+		mes = rawMes;
+	}
+
+	return "[Request Failed]\n" + mes;
+}
+
 // add errMes in responseObj.response.data
 const rejectPromiseError = function(responseObj, errMes) {
 	if (errMes !== null) {
@@ -35,7 +51,7 @@ axios.interceptors.response.use(response => {
 	var retErr = null;
 	if (response.config.url == graphQLUrl && response.data.errors) {
 		//console.log("error from axios graphQLUrl");
-		retErr = `[GraphQL Error] ${response.data.errors[0].message}`;
+		retErr = getGraphQlErrorMes(response.data.errors[0].message);
 	}
 
 	if (retErr !== null) {
@@ -51,7 +67,7 @@ axios.interceptors.response.use(response => {
 
 		if (error.response.config.url == graphQLUrl) {
 			//error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
-			retErr = `[GraphQL Error] ${error.response.data.errors[0].message}`;
+			retErr = getGraphQlErrorMes(error.response.data.errors[0].message);
 		}
 
 	} catch (e) {
@@ -185,7 +201,7 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 
 //Export functions 
 module.exports = {
-    graphql,
+	graphql,
 	deleteAxios,
 	postAxios,
 	getStaticAxios,
