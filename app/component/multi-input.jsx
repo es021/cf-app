@@ -16,6 +16,7 @@ export default class MultiInput extends React.Component {
     this.finishDbRequest = this.finishDbRequest.bind(this);
     this.onChooseSuggestion = this.onChooseSuggestion.bind(this);
     this.onClickListItem = this.onClickListItem.bind(this);
+    this.insertDB = this.insertDB.bind(this);
     this.authUser = getAuthUser();
 
     // // state
@@ -102,7 +103,8 @@ export default class MultiInput extends React.Component {
   onChooseSuggestion(v) {
     // console.log("onChooseSUggestion", v);
     let i = this.state.list.length;
-    this.setState(prevState => {
+    this.setState(pState => {
+      let prevState = JSON.parse(JSON.stringify(pState))
       prevState.list.push({
         val: v,
         isSelected: false,
@@ -113,15 +115,25 @@ export default class MultiInput extends React.Component {
 
     this.insertDB(v, i);
   }
+
   finishDbRequest(i, multi_id = null, err = null) {
 
+    let isDuplicate = false;
+    try {
+      isDuplicate = err.response.data.indexOf("ER_DUP_ENTRY") >= 0;
+    } catch (err) { }
+
+    // ada error tapi bukan error duplicate, kita return
+    if (err != null && !isDuplicate) {
+      return;
+    }
 
     let isInsert = !this.state.list[i].isSelected;
     let isDelete = this.state.list[i].isSelected;
-    // console.log("finishDbRequest", "multi_id", multi_id)
 
-    this.setState(prevState => {
-      if (err != null) {
+    this.setState(pState => {
+      let prevState = JSON.parse(JSON.stringify(pState))
+      if (isDuplicate) {
         prevState.list.splice(i);
       } else {
         // toggle isSelected
@@ -154,9 +166,12 @@ export default class MultiInput extends React.Component {
 
     let isInsert = !this.state.list[i].isSelected;
     let isDelete = this.state.list[i].isSelected;
+    // let isInsert = true;
+    // let isDelete = false;
 
     // set the item to loading
-    this.setState(prevState => {
+    this.setState(pState => {
+      let prevState = JSON.parse(JSON.stringify(pState));
       prevState.list[i].loading = true;
       return { list: prevState.list };
     });
@@ -214,7 +229,7 @@ export default class MultiInput extends React.Component {
   render() {
     var d = {};
     return (
-      <div className="multi-input">
+      <div id={this.props.table_name} className="multi-input">
         <div className="mi-label">{this.props.label}</div>
         <div className="mi-input">
           <SuggestionInput
@@ -224,6 +239,7 @@ export default class MultiInput extends React.Component {
         </div>
         <div className="mi-list-title">{this.props.list_title}</div>
         <div className="mi-list">{this.getListView()}</div>
+        <div className="mi-footer">{this.props.footer_content}</div>
       </div>
     );
   }
@@ -234,5 +250,6 @@ MultiInput.propTypes = {
   entity: PropTypes.string,
   entity_id: PropTypes.number,
   label: PropTypes.string,
-  list_title: PropTypes.string
+  list_title: PropTypes.string,
+  footer_content: PropTypes.object
 };

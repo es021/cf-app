@@ -23,7 +23,7 @@ export default class SuggestionInput extends React.Component {
       suggestion: []
     };
   }
-  componentWillMount() {}
+  componentWillMount() { }
   closeSuggestionList() {
     setTimeout(() => {
       this.setState(prevState => {
@@ -79,10 +79,10 @@ export default class SuggestionInput extends React.Component {
           v = obj.val;
         }
         // console.log("enter", v);
-        if (v != null) {
+        if (v != null && typeof v === "string") {
+          v = v.capitalizeAll();
           this.onClickSuggestion(null, v);
         }
-
         break;
     }
   }

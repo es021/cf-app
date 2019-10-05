@@ -10,6 +10,7 @@ import AvailabilityView from './availability';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import obj2arg from 'graphql-obj2arg';
 import LoginPage from './login';
+import MultiInput from '../component/multi-input';
 
 import { getRegisterFormItem, TotalRegisterStep } from '../../config/user-config';
 
@@ -140,6 +141,105 @@ export default class SignUpPage extends React.Component {
         });
     }
 
+    // getPostRegisterViewOld(user) {
+    //     let content = null;
+    //     let formItems = getRegisterFormItem(this.state.currentStep);
+    //     let completeView = this.state.currentStep > TotalRegisterStep
+    //         ?
+    //         <div>
+    //             <h3>Congratulation! You Have Completed Your Profile</h3>
+    //             <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
+    //         </div>
+    //         :
+    //         <div>
+    //             <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
+    //             <Form className="form-row"
+    //                 items={formItems}
+    //                 onSubmit={this.formOnSubmit}
+    //                 defaultValues={{}}
+    //                 submitText='Submit'
+    //                 disableSubmit={this.state.disableSubmit}
+    //                 error={this.state.error}>
+    //             </Form>
+    //         </div>
+
+    //     content = <div>
+    //         <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
+    //         Your account has been successfully created<br></br>
+    //         Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
+    //         You can do it at <b>Upload Document</b>
+    //         {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
+    //             <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
+    //             <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
+    //         {completeView}
+    //     </div>
+    //     return content;
+    // }
+
+    getContinueButton(id) {
+        const onClick = (e) => {
+            console.log("goto", id)
+
+        }
+        let v = <div>
+            <br></br>
+            <button className="btn btn-success btn-lg" onClick={onClick}>
+                Continue
+        </button>
+        </div>
+
+        return v;
+
+    }
+    getPostRegisterView(user) {
+        let MARGIN = <div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+        </div>
+        let content =
+            <div style={{
+                textAlign: 'left',
+                maxWidth: "700px",
+                margin: "auto",
+                padding: "10px"
+            }}>
+
+                <h2>Welcome {user[UserMeta.FIRST_NAME]} !
+                <br></br>
+                    <small>Let's complete your profile.</small>
+                </h2>
+                {MARGIN}
+                <div>
+                    <MultiInput
+                        label={"What types of jobs will you be searching for?"}
+                        list_title={"Popular roles for your major"}
+                        table_name={"interested_role"}
+                        entity={"user"}
+                        entity_id={user.ID}
+                        footer_content={this.getContinueButton("relevant_course")}
+                    ></MultiInput>
+                </div>
+                {MARGIN}
+                <div>
+                    <MultiInput
+                        label={"What relevant courses have you taken?"}
+                        list_title={"Popular courses for your major"}
+                        table_name={"relevant_course"}
+                        entity={"user"}
+                        entity_id={user.ID}
+                        footer_content={this.getContinueButton("interested_role")}
+                    ></MultiInput>
+                </div>
+            </div>
+
+        return content;
+    }
+
     render() {
         document.setTitle("Sign Up");
 
@@ -157,59 +257,15 @@ export default class SignUpPage extends React.Component {
         var content = null;
 
         var user = this.state.user;
-        // user = {
-        //     "ID": 136,
-        //     "first_name": "kakaka"
-        // };
+        user = {
+            "ID": 136,
+            "first_name": "Wan Zul"
+        };
 
-        //if (this.state.confirmed) {
-        if (this.state.success) {
+        if (this.state.success || true) {
             window.scrollTo(0, 0);
-            let formItems = getRegisterFormItem(this.state.currentStep);
-            // console.log(formItems);
-            // console.log("current step", this.state.currentStep);
-            // console.log("this.state.disableSubmit", this.state.disableSubmit);
-
-            let completeView = this.state.currentStep > TotalRegisterStep
-                ?
-                <div>
-                    <h3>Congratulation! You Have Completed Your Profile</h3>
-                    <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
-                </div>
-                :
-                <div>
-                    <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
-                    <Form className="form-row"
-                        items={formItems}
-                        onSubmit={this.formOnSubmit}
-                        defaultValues={{}}
-                        submitText='Submit'
-                        disableSubmit={this.state.disableSubmit}
-                        error={this.state.error}>
-                    </Form>
-                </div>
-
-            content = <div>
-                <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
-                Your account has been successfully created<br></br>
-                Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
-                You can do it at <b>Upload Document</b>
-                {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
-                <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
-                <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
-                {completeView}
-            </div>
+            content = this.getPostRegisterView(user);
         }
-        // else if (this.state.success) {
-        //     window.scrollTo(0, 0);
-
-        //     //scroll to top
-        //     content = <div>
-        //         <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
-        //         <br></br>
-        //         <button className="btn btn-success btn-lg" onClick={() => { this.onConfirmClick() }}>Confirm</button>
-        //     </div>
-        // } 
         else {
             let formItems = getRegisterFormItem(1);
             content = <div>

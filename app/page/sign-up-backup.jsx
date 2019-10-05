@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
-import { Redirect, NavLink } from 'react-router-dom';
+//import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, getDataCareerFair } from '../component/form';
 import { UserMeta, User, UserEnum } from '../../config/db-config';
-import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
-import { ButtonLink } from '../component/buttons.jsx';
+//import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
+//import { ButtonLink } from '../component/buttons.jsx';
 import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
 import { RootPath, DocumentUrl, LandingUrl } from '../../config/app-config';
 import AvailabilityView from './availability';
+import { getAxiosGraphQLQuery } from '../../helper/api-helper';
+import obj2arg from 'graphql-obj2arg';
+import LoginPage from './login';
+
+import { getRegisterFormItem, TotalRegisterStep } from '../../config/user-config';
 
 export default class SignUpPage extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
-
+        this.userId = 0;
         this.state = {
             confirmed: false,
             error: null,
             disableSubmit: false,
             success: false,
-            user: null
+            user: null,
+            currentStep: 1,
         };
     }
 
@@ -33,196 +39,22 @@ export default class SignUpPage extends React.Component {
         this.defaultValues = {};
         this.defaultValues[User.CF] = this.CF;
 
-        this.formItems = [
-            { header: "Select Career Fair" },
-            {
-                name: User.CF,
-                type: "radio",
-                data: getDataCareerFair("register"),
-                required: true
-            },
-            { header: "Basic Information" },
-            {
-                label: "Email",
-                name: User.EMAIL,
-                type: "email",
-                placeholder: "john.doe@gmail.com",
-                required: true
-            }, {
-                label: "Password",
-                name: User.PASSWORD,
-                type: "password",
-                placeholder: "*****",
-                required: true
-            }, {
-                label: "Confirm Password",
-                name: `${User.PASSWORD}-confirm`,
-                type: "password",
-                placeholder: "*****",
-                required: true
-            }, {
-                label: "First Name",
-                name: UserMeta.FIRST_NAME,
-                type: "text",
-                placeholder: "John",
-                required: true
-            }, {
-                label: "Last Name",
-                name: UserMeta.LAST_NAME,
-                type: "text",
-                placeholder: "Doe",
-                required: true
-            }, {
-                label: "Phone Number",
-                name: UserMeta.PHONE_NUMBER,
-                type: "text",
-                placeholder: "XXX-XXXXXXX",
-                required: true
-            },
-            // {
-            //     label: "Gender",
-            //     name: UserMeta.GENDER,
-            //     type: "select",
-            //     data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
-            //     required: true
-            // },
-            { header: "Where Do You Reside In Malaysia?" },
-            {
-                label: "State",
-                name: UserMeta.MAS_STATE,
-                type: "select",
-                data: MasState,
-                required: true
-            },
-            // {
-            //     label: "Postcode",
-            //     name: UserMeta.MAS_POSTCODE,
-            //     type: "text",
-            //     required: true,
-            //     placeholder: "20050"
-            // },
-            { header: "Degree Related Information" },
-            {
-                label: "Major",
-                name: UserMeta.MAJOR,
-                type: "text",
-                multiple: true,
-                required: true
-            }, {
-                label: "Minor",
-                name: UserMeta.MINOR,
-                type: "text",
-                multiple: true,
-                required: false
-            }, {
-                label: "University",
-                name: UserMeta.UNIVERSITY,
-                type: "text",
-                required: true
-            },
-            {
-                label: "Where Is Your University Located?",
-                name: UserMeta.STUDY_PLACE,
-                type: "select",
-                data: Country,
-                required: true
-            },
-            {
-                label: "Current CGPA",
-                name: UserMeta.CGPA,
-                type: "number",
-                step: "0.01",
-                min: "0",
-                required: false,
-                sublabel: <ButtonLink label="Don't Use CGPA system?"
-                    target='_blank'
-                    href="https://www.foreigncredits.com/resources/gpa-calculator/">
-                </ButtonLink>
-            }, {
-                label: "Expected Graduation",
-                name: UserMeta.GRADUATION_MONTH,
-                type: "select",
-                data: Month,
-                required: true
-
-            }, {
-                label: null,
-                name: UserMeta.GRADUATION_YEAR,
-                type: "select",
-                data: Year,
-                required: true
-
-            },
-            { header: "Future Employment Information" },
-            {
-                label: "Looking For",
-                name: UserMeta.LOOKING_FOR,
-                type: "select",
-                data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
-                required: true
-            },
-            // {
-            //     label: "Work Availability Date",
-            //     sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
-            //     name: UserMeta.AVAILABLE_MONTH,
-            //     type: "select",
-            //     data: Array(...Month),
-            //     required: true
-
-            // },
-            // {
-            //     label: null,
-            //     name: UserMeta.AVAILABLE_YEAR,
-            //     type: "select",
-            //     data: Array(...Year),
-            //     required: true
-            // },
-            {
-                label: "Are You Willing To Relocate?",
-                name: UserMeta.RELOCATE,
-                type: "select",
-                data: Array("", "Yes", "No"),
-                required: true
-            },
-            { header: "Additional Information" },
-            {
-                label: "Sponsor",
-                name: UserMeta.SPONSOR,
-                type: "select",
-                data: Sponsor,
-                required: false,
-                sublabel: "This information will not be displayed in your profile."
-
-            }, {
-                label: "Description",
-                name: UserMeta.DESCRIPTION,
-                type: "textarea",
-                placeholder: "Tell More About Yourself",
-                required: false,
-                rows: 5
-            }, {
-                label: null,
-                name: "accept-policy",
-                type: "checkbox",
-                data: [{
-                    key: "accepted",
-                    label: <small>I agree to <a href={`${DocumentUrl}/privacy-policy.pdf`} target="_blank">terms and conditions</a></small>
-                }],
-                required: true
-            }
-        ];
+        //this.formItems = getRegisterFormItem(1);
     }
 
     //return string if there is error
     filterForm(d) {
-        //check if both password is same
-        if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
-            return "Password not same";
-        }
 
-        // check if policy accepted
-        if (typeof d["accept-policy"] === "undefined" || d["accept-policy"][0] != "accepted") {
-            return "You must agree to terms and condition before continuing.";
+        if (this.state.currentStep == 1) {
+            //check if both password is same
+            // if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
+            //     return "Password not same";
+            // }
+
+            // check if policy accepted
+            if (typeof d["accept-policy"] === "undefined" || d["accept-policy"][0] != "accepted") {
+                return "You must agree to terms and condition before continuing.";
+            }
         }
 
         return 0;
@@ -233,23 +65,66 @@ export default class SignUpPage extends React.Component {
         var err = this.filterForm(d);
 
         if (err === 0) {
-
-            //prepare data for registration
-            d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
-            d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
-            d[User.LOGIN] = d[User.EMAIL];
-            d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
-
             toggleSubmit(this, { error: null });
+            if (typeof d[UserMeta.MAJOR] !== "undefined") {
+                d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
+            }
+            if (typeof d[UserMeta.MINOR] !== "undefined") {
+                d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
+            }
+            // if (update[UserMeta.CGPA] == "") {
+            //     update[UserMeta.CGPA] = 0;
+            // }
 
-            // cf is set in this function
-            register(d).then((res) => {
-                console.log(res.data);
-                d[User.ID] = res.data[User.ID];
-                toggleSubmit(this, { user: d, success: true });
-            }, (err) => {
-                toggleSubmit(this, { error: err.response.data });
-            });
+            if (this.state.currentStep == 1) {
+                //prepare data for registration
+                d[User.LOGIN] = d[User.EMAIL];
+                // get default cf from
+                d[User.CF] = this.CF;
+                d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
+
+                // Step 1 - Basic Info go to registration
+                // cf is set in this function
+                register(d).then((res) => {
+                    this.userId = res.data[User.ID];
+                    console.log(res.data);
+                    d[User.ID] = res.data[User.ID];
+                    // toggleSubmit(this, { user: d, success: true });
+                    this.setState((prevState) => {
+                        let newState = {
+                            user: d
+                            , currentStep: prevState.currentStep + 1
+                            , error: null
+                            , disableSubmit: !prevState.disableSubmit
+                            , success: true
+                        }
+                        return newState;
+                    });
+                }, (err) => {
+                    toggleSubmit(this, { error: err.response.data });
+                });
+            }
+
+            // update user
+            if (this.state.currentStep > 1) {
+                //prepare data for edit
+                var update = d;
+                d[User.ID] = this.userId;
+                var edit_query = `mutation{edit_user(${obj2arg(update, { noOuterBraces: true })}) {ID}}`;
+                getAxiosGraphQLQuery(edit_query).then((res) => {
+                    this.setState((prevState) => {
+                        let newState = {
+                            currentStep: prevState.currentStep + 1
+                            , error: null
+                            , disableSubmit: false
+                            , confirmed: true
+                        }
+                        return newState;
+                    });
+                }, (err) => {
+                    toggleSubmit(this, { error: err.response.data });
+                });
+            }
 
         } else {
             //console.log("Err", err);
@@ -287,32 +162,61 @@ export default class SignUpPage extends React.Component {
         //     "first_name": "kakaka"
         // };
 
-        if (this.state.confirmed) {
+        //if (this.state.confirmed) {
+        if (this.state.success) {
             window.scrollTo(0, 0);
+            let formItems = getRegisterFormItem(this.state.currentStep);
+            // console.log(formItems);
+            // console.log("current step", this.state.currentStep);
+            // console.log("this.state.disableSubmit", this.state.disableSubmit);
+
+            let completeView = this.state.currentStep > TotalRegisterStep
+                ?
+                <div>
+                    <h3>Congratulation! You Have Completed Your Profile</h3>
+                    <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
+                </div>
+                :
+                <div>
+                    <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
+                    <Form className="form-row"
+                        items={formItems}
+                        onSubmit={this.formOnSubmit}
+                        defaultValues={{}}
+                        submitText='Submit'
+                        disableSubmit={this.state.disableSubmit}
+                        error={this.state.error}>
+                    </Form>
+                </div>
 
             content = <div>
                 <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
                 Your account has been successfully created<br></br>
-                Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
-                <br></br>If you did not received any email, contact us at <b>innovaseedssolution@gmail.com</b>
-                <br></br><small><i>** The email might take a few minutes to arrive **</i></small>
+                Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
+                You can do it at <b>Upload Document</b>
+                {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
+                <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
+                <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
+                {completeView}
             </div>
         }
-        else if (this.state.success) {
-            window.scrollTo(0, 0);
+        // else if (this.state.success) {
+        //     window.scrollTo(0, 0);
 
-            //scroll to top
-            content = <div>
-                <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
-                <br></br>
-                <button className="btn btn-success btn-lg" onClick={() => { this.onConfirmClick() }}>Confirm</button>
-            </div>
-        } else {
+        //     //scroll to top
+        //     content = <div>
+        //         <AvailabilityView for_sign_up={true} user_id={user[User.ID]} set_only={true}></AvailabilityView>
+        //         <br></br>
+        //         <button className="btn btn-success btn-lg" onClick={() => { this.onConfirmClick() }}>Confirm</button>
+        //     </div>
+        // } 
+        else {
+            let formItems = getRegisterFormItem(1);
             content = <div>
                 <h3>Student Registration<br></br></h3>
                 <a target="_blank" href={`${LandingUrl}#Companies`}>Not A Student?</a>
                 <Form className="form-row"
-                    items={this.formItems}
+                    items={formItems}
                     onSubmit={this.formOnSubmit}
                     defaultValues={this.defaultValues}
                     submitText='Sign Me Up !'
