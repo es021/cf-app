@@ -24,13 +24,14 @@ const MultiType = new GraphQLObjectType({
 	})
 });
 
-const MultiRefType = new GraphQLObjectType({
-	name: 'MultiRef',
+const RefType = new GraphQLObjectType({
+	name: 'Ref',
 	fields: () => ({
 		ID: __.Int,
 		val: __.String,
 		category: __.String,
-		multi: __.IsType(MultiType)
+		slug :__.String,
+		multi: __.IsType(MultiType),
 	})
 });
 
@@ -760,6 +761,6 @@ module.exports = {
 	InterestedType,
 	LocationType,
 	MultiType,
-	MultiRefType
+	RefType
 	//, CFType
 };

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
 import { getAuthUser } from "../redux/actions/auth-actions";
-import SuggestionInput from "./suggestion-input";
+import InputSuggestion from "./input-suggestion";
 import PropTypes from "prop-types";
-import obj2arg from 'graphql-obj2arg';
+import obj2arg from "graphql-obj2arg";
 
-export default class MultiInput extends React.Component {
+export default class InputMulti extends React.Component {
   constructor(props) {
     super(props);
 
@@ -35,27 +35,32 @@ export default class MultiInput extends React.Component {
     this.setDefaultList();
   }
   setDefaultList() {
-
-    // kena optimize based on major n sebagainya
-    let q = `query{multi_refs(
-        table_name :"${this.props.table_name}", 
-        entity:"${this.props.entity}"
-        entity_id:${this.props.entity_id}, 
-        page:1, offset:10) 
-        {
+      let q = `query{
+        refs(
+          table_name :"${this.props.ref_table_name}"
+          multi_table_name :"${this.props.table_name}"
+          entity:"${this.props.entity}"
+          entity_id:${this.props.entity_id}
+          page:1, offset:10
+          is_suggestion :true,
+          search_by_ref :"${this.props.suggestion_search_by_ref}",
+          search_by_val : "${this.props.suggestion_search_by_val}"
+        ){
+          ID
           val
           multi{
             ID
           }
-      }}`;
+        }
+      }`
 
     graphql(q).then(res => {
-      let fetched = res.data.data.multi_refs;
+      let fetched = res.data.data.refs;
       this.setState(prevState => {
         let list = [];
         for (var i in fetched) {
           let f = fetched[i];
-          let multi_id = f.multi != null ? f.multi.ID : null
+          let multi_id = f.multi != null ? f.multi.ID : null;
           list.push({
             isSelected: multi_id != null ? true : false,
             val: f.val,
@@ -69,22 +74,26 @@ export default class MultiInput extends React.Component {
   deleteDB(i, multi_id) {
     let del = {
       table_name: this.props.table_name,
-      ID: multi_id,
-    }
-    let q = `mutation{ delete_multi(${obj2arg(del, { noOuterBraces: true })}) }`;
-    graphql(q).then((res) => {
-      this.finishDbRequest(i, res.data.data)
-    }).catch((err) => {
-      this.finishDbRequest(i, null, err);
-    })
+      ID: multi_id
+    };
+    let q = `mutation{ delete_multi(${obj2arg(del, {
+      noOuterBraces: true
+    })}) }`;
+    graphql(q)
+      .then(res => {
+        this.finishDbRequest(i, res.data.data);
+      })
+      .catch(err => {
+        this.finishDbRequest(i, null, err);
+      });
   }
   insertDB(v, i) {
     let ins = {
       table_name: this.props.table_name,
       entity: this.props.entity,
       entity_id: this.props.entity_id,
-      val: v,
-    }
+      val: v
+    };
     let q = `mutation{add_multi(${obj2arg(ins, { noOuterBraces: true })}) {
       ID
       entity
@@ -92,19 +101,21 @@ export default class MultiInput extends React.Component {
       val
       created_at
     }}`;
-    graphql(q).then((res) => {
-      let d = res.data.data.add_multi;
-      this.finishDbRequest(i, d.ID)
-    }).catch((err) => {
-      console.log("catch err", err);
-      this.finishDbRequest(i, null, err);
-    })
+    graphql(q)
+      .then(res => {
+        let d = res.data.data.add_multi;
+        this.finishDbRequest(i, d.ID);
+      })
+      .catch(err => {
+        console.log("catch err", err);
+        this.finishDbRequest(i, null, err);
+      });
   }
   onChooseSuggestion(v) {
     // console.log("onChooseSUggestion", v);
     let i = this.state.list.length;
     this.setState(pState => {
-      let prevState = JSON.parse(JSON.stringify(pState))
+      let prevState = JSON.parse(JSON.stringify(pState));
       prevState.list.push({
         val: v,
         isSelected: false,
@@ -117,11 +128,10 @@ export default class MultiInput extends React.Component {
   }
 
   finishDbRequest(i, multi_id = null, err = null) {
-
     let isDuplicate = false;
     try {
       isDuplicate = err.response.data.indexOf("ER_DUP_ENTRY") >= 0;
-    } catch (err) { }
+    } catch (err) {}
 
     // ada error tapi bukan error duplicate, kita return
     if (err != null && !isDuplicate) {
@@ -132,7 +142,7 @@ export default class MultiInput extends React.Component {
     let isDelete = this.state.list[i].isSelected;
 
     this.setState(pState => {
-      let prevState = JSON.parse(JSON.stringify(pState))
+      let prevState = JSON.parse(JSON.stringify(pState));
       if (isDuplicate) {
         prevState.list.splice(i);
       } else {
@@ -144,11 +154,10 @@ export default class MultiInput extends React.Component {
 
         // update multi_id accordingly
         if (isInsert) {
-          prevState.list[i].multi_id = multi_id
+          prevState.list[i].multi_id = multi_id;
         } else if (isDelete) {
           prevState.list[i].multi_id = null;
         }
-
       }
 
       return { list: prevState.list };
@@ -178,7 +187,6 @@ export default class MultiInput extends React.Component {
 
     // start update db here
 
-
     if (isInsert) {
       // console.log("insert")
       // kalau tak selected, insert
@@ -187,15 +195,17 @@ export default class MultiInput extends React.Component {
       // console.log("delete")
       try {
         multi_id = Number.parseInt(multi_id);
-        if (multi_id != null && multi_id > 0 && typeof multi_id !== "undefined") {
+        if (
+          multi_id != null &&
+          multi_id > 0 &&
+          typeof multi_id !== "undefined"
+        ) {
           this.deleteDB(i, multi_id);
         }
       } catch (err) {
         console.log(err);
       }
     }
-
-
   }
   getListView() {
     if (this.state.list.length <= 0) {
@@ -204,7 +214,7 @@ export default class MultiInput extends React.Component {
       let v = this.state.list.map((d, i) => {
         let icon = null;
         if (d.loading) {
-          icon = <i className={`fa fa-spinner fa-pulse`}></i>
+          icon = <i className={`fa fa-spinner fa-pulse`}></i>;
         } else {
           icon = (
             <i className={`fa fa-${!d.isSelected ? "plus" : "times"}`}></i>
@@ -229,13 +239,14 @@ export default class MultiInput extends React.Component {
   render() {
     var d = {};
     return (
-      <div id={this.props.table_name} className="multi-input">
+      <div id={this.props.table_name} className="input-multi">
         <div className="mi-label">{this.props.label}</div>
         <div className="mi-input">
-          <SuggestionInput
+          <InputSuggestion
             onChoose={this.onChooseSuggestion}
-            table_name={this.props.table_name}
-          ></SuggestionInput>
+            table_name={this.props.ref_table_name}
+            input_placeholder={this.props.input_placeholder}
+          ></InputSuggestion>
         </div>
         <div className="mi-list-title">{this.props.list_title}</div>
         <div className="mi-list">{this.getListView()}</div>
@@ -245,11 +256,15 @@ export default class MultiInput extends React.Component {
   }
 }
 
-MultiInput.propTypes = {
+InputMulti.propTypes = {
   table_name: PropTypes.string,
+  ref_table_name: PropTypes.string,
+  input_placeholder: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
   label: PropTypes.string,
   list_title: PropTypes.string,
+  suggestion_search_by_ref: PropTypes.string,
+  suggestion_search_by_val: PropTypes.string,
   footer_content: PropTypes.object
 };

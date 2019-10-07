@@ -33,7 +33,7 @@ const {
 	QsPopupAnswerType,
 	NotificationType,
 	MultiType,
-	MultiRefType
+	RefType
 } = require('./all-type.js');
 
 const graphqlFields = require('graphql-fields');
@@ -126,8 +126,8 @@ const {
 	MultiExec
 } = require('../model/multi-query.js');
 const {
-	MultiRefExec
-} = require('../model/multi-ref-query.js');
+	RefExec
+} = require('../model/ref-query.js');
 const {
 	__
 } = require("../../config/graphql-config");
@@ -152,6 +152,8 @@ fields["multis"] = {
 	type: new GraphQLList(MultiType),
 	args: {
 		table_name: __.StringNonNull,
+		ref_table_name : __.String,
+		
 		entity: __.String,
 		entity_id: __.Int,
 		page: __.Int,
@@ -163,23 +165,31 @@ fields["multis"] = {
 };
 
 /*******************************************/
-/* multi_refs ******************/
-fields["multi_refs"] = {
-	type: new GraphQLList(MultiRefType),
+/* refs ******************/
+fields["refs"] = {
+	type: new GraphQLList(RefType),
 	args: {
 		table_name: __.StringNonNull,
 		val: __.String,
 		category: __.String,
+		entity_id: __.Int,
+		entity: __.String,
 
-		entity_id: __.Int, // for default suggestion feature
-		entity: __.String, // for default suggestion feature
+		// get attribute multi/single
+		multi_table_name :  __.String,
+		single_table_name :  __.String,
 		
+		// pagination
 		page: __.Int,
 		offset: __.Int,
-		
+
+		// untuk dapatkan suggestion
+		is_suggestion : __.Boolean,
+		search_by_ref : __.String,
+		search_by_val : __.String,
 	},
 	resolve(parentValue, arg, context, info) {
-		return MultiRefExec.list(arg, graphqlFields(info));
+		return RefExec.list(arg, graphqlFields(info));
 	}
 };
 

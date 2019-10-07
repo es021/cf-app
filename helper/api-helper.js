@@ -9,7 +9,8 @@ const graphQLUrl = AppConfig.Api + "/graphql?";
 const getGraphQlErrorMes = (rawMes) => {
 	let mes = "";
 	let customMes = null
-	if (rawMes.indexOf("ERR_DUP_ENTRY") >= 0) {
+
+	if (rawMes.indexOf("ER_DUP_ENTRY") >= 0) {
 		customMes = "Record Already Exist";
 	}
 

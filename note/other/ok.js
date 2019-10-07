@@ -641,7 +641,7 @@ obj = [
   }
 ]
 
-sql = "insert into wp_career_fair.multi_ref_interested_role (val, category) VALUES ";
+sql = "insert into wp_career_fair.ref_interested_role (val, category) VALUES ";
 for (var i in obj) {
 	let o = obj[i];
 	let id = o.id;

@@ -28,18 +28,55 @@ import TestLayout from "./layout/test-layout.jsx";
 //require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
 require("./lib/util.js");
-let scss = ['action-box', 'app', 'availability', 'block-loader',
-  'border-card', 'chat', 'company-chat', 'company-page', 'company-sec',
-  'company-sec-old', 'content', 'dashboard', 'focus-card',
-  'footer', 'form', 'forum', 'gallery', 'general', 'group-session', 'hall',
-  'hall-gallery', 'header', 'home', 'left-bar', 'list', 'live-session',
-  'notess', 'notification', 'overview', 'page-sec', 'profile-card',
-  'qs-popup', 'right-bar', 'session-note', 'sponsor', 'sub-nav', 'support-chat',
-  'time-converter', 'timer', 'toogle-timezone', 'tooltip','suggestion-input']
+let scss = [
+  "action-box",
+  "app",
+  "availability",
+  "block-loader",
+  "border-card",
+  "chat",
+  "company-chat",
+  "company-page",
+  "company-sec",
+  "company-sec-old",
+  "content",
+  "dashboard",
+  "focus-card",
+  "footer",
+  "form",
+  "forum",
+  "gallery",
+  "general",
+  "group-session",
+  "hall",
+  "hall-gallery",
+  "header",
+  "home",
+  "left-bar",
+  "list",
+  "live-session",
+  "notess",
+  "notification",
+  "overview",
+  "page-sec",
+  "profile-card",
+  "qs-popup",
+  "right-bar",
+  "session-note",
+  "sponsor",
+  "sub-nav",
+  "support-chat",
+  "time-converter",
+  "timer",
+  "toogle-timezone",
+  "tooltip",
+  "input-suggestion",
+  "input-single",
+  "input-multi"
+];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");
 }
-
 
 import AuthorizedRoute from "./component/authorize-route";
 import { RootPath } from "../config/app-config";

@@ -1,0 +1,18 @@
+$THEME : #3b3b90;
+$MARGIN_SIDE : 7px;
+
+.input-single {
+	.si-label {
+		margin: 0px $MARGIN_SIDE;
+		font-weight: bold;
+		font-size: 16px;
+		margin-bottom: 5px;
+	}
+
+	.si-input{
+		margin: 0px $MARGIN_SIDE;
+	}
+	.si-footer{
+		margin: 0px $MARGIN_SIDE;
+	}
+}

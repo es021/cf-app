@@ -1,289 +1,331 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 //import { Redirect, NavLink } from 'react-router-dom';
-import Form, { toggleSubmit, getDataCareerFair } from '../component/form';
-import { UserMeta, User, UserEnum } from '../../config/db-config';
+import Form, { toggleSubmit, getDataCareerFair } from "../component/form";
+import { UserMeta, User, UserEnum } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
-import { register, getCF, getCFObj } from '../redux/actions/auth-actions';
-import { RootPath, DocumentUrl, LandingUrl } from '../../config/app-config';
-import AvailabilityView from './availability';
-import { getAxiosGraphQLQuery } from '../../helper/api-helper';
-import obj2arg from 'graphql-obj2arg';
-import LoginPage from './login';
-import MultiInput from '../component/multi-input';
+import { register, getCF, getCFObj } from "../redux/actions/auth-actions";
+import { RootPath, DocumentUrl, LandingUrl } from "../../config/app-config";
+import AvailabilityView from "./availability";
+import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import obj2arg from "graphql-obj2arg";
+import LoginPage from "./login";
+import InputMulti from "../component/input-multi";
 
-import { getRegisterFormItem, TotalRegisterStep } from '../../config/user-config';
+import {
+  getRegisterFormItem,
+  TotalRegisterStep
+} from "../../config/user-config";
 
 export default class SignUpPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.formOnSubmit = this.formOnSubmit.bind(this);
-        this.userId = 0;
-        this.state = {
-            confirmed: false,
-            error: null,
-            disableSubmit: false,
-            success: false,
-            user: null,
-            currentStep: 1,
-        };
+  constructor(props) {
+    super(props);
+    this.formOnSubmit = this.formOnSubmit.bind(this);
+    this.userId = 0;
+    this.state = {
+      confirmed: false,
+      error: null,
+      disableSubmit: false,
+      success: false,
+      user: null,
+      currentStep: 1
+    };
+  }
+
+  componentWillMount() {
+    this.CF = getCF();
+    this.CFObj = getCFObj();
+
+    if (!this.CFObj.can_register) {
+      return;
     }
 
-    componentWillMount() {
-        this.CF = getCF();
-        this.CFObj = getCFObj();
+    this.defaultValues = {};
+    this.defaultValues[User.CF] = this.CF;
 
-        if (!this.CFObj.can_register) {
-            return;
-        }
+    //this.formItems = getRegisterFormItem(1);
+  }
 
-        this.defaultValues = {};
-        this.defaultValues[User.CF] = this.CF;
+  //return string if there is error
+  filterForm(d) {
+    if (this.state.currentStep == 1) {
+      //check if both password is same
+      // if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
+      //     return "Password not same";
+      // }
 
-        //this.formItems = getRegisterFormItem(1);
+      // check if policy accepted
+      if (
+        typeof d["accept-policy"] === "undefined" ||
+        d["accept-policy"][0] != "accepted"
+      ) {
+        return "You must agree to terms and condition before continuing.";
+      }
     }
 
-    //return string if there is error
-    filterForm(d) {
+    return 0;
+  }
 
-        if (this.state.currentStep == 1) {
-            //check if both password is same
-            // if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
-            //     return "Password not same";
-            // }
+  formOnSubmit(d) {
+    console.log("sign up", d);
+    var err = this.filterForm(d);
 
-            // check if policy accepted
-            if (typeof d["accept-policy"] === "undefined" || d["accept-policy"][0] != "accepted") {
-                return "You must agree to terms and condition before continuing.";
-            }
-        }
+    if (err === 0) {
+      toggleSubmit(this, { error: null });
+      if (typeof d[UserMeta.MAJOR] !== "undefined") {
+        d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
+      }
+      if (typeof d[UserMeta.MINOR] !== "undefined") {
+        d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
+      }
+      // if (update[UserMeta.CGPA] == "") {
+      //     update[UserMeta.CGPA] = 0;
+      // }
 
-        return 0;
-    }
+      if (this.state.currentStep == 1) {
+        //prepare data for registration
+        d[User.LOGIN] = d[User.EMAIL];
+        // get default cf from
+        d[User.CF] = this.CF;
+        d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
 
-    formOnSubmit(d) {
-        console.log("sign up", d);
-        var err = this.filterForm(d);
-
-        if (err === 0) {
-            toggleSubmit(this, { error: null });
-            if (typeof d[UserMeta.MAJOR] !== "undefined") {
-                d[UserMeta.MAJOR] = JSON.stringify(d[UserMeta.MAJOR]);
-            }
-            if (typeof d[UserMeta.MINOR] !== "undefined") {
-                d[UserMeta.MINOR] = JSON.stringify(d[UserMeta.MINOR]);
-            }
-            // if (update[UserMeta.CGPA] == "") {
-            //     update[UserMeta.CGPA] = 0;
-            // }
-
-            if (this.state.currentStep == 1) {
-                //prepare data for registration
-                d[User.LOGIN] = d[User.EMAIL];
-                // get default cf from
-                d[User.CF] = this.CF;
-                d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
-
-                // Step 1 - Basic Info go to registration
-                // cf is set in this function
-                register(d).then((res) => {
-                    this.userId = res.data[User.ID];
-                    console.log(res.data);
-                    d[User.ID] = res.data[User.ID];
-                    // toggleSubmit(this, { user: d, success: true });
-                    this.setState((prevState) => {
-                        let newState = {
-                            user: d
-                            , currentStep: prevState.currentStep + 1
-                            , error: null
-                            , disableSubmit: !prevState.disableSubmit
-                            , success: true
-                        }
-                        return newState;
-                    });
-                }, (err) => {
-                    toggleSubmit(this, { error: err.response.data });
-                });
-            }
-
-            // update user
-            if (this.state.currentStep > 1) {
-                //prepare data for edit
-                var update = d;
-                d[User.ID] = this.userId;
-                var edit_query = `mutation{edit_user(${obj2arg(update, { noOuterBraces: true })}) {ID}}`;
-                getAxiosGraphQLQuery(edit_query).then((res) => {
-                    this.setState((prevState) => {
-                        let newState = {
-                            currentStep: prevState.currentStep + 1
-                            , error: null
-                            , disableSubmit: false
-                            , confirmed: true
-                        }
-                        return newState;
-                    });
-                }, (err) => {
-                    toggleSubmit(this, { error: err.response.data });
-                });
-            }
-
-        } else {
-            //console.log("Err", err);
-            this.setState(() => {
-                return { error: err }
+        // Step 1 - Basic Info go to registration
+        // cf is set in this function
+        register(d).then(
+          res => {
+            this.userId = res.data[User.ID];
+            console.log(res.data);
+            d[User.ID] = res.data[User.ID];
+            // toggleSubmit(this, { user: d, success: true });
+            this.setState(prevState => {
+              let newState = {
+                user: d,
+                currentStep: prevState.currentStep + 1,
+                error: null,
+                disableSubmit: !prevState.disableSubmit,
+                success: true
+              };
+              return newState;
             });
-        }
+          },
+          err => {
+            toggleSubmit(this, { error: err.response.data });
+          }
+        );
+      }
+
+      // update user
+      if (this.state.currentStep > 1) {
+        //prepare data for edit
+        var update = d;
+        d[User.ID] = this.userId;
+        var edit_query = `mutation{edit_user(${obj2arg(update, {
+          noOuterBraces: true
+        })}) {ID}}`;
+        getAxiosGraphQLQuery(edit_query).then(
+          res => {
+            this.setState(prevState => {
+              let newState = {
+                currentStep: prevState.currentStep + 1,
+                error: null,
+                disableSubmit: false,
+                confirmed: true
+              };
+              return newState;
+            });
+          },
+          err => {
+            toggleSubmit(this, { error: err.response.data });
+          }
+        );
+      }
+    } else {
+      //console.log("Err", err);
+      this.setState(() => {
+        return { error: err };
+      });
     }
+  }
 
-    onConfirmClick() {
-        this.setState((prevState) => {
-            return { confirmed: true };
-        });
-    }
+  onConfirmClick() {
+    this.setState(prevState => {
+      return { confirmed: true };
+    });
+  }
 
-    // getPostRegisterViewOld(user) {
-    //     let content = null;
-    //     let formItems = getRegisterFormItem(this.state.currentStep);
-    //     let completeView = this.state.currentStep > TotalRegisterStep
-    //         ?
-    //         <div>
-    //             <h3>Congratulation! You Have Completed Your Profile</h3>
-    //             <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
-    //         </div>
-    //         :
-    //         <div>
-    //             <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
-    //             <Form className="form-row"
-    //                 items={formItems}
-    //                 onSubmit={this.formOnSubmit}
-    //                 defaultValues={{}}
-    //                 submitText='Submit'
-    //                 disableSubmit={this.state.disableSubmit}
-    //                 error={this.state.error}>
-    //             </Form>
-    //         </div>
+  // getPostRegisterViewOld(user) {
+  //     let content = null;
+  //     let formItems = getRegisterFormItem(this.state.currentStep);
+  //     let completeView = this.state.currentStep > TotalRegisterStep
+  //         ?
+  //         <div>
+  //             <h3>Congratulation! You Have Completed Your Profile</h3>
+  //             <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
+  //         </div>
+  //         :
+  //         <div>
+  //             <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
+  //             <Form className="form-row"
+  //                 items={formItems}
+  //                 onSubmit={this.formOnSubmit}
+  //                 defaultValues={{}}
+  //                 submitText='Submit'
+  //                 disableSubmit={this.state.disableSubmit}
+  //                 error={this.state.error}>
+  //             </Form>
+  //         </div>
 
-    //     content = <div>
-    //         <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
-    //         Your account has been successfully created<br></br>
-    //         Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
-    //         You can do it at <b>Upload Document</b>
-    //         {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
-    //             <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
-    //             <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
-    //         {completeView}
-    //     </div>
-    //     return content;
-    // }
+  //     content = <div>
+  //         <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
+  //         Your account has been successfully created<br></br>
+  //         Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
+  //         You can do it at <b>Upload Document</b>
+  //         {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
+  //             <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
+  //             <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
+  //         {completeView}
+  //     </div>
+  //     return content;
+  // }
 
-    getContinueButton(id) {
-        const onClick = (e) => {
-            console.log("goto", id)
-
-        }
-        let v = <div>
-            <br></br>
-            <button className="btn btn-success btn-lg" onClick={onClick}>
-                Continue
+  getContinueButton(id) {
+    const onClick = e => {
+      const OFFSET = -100;
+      let el = document.getElementById(id);
+      let yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: yCoordinate + OFFSET,
+        behavior: "smooth"
+      });
+    };
+    let v = (
+      <div>
+        <br></br>
+        <button className="btn btn-success btn-lg" onClick={onClick}>
+          Continue
         </button>
+      </div>
+    );
+
+    return v;
+  }
+  getPostRegisterView(user, major) {
+    let MARGIN = (
+      <div>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+      </div>
+    );
+    let content = (
+      <div
+        style={{
+          textAlign: "left",
+          maxWidth: "700px",
+          margin: "auto",
+          padding: "10px"
+        }}
+      >
+        <h2>
+          Welcome {user[UserMeta.FIRST_NAME]} !<br></br>
+          <small>Let's complete your profile.</small>
+        </h2>
+        {MARGIN}
+        <div>
+          <InputMulti
+            label={"What types of jobs will you be searching for?"}
+            input_placeholder={"Type something here"}
+            list_title={`Popular roles for major ${major}`}
+            table_name={"interested_role"}
+            ref_table_name={"job_role"}
+            
+            suggestion_search_by_ref={"major"}
+            suggestion_search_by_val={major}
+
+            entity={"user"}
+            entity_id={user.ID}
+            footer_content={this.getContinueButton("relevant_course")}
+          ></InputMulti>
         </div>
+        {MARGIN}
+        <div>
+          <InputMulti
+            label={"What relevant courses have you taken?"}
+            input_placeholder={"Type something here"}
+            list_title={`Popular courses for major ${major}`}
+            table_name={"relevant_course"}
+            ref_table_name={"course"}
+            entity={"user"}
+            entity_id={user.ID}
+            
+            suggestion_search_by_ref={"major"}
+            suggestion_search_by_val={major}
 
-        return v;
-
-    }
-    getPostRegisterView(user) {
-        let MARGIN = <div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+            footer_content={this.getContinueButton("interested_role")}
+          ></InputMulti>
         </div>
-        let content =
-            <div style={{
-                textAlign: 'left',
-                maxWidth: "700px",
-                margin: "auto",
-                padding: "10px"
-            }}>
+      </div>
+    );
 
-                <h2>Welcome {user[UserMeta.FIRST_NAME]} !
-                <br></br>
-                    <small>Let's complete your profile.</small>
-                </h2>
-                {MARGIN}
-                <div>
-                    <MultiInput
-                        label={"What types of jobs will you be searching for?"}
-                        list_title={"Popular roles for your major"}
-                        table_name={"interested_role"}
-                        entity={"user"}
-                        entity_id={user.ID}
-                        footer_content={this.getContinueButton("relevant_course")}
-                    ></MultiInput>
-                </div>
-                {MARGIN}
-                <div>
-                    <MultiInput
-                        label={"What relevant courses have you taken?"}
-                        list_title={"Popular courses for your major"}
-                        table_name={"relevant_course"}
-                        entity={"user"}
-                        entity_id={user.ID}
-                        footer_content={this.getContinueButton("interested_role")}
-                    ></MultiInput>
-                </div>
-            </div>
+    return content;
+  }
 
-        return content;
+  render() {
+    document.setTitle("Sign Up");
+
+    if (!this.CFObj.can_register) {
+      return (
+        <div>
+          <h3>
+            Registration for
+            <br></br>
+            <b>{this.CFObj.title}</b>
+            <br></br>is not open yet
+            <br></br>
+            <small>Stay Tuned For More Info</small>
+          </h3>
+        </div>
+      );
     }
 
-    render() {
-        document.setTitle("Sign Up");
+    var content = null;
 
-        if (!this.CFObj.can_register) {
-            return <div>
-                <h3>Registration for
-                    <br></br><b>{this.CFObj.title}</b>
-                    <br></br>is not open yet
-                    <br></br>
-                    <small>Stay Tuned For More Info</small>
-                </h3>
-            </div>;
-        }
+    var user = this.state.user;
+    user = {
+      ID: 136,
+      first_name: "Wan Zul"
+    };
 
-        var content = null;
-
-        var user = this.state.user;
-        user = {
-            "ID": 136,
-            "first_name": "Wan Zul"
-        };
-
-        if (this.state.success || true) {
-            window.scrollTo(0, 0);
-            content = this.getPostRegisterView(user);
-        }
-        else {
-            let formItems = getRegisterFormItem(1);
-            content = <div>
-                <h3>Student Registration<br></br></h3>
-                <a target="_blank" href={`${LandingUrl}#Companies`}>Not A Student?</a>
-                <Form className="form-row"
-                    items={formItems}
-                    onSubmit={this.formOnSubmit}
-                    defaultValues={this.defaultValues}
-                    submitText='Sign Me Up !'
-                    disableSubmit={this.state.disableSubmit}
-                    error={this.state.error}>
-                </Form>
-            </div>;
-        }
-
-        return content;
+    if (this.state.success || true) {
+      window.scrollTo(0, 0);
+      content = this.getPostRegisterView(user, "Accounting And Finance");
+    } else {
+      let formItems = getRegisterFormItem(1);
+      content = (
+        <div>
+          <h3>
+            Student Registration<br></br>
+          </h3>
+          <a target="_blank" href={`${LandingUrl}#Companies`}>
+            Not A Student?
+          </a>
+          <Form
+            className="form-row"
+            items={formItems}
+            onSubmit={this.formOnSubmit}
+            defaultValues={this.defaultValues}
+            submitText="Sign Me Up !"
+            disableSubmit={this.state.disableSubmit}
+            error={this.state.error}
+          ></Form>
+        </div>
+      );
     }
+
+    return content;
+  }
 }
-
-

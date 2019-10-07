@@ -1,33 +1,20 @@
--- new table 
--- multi_interested_role
-CREATE TABLE `wp_career_fair`.`multi_interested_role` ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
-`entity` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
-`entity_id` BIGINT(20) NOT NULL , 
-`val` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , 
-`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-PRIMARY KEY (`ID`), UNIQUE (`entity`, `entity_id`, `val`)) ENGINE = InnoDB;
+-- select count(*) c, val , 
+-- GROUP_CONCAT(category SEPARATOR ', '), GROUP_CONCAT(ID SEPARATOR ', ') from 
+-- wp_career_fair.ref_job_role
+-- group by val having c > 1
 
--- multi_ref (takde code column)
--- new table multi_ref_interested_role
-CREATE TABLE `wp_career_fair`.`multi_ref_interested_role` 
+    
+CREATE TABLE `wp_career_fair`.`ref_job_role` 
 ( `ID` INT NOT NULL AUTO_INCREMENT , 
  `val` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
  `category` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-PRIMARY KEY (`ID`), INDEX (`val`), INDEX (`category`)) ENGINE = InnoDB;
+PRIMARY KEY (`ID`), UNIQUE(`val`,`category`), INDEX (`val`), INDEX (`category`)) ENGINE = InnoDB;
 
-
--- same val diff category
-select count(*) c, val , 
-GROUP_CONCAT(category SEPARATOR ', '), GROUP_CONCAT(ID SEPARATOR ', ') from 
-wp_career_fair.multi_ref_interested_role
-group by val having c > 1
 
 -- ################################################################################################################
 -- ################################################################################################################
--- ################################################################################################################
--- ################################################################################################################
-
-insert into wp_career_fair.multi_ref_interested_role (val, category) VALUES  ('Marketing Specialist','marketing'), 
+insert into wp_career_fair.ref_job_role (val, category) 
+VALUES  ('Marketing Specialist','marketing'), 
  ('Marketing Manager','marketing'), 
  ('Marketing Director','marketing'), 
  ('Graphic Designer','marketing'), 

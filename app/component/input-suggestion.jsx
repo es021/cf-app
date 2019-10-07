@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
 import PropTypes from "prop-types";
 
-export default class SuggestionInput extends React.Component {
+export default class InputSuggestion extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,7 +23,7 @@ export default class SuggestionInput extends React.Component {
       suggestion: []
     };
   }
-  componentWillMount() { }
+  componentWillMount() {}
   closeSuggestionList() {
     setTimeout(() => {
       this.setState(prevState => {
@@ -89,6 +89,10 @@ export default class SuggestionInput extends React.Component {
   onBlur(e) {
     // console.log("onBlur", e);
     this.closeSuggestionList();
+
+    if (this.props.input_onBlur) {
+      this.props.input_onBlur(e);
+    }
   }
   onFocus(e) {
     // console.log("onFocus", e);
@@ -106,6 +110,10 @@ export default class SuggestionInput extends React.Component {
       this.setState(prevState => {
         return { suggestion: [] };
       });
+    }
+
+    if (this.props.input_onChange) {
+      this.props.input_onChange(e);
     }
   }
   onClickSuggestion(e, customVal = null) {
@@ -128,14 +136,14 @@ export default class SuggestionInput extends React.Component {
   }
   fetchSuggestion(v) {
     let q = `query{ 
-      multi_refs(table_name :"${this.props.table_name}", val:"${v}", page:1, offset:10) {
+      refs(table_name :"${this.props.table_name}", val:"${v}", page:1, offset:10) {
         val
       }
     }`;
 
     graphql(q).then(res => {
       this.setState(prevState => {
-        let suggestion = res.data.data.multi_refs;
+        let suggestion = res.data.data.refs;
         if (suggestion.length == 0) {
           suggestion.push({ val: v });
         } else {
@@ -185,7 +193,7 @@ export default class SuggestionInput extends React.Component {
   render() {
     var d = {};
     return (
-      <div onKeyDown={this.onKeyDown} className="suggestion-input">
+      <div onKeyDown={this.onKeyDown} className="input-suggestion">
         <div className="input-field">
           <input
             onBlur={this.onBlur}
@@ -194,10 +202,10 @@ export default class SuggestionInput extends React.Component {
             disabled={d.disabled}
             hidden={d.hidden}
             name={d.name}
-            type={d.type}
-            value={d.value}
+            type={"text"}
+            value={this.props.input_val}
             required={d.required}
-            placeholder={d.placeholder}
+            placeholder={this.props.input_placeholder}
             ref={r => {
               this.ref = r;
             }}
@@ -209,7 +217,11 @@ export default class SuggestionInput extends React.Component {
   }
 }
 
-SuggestionInput.propTypes = {
+InputSuggestion.propTypes = {
+  input_onChange: PropTypes.func,
+  input_onBlur: PropTypes.func,
+  input_val: PropTypes.string,
+  input_placeholder: PropTypes.string,
   table_name: PropTypes.string,
   onChoose: PropTypes.func
 };

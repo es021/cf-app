@@ -1,0 +1,92 @@
+<html>
+  <body>
+    <ul>
+      <li>
+        <a
+          href="/wiki/Computer_Programming"
+          class="mw-redirect"
+          title="Computer Programming"
+          >Computer Programming</a
+        >
+      </li>
+      <li>
+        <a href="/wiki/How_to_Design_Programs" title="How to Design Programs"
+          >Program design</a
+        >
+      </li>
+      <li>
+        Computer
+        <a href="/wiki/Systems_analysis" title="Systems analysis"
+          >Systems analysis</a
+        >
+      </li>
+      <li>
+        Fundamentals of
+        <a href="/wiki/Computer_hardware" title="Computer hardware">Hardware</a>
+      </li>
+      <li>
+        <a href="/wiki/Computer_network" title="Computer network">Networking</a>
+      </li>
+      <li>
+        <a
+          href="/wiki/Computer_Architecture"
+          class="mw-redirect"
+          title="Computer Architecture"
+          >Computer Architecture</a
+        >
+      </li>
+      <li>Professional Awareness</li>
+      <li>Mathematics for Computing</li>
+      <li>Introduction to Databases</li>
+      <li>Academic skills for computing</li>
+      <li>Introduction to Software Engineering</li>
+      <li>Software Requirements &amp; Modeling</li>
+      <li>Software Design &amp; Construction</li>
+      <li>Software Testing, Verification, and Validation</li>
+      <li>Software Quality Assurance</li>
+      <li>Software Project Management</li>
+      <li>Software Configuration Management</li>
+      <li>Fundamentals of Programming</li>
+      <li>Data Structures</li>
+      <li>Introduction to Algorithms</li>
+      <li>Operating Systems</li>
+      <li>Computer Architecture</li>
+      <li>Programming Languages</li>
+      <li>Human - Computer Interaction</li>
+      <li>Discrete Mathematics</li>
+      <li>Database Designing</li>
+      <li>Probability &amp; Statistics</li>
+      <li>Calculus I</li>
+      <li>Calculus II</li>
+      <li>Calculus III</li>
+      <li>Linear Algebra</li>
+      <li>Boolean Algebra</li>
+    </ul>
+  </body>
+</html>
+
+<script>
+  let obj = {
+    id: "computer_science",
+    label: "Computer Science",
+    children: []
+  };
+
+  let li = document.getElementsByTagName("li");
+  for (var i in li) {
+    let l = li[i];
+    let txt = null;
+    try {
+      txt = l.innerText;
+    } catch (err) {
+      console.log(err);
+    }
+    if (txt != null && txt !== "" && typeof txt !== "undefined") {
+      if (obj.children.indexOf(txt) <= -1) {
+        obj.children.push(txt);
+      }
+    }
+  }
+
+  console.log(obj);
+</script>
