@@ -35,7 +35,7 @@ export default class InputMulti extends React.Component {
     this.setDefaultList();
   }
   setDefaultList() {
-      let q = `query{
+    let q = `query{
         refs(
           table_name :"${this.props.ref_table_name}"
           multi_table_name :"${this.props.table_name}"
@@ -52,7 +52,7 @@ export default class InputMulti extends React.Component {
             ID
           }
         }
-      }`
+      }`;
 
     graphql(q).then(res => {
       let fetched = res.data.data.refs;
@@ -207,6 +207,13 @@ export default class InputMulti extends React.Component {
       }
     }
   }
+  getListTitle() {
+    if (this.state.list.length <= 0) {
+      return null;
+    } else {
+      return this.props.list_title;
+    }
+  }
   getListView() {
     if (this.state.list.length <= 0) {
       return null;
@@ -248,7 +255,7 @@ export default class InputMulti extends React.Component {
             input_placeholder={this.props.input_placeholder}
           ></InputSuggestion>
         </div>
-        <div className="mi-list-title">{this.props.list_title}</div>
+        <div className="mi-list-title">{this.getListTitle()}</div>
         <div className="mi-list">{this.getListView()}</div>
         <div className="mi-footer">{this.props.footer_content}</div>
       </div>
