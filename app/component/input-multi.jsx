@@ -21,6 +21,7 @@ export default class InputMulti extends React.Component {
 
     // // state
     this.state = {
+      hasSuggestion : false,
       list: [
         // {
         //   multi_id : num
@@ -67,7 +68,12 @@ export default class InputMulti extends React.Component {
             multi_id: multi_id
           });
         }
-        return { list: list };
+
+        let hasSuggestion = false;
+        if (list.length > 0) {
+          hasSuggestion = true;
+        }
+        return { list: list, hasSuggestion : hasSuggestion };
       });
     });
   }
@@ -208,7 +214,7 @@ export default class InputMulti extends React.Component {
     }
   }
   getListTitle() {
-    if (this.state.list.length <= 0) {
+    if (this.state.list.length <= 0 || !this.state.hasSuggestion) {
       return null;
     } else {
       return this.props.list_title;
@@ -246,7 +252,7 @@ export default class InputMulti extends React.Component {
   render() {
     var d = {};
     return (
-      <div id={this.props.table_name} className="input-multi">
+      <div className="input-multi">
         <div className="mi-label">{this.props.label}</div>
         <div className="mi-input">
           <InputSuggestion

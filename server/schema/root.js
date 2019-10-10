@@ -33,6 +33,7 @@ const {
 	QsPopupAnswerType,
 	NotificationType,
 	MultiType,
+	SingleType,
 	RefType
 } = require('./all-type.js');
 
@@ -126,6 +127,9 @@ const {
 	MultiExec
 } = require('../model/multi-query.js');
 const {
+	SingleExec
+} = require('../model/single-query.js');
+const {
 	RefExec
 } = require('../model/ref-query.js');
 const {
@@ -145,6 +149,22 @@ __.String
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/*******************************************/
+/* multi ******************/
+fields["single"] = {
+	type: SingleType,
+	args: {
+		key_input: __.String,
+		entity: __.String,
+		entity_id: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return SingleExec.single(arg, graphqlFields(info));
+	}
+};
+
 
 /*******************************************/
 /* multi ******************/

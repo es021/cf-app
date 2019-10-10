@@ -13,6 +13,18 @@ const {
 	__
 } = require("../../config/graphql-config");
 
+const SingleType = new GraphQLObjectType({
+	name: 'Single',
+	fields: () => ({
+		ID: __.Int,
+		entity: __.String,
+		entity_id: __.Int,
+		key_input : __.String,
+		val: __.String,
+		created_at: __.String,
+		updated_at : __.String
+	})
+});
 const MultiType = new GraphQLObjectType({
 	name: 'Multi',
 	fields: () => ({
@@ -760,6 +772,7 @@ module.exports = {
 	VacancySuggestionType,
 	InterestedType,
 	LocationType,
+	SingleType,
 	MultiType,
 	RefType
 	//, CFType

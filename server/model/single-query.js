@@ -1,18 +1,14 @@
 const DB = require('./DB.js');
-
-class MultiExec {
+class SingleExec {
 	query(param) {
 
-		let table_name = param.table_name;
+		let key_input = (!param.key_input) ? "1=1" : ` key_input = '${param.key_input}' `;
 		let entity = (!param.entity) ? "1=1" : ` entity = '${param.entity}' `;
 		let entity_id = (!param.entity_id) ? "1=1" : ` entity_id = ${param.entity_id} `;
-		let val = (!param.val) ? "1=1" : ` val = '${param.val}' `;
-		var limit = DB.prepareLimit(param.page, param.offset);
 
 		let sql = `
-			select * from multi_${table_name} where 1=1
-			and ${entity} and ${entity_id} and ${val}
-			${limit}
+			select * from single_input where 1=1
+			and ${key_input} and ${entity} and ${entity_id}
 		`;
 		return sql;
 	}
@@ -22,7 +18,7 @@ class MultiExec {
 	getHelper(type, param, field, extra = {}) {
 		var sql = this.query(param, extra);
 		
-		console.log("[MultiExec]", sql);
+		console.log("[SingleExec]", sql);
 		var toRet = DB.query(sql).then((res) => {
 			for (var i in res) {}
 			if (this.isSingle(type)) {
@@ -36,12 +32,12 @@ class MultiExec {
 	single(param, field) {
 		return this.getHelper("single", param, field);
 	}
-	list(param, field, extra = {}) {
-		return this.getHelper("list", param, field, extra);
-	}
+	// list(param, field, extra = {}) {
+	// 	return this.getHelper("list", param, field, extra);
+	// }
 }
 
-MultiExec = new MultiExec();
+SingleExec = new SingleExec();
 module.exports = {
-	MultiExec
+	SingleExec
 };

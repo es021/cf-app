@@ -1,3 +1,32 @@
+###############################################
+new sign up
+
+Page 1
+1. Email 
+2. Password
+4. (Single) First Name
+5. (Single) Last Name
+
+Page 2
+- (Single) Country
+- (Single) University
+- Major 
+- (Single) Level (degree, master , phd)
+
+Page 3
+-Looking For 
+   ** (FT/Internship)
+- (Multi) Relevant Course
+- Graduation Date
+- (Multi) What industry would you like to work in
+- (Multi) Where do you want to work? 
+    ** local n oversea
+- (Multi) What kind of company do you want to work in?
+
+
+
+##############################################
+
 vacancy-suggestion implementation
 (relevence?)
 do research

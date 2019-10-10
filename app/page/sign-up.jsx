@@ -209,7 +209,7 @@ export default class SignUpPage extends React.Component {
 
     return v;
   }
-  getPostRegisterView(user, major) {
+  getPostRegisterView(user, {major}) {
     let MARGIN = (
       <div>
         <br></br>
@@ -302,7 +302,7 @@ export default class SignUpPage extends React.Component {
 
     if (this.state.success || true) {
       window.scrollTo(0, 0);
-      content = this.getPostRegisterView(user, "Accounting And Finance");
+      content = this.getPostRegisterView(user, {major : "Accounting And Finance"});
     } else {
       let formItems = getRegisterFormItem(1);
       content = (

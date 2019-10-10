@@ -99,6 +99,10 @@ export default class InputSuggestion extends React.Component {
     this.setState(prevState => {
       return { showSuggestion: true };
     });
+
+    if (this.props.input_onFocus) {
+      this.props.input_onFocus(e);
+    }
   }
   onChange(e) {
     // console.log("onChange", e);
@@ -135,6 +139,9 @@ export default class InputSuggestion extends React.Component {
     }
   }
   fetchSuggestion(v) {
+    if (!this.props.table_name) {
+      return;
+    }
     let q = `query{ 
       refs(table_name :"${this.props.table_name}", val:"${v}", page:1, offset:10) {
         val
@@ -168,6 +175,24 @@ export default class InputSuggestion extends React.Component {
       });
     });
   }
+  getIconView() {
+    let v = null;
+    let icon = null;
+    let color = null;
+
+    if (this.props.icon_loading) {
+      icon = "spinner fa-pulse";
+      color = "gray";
+    } else if (this.props.icon_done) {
+      icon = "check";
+      color = "green";
+    }
+
+    if (icon != null) {
+      v = <i style={{ color: color }} className={`fa fa-${icon}`}></i>;
+    }
+    return v;
+  }
   getSuggestionView() {
     if (this.state.suggestion.length <= 0 || !this.state.showSuggestion) {
       return null;
@@ -195,21 +220,24 @@ export default class InputSuggestion extends React.Component {
     return (
       <div onKeyDown={this.onKeyDown} className="input-suggestion">
         <div className="input-field">
-          <input
-            onBlur={this.onBlur}
-            onFocus={this.onFocus}
-            onChange={this.onChange}
-            disabled={d.disabled}
-            hidden={d.hidden}
-            name={d.name}
-            type={"text"}
-            value={this.props.input_val}
-            required={d.required}
-            placeholder={this.props.input_placeholder}
-            ref={r => {
-              this.ref = r;
-            }}
-          />
+          <div className="input-and-icon">
+            <input
+              onBlur={this.onBlur}
+              onFocus={this.onFocus}
+              onChange={this.onChange}
+              disabled={d.disabled}
+              hidden={d.hidden}
+              name={d.name}
+              type={"text"}
+              value={this.props.input_val}
+              required={d.required}
+              placeholder={this.props.input_placeholder}
+              ref={r => {
+                this.ref = r;
+              }}
+            />
+            <div className="icon-input">{this.getIconView()}</div>
+          </div>
           <div className="suggestion-list">{this.getSuggestionView()}</div>
         </div>
       </div>
@@ -218,6 +246,9 @@ export default class InputSuggestion extends React.Component {
 }
 
 InputSuggestion.propTypes = {
+  icon_loading: PropTypes.bool,
+  icon_done: PropTypes.bool,
+
   input_onChange: PropTypes.func,
   input_onBlur: PropTypes.func,
   input_val: PropTypes.string,

@@ -30,7 +30,8 @@ const {
 	EntityRemovedType,
 	NotificationType,
 	HallGalleryType,
-	MultiType
+	MultiType, 
+	SingleType
 } = require('./all-type.js');
 
 
@@ -65,7 +66,8 @@ const {
 	QsPopupAnswer,
 	EntityRemoved,
 	Notifications,
-	HallGallery
+	HallGallery,
+	SingleInput
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -106,6 +108,40 @@ const {
 // START CREATE FIELDS
 var fields = {};
 
+
+/* single  ******************/
+fields["add_single"] = {
+	type: SingleType,
+	args: {
+		key_input: __.StringNonNull,
+		entity: __.StringNonNull,
+		entity_id: __.IntNonNull,
+		val: __.StringNonNull,
+	},
+	resolve(parentValue, arg, context, info) {
+		return DB.insert(SingleInput.TABLE, arg).then(function(res) {
+			return res;
+		});
+	}
+};
+
+
+fields["edit_single"] = {
+	type: SingleType,
+	args: {
+		ID: __.IntNonNull,
+		val: __.StringNonNull,
+	},
+	resolve(parentValue, arg, context, info) {
+		try {
+			return DB.update(SingleInput.TABLE, arg).then(function(res) {
+				return res;
+			});
+		} catch (err) {
+			return {};
+		}
+	}
+};
 
 /* multi_  ******************/
 fields["add_multi"] = {

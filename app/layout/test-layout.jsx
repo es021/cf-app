@@ -14,17 +14,18 @@ export default class TestLayout extends React.Component {
     document.setTitle("Test");
     return (
       <div style={{ padding: "10px", background: "white" }}>
-        {/* <InputSingle
-          label={"Single Question?"}
+        <InputSingle
+          label={"Which Country Do You Study In?"}
           input_placeholder={"Type something here"}
-          table_name={"interested_role"}
+          key_input={"country"}
           entity={"user"}
+          ref_table_name={"job_role"}
           // entity_id={getAuthUser().ID}
           entity_id={136}
-        ></InputSingle> */}
+        ></InputSingle>
 
         <br></br>
-        <InputMulti
+        {/* <InputMulti
           suggestion_search_by_ref={"major"}
           suggestion_search_by_val={"Accounting And Finance"}
           label={"What Are You?"}
@@ -35,7 +36,7 @@ export default class TestLayout extends React.Component {
           entity={"user"}
           // entity_id={getAuthUser().ID}
           entity_id={136}
-        ></InputMulti>
+        ></InputMulti> */}
       </div>
     );
   }

@@ -10,111 +10,150 @@ export default class InputSingle extends React.Component {
     super(props);
 
     // fn binding
+    this.inputOnBlur = this.inputOnBlur.bind(this);
     this.inputOnChange = this.inputOnChange.bind(this);
-    this.finishDbRequest = this.finishDbRequest.bind(this);
+    this.inputOnFocus = this.inputOnFocus.bind(this);
     this.onChooseSuggestion = this.onChooseSuggestion.bind(this);
     this.insertDB = this.insertDB.bind(this);
     this.authUser = getAuthUser();
 
     // // state
     this.state = {
-      val: null
+      ID: null,
+      dbVal: null,
+      val: null,
+      loading: false,
+      doneUpdate: false
     };
   }
-
   componentWillMount() {
     this.setDefaultValue();
   }
-  setDefaultValue() {}
-  updateDB(i, multi_id) {}
-  insertDB(v, i) {
+  setDefaultValue() {
+    this.loading();
+    let inq = {
+      entity: this.props.entity,
+      entity_id: this.props.entity_id,
+      key_input: this.props.key_input
+    };
+
+    let q = `query{single(${obj2arg(inq, { noOuterBraces: true })}) {
+        ID val
+      }}`;
+
+    graphql(q)
+      .then(res => {
+        let d = res.data.data.single;
+        console.log("d", d);
+        if (d) {
+          this.setState(prevState => {
+            return { ID: d.ID, dbVal: d.val, val: d.val, loading: false };
+          });
+        }
+      })
+      .catch(err => {
+        console.log("catch err", err);
+      });
+  }
+  loading() {
+    this.setState(prevState => {
+      return { loading: true, doneUpdate: false };
+    });
+  }
+  sendDataToDb(v) {
+    // no changes
+    if (this.state.dbVal === v) {
+      return;
+    }
+
+    this.loading();
+    if (this.state.ID) {
+      this.updateDB(this.state.ID, v);
+    } else {
+      this.insertDB(v);
+    }
+  }
+  updateDB(ID, v) {
+    console.log("updateDB", ID, v);
+    let upd = {
+      ID: ID,
+      val: v
+    };
+
+    let q = `mutation{edit_single(${obj2arg(upd, { noOuterBraces: true })}) {
+      ID val
+    }}`;
+
+    graphql(q)
+      .then(res => {
+        this.setState(prevState => {
+          let d = res.data.data.edit_single;
+          return { dbVal: d.val, loading: false, doneUpdate: true };
+        });
+      })
+      .catch(err => {
+        console.log("catch err", err);
+      });
+  }
+  insertDB(v) {
+    console.log("insertDB", v);
+
     let ins = {
-      table_name: this.props.table_name,
+      key_input: this.props.key_input,
       entity: this.props.entity,
       entity_id: this.props.entity_id,
       val: v
     };
+
     let q = `mutation{add_single(${obj2arg(ins, { noOuterBraces: true })}) {
-      ID
-      entity
-      entity_id
-      val
-      created_at
+      ID val
     }}`;
+
     graphql(q)
       .then(res => {
-        let d = res.data.data.add_multi;
-        this.finishDbRequest(i, d.ID);
+        this.setState(prevState => {
+          let d = res.data.data.add_single;
+          return { dbVal: d.val, ID: d.ID, loading: false, doneUpdate: true };
+        });
       })
       .catch(err => {
         console.log("catch err", err);
-        this.finishDbRequest(i, null, err);
       });
-  }
-
-  finishDbRequest(i, multi_id = null, err = null) {
-    let isDuplicate = false;
-    try {
-      isDuplicate = err.response.data.indexOf("ER_DUP_ENTRY") >= 0;
-    } catch (err) {}
-
-    // ada error tapi bukan error duplicate, kita return
-    if (err != null && !isDuplicate) {
-      return;
-    }
-
-    let isInsert = !this.state.list[i].isSelected;
-    let isDelete = this.state.list[i].isSelected;
-
-    this.setState(pState => {
-      let prevState = JSON.parse(JSON.stringify(pState));
-      if (isDuplicate) {
-        prevState.list.splice(i);
-      } else {
-        // toggle isSelected
-        prevState.list[i].isSelected = !prevState.list[i].isSelected;
-
-        // set loading to false
-        prevState.list[i].loading = false;
-
-        // update multi_id accordingly
-        if (isInsert) {
-          prevState.list[i].multi_id = multi_id;
-        } else if (isDelete) {
-          prevState.list[i].multi_id = null;
-        }
-      }
-
-      return { list: prevState.list };
-    });
   }
   onChooseSuggestion(v) {
     this.setState(prevState => {
       return { val: v };
     });
+
+    this.sendDataToDb(v);
   }
   inputOnBlur(e) {
     let v = e.target.value;
     console.log("inputOnBlur", v);
 
-    // insert or update db
+    this.sendDataToDb(v);
   }
+  inputOnFocus(e) {}
   inputOnChange(e) {
-    this.setState({ val: e.target.value });
+    let v = e.target.value;
+    this.setState({ val: v });
   }
   render() {
     var d = {};
     return (
-      <div id={this.props.table_name} className="input-single">
+      <div className="input-single">
         <div className="si-label">{this.props.label}</div>
         <div className="si-input">
           <InputSuggestion
+            icon_loading={this.state.loading}
+            icon_done={this.state.doneUpdate}
             input_onChange={this.inputOnChange}
             input_onBlur={this.inputOnBlur}
+            input_onFocus={this.inputOnFocus}
             input_val={this.state.val}
             input_placeholder={this.props.input_placeholder}
             onChoose={this.onChooseSuggestion}
-            table_name={this.props.table_name}
+            table_name={this.props.ref_table_name}
           ></InputSuggestion>
         </div>
         <div className="si-footer">{this.props.footer_content}</div>
@@ -124,7 +163,8 @@ export default class InputSingle extends React.Component {
 }
 
 InputSingle.propTypes = {
-  table_name: PropTypes.string,
+  ref_table_name: PropTypes.string,
+  key_val: PropTypes.string,
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
