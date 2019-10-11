@@ -1,3 +1,6 @@
+- smbung done handler untuk check apa lagi yang required tak isi
+- design css unutk required
+
 ###############################################
 new sign up
 

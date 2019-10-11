@@ -179,6 +179,7 @@ export default class InputSuggestion extends React.Component {
     let v = null;
     let icon = null;
     let color = null;
+    let txt = null;
 
     if (this.props.icon_loading) {
       icon = "spinner fa-pulse";
@@ -186,10 +187,19 @@ export default class InputSuggestion extends React.Component {
     } else if (this.props.icon_done) {
       icon = "check";
       color = "green";
+    } else if (this.props.icon_is_required) {
+      icon = "exclamation-triangle";
+      color = "red";
+      txt = "This field is required";
     }
 
     if (icon != null) {
-      v = <i style={{ color: color }} className={`fa fa-${icon}`}></i>;
+      v = [
+        <i style={{ color: color }} className={`fa fa-${icon}`}></i>,
+        <div className="icon-text" style={{ color: color }}>
+          {txt}
+        </div>
+      ];
     }
     return v;
   }
@@ -248,6 +258,7 @@ export default class InputSuggestion extends React.Component {
 InputSuggestion.propTypes = {
   icon_loading: PropTypes.bool,
   icon_done: PropTypes.bool,
+  icon_is_required: PropTypes.bool,
 
   input_onChange: PropTypes.func,
   input_onBlur: PropTypes.func,

@@ -10,6 +10,8 @@ export default class InputSingle extends React.Component {
     super(props);
 
     // fn binding
+    this.finishDbRequest = this.finishDbRequest.bind(this);
+    this.continueOnClick = this.continueOnClick.bind(this);
     this.inputOnBlur = this.inputOnBlur.bind(this);
     this.inputOnChange = this.inputOnChange.bind(this);
     this.inputOnFocus = this.inputOnFocus.bind(this);
@@ -23,11 +25,16 @@ export default class InputSingle extends React.Component {
       dbVal: null,
       val: null,
       loading: false,
-      doneUpdate: false
+      done_update: false
     };
   }
   componentWillMount() {
     this.setDefaultValue();
+  }
+  continueOnClick(e) {
+    if (this.props.continueOnClick) {
+      this.props.continueOnClick();
+    }
   }
   setDefaultValue() {
     this.loading();
@@ -46,9 +53,9 @@ export default class InputSingle extends React.Component {
         let d = res.data.data.single;
         console.log("d", d);
         if (d) {
-          this.setState(prevState => {
-            return { ID: d.ID, dbVal: d.val, val: d.val, loading: false };
-          });
+          this.setState({ ID: d.ID, dbVal: d.val, val: d.val, loading: false });
+        } else {
+          this.setState({ loading: false });
         }
       })
       .catch(err => {
@@ -56,13 +63,11 @@ export default class InputSingle extends React.Component {
       });
   }
   loading() {
-    this.setState(prevState => {
-      return { loading: true, doneUpdate: false };
-    });
+    this.setState({ loading: true, done_update: false });
   }
   sendDataToDb(v) {
     // no changes
-    if (this.state.dbVal === v) {
+    if (this.state.dbVal === v || this.isValueEmpty()) {
       return;
     }
 
@@ -72,6 +77,12 @@ export default class InputSingle extends React.Component {
     } else {
       this.insertDB(v);
     }
+  }
+  finishDbRequest(v) {
+    this.props.doneHandler(this.props.id, {
+      type: "single",
+      val: v
+    });
   }
   updateDB(ID, v) {
     console.log("updateDB", ID, v);
@@ -88,8 +99,14 @@ export default class InputSingle extends React.Component {
       .then(res => {
         this.setState(prevState => {
           let d = res.data.data.edit_single;
-          return { dbVal: d.val, loading: false, doneUpdate: true };
+          return {
+            dbVal: d.val,
+            loading: false,
+            show_is_required: false,
+            done_update: true
+          };
         });
+        this.finishDbRequest(v);
       })
       .catch(err => {
         console.log("catch err", err);
@@ -113,18 +130,22 @@ export default class InputSingle extends React.Component {
       .then(res => {
         this.setState(prevState => {
           let d = res.data.data.add_single;
-          return { dbVal: d.val, ID: d.ID, loading: false, doneUpdate: true };
+          return {
+            dbVal: d.val,
+            ID: d.ID,
+            loading: false,
+            show_is_required: false,
+            done_update: true
+          };
         });
+        this.finishDbRequest(v);
       })
       .catch(err => {
         console.log("catch err", err);
       });
   }
   onChooseSuggestion(v) {
-    this.setState(prevState => {
-      return { val: v };
-    });
-
+    this.setState({ val: v });
     this.sendDataToDb(v);
   }
   inputOnBlur(e) {
@@ -133,20 +154,57 @@ export default class InputSingle extends React.Component {
 
     this.sendDataToDb(v);
   }
+  setIconTrue(key) {
+    let ori = {
+      loading: false,
+      done_update: false,
+      show_is_required: false
+    };
+
+    if (typeof ori[key] !== "undefined") {
+      ori[key] = true;
+    }
+
+    return true;
+  }
+  isValueEmpty(val) {
+    if (typeof val === "undefined") {
+      val = this.state.val;
+    }
+    return val == "" || val == null || typeof val === "undefined";
+  }
   inputOnFocus(e) {}
   inputOnChange(e) {
     let v = e.target.value;
     this.setState({ val: v });
+    console.log("v", v);
+
+    if (this.isValueEmpty(v)) {
+      this.setState({
+        loading: false,
+        done_update: false,
+        show_is_required: this.props.is_required ? true : false
+      });
+    } else {
+      this.setState({
+        loading: false,
+        done_update: false,
+        show_is_required: false
+      });
+    }
   }
   render() {
-    var d = {};
     return (
-      <div className="input-single">
-        <div className="si-label">{this.props.label}</div>
+      <div id={this.props.id} className="input-single">
+        <div className="si-label">
+          {this.props.label}
+          {this.props.is_required ? " *" : ""}
+        </div>
         <div className="si-input">
           <InputSuggestion
             icon_loading={this.state.loading}
-            icon_done={this.state.doneUpdate}
+            icon_done={this.state.done_update}
+            icon_is_required={this.state.show_is_required}
             input_onChange={this.inputOnChange}
             input_onBlur={this.inputOnBlur}
             input_onFocus={this.inputOnFocus}
@@ -156,18 +214,35 @@ export default class InputSingle extends React.Component {
             table_name={this.props.ref_table_name}
           ></InputSuggestion>
         </div>
-        <div className="si-footer">{this.props.footer_content}</div>
+        <div className="si-footer">
+          <br></br>
+          <button
+            className="btn btn-success btn-lg"
+            onClick={this.continueOnClick}
+          >
+            Continue
+          </button>
+        </div>
       </div>
     );
   }
 }
 
 InputSingle.propTypes = {
+  id: PropTypes.string,
+  doneHandler: PropTypes.func,
+  continueOnClick: PropTypes.func,
+  is_required: PropTypes.bool,
   ref_table_name: PropTypes.string,
   key_val: PropTypes.string,
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
-  label: PropTypes.string,
-  footer_content: PropTypes.object
+  label: PropTypes.string
+};
+
+InputSingle.defaulProps = {
+  doneHandler: () => {
+    console.log("default doneHandler");
+  }
 };

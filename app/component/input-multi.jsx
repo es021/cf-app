@@ -13,6 +13,7 @@ export default class InputMulti extends React.Component {
     // this.START_FETCH_LEN = 2;
 
     // fn binding
+    this.continueOnClick = this.continueOnClick.bind(this);
     this.finishDbRequest = this.finishDbRequest.bind(this);
     this.onChooseSuggestion = this.onChooseSuggestion.bind(this);
     this.onClickListItem = this.onClickListItem.bind(this);
@@ -21,7 +22,7 @@ export default class InputMulti extends React.Component {
 
     // // state
     this.state = {
-      hasSuggestion : false,
+      hasSuggestion: false,
       list: [
         // {
         //   multi_id : num
@@ -31,7 +32,15 @@ export default class InputMulti extends React.Component {
       ]
     };
   }
-
+  hasSelectedItem() {
+    let hasSelected = false;
+    for (var i in this.state.list) {
+      if (this.state.list[i].isSelected == true) {
+        return true;
+      }
+    }
+    return hasSelected;
+  }
   componentWillMount() {
     this.setDefaultList();
   }
@@ -73,9 +82,14 @@ export default class InputMulti extends React.Component {
         if (list.length > 0) {
           hasSuggestion = true;
         }
-        return { list: list, hasSuggestion : hasSuggestion };
+        return { list: list, hasSuggestion: hasSuggestion };
       });
     });
+  }
+  continueOnClick(e) {
+    if (this.props.continueOnClick) {
+      this.props.continueOnClick();
+    }
   }
   deleteDB(i, multi_id) {
     let del = {
@@ -168,6 +182,12 @@ export default class InputMulti extends React.Component {
 
       return { list: prevState.list };
     });
+
+    this.props.doneHandler(this.props.id, {
+      type: "multi",
+      list: this.state.list,
+      hasSelected: this.hasSelectedItem()
+    });
   }
   onClickListItem(e) {
     let v = e.currentTarget.dataset.v;
@@ -252,8 +272,11 @@ export default class InputMulti extends React.Component {
   render() {
     var d = {};
     return (
-      <div className="input-multi">
-        <div className="mi-label">{this.props.label}</div>
+      <div id={this.props.id} className="input-multi">
+        <div className="mi-label">
+          {this.props.label}
+          {this.props.is_required ? " *" : ""}
+        </div>
         <div className="mi-input">
           <InputSuggestion
             onChoose={this.onChooseSuggestion}
@@ -263,13 +286,25 @@ export default class InputMulti extends React.Component {
         </div>
         <div className="mi-list-title">{this.getListTitle()}</div>
         <div className="mi-list">{this.getListView()}</div>
-        <div className="mi-footer">{this.props.footer_content}</div>
+        <div className="mi-footer">
+          <br></br>
+          <button
+            className="btn btn-success btn-lg"
+            onClick={this.continueOnClick}
+          >
+            Continue
+          </button>
+        </div>
       </div>
     );
   }
 }
 
 InputMulti.propTypes = {
+  is_required: PropTypes.bool,
+  id: PropTypes.string,
+  doneHandler: PropTypes.func,
+  continueOnClick: PropTypes.func,
   table_name: PropTypes.string,
   ref_table_name: PropTypes.string,
   input_placeholder: PropTypes.string,
@@ -278,6 +313,11 @@ InputMulti.propTypes = {
   label: PropTypes.string,
   list_title: PropTypes.string,
   suggestion_search_by_ref: PropTypes.string,
-  suggestion_search_by_val: PropTypes.string,
-  footer_content: PropTypes.object
+  suggestion_search_by_val: PropTypes.string
+};
+
+InputMulti.defaulProps = {
+  doneHandler: () => {
+    console.log("default doneHandler");
+  }
 };

@@ -12,6 +12,8 @@ import obj2arg from "graphql-obj2arg";
 import LoginPage from "./login";
 import InputMulti from "../component/input-multi";
 
+import { smoothScrollTo } from "../../app/lib/util";
+
 import {
   getRegisterFormItem,
   TotalRegisterStep
@@ -21,6 +23,7 @@ export default class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.formOnSubmit = this.formOnSubmit.bind(this);
+    this.continueOnClick = this.continueOnClick.bind(this);
     this.userId = 0;
     this.state = {
       confirmed: false,
@@ -188,28 +191,11 @@ export default class SignUpPage extends React.Component {
   //     return content;
   // }
 
-  getContinueButton(id) {
-    const onClick = e => {
-      const OFFSET = -100;
-      let el = document.getElementById(id);
-      let yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({
-        top: yCoordinate + OFFSET,
-        behavior: "smooth"
-      });
-    };
-    let v = (
-      <div>
-        <br></br>
-        <button className="btn btn-success btn-lg" onClick={onClick}>
-          Continue
-        </button>
-      </div>
-    );
-
-    return v;
+  continueOnClick(e, idToGo) {
+    console.log("continueOnClick");
+    smoothScrollTo(idToGo);
   }
-  getPostRegisterView(user, {major}) {
+  getPostRegisterView(user, { major }) {
     let MARGIN = (
       <div>
         <br></br>
@@ -242,13 +228,13 @@ export default class SignUpPage extends React.Component {
             list_title={`Popular roles for major ${major}`}
             table_name={"interested_role"}
             ref_table_name={"job_role"}
-            
             suggestion_search_by_ref={"major"}
             suggestion_search_by_val={major}
-
             entity={"user"}
             entity_id={user.ID}
-            footer_content={this.getContinueButton("relevant_course")}
+            continueOnClick={e => {
+              this.continueOnClick(e, "relevant_course");
+            }}
           ></InputMulti>
         </div>
         {MARGIN}
@@ -261,11 +247,11 @@ export default class SignUpPage extends React.Component {
             ref_table_name={"course"}
             entity={"user"}
             entity_id={user.ID}
-            
             suggestion_search_by_ref={"major"}
             suggestion_search_by_val={major}
-
-            footer_content={this.getContinueButton("interested_role")}
+            continueOnClick={e => {
+              this.continueOnClick(e, "interested_role");
+            }}
           ></InputMulti>
         </div>
       </div>
@@ -302,7 +288,9 @@ export default class SignUpPage extends React.Component {
 
     if (this.state.success || true) {
       window.scrollTo(0, 0);
-      content = this.getPostRegisterView(user, {major : "Accounting And Finance"});
+      content = this.getPostRegisterView(user, {
+        major: "Accounting And Finance"
+      });
     } else {
       let formItems = getRegisterFormItem(1);
       content = (

@@ -32,6 +32,18 @@ export function getWindowWidth() {
 	return width;
 }
 
+export function smoothScrollTo(idToGo) {
+    const OFFSET = -100;
+    let elToGo = document.getElementById(idToGo);
+    if (elToGo) {
+      let yCoordinate = elToGo.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: yCoordinate + OFFSET,
+        behavior: "smooth"
+      });
+    }
+};
+
 export function scrollToY(element, to, duration) {
 	if (duration <= 0) return;
 	var difference = to - element.scrollTop;
