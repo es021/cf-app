@@ -33,7 +33,7 @@ export default class InputSingle extends React.Component {
   }
   continueOnClick(e) {
     if (this.props.continueOnClick) {
-      this.props.continueOnClick();
+      this.props.continueOnClick(e);
     }
   }
   setDefaultValue() {
@@ -217,6 +217,7 @@ export default class InputSingle extends React.Component {
         <div className="si-footer">
           <br></br>
           <button
+            data-index={this.props.index}
             className="btn btn-success btn-lg"
             onClick={this.continueOnClick}
           >
@@ -229,6 +230,7 @@ export default class InputSingle extends React.Component {
 }
 
 InputSingle.propTypes = {
+  index: PropTypes.number,
   id: PropTypes.string,
   doneHandler: PropTypes.func,
   continueOnClick: PropTypes.func,

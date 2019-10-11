@@ -1,5 +1,7 @@
 - smbung done handler untuk check apa lagi yang required tak isi
 - design css unutk required
+- done handler untuk complete manage user profile
+  - handler ni kat sign-up
 
 ###############################################
 new sign up

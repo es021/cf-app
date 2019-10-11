@@ -88,7 +88,7 @@ export default class InputMulti extends React.Component {
   }
   continueOnClick(e) {
     if (this.props.continueOnClick) {
-      this.props.continueOnClick();
+      this.props.continueOnClick(e);
     }
   }
   deleteDB(i, multi_id) {
@@ -179,7 +179,6 @@ export default class InputMulti extends React.Component {
           prevState.list[i].multi_id = null;
         }
       }
-
       return { list: prevState.list };
     });
 
@@ -289,6 +288,7 @@ export default class InputMulti extends React.Component {
         <div className="mi-footer">
           <br></br>
           <button
+            data-index={this.props.index}
             className="btn btn-success btn-lg"
             onClick={this.continueOnClick}
           >
@@ -301,6 +301,7 @@ export default class InputMulti extends React.Component {
 }
 
 InputMulti.propTypes = {
+  index: PropTypes.number,
   is_required: PropTypes.bool,
   id: PropTypes.string,
   doneHandler: PropTypes.func,

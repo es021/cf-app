@@ -10,20 +10,16 @@ import AvailabilityView from "./availability";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import LoginPage from "./login";
-import InputMulti from "../component/input-multi";
-
-import { smoothScrollTo } from "../../app/lib/util";
-
 import {
   getRegisterFormItem,
   TotalRegisterStep
 } from "../../config/user-config";
+import ManageUserProfile from "./partial/user/manage-user-profile";
 
 export default class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.formOnSubmit = this.formOnSubmit.bind(this);
-    this.continueOnClick = this.continueOnClick.bind(this);
     this.userId = 0;
     this.state = {
       confirmed: false,
@@ -190,76 +186,27 @@ export default class SignUpPage extends React.Component {
   //     </div>
   //     return content;
   // }
-
-  continueOnClick(e, idToGo) {
-    console.log("continueOnClick");
-    smoothScrollTo(idToGo);
-  }
   getPostRegisterView(user, { major }) {
-    let MARGIN = (
-      <div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-      </div>
-    );
-    let content = (
+    return (
       <div
         style={{
           textAlign: "left",
-          maxWidth: "700px",
+          maxWidth: "900px",
           margin: "auto",
           padding: "10px"
         }}
       >
-        <h2>
+        <h1>
           Welcome {user[UserMeta.FIRST_NAME]} !<br></br>
           <small>Let's complete your profile.</small>
-        </h2>
-        {MARGIN}
-        <div>
-          <InputMulti
-            label={"What types of jobs will you be searching for?"}
-            input_placeholder={"Type something here"}
-            list_title={`Popular roles for major ${major}`}
-            table_name={"interested_role"}
-            ref_table_name={"job_role"}
-            suggestion_search_by_ref={"major"}
-            suggestion_search_by_val={major}
-            entity={"user"}
-            entity_id={user.ID}
-            continueOnClick={e => {
-              this.continueOnClick(e, "relevant_course");
-            }}
-          ></InputMulti>
-        </div>
-        {MARGIN}
-        <div>
-          <InputMulti
-            label={"What relevant courses have you taken?"}
-            input_placeholder={"Type something here"}
-            list_title={`Popular courses for major ${major}`}
-            table_name={"relevant_course"}
-            ref_table_name={"course"}
-            entity={"user"}
-            entity_id={user.ID}
-            suggestion_search_by_ref={"major"}
-            suggestion_search_by_val={major}
-            continueOnClick={e => {
-              this.continueOnClick(e, "interested_role");
-            }}
-          ></InputMulti>
-        </div>
+        </h1>
+        <br></br>
+        <br></br>
+        <br></br>
+        <ManageUserProfile user_id={user.ID}></ManageUserProfile>
       </div>
     );
-
-    return content;
   }
-
   render() {
     document.setTitle("Sign Up");
 
