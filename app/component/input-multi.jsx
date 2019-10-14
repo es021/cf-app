@@ -22,6 +22,7 @@ export default class InputMulti extends React.Component {
 
     // // state
     this.state = {
+      show_is_required: false,
       hasSuggestion: false,
       list: [
         // {
@@ -31,6 +32,17 @@ export default class InputMulti extends React.Component {
         // }
       ]
     };
+  }
+  updateRequiredWarning() {
+    if (!this.hasSelectedItem()) {
+      this.setState({
+        show_is_required: this.props.is_required ? true : false
+      });
+    } else {
+      this.setState({
+        show_is_required: false
+      });
+    }
   }
   hasSelectedItem() {
     let hasSelected = false;
@@ -45,45 +57,103 @@ export default class InputMulti extends React.Component {
     this.setDefaultList();
   }
   setDefaultList() {
-    let q = `query{
-        refs(
-          table_name :"${this.props.ref_table_name}"
-          multi_table_name :"${this.props.table_name}"
-          entity:"${this.props.entity}"
-          entity_id:${this.props.entity_id}
-          page:1, offset:10
-          is_suggestion :true,
-          search_by_ref :"${this.props.suggestion_search_by_ref}",
-          search_by_val : "${this.props.suggestion_search_by_val}"
-        ){
-          ID
-          val
-          multi{
-            ID
-          }
-        }
-      }`;
+    let refList = [];
+    let multiList = [];
+    let loaded = 0;
+    let toLoad = 2;
 
-    graphql(q).then(res => {
-      let fetched = res.data.data.refs;
-      this.setState(prevState => {
-        let list = [];
-        for (var i in fetched) {
-          let f = fetched[i];
-          let multi_id = f.multi != null ? f.multi.ID : null;
-          list.push({
+    const finish = () => {
+      loaded++;
+      if (loaded >= toLoad) {
+        this.triggerDoneHandler();
+        this.updateRequiredWarning();
+        // console.log("finish");
+
+        let multiMap = {};
+        multiList.map((d, i) => {
+          multiMap[d.val] = { ID: d.ID, val: d.val, inRef: false };
+        });
+
+        // console.log("refList", refList);
+        // console.log("multiList", multiList);
+        // console.log("multiMap", multiMap);
+
+        let stateList = [];
+
+        // add from ref
+        for (var i in refList) {
+          let r = refList[i];
+          let rVal = r.val;
+          let multi_id = null;
+          if (typeof multiMap[rVal] !== "undefined") {
+            multiMap[rVal].inRef = true;
+            multi_id = multiMap[rVal].ID;
+          }
+          stateList.push({
             isSelected: multi_id != null ? true : false,
-            val: f.val,
+            val: rVal,
             multi_id: multi_id
           });
         }
 
-        let hasSuggestion = false;
-        if (list.length > 0) {
-          hasSuggestion = true;
+        // add from multis
+        for (var i in multiList) {
+          let m = multiList[i];
+          if (multiMap[m.val].inRef === true) {
+            continue;
+          }
+          stateList.push({
+            isSelected: true,
+            val: m.val,
+            multi_id: m.ID
+          });
         }
-        return { list: list, hasSuggestion: hasSuggestion };
-      });
+
+        this.setState({ list: stateList, hasSuggestion: refList.length > 0 });
+      }
+    };
+
+    // multi_table_name :"${this.props.table_name}"
+    let qRef = `query{
+      refs(
+        table_name :"${this.props.ref_table_name}"
+        entity:"${this.props.entity}"
+        entity_id:${this.props.entity_id}
+        page:1, offset:10
+        is_suggestion :true,
+        search_by_ref :"${this.props.suggestion_search_by_ref}",
+        search_by_val : "${this.props.suggestion_search_by_val}"
+      ){
+        ID
+        val
+      }
+    }`;
+    graphql(qRef).then(res => {
+      let fetched = res.data.data.refs;
+      refList = fetched;
+      finish();
+    });
+
+    let qMulti = `query{
+      multis(
+        table_name :"${this.props.table_name}"
+        entity:"${this.props.entity}"
+        entity_id:${this.props.entity_id}
+      ){
+        ID val
+      }
+    }`;
+    graphql(qMulti).then(res => {
+      let fetched = res.data.data.multis;
+      multiList = fetched;
+      finish();
+    });
+  }
+  triggerDoneHandler() {
+    this.props.doneHandler(this.props.id, {
+      type: "multi",
+      list: this.state.list,
+      isEmptyAndRequired: this.isEmptyAndRequired()
     });
   }
   continueOnClick(e) {
@@ -182,11 +252,12 @@ export default class InputMulti extends React.Component {
       return { list: prevState.list };
     });
 
-    this.props.doneHandler(this.props.id, {
-      type: "multi",
-      list: this.state.list,
-      hasSelected: this.hasSelectedItem()
-    });
+    this.triggerDoneHandler();
+    this.updateRequiredWarning();
+  }
+
+  isEmptyAndRequired() {
+    return this.props.is_required && !this.hasSelectedItem();
   }
   onClickListItem(e) {
     let v = e.currentTarget.dataset.v;
@@ -278,6 +349,7 @@ export default class InputMulti extends React.Component {
         </div>
         <div className="mi-input">
           <InputSuggestion
+            icon_is_required={this.state.show_is_required}
             onChoose={this.onChooseSuggestion}
             table_name={this.props.ref_table_name}
             input_placeholder={this.props.input_placeholder}

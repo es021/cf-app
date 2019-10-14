@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import InputMulti from "../../../component/input-multi";
 import InputSingle from "../../../component/input-single";
-import { smoothScrollTo } from "../../../../app/lib/util";
+import { smoothScrollTo, focusOnInput } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.continueOnClick = this.continueOnClick.bind(this);
+    this.inputDoneHandler = this.inputDoneHandler.bind(this);
     this.inputItems = this.getInputItems();
     this.MARGIN = [
       <br></br>,
@@ -17,8 +18,40 @@ export default class ManageUserProfile extends React.Component {
       <br></br>,
       <br></br>
     ];
+
+    this.state = {
+      isEmptyAndRequired: {}
+    };
   }
-  componentWillMount() {}
+  getItemEmptyAndRequired() {
+    let ret = [];
+
+    for (var k in this.state.isEmptyAndRequired) {
+      if (this.state.isEmptyAndRequired[k] === true) {
+        ret.push(k);
+      }
+    }
+
+    return ret;
+  }
+  getItemById(id) {
+    for (var i in this.inputItems) {
+      if (this.inputItems[i].id == id) {
+        return this.inputItems[i];
+      }
+    }
+
+    return null;
+  }
+  isItemRequired(id) {
+    try {
+      let item = this.getItemById(id);
+      if (item.is_required === true) {
+        return true;
+      }
+    } catch (err) {}
+    return false;
+  }
   getInputItems() {
     let r = [
       {
@@ -76,13 +109,51 @@ export default class ManageUserProfile extends React.Component {
   continueOnClick(e) {
     let index = e.currentTarget.dataset.index;
     let idToGo = this.getNextItemId(index);
+    focusOnInput(idToGo);
     smoothScrollTo(idToGo);
   }
   inputDoneHandler(id, meta) {
     console.log("inputDoneHandler", id, meta);
+
+    let isEmptyAndRequired = false;
+    if (meta.type == "single") {
+      /** {type, val, isEmptyAndRequired} */
+      if (meta.isEmptyAndRequired) {
+        isEmptyAndRequired = true;
+      }
+    } else if (meta.type == "multi") {
+      /** {type, list, isEmptyAndRequired} */
+      if (meta.isEmptyAndRequired) {
+        isEmptyAndRequired = true;
+      }
+    }
+
+    this.setState(prevState => {
+      prevState.isEmptyAndRequired[id] = isEmptyAndRequired;
+      return { isEmptyAndRequired: prevState.isEmptyAndRequired };
+    });
+  }
+  getDoneButton() {
+    return (
+      <button
+        className="btn btn-success btn-lg"
+        onClick={e => {
+          let arr = this.getItemEmptyAndRequired();
+          if (arr.length > 0) {
+            let firstEmpty = arr[0];
+            focusOnInput(firstEmpty);
+            smoothScrollTo(firstEmpty);
+          } else {
+            alert("Setel");
+          }
+        }}
+      >
+        Done
+      </button>
+    );
   }
   render() {
-    let v = this.inputItems.map((d, i) => {
+    let view = this.inputItems.map((d, i) => {
       if (d.hidden) {
         return null;
       }
@@ -113,7 +184,15 @@ export default class ManageUserProfile extends React.Component {
       }
     });
 
-    return <div style={{textAlign:'left'}}>{v}</div>;
+    // done button
+    view.push(this.getDoneButton());
+
+    return (
+      <div style={{ textAlign: "left" }}>
+        {view}
+        {JSON.stringify(this.state.isEmptyAndRequired)}
+      </div>
+    );
   }
 }
 

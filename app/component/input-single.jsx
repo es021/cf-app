@@ -19,17 +19,51 @@ export default class InputSingle extends React.Component {
     this.insertDB = this.insertDB.bind(this);
     this.authUser = getAuthUser();
 
-    // // state
+    // init state
     this.state = {
       ID: null,
       dbVal: null,
       val: null,
       loading: false,
-      done_update: false
+      done_update: false,
+      show_is_required: false
     };
   }
   componentWillMount() {
     this.setDefaultValue();
+  }
+  inputOnChange(e) {
+    let v = e.target.value;
+    this.setState({ val: v });
+    console.log("v", v);
+    this.updateRequiredWarning(v);
+  }
+  updateRequiredWarning(v) {
+    if (this.isValueEmpty(v)) {
+      this.setState({
+        loading: false,
+        done_update: false,
+        show_is_required: this.props.is_required ? true : false
+      });
+    } else {
+      this.setState({
+        loading: false,
+        done_update: false,
+        show_is_required: false
+      });
+    }
+  }
+  getStateAfterDbRequest(d, ID = null) {
+    let ret = {
+      dbVal: d.val,
+      loading: false,
+      show_is_required: this.isEmptyAndRequired(d.val),
+      done_update: !this.isValueEmpty() ? true : false
+    };
+    if (ID !== null) {
+      ret.ID = ID;
+    }
+    return ret;
   }
   continueOnClick(e) {
     if (this.props.continueOnClick) {
@@ -51,12 +85,17 @@ export default class InputSingle extends React.Component {
     graphql(q)
       .then(res => {
         let d = res.data.data.single;
+        let v = null;
         console.log("d", d);
         if (d) {
           this.setState({ ID: d.ID, dbVal: d.val, val: d.val, loading: false });
+          v = d.val;
         } else {
           this.setState({ loading: false });
         }
+
+        this.updateRequiredWarning(v);
+        this.triggerDoneHandler(v);
       })
       .catch(err => {
         console.log("catch err", err);
@@ -67,8 +106,12 @@ export default class InputSingle extends React.Component {
   }
   sendDataToDb(v) {
     // no changes
-    if (this.state.dbVal === v || this.isValueEmpty()) {
+    if (this.state.dbVal === v) {
       return;
+    }
+
+    if (this.isValueEmpty()) {
+      v = "";
     }
 
     this.loading();
@@ -78,12 +121,17 @@ export default class InputSingle extends React.Component {
       this.insertDB(v);
     }
   }
-  finishDbRequest(v) {
+  triggerDoneHandler(v) {
     this.props.doneHandler(this.props.id, {
+      isEmptyAndRequired: this.isEmptyAndRequired(v),
       type: "single",
       val: v
     });
   }
+  finishDbRequest(v) {
+    this.triggerDoneHandler(v);
+  }
+
   updateDB(ID, v) {
     console.log("updateDB", ID, v);
     let upd = {
@@ -99,12 +147,7 @@ export default class InputSingle extends React.Component {
       .then(res => {
         this.setState(prevState => {
           let d = res.data.data.edit_single;
-          return {
-            dbVal: d.val,
-            loading: false,
-            show_is_required: false,
-            done_update: true
-          };
+          return this.getStateAfterDbRequest(d);
         });
         this.finishDbRequest(v);
       })
@@ -130,13 +173,7 @@ export default class InputSingle extends React.Component {
       .then(res => {
         this.setState(prevState => {
           let d = res.data.data.add_single;
-          return {
-            dbVal: d.val,
-            ID: d.ID,
-            loading: false,
-            show_is_required: false,
-            done_update: true
-          };
+          return this.getStateAfterDbRequest(d, d.ID);
         });
         this.finishDbRequest(v);
       })
@@ -154,19 +191,19 @@ export default class InputSingle extends React.Component {
 
     this.sendDataToDb(v);
   }
-  setIconTrue(key) {
-    let ori = {
-      loading: false,
-      done_update: false,
-      show_is_required: false
-    };
+  // setIconTrue(key) {
+  //   let ori = {
+  //     loading: false,
+  //     done_update: false,
+  //     show_is_required: false
+  //   };
 
-    if (typeof ori[key] !== "undefined") {
-      ori[key] = true;
-    }
+  //   if (typeof ori[key] !== "undefined") {
+  //     ori[key] = true;
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
   isValueEmpty(val) {
     if (typeof val === "undefined") {
       val = this.state.val;
@@ -174,24 +211,8 @@ export default class InputSingle extends React.Component {
     return val == "" || val == null || typeof val === "undefined";
   }
   inputOnFocus(e) {}
-  inputOnChange(e) {
-    let v = e.target.value;
-    this.setState({ val: v });
-    console.log("v", v);
-
-    if (this.isValueEmpty(v)) {
-      this.setState({
-        loading: false,
-        done_update: false,
-        show_is_required: this.props.is_required ? true : false
-      });
-    } else {
-      this.setState({
-        loading: false,
-        done_update: false,
-        show_is_required: false
-      });
-    }
+  isEmptyAndRequired(v) {
+    return this.isValueEmpty(v) && this.props.is_required;
   }
   render() {
     return (
