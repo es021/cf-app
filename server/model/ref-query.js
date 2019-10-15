@@ -6,11 +6,11 @@ class RefExec {
 		let val = (!param.val) ? "1=1" : ` val like '%${param.val}%' `;
 		let category = (!param.category) ? "1=1" : ` category = '${param.category}' `;
 
-		// is_suggestion : __.Boolean,
 		// search_by_ref : __.String,
 		// search_by_val : __.String,
 		let suggestion = "1=1";
-		if(param.is_suggestion == true){
+		console.log(param);
+		if(param.search_by_ref && param.search_by_val){
 			suggestion = `category IN 
 				(
 					select rms.input_category from refmap_suggestion rms 

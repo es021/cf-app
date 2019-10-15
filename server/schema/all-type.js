@@ -1,406 +1,410 @@
 /* eslint-disable no-use-before-define */
 const {
-	GraphQLObjectType,
-	GraphQLString,
-	GraphQLSchema,
-	GraphQLList,
-	GraphQLNonNull,
-	GraphQLInt,
-	GraphQLBoolean
-} = require('graphql');
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLBoolean
+} = require("graphql");
 
-const {
-	__
-} = require("../../config/graphql-config");
+const { __ } = require("../../config/graphql-config");
+
+const LocationType = new GraphQLObjectType({
+  name: "Location",
+  fields: () => ({
+    city: __.String,
+    state: __.String,
+    country: __.String,
+    city_id: __.Int,
+    state_id: __.Int,
+	country_id: __.Int,
+	val : __.String
+  })
+});
 
 const SingleType = new GraphQLObjectType({
-	name: 'Single',
-	fields: () => ({
-		ID: __.Int,
-		entity: __.String,
-		entity_id: __.Int,
-		key_input : __.String,
-		val: __.String,
-		created_at: __.String,
-		updated_at : __.String
-	})
+  name: "Single",
+  fields: () => ({
+    ID: __.Int,
+    entity: __.String,
+    entity_id: __.Int,
+    key_input: __.String,
+    val: __.String,
+    created_at: __.String,
+    updated_at: __.String
+  })
 });
 const MultiType = new GraphQLObjectType({
-	name: 'Multi',
-	fields: () => ({
-		ID: __.Int,
-		entity: __.String,
-		entity_id: __.Int,
-		val: __.String,
-		created_at: __.String,
-	})
+  name: "Multi",
+  fields: () => ({
+    ID: __.Int,
+    entity: __.String,
+    entity_id: __.Int,
+    val: __.String,
+    created_at: __.String
+  })
 });
 
 const RefType = new GraphQLObjectType({
-	name: 'Ref',
-	fields: () => ({
-		ID: __.Int,
-		val: __.String,
-		category: __.String,
-		slug :__.String,
-		multi: __.IsType(MultiType),
-	})
+  name: "Ref",
+  fields: () => ({
+    ID: __.Int,
+    val: __.String,
+    category: __.String,
+    slug: __.String,
+    multi: __.IsType(MultiType)
+  })
 });
 
 const NotificationType = new GraphQLObjectType({
-	name: 'Notification',
-	fields: () => ({
-		ttl: __.Int,
-		ID: __.Int,
-		user_id: __.Int,
-		text: __.String,
-		type: __.String,
-		param: __.String,
-		cf: __.String,
-		is_read: __.Int,
-		img_entity: __.String,
-		img_id: __.Int,
-		created_at: __.String,
-		img_obj: __.IsType(UserType),
-	})
+  name: "Notification",
+  fields: () => ({
+    ttl: __.Int,
+    ID: __.Int,
+    user_id: __.Int,
+    text: __.String,
+    type: __.String,
+    param: __.String,
+    cf: __.String,
+    is_read: __.Int,
+    img_entity: __.String,
+    img_id: __.Int,
+    created_at: __.String,
+    img_obj: __.IsType(UserType)
+  })
 });
 
 const SkillType = new GraphQLObjectType({
-	name: 'Skill',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		label: __.String
-	})
+  name: "Skill",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    label: __.String
+  })
 });
 
 const AvailabilityType = new GraphQLObjectType({
-	name: 'Availability',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		timestamp: __.Int,
-		is_booked: __.Boolean,
-		company_id: __.Int,
-		prescreen_id: __.Int,
-		company: __.IsType(CompanyType),
-		prescreen: __.IsType(PrescreenType)
-	})
+  name: "Availability",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    timestamp: __.Int,
+    is_booked: __.Boolean,
+    company_id: __.Int,
+    prescreen_id: __.Int,
+    company: __.IsType(CompanyType),
+    prescreen: __.IsType(PrescreenType)
+  })
 });
 
-
 const UserType = new GraphQLObjectType({
-	name: 'User',
-	fields: () => ({
-		// all roles
-		ID: __.Int,
-		user_email: __.String,
-		user_pass: __.String,
-		first_name: __.String,
-		last_name: __.String,
-		description: __.String,
-		img_url: __.String,
-		img_pos: __.String,
-		img_size: __.String,
-		feedback: __.String,
-		user_status: __.String,
-		activation_key: __.String,
-		role: __.String,
-		cf: __.StringList,
-		user_registered: __.String,
-		degree_level: __.String,
+  name: "User",
+  fields: () => ({
+    // all roles
+    ID: __.Int,
+    user_email: __.String,
+    user_pass: __.String,
+    first_name: __.String,
+    last_name: __.String,
+    description: __.String,
+    img_url: __.String,
+    img_pos: __.String,
+    img_size: __.String,
+    feedback: __.String,
+    user_status: __.String,
+    activation_key: __.String,
+    role: __.String,
+    cf: __.StringList,
+    user_registered: __.String,
+    degree_level: __.String,
 
-		//active activity
-		queues: __.ListOf(QueueType),
-		session_requests: __.ListOf(SessionRequestType),
-		registered_prescreens: __.ListOf(PrescreenType),
-		prescreens: __.ListOf(PrescreenType),
-		sessions: __.ListOf(SessionType),
-		zoom_invites: __.ListOf(ZoomInviteType),
-		group_sessions: __.ListOf(GroupSessionType),
-		group_session_joins: __.ListOf(GroupSessionJoinType),
+    //active activity
+    queues: __.ListOf(QueueType),
+    session_requests: __.ListOf(SessionRequestType),
+    registered_prescreens: __.ListOf(PrescreenType),
+    prescreens: __.ListOf(PrescreenType),
+    sessions: __.ListOf(SessionType),
+    zoom_invites: __.ListOf(ZoomInviteType),
+    group_sessions: __.ListOf(GroupSessionType),
+    group_session_joins: __.ListOf(GroupSessionJoinType),
 
-		// student listing
-		// need to provide company_id
-		booked_at: __.ListOf(AvailabilityType),
-		prescreens_for_student_listing: __.ListOf(PrescreenType),
+    // student listing
+    // need to provide company_id
+    booked_at: __.ListOf(AvailabilityType),
+    prescreens_for_student_listing: __.ListOf(PrescreenType),
 
-		// student only        
-		university: __.String,
-		phone_number: __.String,
-		graduation_month: __.String,
-		graduation_year: __.String,
-		available_month: __.String,
-		available_year: __.String,
-		sponsor: __.String,
-		cgpa: __.String,
-		study_field: __.String,
-		major: __.String,
-		minor: __.String,
+    // student only
+    university: __.String,
+    phone_number: __.String,
+    graduation_month: __.String,
+    graduation_year: __.String,
+    available_month: __.String,
+    available_year: __.String,
+    sponsor: __.String,
+    cgpa: __.String,
+    study_field: __.String,
+    major: __.String,
+    minor: __.String,
 
-		gender: __.String,
+    gender: __.String,
 
-		mas_state: __.String,
-		mas_postcode: __.String,
-		relocate: __.String,
-		study_place: __.String,
-		looking_for: __.String,
+    mas_state: __.String,
+    mas_postcode: __.String,
+    relocate: __.String,
+    study_place: __.String,
+    looking_for: __.String,
 
-		doc_links: __.ListOf(DocLinkType),
-		skills: __.ListOf(SkillType),
+    doc_links: __.ListOf(DocLinkType),
+    skills: __.ListOf(SkillType),
 
-		// rec only
-		rec_company: __.Int,
-		rec_position: __.String,
-		company: __.IsType(CompanyType),
+    // rec only
+    rec_company: __.Int,
+    rec_position: __.String,
+    company: __.IsType(CompanyType),
 
-		// indicator
-		is_active: __.Boolean,
-		is_profile_completed: __.Boolean, // student only
-
-	})
+    // indicator
+    is_active: __.Boolean,
+    is_profile_completed: __.Boolean // student only
+  })
 });
 
 const FeedbackQsType = new GraphQLObjectType({
-	name: 'FeedbackQs',
-	fields: () => ({
-		ID: __.Int,
-		user_role: __.String,
-		question: __.String,
-		is_disabled: __.Int,
-		created_by: __.Int,
-		created_at: __.String,
-		updated_by: __.Int,
-		updated_at: __.String
-	})
+  name: "FeedbackQs",
+  fields: () => ({
+    ID: __.Int,
+    user_role: __.String,
+    question: __.String,
+    is_disabled: __.Int,
+    created_by: __.Int,
+    created_at: __.String,
+    updated_by: __.Int,
+    updated_at: __.String
+  })
 });
-
 
 const CfsType = new GraphQLObjectType({
-	name: 'CfsType',
-	fields: () => ({
-		ID: __.Int,
-		name: __.String,
-		country: __.String,
-		time: __.String,
-		is_active: __.String,
-		created_at: __.String,
-		updated_at: __.String,
+  name: "CfsType",
+  fields: () => ({
+    ID: __.Int,
+    name: __.String,
+    country: __.String,
+    time: __.String,
+    is_active: __.String,
+    created_at: __.String,
+    updated_at: __.String,
 
-		// meta
-		title: __.String,
-		flag: __.String,
-		banner: __.String,
-		banner_pos: __.String,
-		schedule: __.String,
-		override_coming_soon: __.String,
-		logo: __.String,
-		logo_height_hall: __.String,
-		logo_width_hall: __.String,
-		logo_margin_hall: __.String,
-		logo_height: __.String,
-		logo_width: __.String,
-		logo_position: __.String,
-		logo_size: __.String,
-		start: __.String,
-		end: __.String,
-		time_str: __.String,
-		time_str_mas: __.String,
-		test_start: __.String,
-		test_end: __.String,
-		page_url: __.String,
-		page_banner: __.String,
-		can_login: __.Int,
-		can_register: __.Int,
+    // meta
+    title: __.String,
+    flag: __.String,
+    banner: __.String,
+    banner_pos: __.String,
+    schedule: __.String,
+    override_coming_soon: __.String,
+    logo: __.String,
+    logo_height_hall: __.String,
+    logo_width_hall: __.String,
+    logo_margin_hall: __.String,
+    logo_height: __.String,
+    logo_width: __.String,
+    logo_position: __.String,
+    logo_size: __.String,
+    start: __.String,
+    end: __.String,
+    time_str: __.String,
+    time_str_mas: __.String,
+    test_start: __.String,
+    test_end: __.String,
+    page_url: __.String,
+    page_banner: __.String,
+    can_login: __.Int,
+    can_register: __.Int,
 
-		// for org
-		Organizer: __.String,
-		Collaborator: __.String,
-		Powered: __.String,
-	})
+    // for org
+    Organizer: __.String,
+    Collaborator: __.String,
+    Powered: __.String
+  })
 });
 
-
-
 const SessionNoteType = new GraphQLObjectType({
-	name: 'SessionNote',
-	fields: () => ({
-		ID: __.Int,
-		session_id: __.Int,
-		rec_id: __.Int,
-		student_id: __.Int,
-		note: __.String,
-		created_at: __.String,
-		updated_at: __.String
-	})
+  name: "SessionNote",
+  fields: () => ({
+    ID: __.Int,
+    session_id: __.Int,
+    rec_id: __.Int,
+    student_id: __.Int,
+    note: __.String,
+    created_at: __.String,
+    updated_at: __.String
+  })
 });
 
 const SessionRatingType = new GraphQLObjectType({
-	name: 'SessionRating',
-	fields: () => ({
-		ID: __.Int,
-		session_id: __.Int,
-		rec_id: __.Int,
-		student_id: __.Int,
-		category: __.String,
-		rating: __.Int,
-		created_at: __.String,
-		updated_at: __.String
-	})
+  name: "SessionRating",
+  fields: () => ({
+    ID: __.Int,
+    session_id: __.Int,
+    rec_id: __.Int,
+    student_id: __.Int,
+    category: __.String,
+    rating: __.Int,
+    created_at: __.String,
+    updated_at: __.String
+  })
 });
-
 
 const SessionType = new GraphQLObjectType({
-	name: 'Session',
-	fields: () => ({
-		ID: __.Int,
-		host_id: __.Int,
-		participant_id: __.Int,
-		company_id: __.Int,
-		status: __.String,
+  name: "Session",
+  fields: () => ({
+    ID: __.Int,
+    host_id: __.Int,
+    participant_id: __.Int,
+    company_id: __.Int,
+    status: __.String,
 
-		created_at: __.String,
-		updated_at: __.String,
-		started_at: __.Int,
-		ended_at: __.Int,
+    created_at: __.String,
+    updated_at: __.String,
+    started_at: __.Int,
+    ended_at: __.Int,
 
-		session_notes: __.ListOf(SessionNoteType),
-		session_ratings: __.ListOf(SessionRatingType),
-		recruiter: __.IsType(UserType),
-		student: __.IsType(UserType),
-		company: __.IsType(CompanyType)
-	})
+    session_notes: __.ListOf(SessionNoteType),
+    session_ratings: __.ListOf(SessionRatingType),
+    recruiter: __.IsType(UserType),
+    student: __.IsType(UserType),
+    company: __.IsType(CompanyType)
+  })
 });
 
-
 const LogType = new GraphQLObjectType({
-	name: 'Log',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		event: __.String,
-		data: __.String,
-		created_at: __.String
-	})
+  name: "Log",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    event: __.String,
+    data: __.String,
+    created_at: __.String
+  })
 });
 
 const DashboardType = new GraphQLObjectType({
-	name: 'Dashboard',
-	fields: () => ({
-		ID: __.Int,
-		cf: __.String,
-		title: __.String,
-		content: __.String,
-		type: __.String,
-		updated_at: __.String,
-		created_at: __.String
-	})
+  name: "Dashboard",
+  fields: () => ({
+    ID: __.Int,
+    cf: __.String,
+    title: __.String,
+    content: __.String,
+    type: __.String,
+    updated_at: __.String,
+    created_at: __.String
+  })
 });
 
 const MessageType = new GraphQLObjectType({
-	name: 'Message',
-	fields: () => ({
-		id_message_number: __.String,
-		from_user_id: __.Int,
-		message: __.String,
-		has_read: __.Int,
-		created_at: __.String,
-		total_unread: __.Int,
-	})
+  name: "Message",
+  fields: () => ({
+    id_message_number: __.String,
+    from_user_id: __.Int,
+    message: __.String,
+    has_read: __.Int,
+    created_at: __.String,
+    total_unread: __.Int
+  })
 });
 
 const SessionRequestType = new GraphQLObjectType({
-	name: 'SessionRequest',
-	fields: () => ({
-		ID: __.Int,
-		student_id: __.Int,
-		company_id: __.Int,
-		status: __.String,
-		created_at: __.String,
-		student: __.IsType(UserType),
-		company: __.IsType(CompanyType)
-	})
+  name: "SessionRequest",
+  fields: () => ({
+    ID: __.Int,
+    student_id: __.Int,
+    company_id: __.Int,
+    status: __.String,
+    created_at: __.String,
+    student: __.IsType(UserType),
+    company: __.IsType(CompanyType)
+  })
 });
 
 const QueueType = new GraphQLObjectType({
-	name: 'Queue',
-	fields: () => ({
-		ID: __.Int,
-		student_id: __.Int,
-		company_id: __.Int,
-		status: __.String,
-		created_at: __.String,
-		queue_num: __.Int,
+  name: "Queue",
+  fields: () => ({
+    ID: __.Int,
+    student_id: __.Int,
+    company_id: __.Int,
+    status: __.String,
+    created_at: __.String,
+    queue_num: __.Int,
 
-		student: __.IsType(UserType),
-		company: __.IsType(CompanyType)
-	})
+    student: __.IsType(UserType),
+    company: __.IsType(CompanyType)
+  })
 });
 
 const PrescreenType = new GraphQLObjectType({
-	name: 'PreScreen',
-	fields: () => ({
-		ID: __.Int,
-		student_id: __.Int,
-		company_id: __.Int,
-		status: __.String,
-		special_type: __.String,
-		appointment_time: __.Int,
+  name: "PreScreen",
+  fields: () => ({
+    ID: __.Int,
+    student_id: __.Int,
+    company_id: __.Int,
+    status: __.String,
+    special_type: __.String,
+    appointment_time: __.Int,
 
-		join_url: __.String,
-		start_url: __.String,
-		is_expired: __.Int,
+    join_url: __.String,
+    start_url: __.String,
+    is_expired: __.Int,
 
-		updated_at: __.String,
-		created_at: __.String,
-		created_by: __.Int,
-		updated_by: __.Int,
+    updated_at: __.String,
+    created_at: __.String,
+    created_by: __.Int,
+    updated_by: __.Int,
 
-		student: __.IsType(UserType),
-		company: __.IsType(CompanyType)
-	})
+    student: __.IsType(UserType),
+    company: __.IsType(CompanyType)
+  })
 });
 
 const CompanyType = new GraphQLObjectType({
-	name: 'Company',
-	fields: () => ({
-		active_queues: __.ListOf(QueueType),
-		active_queues_count: __.Int,
-		active_prescreens: __.ListOf(PrescreenType),
-		active_prescreens_count: __.Int,
-		vacancies: __.ListOf(VacancyType),
-		vacancies_count: __.Int,
+  name: "Company",
+  fields: () => ({
+    active_queues: __.ListOf(QueueType),
+    active_queues_count: __.Int,
+    active_prescreens: __.ListOf(PrescreenType),
+    active_prescreens_count: __.Int,
+    vacancies: __.ListOf(VacancyType),
+    vacancies_count: __.Int,
 
-		active_sessions: __.ListOf(SessionType),
-		pending_requests: __.ListOf(SessionRequestType),
-		recruiters: __.ListOf(UserType),
-		doc_links: __.ListOf(DocLinkType),
-		ID: __.Int,
-		cf: __.StringList,
-		name: __.String,
-		tagline: __.String,
-		description: __.String,
-		more_info: __.String,
+    active_sessions: __.ListOf(SessionType),
+    pending_requests: __.ListOf(SessionRequestType),
+    recruiters: __.ListOf(UserType),
+    doc_links: __.ListOf(DocLinkType),
+    ID: __.Int,
+    cf: __.StringList,
+    name: __.String,
+    tagline: __.String,
+    description: __.String,
+    more_info: __.String,
 
-		img_url: __.String,
-		img_size: __.String,
-		img_position: __.String,
-		img_pos: __.String,
+    img_url: __.String,
+    img_size: __.String,
+    img_position: __.String,
+    img_pos: __.String,
 
-		banner_url: __.String,
-		banner_size: __.String,
-		banner_position: __.String,
-		message_drop_resume: __.String,
-		status: __.String,
-		rec_privacy: __.Int,
-		sponsor_only: __.Int,
-		type: __.Int,
-		accept_prescreen: __.Int,
-		group_url: __.String,
-		priviledge: __.String,
-		created_at: __.String,
-		updated_at: __.String
-	})
+    banner_url: __.String,
+    banner_size: __.String,
+    banner_position: __.String,
+    message_drop_resume: __.String,
+    status: __.String,
+    rec_privacy: __.Int,
+    sponsor_only: __.Int,
+    type: __.Int,
+    accept_prescreen: __.Int,
+    group_url: __.String,
+    priviledge: __.String,
+    created_at: __.String,
+    updated_at: __.String
+  })
 });
 
 // const CFType = new GraphQLObjectType({
@@ -418,362 +422,341 @@ const CompanyType = new GraphQLObjectType({
 //     })
 // });
 
-
 const PasswordResetType = new GraphQLObjectType({
-	name: 'PasswordReset',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		token: __.String,
-		is_expired: __.Int
-	})
+  name: "PasswordReset",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    token: __.String,
+    is_expired: __.Int
+  })
 });
 
-
 const DocLinkType = new GraphQLObjectType({
-	name: 'DocLink',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		company_id: __.Int,
-		type: __.String,
-		label: __.String,
-		url: __.String,
-		description: __.String
-	})
+  name: "DocLink",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    company_id: __.Int,
+    type: __.String,
+    label: __.String,
+    url: __.String,
+    description: __.String
+  })
 });
 
 const VacancySuggestionType = new GraphQLObjectType({
-	name: 'VacancySuggestion',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		vacancy_id: __.Int,
-		vacancy: __.IsType(VacancyType),
-		relevance: __.Int,
-	})
+  name: "VacancySuggestion",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    vacancy_id: __.Int,
+    vacancy: __.IsType(VacancyType),
+    relevance: __.Int
+  })
 });
 
 const VacancyType = new GraphQLObjectType({
-	name: 'Vacancy',
-	fields: () => ({
-		ID: __.Int,
-		company_id: __.Int,
-		title: __.String,
-		description: __.String,
-		requirement: __.String,
-		type: __.String,
-		application_url: __.String,
-		ref_city: __.Int,
-		ref_state: __.Int,
-		ref_country: __.Int,
-		updated_at: __.String,
-		created_at: __.String,
-		company: __.IsType(CompanyType),
-		location: __.IsType(LocationType),
-		interested: __.IsType(InterestedType),
-	})
+  name: "Vacancy",
+  fields: () => ({
+    ID: __.Int,
+    company_id: __.Int,
+    title: __.String,
+    description: __.String,
+    requirement: __.String,
+    type: __.String,
+    application_url: __.String,
+    ref_city: __.Int,
+    ref_state: __.Int,
+    ref_country: __.Int,
+    updated_at: __.String,
+    created_at: __.String,
+    company: __.IsType(CompanyType),
+    location: __.IsType(LocationType),
+    interested: __.IsType(InterestedType)
+  })
 });
 
 const InterestedType = new GraphQLObjectType({
-	name: 'Interested',
-	fields: () => ({
-		ID: __.Int,
-		entity: __.String,
-		entity_id: __.String,
-		user_id: __.String,
-		is_interested: __.Int,
-		created_at: __.String,
-		updated_at: __.String,
-	})
-});
-
-const LocationType = new GraphQLObjectType({
-	name: 'Location',
-	fields: () => ({
-		ref_city: __.String,
-		ref_state: __.String,
-		ref_country: __.String,
-		city: __.String,
-		state: __.String,
-		country: __.String,
-	})
+  name: "Interested",
+  fields: () => ({
+    ID: __.Int,
+    entity: __.String,
+    entity_id: __.String,
+    user_id: __.String,
+    is_interested: __.Int,
+    created_at: __.String,
+    updated_at: __.String
+  })
 });
 
 const ResumeDropType = new GraphQLObjectType({
-	name: 'ResumeDrop',
-	fields: () => ({
-		ID: __.Int,
-		student_id: __.Int,
-		company_id: __.Int,
-		message: __.String,
-		created_at: __.String,
-		updated_at: __.String,
-		doc_links: __.ListOf(DocLinkType),
-		student: __.IsType(UserType),
-		company: __.IsType(CompanyType)
-	})
+  name: "ResumeDrop",
+  fields: () => ({
+    ID: __.Int,
+    student_id: __.Int,
+    company_id: __.Int,
+    message: __.String,
+    created_at: __.String,
+    updated_at: __.String,
+    doc_links: __.ListOf(DocLinkType),
+    student: __.IsType(UserType),
+    company: __.IsType(CompanyType)
+  })
 });
 
 const GroupSessionType = new GraphQLObjectType({
-	name: 'GroupSession',
-	fields: () => ({
-		ID: __.Int,
-		company_id: __.Int,
-		company: __.IsType(CompanyType),
-		title: __.String,
+  name: "GroupSession",
+  fields: () => ({
+    ID: __.Int,
+    company_id: __.Int,
+    company: __.IsType(CompanyType),
+    title: __.String,
 
-		start_time: __.Int,
-		join_url: __.String,
-		start_url: __.String,
-		limit_join: __.Int,
-		is_expired: __.Int,
-		is_canceled: __.Int,
-		join_id: __.Int,
+    start_time: __.Int,
+    join_url: __.String,
+    start_url: __.String,
+    limit_join: __.Int,
+    is_expired: __.Int,
+    is_canceled: __.Int,
+    join_id: __.Int,
 
-		joiners: __.ListOf(GroupSessionJoinType),
+    joiners: __.ListOf(GroupSessionJoinType),
 
-		created_at: __.String,
-		created_by: __.Int,
-		updated_at: __.String,
-		updated_by: __.Int,
-	})
+    created_at: __.String,
+    created_by: __.Int,
+    updated_at: __.String,
+    updated_by: __.Int
+  })
 });
 
 const GroupSessionJoinType = new GraphQLObjectType({
-	name: 'GroupSessionJoin',
-	fields: () => ({
-		ID: __.Int,
-		group_session_id: __.Int,
-		group_session: __.IsType(GroupSessionType),
-		is_canceled: __.Int,
-		user_id: __.Int,
-		user: __.IsType(UserType),
-		created_at: __.String
-	})
+  name: "GroupSessionJoin",
+  fields: () => ({
+    ID: __.Int,
+    group_session_id: __.Int,
+    group_session: __.IsType(GroupSessionType),
+    is_canceled: __.Int,
+    user_id: __.Int,
+    user: __.IsType(UserType),
+    created_at: __.String
+  })
 });
-
 
 const StudentListingType = new GraphQLObjectType({
-	name: 'StudentListing',
-	fields: () => ({
-		// all roles
-		student_id: __.Int,
-		created_at: __.String,
-		student: __.IsType(UserType),
-		company: __.IsType(CompanyType),
-	})
+  name: "StudentListing",
+  fields: () => ({
+    // all roles
+    student_id: __.Int,
+    created_at: __.String,
+    student: __.IsType(UserType),
+    company: __.IsType(CompanyType)
+  })
 });
 
-
 const MetaType = new GraphQLObjectType({
-	name: 'Meta',
-	fields: () => ({
-		ID: __.Int,
-		meta_key: __.String,
-		meta_value: __.String,
-		source: __.String,
-		created_at: __.String
-	})
+  name: "Meta",
+  fields: () => ({
+    ID: __.Int,
+    meta_key: __.String,
+    meta_value: __.String,
+    source: __.String,
+    created_at: __.String
+  })
 });
 
 const AuditoriumType = new GraphQLObjectType({
-	name: 'Auditorium',
-	fields: () => ({
-		ID: __.Int,
-		cf: __.String,
-		company_id: __.Int,
-		type: __.String,
-		title: __.String,
-		link: __.String,
-		recorded_link: __.String,
-		moderator: __.String,
-		start_time: __.Int,
-		end_time: __.Int,
-		created_by: __.Int,
-		updated_by: __.Int,
-		created_at: __.String,
-		updated_at: __.String,
+  name: "Auditorium",
+  fields: () => ({
+    ID: __.Int,
+    cf: __.String,
+    company_id: __.Int,
+    type: __.String,
+    title: __.String,
+    link: __.String,
+    recorded_link: __.String,
+    moderator: __.String,
+    start_time: __.Int,
+    end_time: __.Int,
+    created_by: __.Int,
+    updated_by: __.Int,
+    created_at: __.String,
+    updated_at: __.String,
 
-		company: __.IsType(CompanyType)
-	})
+    company: __.IsType(CompanyType)
+  })
 });
 
 // Recruiter invite other recruiter for panel interview
 const ZoomInviteType = new GraphQLObjectType({
-	name: 'ZoomInvite',
-	fields: () => ({
-		ID: __.Int,
-		zoom_meeting_id: __.Int,
-		join_url: __.String,
-		session_id: __.Int,
-		host_id: __.Int,
-		participant_id: __.Int,
-		created_at: __.String,
+  name: "ZoomInvite",
+  fields: () => ({
+    ID: __.Int,
+    zoom_meeting_id: __.Int,
+    join_url: __.String,
+    session_id: __.Int,
+    host_id: __.Int,
+    participant_id: __.Int,
+    created_at: __.String,
 
-		is_expired: __.Boolean,
+    is_expired: __.Boolean,
 
-		// participant
-		student: __.IsType(UserType),
-		//host
-		recruiter: __.IsType(UserType)
-	})
+    // participant
+    student: __.IsType(UserType),
+    //host
+    recruiter: __.IsType(UserType)
+  })
 });
 
 const ForumCommentType = new GraphQLObjectType({
-	name: 'ForumComment',
-	fields: () => ({
-		ID: __.Int,
-		forum_id: __.String,
-		user_id: __.Int,
-		content: __.String,
-		is_deleted: __.Boolean,
-		is_owner: __.Boolean,
-		created_at: __.String,
-		updated_at: __.String,
+  name: "ForumComment",
+  fields: () => ({
+    ID: __.Int,
+    forum_id: __.String,
+    user_id: __.Int,
+    content: __.String,
+    is_deleted: __.Boolean,
+    is_owner: __.Boolean,
+    created_at: __.String,
+    updated_at: __.String,
 
-		user: __.IsType(UserType),
-		replies_count: __.Int,
-		replies: __.ListOf(ForumReplyType)
-	})
+    user: __.IsType(UserType),
+    replies_count: __.Int,
+    replies: __.ListOf(ForumReplyType)
+  })
 });
 
 const ForumReplyType = new GraphQLObjectType({
-	name: 'ForumReply',
-	fields: () => ({
-		ID: __.Int,
-		comment_id: __.Int,
-		user_id: __.Int,
-		content: __.String,
-		is_deleted: __.Boolean,
-		is_owner: __.Boolean,
-		created_at: __.String,
-		updated_at: __.String,
-		user: __.IsType(UserType)
-	})
+  name: "ForumReply",
+  fields: () => ({
+    ID: __.Int,
+    comment_id: __.Int,
+    user_id: __.Int,
+    content: __.String,
+    is_deleted: __.Boolean,
+    is_owner: __.Boolean,
+    created_at: __.String,
+    updated_at: __.String,
+    user: __.IsType(UserType)
+  })
 });
 
 const SupportSessionType = new GraphQLObjectType({
-	name: 'SupportSession',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		support_id: __.Int,
-		message_count_id: __.String,
+  name: "SupportSession",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    support_id: __.Int,
+    message_count_id: __.String,
 
-		// the updated time in message count id
-		last_message_time: __.String,
+    // the updated time in message count id
+    last_message_time: __.String,
 
-		// the message content
-		last_message: __.String,
+    // the message content
+    last_message: __.String,
 
-		total_unread: __.Int,
+    total_unread: __.Int,
 
-		created_at: __.String,
-		user: __.IsType(UserType),
-		company: __.IsType(CompanyType),
-		support: __.IsType(UserType),
-	})
+    created_at: __.String,
+    user: __.IsType(UserType),
+    company: __.IsType(CompanyType),
+    support: __.IsType(UserType)
+  })
 });
-
 
 const QsPopupType = new GraphQLObjectType({
-	name: 'QsPopup',
-	fields: () => ({
-		ID: __.Int,
-		type: __.String,
-		for_student: __.Int,
-		for_rec: __.Int,
-		is_disabled: __.Int,
-		label: __.String,
-		answers: __.String,
-	})
+  name: "QsPopup",
+  fields: () => ({
+    ID: __.Int,
+    type: __.String,
+    for_student: __.Int,
+    for_rec: __.Int,
+    is_disabled: __.Int,
+    label: __.String,
+    answers: __.String
+  })
 });
-
 
 const QsPopupAnswerType = new GraphQLObjectType({
-	name: 'QsPopupAnswer',
-	fields: () => ({
-		ID: __.Int,
-		user_id: __.Int,
-		qs_popup_id: __.Int,
-		answer: __.String,
-	})
+  name: "QsPopupAnswer",
+  fields: () => ({
+    ID: __.Int,
+    user_id: __.Int,
+    qs_popup_id: __.Int,
+    answer: __.String
+  })
 });
-
 
 const EntityRemovedType = new GraphQLObjectType({
-	name: 'EntityRemoved',
-	fields: () => ({
-		ID: __.Int,
-		entity: __.String,
-		entity_id: __.Int,
-		user_id: __.Int,
-	})
+  name: "EntityRemoved",
+  fields: () => ({
+    ID: __.Int,
+    entity: __.String,
+    entity_id: __.Int,
+    user_id: __.Int
+  })
 });
-
 
 const HallGalleryType = new GraphQLObjectType({
-	name: 'HallGallery',
-	fields: () => ({
-		ID: __.Int,
-		cf: __.String,
-		item_order: __.Int,
-		is_active: __.Int,
-		title: __.String,
-		description: __.String,
-		type: __.String,
-		img_url: __.String,
-		img_size: __.String,
-		img_pos: __.String,
-		video_url: __.String,
-		created_at: __.String,
-		created_by: __.Int,
-		updated_at: __.String,
-		updated_by: __.Int
-	})
+  name: "HallGallery",
+  fields: () => ({
+    ID: __.Int,
+    cf: __.String,
+    item_order: __.Int,
+    is_active: __.Int,
+    title: __.String,
+    description: __.String,
+    type: __.String,
+    img_url: __.String,
+    img_size: __.String,
+    img_pos: __.String,
+    video_url: __.String,
+    created_at: __.String,
+    created_by: __.Int,
+    updated_at: __.String,
+    updated_by: __.Int
+  })
 });
 
-
 module.exports = {
-	QsPopupType,
-	QsPopupAnswerType,
-	UserType,
-	ForumCommentType,
-	ForumReplyType,
-	ZoomInviteType,
-	CompanyType,
-	QueueType,
-	MessageType,
-	PrescreenType,
-	DocLinkType,
-	VacancyType,
-	SkillType,
-	SessionType,
-	DashboardType,
-	SessionNoteType,
-	SessionRatingType,
-	PasswordResetType,
-	ResumeDropType,
-	MetaType,
-	AuditoriumType,
-	SessionRequestType,
-	LogType,
-	FeedbackQsType,
-	SupportSessionType,
-	AvailabilityType,
-	StudentListingType,
-	GroupSessionType,
-	GroupSessionJoinType,
-	CfsType,
-	EntityRemovedType,
-	NotificationType,
-	HallGalleryType,
-	VacancySuggestionType,
-	InterestedType,
-	LocationType,
-	SingleType,
-	MultiType,
-	RefType
-	//, CFType
+  QsPopupType,
+  QsPopupAnswerType,
+  UserType,
+  ForumCommentType,
+  ForumReplyType,
+  ZoomInviteType,
+  CompanyType,
+  QueueType,
+  MessageType,
+  PrescreenType,
+  DocLinkType,
+  VacancyType,
+  SkillType,
+  SessionType,
+  DashboardType,
+  SessionNoteType,
+  SessionRatingType,
+  PasswordResetType,
+  ResumeDropType,
+  MetaType,
+  AuditoriumType,
+  SessionRequestType,
+  LogType,
+  FeedbackQsType,
+  SupportSessionType,
+  AvailabilityType,
+  StudentListingType,
+  GroupSessionType,
+  GroupSessionJoinType,
+  CfsType,
+  EntityRemovedType,
+  NotificationType,
+  HallGalleryType,
+  VacancySuggestionType,
+  InterestedType,
+  LocationType,
+  SingleType,
+  MultiType,
+  RefType
+  //, CFType
 };

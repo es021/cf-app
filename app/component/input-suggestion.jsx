@@ -142,12 +142,13 @@ export default class InputSuggestion extends React.Component {
     if (!this.props.table_name) {
       return;
     }
-    let q = `query{ 
-      refs(table_name :"${this.props.table_name}", val:"${v}", page:1, offset:10) {
-        val
-      }
-    }`;
 
+    let q = `query{ 
+          refs(table_name :"${this.props.table_name}", val:"${v}", page:1, offset:10) {
+            val
+          }
+        }`;
+        
     graphql(q).then(res => {
       this.setState(prevState => {
         let suggestion = res.data.data.refs;
@@ -215,9 +216,8 @@ export default class InputSuggestion extends React.Component {
             className={className}
             data-v={val}
             onClick={this.onClickSuggestion}
-          >
-            {d.val}
-          </li>
+            dangerouslySetInnerHTML={{ __html: d.val }}
+          ></li>
         );
       });
 

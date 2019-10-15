@@ -141,7 +141,7 @@ INSERT INTO `wp_career_fair`.`ref_country`  (`ID`, `iso2`, `iso3`, `val`) VALUES
 (807, 'MK', 'MKD', 'Macedonia, the former Yugoslav Republic of'),
 (450, 'MG', 'MDG', 'Madagascar'),
 (454, 'MW', 'MWI', 'Malawi'),
-(458, 'MY', 'MYS', 'Malaysia'),
+(1, 'MY', 'MYS', 'Malaysia'),
 (462, 'MV', 'MDV', 'Maldives'),
 (466, 'ML', 'MLI', 'Mali'),
 (470, 'MT', 'MLT', 'Malta'),

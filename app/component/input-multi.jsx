@@ -33,17 +33,17 @@ export default class InputMulti extends React.Component {
       ]
     };
   }
-  updateRequiredWarning() {
-    if (!this.hasSelectedItem()) {
-      this.setState({
-        show_is_required: this.props.is_required ? true : false
-      });
-    } else {
-      this.setState({
-        show_is_required: false
-      });
-    }
-  }
+  // updateRequiredWarning() {
+  //   if (!this.hasSelectedItem()) {
+  //     this.setState({
+  //       show_is_required: this.props.is_required ? true : false
+  //     });
+  //   } else {
+  //     this.setState({
+  //       show_is_required: false
+  //     });
+  //   }
+  // }
   hasSelectedItem() {
     let hasSelected = false;
     for (var i in this.state.list) {
@@ -65,8 +65,7 @@ export default class InputMulti extends React.Component {
     const finish = () => {
       loaded++;
       if (loaded >= toLoad) {
-        this.triggerDoneHandler();
-        this.updateRequiredWarning();
+        //this.updateRequiredWarning();
         // console.log("finish");
 
         let multiMap = {};
@@ -110,6 +109,8 @@ export default class InputMulti extends React.Component {
         }
 
         this.setState({ list: stateList, hasSuggestion: refList.length > 0 });
+
+        this.triggerDoneHandler();
       }
     };
 
@@ -120,7 +121,7 @@ export default class InputMulti extends React.Component {
         entity:"${this.props.entity}"
         entity_id:${this.props.entity_id}
         page:1, offset:10
-        is_suggestion :true,
+        location_suggestion :"${this.props.location_suggestion}",
         search_by_ref :"${this.props.suggestion_search_by_ref}",
         search_by_val : "${this.props.suggestion_search_by_val}"
       ){
@@ -253,7 +254,7 @@ export default class InputMulti extends React.Component {
     });
 
     this.triggerDoneHandler();
-    this.updateRequiredWarning();
+    // this.updateRequiredWarning();
   }
 
   isEmptyAndRequired() {
@@ -349,7 +350,6 @@ export default class InputMulti extends React.Component {
         </div>
         <div className="mi-input">
           <InputSuggestion
-            icon_is_required={this.state.show_is_required}
             onChoose={this.onChooseSuggestion}
             table_name={this.props.ref_table_name}
             input_placeholder={this.props.input_placeholder}
@@ -385,11 +385,12 @@ InputMulti.propTypes = {
   entity_id: PropTypes.number,
   label: PropTypes.string,
   list_title: PropTypes.string,
+  location_suggestion: PropTypes.string,
   suggestion_search_by_ref: PropTypes.string,
   suggestion_search_by_val: PropTypes.string
 };
 
-InputMulti.defaulProps = {
+InputMulti.defaultProps = {
   doneHandler: () => {
     console.log("default doneHandler");
   }

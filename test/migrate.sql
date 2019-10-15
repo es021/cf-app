@@ -1,27 +1,3 @@
-
-
--- new ref table format
-DROP TABLE `wp_career_fair`.`ref_city` ;
-CREATE TABLE `wp_career_fair`.`ref_city` 
-( `ID` INT NOT NULL AUTO_INCREMENT , 
-`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
- `label` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
-PRIMARY KEY (`ID`), UNIQUE (`code`), INDEX (`label`)) ENGINE = InnoDB;
-
-DROP TABLE `wp_career_fair`.`ref_state` ;
-CREATE TABLE `wp_career_fair`.`ref_state` 
-( `ID` INT NOT NULL AUTO_INCREMENT , 
-`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
- `label` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
-PRIMARY KEY (`ID`), UNIQUE (`code`), INDEX (`label`)) ENGINE = InnoDB;
-
-DROP TABLE `wp_career_fair`.`ref_country` ;
-CREATE TABLE `wp_career_fair`.`ref_country` 
-( `ID` INT NOT NULL AUTO_INCREMENT , 
-`code` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
- `label` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
-PRIMARY KEY (`ID`), UNIQUE (`code`), INDEX (`label`)) ENGINE = InnoDB;
-
 -- new table interested
 CREATE TABLE `wp_career_fair`.`interested` ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
 `user_id` BIGINT(20) NOT NULL , 

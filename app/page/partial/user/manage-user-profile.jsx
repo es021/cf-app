@@ -86,6 +86,20 @@ export default class ManageUserProfile extends React.Component {
         ref_table_name: "job_role",
         is_required: true,
         hidden: false
+      },
+      {
+        type: "multi",
+        id: "interested_job_location",
+        table_name: "interested_job_location",
+        label: "Where do you want to work?",
+        input_placeholder: "Type something here",
+        location_suggestion : "interested_job_location",
+        // suggestion_search_by_ref: "major",
+        // suggestion_search_by_val: "Accounting And Finance",
+        list_title: "Popular in your area",
+        ref_table_name: "location",
+        is_required: true,
+        hidden: false
       }
     ];
 
