@@ -20,7 +20,8 @@ export default class ManageUserProfile extends React.Component {
     ];
 
     this.state = {
-      isEmptyAndRequired: {}
+      isEmptyAndRequired: {},
+      currentData: {}
     };
   }
   getItemEmptyAndRequired() {
@@ -93,7 +94,7 @@ export default class ManageUserProfile extends React.Component {
         table_name: "interested_job_location",
         label: "Where do you want to work?",
         input_placeholder: "Type something here",
-        location_suggestion : "interested_job_location",
+        location_suggestion: "interested_job_location",
         // suggestion_search_by_ref: "major",
         // suggestion_search_by_val: "Accounting And Finance",
         list_title: "Popular in your area",
@@ -129,22 +130,29 @@ export default class ManageUserProfile extends React.Component {
   inputDoneHandler(id, meta) {
     console.log("inputDoneHandler", id, meta);
 
+    let data = null;
     let isEmptyAndRequired = false;
     if (meta.type == "single") {
       /** {type, val, isEmptyAndRequired} */
       if (meta.isEmptyAndRequired) {
         isEmptyAndRequired = true;
+        data = meta.val;
       }
     } else if (meta.type == "multi") {
       /** {type, list, isEmptyAndRequired} */
       if (meta.isEmptyAndRequired) {
         isEmptyAndRequired = true;
+        data = meta.list;
       }
     }
 
     this.setState(prevState => {
       prevState.isEmptyAndRequired[id] = isEmptyAndRequired;
-      return { isEmptyAndRequired: prevState.isEmptyAndRequired };
+      prevState.currentData[id] = data;
+      return {
+        isEmptyAndRequired: prevState.isEmptyAndRequired,
+        currentData: prevState.currentData
+      };
     });
   }
   getDoneButton() {
@@ -204,7 +212,7 @@ export default class ManageUserProfile extends React.Component {
     return (
       <div style={{ textAlign: "left" }}>
         {view}
-        {JSON.stringify(this.state.isEmptyAndRequired)}
+        {JSON.stringify(this.state)}
       </div>
     );
   }

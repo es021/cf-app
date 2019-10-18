@@ -1,23 +1,24 @@
 const DB = require("./DB.js");
 
 class LocationExec {
+  subQuerySuggestion(param, ref, parent_val){
+    if (param.location_suggestion) {
+      return ` ${parent_val} IN (select sg.ref_val from location_suggestion sg where 
+        sg.suggestion_name = '${param.location_suggestion}' and ref = '${ref}') `;
+    }
+
+    return "1=1";
+  }
   query(param) {
     var limit = DB.prepareLimit(param.page, param.offset);
 
-    let search_ct = param.val
-      ? `ct.val like '%${param.val}%'`
-      : "1=1";
-    let search_st = param.val
-      ? `st.val like '%${param.val}%'`
-      : "1=1";
-    let search_cn = param.val
-      ? `cn.val like '%${param.val}%'`
-      : "1=1";
+    let search_ct = param.val ? `ct.val like '%${param.val}%'` : "1=1";
+    let search_st = param.val ? `st.val like '%${param.val}%'` : "1=1";
+    let search_cn = param.val ? `cn.val like '%${param.val}%'` : "1=1";
 
-      console.log(param.location_suggestion)
-      console.log(param.location_suggestion)
-      console.log(param.location_suggestion)
-      console.log(param.location_suggestion)
+    let suggest_ct = this.subQuerySuggestion(param, "city", "ct.val");
+    let suggest_st = this.subQuerySuggestion(param, "state", "st.val");
+    let suggest_cn = this.subQuerySuggestion(param, "country", "cn.val");
 
     var sql = `
 	select * from (
@@ -31,7 +32,8 @@ class LocationExec {
 		where 1=1 
 		and ct.state_id = st.ID
 		and ct.country_id = cn.ID
-		and ${search_ct}
+    and ${search_ct}
+    and ${suggest_ct}
 	
 	UNION ALL
 		select 
@@ -44,7 +46,8 @@ class LocationExec {
 		where 1=1 
 		and st.country_id = cn.ID
 		and ${search_st}
-	
+    and ${suggest_st}
+
 	UNION ALL
 		select 
 		cn.val as val,
@@ -54,7 +57,9 @@ class LocationExec {
 		cn.ID as country_id, cn.val as country
 		from ref_country cn
 		where 1=1 
-		and ${search_cn}
+    and ${search_cn}
+    and ${suggest_cn}
+
 	) X 
 	${limit}`;
     return sql;

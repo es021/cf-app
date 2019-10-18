@@ -186,7 +186,7 @@ export default class SignUpPage extends React.Component {
   //     </div>
   //     return content;
   // }
-  getPostRegisterView(user, { major }) {
+  getPostRegisterView(user) {
     return (
       <div
         style={{
@@ -228,16 +228,17 @@ export default class SignUpPage extends React.Component {
     var content = null;
 
     var user = this.state.user;
-    user = {
-      ID: 136,
-      first_name: "Wan Zul"
-    };
+    const DEBUG_NEW_SIGN_UP = false;
+    if (DEBUG_NEW_SIGN_UP) {
+      user = {
+        ID: 136,
+        first_name: "Wan Zul"
+      };
+    }
 
-    if (this.state.success || true) {
+    if (this.state.success || DEBUG_NEW_SIGN_UP) {
       window.scrollTo(0, 0);
-      content = this.getPostRegisterView(user, {
-        major: "Accounting And Finance"
-      });
+      content = this.getPostRegisterView(user);
     } else {
       let formItems = getRegisterFormItem(1);
       content = (
