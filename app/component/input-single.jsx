@@ -86,7 +86,7 @@ export default class InputSingle extends React.Component {
       .then(res => {
         let d = res.data.data.single;
         let v = null;
-        console.log("d", d);
+        // console.log("d", d);
         if (d) {
           this.setState({ ID: d.ID, dbVal: d.val, val: d.val, loading: false });
           v = d.val;
@@ -94,7 +94,7 @@ export default class InputSingle extends React.Component {
           this.setState({ loading: false });
         }
 
-        this.updateRequiredWarning(v);
+        //this.updateRequiredWarning(v);
         this.triggerDoneHandler(v);
       })
       .catch(err => {
