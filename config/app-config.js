@@ -31,7 +31,7 @@ var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 
 
-var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost" : "http://localhost:88";
+var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost:8085" : "http://localhost:88";
 if (isProd) {
     RootUrl = `https://seedsjobfairapp.com`;
 }
