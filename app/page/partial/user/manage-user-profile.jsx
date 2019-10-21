@@ -9,7 +9,6 @@ export default class ManageUserProfile extends React.Component {
     super(props);
     this.continueOnClick = this.continueOnClick.bind(this);
     this.inputDoneHandler = this.inputDoneHandler.bind(this);
-    this.inputItems = this.getInputItems();
     this.MARGIN = [
       <br></br>,
       <br></br>,
@@ -36,9 +35,10 @@ export default class ManageUserProfile extends React.Component {
     return ret;
   }
   getItemById(id) {
-    for (var i in this.inputItems) {
-      if (this.inputItems[i].id == id) {
-        return this.inputItems[i];
+    let inputItems = this.getInputItems();
+    for (var i in inputItems) {
+      if (inputItems[i].id == id) {
+        return inputItems[i];
       }
     }
 
@@ -50,10 +50,13 @@ export default class ManageUserProfile extends React.Component {
       if (item.is_required === true) {
         return true;
       }
-    } catch (err) {}
+    } catch (err) { }
     return false;
   }
   getInputItems() {
+    let major = this.state.currentData["major"];
+    // console.log("major",major)
+
     let r = [
       {
         type: "single",
@@ -61,7 +64,7 @@ export default class ManageUserProfile extends React.Component {
         key_input: "university",
         label: "University",
         input_placeholder: "Type something here",
-        ref_table_name: "job_role",
+        ref_table_name: "university",
         is_required: false,
         hidden: false
       },
@@ -71,7 +74,7 @@ export default class ManageUserProfile extends React.Component {
         key_input: "major",
         label: "Major",
         input_placeholder: "Type something here",
-        ref_table_name: "job_role",
+        ref_table_name: "major",
         is_required: true,
         hidden: false
       },
@@ -82,8 +85,8 @@ export default class ManageUserProfile extends React.Component {
         label: "Your Interested Role?",
         input_placeholder: "Type something here",
         suggestion_search_by_ref: "major",
-        suggestion_search_by_val: "Accounting And Finance",
-        list_title: "Popular in your area",
+        suggestion_search_by_val: major,
+        list_title: major ? `Popular role for major ${major}` : "",
         ref_table_name: "job_role",
         is_required: true,
         hidden: false
@@ -95,9 +98,7 @@ export default class ManageUserProfile extends React.Component {
         label: "Where do you want to work?",
         input_placeholder: "Type something here",
         location_suggestion: "interested_job_location",
-        // suggestion_search_by_ref: "major",
-        // suggestion_search_by_val: "Accounting And Finance",
-        list_title: "Popular in your area",
+        list_title: major ? `Popular job location for major ${major}` : "Popular in your area",
         ref_table_name: "location",
         is_required: true,
         hidden: false
@@ -107,10 +108,11 @@ export default class ManageUserProfile extends React.Component {
     return r;
   }
   getNextItemId(curIndex) {
+    let inputItems = this.getInputItems();
     try {
       curIndex = Number.parseInt(curIndex);
-      for (var i = curIndex + 1; i < this.inputItems.length; i++) {
-        let d = this.inputItems[i];
+      for (var i = curIndex + 1; i < inputItems.length; i++) {
+        let d = inputItems[i];
         if (!d.hidden) {
           return d.id;
         }
@@ -128,7 +130,7 @@ export default class ManageUserProfile extends React.Component {
     smoothScrollTo(idToGo);
   }
   inputDoneHandler(id, meta) {
-    console.log("inputDoneHandler", id, meta);
+    // console.log("inputDoneHandler", id, meta);
 
     let data = null;
     let isEmptyAndRequired = false;
@@ -136,14 +138,14 @@ export default class ManageUserProfile extends React.Component {
       /** {type, val, isEmptyAndRequired} */
       if (meta.isEmptyAndRequired) {
         isEmptyAndRequired = true;
-        data = meta.val;
       }
+      data = meta.val;
     } else if (meta.type == "multi") {
       /** {type, list, isEmptyAndRequired} */
       if (meta.isEmptyAndRequired) {
         isEmptyAndRequired = true;
-        data = meta.list;
       }
+      data = meta.list;
     }
 
     this.setState(prevState => {
@@ -175,7 +177,7 @@ export default class ManageUserProfile extends React.Component {
     );
   }
   render() {
-    let view = this.inputItems.map((d, i) => {
+    let view = this.getInputItems().map((d, i) => {
       if (d.hidden) {
         return null;
       }

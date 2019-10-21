@@ -62,7 +62,7 @@ obj = [
     "children": [
       "Computer Scientist",
       "IT Professional",
-      "UX Designer &amp; UI Developer",
+      "UX Designer & UI Developer",
       "SQL Developer",
       "Web Designer",
       "Web Developer",

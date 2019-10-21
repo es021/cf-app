@@ -53,10 +53,19 @@ export default class InputMulti extends React.Component {
     }
     return hasSelected;
   }
+  componentWillUpdate(nextProps){
+    if(this.props.suggestion_search_by_val !== nextProps.suggestion_search_by_val){
+      console.log(this.props.id , "UPDATEEEE", nextProps.suggestion_search_by_val)
+      this.setDefaultList(nextProps);
+    }
+   
+  }
   componentWillMount() {
     this.setDefaultList();
   }
-  setDefaultList() {
+  setDefaultList(customProps = null) {
+    let props = customProps ? customProps : this.props;
+
     let refList = [];
     let multiList = [];
     let loaded = 0;
@@ -117,13 +126,13 @@ export default class InputMulti extends React.Component {
     // multi_table_name :"${this.props.table_name}"
     let qRef = `query{
       refs(
-        table_name :"${this.props.ref_table_name}"
-        entity:"${this.props.entity}"
-        entity_id:${this.props.entity_id}
+        table_name :"${props.ref_table_name}"
+        entity:"${props.entity}"
+        entity_id:${props.entity_id}
         page:1, offset:10
-        location_suggestion :"${this.props.location_suggestion}",
-        search_by_ref :"${this.props.suggestion_search_by_ref}",
-        search_by_val : "${this.props.suggestion_search_by_val}"
+        location_suggestion :"${props.location_suggestion}",
+        search_by_ref :"${props.suggestion_search_by_ref}",
+        search_by_val : "${props.suggestion_search_by_val}"
       ){
         ID
         val
@@ -137,9 +146,9 @@ export default class InputMulti extends React.Component {
 
     let qMulti = `query{
       multis(
-        table_name :"${this.props.table_name}"
-        entity:"${this.props.entity}"
-        entity_id:${this.props.entity_id}
+        table_name :"${props.table_name}"
+        entity:"${props.entity}"
+        entity_id:${props.entity_id}
       ){
         ID val
       }
