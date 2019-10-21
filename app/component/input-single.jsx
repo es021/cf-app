@@ -32,12 +32,7 @@ export default class InputSingle extends React.Component {
   componentWillMount() {
     this.setDefaultValue();
   }
-  inputOnChange(e) {
-    let v = e.target.value;
-    this.setState({ val: v });
-    console.log("v", v);
-    this.updateRequiredWarning(v);
-  }
+
   updateRequiredWarning(v) {
     if (this.isValueEmpty(v)) {
       this.setState({
@@ -185,10 +180,16 @@ export default class InputSingle extends React.Component {
     this.setState({ val: v });
     this.sendDataToDb(v);
   }
+  inputOnFocus(e) {}
+  inputOnChange(e) {
+    let v = e.target.value;
+    this.setState({ val: v });
+    console.log("v", v);
+    this.updateRequiredWarning(v);
+  }
   inputOnBlur(e) {
     let v = e.target.value;
     console.log("inputOnBlur", v);
-
     this.sendDataToDb(v);
   }
   // setIconTrue(key) {
@@ -210,19 +211,38 @@ export default class InputSingle extends React.Component {
     }
     return val == "" || val == null || typeof val === "undefined";
   }
-  inputOnFocus(e) {}
   isEmptyAndRequired(v) {
     return this.isValueEmpty(v) && this.props.is_required;
   }
   render() {
+    let continueBtn = null;
+    if (!this.props.hideContinueButton) {
+      continueBtn = continueBtn = [
+        <br></br>,
+        <button
+          data-index={this.props.index}
+          className="btn btn-success btn-lg"
+          onClick={this.continueOnClick}
+        >
+          Continue
+        </button>
+      ];
+    }
+
+    let className = "input-single";
+    if (this.props.isChildren) {
+      className += " input-children";
+    }
+
     return (
-      <div id={this.props.id} className="input-single">
-        <div className="si-label">
+      <div id={this.props.id} className={className}>
+        <div className="si-label input-label">
           {this.props.label}
-          {this.props.is_required ? " *" : ""}
+          {this.props.is_required && !this.props.isChildren ? " *" : ""}
         </div>
         <div className="si-input">
           <InputSuggestion
+            input_type={this.props.input_type}
             icon_loading={this.state.loading}
             icon_done={this.state.done_update}
             icon_is_required={this.state.show_is_required}
@@ -235,15 +255,10 @@ export default class InputSingle extends React.Component {
             table_name={this.props.ref_table_name}
           ></InputSuggestion>
         </div>
+
         <div className="si-footer">
-          <br></br>
-          <button
-            data-index={this.props.index}
-            className="btn btn-success btn-lg"
-            onClick={this.continueOnClick}
-          >
-            Continue
-          </button>
+          {this.props.children}
+          {continueBtn}
         </div>
       </div>
     );
@@ -251,8 +266,10 @@ export default class InputSingle extends React.Component {
 }
 
 InputSingle.propTypes = {
+  children: PropTypes.array,
   index: PropTypes.number,
   id: PropTypes.string,
+  input_type: PropTypes.string,
   doneHandler: PropTypes.func,
   continueOnClick: PropTypes.func,
   is_required: PropTypes.bool,
@@ -261,10 +278,14 @@ InputSingle.propTypes = {
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
-  label: PropTypes.string
+  label: PropTypes.string,
+  hideContinueButton: PropTypes.bool,
+  isChildren: PropTypes.bool
 };
 
 InputSingle.defaulProps = {
+  isChildren: false,
+  hideContinueButton: false,
   doneHandler: () => {
     console.log("default doneHandler");
   }

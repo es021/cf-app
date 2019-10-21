@@ -72,7 +72,8 @@ let scss = [
   "tooltip",
   "input-suggestion",
   "input-single",
-  "input-multi"
+  "input-multi",
+  "input-general"
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");

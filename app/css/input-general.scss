@@ -1,0 +1,10 @@
+.input-label{
+	font-size: 20px;
+	font-weight: bold;
+	transition: color ease 0.5s;
+	color: #0c0c0cc2;
+}
+
+.input-label.blink-required {
+	color : rgb(224, 30, 30);
+}

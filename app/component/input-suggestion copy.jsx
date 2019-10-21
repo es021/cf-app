@@ -17,6 +17,8 @@ export default class InputSuggestion extends React.Component {
     this.onClickSuggestion = this.onClickSuggestion.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
 
+    this.ref = {};
+
     // state
     this.state = {
       highlightIndex: null,
@@ -32,8 +34,11 @@ export default class InputSuggestion extends React.Component {
   isSelect() {
     return this.props.input_type == "select";
   }
+  isSelectMulti() {
+    return this.props.input_type == "select_multi";
+  }
   componentWillMount() {
-    if (this.isSelect()) {
+    if (this.isSelect() || this.isSelectMulti()) {
       this.fetchDataset();
     }
   }
@@ -127,7 +132,7 @@ export default class InputSuggestion extends React.Component {
   onChange(e) {
     // console.log("onChange", e);
     // console.log(this.ref.value);
-    if (this.isSelect()) {
+    if (this.isSelect() || this.isSelectMulti()) {
     } else {
       let v = this.ref.value;
       if (v.length > this.START_FETCH_LEN) {
@@ -139,6 +144,8 @@ export default class InputSuggestion extends React.Component {
       }
     }
 
+    let v = e.target.value;
+    console.log(v);
     if (this.props.input_onChange) {
       this.props.input_onChange(e);
     }
@@ -167,15 +174,42 @@ export default class InputSuggestion extends React.Component {
       return;
     }
 
-    for (var i in this.props.table_name) {
+    let tbNames = [];
+
+    if (!Array.isArray(this.props.table_name)) {
+      tbNames = [this.props.table_name];
+    } else {
+      tbNames = this.props.table_name;
+    }
+
+    console.log(this.props.id, tbNames);
+
+    let loaded = 0;
+    let toLoad = tbNames.length;
+    const finish = res => {
+      loaded++;
+      this.setState(prevState => {
+        let data = res.data.data.refs;
+        let table_name = data[0].table_name;
+        let index = this.props.table_name.indexOf(table_name);
+        prevState.dataset[index] = data;
+        return { dataset: prevState.dataset };
+      });
+
+      if (loaded >= toLoad) {
+        this.setState({ loading: false });
+      }
+    };
+
+    for (var i in tbNames) {
       let q = `query{ 
-        refs(table_name :"${this.props.table_name}") {
+        refs(table_name :"${tbNames[i]}") {
           val table_name
         }
       }`;
 
       graphql(q).then(res => {
-        this.setState({ dataset: res.data.data.refs });
+        finish(res);
       });
     }
   }
@@ -266,11 +300,11 @@ export default class InputSuggestion extends React.Component {
       return v;
     }
   }
-  getSelectOptions() {
-    if (this.state.dataset.length <= 0) {
+  getSelectOptions(index = 0) {
+    if (this.state.dataset[index].length <= 0) {
       return null;
     } else {
-      let dataset = ["", ...this.state.dataset];
+      let dataset = ["", ...this.state.dataset[index]];
       return dataset.map((d, i) => {
         let value = d.val;
         let label = d.val;
@@ -283,6 +317,10 @@ export default class InputSuggestion extends React.Component {
     }
   }
   getFieldInput() {
+    if (this.state.loading) {
+      return "Loading";
+    }
+
     if (this.isText()) {
       return (
         <input
@@ -312,11 +350,30 @@ export default class InputSuggestion extends React.Component {
           {this.getSelectOptions()}
         </select>
       );
+    } else if (this.isSelectMulti()) {
+      return this.props.table_name.map((d,i)=>{
+        return (
+          <select
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+            onFocus={this.onFocus}
+            ref={r => {
+              this.ref[i] = r;
+            }}
+            value={this.props.input_val}
+            defaultValue={this.props.input_val}
+          >
+            {this.getSelectOptions(i)}
+          </select>
+        );
+      })
     }
   }
   render() {
     return (
       <div onKeyDown={this.onKeyDown} className="input-suggestion">
+        {JSON.stringify(this.state.dataset)}
+
         <div className="input-field">
           <div className="input-and-icon">
             {this.getFieldInput()}

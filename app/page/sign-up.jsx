@@ -20,6 +20,7 @@ export default class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.formOnSubmit = this.formOnSubmit.bind(this);
+    this.manageUserProfileComplete = this.manageUserProfileComplete.bind(this);
     this.userId = 0;
     this.state = {
       confirmed: false,
@@ -30,7 +31,9 @@ export default class SignUpPage extends React.Component {
       currentStep: 1
     };
   }
-
+  manageUserProfileComplete(){
+    alert("siap")
+  }
   componentWillMount() {
     this.CF = getCF();
     this.CFObj = getCFObj();
@@ -198,12 +201,12 @@ export default class SignUpPage extends React.Component {
       >
         <h1>
           Welcome {user[UserMeta.FIRST_NAME]} !<br></br>
-          <small>Let's complete your profile.</small>
+          <small>Let's complete your profile and make sure recruiter notice you.</small>
         </h1>
-        <br></br>
-        <br></br>
-        <br></br>
-        <ManageUserProfile user_id={user.ID}></ManageUserProfile>
+        <div style={{marginTop:"20vh"}}></div>
+        <ManageUserProfile 
+        completeHandler={this.manageUserProfileComplete}
+        user_id={user.ID}></ManageUserProfile>
       </div>
     );
   }
@@ -228,7 +231,7 @@ export default class SignUpPage extends React.Component {
     var content = null;
 
     var user = this.state.user;
-    const DEBUG_NEW_SIGN_UP = false;
+    const DEBUG_NEW_SIGN_UP = true;
     if (DEBUG_NEW_SIGN_UP) {
       user = {
         ID: 136,

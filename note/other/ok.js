@@ -641,6 +641,8 @@ obj = [
   }
 ]
 
+
+
 sql = "insert into wp_career_fair.ref_interested_role (val, category) VALUES ";
 for (var i in obj) {
 	let o = obj[i];
@@ -656,6 +658,159 @@ for (var i in obj) {
     sql += ` ('${c}','${id}'), \n` ;
     inserted.push(c);
   }
+}
+
+console.log(sql);
+
+
+
+
+// #################################################################################################
+// #################################################################################################
+// #################################################################################################
+
+a = [
+  "Verbal Communication",
+  "Non-Verbal Communication",
+  "Visual Communication",
+  "Written Communication",
+  "Active Listening",
+  "Clarity",
+  "Confidence",
+  "Interviewing",
+  "Negotiation",
+  "Personal Branding",
+  "Persuasion",
+  "Presentation Skills",
+  "Public Speaking",
+  "Storytelling",
+  "Diplomacy",
+  "Empathy",
+  "Friendliness",
+  "Humor",
+  "Networking",
+  "Patience",
+  "Positive Reinforcement",
+  "Sensitivity",
+  "Tolerance",
+  "Analysis",
+  "Artistic Sense",
+  "Brainstorming",
+  "Design",
+  "Design Sense",
+  "Divergent Thinking",
+  "Experimenting",
+  "Imagination",
+  "Innovation",
+  "Insight",
+  "Inspiration",
+  "Lateral Thinking",
+  "Logical Reasoning",
+  "Mind Mapping",
+  "Observation",
+  "Persistence",
+  "Questioning",
+  "Reframing",
+  "Troubleshooting",
+  "People Management",
+  "Project Management",
+  "Remote Team Management",
+  "Talent Management",
+  "Virtual Team Management",
+  "Meeting Management",
+  "Agility",
+  "Coaching",
+  "Conflict or Dispute Resolution",
+  "Cultural Intelligence",
+  "Deal-Making",
+  "Decision-Making",
+  "Delegation",
+  "Facilitating",
+  "Give Clear Feedback",
+  "Managing Difficult Conversations",
+  "Mentoring",
+  "Strategic Planning",
+  "Supervising",
+  "Team-Building",
+  "Versatility",
+  "Authenticity",
+  "Encouraging",
+  "Generosity",
+  "Humility",
+  "Inspiring",
+  "Selflessness",
+  "Attentive",
+  "Business Ethics",
+  "Calm",
+  "Commitment",
+  "Competitiveness",
+  "Curiosity",
+  "Dependability",
+  "Discipline",
+  "Emotion Management",
+  "Highly Organized",
+  "Independence",
+  "Initiative",
+  "Integrity",
+  "Motivated",
+  "Open-Minded",
+  "Optimistic",
+  "Perseverant",
+  "Professional",
+  "Punctual",
+  "Reliable",
+  "Resilient",
+  "Responsible",
+  "Results-Oriented",
+  "Taking Criticism",
+  "Tolerance of Change and Uncertainty",
+  "Trainable",
+  "Accept Feedback",
+  "Collaborative",
+  "Cooperation",
+  "Coordination",
+  "Deal with Difficult Situations",
+  "Disability Awareness",
+  "Diversity Awareness",
+  "Emotional Intelligence",
+  "Idea Exchange",
+  "Influential",
+  "Intercultural Competence",
+  "Interpersonal Relationships Skills",
+  "Mediation",
+  "Office Politics Management",
+  "Personality Conflicts Management",
+  "Respectfulness",
+  "Sales Skills",
+  "Self-Awareness",
+  "Social Skills",
+  "Acuity",
+  "Allocating Resources",
+  "Coping",
+  "Critical Observation",
+  "Focus",
+  "Goal-Setting",
+  "Introspection",
+  "Memory",
+  "Organization",
+  "Personal Time Management",
+  "Planning",
+  "Prioritization",
+  "Recall",
+  "Scheduling",
+  "Sense of Urgency",
+  "Streamlining",
+  "Stress Management",
+  "Task Planning",
+  "Task Tracking",
+  "Time Awareness",
+  "Work-Life Balance"
+]
+
+sql = "insert into wp_career_fair.ref_skill (val, category) VALUES ";
+for (var i in a) {
+  let c = a[i]
+    sql += ` ('${c}','soft_skill'), \n` ;
 }
 
 console.log(sql);

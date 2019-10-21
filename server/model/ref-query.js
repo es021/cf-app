@@ -5,6 +5,7 @@ class RefExec {
 		let table_name = param.table_name;
 		let val = (!param.val) ? "1=1" : ` val like '%${param.val}%' `;
 		let category = (!param.category) ? "1=1" : ` category = '${param.category}' `;
+		let order_by = (!param.order_by) ? "" : `ORDER BY ${param.order_by}`;
 
 		// search_by_ref : __.String,
 		// search_by_val : __.String,
@@ -23,8 +24,9 @@ class RefExec {
 		var limit = DB.prepareLimit(param.page, param.offset);
 
 		let sql = `
-			select * from ref_${table_name} where 1=1
+			select *, "${table_name}" as table_name from ref_${table_name} where 1=1
 			and ${val} and ${category} and ${suggestion}
+			${order_by}
 			${limit}
 		`;
 		return sql;

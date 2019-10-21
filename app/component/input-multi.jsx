@@ -53,12 +53,17 @@ export default class InputMulti extends React.Component {
     }
     return hasSelected;
   }
-  componentWillUpdate(nextProps){
-    if(this.props.suggestion_search_by_val !== nextProps.suggestion_search_by_val){
-      console.log(this.props.id , "UPDATEEEE", nextProps.suggestion_search_by_val)
+  componentWillUpdate(nextProps) {
+    if (
+      this.props.suggestion_search_by_val !== nextProps.suggestion_search_by_val
+    ) {
+      console.log(
+        this.props.id,
+        "UPDATEEEE",
+        nextProps.suggestion_search_by_val
+      );
       this.setDefaultList(nextProps);
     }
-   
   }
   componentWillMount() {
     this.setDefaultList();
@@ -129,6 +134,7 @@ export default class InputMulti extends React.Component {
         table_name :"${props.ref_table_name}"
         entity:"${props.entity}"
         entity_id:${props.entity_id}
+        order_by:"RAND ()"
         page:1, offset:10
         location_suggestion :"${props.location_suggestion}",
         search_by_ref :"${props.suggestion_search_by_ref}",
@@ -350,38 +356,51 @@ export default class InputMulti extends React.Component {
     }
   }
   render() {
-    var d = {};
-    return (
-      <div id={this.props.id} className="input-multi">
-        <div className="mi-label">
-          {this.props.label}
-          {this.props.is_required ? " *" : ""}
-        </div>
+    let continueBtn = null;
+    if (!this.props.hideContinueButton) {
+      continueBtn = [
+        <br></br>,
+        <button
+          data-index={this.props.index}
+          className="btn btn-success btn-lg"
+          onClick={this.continueOnClick}
+        >
+          Continue
+        </button>
+      ];
+    }
+
+    let inputSuggestion = null;
+    if (!this.props.hideInputSuggestion) {
+      inputSuggestion = (
         <div className="mi-input">
           <InputSuggestion
+            input_type={this.props.input_type}
             onChoose={this.onChooseSuggestion}
             table_name={this.props.ref_table_name}
             input_placeholder={this.props.input_placeholder}
           ></InputSuggestion>
         </div>
+      );
+    }
+
+    return (
+      <div id={this.props.id} className="input-multi">
+        <div className="mi-label input-label">
+          {this.props.label}
+          {this.props.is_required ? " *" : ""}
+        </div>
+        {inputSuggestion}
         <div className="mi-list-title">{this.getListTitle()}</div>
         <div className="mi-list">{this.getListView()}</div>
-        <div className="mi-footer">
-          <br></br>
-          <button
-            data-index={this.props.index}
-            className="btn btn-success btn-lg"
-            onClick={this.continueOnClick}
-          >
-            Continue
-          </button>
-        </div>
+        <div className="mi-footer">{continueBtn}</div>
       </div>
     );
   }
 }
 
 InputMulti.propTypes = {
+  input_type: PropTypes.string,
   index: PropTypes.number,
   is_required: PropTypes.bool,
   id: PropTypes.string,
@@ -396,10 +415,16 @@ InputMulti.propTypes = {
   list_title: PropTypes.string,
   location_suggestion: PropTypes.string,
   suggestion_search_by_ref: PropTypes.string,
-  suggestion_search_by_val: PropTypes.string
+  suggestion_search_by_val: PropTypes.string,
+  hideContinueButton: PropTypes.bool,
+  hideInputSuggestion: PropTypes.bool
 };
 
 InputMulti.defaultProps = {
+  suggestion_search_by_ref: "",
+  suggestion_search_by_val: "",
+  hideInputSuggestion: false,
+  hideContinueButton: false,
   doneHandler: () => {
     console.log("default doneHandler");
   }

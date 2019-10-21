@@ -129,7 +129,8 @@ fields["refs"] = {
   
 	  // pagination
 	  page: __.Int,
-	  offset: __.Int,
+    offset: __.Int,
+    order_by : __.String,
   
 	  // untuk dapatkan suggestion
 	  location_suggestion : __.String,

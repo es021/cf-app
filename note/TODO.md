@@ -14,6 +14,22 @@ Page 1
 4. (Single) First Name
 5. (Single) Last Name
 
+Page 2 
+What is your name?
+When is your graduation date?
+What are you looking for? (Note for sarhan: Full time, internship)
+Where are you studying? (country)
+What is your university? - https://github.com/gedex/World-University-Names-Database
+What is your highest level of certificate?
+What is your field of study?
+What is your grade? (Note for sarhan: text/number)
+What is your phone number? (In case we need to reach you ASAP!)
+Where would you like to work in Malaysia?
+What types of jobs will you be searching for?
+What skills would you bring to your next job?
+Are you a scholar
+
+
 Page 2
 - (Single) Country
 - (Single) University

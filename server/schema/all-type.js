@@ -50,6 +50,7 @@ const MultiType = new GraphQLObjectType({
 const RefType = new GraphQLObjectType({
   name: "Ref",
   fields: () => ({
+    table_name: __.String,
     ID: __.Int,
     val: __.String,
     category: __.String,

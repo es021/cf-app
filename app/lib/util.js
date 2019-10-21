@@ -32,13 +32,12 @@ export function getWindowWidth() {
   return width;
 }
 
-export function smoothScrollTo(idToGo) {
-  const OFFSET = -100;
+export function smoothScrollTo(idToGo, offset = -100) {
   let elToGo = document.getElementById(idToGo);
   if (elToGo) {
     let yCoordinate = elToGo.getBoundingClientRect().top + window.pageYOffset;
     window.scrollTo({
-      top: yCoordinate + OFFSET,
+      top: yCoordinate + offset,
       behavior: "smooth"
     });
   }
@@ -49,6 +48,29 @@ export function focusOnInput(id) {
   let input = el.getElementsByTagName("input");
   if (input.length > 0) {
     input[0].focus();
+  }
+}
+
+export function addClassEl(el, className) {
+  if (el) {
+    el.className += " " + className;
+  }
+}
+
+export function removeClassEl(el, className) {
+  if (el) {
+    let cs = el.className;
+
+    let arr = cs.split(" ");
+
+    let newCs = "";
+    for (var i in arr) {
+      if (arr[i] !== className) {
+        newCs += ` ${arr[i]} `;
+      }
+    }
+
+    el.className = newCs;
   }
 }
 
