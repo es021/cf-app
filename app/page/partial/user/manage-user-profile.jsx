@@ -52,23 +52,7 @@ export default class ManageUserProfile extends React.Component {
     } catch (err) {}
     return false;
   }
-  getInputChildren(id) {
-    let r = {};
-    r[Reg.Single.graduation_month] = [
-      {
-        // single
-        type: "single",
-        input_type: "select",
-        id: Reg.Single.graduation_year,
-        key_input: Reg.Single.graduation_year,
-        ref_table_name: "year",
-        is_required: true,
-        hidden: false
-      }
-    ];
 
-    return r[id];
-  }
   getFieldStudyListStr() {
     const DELIM = "::";
     //
@@ -91,6 +75,23 @@ export default class ManageUserProfile extends React.Component {
     }
 
     return field_study;
+  }
+  getInputChildren(id) {
+    let r = {};
+    r[Reg.Single.graduation_month] = [
+      {
+        // single
+        type: "single",
+        input_type: "select",
+        id: Reg.Single.graduation_year,
+        key_input: Reg.Single.graduation_year,
+        ref_table_name: "year",
+        is_required: true,
+        hidden: false
+      }
+    ];
+
+    return r[id];
   }
   getInputItems() {
     let field_study = this.getFieldStudyListStr();
@@ -140,7 +141,7 @@ export default class ManageUserProfile extends React.Component {
         hidden: false
       },
       {
-        // single
+        // single select
         type: "single",
         input_type: "select",
         id: Reg.Single.qualification,
@@ -207,8 +208,25 @@ export default class ManageUserProfile extends React.Component {
         location_suggestion: Reg.Multi.interested_job_location,
         label: "Where would you like to work in Malaysia?",
         input_placeholder: "Cyberjaya, Selangor",
-        list_title: field_study ? `Popular job for your field of study` : "Popular in your area",
+        list_title: field_study
+          ? `Popular job for your field of study`
+          : "Popular in your area",
         ref_table_name: "location",
+        is_required: true,
+        hidden: false
+      },
+      {
+        // free multi choice
+        type: "multi",
+        id: Reg.Multi.interested_role,
+        table_name: Reg.Multi.interested_role,
+        label: "What types of jobs will you be searching for?",
+        input_placeholder: "Web Developer",
+        list_title: field_study ? `Popular job for your field of study` : "",
+
+        ref_table_name: "job_role",
+        suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
+        suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
         is_required: true,
         hidden: false
       },
@@ -227,23 +245,19 @@ export default class ManageUserProfile extends React.Component {
         hidden: false
       },
       {
-        // free multi choice
-        type: "multi",
-        id: Reg.Multi.interested_role,
-        table_name: Reg.Multi.interested_role,
-        label: "What types of jobs will you be searching for?",
-        input_placeholder: "Web Developer",
-        list_title: field_study ? `Popular job for your field of study` : "",
-
-        ref_table_name: "job_role",
-        suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
-        suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
-        is_required: true,
+        // single
+        type: "single",
+        input_type : "select",
+        id: Reg.Single.sponsor,
+        key_input: Reg.Single.sponsor,
+        label: "Who is your sponsor?",
+        input_placeholder: "Type something here",
+        ref_table_name: "sponsor",
+        is_required: false,
         hidden: false
       }
     ];
 
-   
     return r;
   }
   isLastItem(curIndex) {

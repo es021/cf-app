@@ -12,6 +12,8 @@ const Single = {
     graduation_year : "graduation_year",
     grade : "grade",
     phone_number : "phone_number",
+    sponsor : "sponsor",
+
 }
 
 const Multi = {
