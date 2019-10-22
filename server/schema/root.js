@@ -132,10 +132,10 @@ fields["refs"] = {
     offset: __.Int,
     order_by : __.String,
   
-	  // untuk dapatkan suggestion
+	  // untuk dapatkan suggestion guna table refmap_suggestion
 	  location_suggestion : __.String,
 	  search_by_ref: __.String,
-	  search_by_val: __.String
+    search_by_val: __.String,
 	},
 	resolve(parentValue, arg, context, info) {
 	  if (arg.table_name == "location") {

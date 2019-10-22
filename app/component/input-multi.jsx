@@ -22,6 +22,7 @@ export default class InputMulti extends React.Component {
 
     // // state
     this.state = {
+      list_loading: false,
       show_is_required: false,
       hasSuggestion: false,
       list: [
@@ -54,24 +55,23 @@ export default class InputMulti extends React.Component {
     return hasSelected;
   }
   componentWillUpdate(nextProps) {
-
     let props = this.props.suggestion_search_by_val;
-    let next = nextProps.suggestion_search_by_val
-    
-    if(Array.isArray(props)){
+    let next = nextProps.suggestion_search_by_val;
+
+    if (Array.isArray(props)) {
       props = JSON.stringify(props);
     }
 
-    if(Array.isArray(next)){
+    if (Array.isArray(next)) {
       next = JSON.stringify(next);
-    } 
+    }
 
     if (props !== next) {
-      console.log(
-        this.props.id,
-        "UPDATEEEE",
-        nextProps.suggestion_search_by_val
-      );
+      // console.log(
+      //   this.props.id,
+      //   "UPDATEEEE",
+      //   nextProps.suggestion_search_by_val
+      // );
       this.setDefaultList(nextProps);
     }
   }
@@ -79,6 +79,7 @@ export default class InputMulti extends React.Component {
     this.setDefaultList();
   }
   setDefaultList(customProps = null) {
+    this.setState({ list_loading: true });
     let props = customProps ? customProps : this.props;
 
     let refList = [];
@@ -132,13 +133,17 @@ export default class InputMulti extends React.Component {
           });
         }
 
-        this.setState({ list: stateList, hasSuggestion: refList.length > 0 });
+        this.setState({
+          list_loading: false,
+          list: stateList,
+          hasSuggestion: refList.length > 0
+        });
 
         this.triggerDoneHandler();
       }
     };
 
-    // multi_table_name :"${this.props.table_name}"
+    // list of suggestion from ref
     let qRef = `query{
       refs(
         table_name :"${props.ref_table_name}"
@@ -147,6 +152,7 @@ export default class InputMulti extends React.Component {
         order_by:"RAND ()"
         page:1, offset:10
         location_suggestion :"${props.location_suggestion}",
+        category :"${props.ref_category}",
         search_by_ref :"${props.suggestion_search_by_ref}",
         search_by_val : "${props.suggestion_search_by_val}"
       ){
@@ -160,6 +166,7 @@ export default class InputMulti extends React.Component {
       finish();
     });
 
+    // list of selected item in multi
     let qMulti = `query{
       multis(
         table_name :"${props.table_name}"
@@ -337,6 +344,14 @@ export default class InputMulti extends React.Component {
     }
   }
   getListView() {
+    if (this.state.list_loading) {
+      return (
+        <div>
+          Loading.... <i className={`fa fa-spinner fa-pulse`}></i>;
+        </div>
+      );
+    }
+
     if (this.state.list.length <= 0) {
       return null;
     } else {
@@ -424,6 +439,7 @@ InputMulti.propTypes = {
   label: PropTypes.string,
   list_title: PropTypes.string,
   location_suggestion: PropTypes.string,
+  ref_category: PropTypes.string,
   suggestion_search_by_ref: PropTypes.string,
   suggestion_search_by_val: PropTypes.string,
   hideContinueButton: PropTypes.bool,
@@ -431,6 +447,7 @@ InputMulti.propTypes = {
 };
 
 InputMulti.defaultProps = {
+  ref_category: "",
   suggestion_search_by_ref: "",
   suggestion_search_by_val: "",
   hideInputSuggestion: false,

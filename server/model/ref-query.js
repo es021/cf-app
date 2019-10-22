@@ -7,37 +7,47 @@ class RefExec {
     let category = !param.category ? "1=1" : ` category = '${param.category}' `;
     let order_by = !param.order_by ? "" : `ORDER BY ${param.order_by}`;
 
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+    // console.log(table_name,param.category);
+  
     // search_by_ref : __.String,
     // search_by_val : __.String,
     let suggestion = "1=1";
-    console.log(param);
-    console.log(param);
-    console.log(param);
-    console.log(param);
-    if (param.search_by_ref && param.search_by_val) {
-      let search_by_val = "'1'";
-      try {
-		search_by_val = "";
-		let list = param.search_by_val.split("::");
-        for (var i in list) {
-          if (i > 0) {
-            search_by_val += ", ";
-          }
-          search_by_val += ` '${list[i]}' `;
-        }
-      } catch (err) {
-        search_by_val = `'${param.search_by_val}'`;
-      }
 
-      suggestion = `category IN 
-		(
-			select rms.input_category from refmap_suggestion rms 
-			where rms.input_ref = '${param.table_name}'
-			and rms.search_by_ref = '${param.search_by_ref}'
-			and rms.search_by_category IN 
-			(select ch.category from ref_${param.search_by_ref} ch 
-				where ch.val IN (${search_by_val}) )
-		)`;
+    if (param.search_by_ref) {
+      if (!param.search_by_val || param.search_by_val == "null" || param.search_by_val == "undefined") {
+        suggestion = "1=0";
+      } else {
+        let search_by_val = "'1'";
+        try {
+          search_by_val = "";
+          let list = param.search_by_val.split("::");
+          for (var i in list) {
+            if (i > 0) {
+              search_by_val += ", ";
+            }
+            search_by_val += ` '${list[i]}' `;
+          }
+        } catch (err) {
+          search_by_val = `'${param.search_by_val}'`;
+        }
+
+        suggestion = `category IN 
+            (
+              select rms.input_category from refmap_suggestion rms 
+              where rms.input_ref = '${param.table_name}'
+              and rms.search_by_ref = '${param.search_by_ref}'
+              and rms.search_by_category IN 
+              (select ch.category from ref_${param.search_by_ref} ch 
+                where ch.val IN (${search_by_val}) )
+            )`;
+      }
     }
 
     var limit = DB.prepareLimit(param.page, param.offset);
