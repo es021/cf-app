@@ -231,7 +231,7 @@ export default class SignUpPage extends React.Component {
     var content = null;
 
     var user = this.state.user;
-    const DEBUG_NEW_SIGN_UP = true;
+    const DEBUG_NEW_SIGN_UP = false;
     if (DEBUG_NEW_SIGN_UP) {
       user = {
         ID: 136,
