@@ -7,7 +7,7 @@ const Single = {
     country_study : "country_study",
     university : "university",
     qualification : "qualification",
-    major : "major",
+    // major : "major",
     graduation_month : "graduation_month",
     graduation_year : "graduation_year",
     grade : "grade",
@@ -15,6 +15,7 @@ const Single = {
 }
 
 const Multi = {
+    field_study : "field_study",
     looking_for_position : "looking_for_position",
     interested_role : "interested_role",
     interested_job_location : "interested_job_location",

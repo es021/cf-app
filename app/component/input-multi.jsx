@@ -54,9 +54,19 @@ export default class InputMulti extends React.Component {
     return hasSelected;
   }
   componentWillUpdate(nextProps) {
-    if (
-      this.props.suggestion_search_by_val !== nextProps.suggestion_search_by_val
-    ) {
+
+    let props = this.props.suggestion_search_by_val;
+    let next = nextProps.suggestion_search_by_val
+    
+    if(Array.isArray(props)){
+      props = JSON.stringify(props);
+    }
+
+    if(Array.isArray(next)){
+      next = JSON.stringify(next);
+    } 
+
+    if (props !== next) {
       console.log(
         this.props.id,
         "UPDATEEEE",

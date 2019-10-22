@@ -70,7 +70,20 @@ export default class ManageUserProfile extends React.Component {
     return r[id];
   }
   getInputItems() {
-    let major = this.state.currentData["major"];
+    let field_study_raw = this.state.currentData[Reg.Multi.field_study];
+    let field_study = "";
+    try {
+      field_study_raw.map((d, i) => {
+        if (d.isSelected) {
+          field_study += `${d.val}::`;
+        }
+      });
+
+    // trim last delim
+      field_study = field_study.substr(0, field_study.length-2)
+    } catch (err) {
+      field_study = null;
+    }
 
     let r = [
       {
@@ -129,17 +142,17 @@ export default class ManageUserProfile extends React.Component {
         is_required: true,
         hidden: false
       },
-      {
-        // single
-        type: "single",
-        id: Reg.Single.major,
-        key_input: Reg.Single.major,
-        label: "What is your field of study?",
-        input_placeholder: "Computer Science",
-        ref_table_name: "major",
-        is_required: true,
-        hidden: false
-      },
+      // {
+      //   // single
+      //   type: "single",
+      //   id: Reg.Single.major,
+      //   key_input: Reg.Single.major,
+      //   label: "What is your field of study?",
+      //   input_placeholder: "Computer Science",
+      //   ref_table_name: "major",
+      //   is_required: true,
+      //   hidden: false
+      // },
       {
         // single
         type: "single",
@@ -147,7 +160,6 @@ export default class ManageUserProfile extends React.Component {
         key_input: Reg.Single.grade,
         label: "What is your grade?",
         input_placeholder: "Type something here",
-        //ref_table_name: "major",
         is_required: true,
         hidden: false
       },
@@ -158,7 +170,49 @@ export default class ManageUserProfile extends React.Component {
         key_input: Reg.Single.phone_number,
         label: "What is your phone number?",
         input_placeholder: "XXX-XXXXXXX",
-        //ref_table_name: "major",
+        is_required: true,
+        hidden: false
+      },
+      // {
+      //   // free multi choice
+      //   type: "multi",
+      //   id: Reg.Multi.interested_role,
+      //   table_name: Reg.Multi.interested_role,
+      //   label: "What types of jobs will you be searching for?",
+      //   input_placeholder: "Web Developer",
+      //   suggestion_search_by_ref: "major",
+      //   suggestion_search_by_val: major,
+      //   list_title: major ? `Popular job for major ${major}` : "",
+      //   ref_table_name: "job_role",
+      //   is_required: true,
+      //   hidden: false
+      // },
+      // {
+      //   // free multi choice (location)
+      //   type: "multi",
+      //   id: Reg.Multi.interested_job_location,
+      //   table_name: Reg.Multi.interested_job_location,
+      //   location_suggestion: Reg.Multi.interested_job_location,
+      //   label: "Where would you like to work in Malaysia?",
+      //   input_placeholder: "Cyberjaya, Selangor",
+      //   list_title: major
+      //     ? `Popular job location for major ${major}`
+      //     : "Popular in your area",
+      //   ref_table_name: "location",
+      //   is_required: true,
+      //   hidden: false
+      // },
+      {
+        // free multi choice
+        type: "multi",
+        id: Reg.Multi.skill,
+        table_name: Reg.Multi.skill,
+        label: "What skills would you bring to your next job?",
+        input_placeholder: "Leadership, Javascript, etc",
+        // suggestion_search_by_ref: "major",
+        // suggestion_search_by_val: major,
+        //list_title: major ? `Popular job for major ${major}` : "",
+        ref_table_name: "skill",
         is_required: true,
         hidden: false
       },
@@ -170,8 +224,8 @@ export default class ManageUserProfile extends React.Component {
         label: "What types of jobs will you be searching for?",
         input_placeholder: "Web Developer",
         suggestion_search_by_ref: "major",
-        suggestion_search_by_val: major,
-        list_title: major ? `Popular job for major ${major}` : "",
+        suggestion_search_by_val: field_study,
+        list_title: field_study ? `Popular job for your field of study` : "",
         ref_table_name: "job_role",
         is_required: true,
         hidden: false
@@ -184,29 +238,45 @@ export default class ManageUserProfile extends React.Component {
         location_suggestion: Reg.Multi.interested_job_location,
         label: "Where would you like to work in Malaysia?",
         input_placeholder: "Cyberjaya, Selangor",
-        list_title: major
-          ? `Popular job location for major ${major}`
+        list_title: field_study
+          ? `Popular job location for your field of study`
           : "Popular in your area",
         ref_table_name: "location",
+        is_required: true,
+        hidden: false
+      }
+    ];
+
+    r = [
+      {
+        // free multi choice (location)
+        type: "multi",
+        id: Reg.Multi.field_study,
+        table_name: Reg.Multi.field_study,
+        // suggestion_search_by_ref: "major",
+        // suggestion_search_by_val: major,
+        label: "What is your field of study?",
+        input_placeholder: "Computer Science",
+        list_title: null,
+        ref_table_name: "major",
         is_required: true,
         hidden: false
       },
       {
         // free multi choice
         type: "multi",
-        id: Reg.Multi.skill,
-        table_name: Reg.Multi.skill,
-        label: "What skills would you bring to your next job?",
-        input_placeholder: "Leadership, Javascript, etc",
-        // suggestion_search_by_ref: "major",
-        // suggestion_search_by_val: major,
-        list_title: major ? `Popular job for major ${major}` : "",
-        ref_table_name: "skill",
+        id: Reg.Multi.interested_role,
+        table_name: Reg.Multi.interested_role,
+        label: "What types of jobs will you be searching for?",
+        input_placeholder: "Web Developer",
+        suggestion_search_by_ref: "major",
+        suggestion_search_by_val: field_study,
+        list_title: field_study ? `Popular job for your field of study` : "",
+        ref_table_name: "job_role",
         is_required: true,
         hidden: false
       }
     ];
-
     return r;
   }
   isLastItem(curIndex) {
@@ -285,11 +355,12 @@ export default class ManageUserProfile extends React.Component {
   }
   getDoneButton() {
     return (
-      <div >
+      <div>
         <br></br>
         <br></br>
         <br></br>
-        <button style={{ fontSize: "20px" }}
+        <button
+          style={{ fontSize: "20px" }}
           className="btn btn-success btn-lg"
           onClick={e => {
             let arr = this.getItemEmptyAndRequired();
