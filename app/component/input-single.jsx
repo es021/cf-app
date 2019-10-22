@@ -21,6 +21,7 @@ export default class InputSingle extends React.Component {
 
     // init state
     this.state = {
+      lastSendTimestamp: null,
       ID: null,
       dbVal: null,
       val: null,
@@ -99,22 +100,46 @@ export default class InputSingle extends React.Component {
   loading() {
     this.setState({ loading: true, done_update: false });
   }
+  setLastSendTimestamp() {
+    let toSet = Date.now();
+    this.lastSendTimestamp = toSet;
+    console.log("setLastSendTimestamp", this.lastSendTimestamp);
+
+    return toSet;
+  }
+
   sendDataToDb(v) {
-    // no changes
-    if (this.state.dbVal === v) {
-      return;
-    }
+    const doSend = () => {
+      console.log("sendDataToDb", v);
 
-    if (this.isValueEmpty()) {
-      v = "";
-    }
+      if (this.state.dbVal === v) {
+        return;
+      }
 
-    this.loading();
-    if (this.state.ID) {
-      this.updateDB(this.state.ID, v);
+      if (this.isValueEmpty()) {
+        v = "";
+      }
+
+      this.loading();
+      if (this.state.ID) {
+        this.updateDB(this.state.ID, v);
+      } else {
+        this.insertDB(v);
+      }
+    };
+
+    if (this.lastSendTimestamp == null) {
+      let set = this.setLastSendTimestamp();
+      setTimeout(() => {
+        if (set == this.lastSendTimestamp) {
+          doSend();
+        }
+      }, 200);
     } else {
-      this.insertDB(v);
+      this.setLastSendTimestamp();
+      doSend();
     }
+
   }
   triggerDoneHandler(v) {
     this.props.doneHandler(this.props.id, {
@@ -178,6 +203,12 @@ export default class InputSingle extends React.Component {
   }
   onChooseSuggestion(v) {
     this.setState({ val: v });
+    console.log("onChooseSuggestion", v);
+    this.sendDataToDb(v);
+  }
+  inputOnBlur(e) {
+    let v = e.target.value;
+    console.log("inputOnBlur", v);
     this.sendDataToDb(v);
   }
   inputOnFocus(e) {}
@@ -186,11 +217,6 @@ export default class InputSingle extends React.Component {
     this.setState({ val: v });
     console.log("v", v);
     this.updateRequiredWarning(v);
-  }
-  inputOnBlur(e) {
-    let v = e.target.value;
-    console.log("inputOnBlur", v);
-    this.sendDataToDb(v);
   }
   // setIconTrue(key) {
   //   let ori = {

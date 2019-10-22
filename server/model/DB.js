@@ -40,6 +40,15 @@ var DB = function (env) {
      */
 };
 
+DB.prototype.sanitize = function(param){
+    for(var k in param){
+        if(typeof param[k] === "string"){
+            param[k] = param[k].replaceAll("'","");
+        }
+    }
+    return param;
+}
+
 /**** CF *******/
 DB.prototype.cfMapSelect = function (entity, entity_id, cf) {
     var cf_where = (typeof cf === "undefined") ? "1=1" : `cf= '${cf}'`;

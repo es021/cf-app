@@ -36,14 +36,14 @@ export const UserFormItem = [
         type: "text",
         placeholder: "John",
         //required: true,
-        register: 1, editStudent: 1, editRec: 1
+        register: 1, editStudent: 0, editRec: 0
     }, {
         label: "Last Name",
         name: UserMeta.LAST_NAME,
         type: "text",
         placeholder: "Doe",
         //required: true,
-        register: 1, editStudent: 1, editRec: 1
+        register: 1, editStudent: 0, editRec: 0
     }, {
         label: "Email",
         name: User.EMAIL,

@@ -11,7 +11,7 @@ export default class TestLayout extends React.Component {
     document.setTitle("Test");
     return (
       <div style={{ padding: "10px", background: "white" }}>
-        <ManageUserProfile user_id={136}></ManageUserProfile>
+        <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile>
       </div>
     );
   }

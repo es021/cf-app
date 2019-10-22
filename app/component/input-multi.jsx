@@ -149,7 +149,7 @@ export default class InputMulti extends React.Component {
         table_name :"${props.ref_table_name}"
         entity:"${props.entity}"
         entity_id:${props.entity_id}
-        order_by:"RAND ()"
+        order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}"
         page:1, offset:10
         location_suggestion :"${props.location_suggestion}",
         category :"${props.ref_category}",
@@ -433,6 +433,7 @@ InputMulti.propTypes = {
   continueOnClick: PropTypes.func,
   table_name: PropTypes.string,
   ref_table_name: PropTypes.string,
+  ref_order_by : PropTypes.string,
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,

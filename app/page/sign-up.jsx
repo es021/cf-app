@@ -23,6 +23,7 @@ export default class SignUpPage extends React.Component {
     this.manageUserProfileComplete = this.manageUserProfileComplete.bind(this);
     this.userId = 0;
     this.state = {
+      completed: false,
       confirmed: false,
       error: null,
       disableSubmit: false,
@@ -31,8 +32,8 @@ export default class SignUpPage extends React.Component {
       currentStep: 1
     };
   }
-  manageUserProfileComplete(){
-    alert("siap")
+  manageUserProfileComplete() {
+    this.setState({ completed: true });
   }
   componentWillMount() {
     this.CF = getCF();
@@ -201,12 +202,16 @@ export default class SignUpPage extends React.Component {
       >
         <h1>
           Welcome {user[UserMeta.FIRST_NAME]} !<br></br>
-          <small>Let's complete your profile and make sure you got noticed by recruiters</small>
+          <small>
+            Let's complete your profile and make sure you got noticed by
+            recruiters
+          </small>
         </h1>
-        <div style={{marginTop:"20vh"}}></div>
-        <ManageUserProfile 
-        completeHandler={this.manageUserProfileComplete}
-        user_id={user.ID}></ManageUserProfile>
+        <div style={{ marginTop: "20vh" }}></div>
+        <ManageUserProfile
+          completeHandler={this.manageUserProfileComplete}
+          user_id={user.ID}
+        ></ManageUserProfile>
       </div>
     );
   }
@@ -231,12 +236,29 @@ export default class SignUpPage extends React.Component {
     var content = null;
 
     var user = this.state.user;
+
+    // debug
     const DEBUG_NEW_SIGN_UP = false;
-    if (DEBUG_NEW_SIGN_UP) {
+    const DEBUG_COMPLETED = false;
+    const IS_DEBUG = DEBUG_NEW_SIGN_UP || DEBUG_COMPLETED;
+    if (IS_DEBUG) {
       user = {
-        ID: 136,
-        first_name: "Wan Zul"
+        ID: 886,
+        first_name: "Wan Zul",
+        user_email: "test.student@gmail.com"
       };
+    }
+
+    if (this.state.completed || DEBUG_COMPLETED) {
+      return (
+        <div>
+          <h3>Congratulation! You Have Completed Your Profile</h3>
+          <LoginPage
+            defaultLogin={user[User.EMAIL]}
+            title={<h4>Login Now</h4>}
+          ></LoginPage>
+        </div>
+      );
     }
 
     if (this.state.success || DEBUG_NEW_SIGN_UP) {

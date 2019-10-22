@@ -2,6 +2,8 @@ const DB = require("./DB.js");
 
 class RefExec {
   query(param) {
+    param = DB.sanitize(param);
+
     let table_name = param.table_name;
     let val = !param.val ? "1=1" : ` val like '%${param.val}%' `;
     let category = !param.category ? "1=1" : ` category = '${param.category}' `;
@@ -15,13 +17,17 @@ class RefExec {
     // console.log(table_name,param.category);
     // console.log(table_name,param.category);
     // console.log(table_name,param.category);
-  
+
     // search_by_ref : __.String,
     // search_by_val : __.String,
     let suggestion = "1=1";
 
     if (param.search_by_ref) {
-      if (!param.search_by_val || param.search_by_val == "null" || param.search_by_val == "undefined") {
+      if (
+        !param.search_by_val ||
+        param.search_by_val == "null" ||
+        param.search_by_val == "undefined"
+      ) {
         suggestion = "1=0";
       } else {
         let search_by_val = "'1'";

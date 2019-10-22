@@ -15,12 +15,18 @@ export default class ManageUserProfile extends React.Component {
     super(props);
     this.continueOnClick = this.continueOnClick.bind(this);
     this.inputDoneHandler = this.inputDoneHandler.bind(this);
-    this.MARGIN = [<div style={{ marginTop: "40vh" }}></div>];
+    this.MARGIN = [
+      <div style={{ marginTop: this.isEdit() ? "15vh" : "40vh" }}></div>
+    ];
+
     this.SCROLL_OFFSET = -300;
     this.state = {
       isEmptyAndRequired: {},
       currentData: {}
     };
+  }
+  isEdit() {
+    return this.props.isEdit;
   }
   getItemEmptyAndRequired() {
     let ret = [];
@@ -78,6 +84,17 @@ export default class ManageUserProfile extends React.Component {
   }
   getInputChildren(id) {
     let r = {};
+    r[Reg.Single.first_name] = [
+      {
+        // single
+        type: "single",
+        id: Reg.Single.last_name,
+        key_input: Reg.Single.last_name,
+        input_placeholder: "Last Name",
+        is_required: true,
+        hidden: false
+      }
+    ];
     r[Reg.Single.graduation_month] = [
       {
         // single
@@ -95,168 +112,170 @@ export default class ManageUserProfile extends React.Component {
   }
   getInputItems() {
     let field_study = this.getFieldStudyListStr();
-    let r = [
-      {
-        // single
-        type: "single",
-        input_type: "select",
-        label: "When is your graduation date?",
-        id: Reg.Single.graduation_month,
-        key_input: Reg.Single.graduation_month,
-        ref_table_name: "month",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // defined multi choice
-        type: "multi",
-        id: Reg.Multi.looking_for_position,
-        table_name: Reg.Multi.looking_for_position,
-        label: "What are you looking for?",
-        ref_table_name: "looking_for_position",
-        hideInputSuggestion: true,
-        is_required: true,
-        hidden: false
-      },
-      {
-        // single
-        type: "single",
-        id: Reg.Single.country_study,
-        key_input: Reg.Single.country_study,
-        label: "Where are you studying",
-        input_placeholder: "Malaysia",
-        ref_table_name: "country",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // single
-        type: "single",
-        id: Reg.Single.university,
-        key_input: Reg.Single.university,
-        label: "What is your university?",
-        input_placeholder: "Universiti Malaya",
-        ref_table_name: "university",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // single select
-        type: "single",
-        input_type: "select",
-        id: Reg.Single.qualification,
-        key_input: Reg.Single.qualification,
-        label: "What is your highest level of certificate?",
-        input_placeholder: "Type something here",
-        ref_table_name: "qualification",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // free multi choice (location)
-        type: "multi",
-        id: Reg.Multi.field_study,
-        table_name: Reg.Multi.field_study,
-        label: "What is your field of study?",
-        input_placeholder: "Computer Science",
-        list_title: null,
-        ref_table_name: "major",
-        ref_category: "computer-and-information-sciences", // ref suggestion by category
-        is_required: true,
-        hidden: false
-      },
-      {
-        // single
-        type: "single",
-        id: Reg.Single.grade,
-        key_input: Reg.Single.grade,
-        label: "What is your grade?",
-        input_placeholder: "Type something here",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // single
-        type: "single",
-        id: Reg.Single.phone_number,
-        key_input: Reg.Single.phone_number,
-        label: "What is your phone number?",
-        input_placeholder: "XXX-XXXXXXX",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // free multi choice
-        type: "multi",
-        id: Reg.Multi.interested_role,
-        table_name: Reg.Multi.interested_role,
-        label: "What types of jobs will you be searching for?",
-        input_placeholder: "Web Developer",
-        list_title: field_study ? `Popular job for your field of study` : "",
 
-        ref_table_name: "job_role",
-        suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
-        suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
-        is_required: true,
-        hidden: false
-      },
-      {
-        // free multi choice (location)
-        type: "multi",
-        id: Reg.Multi.interested_job_location,
-        table_name: Reg.Multi.interested_job_location,
-        location_suggestion: Reg.Multi.interested_job_location,
-        label: "Where would you like to work in Malaysia?",
-        input_placeholder: "Cyberjaya, Selangor",
-        list_title: field_study
-          ? `Popular job for your field of study`
-          : "Popular in your area",
-        ref_table_name: "location",
-        is_required: true,
-        hidden: false
-      },
-      {
-        // free multi choice
-        type: "multi",
-        id: Reg.Multi.interested_role,
-        table_name: Reg.Multi.interested_role,
-        label: "What types of jobs will you be searching for?",
-        input_placeholder: "Web Developer",
-        list_title: field_study ? `Popular job for your field of study` : "",
-
-        ref_table_name: "job_role",
-        suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
-        suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
-        is_required: true,
-        hidden: false
-      },
-      {
-        // free multi choice
-        type: "multi",
-        id: Reg.Multi.skill,
-        table_name: Reg.Multi.skill,
-        label: "What skills would you bring to your next job?",
-        input_placeholder: "Leadership, Javascript, etc",
-        // suggestion_search_by_ref: "major",
-        // suggestion_search_by_val: major,
-        //list_title: major ? `Popular job for major ${major}` : "",
-        ref_table_name: "skill",
-        is_required: true,
-        hidden: false
-      },
-      {
+    let r = [];
+    if (this.isEdit()) {
+      r.push({
         // single
         type: "single",
-        input_type : "select",
-        id: Reg.Single.sponsor,
-        key_input: Reg.Single.sponsor,
-        label: "Who is your sponsor?",
-        input_placeholder: "Type something here",
-        ref_table_name: "sponsor",
-        is_required: false,
+        label: "What is your name?",
+        id: Reg.Single.first_name,
+        key_input: Reg.Single.first_name,
+        input_placeholder: "First Name",
+        is_required: true,
         hidden: false
-      }
-    ];
+      });
+    }
+    r.push(
+      ...[
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          label: "When is your graduation date?",
+          id: Reg.Single.graduation_month,
+          key_input: Reg.Single.graduation_month,
+          ref_table_name: "month",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // defined multi choice
+          type: "multi",
+          id: Reg.Multi.looking_for_position,
+          table_name: Reg.Multi.looking_for_position,
+          label: "What are you looking for?",
+          ref_table_name: "looking_for_position",
+          hideInputSuggestion: true,
+          ref_order_by: "val ASC",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          id: Reg.Single.country_study,
+          key_input: Reg.Single.country_study,
+          label: "Where are you studying",
+          input_placeholder: "Malaysia",
+          ref_table_name: "country",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          id: Reg.Single.university,
+          key_input: Reg.Single.university,
+          label: "What is your university?",
+          input_placeholder: "Universiti Malaya",
+          ref_table_name: "university",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single select
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.qualification,
+          key_input: Reg.Single.qualification,
+          label: "What is your highest level of certificate?",
+          input_placeholder: "Type something here",
+          ref_table_name: "qualification",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // free multi choice (location)
+          type: "multi",
+          id: Reg.Multi.field_study,
+          table_name: Reg.Multi.field_study,
+          label: "What is your field of study?",
+          input_placeholder: "Computer Science",
+          list_title: null,
+          ref_table_name: "major",
+          ref_category: "computer-and-information-sciences", // ref suggestion by category
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          id: Reg.Single.grade,
+          key_input: Reg.Single.grade,
+          label: "What is your grade?",
+          input_placeholder: "Type something here",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          id: Reg.Single.phone_number,
+          key_input: Reg.Single.phone_number,
+          label: "What is your phone number?",
+          input_placeholder: "XXX-XXXXXXX",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // free multi choice
+          type: "multi",
+          id: Reg.Multi.interested_role,
+          table_name: Reg.Multi.interested_role,
+          label: "What types of jobs will you be searching for?",
+          input_placeholder: "Web Developer",
+          list_title: field_study ? `Popular job for your field of study` : "",
+
+          ref_table_name: "job_role",
+          suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
+          suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
+          is_required: true,
+          hidden: false
+        },
+        {
+          // free multi choice (location)
+          type: "multi",
+          id: Reg.Multi.interested_job_location,
+          table_name: Reg.Multi.interested_job_location,
+          location_suggestion: Reg.Multi.interested_job_location,
+          label: "Where would you like to work in Malaysia?",
+          input_placeholder: "Cyberjaya, Selangor",
+          list_title: field_study
+            ? `Popular job for your field of study`
+            : "Popular in your area",
+          ref_table_name: "location",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // free multi choice
+          type: "multi",
+          id: Reg.Multi.skill,
+          table_name: Reg.Multi.skill,
+          label: "What skills would you bring to your next job?",
+          input_placeholder: "Leadership, Javascript, etc",
+          // suggestion_search_by_ref: "major",
+          // suggestion_search_by_val: major,
+          //list_title: major ? `Popular job for major ${major}` : "",
+          ref_table_name: "skill",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.sponsor,
+          key_input: Reg.Single.sponsor,
+          label: "Who is your sponsor?",
+          input_placeholder: "Type something here",
+          ref_table_name: "sponsor",
+          is_required: false,
+          hidden: false
+        }
+      ]
+    );
 
     return r;
   }
@@ -362,6 +381,7 @@ export default class ManageUserProfile extends React.Component {
       </div>
     );
   }
+
   getInputElement(d, i, isChildren = false) {
     let isLastItem = this.isLastItem(i);
     let hideContinueButton = isLastItem;
@@ -376,7 +396,9 @@ export default class ManageUserProfile extends React.Component {
           doneHandler={this.inputDoneHandler}
           continueOnClick={this.continueOnClick}
           isChildren={isChildren}
-          hideContinueButton={isChildren ? true : hideContinueButton}
+          hideContinueButton={
+            isChildren || this.isEdit() ? true : hideContinueButton
+          }
         ></InputSingle>,
         discardMargin ? null : this.MARGIN
       ];
@@ -390,7 +412,9 @@ export default class ManageUserProfile extends React.Component {
           doneHandler={this.inputDoneHandler}
           isChildren={isChildren}
           continueOnClick={this.continueOnClick}
-          hideContinueButton={isChildren ? true : hideContinueButton}
+          hideContinueButton={
+            isChildren || this.isEdit() ? true : hideContinueButton
+          }
         ></InputMulti>,
         discardMargin ? null : this.MARGIN
       ];
@@ -425,5 +449,6 @@ export default class ManageUserProfile extends React.Component {
 
 ManageUserProfile.propTypes = {
   user_id: PropTypes.number.isRequired,
-  completeHandler: PropTypes.func
+  completeHandler: PropTypes.func,
+  isEdit: PropTypes.bool
 };

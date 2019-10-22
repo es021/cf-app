@@ -138,6 +138,19 @@
 // ###############################################
 // Custom class
 
+.profile-card.edit-profile{
+    display: initial;
+    text-align: left;
+    .pc-title{
+        margin-top: 17px;
+        font-size: 20px;
+    }
+    .pc-subtitle{
+        font-size: 16px;
+
+    }
+}
+
 .profile-card.profile-card-hidden {
     opacity: 0;
 }

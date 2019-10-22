@@ -4,6 +4,8 @@ const {
 } = require('./db-config.js');
 
 const Single = {
+    first_name : "first_name",
+    last_name : "last_name",
     country_study : "country_study",
     university : "university",
     qualification : "qualification",
