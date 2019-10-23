@@ -8,6 +8,6 @@ PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
 -- ###############################################################################################
 -- ###############################################################################################
 
-INSERT INTO ref_looking_for_position (val) VALUES ('Full Time'); 
-INSERT INTO ref_looking_for_position (val) VALUES ('Part Time'); 
+INSERT INTO ref_looking_for_position (val) VALUES ('Full-Time'); 
+INSERT INTO ref_looking_for_position (val) VALUES ('Part-Time'); 
 INSERT INTO ref_looking_for_position (val) VALUES ('Internship'); 

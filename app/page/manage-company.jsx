@@ -540,12 +540,13 @@ export default class ManageCompanyPage extends React.Component {
                 },
                 icon: "users"
             }
-            // item["all-student"] = {
-            //     label: "All Student",
-            //     component: StudentListing,
-            //     props: { title: "All Student", company_id: this.company_id, isAllStudent: true },
-            //     icon: "address-book-o"
-            // }
+            //.. kita tak payah guna ni sebab kita boleh guna priviledge ACCESS_ALL_STUDENT untuk contol kat page student listing
+            item["all-student"] = {
+                label: "All Student",
+                component: StudentListing,
+                props: { title: "All Student", company_id: this.company_id, isAllStudent: true },
+                icon: "address-book-o"
+            }
             item["session"] = {
                 label: "Past Sessions",
                 component: SessionsList,

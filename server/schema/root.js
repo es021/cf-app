@@ -111,40 +111,39 @@ fields["locations"] = {
   }
 };
 
-
 /*******************************************/
 /* refs ******************/
 fields["refs"] = {
-	type: new GraphQLList(RefType),
-	args: {
-	  table_name: __.StringNonNull,
-	  val: __.String,
-	  category: __.String,
-	  entity_id: __.Int,
-	  entity: __.String,
-  
-	  // get attribute multi/single
-	  multi_table_name: __.String,
-	  single_table_name: __.String,
-  
-	  // pagination
-	  page: __.Int,
+  type: new GraphQLList(RefType),
+  args: {
+    table_name: __.StringNonNull,
+    val: __.String,
+    category: __.String,
+    entity_id: __.Int,
+    entity: __.String,
+
+    // get attribute multi/single
+    multi_table_name: __.String,
+    single_table_name: __.String,
+
+    // pagination
+    page: __.Int,
     offset: __.Int,
-    order_by : __.String,
-  
-	  // untuk dapatkan suggestion guna table refmap_suggestion
-	  location_suggestion : __.String,
-	  search_by_ref: __.String,
-    search_by_val: __.String,
-	},
-	resolve(parentValue, arg, context, info) {
-	  if (arg.table_name == "location") {
-		return LocationExec.list(arg, graphqlFields(info));
-	  } else {
-		return RefExec.list(arg, graphqlFields(info));
-	  }
-	}
-  };
+    order_by: __.String,
+
+    // untuk dapatkan suggestion guna table refmap_suggestion
+    location_suggestion: __.String,
+    search_by_ref: __.String,
+    search_by_val: __.String
+  },
+  resolve(parentValue, arg, context, info) {
+    if (arg.table_name == "location") {
+      return LocationExec.list(arg, graphqlFields(info));
+    } else {
+      return RefExec.list(arg, graphqlFields(info));
+    }
+  }
+};
 
 /*******************************************/
 /* multi ******************/
@@ -177,7 +176,6 @@ fields["multis"] = {
     return MultiExec.list(arg, graphqlFields(info));
   }
 };
-
 
 /*******************************************/
 /* hall_galleries ******************/
@@ -329,8 +327,10 @@ fields["student_listing"] = {
     page: __.Int,
     offset: __.Int,
     search_student: __.String,
-    search_major: __.String,
-    search_study_place: __.String,
+    // search_major: __.String,
+    // search_study_place: __.String,
+    search_field_study: __.String,
+    search_country_study: __.String,
     search_work_av_month: __.String,
     search_work_av_year: __.String,
     search_looking_for: __.String

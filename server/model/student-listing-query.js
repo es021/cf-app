@@ -20,13 +20,17 @@ class StudentListingQuery {
 
         // 2. search major
         // @param search_major
-        var join_search_major = UserQuery.getSearchMajor("j.user_id", params.search_major);
-        var resume_search_major = UserQuery.getSearchMajor("r.student_id", params.search_major);
-
+        // var join_search_major = UserQuery.getSearchMajor("j.user_id", params.search_major);
+        // var resume_search_major = UserQuery.getSearchMajor("r.student_id", params.search_major);
+        var join_search_field_study = UserQuery.getSearchMulti("field_study", "j.user_id", params.search_field_study);
+        var resume_search_field_study = UserQuery.getSearchMulti("field_study", "r.student_id", params.search_field_study);
+        
         // 3. search study place
         // @param search_study_place
-        var join_search_place = UserQuery.getSearchStudyPlace("j.user_id", params.search_study_place);
-        var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
+        // var join_search_place = UserQuery.getSearchStudyPlace("j.user_id", params.search_study_place);
+        // var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
+        var join_search_country_study = UserQuery.getSearchSingle("country_study", "j.user_id", params.search_country_study);
+        var resume_search_country_study = UserQuery.getSearchSingle("country_study", "r.student_id", params.search_country_study);
 
         // 4. search work availability 
         // @param search_work_av_start, search_work_av_end
@@ -35,9 +39,11 @@ class StudentListingQuery {
 
         // 5. search_looking_for
         // @param search_looking_for
-        var join_search_looking_for = UserQuery.getSearchLookingFor("j.user_id", params.search_looking_for);
-        var resume_search_looking_for = UserQuery.getSearchLookingFor("r.student_id", params.search_looking_for);
-
+        // var join_search_looking_for = UserQuery.getSearchLookingFor("j.user_id", params.search_looking_for);
+        // var resume_search_looking_for = UserQuery.getSearchLookingFor("r.student_id", params.search_looking_for);
+        var join_search_looking_for = UserQuery.getSearchMulti("looking_for_position", "j.user_id", params.search_looking_for);
+        var resume_search_looking_for = UserQuery.getSearchMulti("looking_for_position", "r.student_id", params.search_looking_for);
+        
 
         // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
         //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
@@ -60,8 +66,8 @@ class StudentListingQuery {
                 WHERE 1=1
                 AND g.company_id = ${params.company_id}
                 AND ${join_search_student}
-                AND ${join_search_major}
-                AND ${join_search_place}
+                AND ${join_search_field_study}
+                AND ${join_search_country_study}
                 AND ${join_search_work_av}
                 AND ${join_search_looking_for}
                 AND ${join_cf}
@@ -75,8 +81,8 @@ class StudentListingQuery {
                 WHERE 1=1
                 AND r.company_id = ${params.company_id}
                 AND ${resume_search_student}
-                AND ${resume_search_major}
-                AND ${resume_search_place}
+                AND ${resume_search_field_study}
+                AND ${resume_search_country_study}
                 AND ${resume_search_work_av}
                 AND ${resume_search_looking_for}
                 AND ${resume_cf}
@@ -105,8 +111,8 @@ class StudentListingQuery {
         FROM wp_cf_users u left outer join doc_link dc ON u.ID = dc.user_id
         WHERE 1=1 
         AND ${join_search_student}
-        AND ${join_search_major}
-        AND ${join_search_place}
+        AND ${join_search_field_study}
+        AND ${join_search_country_study}
         AND ${join_search_work_av}
         AND ${join_search_looking_for}
         AND ${join_cf}

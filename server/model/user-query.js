@@ -23,6 +23,33 @@ const { DocLinkExec } = require("./doclink-query.js");
 const { SkillExec } = require("./skill-query.js");
 
 class UserQuery {
+  selectMultiMain(table_name, user_id, { isConcatVal }) {
+    let sel =
+      isConcatVal === true ? `GROUP_CONCAT(m.val SEPARATOR ':: ')` : `m.val`;
+    return `select ${sel} from multi_${table_name} m where m.entity_id = ${user_id} and m.entity = 'user'`;
+  }
+  selectSingleMain(user_id, key_input) {
+    return `select s.val from single_input s where s.entity_id = ${user_id} and s.entity = 'user' and s.key_input = '${key_input}'`;
+  }
+  getSearchMulti(table_name, field, search_params) {
+    if (typeof search_params !== "undefined") {
+      return `(${this.selectMultiMain(table_name, field, {
+        isConcatVal: true
+      })}) LIKE '%${search_params}%' `;
+    } else {
+      return "1=1";
+    }
+  }
+  getSearchSingle(key_input, field, search_params) {
+    if (typeof search_params !== "undefined") {
+      return `(${this.selectSingleMain(
+        field,
+        key_input
+      )}) LIKE '%${search_params}%' `;
+    } else {
+      return "1=1";
+    }
+  }
   getSearchMeta(field, search_params, meta_key) {
     if (typeof search_params !== "undefined") {
       return `(${this.selectMetaMain(
@@ -64,9 +91,12 @@ class UserQuery {
   }
 
   getSearchName(field, search_params) {
-    return `CONCAT((${this.selectMetaMain(field, UserMeta.FIRST_NAME)}),
-                (${this.selectMetaMain(field, UserMeta.LAST_NAME)}))
-                like '%${search_params}%'`;
+    // return `CONCAT((${this.selectMetaMain(field, UserMeta.FIRST_NAME)}),
+    //             (${this.selectMetaMain(field, UserMeta.LAST_NAME)}))
+    //             like '%${search_params}%'`;
+    return `CONCAT((${this.selectSingleMain(field, "first_name")}),
+                  (${this.selectSingleMain(field, "last_name")}))
+                  like '%${search_params}%'`;
   }
 
   getSearchEmail(field, search_params) {
