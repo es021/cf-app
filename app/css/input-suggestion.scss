@@ -1,71 +1,73 @@
+$INPUT_WIDTH: 600px;
+$INPUT_MAX_WIDTH: 85vw;
 .input-suggestion {
-	max-width: 100vw;
-	margin: 10px 0px;
+  max-width: 100vw;
+  margin: 10px 0px;
 
-	.input-field {
-		.input-and-icon{
-			display: flex;
-			flex-wrap: wrap;
+  .input-field {
+    .input-and-icon {
+      display: flex;
+      flex-wrap: wrap;
 
-			
-			input,select{
-				font-size: 18px;
-				padding: 10px;
-				max-width: 85vw;
-				width: 600px;
-				border-radius: 3px;
-				border: darkgray 1px solid;
-			}
+      input,
+      select,
+      textarea {
+        font-size: 18px;
+        padding: 10px;
+        max-width: $INPUT_MAX_WIDTH;
+        width: $INPUT_WIDTH;
+        border-radius: 3px;
+        border: darkgray 1px solid;
+      }
 
-			input {
-				padding: 10px 16px;
-			}
-	
-			input:focus, select:focus {
-				box-shadow: 1px 2px 6px -2px rgba(0, 0, 0, 0.5);
-			}
+      input {
+        padding: 10px 16px;
+      }
 
-			.icon-input{
-				margin-top: 7px; 
-				margin-left: 10px;
-				align-self: center;
-				font-size: 25px;
-				display: flex;
-				align-items: center;
+      input:focus,
+      select:focus {
+        box-shadow: 1px 2px 6px -2px rgba(0, 0, 0, 0.5);
+      }
 
-				.icon-text{
-					font-size: 15px;
-					margin-left: 7px;
-					float: right;
-				}
-			}
-		}
-		
-	}
+      .icon-input {
+        margin-top: 7px;
+        margin-left: 10px;
+        align-self: center;
+        font-size: 25px;
+        display: flex;
+        align-items: center;
 
-	.suggestion-list {
-		background: white;
-		width: 50%;
-		border: gray solid 1px;
-		border-top: none;
-		border-bottom: none;
+        .icon-text {
+          font-size: 15px;
+          margin-left: 7px;
+          float: right;
+        }
+      }
+    }
+  }
 
-		ul {
-			padding: 0;
-			margin: 0;
+  .suggestion-list {
+    background: white;
+    max-width: $INPUT_MAX_WIDTH;
+    width: $INPUT_WIDTH;
+    border: gray solid 1px;
+    border-top: none;
+    border-bottom: none;
 
-			li {
-				padding: 4px 7px;
-				border-bottom: gray solid 1px;
-				cursor: pointer;
-			}
+    ul {
+      padding: 0;
+      margin: 0;
 
-			li:hover,
-			li.highlight {
-				background: whitesmoke;
-			}
-		}
+      li {
+        padding: 4px 7px;
+        border-bottom: gray solid 1px;
+        cursor: pointer;
+      }
 
-
-	}
+      li:hover,
+      li.highlight {
+        background: whitesmoke;
+      }
+    }
+  }
 }

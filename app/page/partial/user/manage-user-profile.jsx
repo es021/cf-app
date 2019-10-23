@@ -135,6 +135,8 @@ export default class ManageUserProfile extends React.Component {
           label: "When is your graduation date?",
           id: Reg.Single.graduation_month,
           key_input: Reg.Single.graduation_month,
+          // select_use_id_as_value: true,
+          ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
           hidden: false
@@ -271,6 +273,17 @@ export default class ManageUserProfile extends React.Component {
           label: "Who is your sponsor?",
           input_placeholder: "Type something here",
           ref_table_name: "sponsor",
+          is_required: false,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          input_type: "textarea",
+          id: Reg.Single.description,
+          key_input: Reg.Single.description,
+          label: "Tell more about yourself.",
+          input_placeholder: "Type something here",
           is_required: false,
           hidden: false
         }

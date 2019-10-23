@@ -29,6 +29,9 @@ export default class InputSuggestion extends React.Component {
   isText() {
     return this.props.input_type == "text";
   }
+  isTextarea() {
+    return this.props.input_type == "textarea";
+  }
   isSelect() {
     return this.props.input_type == "select";
   }
@@ -169,8 +172,8 @@ export default class InputSuggestion extends React.Component {
 
     for (var i in this.props.table_name) {
       let q = `query{ 
-        refs(table_name :"${this.props.table_name}") {
-          val table_name
+        refs(table_name :"${this.props.table_name}", order_by : "${this.props.order_by}") {
+          ID val table_name
         }
       }`;
 
@@ -272,7 +275,12 @@ export default class InputSuggestion extends React.Component {
     } else {
       let dataset = ["", ...this.state.dataset];
       return dataset.map((d, i) => {
-        let value = d.val;
+        let value = "";
+        if (this.props.use_id_as_value) {
+          value = d.ID;
+        } else {
+          value = d.val;
+        }
         let label = d.val;
         return (
           <option key={i} value={value}>
@@ -312,6 +320,20 @@ export default class InputSuggestion extends React.Component {
           {this.getSelectOptions()}
         </select>
       );
+    } else if (this.isTextarea()) {
+      return (
+        <textarea
+          onChange={this.onChange}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
+          ref={r => {
+            this.ref = r;
+          }}
+          value={this.props.input_val}
+          defaultValue={this.props.input_val}
+          rows={this.props.rows ? this.props.rows : 4}
+        ></textarea>
+      );
     }
   }
   render() {
@@ -330,6 +352,8 @@ export default class InputSuggestion extends React.Component {
 }
 
 InputSuggestion.propTypes = {
+  order_by: PropTypes.string,
+  use_id_as_value: PropTypes.bool,
   input_type: PropTypes.string,
   icon_loading: PropTypes.bool,
   icon_done: PropTypes.bool,
@@ -343,5 +367,6 @@ InputSuggestion.propTypes = {
 };
 
 InputSuggestion.defaultProps = {
+  order_by: "",
   input_type: "text"
 };

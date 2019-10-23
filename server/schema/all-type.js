@@ -19,8 +19,8 @@ const LocationType = new GraphQLObjectType({
     country: __.String,
     city_id: __.Int,
     state_id: __.Int,
-	country_id: __.Int,
-	val : __.String
+    country_id: __.Int,
+    val: __.String
   })
 });
 
@@ -107,9 +107,7 @@ const UserType = new GraphQLObjectType({
     ID: __.Int,
     user_email: __.String,
     user_pass: __.String,
-    first_name: __.String,
-    last_name: __.String,
-    description: __.String,
+
     img_url: __.String,
     img_pos: __.String,
     img_size: __.String,
@@ -119,7 +117,6 @@ const UserType = new GraphQLObjectType({
     role: __.String,
     cf: __.StringList,
     user_registered: __.String,
-    degree_level: __.String,
 
     //active activity
     queues: __.ListOf(QueueType),
@@ -136,30 +133,53 @@ const UserType = new GraphQLObjectType({
     booked_at: __.ListOf(AvailabilityType),
     prescreens_for_student_listing: __.ListOf(PrescreenType),
 
-    // student only
+    // NEW PROFILE
+    first_name: __.String,
+    last_name: __.String,
+    country_study: __.String,
     university: __.String,
-    phone_number: __.String,
+    qualification: __.String,
     graduation_month: __.String,
     graduation_year: __.String,
+    grade: __.String,
+    phone_number: __.String,
+    sponsor: __.String,
+    description: __.String,
+    field_study: __.ListOf(MultiType),
+    looking_for_position: __.ListOf(MultiType),
+    interested_role: __.ListOf(MultiType),
+    interested_job_location: __.ListOf(MultiType),
+    doc_links: __.ListOf(DocLinkType),
+    skill: __.ListOf(MultiType),
+
+    // OLD ONE
+    // //student only
+    // first_name: __.String,
+    // last_name: __.String,
+    // description: __.String,
+    // university: __.String,
+    // phone_number: __.String,
+    // graduation_month: __.String,
+    // graduation_year: __.String,
+    // sponsor: __.String,
+    // /// ####
+    // deprecated will return null only
+    degree_level: __.String,
+    skills: __.ListOf(SkillType),
     available_month: __.String,
     available_year: __.String,
-    sponsor: __.String,
     cgpa: __.String,
     study_field: __.String,
     major: __.String,
     minor: __.String,
-
     gender: __.String,
-
     mas_state: __.String,
     mas_postcode: __.String,
     relocate: __.String,
     study_place: __.String,
     looking_for: __.String,
 
-    doc_links: __.ListOf(DocLinkType),
-    skills: __.ListOf(SkillType),
-
+  
     // rec only
     rec_company: __.Int,
     rec_position: __.String,

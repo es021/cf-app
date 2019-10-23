@@ -1,11 +1,27 @@
-- smbung done handler untuk check apa lagi yang required tak isi
-- design css unutk required
-- done handler untuk complete manage user profile
-  - handler ni kat sign-up
+http://localhost:8085/cf-app/note/note-font/font.html
+http://localhost/cf-app/note/note-font/font.html
 
-- siap gabung ref list (suggestion) n multi list kat input-multi
+## ######################################################################################
+## ######################################################################################
+## ######################################################################################
+
+## EFECTED MODULE - new user profile ###
+## -user popup
+-edit user 
+  - skills (kena drop)
+-student listing
+  - list card
+  - filter by graduation month
+-export.xls
 
 ###############################################
+
+## - smbung done handler untuk check apa lagi yang required tak isi
+## - design css unutk required
+## - done handler untuk complete manage user profile
+##   - handler ni kat sign-up
+## - siap gabung ref list (suggestion) n multi list kat input-multi
+
 new sign up
 
 Page 1

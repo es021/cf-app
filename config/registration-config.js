@@ -9,13 +9,12 @@ const Single = {
     country_study : "country_study",
     university : "university",
     qualification : "qualification",
-    // major : "major",
     graduation_month : "graduation_month",
     graduation_year : "graduation_year",
     grade : "grade",
     phone_number : "phone_number",
     sponsor : "sponsor",
-
+    description : "description",
 }
 
 const Multi = {

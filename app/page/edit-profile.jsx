@@ -363,11 +363,11 @@ export default class EditProfilePage extends React.Component {
         routeOnly: true,
         icon: "file-text"
       };
-      this.item["skills"] = {
-        label: "Add Skills",
-        component: Skills,
-        icon: "star"
-      };
+      // this.item["skills"] = {
+      //   label: "Add Skills",
+      //   component: Skills,
+      //   icon: "star"
+      // };
       this.item["availability"] = {
         label: "Manage Availability",
         component: AvailabilityView,

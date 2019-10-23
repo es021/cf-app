@@ -139,7 +139,6 @@ export default class InputSingle extends React.Component {
       this.setLastSendTimestamp();
       doSend();
     }
-
   }
   triggerDoneHandler(v) {
     this.props.doneHandler(this.props.id, {
@@ -268,6 +267,8 @@ export default class InputSingle extends React.Component {
         </div>
         <div className="si-input">
           <InputSuggestion
+            order_by={this.props.ref_order_by}
+            use_id_as_value={this.props.select_use_id_as_value}
             input_type={this.props.input_type}
             icon_loading={this.state.loading}
             icon_done={this.state.done_update}
@@ -292,6 +293,7 @@ export default class InputSingle extends React.Component {
 }
 
 InputSingle.propTypes = {
+  select_use_id_as_value: PropTypes.bool,
   children: PropTypes.array,
   index: PropTypes.number,
   id: PropTypes.string,
@@ -300,6 +302,7 @@ InputSingle.propTypes = {
   continueOnClick: PropTypes.func,
   is_required: PropTypes.bool,
   ref_table_name: PropTypes.string,
+  ref_order_by: PropTypes.string,
   key_val: PropTypes.string,
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,
@@ -310,6 +313,7 @@ InputSingle.propTypes = {
 };
 
 InputSingle.defaulProps = {
+  select_use_id_as_value: false,
   isChildren: false,
   hideContinueButton: false,
   doneHandler: () => {
