@@ -122,6 +122,11 @@ fields["refs"] = {
     entity_id: __.Int,
     entity: __.String,
 
+    // filter
+    filter_column: __.String,
+    filter_val: __.String,
+    filter_find_id: __.Boolean,
+
     // get attribute multi/single
     multi_table_name: __.String,
     single_table_name: __.String,

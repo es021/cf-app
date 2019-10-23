@@ -172,7 +172,10 @@ export default class InputSuggestion extends React.Component {
 
     for (var i in this.props.table_name) {
       let q = `query{ 
-        refs(table_name :"${this.props.table_name}", order_by : "${this.props.order_by}") {
+        refs(
+          table_name :"${this.props.table_name}", 
+          order_by : "${this.props.order_by}"
+        ) {
           ID val table_name
         }
       }`;
@@ -188,7 +191,13 @@ export default class InputSuggestion extends React.Component {
     }
 
     let q = `query{ 
-          refs(table_name :"${this.props.table_name}", val:"${v}", page:1, offset:10) {
+          refs(
+            table_name :"${this.props.table_name}", 
+            filter_column : "${this.props.filter_column}"
+            filter_val : "${this.props.filter_val}"
+            filter_find_id : ${this.props.filter_find_id}
+            val:"${v}", page:1, offset:10
+          ) {
             val
           }
         }`;
@@ -363,10 +372,16 @@ InputSuggestion.propTypes = {
   input_val: PropTypes.string,
   input_placeholder: PropTypes.string,
   table_name: PropTypes.string,
+  filter_column : PropTypes.string,
+  filter_val : PropTypes.string,
+  filter_find_id : PropTypes.bool,
   onChoose: PropTypes.func
 };
 
 InputSuggestion.defaultProps = {
+  filter_column : "",
+  filter_val : "",
+  filter_find_id : false,
   order_by: "",
   input_type: "text"
 };

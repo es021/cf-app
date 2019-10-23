@@ -14,19 +14,19 @@ export default class TestLayout extends React.Component {
   render() {
     document.setTitle("Test");
 
-    let authUser = {
-      ID: 888,
-      role: "student"
-    };
-    layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {
-      id: authUser.ID,
-      role: authUser.role
-    });
+    // let authUser = {
+    //   ID: 888,
+    //   role: "student"
+    // };
+    // layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {
+    //   id: authUser.ID,
+    //   role: authUser.role
+    // });
 
     return (
       <div style={{ padding: "10px", background: "white" }}>
         <FocusCard></FocusCard>
-        {/* <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile> */}
+         <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile>
       </div>
     );
   }

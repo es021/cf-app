@@ -27,7 +27,8 @@ export default class InputSingle extends React.Component {
       val: null,
       loading: false,
       done_update: false,
-      show_is_required: false
+      show_is_required: false,
+      lastUpdate : null
     };
   }
   componentWillMount() {
@@ -107,7 +108,22 @@ export default class InputSingle extends React.Component {
 
     return toSet;
   }
+  componentWillUpdate(nextProps) {
+    let props = this.props.ref_filter_val;
+    let next = nextProps.ref_filter_val;
 
+    if (Array.isArray(props)) {
+      props = JSON.stringify(props);
+    }
+
+    if (Array.isArray(next)) {
+      next = JSON.stringify(next);
+    }
+
+    if (props !== next) {
+      this.setState({ lastUpdate: Date.now() });
+    }
+  }
   sendDataToDb(v) {
     const doSend = () => {
       console.log("sendDataToDb", v);
@@ -280,6 +296,9 @@ export default class InputSingle extends React.Component {
             input_placeholder={this.props.input_placeholder}
             onChoose={this.onChooseSuggestion}
             table_name={this.props.ref_table_name}
+            filter_column={this.props.ref_filter_column}
+            filter_val={this.props.ref_filter_val}
+            filter_find_id={this.props.ref_filter_find_id}
           ></InputSuggestion>
         </div>
 
@@ -309,10 +328,16 @@ InputSingle.propTypes = {
   entity_id: PropTypes.number,
   label: PropTypes.string,
   hideContinueButton: PropTypes.bool,
-  isChildren: PropTypes.bool
+  isChildren: PropTypes.bool,
+  ref_filter_column: PropTypes.string,
+  ref_filter_val: PropTypes.string,
+  ref_filter_find_id : PropTypes.bool,
 };
 
 InputSingle.defaulProps = {
+  ref_filter_column: "",
+  ref_filter_val: "",
+  ref_filter_find_id : false,
   select_use_id_as_value: false,
   isChildren: false,
   hideContinueButton: false,

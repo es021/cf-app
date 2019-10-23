@@ -7,9 +7,32 @@ class RefExec {
     let table_name = param.table_name;
     let val = !param.val ? "1=1" : ` val like '%${param.val}%' `;
     let category = !param.category ? "1=1" : ` category = '${param.category}' `;
+
+    // create filter
+    let filter = "1=1";
+    if (param.filter_column && param.filter_val) {
+      filter = ` ${param.filter_column} = '${param.filter_val}' `;
+      if (param.filter_find_id === true) {
+        let filterTable = null;
+        if (param.filter_column == "country_id") {
+          filterTable = "country";
+        }
+        if (filterTable != null) {
+          filter = ` ${param.filter_column} = (select x.ID from ref_${filterTable} x where x.val = '${param.filter_val}' ) `;
+        } else {
+          filter = "1=1";
+        }
+      }
+    }
+
+
+
     let order_by = !param.order_by ? "" : `ORDER BY ${param.order_by}`;
 
-    // console.log(table_name,param.category);
+    console.log(table_name, param);
+    console.log(table_name, param);
+    console.log(table_name, param);
+    console.log(table_name, param);
     // console.log(table_name,param.category);
     // console.log(table_name,param.category);
     // console.log(table_name,param.category);
@@ -60,7 +83,7 @@ class RefExec {
 
     let sql = `
 			select *, "${table_name}" as table_name from ref_${table_name} where 1=1
-			and ${val} and ${category} and ${suggestion}
+			and ${val} and ${category} and ${suggestion} and ${filter}
 			${order_by}
 			${limit}
 		`;

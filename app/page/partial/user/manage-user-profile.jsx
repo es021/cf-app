@@ -112,6 +112,7 @@ export default class ManageUserProfile extends React.Component {
   }
   getInputItems() {
     let field_study = this.getFieldStudyListStr();
+    let country = this.state.currentData[Reg.Single.country_study];
 
     let r = [];
     if (this.isEdit()) {
@@ -172,6 +173,9 @@ export default class ManageUserProfile extends React.Component {
           label: "What is your university?",
           input_placeholder: "Universiti Malaya",
           ref_table_name: "university",
+          ref_filter_column : "country_id",
+          ref_filter_val : country,
+          ref_filter_find_id : true, // kena ubah kat ref-query
           is_required: true,
           hidden: false
         },
@@ -289,6 +293,20 @@ export default class ManageUserProfile extends React.Component {
         }
       ]
     );
+
+    // r = [ {
+    //   // single
+    //   type: "single",
+    //   id: Reg.Single.university,
+    //   key_input: Reg.Single.university,
+    //   label: "What is your university?",
+    //   input_placeholder: "Universiti Malaya",
+    //   ref_table_name: "university",
+    //   ref_filter_column : "country_id",
+    //   ref_filter_val : country,
+    //   is_required: true,
+    //   hidden: false
+    // },]
 
     return r;
   }
