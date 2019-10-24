@@ -110,11 +110,11 @@ export default class InputSuggestion extends React.Component {
   //   }
   // }
   onBlur(e) {
-    // console.log("onBlur", e);
+     console.log("onBlur", e);
     this.closeSuggestionList();
 
     if (this.props.input_onBlur) {
-      this.props.input_onBlur(e);
+      this.props.input_onBlur(e, this.props.name);
     }
   }
   onFocus(e) {
@@ -124,12 +124,10 @@ export default class InputSuggestion extends React.Component {
     });
 
     if (this.props.input_onFocus) {
-      this.props.input_onFocus(e);
+      this.props.input_onFocus(e, this.props.name);
     }
   }
   onChange(e) {
-    // console.log("onChange", e);
-    // console.log(this.ref.value);
     if (this.isSelect()) {
     } else {
       let v = this.ref.value;
@@ -143,7 +141,7 @@ export default class InputSuggestion extends React.Component {
     }
 
     if (this.props.input_onChange) {
-      this.props.input_onChange(e);
+      this.props.input_onChange(e, this.props.name);
     }
   }
   onClickSuggestion(e, customVal = null) {
@@ -161,7 +159,7 @@ export default class InputSuggestion extends React.Component {
     this.emptySuggestionList();
 
     if (this.props.onChoose) {
-      this.props.onChoose(v);
+      this.props.onChoose(v, this.props.name);
     }
   }
   fetchDataset() {
@@ -346,6 +344,8 @@ export default class InputSuggestion extends React.Component {
     }
   }
   render() {
+
+    console.log("inputsuggestion render",this.props.name, this.props.input_val)
     return (
       <div onKeyDown={this.onKeyDown} className="input-suggestion">
         <div className="input-field">
@@ -372,16 +372,18 @@ InputSuggestion.propTypes = {
   input_val: PropTypes.string,
   input_placeholder: PropTypes.string,
   table_name: PropTypes.string,
-  filter_column : PropTypes.string,
-  filter_val : PropTypes.string,
-  filter_find_id : PropTypes.bool,
-  onChoose: PropTypes.func
+  filter_column: PropTypes.string,
+  filter_val: PropTypes.string,
+  filter_find_id: PropTypes.bool,
+  onChoose: PropTypes.func,
+  name: PropTypes.string
 };
 
 InputSuggestion.defaultProps = {
-  filter_column : "",
-  filter_val : "",
-  filter_find_id : false,
+  name: "",
+  filter_column: "",
+  filter_val: "",
+  filter_find_id: false,
   order_by: "",
   input_type: "text"
 };

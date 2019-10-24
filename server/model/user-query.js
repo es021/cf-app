@@ -232,11 +232,22 @@ class UserQuery {
     var limit = DB.prepareLimit(params.page, params.offset);
 
     // create meta selection
-    var meta_sel = "";
+    var meta_sel = "\n";
     for (var k in UserMeta) {
       var meta_key = k.toLowerCase();
       if (typeof field[meta_key] !== "undefined") {
-        meta_sel += `, ${this.selectMeta("u.ID", UserMeta[k], meta_key)}`;
+        // KALAU TAKDE DALAM SINGLE BARU AMIK DARI META NI
+        if (typeof Single[meta_key] === "undefined") {
+          meta_sel += `, ${this.selectMeta("u.ID", UserMeta[k], meta_key)} \n`;
+        }
+      }
+    }
+
+    // create single selection
+    for (var k in Single) {
+      var key_input = Single[k];
+      if (typeof field[key_input] !== "undefined") {
+        meta_sel += `, (${this.selectSingleMain("u.ID", key_input)}) as ${key_input} \n`;
       }
     }
 
@@ -246,31 +257,7 @@ class UserQuery {
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
-    //console.log(sql);
-
-    /*
-         var sql = `SELECT u.* 
-         ,${this.selectMeta("u.ID", UserMeta.FIRST_NAME)}
-         ,${this.selectMeta("u.ID", UserMeta.LAST_NAME)}
-         ,${this.selectMeta("u.ID", UserMeta.DESCRIPTION)}
-         ,${this.selectMeta("u.ID", UserMeta.ROLE, "role")}
-         ,${this.selectMeta("u.ID", UserMeta.IMG_URL, "img_url")}
-         ,${this.selectMeta("u.ID", UserMeta.IMG_POS, "img_pos")}
-         ,${this.selectMeta("u.ID", UserMeta.IMG_SIZE, "img_size")}
-         ,${this.selectMeta("u.ID", UserMeta.FEEDBACK)}
-         ,${this.selectMeta("u.ID", UserMeta.USER_STATUS, "user_status")}
-         ,${this.selectMeta("u.ID", UserMeta.UNIVERSITY)}
-         ,${this.selectMeta("u.ID", UserMeta.PHONE_NUMBER)}
-         ,${this.selectMeta("u.ID", UserMeta.GRADUATION_MONTH)}
-         ,${this.selectMeta("u.ID", UserMeta.GRADUATION_YEAR)}
-         ,${this.selectMeta("u.ID", UserMeta.SPONSOR)}
-         ,${this.selectMeta("u.ID", UserMeta.ACTIVATION_KEY)}
-         ,${this.selectMeta("u.ID", UserMeta.CGPA)}
-         ,${this.selectMeta("u.ID", UserMeta.MAJOR)}
-         ,${this.selectMeta("u.ID", UserMeta.MINOR)}
-         ,${this.selectMeta("u.ID", UserMeta.COMPANY_ID, "company_id")}
-         FROM wp_cf_users u WHERE 1=1 AND ${id_condition} AND ${email_condition} AND ${role_condition} ${limit}`;
-         */
+   
     return sql;
   }
 
@@ -378,8 +365,6 @@ class UserExec {
   }
 
   editUser(arg) {
-    console.log(arg);
-
     var ID = arg.ID;
 
     //update User table
@@ -420,24 +405,6 @@ class UserExec {
         updateUserMeta[k] = v;
       }
     }
-
-    console.log(updateUserMeta);
-    console.log(updateUser);
-
-    //if there is nothing to update from user table,
-    //update user meta only
-    // if (Object.keys(updateUser).length < 3) { // include ID and user status
-    //     console.log("update user meta only");
-    //     return this.updateUserMeta(ID, updateUserMeta);
-    // }
-
-    //update user only
-    // if (Object.keys(updateUserMeta).length >= 1) {
-    //     console.log("update user only");
-    //     return DB.update(User.TABLE, updateUser).then((res) => {
-    //         return res;
-    //     });
-    // }
 
     // //update both
     console.log("update both");
@@ -490,6 +457,8 @@ class UserExec {
       sql = UserQuery.getUser(field, params, metaCons);
     }
 
+    console.log("[UserExec]", sql);
+
     var toRet = DB.query(sql).then(function(res) {
       for (var i in res) {
         var user_id = res[i]["ID"];
@@ -498,25 +467,26 @@ class UserExec {
         var user_status = res[i]["user_status"];
 
         // add single field
-        for (var si in Single) {
-          let key = Single[si];
-          if (field[key] !== "undefined") {
-            res[i][key] = SingleExec.single(
-              {
-                key_input: key,
-                entity: "user",
-                entity_id: user_id,
-                valOnly: true
-              },
-              field[key]
-            );
-          }
-        }
+        // for (var si in Single) {
+        //   let key = Single[si];
+        //   if (typeof field[key] !== "undefined") {
+        //     console.log("Exec single ", key)
+        //     res[i][key] = SingleExec.single(
+        //       {
+        //         key_input: key,
+        //         entity: "user",
+        //         entity_id: user_id,
+        //         valOnly: true
+        //       },
+        //       field[key]
+        //     );
+        //   }
+        // }
 
         // add multi field
         for (var mi in Multi) {
           let key = Multi[mi];
-          if (field[key] !== "undefined") {
+          if (typeof field[key] !== "undefined") {
             res[i][key] = MultiExec.list(
               {
                 table_name: key,

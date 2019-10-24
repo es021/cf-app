@@ -1,19 +1,14 @@
 // card generally
 .card {
-  border: 1px solid gray;
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.5);
   margin: 10px;
-  cursor: pointer;
-
-  .card-action-icon{
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-  }
+  background: white;
 }
 
-.card:hover {
+.card.clickable {
+  cursor: pointer;
+}
+.card.clickable:hover {
   box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.5);
 }
 

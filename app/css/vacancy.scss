@@ -1,13 +1,27 @@
 @import "define/variable.scss";
 
 .vacancy-card {
-  padding: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 10px 13px;
   position: relative;
-  .profile-card {
-    align-items: start;
-    margin: 0;
-    .pc-picture {
-      border: 1px solid darkgray;
+  .img {
+    .profile-card {
+      align-items: start;
+      margin: 0;
+      .pc-picture {
+        border: 1px solid darkgray;
+      }
     }
+    margin-bottom: 7px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 17px;
+  }
+
+  .location, .type{
+    opacity: 0.8;
   }
 }

@@ -5,6 +5,8 @@ http://localhost/cf-app/note/note-font/font.html
 ## ######################################################################################
 ## ######################################################################################
 
+integrate form.js dgn input suggestion (REQUIRED FIELD HANDLER)
+
 ## EFECTED MODULE - new user profile ###
 ## -user popup
 -edit user 

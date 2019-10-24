@@ -39,6 +39,7 @@ import {
   createImageElement
 } from "../component/profile-card";
 import ActionBox from "../component/action-box";
+import { InterestedButton } from "../component/interested";
 
 import VacancyPopup from "./partial/popup/vacancy-popup";
 import ResumeDropPopup from "./partial/popup/resume-drop-popup";
@@ -53,77 +54,6 @@ import { getDangerousHtml } from "../lib/util";
 // #################################################################
 // #################################################################
 // require("../css/company-page.scss");
-
-class InterestedButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-    this.authUser = getAuthUser();
-    this.state = {
-      loading: false,
-      ID: this.props.ID,
-      is_interested: this.props.is_interested
-    };
-  }
-  onClick(e) {
-    if (this.state.loading) {
-      return;
-    }
-    this.setState({
-      loading: true
-    });
-
-    let mutation = "";
-    let q = "";
-    if (this.state.ID) {
-      // update
-      let new_is_interested = this.state.is_interested == 1 ? 0 : 1;
-      mutation = "edit_interested";
-      q = `mutation { edit_interested (
-        ID:${this.state.ID}, 
-        is_interested:${new_is_interested}
-        ) {ID is_interested} }`;
-    } else {
-      // create
-      mutation = "add_interested";
-      q = `mutation { add_interested (
-        user_id:${this.authUser.ID}, 
-        entity:"${this.props.entity}",
-        entity_id:${this.props.entity_id}
-        ) {ID is_interested} }`;
-    }
-
-    graphql(q).then(res => {
-      let d = res.data.data[mutation];
-      this.setState({
-        ID: d.ID,
-        is_interested: d.is_interested,
-        loading: false
-      });
-    });
-  }
-  render() {
-    return (
-      <div
-        className={`interested ${
-          this.state.is_interested == 1 ? "selected" : ""
-        }`}
-      >
-        {this.state.loading ? (
-          <i className="fa fa-spinner fa-pulse"></i>
-        ) : (
-          <i onClick={this.onClick} className="fa fa-heart"></i>
-        )}
-      </div>
-    );
-  }
-}
-InterestedButton.propTypes = {
-  ID: PropTypes.number,
-  is_interested: PropTypes.number,
-  entity: PropTypes.number,
-  entity_id: PropTypes.number
-};
 
 class VacancyList extends React.Component {
   constructor(props) {
@@ -151,7 +81,7 @@ class VacancyList extends React.Component {
   }
 
   componentWillMount() {
-    this.offset = 5;
+    this.offset = 6;
   }
 
   // renderList(d, i) {
@@ -206,17 +136,17 @@ class VacancyList extends React.Component {
         <div className="img">{img}</div>
         <div className="title">{d.title}</div>
         <div className="location">{d.location}</div>
-        <div className="type">{d.type}</div>
-        {JSON.stringify(d)}
+        <div className="type">{d.type ? d.type + " Job" : null}</div>
       </div>
     );
 
     return (
       <EmptyCard
+        borderRadius={"7px"}
         minHeight={"180px"}
         width={"250px"}
         body={body}
-        onClick={() => {}}
+        onClick={null}
       ></EmptyCard>
     );
   }
@@ -874,7 +804,7 @@ export default class CompanyPage extends Component {
               canToggle={this.props.canToggle}
               initShow={true}
               className="left"
-              title="Job Details"
+              title="Job Opportunity"
               body={vacancies}
             />
             {data.more_info == "" ? null : (

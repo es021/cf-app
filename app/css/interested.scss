@@ -1,27 +1,32 @@
+$TOP: 6px;
+$RIGHT: 12px;
+$FONT_SIZE: 25px;
 .interested {
   z-index: 3;
   position: absolute;
-  top: 6px;
-  right: 12px;
-  font-size: 25px;
   cursor: pointer;
   color: grey;
+
+  top: $TOP;
+  right: $RIGHT;
+  font-size: $FONT_SIZE;
+
   .fa-heart:hover {
-    color: red;
+    top: $TOP - 2;
+    right: $RIGHT - 2;
+    font-size: $FONT_SIZE + 2;
   }
-  .fa-heart:active{
-    font-size: 27px;
-
+  .fa-heart:active {
+    top: $TOP;
+    right: $RIGHT;
+    font-size: $FONT_SIZE;
   }
 
-  .fa-spinner{
-    color : grey !important;
+  .fa-spinner {
+    color: grey;
   }
 }
 
 .interested.selected {
   color: red;
-  .fa-heart:hover {
-    color: grey;
-  }
 }

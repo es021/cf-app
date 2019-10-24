@@ -21,8 +21,6 @@ class InterestedExec {
 		var sql = this.querySingle(param, extra);
 		console.log("[InterestedExec]", sql);
 		var toRet = DB.query(sql).then((res) => {
-
-			console.log("res", res);
 			if (res.length <= 0) {
 				return {
 					is_interested: 0
