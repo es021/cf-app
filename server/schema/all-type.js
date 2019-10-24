@@ -487,13 +487,10 @@ const VacancyType = new GraphQLObjectType({
     requirement: __.String,
     type: __.String,
     application_url: __.String,
-    ref_city: __.Int,
-    ref_state: __.Int,
-    ref_country: __.Int,
+    location: __.String,
     updated_at: __.String,
     created_at: __.String,
     company: __.IsType(CompanyType),
-    location: __.IsType(LocationType),
     interested: __.IsType(InterestedType)
   })
 });

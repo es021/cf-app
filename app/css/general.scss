@@ -94,6 +94,12 @@ h3.left {
     flex-wrap: wrap;
 }
 
+.flex-wrap-start{
+    justify-content: start;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .static-page {
     max-width: 500px;
     margin: auto;

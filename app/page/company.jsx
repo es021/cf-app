@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import obj2arg from "graphql-obj2arg";
 import PageSection from "../component/page-section";
 import { NavLink } from "react-router-dom";
-import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import ProfileCard from "../component/profile-card.jsx";
+import { EmptyCard } from "../component/card.jsx";
 import List, { SimpleListItem, ProfileListItem } from "../component/list";
 import { Loader } from "../component/loader";
 import {
@@ -32,7 +33,11 @@ import ValidationStudentAction, {
   ValidationSource
 } from "../component/validation-student-action";
 import { BANNER_HEIGHT, BANNER_WIDTH } from "../component/profile-card-img";
-import { getStyleBannerObj } from "../component/profile-card";
+import {
+  PCType,
+  getStyleBannerObj,
+  createImageElement
+} from "../component/profile-card";
 import ActionBox from "../component/action-box";
 
 import VacancyPopup from "./partial/popup/vacancy-popup";
@@ -49,48 +54,170 @@ import { getDangerousHtml } from "../lib/util";
 // #################################################################
 // require("../css/company-page.scss");
 
+class InterestedButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+    this.authUser = getAuthUser();
+    this.state = {
+      loading: false,
+      ID: this.props.ID,
+      is_interested: this.props.is_interested
+    };
+  }
+  onClick(e) {
+    if (this.state.loading) {
+      return;
+    }
+    this.setState({
+      loading: true
+    });
+
+    let mutation = "";
+    let q = "";
+    if (this.state.ID) {
+      // update
+      let new_is_interested = this.state.is_interested == 1 ? 0 : 1;
+      mutation = "edit_interested";
+      q = `mutation { edit_interested (
+        ID:${this.state.ID}, 
+        is_interested:${new_is_interested}
+        ) {ID is_interested} }`;
+    } else {
+      // create
+      mutation = "add_interested";
+      q = `mutation { add_interested (
+        user_id:${this.authUser.ID}, 
+        entity:"${this.props.entity}",
+        entity_id:${this.props.entity_id}
+        ) {ID is_interested} }`;
+    }
+
+    graphql(q).then(res => {
+      let d = res.data.data[mutation];
+      this.setState({
+        ID: d.ID,
+        is_interested: d.is_interested,
+        loading: false
+      });
+    });
+  }
+  render() {
+    return (
+      <div
+        className={`interested ${
+          this.state.is_interested == 1 ? "selected" : ""
+        }`}
+      >
+        {this.state.loading ? (
+          <i className="fa fa-spinner fa-pulse"></i>
+        ) : (
+          <i onClick={this.onClick} className="fa fa-heart"></i>
+        )}
+      </div>
+    );
+  }
+}
+InterestedButton.propTypes = {
+  ID: PropTypes.number,
+  is_interested: PropTypes.number,
+  entity: PropTypes.number,
+  entity_id: PropTypes.number
+};
+
 class VacancyList extends React.Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
+    this.authUser = getAuthUser();
   }
 
   loadData(page, offset) {
+    // description
     return getAxiosGraphQLQuery(`
-        query{
-            vacancies(company_id:${
-      this.props.company_id
-      }, page:${page}, offset:${offset}){
+        query{vacancies(
+              user_id:${this.authUser.ID}, 
+              company_id:${this.props.company_id}, 
+              page:${page}, 
+              offset:${offset}
+              ){
                 ID
                 title
                 type
-                description
-            }
-        }`);
+                location 
+                company{ img_url, img_position, img_size }
+                interested{ID is_interested}
+        }}`);
   }
 
   componentWillMount() {
     this.offset = 5;
   }
 
+  // renderList(d, i) {
+  //   var param = { id: d.ID };
+  //   var title = (
+  //     <a
+  //       onClick={() =>
+  //         layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)
+  //       }
+  //     >
+  //       {d.title}
+  //     </a>
+  //   );
+  //   return (
+  //     <SimpleListItem
+  //       title={title}
+  //       subtitle={d.type}
+  //       body={d.description}
+  //       key={i}
+  //     />
+  //   );
+  // }
+
   renderList(d, i) {
-    var param = { id: d.ID };
-    var title = (
-      <a
-        onClick={() =>
-          layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)
-        }
-      >
-        {d.title}
-      </a>
+    // var param = { id: d.ID };
+    // var title = (
+    //   <a
+    //     onClick={() =>
+    //       layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)
+    //     }
+    //   >
+    //     {d.title}
+    //   </a>
+    // );
+    let com = d.company;
+    let img = createImageElement(
+      com.img_url,
+      com.img_pos,
+      d.img_size,
+      "50px",
+      "",
+      PCType.COMPANY
     );
+    let body = (
+      <div className="vacancy-card">
+        <InterestedButton
+          ID={d.interested.ID}
+          is_interested={d.interested.is_interested}
+          entity={"vacancies"}
+          entity_id={d.ID}
+        ></InterestedButton>
+        <div className="img">{img}</div>
+        <div className="title">{d.title}</div>
+        <div className="location">{d.location}</div>
+        <div className="type">{d.type}</div>
+        {JSON.stringify(d)}
+      </div>
+    );
+
     return (
-      <SimpleListItem
-        title={title}
-        subtitle={d.type}
-        body={d.description}
-        key={i}
-      />
+      <EmptyCard
+        minHeight={"180px"}
+        width={"250px"}
+        body={body}
+        onClick={() => {}}
+      ></EmptyCard>
     );
   }
 
@@ -101,8 +228,10 @@ class VacancyList extends React.Component {
   render() {
     return (
       <List
+        isHidePagingTop={true}
         type="list"
-        pageClass="text-center"
+        listClass="flex-wrap-start"
+        pageClass="text-right"
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
         offset={this.offset}
@@ -514,8 +643,8 @@ export default class CompanyPage extends Component {
 
     const btn_onClickChat = () => {
       const doAction = () => {
-        this.props.history.push(`${AppPath}/company-chat/${this.ID}`)
-      }
+        this.props.history.push(`${AppPath}/company-chat/${this.ID}`);
+      };
       doAfterValidateComingSoon(doAction);
     };
 
@@ -525,7 +654,9 @@ export default class CompanyPage extends Component {
           <ButtonAction
             style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
             btnClass="btn-lg btn-danger"
-            onClick={() => { openLiveSession(this.ID); }}
+            onClick={() => {
+              openLiveSession(this.ID);
+            }}
             icon="podcast"
             iconSize="2x"
             mainText={"Join Live Session"}
@@ -628,11 +759,9 @@ export default class CompanyPage extends Component {
   // }
 
   render() {
-
     var id = null;
     var data = this.state.data;
     var view = null;
-
 
     if (this.state.loading) {
       view = <Loader size="3" text="Loading Company Information..." />;
@@ -734,7 +863,11 @@ export default class CompanyPage extends Component {
                 className="left"
                 title="About"
                 //body={<p>{data.description}</p>}
-                body={<p dangerouslySetInnerHTML={getDangerousHtml(data.description)}></p>}
+                body={
+                  <p
+                    dangerouslySetInnerHTML={getDangerousHtml(data.description)}
+                  ></p>
+                }
               />
             )}
             <PageSection
@@ -751,7 +884,11 @@ export default class CompanyPage extends Component {
                 className="left"
                 title="Additional Information"
                 //body={<p>{data.more_info}</p>}
-                body={<p dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}></p>}
+                body={
+                  <p
+                    dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}
+                  ></p>
+                }
               />
             )}
             {recs === null ? null : (
@@ -773,25 +910,30 @@ export default class CompanyPage extends Component {
           {leftBody}
         </div>
       ) : (
-          <div className="company-page">
-            {this.getBanner()}
-            <ValidationStudentAction
-              source={ValidationSource.DROP_RESUME}
-              key={this.state.keyValidation}
-              isHidden={this.state.isHiddenValidation}
-              successHandler={() => this.openResumeDrop()}
-            />
-            <div className="main-width main-width-lg container-fluid">
-              <div className="row">
-                <div style={{ padding: "20px" }} className="col-md-3 com-pop-left">
-                  <div className="com-pop-pic">{profilePic}</div>
-                  {rightBody}
-                </div>
-                <div style={{ padding: "20px" }} className="col-md-9">{leftBody}</div>
+        <div className="company-page">
+          {this.getBanner()}
+          <ValidationStudentAction
+            source={ValidationSource.DROP_RESUME}
+            key={this.state.keyValidation}
+            isHidden={this.state.isHiddenValidation}
+            successHandler={() => this.openResumeDrop()}
+          />
+          <div className="main-width main-width-lg container-fluid">
+            <div className="row">
+              <div
+                style={{ padding: "20px" }}
+                className="col-md-3 com-pop-left"
+              >
+                <div className="com-pop-pic">{profilePic}</div>
+                {rightBody}
+              </div>
+              <div style={{ padding: "20px" }} className="col-md-9">
+                {leftBody}
               </div>
             </div>
           </div>
-        );
+        </div>
+      );
     }
 
     return view;

@@ -52,6 +52,7 @@ axios.interceptors.response.use(response => {
 	var retErr = null;
 	if (response.config.url == graphQLUrl && response.data.errors) {
 		//console.log("error from axios graphQLUrl");
+		console.log("Intercept GraphQL Error 1", response)
 		retErr = getGraphQlErrorMes(response.data.errors[0].message);
 	}
 
@@ -68,6 +69,9 @@ axios.interceptors.response.use(response => {
 
 		if (error.response.config.url == graphQLUrl) {
 			//error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
+			let q = null;
+			try{q = error.response.config.params.query}catch(err){}
+			console.log("[Intercept GraphQL Error 2]", q);
 			retErr = getGraphQlErrorMes(error.response.data.errors[0].message);
 		}
 

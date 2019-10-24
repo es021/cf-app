@@ -31,7 +31,8 @@ const {
 	NotificationType,
 	HallGalleryType,
 	MultiType, 
-	SingleType
+	SingleType,
+	InterestedType
 } = require('./all-type.js');
 
 
@@ -67,7 +68,8 @@ const {
 	EntityRemoved,
 	Notifications,
 	HallGallery,
-	SingleInput
+	SingleInput,
+	Interested,
 } = require('../../config/db-config');
 
 const graphqlFields = require('graphql-fields');
@@ -107,6 +109,39 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/* multi_  ******************/
+fields["add_interested"] = {
+	type: InterestedType,
+	args: {
+		user_id: __.IntNonNull,
+		entity: __.StringNonNull,
+		entity_id: __.IntNonNull,
+	},
+	resolve(parentValue, arg, context, info) {
+		return DB.insert(Interested.TABLE, arg).then(function(res) {
+			return res;
+		});
+	}
+};
+
+fields["edit_interested"] = {
+	type: InterestedType,
+	args: {
+		ID: __.IntNonNull,
+		is_interested: __.IntNonNull,
+	},
+	resolve(parentValue, arg, context, info) {
+		try {
+			return DB.update(Interested.TABLE, arg).then(function(res) {
+				return res;
+			});
+		} catch (err) {
+			return {};
+		}
+	}
+};
 
 
 /* single  ******************/

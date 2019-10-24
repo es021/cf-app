@@ -266,8 +266,8 @@ export default class List extends React.Component {
         </div>
       );
       //topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
-      topView = paging;
-      bottomView = paging;
+      topView = this.props.isHidePagingTop ? null : paging;
+      bottomView = this.props.isHidePagingBottom ? null : paging;
     }
     // For append type
     else if (this.isAppendType()) {
@@ -330,6 +330,8 @@ List.propTypes = {
   // append-top used in chat
   type: PropTypes.oneOf(["table", "list", "append-top", "append-bottom"])
     .isRequired,
+  isHidePagingBottom: PropTypes.bool,
+  isHidePagingTop: PropTypes.bool,
   // table
   tableHeader: PropTypes.element,
   // append-
@@ -342,6 +344,8 @@ List.propTypes = {
 };
 
 List.defaultProps = {
+  isHidePagingBottom : false,
+  isHidePagingTop : false,
   appendText: "Load More",
   extraData: null,
   divClass: "",
@@ -677,9 +681,7 @@ export class CustomList extends Component {
             {d.label}
           </div>
         ) : null}
-        {d.value ? (
-          <div className="cli-value">{d.value}</div>
-        ) : null}
+        {d.value ? <div className="cli-value">{d.value}</div> : null}
       </li>
     );
   }

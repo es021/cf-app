@@ -4,6 +4,7 @@ import ManageUserProfile from "../page/partial/user/manage-user-profile";
 import * as layoutActions from "../redux/actions/layout-actions";
 import UserPopup from "../page/partial/popup/user-popup";
 import FocusCard from "../component/focus-card";
+import CompanyPage from "../page/company";
 
 export default class TestLayout extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ export default class TestLayout extends React.Component {
     return (
       <div style={{ padding: "10px", background: "white" }}>
         <FocusCard></FocusCard>
-         <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile>
+        <CompanyPage id={12}></CompanyPage>
+         {/* <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile> */}
       </div>
     );
   }

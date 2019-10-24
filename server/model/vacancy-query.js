@@ -30,9 +30,6 @@ class VacancyExec {
 			CompanyExec
 		} = require('./company-query.js');
 		const {
-			LocationExec
-		} = require('./location-query.js');
-		const {
 			InterestedExec
 		} = require('./interested-query.js');
 
@@ -46,9 +43,6 @@ class VacancyExec {
 				if (typeof field["company"] !== "undefined") {
 					var company_id = res[i]["company_id"];
 					res[i]["company"] = CompanyExec.company(company_id, field["company"]);
-				}
-				if (typeof field["location"] !== "undefined") {
-					res[i]["location"] = LocationExec.single(res[i], field["location"]);
 				}
 				if (typeof field["interested"] !== "undefined") {
 					res[i]["interested"] = InterestedExec.single({

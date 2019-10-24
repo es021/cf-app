@@ -1,0 +1,27 @@
+.interested {
+  z-index: 3;
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  font-size: 25px;
+  cursor: pointer;
+  color: grey;
+  .fa-heart:hover {
+    color: red;
+  }
+  .fa-heart:active{
+    font-size: 27px;
+
+  }
+
+  .fa-spinner{
+    color : grey !important;
+  }
+}
+
+.interested.selected {
+  color: red;
+  .fa-heart:hover {
+    color: grey;
+  }
+}

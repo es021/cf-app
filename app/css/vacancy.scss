@@ -1,0 +1,13 @@
+@import "define/variable.scss";
+
+.vacancy-card {
+  padding: 10px;
+  position: relative;
+  .profile-card {
+    align-items: start;
+    margin: 0;
+    .pc-picture {
+      border: 1px solid darkgray;
+    }
+  }
+}

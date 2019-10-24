@@ -73,7 +73,8 @@ let scss = [
   "input-suggestion",
   "input-single",
   "input-multi",
-  "input-general"
+  "input-general",
+  "vacancy"
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");

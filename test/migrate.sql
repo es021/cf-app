@@ -1,18 +1,19 @@
 -- new table interested
-CREATE TABLE `wp_career_fair`.`interested` ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+CREATE TABLE `wp_career_fair`.`interested` ( 
+  `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
 `user_id` BIGINT(20) NOT NULL , 
 `entity` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
-`entity_id` BIGINT(20) NOT NULL , `is_interested` TINYINT NOT NULL DEFAULT '1' , 
+`entity_id` BIGINT(20) NOT NULL , 
+`is_interested` TINYINT NOT NULL DEFAULT '1' , 
 `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`ID`), 
 UNIQUE (`user_id`, `entity`, `entity_id`)) ENGINE = InnoDB;
 
--- add location column  in vacancies
-ALTER TABLE `vacancies` ADD `ref_city` BIGINT(20) NULL DEFAULT NULL AFTER `application_url`, 
-ADD `ref_state` BIGINT(20) NULL DEFAULT NULL AFTER `ref_city`,
-ADD `ref_country` BIGINT(20) NULL DEFAULT NULL AFTER `ref_state`;
-
-
+-- add location column  in vacancies  latin1_swedish_ci 
+ALTER TABLE `vacancies` ADD `location` VARCHAR(700) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `title`; 
+ALTER TABLE `vacancies` DROP `ref_city`;
+ALTER TABLE `vacancies` DROP `ref_state`;
+ALTER TABLE `vacancies` DROP `ref_country`;
 
 -- ##############################################################
 -- ##############################################################

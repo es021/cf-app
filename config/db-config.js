@@ -8,6 +8,13 @@ const SingleInput = {
     CREATED_AT: "created_at",
     UPDATED_AT: "updated_at",
 };
+const Interested={
+    TABLE : "interested",
+    IS_INTERESTED: "is_interested",
+    USER_ID: "user_id",
+    ENTITY: "entity",
+    ENTITY_ID: "entity_id",
+}
 const GroupSession = {
     TABLE: "group_session",
     ID: "ID",
@@ -688,5 +695,6 @@ module.exports = {
     NotificationsEnum,
     HallGallery,
     HallGalleryEnum,
-    SingleInput
+    SingleInput,
+    Interested
 };
