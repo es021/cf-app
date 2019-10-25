@@ -9,7 +9,7 @@ import {
   PrescreenEnum
 } from "../../../../config/db-config";
 import { getMonthLabel } from "../../../../config/data-config";
-import { ImgConfig } from "../../../../config/app-config";
+import { ImgConfig, RootPath } from "../../../../config/app-config";
 import ProfileCard from "../../../component/profile-card.jsx";
 import PageSection from "../../../component/page-section";
 import { CustomList, createIconLink } from "../../../component/list";
@@ -548,7 +548,7 @@ export default class UserPopup extends Component {
         <div style={{ marginTop: "10px", marginBottom: "18px" }}>
           <NavLink
             className="btn btn-success btn-lg"
-            to={`/app/student-chat/${user.ID}`}
+            to={`${RootPath}/app/student-chat/${user.ID}`}
             onClick={e => {
               layoutActions.storeHideFocusCard();
             }}
