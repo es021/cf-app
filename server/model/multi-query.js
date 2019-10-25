@@ -22,7 +22,7 @@ class MultiExec {
 	getHelper(type, param, field, extra = {}) {
 		var sql = this.query(param, extra);
 		
-		console.log("[MultiExec]", sql);
+		//console.log("[MultiExec]", sql);
 		var toRet = DB.query(sql).then((res) => {
 			for (var i in res) {}
 			if (this.isSingle(type)) {

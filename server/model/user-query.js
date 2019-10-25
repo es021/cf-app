@@ -407,7 +407,7 @@ class UserExec {
     }
 
     // //update both
-    console.log("update both");
+    // console.log("update both");
     return DB.update(User.TABLE, updateUser).then(res => {
       if (Object.keys(updateUserMeta).length >= 1) {
         return this.updateUserMeta(ID, updateUserMeta);
@@ -457,7 +457,7 @@ class UserExec {
       sql = UserQuery.getUser(field, params, metaCons);
     }
 
-    console.log("[UserExec]", sql);
+    // console.log("[UserExec]", sql);
 
     var toRet = DB.query(sql).then(function(res) {
       for (var i in res) {

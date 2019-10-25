@@ -21,7 +21,7 @@ class SingleExec {
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, extra);
 
-    console.log("[SingleExec]", sql);
+    //console.log("[SingleExec]", sql);
     var toRet = DB.query(sql).then(res => {
       for (var i in res) {
       }

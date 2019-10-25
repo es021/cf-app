@@ -23,7 +23,7 @@ import CompanyPopup from "./company-popup";
 import { addLog } from "../../../redux/actions/other-actions";
 import { openSIAddForm } from "../activity/scheduled-interview";
 import { Gallery } from "../../../component/gallery";
-
+import { NavLink } from "react-router-dom";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -543,6 +543,21 @@ export default class UserPopup extends Component {
           ? this.getStudentBody(user)
           : this.getRecruiterBody(user);
 
+      // start chat with student for rec only
+      let startChat = !isRoleRec() ? null : (
+        <div style={{ marginTop: "10px", marginBottom: "18px" }}>
+          <NavLink
+            className="btn btn-success btn-lg"
+            to={`/app/student-chat/${user.ID}`}
+            onClick={e => {
+              layoutActions.storeHideFocusCard();
+            }}
+          >
+            <i className="fa fa-comments left"></i>Chat With {user.first_name}
+          </NavLink>
+        </div>
+      );
+
       var profilePic = (
         <div>
           <ProfileCard
@@ -557,7 +572,7 @@ export default class UserPopup extends Component {
             img_url={user.img_url}
             img_pos={user.img_pos}
             img_size={user.img_size}
-            body={null}
+            body={startChat}
           ></ProfileCard>
         </div>
       );
@@ -575,7 +590,10 @@ export default class UserPopup extends Component {
                   className="col-md-12 com-pop-left"
                   style={{ marginBottom: "-25px" }}
                 >
-                  <div className="com-pop-pic" style={{ textAlign:"center",marginTop: "-65px" }}>
+                  <div
+                    className="com-pop-pic"
+                    style={{ textAlign: "center", marginTop: "-65px" }}
+                  >
                     {profilePic}
                   </div>
                 </div>

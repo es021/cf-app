@@ -29,17 +29,6 @@ class RefExec {
 
     let order_by = !param.order_by ? "" : `ORDER BY ${param.order_by}`;
 
-    console.log(table_name, param);
-    console.log(table_name, param);
-    console.log(table_name, param);
-    console.log(table_name, param);
-    // console.log(table_name,param.category);
-    // console.log(table_name,param.category);
-    // console.log(table_name,param.category);
-    // console.log(table_name,param.category);
-    // console.log(table_name,param.category);
-    // console.log(table_name,param.category);
-    // console.log(table_name,param.category);
 
     // search_by_ref : __.String,
     // search_by_val : __.String,
@@ -95,7 +84,7 @@ class RefExec {
   getHelper(type, param, field, extra = {}) {
     var { MultiExec } = require("./multi-query.js");
     var sql = this.query(param, extra);
-    console.log("[RefExec]", sql);
+    // console.log("[RefExec]", sql);
     var toRet = DB.query(sql).then(res => {
       for (var i in res) {
         let val = res[i]["val"];

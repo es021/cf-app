@@ -30,7 +30,7 @@ import VacancyPage from "../page/vacancy";
 import ExternalActionPage from "../page/external-action";
 import SessionPage from "../page/session";
 import { FaqPage, AllowCookiePage, ContactUsPage } from "../page/static";
-import CompanyChatInbox, { CompanyChatStarter } from "../page/company-chat";
+import CompanyChatInbox, { CompanyChatStarter , StudentChatStarter} from "../page/company-chat";
 import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
 import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";
@@ -472,6 +472,15 @@ function getMenuItem(COMING_SOON) {
         hd_app: true,
         hd_auth: false,
         routeOnly: isRoleStudent()
+      },
+      {
+        url: "/student-chat/:id",
+        component: StudentChatStarter,
+        bar_app: true,
+        bar_auth: false,
+        hd_app: true,
+        hd_auth: false,
+        routeOnly: isRoleRec()
       },
       {
         url: "/company/:id",

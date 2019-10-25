@@ -25,6 +25,96 @@ import { createCompanyTitle } from "./companies-admin.jsx";
 import { isCompanyOnline } from "../redux/actions/user-actions";
 import { connect } from "react-redux";
 
+
+export class StudentChatStarter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    if (this.props.match) {
+      this.ID = this.props.match.params.id;
+    } else {
+      this.ID = this.props.id;
+    }
+
+    this.getChatBox = this.getChatBox.bind(this);
+    this.state = {
+      user: false,
+      loading: true
+    };
+
+    this.self_company_id = getAuthUser().rec_company;
+  }
+
+  componentWillMount() {
+    var query = `query{ user(ID:${this.ID}) {  
+        ID first_name last_name img_url img_size img_pos
+    }}`;
+
+    getAxiosGraphQLQuery(query).then(res => {
+      this.setState(() => {
+        var user = res.data.data.user;
+        return { user: user, loading: false };
+      });
+    });
+  }
+
+  getChatBox() {
+    if (this.state.loading) {
+      return (
+        <div style={{ padding: "10px" }}>
+          <Loader text="Initializing chat with student" />
+        </div>
+      );
+    } else {
+      let view = [];
+      view.push(
+        <div className="col-sm-6 ">
+          <Chat
+            is_company_chat={true}
+            is_company_self={true}
+            is_company_other={false}
+            session_id={null}
+            disableChat={false}
+            other_id={Number.parseInt(this.ID)}
+            other_data={this.state.user}
+            self_id={this.self_company_id}
+          />
+        </div>
+      );
+
+      view.push(
+        <div className="col-sm-6 text-left">
+          <h4>While you're waiting...</h4>
+          <ul style={{ paddingLeft: "40px" }} className="normal text-muted">
+            <li>
+              You can start other conversation with different student at{" "}
+              <NavLink
+                target="_blank"
+                to={`${RootPath}/app/my-activity/student-listing`}
+              >
+                Interested Candidates
+              </NavLink>{" "}page
+            </li>
+            <li>
+              This conversation will be saved in{" "}
+              <NavLink target="_blank" to={`${RootPath}/app/my-inbox`}>
+                your inbox.
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      );
+
+      return view;
+    }
+  }
+
+  render() {
+    document.setTitle(`Chat With ${this.state.user.first_name}`);
+    return <div className="company-chat-student">{this.getChatBox()}</div>;
+  }
+}
+
 // require("../css/forum.scss");
 // require("../css/support-chat.scss");
 // require("../css/company-chat.scss");
