@@ -140,7 +140,7 @@ insert into wp_career_fair.ref_skill (val, category) VALUES  ('Verbal Communicat
  ('Task Planning','soft_skill'), 
  ('Task Tracking','soft_skill'), 
  ('Time Awareness','soft_skill'), 
- ('Work-Life Balance','soft_skill')
+ ('Work-Life Balance','soft_skill');
 
 
 
@@ -184,7 +184,7 @@ INSERT INTO `ref_skill` (`val`) VALUES
 ('SQL'),
 ('English'),
 ('Malay'),
-('Mandarin')
+('Mandarin');
 
-UPDATE TABLE ref_skill set category = 'technical_skill' where category = '' or category = null
+UPDATE ref_skill set category = 'technical_skill' where category = '' or category is null ;
 
