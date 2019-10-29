@@ -27,8 +27,8 @@ export default class TestLayout extends React.Component {
     return (
       <div style={{ padding: "10px", background: "white" }}>
         <FocusCard></FocusCard>
-        <CompanyPage id={12}></CompanyPage>
-         {/* <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile> */}
+        {/* <CompanyPage id={12}></CompanyPage> */}
+         <ManageUserProfile isEdit={true} user_id={136}></ManageUserProfile>
       </div>
     );
   }

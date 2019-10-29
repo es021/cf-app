@@ -148,6 +148,7 @@ const UserType = new GraphQLObjectType({
     field_study: __.ListOf(MultiType),
     looking_for_position: __.ListOf(MultiType),
     interested_role: __.ListOf(MultiType),
+    where_in_malaysia: __.String,
     interested_job_location: __.ListOf(MultiType),
     doc_links: __.ListOf(DocLinkType),
     skill: __.ListOf(MultiType),

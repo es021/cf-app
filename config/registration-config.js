@@ -11,6 +11,7 @@ const Single = {
     qualification : "qualification",
     graduation_month : "graduation_month",
     graduation_year : "graduation_year",
+    where_in_malaysia : "where_in_malaysia",
     grade : "grade",
     phone_number : "phone_number",
     sponsor : "sponsor",

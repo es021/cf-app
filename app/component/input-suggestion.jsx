@@ -345,7 +345,7 @@ export default class InputSuggestion extends React.Component {
   }
   render() {
 
-    console.log("inputsuggestion render",this.props.name, this.props.input_val)
+    // console.log("inputsuggestion render",this.props.name, this.props.input_val)
     return (
       <div onKeyDown={this.onKeyDown} className="input-suggestion">
         <div className="input-field">

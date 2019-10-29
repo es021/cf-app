@@ -173,9 +173,9 @@ export default class ManageUserProfile extends React.Component {
           label: "What is your university?",
           input_placeholder: "Universiti Malaya",
           ref_table_name: "university",
-          ref_filter_column : "country_id",
-          ref_filter_val : country,
-          ref_filter_find_id : true, // kena ubah kat ref-query
+          ref_filter_column: "country_id",
+          ref_filter_val: country,
+          ref_filter_find_id: true, // kena ubah kat ref-query
           is_required: true,
           hidden: false
         },
@@ -191,16 +191,30 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: false
         },
+        // {
+        //   // free multi choice (location)
+        //   type: "multi",
+        //   id: Reg.Multi.field_study,
+        //   table_name: Reg.Multi.field_study,
+        //   label: "What is your field of study?",
+        //   input_placeholder: "Computer Science",
+        //   list_title: null,
+        //   ref_table_name: "major",
+        //   ref_category: "computer-and-information-sciences", // ref suggestion by category
+        //   is_required: true,
+        //   hidden: false
+        // },
         {
-          // free multi choice (location)
+          // select multi choice
           type: "multi",
+          input_type: "select",
           id: Reg.Multi.field_study,
           table_name: Reg.Multi.field_study,
+          discard_ref_from_default: true,
           label: "What is your field of study?",
-          input_placeholder: "Computer Science",
+          sublabel : "You can choose more than one field of study",
           list_title: null,
-          ref_table_name: "major",
-          ref_category: "computer-and-information-sciences", // ref suggestion by category
+          ref_table_name: "field_study",
           is_required: true,
           hidden: false
         },
@@ -210,6 +224,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.grade,
           key_input: Reg.Single.grade,
           label: "What is your grade?",
+          sublabel: "CGPA, First Class, etc",
           input_placeholder: "Type something here",
           is_required: true,
           hidden: false
@@ -224,18 +239,43 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: false
         },
+        // {
+        //   // free multi choice
+        //   type: "multi",
+        //   id: Reg.Multi.interested_role,
+        //   table_name: Reg.Multi.interested_role,
+        //   label: "What types of jobs will you be searching for?",
+        //   input_placeholder: "Web Developer",
+        //   list_title: field_study ? `Popular job for your field of study` : "",
+
+        //   ref_table_name: "job_role",
+        //   suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
+        //   suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
+        //   is_required: true,
+        //   hidden: false
+        // },
         {
-          // free multi choice
+          // select multi choice
           type: "multi",
+          input_type: "select",
           id: Reg.Multi.interested_role,
           table_name: Reg.Multi.interested_role,
+          discard_ref_from_default: true,
           label: "What types of jobs will you be searching for?",
-          input_placeholder: "Web Developer",
-          list_title: field_study ? `Popular job for your field of study` : "",
-
-          ref_table_name: "job_role",
-          suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
-          suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
+          sublabel : "You can choose more than one job",
+          list_title: null,
+          ref_table_name: "field_study",
+          is_required: true,
+          hidden: false
+        },
+        {
+          // single
+          type: "single",
+          id: Reg.Single.where_in_malaysia,
+          key_input: Reg.Single.where_in_malaysia,
+          label: "Where are you from in Malaysia?",
+          input_placeholder: "Cyberjaya, Selangor",
+          ref_table_name: "location",
           is_required: true,
           hidden: false
         },
@@ -265,6 +305,7 @@ export default class ManageUserProfile extends React.Component {
           // suggestion_search_by_val: major,
           //list_title: major ? `Popular job for major ${major}` : "",
           ref_table_name: "skill",
+          ref_offset : 11,
           is_required: true,
           hidden: false
         },
@@ -280,17 +321,17 @@ export default class ManageUserProfile extends React.Component {
           is_required: false,
           hidden: false
         },
-        {
-          // single
-          type: "single",
-          input_type: "textarea",
-          id: Reg.Single.description,
-          key_input: Reg.Single.description,
-          label: "Tell more about yourself.",
-          input_placeholder: "Type something here",
-          is_required: false,
-          hidden: false
-        }
+        // {
+        //   // single
+        //   type: "single",
+        //   input_type: "textarea",
+        //   id: Reg.Single.description,
+        //   key_input: Reg.Single.description,
+        //   label: "Tell more about yourself.",
+        //   input_placeholder: "Type something here",
+        //   is_required: false,
+        //   hidden: false
+        // }
       ]
     );
 

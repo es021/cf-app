@@ -13,6 +13,7 @@ export default class InputMulti extends React.Component {
     // this.START_FETCH_LEN = 2;
 
     // fn binding
+    this.inputOnChange = this.inputOnChange.bind(this);
     this.continueOnClick = this.continueOnClick.bind(this);
     this.finishDbRequest = this.finishDbRequest.bind(this);
     this.onChooseSuggestion = this.onChooseSuggestion.bind(this);
@@ -45,6 +46,18 @@ export default class InputMulti extends React.Component {
   //     });
   //   }
   // }
+  isSelect() {
+    return this.props.input_type == "select";
+  }
+  inputOnChange(e) {
+    if (this.isSelect()) {
+      let v = e.target.value;
+      if (v != "" && v != null) {
+        this.onChooseSuggestion(v);
+      }
+      e.target.value = "";
+    }
+  }
   hasSelectedItem() {
     let hasSelected = false;
     for (var i in this.state.list) {
@@ -85,7 +98,7 @@ export default class InputMulti extends React.Component {
     let refList = [];
     let multiList = [];
     let loaded = 0;
-    let toLoad = 2;
+    let toLoad = this.props.discard_ref_from_default ? 1 : 2;
 
     const finish = () => {
       loaded++;
@@ -143,28 +156,30 @@ export default class InputMulti extends React.Component {
       }
     };
 
-    // list of suggestion from ref
-    let qRef = `query{
-      refs(
-        table_name :"${props.ref_table_name}"
-        entity:"${props.entity}"
-        entity_id:${props.entity_id}
-        order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}"
-        page:1, offset:10
-        location_suggestion :"${props.location_suggestion}",
-        category :"${props.ref_category}",
-        search_by_ref :"${props.suggestion_search_by_ref}",
-        search_by_val : "${props.suggestion_search_by_val}"
-      ){
-        ID
-        val
-      }
-    }`;
-    graphql(qRef).then(res => {
-      let fetched = res.data.data.refs;
-      refList = fetched;
-      finish();
-    });
+    if (this.props.discard_ref_from_default === false) {
+      // list of suggestion from ref
+      let qRef = `query{
+        refs(
+          table_name :"${props.ref_table_name}"
+          entity:"${props.entity}"
+          entity_id:${props.entity_id}
+          order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}"
+          page:1, offset:${props.ref_offset}
+          location_suggestion :"${props.location_suggestion}",
+          category :"${props.ref_category}",
+          search_by_ref :"${props.suggestion_search_by_ref}",
+          search_by_val : "${props.suggestion_search_by_val}"
+        ){
+          ID
+          val
+        }
+      }`;
+      graphql(qRef).then(res => {
+        let fetched = res.data.data.refs;
+        refList = fetched;
+        finish();
+      });
+    }
 
     // list of selected item in multi
     let qMulti = `query{
@@ -211,6 +226,9 @@ export default class InputMulti extends React.Component {
       });
   }
   insertDB(v, i) {
+    let index = i;
+    console.log("insertDB 1", index);
+
     let ins = {
       table_name: this.props.table_name,
       entity: this.props.entity,
@@ -227,30 +245,51 @@ export default class InputMulti extends React.Component {
     graphql(q)
       .then(res => {
         let d = res.data.data.add_multi;
-        this.finishDbRequest(i, d.ID);
+        console.log("insertDB", index);
+        this.finishDbRequest(index, d.ID, null, d.val);
       })
       .catch(err => {
         console.log("catch err", err);
-        this.finishDbRequest(i, null, err);
+        this.finishDbRequest(index, null, err);
       });
   }
   onChooseSuggestion(v) {
-    // console.log("onChooseSUggestion", v);
-    let i = this.state.list.length;
-    this.setState(pState => {
-      let prevState = JSON.parse(JSON.stringify(pState));
-      prevState.list.push({
-        val: v,
-        isSelected: false,
-        loading: true
+    let index = -1;
+    let iInList = this.indexOfValInList(v);
+    if (iInList <= -1) {
+      // kalau takde dlm list
+      index = this.state.list.length;
+      this.setState(pState => {
+        let prevState = JSON.parse(JSON.stringify(pState));
+        prevState.list.push({
+          val: v,
+          isSelected: false,
+          loading: true
+        });
+        return { list: prevState.list };
       });
-      return { list: prevState.list };
-    });
-
-    this.insertDB(v, i);
+    } else {
+      // kalau dah ada dlm list
+      index = iInList;
+      let isSelected = this.state.list[index].isSelected;
+      if (isSelected) {
+        index = this.state.list.length;
+      }
+    }
+    this.insertDB(v, index);
   }
+  indexOfValInList(val) {
+    for (var i in this.state.list) {
+      let v = this.state.list[i].val;
+      if (val == v) {
+        return Number.parseInt(i);
+      }
+    }
 
-  finishDbRequest(i, multi_id = null, err = null) {
+    return -1;
+  }
+  finishDbRequest(i, multi_id = null, err = null, val = null) {
+    console.log("finishDbRequest", i);
     let isDuplicate = false;
     try {
       isDuplicate = err.response.data.indexOf("ER_DUP_ENTRY") >= 0;
@@ -261,6 +300,10 @@ export default class InputMulti extends React.Component {
       return;
     }
 
+    if (this.isSelect() && isDuplicate) {
+      return;
+    }
+
     let isInsert = !this.state.list[i].isSelected;
     let isDelete = this.state.list[i].isSelected;
 
@@ -268,19 +311,14 @@ export default class InputMulti extends React.Component {
       let prevState = JSON.parse(JSON.stringify(pState));
       if (isDuplicate) {
         prevState.list.splice(i);
-      } else {
-        // toggle isSelected
+      } else if (isDelete) {
         prevState.list[i].isSelected = !prevState.list[i].isSelected;
-
-        // set loading to false
+        prevState.list[i].multi_id = null;
         prevState.list[i].loading = false;
-
-        // update multi_id accordingly
-        if (isInsert) {
-          prevState.list[i].multi_id = multi_id;
-        } else if (isDelete) {
-          prevState.list[i].multi_id = null;
-        }
+      } else if (isInsert) {
+        prevState.list[i].isSelected = !prevState.list[i].isSelected;
+        prevState.list[i].multi_id = multi_id;
+        prevState.list[i].loading = false;
       }
       return { list: prevState.list };
     });
@@ -402,6 +440,7 @@ export default class InputMulti extends React.Component {
           <InputSuggestion
             input_type={this.props.input_type}
             onChoose={this.onChooseSuggestion}
+            input_onChange={this.inputOnChange}
             table_name={this.props.ref_table_name}
             input_placeholder={this.props.input_placeholder}
           ></InputSuggestion>
@@ -415,6 +454,11 @@ export default class InputMulti extends React.Component {
           {this.props.label}
           {this.props.is_required ? " *" : ""}
         </div>
+        {this.props.sublabel ? (
+          <div className="mi-sublabel input-sublabel">
+            {this.props.sublabel}
+          </div>
+        ) : null}
         {inputSuggestion}
         <div className="mi-list-title">{this.getListTitle()}</div>
         <div className="mi-list">{this.getListView()}</div>
@@ -433,21 +477,26 @@ InputMulti.propTypes = {
   continueOnClick: PropTypes.func,
   table_name: PropTypes.string,
   ref_table_name: PropTypes.string,
-  ref_order_by : PropTypes.string,
+  ref_order_by: PropTypes.string,
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
+  ref_offset: PropTypes.number,
   label: PropTypes.string,
+  sublabel: PropTypes.string,
   list_title: PropTypes.string,
   location_suggestion: PropTypes.string,
   ref_category: PropTypes.string,
   suggestion_search_by_ref: PropTypes.string,
   suggestion_search_by_val: PropTypes.string,
+  discard_ref_from_default: PropTypes.bool,
   hideContinueButton: PropTypes.bool,
   hideInputSuggestion: PropTypes.bool
 };
 
 InputMulti.defaultProps = {
+  ref_offset: 10,
+  discard_ref_from_default: false,
   ref_category: "",
   suggestion_search_by_ref: "",
   suggestion_search_by_val: "",

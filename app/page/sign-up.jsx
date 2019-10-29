@@ -203,8 +203,7 @@ export default class SignUpPage extends React.Component {
         <h1>
           Welcome {user[UserMeta.FIRST_NAME]} !<br></br>
           <small>
-            Let's complete your profile and make sure you got noticed by
-            recruiters
+            Let's complete your profile and get you noticed by recruiters!
           </small>
         </h1>
         <div style={{ marginTop: "20vh" }}></div>

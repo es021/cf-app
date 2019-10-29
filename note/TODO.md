@@ -1,6 +1,14 @@
 http://localhost:8085/cf-app/note/note-font/font.html
 http://localhost/cf-app/note/note-font/font.html
 
+implement
+field_study => input_type::select for input_multi
+
+migrate 
+ref_skill
+ref_field_study
+
+where_in_malaysia bug with country_study
 ## ######################################################################################
 ## ######################################################################################
 ## ######################################################################################

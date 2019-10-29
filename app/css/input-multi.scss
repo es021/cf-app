@@ -1,66 +1,67 @@
-$THEME : #3b3b90;
-$MARGIN_SIDE : 7px;
+$THEME: #3b3b90;
+$MARGIN_SIDE: 7px;
 
 .input-multi {
-	max-width: 100vw;
-	.mi-label {
-		margin: 0px $MARGIN_SIDE;
-		margin-bottom: 5px;
-	}
+  max-width: 100vw;
+  .mi-label {
+    margin: 0px $MARGIN_SIDE;
+    margin-bottom: 5px;
+  }
+  .mi-sublabel {
+    margin-left: $MARGIN_SIDE;
+    margin-right: $MARGIN_SIDE;
+  }
 
-	.mi-input{
-		margin: 0px $MARGIN_SIDE;
-	}
-	.mi-footer{
-		margin: 0px $MARGIN_SIDE;
-	}
+  .mi-input {
+    margin: 0px $MARGIN_SIDE;
+  }
+  .mi-footer {
+    margin: 0px $MARGIN_SIDE;
+  }
 
-	.mi-list-title {
-		margin: 0px $MARGIN_SIDE;
-		font-weight: bold;
-		font-size: 13px;
-		margin-top: 15px;
-		margin-bottom: 10px;
-		color:#6b6767;
+  .mi-list-title {
+    margin: 0px $MARGIN_SIDE;
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #6b6767;
+  }
 
+  .mi-list {
+    ul {
+      max-width: 100vw;
+      display: flex;
+      flex-flow: wrap;
+    }
 
-	}
+    li {
+      i.fa {
+        float: right;
+        padding: 3px;
+        margin-left: 22px;
+      }
 
-	.mi-list {
-		ul {
-			max-width: 100vw;
-			display: flex;
-			flex-flow: wrap;
-		}
+      font-size: 17px;
+      min-width: 200px;
+      margin: 5px $MARGIN_SIDE;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: white;
+      transition: background-color ease 0.5s;
 
-		li {
-			i.fa {
-				float: right;
-				padding: 3px;
-				margin-left: 22px;
-			}
+      color: $THEME;
+      border: 1px solid $THEME;
+      cursor: pointer;
+    }
 
-			font-size: 17px;
-			min-width: 200px;
-			margin: 5px $MARGIN_SIDE;
-			padding: 4px 12px;
-			border-radius: 8px;
-			background: white;
-			transition: background-color ease 0.5s;
+    li:hover {
+      box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.5);
+    }
 
-			color: $THEME;
-			border: 1px solid $THEME;
-			cursor: pointer;
-		}
-
-		li:hover {
-			box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.5);
-		}
-
-		li.selected {
-			background: $THEME;
-			color: white;
-		}
-	}
-
+    li.selected {
+      background: $THEME;
+      color: white;
+    }
+  }
 }

@@ -28,7 +28,7 @@ export default class InputSingle extends React.Component {
       loading: false,
       done_update: false,
       show_is_required: false,
-      lastUpdate : null
+      lastUpdate: null
     };
   }
   componentWillMount() {
@@ -281,6 +281,11 @@ export default class InputSingle extends React.Component {
           {this.props.label}
           {this.props.is_required && !this.props.isChildren ? " *" : ""}
         </div>
+        {this.props.sublabel ? (
+          <div className="si-sublabel input-sublabel">
+            {this.props.sublabel}
+          </div>
+        ) : null}
         <div className="si-input">
           <InputSuggestion
             order_by={this.props.ref_order_by}
@@ -327,17 +332,18 @@ InputSingle.propTypes = {
   entity: PropTypes.string,
   entity_id: PropTypes.number,
   label: PropTypes.string,
+  sublabel: PropTypes.string,
   hideContinueButton: PropTypes.bool,
   isChildren: PropTypes.bool,
   ref_filter_column: PropTypes.string,
   ref_filter_val: PropTypes.string,
-  ref_filter_find_id : PropTypes.bool,
+  ref_filter_find_id: PropTypes.bool
 };
 
 InputSingle.defaulProps = {
   ref_filter_column: "",
   ref_filter_val: "",
-  ref_filter_find_id : false,
+  ref_filter_find_id: false,
   select_use_id_as_value: false,
   isChildren: false,
   hideContinueButton: false,
