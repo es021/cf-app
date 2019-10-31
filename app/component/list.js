@@ -344,8 +344,8 @@ List.propTypes = {
 };
 
 List.defaultProps = {
-  isHidePagingBottom : false,
-  isHidePagingTop : false,
+  isHidePagingBottom: false,
+  isHidePagingTop: false,
   appendText: "Load More",
   extraData: null,
   divClass: "",
@@ -442,6 +442,34 @@ export class ProfileListWide extends Component {
       contentSize = "10";
     }
 
+    let action = null;
+    if (!this.props.action_disabled) {
+      if (!this.props.isNavLink) {
+        action = (
+          <div className={`item-action`}>
+            <a
+              className={`btn btn-${this.props.action_color}`}
+              onClick={() => this.props.action_handler()}
+            >
+              {this.props.action_text}
+            </a>
+          </div>
+        );
+      } else {
+        action = (
+          <div className={`item-action`}>
+            <NavLink
+              className={`btn btn-${this.props.action_color}`}
+              to={this.props.action_to}
+              onClick={() => this.props.action_handler()}
+            >
+              {this.props.action_text}
+            </NavLink>
+          </div>
+        );
+      }
+    }
+
     return (
       <div className={className}>
         <div className="card-container container-fluid">
@@ -456,16 +484,7 @@ export class ProfileListWide extends Component {
               <div>{this.props.body}</div>
             </div>
           </div>
-          {this.props.action_disabled ? null : (
-            <div className={`item-action`}>
-              <a
-                className={`btn btn-${this.props.action_color}`}
-                onClick={() => this.props.action_handler()}
-              >
-                {this.props.action_text}
-              </a>
-            </div>
-          )}
+          {action}
         </div>
       </div>
     );
@@ -480,16 +499,21 @@ ProfileListWide.propTypes = {
   img_size: PropTypes.string,
   img_dimension: PropTypes.string,
   is_no_image: PropTypes.bool,
+
+  isNavLink: PropTypes.bool,
   action_text: PropTypes.string,
+  action_to: PropTypes.string,
   action_color: PropTypes.string,
   action_handler: PropTypes.func,
   action_disabled: PropTypes.bool,
+
   type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY])
     .isRequired,
   body: PropTypes.any
 };
 
 ProfileListWide.defaultProps = {
+  isNavLink: false,
   is_no_image: false,
   action_color: "blue"
 };

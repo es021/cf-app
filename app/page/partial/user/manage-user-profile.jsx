@@ -239,35 +239,34 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: false
         },
-        // {
-        //   // free multi choice
-        //   type: "multi",
-        //   id: Reg.Multi.interested_role,
-        //   table_name: Reg.Multi.interested_role,
-        //   label: "What types of jobs will you be searching for?",
-        //   input_placeholder: "Web Developer",
-        //   list_title: field_study ? `Popular job for your field of study` : "",
-
-        //   ref_table_name: "job_role",
-        //   suggestion_search_by_ref: "major", // ref suggestion by table refmap_suggestion
-        //   suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
-        //   is_required: true,
-        //   hidden: false
-        // },
         {
-          // select multi choice
+          // free multi choice
           type: "multi",
-          input_type: "select",
           id: Reg.Multi.interested_role,
           table_name: Reg.Multi.interested_role,
-          discard_ref_from_default: true,
           label: "What types of jobs will you be searching for?",
-          sublabel : "You can choose more than one job",
-          list_title: null,
-          ref_table_name: "field_study",
+          input_placeholder: "Web Developer",
+          list_title: field_study ? `Popular job for your field of study` : "",
+          ref_table_name: "job_role",
+          suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
+          suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
           is_required: true,
           hidden: false
         },
+        // {
+        //   // select multi choice
+        //   type: "multi",
+        //   input_type: "select",
+        //   id: Reg.Multi.interested_role,
+        //   table_name: Reg.Multi.interested_role,
+        //   discard_ref_from_default: true,
+        //   label: "What types of jobs will you be searching for?",
+        //   sublabel : "You can choose more than one job",
+        //   list_title: null,
+        //   ref_table_name: "field_study",
+        //   is_required: true,
+        //   hidden: false
+        // },
         {
           // single
           type: "single",
@@ -304,6 +303,7 @@ export default class ManageUserProfile extends React.Component {
           // suggestion_search_by_ref: "major",
           // suggestion_search_by_val: major,
           //list_title: major ? `Popular job for major ${major}` : "",
+          ref_order_by : "ID asc",
           ref_table_name: "skill",
           ref_offset : 11,
           is_required: true,

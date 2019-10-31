@@ -24,6 +24,7 @@ import {
 } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
 import { openFeedbackBlockRec } from "../analytics/feedback";
+import { RootPath } from "../../../../config/app-config";
 import {
   CompanyEnum,
   UserEnum,
@@ -74,7 +75,13 @@ export class StudentListingCard extends React.Component {
     var d = this.props.data;
     var search = this.props.search;
 
-    var title = createUserTitle(d.student, search.search_student, true);
+    var title = createUserTitle(
+      d.student,
+      search.search_student,
+      true,
+      undefined,
+      { companyPrivs: this.props.privs }
+    );
 
     // create uni view
     let uniView = this.notSpecifiedView("University");
@@ -175,7 +182,7 @@ export class StudentListingCard extends React.Component {
                 {lfp}
               </label>
             }
-            tooltip="Looking For"
+            tooltip={null}
           />
         );
       }
@@ -305,21 +312,41 @@ export class StudentListingCard extends React.Component {
 
     //var imgObj = getImageObj(d.student);
 
-    var canSchedule = CompanyEnum.hasPriv(
-      this.props.privs,
-      CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+    // var canSchedule = CompanyEnum.hasPriv(
+    //   this.props.privs,
+    //   CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+    // );
+
+    // const actionHandler = () => {
+    //   if (canSchedule) {
+    //     this.openSIForm(d.student.ID);
+    //   } else {
+    //     // EUR FIX
+    //     // See Availability
+    //     layoutActions.errorBlockLoader(
+    //       "Opps.. It seems that you don't have privilege to see student's availability yet."
+    //     );
+    //   }
+    // };
+
+    // const action_text = (
+    //   <small>
+    //     <i className="fa fa-video-camera left" />
+    //     Schedule Call
+    //   </small>
+    // );
+    // const isNavLink = false;
+
+    const actionHandler = () => {};
+
+    const action_text = (
+      <small>
+        <i className="fa fa-comment left" />
+        Start Chat
+      </small>
     );
-    const actionHandler = () => {
-      if (canSchedule) {
-        this.openSIForm(d.student.ID);
-      } else {
-        // EUR FIX
-        // See Availability
-        layoutActions.errorBlockLoader(
-          "Opps.. It seems that you don't have privilege to see student's availability yet."
-        );
-      }
-    };
+    const isNavLink = true;
+    const actionTo = `${RootPath}/app/student-chat/${d.student.ID}`;
 
     // EUR FIX
     // Schedule For Call -> See Availability
@@ -332,12 +359,9 @@ export class StudentListingCard extends React.Component {
         is_no_image={true}
         title={title}
         body={details}
-        action_text={
-          <small>
-            <i className="fa fa-video-camera left" />
-            Schedule Call
-          </small>
-        }
+        isNavLink={isNavLink}
+        action_to={actionTo}
+        action_text={action_text}
         action_handler={actionHandler}
         action_disabled={false}
         type={this.props.isRec ? "student" : "company"}
@@ -543,7 +567,7 @@ export class StudentListing extends React.Component {
     if (r.length >= 0) {
       r.push(getCF());
     }
-    
+
     return r;
   }
 

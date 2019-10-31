@@ -1,28 +1,37 @@
 http://localhost:8085/cf-app/note/note-font/font.html
 http://localhost/cf-app/note/note-font/font.html
 
-implement
-field_study => input_type::select for input_multi
-
+email notification if there is new chat message (linked in style)
 migrate 
-ref_skill
-ref_field_study
+  - ref_skill -> mantain dataset but for suggestion, not random take the first 11
+  - ref_field_study
+export.xls student listing with new student profile
 
-where_in_malaysia bug with country_study
+New Job posting card
+- Is it not clickable to see more job description?
+- How do you adjust for the pictures? (bug) ?
+- Student only can like. 
+- Recruiter see list of student yg like 
+    - (ganti love button) - ada count, bila click kluar list of student
+- How to track students that like the job post? 
+
+# where_in_malaysia bug with country_study
+# implement
+# field_study => input_type::select for input_multi
+
 ## ######################################################################################
 ## ######################################################################################
 ## ######################################################################################
 
-integrate form.js dgn input suggestion (REQUIRED FIELD HANDLER)
+# integrate form.js dgn input suggestion (REQUIRED FIELD HANDLER)
 
 ## EFECTED MODULE - new user profile ###
 ## -user popup
--edit user 
-  - skills (kena drop)
--student listing
-  - list card
-  - filter by graduation month
--export.xls
+# -edit user 
+#  - skills (kena drop)
+# -student listing
+#  - list card
+#  - filter by graduation month
 
 ###############################################
 

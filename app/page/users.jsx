@@ -11,7 +11,7 @@ import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Time } from '../lib/time';
 
 
-export function createUserTitle(d, search = "", hideEmail, nameBreakLine) {
+export function createUserTitle(d, search = "", hideEmail, nameBreakLine, otherPropForPopup = {}) {
     hideEmail = typeof hideEmail === "undefined" ? false : hideEmail
     nameBreakLine = typeof nameBreakLine === "undefined" ? false : nameBreakLine
 
@@ -23,9 +23,8 @@ export function createUserTitle(d, search = "", hideEmail, nameBreakLine) {
     }
 
     var focusedName = name.focusSubstring(search);
-
     focusedName = <a onClick={() => {
-        layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.ID })
+        layoutActions.storeUpdateFocusCard(name, UserPopup, { id: d.ID , ...otherPropForPopup})
     }} dangerouslySetInnerHTML={{ __html: focusedName }} ></a>;
 
     var focusedEmail = null;

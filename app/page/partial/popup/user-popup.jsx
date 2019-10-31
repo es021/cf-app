@@ -10,6 +10,7 @@ import {
 } from "../../../../config/db-config";
 import { getMonthLabel } from "../../../../config/data-config";
 import { ImgConfig, RootPath } from "../../../../config/app-config";
+import { CompanyEnum } from "../../../../config/db-config";
 import ProfileCard from "../../../component/profile-card.jsx";
 import PageSection from "../../../component/page-section";
 import { CustomList, createIconLink } from "../../../component/list";
@@ -24,6 +25,7 @@ import { addLog } from "../../../redux/actions/other-actions";
 import { openSIAddForm } from "../activity/scheduled-interview";
 import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
+import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -531,6 +533,43 @@ export default class UserPopup extends Component {
     );
   }
 
+  getScheduleCall() {
+    if (!isRoleRec()) {
+      return null;
+    }
+    var canSchedule = CompanyEnum.hasPriv(
+      this.props.companyPrivs,
+      CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+    );
+
+    const actionHandler = () => {
+      if (canSchedule) {
+        let company_id = getAuthUser().rec_company;
+        openSIFormAnytime(this.props.id, company_id);
+      } else {
+        // EUR FIX
+        // See Availability
+        layoutActions.errorBlockLoader(
+          "Opps.. It seems that you don't have privilege to schedule private session yet"
+        );
+      }
+    };
+
+    return (
+      <div style={{ marginTop: "10px", marginBottom: "18px" }}>
+        <a
+          className="btn btn-success btn-lg"
+          onClick={e => {
+            actionHandler();
+          }}
+        >
+          <i className="fa fa-video-camera left" />
+          Schedule Call
+        </a>
+      </div>
+    );
+  }
+
   render() {
     var id = null;
     var user = this.state.data;
@@ -544,19 +583,19 @@ export default class UserPopup extends Component {
           : this.getRecruiterBody(user);
 
       // start chat with student for rec only
-      let startChat = !isRoleRec() ? null : (
-        <div style={{ marginTop: "10px", marginBottom: "18px" }}>
-          <NavLink
-            className="btn btn-success btn-lg"
-            to={`${RootPath}/app/student-chat/${user.ID}`}
-            onClick={e => {
-              layoutActions.storeHideFocusCard();
-            }}
-          >
-            <i className="fa fa-comments left"></i>Chat With {user.first_name}
-          </NavLink>
-        </div>
-      );
+      // let startChat = !isRoleRec() ? null : (
+      //   <div style={{ marginTop: "10px", marginBottom: "18px" }}>
+      //     <NavLink
+      //       className="btn btn-success btn-lg"
+      //       to={`${RootPath}/app/student-chat/${user.ID}`}
+      //       onClick={e => {
+      //         layoutActions.storeHideFocusCard();
+      //       }}
+      //     >
+      //       <i className="fa fa-comments left"></i>Chat With {user.first_name}
+      //     </NavLink>
+      //   </div>
+      // );
 
       var profilePic = (
         <div>
@@ -572,7 +611,7 @@ export default class UserPopup extends Component {
             img_url={user.img_url}
             img_pos={user.img_pos}
             img_size={user.img_size}
-            body={startChat}
+            body={this.getScheduleCall()}
           ></ProfileCard>
         </div>
       );
@@ -627,6 +666,7 @@ export default class UserPopup extends Component {
 UserPopup.propTypes = {
   id: PropTypes.number.isRequired,
   role: PropTypes.string,
+  companyPrivs : PropTypes.object,
   isSessionPage: PropTypes.bool
 };
 
