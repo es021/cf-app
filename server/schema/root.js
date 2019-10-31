@@ -35,7 +35,9 @@ const {
   MultiType,
   SingleType,
   RefType,
-  LocationType
+  LocationType,
+  InterestedType,
+  CountType,
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -71,6 +73,7 @@ const { QsPopupExec } = require("../model/qs-popup-query.js");
 const { CFExec } = require("../model/cf-query.js");
 const { NotificationExec } = require("../model/notification-query");
 const { HallGalleryExec } = require("../model/hall-gallery-query");
+const { InterestedExec } = require("../model/interested-query");
 const {
   VacancySuggestionExec
 } = require("../model/vacancy-suggestion-query.js");
@@ -147,6 +150,29 @@ fields["refs"] = {
     } else {
       return RefExec.list(arg, graphqlFields(info));
     }
+  }
+};
+
+/*******************************************/
+/* interested ******************/
+fields["interested_list"] = {
+  type: new GraphQLList(InterestedType),
+  args: {
+    entity: __.String,
+    entity_id: __.Int
+  },
+  resolve(parentValue, arg, context, info) {
+    return InterestedExec.list(arg, graphqlFields(info));
+  }
+};
+fields["interested_count"] = {
+  type: CountType,
+  args: {
+    entity: __.String,
+    entity_id: __.Int
+  },
+  resolve(parentValue, arg, context, info) {
+    return InterestedExec.count(arg, graphqlFields(info));
   }
 };
 

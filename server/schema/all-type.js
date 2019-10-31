@@ -10,6 +10,12 @@ const {
 } = require("graphql");
 
 const { __ } = require("../../config/graphql-config");
+const CountType = new GraphQLObjectType({
+  name: "Count",
+  fields: () => ({
+    total: __.Int
+  })
+});
 
 const LocationType = new GraphQLObjectType({
   name: "Location",
@@ -180,7 +186,6 @@ const UserType = new GraphQLObjectType({
     study_place: __.String,
     looking_for: __.String,
 
-  
     // rec only
     rec_company: __.Int,
     rec_position: __.String,
@@ -505,7 +510,8 @@ const InterestedType = new GraphQLObjectType({
     user_id: __.String,
     is_interested: __.Int,
     created_at: __.String,
-    updated_at: __.String
+    updated_at: __.String,
+    user : __.IsType(UserType),
   })
 });
 
@@ -738,6 +744,7 @@ const HallGalleryType = new GraphQLObjectType({
 });
 
 module.exports = {
+  CountType, 
   QsPopupType,
   QsPopupAnswerType,
   UserType,

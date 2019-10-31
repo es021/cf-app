@@ -119,20 +119,28 @@ class VacancyList extends React.Component {
     let com = d.company;
     let img = createImageElement(
       com.img_url,
-      com.img_pos,
+      com.img_position,
       d.img_size,
       "50px",
       "",
       PCType.COMPANY
     );
+
+    let isModeCount = isRoleRec() || isRoleAdmin()
+    let interestedBtn = (
+      <InterestedButton
+        isModeCount={isModeCount}
+        ID={d.interested.ID}
+        is_interested={d.interested.is_interested}
+        entity={"vacancies"}
+        entity_id={d.ID}
+      ></InterestedButton>
+    );
+
     let body = (
       <div className="vacancy-card">
-        <InterestedButton
-          ID={d.interested.ID}
-          is_interested={d.interested.is_interested}
-          entity={"vacancies"}
-          entity_id={d.ID}
-        ></InterestedButton>
+        {isModeCount ? "isModeCount" : "isModeAction"}
+        {interestedBtn}
         <div className="img">{img}</div>
         <div className="title">{d.title}</div>
         <div className="location">{d.location}</div>

@@ -1,6 +1,7 @@
 $TOP: 6px;
 $RIGHT: 12px;
 $FONT_SIZE: 25px;
+$FONT_SIZE_COUNT: 15px;
 .interested {
   z-index: 3;
   position: absolute;
@@ -11,6 +12,16 @@ $FONT_SIZE: 25px;
   right: $RIGHT;
   font-size: $FONT_SIZE;
 
+  .fa-spinner {
+    color: grey;
+  }
+}
+
+.interested.selected {
+  color: red;
+}
+
+.interested.in-action {
   .fa-heart:hover {
     top: $TOP - 2;
     right: $RIGHT - 2;
@@ -21,12 +32,9 @@ $FONT_SIZE: 25px;
     right: $RIGHT;
     font-size: $FONT_SIZE;
   }
-
-  .fa-spinner {
-    color: grey;
-  }
 }
 
-.interested.selected {
-  color: red;
+.interested.in-count {
+  font-size: $FONT_SIZE_COUNT;
+  
 }

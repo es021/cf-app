@@ -6,15 +6,38 @@ import { graphql } from "../../helper/api-helper";
 export class InterestedButton extends React.Component {
   constructor(props) {
     super(props);
-    this.onClick = this.onClick.bind(this);
+    this.onClickModeCount = this.onClickModeCount.bind(this);
+    this.onClickModeAction = this.onClickModeAction.bind(this);
     this.authUser = getAuthUser();
     this.state = {
       loading: false,
       ID: this.props.ID,
-      is_interested: this.props.is_interested
+      is_interested: this.props.is_interested,
+      count: 0
     };
   }
-  onClick(e) {
+  onClickModeCount(e) {
+    console.log("open list count");
+  }
+  componentWillMount() {
+    if (this.props.isModeCount) {
+      this.setState({ loading: true });
+      let q = `query{ 
+        interested_count(entity:"${this.props.entity}", entity_id:${this.props.entity_id}) 
+        {
+          total
+        }
+      }`;
+
+      graphql(q).then(res => {
+        this.setState({
+          count: res.data.data.interested_count.total,
+          loading: false
+        });
+      });
+    }
+  }
+  onClickModeAction(e) {
     if (this.state.loading) {
       return;
     }
@@ -51,25 +74,47 @@ export class InterestedButton extends React.Component {
       });
     });
   }
+
   render() {
-    return (
-      <div
-        className={`interested ${
-          this.state.is_interested == 1 ? "selected" : ""
-        }`}
-      >
-        {this.state.loading ? (
-          <i className="fa fa-spinner fa-pulse"></i>
-        ) : (
-          <i onClick={this.onClick} className="fa fa-heart"></i>
-        )}
-      </div>
-    );
+    let v = null;
+    if (this.props.isModeCount) {
+      v = (
+        <div className={`interested in-count`}>
+          {this.state.loading ? (
+            <i className="fa fa-spinner fa-pulse"></i>
+          ) : (
+            <div onClick={this.onClickModeCount}>
+              <i className="fa fa-heart left"></i>{this.state.count}
+            </div>
+          )}
+        </div>
+      );
+    } else {
+      v = (
+        <div
+          className={`interested in-action ${
+            this.state.is_interested == 1 ? "selected" : ""
+          }`}
+        >
+          {this.state.loading ? (
+            <i className="fa fa-spinner fa-pulse"></i>
+          ) : (
+            <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+          )}
+        </div>
+      );
+    }
+    return <div>{v}</div>;
   }
 }
 InterestedButton.propTypes = {
+  isModeCount: PropTypes.bool,
   ID: PropTypes.number,
   is_interested: PropTypes.number,
-  entity: PropTypes.number,
+  entity: PropTypes.string,
   entity_id: PropTypes.number
+};
+
+InterestedButton.defaultProps = {
+  isModeCount: false
 };

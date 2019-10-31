@@ -239,6 +239,10 @@ DB.prototype.delete = function (table, ID, ID_key = "ID") {
     });
 };
 
+DB.prototype.selectAllCount = function () {
+    return "COUNT(*) as total";
+};
+
 DB.prototype.prepareLimit = function (page, offset) {
     var start = (page - 1) * offset;
     var limit = (typeof page !== "undefined" && typeof offset !== "undefined") ?
