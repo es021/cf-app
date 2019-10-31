@@ -43,3 +43,7 @@ Loader.propTypes = {
     text: PropTypes.string,
     text_pos: PropTypes.oneOf(['bottom', 'right'])
 };
+
+Loader.defaultProps = {
+    text : "Loading..."
+}

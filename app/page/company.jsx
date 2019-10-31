@@ -59,6 +59,7 @@ class VacancyList extends React.Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
+    this.renderList = this.renderList.bind(this);
     this.authUser = getAuthUser();
   }
 
@@ -84,38 +85,8 @@ class VacancyList extends React.Component {
     this.offset = 6;
   }
 
-  // renderList(d, i) {
-  //   var param = { id: d.ID };
-  //   var title = (
-  //     <a
-  //       onClick={() =>
-  //         layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)
-  //       }
-  //     >
-  //       {d.title}
-  //     </a>
-  //   );
-  //   return (
-  //     <SimpleListItem
-  //       title={title}
-  //       subtitle={d.type}
-  //       body={d.description}
-  //       key={i}
-  //     />
-  //   );
-  // }
-
   renderList(d, i) {
-    // var param = { id: d.ID };
-    // var title = (
-    //   <a
-    //     onClick={() =>
-    //       layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, param)
-    //     }
-    //   >
-    //     {d.title}
-    //   </a>
-    // );
+  
     let com = d.company;
     let img = createImageElement(
       com.img_url,
@@ -126,10 +97,16 @@ class VacancyList extends React.Component {
       PCType.COMPANY
     );
 
-    let isModeCount = isRoleRec() || isRoleAdmin()
+    let isModeCount =
+      (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
+      isRoleAdmin();
+
+    let isModeAction = isRoleStudent();
+
     let interestedBtn = (
       <InterestedButton
         isModeCount={isModeCount}
+        isModeAction={isModeAction}
         ID={d.interested.ID}
         is_interested={d.interested.is_interested}
         entity={"vacancies"}
@@ -139,7 +116,6 @@ class VacancyList extends React.Component {
 
     let body = (
       <div className="vacancy-card">
-        {isModeCount ? "isModeCount" : "isModeAction"}
         {interestedBtn}
         <div className="img">{img}</div>
         <div className="title">{d.title}</div>
