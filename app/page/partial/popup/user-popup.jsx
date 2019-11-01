@@ -533,7 +533,22 @@ export default class UserPopup extends Component {
     );
   }
 
-  getScheduleCall() {
+  getStartChat(user){
+    if (!isRoleRec()) {
+      return null;
+    }
+    return <NavLink style={{minWidth : "200px"}}
+        className="btn btn-blue btn-lg"
+        to={`${RootPath}/app/student-chat/${user.ID}`}
+        onClick={e => {
+          layoutActions.storeHideFocusCard();
+        }}
+      >
+        <i className="fa fa-comments left"></i>Start Chat
+      </NavLink>
+  
+  }
+  getScheduleCall(user) {
     if (!isRoleRec()) {
       return null;
     }
@@ -556,8 +571,7 @@ export default class UserPopup extends Component {
     };
 
     return (
-      <div style={{ marginTop: "10px", marginBottom: "18px" }}>
-        <a
+        <a style={{minWidth : "200px"}}
           className="btn btn-success btn-lg"
           onClick={e => {
             actionHandler();
@@ -566,7 +580,6 @@ export default class UserPopup extends Component {
           <i className="fa fa-video-camera left" />
           Schedule Call
         </a>
-      </div>
     );
   }
 
@@ -582,20 +595,11 @@ export default class UserPopup extends Component {
           ? this.getStudentBody(user)
           : this.getRecruiterBody(user);
 
-      // start chat with student for rec only
-      // let startChat = !isRoleRec() ? null : (
-      //   <div style={{ marginTop: "10px", marginBottom: "18px" }}>
-      //     <NavLink
-      //       className="btn btn-success btn-lg"
-      //       to={`${RootPath}/app/student-chat/${user.ID}`}
-      //       onClick={e => {
-      //         layoutActions.storeHideFocusCard();
-      //       }}
-      //     >
-      //       <i className="fa fa-comments left"></i>Chat With {user.first_name}
-      //     </NavLink>
-      //   </div>
-      // );
+      var actionForRec = <div  style={{ marginTop: "10px", marginBottom: "18px" }}>
+        {this.getStartChat(user)}
+        {this.getScheduleCall(user)}
+      </div>
+      
 
       var profilePic = (
         <div>
@@ -611,7 +615,7 @@ export default class UserPopup extends Component {
             img_url={user.img_url}
             img_pos={user.img_pos}
             img_size={user.img_size}
-            body={this.getScheduleCall()}
+            body={actionForRec}
           ></ProfileCard>
         </div>
       );

@@ -15,6 +15,13 @@ ALTER TABLE `vacancies` DROP `ref_city`;
 ALTER TABLE `vacancies` DROP `ref_state`;
 ALTER TABLE `vacancies` DROP `ref_country`;
 
+
+-- to migrate from wp_cf_usermeta to single_input 
+insert INTO single_input (entity, entity_id, key_input, val) 
+(select "user", m.user_id, "first_name", m.meta_value 
+from wp_cf_usermeta m where m.meta_key = "first_name") 
+ON DUPLICATE KEY UPDATE key_input = "first_name"
+
 -- ##############################################################
 -- ##############################################################
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
