@@ -159,7 +159,9 @@ fields["interested_list"] = {
   type: new GraphQLList(InterestedType),
   args: {
     entity: __.String,
-    entity_id: __.Int
+    entity_id: __.Int,
+    page : __.Int,
+    offset : __.Int,
   },
   resolve(parentValue, arg, context, info) {
     return InterestedExec.list(arg, graphqlFields(info));

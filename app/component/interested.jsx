@@ -4,49 +4,117 @@ import { getAuthUser } from "../redux/actions/auth-actions";
 import { graphql } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { Loader } from "./loader";
+import List from "../component/list";
+import { PCType, createImageElement } from "../component/profile-card";
+
+// export class InterestedUserList extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       loading: false,
+//       data: []
+//     };
+//   }
+//   componentWillMount() {
+//     this.setState({ loading: true });
+//     let q = `query{
+//       interested_list(entity:"${this.props.entity}", entity_id:${this.props.entity_id})
+//       {
+//         user_id
+//         user{
+//           first_name last_name
+//           img_url img_pos img_size
+//         }
+//       }
+//     }`;
+
+//     graphql(q).then(res => {
+//       this.setState({
+//         data: res.data.data.interested_list,
+//         loading: false
+//       });
+//     });
+//   }
+
+//   render() {
+//     let v = null;
+//     if (this.state.loading) {
+//       v = <Loader></Loader>;
+//     } else {
+//       v = (
+//         <div>
+//           InterestedUserList<br></br>
+//           {JSON.stringify(this.state.data)}
+//         </div>
+//       );
+//     }
+//     return v;
+//   }
+// }
 
 export class InterestedUserList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: false,
-      data: []
-    };
+    this.loadData = this.loadData.bind(this);
+    this.renderList = this.renderList.bind(this);
+    this.authUser = getAuthUser();
   }
-  componentWillMount() {
-    this.setState({ loading: true });
-    let q = `query{ 
-      interested_list(entity:"${this.props.entity}", entity_id:${this.props.entity_id}) 
-      {
-        user_id
-        user{
-          first_name last_name
-          img_url img_pos img_size
-        }
-      }
-    }`;
 
-    graphql(q).then(res => {
-      this.setState({
-        data: res.data.data.interested_list,
-        loading: false
-      });
-    });
+  loadData(page, offset) {
+    // description
+    return graphql(`query{ 
+      interested_list(entity:"${this.props.entity}", 
+      entity_id:${this.props.entity_id},
+      page: ${page},
+      offset: ${offset},
+      ){
+      user_id
+      user{first_name last_name img_url img_pos img_size}}}`);
+  }
+
+  componentWillMount() {
+    this.offset = 6;
+  }
+
+  renderList(d, i) {
+    let img = createImageElement(
+      d.user.img_url,
+      d.user.img_pos,
+      d.user.img_size,
+      "50px",
+      "",
+      PCType.STUDENT
+    );
+
+    return (
+      <div>
+        <div style={{marginBottom:'-17px'}}>{img}</div>
+        <div>
+          <b>{d.user.first_name}</b>
+          <br></br>
+          {d.user.last_name}
+        </div>
+      </div>
+    );
+  }
+
+  getDataFromRes(res) {
+    return res.data.data.interested_list;
   }
 
   render() {
-    let v = null;
-    if (this.state.loading) {
-      v = <Loader></Loader>;
-    } else {
-      v = (
-        <div>
-          InterestedUserList<br></br>
-          {JSON.stringify(this.state.data)}
-        </div>
-      );
-    }
-    return v;
+    return (
+      <List
+        isHidePagingTop={true}
+        type="list"
+        listClass="flex-wrap-start"
+        pageClass="text-right"
+        getDataFromRes={this.getDataFromRes}
+        loadData={this.loadData}
+        offset={this.offset}
+        renderList={this.renderList}
+      />
+    );
   }
 }
 
