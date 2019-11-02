@@ -1,7 +1,7 @@
 [
   {
-    "name": "MDEC",
-    "logo": "logo.png",
+    "name": "Malaysia Digital Economy Corporation",
+    "logo": "MDEC.jpg",
     "url": ""
   },
   {
@@ -10,8 +10,8 @@
     "url": ""
   },
   {
-    "name": "Premier Digital",
-    "logo": "logo.png",
+    "name": "Premier Digital Tech University",
+    "logo": "PremierDigitalTechUniversity.jpg",
     "url": ""
   }
 ]
