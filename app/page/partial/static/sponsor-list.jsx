@@ -135,7 +135,7 @@ export default class SponsorList extends React.Component {
         {!this.props.part_com ? null : (
           <div>
             {this.props.title && part_com.length > 0 ? (
-              <h1>Participating Companies</h1>
+              <h1>Participating Exhibitors</h1>
             ) : null}
             <ul className="sponsor-container">{part_com}</ul>
           </div>

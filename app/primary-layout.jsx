@@ -112,6 +112,7 @@ class PrimaryLayout extends React.Component {
     Organizer
     Collaborator
     Powered
+    University
   }}`;
 
     getAxiosGraphQLQuery(query).then(res => {

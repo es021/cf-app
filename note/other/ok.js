@@ -2,16 +2,35 @@
   {
     "name": "Malaysia Digital Economy Corporation",
     "logo": "MDEC.jpg",
-    "url": ""
+    "shortname" : "MDEC",
   },
   {
     "name": "Seeds Job Fair",
     "logo": "logo.png",
-    "url": ""
   },
   {
     "name": "Premier Digital Tech University",
     "logo": "PremierDigitalTechUniversity.jpg",
-    "url": ""
   }
 ]
+
+
+
+[
+  {
+    "name": "UITM",
+    "logo": "UITM.jpg",
+    "shortname" : "MDEC",
+  },
+  {
+    "name": "UTAR",
+    "shortname" : "UTAR",
+    "logo": "UTAR.png",
+  },
+  {
+    "name": "UTM",
+    "shortname" : "UTM",
+    "logo": "UTM.png",
+  }
+]
+

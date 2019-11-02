@@ -67,6 +67,9 @@ export function getLocalStorageCfOrg() {
         for (var i in CFSMetaOrg) {
             let attr = [CFSMetaOrg[i]]
             toRet[cfName][attr] = allCf[cfName][attr];
+            if(toRet[cfName][attr] == null){
+                toRet[cfName][attr] = [];
+            }
         }
     }
     return toRet;

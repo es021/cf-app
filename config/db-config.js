@@ -612,14 +612,15 @@ const CFSMeta = {
     // for CareerFairOrg
     ORGANIZER: "Organizer",
     COLLABORATOR: "Collaborator",
-    POWERED: "Powered"
+    POWERED: "Powered",
+    UNIVERSITY: "University",
 }
 
 const CFSMetaObject = [
-    CFSMeta.SCHEDULE, CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED
+    CFSMeta.SCHEDULE, CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED, CFSMeta.UNIVERSITY
 ];
 
-const CFSMetaOrg = [CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED];
+const CFSMetaOrg = [CFSMeta.ORGANIZER, CFSMeta.COLLABORATOR, CFSMeta.POWERED, CFSMeta.UNIVERSITY];
 
 const HallGallery = {
     TABLE: "hall_gallery",
