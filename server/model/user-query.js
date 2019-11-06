@@ -443,11 +443,11 @@ class UserExec {
       field["user_status"] = 1;
     }
 
-    if (field["is_profile_completed"] !== "undefined") {
-      for (var i in RequiredFieldStudent) {
-        field[RequiredFieldStudent[i]] = 1;
-      }
-    }
+    // if (field["is_profile_completed"] !== "undefined") {
+    //   for (var i in RequiredFieldStudent) {
+    //     field[RequiredFieldStudent[i]] = 1;
+    //   }
+    // }
 
     var isSingle = type === "single";
     var sql = "";
@@ -502,15 +502,15 @@ class UserExec {
         if (field["is_profile_completed"] !== "undefined") {
           res[i]["is_profile_completed"] = true;
           // kalau ada yang required tak isi trus false
-          for (var j in RequiredFieldStudent) {
-            var reqKey = RequiredFieldStudent[j];
-            var reqVal = res[i][reqKey];
-            if (reqVal == null || reqVal == "") {
-              //console.log(reqKey)
-              res[i]["is_profile_completed"] = false;
-              break;
-            }
-          }
+          // for (var j in RequiredFieldStudent) {
+          //   var reqKey = RequiredFieldStudent[j];
+          //   var reqVal = res[i][reqKey];
+          //   if (reqVal == null || reqVal == "") {
+          //     //console.log(reqKey)
+          //     res[i]["is_profile_completed"] = false;
+          //     break;
+          //   }
+          // }
         }
 
         // is_active ****************************************************
