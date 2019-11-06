@@ -207,7 +207,7 @@ export default class LandingPage extends React.Component {
 
     var login = (
       <div className="item-small item-login">
-        <LoginPage></LoginPage>
+        <LoginPage {...this.props}></LoginPage>
       </div>
     );
 

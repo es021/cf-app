@@ -85,14 +85,15 @@ class LoginPage extends React.Component {
         document.setTitle("Login");
         const defaultPath = `${RootPath}/app/`;
 
-        //console.log("from login render");
-        //console.log(this.props.redux);
+        console.log("from login render");
+        console.log("this.props.location",this.props.location);
         var from = {};
         if (typeof this.props.location !== "undefined" && typeof this.props.location.state !== "undefined") {
-            from = this.props.location.state;
+            from = this.props.location.state.from;
         } else {
             from = { pathname: defaultPath };
         }
+        console.log("from",from);
 
 
         //handle from logout
@@ -141,9 +142,18 @@ class LoginPage extends React.Component {
             redirectToReferrer = false;
         }
 
-
+        console.log("redirectToReferrer",redirectToReferrer)
         // if authorized redirect to from
         if (redirectToReferrer) {
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+            console.log("redirect to",from.pathname)
+
             return (
                 <Redirect to={from} />
             );
