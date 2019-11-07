@@ -1,3 +1,23 @@
+-- new table video
+CREATE TABLE `wp_career_fair`.`video` ( 
+`ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`entity` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL, 
+`entity_id` BIGINT(20) NOT NULL , 
+`meta_key` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL, 
+`url` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci, 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+PRIMARY KEY (`ID`), 
+INDEX (`entity`), INDEX (`entity_id`), INDEX (`meta_key`)) ENGINE = InnoDB;
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
+
 -- new table interested
 CREATE TABLE `wp_career_fair`.`interested` ( 
   `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
@@ -21,13 +41,6 @@ insert INTO single_input (entity, entity_id, key_input, val)
 (select "user", m.user_id, "first_name", m.meta_value 
 from wp_cf_usermeta m where m.meta_key = "first_name") 
 ON DUPLICATE KEY UPDATE key_input = "first_name"
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 -- #################################################
 -- ps_daily_co_deleted

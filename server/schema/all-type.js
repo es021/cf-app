@@ -83,6 +83,19 @@ const NotificationType = new GraphQLObjectType({
   })
 });
 
+const VideoType = new GraphQLObjectType({
+  name: "Video",
+  fields: () => ({
+    ID: __.Int,
+    entity: __.String,
+    entity_id: __.Int,
+    meta_key: __.String,
+    url: __.String,
+    created_at: __.String,
+    updated_at: __.String
+  })
+});
+
 const SkillType = new GraphQLObjectType({
   name: "Skill",
   fields: () => ({
@@ -252,7 +265,7 @@ const CfsType = new GraphQLObjectType({
     Organizer: __.String,
     Collaborator: __.String,
     Powered: __.String,
-    University: __.String,
+    University: __.String
   })
 });
 
@@ -512,7 +525,7 @@ const InterestedType = new GraphQLObjectType({
     is_interested: __.Int,
     created_at: __.String,
     updated_at: __.String,
-    user : __.IsType(UserType),
+    user: __.IsType(UserType)
   })
 });
 
@@ -745,7 +758,7 @@ const HallGalleryType = new GraphQLObjectType({
 });
 
 module.exports = {
-  CountType, 
+  CountType,
   QsPopupType,
   QsPopupAnswerType,
   UserType,
@@ -784,6 +797,7 @@ module.exports = {
   LocationType,
   SingleType,
   MultiType,
-  RefType
+  RefType,
+  VideoType
   //, CFType
 };

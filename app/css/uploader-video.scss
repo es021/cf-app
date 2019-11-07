@@ -1,0 +1,15 @@
+$MAX_WIDTH: 400px;
+
+.uploader-video {
+  max-width: $MAX_WIDTH;
+  margin: auto;
+  form {
+    max-width: $MAX_WIDTH;
+  }
+  label {
+    font-size: 20px;
+  }
+  .error{
+	  color : rgb(216, 29, 29);
+  }
+}

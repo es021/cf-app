@@ -38,6 +38,7 @@ const {
   LocationType,
   InterestedType,
   CountType,
+  VideoType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -74,6 +75,7 @@ const { CFExec } = require("../model/cf-query.js");
 const { NotificationExec } = require("../model/notification-query");
 const { HallGalleryExec } = require("../model/hall-gallery-query");
 const { InterestedExec } = require("../model/interested-query");
+const { VideoExec } = require("../model/video-query.js");
 const {
   VacancySuggestionExec
 } = require("../model/vacancy-suggestion-query.js");
@@ -99,7 +101,34 @@ __.String;
 var fields = {};
 
 /*******************************************/
-/* multi ******************/
+/*******************/
+fields["videos"] = {
+  type: new GraphQLList(VideoType),
+  args: {
+    entity: __.String,
+    entity_id: __.Int,
+    page: __.Int,
+    offset: __.Int
+  },
+  resolve(parentValue, arg, context, info) {
+    return VideoExec.list(arg, graphqlFields(info));
+  }
+};
+
+fields["video"] = {
+  type: VideoType,
+  args: {
+    ID: __.Int,
+    entity: __.String,
+    entity_id: __.Int
+  },
+  resolve(parentValue, arg, context, info) {
+    return VideoExec.single(arg, graphqlFields(info));
+  }
+};
+
+/*******************************************/
+/* locations ******************/
 fields["locations"] = {
   type: new GraphQLList(LocationType),
   args: {
@@ -160,8 +189,8 @@ fields["interested_list"] = {
   args: {
     entity: __.String,
     entity_id: __.Int,
-    page : __.Int,
-    offset : __.Int,
+    page: __.Int,
+    offset: __.Int
   },
   resolve(parentValue, arg, context, info) {
     return InterestedExec.list(arg, graphqlFields(info));
