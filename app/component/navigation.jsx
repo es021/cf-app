@@ -262,19 +262,19 @@ function getMenuItem(COMING_SOON) {
       default_param: { current: "doc-link" },
       disabled: !isRoleStudent()
     },
-    {
-      // Student Only
-      url: "/edit-profile/:current",
-      label: "Upload Video Resume",
-      icon: "youtube-play",
-      component: EditProfilePage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      default_param: { current: "video-resume" },
-      disabled: !isRoleStudent()
-    },
+    // {
+    //   // Student Only
+    //   url: "/edit-profile/:current",
+    //   label: "Upload Video Resume",
+    //   icon: "youtube-play",
+    //   component: EditProfilePage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   default_param: { current: "video-resume" },
+    //   disabled: !isRoleStudent()
+    // },
     // {
     //   // Student Only
     //   url: "/edit-profile/:current",
