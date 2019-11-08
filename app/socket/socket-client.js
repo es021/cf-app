@@ -153,6 +153,13 @@ export const socketEmit = (event, data) => {
 //#####################################################################################
 // emit helper
 
+
+export const emitProgess = (params = null) => {
+    socketEmit(BOTH.PROGRESS, {
+        params: params
+    });
+}
+
 export const emitState = (params = null) => {
     socketEmit(BOTH.STATE, {
         params: params

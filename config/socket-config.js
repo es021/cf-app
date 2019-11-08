@@ -8,6 +8,8 @@ const BOTH = {
     // admin stuff only
     STATE: "state",
 
+    PROGRESS: "progress",
+
     CONNECTION: "connection",
 
     //live feed

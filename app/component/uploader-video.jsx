@@ -5,6 +5,9 @@ import { postAxios } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { AppConfig } from "../../config/app-config";
 
+import { emitProgess, socketOn } from "../socket/socket-client";
+import { BOTH } from "../../config/socket-config";
+
 class UploaderVideoProgress extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +20,14 @@ class UploaderVideoProgress extends React.Component {
   }
 
   componentWillMount() {
+    setInterval(() => {
+      emitProgess({ fileName: this.props.fileName });
+    }, 2000);
+
+    socketOn(BOTH.PROGRESS, data => {
+      console.log("from socket server", data);
+    });
+
     return;
     // var interval = setInterval(() => {
     //   postAxios(
@@ -170,6 +181,8 @@ export default class UploaderVideo extends React.Component {
   render() {
     return (
       <div className="uploader-video">
+        <UploaderVideoProgress fileName={"asdas"}></UploaderVideoProgress>
+
         <Uploader
           label={this.props.label}
           name={this.props.name}

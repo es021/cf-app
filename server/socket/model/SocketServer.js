@@ -69,6 +69,8 @@ class SocketServer {
         client.on(BOTH.LIVE_FEED, (d) => { this.onLiveFeed(client, d) });
         client.on(BOTH.STATE, (d) => { this.onState(client, d) });
         client.on(BOTH.HALL_ACTIVITY, (d) => { this.onHallActivity(client, d) });
+        client.on(BOTH.PROGRESS, (d) => { this.onProgress(client, d) });
+
 
         //this.initDBTrigger(client);
     }
@@ -194,6 +196,19 @@ class SocketServer {
 
     // {params}
     // any specific params only
+    onProgress(client, data) {
+        // TODO
+        // TODO
+        let params = data.params
+        let fileName = params.fileName;
+
+        console.log("fileName",fileName);
+
+        var toEmit = params;
+        toEmit.fromServerSocket = true;
+        client.emit(BOTH.PROGRESS, toEmit);
+    }
+
     onState(client, data) {
         var toEmit = {};
         if (data.params == null) {
