@@ -3,7 +3,9 @@
 const formidable = require("formidable");
 const fs = require("fs");
 const path = require("path");
-const {UploadUrl} = require("../../config/app-config")
+const {
+	UploadUrl
+} = require("../../config/app-config")
 const {
 	FileJSONProgress
 } = require("../../helper/file-helper");
@@ -148,9 +150,6 @@ const initializeAllRoute = function(app, root) {
 	});
 
 	// Activity Route ----------------------------------------------------------------
-	// const {
-	// 	DropboxAPI
-	// } = require("./dropbox-api");
 	// app.post(root + "/dropbox/:action", function(req, res, next) {
 	// 	var action = req.params.action;
 	// 	console.log("action", action);
@@ -310,21 +309,20 @@ const initializeAllRoute = function(app, root) {
 	});
 
 	//upload route ----------------------------------------------------------------
-	var UPLOAD_PROGRESS = {
-		// fileName : {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
-	};
 
-	function progressDelete(fileName, timeout) {
-		setTimeout(() => {
-			console.log(
-				new Date().toString(),
-				`[${fileName}]`,
-				`progressDelete (${timeout})`
-			);
-			FileJSONProgress.delete(fileName);
-		}, timeout);
-	}
-
+	// var UPLOAD_PROGRESS = {
+	// 	// fileName : {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
+	// };
+	// function progressDelete(fileName, timeout) {
+	// 	setTimeout(() => {
+	// 		console.log(
+	// 			new Date().toString(),
+	// 			`[${fileName}]`,
+	// 			`progressDelete (${timeout})`
+	// 		);
+	// 		FileJSONProgress.delete(fileName);
+	// 	}, timeout);
+	// }
 	// function progressUpdate(fileName, bytesReceived, bytesExpected) {
 	// 	FileJSONProgress.write(fileName, {
 	// 		bytesReceived: bytesReceived,
@@ -350,6 +348,34 @@ const initializeAllRoute = function(app, root) {
 	// 	);
 	// 	progressDelete(fileName, 60 * 1000);
 	// }
+	const {
+		DropboxAPI
+	} = require("./dropbox-api");
+
+	function uploadToDropbox({
+		fileName,
+		fileExt,
+		localPath,
+		param
+	}) {
+		let dropboxPath = `/_upload/${fileName}.${fileExt}`;
+		DropboxAPI.upload({
+			dropboxPath: dropboxPath,
+			localPath: localPath,
+			param: param,
+			finish: (err, result) => {
+				console.log("finish upload dropbox");
+				// progessUploadCompleted(fileName);
+				// if (err) {
+				// 	res.send(err);
+				// } else {
+				// 	res.send(result);
+				// }
+			}
+		});
+		return;
+
+	}
 
 	function insertVideoDb({
 		url,
@@ -413,26 +439,6 @@ const initializeAllRoute = function(app, root) {
 			// get temp path
 			var old_path = files[type].path;
 
-			// if (type == "video") {
-			// 	let dropboxPath = `/_upload/${fileName}.${fileExt}`;
-			// 	DropboxAPI.upload({
-			// 		dropboxPath: dropboxPath,
-			// 		localPath: old_path,
-			// 		param: fields,
-			// 		finish: (err, result) => {
-			// 			progessUploadCompleted(fileName);
-			// 			if (err) {
-			// 				res.send(err);
-			// 			} else {
-			// 				res.send(result);
-			// 			}
-			// 		}
-			// 	});
-			// 	return;
-			// }
-
-
-
 			//console.log(files);
 			// `type` is the name of the <input> field of type `type`
 			var pwd = process.env.PWD ? process.env.PWD : process.env.INIT_CWD;
@@ -493,6 +499,14 @@ const initializeAllRoute = function(app, root) {
 									url: url,
 									param: fields,
 									finish: (_err, _res) => {
+
+										uploadToDropbox({
+											fileName: fileName,
+											fileExt: fileExt,
+											localPath: new_path,
+											param: fields,
+										})
+
 										res.status(200);
 										res.json({
 											url: url
