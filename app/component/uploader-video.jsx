@@ -1,39 +1,39 @@
 import React, { Component } from "react";
 import { Uploader, uploadFile, FileType } from "./uploader";
 import PropTypes from "prop-types";
-import { postAxios } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
-import { AppConfig } from "../../config/app-config";
 
-import { emitProgess, socketOn } from "../socket/socket-client";
-import { BOTH } from "../../config/socket-config";
+// import { postAxios } from "../../helper/api-helper";
+// import { AppConfig } from "../../config/app-config";
+// import { emitProgess, socketOn } from "../socket/socket-client";
+// import { BOTH } from "../../config/socket-config";
 
 class UploaderVideoProgress extends React.Component {
   constructor(props) {
     super(props);
 
-    this.PARSE_MAX_PERCENT = 100;
-    this.INTERVAL_TIME = 10 * 1000;
-    this.state = {
-      progress: null // {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
-    };
+    //this.PARSE_MAX_PERCENT = 100;
+    // this.INTERVAL_TIME = 10 * 1000;
+    // this.state = {
+    //   progress: null // {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
+    // };
   }
 
   componentWillMount() {
-    this.interval = setInterval(() => {
-      emitProgess({ fileName: this.props.fileName });
-    }, 5000);
+    // this.interval = setInterval(() => {
+    //   emitProgess({ fileName: this.props.fileName });
+    // }, 5000);
 
-    socketOn(BOTH.PROGRESS, data => {
-      // console.log("from socket server", data);
-      if (data.parseCompleted == true || data.uploadCompleted == true) {
-        clearInterval(this.interval);
-      }
+    // socketOn(BOTH.PROGRESS, data => {
+    //   // console.log("from socket server", data);
+    //   if (data.parseCompleted == true || data.uploadCompleted == true) {
+    //     clearInterval(this.interval);
+    //   }
 
-      this.setState({ progress: data });
-    });
+    //   this.setState({ progress: data });
+    // });
 
-    return;
+    //return;
     // var interval = setInterval(() => {
     //   postAxios(
     //     `${AppConfig.Api}/upload-progress/${this.props.fileName}`,
@@ -49,40 +49,41 @@ class UploaderVideoProgress extends React.Component {
     // }, this.INTERVAL_TIME);
   }
 
-  getPercentage() {
-    let percentage = this.percentage;
-    if (this.state.progress) {
-      if (this.state.progress.parseCompleted == true) {
-        percentage = this.PARSE_MAX_PERCENT;
-      } else if (this.state.progress.uploadCompleted == true) {
-        percentage = "100";
-      } else {
-        try {
-          percentage =
-            (this.state.progress.bytesReceived /
-              this.state.progress.bytesExpected) *
-            100 *
-            (this.PARSE_MAX_PERCENT / 100);
-        } catch (err) {}
-      }
-    }
-    this.percentage = percentage;
-    // console.log("this.state.progress", this.state.progress);
-    // console.log("percentage", percentage);
+  // getPercentage() {
+  //   let percentage = this.percentage;
+  //   if (this.state.progress) {
+  //     if (this.state.progress.parseCompleted == true) {
+  //       percentage = this.PARSE_MAX_PERCENT;
+  //     } else if (this.state.progress.uploadCompleted == true) {
+  //       percentage = "100";
+  //     } else {
+  //       try {
+  //         percentage =
+  //           (this.state.progress.bytesReceived /
+  //             this.state.progress.bytesExpected) *
+  //           100 *
+  //           (this.PARSE_MAX_PERCENT / 100);
+  //       } catch (err) { }
+  //     }
+  //   }
+  //   this.percentage = percentage;
+  //   // console.log("this.state.progress", this.state.progress);
+  //   // console.log("percentage", percentage);
 
-    return percentage;
-  }
+  //   return percentage;
+  // }
+
   render() {
-    let percentage = this.getPercentage();
+    // let percentage = this.getPercentage();
     let percentageView = [
       <br></br>,
       <div style={{ padding: `10px 15px` }}>
-        <div className="progress" style={{ border : "#5f5f5f 1px solid" ,marginBottom: `0px` }}>
+        <div className="progress" style={{ border: "#5f5f5f 1px solid", marginBottom: `0px` }}>
           <div
             className="progress-bar bg-warning"
             role="progressbar"
-            style={{ width: `${percentage}%` }}
-            aria-valuenow={percentage}
+            style={{ width: `${this.props.percentCompleted}%` }}
+            aria-valuenow={this.props.percentCompleted}
             aria-valuemin="0"
             aria-valuemax="100"
           ></div>
@@ -103,7 +104,8 @@ class UploaderVideoProgress extends React.Component {
 }
 
 UploaderVideoProgress.propTypes = {
-  fileName: PropTypes.string
+  fileName: PropTypes.string,
+  percentCompleted: PropTypes.number
 };
 
 export default class UploaderVideo extends React.Component {
@@ -112,31 +114,28 @@ export default class UploaderVideo extends React.Component {
     this.state = {
       error: null,
       currentFile: null,
-      loading: false
+      loading: false,
+      percentCompleted: 0,
       // success: null
     };
-
+    this.fileName = `${this.props.entity}_${this.props.entity_id}_${this.props.meta_key}`;
     this.uploadOnClick = this.uploadOnClick.bind(this);
     this.uploaderOnChange = this.uploaderOnChange.bind(this);
     this.uploaderOnError = this.uploaderOnError.bind(this);
     this.uploaderOnSuccess = this.uploaderOnSuccess.bind(this);
   }
-  componentWillMount() {}
+  componentWillMount() { }
   uploaderOnChange(file) {
-    // console.log("uploaderOnChange");
   }
-
   uploaderOnError(err) {
-    // console.log("uploaderOnError", err);
     this.setState(() => {
       return { error: err, currentFile: null };
     });
   }
 
   uploaderOnSuccess(file) {
-    // console.log("uploaderOnSuccess", file);
     this.setState(() => {
-      return { error: null, currentFile: file };
+      return { error: null, currentFile: file, percentCompleted: 0 };
     });
   }
   isUploadEnable() {
@@ -147,30 +146,35 @@ export default class UploaderVideo extends React.Component {
     );
   }
   uploadOnClick() {
-    this.setState({ loading: true, error: null });
+    this.setState({ loading: true, error: null, percentCompleted: 0 });
     let extraParam = {
       entity: this.props.entity,
       entity_id: this.props.entity_id,
       meta_key: this.props.meta_key
     };
 
-    // let timestamp = Date.now();
-    let fileName = `${this.props.entity}_${this.props.entity_id}_${this.props.meta_key}`;
+    // let timestamp = Date.now();d
 
-    layoutActions.loadingBlockLoader(
-      <UploaderVideoProgress fileName={fileName}></UploaderVideoProgress>
-    );
+    // layoutActions.loadingBlockLoader(
+    //   <UploaderVideoProgress percentCompleted={this.state.percentCompleted} fileName={fileName}></UploaderVideoProgress>
+    // );
+
+    const onUploadProgress = (progressEvent) => {
+      let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+      console.log("onUploadProgress", percentCompleted);
+      this.setState({ percentCompleted: percentCompleted })
+    }
 
     uploadFile(
       this.state.currentFile,
       FileType.VIDEO,
-      fileName,
-      extraParam
+      this.fileName,
+      extraParam,
+      onUploadProgress
     ).then(res => {
       console.log(res);
       this.setState({
         loading: false,
-        // success: "Video successfully uploaded!",
         error: null
       });
       layoutActions.successBlockLoader(
@@ -184,10 +188,14 @@ export default class UploaderVideo extends React.Component {
     });
   }
   render() {
-    return (
-      <div className="uploader-video">
-        {/* <UploaderVideoProgress fileName={"asdas"}></UploaderVideoProgress> */}
 
+    let v = null;
+    if (this.state.loading) {
+      v = <UploaderVideoProgress
+        percentCompleted={this.state.percentCompleted}
+        fileName={this.fileName}></UploaderVideoProgress>
+    } else {
+      v = <div>
         <Uploader
           label={this.props.label}
           name={this.props.name}
@@ -205,6 +213,11 @@ export default class UploaderVideo extends React.Component {
         >
           Upload
         </button>
+      </div>
+    }
+    return (
+      <div className="uploader-video">
+        {v}
       </div>
     );
   }

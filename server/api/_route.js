@@ -325,31 +325,31 @@ const initializeAllRoute = function(app, root) {
 		}, timeout);
 	}
 
-	function progressUpdate(fileName, bytesReceived, bytesExpected) {
-		FileJSONProgress.write(fileName, {
-			bytesReceived: bytesReceived,
-			bytesExpected: bytesExpected
-		});
-	}
+	// function progressUpdate(fileName, bytesReceived, bytesExpected) {
+	// 	FileJSONProgress.write(fileName, {
+	// 		bytesReceived: bytesReceived,
+	// 		bytesExpected: bytesExpected
+	// 	});
+	// }
 
-	function progessParseCompleted(fileName) {
-		FileJSONProgress.write(fileName, {
-			parseCompleted: true
-		});
-		progressDelete(fileName, 60 * 60 * 1000);
-	}
+	// function progessParseCompleted(fileName) {
+	// 	FileJSONProgress.write(fileName, {
+	// 		parseCompleted: true
+	// 	});
+	// 	progressDelete(fileName, 60 * 60 * 1000);
+	// }
 
-	function progessUploadCompleted(fileName) {
-		FileJSONProgress.write(fileName, {
-			uploadCompleted: true
-		});
-		console.log(
-			new Date().toString(),
-			`[${fileName}]`,
-			"progessUploadCompleted"
-		);
-		progressDelete(fileName, 60 * 1000);
-	}
+	// function progessUploadCompleted(fileName) {
+	// 	FileJSONProgress.write(fileName, {
+	// 		uploadCompleted: true
+	// 	});
+	// 	console.log(
+	// 		new Date().toString(),
+	// 		`[${fileName}]`,
+	// 		"progessUploadCompleted"
+	// 	);
+	// 	progressDelete(fileName, 60 * 1000);
+	// }
 
 	function insertVideoDb({
 		url,
@@ -399,14 +399,14 @@ const initializeAllRoute = function(app, root) {
 		//console.log(type);
 		var form = new formidable.IncomingForm();
 
-		if (type == "video") {
-			form.on("progress", function(bytesReceived, bytesExpected) {
-				progressUpdate(fileName, bytesReceived, bytesExpected);
-			});
-		}
+		// if (type == "video") {
+		// 	form.on("progress", function(bytesReceived, bytesExpected) {
+		// 		progressUpdate(fileName, bytesReceived, bytesExpected);
+		// 	});
+		// }
 
 		form.parse(req, function(err, fields, files) {
-			progessParseCompleted(fileName);
+			//progessParseCompleted(fileName);
 			// get file ext
 			var fileExt = files[type].name.split(".").pop();
 
@@ -488,7 +488,7 @@ const initializeAllRoute = function(app, root) {
 							});
 						} else {
 							if (type == "video") {
-								progessUploadCompleted(fileName);
+								//progessUploadCompleted(fileName);
 								insertVideoDb({
 									url: url,
 									param: fields,
