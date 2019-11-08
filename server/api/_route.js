@@ -2,8 +2,8 @@
 
 const formidable = require("formidable");
 const fs = require("fs");
-const { UploadUrl } = require("../../config/app-config.js");
 const path = require("path");
+const { FileJSONProgress } = require("../../helper/file-helper");
 
 const initializeAllRoute = function(app, root) {
   // server error in node server no need to be return to client
@@ -289,52 +289,39 @@ const initializeAllRoute = function(app, root) {
     // fileName : {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
   };
   function progressDelete(fileName, timeout) {
-    setTimeout(function() {
+    setTimeout(() => {
       console.info(
         new Date().toString(),
         `[${fileName}]`,
         `progressDelete (${timeout})`
       );
-      delete UPLOAD_PROGRESS[fileName];
+      FileJSONProgress.delete(fileName);
     }, timeout);
   }
+
   function progressUpdate(fileName, bytesReceived, bytesExpected) {
-    if (!UPLOAD_PROGRESS[fileName]) {
-      UPLOAD_PROGRESS[fileName] = {};
-      console.info(
-        new Date().toString(),
-        `[${fileName}]`,
-        "progressUpdate 1st Time"
-      );
-    }
-    UPLOAD_PROGRESS[fileName] = {
+    FileJSONProgress.write(fileName, {
       bytesReceived: bytesReceived,
       bytesExpected: bytesExpected
-    };
-    progressDelete(fileName, 24 * 60 * 60 * 1000);
+    });
   }
+
   function progessParseCompleted(fileName) {
-    console.info(
-      new Date().toString(),
-      `[${fileName}]`,
-      "progessParseCompleted"
-    );
-    if (!UPLOAD_PROGRESS[fileName]) {
-      UPLOAD_PROGRESS[fileName] = {};
-    }
-    UPLOAD_PROGRESS[fileName].parseCompleted = true;
+    FileJSONProgress.write(fileName, {
+      parseCompleted: true
+    });
     progressDelete(fileName, 60 * 60 * 1000);
   }
+
   function progessUploadCompleted(fileName) {
+    FileJSONProgress.write(fileName, {
+      uploadCompleted: true
+    });
     console.info(
       new Date().toString(),
       `[${fileName}]`,
       "progessUploadCompleted"
     );
-    if (!UPLOAD_PROGRESS[fileName]) {
-      UPLOAD_PROGRESS[fileName] = {};
-    }
-    UPLOAD_PROGRESS[fileName].uploadCompleted = true;
     progressDelete(fileName, 60 * 1000);
   }
 

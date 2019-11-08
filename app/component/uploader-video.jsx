@@ -12,7 +12,7 @@ class UploaderVideoProgress extends React.Component {
   constructor(props) {
     super(props);
 
-    this.PARSE_MAX_PERCENT = 80;
+    this.PARSE_MAX_PERCENT = 90;
     this.INTERVAL_TIME = 10 * 1000;
     this.state = {
       progress: null // {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
@@ -20,12 +20,17 @@ class UploaderVideoProgress extends React.Component {
   }
 
   componentWillMount() {
-    setInterval(() => {
+    this.interval = setInterval(() => {
       emitProgess({ fileName: this.props.fileName });
-    }, 2000);
+    }, 5000);
 
     socketOn(BOTH.PROGRESS, data => {
-      console.log("from socket server", data);
+      // console.log("from socket server", data);
+      if (data.parseCompleted == true || data.uploadCompleted == true) {
+        clearInterval(this.interval);
+      }
+
+      this.setState({ progress: data });
     });
 
     return;
@@ -54,36 +59,36 @@ class UploaderVideoProgress extends React.Component {
       } else {
         try {
           percentage =
-            (this.state.progress.bytesExpected /
-              this.state.progress.bytesReceived) *
+            (this.state.progress.bytesReceived /
+              this.state.progress.bytesExpected) *
             100 *
             (this.PARSE_MAX_PERCENT / 100);
         } catch (err) {}
       }
     }
     this.percentage = percentage;
-    console.log("this.state.progress", this.state.progress);
-    console.log("percentage", percentage);
+    // console.log("this.state.progress", this.state.progress);
+    // console.log("percentage", percentage);
 
     return percentage;
   }
   render() {
-    // let percentage = this.getPercentage();
-    // let percentageView = [
-    //   <br></br>,
-    //   <div style={{ padding: `10px 15px` }}>
-    //     <div className="progress" style={{ marginBottom: `0px` }}>
-    //       <div
-    //         className="progress-bar bg-warning"
-    //         role="progressbar"
-    //         style={{ width: `${percentage}%` }}
-    //         aria-valuenow={percentage}
-    //         aria-valuemin="0"
-    //         aria-valuemax="100"
-    //       ></div>
-    //     </div>
-    //   </div>
-    // ];
+    let percentage = this.getPercentage();
+    let percentageView = [
+      <br></br>,
+      <div style={{ padding: `10px 15px` }}>
+        <div className="progress" style={{ border : "#5f5f5f 1px solid" ,marginBottom: `0px` }}>
+          <div
+            className="progress-bar bg-warning"
+            role="progressbar"
+            style={{ width: `${percentage}%` }}
+            aria-valuenow={percentage}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+      </div>
+    ];
 
     return (
       <div>
@@ -91,7 +96,7 @@ class UploaderVideoProgress extends React.Component {
         <b>Uploading Video..</b>
         <br></br>
         This may take a while. Please don't close this window or hit refresh
-        {/* {percentageView} */}
+        {percentageView}
       </div>
     );
   }
@@ -181,7 +186,7 @@ export default class UploaderVideo extends React.Component {
   render() {
     return (
       <div className="uploader-video">
-        <UploaderVideoProgress fileName={"asdas"}></UploaderVideoProgress>
+        {/* <UploaderVideoProgress fileName={"asdas"}></UploaderVideoProgress> */}
 
         <Uploader
           label={this.props.label}
