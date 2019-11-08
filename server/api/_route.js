@@ -354,11 +354,10 @@ const initializeAllRoute = function(app, root) {
 
 	function uploadToDropbox({
 		fileName,
-		fileExt,
 		localPath,
 		param
 	}) {
-		let dropboxPath = `/_upload/${fileName}.${fileExt}`;
+		let dropboxPath = `/_upload/${fileName}`;
 		DropboxAPI.upload({
 			dropboxPath: dropboxPath,
 			localPath: localPath,
@@ -503,7 +502,6 @@ const initializeAllRoute = function(app, root) {
 
 										uploadToDropbox({
 											fileName: fileName,
-											fileExt: fileExt,
 											localPath: new_path,
 											param: fields,
 										})
