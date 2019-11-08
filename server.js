@@ -18,12 +18,16 @@ const isProd = process.env.NODE_ENV === "production";
 require("./helper/lib-helper");
 
 var root = isProd ? "/cf" : "";
-//var root = "";
+
+// ##################################################
+// console config
 if (isProd) {
   console.log = function(mes) {
     return;
   };
 }
+
+// ##################################################
 //Use Career Fair Schema
 const schemaCF = require("./server/schema/_schema_cf.js");
 

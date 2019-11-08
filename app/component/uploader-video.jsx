@@ -1,7 +1,94 @@
 import React, { Component } from "react";
 import { Uploader, uploadFile, FileType } from "./uploader";
 import PropTypes from "prop-types";
+import { postAxios } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
+import { AppConfig } from "../../config/app-config";
+
+class UploaderVideoProgress extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.PARSE_MAX_PERCENT = 80;
+    this.INTERVAL_TIME = 10 * 1000;
+    this.state = {
+      progress: null // {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
+    };
+  }
+
+  componentWillMount() {
+    return;
+    // var interval = setInterval(() => {
+    //   postAxios(
+    //     `${AppConfig.Api}/upload-progress/${this.props.fileName}`,
+    //     {}
+    //   ).then(res => {
+    //     let progress = res.data;
+    //     if (progress.uploadCompleted == true) {
+    //       console.log("clear interval");
+    //       clearInterval(interval);
+    //     }
+    //     this.setState({ progress: progress });
+    //   });
+    // }, this.INTERVAL_TIME);
+  }
+
+  getPercentage() {
+    let percentage = this.percentage;
+    if (this.state.progress) {
+      if (this.state.progress.parseCompleted == true) {
+        percentage = this.PARSE_MAX_PERCENT;
+      } else if (this.state.progress.uploadCompleted == true) {
+        percentage = "100";
+      } else {
+        try {
+          percentage =
+            (this.state.progress.bytesExpected /
+              this.state.progress.bytesReceived) *
+            100 *
+            (this.PARSE_MAX_PERCENT / 100);
+        } catch (err) {}
+      }
+    }
+    this.percentage = percentage;
+    console.log("this.state.progress", this.state.progress);
+    console.log("percentage", percentage);
+
+    return percentage;
+  }
+  render() {
+    // let percentage = this.getPercentage();
+    // let percentageView = [
+    //   <br></br>,
+    //   <div style={{ padding: `10px 15px` }}>
+    //     <div className="progress" style={{ marginBottom: `0px` }}>
+    //       <div
+    //         className="progress-bar bg-warning"
+    //         role="progressbar"
+    //         style={{ width: `${percentage}%` }}
+    //         aria-valuenow={percentage}
+    //         aria-valuemin="0"
+    //         aria-valuemax="100"
+    //       ></div>
+    //     </div>
+    //   </div>
+    // ];
+
+    return (
+      <div>
+        <br></br>
+        <b>Uploading Video..</b>
+        <br></br>
+        This may take a while. Please don't close this window or hit refresh
+        {/* {percentageView} */}
+      </div>
+    );
+  }
+}
+
+UploaderVideoProgress.propTypes = {
+  fileName: PropTypes.string
+};
 
 export default class UploaderVideo extends React.Component {
   constructor(props) {
@@ -44,14 +131,6 @@ export default class UploaderVideo extends React.Component {
     );
   }
   uploadOnClick() {
-    layoutActions.loadingBlockLoader(
-      <div>
-        <br></br>
-        <b>Uploading Video..</b>
-        <br></br>
-        This may take a while. Please don't close this window or hit refresh
-      </div>
-    );
     this.setState({ loading: true, error: null });
     let extraParam = {
       entity: this.props.entity,
@@ -61,6 +140,10 @@ export default class UploaderVideo extends React.Component {
 
     let timestamp = Date.now();
     let fileName = `${this.props.entity}_${this.props.entity_id}_${this.props.meta_key}_${timestamp}`;
+
+    layoutActions.loadingBlockLoader(
+      <UploaderVideoProgress fileName={fileName}></UploaderVideoProgress>
+    );
 
     uploadFile(
       this.state.currentFile,

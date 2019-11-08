@@ -285,14 +285,82 @@ const initializeAllRoute = function(app, root) {
   });
 
   //upload route ----------------------------------------------------------------
+  var UPLOAD_PROGRESS = {
+    // fileName : {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
+  };
+  function progressDelete(fileName, timeout) {
+    setTimeout(function() {
+      console.info(
+        new Date().toString(),
+        `[${fileName}]`,
+        `progressDelete (${timeout})`
+      );
+      delete UPLOAD_PROGRESS[fileName];
+    }, timeout);
+  }
+  function progressUpdate(fileName, bytesReceived, bytesExpected) {
+    if (!UPLOAD_PROGRESS[fileName]) {
+      UPLOAD_PROGRESS[fileName] = {};
+      console.info(
+        new Date().toString(),
+        `[${fileName}]`,
+        "progressUpdate 1st Time"
+      );
+    }
+    UPLOAD_PROGRESS[fileName] = {
+      bytesReceived: bytesReceived,
+      bytesExpected: bytesExpected
+    };
+    progressDelete(fileName, 24 * 60 * 60 * 1000);
+  }
+  function progessParseCompleted(fileName) {
+    console.info(
+      new Date().toString(),
+      `[${fileName}]`,
+      "progessParseCompleted"
+    );
+    if (!UPLOAD_PROGRESS[fileName]) {
+      UPLOAD_PROGRESS[fileName] = {};
+    }
+    UPLOAD_PROGRESS[fileName].parseCompleted = true;
+    progressDelete(fileName, 60 * 60 * 1000);
+  }
+  function progessUploadCompleted(fileName) {
+    console.info(
+      new Date().toString(),
+      `[${fileName}]`,
+      "progessUploadCompleted"
+    );
+    if (!UPLOAD_PROGRESS[fileName]) {
+      UPLOAD_PROGRESS[fileName] = {};
+    }
+    UPLOAD_PROGRESS[fileName].uploadCompleted = true;
+    progressDelete(fileName, 60 * 1000);
+  }
+
+  app.post(root + "/upload-progress/:name", function(req, res) {
+    var fileName = req.params.name;
+    res.send(UPLOAD_PROGRESS[fileName]);
+  });
+
   app.post(root + "/upload/:type/:name", function(req, res) {
+    const uploadTimeout = 60 * 1000;
+    req.setTimeout(uploadTimeout);
+
     var type = req.params.type;
     var fileName = req.params.name;
+
+    console.info(new Date().toString(), `[${fileName}]`, "start upload");
+
     //console.log("upload");
     //console.log(type);
     var form = new formidable.IncomingForm();
+    form.on("progress", function(bytesReceived, bytesExpected) {
+      progressUpdate(fileName, bytesReceived, bytesExpected);
+    });
+
     form.parse(req, function(err, fields, files) {
-        
+      progessParseCompleted(fileName);
       // get file ext
       var fileExt = files[type].name.split(".").pop();
 
@@ -304,8 +372,9 @@ const initializeAllRoute = function(app, root) {
         DropboxAPI.upload({
           dropboxPath: dropboxPath,
           localPath: old_path,
-          param : fields,
+          param: fields,
           finish: (err, result) => {
+            progessUploadCompleted(fileName);
             if (err) {
               res.send(err);
             } else {
