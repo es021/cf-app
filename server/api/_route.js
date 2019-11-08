@@ -476,7 +476,8 @@ const initializeAllRoute = function(app, root) {
 			//   var old_path = files[type].path;
 
 			// upload dir
-			var subpath = `${type}/${y}/${m}/${fileName}_${d.getTime()}.${fileExt}`;
+			fileName = `${fileName}_${d.getTime()}.${fileExt}`;
+			var subpath = `${type}/${y}/${m}/${fileName}`;
 			var new_path = path.join(pwd, `public/upload/`, subpath);
 			// public upload url
 			var url = subpath;
