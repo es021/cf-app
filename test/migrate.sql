@@ -1,3 +1,12 @@
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 -- new table video
 CREATE TABLE `wp_career_fair`.`video` ( 
 `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
@@ -8,15 +17,7 @@ CREATE TABLE `wp_career_fair`.`video` (
 `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 PRIMARY KEY (`ID`), 
-INDEX (`entity`), INDEX (`entity_id`), INDEX (`meta_key`)) ENGINE = InnoDB;
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
-
+INDEX (`entity`), INDEX (`entity_id`), INDEX (`meta_key`), INDEX (`created_at`) ) ENGINE = InnoDB;
 
 -- new table interested
 CREATE TABLE `wp_career_fair`.`interested` ( 
