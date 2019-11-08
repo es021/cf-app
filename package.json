@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:app": "NODE_ENV=development-wp webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:server": "NODE_ENV=development-wp nodemon server.js",
-    "dev:socket": "NODE_ENV=development-wp nodemon socket.js",
+    "dev:app": "NODE_ENV=development webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+    "dev:server": "NODE_ENV=development nodemon server.js",
+    "dev:socket": "NODE_ENV=development nodemon socket.js",
     "dev:cron": "NODE_ENV=development-wp node cron.js",
     "build": "NODE_ENV=production webpack -p --progress",
     "build-local": "NODE_ENV=production-local webpack -p --progress",

@@ -74,7 +74,7 @@ class StudentVideoResume extends React.Component {
     } else {
       v = (
         <div>
-          <div style={{ width: "400px" }}>
+          <div style={{ margin:"auto", width: "400px" }}>
             {this.state.video_resume && this.state.video_resume.url
               ? [
                   createVideoDropbox(this.state.video_resume.url),
@@ -118,7 +118,7 @@ class StudentVideoResume extends React.Component {
     }
 
     return (
-      <div className={"text-left"}>
+      <div className={"text-center"}>
         <h2>Video Resume</h2>
         {v}
       </div>

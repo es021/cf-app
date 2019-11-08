@@ -12,7 +12,7 @@ class UploaderVideoProgress extends React.Component {
   constructor(props) {
     super(props);
 
-    this.PARSE_MAX_PERCENT = 90;
+    this.PARSE_MAX_PERCENT = 100;
     this.INTERVAL_TIME = 10 * 1000;
     this.state = {
       progress: null // {bytesReceived, bytesExpected, parseCompleted, uploadCompleted}
@@ -154,8 +154,8 @@ export default class UploaderVideo extends React.Component {
       meta_key: this.props.meta_key
     };
 
-    let timestamp = Date.now();
-    let fileName = `${this.props.entity}_${this.props.entity_id}_${this.props.meta_key}_${timestamp}`;
+    // let timestamp = Date.now();
+    let fileName = `${this.props.entity}_${this.props.entity_id}_${this.props.meta_key}`;
 
     layoutActions.loadingBlockLoader(
       <UploaderVideoProgress fileName={fileName}></UploaderVideoProgress>
