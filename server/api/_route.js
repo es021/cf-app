@@ -290,7 +290,7 @@ const initializeAllRoute = function(app, root) {
   };
   function progressDelete(fileName, timeout) {
     setTimeout(() => {
-      console.info(
+      console.log(
         new Date().toString(),
         `[${fileName}]`,
         `progressDelete (${timeout})`
@@ -317,7 +317,7 @@ const initializeAllRoute = function(app, root) {
     FileJSONProgress.write(fileName, {
       uploadCompleted: true
     });
-    console.info(
+    console.log(
       new Date().toString(),
       `[${fileName}]`,
       "progessUploadCompleted"
@@ -337,7 +337,7 @@ const initializeAllRoute = function(app, root) {
     var type = req.params.type;
     var fileName = req.params.name;
 
-    console.info(new Date().toString(), `[${fileName}]`, "start upload");
+    console.log(new Date().toString(), `[${fileName}]`, "start upload");
 
     //console.log("upload");
     //console.log(type);
