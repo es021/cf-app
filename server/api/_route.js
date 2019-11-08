@@ -331,8 +331,9 @@ const initializeAllRoute = function(app, root) {
   });
 
   app.post(root + "/upload/:type/:name", function(req, res) {
-    const uploadTimeout = 60 * 1000;
-    req.setTimeout(uploadTimeout);
+    console.log("post upload");
+    // const uploadTimeout = 60 * 1000;
+    // req.setTimeout(uploadTimeout);
 
     var type = req.params.type;
     var fileName = req.params.name;
