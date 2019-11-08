@@ -74,7 +74,7 @@ class StudentVideoResume extends React.Component {
     } else {
       v = (
         <div>
-          <div style={{ margin: "auto", width: "400px" }}>
+          <div style={{ width: "400px" }}>
             {this.state.video_resume && this.state.video_resume.url
               ? [
                   createVideoDropbox(this.state.video_resume.url),
@@ -92,12 +92,33 @@ class StudentVideoResume extends React.Component {
             entity_id={this.userId}
             meta_key={VideoEnum.RESUME}
           ></UploaderVideo>
+
+          {/* <div>
+            <ol className={"text-left"}>
+              <li>
+                Rename your video to the following name <br></br>
+                <b>VideoResume{getAuthUser().ID}</b>
+              </li>
+              <li>
+                Submit the video to our Dropbox using the following link:
+                <iframe src="https://www.dropbox.com/request/Unn9GMYGzTpqgteDSR4d"></iframe>
+                <br></br>
+                <a
+                  className="btn btn-blue"
+                  target="_blank"
+                  href="https://www.dropbox.com/request/Unn9GMYGzTpqgteDSR4d"
+                >
+                  Submit VIdeo 
+                </a>
+              </li>
+            </ol>
+          </div> */}
         </div>
       );
     }
 
     return (
-      <div>
+      <div className={"text-left"}>
         <h2>Video Resume</h2>
         {v}
       </div>
