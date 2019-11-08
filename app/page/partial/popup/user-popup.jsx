@@ -44,6 +44,14 @@ export function createUserMajorList(major) {
 
   return r;
 }
+
+export function createVideoDropbox(url, width = "100%", height = "200") {
+  return (
+    <video style={{background: "black"}} width={width} height={height} controls>
+      <source src={url} type="video/mp4" />
+    </video>
+  );
+}
 // isIconOnly will only consider label with label style set in DocLinkEnum
 export function createUserDocLinkList(
   doc_links,
@@ -118,7 +126,7 @@ export default class UserPopup extends Component {
     super(props);
 
     this.authUser = getAuthUser();
-
+    this.isSelfUser = false;
     this.state = {
       data: null,
       loading: true
@@ -135,6 +143,10 @@ export default class UserPopup extends Component {
     }
 
     this.id = id;
+
+    if(this.id == this.authUser.ID){
+      this.isSelfUser = true;
+    }
 
     console.log("UserPage", "componentWillMount");
     var query =
@@ -165,6 +177,7 @@ export default class UserPopup extends Component {
                 interested_role {val}
                 interested_job_location {val}
                 doc_links{label url type}
+                video_resume {ID url}
             }}`
         : `query {
               user(ID:${id}) {
@@ -422,6 +435,12 @@ export default class UserPopup extends Component {
           body={field_study}
         ></PageSection>
 
+        <PageSection
+          className={pageClassName}
+          title={this.getTitle("Skills", "star")}
+          body={skill}
+        ></PageSection>
+
         {user.description != "" && user.description != null ? (
           <PageSection
             maxHeight={143}
@@ -434,6 +453,14 @@ export default class UserPopup extends Component {
     );
     var rightBody = (
       <div>
+        {user.video_resume != null && user.video_resume.url ? (
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Video Resume", "youtube-play")}
+            body={createVideoDropbox(user.video_resume.url)}
+          ></PageSection>
+        ) : null}
+
         <PageSection
           className={pageClassName}
           title={this.getTitle("Attachments", "file-text")}
@@ -444,12 +471,6 @@ export default class UserPopup extends Component {
           className={pageClassName}
           title={this.getTitle("Interested Job Position", "suitcase")}
           body={interested_role}
-        ></PageSection>
-
-        <PageSection
-          className={pageClassName}
-          title={this.getTitle("Skills", "star")}
-          body={skill}
         ></PageSection>
 
         <PageSection
@@ -533,11 +554,13 @@ export default class UserPopup extends Component {
     );
   }
 
-  getStartChat(user){
+  getStartChat(user) {
     if (!isRoleRec()) {
       return null;
     }
-    return <NavLink style={{minWidth : "200px"}}
+    return (
+      <NavLink
+        style={{ minWidth: "200px" }}
         className="btn btn-blue btn-lg"
         to={`${RootPath}/app/student-chat/${user.ID}`}
         onClick={e => {
@@ -546,7 +569,7 @@ export default class UserPopup extends Component {
       >
         <i className="fa fa-comments left"></i>Start Chat
       </NavLink>
-  
+    );
   }
   getScheduleCall(user) {
     if (!isRoleRec()) {
@@ -571,15 +594,16 @@ export default class UserPopup extends Component {
     };
 
     return (
-        <a style={{minWidth : "200px"}}
-          className="btn btn-success btn-lg"
-          onClick={e => {
-            actionHandler();
-          }}
-        >
-          <i className="fa fa-video-camera left" />
-          Schedule Call
-        </a>
+      <a
+        style={{ minWidth: "200px" }}
+        className="btn btn-success btn-lg"
+        onClick={e => {
+          actionHandler();
+        }}
+      >
+        <i className="fa fa-video-camera left" />
+        Schedule Call
+      </a>
     );
   }
 
@@ -595,11 +619,12 @@ export default class UserPopup extends Component {
           ? this.getStudentBody(user)
           : this.getRecruiterBody(user);
 
-      var actionForRec = <div  style={{ marginTop: "10px", marginBottom: "18px" }}>
-        {this.getStartChat(user)}
-        {this.getScheduleCall(user)}
-      </div>
-      
+      var actionForRec = (
+        <div style={{ marginTop: "10px", marginBottom: "18px" }}>
+          {this.getStartChat(user)}
+          {this.getScheduleCall(user)}
+        </div>
+      );
 
       var profilePic = (
         <div>
@@ -670,7 +695,7 @@ export default class UserPopup extends Component {
 UserPopup.propTypes = {
   id: PropTypes.number.isRequired,
   role: PropTypes.string,
-  companyPrivs : PropTypes.object,
+  companyPrivs: PropTypes.object,
   isSessionPage: PropTypes.bool
 };
 

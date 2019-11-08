@@ -11,6 +11,14 @@ class VideoExec {
     let ID = !param.ID ? "1=1" : `ID = '${param.ID}'`;
     let entity = !param.entity ? "1=1" : `entity = '${param.entity}'`;
     let entity_id = !param.entity_id ? "1=1" : `entity_id = ${param.entity_id}`;
+    let meta_key = !param.meta_key ? "1=1" : `meta_key = '${param.meta_key}'`;
+
+    let order_by = "";
+    if(this.isSingle(type)){
+      order_by = "ORDER BY created_at DESC";
+      param.page = 1;
+      param.offset = 1;
+    }
 
     var limit = DB.prepareLimit(param.page, param.offset);
     let select = "*";
@@ -18,8 +26,8 @@ class VideoExec {
       select = DB.selectAllCount();
     }
     var sql = `select ${select} from ${tableName}
-    where 1=1 and ${ID} and ${entity} and ${entity_id} 
-    ${limit}`;
+    where 1=1 and ${ID} and ${entity} and ${entity_id} and ${meta_key}
+    ${order_by} ${limit}`;
     return sql;
   }
   // TODO

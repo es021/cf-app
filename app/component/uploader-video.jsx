@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Uploader, uploadFile, FileType } from "./uploader";
 import PropTypes from "prop-types";
+import * as layoutActions from "../redux/actions/layout-actions";
 
 export default class UploaderVideo extends React.Component {
   constructor(props) {
@@ -8,8 +9,8 @@ export default class UploaderVideo extends React.Component {
     this.state = {
       error: null,
       currentFile: null,
-      loading: false,
-      success: null
+      loading: false
+      // success: null
     };
 
     this.uploadOnClick = this.uploadOnClick.bind(this);
@@ -25,14 +26,14 @@ export default class UploaderVideo extends React.Component {
   uploaderOnError(err) {
     // console.log("uploaderOnError", err);
     this.setState(() => {
-      return { error: err, success: null, currentFile: null };
+      return { error: err, currentFile: null };
     });
   }
 
   uploaderOnSuccess(file) {
     // console.log("uploaderOnSuccess", file);
     this.setState(() => {
-      return { error: null, success: null, currentFile: file };
+      return { error: null, currentFile: file };
     });
   }
   isUploadEnable() {
@@ -43,6 +44,14 @@ export default class UploaderVideo extends React.Component {
     );
   }
   uploadOnClick() {
+    layoutActions.loadingBlockLoader(
+      <div>
+        <br></br>
+        <b>Uploading Video..</b>
+        <br></br>
+        This may take a while. Please don't close this window or hit refresh
+      </div>
+    );
     this.setState({ loading: true, error: null });
     let extraParam = {
       entity: this.props.entity,
@@ -62,17 +71,25 @@ export default class UploaderVideo extends React.Component {
       console.log(res);
       this.setState({
         loading: false,
-        success: "Video successfully uploaded!",
+        // success: "Video successfully uploaded!",
         error: null
       });
+      layoutActions.successBlockLoader(
+        <div>
+          <br></br>
+          <b>Video successfully uploaded.</b>
+          <br></br>
+          Refresh page to see changes.
+        </div>
+      );
     });
   }
   render() {
     return (
       <div className="uploader-video">
         <Uploader
-          label="Upload Video Resume"
-          name="video-resume"
+          label={this.props.label}
+          name={this.props.name}
           type={FileType.VIDEO}
           onSuccess={this.uploaderOnSuccess}
           onChange={this.uploaderOnChange}
@@ -96,5 +113,6 @@ UploaderVideo.propTypes = {
   entity: PropTypes.string,
   entity_id: PropTypes.number,
   meta_key: PropTypes.string,
-  label: PropTypes.string
+  label: PropTypes.string,
+  name: PropTypes.string
 };

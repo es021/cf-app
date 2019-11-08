@@ -7,11 +7,12 @@ import {
   UserEnum,
   Skill,
   DocLink,
-  DocLinkEnum
+  DocLinkEnum,
+  VideoEnum
 } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
-import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import {
   getAuthUser,
@@ -34,6 +35,75 @@ import AvailabilityView from "./availability";
 import { getEditProfileFormItem } from "../../config/user-config";
 import LogoutPage from "../page/logout";
 import ManageUserProfile from "./partial/user/manage-user-profile";
+import UploaderVideo from "../component/uploader-video";
+import { createVideoDropbox } from "./partial/popup/user-popup";
+
+class StudentVideoResume extends React.Component {
+  constructor(props) {
+    super(props);
+    this.userId = getAuthUser().ID;
+    this.state = {
+      loading: false,
+      video_resume: null
+    };
+  }
+
+  componentWillMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.setState({ loading: true });
+    let q = `
+        query{ video(entity:"user", entity_id:${this.userId}, meta_key:"resume"){
+          ID 
+          url
+        } 
+      }
+    `;
+
+    graphql(q).then(res => {
+      this.setState({ loading: false, video_resume: res.data.data.video });
+    });
+  }
+
+  render() {
+    let v = null;
+    if (this.state.loading) {
+      v = <Loader></Loader>;
+    } else {
+      v = (
+        <div>
+          <div style={{ margin: "auto", width: "400px" }}>
+            {this.state.video_resume && this.state.video_resume.url
+              ? [
+                  createVideoDropbox(this.state.video_resume.url),
+                  <br />,
+                  <br />,
+                  <br />
+                ]
+              : null}
+          </div>
+
+          <UploaderVideo
+            name={"video-resume"}
+            label={"Upload New Video"}
+            entity={"user"}
+            entity_id={this.userId}
+            meta_key={VideoEnum.RESUME}
+          ></UploaderVideo>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <h2>Video Resume</h2>
+        {v}
+      </div>
+    );
+  }
+}
 
 class StudentDocLink extends React.Component {
   render() {
@@ -316,8 +386,8 @@ class EditProfile extends React.Component {
           <ManageUserProfile
             user_id={this.authUser.ID}
             isEdit={true}
-            completeHandler={()=>{
-                layoutActions.successBlockLoader("Profile Successfully Updated");
+            completeHandler={() => {
+              layoutActions.successBlockLoader("Profile Successfully Updated");
             }}
           ></ManageUserProfile>
           {/* <Form className="form-row"
@@ -362,6 +432,13 @@ export default class EditProfilePage extends React.Component {
         component: StudentDocLink,
         routeOnly: true,
         icon: "file-text"
+      };
+
+      this.item["video-resume"] = {
+        label: "Upload Video Resume",
+        component: StudentVideoResume,
+        routeOnly: true,
+        icon: "youtube-play"
       };
       // this.item["skills"] = {
       //   label: "Add Skills",

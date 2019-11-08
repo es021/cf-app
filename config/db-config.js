@@ -650,6 +650,10 @@ const Video = {
   UPDATED_AT: "updated_at"
 };
 
+const VideoEnum = {
+  RESUME : "resume"
+}
+
 const HallGallery = {
   TABLE: "hall_gallery",
   ID: "ID",
@@ -673,6 +677,7 @@ const HallGalleryEnum = {
 };
 
 module.exports = {
+  VideoEnum,
   QsPopup,
   QsPopupEnum,
   QsPopupAnswer,

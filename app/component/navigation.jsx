@@ -30,7 +30,10 @@ import VacancyPage from "../page/vacancy";
 import ExternalActionPage from "../page/external-action";
 import SessionPage from "../page/session";
 import { FaqPage, AllowCookiePage, ContactUsPage } from "../page/static";
-import CompanyChatInbox, { CompanyChatStarter , StudentChatStarter} from "../page/company-chat";
+import CompanyChatInbox, {
+  CompanyChatStarter,
+  StudentChatStarter
+} from "../page/company-chat";
 import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
 import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";
@@ -257,6 +260,19 @@ function getMenuItem(COMING_SOON) {
       hd_app: true,
       hd_auth: false,
       default_param: { current: "doc-link" },
+      disabled: !isRoleStudent()
+    },
+    {
+      // Student Only
+      url: "/edit-profile/:current",
+      label: "Upload Video Resume",
+      icon: "youtube-play",
+      component: EditProfilePage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      default_param: { current: "video-resume" },
       disabled: !isRoleStudent()
     },
     // {

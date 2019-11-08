@@ -107,6 +107,7 @@ fields["videos"] = {
   args: {
     entity: __.String,
     entity_id: __.Int,
+    meta_key: __.String,
     page: __.Int,
     offset: __.Int
   },
@@ -120,7 +121,8 @@ fields["video"] = {
   args: {
     ID: __.Int,
     entity: __.String,
-    entity_id: __.Int
+    entity_id: __.Int,
+    meta_key: __.String,
   },
   resolve(parentValue, arg, context, info) {
     return VideoExec.single(arg, graphqlFields(info));

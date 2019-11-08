@@ -1,6 +1,7 @@
 const dropboxV2Api = require("dropbox-v2-api");
+const { Secret } = require("../secret/secret");
 const dropbox = dropboxV2Api.authenticate({
-  token: "H6PJA3e1IJMAAAAAAAD_b1BKW4AIZ5hRm9dGCvqz-Ibz3l-VAXbv782EqaSxWPzQ"
+  token: Secret.DROPBOX_AUTH_TOKEN
 });
 const { graphql } = require("../../helper/api-helper");
 const fs = require("fs");
@@ -36,7 +37,7 @@ class DropboxAPI {
     // console.log("result", result);
 
     let url = result.url;
-    url = url.replace("dl=0","raw=1")
+    url = url.replace("dl=0", "raw=1");
 
     let q = `mutation{
       add_video(entity :"${entity}", entity_id:${entity_id}, meta_key :"${meta_key}" , url :"${url}") {

@@ -11,7 +11,8 @@ const {
   GroupSessionJoin,
   SessionEnum,
   SessionRequest,
-  SessionRequestEnum
+  SessionRequestEnum,
+  VideoEnum
 } = require("../../config/db-config.js");
 const {
   RequiredFieldStudent,
@@ -426,6 +427,7 @@ class UserExec {
     const { GroupSessionExec } = require("./group-session-query.js");
     const { AvailabilityExec } = require("./availability-query.js");
     const { MultiExec } = require("./multi-query.js");
+    const { VideoExec } = require("./video-query.js");
     const { SingleExec } = require("./single-query");
 
     // extra field that need role value to find
@@ -511,6 +513,16 @@ class UserExec {
           //     break;
           //   }
           // }
+        }
+
+        // is_active ****************************************************
+        if (field["video_resume"] !== "undefined") {
+          let p = {
+            entity : "user",
+            entity_id : user_id,
+            meta_key : VideoEnum.RESUME
+          };
+          res[i]["video_resume"] = VideoExec.single(p, field["video_resume"]);
         }
 
         // is_active ****************************************************

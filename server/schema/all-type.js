@@ -199,6 +199,9 @@ const UserType = new GraphQLObjectType({
     study_place: __.String,
     looking_for: __.String,
 
+    video_resume: __.IsType(VideoType),
+
+
     // rec only
     rec_company: __.Int,
     rec_position: __.String,
