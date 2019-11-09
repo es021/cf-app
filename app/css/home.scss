@@ -2,104 +2,160 @@
 
 
 body.landing-page {
-    //background-image: url("https://seedsjobfairapp.com/image/home/1_sm.jpg") !important;
-    background-size: cover !important; //background-position: center center !important;
-    background-attachment: fixed !important;
+	//background-image: url("https://seedsjobfairapp.com/image/home/1_sm.jpg") !important;
+	background-size: cover !important; //background-position: center center !important;
+	background-attachment: fixed !important;
 
-    header {
-        transition: background-color 0.3s ease;
-        transition: color 0.3s ease;
-    }
+	header {
+		transition: background-color 0.3s ease;
+		transition: color 0.3s ease;
+	}
 
-    .content {
-        background: rgba(0, 0, 0, 0.5) !important;
+	.content {
+		background: rgba(0, 0, 0, 0.65) !important;
 
-        .main {
-            padding: 0 !important;
-        }
-    }
+		.main {
+			padding: 0 !important;
+		}
+	}
 }
 
 //before scroll
 body.landing-page.top {
-    header {
-        background-color: rgba(0, 0, 0, 0);
-        box-shadow: none;
-        color: white;
+	header {
+		background-color: rgba(0, 0, 0, 0);
+		box-shadow: none;
+		color: white;
 
-        .menu-small {
-            ul {
-                background: rgba(0, 0, 0, 0.7);
-            }
-        }
+		.menu-small {
+			ul {
+				background: rgba(0, 0, 0, 0.7);
+			}
+		}
 
-        a,
-        .title {
-            color: white;
-        }
+		a,
+		.title {
+			color: white;
+		}
 
-        .title {
-            small {
-                color: white;
-            }
-        }
+		.title {
+			small {
+				color: white;
+			}
+		}
 
-        a.active {
-            border-bottom-color: white;
-        }
-    }
+		a.active {
+			border-bottom-color: white;
+		}
+	}
 }
 
 #home {
-    #home-welcome {
-        display: flex;
-        min-height: 480px;
-        flex-direction: column;
-        color: whitesmoke;
-        padding-bottom: 40px;
-
-        h1 {
-            text-transform: uppercase;
-
-            .subtitle {
-                text-transform: initial;
-                font-size: 80%;
-            }
+	#home-welcome {
+        .row{
+            max-width: 90vw;
         }
+		display: flex;
+		min-height: 480px;
+		flex-direction: column;
+		color: whitesmoke;
+		padding-bottom: 40px;
+        justify-content: center;
+        align-items: center;
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: white;
-        }
+		.right-side {
+			text-align: center;
+		}
 
-        small {
-            opacity: 0.9;
-            color: white;
-        }
 
-        .item-small {
-            width: 90%;
-            max-width: 500px;
-            margin: auto;
-        }
+		// kalau screen kecik dari 1192px
+		.left-side {
+            margin-bottom: 50px;
+			text-align: center;
 
-        .item-login {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
+			h1 {
+				text-transform: uppercase;
+				font-size: 50px;
+				font-weight: bold;
 
-            h3 {
-                margin-top: 0;
-            }
-        }
-    }
+				.subtitle {
+					margin-top: 10px;
+					font-weight: lighter;
+					text-transform: initial;
+					font-size: 60%;
 
-    #home-body {
-        background: $COLOR_BACKGROUND;
-        min-height: 350px;
-        padding-bottom: 30px;
-    }
+					.fa {
+						margin-right: 20px;
+					}
+				}
+			}
+
+			#timer {
+				.timer_time {
+					.timer_item {
+						.timer_value {
+							background:
+								rgba(0, 0, 0, 0.6);
+							border-radius: 17px;
+							padding: 16px;
+							margin-bottom: 12px;
+						}
+					}
+				}
+			}
+		}
+
+		// kalau screen besar dari 1192px
+		@media only screen and (min-width: 1192px) {
+			.left-side {
+                margin-bottom: 0px;
+
+				text-align: left;
+
+				#timer {
+					text-align: left;
+
+					.timer_time {
+						text-align: center;
+					}
+				}
+			}
+		}
+
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: white;
+		}
+
+		small {
+			opacity: 0.9;
+			color: white;
+		}
+
+		.item-small {
+			width: 90%;
+			max-width: 500px;
+			margin: auto;
+		}
+
+		.item-login {
+			background: rgba(0, 0, 0, 0.5);
+			padding: 20px;
+
+			h3 {
+				margin-top: 0;
+			}
+		}
+	}
+
+	#home-body {
+		background: $COLOR_BACKGROUND;
+		min-height: 350px;
+		padding-bottom: 30px;
+	}
 }

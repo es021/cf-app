@@ -618,10 +618,12 @@ const CFSMeta = {
   CAN_LOGIN: "can_login",
 
   // for CareerFairOrg
-  ORGANIZER: "Organizer",
-  COLLABORATOR: "Collaborator",
-  POWERED: "Powered",
-  UNIVERSITY: "University"
+  ORGANIZATIONS: "organizations",
+  
+  // ORGANIZER: "Organizer",
+  // COLLABORATOR: "Collaborator",
+  // POWERED: "Powered",
+  // UNIVERSITY: "University"
 };
 
 const CFSMetaObject = [
@@ -632,12 +634,12 @@ const CFSMetaObject = [
   CFSMeta.UNIVERSITY
 ];
 
-const CFSMetaOrg = [
-  CFSMeta.ORGANIZER,
-  CFSMeta.COLLABORATOR,
-  CFSMeta.POWERED,
-  CFSMeta.UNIVERSITY
-];
+// const CFSMetaOrg = [
+//   CFSMeta.ORGANIZER,
+//   CFSMeta.COLLABORATOR,
+//   CFSMeta.POWERED,
+//   CFSMeta.UNIVERSITY
+// ];
 
 const Video = {
   TABLE: "video",
@@ -723,7 +725,7 @@ module.exports = {
   CFS,
   CFSMeta,
   CFSMetaObject,
-  CFSMetaOrg,
+  // CFSMetaOrg,
   EntityRemoved,
   Notifications,
   NotificationsEnum,

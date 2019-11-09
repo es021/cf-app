@@ -109,11 +109,15 @@ class PrimaryLayout extends React.Component {
 		page_banner
 		can_login
     can_register
-    Organizer
+    organizations
+  }}`;
+
+  /**
+   * Organizer
     Collaborator
     Powered
     University
-  }}`;
+   */
 
     getAxiosGraphQLQuery(query).then(res => {
       var cfs = res.data.data.cfs;

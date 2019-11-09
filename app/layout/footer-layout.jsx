@@ -28,26 +28,33 @@ export default class Footer extends React.Component {
 
   componentWillMount() {
     var OrgConfig = getCFOrg();
-    if (typeof OrgConfig !== "object") {
-      OrgConfig = { Organizer: [], Collaborator: [] };
-    }
+    // if (typeof OrgConfig !== "object") {
+    //   OrgConfig = { Organizer: [], Collaborator: [] };
+    // }
 
-    var list = [
-      {
-        title: "ORGANIZED BY",
-        items: OrgConfig.Organizer
-      },
-      {
-        title: "IN COLLABORATION WITH",
-        items: OrgConfig.Collaborator
+    // var list = [
+    //   {
+    //     title: "ORGANIZED BY",
+    //     items: OrgConfig.Organizer
+    //   },
+    //   {
+    //     title: "IN COLLABORATION WITH",
+    //     items: OrgConfig.Collaborator
+    //   }
+    // ];
+
+    var list = OrgConfig.map((d, i) => {
+      return {
+        title: d.label.toUpperCase(),
+        items: d.data
       }
-    ];
+    })
 
-    this.orgs = list.map(function(d, i) {
+    this.orgs = list.map(function (d, i) {
       var items = d.items.map((d, i) => (
         <li key={i}>
           <a style={{ color: "white" }} target="_blank" href={d.url}>
-            {d.name}
+            {d.name} {d.shortname ? `(${d.shortname})` : null}
           </a>
         </li>
       ));

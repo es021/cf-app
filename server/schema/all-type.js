@@ -265,10 +265,12 @@ const CfsType = new GraphQLObjectType({
     can_register: __.Int,
 
     // for org
-    Organizer: __.String,
-    Collaborator: __.String,
-    Powered: __.String,
-    University: __.String
+    organizations : __.String,
+
+    // Organizer: __.String,
+    // Collaborator: __.String,
+    // Powered: __.String,
+    // University: __.String
   })
 });
 

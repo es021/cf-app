@@ -3,24 +3,22 @@ import { render } from "react-dom";
 import {
   BrowserRouter,
   Route,
-  NavLink,
   Switch,
-  Redirect
 } from "react-router-dom";
-import { getAxiosGraphQLQuery } from "../helper/api-helper";
+// import { getAxiosGraphQLQuery } from "../helper/api-helper";
 import { Provider } from "react-redux";
-import { Loader } from "./component/loader";
+// import { Loader } from "./component/loader";
 import { store } from "./redux/store.js";
 
-import {
-  isAuthorized,
-  isComingSoon,
-  setLocalStorageCf,
-  getAuthUser
-} from "./redux/actions/auth-actions";
+// import {
+//   isAuthorized,
+//   isComingSoon,
+//   setLocalStorageCf,
+//   getAuthUser
+// } from "./redux/actions/auth-actions";
 
-import { addLog } from "./redux/actions/other-actions";
-import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
+// import { addLog } from "./redux/actions/other-actions";
+// import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
 import PrimaryLayout from "./primary-layout.jsx";
 import TestLayout from "./layout/test-layout.jsx";
 

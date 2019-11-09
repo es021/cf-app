@@ -66,18 +66,32 @@ export default class LandingPage extends React.Component {
     }
 
     var OrgConfig = getCFOrg();
-    this.university = OrgConfig.University.map((d, i) => {
-        return this.getOrgItem(d, 85);
-    });
-    this.org = OrgConfig.Organizer.map((d, i) => {
-      return this.getOrgItem(d, 85);
-    });
-    this.collab = OrgConfig.Collaborator.map((d, i) => {
-      return this.getOrgItem(d);
-    });
-    this.powered = OrgConfig.Powered.map((d, i) => {
-      return this.getOrgItem(d, 100);
-    });
+    this.organizations = OrgConfig.map((d, i) => {
+
+      let icons = d.data.map((_d, _i) => {
+        return this.getOrgItem(_d, d.icon_size);
+      });
+      return d.data.length <= 0 ? null : (
+        <div>
+          <h1>{d.label}</h1>
+          <ul className="sponsor-container">{icons}</ul>
+          <br></br>
+          <br></br>
+        </div>
+      )
+    })
+    // this.university = OrgConfig.University.map((d, i) => {
+    //     return this.getOrgItem(d, 85);
+    // });
+    // this.org = OrgConfig.Organizer.map((d, i) => {
+    //   return this.getOrgItem(d, 85);
+    // });
+    // this.collab = OrgConfig.Collaborator.map((d, i) => {
+    //   return this.getOrgItem(d);
+    // });
+    // this.powered = OrgConfig.Powered.map((d, i) => {
+    //   return this.getOrgItem(d, 100);
+    // });
   }
 
   componentWillUnmount() {
@@ -125,7 +139,8 @@ export default class LandingPage extends React.Component {
   getOrgsSection() {
     return (
       <div>
-          {this.university.length <= 0 ? null : (
+        {this.organizations}
+        {/* {this.university.length <= 0 ? null : (
           <div>
             <h1>Participating Universities</h1>
             <ul className="sponsor-container">{this.university}</ul>
@@ -148,7 +163,7 @@ export default class LandingPage extends React.Component {
             <h1>Powered By</h1>
             <ul className="sponsor-container">{this.powered}</ul>
           </div>
-        )}
+        )} */}
       </div>
     );
   }
@@ -215,13 +230,11 @@ export default class LandingPage extends React.Component {
       <div id="home-welcome">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-lg-6 left-side">
               {this.getCfLogo()}
               {intro}
             </div>
-            <div className="col-md-6">
-              <h1></h1>
-
+            <div className="col-lg-6 right-side">
               {register}
               {login}
             </div>

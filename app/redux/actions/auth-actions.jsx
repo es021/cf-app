@@ -14,7 +14,7 @@ import {
 import {
     User,
     UserEnum,
-    CFSMetaOrg
+    // CFSMetaOrg
 } from '../../../config/db-config';
 import {
     Time
@@ -63,17 +63,45 @@ export function getLocalStorageCfOrg() {
     let toRet = {};
 
     for (var cfName in allCf) {
-        toRet[cfName] = {};
-        for (var i in CFSMetaOrg) {
-            let attr = [CFSMetaOrg[i]]
-            toRet[cfName][attr] = allCf[cfName][attr];
-            if(toRet[cfName][attr] == null){
-                toRet[cfName][attr] = [];
-            }
+        let org = allCf[cfName]["organizations"];
+        try {
+            org = JSON.parse(org);
+        } catch (err) {
+            org = [];
         }
+
+        if (!Array.isArray(org)) {
+            org = [];
+        }
+
+        toRet[cfName] = org;
+        // for (var i in CFSMetaOrg) {
+        //     let attr = [CFSMetaOrg[i]]
+        //     toRet[cfName][attr] = allCf[cfName][attr];
+        //     if(toRet[cfName][attr] == null){
+        //         toRet[cfName][attr] = [];
+        //     }
+        // }
     }
     return toRet;
 }
+
+// export function getLocalStorageCfOrg() {
+//     let allCf = getLocalStorageCf();
+//     let toRet = {};
+
+//     for (var cfName in allCf) {
+//         toRet[cfName] = {};
+//         for (var i in CFSMetaOrg) {
+//             let attr = [CFSMetaOrg[i]]
+//             toRet[cfName][attr] = allCf[cfName][attr];
+//             if(toRet[cfName][attr] == null){
+//                 toRet[cfName][attr] = [];
+//             }
+//         }
+//     }
+//     return toRet;
+// }
 
 // used in auth-reducer
 export function getCFDefault() {
@@ -89,7 +117,8 @@ export function getAllCF() {
 // return organizers
 export function getCFOrg() {
     let CareerFairOrg = getLocalStorageCfOrg();
-    return CareerFairOrg[getCF()];
+    let toRet = CareerFairOrg[getCF()];
+    return toRet;
 }
 
 // return object cf by key in auth
@@ -107,7 +136,7 @@ export function getCF() {
     if (typeof ToReplaceCf[cf] !== "undefined") {
         cf = ToReplaceCf[cf];
     }
-    //console.log("getCF -> ", cf);
+    console.log("Current CF -> ", cf);
     return cf;
 }
 
@@ -246,7 +275,7 @@ export function isTestUser() {
     return TestUser.indexOf(getAuthUser().ID) >= 0;
 }
 
-export function isOverrideComingSoonUser(){
+export function isOverrideComingSoonUser() {
     return OverrideComingSoonUser.indexOf(getAuthUser().ID) >= 0;
 }
 

@@ -1,36 +1,42 @@
-[
-  {
-    "name": "Malaysia Digital Economy Corporation",
-    "logo": "MDEC.jpg",
-    "shortname" : "MDEC",
-  },
-  {
-    "name": "Seeds Job Fair",
-    "logo": "logo.png",
-  },
-  {
-    "name": "Premier Digital Tech University",
-    "logo": "PremierDigitalTechUniversity.jpg",
-  }
+// ###########################################################################
+// MDEC
+let organizations = [{
+		label: "Participating Universities",
+		icon_size: "150",
+		data: [{
+				"name": "Universiti Teknologi MARA",
+				"logo": "UITM.jpg",
+				"shortname": "UITM",
+			},
+			{
+				"name": "Universiti Tunku Abdul Rahman",
+				"shortname": "UTAR",
+				"logo": "UTAR.jpg",
+			},
+			{
+				"name": "Universiti Teknologi Malaysia",
+				"shortname": "UTM",
+				"logo": "UTM.jpg",
+			}
+		]
+	},
+	{
+		label: "Championed By",
+		icon_size: "200",
+		data: [{
+			"name": "Malaysia Digital Economy Corporation",
+			"logo": "MDEC.jpg",
+			"shortname": "MDEC",
+		}]
+	},
+	{
+		label: "Strategic Partner",
+		icon_size: "150",
+		data: [{
+			"name": "Seeds Job Fair",
+			"logo": "logo.png",
+		}]
+	},
 ]
 
-
-
-[
-  {
-    "name": "UITM",
-    "logo": "UITM.jpg",
-    "shortname" : "MDEC",
-  },
-  {
-    "name": "UTAR",
-    "shortname" : "UTAR",
-    "logo": "UTAR.png",
-  },
-  {
-    "name": "UTM",
-    "shortname" : "UTM",
-    "logo": "UTM.png",
-  }
-]
-
+console.log(JSON.stringify(organizations));
