@@ -41,7 +41,18 @@ ALTER TABLE `vacancies` DROP `ref_country`;
 insert INTO single_input (entity, entity_id, key_input, val) 
 (select "user", m.user_id, "first_name", m.meta_value 
 from wp_cf_usermeta m where m.meta_key = "first_name") 
-ON DUPLICATE KEY UPDATE key_input = "first_name"
+ON DUPLICATE KEY UPDATE key_input = "first_name";
+
+insert INTO single_input (entity, entity_id, key_input, val) 
+(select "user", m.user_id, "last_name", m.meta_value 
+from wp_cf_usermeta m where m.meta_key = "last_name") 
+ON DUPLICATE KEY UPDATE key_input = "last_name";
+
+insert INTO single_input (entity, entity_id, key_input, val) 
+(select "user", m.user_id, "university", m.meta_value 
+from wp_cf_usermeta m where m.meta_key = "university") 
+ON DUPLICATE KEY UPDATE key_input = "university";
+
 
 -- #################################################
 -- ps_daily_co_deleted

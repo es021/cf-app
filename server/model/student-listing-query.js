@@ -31,7 +31,8 @@ class StudentListingQuery {
         // var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
         var join_search_country_study = UserQuery.getSearchSingle("country_study", "j.user_id", params.search_country_study);
         var resume_search_country_study = UserQuery.getSearchSingle("country_study", "r.student_id", params.search_country_study);
-
+       
+       
         // 4. search work availability 
         // @param search_work_av_start, search_work_av_end
         var join_search_work_av = UserQuery.getSearchWorkAvailability("j.user_id", params.search_work_av_month, params.search_work_av_year);
@@ -44,6 +45,10 @@ class StudentListingQuery {
         var join_search_looking_for = UserQuery.getSearchMulti("looking_for_position", "j.user_id", params.search_looking_for);
         var resume_search_looking_for = UserQuery.getSearchMulti("looking_for_position", "r.student_id", params.search_looking_for);
         
+        // 6. university
+        var join_search_university = UserQuery.getSearchSingle("university", "j.user_id", params.search_university);
+        var resume_search_university = UserQuery.getSearchSingle("university", "r.student_id", params.search_university);
+
 
         // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
         //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
@@ -70,6 +75,7 @@ class StudentListingQuery {
                 AND ${join_search_country_study}
                 AND ${join_search_work_av}
                 AND ${join_search_looking_for}
+                AND ${join_search_university}
                 AND ${join_cf}
 
                 UNION
@@ -85,6 +91,7 @@ class StudentListingQuery {
                 AND ${resume_search_country_study}
                 AND ${resume_search_work_av}
                 AND ${resume_search_looking_for}
+                AND ${resume_search_university}
                 AND ${resume_cf}
 
             ) X
@@ -115,6 +122,7 @@ class StudentListingQuery {
         AND ${join_search_country_study}
         AND ${join_search_work_av}
         AND ${join_search_looking_for}
+        AND ${join_search_university}
         AND ${join_cf}
         GROUP BY u.ID
         ORDER BY has_dc desc, u.user_registered desc

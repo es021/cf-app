@@ -298,9 +298,12 @@ export default class InputSuggestion extends React.Component {
     }
   }
   getFieldInput() {
+    let className = this.props.is_in_normal_form ? "form-control input-sm" : ""
+
     if (this.isText()) {
       return (
         <input
+          className={className}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
           onChange={this.onChange}
@@ -315,6 +318,7 @@ export default class InputSuggestion extends React.Component {
     } else if (this.isSelect()) {
       return (
         <select
+          className={className}
           onChange={this.onChange}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
@@ -330,6 +334,7 @@ export default class InputSuggestion extends React.Component {
     } else if (this.isTextarea()) {
       return (
         <textarea
+          className={className}
           onChange={this.onChange}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
@@ -345,9 +350,15 @@ export default class InputSuggestion extends React.Component {
   }
   render() {
 
+    let className = "";
+    if(this.props.is_in_normal_form){
+      className = "input-suggestion-normal";
+    }else{
+      className = "input-suggestion";
+    }
     // console.log("inputsuggestion render",this.props.name, this.props.input_val)
     return (
-      <div onKeyDown={this.onKeyDown} className="input-suggestion">
+      <div onKeyDown={this.onKeyDown} className={className}>
         <div className="input-field">
           <div className="input-and-icon">
             {this.getFieldInput()}
@@ -361,6 +372,7 @@ export default class InputSuggestion extends React.Component {
 }
 
 InputSuggestion.propTypes = {
+  is_in_normal_form : PropTypes.bool,
   order_by: PropTypes.string,
   use_id_as_value: PropTypes.bool,
   input_type: PropTypes.string,
@@ -380,6 +392,7 @@ InputSuggestion.propTypes = {
 };
 
 InputSuggestion.defaultProps = {
+  is_in_normal_form : false,
   name: "",
   filter_column: "",
   filter_val: "",

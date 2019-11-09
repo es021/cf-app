@@ -393,6 +393,8 @@ fields["student_listing"] = {
     search_student: __.String,
     // search_major: __.String,
     // search_study_place: __.String,
+
+    search_university: __.String,
     search_field_study: __.String,
     search_country_study: __.String,
     search_work_av_month: __.String,

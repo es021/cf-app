@@ -27,8 +27,7 @@ class SearchForm extends React.Component {
         className="form-row"
         items={this.formItem}
         onSubmit={this.props.formOnSubmit}
-        submitText={<span><i className="fa fa-search left"></i>Search</span>}
-        btnColorClass={"success btn-lg"}
+        submitText="Search"
         disableSubmit={this.state.disableSubmit}
         error={this.state.error}
         errorPosition="top"
@@ -435,43 +434,27 @@ export default class GeneralFormPage extends React.Component {
 
     let showFilter = this.props.hasResetFilter && this.state.hasFilter;
 
-    let searchForm = null;
-    if(this.props.searchFormItem){
-      if(this.props.searchFormNonPopup){
-        searchForm = 
-        <div className="form-flex search-form-flex">
-              <SearchForm formItem={this.props.searchFormItem} formOnSubmit={(d)=>{
-              this.props.searchFormOnSubmit(d);
-                this.onSuccessOperation("search");
-                this.setState(prevState => {
-                  return { hasFilter: true };
-                });
-            }}></SearchForm>
-          </div>
-      }else{
-        searchForm = <h4>
-          <a onClick={this.searchPopup}>
-            <i className="fa fa-search left"></i>Filter Record
-          </a>
-          {showFilter ? " | " : null}
-          {showFilter ? (
-            <a
-              onClick={() => {
-                this.resetFilter();
-              }}
-            >
-              <i className="fa fa-refresh left"></i>Reset Filter
-            </a>
-          ) : null}
-        </h4>
-      }
-    }
-
     return (
       <div>
         {this.props.dataTitle !== null ? <h2>{this.props.dataTitle}</h2> : null}
         {addForm}
-        {searchForm}
+        {this.props.searchFormItem != null ? (
+          <h4>
+            <a onClick={this.searchPopup}>
+              <i className="fa fa-search left"></i>Filter Record
+            </a>
+            {showFilter ? " | " : null}
+            {showFilter ? (
+              <a
+                onClick={() => {
+                  this.resetFilter();
+                }}
+              >
+                <i className="fa fa-refresh left"></i>Reset Filter
+              </a>
+            ) : null}
+          </h4>
+        ) : null}
         {this.props.contentBelowFilter}
         <div style={{ marginTop: "15px" }}>{datas}</div>
       </div>

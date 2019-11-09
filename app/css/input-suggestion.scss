@@ -46,7 +46,17 @@ $INPUT_MAX_WIDTH: 85vw;
     }
   }
 
+  
+}
+
+.input-suggestion, .input-suggestion-normal{
+  position: relative;
   .suggestion-list {
+    z-index: 100;
+    position: absolute;
+    top: 20;
+    left: 0;
+
     background: white;
     max-width: $INPUT_MAX_WIDTH;
     width: $INPUT_WIDTH;

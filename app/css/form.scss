@@ -1,53 +1,94 @@
-form{
-    text-align: left;
-    max-width: 400px;
-    margin: auto;
+form {
+	text-align: left;
+	max-width: 400px;
+	margin: auto;
 
-    .loader{
-        padding-top:0 !important;
-    }
+	.loader {
+		padding-top: 0 !important;
+	}
 
-    .form-header{
-        border-bottom: solid gray 1px;
-        margin-top: 15px;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
+	.form-header {
+		border-bottom: solid gray 1px;
+		margin-top: 15px;
+		margin-bottom: 5px;
+		font-weight: bold;
+	}
 
-    .form-item {
-        .form-sublabel{
-            font-size:80%;
-            color:gray;
-            font-style: italic;
-        }
-        .form-input {
-            margin-bottom: 10px;
-            div{
-                width: 100%;
-            }
-            
-            .checkbox{
-                width: auto;
-            }
-        }
+	.form-item {
+		.form-sublabel {
+			font-size: 80%;
+			color: gray;
+			font-style: italic;
+		}
 
-        .form-warning {
-            margin-top: -10px;
-            margin-bottom: 10px;
-            color: red;
-            font-style: oblique;
-            opacity: 0.8;
-        }
-    }
+		.form-input {
+			margin-bottom: 10px;
 
-    .form-submit {
-        text-align: center;
-    }
+			div {
+				width: 100%;
+			}
 
-    .form-error{
-        margin: 10px 0;
-        padding:7px 15px;
-        text-align: center;
-    }
+			.checkbox {
+				width: auto;
+			}
+		}
 
+		.form-warning {
+			margin-top: -10px;
+			margin-bottom: 10px;
+			color: red;
+			font-style: oblique;
+			opacity: 0.8;
+		}
+	}
+
+	.form-submit {
+		text-align: center;
+	}
+
+	.form-error {
+		margin: 10px 0;
+		padding: 7px 15px;
+		text-align: center;
+	}
+
+}
+
+.search-form-flex {
+	border: 1px solid #bfb7b7;
+	padding: 20px 10px;
+	border-radius: 7px;
+	margin: 20px;
+	max-width: 700px;
+	margin: auto;
+	margin-bottom: 25px;
+}
+
+.form-flex {
+	.form-row {
+		max-width: none;
+		width: 100%;
+
+		.form-submit {
+            text-align: left;
+            margin-left: 6px;
+		}
+
+		.form-item-container {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			flex-wrap: wrap;
+
+			.form-item {
+				min-width: 200px;
+				margin: 0px 5px;
+			}
+		}
+
+
+
+
+
+	}
 }

@@ -244,8 +244,9 @@ export default class HallPage extends React.Component {
           to={`${RootPath}/app/my-activity/student-listing`}
           icon="users"
           iconSize="3x"
-          mainText={"Interested Candidates"}
-          subText={`See who's interested in ${this.authUser.company.name}`}
+          mainText={"All Students"}
+          // subText={`See who's interested in ${this.authUser.company.name}`}
+          subText={`Browse students' profiles`}
         />
         <ButtonAction
           style={{ width: "350px" }}

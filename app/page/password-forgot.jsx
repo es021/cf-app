@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { passwordResetRequest } from '../redux/actions/auth-actions';
 import Form, { toggleSubmit } from '../component/form';
-import { AuthAPIErr } from '../../server/api/auth-api';
+// import { AuthAPIErr } from '../../server/api/auth-api';
+import {AuthAPIErr} from "../../config/auth-config";
 import {  NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 

@@ -317,7 +317,7 @@ function getMenuItem(COMING_SOON) {
     // },
     {
       url: "/my-activity/:current",
-      label: isRoleRec() ? "Interested Candidates" : "My Activity",
+      label: isRoleRec() ? "All Students" : "My Activity",
       icon: isRoleRec() ? "users" : "list-ul",
       component: ActivityPage,
       bar_app: true,

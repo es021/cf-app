@@ -92,7 +92,7 @@ export class StudentChatStarter extends React.Component {
                 target="_blank"
                 to={`${RootPath}/app/my-activity/student-listing`}
               >
-                Interested Candidates
+                Student Listing
               </NavLink>{" "}page
             </li>
             <li>

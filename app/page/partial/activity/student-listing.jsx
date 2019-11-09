@@ -337,7 +337,7 @@ export class StudentListingCard extends React.Component {
     // );
     // const isNavLink = false;
 
-    const actionHandler = () => {};
+    const actionHandler = () => { };
 
     const action_text = (
       <small>
@@ -427,39 +427,72 @@ export class StudentListing extends React.Component {
 
     if (this.props.isRec) {
       this.searchFormItem = [];
-      this.searchFormItem.push({ header: "Find Student" });
+      // this.searchFormItem.push({ header: "Find Student" });
       this.searchFormItem.push({
-        label: "By Name Or Email",
+        label: "Name Or Email",
         name: "search_student",
         type: "text",
         placeholder: "John Doe"
       });
 
-      this.searchFormItem.push({
-        label: "By Field Of Study",
-        name: "search_field_study",
-        type: "text",
-        placeholder: "Software Engineering"
-      });
+      // this.searchFormItem.push({
+      //   label: "Field Of Study",
+      //   name: "search_field_study",
+      //   type: "text",
+      //   placeholder: "Software Engineering"
+      // });
+
+
+      // this.searchFormItem.push({
+      //   label: "Study Place",
+      //   name: "search_country_study",
+      //   type: "text",
+      //   placeholder: "Malaysia"
+      // });
+
+    //  let cf = getCF()
 
       this.searchFormItem.push({
-        label: "By Study Place",
-        name: "search_country_study",
-        type: "text",
-        placeholder: "Malaysia"
+        label: "University",
+        name: "search_university",
+        type: "input_suggestion",
+        table_name: "university",
+        input_placeholder: "University",
+        filter_column: "country_id",
+        filter_val: "Malaysia",
+        // filter_val: "Malaysia::United Kingdom",
+        filter_find_id: true, // kena ubah kat ref-query
       });
 
+      // this.searchFormItem.push({
+      //   label: "Looking For Position",
+      //   name: "search_looking_for",
+      //   type: "select",
+      //   data: [
+      //     "",
+      //     UserEnum.LOOK_FOR_FULL_TIME,
+      //     UserEnum.LOOK_FOR_PART_TIME,
+      //     UserEnum.LOOK_FOR_INTERN
+      //   ]
+      // });
+
       this.searchFormItem.push({
-        label: "By Looking For Position",
+        input_type : "select",
+        label: "Looking For Position",
         name: "search_looking_for",
-        type: "select",
-        data: [
-          "",
-          UserEnum.LOOK_FOR_FULL_TIME,
-          UserEnum.LOOK_FOR_PART_TIME,
-          UserEnum.LOOK_FOR_INTERN
-        ]
+        type: "input_suggestion",
+        table_name: "looking_for_position",
       });
+
+      this.searchFormItem.push({
+        input_type : "select",
+        label: "Field Of Study",
+        name: "search_field_study",
+        type: "input_suggestion",
+        table_name: "field_study",
+      });
+
+    
     }
 
     this.searchParamGet = (key, val) => {
@@ -481,6 +514,12 @@ export class StudentListing extends React.Component {
           "search_field_study",
           d.search_field_study
         );
+
+        this.searchParams += this.searchParamGet(
+          "search_university",
+          d.search_university
+        );
+
         this.searchParams += this.searchParamGet(
           "search_country_study",
           d.search_country_study
@@ -586,6 +625,7 @@ export class StudentListing extends React.Component {
     return cfStr;
   }
   getContentBelowFilter() {
+    return null;
     let label = `Export ${this.props.title}`;
     return (
       <ButtonExport
@@ -637,20 +677,21 @@ export class StudentListing extends React.Component {
           </h4>
         </div>
       ) : (
-        <GeneralFormPage
-          hasResetFilter={true}
-          contentBelowFilter={this.getContentBelowFilter()}
-          entity_singular={"Student"}
-          dataTitle={this.dataTitle}
-          noMutation={true}
-          dataOffset={this.offset}
-          searchFormItem={this.searchFormItem}
-          searchFormOnSubmit={this.searchFormOnSubmit}
-          renderRow={this.renderRow}
-          getDataFromRes={this.getDataFromRes}
-          loadData={this.loadData}
-        />
-      );
+          <GeneralFormPage
+            searchFormNonPopup={true}
+            hasResetFilter={true}
+            contentBelowFilter={this.getContentBelowFilter()}
+            entity_singular={"Student"}
+            dataTitle={this.dataTitle}
+            noMutation={true}
+            dataOffset={this.offset}
+            searchFormItem={this.searchFormItem}
+            searchFormOnSubmit={this.searchFormOnSubmit}
+            renderRow={this.renderRow}
+            getDataFromRes={this.getDataFromRes}
+            loadData={this.loadData}
+          />
+        );
     }
 
     let title = this.props.title;

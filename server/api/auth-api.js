@@ -13,15 +13,7 @@ const { LogApi } = require("./other-api");
 
 const { Secret } = require("../secret/secret");
 
-const AuthAPIErr = {
-  WRONG_PASS: "WRONG_PASS",
-  INVALID_EMAIL: "INVALID_EMAIL",
-  NOT_ACTIVE: "NOT_ACTIVE",
-  INVALID_ACTIVATION: "INVALID_ACTIVATION",
-  INVALID_CF: "INVALID_CF",
-  TOKEN_INVALID: "TOKEN_INVALID",
-  TOKEN_EXPIRED: "TOKEN_EXPIRED"
-};
+const { AuthAPIErr }  = require("../../config/auth-config");
 
 const MailChimp = {
   //ListId: "5be77e4419", // Test List

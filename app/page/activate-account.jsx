@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import {getAxiosGraphQLQuery} from "../../helper/api-helper";
 import {Loader} from "../component/loader";
 import {activateAccount} from "../redux/actions/auth-actions";
-import {AuthAPIErr} from "../../server/api/auth-api";
+// import {AuthAPIErr} from "../../server/api/auth-api";
+import {AuthAPIErr} from "../../config/auth-config";
 import {NavLink} from "react-router-dom";
 import {RootPath} from "../../config/app-config";
 

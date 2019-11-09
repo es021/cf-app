@@ -349,6 +349,7 @@ export default class Form extends React.Component {
         item = (
           <div>
             <InputSuggestion
+              is_in_normal_form={true}
               {...d}
               input_val={this.state.input_suggestion_form[d.name] || this.props.defaultValues[d.name]}
               onChoose={(v, name) => {
@@ -646,7 +647,7 @@ export default class Form extends React.Component {
       >
         {formSuccess}
         {this.props.errorPosition === "top" ? formError : null}
-        {formItems}
+        <div className="form-item-container">{formItems}</div>
         {this.props.errorPosition !== "top" ? formError : null}
         {this.props.hideSubmit ? null : formSubmit}
       </form>

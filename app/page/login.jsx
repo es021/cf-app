@@ -11,7 +11,9 @@ import { Redirect, NavLink } from 'react-router-dom';
 //<NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink>
 
 import { ButtonLink } from '../component/buttons.jsx';
-import { AuthAPIErr } from '../../server/api/auth-api';
+// import { AuthAPIErr } from '../../server/api/auth-api';
+import {AuthAPIErr} from "../../config/auth-config";
+
 import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
 
 //state is from redux reducer
