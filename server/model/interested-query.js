@@ -5,6 +5,7 @@ class InterestedExec {
     let user_id = !param.user_id ? "1=1" : `user_id = '${param.user_id}'`;
     let entity = !param.entity ? "1=1" : `entity = '${param.entity}'`;
     let entity_id = !param.entity_id ? "1=1" : `entity_id = ${param.entity_id}`;
+    let is_interested = !param.is_interested ? "1=1" : `is_interested = ${param.is_interested}`;
 
     var limit = DB.prepareLimit(param.page, param.offset);
 
@@ -14,7 +15,8 @@ class InterestedExec {
     }
 
     var sql = `select ${select} from interested
-		where 1=1 and ${user_id} and ${entity} and ${entity_id} ${limit}`;
+      where 1=1 and ${user_id} and ${entity} and ${entity_id} and ${is_interested} 
+      ${limit}`;
     return sql;
   }
   isSingle(type) {

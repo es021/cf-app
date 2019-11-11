@@ -85,8 +85,14 @@ class VacancyList extends React.Component {
     this.offset = 6;
   }
 
+  isRecThisCompany() {
+    return (
+      (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
+      isRoleAdmin()
+    );
+  }
+
   renderList(d, i) {
-  
     let com = d.company;
     let img = createImageElement(
       com.img_url,
@@ -97,10 +103,7 @@ class VacancyList extends React.Component {
       PCType.COMPANY
     );
 
-    let isModeCount =
-      (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
-      isRoleAdmin();
-
+    let isModeCount = this.isRecThisCompany();
     let isModeAction = isRoleStudent();
 
     let interestedBtn = (
@@ -190,8 +193,14 @@ export default class CompanyPage extends Component {
     this.getRecs = this.getRecs.bind(this);
     this.startQueue = this.startQueue.bind(this);
     this.addSessionRequest = this.addSessionRequest.bind(this);
+    this.getBtnLike = this.getBtnLike.bind(this);
   }
 
+  isRecThisCompany() {
+    return (
+      (isRoleRec() && this.authUser.rec_company == this.ID) || isRoleAdmin()
+    );
+  }
   getBodyWidth() {
     return document.body.clientWidth;
   }
@@ -223,7 +232,7 @@ export default class CompanyPage extends Component {
         }`;
 
     var query = `query {
-              company(ID:${this.ID}) {
+              company(ID:${this.ID}, user_id:${this.authUser.ID}) {
                 ID
                 name
                 tagline
@@ -240,6 +249,7 @@ export default class CompanyPage extends Component {
                 doc_links{ID label url type}
                 more_info
                 ${rec_query}
+                interested{ID is_interested}
                 vacancies{
                     ID
                     title
@@ -491,6 +501,70 @@ export default class CompanyPage extends Component {
     );
   }
 
+  getBtnLike(styleBtnAction) {
+    let data = this.state.data;
+
+    const getBtnLikeCustomView = ({
+      loading,
+      isModeCount,
+      isModeAction,
+      is_interested,
+      like_count,
+      onClickModeCount,
+      onClickModeAction
+    }) => {
+      if (isModeAction) {
+        return (
+          <ButtonAction
+            style={styleBtnAction}
+            btnClass={`btn-lg btn-${is_interested ? "blue" : "default"}`}
+            onClick={onClickModeAction}
+            icon={loading ? "spinner fa-pulse" : "thumbs-up"}
+            iconSize="2x"
+            mainText={
+              loading ? null : is_interested ? `Liked` : `Like This Company`
+            }
+            // subText={`with ${this.state.data.name}`}
+            subText={null}
+          />
+        );
+      } else if (isModeCount) {
+        let mainText = `Liked By ${like_count} Student${
+          like_count > 1 ? "s" : ""
+        }`;
+        return (
+          <ButtonAction
+            style={styleBtnAction}
+            btnClass={`btn-lg btn-blue`}
+            onClick={onClickModeCount}
+            icon={loading ? "spinner fa-pulse" : "thumbs-up"}
+            iconSize="2x"
+            mainText={mainText}
+            // subText={`with ${this.state.data.name}`}
+            subText={null}
+          />
+        );
+      }
+    };
+
+    let isModeCount =
+      (isRoleRec() && this.authUser.rec_company == this.ID) || isRoleAdmin();
+
+    let isModeAction = isRoleStudent();
+
+    return (
+      <InterestedButton
+        customView={getBtnLikeCustomView}
+        isModeCount={isModeCount}
+        isModeAction={isModeAction}
+        ID={data.interested.ID}
+        is_interested={data.interested.is_interested}
+        entity={"companies"}
+        entity_id={this.ID}
+      ></InterestedButton>
+    );
+  }
+
   getStudentActionBox(data) {
     if (!isRoleStudent() || this.props.displayOnly) {
       return null;
@@ -562,11 +636,19 @@ export default class CompanyPage extends Component {
       doAfterValidateComingSoon(doAction);
     };
 
+    const styleBtnAction = {
+      width: "100%",
+      margin: "0px",
+      marginBottom: "10px",
+      fontSize: "15px"
+    };
+
     return (
       <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-4`}>
+        <div className={`col-md-3`}>{this.getBtnLike(styleBtnAction)}</div>
+        <div className={`col-md-3`}>
           <ButtonAction
-            style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+            style={styleBtnAction}
             btnClass="btn-lg btn-danger"
             onClick={() => {
               openLiveSession(this.ID);
@@ -578,10 +660,10 @@ export default class CompanyPage extends Component {
             subText={null}
           />
         </div>
-        <div className={`col-md-4`}>
+        <div className={`col-md-3`}>
           <ButtonAction
-            style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
-            btnClass="btn-lg btn-blue"
+            style={styleBtnAction}
+            btnClass="btn-lg btn-warning"
             onClick={btn_onClickChat}
             icon="comments"
             iconSize="2x"
@@ -590,9 +672,9 @@ export default class CompanyPage extends Component {
             subText={null}
           />
         </div>
-        <div className={`col-md-4`}>
+        <div className={`col-md-3`}>
           <ButtonAction
-            style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+            style={styleBtnAction}
             btnClass="btn-lg btn-success"
             onClick={btn_onClickResume}
             icon="download"
@@ -744,6 +826,9 @@ export default class CompanyPage extends Component {
 
       var rightBody = (
         <div>
+          {!this.isRecThisCompany() || this.props.displayOnly
+            ? null
+            : this.getBtnLike({fontSize:"15px", width:"100%"})}
           {/* {this.props.displayOnly ? null : forumLink} */}
           {gSession}
         </div>

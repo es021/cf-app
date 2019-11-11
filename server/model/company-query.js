@@ -83,6 +83,9 @@ const {
 const {
     SessionRequestExec
 } = require('./session-request-query.js');
+const {
+    InterestedExec
+} = require('./interested-query.js');
 
 class CompanyExec {
     getCompanyHelper(type, params, field) {
@@ -100,6 +103,15 @@ class CompanyExec {
             for (var i in res) {
 
                 var company_id = res[i]["ID"];
+
+                //Add interested ***********************************
+                if (typeof field["interested"] !== "undefined") {
+					res[i]["interested"] = InterestedExec.single({
+						user_id: params.user_id,
+						entity: "companies",
+						entity_id: company_id
+					}, field["interested"]);
+				}
 
                 //Add recruiters ***********************************
                 if (typeof field["recruiters"] !== "undefined") {

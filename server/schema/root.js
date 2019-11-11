@@ -201,6 +201,7 @@ fields["interested_list"] = {
 fields["interested_count"] = {
   type: CountType,
   args: {
+    is_interested: __.Int,
     entity: __.String,
     entity_id: __.Int
   },
@@ -637,7 +638,8 @@ fields["cfs"] = {
 fields["company"] = {
   type: CompanyType,
   args: {
-    ID: __.IntNonNull
+    ID: __.IntNonNull,
+    user_id : __.Int
   },
   resolve(parentValue, arg, context, info) {
     return CompanyExec.company(arg.ID, graphqlFields(info));
@@ -647,6 +649,7 @@ fields["company"] = {
 fields["companies"] = {
   type: new GraphQLList(CompanyType),
   args: {
+    user_id : __.Int,
     type: __.Int,
     cf: __.String,
     accept_prescreen: __.Int,

@@ -425,6 +425,8 @@ const CompanyType = new GraphQLObjectType({
     pending_requests: __.ListOf(SessionRequestType),
     recruiters: __.ListOf(UserType),
     doc_links: __.ListOf(DocLinkType),
+    interested: __.IsType(InterestedType),
+
     ID: __.Int,
     cf: __.StringList,
     name: __.String,

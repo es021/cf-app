@@ -43,11 +43,13 @@ export class InterestedUserList extends React.Component {
     );
 
     return (
-      <div className="flex-center" 
-      style={{margin:"0px", width:"50%", justifyContent:"flex-start"}}>
-        <div >{img}</div>
-        <div className="text-left" style={{marginLeft:"10px"}}>
-          <b>{createUserTitle(d.user,{}, true, true)}</b>
+      <div
+        className="flex-center"
+        style={{ margin: "0px", width: "50%", justifyContent: "flex-start" }}
+      >
+        <div>{img}</div>
+        <div className="text-left" style={{ marginLeft: "10px" }}>
+          <b>{createUserTitle(d.user, {}, true, true)}</b>
         </div>
       </div>
     );
@@ -60,9 +62,7 @@ export class InterestedUserList extends React.Component {
   render() {
     return (
       <div style={{ padding: "10px" }}>
-        <h3 className="text-left">
-          Liked By
-        </h3>
+        <h3 className="text-left">Liked By</h3>
         <List
           isHidePagingTop={true}
           type="list"
@@ -106,7 +106,7 @@ export class InterestedButton extends React.Component {
     if (this.props.isModeCount) {
       this.setState({ loading: true });
       let q = `query{ 
-        interested_count(entity:"${this.props.entity}", entity_id:${this.props.entity_id}) 
+        interested_count(entity:"${this.props.entity}", entity_id:${this.props.entity_id}, is_interested:1) 
         {
           total
         }
@@ -159,6 +159,18 @@ export class InterestedButton extends React.Component {
   }
 
   render() {
+    if (this.props.customView) {
+      return this.props.customView({
+        loading: this.state.loading,
+        isModeCount: this.props.isModeCount,
+        isModeAction: this.props.isModeAction,
+        is_interested: this.state.is_interested,
+        like_count: this.state.count,
+        onClickModeCount: this.onClickModeCount,
+        onClickModeAction: this.onClickModeAction
+      });
+    }
+
     let v = null;
     if (this.props.isModeCount) {
       v = (
@@ -192,6 +204,7 @@ export class InterestedButton extends React.Component {
   }
 }
 InterestedButton.propTypes = {
+  customView: PropTypes.func,
   isModeCount: PropTypes.bool,
   isModeAction: PropTypes.bool,
   ID: PropTypes.number,
