@@ -99,7 +99,8 @@ do research
 ssh root@104.131.105.183
 
 save-dev not found problem
-solution : 
+solution :
+npm cache verify
 ####################################################
 
 SET PRIVILEDGES

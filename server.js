@@ -22,9 +22,9 @@ var root = isProd ? "/cf" : "";
 // ##################################################
 // console config
 if (isProd) {
-  // console.log = function(mes) {
-  //   return;
-  // };
+  console.log = function(mes) {
+    return;
+  };
 }
 
 // ##################################################
