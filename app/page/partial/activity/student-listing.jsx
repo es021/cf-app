@@ -337,7 +337,7 @@ export class StudentListingCard extends React.Component {
     // );
     // const isNavLink = false;
 
-    const actionHandler = () => { };
+    const actionHandler = () => {};
 
     const action_text = (
       <small>
@@ -385,7 +385,7 @@ StudentListingCard.propTypes = {
 export class StudentListing extends React.Component {
   constructor(props) {
     super(props);
-    this.getContentBelowFilter = this.getContentBelowFilter.bind(this);
+    // this.getContentBelowFilter = this.getContentBelowFilter.bind(this);
     this.state = {
       search: {},
       loadPriv: true,
@@ -442,7 +442,6 @@ export class StudentListing extends React.Component {
       //   placeholder: "Software Engineering"
       // });
 
-
       // this.searchFormItem.push({
       //   label: "Study Place",
       //   name: "search_country_study",
@@ -450,7 +449,7 @@ export class StudentListing extends React.Component {
       //   placeholder: "Malaysia"
       // });
 
-    //  let cf = getCF()
+      //  let cf = getCF()
 
       this.searchFormItem.push({
         label: "University",
@@ -461,7 +460,7 @@ export class StudentListing extends React.Component {
         filter_column: "country_id",
         filter_val: "Malaysia",
         // filter_val: "Malaysia::United Kingdom",
-        filter_find_id: true, // kena ubah kat ref-query
+        filter_find_id: true // kena ubah kat ref-query
       });
 
       // this.searchFormItem.push({
@@ -477,22 +476,20 @@ export class StudentListing extends React.Component {
       // });
 
       this.searchFormItem.push({
-        input_type : "select",
+        input_type: "select",
         label: "Looking For Position",
         name: "search_looking_for",
         type: "input_suggestion",
-        table_name: "looking_for_position",
+        table_name: "looking_for_position"
       });
 
       this.searchFormItem.push({
-        input_type : "select",
+        input_type: "select",
         label: "Field Of Study",
         name: "search_field_study",
         type: "input_suggestion",
-        table_name: "field_study",
+        table_name: "field_study"
       });
-
-    
     }
 
     this.searchParamGet = (key, val) => {
@@ -555,11 +552,13 @@ export class StudentListing extends React.Component {
     // university study_place major available_month available_year
     // ID first_name last_name user_email description looking_for
     // doc_links { type label url }
+    // this.getCfStr()
     this.loadData = (page, offset) => {
-      let companyIdInq = this.getCompanyIdQuery();
+      // let companyIdInq = this.getCompanyIdQuery();
+
       var query = `query{
-          student_listing(${this.searchParams} company_id:${companyIdInq}, 
-          cf:"${this.getCfStr()}", page: ${page}, offset:${offset}) 
+          student_listing(${this.searchParams} company_id:${this.props.company_id}, 
+          cf:"${getCF()}", page: ${page}, offset:${offset}) 
           {
             student_id
             created_at
@@ -578,67 +577,69 @@ export class StudentListing extends React.Component {
     };
   }
 
-  getCompanyIdQuery() {
-    let toRet = this.props.isAllStudent ? -1 : this.props.company_id;
+  // getCompanyIdQuery() {
+  //   if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.ACCESS_ALL_STUDENT)) {
+  //     return -1;
+  //   }
 
-    let cfs = this.getCfAccessAllStudent();
-    if (cfs.length > 0) {
-      toRet = -1;
-    }
+  //   let toRet = this.props.isAllStudent ? -1 : this.props.company_id;
 
-    return toRet;
-  }
-  getCfAccessAllStudent() {
-    let r = [];
-    if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_MDC)) {
-      r.push("MDC");
-    }
-    if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_ANE)) {
-      r.push("ANE");
-    }
-    if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_EUR)) {
-      r.push("EUR");
-    }
-    if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_NZL)) {
-      r.push("NZL");
-    }
+  //   let cfs = this.getCfAccessAllStudent();
+  //   if (cfs.length > 0) {
+  //     toRet = -1;
+  //   }
 
-    if (r.length >= 0) {
-      r.push(getCF());
-    }
+  //   return toRet;
+  // }
+  // getCfAccessAllStudent() {
+  //   let r = [];
+  //   if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_MDC)) {
+  //     r.push("MDEC");
+  //   }
+  //   if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_ANE)) {
+  //     r.push("ANE");
+  //   }
+  //   if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_EUR)) {
+  //     r.push("EUR");
+  //   }
+  //   if (CompanyEnum.hasPriv(this.privs, CompanyEnum.PRIV.AAS_NZL)) {
+  //     r.push("NZL");
+  //   }
 
-    return r;
-  }
+  //   if (r.length >= 0) {
+  //     r.push(getCF());
+  //   }
 
-  getCfStr() {
-    let cfs = this.getCfAccessAllStudent();
-    let cfStr = "";
-    if (Array.isArray(cfs) && cfs.length > 0) {
-      cfs.map((d, i) => {
-        console.log(d);
-        cfStr += (i > 0 ? "," : "") + d;
-      });
-    } else {
-      cfStr = getCF();
-    }
+  //   return r;
+  // }
+  // getCfStr() {
+  //   let cfs = this.getCfAccessAllStudent();
+  //   let cfStr = "";
+  //   if (Array.isArray(cfs) && cfs.length > 0) {
+  //     cfs.map((d, i) => {
+  //       cfStr += (i > 0 ? "," : "") + d;
+  //     });
+  //   } else {
+  //     cfStr = getCF();
+  //   }
 
-    return cfStr;
-  }
-  getContentBelowFilter() {
-    return null;
-    let label = `Export ${this.props.title}`;
-    return (
-      <ButtonExport
-        action="student_listing"
-        text={label}
-        filter={{
-          company_id: this.getCompanyIdQuery(),
-          cf: this.getCfStr(),
-          for_rec: "1"
-        }}
-      ></ButtonExport>
-    );
-  }
+  //   return cfStr;
+  // }
+
+  // getContentBelowFilter() {
+  //   let label = `Export ${this.props.title}`;
+  //   return (
+  //     <ButtonExport
+  //       action="student_listing"
+  //       text={label}
+  //       filter={{
+  //         company_id: this.getCompanyIdQuery(),
+  //         cf: this.getCfStr(),
+  //         for_rec: "1"
+  //       }}
+  //     ></ButtonExport>
+  //   );
+  // }
   render() {
     var view = null;
     if (this.state.loadPriv) {
@@ -677,21 +678,22 @@ export class StudentListing extends React.Component {
           </h4>
         </div>
       ) : (
-          <GeneralFormPage
-            searchFormNonPopup={true}
-            hasResetFilter={true}
-            contentBelowFilter={this.getContentBelowFilter()}
-            entity_singular={"Student"}
-            dataTitle={this.dataTitle}
-            noMutation={true}
-            dataOffset={this.offset}
-            searchFormItem={this.searchFormItem}
-            searchFormOnSubmit={this.searchFormOnSubmit}
-            renderRow={this.renderRow}
-            getDataFromRes={this.getDataFromRes}
-            loadData={this.loadData}
-          />
-        );
+        <GeneralFormPage
+          searchFormNonPopup={true}
+          hasResetFilter={true}
+          // contentBelowFilter={this.getContentBelowFilter()}
+          contentBelowFilter={null}
+          entity_singular={"Student"}
+          dataTitle={this.dataTitle}
+          noMutation={true}
+          dataOffset={this.offset}
+          searchFormItem={this.searchFormItem}
+          searchFormOnSubmit={this.searchFormOnSubmit}
+          renderRow={this.renderRow}
+          getDataFromRes={this.getDataFromRes}
+          loadData={this.loadData}
+        />
+      );
     }
 
     let title = this.props.title;

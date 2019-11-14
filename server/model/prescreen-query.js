@@ -91,7 +91,7 @@ class PrescreenExec {
         } = require('./user-query.js');
 
         var sql = PrescreenQuery.getPrescreen(params, extra);
-        console.log(sql);
+        // console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
             if (extra.count) {

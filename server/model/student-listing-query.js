@@ -1,64 +1,133 @@
-const DB = require('./DB.js');
-const {
-    UserQuery
-} = require('./user-query');
-const {
-    CFQuery
-} = require('./cf-query');
+const DB = require("./DB.js");
+const { UserQuery } = require("./user-query");
+const { CFQuery } = require("./cf-query");
+const { CompanyEnum } = require("../../config/db-config");
 
 class StudentListingQuery {
-    getStudentListing(params, field, extra) {
-        var limit = (typeof params.page !== "undefined" &&
-            typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
+  getStudentListing(params, priv) {
+    //################################################
+    // START - adjust params according to companyPriv
+    let cfAccessStudent = [params.cf];
+    let useQueryForAllStudent = false;
+    for (var i in priv) {
+      if (priv[i].indexOf("ACCESS_ALL_STUDENT_") >= 0) {
+        let cf = priv[i].replace("ACCESS_ALL_STUDENT_", "");
+        cfAccessStudent.push(cf);
+      }
+    }
 
-        // **************************
-        // filter record
-        // 1. search first_name, last_name, email
-        // @param search_student
-        var join_search_student = UserQuery.getSearchNameOrEmail("j.user_id", params.search_student, params.search_student);
-        var resume_search_student = UserQuery.getSearchNameOrEmail("r.student_id", params.search_student, params.search_student);
+    if (CompanyEnum.hasPriv(priv, CompanyEnum.PRIV.ACCESS_ALL_STUDENT)) {
+      useQueryForAllStudent = true;
+    }
+    if (cfAccessStudent.length > 0) {
+      useQueryForAllStudent = true;
+    }
+    // END - adjust params according to companyPriv
+    //################################################
 
-        // 2. search major
-        // @param search_major
-        // var join_search_major = UserQuery.getSearchMajor("j.user_id", params.search_major);
-        // var resume_search_major = UserQuery.getSearchMajor("r.student_id", params.search_major);
-        var join_search_field_study = UserQuery.getSearchMulti("field_study", "j.user_id", params.search_field_study);
-        var resume_search_field_study = UserQuery.getSearchMulti("field_study", "r.student_id", params.search_field_study);
-        
-        // 3. search study place
-        // @param search_study_place
-        // var join_search_place = UserQuery.getSearchStudyPlace("j.user_id", params.search_study_place);
-        // var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
-        var join_search_country_study = UserQuery.getSearchSingle("country_study", "j.user_id", params.search_country_study);
-        var resume_search_country_study = UserQuery.getSearchSingle("country_study", "r.student_id", params.search_country_study);
-       
-       
-        // 4. search work availability 
-        // @param search_work_av_start, search_work_av_end
-        var join_search_work_av = UserQuery.getSearchWorkAvailability("j.user_id", params.search_work_av_month, params.search_work_av_year);
-        var resume_search_work_av = UserQuery.getSearchWorkAvailability("r.student_id", params.search_work_av_month, params.search_work_av_year);
+    var limit =
+      typeof params.page !== "undefined" && typeof params.offset !== "undefined"
+        ? DB.prepareLimit(params.page, params.offset)
+        : "";
 
-        // 5. search_looking_for
-        // @param search_looking_for
-        // var join_search_looking_for = UserQuery.getSearchLookingFor("j.user_id", params.search_looking_for);
-        // var resume_search_looking_for = UserQuery.getSearchLookingFor("r.student_id", params.search_looking_for);
-        var join_search_looking_for = UserQuery.getSearchMulti("looking_for_position", "j.user_id", params.search_looking_for);
-        var resume_search_looking_for = UserQuery.getSearchMulti("looking_for_position", "r.student_id", params.search_looking_for);
-        
-        // 6. university
-        var join_search_university = UserQuery.getSearchSingle("university", "j.user_id", params.search_university);
-        var resume_search_university = UserQuery.getSearchSingle("university", "r.student_id", params.search_university);
+    // **************************
+    // filter record
+    // 1. search first_name, last_name, email
+    // @param search_student
+    var join_search_student = UserQuery.getSearchNameOrEmail(
+      "j.user_id",
+      params.search_student,
+      params.search_student
+    );
+    var resume_search_student = UserQuery.getSearchNameOrEmail(
+      "r.student_id",
+      params.search_student,
+      params.search_student
+    );
 
+    // 2. search major
+    // @param search_major
+    // var join_search_major = UserQuery.getSearchMajor("j.user_id", params.search_major);
+    // var resume_search_major = UserQuery.getSearchMajor("r.student_id", params.search_major);
+    var join_search_field_study = UserQuery.getSearchMulti(
+      "field_study",
+      "j.user_id",
+      params.search_field_study
+    );
+    var resume_search_field_study = UserQuery.getSearchMulti(
+      "field_study",
+      "r.student_id",
+      params.search_field_study
+    );
 
-        // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
-        //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
+    // 3. search study place
+    // @param search_study_place
+    // var join_search_place = UserQuery.getSearchStudyPlace("j.user_id", params.search_study_place);
+    // var resume_search_place = UserQuery.getSearchStudyPlace("r.student_id", params.search_study_place);
+    var join_search_country_study = UserQuery.getSearchSingle(
+      "country_study",
+      "j.user_id",
+      params.search_country_study
+    );
+    var resume_search_country_study = UserQuery.getSearchSingle(
+      "country_study",
+      "r.student_id",
+      params.search_country_study
+    );
 
-        var cf_where = "1=1";
+    // 4. search work availability
+    // @param search_work_av_start, search_work_av_end
+    var join_search_work_av = UserQuery.getSearchWorkAvailability(
+      "j.user_id",
+      params.search_work_av_month,
+      params.search_work_av_year
+    );
+    var resume_search_work_av = UserQuery.getSearchWorkAvailability(
+      "r.student_id",
+      params.search_work_av_month,
+      params.search_work_av_year
+    );
 
-        var join_cf = CFQuery.getCfInList("j.user_id", "user", params.cf);
-        var resume_cf = CFQuery.getCfInList("r.student_id", "user", params.cf);
+    // 5. search_looking_for
+    // @param search_looking_for
+    // var join_search_looking_for = UserQuery.getSearchLookingFor("j.user_id", params.search_looking_for);
+    // var resume_search_looking_for = UserQuery.getSearchLookingFor("r.student_id", params.search_looking_for);
+    var join_search_looking_for = UserQuery.getSearchMulti(
+      "looking_for_position",
+      "j.user_id",
+      params.search_looking_for
+    );
+    var resume_search_looking_for = UserQuery.getSearchMulti(
+      "looking_for_position",
+      "r.student_id",
+      params.search_looking_for
+    );
 
-        var sql = `
+    // 6. university
+    var join_search_university = UserQuery.getSearchSingle(
+      "university",
+      "j.user_id",
+      params.search_university
+    );
+    var resume_search_university = UserQuery.getSearchSingle(
+      "university",
+      "r.student_id",
+      params.search_university
+    );
+
+    // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
+    //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
+
+    var cf_where = "1=1";
+
+    var join_cf = CFQuery.getCfInList("j.user_id", "user", cfAccessStudent);
+    var resume_cf = CFQuery.getCfInList(
+      "r.student_id",
+      "user",
+      cfAccessStudent
+    );
+
+    var sql = `
         SELECT Y.* FROM ( 
             SELECT 
             X.student_id,
@@ -105,14 +174,14 @@ class StudentListingQuery {
         ORDER BY Y.created_at desc
         ${limit} `;
 
-        // ###################################################################
-        // ALL STUDENT QUERY
-        // untuk cater company : -1 (all student page)
+    // ###################################################################
+    // ALL STUDENT QUERY
+    // untuk cater company : -1 (all student page)
 
-        // INNER JOIN doc_link dl ON u.ID = dl.user_id AND dl.type = 'document' 
-        // AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
+    // INNER JOIN doc_link dl ON u.ID = dl.user_id AND dl.type = 'document'
+    // AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
 
-         var sqlAll = `
+    var sqlAll = `
         SELECT DISTINCT u.ID as student_id, u.user_registered, 
         (CASE WHEN count(dc.ID) >  0 THEN 1 ELSE 0 END) as has_dc
         FROM wp_cf_users u left outer join doc_link dc ON u.ID = dc.user_id
@@ -127,69 +196,71 @@ class StudentListingQuery {
         GROUP BY u.ID
         ORDER BY has_dc desc, u.user_registered desc
         ${limit} `;
-         
-        // var sqlAll = `
-        // SELECT DISTINCT u.ID as student_id, u.user_registered
-        // FROM wp_cf_users u
-        // WHERE 1=1 
-        // AND ${join_search_student}
-        // AND ${join_search_major}
-        // AND ${join_search_place}
-        // AND ${join_search_work_av}
-        // AND ${join_search_looking_for}
-        // AND ${join_cf}
-        // ORDER BY u.user_registered asc
-        // ${limit} `;
 
-        sqlAll = sqlAll.replaceAll("j.user_id", "u.ID")
+    sqlAll = sqlAll.replaceAll("j.user_id", "u.ID");
 
-        // console.log(sql);
-        // console.log("---------------------------------------------")
-        // console.log("---------------------------------------------")
-        // console.log("---------------------------------------------")
-        // console.log(sqlAll);
-        // console.log("---------------------------------------------")
-        // console.log("---------------------------------------------")
-        // console.log("---------------------------------------------")
-        return params.company_id <= 0 ? sqlAll : sql;
-    }
-
-
+    return useQueryForAllStudent ? sqlAll : sql;
+    // return params.company_id <= 0 ? sqlAll : sql;
+  }
 }
 
+function getCompanyPriv(company_id) {
+  return DB.query(
+    `select priviledge from companies where ID =${company_id}`
+  ).then(function(res) {
+    if (res[0] && res[0]["priviledge"]) {
+      let priv = res[0]["priviledge"];
+      try {
+        priv = JSON.parse(priv);
+        return priv;
+      } catch (err) {
+        return [];
+      }
+    } else {
+      return [];
+    }
+  });
+}
 StudentListingQuery = new StudentListingQuery();
 class StudentListingExec {
-    student_listing(params, field, extra = {}) {
-        var {
-            CompanyExec
-        } = require('./company-query.js');
-        var {
-            UserExec
-        } = require('./user-query.js');
+  student_listing(params, field, extra = {}) {
+    var { CompanyExec } = require("./company-query.js");
+    var { UserExec } = require("./user-query.js");
 
-        var sql = StudentListingQuery.getStudentListing(params, field, extra);
-        var toRet = DB.query(sql).then(function (res) {
-            for (var i in res) {
-                var student_id = res[i]["student_id"];
-                if (typeof field["student"] !== "undefined") {
-                    res[i]["student"] = UserExec.user({
-                        ID: student_id,
-                        company_id: params.company_id,
-                    }, field["student"]);
-                }
+    var toRet = getCompanyPriv(params.company_id).then(function(priv) {
 
-                if (typeof field["company"] !== "undefined") {
-                    let company_id = params.company_id;
-                    res[i]["company"] = CompanyExec.company(company_id, field["company"]);
-                }
-            }
-            return res;
-        });
-        return toRet;
-    }
+      var sql = StudentListingQuery.getStudentListing(params, priv);
+    //   console.log("[StudentListingExec]", sql);
+      return DB.query(sql).then(function(res) {
+        for (var i in res) {
+          var student_id = res[i]["student_id"];
+          if (typeof field["student"] !== "undefined") {
+            res[i]["student"] = UserExec.user(
+              {
+                ID: student_id,
+                company_id: params.company_id
+              },
+              field["student"]
+            );
+          }
+
+          if (typeof field["company"] !== "undefined") {
+            let company_id = params.company_id;
+            res[i]["company"] = CompanyExec.company(
+              company_id,
+              field["company"]
+            );
+          }
+        }
+        return res;
+      });
+    });
+
+    return toRet;
+  }
 }
 StudentListingExec = new StudentListingExec();
 
 module.exports = {
-    StudentListingExec
+  StudentListingExec
 };
