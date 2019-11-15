@@ -22,12 +22,13 @@ class AuditoriumExec {
 
         var limit = DB.prepareLimit(params.page, params.offset);
         var sql = `select * from ${Auditorium.TABLE} where ${id_where} and ${end_time_where} and ${cf_where} ${order_by} ${limit}`;
-        console.log(sql);
+        //console.log(sql);
         return sql;
     }
 
     auditoriums(params, field, extra = {}) {
         const { CompanyExec } = require('./company-query.js');
+        const { InterestedExec } = require('./interested-query.js');
 
         var sql = this.getQuery(params, extra);
         var toRet = DB.query(sql).then(function (res) {
@@ -36,6 +37,14 @@ class AuditoriumExec {
                     var company_id = res[i]["company_id"];
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
                 }
+
+                if (typeof field["interested"] !== "undefined") {
+					res[i]["interested"] = InterestedExec.single({
+						user_id: params.user_id,
+						entity: "auditorium",
+						entity_id: res[i].ID
+					}, field["interested"]);
+				}
             }
 
             if (extra.single) {

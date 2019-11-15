@@ -24,7 +24,7 @@ class FeedbackQsExec {
 
     feedback_qs(params, field, extra = {}) {
         var sql = this.getQuery(params);
-        console.log(sql);
+        //console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             //for (var i in res) {}
             // only if there is custom field

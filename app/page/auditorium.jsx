@@ -7,6 +7,7 @@ import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 import { NavLink } from "react-router-dom";
 
+import { InterestedButton } from "../component/interested";
 import GeneralFormPage from "../component/general-form";
 import ProfileCard from "../component/profile-card.jsx";
 import {
@@ -55,7 +56,9 @@ export class WebinarHall extends React.Component {
   // function for list
   loadData(page, offset) {
     var query = `query{
-        auditoriums(page:${page},offset:${offset},cf:"${getCF()}",
+        auditoriums(user_id:${
+          getAuthUser().ID
+        }, page:${page},offset:${offset},cf:"${getCF()}",
         order_by:"link desc, recorded_link asc, start_time asc", 
         now_only:false) {
           ID
@@ -63,6 +66,7 @@ export class WebinarHall extends React.Component {
           type
           title
           link
+          interested{ID is_interested}
           recorded_link
           moderator
           start_time
@@ -113,10 +117,11 @@ export class WebinarHall extends React.Component {
     );
 
     let detailStyle = {
+      position: "relative",
       fontSize: "14px",
       textAlign: "left"
     };
-    
+
     let companyName = isRoleRec() ? (
       d.company.name
     ) : (
@@ -154,7 +159,8 @@ export class WebinarHall extends React.Component {
       action_text = (
         <span>
           <i className="fa fa-play-circle" />
-          <br />Watch
+          <br />
+          Watch
         </span>
       );
       action_color = "danger";
@@ -165,7 +171,8 @@ export class WebinarHall extends React.Component {
       action_text = (
         <span>
           <i className="fa fa-sign-in" />
-          <br />Join Now
+          <br />
+          Join Now
         </span>
       );
       action_color = "success";
@@ -231,8 +238,41 @@ export class WebinarHall extends React.Component {
       // </div>
     }
 
+    let likeButton = (
+      <InterestedButton
+        customStyle={{
+          top: "3px",
+          left: "7px",
+          width: "max-content",
+        }}
+        isModeCount={false}
+        isModeAction={true}
+        finishHandler={is_interested => {
+          if (is_interested == 1) {
+            layoutActions.successBlockLoader(
+              <div>
+                Successfully RSVP'ed for webinar
+                <br></br>
+                <b>{d.title}</b>
+                <br></br>
+                with {companyName}
+              </div>
+            );
+          }
+
+          // else {
+          //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
+          // }
+        }}
+        ID={d.interested.ID}
+        is_interested={d.interested.is_interested}
+        entity={"auditorium"}
+        entity_id={d.ID}
+      ></InterestedButton>
+    );
     let v = (
-      <div className="hall-webinar">
+      <div className="hall-webinar" style={{ position: "relative" }}>
+        {likeButton}
         {img}
         {details}
         {rightBox}
@@ -254,7 +294,7 @@ export class WebinarHall extends React.Component {
       </a>
     );
 
-    let subtitle = null;
+    let subtitle = "Click on the love button to RSVP";
     let body = (
       <List
         key={this.state.key}

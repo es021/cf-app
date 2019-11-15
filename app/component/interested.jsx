@@ -96,7 +96,7 @@ export class InterestedButton extends React.Component {
       count: 0
     };
   }
- 
+
   componentWillMount() {
     if (this.props.isModeCount) {
       this.setState({ loading: true });
@@ -116,7 +116,7 @@ export class InterestedButton extends React.Component {
     }
   }
   onClickModeCount(e) {
-    if(this.props.isNonClickable){
+    if (this.props.isNonClickable) {
       return;
     }
     layoutActions.storeUpdateFocusCard("Liked By", InterestedUserList, {
@@ -125,7 +125,7 @@ export class InterestedButton extends React.Component {
     });
   }
   onClickModeAction(e) {
-    if(this.props.isNonClickable){
+    if (this.props.isNonClickable) {
       return;
     }
     if (this.state.loading) {
@@ -149,7 +149,9 @@ export class InterestedButton extends React.Component {
       // create
       mutation = "add_interested";
       q = `mutation { add_interested (
-        user_id:${this.props.customUserId ? this.props.customUserId : this.authUser.ID}, 
+        user_id:${
+          this.props.customUserId ? this.props.customUserId : this.authUser.ID
+        }, 
         entity:"${this.props.entity}",
         entity_id:${this.props.entity_id}
         ) {ID is_interested} }`;
@@ -157,6 +159,11 @@ export class InterestedButton extends React.Component {
 
     graphql(q).then(res => {
       let d = res.data.data[mutation];
+
+      if (this.props.finishHandler) {
+        this.props.finishHandler(d.is_interested);
+      }
+
       this.setState({
         ID: d.ID,
         is_interested: d.is_interested,
@@ -182,7 +189,10 @@ export class InterestedButton extends React.Component {
     let v = null;
     if (this.props.isModeCount) {
       v = (
-        <div className={`interested ${classBottom} in-count`}>
+        <div
+          style={this.props.customStyle}
+          className={`interested ${classBottom} in-count`}
+        >
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
@@ -196,6 +206,7 @@ export class InterestedButton extends React.Component {
     } else if (this.props.isModeAction) {
       v = (
         <div
+          style={this.props.customStyle}
           className={`interested ${classBottom} in-action ${
             this.state.is_interested == 1 ? "selected" : ""
           }`}
@@ -212,12 +223,14 @@ export class InterestedButton extends React.Component {
   }
 }
 InterestedButton.propTypes = {
-  isBottom : PropTypes.bool,
-  customUserId : PropTypes.number,
+  finishHandler: PropTypes.func,
+  customStyle: PropTypes.object,
+  isBottom: PropTypes.bool,
+  customUserId: PropTypes.number,
   customView: PropTypes.func,
   isModeCount: PropTypes.bool,
   isModeAction: PropTypes.bool,
-  isNonClickable : PropTypes.bool,
+  isNonClickable: PropTypes.bool,
   ID: PropTypes.number,
   is_interested: PropTypes.number,
   entity: PropTypes.string,
@@ -225,8 +238,9 @@ InterestedButton.propTypes = {
 };
 
 InterestedButton.defaultProps = {
-  isBottom : false,
+  customStyle: {},
+  isBottom: false,
   isModeCount: false,
   isModeAction: false,
-  isNonClickable : false,
+  isNonClickable: false
 };

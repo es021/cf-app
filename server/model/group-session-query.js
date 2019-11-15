@@ -56,7 +56,7 @@ class GroupSessionQuery {
             return `select count(*) as cnt ${sql}`;
         } else {
             var toRet = `select ${user_select} main.* ${sql} ${limit}`;
-            console.log(toRet);
+            //console.log(toRet);
             return toRet;
         }
     }

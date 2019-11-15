@@ -483,6 +483,7 @@ fields["zoom_invites"] = {
 fields["auditoriums"] = {
   type: new GraphQLList(AuditoriumType),
   args: {
+    user_id : __.Int,
     page: __.IntNonNull,
     offset: __.IntNonNull,
     now_only: __.Boolean,

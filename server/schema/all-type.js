@@ -631,6 +631,7 @@ const AuditoriumType = new GraphQLObjectType({
     created_at: __.String,
     updated_at: __.String,
 
+    interested: __.IsType(InterestedType),
     company: __.IsType(CompanyType)
   })
 });

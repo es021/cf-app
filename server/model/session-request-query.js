@@ -29,7 +29,7 @@ class SessionRequestExec {
         var { UserExec } = require('./user-query.js');
 
         var sql = this.getQuery(params, field, extra);
-        console.log(sql);
+        //console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];
