@@ -1269,6 +1269,7 @@ fields["add_prescreen"] = {
     company_id: __.IntNonNull,
     status: __.StringNonNull,
     special_type: __.String,
+    is_onsite_call: __.Int,
     appointment_time: __.Int,
     updated_by: __.Int
   },
@@ -1288,6 +1289,7 @@ fields["edit_prescreen"] = {
     special_type: __.String,
     join_url: __.String,
     start_url: __.String,
+    is_onsite_call: __.Int,
     is_expired: __.Int,
     appointment_time: __.Int
   },

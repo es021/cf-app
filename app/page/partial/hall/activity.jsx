@@ -12,7 +12,8 @@ import {
   PrescreenEnum,
   SessionRequestEnum,
   EntityRemoved,
-  GroupSessionJoin
+  GroupSessionJoin,
+  LogEnum
 } from "../../../../config/db-config";
 import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
@@ -27,7 +28,10 @@ import {
   emitQueueStatus,
   emitHallActivity
 } from "../../../socket/socket-client";
-import { isUserOnline, isCompanyOnline} from "../../../redux/actions/user-actions";
+import {
+  isUserOnline,
+  isCompanyOnline
+} from "../../../redux/actions/user-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import * as activityActions from "../../../redux/actions/activity-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
@@ -42,6 +46,7 @@ import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import ToogleTimezone from "../../../component/toggle-timezone";
 import { openLiveSession } from "./live-session";
+import { addLog } from "../../../redux/actions/other-actions";
 
 // require("../../../css/border-card.scss");
 
@@ -142,7 +147,7 @@ class ActvityList extends React.Component {
       setTimeout(() => {
         parentCard.hidden = true;
       }, 700);
-      getAxiosGraphQLQuery(q).then(data => { });
+      getAxiosGraphQLQuery(q).then(data => {});
     };
 
     return (
@@ -393,8 +398,12 @@ class ActvityList extends React.Component {
   getTimeStrNew(unixtime, showTimeOnly, customText) {
     const className = "time-container";
 
-    if (unixtime === undefined && showTimeOnly === undefined && customText !== undefined) {
-      return <div className={className}>{customText}</div>
+    if (
+      unixtime === undefined &&
+      showTimeOnly === undefined &&
+      customText !== undefined
+    ) {
+      return <div className={className}>{customText}</div>;
     }
     // debug
     // unixtime = (1552804854865/1000) + 500;
@@ -709,8 +718,6 @@ class ActvityList extends React.Component {
     var btnEndedVCall = null;
     var btnAcceptReject = null;
 
-
-
     if (
       d.status == PrescreenEnum.STATUS_REJECTED ||
       d.status == PrescreenEnum.STATUS_ENDED
@@ -788,17 +795,36 @@ class ActvityList extends React.Component {
         break;
       case PrescreenEnum.STATUS_APPROVED:
         if (isRoleRec()) {
-          btnStartVCall = (
-            <div
-              data-appointment_time={d.appointment_time}
-              data-participant_id={obj.ID}
-              data-id={d.ID}
-              onClick={this.startVideoCallPreScreen.bind(this)}
-              className="btn btn-sm btn-success"
-            >
-              Start Video Call
-            </div>
-          );
+          if (d.is_onsite_call == 1) {
+            btnStartVCall = (
+              <div
+                data-appointment_time={d.appointment_time}
+                data-participant_id={obj.ID}
+                data-id={d.ID}
+                data-company_id={d.company_id}
+                onClick={e => {
+                  let eD = e.currentTarget.dataset;
+                  openLiveSession(eD.company_id);
+                  addLog(LogEnum.EVENT_CLICK_CONNECT_WITH_ONSITE, eD);
+                }}
+                className="btn btn-sm btn-success"
+              >
+                Connect With On-site
+              </div>
+            );
+          } else {
+            btnStartVCall = (
+              <div
+                data-appointment_time={d.appointment_time}
+                data-participant_id={obj.ID}
+                data-id={d.ID}
+                onClick={this.startVideoCallPreScreen.bind(this)}
+                className="btn btn-sm btn-success"
+              >
+                Start Video Call
+              </div>
+            );
+          }
           break;
         }
 
@@ -842,7 +868,11 @@ class ActvityList extends React.Component {
         var hasStart = false;
         if (!d.is_expired && d.join_url != "" && d.join_url != null) {
           hasStart = true;
-          subtitle = this.getTimeStrNew(undefined, undefined, "Video Call Has Started");
+          subtitle = this.getTimeStrNew(
+            undefined,
+            undefined,
+            "Video Call Has Started"
+          );
         } else {
           if (d.is_expired) {
             subtitle = this.getTimeStrNew(d.appointment_time, true);
@@ -921,6 +951,15 @@ class ActvityList extends React.Component {
       </div>
     );
 
+    let labelOnSite = null;
+    if (d.is_onsite_call == 1) {
+      labelOnSite = (
+        <div style={{ marginBottom: "7px" }}>
+          <label className={`label label-primary`}>On-site Call</label>
+        </div>
+      );
+    }
+
     // openLiveSession use function utk bukak
 
     let topLabel = (
@@ -935,6 +974,7 @@ class ActvityList extends React.Component {
         {/* {isRoleRec()
           ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
           : null} */}
+        {labelOnSite}
         {btnStartVCall == null ? labelStatus : null}
         {isRoleRec() ? btnStartVCall : null}
         {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null}
@@ -947,12 +987,11 @@ class ActvityList extends React.Component {
 
     // ammend title
     subtitle = [
-
       isRoleRec()
         ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
         : null,
-      subtitle,
-    ]
+      subtitle
+    ];
 
     return {
       title: title,
@@ -1052,11 +1091,11 @@ class ActvityList extends React.Component {
 
         var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
         let isOnlineCard = false;
-        if(isRoleRec()){
+        if (isRoleRec()) {
           isOnlineCard = isUserOnline(this.props.online_users, obj.ID);
         }
-        if(isRoleStudent()){
-          isOnlineCard  = isCompanyOnline(this.props.online_companies, obj.ID);
+        if (isRoleStudent()) {
+          isOnlineCard = isCompanyOnline(this.props.online_companies, obj.ID);
         }
 
         return (
@@ -1115,7 +1154,7 @@ ActvityList.propTypes = {
   list: PropTypes.array.isRequired,
   fetching: PropTypes.bool.isRequired,
   online_users: PropTypes.object.isRequired,
-  online_companies: PropTypes.object.isRequired,
+  online_companies: PropTypes.object.isRequired
 };
 
 ActvityList.defaultProps = {
@@ -1151,7 +1190,7 @@ export class ActivitySingle extends React.Component {
     } else {
       let q = ` query {${entity} (ID:${
         this.props.id
-        }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
+      }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
       getAxiosGraphQLQuery(q).then(res => {
         this.setState(prevState => {
           return { data: res.data.data[entity], loading: false };
@@ -1349,7 +1388,7 @@ function mapStateToProps(state, ownProps) {
   return {
     activity: state.hall.activity,
     online_users: state.user.online_users,
-    online_companies: state.user.online_companies,
+    online_companies: state.user.online_companies
   };
 }
 
@@ -1362,7 +1401,4 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActivitySection);
+export default connect(mapStateToProps, mapDispatchToProps)(ActivitySection);

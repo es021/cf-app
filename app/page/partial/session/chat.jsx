@@ -108,6 +108,13 @@ export function joinVideoCall(
   pre_screen_id = null,
   start_url = null
 ) {
+  addLog(LogEnum.EVENT_CLICK_JOIN_VIDEO_CALL, {
+    pre_screen_id: pre_screen_id,
+    group_session_id: group_session_id,
+    session_id: session_id,
+    join_url : join_url
+  });
+
   let isJoin = false;
   let windowPopup = null;
   let windowId = "zoom_" + Date.now();
@@ -931,7 +938,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(Chat);
+export default connect(mapStateToProps, null)(Chat);

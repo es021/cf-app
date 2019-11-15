@@ -233,6 +233,7 @@ const Prescreen = {
   START_URL: "start_url",
   JOIN_URL: "join_url",
   IS_EXPIRED: "is_expired",
+  IS_ONSITE_CALL: "is_onsite_call",
   SPECIAL_TYPE: "special_type",
   STATUS: "status",
   UPDATED_BY: "updated_by"
@@ -505,7 +506,9 @@ const LogEnum = {
   EVENT_CALL_DAILY_CO: "call_daily_co", // data -> session_id
   EVENT_CALL_ZOOM: "call_zoom", // data -> session_id
   EVENT_CLICK_LEFT_BAR: "click_left_bar", // label
+  EVENT_CLICK_JOIN_VIDEO_CALL : "click_join_video_call",
   EVENT_CLICK_GOT_QUESTION: "click_got_question", // <empty>
+  EVENT_CLICK_CONNECT_WITH_ONSITE: "click_connect_with_onsite", // <empty>
   EVENT_CLICK_GALLERY: "click_gallery" // data-> label, url, student_id, company_id
 };
 

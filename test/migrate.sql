@@ -1,4 +1,5 @@
 
+ALTER TABLE `pre_screens` ADD `is_onsite_call` SMALLINT NOT NULL DEFAULT '0' AFTER `is_expired`; 
 
 -- ##############################################################
 -- ##############################################################

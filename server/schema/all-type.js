@@ -401,6 +401,7 @@ const PrescreenType = new GraphQLObjectType({
     join_url: __.String,
     start_url: __.String,
     is_expired: __.Int,
+    is_onsite_call: __.Int,
 
     updated_at: __.String,
     created_at: __.String,

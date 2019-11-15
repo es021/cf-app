@@ -248,7 +248,7 @@ export default class HallPage extends React.Component {
           // subText={`See who's interested in ${this.authUser.company.name}`}
           subText={`Browse students' profiles`}
         />
-        <ButtonAction
+        {/* <ButtonAction
           style={{ width: "350px" }}
           btnClass="btn-lg btn-danger"
           onClick={() => { openLiveSession(this.authUser.rec_company); }}
@@ -262,7 +262,7 @@ export default class HallPage extends React.Component {
               console.log("yey")
             })
           }}
-        />
+        /> */}
 
 
       </div >
