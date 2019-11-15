@@ -96,12 +96,7 @@ export class InterestedButton extends React.Component {
       count: 0
     };
   }
-  onClickModeCount(e) {
-    layoutActions.storeUpdateFocusCard("Liked By", InterestedUserList, {
-      entity: this.props.entity,
-      entity_id: this.props.entity_id
-    });
-  }
+ 
   componentWillMount() {
     if (this.props.isModeCount) {
       this.setState({ loading: true });
@@ -120,7 +115,19 @@ export class InterestedButton extends React.Component {
       });
     }
   }
+  onClickModeCount(e) {
+    if(this.props.isNonClickable){
+      return;
+    }
+    layoutActions.storeUpdateFocusCard("Liked By", InterestedUserList, {
+      entity: this.props.entity,
+      entity_id: this.props.entity_id
+    });
+  }
   onClickModeAction(e) {
+    if(this.props.isNonClickable){
+      return;
+    }
     if (this.state.loading) {
       return;
     }
@@ -142,7 +149,7 @@ export class InterestedButton extends React.Component {
       // create
       mutation = "add_interested";
       q = `mutation { add_interested (
-        user_id:${this.authUser.ID}, 
+        user_id:${this.props.customUserId ? this.props.customUserId : this.authUser.ID}, 
         entity:"${this.props.entity}",
         entity_id:${this.props.entity_id}
         ) {ID is_interested} }`;
@@ -204,9 +211,11 @@ export class InterestedButton extends React.Component {
   }
 }
 InterestedButton.propTypes = {
+  customUserId : PropTypes.number,
   customView: PropTypes.func,
   isModeCount: PropTypes.bool,
   isModeAction: PropTypes.bool,
+  isNonClickable : PropTypes.bool,
   ID: PropTypes.number,
   is_interested: PropTypes.number,
   entity: PropTypes.string,
@@ -215,5 +224,6 @@ InterestedButton.propTypes = {
 
 InterestedButton.defaultProps = {
   isModeCount: false,
-  isModeAction: false
+  isModeAction: false,
+  isNonClickable : false,
 };

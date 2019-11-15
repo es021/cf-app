@@ -41,6 +41,14 @@ class UserQuery {
       return "1=1";
     }
   }
+  getSearchInterested(user_id, entity, entity_id, search_params) {
+    if (search_params === "1") {
+      let qIn = `select i.is_interested from interested i where i.entity = '${entity}' and i.entity_id = ${entity_id} and i.user_id = ${user_id}`;
+      return ` 1 IN (${qIn})`;
+    }else{
+      return "1=1"
+    }
+  }
   getSearchSingle(key_input, field, search_params) {
     if (typeof search_params !== "undefined") {
       return `(${this.selectSingleMain(
@@ -248,7 +256,10 @@ class UserQuery {
     for (var k in Single) {
       var key_input = Single[k];
       if (typeof field[key_input] !== "undefined") {
-        meta_sel += `, (${this.selectSingleMain("u.ID", key_input)}) as ${key_input} \n`;
+        meta_sel += `, (${this.selectSingleMain(
+          "u.ID",
+          key_input
+        )}) as ${key_input} \n`;
       }
     }
 
@@ -258,7 +269,7 @@ class UserQuery {
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
-   
+
     return sql;
   }
 
@@ -428,6 +439,7 @@ class UserExec {
     const { AvailabilityExec } = require("./availability-query.js");
     const { MultiExec } = require("./multi-query.js");
     const { VideoExec } = require("./video-query.js");
+    const { InterestedExec } = require("./interested-query.js");
     const { SingleExec } = require("./single-query");
 
     // extra field that need role value to find
@@ -500,6 +512,18 @@ class UserExec {
           }
         }
 
+        // student_listing_interested ****************************************************
+        if (typeof field["student_listing_interested"] !== "undefined") {
+          res[i]["student_listing_interested"] = InterestedExec.single(
+            {
+              user_id: params.company_id,
+              entity: "student_listing",
+              entity_id: user_id
+            },
+            field["student_listing_interested"]
+          );
+        }
+
         // is_profile_completed ****************************************************
         if (field["is_profile_completed"] !== "undefined") {
           res[i]["is_profile_completed"] = true;
@@ -518,9 +542,9 @@ class UserExec {
         // is_active ****************************************************
         if (field["video_resume"] !== "undefined") {
           let p = {
-            entity : "user",
-            entity_id : user_id,
-            meta_key : VideoEnum.RESUME
+            entity: "user",
+            entity_id: user_id,
+            meta_key: VideoEnum.RESUME
           };
           res[i]["video_resume"] = VideoExec.single(p, field["video_resume"]);
         }

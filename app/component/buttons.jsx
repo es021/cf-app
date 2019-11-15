@@ -8,14 +8,14 @@ import { NavLink } from "react-router-dom";
 export class ButtonExport extends React.Component {
 
     componentWillMount() {
-        this.url = getXLSUrl(this.props.action, this.props.filter);
+        //this.url =;
     }
 
     render() {
         var style = {
             marginBottom: "5px"
         }
-        return (<a style={style} className="btn btn-sm btn-success" href={`${this.url}`}><i className="fa fa-file-excel-o left"></i>
+        return (<a style={style} className="btn btn-sm btn-success" href={getXLSUrl(this.props.action, this.props.filter)}><i className="fa fa-file-excel-o left"></i>
             {this.props.text}
         </a>);
     }

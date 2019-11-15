@@ -27,13 +27,18 @@ class SearchForm extends React.Component {
         className="form-row"
         items={this.formItem}
         onSubmit={this.props.formOnSubmit}
-        submitText={<span><i className="fa fa-search left"></i>Search</span>}
+        submitText={
+          <span>
+            <i className="fa fa-search left"></i>Search
+          </span>
+        }
         btnColorClass={"success btn-lg"}
         disableSubmit={this.state.disableSubmit}
         error={this.state.error}
         errorPosition="top"
         emptyOnSuccess={true}
         success={this.state.success}
+        contentBottom={this.props.contentBottom}
       ></Form>
     );
 
@@ -43,7 +48,8 @@ class SearchForm extends React.Component {
 
 SearchForm.propTypes = {
   formItem: PropTypes.object.isRequired,
-  formOnSubmit: PropTypes.func.isRequired
+  formOnSubmit: PropTypes.func.isRequired,
+  contentBottom: PropTypes.object
 };
 
 class GeneralForm extends React.Component {
@@ -312,6 +318,7 @@ export default class GeneralFormPage extends React.Component {
       "Search " + this.props.entity_singular,
       SearchForm,
       {
+        contentBottom: this.props.searchFormContentBottom,
         formItem: this.props.searchFormItem,
         formOnSubmit: d => {
           this.props.searchFormOnSubmit(d);
@@ -434,36 +441,51 @@ export default class GeneralFormPage extends React.Component {
     // console.log("this.props.searchFormItem ", this.props.searchFormItem);
 
     let showFilter = this.props.hasResetFilter && this.state.hasFilter;
-
     let searchForm = null;
-    if(this.props.searchFormItem){
-      if(this.props.searchFormNonPopup){
-        searchForm = 
-        <div className="form-flex search-form-flex">
-              <SearchForm formItem={this.props.searchFormItem} formOnSubmit={(d)=>{
-              this.props.searchFormOnSubmit(d);
+    let resetFilterView = showFilter ? (
+    <div className="reset-filter">
+        <a
+          onClick={() => {
+            this.resetFilter();
+          }}
+        >
+          <i className="fa fa-refresh left"></i>Reset Filter
+        </a>
+      </div>
+    ) : null;
+
+    if (this.props.searchFormItem) {
+      if (this.props.searchFormNonPopup) {
+        searchForm = (
+          <div className="form-flex search-form-flex">
+            <SearchForm
+              formItem={this.props.searchFormItem}
+              contentBottom={
+                <div style={{marginTop:"7px"}}>
+                  {this.props.searchFormContentBottom}
+                  {resetFilterView}
+                </div>
+              }
+              formOnSubmit={d => {
+                this.props.searchFormOnSubmit(d);
                 this.onSuccessOperation("search");
                 this.setState(prevState => {
                   return { hasFilter: true };
                 });
-            }}></SearchForm>
-          </div>
-      }else{
-        searchForm = <h4>
-          <a onClick={this.searchPopup}>
-            <i className="fa fa-search left"></i>Filter Record
-          </a>
-          {showFilter ? " | " : null}
-          {showFilter ? (
-            <a
-              onClick={() => {
-                this.resetFilter();
               }}
-            >
-              <i className="fa fa-refresh left"></i>Reset Filter
+            ></SearchForm>
+          </div>
+        );
+      } else {
+        searchForm = (
+          <h4>
+            <a onClick={this.searchPopup}>
+              <i className="fa fa-search left"></i>Filter Record
             </a>
-          ) : null}
-        </h4>
+            {showFilter ? " | " : null}
+            {resetFilterView}
+          </h4>
+        );
       }
     }
 
@@ -480,7 +502,8 @@ export default class GeneralFormPage extends React.Component {
 }
 
 GeneralFormPage.propTypes = {
-  searchFormNonPopup : PropTypes.bool,
+  searchFormContentBottom: PropTypes.object,
+  searchFormNonPopup: PropTypes.bool,
   hasResetFilter: PropTypes.bool,
   contentBelowFilter: PropTypes.obj,
   entity: PropTypes.string.isRequired, // for table name
@@ -512,7 +535,7 @@ GeneralFormPage.propTypes = {
 };
 
 GeneralFormPage.defaultProps = {
-  searchFormNonPopup : false,
+  searchFormNonPopup: false,
   hasResetFilter: false,
   contentBelowFilter: null,
   searchFormItem: null,

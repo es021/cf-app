@@ -1,6 +1,7 @@
 const { getAxiosGraphQLQuery } = require("../../helper/api-helper");
 const { Time } = require("../../app/lib/time");
 const axios = require("axios");
+const obj2arg = require("graphql-obj2arg");
 
 class XLSApi {
   constructor() {
@@ -67,9 +68,7 @@ class XLSApi {
         return this.session_requests(filter.company_id);
       case "student_listing":
         return this.student_listing(
-          filter.company_id,
-          filter.cf,
-          filter.for_rec
+          filter
         );
     }
   }
@@ -120,16 +119,30 @@ class XLSApi {
   }
 
   //EUR FIX
-  student_listing(cid, cf, for_rec) {
+  student_listing(filter) {
+    let cid = filter.company_id;
+    let cf = filter.cf;
+    let for_rec = filter.for_rec;
+
     // debug
     for_rec = typeof for_rec === "undefined" ? false : for_rec;
 
     // 0. create filename
     var filename = `Student Listing - Company ${cid}`;
 
+    let queryParam = JSON.parse(JSON.stringify(filter));
+    delete queryParam["for_rec"];
+
+    // console.log("queryParam",queryParam)
+    // console.log("queryParam",queryParam)
+    // console.log("queryParam",queryParam)
+    // console.log("queryParam",queryParam)
+    // console.log("queryParam",queryParam)
     // 1. create query
     var query = `query{
-            student_listing(company_id:${cid}, cf:"${cf}") {
+            student_listing(${obj2arg(queryParam, {
+              noOuterBraces: true
+            })}) {
               student{${this.student_field}}
               company{name}
               created_at

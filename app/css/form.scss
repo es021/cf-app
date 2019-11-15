@@ -62,6 +62,8 @@ form {
 	max-width: 700px;
 	margin: auto;
 	margin-bottom: 25px;
+
+	
 }
 
 .form-flex {
@@ -72,6 +74,10 @@ form {
 		.form-submit {
             text-align: left;
             margin-left: 6px;
+		}
+		
+		.reset-filter{
+			margin-left: 6px;
 		}
 
 		.form-item-container {

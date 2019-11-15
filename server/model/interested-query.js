@@ -32,7 +32,7 @@ class InterestedExec {
 	const { UserExec } = require('./user-query.js');
     //var sql = this.isSingle(type) ? this.querySingle(param, extra) : this.queryList(param, extra);
     var sql = this.query(param, type);
-    console.log("[InterestedExec]", sql);
+    // console.log("[InterestedExec]", sql);
     var toRet = DB.query(sql).then(res => {
       if (this.isSingle(type)) {
         if (res.length <= 0) {

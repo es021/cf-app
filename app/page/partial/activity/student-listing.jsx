@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 import { NavLink } from "react-router-dom";
 import GeneralFormPage from "../../../component/general-form";
+import { InterestedButton } from "../../../component/interested";
 import { ButtonExport } from "../../../component/buttons.jsx";
 
 import * as layoutActions from "../../../redux/actions/layout-actions";
@@ -8,7 +9,8 @@ import {
   isComingSoon,
   isRoleRec,
   isRoleStudent,
-  getCF
+  getCF,
+  isRoleAdmin
 } from "../../../redux/actions/auth-actions";
 import UserPopup from "../popup/user-popup";
 //importing for list
@@ -354,10 +356,32 @@ export class StudentListingCard extends React.Component {
     // img_pos={imgObj.img_pos}
     // img_size={imgObj.img_size}
     // img_dimension={"80px"}
+
+    // todo
+
+    // console.log("d.student", d.student);
+    let likeButton = (
+      <InterestedButton
+        customUserId={this.props.company_id}
+        isModeCount={false}
+        isModeAction={true}
+        isNonClickable={isRoleAdmin()}
+        ID={d.student.student_listing_interested.ID}
+        is_interested={d.student.student_listing_interested.is_interested}
+        entity={"student_listing"}
+        entity_id={d.student.ID}
+      ></InterestedButton>
+    );
+
     var item = (
       <ProfileListWide
         is_no_image={true}
-        title={title}
+        title={
+          <div>
+            {likeButton}
+            {title}
+          </div>
+        }
         body={details}
         isNavLink={isNavLink}
         action_to={actionTo}
@@ -386,6 +410,7 @@ export class StudentListing extends React.Component {
   constructor(props) {
     super(props);
     // this.getContentBelowFilter = this.getContentBelowFilter.bind(this);
+    this.searchFormOnSubmit = this.searchFormOnSubmit.bind(this);
     this.state = {
       search: {},
       loadPriv: true,
@@ -403,7 +428,7 @@ export class StudentListing extends React.Component {
         if (privs == null) {
           privs = "";
         }
-        console.log("[StudentListing]", privs);
+        // console.log("[StudentListing]", privs);
         return {
           loadPriv: false,
           privs: privs,
@@ -412,7 +437,40 @@ export class StudentListing extends React.Component {
       });
     });
   }
+  getSearchFormContentBottom() {
+    return null;
+    let exportWithFilter = (
+      <div>
+        <ButtonExport
+          action="student_listing"
+          text={`Export ${this.props.title}`}
+          filter={ {
+            ...this.getMainQueryParamObj(),
+            for_rec: "1"
+          }}
+        ></ButtonExport>
+      </div>
+    );
 
+    return exportWithFilter;
+  }
+  getMainQueryParamObj() {
+    return {
+      ...this.state.search,
+      company_id: this.props.company_id,
+      cf: getCF()
+    };
+  }
+  getMainQueryParam(page, offset) {
+    let toRet = `${this.searchParams} company_id:${
+      this.props.company_id
+    }, cf:"${getCF()}"`;
+
+    if (page && offset) {
+      toRet += `, page: ${page}, offset:${offset}`;
+    }
+    return toRet;
+  }
   componentWillMount() {
     openFeedbackBlockRec();
 
@@ -421,6 +479,7 @@ export class StudentListing extends React.Component {
     this.offset = 10;
     //##########################################
     //  search
+
     this.searchParams = "";
     this.search = {};
     this.searchFormItem = null;
@@ -435,22 +494,6 @@ export class StudentListing extends React.Component {
         placeholder: "John Doe"
       });
 
-      // this.searchFormItem.push({
-      //   label: "Field Of Study",
-      //   name: "search_field_study",
-      //   type: "text",
-      //   placeholder: "Software Engineering"
-      // });
-
-      // this.searchFormItem.push({
-      //   label: "Study Place",
-      //   name: "search_country_study",
-      //   type: "text",
-      //   placeholder: "Malaysia"
-      // });
-
-      //  let cf = getCF()
-
       this.searchFormItem.push({
         label: "University",
         name: "search_university",
@@ -462,18 +505,6 @@ export class StudentListing extends React.Component {
         // filter_val: "Malaysia::United Kingdom",
         filter_find_id: true // kena ubah kat ref-query
       });
-
-      // this.searchFormItem.push({
-      //   label: "Looking For Position",
-      //   name: "search_looking_for",
-      //   type: "select",
-      //   data: [
-      //     "",
-      //     UserEnum.LOOK_FOR_FULL_TIME,
-      //     UserEnum.LOOK_FOR_PART_TIME,
-      //     UserEnum.LOOK_FOR_INTERN
-      //   ]
-      // });
 
       this.searchFormItem.push({
         input_type: "select",
@@ -490,47 +521,52 @@ export class StudentListing extends React.Component {
         type: "input_suggestion",
         table_name: "field_study"
       });
+
+      this.searchFormItem.push({
+        //  label: "Show Favourited Student Only",
+        name: "search_favourite_student",
+        type: "checkbox",
+        data: [{ key: "1", label: "Show Favourited Student Only" }]
+      });
     }
 
+    // this.searchFormItem.push({
+    //   label: "Field Of Study",
+    //   name: "search_field_study",
+    //   type: "text",
+    //   placeholder: "Software Engineering"
+    // });
+
+    // this.searchFormItem.push({
+    //   label: "Study Place",
+    //   name: "search_country_study",
+    //   type: "text",
+    //   placeholder: "Malaysia"
+    // });
+
+    //  let cf = getCF()
+
+    // this.searchFormItem.push({
+    //   label: "Looking For Position",
+    //   name: "search_looking_for",
+    //   type: "select",
+    //   data: [
+    //     "",
+    //     UserEnum.LOOK_FOR_FULL_TIME,
+    //     UserEnum.LOOK_FOR_PART_TIME,
+    //     UserEnum.LOOK_FOR_INTERN
+    //   ]
+    // });
+
     this.searchParamGet = (key, val) => {
+      if (Array.isArray(val)) {
+        if (val.indexOf("1") >= 0) {
+          val = "1";
+        }
+      }
       return val != "" && typeof val !== "undefined" && val != null
         ? `${key}:"${val}",`
         : "";
-    };
-
-    this.searchFormOnSubmit = d => {
-      this.search = d;
-      this.searchParams = "";
-
-      if (d != null) {
-        this.searchParams += this.searchParamGet(
-          "search_student",
-          d.search_student
-        );
-        this.searchParams += this.searchParamGet(
-          "search_field_study",
-          d.search_field_study
-        );
-
-        this.searchParams += this.searchParamGet(
-          "search_university",
-          d.search_university
-        );
-
-        this.searchParams += this.searchParamGet(
-          "search_country_study",
-          d.search_country_study
-        );
-        this.searchParams += this.searchParamGet(
-          "search_looking_for",
-          d.search_looking_for
-        );
-      }
-      console.log("searchFormOnSubmit");
-      this.setState(prevState => {
-        console.log("setState searchFormOnSubmit", prevState);
-        return { search: d };
-      });
     };
 
     this.renderRow = (d, i) => {
@@ -557,16 +593,16 @@ export class StudentListing extends React.Component {
       // let companyIdInq = this.getCompanyIdQuery();
 
       var query = `query{
-          student_listing(${this.searchParams} company_id:${this.props.company_id}, 
-          cf:"${getCF()}", page: ${page}, offset:${offset}) 
+          student_listing(${this.getMainQueryParam(page, offset)})
           {
             student_id
             created_at
             student{
+                student_listing_interested{ID is_interested}
                 prescreens_for_student_listing{status appointment_time}
                 university country_study available_month available_year
                 ID first_name last_name user_email description 
-                doc_links { type label url } field_study{val} looking_for_position{val}
+                doc_links {type label url} field_study{val} looking_for_position{val}
       }}}`;
 
       return getAxiosGraphQLQuery(query);
@@ -640,6 +676,57 @@ export class StudentListing extends React.Component {
   //     ></ButtonExport>
   //   );
   // }
+  searchFormOnSubmit(d) {
+    this.search = d;
+    this.searchParams = "";
+
+    for (var i in d) {
+      if (Array.isArray(d[i])) {
+        try {
+          d[i] = d[i][0];
+        } catch (err) {
+          d[i] = "";
+        }
+      }
+    }
+
+    if (d != null) {
+      this.searchParams += this.searchParamGet(
+        "search_favourite_student",
+        d.search_favourite_student
+      );
+      this.searchParams += this.searchParamGet(
+        "search_student",
+        d.search_student
+      );
+      this.searchParams += this.searchParamGet(
+        "search_field_study",
+        d.search_field_study
+      );
+
+      this.searchParams += this.searchParamGet(
+        "search_university",
+        d.search_university
+      );
+
+      this.searchParams += this.searchParamGet(
+        "search_country_study",
+        d.search_country_study
+      );
+      this.searchParams += this.searchParamGet(
+        "search_looking_for",
+        d.search_looking_for
+      );
+    }
+    // console.log("searchFormOnSubmit", this.searchParams);
+    // console.log("searchFormOnSubmit", this.searchParams);
+    // console.log("searchFormOnSubmit", this.searchParams);
+    this.setState(prevState => {
+      // console.log("setState searchFormOnSubmit", prevState);
+      // console.log("d", d);
+      return { search: d };
+    });
+  }
   render() {
     var view = null;
     if (this.state.loadPriv) {
@@ -679,7 +766,10 @@ export class StudentListing extends React.Component {
         </div>
       ) : (
         <GeneralFormPage
+          searchFormContentBottom={this.getSearchFormContentBottom()}
           searchFormNonPopup={true}
+          searchFormItem={this.searchFormItem}
+          searchFormOnSubmit={this.searchFormOnSubmit}
           hasResetFilter={true}
           // contentBelowFilter={this.getContentBelowFilter()}
           contentBelowFilter={null}
@@ -687,8 +777,6 @@ export class StudentListing extends React.Component {
           dataTitle={this.dataTitle}
           noMutation={true}
           dataOffset={this.offset}
-          searchFormItem={this.searchFormItem}
-          searchFormOnSubmit={this.searchFormOnSubmit}
           renderRow={this.renderRow}
           getDataFromRes={this.getDataFromRes}
           loadData={this.loadData}

@@ -400,7 +400,8 @@ fields["student_listing"] = {
     search_country_study: __.String,
     search_work_av_month: __.String,
     search_work_av_year: __.String,
-    search_looking_for: __.String
+    search_looking_for: __.String,
+    search_favourite_student: __.String,
   },
   resolve(parentValue, arg, context, info) {
     return StudentListingExec.student_listing(arg, graphqlFields(info));

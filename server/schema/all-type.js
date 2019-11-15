@@ -200,6 +200,7 @@ const UserType = new GraphQLObjectType({
     looking_for: __.String,
 
     video_resume: __.IsType(VideoType),
+    student_listing_interested: __.IsType(InterestedType),
 
 
     // rec only
