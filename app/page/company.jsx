@@ -643,10 +643,12 @@ export default class CompanyPage extends Component {
       fontSize: "15px"
     };
 
+    // let colSize = "3"
+    let colSize = "4"
     return (
       <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-3`}>{this.getBtnLike(styleBtnAction)}</div>
-        <div className={`col-md-3`}>
+        <div className={`col-md-${colSize}`}>{this.getBtnLike(styleBtnAction)}</div>
+        {/* <div className={`col-md-${colSize}`}>
           <ButtonAction
             style={styleBtnAction}
             btnClass="btn-lg btn-danger"
@@ -659,11 +661,11 @@ export default class CompanyPage extends Component {
             // subText={`with ${this.state.data.name}`}
             subText={null}
           />
-        </div>
-        <div className={`col-md-3`}>
+        </div> */}
+        <div className={`col-md-${colSize}`}>
           <ButtonAction
             style={styleBtnAction}
-            btnClass="btn-lg btn-warning"
+            btnClass="btn-lg btn-danger"
             onClick={btn_onClickChat}
             icon="comments"
             iconSize="2x"
@@ -672,7 +674,7 @@ export default class CompanyPage extends Component {
             subText={null}
           />
         </div>
-        <div className={`col-md-3`}>
+        <div className={`col-md-${colSize}`}>
           <ButtonAction
             style={styleBtnAction}
             btnClass="btn-lg btn-success"

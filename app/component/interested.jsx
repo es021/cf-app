@@ -178,10 +178,11 @@ export class InterestedButton extends React.Component {
       });
     }
 
+    let classBottom = this.props.isBottom ? "interested-bottom" : "";
     let v = null;
     if (this.props.isModeCount) {
       v = (
-        <div className={`interested in-count`}>
+        <div className={`interested ${classBottom} in-count`}>
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
@@ -195,7 +196,7 @@ export class InterestedButton extends React.Component {
     } else if (this.props.isModeAction) {
       v = (
         <div
-          className={`interested in-action ${
+          className={`interested ${classBottom} in-action ${
             this.state.is_interested == 1 ? "selected" : ""
           }`}
         >
@@ -207,10 +208,11 @@ export class InterestedButton extends React.Component {
         </div>
       );
     }
-    return <div>{v}</div>;
+    return v;
   }
 }
 InterestedButton.propTypes = {
+  isBottom : PropTypes.bool,
   customUserId : PropTypes.number,
   customView: PropTypes.func,
   isModeCount: PropTypes.bool,
@@ -223,6 +225,7 @@ InterestedButton.propTypes = {
 };
 
 InterestedButton.defaultProps = {
+  isBottom : false,
   isModeCount: false,
   isModeAction: false,
   isNonClickable : false,

@@ -921,7 +921,7 @@ class ActvityList extends React.Component {
       </div>
     );
 
-    // openLiveSession use function utk bukak
+    // openLiveSession use function utk open
 
     let topLabel = (
       <div className="label label-danger">

@@ -362,6 +362,7 @@ export class StudentListingCard extends React.Component {
     // console.log("d.student", d.student);
     let likeButton = (
       <InterestedButton
+        isBottom={true}
         customUserId={this.props.company_id}
         isModeCount={false}
         isModeAction={true}
@@ -375,13 +376,9 @@ export class StudentListingCard extends React.Component {
 
     var item = (
       <ProfileListWide
+        rootContent={likeButton}
         is_no_image={true}
-        title={
-          <div>
-            {likeButton}
-            {title}
-          </div>
-        }
+        title={title}
         body={details}
         isNavLink={isNavLink}
         action_to={actionTo}
@@ -444,7 +441,7 @@ export class StudentListing extends React.Component {
         <ButtonExport
           action="student_listing"
           text={`Export ${this.props.title}`}
-          filter={ {
+          filter={{
             ...this.getMainQueryParamObj(),
             for_rec: "1"
           }}

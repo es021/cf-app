@@ -36,8 +36,24 @@ $FONT_SIZE_COUNT: 15px;
 
 .interested.in-count {
   font-size: $FONT_SIZE_COUNT;
-  
 }
-.interested.in-count:hover{
+.interested.in-count:hover {
   color: red;
+}
+
+.interested-bottom{
+  top:unset;
+  bottom: $TOP;
+}
+.interested-bottom.in-action {
+  top:unset;
+  bottom: $TOP;
+  .fa-heart:hover {
+    top:unset;
+    bottom: $TOP - 2;
+  }
+  .fa-heart:active {
+    top:unset;
+    bottom: $TOP;
+  }
 }

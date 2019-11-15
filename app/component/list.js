@@ -473,6 +473,7 @@ export class ProfileListWide extends Component {
     return (
       <div className={className}>
         <div className="card-container container-fluid">
+          {this.props.rootContent}
           {this.props.is_no_image ? (
             <div style={{ marginRight: "15px" }}></div>
           ) : (
@@ -492,6 +493,7 @@ export class ProfileListWide extends Component {
 }
 
 ProfileListWide.propTypes = {
+  rootContent :PropTypes.object,
   title: PropTypes.any.isRequired,
   subtitle: PropTypes.string.isRequired,
   img_url: PropTypes.string,
