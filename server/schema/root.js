@@ -191,6 +191,7 @@ fields["interested_list"] = {
   args: {
     entity: __.String,
     entity_id: __.Int,
+    is_interested: __.Int,
     page: __.Int,
     offset: __.Int
   },
