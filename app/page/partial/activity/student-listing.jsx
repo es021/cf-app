@@ -362,6 +362,13 @@ export class StudentListingCard extends React.Component {
     // console.log("d.student", d.student);
     let likeButton = (
       <InterestedButton
+        tooltipObj={{
+          left: "-36px",
+          bottom: "26px",
+          width: "97px",
+          tooltip: "Show Interest",
+          debug : false
+        }}
         isBottom={true}
         customUserId={this.props.company_id}
         isModeCount={false}
@@ -491,6 +498,10 @@ export class StudentListing extends React.Component {
         placeholder: "John Doe"
       });
 
+      // single
+     
+    
+
       this.searchFormItem.push({
         label: "University",
         name: "search_university",
@@ -502,6 +513,15 @@ export class StudentListing extends React.Component {
         // filter_val: "Malaysia::United Kingdom",
         filter_find_id: true // kena ubah kat ref-query
       });
+
+      this.searchFormItem.push({
+        input_type: "select",
+        label: "Graduation Year",
+        name: "search_graduation_year",
+        type: "input_suggestion",
+        table_name: "year"
+      });
+
 
       this.searchFormItem.push({
         input_type: "select",
@@ -523,7 +543,7 @@ export class StudentListing extends React.Component {
         //  label: "Show Favourited Student Only",
         name: "search_favourite_student",
         type: "checkbox",
-        data: [{ key: "1", label: "Show Favourited Student Only" }]
+        data: [{ key: "1", label: "Show Liked Students Only" }]
       });
     }
 
@@ -707,6 +727,11 @@ export class StudentListing extends React.Component {
       );
 
       this.searchParams += this.searchParamGet(
+        "search_graduation_year",
+        d.search_graduation_year
+      );
+
+      this.searchParams += this.searchParamGet(
         "search_country_study",
         d.search_country_study
       );
@@ -767,7 +792,7 @@ export class StudentListing extends React.Component {
           searchFormNonPopup={true}
           searchFormItem={this.searchFormItem}
           searchFormOnSubmit={this.searchFormOnSubmit}
-          hasResetFilter={true}
+          hasResetFilter={false}
           // contentBelowFilter={this.getContentBelowFilter()}
           contentBelowFilter={null}
           entity_singular={"Student"}

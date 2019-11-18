@@ -7,6 +7,7 @@ import { Loader } from "./loader";
 import List from "../component/list";
 import { PCType, createImageElement } from "../component/profile-card";
 import { createUserTitle } from "../page/users";
+import Tooltip from "../component/tooltip";
 
 export class InterestedUserList extends React.Component {
   constructor(props) {
@@ -204,6 +205,19 @@ export class InterestedButton extends React.Component {
         </div>
       );
     } else if (this.props.isModeAction) {
+      let iconLike = (
+        <Tooltip
+          debug={this.props.tooltipObj.debug}
+          bottom={this.props.tooltipObj.bottom}
+          left={this.props.tooltipObj.left}
+          width={this.props.tooltipObj.width}
+          alignCenter={true}
+          content={
+            <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+          }
+          tooltip={this.props.tooltipObj.tooltip}
+        />
+      );
       v = (
         <div
           style={this.props.customStyle}
@@ -214,15 +228,17 @@ export class InterestedButton extends React.Component {
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
-            <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+            iconLike
           )}
         </div>
       );
     }
+
     return v;
   }
 }
 InterestedButton.propTypes = {
+  tooltipObj: PropTypes.obj,
   finishHandler: PropTypes.func,
   customStyle: PropTypes.object,
   isBottom: PropTypes.bool,

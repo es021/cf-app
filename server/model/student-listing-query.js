@@ -129,6 +129,18 @@ class StudentListingQuery {
       params.search_favourite_student
     );
 
+     // 8. graduation year
+     var join_graduation_year = UserQuery.getSearchSingle(
+      "graduation_year",
+      "j.user_id",
+      params.search_graduation_year
+    );
+    var resume_graduation_year = UserQuery.getSearchSingle(
+      "graduation_year",
+      "r.student_id",
+      params.search_graduation_year
+    );
+
     // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
     //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
 
@@ -159,6 +171,7 @@ class StudentListingQuery {
                 AND ${join_search_work_av}
                 AND ${join_search_looking_for}
                 AND ${join_search_university}
+                AND ${join_graduation_year}
                 AND ${join_search_favourite_student}
                 AND ${join_cf}
 
@@ -176,6 +189,7 @@ class StudentListingQuery {
                 AND ${resume_search_work_av}
                 AND ${resume_search_looking_for}
                 AND ${resume_search_university}
+                AND ${resume_graduation_year}
                 AND ${resume_search_favourite_student}
                 AND ${resume_cf}
 
@@ -208,6 +222,7 @@ class StudentListingQuery {
         AND ${join_search_work_av}
         AND ${join_search_looking_for}
         AND ${join_search_university}
+        AND ${join_graduation_year}
         AND ${join_search_favourite_student}
         AND ${join_cf}
         GROUP BY u.ID
@@ -246,7 +261,7 @@ class StudentListingExec {
 
     var toRet = getCompanyPriv(params.company_id).then(function(priv) {
       var sql = StudentListingQuery.getStudentListing(params, priv);
-      // console.log("[StudentListingExec]", sql);
+      console.log("[StudentListingExec]", sql);
       return DB.query(sql).then(function(res) {
         for (var i in res) {
           var student_id = res[i]["student_id"];
