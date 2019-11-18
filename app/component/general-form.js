@@ -402,6 +402,8 @@ export default class GeneralFormPage extends React.Component {
     var datas = (
       <div key={this.state.key}>
         <List
+          loadCount={this.props.loadCount}
+          getCountFromRes={this.props.getCountFromRes}
           type={listType}
           tableHeader={this.props.tableHeader}
           getDataFromRes={this.props.getDataFromRes}

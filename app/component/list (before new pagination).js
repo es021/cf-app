@@ -12,7 +12,6 @@ export default class List extends React.Component {
     super(props);
     this.page = 0;
     this.load = this.load.bind(this);
-    this.loadCount = this.loadCount.bind(this);
     this.isAppendType = this.isAppendType.bind(this);
     this.showLoadMore = this.showLoadMore.bind(this);
     this.renderDataContent = this.renderDataContent.bind(this);
@@ -25,8 +24,7 @@ export default class List extends React.Component {
       fetching_append: false,
       totalFetched: 0,
       fetchCount: 0,
-      empty: false,
-      count: 0
+      empty: false
     };
 
     this.NEXT = "Next";
@@ -34,17 +32,7 @@ export default class List extends React.Component {
   }
 
   componentWillMount() {
-    this.loadCount();
     this.load(this.NEXT);
-  }
-
-  loadCount() {
-    if (this.props.loadCount) {
-      this.props.loadCount().then(res => {
-        var count = this.props.getCountFromRes(res);
-        this.setState({ count: count });
-      });
-    }
   }
 
   componentDidUpdate() {
@@ -255,57 +243,26 @@ export default class List extends React.Component {
     var extraBottom = null;
 
     if (this.props.type == "list" || this.props.type == "table") {
-      let countView = null;
-      if (this.props.loadCount) {
-        let startCount = (this.page - 1) * this.props.offset + 1;
-        let endCount = this.page * this.props.offset;
-        endCount = endCount > this.state.count ? this.state.count : endCount;
-        countView = (
-          <small>
-            <br></br>
-            {startCount} - {endCount} of {this.state.count}
-            <br></br>
-          </small>
-        );
-      }
-
-      let prevView =
-        this.page > 1 ? (
-          <small style={{ marginRight: "6px" }}>
-            <ButtonLink
-              onClick={() => this.load(this.PREV)}
-              label="<< Prev"
-            ></ButtonLink>
-          </small>
-        ) : null;
-
-      let nextView =
-        this.state.fetchCount >= this.props.offset ? (
-          <small style={{ marginLeft: "6px" }}>
-            <ButtonLink
-              onClick={() => this.load(this.NEXT)}
-              label="Next >>"
-            ></ButtonLink>
-          </small>
-        ) : null;
-
       var paging = (
-        <div
-          className={this.props.pageClass}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "20px",
-            marginTop: "10px"
-          }}
-        >
-          <div style={{ minWidth: "70px" }}>{prevView}</div>
-          <div>
-            <b>Page {this.page}</b>
-            {countView}
-          </div>
-          <div style={{ minWidth: "70px" }}>{nextView}</div>
+        <div className={this.props.pageClass} style={{ marginBottom: "10px" }}>
+          Page <b>{this.page}</b>
+          <br></br>
+          {this.page > 1 ? (
+            <small style={{ marginRight: "6px" }}>
+              <ButtonLink
+                onClick={() => this.load(this.PREV)}
+                label="<< Prev"
+              ></ButtonLink>
+            </small>
+          ) : null}
+          {this.state.fetchCount >= this.props.offset ? (
+            <small style={{ marginLeft: "6px" }}>
+              <ButtonLink
+                onClick={() => this.load(this.NEXT)}
+                label="Next >>"
+              ></ButtonLink>
+            </small>
+          ) : null}
         </div>
       );
       //topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
@@ -536,7 +493,7 @@ export class ProfileListWide extends Component {
 }
 
 ProfileListWide.propTypes = {
-  rootContent: PropTypes.object,
+  rootContent :PropTypes.object,
   title: PropTypes.any.isRequired,
   subtitle: PropTypes.string.isRequired,
   img_url: PropTypes.string,

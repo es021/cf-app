@@ -4,7 +4,7 @@ const { CFQuery } = require("./cf-query");
 const { CompanyEnum } = require("../../config/db-config");
 
 class StudentListingQuery {
-  getStudentListing(params, priv) {
+  getStudentListing(params, priv, isCount = false) {
     //################################################
     // START - adjust params according to companyPriv
     let cfAccessStudent = [params.cf];
@@ -24,11 +24,6 @@ class StudentListingQuery {
     }
     // END - adjust params according to companyPriv
     //################################################
-
-    var limit =
-      typeof params.page !== "undefined" && typeof params.offset !== "undefined"
-        ? DB.prepareLimit(params.page, params.offset)
-        : "";
 
     // **************************
     // filter record
@@ -129,8 +124,8 @@ class StudentListingQuery {
       params.search_favourite_student
     );
 
-     // 8. graduation year
-     var join_graduation_year = UserQuery.getSearchSingle(
+    // 8. graduation year
+    var join_graduation_year = UserQuery.getSearchSingle(
       "graduation_year",
       "j.user_id",
       params.search_graduation_year
@@ -153,8 +148,37 @@ class StudentListingQuery {
       cfAccessStudent
     );
 
+    // prepare limit
+    var limit =
+      typeof params.page !== "undefined" && typeof params.offset !== "undefined"
+        ? DB.prepareLimit(params.page, params.offset)
+        : "";
+
+    // prepare for count
+    let sel_normal = "";
+    let sel_allStudent = "";
+    let order_normal = "";
+    let order_allStudent = "";
+    let group_allStudent = "";
+    if (isCount) {
+      limit = "";
+      sel_normal = `COUNT(Y.*) as total`;
+      order_normal = "";
+
+      sel_allStudent = `COUNT (DISTINCT u.ID) as total`;
+      order_allStudent = "";
+      group_allStudent = "";
+    } else {
+      order_normal = `ORDER BY Y.created_at desc`;
+      sel_normal = `Y.*`;
+
+      group_allStudent = "GROUP BY u.ID";
+      sel_allStudent = `DISTINCT u.ID as student_id, u.user_registered, (CASE WHEN count(dc.ID) >  0 THEN 1 ELSE 0 END) as has_dc`;
+      order_allStudent = "ORDER BY has_dc desc, u.user_registered desc";
+    }
+
     var sql = `
-        SELECT Y.* FROM ( 
+        SELECT ${sel_normal} FROM ( 
             SELECT 
             X.student_id,
             MAX(X.created_at) as created_at
@@ -201,7 +225,7 @@ class StudentListingQuery {
         where c.ID  =  ${params.company_id}
         and ${cf_where}
 
-        ORDER BY Y.created_at desc
+        ${order_normal}
         ${limit} `;
 
     // ###################################################################
@@ -212,8 +236,7 @@ class StudentListingQuery {
     // AND (dl.label like '%Resume%' OR dl.label = 'CV' OR dl.label like '%Curriculum Vitae%')
 
     var sqlAll = `
-        SELECT DISTINCT u.ID as student_id, u.user_registered, 
-        (CASE WHEN count(dc.ID) >  0 THEN 1 ELSE 0 END) as has_dc
+        SELECT ${sel_allStudent}
         FROM wp_cf_users u left outer join doc_link dc ON u.ID = dc.user_id
         WHERE 1=1 
         AND ${join_search_student}
@@ -225,8 +248,8 @@ class StudentListingQuery {
         AND ${join_graduation_year}
         AND ${join_search_favourite_student}
         AND ${join_cf}
-        GROUP BY u.ID
-        ORDER BY has_dc desc, u.user_registered desc
+        ${group_allStudent}
+        ${order_allStudent}
         ${limit} `;
 
     sqlAll = sqlAll.replaceAll("j.user_id", "u.ID");
@@ -255,14 +278,16 @@ function getCompanyPriv(company_id) {
 }
 StudentListingQuery = new StudentListingQuery();
 class StudentListingExec {
-  student_listing(params, field, extra = {}) {
+  student_listing(params, field, isCount = false) {
     var { CompanyExec } = require("./company-query.js");
     var { UserExec } = require("./user-query.js");
-
     var toRet = getCompanyPriv(params.company_id).then(function(priv) {
-      var sql = StudentListingQuery.getStudentListing(params, priv);
+      var sql = StudentListingQuery.getStudentListing(params, priv, isCount);
       console.log("[StudentListingExec]", sql);
       return DB.query(sql).then(function(res) {
+        if(isCount){
+          return res[0]["total"];
+        }
         for (var i in res) {
           var student_id = res[i]["student_id"];
           if (typeof field["student"] !== "undefined") {

@@ -367,7 +367,7 @@ export class StudentListingCard extends React.Component {
           bottom: "26px",
           width: "97px",
           tooltip: "Show Interest",
-          debug : false
+          debug: false
         }}
         isBottom={true}
         customUserId={this.props.company_id}
@@ -499,8 +499,6 @@ export class StudentListing extends React.Component {
       });
 
       // single
-     
-    
 
       this.searchFormItem.push({
         label: "University",
@@ -521,7 +519,6 @@ export class StudentListing extends React.Component {
         type: "input_suggestion",
         table_name: "year"
       });
-
 
       this.searchFormItem.push({
         input_type: "select",
@@ -600,6 +597,17 @@ export class StudentListing extends React.Component {
       );
     };
 
+    this.loadCount = () => {
+      var query = `query{
+        student_listing_count(${this.getMainQueryParam()})
+       }`;
+
+      return getAxiosGraphQLQuery(query);
+    };
+
+    this.getCountFromRes = (res)=>{
+      return res.data.data.student_listing_count
+    }
     // TODO
     // prescreens_for_student_listing{status appointment_time}
     // university study_place major available_month available_year
@@ -788,6 +796,8 @@ export class StudentListing extends React.Component {
         </div>
       ) : (
         <GeneralFormPage
+          loadCount={this.loadCount}
+          getCountFromRes={this.getCountFromRes}
           searchFormContentBottom={this.getSearchFormContentBottom()}
           searchFormNonPopup={true}
           searchFormItem={this.searchFormItem}

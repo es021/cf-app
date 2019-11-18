@@ -270,6 +270,8 @@ export class WebinarHall extends React.Component {
         entity_id={d.ID}
       ></InterestedButton>
     );
+
+    //likeButton = null;
     let v = (
       <div className="hall-webinar" style={{ position: "relative" }}>
         {likeButton}

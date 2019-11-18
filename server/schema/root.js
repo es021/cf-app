@@ -122,7 +122,7 @@ fields["video"] = {
     ID: __.Int,
     entity: __.String,
     entity_id: __.Int,
-    meta_key: __.String,
+    meta_key: __.String
   },
   resolve(parentValue, arg, context, info) {
     return VideoExec.single(arg, graphqlFields(info));
@@ -385,26 +385,38 @@ fields["group_session_joins"] = {
 
 /*******************************************/
 /* student_listing ******************/
+
+let argStudentListing = {
+  company_id: __.IntNonNull,
+  cf: __.StringNonNull,
+  page: __.Int,
+  offset: __.Int,
+  search_student: __.String,
+  // search_major: __.String,
+  // search_study_place: __.String,
+
+  search_university: __.String,
+  search_field_study: __.String,
+  search_country_study: __.String,
+  search_work_av_month: __.String,
+  search_work_av_year: __.String,
+  search_looking_for: __.String,
+  search_favourite_student: __.String,
+  search_graduation_year: __.String
+};
+
+fields["student_listing_count"] = {
+  type: GraphQLInt,
+  args: argStudentListing,
+  resolve(parentValue, arg, context, info) {
+    let isCount = true;
+    return StudentListingExec.student_listing(arg, graphqlFields(info), isCount);
+  }
+};
+
 fields["student_listing"] = {
   type: new GraphQLList(StudentListingType),
-  args: {
-    company_id: __.IntNonNull,
-    cf: __.StringNonNull,
-    page: __.Int,
-    offset: __.Int,
-    search_student: __.String,
-    // search_major: __.String,
-    // search_study_place: __.String,
-
-    search_university: __.String,
-    search_field_study: __.String,
-    search_country_study: __.String,
-    search_work_av_month: __.String,
-    search_work_av_year: __.String,
-    search_looking_for: __.String,
-    search_favourite_student: __.String,
-    search_graduation_year: __.String,
-  },
+  args: argStudentListing,
   resolve(parentValue, arg, context, info) {
     return StudentListingExec.student_listing(arg, graphqlFields(info));
   }
@@ -485,7 +497,7 @@ fields["zoom_invites"] = {
 fields["auditoriums"] = {
   type: new GraphQLList(AuditoriumType),
   args: {
-    user_id : __.Int,
+    user_id: __.Int,
     page: __.IntNonNull,
     offset: __.IntNonNull,
     now_only: __.Boolean,
@@ -643,7 +655,7 @@ fields["company"] = {
   type: CompanyType,
   args: {
     ID: __.IntNonNull,
-    user_id : __.Int
+    user_id: __.Int
   },
   resolve(parentValue, arg, context, info) {
     return CompanyExec.company(arg.ID, graphqlFields(info));
@@ -653,7 +665,7 @@ fields["company"] = {
 fields["companies"] = {
   type: new GraphQLList(CompanyType),
   args: {
-    user_id : __.Int,
+    user_id: __.Int,
     type: __.Int,
     page: __.Int,
     offset: __.Int,

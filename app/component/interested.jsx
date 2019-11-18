@@ -206,19 +206,25 @@ export class InterestedButton extends React.Component {
         </div>
       );
     } else if (this.props.isModeAction) {
-      let iconLike = (
-        <Tooltip
-          debug={this.props.tooltipObj.debug}
-          bottom={this.props.tooltipObj.bottom}
-          left={this.props.tooltipObj.left}
-          width={this.props.tooltipObj.width}
-          alignCenter={true}
-          content={
-            <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
-          }
-          tooltip={this.props.tooltipObj.tooltip}
-        />
-      );
+      let iconLike = null;
+      if(this.props.tooltipObj){
+        iconLike = (
+          <Tooltip
+            debug={this.props.tooltipObj.debug}
+            bottom={this.props.tooltipObj.bottom}
+            left={this.props.tooltipObj.left}
+            width={this.props.tooltipObj.width}
+            alignCenter={true}
+            content={
+              <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+            }
+            tooltip={this.props.tooltipObj.tooltip}
+          />
+        );
+      }else{
+        iconLike = <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+      }
+       
       v = (
         <div
           style={this.props.customStyle}
@@ -255,6 +261,7 @@ InterestedButton.propTypes = {
 };
 
 InterestedButton.defaultProps = {
+  tooltipObj: null,
   customStyle: {},
   isBottom: false,
   isModeCount: false,
