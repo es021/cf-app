@@ -1,5 +1,12 @@
 
-ALTER TABLE `pre_screens` ADD `is_onsite_call` SMALLINT NOT NULL DEFAULT '0' AFTER `is_expired`; 
+--clearing test data
+update cf_map set cf = 'MDEC_TEST' 
+where cf = 'MDEC' and entity_id IN (2279, 136,225,302,328,2247)
+and entity = 'user'
+
+update interested set is_interested = 0
+where user_id in (2279, 136,225,302,328,2247)
+
 
 -- ##############################################################
 -- ##############################################################
@@ -7,6 +14,7 @@ ALTER TABLE `pre_screens` ADD `is_onsite_call` SMALLINT NOT NULL DEFAULT '0' AFT
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
 -- ##############################################################
 -- ##############################################################
+ALTER TABLE `pre_screens` ADD `is_onsite_call` SMALLINT NOT NULL DEFAULT '0' AFTER `is_expired`; 
 
 -- new table video
 CREATE TABLE `wp_career_fair`.`video` ( 

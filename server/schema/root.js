@@ -655,6 +655,8 @@ fields["companies"] = {
   args: {
     user_id : __.Int,
     type: __.Int,
+    page: __.Int,
+    offset: __.Int,
     cf: __.String,
     accept_prescreen: __.Int,
     include_sponsor: __.Int,

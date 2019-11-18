@@ -47,6 +47,8 @@ class CompanyQuery {
 
         var ignore_type = (typeof params.ignore_type === "undefined") ? "1=1" : `c.type NOT IN ${params.ignore_type}`;
 
+        var limit = DB.prepareLimit(params.page, params.offset);
+
         var order_by = (typeof params.order_by === "undefined") ?
             `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc` :
             `order by ${params.order_by}`;
@@ -56,7 +58,7 @@ class CompanyQuery {
             and ${include_sponsor} and ${type_where} 
             and ${cf_where} and ${ps_where}
             and c.ID != ${SupportUserID}
-            ${order_by}`;
+            ${order_by} ${limit}`;
 
         //console.log(sql);
         return sql;

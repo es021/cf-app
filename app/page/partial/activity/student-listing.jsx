@@ -480,7 +480,7 @@ export class StudentListing extends React.Component {
 
     this.loadPriv();
 
-    this.offset = 10;
+    this.offset = 5;
     //##########################################
     //  search
 

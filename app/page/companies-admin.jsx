@@ -60,7 +60,7 @@ class CompaniesPage extends React.Component {
     }
 
     componentWillMount() {
-        this.offset = 50;
+        this.offset = 5;
         this.tableHeader = <thead>
             <tr>
                 <th>#</th>
@@ -95,7 +95,9 @@ class CompaniesPage extends React.Component {
     loadData(page, offset) {
         var params = {
             include_sponsor: 1,
-            order_by: "updated_at desc"
+            order_by: "updated_at desc",
+            page: page, 
+            offset: offset
         };
 
         if (isRoleOrganizer()) {
