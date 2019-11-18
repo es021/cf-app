@@ -24,6 +24,7 @@ export class InterestedUserList extends React.Component {
       entity_id:${this.props.entity_id},
       page: ${page},
       offset: ${offset},
+      is_interested : 1
       ){
       user_id
       user{ID first_name last_name img_url img_pos img_size}}}`);
