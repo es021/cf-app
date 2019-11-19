@@ -99,6 +99,7 @@ export function openSIFormAnytime(student_id, company_id) {
 
 // Create Scheduled Interview 2
 export function openSIAddForm(student_id, company_id, type, success) {
+  console.log("company_id",company_id)
   if (!(student_id && isRoleAdmin())) {
     if (!(student_id && company_id)) {
       layoutActions.errorBlockLoader(
@@ -408,14 +409,16 @@ export class ScheduledInterview extends React.Component {
 
       //for create new
       // kalau admin akan masukkan dalam d
-      if (!edit && !isRoleAdmin()) {
+      // if (!edit && !isRoleAdmin()) {
+      if (!edit) {
         d[Prescreen.COMPANY_ID] = this.props.company_id;
+        d[Prescreen.COMPANY_ID] = Number.parseInt(d[Prescreen.COMPANY_ID]);
       }
 
       //for create new
-      if (!edit && isRoleAdmin()) {
-        d[Prescreen.COMPANY_ID] = Number.parseInt(d[Prescreen.COMPANY_ID]);
-      }
+      // if (!edit && isRoleAdmin()) {
+      //   d[Prescreen.COMPANY_ID] = Number.parseInt(d[Prescreen.COMPANY_ID]);
+      // }
 
       if (d.status == PrescreenEnum.STATUS_PENDING) {
         d[Prescreen.APPNMENT_TIME] = null;
@@ -582,6 +585,7 @@ export class ScheduledInterview extends React.Component {
   getFormData(edit, singleStudent, studentData, companyData) {
     var ret = [{ header: "Scheduled Session Form" }];
 
+    // TODO
     if (companyData !== null) {
       ret.push({
         label: "Company",

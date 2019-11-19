@@ -45,10 +45,29 @@ class UserQuery {
     if (search_params === "1") {
       let qIn = `select i.is_interested from interested i where i.entity = '${entity}' and i.entity_id = ${entity_id} and i.user_id = ${user_id}`;
       return ` 1 IN (${qIn})`;
-    }else{
-      return "1=1"
+    } else {
+      return "1=1";
     }
   }
+  getSearchGradeCategory(key_input, user_id, search_params) {
+    if (!search_params) {
+      return "1=1";
+    }
+    let q = `(SELECT s.val FROM 
+        single_input s, ref_grade_category r
+        where r.val = '${search_params}'
+        and s.key_input = '${key_input}'
+        and s.entity = 'user' 
+        and s.entity_id = ${user_id}
+        and 
+        (
+            (s.val >= r.start_val and s.val < r.end_val) 
+          or
+            s.val like CONCAT('%', r.keyword, '%')
+        )) IS NOT NULL`;
+
+    return q;
+  } 
   getSearchSingle(key_input, field, search_params) {
     if (typeof search_params !== "undefined") {
       return `(${this.selectSingleMain(

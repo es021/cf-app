@@ -311,6 +311,11 @@ export default class UserPopup extends Component {
           value: this.isValueEmpty(d.looking_for_position)
             ? notSpecifed
             : this.createListForMulti(d.looking_for_position)
+        },
+        {
+          label: "Grade / CGPA",
+          icon: "book",
+          value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
         }
         // {
         //   label: "Work Availability Date",
@@ -373,7 +378,7 @@ export default class UserPopup extends Component {
           onClick={() => {
             openSIAddForm(
               this.props.id,
-              this.authUser.rec_company,
+              this.props.company_id,
               PrescreenEnum.ST_PROFILE
             );
           }}
@@ -696,6 +701,7 @@ UserPopup.propTypes = {
   id: PropTypes.number.isRequired,
   role: PropTypes.string,
   companyPrivs: PropTypes.object,
+  company_id : PropTypes.number,
   isSessionPage: PropTypes.bool
 };
 

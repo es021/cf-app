@@ -1,32 +1,52 @@
-$background :rgba(0,0,0,0.8);
-$color:white;
+$background: rgba(0, 0, 0, 0.8);
+$color: white;
 .my-tooltip {
-    ol,
-    ul {
-        padding-left: 15px;
-        margin-bottom: 0;
-        text-align: left;
+  ol,
+  ul {
+    padding-left: 15px;
+    margin-bottom: 0;
+    text-align: left;
+  }
+  position: relative;
+  .my-tt-content {
+    cursor: pointer;
+  }
+  .my-tt-container {
+    z-index: 1000;
+    position: absolute;
+    .my-tt-mes {
+      border-radius: 5px;
+      color: white;
+      font-size: 12px;
+      background: $background;
+      padding: 7px 5px;
     }
-    position: relative;
-    .my-tt-content {
-        cursor: pointer;
+    .my-tt-arrow {
+      margin: auto;
+      width: 10px;
+      border: rgba(0, 0, 0, 0) solid 10px;
+      border-top: $background 10px solid;
+      border-bottom-width: 0px;
     }
-    .my-tt-container {
-        z-index: 1000;
+    .my-tt-arrow-right {
+      right: -10px;
+      top: 6px;
+      position: absolute;
+      margin: auto;
+      width: 10px;
+      border: rgba(0, 0, 0, 0) solid 10px;
+      border-left: $background 10px solid;
+      border-right-width: 0px;
+    }
+    .my-tt-arrow-left {
+        left: -10px;
+        top: 6px;
         position: absolute;
-        .my-tt-mes {
-            border-radius: 5px;
-            color: white;
-            font-size: 12px;
-            background: $background;
-            padding: 7px 5px;
-        }
-        .my-tt-arrow {
-            margin: auto;
-            width: 10px;
-            border: rgba(0, 0, 0, 0) solid 10px;
-            border-top: $background 10px solid;
-            border-bottom-width: 0px;
-        }
-    }
+        margin: auto;
+        width: 10px;
+        border: rgba(0, 0, 0, 0) solid 10px;
+        border-right: $background 10px solid;
+        border-left-width: 0px;
+      }
+  }
 }

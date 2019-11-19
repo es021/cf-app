@@ -136,11 +136,20 @@ class StudentListingQuery {
       params.search_graduation_year
     );
 
-    // var cf_where = `(select ms.cf from cf_map ms where ms.entity = 'user' and ms.entity_id = Y.student_id limit 0, 1)
-    //         in (select ms.cf from cf_map ms where ms.entity = 'company' and ms.entity_id = c.ID)`;
+    // 9. grade category
+    var join_grade_category = UserQuery.getSearchGradeCategory(
+      'grade',
+      "j.user_id",
+      params.search_grade_category
+    );
+    var resume_grade_category = UserQuery.getSearchGradeCategory(
+      'grade',
+      "r.student_id",
+      params.search_grade_category
+    );
+
 
     var cf_where = "1=1";
-
     var join_cf = CFQuery.getCfInList("j.user_id", "user", cfAccessStudent);
     var resume_cf = CFQuery.getCfInList(
       "r.student_id",
@@ -197,6 +206,7 @@ class StudentListingQuery {
                 AND ${join_search_university}
                 AND ${join_graduation_year}
                 AND ${join_search_favourite_student}
+                AND ${join_grade_category}
                 AND ${join_cf}
 
                 UNION
@@ -215,6 +225,7 @@ class StudentListingQuery {
                 AND ${resume_search_university}
                 AND ${resume_graduation_year}
                 AND ${resume_search_favourite_student}
+                AND ${resume_grade_category}
                 AND ${resume_cf}
 
             ) X
@@ -247,6 +258,7 @@ class StudentListingQuery {
         AND ${join_search_university}
         AND ${join_graduation_year}
         AND ${join_search_favourite_student}
+        AND ${join_grade_category}
         AND ${join_cf}
         ${group_allStudent}
         ${order_allStudent}

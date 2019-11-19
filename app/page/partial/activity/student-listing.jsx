@@ -82,7 +82,7 @@ export class StudentListingCard extends React.Component {
       search.search_student,
       true,
       undefined,
-      { companyPrivs: this.props.privs }
+      { companyPrivs: this.props.privs, company_id : this.props.company_id }
     );
 
     // create uni view
@@ -480,7 +480,7 @@ export class StudentListing extends React.Component {
 
     this.loadPriv();
 
-    this.offset = 5;
+    this.offset = 5;  
     //##########################################
     //  search
 
@@ -534,6 +534,14 @@ export class StudentListing extends React.Component {
         name: "search_field_study",
         type: "input_suggestion",
         table_name: "field_study"
+      });
+
+      this.searchFormItem.push({
+        input_type: "select",
+        label: "Grade",
+        name: "search_grade_category",
+        type: "input_suggestion",
+        table_name: "grade_category"
       });
 
       this.searchFormItem.push({
@@ -746,6 +754,11 @@ export class StudentListing extends React.Component {
       this.searchParams += this.searchParamGet(
         "search_looking_for",
         d.search_looking_for
+      );
+
+      this.searchParams += this.searchParamGet(
+        "search_grade_category",
+        d.search_grade_category
       );
     }
     // console.log("searchFormOnSubmit", this.searchParams);

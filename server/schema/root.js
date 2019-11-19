@@ -402,7 +402,8 @@ let argStudentListing = {
   search_work_av_year: __.String,
   search_looking_for: __.String,
   search_favourite_student: __.String,
-  search_graduation_year: __.String
+  search_graduation_year: __.String,
+  search_grade_category: __.String,
 };
 
 fields["student_listing_count"] = {

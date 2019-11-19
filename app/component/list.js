@@ -253,12 +253,14 @@ export default class List extends React.Component {
     var fetchBtn = null;
     var extraTop = null;
     var extraBottom = null;
+    let endCount = 0;
+    let startCount = 0;
 
     if (this.props.type == "list" || this.props.type == "table") {
       let countView = null;
       if (this.props.loadCount) {
-        let startCount = (this.page - 1) * this.props.offset + 1;
-        let endCount = this.page * this.props.offset;
+        startCount = (this.page - 1) * this.props.offset + 1;
+        endCount = this.page * this.props.offset;
         endCount = endCount > this.state.count ? this.state.count : endCount;
         countView = (
           <small>
@@ -288,6 +290,11 @@ export default class List extends React.Component {
             ></ButtonLink>
           </small>
         ) : null;
+
+      // remove next kalau dah page last
+      if (this.props.loadCount && endCount >= this.state.count) {
+        nextView = null;
+      }
 
       var paging = (
         <div

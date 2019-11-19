@@ -1,15 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import VacancyPage from '../../vacancy';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import VacancyPage from "../../vacancy";
 
 export default class VacancyPopup extends Component {
-    render(){
-        return <VacancyPage id={this.props.id} isPopup={true}></VacancyPage>
-    }
+  render() {
+    return <div style={{padding:"10px 20px", position:"relative"}} >
+      <VacancyPage
+        {...this.props}
+        id={this.props.id}
+        isPopup={true}
+      ></VacancyPage>
+    </div>;
+  }
 }
 
 VacancyPopup.propTypes = {
-    id: PropTypes.number
+  id: PropTypes.number
 };
 
 /*

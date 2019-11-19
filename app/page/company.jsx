@@ -60,6 +60,7 @@ class VacancyList extends React.Component {
     super(props);
     this.loadData = this.loadData.bind(this);
     this.renderList = this.renderList.bind(this);
+    this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
   }
 
@@ -84,7 +85,12 @@ class VacancyList extends React.Component {
   componentWillMount() {
     this.offset = 6;
   }
-
+  onClickCard(d) {
+    layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, {
+      id: d.ID,
+      isRecThisCompany: this.isRecThisCompany()
+    });
+  }
   isRecThisCompany() {
     return (
       (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
@@ -114,6 +120,14 @@ class VacancyList extends React.Component {
         is_interested={d.interested.is_interested}
         entity={"vacancies"}
         entity_id={d.ID}
+        tooltipObj={{
+          arrowPosition: "right",
+          left: "-110px",
+          bottom: "-2px",
+          width: "97px",
+          tooltip: "Show Interest",
+          debug: false
+        }}
       ></InterestedButton>
     );
 
@@ -121,7 +135,14 @@ class VacancyList extends React.Component {
       <div className="vacancy-card">
         {interestedBtn}
         <div className="img">{img}</div>
-        <div className="title">{d.title}</div>
+        <div
+          className="title btn-link"
+          onClick={() => {
+            this.onClickCard(d);
+          }}
+        >
+          {d.title}
+        </div>
         <div className="location">{d.location}</div>
         <div className="type">{d.type ? d.type + " Job" : null}</div>
       </div>
@@ -133,6 +154,7 @@ class VacancyList extends React.Component {
         minHeight={"180px"}
         width={"250px"}
         body={body}
+        paramForOnClick={d}
         onClick={null}
       ></EmptyCard>
     );
@@ -644,10 +666,12 @@ export default class CompanyPage extends Component {
     };
 
     // let colSize = "3"
-    let colSize = "4"
+    let colSize = "4";
     return (
       <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-${colSize}`}>{this.getBtnLike(styleBtnAction)}</div>
+        <div className={`col-md-${colSize}`}>
+          {this.getBtnLike(styleBtnAction)}
+        </div>
         {/* <div className={`col-md-${colSize}`}>
           <ButtonAction
             style={styleBtnAction}
@@ -830,7 +854,7 @@ export default class CompanyPage extends Component {
         <div>
           {!this.isRecThisCompany() || this.props.displayOnly
             ? null
-            : this.getBtnLike({fontSize:"15px", width:"100%"})}
+            : this.getBtnLike({ fontSize: "15px", width: "100%" })}
           {/* {this.props.displayOnly ? null : forumLink} */}
           {gSession}
         </div>

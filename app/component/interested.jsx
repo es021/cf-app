@@ -210,15 +210,12 @@ export class InterestedButton extends React.Component {
       if(this.props.tooltipObj){
         iconLike = (
           <Tooltip
-            debug={this.props.tooltipObj.debug}
-            bottom={this.props.tooltipObj.bottom}
-            left={this.props.tooltipObj.left}
-            width={this.props.tooltipObj.width}
+            {...this.props.tooltipObj}
             alignCenter={true}
             content={
               <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
             }
-            tooltip={this.props.tooltipObj.tooltip}
+           
           />
         );
       }else{

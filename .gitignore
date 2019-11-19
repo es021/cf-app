@@ -6,6 +6,7 @@ npm-debug.log
 package.json
 note/note-ignore
 package-lock.json
+backup/db
 public/upload/
 server/ignore/
 server/secret/secret.js
