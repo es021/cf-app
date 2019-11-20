@@ -53,6 +53,8 @@ class UserQuery {
     if (!search_params) {
       return "1=1";
     }
+
+    let val  = `CONVERT(REPLACE(REPLACE(s.val,'CGPA',''),':',''), DOUBLE)`;
     let q = `(SELECT s.val FROM 
         single_input s, ref_grade_category r
         where r.val = '${search_params}'
@@ -61,7 +63,7 @@ class UserQuery {
         and s.entity_id = ${user_id}
         and 
         (
-            (s.val >= r.start_val and s.val < r.end_val) 
+            (${val} >= r.start_val and ${val} < r.end_val) 
           or
             s.val like CONCAT('%', r.keyword, '%')
         )) IS NOT NULL`;
