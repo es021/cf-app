@@ -54,7 +54,8 @@ class UserQuery {
       return "1=1";
     }
 
-    let val  = `CONVERT(REPLACE(REPLACE(s.val,'CGPA',''),':',''), DOUBLE)`;
+    // let val  = `CONVERT(REPLACE(REPLACE(s.val,'CGPA',''),':',''), DOUBLE)`;
+    let val  = `s.val`;
     let q = `(SELECT s.val FROM 
         single_input s, ref_grade_category r
         where r.val = '${search_params}'
