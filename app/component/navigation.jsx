@@ -388,7 +388,8 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
-      disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
+      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
+      //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
     },
     {
       url: "/overview",
