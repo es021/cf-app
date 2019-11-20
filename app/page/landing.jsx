@@ -67,7 +67,6 @@ export default class LandingPage extends React.Component {
 
     var OrgConfig = getCFOrg();
     this.organizations = OrgConfig.map((d, i) => {
-
       let icons = d.data.map((_d, _i) => {
         return this.getOrgItem(_d, d.icon_size);
       });
@@ -78,8 +77,8 @@ export default class LandingPage extends React.Component {
           <br></br>
           <br></br>
         </div>
-      )
-    })
+      );
+    });
     // this.university = OrgConfig.University.map((d, i) => {
     //     return this.getOrgItem(d, 85);
     // });
@@ -173,31 +172,48 @@ export default class LandingPage extends React.Component {
     //  <i className="fa fa-suitcase left"></i>Recruiter</NavLink>
 
     document.setTitle("Home");
-    var register = (
-      <div>
-        <h4>Register As</h4>
-        <div
-          style={{ boxShadow: "5px 5px 8px -1px rgba(0,0,0,0.5)" }}
-          className="item-small btn-group btn-group-justified"
+    // var register = (
+    //   <div>
+    //     {/* <h4>Register As</h4> */}
+    //     <div
+    //       style={{ boxShadow: "5px 5px 8px -1px rgba(0,0,0,0.5)" }}
+    //       className="item-small btn-group btn-group-justified"
+    //     >
+    //       <NavLink
+    //         to={`${RootPath}/auth/sign-up`}
+    //         className="btn btn-lg btn-success"
+    //       >
+    //         <i className="fa fa-user-plus left"></i>Register Now
+    //       </NavLink>
+    //       <a
+    //         target="blank"
+    //         href={`${LandingUrl}#Companies`}
+    //         className="btn btn-lg btn-danger"
+    //       >
+    //         <i className="fa fa-suitcase left"></i>Recruiter
+    //       </a>
+    //     </div>
+    //     <br></br>
+    //     <br></br>
+    //   </div>
+    // );
+
+    var register = [
+      <br></br>,
+      <div
+        style={{ boxShadow: "5px 5px 8px -1px rgba(0,0,0,0.5)" }}
+        className="item-small btn-group btn-group-justified"
+      >
+        <NavLink
+          to={`${RootPath}/auth/sign-up`}
+          className="btn btn-lg btn-success"
         >
-          <NavLink
-            to={`${RootPath}/auth/sign-up`}
-            className="btn btn-lg btn-success"
-          >
-            <i className="fa fa-user left"></i>Student
-          </NavLink>
-          <a
-            target="blank"
-            href={`${LandingUrl}#Companies`}
-            className="btn btn-lg btn-danger"
-          >
-            <i className="fa fa-suitcase left"></i>Recruiter
-          </a>
-        </div>
-        <br></br>
-        <br></br>
-      </div>
-    );
+          <i className="fa fa-user-plus left"></i>Register As Student
+        </NavLink>
+      </div>,
+      <br></br>,
+      <br></br>
+    ];
 
     var intro = (
       <h1 style={{ marginTop: "5px" }}>

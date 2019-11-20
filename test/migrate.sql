@@ -1,4 +1,18 @@
 
+-- disabled student from old vicaf
+update  wp_cf_users set user_email = CONCAT('DELETED_',user_email)
+where ID IN (SELECT DISTINCT m.entity_id from cf_map m 
+    WHERE 1=1
+    and m.cf IN ('EUR', 'USA', 'NZL', 'MAS', 'UK', 'USA19', 'CHN', 'TEST', 'ANE')
+    and m.entity = 'user'
+    and 
+    (
+        select m.meta_value from wp_cf_usermeta m 
+        where m.meta_key = 'wp_cf_capabilities' 
+        and m.entity_id = m.user_id
+    ) like '%student%'
+)
+
 --clearing test data
 update cf_map set cf = 'MDEC_TEST' 
 where cf = 'MDEC' and entity_id IN (2279, 136,225,302,328,2247)

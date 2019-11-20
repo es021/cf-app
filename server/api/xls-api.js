@@ -28,7 +28,6 @@ class XLSApi {
         interested_job_location {val}
     `;
 
-
     this.DateTime = [
       "created_at",
       "updated_at",
@@ -67,9 +66,7 @@ class XLSApi {
       case "session_requests":
         return this.session_requests(filter.company_id);
       case "student_listing":
-        return this.student_listing(
-          filter
-        );
+        return this.student_listing(filter);
     }
   }
 
@@ -231,13 +228,12 @@ class XLSApi {
       let multiArr = newData[key];
       let multiStr = "";
       if (Array.isArray(multiArr)) {
-        multiArr.map((d, i) => {
-          i = Number.parseInt(i) + 1;
+        multiArr.map((d, j) => {
           let toRet = "";
-          if (i > 0) {
-            toRet += "<br> ";
+          if (j > 0) {
+            toRet += " | ";
           }
-          multiStr += `${toRet}${i}. ${d.val}`;
+          multiStr += `${toRet}${d.val}`;
         });
         newData[key] = multiStr;
       } else {

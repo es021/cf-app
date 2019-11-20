@@ -270,9 +270,9 @@ export default class SignUpPage extends React.Component {
           <h3>
             Student Registration<br></br>
           </h3>
-          <a target="_blank" href={`${LandingUrl}#Companies`}>
+          {/* <a target="_blank" href={`${LandingUrl}#Companies`}>
             Not A Student?
-          </a>
+          </a> */}
           <Form
             className="form-row"
             items={formItems}
