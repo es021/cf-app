@@ -103,7 +103,7 @@ class VacancyList extends React.Component {
     let img = createImageElement(
       com.img_url,
       com.img_position,
-      d.img_size,
+      com.img_size,
       "50px",
       "",
       PCType.COMPANY
