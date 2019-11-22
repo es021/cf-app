@@ -30,7 +30,7 @@ import {
 // ############################################
 // CF - START
 //const CF_DEFAULT = "UK";
-const CF_DEFAULT = "USA19";
+const CF_DEFAULT = "MDEC";
 
 const LOCAL_STORAGE_CF = "cf-seeds-job-fair";
 export function setLocalStorageCf(cfArr) {
