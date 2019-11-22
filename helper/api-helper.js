@@ -168,6 +168,15 @@ function getPHPApiAxios(script, params) {
 	return axios.post(requestUrl, qs.stringify(params), config);
 }
 
+function getPHPNotificationApiAxios(script, params) {
+	var requestUrl = AppConfig.PHPNotificationApi + `${script}.php`;
+	console.log(requestUrl);
+	var config = {
+		proxy: false
+	};
+	return axios.post(requestUrl, qs.stringify(params), config);
+}
+
 // only in ajax_external -- response is fixed here
 function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = false) {
 
@@ -212,5 +221,6 @@ module.exports = {
 	getStaticAxios,
 	getAxiosGraphQLQuery,
 	getPHPApiAxios,
+	getPHPNotificationApiAxios,
 	getWpAjaxAxios
 };

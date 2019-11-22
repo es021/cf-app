@@ -856,6 +856,7 @@ fields["prescreens"] = {
     status_4: __.String,
     status_5: __.String,
 
+    is_onsite_call: __.Int,
     special_type: __.String,
     page: __.Int,
     offset: __.Int,

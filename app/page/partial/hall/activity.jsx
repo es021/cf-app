@@ -13,7 +13,8 @@ import {
   SessionRequestEnum,
   EntityRemoved,
   GroupSessionJoin,
-  LogEnum
+  LogEnum,
+  CFSMeta
 } from "../../../../config/db-config";
 import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
@@ -21,7 +22,7 @@ import { Time } from "../../../lib/time";
 import { showNotification } from "../../../lib/notification";
 import { RootPath } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
-import { getAuthUser } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCFObj } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";
 import UserPopup, { createUserDocLinkList } from "../popup/user-popup";
 import {
@@ -795,7 +796,10 @@ class ActvityList extends React.Component {
         break;
       case PrescreenEnum.STATUS_APPROVED:
         if (isRoleRec()) {
-          if (d.is_onsite_call == 1) {
+          if (
+            d.is_onsite_call == 1 &&
+            getCFObj()[CFSMeta.HALL_CFG_ONSITE_CALL_USE_GROUP] == 1
+          ) {
             btnStartVCall = (
               <div
                 data-appointment_time={d.appointment_time}

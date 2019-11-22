@@ -11,6 +11,7 @@ import {
 import { LandingUrl, IsNewHall } from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
+import VolunteerScheduledInterview from "../page/volunteer-scheduled-interview";
 import LoginPage from "../page/login";
 import SignUpPage from "../page/sign-up";
 import AboutPage from "../page/about";
@@ -57,7 +58,8 @@ import {
   isRoleOrganizer,
   isRoleSupport,
   isRoleAdmin,
-  isComingSoon
+  isComingSoon,
+  isRoleVolunteer
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -70,6 +72,7 @@ function getHomeComponent(COMING_SOON) {
       if (isRoleStudent()) homeComponent = HallPage;
       else if (isRoleRec()) homeComponent = HallPage;
       else if (isRoleAdmin()) homeComponent = HallPage;
+      else if (isRoleVolunteer()) homeComponent = VolunteerScheduledInterview;
     } else {
       if (COMING_SOON) {
         var homeComponent = ComingSoonPage;
@@ -125,6 +128,21 @@ function getMenuItem(COMING_SOON) {
       hd_app: true,
       hd_auth: true
     },
+    // ###############################################################
+    // VOLUNTEER
+    {
+      url: "/manage-scheduled-interview",
+      label: "Manage Scheduled Interview",
+      icon: "building",
+      component: VolunteerScheduledInterview,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleVolunteer() && !isRoleAdmin()
+    },
+    // ###############################################################
+    // RECRUITER
     {
       url: "/manage-company/:id/:current",
       label: "My Company",
@@ -138,6 +156,8 @@ function getMenuItem(COMING_SOON) {
       default_param: { id: getAuthUser().rec_company, current: "about" },
       disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
     },
+    // ###############################################################
+    // ADMIN
     {
       // Admin Only
       url: "/students",

@@ -264,6 +264,7 @@ const CfsType = new GraphQLObjectType({
     page_banner: __.String,
     can_login: __.Int,
     can_register: __.Int,
+    hall_cfg_onsite_call_use_group  : __.Int,
 
     // for org
     organizations : __.String,

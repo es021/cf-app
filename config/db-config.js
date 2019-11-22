@@ -149,6 +149,7 @@ const UserEnum = {
   LOOK_FOR_FULL_TIME: "Full-Time",
   LOOK_FOR_PART_TIME: "Part-Time",
   LOOK_FOR_INTERN: "Internship",
+  ROLE_VOLUNTEER: "volunteer",
   ROLE_STUDENT: "student",
   ROLE_RECRUITER: "recruiter",
   ROLE_ADMIN: "administrator",
@@ -236,7 +237,8 @@ const Prescreen = {
   IS_ONSITE_CALL: "is_onsite_call",
   SPECIAL_TYPE: "special_type",
   STATUS: "status",
-  UPDATED_BY: "updated_by"
+  UPDATED_BY: "updated_by",
+  UPDATED_AT: "updated_at"
 };
 
 // Scheduled Interview
@@ -620,6 +622,7 @@ const CFSMeta = {
   CAN_REGISTER: "can_register",
   CAN_LOGIN: "can_login",
 
+  HALL_CFG_ONSITE_CALL_USE_GROUP : "hall_cfg_onsite_call_use_group",
   // for CareerFairOrg
   ORGANIZATIONS: "organizations",
   

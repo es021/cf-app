@@ -13,7 +13,7 @@ const { LogApi } = require("./other-api");
 
 const { Secret } = require("../secret/secret");
 
-const { AuthAPIErr }  = require("../../config/auth-config");
+const { AuthAPIErr } = require("../../config/auth-config");
 
 const MailChimp = {
   //ListId: "5be77e4419", // Test List
@@ -32,9 +32,11 @@ class AuthAPI {
       // sume student boleh join mana2
       this.insertCfAfterLogin(user, cf);
       return true;
-    } else if (role == UserEnum.ROLE_ORGANIZER) {
-      return user[User.CF].indexOf(cf) >= 0;
-    } else if (role == UserEnum.ROLE_RECRUITER) {
+    }
+    // else if (role == UserEnum.ROLE_ORGANIZER) {
+    //   return user[User.CF].indexOf(cf) >= 0;
+    // }
+    else if (role == UserEnum.ROLE_RECRUITER) {
       if (user.company) {
         return user.company.cf.indexOf(cf) >= 0;
       } else {
@@ -42,6 +44,8 @@ class AuthAPI {
       }
     } else {
       return (
+        role == UserEnum.ROLE_VOLUNTEER ||
+        role == UserEnum.ROLE_ORGANIZER ||
         role == UserEnum.ROLE_ADMIN ||
         role == UserEnum.ROLE_EDITOR ||
         role == UserEnum.ROLE_SUPPORT
@@ -73,7 +77,10 @@ class AuthAPI {
       var query = `mutation{edit_user(${obj2arg(update, {
         noOuterBraces: true
       })}) {ID}}`;
-      getAxiosGraphQLQuery(query).then(res => {}, err => {});
+      getAxiosGraphQLQuery(query).then(
+        res => {},
+        err => {}
+      );
     }
   }
 

@@ -22,6 +22,9 @@ class PrescreenQuery {
         var student_where = (typeof params.student_id === "undefined") ? "1=1" :
             `student_id = ${params.student_id}`;
 
+        var is_onsite_call_where = (typeof params.is_onsite_call === "undefined") ? "1=1" :
+            `is_onsite_call = ${params.is_onsite_call}`;
+
         // var status_where = (typeof params.status === "undefined") ? "1=1" :
         //     `status like '%${params.status}%'`;
 
@@ -69,6 +72,7 @@ class PrescreenQuery {
             and ${search_user} and ${search_uni} and ${st_where}
             and ${not_ps_where} 
             AND ${removed_where}
+            and ${is_onsite_call_where}
             ${order_by}`;
 
         if (extra.count) {

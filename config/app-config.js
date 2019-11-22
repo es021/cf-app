@@ -39,6 +39,7 @@ if (isProd) {
 var LandingUrl = `https://seedsjobfairapp.com`;
 
 var PHPApi = (isProd) ? `https://seedsjobfairapp.com/php-api/` : RootUrl + `/cf-app/server/php-api/`;
+var PHPNotificationApi = (isProd) ? `https://seedsjobfairapp.com/notification-cf-app/public/` : RootUrl + `/notification-cf-app/public/`;
 var WPAjaxApi = (isProd) ? "https://seedsjobfairapp.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
 const AppConfig = {
@@ -47,6 +48,7 @@ const AppConfig = {
     Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
     Api: SiteUrl,
     PHPApi: PHPApi,
+    PHPNotificationApi : PHPNotificationApi,
     FbAppId: "315194262317447",
     WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",

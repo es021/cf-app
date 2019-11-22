@@ -253,6 +253,10 @@ export function isRoleStudent() {
     return getAuthUser().role === UserEnum.ROLE_STUDENT;
 }
 
+export function isRoleVolunteer() {
+    return getAuthUser().role === UserEnum.ROLE_VOLUNTEER;
+}
+
 export function isRoleRec() {
     return getAuthUser().role === UserEnum.ROLE_RECRUITER;
 }
