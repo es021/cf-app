@@ -254,7 +254,7 @@ export default class VolunteerScheduledInterview extends React.Component {
                   , not_prescreen:1
                   , page:${page}
                   , offset:${offset}
-                  , order_by:"status asc"
+                  , order_by:"appointment_time desc, status asc"
                   ) 
                   {
                     ID
