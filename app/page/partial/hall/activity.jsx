@@ -940,7 +940,7 @@ class ActvityList extends React.Component {
               }
               className="action btn btn-primary btn-sm"
             >
-              Started
+              Click To Rejoin
             </a>
           );
         }

@@ -179,7 +179,7 @@ export default class VolunteerScheduledInterview extends React.Component {
       let onsite_call =
         d[Prescreen.IS_ONSITE_CALL] == "1" ? (
           <label className={`label label-warning`}>On-site Call</label>
-        ) : null;
+        ) : <label className={`label label-default`}>Virtual Call</label>;
 
       return [
         <td>{d.ID}</td>,
@@ -255,7 +255,7 @@ export default class VolunteerScheduledInterview extends React.Component {
                   , page:${page}
                   , offset:${offset}
                   , order_by:"status asc"
-                  , is_onsite_call : 1) 
+                  ) 
                   {
                     ID
                     company_id
