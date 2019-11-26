@@ -659,7 +659,7 @@ fields["company"] = {
     user_id: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return CompanyExec.company(arg.ID, graphqlFields(info));
+    return CompanyExec.company(arg, graphqlFields(info));
   }
 };
 
