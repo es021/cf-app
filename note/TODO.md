@@ -7,6 +7,45 @@ socket to send progress
 
 export.xls student listing with new student profile
 
+## #######################################################################
+
+## get user yang edit_interested
+grep "/cf/graphql?&query=mutation+%7B+edit_interested+.*is_interested:1.*company" *
+
+
+## get users ip
+grep "/cf/graphql?&query=query%7B%0A++++++++++++++notifications(user_id+:+.*company" *
+
+
+https://seedsjobfairapp.com/cf/graphql?&query=query%7B%0A++++++++++++++notifications(user_id+:+136,+is_read:0,+ttl:true)%7B%0A+++++++++++++++ttl%0A++++++++++++++%7D%0A++++++++++++%7D
+
+recover
+like company
+https://seedsjobfairapp.com/cf/graphql?&query=mutation+%7B+add_interested+(%0A++++++++user_id:136,+%0A++++++++entity:%22companies%22,%0A++++++++entity_id:691%0A++++++++)+%7BID+is_interested%7D+%7D
+
+grep * /cf/graphql?&query=mutation+%7B+add_interested+
+
+INSERT INTO `interested` ( `user_id`, `entity`, `entity_id`, `is_interested`, `created_at`) 
+select X.* from
+(SELECT DISTINCT 
+l.user_id,
+'companies' as entity,
+SUBSTRING_INDEX(l.data, '/', -1) as entity_id,
+1  as is_interested,
+'2019-09-09 10:10:10' as created_at
+FROM `logs` l, wp_cf_usermeta m, cf_map cm
+WHERE l.created_at >= '2019-11-25 21:21:21'
+and l.event = 'open_page'  and l.data like '/company/%'
+and m.user_id = l.user_id 
+and m.meta_key = 'wp_cf_capabilities'
+and m.meta_value like '%student%'
+and cm.cf = 'MDEC'
+and cm.entity = 'user'
+and cm.entity_id = l.user_id) X
+
+## #######################################################################
+
+
 # InterestedUserList
 # email notification if there is new chat message (linked in style)
 # migrate 
