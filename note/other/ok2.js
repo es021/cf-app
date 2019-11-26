@@ -58,21 +58,7 @@ Aemulus	litian0718@gmail.com		11:20:00
 Aemulus	althonylxy-wa16@student.tarc.edu.my		12:00:00
 Aemulus	chrischuax97@hotmail.com		12:20:00
 Aemulus	danial.jefri.7@gmail.com		14:20:00
-Kian Joo Group	mingching97@gmail.com		10:00:00
-Kian Joo Group	keensumkong@1utar.my		10:20:00
-Kian Joo Group	chenlongtoh@gmail.com		10:40:00
-Kian Joo Group	angkewei@gmail.com		11:00:00
-Kian Joo Group	ExtremeDie@1utar.my		11:20:00
-Kian Joo Group	acelimcw@hotmail.com		11:40:00
-Kian Joo Group	lim.weiwen1997@gmail.com		12:00:00
-Kian Joo Group	beatrice.peiying@gmail.com		12:20:00
-Kian Joo Group	yongjinjoel@gmail.com		12:40:00
-Kian Joo Group	w.shaher@graduate.utm.my		13:00:00
-Kian Joo Group	wsh_97@outlook.com		13:20:00
-Kian Joo Group	andy22_9907@hotmail.com		13:40:00
-Kian Joo Group	shanggavee2@gmail.com		14:20:00
-Kian Joo Group	darysyinikumaresan@graduate.utm.my		14:40:00
-Kian Joo Group	autumn9827@gmail.com		15:00:00
+
 Top Glove	tlter@yahoo.com		10:00:00
 Top Glove	mqayyum1223@gmail.com		10:20:00
 Top Glove	fatin.nurbaya08@gmail.com		10:40:00
@@ -141,3 +127,22 @@ for (var i in a) {
 }
 
 console.log(SS);
+
+
+/*
+Kian Joo Group	mingching97@gmail.com		10:00:00
+Kian Joo Group	keensumkong@1utar.my		10:20:00
+Kian Joo Group	chenlongtoh@gmail.com		10:40:00
+Kian Joo Group	angkewei@gmail.com		11:00:00
+Kian Joo Group	ExtremeDie@1utar.my		11:20:00
+Kian Joo Group	acelimcw@hotmail.com		11:40:00
+Kian Joo Group	lim.weiwen1997@gmail.com		12:00:00
+Kian Joo Group	beatrice.peiying@gmail.com		12:20:00
+Kian Joo Group	yongjinjoel@gmail.com		12:40:00
+Kian Joo Group	w.shaher@graduate.utm.my		13:00:00
+Kian Joo Group	wsh_97@outlook.com		13:20:00
+Kian Joo Group	andy22_9907@hotmail.com		13:40:00
+Kian Joo Group	shanggavee2@gmail.com		14:20:00
+Kian Joo Group	darysyinikumaresan@graduate.utm.my		14:40:00
+Kian Joo Group	autumn9827@gmail.com		15:00:00
+*/

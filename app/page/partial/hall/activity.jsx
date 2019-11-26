@@ -396,159 +396,159 @@ class ActvityList extends React.Component {
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
 
-  getTimeStrNew(unixtime, showTimeOnly, customText) {
-    const className = "time-container";
+  // getTimeStrNew(unixtime, showTimeOnly, customText) {
+  //   const className = "time-container";
 
-    if (
-      unixtime === undefined &&
-      showTimeOnly === undefined &&
-      customText !== undefined
-    ) {
-      return <div className={className}>{customText}</div>;
-    }
-    // debug
-    // unixtime = (1552804854865/1000) + 500;
-    // let bodyToRet = null;
-
-    // let timeStr = Time.getString(unixtime);
-
-    // if (showTimeOnly) {
-    //   return timeStr;
-    // }
-
-    // let passedText = "Waiting For Recruiter";
-    // let happeningIn = Time.getHapenningIn(unixtime, {
-    //   passedText: isRoleStudent() ? passedText : null,
-    //   startCountMinute: 24 * 60 // 24 hours
-    // });
-
-    // if (happeningIn != null) {
-    //   if (happeningIn != passedText) {
-    //     happeningIn = <span>Starting In {happeningIn}</span>;
-    //   }
-    //   happeningIn = (
-    //     <div
-    //       style={{ marginBottom: "-6px", fontWeight: "bold" }}
-    //       className="text-primary"
-    //     >
-    //       {happeningIn}
-    //       <br />
-    //     </div>
-    //   );
-
-    //   bodyToRet = (
-    //     <span>
-    //       {happeningIn}
-    //       <br />
-    //       {timeStr}
-    //     </span>
-    //   );
-    // } else {
-    //   bodyToRet = timeStr;
-    // }
-
-    const createBody = timeStr => {
-      // 1. create happening in
-
-      if (showTimeOnly) {
-        return timeStr;
-      }
-
-      let passedText = "Waiting For Recruiter";
-      let happeningIn = Time.getHapenningIn(unixtime, {
-        passedText: isRoleStudent() ? passedText : null,
-        startCountMinute: 24 * 60 // 24 hours
-      });
-
-      if (happeningIn != null) {
-        if (happeningIn != passedText) {
-          happeningIn = <span>Starting In {happeningIn}</span>;
-        }
-        happeningIn = (
-          <div
-            style={{ marginBottom: "-6px", fontWeight: "bold" }}
-            className="text-primary"
-          >
-            {happeningIn}
-            <br />
-          </div>
-        );
-        return (
-          <span>
-            {happeningIn}
-            <br />
-            {timeStr}
-          </span>
-        );
-      } else {
-        return timeStr;
-      }
-    };
-
-    const createView = (body, toggler) => {
-      return (
-        <div className={className}>
-          {body}
-          <div style={{ marginTop: "5px" }} />
-          {toggler}
-        </div>
-      );
-    };
-
-    return (
-      <ToogleTimezone
-        createDefaultTime={unix => {
-          return Time.getString(unix);
-        }}
-        createAlternateTime={unix => {
-          return Time.getStringMas(unix);
-        }}
-        unixtimestamp={unixtime}
-        createBody={createBody}
-        createView={createView}
-      />
-    );
-  }
-
-  // getTimeStrNew(unixtime, showTimeOnly) {
-  //   // debug
-  //   //unixtime = (1552804854865/1000) + 500;
-
-  //   let timeStr = Time.getString(unixtime);
-
-  //   if (showTimeOnly) {
-  //     return timeStr;
+  //   if (
+  //     unixtime === undefined &&
+  //     showTimeOnly === undefined &&
+  //     customText !== undefined
+  //   ) {
+  //     return <div className={className}>{customText}</div>;
   //   }
+  //   // debug
+  //   // unixtime = (1552804854865/1000) + 500;
+  //   // let bodyToRet = null;
 
-  //   let passedText = "Waiting For Recruiter";
-  //   let happeningIn = Time.getHapenningIn(unixtime, {
-  //     passedText: isRoleStudent() ? passedText : null,
-  //     startCountMinute: 24 * 60 // 24 hours
-  //   });
+  //   // let timeStr = Time.getString(unixtime);
 
-  //   if (happeningIn != null) {
-  //     if (happeningIn != passedText) {
-  //       happeningIn = <span>Starting In {happeningIn}</span>;
+  //   // if (showTimeOnly) {
+  //   //   return timeStr;
+  //   // }
+
+  //   // let passedText = "Waiting For Recruiter";
+  //   // let happeningIn = Time.getHapenningIn(unixtime, {
+  //   //   passedText: isRoleStudent() ? passedText : null,
+  //   //   startCountMinute: 24 * 60 // 24 hours
+  //   // });
+
+  //   // if (happeningIn != null) {
+  //   //   if (happeningIn != passedText) {
+  //   //     happeningIn = <span>Starting In {happeningIn}</span>;
+  //   //   }
+  //   //   happeningIn = (
+  //   //     <div
+  //   //       style={{ marginBottom: "-6px", fontWeight: "bold" }}
+  //   //       className="text-primary"
+  //   //     >
+  //   //       {happeningIn}
+  //   //       <br />
+  //   //     </div>
+  //   //   );
+
+  //   //   bodyToRet = (
+  //   //     <span>
+  //   //       {happeningIn}
+  //   //       <br />
+  //   //       {timeStr}
+  //   //     </span>
+  //   //   );
+  //   // } else {
+  //   //   bodyToRet = timeStr;
+  //   // }
+
+  //   const createBody = timeStr => {
+  //     // 1. create happening in
+
+  //     if (showTimeOnly) {
+  //       return timeStr;
   //     }
-  //     happeningIn = (
-  //       <div
-  //         style={{ marginBottom: "-6px", fontWeight: "bold" }}
-  //         className="text-primary"
-  //       >
-  //         {happeningIn}
+
+  //     let passedText = "Waiting For Recruiter";
+  //     let happeningIn = Time.getHapenningIn(unixtime, {
+  //       passedText: isRoleStudent() ? passedText : null,
+  //       startCountMinute: 24 * 60 // 24 hours
+  //     });
+
+  //     if (happeningIn != null) {
+  //       if (happeningIn != passedText) {
+  //         happeningIn = <span>Starting In {happeningIn}</span>;
+  //       }
+  //       happeningIn = (
+  //         <div
+  //           style={{ marginBottom: "-6px", fontWeight: "bold" }}
+  //           className="text-primary"
+  //         >
+  //           {happeningIn}
+  //           <br />
+  //         </div>
+  //       );
+  //       return (
+  //         <span>
+  //           {happeningIn}
+  //           <br />
+  //           {timeStr}
+  //         </span>
+  //       );
+  //     } else {
+  //       return timeStr;
+  //     }
+  //   };
+
+  //   const createView = (body, toggler) => {
+  //     return (
+  //       <div className={className}>
+  //         {body}
+  //         <div style={{ marginTop: "5px" }} />
+  //         {toggler}
   //       </div>
   //     );
-  //     return (
-  //       <span>
-  //         {happeningIn}
-  //         <br />
-  //         {timeStr}
-  //       </span>
-  //     );
-  //   } else {
-  //     return timeStr;
-  //   }
+  //   };
+
+  //   return (
+  //     <ToogleTimezone
+  //       createDefaultTime={unix => {
+  //         return Time.getString(unix);
+  //       }}
+  //       createAlternateTime={unix => {
+  //         return Time.getStringMas(unix);
+  //       }}
+  //       unixtimestamp={unixtime}
+  //       createBody={createBody}
+  //       createView={createView}
+  //     />
+  //   );
   // }
+
+  getTimeStrNew(unixtime, showTimeOnly) {
+    // debug
+    //unixtime = (1552804854865/1000) + 500;
+
+    let timeStr = Time.getString(unixtime);
+
+    if (showTimeOnly) {
+      return timeStr;
+    }
+
+    let passedText = "Waiting For Recruiter";
+    let happeningIn = Time.getHapenningIn(unixtime, {
+      passedText: isRoleStudent() ? passedText : null,
+      startCountMinute: 24 * 60 // 24 hours
+    });
+
+    if (happeningIn != null) {
+      if (happeningIn != passedText) {
+        happeningIn = <span>Starting In {happeningIn}</span>;
+      }
+      happeningIn = (
+        <div
+          style={{ marginBottom: "-6px", fontWeight: "bold" }}
+          className="text-primary"
+        >
+          {happeningIn}
+        </div>
+      );
+      return (
+        <span>
+          {happeningIn}
+          <br />
+          {timeStr}
+        </span>
+      );
+    } else {
+      return timeStr;
+    }
+  }
 
   addRemoveButton(body, hasRemove, removeEntity, removeEntityId) {
     body = (
