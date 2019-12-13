@@ -93,9 +93,9 @@ function fixCFAuth(auth, cf = null) {
   }
 
   // fix untuk amik yang default kalau takde param cf kat url
-  if (!IS_HAS_PARAM_CF) {
-    auth["cf"] = CF_DEFAULT;
-  }
+  // if (!IS_HAS_PARAM_CF) {
+  //   auth["cf"] = CF_DEFAULT;
+  // }
 
   return auth;
 }
