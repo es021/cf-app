@@ -650,6 +650,16 @@ fields["cfs"] = {
   }
 };
 
+fields["cf"] = {
+  type: CfsType,
+  args: {
+    name: __.String
+  },
+  resolve(parentValue, arg, context, info) {
+    return CFExec.cfs(arg, graphqlFields(info), {single:true});
+  }
+};
+
 /*******************************************/
 /* company ******************/
 fields["company"] = {

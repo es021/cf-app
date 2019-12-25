@@ -260,6 +260,7 @@ const CfsType = new GraphQLObjectType({
     time_str_mas: __.String,
     test_start: __.String,
     test_end: __.String,
+    mail_chimp_list: __.String,
     page_url: __.String,
     page_banner: __.String,
     can_login: __.Int,

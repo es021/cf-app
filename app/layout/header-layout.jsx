@@ -35,9 +35,9 @@ export default class HeaderLayout extends React.Component {
     return (
       <header>
         <div className="img">
-          <NavLink to={`${RootPath}/app/`}>
+          <a target="_blank" href={AppConfig.HeaderIconUrl}>
             <img src={ImgConfig.AppIcon} />
-          </NavLink>
+          </a>
         </div>
         <div className="title">
           <b>{getCFObj().title}</b>

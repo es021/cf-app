@@ -621,6 +621,7 @@ const CFSMeta = {
   PAGE_BANNER: "page_banner",
   CAN_REGISTER: "can_register",
   CAN_LOGIN: "can_login",
+  MAIL_CHIMP_LIST : "mail_chimp_list",
 
   HALL_CFG_ONSITE_CALL_USE_GROUP : "hall_cfg_onsite_call_use_group",
   // for CareerFairOrg

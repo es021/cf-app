@@ -1,10 +1,22 @@
 
+INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES (NULL, 'MDEC', 'mail_chimp_list', 'local') 
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
+
 -- disabled student from old vicaf
 update  wp_cf_users set user_email = CONCAT('DELETED_',user_email)
 where ID IN (SELECT DISTINCT m.entity_id from cf_map m 
     WHERE 1=1
     and m.cf IN ('EUR', 'USA', 'NZL', 'MAS', 'UK', 'USA19', 'CHN', 'TEST', 'ANE')
+    and m.cf NOT IN('GWINTER')
     and m.entity = 'user'
+    and user_email not like '%test%'
     and 
     (
         select m.meta_value from wp_cf_usermeta m 
@@ -22,12 +34,6 @@ update interested set is_interested = 0
 where user_id in (2279, 136,225,302,328,2247)
 
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `pre_screens` ADD `is_onsite_call` SMALLINT NOT NULL DEFAULT '0' AFTER `is_expired`; 
 
 -- new table video

@@ -14,8 +14,8 @@ const Single = {
     where_in_malaysia : "where_in_malaysia",
     grade : "grade",
     phone_number : "phone_number",
-    sponsor : "sponsor",
-    description : "description",
+    //sponsor : "sponsor",
+    //description : "description",
 }
 
 const Multi = {

@@ -309,18 +309,18 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: false
         },
-        {
-          // single
-          type: "single",
-          input_type: "select",
-          id: Reg.Single.sponsor,
-          key_input: Reg.Single.sponsor,
-          label: "Who is your sponsor?",
-          input_placeholder: "Type something here",
-          ref_table_name: "sponsor",
-          is_required: false,
-          hidden: false
-        },
+        // {
+        //   // single
+        //   type: "single",
+        //   input_type: "select",
+        //   id: Reg.Single.sponsor,
+        //   key_input: Reg.Single.sponsor,
+        //   label: "Who is your sponsor?",
+        //   input_placeholder: "Type something here",
+        //   ref_table_name: "sponsor",
+        //   is_required: false,
+        //   hidden: false
+        // },
         // {
         //   // single
         //   type: "single",

@@ -43,6 +43,7 @@ var PHPNotificationApi = (isProd) ? `https://seedsjobfairapp.com/notification-cf
 var WPAjaxApi = (isProd) ? "https://seedsjobfairapp.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
 const AppConfig = {
+    HeaderIconUrl : "https://seedsjobfair.com/virtual-fairs",
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
     Desc: "Powered by Seeds Job Fair",
     Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
