@@ -167,6 +167,8 @@ export default class UserPopup extends Component {
                 qualification
                 graduation_month
                 graduation_year
+                working_availability_month
+                working_availability_year
                 grade
                 phone_number
                 sponsor
@@ -304,6 +306,13 @@ export default class UserPopup extends Component {
           value: this.isValueEmpty(d.graduation_month)
             ? notSpecifed
             : `${d.graduation_month} ${d.graduation_year}`
+        },
+        {
+          label: "Working Availability",
+          icon: "calendar",
+          value: this.isValueEmpty(d.working_availability_month)
+            ? notSpecifed
+            : `${d.working_availability_month} ${d.working_availability_year}`
         },
         {
           label: "Looking For",

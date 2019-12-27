@@ -11,6 +11,8 @@ const Single = {
     qualification : "qualification",
     graduation_month : "graduation_month",
     graduation_year : "graduation_year",
+    working_availability_month : "working_availability_month",
+    working_availability_year : "working_availability_year",
     where_in_malaysia : "where_in_malaysia",
     grade : "grade",
     phone_number : "phone_number",
@@ -24,6 +26,7 @@ const Multi = {
     interested_role : "interested_role",
     interested_job_location : "interested_job_location",
     skill : "skill",
+    extracurricular : "extracurricular",
 }
 
 const RequiredFieldStudent = [

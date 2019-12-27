@@ -107,6 +107,18 @@ export default class ManageUserProfile extends React.Component {
         hidden: false
       }
     ];
+    r[Reg.Single.working_availability_month] = [
+      {
+        // single
+        type: "single",
+        input_type: "select",
+        id: Reg.Single.working_availability_year,
+        key_input: Reg.Single.working_availability_year,
+        ref_table_name: "year",
+        is_required: true,
+        hidden: false
+      }
+    ];
 
     return r[id];
   }
@@ -240,6 +252,19 @@ export default class ManageUserProfile extends React.Component {
           hidden: false
         },
         {
+          // single
+          type: "single",
+          input_type: "select",
+          label: "When will you be available to work?",
+          id: Reg.Single.working_availability_month,
+          key_input: Reg.Single.working_availability_month,
+          // select_use_id_as_value: true,
+          ref_order_by: "ID asc",
+          ref_table_name: "month",
+          is_required: true,
+          hidden: false
+        },
+        {
           // free multi choice
           type: "multi",
           id: Reg.Multi.interested_role,
@@ -305,6 +330,19 @@ export default class ManageUserProfile extends React.Component {
           //list_title: major ? `Popular job for major ${major}` : "",
           ref_order_by : "ID asc",
           ref_table_name: "skill",
+          ref_offset : 11,
+          is_required: true,
+          hidden: false
+        },
+        {
+          // free multi choice
+          type: "multi",
+          id: Reg.Multi.extracurricular,
+          table_name: Reg.Multi.extracurricular,
+          label: "Organization / Extracurricular Activities",
+          input_placeholder: "",
+          ref_order_by : "ID asc",
+          ref_table_name: "extracurricular",
           ref_offset : 11,
           is_required: true,
           hidden: false

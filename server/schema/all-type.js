@@ -160,6 +160,10 @@ const UserType = new GraphQLObjectType({
     qualification: __.String,
     graduation_month: __.String,
     graduation_year: __.String,
+
+    working_availability_month: __.String,
+    working_availability_year: __.String,
+
     grade: __.String,
     phone_number: __.String,
     sponsor: __.String,
