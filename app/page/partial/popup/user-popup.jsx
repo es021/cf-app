@@ -47,7 +47,7 @@ export function createUserMajorList(major) {
 
 export function createVideoDropbox(url, width = "100%", height = "200") {
   return (
-    <video style={{background: "black"}} width={width} height={height} controls>
+    <video style={{ background: "black" }} width={width} height={height} controls>
       <source src={url} type="video/mp4" />
     </video>
   );
@@ -144,7 +144,7 @@ export default class UserPopup extends Component {
 
     this.id = id;
 
-    if(this.id == this.authUser.ID){
+    if (this.id == this.authUser.ID) {
       this.isSelfUser = true;
     }
 
@@ -174,6 +174,7 @@ export default class UserPopup extends Component {
                 sponsor
                 description
                 skill {val}
+                extracurricular {val}
                 field_study {val}
                 looking_for_position {val}
                 interested_role {val}
@@ -265,8 +266,8 @@ export default class UserPopup extends Component {
             value: d.rec_position ? (
               d.rec_position
             ) : (
-              <span className="text-muted">Position Not Specified</span>
-            )
+                <span className="text-muted">Position Not Specified</span>
+              )
           }
         );
       } else {
@@ -424,6 +425,14 @@ export default class UserPopup extends Component {
       ></CustomList>
     );
 
+    const extracurricular = (
+      <CustomList
+        alignCenter={false}
+        className="label"
+        items={user.extracurricular.map((d, i) => d.val)}
+      ></CustomList>
+    );
+
     const interested_job_location = (
       <CustomList
         alignCenter={false}
@@ -491,6 +500,12 @@ export default class UserPopup extends Component {
           className={pageClassName}
           title={this.getTitle("Interested Job Location", "map-marker")}
           body={interested_job_location}
+        ></PageSection>
+
+        <PageSection
+          className={pageClassName}
+          title={this.getTitle("Organization / Extracurricular Activities", "podcast")}
+          body={extracurricular}
         ></PageSection>
       </div>
     );
@@ -710,7 +725,7 @@ UserPopup.propTypes = {
   id: PropTypes.number.isRequired,
   role: PropTypes.string,
   companyPrivs: PropTypes.object,
-  company_id : PropTypes.number,
+  company_id: PropTypes.number,
   isSessionPage: PropTypes.bool
 };
 

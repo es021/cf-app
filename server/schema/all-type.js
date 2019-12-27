@@ -175,7 +175,7 @@ const UserType = new GraphQLObjectType({
     interested_job_location: __.ListOf(MultiType),
     doc_links: __.ListOf(DocLinkType),
     skill: __.ListOf(MultiType),
-
+    extracurricular: __.ListOf(MultiType),
     // OLD ONE
     // //student only
     // first_name: __.String,
