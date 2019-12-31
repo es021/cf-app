@@ -57,8 +57,8 @@ export class WebinarHall extends React.Component {
   loadData(page, offset) {
     var query = `query{
         auditoriums(user_id:${
-          getAuthUser().ID
-        }, page:${page},offset:${offset},cf:"${getCF()}",
+      getAuthUser().ID
+      }, page:${page},offset:${offset},cf:"${getCF()}",
         order_by:"link desc, recorded_link asc, start_time asc", 
         now_only:false) {
           ID
@@ -125,10 +125,10 @@ export class WebinarHall extends React.Component {
     let companyName = isRoleRec() ? (
       d.company.name
     ) : (
-      <NavLink to={`${AppPath}/company/${d.company.ID}`}>
-        {d.company.name}
-      </NavLink>
-    );
+        <NavLink to={`${AppPath}/company/${d.company.ID}`}>
+          {d.company.name}
+        </NavLink>
+      );
     // <a onClick={() =>
     //     layoutActions.storeUpdateFocusCard(d.title, CompanyPopup, {
     //       id: d.company.ID,
@@ -302,26 +302,43 @@ export class WebinarHall extends React.Component {
         key={this.state.key}
         type="append-bottom"
         appendText="Load More Webinar"
-        listClass="bc-body"
+        // listClass="bc-body"
+        listClass="flex-wrap"
+        hideLoadMore={this.props.limitLoad ? true : false}
         listRef={v => (this.dashBody = v)}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
         extraData={this.state.extraData}
-        offset={this.offset}
+        offset={this.props.limitLoad ? this.props.limitLoad : this.offset}
         renderList={this.renderList}
       />
     );
-    return (
-      <div className={`border-card bc-vertical bc-rounded`}>
-        <h4 className="bc-title">
-          <span className="bc-title-back">{title}</span>
-          <br />
-          <small>{subtitle}</small>
-        </h4>
-        {body}
-      </div>
-    );
+
+    if (this.props.noBorderCard) {
+      return body;
+    } else {
+      return (
+        <div className={`border-card bc-vertical bc-rounded`}>
+          <h4 className="bc-title">
+            <span className="bc-title-back">{title}</span>
+            <br />
+            <small>{subtitle}</small>
+          </h4>
+          {body}
+        </div>
+      );
+    }
+
   }
+}
+
+WebinarHall.propTypes = {
+  noBorderCard: PropTypes.bool,
+  limitLoad : PropTypes.number
+}
+
+WebinarHall.defaultProps = {
+  noBorderCard: false
 }
 
 // END of WebinarHall

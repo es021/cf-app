@@ -185,7 +185,7 @@ class CompaniesSection extends React.Component {
   }
 
   componentWillMount() {
-    this.props.loadCompanies();
+    this.props.loadCompanies(this.props.limitLoad);
 
     //this.props.loadTraffic();
 
@@ -287,11 +287,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 CompaniesSection.propTypes = {
-  isPreEvent: PropTypes.bool
+  isPreEvent: PropTypes.bool,
+  limitLoad : PropTypes.number
 };
 
 CompaniesSection.defaultProps = {
-  isPreEvent: false
+  isPreEvent: false,
+  limitLoad : null
 };
 
 export default connect(

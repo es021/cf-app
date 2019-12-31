@@ -1,0 +1,23 @@
+.list-row {
+	.lr-container {
+		margin: auto;
+		max-width: 1200px;
+		padding: 20px;
+
+		.lr-title {
+			text-align: left;
+            font-size: 30px;
+		}
+
+		.lr-body {
+            margin: 10px 0px;
+
+        }
+
+		.lr-footer {
+            text-align: right;
+            
+		}
+	}
+
+}

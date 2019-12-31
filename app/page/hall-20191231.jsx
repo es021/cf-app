@@ -33,7 +33,6 @@ import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
 import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
-import ListRow from "../component/list-row";
 
 // require("../css/hall.scss");
 
@@ -170,7 +169,7 @@ export default class HallPage extends React.Component {
   }
   getSponsor() {
     return (
-      <div style={{ marginTop: "25px", marginBottom: "25px" }} className="sponsor-section main-width">
+      <div className="sponsor-section main-width">
         <SponsorList
           //ignore_types={[CompanyEnum.TYPE_BRONZE]}
           title={false}
@@ -194,40 +193,35 @@ export default class HallPage extends React.Component {
       </div>
     );
   }
-  getEventAndWebinar() {
-    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Events & Webinars"
-        backgroundColor={null}
-        items={<WebinarHall noBorderCard={true} limitLoad={4} />}
-        see_more_text="See More Events & Webinars"
-        see_more_to="somewhere"
-      ></ListRow>
-    </div >
-  }
+
   getCompanyBooth() {
-
-    return <div className="col-md-12 no-padding">
-      <ListRow title="Company Profiles"
-        backgroundColor={"#eef0ee"}
-        items={<CompaniesSection {...this.props} limitLoad={3} />}
-        see_more_text="See More Companies"
-        see_more_to="somewhere"
-      ></ListRow>
-    </div >
-
-    // return (
-    //   <div className="company-section">
-    //     <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-    //       <div className="title-section">
-    //         <div>Company Booth</div>
-    //       </div>
-    //       <div className="main-width main-width-lg">
-    //         <CompaniesSection {...this.props} />
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
+    return (
+      <div className="company-section">
+        <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+          <div className="title-section">
+            <div>Company Booth</div>
+          </div>
+          <div className="main-width main-width-lg">
+            <CompaniesSection {...this.props} />
+          </div>
+        </div>
+      </div>
+    );
   }
+
+  // goLiveOnClick(isInner) {
+  //   if (isInner) {
+  //     this.isCheckWhenLive = true;
+  //     console.log("check when");
+  //   } else if (!this.isCheckWhenLive) {
+  //     console.log("go live for REAL");
+  //     openLiveSession(this.authUser.rec_company);
+  //   }
+
+  //   if (!isInner) {
+  //     this.isCheckWhenLive = false;
+  //   }
+  // }
 
   getRecruiterAction() {
     /**
@@ -288,32 +282,17 @@ export default class HallPage extends React.Component {
   render() {
     document.setTitle("Career Fair");
 
-    let v = null;
-
-    if (isRoleStudent()) {
-      v = <div className="hall-page">
+    return (
+      <div className="hall-page">
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
+        {isRoleRec() ? this.getRecruiterAction(this.state) : null}
+        {isRoleRec() || isRoleStudent() ? this.getActivityAndWebinar() : null}
+        {/* {isRoleStudent() || isRoleAdmin() ? this.getCompanyBooth() : null} */}
         {this.getCompanyBooth()}
-        {this.getEventAndWebinar()}
-
-        {/* {this.getActivityAndWebinar()} */}
       </div>
-    }
-
-    return v;
-    // return (
-    //   <div className="hall-page">
-    //     {this.getGallery()}
-    //     {this.getTitle()}
-    //     {this.getSponsor()}
-    //     {isRoleRec() ? this.getRecruiterAction(this.state) : null}
-    //     {isRoleRec() || isRoleStudent() ? this.getActivityAndWebinar() : null}
-    //     {/* {isRoleStudent() || isRoleAdmin() ? this.getCompanyBooth() : null} */}
-    //     {this.getCompanyBooth()}
-    //   </div>
-    // );
+    );
   }
 }
 

@@ -195,16 +195,20 @@ export function loadTraffic() {
 }
 
 export const FETCH_COMPANIES = "FETCH_COMPANIES";
-export function loadCompanies() {
+export function loadCompanies(limitLoad) {
     // vacancies_count
     // status
     // group_url
+    let limitArgs = "";
+    if(limitLoad){
+        limitArgs = `,page:1, offset: ${limitLoad}`;
+    }
     return function (dispatch) {
         dispatch({
             type: FETCH_COMPANIES,
             payload: getAxiosGraphQLQuery(
                 `query{
-                        companies(cf:"${getCF()}") {
+                        companies(cf:"${getCF()}" ${limitArgs}) {
                             ID
                             img_url
                             img_size

@@ -224,6 +224,10 @@ export default class List extends React.Component {
   }
 
   showLoadMore() {
+    if(this.props.hideLoadMore){
+      return false;
+    }
+    
     if (this.props.totalCount !== null) {
       if (this.state.totalFetched >= this.props.totalCount) {
         return false;
@@ -363,6 +367,7 @@ export default class List extends React.Component {
 
 List.propTypes = {
   // general props
+  hideLoadMore: PropTypes.bool,
   offset: PropTypes.number.isRequired,
   customLoading: PropTypes.element,
   customEmpty: PropTypes.element,
@@ -394,6 +399,7 @@ List.propTypes = {
 };
 
 List.defaultProps = {
+  hideLoadMore : false,
   isHidePagingBottom: false,
   isHidePagingTop: false,
   appendText: "Load More",

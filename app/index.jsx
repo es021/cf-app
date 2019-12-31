@@ -52,6 +52,7 @@ let scss = [
   "home",
   "left-bar",
   "list",
+  "list-row",
   "live-session",
   "notess",
   "notification",

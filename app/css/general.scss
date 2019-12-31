@@ -100,6 +100,13 @@ h3.left {
     flex-wrap: wrap;
 }
 
+.flex-wrap-space-between{
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
 .static-page {
     max-width: 500px;
     margin: auto;
