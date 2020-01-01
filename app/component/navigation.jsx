@@ -63,6 +63,9 @@ import {
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
+import ListCompanies from "../page/list-companies";
+import ListEventsWebinars from "../page/list-events-webinars";
+import ListJobPosts from "../page/list-job-posts";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -492,6 +495,33 @@ function getMenuItem(COMING_SOON) {
   /**** ROUTE ONLY *******/
   menuItem.push(
     ...[
+      {
+        url: "/list-job-posts",
+        component: ListJobPosts,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
+      {
+        url: "/list-events-webinars",
+        component: ListEventsWebinars,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
+      {
+        url: "/list-companies",
+        component: ListCompanies,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
       {
         url: "/my-local-time",
         component: TimeConverterPage,

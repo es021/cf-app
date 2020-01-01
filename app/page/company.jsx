@@ -13,7 +13,8 @@ import {
   isRoleRec,
   isRoleStudent,
   isRoleAdmin,
-  doAfterValidateComingSoon
+  doAfterValidateComingSoon,
+  getCF
 } from "../redux/actions/auth-actions";
 import { DocLinkEnum, CompanyEnum, LogEnum } from "../../config/db-config";
 //import { CustomList, createIconLink } from "../component/list";
@@ -55,7 +56,7 @@ import { getDangerousHtml } from "../lib/util";
 // #################################################################
 // require("../css/company-page.scss");
 
-class VacancyList extends React.Component {
+export class VacancyList extends React.Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
@@ -67,12 +68,7 @@ class VacancyList extends React.Component {
   loadData(page, offset) {
     // description
     return getAxiosGraphQLQuery(`
-        query{vacancies(
-              user_id:${this.authUser.ID}, 
-              company_id:${this.props.company_id}, 
-              page:${page}, 
-              offset:${offset}
-              ){
+        query{vacancies(${this.getMainQueryParam(page, offset)}){
                 ID
                 title
                 type
@@ -83,7 +79,41 @@ class VacancyList extends React.Component {
   }
 
   componentWillMount() {
-    this.offset = 6;
+
+    this.getMainQueryParam = (page, offset) => {
+      let company_id_param = '';
+      if (this.props.company_id) {
+        company_id_param = `company_id:${this.props.company_id},`;
+      }
+      let paging_param = "";
+      if (page && offset) {
+        paging_param = `page:${page}, offset:${offset}`
+      }
+
+      let cf_param = "";
+      if (this.props.isListAll) {
+        cf_param = `cf:"${getCF()}",`
+      }
+
+      return `
+        ${cf_param}
+        ${company_id_param}
+        user_id:${this.authUser.ID},  
+        ${paging_param}`
+    }
+
+    this.loadCount = () => {
+      var query = `query{
+        vacancies_count(${this.getMainQueryParam()})
+       }`;
+
+      return getAxiosGraphQLQuery(query);
+    };
+
+    this.getCountFromRes = (res) => {
+      return res.data.data.vacancies_count
+    }
+
   }
   onClickCard(d) {
     layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, {
@@ -164,16 +194,29 @@ class VacancyList extends React.Component {
     return res.data.data.vacancies;
   }
 
+
   render() {
+
+    // kalau list semua
+    let countParam = {}
+    if (this.props.isListAll) {
+      countParam = {
+        loadCount: this.loadCount,
+        getCountFromRes: this.getCountFromRes
+      }
+    }
+
     return (
       <List
-        isHidePagingTop={true}
+        {...countParam}
+        isHidePagingTop={this.props.isListAll ? false : true}
         type="list"
-        listClass="flex-wrap-start"
+        listClass={this.props.listClass}
         pageClass="text-right"
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
-        offset={this.offset}
+        hideLoadMore={this.props.limitLoad ? true : false}
+        offset={this.props.limitLoad ? this.props.limitLoad : this.props.offset}
         renderList={this.renderList}
       />
     );
@@ -181,8 +224,18 @@ class VacancyList extends React.Component {
 }
 
 VacancyList.propTypes = {
-  company_id: PropTypes.number.isRequired
+  isListAll: PropTypes.bool,
+  company_id: PropTypes.number,
+  limitLoad: PropTypes.number,
+  listClass: PropTypes.string,
+  offset: PropTypes.number,
 };
+
+VacancyList.defaultProps = {
+  isListAll: false,
+  listClass: "flex-wrap-start",
+  offset: 6,
+}
 
 // #####################################################################
 // #####################################################################
@@ -553,7 +606,7 @@ export default class CompanyPage extends Component {
       } else if (isModeCount) {
         let mainText = `Liked By ${like_count} Student${
           like_count > 1 ? "s" : ""
-        }`;
+          }`;
         return (
           <ButtonAction
             style={styleBtnAction}
@@ -935,30 +988,30 @@ export default class CompanyPage extends Component {
           {leftBody}
         </div>
       ) : (
-        <div className="company-page">
-          {this.getBanner()}
-          <ValidationStudentAction
-            source={ValidationSource.DROP_RESUME}
-            key={this.state.keyValidation}
-            isHidden={this.state.isHiddenValidation}
-            successHandler={() => this.openResumeDrop()}
-          />
-          <div className="main-width main-width-lg container-fluid">
-            <div className="row">
-              <div
-                style={{ padding: "20px" }}
-                className="col-md-3 com-pop-left"
-              >
-                <div className="com-pop-pic">{profilePic}</div>
-                {rightBody}
-              </div>
-              <div style={{ padding: "20px" }} className="col-md-9">
-                {leftBody}
+          <div className="company-page">
+            {this.getBanner()}
+            <ValidationStudentAction
+              source={ValidationSource.DROP_RESUME}
+              key={this.state.keyValidation}
+              isHidden={this.state.isHiddenValidation}
+              successHandler={() => this.openResumeDrop()}
+            />
+            <div className="main-width main-width-lg container-fluid">
+              <div className="row">
+                <div
+                  style={{ padding: "20px" }}
+                  className="col-md-3 com-pop-left"
+                >
+                  <div className="com-pop-pic">{profilePic}</div>
+                  {rightBody}
+                </div>
+                <div style={{ padding: "20px" }} className="col-md-9">
+                  {leftBody}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      );
+        );
     }
 
     return view;

@@ -44,7 +44,7 @@ export default class VacancyPage extends React.Component {
     );
 
     var query = `query {
-              vacancy(ID:${id}) {
+              vacancy(ID:${id}, user_id:${getAuthUser().ID}) {
                 ID
                 company_id
                 location

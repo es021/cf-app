@@ -304,11 +304,11 @@ export class WebinarHall extends React.Component {
         appendText="Load More Webinar"
         // listClass="bc-body"
         listClass="flex-wrap"
-        hideLoadMore={this.props.limitLoad ? true : false}
         listRef={v => (this.dashBody = v)}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
         extraData={this.state.extraData}
+        hideLoadMore={this.props.limitLoad ? true : false}
         offset={this.props.limitLoad ? this.props.limitLoad : this.offset}
         renderList={this.renderList}
       />

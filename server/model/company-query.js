@@ -23,7 +23,7 @@ class CompanyQuery {
         return `(select com.name from ${Company.TABLE} com where com.ID = field) like '%${search_params}%'`;
     }
 
-    getCompany(params, field) {
+    getCompany(params, extra) {
         var type_where = (typeof params.type === "undefined") ? "1=1" :
             `c.${Company.TYPE} LIKE '%${params.type}%'`;
 
@@ -53,15 +53,20 @@ class CompanyQuery {
             `order by c.${Company.SPONSOR_ONLY} desc, c.${Company.TYPE} asc` :
             `order by ${params.order_by}`;
 
-        var sql = `select c.*, c.img_position as img_pos from ${Company.TABLE} c where 1=1 
+        var sql = `from ${Company.TABLE} c where 1=1 
             and ${ignore_type} and ${id_where} 
             and ${include_sponsor} and ${type_where} 
             and ${cf_where} and ${ps_where}
             and c.ID != ${SupportUserID}
-            ${order_by} ${limit}`;
+            ${order_by}`;
 
         //console.log(sql);
-        return sql;
+
+        if (extra.count) {
+			return `select count(*) as cnt ${sql}`;
+		} else {
+			return `select c.*, c.img_position as img_pos ${sql} ${limit}`;
+        }
     }
 }
 CompanyQuery = new CompanyQuery();
@@ -90,7 +95,7 @@ const {
 } = require('./interested-query.js');
 
 class CompanyExec {
-    getCompanyHelper(type, params, field) {
+    getCompanyHelper(type, params, field, extra = {}) {
 
         // for cross dependecy need to init here
         const {
@@ -98,10 +103,13 @@ class CompanyExec {
         } = require('./queue-query.js');
 
         var isSingle = (type === "single");
-        var sql = CompanyQuery.getCompany(params, field);
+        var sql = CompanyQuery.getCompany(params, extra);
 
         return DB.query(sql).then(function (res) {
-
+            if (extra.count) {
+				return res[0]["cnt"];
+            }
+            
             for (var i in res) {
 
                 var company_id = res[i]["ID"];
@@ -234,8 +242,8 @@ class CompanyExec {
         return this.getCompanyHelper("single", param, field);
     }
 
-    companies(arg, field) {
-        return this.getCompanyHelper(false, arg, field);
+    companies(arg, field, extra) {
+        return this.getCompanyHelper(false, arg, field, extra);
     }
 }
 CompanyExec = new CompanyExec();

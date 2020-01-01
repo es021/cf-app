@@ -304,6 +304,7 @@ export default class List extends React.Component {
         <div
           className={this.props.pageClass}
           style={{
+            textAlign:"center",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -320,8 +321,8 @@ export default class List extends React.Component {
         </div>
       );
       //topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
-      topView = this.props.isHidePagingTop ? null : paging;
-      bottomView = this.props.isHidePagingBottom ? null : paging;
+      topView = this.props.hideLoadMore || this.props.isHidePagingTop ? null : paging;
+      bottomView = this.props.hideLoadMore || this.props.isHidePagingBottom ? null : paging;
     }
     // For append type
     else if (this.isAppendType()) {

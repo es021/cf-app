@@ -5,6 +5,8 @@ const {
 
 class VacancyQuery {
 	getVacancy(params, extra) {
+		var cf_where = (typeof params.cf === "undefined") ? "1=1" :
+			`company_id IN (select m.entity_id from cf_map m where m.entity = "company" and cf = "${params.cf}" ) `;
 		var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = '${params.ID}' `;
 		var title_where = (typeof params.title === "undefined") ? "1=1" : `title like '%${params.title}%' `;
 		var type_where = (typeof params.type === "undefined") ? "1=1" : `type = '${params.type}' `;
@@ -13,7 +15,14 @@ class VacancyQuery {
 
 		var limit = DB.prepareLimit(params.page, params.offset);
 
-		var sql = `from ${Vacancy.TABLE} where ${id_where} and ${title_where} and ${type_where} and ${com_where} ${order_by}`;
+		var sql = `from ${Vacancy.TABLE} where 
+			1=1 and
+			${cf_where} and
+			${id_where} and 
+			${title_where} and 
+			${type_where} and 
+			${com_where} ${order_by}`;
+
 		if (extra.count) {
 			return `select count(*) as cnt ${sql}`;
 		} else {

@@ -16,7 +16,7 @@ import {
 import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
-import { RootPath, ImageUrl } from "../../config/app-config";
+import { RootPath, ImageUrl, AppPath } from "../../config/app-config";
 import { CompanyEnum } from "../../config/db-config";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
@@ -34,6 +34,7 @@ import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helpe
 import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
 import ListRow from "../component/list-row";
+import { VacancyList } from "./company";
 
 // require("../css/hall.scss");
 
@@ -194,13 +195,23 @@ export default class HallPage extends React.Component {
       </div>
     );
   }
+  getJobPost() {
+    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+      <ListRow title="Job Posts"
+        backgroundColor={"#eef0ee"}
+        items={<VacancyList limitLoad={4} isListAll={true} listClass="flex-wrap-center text-left"/>}
+        see_more_text="See More Job Posts"
+        see_more_to={`${AppPath}/list-job-posts`}
+      ></ListRow>
+    </div >
+  }
   getEventAndWebinar() {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title="Events & Webinars"
         backgroundColor={null}
         items={<WebinarHall noBorderCard={true} limitLoad={4} />}
         see_more_text="See More Events & Webinars"
-        see_more_to="somewhere"
+        see_more_to={`${AppPath}/list-events-webinars`}
       ></ListRow>
     </div >
   }
@@ -211,7 +222,7 @@ export default class HallPage extends React.Component {
         backgroundColor={"#eef0ee"}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
         see_more_text="See More Companies"
-        see_more_to="somewhere"
+        see_more_to={`${AppPath}/list-companies`}
       ></ListRow>
     </div >
 
@@ -297,7 +308,7 @@ export default class HallPage extends React.Component {
         {this.getSponsor()}
         {this.getCompanyBooth()}
         {this.getEventAndWebinar()}
-
+        {this.getJobPost()}
         {/* {this.getActivityAndWebinar()} */}
       </div>
     }

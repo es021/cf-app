@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import PropTypes from "prop-types";
-import { getAxiosGraphQLQuery, graphql } from "../../../../helper/api-helper";
-
 import { Loader } from "../../../component/loader";
 import ProfileCard from "../../../component/profile-card.jsx";
 import { NavLink } from 'react-router-dom';
@@ -21,23 +19,12 @@ import Tooltip from "../../../component/tooltip";
 import { BOTH, S2C, C2S } from "../../../../config/socket-config";
 import { socketOn } from "../../../socket/socket-client";
 
-import { getAuthUser, isAuthorized, getCF } from "../../../redux/actions/auth-actions";
+import { getAuthUser, isAuthorized } from "../../../redux/actions/auth-actions";
 import { isCompanyOnline } from "../../../redux/actions/user-actions";
 
 import CompanyPopup from "../popup/company-popup";
-import List from "../../../component/list";
 
 // require("../../../css/company-sec.scss");
-
-function mapStateToProps(state, ownProps) {
-  return {
-    traffic: state.hall.traffic,
-    online_companies: state.user.online_companies,
-    companies: state.hall.companies,
-    //onlineCompanies: state.hall.onlineCompanies,
-    queueCompanies: state.hall.queueCompanies
-  };
-}
 
 export const getCompanyCSSClass = function (type) {
   var className = "";
@@ -149,7 +136,6 @@ class CompanyBooth extends React.Component {
     let isShowOnlineBar = isCompanyOnline(this.props.online_companies, this.props.company.ID);
 
     return (
-
       <ProfileCard
         to={`${AppPath}/company/${this.props.company.ID}`}
         //onClick={onClick}
@@ -189,129 +175,128 @@ CompanyBooth.defaultProps = {
   isPreEvent: false
 };
 
-CompanyBooth = connect(
-  mapStateToProps
-  // mapDispatchToProps
-)(CompanyBooth);
-
 class CompaniesSection extends React.Component {
   constructor(props) {
     super(props);
-    this.loadData = this.loadData.bind(this);
-    this.renderList = this.renderList.bind(this);
-
     this.page = 1;
+
+    this.refreshTraffic = this.refreshTraffic.bind(this);
     this.traffic = {};
   }
 
   componentWillMount() {
-    //this.props.loadCompanies(this.props.limitLoad);
+    this.props.loadCompanies(this.props.limitLoad);
+
+    //this.props.loadTraffic();
+
     // socketOn(S2C.ONLINE_COMPANY, data => {
     //   this.props.setNonAxios("onlineCompanies", data);
     // });
 
-    this.getMainQueryParam = (page, offset) => {
-      let paging_param = "";
-      if (page && offset) {
-        paging_param = `page:${page}, offset:${offset}`
-      }
-     
-      return `cf:"${getCF()}", ${paging_param}`
-    }
-
-    this.loadCount = () => {
-      var query = `query{
-        companies_count(${this.getMainQueryParam()})
-       }`;
-
-      return getAxiosGraphQLQuery(query);
-    };
-
-    this.getCountFromRes = (res) => {
-      return res.data.data.companies_count
-    }
+    // socketOn(BOTH.QUEUE_STATUS, data => {
+    //   this.props.setNonAxios("queueCompanies", data);
+    // });
   }
 
-  getDataFromRes(res) {
-    return res.data.data.companies;
+  componentDidMount() {
+    //  layoutActions.storeUpdateFocusCard("tek Sapot", CompanyPopup, { isPreEvent: this.props.isPreEvent, id: 12 });
   }
 
-  loadData(page, offset) {
-    return graphql(`query{
-      companies(${this.getMainQueryParam(page, offset)}) {
-                ID
-                img_url
-                img_size
-                img_position
-                banner_url
-                banner_size
-                banner_position
-                name
-                tagline
-                type  
-            }
-      }`);
+  // add socket on here
+  refreshTraffic() {
+    this.props.loadTraffic();
   }
 
-  renderList(d, i) {
-    return (
-      <CompanyBooth
-        {...this.props}
-        isPreEvent={this.props.isPreEvent}
-        key={i}
-        company={d}
-        traffic={[]}
-      />
-    );
-  }
   render() {
+    // to see data structure
+    //alert(JSON.stringify(this.props.queueCompanies));
+    //alert(JSON.stringify(this.props.onlineCompanies));
 
-    return (
-      <div>
-        <div className={sec}>
-          <List
-            loadCount={this.loadCount}
-            getCountFromRes={this.getCountFromRes}
-            type="list"
-            listClass="flex-wrap-center"
-            pageClass="text-right"
-            getDataFromRes={this.getDataFromRes}
-            loadData={this.loadData}
-            renderList={this.renderList}
-            hideLoadMore={this.props.limitLoad ? true : false}
-            offset={this.props.limitLoad ? this.props.limitLoad : this.props.offset}
-          /></div>
-      </div>
-    );
+    var companies = this.props.companies;
+    var traffic = this.props.traffic;
+
+    var loading = <Loader size="3" text="Loading Companies.." />;
+
+    var view = [];
+    if (companies.fetching) {
+      view = loading;
+    } else {
+      companies = companies.data.companies ? companies.data.companies : null;
+
+      var comView = companies.map((d, i) => {
+        // booth traffic and companies order by need to set the same in order for this to work
+        var trf =
+          !traffic.fetching || traffic.data.companies
+            ? traffic.data.companies[i]
+            : null;
+
+        //this is from socket
+        // var onlineRec = this.props.onlineCompanies[d.ID]
+        //   ? Object.keys(this.props.onlineCompanies[d.ID]).length
+        //   : 0;
+
+        // var countQueue = this.props.queueCompanies[d.ID]
+        //   ? this.props.queueCompanies[d.ID]
+        //   : 0;
+
+        return (
+          <CompanyBooth
+            {...this.props}
+            isPreEvent={this.props.isPreEvent}
+            key={i}
+            // onlineRec={onlineRec}
+            // countQueue={countQueue}
+            company={d}
+            traffic={trf}
+          />
+        );
+      });
+
+      //var btn = <a onClick={this.refreshTraffic}>Refresh Line</a>;
+
+      view = (
+        <div>
+          <div className={sec}>{comView}</div>
+        </div>
+      );
+    }
+
+    return view;
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    traffic: state.hall.traffic,
+    online_companies: state.user.online_companies,
+    companies: state.hall.companies,
+    //onlineCompanies: state.hall.onlineCompanies,
+    queueCompanies: state.hall.queueCompanies
+  };
+}
 
-
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(
-//     {
-//       loadTraffic: hallAction.loadTraffic,
-//       loadCompanies: hallAction.loadCompanies,
-//       setNonAxios: hallAction.setNonAxios
-//     },
-//     dispatch
-//   );
-// }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      loadTraffic: hallAction.loadTraffic,
+      loadCompanies: hallAction.loadCompanies,
+      setNonAxios: hallAction.setNonAxios
+    },
+    dispatch
+  );
+}
 
 CompaniesSection.propTypes = {
   isPreEvent: PropTypes.bool,
-  limitLoad: PropTypes.number,
-  offset: PropTypes.number
+  limitLoad : PropTypes.number
 };
 
 CompaniesSection.defaultProps = {
   isPreEvent: false,
-  limitLoad: null,
-  offset: 6
+  limitLoad : null
 };
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(CompaniesSection);
