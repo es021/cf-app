@@ -27,7 +27,8 @@ import {
   isRoleAdmin,
   getCFObj,
   getAuthUser,
-  isComingSoon
+  isComingSoon,
+  isRoleOrganizer
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
@@ -199,7 +200,7 @@ export default class HallPage extends React.Component {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title="Job Posts"
         backgroundColor={"#eef0ee"}
-        items={<VacancyList limitLoad={4} isListAll={true} listClass="flex-wrap-center text-left"/>}
+        items={<VacancyList limitLoad={4} isListAll={true} listClass="flex-wrap-center text-left" />}
         see_more_text="See More Job Posts"
         see_more_to={`${AppPath}/list-job-posts`}
       ></ListRow>
@@ -310,6 +311,22 @@ export default class HallPage extends React.Component {
         {this.getEventAndWebinar()}
         {this.getJobPost()}
         {/* {this.getActivityAndWebinar()} */}
+      </div>
+    } else if (isRoleRec()) {
+      v = <div className="hall-page">
+        {this.getGallery()}
+        {this.getTitle()}
+        {this.getSponsor()}
+        {this.getRecruiterAction(this.state)}
+        {this.getActivityAndWebinar()}
+      </div>
+    } else if (isRoleAdmin() || isRoleOrganizer()) {
+      v = <div className="hall-page">
+        {this.getGallery()}
+        {this.getTitle()}
+        {this.getSponsor()}
+        {this.getCompanyBooth()}
+        {this.getEventAndWebinar()}
       </div>
     }
 

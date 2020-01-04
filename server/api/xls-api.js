@@ -19,7 +19,7 @@ class XLSApi {
         phone_number 
         sponsor
         where_in_malaysia
-
+        user_registered
         video_resume {url}
         skill {val}
         field_study {val}
@@ -142,7 +142,6 @@ class XLSApi {
             })}) {
               student{${this.student_field}}
               company{name}
-              created_at
             }
           }`;
 
@@ -554,8 +553,17 @@ class XLSApi {
   }
 
   defaultRowHook(k, d) {
-    if (this.DateTime.indexOf(k) >= 0) {
-      return Time.getString(d);
+   
+    let isDateTime = false;
+    for(var i in this.DateTime){
+      if(k.indexOf(this.DateTime[i]) >= 0){
+        isDateTime  = true;
+        break;
+      }
+    }
+    if (isDateTime) {
+      let t =  Time.getString(d);
+      return t;
     }
 
     // if (k.indexOf("doc_links") >= 0) {
