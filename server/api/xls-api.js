@@ -15,12 +15,15 @@ class XLSApi {
         qualification
         graduation_month 
         graduation_year
+        working_availability_month 
+        working_availability_year
         grade 
         phone_number 
         sponsor
         where_in_malaysia
         user_registered
         video_resume {url}
+        extracurricular {val}
         skill {val}
         field_study {val}
         looking_for_position {val}
@@ -215,6 +218,7 @@ class XLSApi {
     });
 
     let multi_input = [
+      "extracurricular",
       "field_study",
       "skill",
       "looking_for_position",
