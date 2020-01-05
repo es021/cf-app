@@ -5,7 +5,7 @@ const {
 } = require("../../config/db-config");
 
 class CFQuery {
-	getCfInList(field, entity, cf) {
+	getCfInList(field, entity, cf, delim = ",") {
 		if (typeof cf === "undefined") {
 			return "1=1";
 		}
@@ -18,8 +18,14 @@ class CFQuery {
 		let cfArr = null;
 
 		if (!Array.isArray(cf)) {
-			if (cf.indexOf(",") >= 0) {
-				cfArr = cf.split(",");
+			if (cf.indexOf(delim) >= 0) {
+				let splited = cf.split(delim);
+				cfArr = [];
+				for (var i in splited) {
+					if (splited[i] != "") {
+						cfArr.push(splited[i]);
+					}
+				}
 			}
 		} else {
 			cfArr = cf;
@@ -34,6 +40,8 @@ class CFQuery {
 		if (cfArr != null && Array.isArray(cfArr)) {
 			let toRet = "";
 			for (var i in cfArr) {
+
+
 				if (i > 0) {
 					toRet += " OR ";
 				}

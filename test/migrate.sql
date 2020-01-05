@@ -1,5 +1,5 @@
 
-INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES (NULL, 'MDEC', 'mail_chimp_list', 'local') 
+
 
 -- ##############################################################
 -- ##############################################################
@@ -8,6 +8,9 @@ INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES (NULL,
 -- ##############################################################
 -- ##############################################################
 
+ALTER TABLE `wp_career_fair`.`single_input` ADD INDEX (`val`, `key_input`);
+INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) 
+VALUES (NULL, 'MDEC', 'mail_chimp_list', 'local') 
 
 -- disabled student from old vicaf
 update  wp_cf_users set user_email = CONCAT('DELETED_',user_email)

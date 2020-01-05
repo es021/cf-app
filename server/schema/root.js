@@ -1,5 +1,7 @@
 //import all type
 const {
+	FilterType,
+	BrowseStudentType,
 	UserType,
 	CompanyType,
 	QueueType,
@@ -145,6 +147,9 @@ const {
 const {
 	LocationExec
 } = require("../model/location-query.js");
+const {
+	BrowseStudentExec
+} = require("../model/browse-student-query.js");
 const {
 	__
 } = require("../../config/graphql-config");
@@ -445,6 +450,68 @@ fields["group_session_joins"] = {
 		return GroupSessionExec.group_session_joins(arg, graphqlFields(info));
 	}
 };
+
+
+/*******************************************/
+/* browse_student ******************/
+
+let argBrowseStudent = {
+	company_id: __.Int,
+	favourited_only: __.String,
+	page: __.Int,
+	offset: __.Int,
+
+	// cv/events (delimeter '::')
+	cf: __.String,
+
+	// single (delimeter '::')
+	country_study: __.String,
+	university: __.String,
+
+	// multi (delimeter '::')
+	field_study: __.String,
+	looking_for_position: __.String,
+	interested_job_location: __.String,
+	skill: __.String,
+
+	// format => (month::year)
+	// working_availability_month_from: __.String,
+	// working_availability_year_from: __.String,
+	working_availability_month_to: __.String,
+	working_availability_year_to: __.String,
+
+	graduation_month_from: __.String,
+	graduation_year_from: __.String,
+	graduation_month_to: __.String,
+	graduation_year_to: __.String,
+
+
+};
+
+fields["browse_student_filter"] = {
+	type: FilterType,
+	args: argBrowseStudent,
+	resolve(parentValue, arg, context, info) {
+		return BrowseStudentExec.filter(arg, graphqlFields(info));
+	}
+};
+
+fields["browse_student_count"] = {
+	type: GraphQLInt,
+	args: argBrowseStudent,
+	resolve(parentValue, arg, context, info) {
+		return BrowseStudentExec.count(arg, graphqlFields(info));
+	}
+};
+
+fields["browse_student"] = {
+	type: new GraphQLList(BrowseStudentType),
+	args: argBrowseStudent,
+	resolve(parentValue, arg, context, info) {
+		return BrowseStudentExec.list(arg, graphqlFields(info));
+	}
+};
+
 
 /*******************************************/
 /* student_listing ******************/
