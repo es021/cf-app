@@ -161,6 +161,11 @@
     }
 }
 
+.profile-card.square {
+    .pc-picture {
+        border-radius: 0;
+    }
+}
 
 .profile-card.hover-shadow:hover {
     .pc-picture {

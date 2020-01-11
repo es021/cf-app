@@ -1,0 +1,83 @@
+@import "define/variable.scss";
+
+// ####################################
+// CONSTANTS 
+$HWW_ALL: 420px;
+$HWW_IMAGE: 90px;
+$HWW_ACTION: 120px;
+
+$HWW_ALL_SM : 415px;
+$HWW_IMAGE_SM: 70px;
+$HWW_ACTION_SM: 100px;
+
+
+$GREEN_CODE : #4d873c;
+$BLUE_CODE : #1569e0;
+
+.event-list {
+	width: 450px;
+	border-radius: 7px;
+	overflow: hidden;
+	display: flex;
+	justify-content: space-between;
+	background: white;
+	margin: 5px 20px;
+	margin-bottom: 20px;
+	box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
+
+	.el-image {
+		align-self: center;
+
+		.profile-card {
+			margin: 10px 0px;
+		}
+	}
+
+	.el-details {
+		flex-grow: 2;
+		padding: 5px 7px;
+		align-self: center;
+
+		.el-time {
+			height: 100%;
+			display: flex;
+
+			.el-toggle-timezone {
+				cursor: pointer;
+				padding: 3px 7px;
+				font-size: 10px;
+				border-radius: 5px;
+				margin-left: 10px;
+				background: $GREEN_CODE;
+				color: white;
+			}
+
+			.el-toggle-timezone:hover {
+				background: darken($GREEN_CODE, 15);
+			}
+		}
+	}
+
+
+
+
+}
+
+
+// @media only screen and (max-width: 500px) {
+//     .event-list {
+//         width: 180px;
+//         margin: 10px;
+
+//         .el-image,
+//         .el-details,
+//         .el-time {
+//             width: 100%;
+//         }
+
+//         .el-details,
+//         .el-time {
+//             padding: 10px;
+//         }
+//     }
+// }

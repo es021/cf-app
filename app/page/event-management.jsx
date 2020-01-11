@@ -1,48 +1,41 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Auditorium, AuditoriumEnum } from "../../config/db-config";
-import { AppPath } from "../../config/app-config";
-import List, { ProfileListWide } from "../component/list";
+import { Event, EventEnum } from "../../config/db-config";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
-import { NavLink } from "react-router-dom";
-
-import { InterestedButton } from "../component/interested";
 import GeneralFormPage from "../component/general-form";
-import ProfileCard from "../component/profile-card.jsx";
 import {
   getAuthUser,
-  getCF,
-  isRoleOrganizer,
-  isRoleAdmin,
-  isRoleRec
+  // getCF,
+  // isRoleOrganizer,
+  // isRoleAdmin,
+  // isRoleRec
 } from "../redux/actions/auth-actions";
-import obj2arg from "graphql-obj2arg";
-import { getDataCareerFair } from "../component/form";
 
-import { socketOn, emitLiveFeed } from "../socket/socket-client";
-import { BOTH } from "../../config/socket-config";
-import * as layoutActions from "../redux/actions/layout-actions";
-import CompanyPopup from "./partial/popup/company-popup";
-import { Loader } from "../component/loader";
-import ToogleTimezone from "../component/toggle-timezone";
+// import PropTypes from "prop-types";
+// import { AppPath } from "../../config/app-config";
+// import List, { ProfileListWide } from "../component/list";
+// import { NavLink } from "react-router-dom";
+// import { InterestedButton } from "../component/interested";
+// import ProfileCard from "../component/profile-card.jsx";
+// import obj2arg from "graphql-obj2arg";
+// import { getDataCareerFair } from "../component/form";
+// import { socketOn, emitLiveFeed } from "../socket/socket-client";
+// import { BOTH } from "../../config/socket-config";
+// import * as layoutActions from "../redux/actions/layout-actions";
+// import CompanyPopup from "./partial/popup/company-popup";
+// import { Loader } from "../component/loader";
+// import ToogleTimezone from "../component/toggle-timezone";
 
 
-// ###########################################################################################
-// AUDITORIUM MANAGEMENT PAGE ###########################################################
-
-export class EventManagement extends React.Component {
+export default class EventManagement extends React.Component {
   constructor(props) {
     super(props);
     this.authUser = getAuthUser();
-    this.CF = this.authUser.cf;
-    console.log(this.CF);
     this.company_id = this.props.company_id;
   }
 
   componentWillMount() {
     this.successAddHandler = d => {
-      //emitLiveFeed(d.title, d.content, d.type, d.cf, Time.getUnixTimestampNow());
     };
 
     //##########################################
@@ -50,7 +43,6 @@ export class EventManagement extends React.Component {
     this.renderRow = d => {
       return [
         <td>{d.ID}</td>,
-        <td>{d.cf}</td>,
         <td>
           <b>{d.title}</b>
           <small>
@@ -63,19 +55,19 @@ export class EventManagement extends React.Component {
           <small>
             <ul className="normal">
               <li>
+                <b>Type</b> : {d.type}
+              </li>
+              <li>
                 <b>Start</b> : {Time.getString(d.start_time)}
               </li>
               <li>
                 <b>End</b> : {Time.getString(d.end_time)}
               </li>
               <li>
-                <b>Join Link</b> : {d.link}
+                <b>Location</b> : {d.location}
               </li>
               <li>
-                <b>Recorded Video Link</b> : {d.recorded_link}
-              </li>
-              <li>
-                <b>Moderator</b> : {d.moderator}
+                <b>Description</b> : {d.description}
               </li>
             </ul>
           </small>
@@ -87,7 +79,6 @@ export class EventManagement extends React.Component {
       <thead>
         <tr>
           <th>ID</th>
-          <th>CF</th>
           <th>Event</th>
           <th>Details</th>
         </tr>
@@ -96,14 +87,14 @@ export class EventManagement extends React.Component {
 
     this.loadData = (page, offset) => {
       var query = `query{
-                auditoriums(page:${page},offset:${offset},now_only:false) {
-                  ID cf
+                events(page:${page},offset:${offset}) {
+                  ID 
+                  company_id
                   company{ID name img_url img_position img_size}
                   type
                   title
-                  link
-                  recorded_link
-                  moderator
+                  location
+                  description
                   start_time
                   end_time
                 }
@@ -114,7 +105,7 @@ export class EventManagement extends React.Component {
     // get actual data from loadData
     // can alter any data here too
     this.getDataFromRes = res => {
-      return res.data.data.auditoriums;
+      return res.data.data.events;
     };
 
     //##########################################
@@ -125,59 +116,65 @@ export class EventManagement extends React.Component {
     this.formWillSubmit = (d, edit) => {
       //udpated by
       if (edit) {
-        d[Auditorium.UPDATED_BY] = getAuthUser().ID;
+        d[Event.UPDATED_BY] = getAuthUser().ID;
       }
 
       // convert to number
-      if (typeof d[Auditorium.COMPANY_ID] !== "undefined") {
-        d[Auditorium.COMPANY_ID] = Number.parseInt(d[Auditorium.COMPANY_ID]);
+      if (typeof d.company_id !== "undefined") {
+        d[Event.COMPANY_ID] = Number.parseInt(d[Event.COMPANY_ID]);
       }
 
       // date time handling
-      if (d[Auditorium.START_TIME + "_DATE"]);
-      d[Auditorium.START_TIME] = Time.getUnixFromDateTimeInput(
-        d[Auditorium.START_TIME + "_DATE"],
-        d[Auditorium.START_TIME + "_TIME"]
+      if (d[Event.START_TIME + "_DATE"]);
+      d[Event.START_TIME] = Time.getUnixFromDateTimeInput(
+        d[Event.START_TIME + "_DATE"],
+        d[Event.START_TIME + "_TIME"]
       );
 
-      delete d[Auditorium.START_TIME + "_DATE"];
-      delete d[Auditorium.START_TIME + "_TIME"];
+      delete d[Event.START_TIME + "_DATE"];
+      delete d[Event.START_TIME + "_TIME"];
 
-      d[Auditorium.END_TIME] = Time.getUnixFromDateTimeInput(
-        d[Auditorium.END_TIME + "_DATE"],
-        d[Auditorium.END_TIME + "_TIME"]
+      d[Event.END_TIME] = Time.getUnixFromDateTimeInput(
+        d[Event.END_TIME + "_DATE"],
+        d[Event.END_TIME + "_TIME"]
       );
 
-      delete d[Auditorium.END_TIME + "_DATE"];
-      delete d[Auditorium.END_TIME + "_TIME"];
+      delete d[Event.END_TIME + "_DATE"];
+      delete d[Event.END_TIME + "_TIME"];
+
+      
+      if(d[Event.END_TIME] < d[Event.START_TIME]){
+        return "'End Time' cannot be less than 'Start Time'";
+      }
 
       return d;
     };
 
     // date time need to be forced diff
     this.forceDiff = [
-      Auditorium.START_TIME + "_DATE",
-      Auditorium.START_TIME + "_TIME",
-      Auditorium.END_TIME + "_DATE",
-      Auditorium.END_TIME + "_TIME"
+      Event.LOCATION,
+      Event.DESCRIPTION,
+      Event.START_TIME + "_DATE",
+      Event.START_TIME + "_TIME",
+      Event.END_TIME + "_DATE",
+      Event.END_TIME + "_TIME"
     ];
-
-    this.acceptEmpty = [Auditorium.LINK, Auditorium.RECORDED_LINK];
+    this.acceptEmpty = [Event.DESCRIPTION, Event.LOCATION];
 
     this.getEditFormDefault = ID => {
-      const query = `query{auditorium(ID:${ID})
-            {cf ID company_id type title link recorded_link moderator start_time end_time}}`;
+      const query = `query{event(ID:${ID})
+            {ID company_id type title description location start_time end_time}}`;
       return getAxiosGraphQLQuery(query).then(res => {
-        var data = res.data.data.auditorium;
+        var data = res.data.data.event;
         console.log(data);
         // setup time
         var start = Time.getInputFromUnix(data.start_time);
-        data[Auditorium.START_TIME + "_DATE"] = start.date;
-        data[Auditorium.START_TIME + "_TIME"] = start.time;
+        data[Event.START_TIME + "_DATE"] = start.date;
+        data[Event.START_TIME + "_TIME"] = start.time;
 
         var end = Time.getInputFromUnix(data.end_time);
-        data[Auditorium.END_TIME + "_DATE"] = end.date;
-        data[Auditorium.END_TIME + "_TIME"] = end.time;
+        data[Event.END_TIME + "_DATE"] = end.date;
+        data[Event.END_TIME + "_TIME"] = end.time;
 
         return data;
       });
@@ -185,35 +182,27 @@ export class EventManagement extends React.Component {
 
     // create form add new default
     this.newFormDefault = {};
-    this.newFormDefault[Auditorium.CF] = this.CF;
-    this.newFormDefault[Auditorium.CREATED_BY] = this.authUser.ID;
+    this.newFormDefault[Event.CREATED_BY] = this.authUser.ID;
 
     this.getFormItemAsync = edit => {
       return getAxiosGraphQLQuery(
         `query{companies(include_sponsor:1){ID name cf}}`
       ).then(res => {
         var companies = res.data.data.companies;
-        var ret = [{ header: "Auditorium Event Form" }];
+        var ret = [{ header: "Event Form" }];
 
         ret.push(
           ...[
             {
-              label: "Select Career Fair",
-              name: Auditorium.CF,
-              type: "radio",
-              data: getDataCareerFair("login"),
-              required: true
-            },
-            {
               label: "Type",
-              name: Auditorium.TYPE,
+              name: Event.TYPE,
               type: "select",
               required: true,
-              data: [AuditoriumEnum.TYPE_WEBINAR]
+              data: ["",EventEnum.TYPE_PHYSICAL, EventEnum.TYPE_VIRTUAL]
             },
             {
               label: "Company",
-              name: Auditorium.COMPANY_ID,
+              name: Event.COMPANY_ID,
               type: "select",
               required: true,
               data: companies.map((d, i) => {
@@ -222,7 +211,7 @@ export class EventManagement extends React.Component {
             },
             {
               label: "Title",
-              name: Auditorium.TITLE,
+              name: Event.TITLE,
               type: "text",
               placeholder: "",
               required: true
@@ -231,7 +220,7 @@ export class EventManagement extends React.Component {
             {
               label: "Start Date",
               sublabel: "Please enter your local time",
-              name: Auditorium.START_TIME + "_DATE",
+              name: Event.START_TIME + "_DATE",
               type: "date",
               placeholder: "",
               required: true
@@ -239,7 +228,7 @@ export class EventManagement extends React.Component {
             {
               label: "Start Time",
               sublabel: "Please enter your local time",
-              name: Auditorium.START_TIME + "_TIME",
+              name: Event.START_TIME + "_TIME",
               type: "time",
               placeholder: "",
               required: true
@@ -247,7 +236,7 @@ export class EventManagement extends React.Component {
             {
               label: "End Date",
               sublabel: "Please enter your local time",
-              name: Auditorium.END_TIME + "_DATE",
+              name: Event.END_TIME + "_DATE",
               type: "date",
               placeholder: "",
               required: true
@@ -255,34 +244,26 @@ export class EventManagement extends React.Component {
             {
               label: "End Time",
               sublabel: "Please enter your local time",
-              name: Auditorium.END_TIME + "_TIME",
+              name: Event.END_TIME + "_TIME",
               type: "time",
               placeholder: "",
               required: true
             },
             {
-              label: "Join Link",
-              name: Auditorium.LINK,
+              label: "Location",
+              name: Event.LOCATION,
               type: "text",
               placeholder: ""
             },
             {
-              label: "Recorded Video Link",
-              sublabel:
-                "If both 'Recorded Video Link' and Join Link exist, only 'Recorded Video Link' will be shown",
-              name: Auditorium.RECORDED_LINK,
-              type: "text",
-              placeholder: ""
-            },
-            {
-              label: "Moderator",
-              name: Auditorium.MODERATOR,
-              type: "text",
-              placeholder: ""
+              label: "Description",
+              name: Event.DESCRIPTION,
+              type: "textarea",
+              placeholder: "",
             },
             {
               label: "Created By",
-              name: Auditorium.CREATED_BY,
+              name: Event.CREATED_BY,
               type: "number",
               disabled: true,
               hidden: true,
@@ -298,10 +279,10 @@ export class EventManagement extends React.Component {
   render() {
     return (
       <GeneralFormPage
-        dataTitle="Auditorium Event Management"
-        entity="auditorium"
-        entity_singular="Auditorium Event"
-        addButtonText="Add New Auditorium Event"
+        dataTitle="Event Management"
+        entity="event"
+        entity_singular="Event"
+        addButtonText="Add New Event"
         dataOffset={10}
         acceptEmpty={this.acceptEmpty}
         forceDiff={this.forceDiff}

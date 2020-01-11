@@ -1,5 +1,17 @@
 CREATE TABLE `wp_career_fair`.`events` 
-( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , `company_id` BIGINT(20) NOT NULL , `type` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , `title` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL , `location` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , `start_time` BIGINT(20) NOT NULL , `end_time` BIGINT(20) NOT NULL , `created_by` BIGINT(20) NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_by` BIGINT(20) NOT NULL , `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`ID`), INDEX (`company_id`)) ENGINE = InnoDB; 
+( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`company_id` BIGINT(20) NOT NULL , 
+`type` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`title` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+`description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL , 
+`location` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL ,
+`start_time` BIGINT(20) NOT NULL , 
+`end_time` BIGINT(20) NOT NULL , 
+`created_by` BIGINT(20) NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_by` BIGINT(20) NULL , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+PRIMARY KEY (`ID`), INDEX (`company_id`)) ENGINE = InnoDB; 
 
 
 -- ##############################################################

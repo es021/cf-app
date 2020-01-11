@@ -1,5 +1,6 @@
 //import all type
 const {
+  EventType,
   QueueType,
   FeedbackQsType,
   ZoomInviteType,
@@ -38,6 +39,7 @@ const {
 
 //import all action for type
 const {
+  Event,
   Message,
   Queue,
   ZoomInvite,
@@ -1170,6 +1172,58 @@ fields["delete_forum_reply"] = {
     return DB.update(ForumReply.TABLE, arg).then(function(res) {
       return arg.ID;
     });
+  }
+};
+
+
+/*******************************************/
+/* event ******************/
+fields["add_event"] = {
+  type: EventType,
+  args: {
+    company_id: __.IntNonNull,
+    type: __.StringNonNull,
+    title: __.StringNonNull,
+    location: __.String,
+    description: __.String,
+    start_time: __.IntNonNull,
+    end_time: __.IntNonNull,
+    created_by: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert(Event.TABLE, arg).then(function(res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_event"] = {
+  type: EventType,
+  args: {
+    ID: __.IntNonNull,
+    company_id: __.Int,
+    type: __.String,
+    title: __.String,
+    location: __.String,
+    description: __.String,
+    start_time: __.Int,
+    end_time: __.Int,
+    updated_by: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update(Event.TABLE, arg).then(function(res) {
+      return res;
+    });
+  }
+};
+
+fields["delete_event"] = {
+  type: GraphQLInt,
+  args: {
+    ID: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.delete(Event.TABLE, arg.ID);
   }
 };
 

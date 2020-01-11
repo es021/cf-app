@@ -36,6 +36,7 @@ import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
 import ListRow from "../component/list-row";
 import { VacancyList } from "./company";
+import { EventList } from "./event-list";
 
 // require("../css/hall.scss");
 
@@ -206,6 +207,16 @@ export default class HallPage extends React.Component {
       ></ListRow>
     </div >
   }
+  getEvents() {
+    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+      <ListRow title="Events"
+        backgroundColor={null}
+        items={<EventList limitLoad={4} />}
+        see_more_text="See More Events"
+        see_more_to={`${AppPath}/list-events`}
+      ></ListRow>
+    </div >
+  }
   getEventAndWebinar() {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title="Events & Webinars"
@@ -307,6 +318,7 @@ export default class HallPage extends React.Component {
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
+        {this.getEvents()}
         {this.getCompanyBooth()}
         {this.getEventAndWebinar()}
         {this.getJobPost()}

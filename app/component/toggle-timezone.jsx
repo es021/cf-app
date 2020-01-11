@@ -6,17 +6,24 @@ import { Time } from "../lib/time";
 export default class ToogleTimezone extends React.Component {
   constructor(props) {
     super(props);
-    let defaultTime = this.props.createDefaultTime(this.props.unixtimestamp);
+
+    this.defaultTimezone = Time.ALT_TIMEZONE_SHORT;
+    this.myTimezone = Time.getTimezoneShort();
+    this.myTimezone = this.replaceTimezone(this.myTimezone);
+
+    let defaultTime = this.props.createDefaultTime(this.props.unixtimestamp, this.myTimezone);
+
+    
+    console.log("this.defaultTimezone",this.defaultTimezone);
+    console.log("this.myTimezone",this.myTimezone);
 
     this.state = {
       isDefaultTime: false,
       body: this.props.createBody(defaultTime)
     };
 
-    this.defaultTimezone = Time.ALT_TIMEZONE_SHORT;
 
-    this.myTimezone = Time.getTimezoneShort();
-    this.myTimezone = this.replaceTimezone(this.myTimezone);
+   
   }
 
   replaceTimezone(tz) {
@@ -32,11 +39,11 @@ export default class ToogleTimezone extends React.Component {
       let newBody = null;
       if (prevState.isDefaultTime) {
         newBody = this.props.createBody(
-          this.props.createDefaultTime(this.props.unixtimestamp)
+          this.props.createDefaultTime(this.props.unixtimestamp, this.myTimezone)
         );
       } else {
         newBody = this.props.createBody(
-          this.props.createAlternateTime(this.props.unixtimestamp)
+          this.props.createAlternateTime(this.props.unixtimestamp, this.defaultTimezone)
         );
       }
 
@@ -55,30 +62,36 @@ export default class ToogleTimezone extends React.Component {
     return toRet;
   }
   render() {
-    let toggler = (
-      <label className="app-switch">
-        <input
-          type="checkbox"
-          onClick={ev => {
-            this.onClickCheckbox();
-          }}
-        />
-        <span className="as-slider round">
-          <div className="as-text-container">
-            <div style={this.getTextStyle(this.defaultTimezone)}
-              className="as-text text-left flex-center">{this.defaultTimezone}</div>
-            <div style={this.getTextStyle(this.myTimezone)}
-              className="as-text text-right flex-center">{this.myTimezone}</div>
-          </div>
-        </span>
-      </label>
-    );
-
+    let onClick = ev => {
+      this.onClickCheckbox();
+    }
+    let toggler = null;
+    if (this.props.createCustomToggler) {
+      toggler = this.props.createCustomToggler(this.state.isDefaultTime, onClick);
+    } else {
+      toggler = (
+        <label className="app-switch">
+          <input
+            type="checkbox"
+            onClick={onClick}
+          />
+          <span className="as-slider round">
+            <div className="as-text-container">
+              <div style={this.getTextStyle(this.defaultTimezone)}
+                className="as-text text-left flex-center">{this.defaultTimezone}</div>
+              <div style={this.getTextStyle(this.myTimezone)}
+                className="as-text text-right flex-center">{this.myTimezone}</div>
+            </div>
+          </span>
+        </label>
+      );
+    }
     return <div>{this.props.createView(this.state.body, toggler)}</div>;
   }
 }
 
 ToogleTimezone.propTypes = {
+  createCustomToggler: PropTypes.func,
   unixtimestamp: PropTypes.any.isRequired,
   createBody: PropTypes.func,
   createView: PropTypes.func,

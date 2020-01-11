@@ -73,7 +73,8 @@ let scss = [
   "input-single",
   "input-multi",
   "input-general",
-  "vacancy"
+  "vacancy",
+  "event"
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");

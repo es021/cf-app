@@ -66,6 +66,7 @@ import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
 import ListCompanies from "../page/list-companies";
 import ListEventsWebinars from "../page/list-events-webinars";
 import ListJobPosts from "../page/list-job-posts";
+import EventManagement from "../page/event-management";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -258,6 +259,19 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       default_param: { current: "profile" },
       disabled: !isRoleStudent()
+    },
+    {
+      url: "/manage-events",
+      // EUR FIX
+      //label: "Auditorium",
+      label: "Manage Events",
+      icon: "microphone",
+      component: EventManagement,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
     {
       url: "/auditorium",
