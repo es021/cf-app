@@ -200,7 +200,7 @@ export default class HallPage extends React.Component {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title="Job Posts"
         backgroundColor={"#eef0ee"}
-        items={<VacancyList limitLoad={4} isListAll={true} listClass="flex-wrap-center text-left" />}
+        items={<VacancyList limitLoad={4} filterByCf={false} isListAll={true} listClass="flex-wrap-center text-left" />}
         see_more_text="See More Job Posts"
         see_more_to={`${AppPath}/list-job-posts`}
       ></ListRow>

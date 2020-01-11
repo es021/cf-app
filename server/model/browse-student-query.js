@@ -10,6 +10,36 @@ const {
 // mutation
 // root
 
+/**
+
+query{
+  browse_student(
+    working_availability_year_to:"2034",
+    company_id : 12,
+    favourited_only :"1",
+    page :1,
+    offset :10,
+      interested_job_location : "Cyberjaya, Selangor::Drawing",
+    skill : "Coding::Drawing",
+    cf:"NZL::UK"
+  ) {
+    student_id
+    student {
+    interested_job_location {val}
+      skill {
+        val
+      }
+      working_availability_year
+      working_availability_month
+      user_email
+			first_name 
+      last_name
+      cf
+    }
+  } 
+}
+
+ */
 
 class BrowseStudentExec {
 	constructor() {

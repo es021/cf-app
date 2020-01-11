@@ -72,6 +72,16 @@ const Meta = {
   CREATED_AT: "created_at"
 };
 
+const Event = {
+  TABLE: "events",
+};
+
+const EventEnum = {
+  TYPE_PYHSICAL: "pyhsical",
+  TYPE_VIRTUAL: "virtual",
+};
+
+
 const Auditorium = {
   TABLE: "auditorium",
   ID: "ID",
@@ -740,5 +750,7 @@ module.exports = {
   HallGalleryEnum,
   SingleInput,
   Interested,
-  Video
+  Video,
+  Event,
+  EventEnum
 };

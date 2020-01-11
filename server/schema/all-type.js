@@ -630,6 +630,26 @@ const MetaType = new GraphQLObjectType({
 	})
 });
 
+const EventType = new GraphQLObjectType({
+	name: "Event",
+	fields: () => ({
+		ID: __.Int,
+		company_id: __.Int,
+		type: __.String,
+		title: __.String,
+		description: __.String,
+		location: __.String,
+		start_time: __.Int,
+		end_time: __.Int,
+		created_by: __.Int,
+		updated_by: __.Int,
+		created_at: __.String,
+		updated_at: __.String,
+		interested: __.IsType(InterestedType),
+		company: __.IsType(CompanyType)
+	})
+});
+
 const AuditoriumType = new GraphQLObjectType({
 	name: "Auditorium",
 	fields: () => ({
@@ -817,6 +837,7 @@ module.exports = {
 	PasswordResetType,
 	ResumeDropType,
 	MetaType,
+	EventType,
 	AuditoriumType,
 	SessionRequestType,
 	LogType,

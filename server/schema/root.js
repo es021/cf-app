@@ -14,6 +14,7 @@ const {
 	SessionNoteType,
 	MessageType,
 	AuditoriumType,
+	EventType,
 	PasswordResetType,
 	MetaType,
 	SupportSessionType,
@@ -147,6 +148,9 @@ const {
 const {
 	LocationExec
 } = require("../model/location-query.js");
+const {
+	EventExec
+} = require("../model/event-query.js");
 const {
 	BrowseStudentExec
 } = require("../model/browse-student-query.js");
@@ -622,6 +626,48 @@ fields["zoom_invites"] = {
 		return ZoomExec.zoom_invites(arg, graphqlFields(info));
 	}
 };
+
+/*******************************************/
+/* event ******************/
+const eventsParam = {
+	user_id: __.Int,
+	company_id: __.Int,
+	page: __.Int,
+	offset: __.Int,
+	order_by: __.String
+}
+
+fields["events"] = {
+	type: new GraphQLList(EventType),
+	args: eventsParam,
+	resolve(parentValue, arg, context, info) {
+		return EventExec.events(arg, graphqlFields(info));
+	}
+};
+
+fields["events_count"] = {
+	type: GraphQLInt,
+	args: eventsParam,
+	resolve(parentValue, arg, context, info) {
+		return EventExec.events(arg, graphqlFields(info), {
+			count: true
+		});
+	}
+};
+
+fields["event"] = {
+	type: EventType,
+	args: {
+		ID: __.IntNonNull
+	},
+	resolve(parentValue, arg, context, info) {
+		return EventExec.events(arg, graphqlFields(info), {
+			single: true
+		});
+	}
+};
+
+
 
 /*******************************************/
 /* auditorium ******************/

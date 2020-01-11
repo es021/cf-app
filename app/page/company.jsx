@@ -92,7 +92,9 @@ export class VacancyList extends React.Component {
 
       let cf_param = "";
       if (this.props.isListAll) {
-        cf_param = `cf:"${getCF()}",`
+        if(this.props.filterByCf){
+          cf_param = `cf:"${getCF()}",`
+        }
       }
 
       return `
@@ -224,6 +226,7 @@ export class VacancyList extends React.Component {
 }
 
 VacancyList.propTypes = {
+  filterByCf : PropTypes.bool,
   isListAll: PropTypes.bool,
   company_id: PropTypes.number,
   limitLoad: PropTypes.number,
@@ -232,6 +235,7 @@ VacancyList.propTypes = {
 };
 
 VacancyList.defaultProps = {
+  filterByCf : true,
   isListAll: false,
   listClass: "flex-wrap-start",
   offset: 6,
