@@ -855,25 +855,25 @@ export default class CompanyPage extends Component {
       // ##################################################################################
       // for group session
 
-      var gSession =
-        !isRoleStudent() || this.props.displayOnly ? null : (
-          <div>
-            {/* <ButtonAction
-              style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
-              btnClass="btn-lg btn-blue"
-              onClick={() => { openLiveSession(this.ID); }}
-              icon="podcast"
-              iconSize="2x"
-              mainText={"Join Live Session"}
-              subText={`with ${this.state.data.name}`}
-            /> */}
-            <LiveSessionView
-              forStudent={true}
-              company_id={this.ID}
-              user_id={this.authUser.ID}
-            />
-          </div>
-        );
+      // var gSession =
+      //   !isRoleStudent() || this.props.displayOnly ? null : (
+      //     <div>
+      //       {/* <ButtonAction
+      //         style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
+      //         btnClass="btn-lg btn-blue"
+      //         onClick={() => { openLiveSession(this.ID); }}
+      //         icon="podcast"
+      //         iconSize="2x"
+      //         mainText={"Join Live Session"}
+      //         subText={`with ${this.state.data.name}`}
+      //       /> */}
+      //       <LiveSessionView
+      //         forStudent={true}
+      //         company_id={this.ID}
+      //         user_id={this.authUser.ID}
+      //       />
+      //     </div>
+      //   );
 
       // ##################################################################################
       // for action
@@ -913,7 +913,7 @@ export default class CompanyPage extends Component {
             ? null
             : this.getBtnLike({ fontSize: "15px", width: "100%" })}
           {/* {this.props.displayOnly ? null : forumLink} */}
-          {gSession}
+          {/* {gSession} */}
         </div>
       );
 

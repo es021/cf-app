@@ -28,8 +28,10 @@ class EventExec {
             limit = DB.prepareLimit(params.page, params.offset);
         }
 
+        var where = `${id} and ${company_id}`;
+
         var sql = `select ${select} from ${Event.TABLE}
-            where ${id} and ${company_id} 
+            where  ${where}
             ${order_by} ${limit}`;
         console.log(sql);
         return sql;

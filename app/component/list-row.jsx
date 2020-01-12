@@ -12,6 +12,16 @@ export default class ListRow extends React.Component {
     }
 
     render() {
+        let seemore = null;
+        if (this.props.see_more_to) {
+            seemore = <NavLink to={this.props.see_more_to}>
+                {this.props.see_more_text}{'  '}<i className="fa  fa-long-arrow-right"></i>
+            </NavLink>
+        } else if (this.props.see_more_onclick) {
+            seemore = <a onClick={this.props.see_more_onclick}>
+                {this.props.see_more_text}{'  '}<i className="fa  fa-long-arrow-right"></i>
+            </a>
+        }
         return (<div className="list-row" style={{ backgroundColor: this.props.backgroundColor }}>
             <div className="lr-container">
                 <div className="lr-title">{this.props.title}{'  '}
@@ -19,9 +29,7 @@ export default class ListRow extends React.Component {
                 <div className="lr-body">{this.props.items}</div>
                 <div className="lr-footer">
                     <b>
-                        <NavLink to={this.props.see_more_to}>
-                            {this.props.see_more_text}{'  '}<i className="fa  fa-long-arrow-right"></i>
-                        </NavLink>
+                        {seemore}
                     </b>
                 </div>
             </div>
@@ -34,7 +42,8 @@ ListRow.propsType = {
     items: PropTypes.any,
     title: PropTypes.string.isRequired,
     see_more_text: PropTypes.string,
-    see_more_to: PropTypes.string
+    see_more_to: PropTypes.string,
+    see_more_onclick: PropTypes.func,
 };
 
 ListRow.defaultProps = {

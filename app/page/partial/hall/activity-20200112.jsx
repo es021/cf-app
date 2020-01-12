@@ -510,21 +510,14 @@ class ActvityList extends React.Component {
   //   );
   // }
 
-  getTimeStrNew(unixtime, showTimeOnly, customText) {
+  getTimeStrNew(unixtime, showTimeOnly) {
     // debug
     //unixtime = (1552804854865/1000) + 500;
-    const className = "time-container";
-    if (
-      unixtime === undefined &&
-      showTimeOnly === undefined &&
-      customText !== undefined
-    ) {
-      return <div className={className}>{customText}</div>;
-    }
 
     let timeStr = Time.getString(unixtime);
+
     if (showTimeOnly) {
-      return <div>{timeStr}</div>;
+      return timeStr;
     }
 
     let passedText = "Waiting For Recruiter";
@@ -569,147 +562,147 @@ class ActvityList extends React.Component {
   }
 
   // return body n subtitle
-  // renderGroupSessionJoin(d, obj, title) {
-  //   // 2. subtitle and body
-  //   var subtitle = null;
-  //   //var crtSession = null;
-  //   var hasRemove = null;
-  //   var removeEntity = null;
-  //   var removeEntityId = null;
-  //   var body = null;
+  renderGroupSessionJoin(d, obj, title) {
+    // 2. subtitle and body
+    var subtitle = null;
+    //var crtSession = null;
+    var hasRemove = null;
+    var removeEntity = null;
+    var removeEntityId = null;
+    var body = null;
 
-  //   if (isRoleStudent()) {
-  //     // if (d.title != null && d.title != "") {
-  //     //   title = <small>{d.title}</small>;
-  //     // } else {
-  //     //   //title = <small>Group Session with {title}</small>;
-  //     // }
-  //     // title = <b>{title}</b>;
+    if (isRoleStudent()) {
+      // if (d.title != null && d.title != "") {
+      //   title = <small>{d.title}</small>;
+      // } else {
+      //   //title = <small>Group Session with {title}</small>;
+      // }
+      // title = <b>{title}</b>;
 
-  //     var hasStart = false;
-  //     //if (!d.is_expired && d.join_url != "" && d.join_url != null) {
-  //     if (Time.getUnixTimestampNow() >= d.start_time) {
-  //       hasStart = true;
-  //       //subtitle = "Video Call Has Started";
-  //       subtitle = this.getTimeStrNew(d.start_time, true);
-  //     } else {
-  //       if (d.is_canceled || d.is_expired) {
-  //         subtitle = this.getTimeStrNew(d.start_time, true);
-  //       } else {
-  //         subtitle = this.getTimeStrNew(d.start_time, false);
-  //       }
-  //     }
+      var hasStart = false;
+      //if (!d.is_expired && d.join_url != "" && d.join_url != null) {
+      if (Time.getUnixTimestampNow() >= d.start_time) {
+        hasStart = true;
+        //subtitle = "Video Call Has Started";
+        subtitle = this.getTimeStrNew(d.start_time, true);
+      } else {
+        if (d.is_canceled || d.is_expired) {
+          subtitle = this.getTimeStrNew(d.start_time, true);
+        } else {
+          subtitle = this.getTimeStrNew(d.start_time, false);
+        }
+      }
 
-  //     const isExpiredHandler = () => {
-  //       var mes = (
-  //         <div>
-  //           Unable to join.
-  //           <br />
-  //           This group session has ended.
-  //         </div>
-  //       );
-  //       layoutActions.errorBlockLoader(mes);
-  //       var q = `mutation {edit_group_session(ID:${d.ID}, is_expired:1){ID}}`;
-  //       getAxiosGraphQLQuery(q).then(res => {
-  //         hallAction.storeLoadActivity([
-  //           hallAction.ActivityType.GROUP_SESSION_JOIN
-  //         ]);
-  //       });
-  //     };
+      const isExpiredHandler = () => {
+        var mes = (
+          <div>
+            Unable to join.
+            <br />
+            This group session has ended.
+          </div>
+        );
+        layoutActions.errorBlockLoader(mes);
+        var q = `mutation {edit_group_session(ID:${d.ID}, is_expired:1){ID}}`;
+        getAxiosGraphQLQuery(q).then(res => {
+          hallAction.storeLoadActivity([
+            hallAction.ActivityType.GROUP_SESSION_JOIN
+          ]);
+        });
+      };
 
-  //     var btnJoin = (
-  //       <a
-  //         onClick={() => {
-  //           //joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
-  //           openLiveSession(d.company.ID);
-  //         }}
-  //         className="btn btn-sm btn-blue"
-  //       >
-  //         Join Video Call
-  //       </a>
-  //     );
+      var btnJoin = (
+        <a
+          onClick={() => {
+            //joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
+            openLiveSession(d.company.ID);
+          }}
+          className="btn btn-sm btn-blue"
+        >
+          Join Video Call
+        </a>
+      );
 
-  //     const openNotificationStart_GS = () => {
-  //       // block loader to inform the video call has started
-  //       // if time updated is less than bufferMin
-  //       var bufferMin = 2;
-  //       var diff =
-  //         Time.getUnixTimestampNow() - Time.convertDBTimeToUnix(d.updated_at);
-  //       if (diff <= bufferMin * 60) {
-  //         var popupBody = (
-  //           <div>
-  //             <br />
-  //             Group session with
-  //             <br />
-  //             <b>{obj.name}</b>
-  //             <br />
-  //             has started
-  //             <br /> <br />
-  //             {btnJoin}
-  //           </div>
-  //         );
-  //         var notiId = `group-session-${d.ID}`;
-  //         showNotification(notiId, popupBody);
-  //       }
-  //     };
-  //     let isGsHasRemove = false;
-  //     if (d.is_canceled) {
-  //       body = (
-  //         <button disabled="disabled" className="btn btn-sm btn-danger">
-  //           Canceled
-  //         </button>
-  //       );
-  //       isGsHasRemove = true;
-  //     } else if (d.is_expired) {
-  //       body = (
-  //         <button disabled="disabled" className="btn btn-sm btn-danger">
-  //           Ended
-  //         </button>
-  //       );
-  //       isGsHasRemove = true;
-  //     } else {
-  //       if (hasStart) {
-  //         openNotificationStart_GS();
-  //         body = <div>{btnJoin}</div>;
-  //       } else {
-  //         body = (
-  //           <div
-  //             id={d.join_id}
-  //             data-company_id={obj.ID}
-  //             data-company_name={obj.name}
-  //             onClick={this.cancelJoinGroupSession.bind(this)}
-  //             className="btn btn-sm btn-primary"
-  //           >
-  //             Cancel RSVP
-  //           </div>
-  //         );
-  //       }
-  //     }
+      const openNotificationStart_GS = () => {
+        // block loader to inform the video call has started
+        // if time updated is less than bufferMin
+        var bufferMin = 2;
+        var diff =
+          Time.getUnixTimestampNow() - Time.convertDBTimeToUnix(d.updated_at);
+        if (diff <= bufferMin * 60) {
+          var popupBody = (
+            <div>
+              <br />
+              Group session with
+              <br />
+              <b>{obj.name}</b>
+              <br />
+              has started
+              <br /> <br />
+              {btnJoin}
+            </div>
+          );
+          var notiId = `group-session-${d.ID}`;
+          showNotification(notiId, popupBody);
+        }
+      };
+      let isGsHasRemove = false;
+      if (d.is_canceled) {
+        body = (
+          <button disabled="disabled" className="btn btn-sm btn-danger">
+            Canceled
+          </button>
+        );
+        isGsHasRemove = true;
+      } else if (d.is_expired) {
+        body = (
+          <button disabled="disabled" className="btn btn-sm btn-danger">
+            Ended
+          </button>
+        );
+        isGsHasRemove = true;
+      } else {
+        if (hasStart) {
+          openNotificationStart_GS();
+          body = <div>{btnJoin}</div>;
+        } else {
+          body = (
+            <div
+              id={d.join_id}
+              data-company_id={obj.ID}
+              data-company_name={obj.name}
+              onClick={this.cancelJoinGroupSession.bind(this)}
+              className="btn btn-sm btn-primary"
+            >
+              Cancel RSVP
+            </div>
+          );
+        }
+      }
 
-  //     if (isGsHasRemove) {
-  //       hasRemove = true;
-  //       removeEntity = GroupSessionJoin.TABLE;
-  //       removeEntityId = d.join_id;
-  //     }
-  //   }
+      if (isGsHasRemove) {
+        hasRemove = true;
+        removeEntity = GroupSessionJoin.TABLE;
+        removeEntityId = d.join_id;
+      }
+    }
 
-  //   body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
+    body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
 
-  //   let topLabel = (
-  //     <div className="label label-success">
-  //       <i className="fa fa-users left" />
-  //       Live Session
-  //     </div>
-  //   );
+    let topLabel = (
+      <div className="label label-success">
+        <i className="fa fa-users left" />
+        Live Session
+      </div>
+    );
 
-  //   return {
-  //     body: body,
-  //     subtitle: subtitle,
-  //     title: title,
-  //     topLabel: topLabel,
-  //     topLabelClass: "success"
-  //   };
-  // }
+    return {
+      body: body,
+      subtitle: subtitle,
+      title: title,
+      topLabel: topLabel,
+      topLabelClass: "success"
+    };
+  }
 
   // return body n subtitle
   renderPreScreen(d, obj, title) {
@@ -884,9 +877,7 @@ class ActvityList extends React.Component {
             undefined,
             "Video Call Has Started"
           );
-          console.log("HERRREEEE");
         } else {
-          console.log("HERRREEEE 22222222");
           if (d.is_expired) {
             subtitle = this.getTimeStrNew(d.appointment_time, true);
           } else {
@@ -964,16 +955,30 @@ class ActvityList extends React.Component {
       </div>
     );
 
+    let labelOnSite = null;
+    if (d.is_onsite_call == 1) {
+      labelOnSite = (
+        <div style={{ marginBottom: "7px" }}>
+          <label className={`label label-primary`}>On-site Call</label>
+        </div>
+      );
+    }
+
     // openLiveSession use function utk bukak
-    // let topLabel = (
-    //   <div className="label label-danger">
-    //     <i className="fa fa-user left" />
-    //     Private Call
-    //   </div>
-    // );
+
+    let topLabel = (
+      <div className="label label-danger">
+        <i className="fa fa-user left" />
+        Private Call
+      </div>
+    );
 
     body = (
       <div>
+        {/* {isRoleRec()
+          ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
+          : null} */}
+        {labelOnSite}
         {btnStartVCall == null ? labelStatus : null}
         {isRoleRec() ? btnStartVCall : null}
         {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null}
@@ -992,14 +997,12 @@ class ActvityList extends React.Component {
       subtitle
     ];
 
-    subtitle = <div>{subtitle}</div>
-
     return {
       title: title,
       body: body,
       subtitle: subtitle,
-      // topLabel: topLabel,
-      // topLabelClass: "danger"
+      topLabel: topLabel,
+      topLabelClass: "danger"
     };
   }
 
@@ -1044,8 +1047,8 @@ class ActvityList extends React.Component {
         var custom_width = "180px";
         var subtitle = null;
         var objTemp = null;
-        // var topLabel = null;
-        // var topLabelClass = "";
+        var topLabel = null;
+        var topLabelClass = "";
         var badge = null;
         var badge_tooltip = null;
 
@@ -1066,29 +1069,29 @@ class ActvityList extends React.Component {
             body = objTemp.body;
             title = objTemp.title;
             subtitle = objTemp.subtitle;
-            // topLabel = objTemp.topLabel;
-            // topLabelClass = objTemp.topLabelClass;
+            topLabel = objTemp.topLabel;
+            topLabelClass = objTemp.topLabelClass;
             break;
 
           // #############################################################
           // group session Card View
-          // case hallAction.ActivityType.GROUP_SESSION_JOIN:
-          //   objTemp = this.renderGroupSessionJoin(d, obj, title);
-          //   body = objTemp.body;
-          //   title = objTemp.title;
-          //   subtitle = objTemp.subtitle;
-          //   topLabel = objTemp.topLabel;
-          //   topLabelClass = objTemp.topLabelClass;
-          //   break;
+          case hallAction.ActivityType.GROUP_SESSION_JOIN:
+            objTemp = this.renderGroupSessionJoin(d, obj, title);
+            body = objTemp.body;
+            title = objTemp.title;
+            subtitle = objTemp.subtitle;
+            topLabel = objTemp.topLabel;
+            topLabelClass = objTemp.topLabelClass;
+            break;
         }
 
-        // var labelType = (
-        //   <div className={`left-label left-label-${topLabelClass}`}>
-        //     <div className="label-arrow" />
-        //     {topLabel}
-        //   </div>
-        // );
-        // body = [body, labelType];
+        var labelType = (
+          <div className={`left-label left-label-${topLabelClass}`}>
+            <div className="label-arrow" />
+            {topLabel}
+          </div>
+        );
+        body = [body, labelType];
 
         var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
         let isOnlineCard = false;
@@ -1130,12 +1133,25 @@ class ActvityList extends React.Component {
       }
     }
 
-    return <div className="flex-wrap">{body}</div>;
+    if (this.props.noBorderCard) {
+      return <div>{body}</div>;
+    } else {
+      return (
+        <div className={`border-card bc-${this.props.bc_type} bc-rounded`}>
+          <h4 className="bc-title">
+            <span className="bc-title-back">{this.props.title}</span>
+            <br />
+            <small>{this.props.subtitle}</small>
+          </h4>
+          <div className="bc-body">{body}</div>
+        </div>
+      );
+    }
   }
 }
 
 ActvityList.propTypes = {
-  noBorderCard: PropTypes.bool,
+  noBorderCard : PropTypes.bool,
   type: PropTypes.oneOf([
     hallAction.ActivityType.SESSION,
     hallAction.ActivityType.QUEUE,
@@ -1151,7 +1167,7 @@ ActvityList.propTypes = {
 };
 
 ActvityList.defaultProps = {
-  noBorderCard: false,
+  noBorderCard : false,
   subtitle: null
 };
 
@@ -1233,9 +1249,6 @@ class ActivitySection extends React.Component {
     this.props.loadActivity();
   }
 
-  componentDidUpdate() {
-  }
-
   refresh(type) {
     this.props.loadActivity(type);
   }
@@ -1262,33 +1275,33 @@ class ActivitySection extends React.Component {
   }
 
   render() {
-    // var d = this.props.activity;
+    var d = this.props.activity;
 
-    // var subtitle_p = null;
+    var subtitle_p = null;
 
-    // var tt_p = isRoleStudent()
-    //   ? "Upcoming one-to-one sessions will be shown here. Check your email for confirmation."
-    //   : "You can schedule private sessions with students through Student Listing page";
-    // var title_p = this.createTitleWithTooltip(
-    //   <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>
-    //     Private Session{/* Scheduled Private Session */}
-    //   </a>,
-    //   tt_p
-    // );
+    var tt_p = isRoleStudent()
+      ? "Upcoming one-to-one sessions will be shown here. Check your email for confirmation."
+      : "You can schedule private sessions with students through Student Listing page";
+    var title_p = this.createTitleWithTooltip(
+      <a onClick={() => this.refresh(hallAction.ActivityType.PRESCREEN)}>
+        Private Session{/* Scheduled Private Session */}
+      </a>,
+      tt_p
+    );
 
-    // var tt_gs =
-    //   "Upcoming group session that you signed up for will be shown here.";
-    // var title_gs = this.createTitleWithTooltip(
-    //   <a
-    //     onClick={() => this.refresh(hallAction.ActivityType.GROUP_SESSION_JOIN)}
-    //   >
-    //     Group Session
-    //   </a>,
-    //   tt_gs
-    // );
-    // var subtitle_gs = null;
+    var tt_gs =
+      "Upcoming group session that you signed up for will be shown here.";
+    var title_gs = this.createTitleWithTooltip(
+      <a
+        onClick={() => this.refresh(hallAction.ActivityType.GROUP_SESSION_JOIN)}
+      >
+        Group Session
+      </a>,
+      tt_gs
+    );
+    var subtitle_gs = null;
 
-    // var size_p = isRoleRec() ? "12" : "12";
+    var size_p = isRoleRec() ? "12" : "12";
 
     //Group Session
     // var gs =
@@ -1318,65 +1331,60 @@ class ActivitySection extends React.Component {
     // Gabung ps and gs
 
     // 1. title
-    // var title = this.createTitleWithTooltip(
-    //   <a
-    //     onClick={() => {
-    //       let toRefresh = [hallAction.ActivityType.PRESCREEN];
-    //       if (isRoleStudent()) {
-    //         toRefresh.push(hallAction.ActivityType.GROUP_SESSION_JOIN);
-    //       }
-    //       this.refresh(toRefresh);
-    //     }}
-    //   >
-    //     My Activity
-    //   </a>,
-    //   "You can access your private call and live call here"
-    // );
+    var title = this.createTitleWithTooltip(
+      <a
+        onClick={() => {
+          let toRefresh = [hallAction.ActivityType.PRESCREEN];
+          if (isRoleStudent()) {
+            toRefresh.push(hallAction.ActivityType.GROUP_SESSION_JOIN);
+          }
+          this.refresh(toRefresh);
+        }}
+      >
+        My Activity
+      </a>,
+      "You can access your private call and live call here"
+    );
 
-    // // 2. subtitle
-    // var subtitle = null;
-
-    var d = this.props.activity;
+    // 2. subtitle
+    var subtitle = null;
 
     // 3. list
     let list = [];
+    //// 3.a  add private call
     for (var i in d.prescreens) {
-      if (i >= this.props.limitLoad) {
-        break;
-      }
       let newObj = d.prescreens[i];
       newObj._type = hallAction.ActivityType.PRESCREEN;
       list.push(newObj);
     }
     //// 3.b  add live call (for student only)
-    // if (isRoleStudent()) {
-    //   for (var i in d.group_session_joins) {
-    //     let newObj = d.group_session_joins[i];
-    //     newObj._type = hallAction.ActivityType.GROUP_SESSION_JOIN;
-    //     list.push(newObj);
-    //   }
-    // }
+    if (isRoleStudent()) {
+      for (var i in d.group_session_joins) {
+        let newObj = d.group_session_joins[i];
+        newObj._type = hallAction.ActivityType.GROUP_SESSION_JOIN;
+        list.push(newObj);
+      }
+    }
 
     // 4. fetching
-    let fetching = d.fetching.prescreens;
-    // if (isRoleStudent()) {
-    //   fetching = d.fetching.prescreens || d.fetching.group_session_joins;
-    // } else {
-    //   fetching = d.fetching.prescreens;
-    // }
+    let fetching = true;
+    if (isRoleStudent()) {
+      fetching = d.fetching.prescreens || d.fetching.group_session_joins;
+    } else {
+      fetching = d.fetching.prescreens;
+    }
 
     // 5. view
     var ps_gs = (
       <ActvityList
-        limitLoad={this.props.limitLoad}
         noBorderCard={true}
         bc_type="vertical"
         online_users={this.props.online_users}
         online_companies={this.props.online_companies}
         fetching={fetching}
         type={null}
-        title={""}
-        subtitle={""}
+        title={title}
+        subtitle={subtitle}
         list={list}
       />
     );
@@ -1386,18 +1394,9 @@ class ActivitySection extends React.Component {
   }
 }
 
-ActivitySection.defaultProps = {
-  limitLoad: PropTypes.number
-}
-
-ActivitySection.propTypes = {
-
-}
-
 // TODO status online
 function mapStateToProps(state, ownProps) {
   return {
-    ...ownProps,
     activity: state.hall.activity,
     online_users: state.user.online_users,
     online_companies: state.user.online_companies

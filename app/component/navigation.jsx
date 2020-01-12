@@ -67,6 +67,8 @@ import ListCompanies from "../page/list-companies";
 import ListEventsWebinars from "../page/list-events-webinars";
 import ListJobPosts from "../page/list-job-posts";
 import EventManagement from "../page/event-management";
+import ListEvent from "../page/list-events";
+import ListInterviews from "../page/list-interviews";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -509,6 +511,24 @@ function getMenuItem(COMING_SOON) {
   /**** ROUTE ONLY *******/
   menuItem.push(
     ...[
+      {
+        url: "/list-interviews",
+        component: ListInterviews,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
+      {
+        url: "/list-events",
+        component: ListEvent,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
       {
         url: "/list-job-posts",
         component: ListJobPosts,

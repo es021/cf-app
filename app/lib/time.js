@@ -444,8 +444,8 @@ Time.prototype.getHapenningIn = function (unixtimestamp, {
     var next = new Date(unixtimestamp * 1000);
     var timeLeft = next - current;
 
-    console.log("msStartCount", msStartCount);
-    console.log("timeLeft", timeLeft);
+    // console.log("msStartCount", msStartCount);
+    // console.log("timeLeft", timeLeft);
 
     if (msStartCount > 0) {
         if (timeLeft > msStartCount) {

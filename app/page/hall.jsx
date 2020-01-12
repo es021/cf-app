@@ -184,54 +184,66 @@ export default class HallPage extends React.Component {
       </div>
     );
   }
-
-  getActivityAndWebinar() {
-    return (
-      <div className="activity-section main-width main-width-lg">
-        <div className={`col-md-6 no-padding my-activity`}>
-          <ActivitySection />
-        </div>
-        <div className={`col-md-6 no-padding`}>
-          <WebinarHall />
-        </div>
-      </div>
-    );
+  getInterview(backgroundColor) {
+    return <div className="col-md-12 no-padding">
+      <ListRow title="My Interviews"
+        backgroundColor={backgroundColor}
+        items={<ActivitySection limitLoad={5} />}
+        see_more_text="See More Interviews"
+        see_more_onclick={()=>{
+          // console.log(`${AppPath}/list-interviews`)
+          window.location = `${AppPath}/list-interviews`;
+        }}
+      ></ListRow>
+    </div >
   }
-  getJobPost() {
+  // getActivityAndWebinar() {
+  //   return (
+  //     <div className="activity-section main-width main-width-lg">
+  //       <div className={`col-md-6 no-padding my-activity`}>
+  //         <ActivitySection />
+  //       </div>
+  //       <div className={`col-md-6 no-padding`}>
+  //         <WebinarHall />
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  getJobPost(backgroundColor) {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title="Job Posts"
-        backgroundColor={"#eef0ee"}
+        backgroundColor={backgroundColor}
         items={<VacancyList limitLoad={4} filterByCf={false} isListAll={true} listClass="flex-wrap-center text-left" />}
         see_more_text="See More Job Posts"
         see_more_to={`${AppPath}/list-job-posts`}
       ></ListRow>
     </div >
   }
-  getEvents() {
+  getEvents(backgroundColor) {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Events"
-        backgroundColor={null}
+      <ListRow title="Events & Webinars"
+        backgroundColor={backgroundColor}
         items={<EventList limitLoad={4} />}
-        see_more_text="See More Events"
+        see_more_text="See More Events & Webinars"
         see_more_to={`${AppPath}/list-events`}
       ></ListRow>
     </div >
   }
-  getEventAndWebinar() {
-    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Events & Webinars"
-        backgroundColor={null}
-        items={<WebinarHall noBorderCard={true} limitLoad={4} />}
-        see_more_text="See More Events & Webinars"
-        see_more_to={`${AppPath}/list-events-webinars`}
-      ></ListRow>
-    </div >
-  }
-  getCompanyBooth() {
+  // getEventAndWebinar() {
+  //   return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+  //     <ListRow title="Events & Webinars"
+  //       backgroundColor={null}
+  //       items={<WebinarHall noBorderCard={true} limitLoad={4} />}
+  //       see_more_text="See More Events & Webinars"
+  //       see_more_to={`${AppPath}/list-events-webinars`}
+  //     ></ListRow>
+  //   </div >
+  // }
+  getCompanyBooth(backgroundColor) {
 
     return <div className="col-md-12 no-padding">
       <ListRow title="Company Profiles"
-        backgroundColor={"#eef0ee"}
+        backgroundColor={backgroundColor}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
         see_more_text="See More Companies"
         see_more_to={`${AppPath}/list-companies`}
@@ -318,11 +330,10 @@ export default class HallPage extends React.Component {
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
-        {this.getEvents()}
-        {this.getCompanyBooth()}
-        {this.getEventAndWebinar()}
-        {this.getJobPost()}
-        {/* {this.getActivityAndWebinar()} */}
+        {this.getInterview(null)}
+        {this.getCompanyBooth("#eef0ee")}
+        {this.getEvents(null)}
+        {this.getJobPost("#eef0ee")}
       </div>
     } else if (isRoleRec()) {
       v = <div className="hall-page">
@@ -330,15 +341,16 @@ export default class HallPage extends React.Component {
         {this.getTitle()}
         {this.getSponsor()}
         {this.getRecruiterAction(this.state)}
-        {this.getActivityAndWebinar()}
+        {this.getInterview("#eef0ee")}
+        {this.getEvents(null)}
       </div>
     } else if (isRoleAdmin() || isRoleOrganizer()) {
       v = <div className="hall-page">
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
-        {this.getCompanyBooth()}
-        {this.getEventAndWebinar()}
+        {this.getCompanyBooth("#eef0ee")}
+        {this.getEvents(null)}
       </div>
     }
 
