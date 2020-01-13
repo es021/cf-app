@@ -21,11 +21,11 @@ var root = isProd ? "/cf" : "";
 
 // ##################################################
 // console config
-if (isProd) {
-  console.log = function(mes) {
-    return;
-  };
-}
+// if (isProd) {
+//   console.log = function(mes) {
+//     return;
+//   };
+// }
 
 // ##################################################
 //Use Career Fair Schema
