@@ -1,28 +1,3 @@
-SELECT DISTINCT u.ID as student_id, u.user_registered, (CASE WHEN count(dc.ID) >  0 THEN 1 ELSE 0 END) as has_dc
-        FROM wp_cf_users u left outer join doc_link dc ON u.ID = dc.user_id
-        WHERE 1=1 
-        AND ${join_search_student}
-        AND ${join_search_field_study}
-        AND ${join_search_country_study}
-        AND ${join_search_work_av}
-        AND ${join_search_looking_for}
-        AND ${join_search_university}
-        AND ${join_graduation_year}
-        AND ${join_search_favourite_student}
-        AND ${join_grade_category}
-        AND ${join_cf}
-        GROUP BY u.ID
-        ORDER BY has_dc desc, u.user_registered desc
-        LIMIT 0, 5
-
-
-
-
-
-
-
-
-
 CREATE TABLE `wp_career_fair`.`events` 
 ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
 `company_id` BIGINT(20) NOT NULL , 
