@@ -16,6 +16,7 @@ class CFQuery {
 		}
 
 		let cfArr = null;
+		//let cfArr = cf;
 
 		if (!Array.isArray(cf)) {
 			if (cf.indexOf(delim) >= 0) {
