@@ -22,6 +22,7 @@ PRIMARY KEY (`ID`), INDEX (`company_id`)) ENGINE = InnoDB;
 -- ##############################################################
 
 ALTER TABLE `wp_career_fair`.`single_input` ADD INDEX (`val`, `key_input`);
+
 INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) 
 VALUES (NULL, 'MDEC', 'mail_chimp_list', 'local') 
 

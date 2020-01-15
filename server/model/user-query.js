@@ -49,7 +49,9 @@ class UserQuery {
       and m.entity = 'user'`;
 	}
 	selectSingleMain(user_id, key_input) {
-		return `select s.val from single_input s where s.entity_id = ${user_id} and s.entity = 'user' and s.key_input = '${key_input}'`;
+		return `select s.val from single_input s where s.entity_id = ${user_id} 
+		and s.entity = 'user' 
+		and s.key_input = '${key_input}'`;
 	}
 	getSearchMulti(table_name, field, search_params) {
 		if (typeof search_params !== "undefined") {

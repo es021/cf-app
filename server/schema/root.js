@@ -493,7 +493,7 @@ let argBrowseStudent = {
 };
 
 fields["browse_student_filter"] = {
-	type: FilterType,
+	type: new GraphQLList(FilterType),
 	args: argBrowseStudent,
 	resolve(parentValue, arg, context, info) {
 		return BrowseStudentExec.filter(arg, graphqlFields(info));

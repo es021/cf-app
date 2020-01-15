@@ -70,32 +70,33 @@ class BrowseStudentExec {
 
 		return `(${r})`;
 	}
-	select(table_type, key, val) {
+	select(user_id, table_type, key, val) {
 		if (typeof val === "undefined" || val == "" || val == null) {
 			return "1=1";
 		} else {
 
 			switch (table_type) {
 				case this.TABLE_SINGLE:
-
-
+					// TODO_kena_amik_selectMultiMain_masuk_kat_sini
+					break;
 				case this.TABLE_MULTI:
-					return `(${UserQuery.selectMultiMain(key, "u.ID", {
-            inWhere: this.getSqlIn(val),
-            isCountVal : true
-          })}) > 0`;
+					return `(${UserQuery.selectMultiMain(key, user_id, {
+						inWhere: this.getSqlIn(val),
+						isCountVal : true
+					})}) > 0`;
 			}
 		}
 	}
 	selectDateRange({
+		user_id,
 		month_key,
 		year_key,
 		from,
 		to
 	}) {
 		let dateFormat = "%d%M%Y";
-		let month = `${UserQuery.selectSingleMain("u.ID", month_key)}`;
-		let year = `${UserQuery.selectSingleMain("u.ID", year_key)}`;
+		let month = `${UserQuery.selectSingleMain(user_id, month_key)}`;
+		let year = `${UserQuery.selectSingleMain(user_id, year_key)}`;
 
 		let from_sql = "1=1";
 		if (from.year) {
@@ -113,63 +114,75 @@ class BrowseStudentExec {
 
 		return `(${from_sql} AND ${to_sql})`;
 	}
-	// TODO
-	query(param, type) {
-		let select = "";
-		let order = "";
-		let group = "";
-		if (this.isCount(type)) {
-			select = `COUNT (DISTINCT u.ID) as total`;
-		} else if (this.isFilter(type)) {
-			/**
-       * 
-    
-       /// single
-      
-     SELECT s.key_input, s.val, COUNT(*) as total 
-      FROM single_input s
-      where 
-      ( 
-        s.key_input = "university"
-          AND
-        s.val IN (select r.val from ref_university r)
-      ) 
-      OR 
-      ( 
-        s.key_input = "country_study"
-          AND
-        s.val IN (select r.val from ref_country r)
-      ) 
-      group by s.key_input, s.val
-      order by s.key_input, total desc
-
-      */
-			// select = `COUNT (DISTINCT u.ID) as total`;
-		} else {
-			group = "GROUP BY u.ID";
-			select = `DISTINCT u.ID as student_id`;
-			order = "ORDER BY u.user_registered desc";
+	queryFilter(param) {
+		const multiFilter = (key, where) => {
+			return `select '${key}' as _key, s.val as _val, COUNT(s.ID) as _total 
+				from multi_${key} s
+				WHERE s.entity = 'user'
+				AND ${where}
+				GROUP BY s.val`
 		}
-		var limit = DB.prepareLimit(param.page, param.offset);
 
+		const singleFilter = (where) => {
+			return `SELECT s.key_input as _key
+			, s.val as _val
+			, COUNT(*) as _total 
+			FROM single_input s
+			where 
+			( 
+				s.key_input = "university"
+					AND
+				s.val IN (select r.val from ref_university r)
+			) 
+			OR 
+			( 
+				s.key_input = "country_study"
+					AND
+				s.val IN (select r.val from ref_country r)
+			) 
+			AND s.entity = 'user'
+			AND ${where}
+			group by s.key_input, s.val`;
 
+		}
+
+		let where = this.getWhere("s.entity_id", param);
+
+		let q = `SELECT * FROM (
+			${singleFilter(where)}
+			UNION ALL
+			${multiFilter("skill", where)}
+			UNION ALL
+			${multiFilter("field_study", where)}
+			UNION ALL
+			${multiFilter("looking_for_position", where)}
+			UNION ALL
+			${multiFilter("interested_job_location", where)}
+		) 
+		X ORDER BY X._key, X._total`;
+
+		return q;
+
+	}
+	getWhere(user_id, param) {
 		// select item
-		let cf = CFQuery.getCfInList("u.ID", "user", param.cf, this.DELIMITER);
-		let country_study = this.select(this.TABLE_SINGLE, "country_study", param.country_study);
-		let university = this.select(this.TABLE_SINGLE, "university", param.university);
-		let field_study = this.select(this.TABLE_MULTI, "field_study", param.field_study);
-		let looking_for_position = this.select(this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
-		let interested_job_location = this.select(this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
-		let skill = this.select(this.TABLE_MULTI, "skill", param.skill);
+		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
+		let country_study = this.select(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
+		let university = this.select(user_id, this.TABLE_SINGLE, "university", param.university);
+		let field_study = this.select(user_id, this.TABLE_MULTI, "field_study", param.field_study);
+		let looking_for_position = this.select(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
+		let interested_job_location = this.select(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
+		let skill = this.select(user_id, this.TABLE_MULTI, "skill", param.skill);
 
 		var favourited = UserQuery.getSearchInterested(
 			param.company_id,
 			"student_listing",
-			"u.ID",
+			user_id,
 			param.favourited_only
 		);
 
 		let work_availability = this.selectDateRange({
+			user_id: user_id,
 			month_key: "working_availability_month",
 			year_key: "working_availability_year",
 			from: {
@@ -183,6 +196,7 @@ class BrowseStudentExec {
 		});
 
 		let graduation = this.selectDateRange({
+			user_id: user_id,
 			month_key: "graduation_month",
 			year_key: "graduation_year",
 			from: {
@@ -195,23 +209,43 @@ class BrowseStudentExec {
 			}
 		});
 
-		var sql = `
-      SELECT ${select}
-      FROM wp_cf_users u
-      WHERE 1=1 
-      AND ${favourited}
-      AND ${cf}
-      AND ${country_study}
-      AND ${university}
-      AND ${field_study}
-      AND ${looking_for_position}
-      AND ${interested_job_location}
-      AND ${skill}
-      AND ${work_availability}
-      AND ${graduation}
-      ${group}
-      ${order}
-      ${limit} `;
+		return `1=1 
+			AND ${favourited}
+			AND ${cf}
+			AND ${country_study}
+			AND ${university}
+			AND ${field_study}
+			AND ${looking_for_position}
+			AND ${interested_job_location}
+			AND ${skill}
+			AND ${work_availability}
+			AND ${graduation}`;
+	}
+	// TODO
+	query(param, type) {
+		let select = "";
+		let order = "";
+		let group = "";
+		if (this.isFilter(type)) {
+			return this.queryFilter(param);
+
+		} else if (this.isCount(type)) {
+			select = `COUNT (DISTINCT u.ID) as total`;
+
+		} else {
+			group = "GROUP BY u.ID";
+			select = `DISTINCT u.ID as student_id`;
+			order = "ORDER BY u.user_registered desc";
+		}
+		var limit = DB.prepareLimit(param.page, param.offset);
+
+		let where = this.getWhere("u.ID", param);
+
+		var sql = `SELECT ${select} FROM wp_cf_users u
+			WHERE ${where}
+			${group}
+			${order}
+			${limit}`;
 
 		console.log(sql);
 		return sql;
@@ -253,6 +287,7 @@ class BrowseStudentExec {
 	}
 	getHelper(type, param, field, extra = {}) {
 		var sql = this.query(param, type);
+		console.log("[BrowseStudentExec]", sql)
 		var toRet = DB.query(sql).then(res => {
 			if (this.isList(type)) {
 				return this.resList(res, field, param);

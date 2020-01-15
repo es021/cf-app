@@ -786,9 +786,9 @@ const EntityRemovedType = new GraphQLObjectType({
 const FilterType = new GraphQLObjectType({
 	name: "Filter",
 	fields: () => ({
-		parent: __.String,
-		val: __.String,
-		count: __.Int
+		_key: __.String,
+		_val: __.String,
+		_total: __.Int
 	})
 });
 
