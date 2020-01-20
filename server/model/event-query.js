@@ -16,7 +16,7 @@ class EventExec {
         var company_id = (typeof params.company_id !== "undefined") ? `company_id = '${params.company_id}'` : "1=1";
 
         var order_by = `order by `
-            + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `start_time desc`);
+            + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `is_ended asc, start_time asc`);
 
         var limit = "";
         let select = "";
@@ -24,13 +24,14 @@ class EventExec {
             select = "COUNT(*) as total";
             limit = "";
         }else{
-            select = "*";
+            select = "(CASE WHEN UNIX_TIMESTAMP() > end_time THEN 1 ELSE 0 END) as is_ended, e.*";
             limit = DB.prepareLimit(params.page, params.offset);
         }
 
         var where = `${id} and ${company_id}`;
 
-        var sql = `select ${select} from ${Event.TABLE}
+
+        var sql = `select ${select} from ${Event.TABLE} e
             where  ${where}
             ${order_by} ${limit}`;
         console.log(sql);

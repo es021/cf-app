@@ -79,6 +79,7 @@ export class EventList extends React.Component {
     var query = `query{
         events(${this.getMainQueryParam(page, offset)}) {
           ID
+          is_ended
           company_id
           company{ID name img_url img_position img_size}
           type
@@ -256,7 +257,8 @@ export class EventList extends React.Component {
           }) => {
             let r = null;
 
-            if (Time.getUnixTimestampNow() > d.end_time) {
+            // if (Time.getUnixTimestampNow() > d.end_time) {
+            if (d.is_ended) {
               r = <div className="el-ended el-action-item">Event Ended</div>
             } else {
               if (is_interested) {

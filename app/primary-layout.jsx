@@ -34,7 +34,6 @@ import { initSocket, socketOn } from "./socket/socket-client";
 import { BOTH } from '../config/socket-config';
 
 
-
 import * as hallAction from "./redux/actions/hall-actions";
 
 //state is from redux reducer
@@ -65,7 +64,7 @@ class PrimaryLayout extends React.Component {
     this.loadCf();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // takleh panggil ni store action kat dalam componentWillMount
     hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
     hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
@@ -113,12 +112,12 @@ class PrimaryLayout extends React.Component {
     hall_cfg_onsite_call_use_group
   }}`;
 
-  /**
-   * Organizer
-    Collaborator
-    Powered
-    University
-   */
+    /**
+     * Organizer
+      Collaborator
+      Powered
+      University
+     */
 
     getAxiosGraphQLQuery(query).then(res => {
       var cfs = res.data.data.cfs;
@@ -145,10 +144,25 @@ class PrimaryLayout extends React.Component {
 
       this.setState(prevState => {
         return {
-          loadingCf: false
+          loadingCf: false,
         };
       });
     });
+  }
+  setPageId(){
+    let pageId = location.href.split("/");
+    this.pageId = pageId[pageId.length - 1];
+  }
+  // componentWillMount(){
+  //   this.setPageId();
+
+  // }
+  componentWillUpdate() {
+    this.setPageId();
+    // this.setState(() => {
+    //   
+    //   return { pageId: pageId };
+    // })
   }
 
   render() {
@@ -199,7 +213,7 @@ class PrimaryLayout extends React.Component {
         <div className="primary-layout landing-page">
           <HeaderLayout menuList={headerMenu} />
           <div className="content">
-            <div className="main">{route}</div>
+            <div id={this.pageId} className="main">{route}</div>
           </div>
           <FooterLayout />
         </div>
@@ -213,7 +227,7 @@ class PrimaryLayout extends React.Component {
           <HeaderLayout menuList={headerMenu} />
           {/* <LeftBarLayout menuList={sideMenu} /> */}
           <div className="content">
-            <div className="main">{route}</div>
+            <div id={this.pageId} className="main">{route}</div>
             {/* <RightBarLayout /> */}
           </div>
           <FooterLayout />

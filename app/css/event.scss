@@ -14,8 +14,12 @@ $HWW_ACTION_SM: 100px;
 $GREEN_CODE : #4d873c;
 $BLUE_CODE : #1569e0;
 
+#list-events.main{
+	max-width: 1100px;
+}
+
 .event-list {
-	width: 450px;
+	width: 490px;
 	border-radius: 7px;
 	overflow: hidden;
 	display: flex;
@@ -41,7 +45,7 @@ $BLUE_CODE : #1569e0;
 		position: absolute;
 		right: 0;
 		width: max-content;
-		font-size: 10px;
+		font-size: 12px;
 		text-align: center;
 		cursor: pointer;
 		margin: 0px 5px;
@@ -89,13 +93,14 @@ $BLUE_CODE : #1569e0;
 
 
 		.el-title {
-			width: 75%;
+			font-size: 14px;
+			width: 70%;
 			margin-bottom: 7px;
 		}
 
 		.el-time,
 		.el-location {
-			font-size: 11px;
+			font-size: 13px;
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
@@ -113,7 +118,7 @@ $BLUE_CODE : #1569e0;
 			display: flex;
 
 			.el-toggle-timezone {
-				font-size: 9px;
+				font-size: 11px;
 
 				cursor: pointer;
 				padding: 2px 5px;
@@ -170,7 +175,7 @@ $BLUE_CODE : #1569e0;
 				flex-wrap: wrap;
 
 				.el-toggle-timezone {
-					margin-left: 12px;
+					margin-left: 0px;
 				}
 			}
 
