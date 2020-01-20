@@ -4,7 +4,7 @@ const { getUnixTimestampNow } = require('../../helper/general-helper');
 
 class EventExec {
     constructor() {
-       // this.OFFSET_END_TIME = 240 * 60; //  30 minute offset
+        // this.OFFSET_END_TIME = 240 * 60; //  30 minute offset
     }
 
     getQuery(params, extra) {
@@ -15,15 +15,14 @@ class EventExec {
         var id = (typeof params.ID !== "undefined") ? `ID = '${params.ID}'` : "1=1";
         var company_id = (typeof params.company_id !== "undefined") ? `company_id = '${params.company_id}'` : "1=1";
 
-        var order_by = `order by `
-            + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `is_ended asc, start_time asc`);
-
+        var order_by = "";
         var limit = "";
         let select = "";
         if (extra.count) {
             select = "COUNT(*) as total";
             limit = "";
-        }else{
+        } else {
+            order_by = `order by ` + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `is_ended asc, start_time asc`);
             select = "(CASE WHEN UNIX_TIMESTAMP() > end_time THEN 1 ELSE 0 END) as is_ended, e.*";
             limit = DB.prepareLimit(params.page, params.offset);
         }
@@ -55,12 +54,12 @@ class EventExec {
                 }
 
                 if (typeof field["interested"] !== "undefined") {
-					res[i]["interested"] = InterestedExec.single({
-						user_id: params.user_id,
-						entity: "event",
-						entity_id: res[i].ID
-					}, field["interested"]);
-				}
+                    res[i]["interested"] = InterestedExec.single({
+                        user_id: params.user_id,
+                        entity: "event",
+                        entity_id: res[i].ID
+                    }, field["interested"]);
+                }
             }
 
             if (extra.single) {
