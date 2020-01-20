@@ -53,12 +53,12 @@ export class EventList extends React.Component {
     this.getMainQueryParam = (page, offset) => {
       let paging = "";
       if (page && offset) {
-        paging = `page:${page},offset:${offset},`;
+        paging = `page:${page},offset:${offset}`;
       }
 
+// order_by:"end_time desc"
       return `user_id:${getAuthUser().ID}, 
-        ${paging}
-        order_by:"end_time desc" `
+        ${paging} `
     }
     this.loadCount = () => {
       var query = `query{
