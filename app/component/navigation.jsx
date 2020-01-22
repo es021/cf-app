@@ -69,6 +69,7 @@ import ListJobPosts from "../page/list-job-posts";
 import EventManagement from "../page/event-management";
 import ListEvent from "../page/list-events";
 import ListInterviews from "../page/list-interviews";
+import { BrowseStudent } from "../page/browse-student";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -276,6 +277,17 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
     {
+      url: "/browse-student",
+      label: "Browse Student",
+      icon: "star",
+      component: BrowseStudent,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
+    },
+    {
       url: "/auditorium",
       // EUR FIX
       //label: "Auditorium",
@@ -380,6 +392,7 @@ function getMenuItem(COMING_SOON) {
     //   default_param: { current: "all-student" },
     //   disabled: !isRoleRec()
     // },
+
     {
       url: "/manage-company/:id/:current",
       label: "Add Job Opportunity",
@@ -704,7 +717,7 @@ function getMenuItem(COMING_SOON) {
 export function getRoute(path, COMING_SOON) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
-  var routes = menuItem.map(function(d, i) {
+  var routes = menuItem.map(function (d, i) {
     //restricted
     if (d.disabled) {
       return false;
@@ -776,7 +789,7 @@ export function getBar(
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
 
-  var menuList = menuItem.map(function(d, i) {
+  var menuList = menuItem.map(function (d, i) {
     var exact = d.url === "/" ? true : false;
 
     if (d.routeOnly) {

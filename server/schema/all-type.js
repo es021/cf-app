@@ -788,7 +788,9 @@ const FilterType = new GraphQLObjectType({
 	name: "Filter",
 	fields: () => ({
 		_key: __.String,
+		_key_label: __.String,
 		_val: __.String,
+		_val_label: __.String,
 		_total: __.Int
 	})
 });

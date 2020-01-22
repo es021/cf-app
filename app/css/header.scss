@@ -146,3 +146,10 @@ header {
         }
     }
 }
+
+
+header.app-hidden{
+    background: white;
+    opacity: 0.1;
+    border-bottom: 1px solid black;
+}

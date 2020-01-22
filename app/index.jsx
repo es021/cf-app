@@ -74,7 +74,8 @@ let scss = [
   "input-multi",
   "input-general",
   "vacancy",
-  "event"
+  "event",
+  "browse-student"
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");

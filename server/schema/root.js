@@ -478,12 +478,8 @@ let argBrowseStudent = {
 	interested_job_location: __.String,
 	skill: __.String,
 
-	// format => (month::year)
-	// working_availability_month_from: __.String,
-	// working_availability_year_from: __.String,
 	working_availability_month_to: __.String,
 	working_availability_year_to: __.String,
-
 	graduation_month_from: __.String,
 	graduation_year_from: __.String,
 	graduation_month_to: __.String,

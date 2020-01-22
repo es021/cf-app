@@ -70,24 +70,34 @@ class BrowseStudentExec {
 
 		return `(${r})`;
 	}
-	select(user_id, table_type, key, val) {
+	where(user_id, table_type, key, val) {
 		if (typeof val === "undefined" || val == "" || val == null) {
 			return "1=1";
 		} else {
-
+			let inWhere = this.getSqlIn(val);
+			let subQ = "";
 			switch (table_type) {
 				case this.TABLE_SINGLE:
-					// TODO_kena_amik_selectMultiMain_masuk_kat_sini
+					subQ = `select COUNT(s.ID) 
+						FROM single_input s
+						where 1=1
+						AND s.key_input = "${key}"
+						AND s.val IN ${inWhere}
+						AND s.entity_id = ${user_id} 
+						AND s.entity = 'user'`;
 					break;
 				case this.TABLE_MULTI:
-					return `(${UserQuery.selectMultiMain(key, user_id, {
-						inWhere: this.getSqlIn(val),
-						isCountVal : true
-					})}) > 0`;
+					subQ = `select COUNT(m.val) from multi_${key} m 
+						where 1=1
+						and m.val IN ${inWhere}
+						and m.entity_id = ${user_id} 
+						and m.entity = 'user'`;
+					break;
 			}
+			return `(${subQ}) > 0`;
 		}
 	}
-	selectDateRange({
+	whereDateRange({
 		user_id,
 		month_key,
 		year_key,
@@ -115,8 +125,29 @@ class BrowseStudentExec {
 		return `(${from_sql} AND ${to_sql})`;
 	}
 	queryFilter(param) {
+		const cfFilter = (where) => {
+			return `
+				select
+				"cf" as _key,
+				c.name as _val,
+				(select m.meta_value from cfs_meta m where m.cf_name = c.name and m.meta_key = "title") as _val_label,
+				COUNT(s.entity) as _total
+				from cf_map s, cfs c
+				where  1=1
+				and s.cf = c.name and s.entity = 'user'
+				and c.is_load = 1
+				and c.name != "TEST"
+				and ${where}
+				GROUP BY s.cf
+			`
+		}
+
 		const multiFilter = (key, where) => {
-			return `select '${key}' as _key, s.val as _val, COUNT(s.ID) as _total 
+			return `select 
+				'${key}' as _key 
+				, s.val as _val
+				, "" as _val_label
+				, COUNT(s.ID) as _total 
 				from multi_${key} s
 				WHERE s.entity = 'user'
 				AND ${where}
@@ -124,8 +155,10 @@ class BrowseStudentExec {
 		}
 
 		const singleFilter = (where) => {
-			return `SELECT s.key_input as _key
+			return `SELECT 
+			s.key_input as _key
 			, s.val as _val
+			, "" as _val_label
 			, COUNT(*) as _total 
 			FROM single_input s
 			where 
@@ -149,6 +182,8 @@ class BrowseStudentExec {
 		let where = this.getWhere("s.entity_id", param);
 
 		let q = `SELECT * FROM (
+			${cfFilter(where)}
+			UNION ALL
 			${singleFilter(where)}
 			UNION ALL
 			${multiFilter("skill", where)}
@@ -159,7 +194,7 @@ class BrowseStudentExec {
 			UNION ALL
 			${multiFilter("interested_job_location", where)}
 		) 
-		X ORDER BY X._key, X._total`;
+		X ORDER BY X._key, X._total desc, X._val asc`;
 
 		return q;
 
@@ -167,12 +202,12 @@ class BrowseStudentExec {
 	getWhere(user_id, param) {
 		// select item
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
-		let country_study = this.select(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
-		let university = this.select(user_id, this.TABLE_SINGLE, "university", param.university);
-		let field_study = this.select(user_id, this.TABLE_MULTI, "field_study", param.field_study);
-		let looking_for_position = this.select(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
-		let interested_job_location = this.select(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
-		let skill = this.select(user_id, this.TABLE_MULTI, "skill", param.skill);
+		let country_study = this.where(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
+		let university = this.where(user_id, this.TABLE_SINGLE, "university", param.university);
+		let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
+		let looking_for_position = this.where(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
+		let interested_job_location = this.where(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
+		let skill = this.where(user_id, this.TABLE_MULTI, "skill", param.skill);
 
 		var favourited = UserQuery.getSearchInterested(
 			param.company_id,
@@ -181,7 +216,7 @@ class BrowseStudentExec {
 			param.favourited_only
 		);
 
-		let work_availability = this.selectDateRange({
+		let work_availability = this.whereDateRange({
 			user_id: user_id,
 			month_key: "working_availability_month",
 			year_key: "working_availability_year",
@@ -195,7 +230,7 @@ class BrowseStudentExec {
 			}
 		});
 
-		let graduation = this.selectDateRange({
+		let graduation = this.whereDateRange({
 			user_id: user_id,
 			month_key: "graduation_month",
 			year_key: "graduation_year",
@@ -267,9 +302,9 @@ class BrowseStudentExec {
 			var student_id = res[i]["student_id"];
 			if (typeof field["student"] !== "undefined") {
 				res[i]["student"] = UserExec.user({
-						ID: student_id,
-						company_id: param.company_id
-					},
+					ID: student_id,
+					company_id: param.company_id
+				},
 					field["student"]
 				);
 			}

@@ -1,6 +1,7 @@
 // ###################################################
 // Indicator
 
+
 const IsDailyCoEnable = true;
 var IsNewHall = true;
 
@@ -43,13 +44,13 @@ var PHPNotificationApi = (isProd) ? `https://seedsjobfairapp.com/notification-cf
 var WPAjaxApi = (isProd) ? "https://seedsjobfairapp.com/career-fair/wp-admin/admin-ajax.php" : RootUrl + "/career-fair/wp-admin/admin-ajax.php";
 
 const AppConfig = {
-    HeaderIconUrl : "https://seedsjobfair.com/virtual-fairs",
+    HeaderIconUrl: "https://seedsjobfair.com/virtual-fairs",
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
     Desc: "Powered by Seeds Job Fair",
     Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
     Api: SiteUrl,
     PHPApi: PHPApi,
-    PHPNotificationApi : PHPNotificationApi,
+    PHPNotificationApi: PHPNotificationApi,
     FbAppId: "315194262317447",
     WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",
@@ -79,33 +80,18 @@ const TestUser = [136,
 ];
 
 const OverrideComingSoonUser = [136, 137]
-
 const SupportUserID = 681;
 
-
-// function helloGold() {
-//     const returnInv = 10;
-//     const buyFee = 2.81;
-//     const sellFee = 4.04;
-
-//     let modal = 100;
-//     let pPerG = 173.07;
-//     let gEarn = modal * (100 - buyFee) / pPerG / 100;
-
-//     var newPPerG = 0;
-//     var rmEarned = 0;
-//     for (var i = 1; i <= 1000; i++) {
-//         newPPerG = pPerG + i;
-//         rmEarned = newPPerG * gEarn * (100 - sellFee) / 100;
-//         if (rmEarned > (modal * (100 + returnInv) / 100)) {
-//             break;
-//         }
-//     }
-//     console.log("buyP", pPerG, "||", "sellP :", newPPerG, "||", "rmEarned :", rmEarned);
-// }
-// helloGold();
+var HeaderClass = "";
+var FooterClass = "";
+if (!isProd) {
+    HeaderClass = "app-hidden";
+    FooterClass = "app-hidden";
+}
 
 module.exports = {
+    HeaderClass,
+    FooterClass,
     IsDailyCoEnable,
     DailyCoCreateRoomUrl,
     IsGruveoEnable,
@@ -129,6 +115,27 @@ module.exports = {
 
 
 
+// function helloGold() {
+//     const returnInv = 10;
+//     const buyFee = 2.81;
+//     const sellFee = 4.04;
+
+//     let modal = 100;
+//     let pPerG = 173.07;
+//     let gEarn = modal * (100 - buyFee) / pPerG / 100;
+
+//     var newPPerG = 0;
+//     var rmEarned = 0;
+//     for (var i = 1; i <= 1000; i++) {
+//         newPPerG = pPerG + i;
+//         rmEarned = newPPerG * gEarn * (100 - sellFee) / 100;
+//         if (rmEarned > (modal * (100 + returnInv) / 100)) {
+//             break;
+//         }
+//     }
+//     console.log("buyP", pPerG, "||", "sellP :", newPPerG, "||", "rmEarned :", rmEarned);
+// }
+// helloGold();
 
 // let xx = `
 // 1642

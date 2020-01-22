@@ -44,3 +44,11 @@ footer{
 
 }
 
+
+
+footer.app-hidden{
+    opacity: 0;
+    .container-fluid{
+        background: white;
+    }
+}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppConfig, ImgConfig } from "../../config/app-config";
+import { AppConfig, ImgConfig , FooterClass} from "../../config/app-config";
 import { ButtonIcon } from "../component/buttons.jsx";
 import { getCFOrg } from "../redux/actions/auth-actions";
 
@@ -110,7 +110,7 @@ export default class Footer extends React.Component {
 
   render() {
     return (
-      <footer>
+      <footer className={FooterClass}>
         <div className="container-fluid">
           {this.orgs}
           <div className="col-sm-4">{this.brand}</div>

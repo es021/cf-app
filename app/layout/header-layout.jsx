@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppConfig, ImgConfig, RootPath } from "../../config/app-config";
+import { AppConfig, ImgConfig, RootPath , HeaderClass, FooterClass} from "../../config/app-config";
 import {
   getCFObj,
   getAuthUser,
@@ -33,7 +33,7 @@ export default class HeaderLayout extends React.Component {
     ) : null;
 
     return (
-      <header>
+      <header className={HeaderClass}>
         <div className="img">
           <a target="_blank" href={AppConfig.HeaderIconUrl}>
             <img src={ImgConfig.AppIcon} />
