@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { BrowseStudentFilter } from "./partial/browse-student/browse-student-filter";
+import { BrowseStudentFilter, createFilterStr } from "./partial/browse-student/browse-student-filter";
 import { BrowseStudentList } from "./partial/browse-student/browse-student-list";
 
 
@@ -12,13 +12,11 @@ export class BrowseStudent extends React.Component {
     };
   }
 
-  createSearchStr(searchObj) {
-    return JSON.stringify(searchObj);
-  }
 
-  onChangeFilter(searchObj) {
+
+  onChangeFilter(filterState) {
     this.setState(() => {
-      return { whereStr: this.createSearchStr(searchObj) }
+      return { filterStr: createFilterStr(filterState) }
     })
   }
 
@@ -29,10 +27,17 @@ export class BrowseStudent extends React.Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-3">
-              <BrowseStudentFilter whereStr={this.state.whereStr} onChange={this.onChangeFilter}></BrowseStudentFilter>
+              <BrowseStudentFilter
+                filterStr={this.state.filterStr}
+                defaultFilterState={{
+                  cf: ["EUR"],
+                  graduation_month_to: ["December"],
+                  graduation_year_to: ["2019"],
+                }}
+                onChange={this.onChangeFilter}></BrowseStudentFilter>
             </div>
             <div className="col-md-9">
-              <BrowseStudentList whereStr={this.state.whereStr}></BrowseStudentList>
+              <BrowseStudentList filterStr={this.state.filterStr}></BrowseStudentList>
             </div>
           </div>
         </div>

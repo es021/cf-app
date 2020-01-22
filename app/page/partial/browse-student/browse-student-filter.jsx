@@ -2,6 +2,32 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 
+export function createFilterStr(filterObj) {
+    let r = "";
+    for (var k in filterObj) {
+
+        let combineVal = "";
+        for (var i in filterObj[k]) {
+            let v = filterObj[k][i];
+            if (v != "" && v != null) {
+                combineVal += v + "::";
+            }
+        }
+        // buang :: yg last
+        combineVal = combineVal.substr(0, combineVal.length - 2);
+
+        if (combineVal != "") {
+            r += ` ${k}:"${combineVal}",`;
+        }
+    }
+
+    // buang , yg last
+    r = r.substr(0, r.length - 1);
+
+    console.log("createFilterStr", filterObj, r);
+    return r;
+
+}
 export class BrowseStudentFilter extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +43,61 @@ export class BrowseStudentFilter extends React.Component {
             dataset_year: [],
             dataset_month: [],
         };
+
+        this.filterState = JSON.parse(JSON.stringify(this.props.defaultFilterState));
+    }
+
+    getDefault(type, key, val) {
+        try {
+            if (type == "select") {
+                let r = this.props.defaultFilterState[key][0];
+                if (r) {
+                    return r;
+                } else {
+                    return "";
+                }
+            } else if (type == "checkbox") {
+                let r = this.props.defaultFilterState[key].indexOf(val) >= 0;
+                // console.log(type, key, val, r);
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (err) {
+            return null
+        }
+    }
+
+    addFilter(key, val, isSelect = false) {
+        console.log("addFilter", key, val);
+        if (!this.filterState[key]) {
+            this.filterState[key] = [];
+        }
+
+        if (isSelect) {
+            this.filterState[key] = [val]
+        } else {
+            if (this.filterState[key].indexOf(val) <= -1) {
+                this.filterState[key].push(val);
+            }
+        }
+
+
+        console.log(this.filterState);
+
+    }
+    removeFilter(key, val, isSelect = false) {
+        console.log("removeFilter", key, val);
+
+        if (this.filterState[key]) {
+            if (isSelect || this.filterState[key].indexOf(val) >= 0) {
+                this.filterState[key].splice(this.filterState[key].indexOf(val), 1)
+            }
+        }
+
+        console.log(this.filterState);
     }
 
     componentWillMount() {
@@ -137,7 +218,7 @@ export class BrowseStudentFilter extends React.Component {
     }
     header() {
         let v = <div>
-            {this._title("Filter")}
+            <div style={{ fontWeight: "bold", fontSize: "15px" }}>Filter</div>
         </div>
         return this._section(v);
     }
@@ -162,19 +243,29 @@ export class BrowseStudentFilter extends React.Component {
         let valItems = []
         for (var i in keyFilter.children) {
             let ch = keyFilter.children[i];
-            let sel = <select
-                className={""}
-                name={ch.name}
-                onChange={(e) => {
-                    let name = e.currentTarget.name;
-                    let val = e.currentTarget.value;
-                    console.log("SELECT HANDLER", name, val);
-                }}
-                value={null}
-                defaultValue={null}
-            >
-                {this.getSelectOptions(ch.dataset)}
-            </select>
+            let sel =
+                <select
+                    className={"select-style-1"}
+                    style={{ marginRight: "10px" }}
+                    name={ch.name}
+                    onChange={(e) => {
+                        let name = e.currentTarget.name;
+                        let val = e.currentTarget.value;
+                        console.log("SELECT HANDLER", name, val);
+                        let isSelect = true;
+                        if (!val) {
+                            this.removeFilter(name, val, isSelect);
+                        } else {
+                            this.addFilter(name, val, isSelect);
+                        }
+                    }}
+
+                    value={null}
+                    defaultValue={this.getDefault("select", ch.name)}
+                >
+                    {this.getSelectOptions(ch.dataset)}
+                </select>
+
 
             valItems.push(sel);
 
@@ -191,20 +282,30 @@ export class BrowseStudentFilter extends React.Component {
         for (var i in keyFilter.filters) {
             let f = keyFilter.filters[i];
             valItems.push(
-                <div>
+                <div className="checkbox-style-1">
+                    <label className="cb1-container small green">
+                        {f.label} ({f.total})
                     <input
-                        type="checkbox"
-                        data-key={k}
-                        data-val={f.val}
-                        checked={null}
-                        onChange={(e) => {
-                            let key = e.currentTarget.dataset.key;
-                            let val = e.currentTarget.dataset.val;
-                            let checked = e.currentTarget.checked;
-                            console.log("CHECKBOX HANDLER", key, val, checked);
-                        }} />
-                    {" "}
-                    <span>{f.label} ({f.total})</span>
+                            className={"bsf-input"}
+                            type="checkbox"
+                            data-key={k}
+                            data-val={f.val}
+                            defaultChecked={this.getDefault("checkbox", k, f.val)}
+                            // checked={}
+                            onChange={(e) => {
+                                let key = e.currentTarget.dataset.key;
+                                let val = e.currentTarget.dataset.val;
+                                let checked = e.currentTarget.checked;
+                                console.log("CHECKBOX HANDLER", key, val, checked);
+
+                                if (!checked) {
+                                    this.removeFilter(key, val);
+                                } else {
+                                    this.addFilter(key, val);
+                                }
+                            }} />
+                        <span className="cb1-checkmark"></span>
+                    </label>
                 </div>
             )
         }
@@ -234,23 +335,33 @@ export class BrowseStudentFilter extends React.Component {
         return toRet;
     }
     onSearch() {
-        let filterObj = {};
-        for (var i in this.state) {
-            filterObj[i] = this.state[i].filters;
-        }
-        this.props.onChange(filterObj);
+        this.props.onChange(this.filterState);
+    }
+    onResetFilter() {
+
     }
     render() {
         let v = null;
         if (this.state.loading) {
             v = <Loader></Loader>
         } else {
+            let btnAction = <div className="text-left">
+                <button style={{ marginRight: "10px", paddingRight: "20px", paddingLeft: "20px" }}
+                    className="btn btn-success btn-sm" onClick={this.onSearch}>
+                    Search
+                </button>
+                <button className="btn btn-default btn-sm" onClick={this.onResetFilter}>
+                    Reset Filter
+                </button>
+            </div>;
+            btnAction = this._section(btnAction);
+
             v = <div>
                 {this.header()}
+                {btnAction}
                 {this.filters()}
-                <button onClick={this.onSearch}>Search</button>
-
-                {this.props.whereStr}
+                {btnAction}
+                {/* {this._section(this.props.filterStr)} */}
             </div>
         }
         return (
@@ -262,11 +373,13 @@ export class BrowseStudentFilter extends React.Component {
 }
 
 BrowseStudentFilter.propTypes = {
-    whereStr: PropTypes.string,
+    filterStr: PropTypes.string,
     onChange: PropTypes.func,
+    defaultFilterState: PropTypes.obj,
 }
 
 BrowseStudentFilter.defaultProps = {
-    whereStr: null
+    filterStr: null,
+    defaultFilterState: {}
 }
 

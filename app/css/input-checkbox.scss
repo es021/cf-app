@@ -1,0 +1,94 @@
+.checkbox-style-1 {
+  .cb1-container {
+    font-weight: initial;
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    /* Hide the browser's default checkbox */
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .cb1-checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: solid 1px gray;
+      background-color: #eee;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    input:checked ~ .cb1-checkmark {
+      background-color: #2196f3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .cb1-checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    /* Show the checkmark when checked */
+    input:checked ~ .cb1-checkmark:after {
+      display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .cb1-checkmark:after {
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+
+  /* On mouse-over, add a grey background color */
+  .cb1-container:hover input ~ .cb1-checkmark {
+    background-color: #ccc;
+  }
+
+  // ####################################
+  // color variation
+  // blue
+  .cb1-container.blue {
+    input:checked ~ .cb1-checkmark {
+      background-color: #2196f3;
+    }
+  }
+  .cb1-container.green {
+    input:checked ~ .cb1-checkmark {
+      background-color: #0bb805;
+    }
+  }
+  // ####################################
+  // size variation
+  // small
+  .cb1-container.small {
+    font-size: 12px;
+    padding-left: 22px;
+    .cb1-checkmark {
+      height: 15px;
+      width: 15px;
+    }
+    .cb1-checkmark:after {
+      left: 4px;
+      top: 1px;
+      width: 5px;
+      height: 10px;
+    }
+  }
+}

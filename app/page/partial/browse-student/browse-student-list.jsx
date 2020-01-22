@@ -10,8 +10,7 @@ export class BrowseStudentList extends React.Component {
     render() {
         return (
             <div className="browse-student-list">
-                {this.props.whereStr}
-                BrowseStudentList
+                <div>{this.props.filterStr}</div>
             </div>
         );
     }
@@ -19,9 +18,9 @@ export class BrowseStudentList extends React.Component {
 
 
 BrowseStudentList.propTypes = {
-    whereStr: PropTypes.string,
+    filterStr: PropTypes.string,
 }
 
 BrowseStudentList.defaultProps = {
-    whereStr: null
+    filterStr: null
 }
