@@ -44,7 +44,70 @@ export class BrowseStudentFilter extends React.Component {
             dataset_month: [],
         };
 
-        this.filterState = JSON.parse(JSON.stringify(this.props.defaultFilterState));
+        if (this.props.defaultFilterState) {
+            this.filterState = JSON.parse(JSON.stringify(this.props.defaultFilterState));
+        } else {
+            this.filterState = {};
+        }
+    }
+
+    getFavouriteFilter() {
+        return {
+            favourited_only: {
+                title: "",
+                filters: [{
+                    val: "1",
+                    label: "Show Favourite Student Only",
+                    total: null
+                }]
+            }
+        }
+    }
+
+    loadFilter() {
+        this.setState({ loading: true })
+        let q = `query{
+            browse_student_filter {
+              _key
+              _val
+              _total
+              _val_label
+            } 
+          }
+        `;
+
+        graphql(q).then((res) => {
+            this.loaded++;
+
+            let filter = res.data.data.browse_student_filter;
+
+            let filterObj = {};
+            for (var i in filter) {
+                let f = filter[i];
+                let k = f._key
+                if (!filterObj[k]) {
+                    filterObj[k] = {
+                        title: this.getTitleFromKey(k),
+                        filters: []
+                    }
+                }
+                filterObj[k].filters.push({
+                    val: f._val,
+                    label: f._val_label ? f._val_label : f._val,
+                    total: f._total,
+                })
+            }
+
+            this.setState((prevState) => {
+                filterObj = {
+                    ...this.getFavouriteFilter(),
+                    ...filterObj,
+                    ...prevState.filters
+                }
+                console.log(filterObj);
+                return { filters: filterObj, loading: this.isStillLoading() }
+            })
+        })
     }
 
     getDefault(type, key, val) {
@@ -162,50 +225,6 @@ export class BrowseStudentFilter extends React.Component {
 
 
 
-    loadFilter() {
-        this.setState({ loading: true })
-        let q = `query{
-            browse_student_filter {
-              _key
-              _val
-              _total
-              _val_label
-            } 
-          }
-        `;
-
-        graphql(q).then((res) => {
-            this.loaded++;
-
-            let filter = res.data.data.browse_student_filter;
-
-            let filterObj = {};
-            for (var i in filter) {
-                let f = filter[i];
-                let k = f._key
-                if (!filterObj[k]) {
-                    filterObj[k] = {
-                        title: this.getTitleFromKey(k),
-                        filters: []
-                    }
-                }
-                filterObj[k].filters.push({
-                    val: f._val,
-                    label: f._val_label ? f._val_label : f._val,
-                    total: f._total,
-                })
-            }
-
-            this.setState((prevState) => {
-                filterObj = {
-                    ...filterObj,
-                    ...prevState.filters
-                }
-                console.log(filterObj);
-                return { filters: filterObj, loading: this.isStillLoading() }
-            })
-        })
-    }
     _section(body) {
         return <div className="bsf-section">
             {body}
@@ -284,8 +303,8 @@ export class BrowseStudentFilter extends React.Component {
             valItems.push(
                 <div className="checkbox-style-1">
                     <label className="cb1-container small green">
-                        {f.label} ({f.total})
-                    <input
+                        {f.label} {f.total ? `(${f.total})` : ""}
+                        <input
                             className={"bsf-input"}
                             type="checkbox"
                             data-key={k}
@@ -343,7 +362,9 @@ export class BrowseStudentFilter extends React.Component {
     render() {
         let v = null;
         if (this.state.loading) {
-            v = <Loader></Loader>
+            v = <div style={{ fontSize: "14px", textAlign: "center", padding: "20px" }}>
+                <Loader text="Loading Filter"></Loader>
+            </div>
         } else {
             let btnAction = <div className="text-left">
                 <button style={{ marginRight: "10px", paddingRight: "20px", paddingLeft: "20px" }}

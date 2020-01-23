@@ -162,24 +162,26 @@ export class EventList extends React.Component {
     const createCustomToggler = (isDefaultTime, onClick) => {
       return <div className="el-toggle-timezone" onClick={onClick}>{" "}Toggle Timezone {isDefaultTime}</div>
     }
-    let time = (
-      <ToogleTimezone
-        createCustomToggler={createCustomToggler}
-        createDefaultTime={(unix, timezone) => {
-          return (
-            <div><i className="fa fa-clock-o left"></i> {Time.getDate(unix)} {Time.getStringShort(unix)} ({timezone}) </div>
-          );
-        }}
-        createAlternateTime={(unix, timezone) => {
-          return (
-            <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(unix)} {Time.getStringShortMas(unix)} ({timezone})</div>
-          );
-        }}
-        unixtimestamp={d.start_time}
-        createBody={createBody}
-        createView={createView}
-      />
-    );
+    // let time = (
+    //   <ToogleTimezone
+    //     createCustomToggler={createCustomToggler}
+    //     createDefaultTime={(unix, timezone) => {
+    //       return (
+    //         <div><i className="fa fa-clock-o left"></i> {Time.getDate(unix)} {Time.getStringShort(unix)} ({timezone}) </div>
+    //       );
+    //     }}
+    //     createAlternateTime={(unix, timezone) => {
+    //       return (
+    //         <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(unix)} {Time.getStringShortMas(unix)} ({timezone})</div>
+    //       );
+    //     }}
+    //     unixtimestamp={d.start_time}
+    //     createBody={createBody}
+    //     createView={createView}
+    //   />
+    // );
+
+    let time = <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(d.start_time)} {Time.getStringShortMas(d.start_time)} (MYT)</div>;
     let locationText = <div className="el-location-text">{d.location}</div>
     let location = <div className="el-location">
       <i className="fa fa-map-marker left" style={{ marginRight: "12px" }}></i>

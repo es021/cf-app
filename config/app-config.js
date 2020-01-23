@@ -85,8 +85,8 @@ const SupportUserID = 681;
 var HeaderClass = "";
 var FooterClass = "";
 if (!isProd) {
-    HeaderClass = "app-hidden";
-    FooterClass = "app-hidden";
+    // HeaderClass = "app-hidden";
+    // FooterClass = "app-hidden";
 }
 
 module.exports = {
