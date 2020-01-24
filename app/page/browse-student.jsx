@@ -10,9 +10,23 @@ export class BrowseStudent extends React.Component {
   constructor(props) {
     super(props);
     this.onChangeFilter = this.onChangeFilter.bind(this);
+
+    let defaultFilterState = null;
+    // defaultFilterState = {
+    //   cf: ["EUR"],
+    //   graduation_month_to: ["December"],
+    //   graduation_year_to: ["2019"],
+    // }
+
+    let disabledFilter = null;
+    disabledFilter = {
+      // cf: ["EUR"]
+    }
+
     this.state = {
-      filterStr: "",
-      filterState: {},
+      filterStr: createFilterStr(defaultFilterState),
+      filterState: defaultFilterState,
+      disabledFilter: disabledFilter,
       loading: false,
       privs: [],
       companyName: ""
@@ -22,12 +36,12 @@ export class BrowseStudent extends React.Component {
     this.company_id = getAuthUser().rec_company;
   }
 
-
   onChangeFilter(filterState) {
     this.setState(() => {
       return { filterStr: createFilterStr(filterState), filterState: filterState }
     })
   }
+
 
   componentWillMount() {
     this.loadPriv();
@@ -57,6 +71,9 @@ export class BrowseStudent extends React.Component {
 
   }
 
+
+
+
   render() {
     document.setTitle("Browse Student");
 
@@ -64,19 +81,16 @@ export class BrowseStudent extends React.Component {
     if (this.state.loading) {
       v = <Loader></Loader>
     } else {
-      // let defaultFilterState = {
-      //   cf: ["EUR"],
-      //   graduation_month_to: ["December"],
-      //   graduation_year_to: ["2019"],
-      // }
-      let defaultFilterState = null;
+
+
       v = <div className="container-fluid">
         <div className="row">
           <div className="col-lg-1"></div>
           <div className="col-lg-3">
             <BrowseStudentFilter
               filterStr={this.state.filterStr}
-              defaultFilterState={defaultFilterState}
+              disabledFilter={this.state.disabledFilter}
+              defaultFilterState={this.state.filterState}
               onChange={this.onChangeFilter}></BrowseStudentFilter>
           </div>
           <div className="col-lg-7">

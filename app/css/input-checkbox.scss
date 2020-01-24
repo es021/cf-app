@@ -58,7 +58,7 @@
 
   /* On mouse-over, add a grey background color */
   .cb1-container:hover input ~ .cb1-checkmark {
-    background-color: #ccc;
+    background-color: #0bb805;
   }
 
   // ####################################
@@ -90,5 +90,25 @@
       width: 5px;
       height: 10px;
     }
+  }
+}
+
+$DISABLED_COLOR: #ccc;
+.checkbox-style-1.disabled {
+  font-style: italic;
+  color: #7f7f92;
+  .cb1-container {
+    cursor: initial;
+    input {
+      cursor: initial;
+    }
+  }
+
+  .cb1-checkmark {
+    background-color: $DISABLED_COLOR;
+  }
+
+  .cb1-container:hover input ~ .cb1-checkmark {
+    background-color: $DISABLED_COLOR;
   }
 }

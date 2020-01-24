@@ -32,8 +32,10 @@ export class BrowseStudentFilter extends React.Component {
     constructor(props) {
         super(props);
         this.onSearch = this.onSearch.bind(this);
+        this.onResetFilter = this.onResetFilter.bind(this);
 
         this.state = {
+            key: 1,
             loading: false,
             filters: {
                 ...this.getDateStateObj("working_availability", "to", "Working Availability"),
@@ -44,6 +46,10 @@ export class BrowseStudentFilter extends React.Component {
             dataset_month: [],
         };
 
+        this.initFilterState();
+    }
+
+    initFilterState() {
         if (this.props.defaultFilterState) {
             this.filterState = JSON.parse(JSON.stringify(this.props.defaultFilterState));
         } else {
@@ -296,15 +302,32 @@ export class BrowseStudentFilter extends React.Component {
             {valItems}
         </div>
     }
+    isFilterDisabled(key, val) {
+        let toRet = false;
+        try {
+            if (this.props.disabledFilter[key].indexOf(val) >= 0) {
+                toRet = true;
+            }
+        } catch (err) { }
+
+        console.log("isFilterDisabled", key, val, toRet);
+        return toRet
+    }
     filterCheckbox(k, keyFilter) {
         let valItems = []
         for (var i in keyFilter.filters) {
             let f = keyFilter.filters[i];
+            let className = "checkbox-style-1";
+            if (this.isFilterDisabled(k, f.val)) {
+                className += " disabled";
+            }
+            
             valItems.push(
-                <div className="checkbox-style-1">
+                <div className={className}>
                     <label className="cb1-container small green">
                         {f.label} {f.total ? `(${f.total})` : ""}
                         <input
+                            disabled={this.isFilterDisabled(k, f.val)}
                             className={"bsf-input"}
                             type="checkbox"
                             data-key={k}
@@ -358,6 +381,11 @@ export class BrowseStudentFilter extends React.Component {
     }
     onResetFilter() {
 
+        this.initFilterState();
+        this.props.onChange(this.filterState);
+        this.setState((prevState) => {
+            return { key: prevState.key + 1 }
+        })
     }
     render() {
         let v = null;
@@ -377,12 +405,11 @@ export class BrowseStudentFilter extends React.Component {
             </div>;
             btnAction = this._section(btnAction);
 
-            v = <div>
+            v = <div key={this.state.key}>
                 {this.header()}
                 {btnAction}
                 {this.filters()}
                 {btnAction}
-                {/* {this._section(this.props.filterStr)} */}
             </div>
         }
         return (
@@ -397,10 +424,12 @@ BrowseStudentFilter.propTypes = {
     filterStr: PropTypes.string,
     onChange: PropTypes.func,
     defaultFilterState: PropTypes.obj,
+    disabledFilter: PropTypes.obk
 }
 
 BrowseStudentFilter.defaultProps = {
     filterStr: null,
-    defaultFilterState: {}
+    defaultFilterState: {},
+    disabledFilter: {}
 }
 
