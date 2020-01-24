@@ -282,7 +282,8 @@ export default class HallPage extends React.Component {
         <ButtonAction
           style={{ width: "350px" }}
           btnClass="btn-lg btn-success"
-          to={`${RootPath}/app/my-activity/student-listing`}
+          // to={`${RootPath}/app/my-activity/student-listing`}
+          to={`${RootPath}/app/browse-student`}
           icon="users"
           iconSize="3x"
           mainText={"All Students"}

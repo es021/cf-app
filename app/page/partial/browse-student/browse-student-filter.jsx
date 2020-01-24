@@ -2,8 +2,11 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 
-export function createFilterStr(filterObj) {
+export function createFilterStr(filterObj, validCf) {
+    validCf = Array.isArray(validCf) ? validCf : []
+
     let r = "";
+    let filterExist = {};
     for (var k in filterObj) {
 
         let combineVal = "";
@@ -11,6 +14,7 @@ export function createFilterStr(filterObj) {
             let v = filterObj[k][i];
             if (v != "" && v != null) {
                 combineVal += v + "::";
+                filterExist[k] = true;
             }
         }
         // buang :: yg last
@@ -20,10 +24,27 @@ export function createFilterStr(filterObj) {
             r += ` ${k}:"${combineVal}",`;
         }
     }
-
     // buang , yg last
     r = r.substr(0, r.length - 1);
 
+
+    // add required filter (cf, event)
+    // even user tak pilih pun kita kena filter jugak
+    // sbb kalau tak dia akan dpt view semua
+    if (filterExist.cf !== true) {
+        let cfFilter = ""
+        for (var i in validCf) {
+            if (validCf[i] != "") {
+                cfFilter += validCf[i] + "::";
+            }
+        }
+        cfFilter = cfFilter.substr(0, cfFilter.length - 2);
+        if (cfFilter != "") {
+            r += ` cf:"${cfFilter}"`;
+        }
+    }
+
+    console.log("filterExist", filterExist);
     console.log("createFilterStr", filterObj, r);
     return r;
 
@@ -33,6 +54,12 @@ export class BrowseStudentFilter extends React.Component {
         super(props);
         this.onSearch = this.onSearch.bind(this);
         this.onResetFilter = this.onResetFilter.bind(this);
+
+        this.orderFilter = [
+            "favourited_only", "cf", "country_study", "university", "field_study",
+            "looking_for_position", "working_availability_to",
+            "graduation_from", "graduation_to", "interested_job_location", "skill"
+        ];
 
         this.state = {
             key: 1,
@@ -50,6 +77,7 @@ export class BrowseStudentFilter extends React.Component {
     }
 
     initFilterState() {
+        console.log("defaultFilterState", this.props.defaultFilterState)
         if (this.props.defaultFilterState) {
             this.filterState = JSON.parse(JSON.stringify(this.props.defaultFilterState));
         } else {
@@ -60,6 +88,7 @@ export class BrowseStudentFilter extends React.Component {
     getFavouriteFilter() {
         return {
             favourited_only: {
+                isRecOnly: true,
                 title: "",
                 filters: [{
                     val: "1",
@@ -70,6 +99,17 @@ export class BrowseStudentFilter extends React.Component {
         }
     }
 
+    getQueryParam(page, offset) {
+        return this.props.getQueryParam({
+            page: page,
+            offset: offset,
+            filterStr: this.props.filterStr,
+            isRec: this.props.isRec,
+            company_id: this.props.company_id
+        })
+    }
+
+    //${this.getQueryParam()}
     loadFilter() {
         this.setState({ loading: true })
         let q = `query{
@@ -305,23 +345,41 @@ export class BrowseStudentFilter extends React.Component {
     isFilterDisabled(key, val) {
         let toRet = false;
         try {
-            if (this.props.disabledFilter[key].indexOf(val) >= 0) {
-                toRet = true;
+            if (Array.isArray(this.props.disabledFilter[key])) {
+                if (this.props.disabledFilter[key].indexOf(val) >= 0) {
+                    toRet = true;
+                }
+            } else {
+                // kalau bukan array kita assume dia function
+                return this.props.disabledFilter[key](val);
             }
         } catch (err) { }
 
-        console.log("isFilterDisabled", key, val, toRet);
+        // console.log("isFilterDisabled", key, val, toRet);
         return toRet
     }
     filterCheckbox(k, keyFilter) {
+        let isStateShowMore = this.state[k + "show_more"] === true;
+        let limitShowLess = 5;
+        let exceptionShowLess = ["cf"];
+
         let valItems = []
         for (var i in keyFilter.filters) {
+
             let f = keyFilter.filters[i];
             let className = "checkbox-style-1";
             if (this.isFilterDisabled(k, f.val)) {
                 className += " disabled";
             }
-            
+
+            if (exceptionShowLess.indexOf(k) <= -1) {
+                if (!isStateShowMore) {
+                    if (i >= limitShowLess) {
+                        className += " hidden"
+                    }
+                }
+            }
+
             valItems.push(
                 <div className={className}>
                     <label className="cb1-container small green">
@@ -351,17 +409,41 @@ export class BrowseStudentFilter extends React.Component {
                 </div>
             )
         }
+
+        // show more / show less
+        let showMoreToggle = null;
+        if (exceptionShowLess.indexOf(k) <= -1) {
+            if (keyFilter.filters.length > limitShowLess) {
+                showMoreToggle = <a className="btn-link" onClick={() => {
+                    this.setState((prevState) => {
+                        let v = prevState[k + "show_more"] == true ? false : true;
+                        let ret = {}
+                        ret[k + "show_more"] = v;
+                        return ret;
+                    })
+                }}>
+                    <br></br>
+                    {isStateShowMore ? "Show Less" : "Show More " + keyFilter.title}
+                </a>
+            }
+        }
+
         return <div>
             {this._title(keyFilter.title)}
             {valItems}
+            {showMoreToggle}
         </div>
 
     }
     filters() {
         let toRet = [];
 
-        for (var k in this.state.filters) {
+        for (var i in this.orderFilter) {
+            let k = this.orderFilter[i];
             let keyFilter = this.state.filters[k];
+            if (keyFilter.isRecOnly && !this.props.isRec) {
+                continue;
+            }
             let v = null
             if (keyFilter.isSelect) {
                 v = this.filterSelect(k, keyFilter);
@@ -372,11 +454,10 @@ export class BrowseStudentFilter extends React.Component {
             v = this._section(v);
             toRet.push(v);
         }
-
-
         return toRet;
     }
     onSearch() {
+        //  this.loadFilter();
         this.props.onChange(this.filterState);
     }
     onResetFilter() {
@@ -423,12 +504,15 @@ export class BrowseStudentFilter extends React.Component {
 BrowseStudentFilter.propTypes = {
     filterStr: PropTypes.string,
     onChange: PropTypes.func,
+    filterState: PropTypes.obj,
     defaultFilterState: PropTypes.obj,
-    disabledFilter: PropTypes.obk
+    disabledFilter: PropTypes.obj,
+    getQueryParam: PropTypes.func
 }
 
 BrowseStudentFilter.defaultProps = {
     filterStr: null,
+    filterState: {},
     defaultFilterState: {},
     disabledFilter: {}
 }

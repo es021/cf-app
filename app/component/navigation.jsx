@@ -278,8 +278,8 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/browse-student",
-      label: "Browse Student",
-      icon: "star",
+      label: "All Students",
+      icon: "users",
       component: BrowseStudent,
       bar_app: true,
       bar_auth: false,
@@ -368,18 +368,32 @@ function getMenuItem(COMING_SOON) {
     // },
     {
       url: "/my-activity/:current",
-      label: isRoleRec() ? "All Students" : "My Activity",
-      icon: isRoleRec() ? "users" : "list-ul",
+      label:  "My Activity",
+      icon:"list-ul",
       component: ActivityPage,
       bar_app: true,
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
-      default_param: { current: isRoleRec() ? "student-listing" : "session" },
+      default_param: { current:  "session" },
       //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
       // remove mmy activity from student
-      disabled: !isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
+      disabled: (isRoleStudent() && COMING_SOON) //for student disable first
     },
+    // {
+    //   url: "/my-activity/:current",
+    //   label: isRoleRec() ? "All Students" : "My Activity",
+    //   icon: isRoleRec() ? "users" : "list-ul",
+    //   component: ActivityPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   default_param: { current: isRoleRec() ? "student-listing" : "session" },
+    //   //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+    //   // remove mmy activity from student
+    //   disabled: !isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
+    // },
     // {
     //   url: "/my-activity/:current",
     //   label: "All Student",

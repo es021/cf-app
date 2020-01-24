@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { BrowseStudentFilter, createFilterStr } from "./partial/browse-student/browse-student-filter";
 import { BrowseStudentList } from "./partial/browse-student/browse-student-list";
 import { graphql } from "../../helper/api-helper";
-import { isRoleRec, getAuthUser } from "../redux/actions/auth-actions";
+import { isRoleRec, getAuthUser, getCF } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
 
 
@@ -11,34 +11,54 @@ export class BrowseStudent extends React.Component {
     super(props);
     this.onChangeFilter = this.onChangeFilter.bind(this);
 
-    let defaultFilterState = null;
-    // defaultFilterState = {
-    //   cf: ["EUR"],
-    //   graduation_month_to: ["December"],
-    //   graduation_year_to: ["2019"],
-    // }
+    this.isRec = isRoleRec();
+    this.company_id = null;
+    this.company_cf = [];
+    let currentCf = getCF();
+
+    if (this.isRec) {
+      this.company_id = getAuthUser().rec_company;
+      this.company_cf = getAuthUser().company.cf;
+      if (!Array.isArray(this.company_cf)) {
+        this.company_cf = [];
+      }
+      let testIndex = this.company_cf.indexOf("TEST")
+      if (testIndex >= 0) {
+        this.company_cf.splice(testIndex, 1);
+      }
+    }
+
+    this.defaultFilterState = null;
+    this.defaultFilterState = {
+      cf: this.company_cf.indexOf(currentCf) >= 0 ? [currentCf] : this.company_cf
+    }
 
     let disabledFilter = null;
     disabledFilter = {
-      // cf: ["EUR"]
+      cf: (v) => {
+        if (this.isRec) {
+          // disabled kalau takde dlm list company_cf
+          let toDisabled = this.company_cf.indexOf(v) <= -1
+          return toDisabled;
+        } else {
+          return false;
+        }
+      }
     }
 
     this.state = {
-      filterStr: createFilterStr(defaultFilterState),
-      filterState: defaultFilterState,
+      filterStr: createFilterStr(this.defaultFilterState, this.company_cf),
+      filterState: this.defaultFilterState,
       disabledFilter: disabledFilter,
       loading: false,
       privs: [],
       companyName: ""
     };
-
-    this.isRec = isRoleRec();
-    this.company_id = getAuthUser().rec_company;
   }
 
   onChangeFilter(filterState) {
     this.setState(() => {
-      return { filterStr: createFilterStr(filterState), filterState: filterState }
+      return { filterStr: createFilterStr(filterState, this.company_cf), filterState: filterState }
     })
   }
 
@@ -68,10 +88,40 @@ export class BrowseStudent extends React.Component {
         });
       });
     }
-
   }
 
+  getQueryParam({
+    page,
+    offset,
+    filterStr,
+    isRec,
+    company_id
+  }) {
+    let toRet = ""
+    if (isRec) {
+      toRet = `company_id : ${company_id}`;
+    }
 
+    if (filterStr) {
+      if (toRet != "") {
+        toRet += ", ";
+      }
+      toRet += `${filterStr}`;
+    }
+
+    if (page && offset) {
+      if (toRet != "") {
+        toRet += ", ";
+      }
+      toRet += `, page: ${page}, offset:${offset}`;
+    }
+
+    if (toRet.trim() == "") {
+      return "";
+    } else {
+      return `(${toRet})`;
+    }
+  }
 
 
   render() {
@@ -90,7 +140,9 @@ export class BrowseStudent extends React.Component {
             <BrowseStudentFilter
               filterStr={this.state.filterStr}
               disabledFilter={this.state.disabledFilter}
-              defaultFilterState={this.state.filterState}
+              filterState={this.state.filterState}
+              defaultFilterState={this.defaultFilterState}
+              getQueryParam={this.getQueryParam}
               onChange={this.onChangeFilter}></BrowseStudentFilter>
           </div>
           <div className="col-lg-7">
@@ -98,7 +150,9 @@ export class BrowseStudent extends React.Component {
               company_id={this.company_id}
               isRec={this.isRec}
               privs={this.state.privs}
+              disabledFilter={this.state.disabledFilter}
               filterState={this.state.filterState}
+              getQueryParam={this.getQueryParam}
               filterStr={this.state.filterStr}></BrowseStudentList>
           </div>
           <div className="col-lg-1"></div>

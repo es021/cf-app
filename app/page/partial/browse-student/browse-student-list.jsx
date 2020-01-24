@@ -27,33 +27,6 @@ export class BrowseStudentList extends React.Component {
         }
     }
 
-    getMainQueryParam(page, offset) {
-        let toRet = ""
-        if (this.props.isRec) {
-            toRet = `company_id : ${this.props.company_id}`;
-        }
-
-        if (this.props.filterStr) {
-            if (toRet != "") {
-                toRet += ", ";
-            }
-            toRet += `${this.props.filterStr}`;
-        }
-
-        if (page && offset) {
-            if (toRet != "") {
-                toRet += ", ";
-            }
-            toRet += `, page: ${page}, offset:${offset}`;
-        }
-
-        if (toRet.trim() == "") {
-            return "";
-        } else {
-            return `(${toRet})`;
-        }
-    }
-
     renderList(d, i) {
         return <div>
             <BrowseStudentCard
@@ -67,9 +40,19 @@ export class BrowseStudentList extends React.Component {
         </div>;
     }
 
+    getQueryParam(page, offset) {
+        return this.props.getQueryParam({
+            page: page,
+            offset: offset,
+            filterStr: this.props.filterStr,
+            isRec: this.props.isRec,
+            company_id: this.props.company_id
+        })
+    }
+
     loadCount() {
         var query = `query{
-                browse_student_count ${this.getMainQueryParam()} 
+                browse_student_count ${this.getQueryParam()} 
             }`;
         return graphql(query);
     }
@@ -79,7 +62,7 @@ export class BrowseStudentList extends React.Component {
 
     loadData(page, offset) {
         var query = `query{
-            browse_student ${this.getMainQueryParam(page, offset)} 
+            browse_student ${this.getQueryParam(page, offset)} 
             {
                 student_id
                 student{
@@ -97,7 +80,7 @@ export class BrowseStudentList extends React.Component {
         return res.data.data.browse_student;
     }
     getFilterDescription() {
-        return JSON.stringify(this.props.filterState);
+        return JSON.stringify(this.props.filterStr);
     }
     render() {
         let v = null;
@@ -115,6 +98,7 @@ export class BrowseStudentList extends React.Component {
         return (
             <div className="browse-student-list">
                 <h1>Student Listing</h1>
+                {/* {this.getFilterDescription()} */}
                 {v}
             </div>
         );
@@ -125,12 +109,15 @@ export class BrowseStudentList extends React.Component {
 BrowseStudentList.propTypes = {
     filterStr: PropTypes.string,
     filterState: PropTypes.object,
+    disabledFilter: PropTypes.object,
     privs: PropTypes.object,
     company_id: PropTypes.number,
-    isRec: PropTypes.bool
+    isRec: PropTypes.bool,
+    getQueryParam : PropTypes.func
 }
 
 BrowseStudentList.defaultProps = {
     filterStr: null,
-    filterState: {}
+    filterState: {},
+    disabledFilter: {}
 }

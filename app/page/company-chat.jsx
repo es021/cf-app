@@ -90,7 +90,8 @@ export class StudentChatStarter extends React.Component {
               You can start other conversation with different student at{" "}
               <NavLink
                 target="_blank"
-                to={`${RootPath}/app/my-activity/student-listing`}
+                // to={`${RootPath}/app/my-activity/student-listing`}
+                to={`${RootPath}/app/browse-student`}
               >
                 Student Listing
               </NavLink>{" "}page
