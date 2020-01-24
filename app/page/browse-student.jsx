@@ -139,6 +139,7 @@ export class BrowseStudent extends React.Component {
           <div className="col-lg-3">
             <BrowseStudentFilter
               filterStr={this.state.filterStr}
+              isRec={this.isRec}
               disabledFilter={this.state.disabledFilter}
               filterState={this.state.filterState}
               defaultFilterState={this.defaultFilterState}
