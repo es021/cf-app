@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
+import Tooltip from "../../../component/tooltip";
 
 export function createFilterStr(filterObj, validCf) {
     validCf = Array.isArray(validCf) ? validCf : []
@@ -56,7 +57,7 @@ export class BrowseStudentFilter extends React.Component {
         this.onResetFilter = this.onResetFilter.bind(this);
 
         this.orderFilter = [
-            "favourited_only", "cf", "country_study", "university", "field_study",
+            "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
             "looking_for_position", "working_availability_to",
             "graduation_from", "graduation_to", "interested_job_location", "skill"
         ];
@@ -85,14 +86,43 @@ export class BrowseStudentFilter extends React.Component {
         }
     }
 
-    getFavouriteFilter() {
+    getExtraFilter() {
         return {
             favourited_only: {
                 isRecOnly: true,
                 title: "",
                 filters: [{
                     val: "1",
-                    label: "Show Favourite Student Only",
+                    label: <div>Show <b>Favourite Student</b> Only</div>,
+                    total: null
+                }]
+            },
+            interested_only: {
+                isRecOnly: true,
+                title: "",
+                filters: [{
+                    val: "1",
+                    label: <div>Show <b>Interested Student</b> Only
+                         <Tooltip
+                            bottom="13px"
+                            left="-90px"
+                            width="200px"
+                            alignCenter={true}
+                            debug={false}
+                            content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+                            tooltip={
+                                <div style={{ padding: "0px 5px" }} className="text-left">
+                                    <small>Students that :
+                                    <ol>
+                                            <li>Liked your company profile</li>
+                                            <li>Liked your job posts </li>
+                                            <li>RSVP'ed for your events </li>
+                                        </ol>
+                                    </small>
+                                </div>
+                            }
+                        ></Tooltip>
+                    </div>,
                     total: null
                 }]
             }
@@ -146,7 +176,7 @@ export class BrowseStudentFilter extends React.Component {
 
             this.setState((prevState) => {
                 filterObj = {
-                    ...this.getFavouriteFilter(),
+                    ...this.getExtraFilter(),
                     ...filterObj,
                     ...prevState.filters
                 }

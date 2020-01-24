@@ -190,7 +190,7 @@ export default class HallPage extends React.Component {
         backgroundColor={backgroundColor}
         items={<ActivitySection limitLoad={5} />}
         see_more_text="See More Interviews"
-        see_more_onclick={()=>{
+        see_more_onclick={() => {
           // console.log(`${AppPath}/list-interviews`)
           window.location = `${AppPath}/list-interviews`;
         }}
@@ -290,6 +290,19 @@ export default class HallPage extends React.Component {
           // subText={`See who's interested in ${this.authUser.company.name}`}
           subText={`Browse students' profiles`}
         />
+
+        <ButtonAction
+          style={{ width: "350px" }}
+          btnClass="btn-lg btn-blue"
+          // to={`${RootPath}/app/my-activity/student-listing`}
+          to={`${RootPath}/app/browse-student?interested_only=1`}
+          icon="user"
+          iconSize="3x"
+          mainText={"Interested Students"}
+          // subText={`See who's interested in ${this.authUser.company.name}`}
+          subText={`Browse students interested in you`}
+        />
+
         {/* <ButtonAction
           style={{ width: "350px" }}
           btnClass="btn-lg btn-danger"

@@ -199,6 +199,23 @@ class BrowseStudentExec {
 		return q;
 
 	}
+
+	whereShowInterest(company_id, user_id, param) {
+		const interest = (entity, entity_id_where) => {
+			let qIn = ` select i.is_interested from interested i 
+			where i.entity = '${entity}' and i.entity_id IN (${entity_id_where}) and i.user_id = ${user_id}`;
+			return ` 1 IN (${qIn}) `;
+		}
+		if (param === "1") {
+			let r = interest("vacancies", `select v.ID from vacancies v where v.company_id = '${company_id}'`)
+				+ " OR " + interest("companies", `'${company_id}'`)
+				+ " OR " + interest("event", `select e.ID from events e where e.company_id = '${company_id}'`)
+			return `( ${r} )`;
+
+		} else {
+			return "1=1";
+		}
+	}
 	getWhere(user_id, param) {
 		// select item
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
@@ -215,6 +232,8 @@ class BrowseStudentExec {
 			user_id,
 			param.favourited_only
 		);
+
+		var show_interest = this.whereShowInterest(param.company_id, user_id, param.interested_only);
 
 		let work_availability = this.whereDateRange({
 			user_id: user_id,
@@ -245,6 +264,7 @@ class BrowseStudentExec {
 		});
 
 		return `1=1 
+			AND ${show_interest}
 			AND ${favourited}
 			AND ${cf}
 			AND ${country_study}

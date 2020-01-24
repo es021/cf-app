@@ -4,6 +4,7 @@ import { BrowseStudentList } from "./partial/browse-student/browse-student-list"
 import { graphql } from "../../helper/api-helper";
 import { isRoleRec, getAuthUser, getCF } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
+import { _GET } from "../lib/util";
 
 
 export class BrowseStudent extends React.Component {
@@ -30,7 +31,11 @@ export class BrowseStudent extends React.Component {
 
     this.defaultFilterState = null;
     this.defaultFilterState = {
-      cf: this.company_cf.indexOf(currentCf) >= 0 ? [currentCf] : this.company_cf
+      cf: this.company_cf.indexOf(currentCf) >= 0 ? [currentCf] : this.company_cf,
+    }
+
+    if (_GET("interested_only") == "1") {
+      this.defaultFilterState["interested_only"] = ["1"];
     }
 
     let disabledFilter = null;

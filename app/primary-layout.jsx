@@ -67,7 +67,7 @@ class PrimaryLayout extends React.Component {
   componentDidMount() {
     // takleh panggil ni store action kat dalam componentWillMount
     //hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
-    
+
     hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
 
     socketOn(BOTH.CHAT_MESSAGE, (data) => {
@@ -150,9 +150,12 @@ class PrimaryLayout extends React.Component {
       });
     });
   }
-  setPageId(){
+  setPageId() {
     let pageId = location.href.split("/");
     this.pageId = pageId[pageId.length - 1];
+    if (this.pageId.indexOf("?") >= 0) {
+      this.pageId = this.pageId.split("?")[0];
+    }
   }
   // componentWillMount(){
   //   this.setPageId();

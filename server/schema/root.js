@@ -461,6 +461,7 @@ fields["group_session_joins"] = {
 
 let argBrowseStudent = {
 	company_id: __.Int,
+	interested_only : __.String,
 	favourited_only: __.String,
 	page: __.Int,
 	offset: __.Int,
