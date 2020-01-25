@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LandingUrl, IsNewHall } from "../../config/app-config";
+import { LandingUrl, IsNewHall, IsRecruiterNewHall } from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
 import VolunteerScheduledInterview from "../page/volunteer-scheduled-interview";
@@ -70,11 +70,14 @@ import EventManagement from "../page/event-management";
 import ListEvent from "../page/list-events";
 import ListInterviews from "../page/list-interviews";
 import { BrowseStudent } from "../page/browse-student";
+import HallRecruiterPage from "../page/hall-recruiter";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
   if (isAuthorized()) {
-    if (IsNewHall) {
+    if (isRoleRec() && IsRecruiterNewHall) {
+      homeComponent = HallRecruiterPage;
+    } else if (IsNewHall) {
       // new hall takde pegi page coming soon
       if (isRoleStudent()) homeComponent = HallPage;
       else if (isRoleRec()) homeComponent = HallPage;
@@ -368,14 +371,14 @@ function getMenuItem(COMING_SOON) {
     // },
     {
       url: "/my-activity/:current",
-      label:  "My Activity",
-      icon:"list-ul",
+      label: "My Activity",
+      icon: "list-ul",
       component: ActivityPage,
       bar_app: true,
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
-      default_param: { current:  "session" },
+      default_param: { current: "session" },
       //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
       // remove mmy activity from student
       disabled: (isRoleStudent() && COMING_SOON) //for student disable first

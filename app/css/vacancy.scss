@@ -1,32 +1,56 @@
 @import "define/variable.scss";
 
-.vacancy-card {
-  height: 100%;
-  width: 100%;
-  padding: 10px 13px;
+.vacancy-card-recruiter {
   position: relative;
-  .img {
-    .profile-card {
-      align-items: start;
-      margin: 0;
-      .pc-picture {
-        border: 1px solid darkgray;
-      }
-    }
-    margin-bottom: 7px;
-  }
+	text-align: left;
+  padding: 10px 13px;
 
-  .title {
-    line-height: 18px;
-    margin-bottom: 7px;
-    margin-top: 3px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 17px;
-  }
 
-  .location,
-  .type {
-    opacity: 0.8;
-  }
+	.title {
+		line-height: 18px;
+		margin-bottom: 7px;
+		margin-top: 3px;
+		cursor: pointer;
+		font-weight: bold;
+		font-size: 17px;
+	}
+
+	.location,
+	.type {
+		opacity: 0.8;
+	}
+}
+
+.vacancy-card {
+	height: 100%;
+	width: 100%;
+	padding: 10px 13px;
+	position: relative;
+
+	.img {
+		.profile-card {
+			align-items: start;
+			margin: 0;
+
+			.pc-picture {
+				border: 1px solid darkgray;
+			}
+		}
+
+		margin-bottom: 7px;
+	}
+
+	.title {
+		line-height: 18px;
+		margin-bottom: 7px;
+		margin-top: 3px;
+		cursor: pointer;
+		font-weight: bold;
+		font-size: 17px;
+	}
+
+	.location,
+	.type {
+		opacity: 0.8;
+	}
 }

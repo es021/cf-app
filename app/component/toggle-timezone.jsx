@@ -9,7 +9,6 @@ export default class ToogleTimezone extends React.Component {
 
     this.defaultTimezone = Time.ALT_TIMEZONE_SHORT;
     this.myTimezone = Time.getTimezoneShort();
-    this.myTimezone = this.replaceTimezone(this.myTimezone);
 
     let defaultTime = this.props.createDefaultTime(this.props.unixtimestamp, this.myTimezone);
 
@@ -24,14 +23,6 @@ export default class ToogleTimezone extends React.Component {
 
 
    
-  }
-
-  replaceTimezone(tz) {
-    if (tz == "MT") {
-      return "MYT";
-    }
-
-    return tz;
   }
 
   onClickCheckbox() {

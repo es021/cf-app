@@ -1,166 +1,205 @@
 @import 'define/variable.scss';
-label.label-custom{
-    font-size: 12px;
-    font-weight: inherit;
+
+label.label-custom {
+	font-size: 12px;
+	font-weight: inherit;
 }
+
 ul {
-    padding: 0;
-    list-style: none;
+	padding: 0;
+	list-style: none;
 }
 
 ul.normal {
-    padding-left: 20px;
-    list-style: initial;
+	padding-left: 20px;
+	list-style: initial;
 }
 
 .small-sub {
-    max-width: 300px;
-    margin: auto;
-    font-size: 60%;
-    color: gray;
-    margin-top: 4px;
+	max-width: 300px;
+	margin: auto;
+	font-size: 60%;
+	color: gray;
+	margin-top: 4px;
 }
 
 [hidden] {
-    display: none !important;
+	display: none !important;
 }
 
 p {
-    //text-align: justify;
-    text-align: left;
-    margin: 0;
-    white-space: pre-line;
+	//text-align: justify;
+	text-align: left;
+	margin: 0;
+	white-space: pre-line;
 }
 
 .fa.left {
-    margin-right: 5px;
+	margin-right: 5px;
 }
+
 .fa.right {
-    margin-left: 5px;
+	margin-left: 5px;
 }
 
 .no-padding {
-    padding: 0;
+	padding: 0;
 }
 
 // used in session
 .padding-right {
-    padding-right: 10px;
+	padding-right: 10px;
 }
 
 .padding-left {
-    padding-left: 10px;
+	padding-left: 10px;
 }
 
 div.line {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, white, darkgray, white);
+	border: 0;
+	height: 1px;
+	background-image: linear-gradient(to right, white, darkgray, white);
 }
 
 @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
-    .no-padding-medium {
-        padding: 0;
-    }
+	.no-padding-medium {
+		padding: 0;
+	}
 }
 
 @media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP) {
-    .no-padding-small {
-        padding: 0;
-    }
-    .padding-right,
-    .padding-left {
-        padding-left: 0px;
-        padding-right: 0px;
-        padding: 10px 0px;
-    }
+	.no-padding-small {
+		padding: 0;
+	}
+
+	.padding-right,
+	.padding-left {
+		padding-left: 0px;
+		padding-right: 0px;
+		padding: 10px 0px;
+	}
 }
 
 h3.left {
-    border-bottom: solid 1px $COLOR_TITLE_UNDERLINE;
-    
-    text-align: left;
+	border-bottom: solid 1px $COLOR_TITLE_UNDERLINE;
+
+	text-align: left;
 }
 
-.flex-center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.text-bold {
+	font-weight: bold !important;
+}
+
+.flex-center-start {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+}
+
+.flex-start {
+	display: flex;
+	justify-content: start;
+	align-items: start;
+}
+
+.flex-self-center{
+	align-self: center;
+	justify-self: center;
+}
+
+.flex-grow-1 {
+	flex-grow: 1;
+}
+
+.flex-grow-2 {
+	flex-grow: 2;
+}
+
+.flex-grow-3 {
+	flex-grow: 3;
 }
 
 .flex-wrap {
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
+	justify-content: center;
+	display: flex;
+	flex-wrap: wrap;
 }
 
-.flex-wrap-start{
-    justify-content: start;
-    display: flex;
-    flex-wrap: wrap;
+.flex-wrap-start {
+	justify-content: start;
+	display: flex;
+	flex-wrap: wrap;
 }
 
-.flex-wrap-center{
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
+.flex-wrap-center {
+	justify-content: center;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 
-.flex-wrap-space-between{
-    justify-content: space-between;
-    display: flex;
-    flex-wrap: wrap;
+.flex-wrap-space-between {
+	justify-content: space-between;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 
 .static-page {
-    max-width: 500px;
-    margin: auto;
+	max-width: 500px;
+	margin: auto;
 }
 
 //#######################################
 // CARD  ###################
 .card-container {
-    margin: auto;
-    text-align: center;
-    max-width: 500px;
-    background: white;
-    box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
-    padding: 20px 15px;
-    h3 {
-        margin: 0px;
-    }
+	margin: auto;
+	text-align: center;
+	max-width: 500px;
+	background: white;
+	box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
+	padding: 20px 15px;
+
+	h3 {
+		margin: 0px;
+	}
 }
 
-.flex-container{
-    display: flex;
-    justify-content: space-around;
+.flex-container {
+	display: flex;
+	justify-content: space-around;
 }
 
 
 //#######################################
 // video wrapper  ###################
 .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    /* 16:9 */
-    padding-top: 25px;
-    height: 0;
-    iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+	position: relative;
+	padding-bottom: 56.25%;
+	/* 16:9 */
+	padding-top: 25px;
+	height: 0;
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
 }
 
 //########################################
 // table #############################
-table.table-fit{
-    margin: auto;
-    width: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+table.table-fit {
+	margin: auto;
+	width: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }

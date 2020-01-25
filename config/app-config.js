@@ -1,11 +1,12 @@
 // ###################################################
 // Indicator
+const ALWAYS_TRUE = true;
+const ALWAYS_FALSE = false;
 
-
-const IsDailyCoEnable = true;
-var IsNewHall = true;
-
-const IsGruveoEnable = false;
+var IsRecruiterNewHall = true;
+const IsDailyCoEnable = ALWAYS_TRUE;
+var IsNewHall = ALWAYS_TRUE;
+const IsGruveoEnable = ALWAYS_FALSE;
 // if (typeof location !== "undefined") {
 //     IsNewHall = location.href.indexOf("new=1") >= 0 ? true : false;
 //     console.log("location.href", location.href);
@@ -110,7 +111,8 @@ module.exports = {
     AppConfig,
     ImgConfig,
     ImageUrl,
-    IsNewHall
+    IsNewHall,
+    IsRecruiterNewHall
 };
 
 

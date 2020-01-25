@@ -574,6 +574,7 @@ Time.prototype.convertToAlternateTimezone = function (date) {
 // #######################################
 
 // mysql UNIX_TIMESTAMP(column)
+
 Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false, monthOnly = false, yearOnly = false, isTimezoneMas = false) {
 
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
@@ -671,7 +672,8 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     toReturn += " " + pm_am;
 
     if (include_timezone) {
-        toReturn += "<br><small>" + this.getTimezone(newDate) + "</small>";
+        // toReturn += "<br><small>" + this.getTimezone(newDate) + "</small>";
+        toReturn += " (" + this.getTimezoneShort(newDate) + ")";
     }
 
     return toReturn;
@@ -713,6 +715,11 @@ Time.prototype.getTimezoneShort = function (dateInput = null, isTimezoneMas = fa
     // if (!tzAbbr && /(GMT\W*\d{4})/.test(dateString)) {
     // 	return RegExp.$1;
     // }
+
+    // replace timezone
+    if (tzAbbr == "MT") {
+        tzAbbr = "MYT";
+      }
 
     return tzAbbr;
 }

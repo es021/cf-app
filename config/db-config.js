@@ -266,13 +266,14 @@ const Prescreen = {
 // Scheduled Interview
 const PrescreenEnum = {
 	// New SI Flow
-	STATUS_PENDING: "Pending", // yang lama
 	STATUS_STARTED: "0_Started", // recruiter create session
 	STATUS_WAIT_CONFIRM: "1_Waiting", // recruiter schedule for interview (in student listing)
 	STATUS_APPROVED: "2_Approved", // approve by student (tru email action)
 	STATUS_REJECTED: "3_Rejected", // reject by student (tru email action)
 	STATUS_ENDED: "4_Ended", // dh started and then dia expired dh video call
-	STATUS_DONE: "Done", // session created
+
+	// STATUS_PENDING: "Pending", // yang lama
+	// STATUS_DONE: "Done", // session created
 
 	ST_NEXT_ROUND: "Next Round", // from session
 	ST_INTV_REQUEST: "Session Request",
