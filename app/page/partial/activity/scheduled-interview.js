@@ -240,7 +240,7 @@ export class ScheduledInterview extends React.Component {
         <td>{d.student.university}</td>,
         <td>{d.status}</td>,
         <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>,
-        <td>{d[Prescreen.IS_ONSITE_CALL]}</td>,
+        // <td>{d[Prescreen.IS_ONSITE_CALL]}</td>,
         <td>{d.special_type}</td>,
         <td>{Time.getString(d.updated_at)}</td>
       ];
@@ -340,7 +340,7 @@ export class ScheduledInterview extends React.Component {
                   ID
                   status
                   special_type
-                  is_onsite_call
+                  
                   appointment_time
                   updated_at
                   student{
@@ -349,6 +349,7 @@ export class ScheduledInterview extends React.Component {
                   }
                 }
               }`;
+              //is_onsite_call
       console.log(query);
       return getAxiosGraphQLQuery(query);
     };
@@ -403,9 +404,9 @@ export class ScheduledInterview extends React.Component {
       if (typeof d[Prescreen.STUDENT_ID] !== "undefined") {
         d[Prescreen.STUDENT_ID] = Number.parseInt(d[Prescreen.STUDENT_ID]);
       }
-      if (typeof d[Prescreen.IS_ONSITE_CALL] !== "undefined") {
-        d[Prescreen.IS_ONSITE_CALL] = Number.parseInt(d[Prescreen.IS_ONSITE_CALL]);
-      }
+      // if (typeof d[Prescreen.IS_ONSITE_CALL] !== "undefined") {
+      //   d[Prescreen.IS_ONSITE_CALL] = Number.parseInt(d[Prescreen.IS_ONSITE_CALL]);
+      // }
 
       //for create new
       // kalau admin akan masukkan dalam d
@@ -475,11 +476,13 @@ export class ScheduledInterview extends React.Component {
     this.getEditFormDefault = ID => {
       const query = `query{prescreen(ID:${ID}){
                 ID
-                is_onsite_call
                 student_id
                 status
                 special_type
                 appointment_time}}`;
+
+                //                is_onsite_call
+
 
       return getAxiosGraphQLQuery(query).then(res => {
         var data = res.data.data.prescreen;
@@ -675,16 +678,16 @@ export class ScheduledInterview extends React.Component {
             disabled: isNormal,
         }, 
         */
-        {
-          label: "Is On Site Call",
-          name: Prescreen.IS_ONSITE_CALL,
-          hidden: this.props.isFormHidden(Prescreen.IS_ONSITE_CALL),
-          type: "select",
-          data: [
-            { key: "0", label: "No" },
-            { key: "1", label: "Yes" }
-          ]
-        },
+        // {
+        //   label: "Is On Site Call",
+        //   name: Prescreen.IS_ONSITE_CALL,
+        //   hidden: this.props.isFormHidden(Prescreen.IS_ONSITE_CALL),
+        //   type: "select",
+        //   data: [
+        //     { key: "0", label: "No" },
+        //     { key: "1", label: "Yes" }
+        //   ]
+        // },
         {
           label: "Appointment Date",
           sublabel: <span>Please enter your local time</span>,

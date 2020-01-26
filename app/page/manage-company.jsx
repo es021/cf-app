@@ -161,7 +161,7 @@ class VacancySubPage extends React.Component {
 
     this.getFormItem = edit => {
       return [
-        { header: "Job Opportunity Form" },
+        { header: "Job Post Form" },
         {
           label: "Title",
           name: Vacancy.TITLE,
@@ -212,7 +212,7 @@ class VacancySubPage extends React.Component {
           label: "Description",
           name: Vacancy.DESCRIPTION,
           type: "textarea",
-          placeholder: "Tell more about the job opportunity"
+          placeholder: "Tell more about the Job Post"
         },
         {
           label: "Requirement",
@@ -226,10 +226,10 @@ class VacancySubPage extends React.Component {
   render() {
     return (
       <GeneralFormPage
-        dataTitle="Job Opportunities"
+        dataTitle="Job Posts"
         entity="vacancy"
-        entity_singular="Job Opportunity"
-        addButtonText="Add New Job Opportunity"
+        entity_singular="Job Post"
+        addButtonText="Add New Job Post"
         dataOffset={10}
         tableHeader={this.tableHeader}
         newFormDefault={this.newFormDefault}

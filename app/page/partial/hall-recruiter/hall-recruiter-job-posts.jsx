@@ -19,6 +19,7 @@ export default class HallRecruiterJobPosts extends React.Component {
     this.getDataFromRes = this.getDataFromRes.bind(this);
     this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
+    this.offset = 2;
   }
 
   loadData(page, offset) {
@@ -147,26 +148,25 @@ export default class HallRecruiterJobPosts extends React.Component {
   render() {
 
     // kalau list semua
-    let countParam = {}
-    if (this.props.isListAll) {
-      countParam = {
-        loadCount: this.loadCount,
-        getCountFromRes: this.getCountFromRes
-      }
+    let countParam = {
+      loadCount: this.loadCount,
+      getCountFromRes: this.getCountFromRes
     }
 
     return (
       <ListBoard
-        // {...countParam}
+        {...countParam}
         // hideLoadMore={this.props.limitLoad ? true : false}
-
+        action_icon="plus"
+        action_text="Add New Job Post"
+        action_to={`manage-company/${this.props.company_id}/vacancy`}
         title="Job Posts"
         icon="suitcase"
         appendText={"Load More"}
         loadData={this.loadData}
         getDataFromRes={this.getDataFromRes}
         renderList={this.renderList}
-        offset={2}
+        offset={this.offset}
 
       // isHidePagingTop={this.props.isListAll ? false : true}
       // type="list"

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import HallRecruiterInterview from "./partial/hall-recruiter/hall-recruiter-interview";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
 
@@ -39,9 +40,13 @@ export default class HallRecruiterPage extends React.Component {
     let v = null;
     v = <div className="hall-page">
       <h2>Recruiter Home Page</h2>
-      <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
-      <HallRecruiterInterview></HallRecruiterInterview>
-
+      <div className="flex-center-start">
+        <HallRecruiterInterview></HallRecruiterInterview>
+        <div>
+          <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
+          <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
+        </div>
+      </div>
       {/* <DashboardFeed cf="USA19" type="recruiter"></DashboardFeed> */}
     </div>
 

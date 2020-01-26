@@ -152,21 +152,6 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleVolunteer() && !isRoleAdmin()
     },
     // ###############################################################
-    // RECRUITER
-    {
-      url: "/manage-company/:id/:current",
-      label: "My Company",
-      icon: "building",
-      component: ManageCompanyPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      routeOnly: isRoleAdmin() || isRoleOrganizer(),
-      default_param: { id: getAuthUser().rec_company, current: "about" },
-      disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
-    },
-    // ###############################################################
     // ADMIN
     {
       // Admin Only
@@ -286,10 +271,22 @@ function getMenuItem(COMING_SOON) {
       component: BrowseStudent,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
     },
+    {
+      url: "/interested-student",
+      label: "Interested Students",
+      icon: "heart",
+      component: BrowseStudent,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleRec()
+    },
+
     {
       url: "/auditorium",
       // EUR FIX
@@ -374,7 +371,7 @@ function getMenuItem(COMING_SOON) {
       label: "My Activity",
       icon: "list-ul",
       component: ActivityPage,
-      bar_app: true,
+      bar_app: false,
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
@@ -412,15 +409,28 @@ function getMenuItem(COMING_SOON) {
 
     {
       url: "/manage-company/:id/:current",
-      label: "Add Job Opportunity",
-      icon: "star",
+      label: "Add Job Post",
+      icon: "suitcase",
       component: ManageCompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       default_param: { id: getAuthUser().rec_company, current: "vacancy" },
       disabled: !isRoleRec()
+    },
+    {
+      url: "/manage-company/:id/:current",
+      label: "My Company",
+      icon: "building",
+      component: ManageCompanyPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      routeOnly: isRoleAdmin() || isRoleOrganizer(),
+      default_param: { id: getAuthUser().rec_company, current: "about" },
+      disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
     },
     {
       // Admin Only
@@ -453,7 +463,7 @@ function getMenuItem(COMING_SOON) {
       icon: "envelope-o",
       count_attr: "count_inbox",
       component: CompanyChatInbox,
-      bar_app: true,
+      bar_app: false,
       bar_auth: false,
       hd_app: true,
       hd_auth: false,

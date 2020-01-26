@@ -641,9 +641,19 @@ class InterviewList extends React.Component {
 
     let btnToggleShowMore = null;
     if (this.props.list.length > this.LIMIT_SHOW_LESS) {
-      btnToggleShowMore = <div className="lb-list-item text-left" style={{ padding: '2px 20px' }}>
-        <a className="btn-link font-bold" onClick={this.props.toggleShowMore}>
-          <small>{this.props.isShowMore ? "Show Less " : `Show More ${this.props.title}`}</small>
+      btnToggleShowMore = <div
+        className="lb-list-item text-left"
+        style={{ padding: '5px 20px' }}>
+        <a className="btn-link" onClick={this.props.toggleShowMore}>
+          <small>
+            <b>
+              {
+                this.props.isShowMore
+                  ? <span><i className="fa fa-minus left"></i>Show Less</span>
+                  : <span><i className="fa fa-plus left"></i>Show More</span>
+              }
+            </b>
+          </small>
         </a>
       </div>;
     }
@@ -653,10 +663,7 @@ class InterviewList extends React.Component {
       paddingBottom: "10px 0px",
       borderBottom: "20px solid #f5f5f5"
     }}>
-      <div className="text-left" style={{
-        padding: "5px 10px", paddingTop: "15px", fontWeight: "bold",
-        borderBottom: "1px solid #d2d2d2"
-      }}>
+      <div className="text-left lb-subtitle">
         <i className={`fa left fa-${this.props.icon}`}></i>
         {this.props.title} ({this.props.list.length})
       </div>
@@ -716,7 +723,7 @@ class HallRecruiterInterview extends React.Component {
     let listPending = [];
     let listEnded = [];
     for (var i in d.prescreens) {
-     
+
       let newObj = d.prescreens[i];
       newObj._type = hallAction.ActivityType.PRESCREEN;
 
@@ -777,6 +784,9 @@ class HallRecruiterInterview extends React.Component {
 
     var v = <div>
       <ListBoard
+        action_icon="plus"
+        action_text="Schedule New Interview"
+        action_to={`browse-student`}
         icon={"users"}
         title={<a onClick={this.refresh} className="btn-link text-bold">My Interviews</a>}
         customList={list}

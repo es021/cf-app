@@ -1,9 +1,40 @@
 .list-board {
+	min-width: 400px;
 	max-width: 400px;
 	margin: 10px;
+	margin-bottom: 25px;
 	box-shadow: 1px 3px 4px 1px rgba(0, 0, 0, 0.4);
 	border-radius: 5px;
 	overflow: hidden;
+
+	.lb-subtitle {
+		color: #717171;
+		padding: 5px 10px;
+		padding-top: 15px;
+		font-weight: bold;
+		border-bottom: 1px solid #d2d2d2;
+	}
+
+	.lb-action {
+		padding: 13px 10px;
+		cursor: pointer;
+		background: #333;
+		color: #64d638;
+		font-weight: bold;
+		text-decoration: none;
+		width: 100%;
+		display: inherit;
+	}
+
+	.lb-action:hover {
+		color: white;
+		background: #4a4a4a;
+	}
+
+	.lb-paging {
+		font-size: 10px;
+		margin-bottom: 10px !important;
+	}
 
 	.lb-title {
 		font-size: 16px;

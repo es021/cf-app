@@ -14,7 +14,8 @@ import { Loader } from "./component/loader";
 import {
   isAuthorized,
   isComingSoon,
-  setLocalStorageCf
+  setLocalStorageCf,
+  isRoleRec
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -169,6 +170,31 @@ class PrimaryLayout extends React.Component {
     // })
   }
 
+  isHasLeftBar() {
+    return isRoleRec();
+  }
+
+  getLeftBar(path, COMING_SOON) {
+    if (!this.isHasLeftBar()) {
+      return null;
+    }
+
+    var sideMenu = Navigation.getBar(path, {
+      COMING_SOON: COMING_SOON,
+      isHeader: false,
+      count_notification: this.props.notification_count
+    });
+
+    return <LeftBarLayout menuList={sideMenu}></LeftBarLayout>
+  }
+
+  getClassName() {
+    let r = "primary-layout";
+    if (this.isHasLeftBar()) {
+      r += " with-left-bar"
+    }
+    return r;
+  }
   render() {
     //scroll to top
     console.log("PrimaryLayout");
@@ -205,11 +231,7 @@ class PrimaryLayout extends React.Component {
       count_notification: this.props.notification_count,
       count_inbox: this.props.inbox_count
     });
-    // var sideMenu = Navigation.getBar(path, {
-    //   COMING_SOON: COMING_SOON,
-    //   isHeader: false,
-    //   count_notification: this.props.notification_count
-    // });
+
     var route = Navigation.getRoute(path, COMING_SOON);
 
     if (!isAuthorized()) {
@@ -224,12 +246,12 @@ class PrimaryLayout extends React.Component {
       );
     } else {
       return (
-        <div className="primary-layout">
+        <div className={this.getClassName()}>
           <FocusCard />
           <SupportChat />
           <BlockLoader />
           <HeaderLayout menuList={headerMenu} />
-          {/* <LeftBarLayout menuList={sideMenu} /> */}
+          {this.getLeftBar(path, COMING_SOON)}
           <div className="content">
             <div id={this.pageId} className="main">{route}</div>
             {/* <RightBarLayout /> */}

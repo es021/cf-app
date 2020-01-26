@@ -1,9 +1,14 @@
 
 
 import React, { Component } from "react";
+import { AppPath } from "../../config/app-config";
 import PropTypes from "prop-types";
 import List from "../component/list";
+import {
 
+    NavLink,
+
+} from "react-router-dom";
 export default class ListBoard extends React.Component {
     constructor(props) {
         super(props);
@@ -27,10 +32,13 @@ export default class ListBoard extends React.Component {
             </ul>
         } else {
             list = <List
-                // {...this.props}
+                {...this.props}
                 // key={this.state.key}
                 // extraData={this.state.extraData}
-                type="append-bottom"
+                // type="append-bottom"
+                isHidePagingTop={true}
+                pageClass={"lb-paging"}
+                type="list"
                 listClass="lb-list"
                 // listRef={v => (this.dashBody = v)}
                 loadData={this.props.loadData}
@@ -41,20 +49,21 @@ export default class ListBoard extends React.Component {
                 offset={this.props.offset}
             />
 
-            // <List type="append-bottom"
-            // appendText="Load Older Feed"
-            // listClass="db_body"
-            // componentDidUpdate={this.listComponentDidUpdate}
-            // listRef={(v) => this.dashBody = v}
-            // getDataFromRes={this.getDataFromRes}
-            // loadData={this.loadData}
-            // extraData={this.state.extraData}
-            // offset={this.offset}
-            // renderList={this.renderList}></List>
-
         }
         return <div className="list-board">
-            <div className="lb-title"><i className={`fa fa-${this.props.icon} left`}></i>{this.props.title}</div>
+            {!this.props.action_text
+                ? null
+                : <div>
+                    <NavLink className="lb-action" to={AppPath + "/" + this.props.action_to}>
+                        <i className={`fa fa-${this.props.action_icon} left`}></i>
+                        {this.props.action_text}
+                    </NavLink>
+                </div>
+            }
+            <div className="lb-title">
+                <i className={`fa fa-${this.props.icon} left`}></i>
+                {this.props.title}
+            </div>
             {list}
         </div>
     }
