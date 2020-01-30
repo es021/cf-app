@@ -93,7 +93,22 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>Favourite Student</b> Only</div>,
+                    label: <div>Show <b>shortlisted students</b> only
+                        <Tooltip
+                            bottom="13px"
+                            left="-88px"
+                            width="200px"
+                            alignCenter={true}
+                            debug={false}
+                            content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+                            tooltip={
+                                <div style={{ padding: "0px 5px" }} className="text-left">
+                                    <small>Click on heart sign to shortlist students
+                                    </small>
+                                </div>
+                            }
+                        ></Tooltip>
+                    </div>,
                     total: null
                 }]
             },
@@ -102,7 +117,7 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>Interested Student</b> Only
+                    label: <div>Show <b>interested students</b> only
                          <Tooltip
                             bottom="13px"
                             left="-90px"
