@@ -173,6 +173,10 @@ class BrowseStudentExec {
 					AND
 				s.val IN (select r.val from ref_country r)
 			) 
+			OR 
+			( 
+				s.key_input = "where_in_malaysia"
+			) 
 			AND s.entity = 'user'
 			AND ${where}
 			group by s.key_input, s.val`;
@@ -193,6 +197,7 @@ class BrowseStudentExec {
 			${multiFilter("looking_for_position", where)}
 			UNION ALL
 			${multiFilter("interested_job_location", where)}
+			
 		) 
 		X ORDER BY X._key, X._total desc, X._val asc`;
 
@@ -221,6 +226,8 @@ class BrowseStudentExec {
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
 		let country_study = this.where(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
 		let university = this.where(user_id, this.TABLE_SINGLE, "university", param.university);
+		let where_in_malaysia = this.where(user_id, this.TABLE_SINGLE, "where_in_malaysia", param.where_in_malaysia);
+
 		let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
 		let looking_for_position = this.where(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
 		let interested_job_location = this.where(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
@@ -240,8 +247,8 @@ class BrowseStudentExec {
 			month_key: "working_availability_month",
 			year_key: "working_availability_year",
 			from: {
-				month: null,
-				year: null
+				month: param.working_availability_month_from,
+				year: param.working_availability_year_from
 			},
 			to: {
 				month: param.working_availability_month_to,
@@ -269,6 +276,7 @@ class BrowseStudentExec {
 			AND ${cf}
 			AND ${country_study}
 			AND ${university}
+			AND ${where_in_malaysia}
 			AND ${field_study}
 			AND ${looking_for_position}
 			AND ${interested_job_location}

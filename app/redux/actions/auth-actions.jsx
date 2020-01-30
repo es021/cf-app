@@ -44,6 +44,7 @@ export function setLocalStorageCf(cfArr) {
     localStorage.setItem(LOCAL_STORAGE_CF, objStr);
 }
 
+
 export function getLocalStorageCf() {
     let cf = localStorage.getItem(LOCAL_STORAGE_CF);
     let cfObj = {};
@@ -57,6 +58,8 @@ export function getLocalStorageCf() {
     }
     return cfObj;
 }
+
+
 
 export function getLocalStorageCfOrg() {
     let allCf = getLocalStorageCf();
@@ -84,6 +87,17 @@ export function getLocalStorageCfOrg() {
         // }
     }
     return toRet;
+}
+
+
+export function getCfTitle(cf) {
+    try {
+        let allCf = getLocalStorageCf();
+        let cfObj = allCf[cf];
+        return cfObj.title;
+    } catch (err) {
+        return null;
+    }
 }
 
 // export function getLocalStorageCfOrg() {
@@ -324,6 +338,7 @@ import {
     errorBlockLoader, customBlockLoader, storeHideBlockLoader, customViewBlockLoader, customViewBlockLoaderSmall
 } from './layout-actions.js';
 import layoutReducer from "../reducer/layout-reducer.js";
+import ret from "ret";
 
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {

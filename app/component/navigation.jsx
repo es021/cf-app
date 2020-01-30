@@ -271,7 +271,7 @@ function getMenuItem(COMING_SOON) {
       component: BrowseStudent,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: IsRecruiterNewHall ? false : true,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
     },
@@ -366,20 +366,7 @@ function getMenuItem(COMING_SOON) {
     //     // is not coming soon and one of the row then show = !disabled
     //     disabled: isDisabled("career-fair", COMING_SOON)
     // },
-    {
-      url: "/my-activity/:current",
-      label: "My Activity",
-      icon: "list-ul",
-      component: ActivityPage,
-      bar_app: false,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      default_param: { current: "session" },
-      //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
-      // remove mmy activity from student
-      disabled: (isRoleStudent() && COMING_SOON) //for student disable first
-    },
+   
     // {
     //   url: "/my-activity/:current",
     //   label: isRoleRec() ? "All Students" : "My Activity",
@@ -406,19 +393,6 @@ function getMenuItem(COMING_SOON) {
     //   default_param: { current: "all-student" },
     //   disabled: !isRoleRec()
     // },
-
-    {
-      url: "/manage-company/:id/:current",
-      label: "Add Job Post",
-      icon: "suitcase",
-      component: ManageCompanyPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      default_param: { id: getAuthUser().rec_company, current: "vacancy" },
-      disabled: !isRoleRec()
-    },
     {
       url: "/manage-company/:id/:current",
       label: "My Company",
@@ -426,11 +400,37 @@ function getMenuItem(COMING_SOON) {
       component: ManageCompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: false,
+      hd_app: IsRecruiterNewHall ? false : true,
       hd_auth: false,
       routeOnly: isRoleAdmin() || isRoleOrganizer(),
       default_param: { id: getAuthUser().rec_company, current: "about" },
       disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
+    },
+    {
+      url: "/manage-company/:id/:current",
+      label: "Add Job Post",
+      icon: "suitcase",
+      component: ManageCompanyPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: IsRecruiterNewHall ? false : true,
+      hd_auth: false,
+      default_param: { id: getAuthUser().rec_company, current: "vacancy" },
+      disabled: !isRoleRec()
+    },
+    {
+      url: "/my-activity/:current",
+      label: "My Activity",
+      icon: "list-ul",
+      component: ActivityPage,
+      bar_app: false,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      default_param: { current: "session" },
+      //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+      // remove mmy activity from student
+      disabled: (isRoleStudent() && COMING_SOON) //for student disable first
     },
     {
       // Admin Only

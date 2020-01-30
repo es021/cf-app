@@ -28,6 +28,11 @@
 			}
 		}
 
+		.bsf-section.no-border{
+			border-bottom: none;
+			margin-bottom: -10px;
+		}
+
 		.bsf-section:last-of-type{
 			border-bottom: none;
 		}

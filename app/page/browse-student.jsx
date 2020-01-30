@@ -156,6 +156,7 @@ export class BrowseStudent extends React.Component {
               company_id={this.company_id}
               isRec={this.isRec}
               privs={this.state.privs}
+              company_cf={this.company_cf}
               disabledFilter={this.state.disabledFilter}
               filterState={this.state.filterState}
               getQueryParam={this.getQueryParam}

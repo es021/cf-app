@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 import List from "../../../component/list";
 import { graphql } from "../../../../helper/api-helper";
 import { BrowseStudentCard } from "./browse-student-card";
+import { getCfTitle } from "../../../redux/actions/auth-actions";
 
 export class BrowseStudentList extends React.Component {
     constructor(props) {
@@ -80,7 +81,34 @@ export class BrowseStudentList extends React.Component {
         return res.data.data.browse_student;
     }
     getFilterDescription() {
-        return JSON.stringify(this.props.filterStr);
+        return null;
+        let cfList = [];
+        let cfs = this.props.filterState.cf;
+
+        if (!Array.isArray(cfs) || cfs.length <= 0) {
+            if (!this.props.isRec) {
+                cfs.push("All Career Fair");
+            } else {
+                cfs = this.props.company_cf
+            }
+        }
+
+        if (Array.isArray(cfs)) {
+            for (var i in cfs) {
+                let title = getCfTitle(cfs[i]);
+                if (title == null) {
+                    title = cfs[i]
+                }
+
+                cfList.push(<li>{title}</li>);
+            }
+        }
+
+        return <div style={{ fontWeight: "10px", textAlign: "center" }}
+            className="text-muted">
+            <i>Showing students from</i>
+            <ul>{cfList}</ul>
+        </div>;
     }
     render() {
         let v = null;
@@ -98,7 +126,7 @@ export class BrowseStudentList extends React.Component {
         return (
             <div className="browse-student-list">
                 <h1>Student Listing</h1>
-                {/* {this.getFilterDescription()} */}
+                {this.getFilterDescription()}
                 {v}
             </div>
         );
@@ -113,7 +141,7 @@ BrowseStudentList.propTypes = {
     privs: PropTypes.object,
     company_id: PropTypes.number,
     isRec: PropTypes.bool,
-    getQueryParam : PropTypes.func
+    getQueryParam: PropTypes.func
 }
 
 BrowseStudentList.defaultProps = {
