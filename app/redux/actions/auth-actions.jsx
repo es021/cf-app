@@ -338,7 +338,6 @@ import {
     errorBlockLoader, customBlockLoader, storeHideBlockLoader, customViewBlockLoader, customViewBlockLoaderSmall
 } from './layout-actions.js';
 import layoutReducer from "../reducer/layout-reducer.js";
-import ret from "ret";
 
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {
