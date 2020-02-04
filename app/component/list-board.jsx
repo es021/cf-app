@@ -50,19 +50,21 @@ export default class ListBoard extends React.Component {
             />
 
         }
+        let action = !this.props.action_text
+            ? null
+            : <div>
+                <NavLink className="lb-action btn-link" to={AppPath + "/" + this.props.action_to}>
+                    <i className={`fa fa-${this.props.action_icon} left`}></i>
+                    {this.props.action_text}
+                </NavLink>
+            </div>
+
         return <div className="list-board">
-            {!this.props.action_text
-                ? null
-                : <div>
-                    <NavLink className="lb-action" to={AppPath + "/" + this.props.action_to}>
-                        <i className={`fa fa-${this.props.action_icon} left`}></i>
-                        {this.props.action_text}
-                    </NavLink>
-                </div>
-            }
+
             <div className="lb-title">
                 <i className={`fa fa-${this.props.icon} left`}></i>
                 {this.props.title}
+                {action}
             </div>
             {list}
         </div>

@@ -788,7 +788,15 @@ class HallRecruiterInterview extends React.Component {
         action_text="Schedule New Interview"
         action_to={`browse-student`}
         icon={"users"}
-        title={<a onClick={this.refresh} className="btn-link text-bold">My Interviews</a>}
+        title={
+          <span>
+            My Interviews
+          {" "}
+            <a onClick={this.refresh} className="btn-link text-bold">
+              <small><i className="fa fa-refresh"></i></small>
+            </a>
+          </span>
+        }
         customList={list}
       >
       </ListBoard>

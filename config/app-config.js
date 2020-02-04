@@ -3,7 +3,7 @@
 const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
-var IsRecruiterNewHall = false;
+var IsRecruiterNewHall = true;
 
 const IsDailyCoEnable = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;

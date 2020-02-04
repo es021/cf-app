@@ -39,12 +39,21 @@ export default class HallRecruiterPage extends React.Component {
     document.setTitle("Recruiter Home Page");
     let v = null;
     v = <div className="hall-page">
-      <h2>Recruiter Home Page</h2>
-      <div className="flex-center-start">
-        <HallRecruiterInterview></HallRecruiterInterview>
-        <div>
-          <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
-          <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
+      <h2>Welcome {this.authUser.company.name} !</h2>
+      <br></br>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <HallRecruiterInterview></HallRecruiterInterview>
+          </div>
+          <div className="col-md-6">
+            <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
+          </div>
         </div>
       </div>
       {/* <DashboardFeed cf="USA19" type="recruiter"></DashboardFeed> */}

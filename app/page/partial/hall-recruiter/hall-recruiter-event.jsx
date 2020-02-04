@@ -246,11 +246,19 @@ class HallRecruiterEvent extends React.Component {
 
     var v = <div>
       <ListBoard
-        action_icon="plus"
-        action_text="Schedule New Interview"
-        action_to={`browse-student`}
+        // action_icon="plus"
+        // action_text="Schedule New Interview"
+        // action_to={`browse-student`}
         icon={"calendar"}
-        title={<a onClick={this.refresh} className="btn-link text-bold">Events</a>}
+        title={
+          <span>
+            Events
+          {" "}
+            <a onClick={this.refresh} className="btn-link text-bold">
+              <small><i className="fa fa-refresh"></i></small>
+            </a>
+          </span>
+        }
         customList={list}
       >
       </ListBoard>
