@@ -252,6 +252,24 @@ export function getCompany() {
     }
 }
 
+export function getCompanyCf(skipArr = []) {
+    let r = [];
+    if (isRoleRec()) {
+        r = getCompany().cf;
+        if (!Array.isArray(r)) {
+            r = [];
+        }
+
+        for (var i in skipArr) {
+            let testIndex = r.indexOf(skipArr[i])
+            if (testIndex >= 0) {
+                r.splice(testIndex, 1);
+            }
+        }
+    }
+    return r;
+}
+
 export function getAuthUser() {
     if (!isAuthorized()) {
         return {};

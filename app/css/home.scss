@@ -1,161 +1,183 @@
 @import "define/variable.scss";
 
-
 body.landing-page {
-	//background-image: url("https://seedsjobfairapp.com/image/home/1_sm.jpg") !important;
-	background-size: cover !important; //background-position: center center !important;
-	background-attachment: fixed !important;
+  //background-image: url("https://seedsjobfairapp.com/image/home/1_sm.jpg") !important;
+  background-size: cover !important; //background-position: center center !important;
+  background-attachment: fixed !important;
 
-	header {
-		transition: background-color 0.3s ease;
-		transition: color 0.3s ease;
-	}
+  header {
+    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
+  }
 
-	.content {
-		background: rgba(0, 0, 0, 0.65) !important;
+  .content {
+    background: rgba(0, 0, 0, 0.65) !important;
 
-		.main {
-			padding: 0 !important;
-		}
-	}
+    .main {
+      padding: 0 !important;
+    }
+  }
 }
 
 //before scroll
 body.landing-page.top {
-	header {
-		background-color: rgba(0, 0, 0, 0);
-		box-shadow: none;
-		color: white;
+  header {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+    color: white;
 
-		.menu-small {
-			ul {
-				background: rgba(0, 0, 0, 0.7);
-			}
-		}
+    .menu-small {
+      ul {
+        background: rgba(0, 0, 0, 0.7);
+      }
+    }
 
-		a,
-		.title {
-			color: white;
-		}
+    a,
+    .title {
+      color: white;
+    }
 
-		.title {
-			small {
-				color: white;
-			}
-		}
+    .title {
+      small {
+        color: white;
+      }
+    }
 
-		a.active {
-			border-bottom-color: white;
-		}
-	}
+    a.active {
+      border-bottom-color: white;
+    }
+  }
 }
 
 #home {
-	#home-welcome {
-        .row{
-            max-width: 90vw;
+  #home-welcome {
+    .row {
+      max-width: 90vw;
+    }
+    display: flex;
+    min-height: 480px;
+    flex-direction: column;
+    color: whitesmoke;
+    padding-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+
+    .right-side {
+      text-align: center;
+    }
+
+    // kalau screen kecik dari 1192px
+    .left-side {
+      margin-bottom: 50px;
+      text-align: center;
+
+      h1 {
+        text-transform: uppercase;
+        font-size: 50px;
+        font-weight: bold;
+
+        .subtitle {
+          margin-top: 10px;
+          font-weight: lighter;
+          text-transform: initial;
+          font-size: 60%;
+
+          .fa {
+            margin-right: 20px;
+          }
         }
-		display: flex;
-		min-height: 480px;
-		flex-direction: column;
-		color: whitesmoke;
-		padding-bottom: 40px;
-        justify-content: center;
-        align-items: center;
+      }
 
-		.right-side {
-			text-align: center;
-		}
+      #timer {
+        .timer_time {
+          .timer_item {
+            .timer_value {
+              background: rgba(0, 0, 0, 0.6);
+              border-radius: 17px;
+              padding: 16px;
+              margin-bottom: 12px;
+            }
+          }
+        }
+      }
+    }
 
+    // kalau screen besar dari 1192px
+    @media only screen and (min-width: 1192px) {
+      .left-side {
+        margin-bottom: 0px;
 
-		// kalau screen kecik dari 1192px
-		.left-side {
-            margin-bottom: 50px;
-			text-align: center;
+        text-align: left;
 
-			h1 {
-				text-transform: uppercase;
-				font-size: 50px;
-				font-weight: bold;
+        #timer {
+          text-align: left;
 
-				.subtitle {
-					margin-top: 10px;
-					font-weight: lighter;
-					text-transform: initial;
-					font-size: 60%;
+          .timer_time {
+            text-align: center;
+          }
+        }
+      }
+    }
 
-					.fa {
-						margin-right: 20px;
-					}
-				}
-			}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: white;
+    }
 
-			#timer {
-				.timer_time {
-					.timer_item {
-						.timer_value {
-							background:
-								rgba(0, 0, 0, 0.6);
-							border-radius: 17px;
-							padding: 16px;
-							margin-bottom: 12px;
-						}
-					}
-				}
-			}
-		}
+    small {
+      opacity: 0.9;
+      color: white;
+    }
 
-		// kalau screen besar dari 1192px
-		@media only screen and (min-width: 1192px) {
-			.left-side {
-                margin-bottom: 0px;
+    .item-small {
+      width: 90%;
+      max-width: 500px;
+      margin: auto;
+    }
 
-				text-align: left;
+    .item-login {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
 
-				#timer {
-					text-align: left;
+      h3 {
+        margin-top: 0;
+      }
+    }
 
-					.timer_time {
-						text-align: center;
-					}
-				}
-			}
-		}
+    @media only screen and (max-width: 400px) {
+      .left-side {
+        margin-bottom: 20px;
 
+        #timer {
+          .timer_time {
+            .timer_item {
+              .timer_value {
+                font-size: 20px;
+                border-radius: 6px;
+                padding: 5px;
+                margin-bottom: 10px;
+              }
+              .timer_label {
+                font-size: 10px !important;
+              }
+            }
+          }
+        }
 
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6 {
-			color: white;
-		}
+        h1 {
+          font-size: 30px;
+        }
+      }
+    }
+  }
 
-		small {
-			opacity: 0.9;
-			color: white;
-		}
-
-		.item-small {
-			width: 90%;
-			max-width: 500px;
-			margin: auto;
-		}
-
-		.item-login {
-			background: rgba(0, 0, 0, 0.5);
-			padding: 20px;
-
-			h3 {
-				margin-top: 0;
-			}
-		}
-	}
-
-	#home-body {
-		background: $COLOR_BACKGROUND;
-		min-height: 350px;
-		padding-bottom: 30px;
-	}
+  #home-body {
+    background: $COLOR_BACKGROUND;
+    min-height: 350px;
+    padding-bottom: 30px;
+  }
 }

@@ -4,11 +4,7 @@ import React, { Component } from "react";
 import { AppPath } from "../../config/app-config";
 import PropTypes from "prop-types";
 import List from "../component/list";
-import {
-
-    NavLink,
-
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 export default class ListBoard extends React.Component {
     constructor(props) {
         super(props);

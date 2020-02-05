@@ -594,7 +594,7 @@ class InterviewList extends React.Component {
             }
           </div>
           {/* right */}
-          <div className="flex-grow-1 flex-self-center">
+          <div className="flex-grow-1 flex-self-center-start">
             {action}
           </div>
         </div>

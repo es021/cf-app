@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { BrowseStudentFilter, createFilterStr } from "./partial/browse-student/browse-student-filter";
 import { BrowseStudentList } from "./partial/browse-student/browse-student-list";
 import { graphql } from "../../helper/api-helper";
-import { isRoleRec, getAuthUser, getCF } from "../redux/actions/auth-actions";
+import { isRoleRec, getAuthUser, getCF, getCompanyCf } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
 import { _GET } from "../lib/util";
 
@@ -13,30 +13,10 @@ export class BrowseStudent extends React.Component {
     this.onChangeFilter = this.onChangeFilter.bind(this);
 
     this.isRec = isRoleRec();
-    this.company_id = null;
-    this.company_cf = [];
-    let currentCf = getCF();
+    this.company_id = this.isRec ? getAuthUser().rec_company : null;
+    this.company_cf = getCompanyCf(["TEST"]);
 
-    if (this.isRec) {
-      this.company_id = getAuthUser().rec_company;
-      this.company_cf = getAuthUser().company.cf;
-      if (!Array.isArray(this.company_cf)) {
-        this.company_cf = [];
-      }
-      let testIndex = this.company_cf.indexOf("TEST")
-      if (testIndex >= 0) {
-        this.company_cf.splice(testIndex, 1);
-      }
-    }
-
-    this.defaultFilterState = null;
-    this.defaultFilterState = {
-      cf: this.company_cf.indexOf(currentCf) >= 0 ? [currentCf] : this.company_cf,
-    }
-    
-    if (_GET("interested_only") == "1" || this.props.match.path.indexOf("interested-student") >= 0) {
-      this.defaultFilterState["interested_only"] = ["1"];
-    }
+    this.defaultFilterState = this.getDefaultFilterState();
 
     let disabledFilter = null;
     disabledFilter = {
@@ -59,6 +39,23 @@ export class BrowseStudent extends React.Component {
       privs: [],
       companyName: ""
     };
+  }
+
+  getDefaultFilterState() {
+    let r = {};
+
+    let currentCf = getCF();
+    if (_GET("filter_cf")) {
+      r["cf"] = [_GET("filter_cf")];
+    } else {
+      r["cf"] = this.company_cf.indexOf(currentCf) >= 0 ? [currentCf] : this.company_cf
+    }
+
+    if (_GET("interested_only") == "1" || this.props.match.path.indexOf("interested-student") >= 0) {
+      r["interested_only"] = ["1"];
+    }
+
+    return r;
   }
 
   onChangeFilter(filterState) {
