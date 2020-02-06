@@ -702,9 +702,11 @@ Time.prototype.getTimezoneShort = function (dateInput = null, isTimezoneMas = fa
     // console.log(isTimezoneMas,dateObject);
 
     if (tzAbbr) {
+        if(tzAbbr[1]){
+            tzAbbr = tzAbbr[1].match(/[A-Z]/g).join("");
+        }
         // Old Firefox uses the long timezone name (e.g., "Central
         // Daylight Time" instead of "CDT")
-        tzAbbr = tzAbbr[1].match(/[A-Z]/g).join("");
     }
 
     // Uncomment these lines to return a GMT offset for browsers
