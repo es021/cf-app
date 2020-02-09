@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppConfig, ImgConfig , FooterClass} from "../../config/app-config";
+import { AppConfig, ImgConfig, FooterClass } from "../../config/app-config";
 import { ButtonIcon } from "../component/buttons.jsx";
 import { getCFOrg, isRedirectExternalHomeUrl } from "../redux/actions/auth-actions";
 
@@ -14,7 +14,8 @@ class FixedImg extends React.Component {
       width: this.props.width + "px",
       height: this.props.height + "px",
       backgroundSize: "cover",
-      margin: "auto"
+      margin: "auto",
+      ...this.props.style
     };
 
     return <div style={style}></div>;
@@ -77,12 +78,16 @@ export default class Footer extends React.Component {
     this.brand = (
       <div className="brand">
         <h3 className="title">
-          SEEDS JOB FAIR<br></br>powered by
+          Powered By<br></br>SEEDS
         </h3>
         <FixedImg
-          url={ImgConfig.IsIconInverse}
-          height="66"
-          width="145"
+          // url={ImgConfig.IsIconInverse}
+          url={ImgConfig.AppIcon}
+          height="56"
+          width="64"
+          style={{
+            "backgroundPosition": "bottom"
+          }}
         ></FixedImg>
         <div className="social">
           <ButtonIcon
@@ -109,7 +114,7 @@ export default class Footer extends React.Component {
   }
 
   render() {
-    if(isRedirectExternalHomeUrl(this.props)){
+    if (isRedirectExternalHomeUrl(this.props)) {
       return null;
     }
 

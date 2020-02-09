@@ -47,7 +47,7 @@ var WPAjaxApi = (isProd) ? "https://seedsjobfairapp.com/career-fair/wp-admin/adm
 const AppConfig = {
     HeaderIconUrl: "https://seedsjobfair.com/virtual-fairs",
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
-    Desc: "Powered by Seeds Job Fair",
+    Desc: "Powered by Seeds",
     Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
     Api: SiteUrl,
     PHPApi: PHPApi,
@@ -60,7 +60,7 @@ const AppConfig = {
 
 
 const ImgConfig = {
-    AppIcon: AssetUrl + "/asset/image/icon-transparent.png",
+    AppIcon: AssetUrl + "/asset/image/new-icon-transparent.png",
     IsIcon: AssetUrl + "/asset/image/innovaseed.png",
     IsIconInverse: AssetUrl + "/asset/image/innovaseed_inverse.png",
     DefUser: AssetUrl + "/asset/image/default-user.png",

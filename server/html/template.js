@@ -9,8 +9,8 @@ const template = (url) => {
     var content = fs.readFileSync(templateFile, 'utf8');
 
     // create title and description based on url
-    var title = "Seeds Job Fair - App";
-    var description = "Virtual Career Fair - Powered by Seeds Job Fair - Innovaseeds Solutions";
+    var title = "Seeds - Virtual Career Fair";
+    var description = "Virtual Career Fair - Powered by Seeds - Innovaseeds Solutions";
 
     if (url.indexOf('vacancy') >= 0) {
         var id = getIdFromUrl(url);
