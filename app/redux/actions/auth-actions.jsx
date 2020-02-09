@@ -145,7 +145,8 @@ export function isRedirectExternalHomeUrl(props) {
     if (!isAuthorized()) {
         console.log("props.location.pathname",props.location.pathname);
         console.log("props.location.pathname",props.location.pathname);
-        if (props.location.pathname === "/auth/" || props.location.pathname === "/auth") {
+        let path = props.location.pathname
+        if (["/auth/","/auth","/cf/auth/","/cf/auth"].indexOf(path) >= 0) {
             let externalHomeUrl = getCF_externalHomeUrl();
             if (externalHomeUrl) {
                 return true;
