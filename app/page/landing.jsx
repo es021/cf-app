@@ -9,7 +9,7 @@ import {
   ImageUrl
 } from "../../config/app-config";
 import { Redirect, NavLink } from "react-router-dom";
-import { getCF, getCFObj, getCFOrg } from "../redux/actions/auth-actions";
+import { getCF, getCFObj, getCFOrg, getCF_externalHomeUrl, isAuthorized, isRedirectExternalHomeUrl } from "../redux/actions/auth-actions";
 import SponsorList from "./partial/static/sponsor-list";
 import { Time } from "../lib/time";
 import Timer from "../component/timer";
@@ -168,6 +168,10 @@ export default class LandingPage extends React.Component {
   }
 
   render() {
+   if(isRedirectExternalHomeUrl(this.props)){
+     return null;
+   }
+   
     //  <NavLink to={`${RootPath}/auth/sign-up-recruiter`} className="btn btn-lg btn-danger">
     //  <i className="fa fa-suitcase left"></i>Recruiter</NavLink>
 

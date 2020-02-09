@@ -59,7 +59,8 @@ import {
   isRoleSupport,
   isRoleAdmin,
   isComingSoon,
-  isRoleVolunteer
+  isRoleVolunteer,
+  getCF_externalHomeUrl,
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -133,6 +134,8 @@ function getMenuItem(COMING_SOON) {
       label: "Home",
       icon: "home",
       component: homeComponent,
+      has_external_url: getCF_externalHomeUrl() ? true : false,
+      external_url: getCF_externalHomeUrl(),
       bar_app: true,
       bar_auth: true,
       hd_app: true,
@@ -893,6 +896,8 @@ export function getBar(
       </li>
     );
 
+    console.log("d.has_external_url",d.has_external_url);
+
     // handle for normal url or popup
     if (d.is_popup == true) {
       return (
@@ -906,7 +911,19 @@ export function getBar(
           {item_li}
         </a>
       );
-    } else {
+    } 
+    else if (d.has_external_url == true) {
+      return (
+        <a
+          key={i}
+          href={d.external_url}
+          activeClassName="active"
+        >
+          {item_li}
+        </a>
+      );
+    } 
+    else {
       return (
         <NavLink
           to={`${path}${url}`}

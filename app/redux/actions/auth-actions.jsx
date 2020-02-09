@@ -127,6 +127,30 @@ export function getCFObj() {
     return CareerFair[getCF()];
 }
 
+export function isRedirectExternalHomeUrl(props) {
+    if (!isAuthorized()) {
+        console.log("props.location.pathname",props.location.pathname);
+        console.log("props.location.pathname",props.location.pathname);
+        if (props.location.pathname === "/auth/" || props.location.pathname === "/auth") {
+            let externalHomeUrl = getCF_externalHomeUrl();
+            if (externalHomeUrl) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+export function getCF_externalHomeUrl() {
+    let obj = getCFObj();
+
+    if (obj) {
+        return obj["external_home_url"];
+    }
+
+    return null;
+}
+
 // return key of cf
 const ToReplaceCf = {
     "USA": "USA19"

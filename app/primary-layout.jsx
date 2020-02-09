@@ -15,7 +15,9 @@ import {
   isAuthorized,
   isComingSoon,
   setLocalStorageCf,
-  isRoleRec
+  isRoleRec,
+  getCF_externalHomeUrl,
+  isRedirectExternalHomeUrl
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -101,7 +103,8 @@ class PrimaryLayout extends React.Component {
 		logo_position
 		logo_size
 		start
-		end
+    end
+    external_home_url
 		time_str
 		time_str_mas
 		test_start
@@ -196,6 +199,11 @@ class PrimaryLayout extends React.Component {
     return r;
   }
   render() {
+    if(isRedirectExternalHomeUrl(this.props)){
+      window.location = getCF_externalHomeUrl();
+      return null;
+    }
+
     //scroll to top
     console.log("PrimaryLayout");
 
@@ -234,14 +242,17 @@ class PrimaryLayout extends React.Component {
 
     var route = Navigation.getRoute(path, COMING_SOON);
 
+
+
+
     if (!isAuthorized()) {
       return (
         <div className="primary-layout landing-page">
-          <HeaderLayout menuList={headerMenu} />
+          <HeaderLayout {...this.props} menuList={headerMenu} />
           <div className="content">
             <div id={this.pageId} className="main">{route}</div>
           </div>
-          <FooterLayout />
+          <FooterLayout {...this.props} />
         </div>
       );
     } else {
@@ -250,13 +261,13 @@ class PrimaryLayout extends React.Component {
           <FocusCard />
           <SupportChat />
           <BlockLoader />
-          <HeaderLayout menuList={headerMenu} />
+          <HeaderLayout {...this.props} menuList={headerMenu} />
           {this.getLeftBar(path, COMING_SOON)}
           <div className="content">
             <div id={this.pageId} className="main">{route}</div>
             {/* <RightBarLayout /> */}
           </div>
-          <FooterLayout />
+          <FooterLayout {...this.props} />
         </div>
       );
     }

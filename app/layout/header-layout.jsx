@@ -3,7 +3,8 @@ import { AppConfig, ImgConfig, RootPath , HeaderClass, FooterClass} from "../../
 import {
   getCFObj,
   getAuthUser,
-  isAuthorized
+  isAuthorized,
+  isRedirectExternalHomeUrl
 } from "../redux/actions/auth-actions";
 import { ButtonIcon } from "../component/buttons.jsx";
 import { createImageElement } from "../component/profile-card.jsx";
@@ -15,6 +16,10 @@ export default class HeaderLayout extends React.Component {
   }
 
   render() {
+    if(isRedirectExternalHomeUrl(this.props)){
+      return null;
+    }
+
     let authUser = getAuthUser();
     let userIcon = isAuthorized() ? (
       <NavLink to={`${RootPath}/app/edit-profile/profile`}>

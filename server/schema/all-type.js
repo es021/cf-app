@@ -260,6 +260,7 @@ const CfsType = new GraphQLObjectType({
 		logo_width: __.String,
 		logo_position: __.String,
 		logo_size: __.String,
+		external_home_url: __.String,
 		start: __.String,
 		end: __.String,
 		time_str: __.String,

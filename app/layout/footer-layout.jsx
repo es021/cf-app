@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AppConfig, ImgConfig , FooterClass} from "../../config/app-config";
 import { ButtonIcon } from "../component/buttons.jsx";
-import { getCFOrg } from "../redux/actions/auth-actions";
+import { getCFOrg, isRedirectExternalHomeUrl } from "../redux/actions/auth-actions";
 
 //import {openNewTab} from '../lib/util';
 
@@ -109,6 +109,10 @@ export default class Footer extends React.Component {
   }
 
   render() {
+    if(isRedirectExternalHomeUrl(this.props)){
+      return null;
+    }
+
     return (
       <footer className={FooterClass}>
         <div className="container-fluid">
