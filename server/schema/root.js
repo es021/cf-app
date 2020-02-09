@@ -472,6 +472,7 @@ let argBrowseStudent = {
 	// single (delimeter '::')
 	country_study: __.String,
 	university: __.String,
+	where_in_malaysia: __.String,
 
 	// multi (delimeter '::')
 	field_study: __.String,
@@ -479,6 +480,8 @@ let argBrowseStudent = {
 	interested_job_location: __.String,
 	skill: __.String,
 
+	working_availability_month_from: __.String,
+	working_availability_year_from: __.String,
 	working_availability_month_to: __.String,
 	working_availability_year_to: __.String,
 	graduation_month_from: __.String,

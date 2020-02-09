@@ -288,7 +288,7 @@ export default class HallPage extends React.Component {
           iconSize="3x"
           mainText={"All Students"}
           // subText={`See who's interested in ${this.authUser.company.name}`}
-          subText={`Browse students' profiles`}
+          subText={`Browse all students`}
         />
 
         <ButtonAction

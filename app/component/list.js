@@ -474,6 +474,53 @@ ProfileListItem.defaultProps = {
 };
 
 export class ProfileListWide extends Component {
+  getAction() {
+    let action = [];
+
+    let action_text = this.props.action_text;
+    let action_to = this.props.action_to;
+    let action_color = this.props.action_color;
+    let action_handler = this.props.action_handler;
+
+    if (!Array.isArray(action_to)) action_to = [action_to];
+    if (!Array.isArray(action_color)) action_color = [action_color];
+    if (!Array.isArray(action_handler)) action_handler = [action_handler];
+    if (!Array.isArray(action_text)) action_text = [action_text];
+
+    if (!this.props.action_disabled) {
+      for (var i in action_text) {
+        let text = action_text[i];
+        let to = action_to[i]
+        let color = action_color[i]
+        let handler = action_handler[i]
+
+        if (to) {
+          action.push(
+            <NavLink
+              className={`btn btn-${color}`}
+              to={to}
+              onClick={() => handler()}
+            >
+              {text}
+            </NavLink>
+          );
+        } else {
+          action.push(<a
+            className={`btn btn-${color}`}
+            onClick={() => handler()}
+          >
+            {text}
+          </a>)
+        }
+      }
+    }
+
+    if (action.length > 0) {
+      return <div className={`item-action`}>{action}</div>
+    } else {
+      return null;
+    }
+  }
   render() {
     var img_dimension = this.props.img_dimension
       ? this.props.img_dimension
@@ -503,33 +550,7 @@ export class ProfileListWide extends Component {
       contentSize = "10";
     }
 
-    let action = null;
-    if (!this.props.action_disabled) {
-      if (!this.props.isNavLink) {
-        action = (
-          <div className={`item-action`}>
-            <a
-              className={`btn btn-${this.props.action_color}`}
-              onClick={() => this.props.action_handler()}
-            >
-              {this.props.action_text}
-            </a>
-          </div>
-        );
-      } else {
-        action = (
-          <div className={`item-action`}>
-            <NavLink
-              className={`btn btn-${this.props.action_color}`}
-              to={this.props.action_to}
-              onClick={() => this.props.action_handler()}
-            >
-              {this.props.action_text}
-            </NavLink>
-          </div>
-        );
-      }
-    }
+    let action = this.getAction();
 
     return (
       <div className={className}>

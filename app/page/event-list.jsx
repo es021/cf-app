@@ -56,7 +56,7 @@ export class EventList extends React.Component {
         paging = `page:${page},offset:${offset}`;
       }
 
-// order_by:"end_time desc"
+      // order_by:"end_time desc"
       return `user_id:${getAuthUser().ID}, 
         ${paging} `
     }
@@ -180,13 +180,17 @@ export class EventList extends React.Component {
     //     createView={createView}
     //   />
     // );
+    // let time = <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(d.start_time)} {Time.getStringShortMas(d.start_time)} (MYT)</div>;
+    let notSpecified = <i className="text-muted">Not Speficied</i>;
 
-    let time = <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(d.start_time)} {Time.getStringShortMas(d.start_time)} (MYT)</div>;
+    let include_timezone = true;
+    let time = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
+
     let locationText = <div className="el-location-text">{d.location}</div>
     let location = <div className="el-location">
       <i className="fa fa-map-marker left" style={{ marginRight: "12px" }}></i>
       {!d.location
-        ? <i className="text-muted">Not Speficied</i>
+        ? notSpecified
         : <span>
           {
             d.type == EventEnum.TYPE_VIRTUAL

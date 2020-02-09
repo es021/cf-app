@@ -22,7 +22,7 @@ import { Time } from "../../../lib/time";
 import { showNotification } from "../../../lib/notification";
 import { RootPath } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
-import { getAuthUser, getCFObj } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCFObj, getCompanyCf } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";
 import UserPopup, { createUserDocLinkList } from "../popup/user-popup";
 import {
@@ -90,18 +90,38 @@ class EventList extends React.Component {
         d.start,
         d.end
       );
+
+      let btnAction = <div style={{ marginTop: "5px" }}>
+        <NavLink
+          to={`${RootPath}/app/browse-student?filter_cf=${d.name}`}
+          className="btn-sm btn btn-block btn-success">
+          See All Student
+        </NavLink>
+      </div>
+
+      let title = <div style={{ color: "#484848" }}><b>{d.title}</b></div>
+
       v = <div className="lb-list-item text-left" style={{ padding: "10px 15px" }}>
-        <div style={{ color: "#484848" }}><b>{d.title}</b></div>
-        <div>
-          <small className="text-muted">
-            <i className="fa fa-calendar left"></i>
-            {dateStr}
-          </small>
-          <br></br>
-          <small className="text-muted">
-            <i className="fa fa-clock-o left"></i>
-            {d.time_str_mas ? d.time_str_mas : d.time_str}
-          </small>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-9">
+              {title}
+              <div>
+                <small className="text-muted">
+                  <i className="fa fa-calendar left"></i>
+                  {dateStr}
+                </small>
+                <br></br>
+                <small className="text-muted">
+                  <i className="fa fa-clock-o left"></i>
+                  {d.time_str_mas ? d.time_str_mas : d.time_str}
+                </small>
+              </div>
+            </div>
+            <div className="col-sm-3">
+              {btnAction}
+            </div>
+          </div>
         </div>
       </div>
     } else {
@@ -215,13 +235,16 @@ class HallRecruiterEvent extends React.Component {
     // 3. list
     let listMyEvent = [];
     let listOtherEvent = [];
+    let myCompanyCf = getCompanyCf(["TEST"]);
     for (var i in this.state.data) {
       let newObj = this.state.data[i];
       newObj._type = "cf"
-      listMyEvent.push(newObj);
-      listOtherEvent.push(newObj);
+      if (myCompanyCf.indexOf(newObj.name) >= 0) {
+        listMyEvent.push(newObj);
+      } else {
+        listOtherEvent.push(newObj);
+      }
     }
-
 
 
     // 5. view
@@ -246,11 +269,19 @@ class HallRecruiterEvent extends React.Component {
 
     var v = <div>
       <ListBoard
-        action_icon="plus"
-        action_text="Schedule New Interview"
-        action_to={`browse-student`}
+        // action_icon="plus"
+        // action_text="Schedule New Interview"
+        // action_to={`browse-student`}
         icon={"calendar"}
-        title={<a onClick={this.refresh} className="btn-link text-bold">Events</a>}
+        title={
+          <span>
+            Events
+          {" "}
+            <a onClick={this.refresh} className="btn-link text-bold">
+              <small><i className="fa fa-refresh"></i></small>
+            </a>
+          </span>
+        }
         customList={list}
       >
       </ListBoard>

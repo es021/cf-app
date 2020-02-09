@@ -279,7 +279,7 @@ Time.prototype.convertDBTimeToUnix = function (db_time) {
                 return unix + (hour * 60 * 60);
             }
 
-        } catch (err) {}
+        } catch (err) { }
 
         return unix;
     }
@@ -673,7 +673,10 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     if (include_timezone) {
         // toReturn += "<br><small>" + this.getTimezone(newDate) + "</small>";
-        toReturn += " (" + this.getTimezoneShort(newDate) + ")";
+        let tz = this.getTimezoneShort(newDate);
+        if (tz) {
+            toReturn += " (" + tz + ")";
+        }
     }
 
     return toReturn;
@@ -702,9 +705,14 @@ Time.prototype.getTimezoneShort = function (dateInput = null, isTimezoneMas = fa
     // console.log(isTimezoneMas,dateObject);
 
     if (tzAbbr) {
+        if (tzAbbr[1]) {
+            let arrMatch = tzAbbr[1].match(/[A-Z]/g);
+            if (arrMatch) {
+                tzAbbr = arrMatch.join("");
+            }
+        }
         // Old Firefox uses the long timezone name (e.g., "Central
         // Daylight Time" instead of "CDT")
-        tzAbbr = tzAbbr[1].match(/[A-Z]/g).join("");
     }
 
     // Uncomment these lines to return a GMT offset for browsers
@@ -719,7 +727,7 @@ Time.prototype.getTimezoneShort = function (dateInput = null, isTimezoneMas = fa
     // replace timezone
     if (tzAbbr == "MT") {
         tzAbbr = "MYT";
-      }
+    }
 
     return tzAbbr;
 }

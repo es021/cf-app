@@ -131,16 +131,6 @@ left_bar {
 	}
 }
 
-
-.primary-layout.with-left-bar {
-
-	header,
-	.content,
-	footer {
-		padding-left: $LEFTBAR_LG_WIDTH;
-	}
-}
-
 @media only screen and (min-width: 1180px) {
 	// .primary-layout.landing-page {
 	//     header {

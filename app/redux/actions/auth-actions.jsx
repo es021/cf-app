@@ -44,6 +44,7 @@ export function setLocalStorageCf(cfArr) {
     localStorage.setItem(LOCAL_STORAGE_CF, objStr);
 }
 
+
 export function getLocalStorageCf() {
     let cf = localStorage.getItem(LOCAL_STORAGE_CF);
     let cfObj = {};
@@ -57,6 +58,8 @@ export function getLocalStorageCf() {
     }
     return cfObj;
 }
+
+
 
 export function getLocalStorageCfOrg() {
     let allCf = getLocalStorageCf();
@@ -84,6 +87,17 @@ export function getLocalStorageCfOrg() {
         // }
     }
     return toRet;
+}
+
+
+export function getCfTitle(cf) {
+    try {
+        let allCf = getLocalStorageCf();
+        let cfObj = allCf[cf];
+        return cfObj.title;
+    } catch (err) {
+        return null;
+    }
 }
 
 // export function getLocalStorageCfOrg() {
@@ -260,6 +274,24 @@ export function getCompany() {
     } else {
         return getAuthUser().company;
     }
+}
+
+export function getCompanyCf(skipArr = []) {
+    let r = [];
+    if (isRoleRec()) {
+        r = getCompany().cf;
+        if (!Array.isArray(r)) {
+            r = [];
+        }
+
+        for (var i in skipArr) {
+            let testIndex = r.indexOf(skipArr[i])
+            if (testIndex >= 0) {
+                r.splice(testIndex, 1);
+            }
+        }
+    }
+    return r;
 }
 
 export function getAuthUser() {

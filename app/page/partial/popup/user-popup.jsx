@@ -170,6 +170,7 @@ export default class UserPopup extends Component {
                 working_availability_month
                 working_availability_year
                 grade
+                where_in_malaysia
                 phone_number
                 sponsor
                 description
@@ -326,7 +327,12 @@ export default class UserPopup extends Component {
           label: "Grade / CGPA",
           icon: "book",
           value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
-        }
+        },
+        {
+          label: "City/State in Malaysia",
+          icon: "map-marker",
+          value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
+        },
         // {
         //   label: "Work Availability Date",
         //   icon: "suitcase",

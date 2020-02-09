@@ -22,6 +22,7 @@ import {
 
 import { addLog } from "./redux/actions/other-actions";
 import { LogEnum, CFSMetaObject } from "../config/db-config";
+import { IsRecruiterNewHall } from "../config/app-config";
 
 import * as Navigation from "./component/navigation.jsx";
 import HeaderLayout from "./layout/header-layout.jsx";
@@ -174,7 +175,7 @@ class PrimaryLayout extends React.Component {
   }
 
   isHasLeftBar() {
-    return isRoleRec();
+    return isRoleRec() && IsRecruiterNewHall;
   }
 
   getLeftBar(path, COMING_SOON) {

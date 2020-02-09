@@ -58,15 +58,21 @@ export class BrowseStudentFilter extends React.Component {
 
         this.orderFilter = [
             "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
-            "looking_for_position", "working_availability_to",
-            "graduation_from", "graduation_to", "interested_job_location", "skill"
+            "looking_for_position", "working_availability_from", "working_availability_to",
+            "graduation_from", "graduation_to", "interested_job_location", "where_in_malaysia", "skill"
         ];
+
+        this.customClass = {
+            "working_availability_from": "no-border",
+            "graduation_from": "no-border",
+        }
 
         this.state = {
             key: 1,
             loading: false,
             filters: {
-                ...this.getDateStateObj("working_availability", "to", "Working Availability"),
+                ...this.getDateStateObj("working_availability", "from", "Working Availability From"),
+                ...this.getDateStateObj("working_availability", "to", "Working Availability To"),
                 ...this.getDateStateObj("graduation", "from", "Graduation Date From"),
                 ...this.getDateStateObj("graduation", "to", "Graduation Date To"),
             },
@@ -93,7 +99,22 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>Favourite Student</b> Only</div>,
+                    label: <div>Show <b>shortlisted students</b> only
+                        <Tooltip
+                            bottom="13px"
+                            left="-88px"
+                            width="200px"
+                            alignCenter={true}
+                            debug={false}
+                            content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+                            tooltip={
+                                <div style={{ padding: "0px 5px" }} className="text-left">
+                                    <small>Click on heart sign to shortlist students
+                                    </small>
+                                </div>
+                            }
+                        ></Tooltip>
+                    </div>,
                     total: null
                 }]
             },
@@ -102,7 +123,7 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>Interested Student</b> Only
+                    label: <div>Show <b>interested students</b> only
                          <Tooltip
                             bottom="13px"
                             left="-90px"
@@ -253,7 +274,7 @@ export class BrowseStudentFilter extends React.Component {
     loadDataset(k) {
         let q = `query{ 
               refs(
-                table_name :"${k}"
+                table_name :"${k}", order_by : "ID asc"
               ) {
                 ID val table_name
               }
@@ -276,6 +297,7 @@ export class BrowseStudentFilter extends React.Component {
             country_study: "Country Of Study",
             field_study: "Field Of Study",
             interested_job_location: "Preferred Job Location",
+            where_in_malaysia: "City/State In Malaysia",
             looking_for_position: "Looking For",
             skill: "Skills",
         }[key];
@@ -301,8 +323,8 @@ export class BrowseStudentFilter extends React.Component {
 
 
 
-    _section(body) {
-        return <div className="bsf-section">
+    _section(body, extraClass = "") {
+        return <div className={`bsf-section ${extraClass}`}>
             {body}
         </div>
     }
@@ -388,6 +410,12 @@ export class BrowseStudentFilter extends React.Component {
         // console.log("isFilterDisabled", key, val, toRet);
         return toRet
     }
+    getTotal(k, f) {
+        if (k == "cf") {
+            return "";
+        }
+        return f.total ? `(${f.total})` : ""
+    }
     filterCheckbox(k, keyFilter) {
         let isStateShowMore = this.state[k + "show_more"] === true;
         let limitShowLess = 5;
@@ -413,7 +441,7 @@ export class BrowseStudentFilter extends React.Component {
             valItems.push(
                 <div className={className}>
                     <label className="cb1-container small green">
-                        {f.label} {f.total ? `(${f.total})` : ""}
+                        {f.label} {this.getTotal(k, f)}
                         <input
                             disabled={this.isFilterDisabled(k, f.val)}
                             className={"bsf-input"}
@@ -481,7 +509,7 @@ export class BrowseStudentFilter extends React.Component {
                 v = this.filterCheckbox(k, keyFilter)
             }
 
-            v = this._section(v);
+            v = this._section(v, this.customClass[k]);
             toRet.push(v);
         }
         return toRet;

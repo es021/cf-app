@@ -22,7 +22,8 @@ import { createUserDocLinkList } from "../popup/user-popup";
 import { RootPath } from "../../../../config/app-config";
 import {
     UserEnum,
-    PrescreenEnum
+    PrescreenEnum,
+    CompanyEnum
 } from "../../../../config/db-config";
 
 import Tooltip from "../../../component/tooltip";
@@ -239,15 +240,40 @@ export class BrowseStudentCard extends React.Component {
 
         // action Start Chat
         const action_disabled = !this.props.isRec;
-        const actionHandler = () => { };
-        const action_text = (
+        const isNavLink = true;
+
+
+        var canSchedule = CompanyEnum.hasPriv(
+            this.props.privs,
+            CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+        );
+        const action_handler = [
+            () => { },
+            () => {
+                console.log("Schedule Call");
+                if (canSchedule) {
+                    openSIFormAnytime(d.student_id, this.props.company_id);
+                } else {
+                    // EUR FIX
+                    // See Availability
+                    layoutActions.errorBlockLoader(
+                        "Opps.. It seems that you don't have privilege to schedule private session yet"
+                    );
+                }
+            }
+        ];
+        const action_color = ["blue", "success"]
+        const action_text = [
             <small>
                 <i className="fa fa-comment left" />
                 Start Chat
-        </small>
-        );
-        const isNavLink = true;
-        const actionTo = `${RootPath}/app/student-chat/${d.student.ID}`;
+            </small>,
+            <small>
+                <i className="fa fa-video-camera left" />
+                Schedule Call
+            </small>
+        ];
+        const action_to = [`${RootPath}/app/student-chat/${d.student.ID}`, null];
 
         // like button
         let likeButton = !this.props.isRec ? null : (
@@ -256,7 +282,7 @@ export class BrowseStudentCard extends React.Component {
                     left: "-36px",
                     bottom: "26px",
                     width: "97px",
-                    tooltip: "Show Interest",
+                    tooltip: "Shortlist student",
                     debug: false
                 }}
                 isBottom={true}
@@ -279,9 +305,10 @@ export class BrowseStudentCard extends React.Component {
                 title={title}
                 body={details}
                 isNavLink={isNavLink}
-                action_to={actionTo}
+                action_color={action_color}
+                action_to={action_to}
                 action_text={action_text}
-                action_handler={actionHandler}
+                action_handler={action_handler}
                 type={"student"}
                 key={i}
             />
