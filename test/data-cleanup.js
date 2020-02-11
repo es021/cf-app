@@ -94,6 +94,9 @@ idComma = idComma.substring(0, idComma.length - 1);
 sqlSel = `SELECT * from single_input WHERE key_input = "${key_input}" and entity_id IN (${idComma})`;
 
 
-
 console.log(sqlSel)
 console.log(sql)
+
+
+// buang like by test account
+// delete from interested where user_id IN (select u.ID from wp_cf_users u where u.user_email like '%test%') 
