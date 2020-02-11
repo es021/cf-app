@@ -672,11 +672,12 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     toReturn += " " + pm_am;
 
     if (include_timezone) {
-        // toReturn += "<br><small>" + this.getTimezone(newDate) + "</small>";
-        let tz = this.getTimezoneShort(newDate);
-        if (tz) {
-            toReturn += " (" + tz + ")";
-        }
+        toReturn += " (local time)";
+
+        // let tz = this.getTimezoneShort(newDate);
+        // if (tz) {
+        //     toReturn += " (" + tz + ")";
+        // }
     }
 
     return toReturn;
