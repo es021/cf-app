@@ -257,7 +257,7 @@ class BrowseStudentExec {
 			${multiFilter("interested_job_location", where)}
 			
 		) 
-		X ORDER BY X._key, X._val asc, X._total desc`;
+		X ORDER BY X._key, X._val_label asc, X._val asc, X._total desc`;
 
 		return q;
 
