@@ -128,6 +128,11 @@ export function getAllCF() {
     return CareerFair;
 }
 
+export function isCfLocal(){
+    let cfObj = getCFObj();
+    return cfObj.is_local === 1
+}
+
 // return organizers
 export function getCFOrg() {
     let CareerFairOrg = getLocalStorageCfOrg();

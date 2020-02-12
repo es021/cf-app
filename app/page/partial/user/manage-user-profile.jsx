@@ -299,7 +299,7 @@ export default class ManageUserProfile extends React.Component {
           key_input: Reg.Single.where_in_malaysia,
           label: "Where are you from in Malaysia?",
           input_placeholder: "Cyberjaya, Selangor",
-          ref_table_name: "location",
+          ref_table_name: "location_malaysia",
           is_required: true,
           hidden: false
         },

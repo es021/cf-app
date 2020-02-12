@@ -106,6 +106,7 @@ class PrimaryLayout extends React.Component {
 		start
     end
     external_home_url
+    is_local
 		time_str
 		time_str_mas
 		test_start

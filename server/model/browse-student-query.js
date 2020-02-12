@@ -124,7 +124,25 @@ class BrowseStudentExec {
 
 		return `(${from_sql} AND ${to_sql})`;
 	}
+	isDiscardFilter(param, filter) {
+		let toRet = false;
+		try {
+			if (param.discard_filter.indexOf(`::${filter}::`) >= 0) {
+				toRet = true;
+			}
+		} catch (err) { }
+
+		console.log("isDiscardFilter", filter, toRet);
+		return toRet;
+	}
 	queryFilter(param) {
+		const EMPTY_FILTER = `select 
+		'' as _key 
+		, '' as _val
+		, '' as _val_label
+		, '' as _total 
+		from dual`;
+
 		const cfFilter = (where) => {
 			return `
 				select
@@ -143,6 +161,15 @@ class BrowseStudentExec {
 		}
 
 		const multiFilter = (key, where) => {
+			if (this.isDiscardFilter(param, key)) {
+				return EMPTY_FILTER;
+			}
+
+			let additional_where = "1=1";
+			if (key == "looking_for_position") {
+				additional_where = " s.val not like '%part%' ";
+			}
+
 			return `select 
 				'${key}' as _key 
 				, s.val as _val
@@ -151,10 +178,49 @@ class BrowseStudentExec {
 				from multi_${key} s
 				WHERE s.entity = 'user'
 				AND ${where}
+				AND ${additional_where}
 				GROUP BY s.val`
 		}
 
+		const singleFilterWhereInMalaysia = (where) => {
+			if (this.isDiscardFilter(param, "where_in_malaysia")) {
+				return EMPTY_FILTER;
+			}
+
+			return `SELECT 
+				s.key_input as _key
+				, r.val as _val
+				, concat(r.state, " - ", r.city) as _val_label
+				, COUNT(*) as _total 
+				FROM single_input s, ref_city_state_country r
+				where 
+				1=1
+				AND s.key_input = "where_in_malaysia"
+				AND s.val = r.val
+				AND s.entity = 'user'
+				AND r.state IS NOT NULL
+				AND r.city IS NOT NULL
+				AND ${where}
+				group by s.key_input, s.val`;
+		}
+
 		const singleFilter = (where) => {
+			let university = this.isDiscardFilter(param, "university")
+				? "1=0"
+				: `( 
+					s.key_input = "university"
+						AND
+					s.val IN (select r.val from ref_university r)
+				) `
+
+			let country_study = this.isDiscardFilter(param, "country_study")
+				? "1=0"
+				: `( 
+					s.key_input = "country_study"
+						AND
+					s.val IN (select r.val from ref_country r)
+				)  `
+
 			return `SELECT 
 			s.key_input as _key
 			, s.val as _val
@@ -162,24 +228,14 @@ class BrowseStudentExec {
 			, COUNT(*) as _total 
 			FROM single_input s
 			where 
-			( 
-				s.key_input = "university"
-					AND
-				s.val IN (select r.val from ref_university r)
-			) 
+			${university} 
 			OR 
-			( 
-				s.key_input = "country_study"
-					AND
-				s.val IN (select r.val from ref_country r)
-			) 
-			OR 
-			( 
-				s.key_input = "where_in_malaysia"
-			) 
+			${country_study}
 			AND s.entity = 'user'
 			AND ${where}
 			group by s.key_input, s.val`;
+
+
 
 		}
 
@@ -190,6 +246,8 @@ class BrowseStudentExec {
 			UNION ALL
 			${singleFilter(where)}
 			UNION ALL
+			${singleFilterWhereInMalaysia(where)}
+			UNION ALL
 			${multiFilter("skill", where)}
 			UNION ALL
 			${multiFilter("field_study", where)}
@@ -199,7 +257,7 @@ class BrowseStudentExec {
 			${multiFilter("interested_job_location", where)}
 			
 		) 
-		X ORDER BY X._key, X._total desc, X._val asc`;
+		X ORDER BY X._key, X._val asc, X._total desc`;
 
 		return q;
 

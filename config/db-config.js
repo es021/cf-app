@@ -648,6 +648,7 @@ const CFSMeta = {
 
 	HALL_CFG_ONSITE_CALL_USE_GROUP: "hall_cfg_onsite_call_use_group",
 	EXTERNAL_HOME_URL: "external_home_url",
+	IS_LOCAL: "is_local",
 	// for CareerFairOrg
 	ORGANIZATIONS: "organizations",
 

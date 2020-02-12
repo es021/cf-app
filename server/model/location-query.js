@@ -9,7 +9,7 @@ class LocationExec {
 
     return "1=1";
   }
-  query(param) {
+  query(param, type) {
     var limit = DB.prepareLimit(param.page, param.offset);
 
     let search_ct = param.val ? `ct.val like '%${param.val}%'` : "1=1";
@@ -20,55 +20,66 @@ class LocationExec {
     let suggest_st = this.subQuerySuggestion(param, "state", "st.val");
     let suggest_cn = this.subQuerySuggestion(param, "country", "cn.val");
 
+    let country_select = "";
+    if(!this.isListMalaysia(type)){
+      country_select = `UNION ALL
+        select 
+        cn.val as val,
+        "country" as type,
+        null as city_id, null as city,
+        null as state_id, null as state,
+        cn.ID as country_id, cn.val as country
+        from ref_country cn
+        where 1=1 
+        and ${search_cn}
+        and ${suggest_cn}`;
+    }
+    
     var sql = `
-	select * from (
-		select 
-		concat(ct.val, ", ", st.val) as val,
-		"city" as type,
-		ct.ID as city_id, ct.val as city,
-		st.ID as state_id, st.val as state,
-		cn.ID as country_id, cn.val as country
-		from ref_city ct, ref_state st, ref_country cn
-		where 1=1 
-		and ct.state_id = st.ID
-		and ct.country_id = cn.ID
-    and ${search_ct}
-    and ${suggest_ct}
-	
-	UNION ALL
-		select 
-		concat(st.val, ", ", cn.val) as val,
-		"state" as type,
-		null as city_id, null as city,
-		st.ID as state_id, st.val as state,
-		cn.ID as country_id, cn.val as country
-		from ref_state st, ref_country cn
-		where 1=1 
-		and st.country_id = cn.ID
-		and ${search_st}
-    and ${suggest_st}
+      select * from (
+        select 
+        concat(ct.val, ", ", st.val) as val,
+        "city" as type,
+        ct.ID as city_id, ct.val as city,
+        st.ID as state_id, st.val as state,
+        cn.ID as country_id, cn.val as country
+        from ref_city ct, ref_state st, ref_country cn
+        where 1=1 
+        and ct.state_id = st.ID
+        and ct.country_id = cn.ID
+        and ${search_ct}
+        and ${suggest_ct}
+      
+      UNION ALL
+        select 
+        concat(st.val, ", ", cn.val) as val,
+        "state" as type,
+        null as city_id, null as city,
+        st.ID as state_id, st.val as state,
+        cn.ID as country_id, cn.val as country
+        from ref_state st, ref_country cn
+        where 1=1 
+        and st.country_id = cn.ID
+        and ${search_st}
+        and ${suggest_st}
 
-	UNION ALL
-		select 
-		cn.val as val,
-		"country" as type,
-		null as city_id, null as city,
-		null as state_id, null as state,
-		cn.ID as country_id, cn.val as country
-		from ref_country cn
-		where 1=1 
-    and ${search_cn}
-    and ${suggest_cn}
+        ${country_select}
 
-	) X 
-	${limit}`;
+      ) X ${limit}`;
+      
     return sql;
+  }
+  isListMalaysia(type) {
+    return type == "list_malaysia";
+  }
+  isList(type) {
+    return type == "list";
   }
   isSingle(type) {
     return type == "single";
   }
   getHelper(type, param, field, extra = {}) {
-    var sql = this.query(param, extra);
+    var sql = this.query(param, type);
     // console.log("[LocationExec]", sql);
     var toRet = DB.query(sql).then(res => {
       for (var i in res) {
@@ -83,6 +94,9 @@ class LocationExec {
   }
   single(param, field) {
     return this.getHelper("single", param, field);
+  }
+  list_malaysia(param, field, extra = {}) {
+    return this.getHelper("list_malaysia", param, field, extra);
   }
   list(param, field, extra = {}) {
     return this.getHelper("list", param, field, extra);

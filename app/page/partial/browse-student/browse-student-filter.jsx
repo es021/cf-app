@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
+import { isCfLocal } from "../../../redux/actions/auth-actions";
 
 export function createFilterStr(filterObj, validCf) {
     validCf = Array.isArray(validCf) ? validCf : []
@@ -55,6 +56,13 @@ export class BrowseStudentFilter extends React.Component {
         super(props);
         this.onSearch = this.onSearch.bind(this);
         this.onResetFilter = this.onResetFilter.bind(this);
+
+        this.discardFilter = "::interested_job_location::";
+        if (isCfLocal()) {
+            this.discardFilter += "::country_study::";
+        } else {
+            this.discardFilter += "::university::";
+        }
 
         this.orderFilter = [
             "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
@@ -164,7 +172,7 @@ export class BrowseStudentFilter extends React.Component {
     loadFilter() {
         this.setState({ loading: true })
         let q = `query{
-            browse_student_filter {
+            browse_student_filter(discard_filter:"${this.discardFilter}") {
               _key
               _val
               _total
@@ -499,6 +507,9 @@ export class BrowseStudentFilter extends React.Component {
         for (var i in this.orderFilter) {
             let k = this.orderFilter[i];
             let keyFilter = this.state.filters[k];
+            if (!keyFilter) {
+                continue;
+            }
             if (keyFilter.isRecOnly && !this.props.isRec) {
                 continue;
             }

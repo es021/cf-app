@@ -248,7 +248,10 @@ fields["refs"] = {
 		search_by_val: __.String
 	},
 	resolve(parentValue, arg, context, info) {
-		if (arg.table_name == "location") {
+		if (arg.table_name == "location_malaysia") {
+			return LocationExec.list_malaysia(arg, graphqlFields(info));
+		}
+		else if (arg.table_name == "location") {
 			return LocationExec.list(arg, graphqlFields(info));
 		} else {
 			return RefExec.list(arg, graphqlFields(info));
@@ -460,6 +463,8 @@ fields["group_session_joins"] = {
 /* browse_student ******************/
 
 let argBrowseStudent = {
+	discard_filter : __.String,
+	
 	company_id: __.Int,
 	interested_only : __.String,
 	favourited_only: __.String,
