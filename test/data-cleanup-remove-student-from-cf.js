@@ -28,27 +28,27 @@ a = `225
 3194
 3197`;
 
-a = a.split("\n");
+CF = "GWINTER";
 
+a = a.split("\n");
 idComma = ``;
-key_input = "country_study";
 sql = "";
 for(var _a of a){
     _a = _a.split("\t");
-    
     let id = _a[0];
-    let val = _a[1];
 
     console.log(_a);
-    sql += `DELETE from cf_map WHERE entity_id = "${id}" and key_input = "${key_input}" and entity = "user"; \n`;
-
+    sql += `DELETE from cf_map 
+        WHERE cf = "${CF}" 
+        AND entity_id = "${id}" 
+        AND entity = "user"; \n`;
     idComma += `${id},`;
 }
-
 idComma = idComma.substring(0, idComma.length - 1);
-
-
-sqlSel = `SELECT * from single_input WHERE key_input = "${key_input}" and entity_id IN (${idComma})`;
+sqlSel = `SELECT * from cf_map 
+    WHERE cf = "${CF}" 
+    AND entity_id IN (${idComma}) 
+    AND entity = "user"`;
 
 
 console.log(sqlSel)
