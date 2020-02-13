@@ -1,104 +1,73 @@
-a = `2798 	Air Itam, Pulau Pinang
-2604 	Balakong, Selangor
-2822 	Bangi, Selangor
-2727 	Banting, Selangor
-2754 	Banting, Selangor
-2832 	Banting, Selangor
-2378 	Bukit Jalil, Kuala Lumpur
-2782 	Bukit Jalil, Kuala Lumpur
-3252 	Cheras, Kuala Lumpur
-2784 	Cyberjaya, Selangor
-2430 	Gombak, Selangor
-2627 	Gombak, Selangor
-2419 	Ipoh, Perak
-2574 	Ipoh, Perak
-2734 	Ipoh, Perak
-2923 	Ipoh, Perak
-2953 	Johor Bahru, Johor
-2793 	Johor, Malaysia
-2962 	Kajang, Selangor
-2586 	Kedah, Malaysia
-2720 	Kedah, Malaysia
-2762 	Kelantan, Malaysia
-2683 	Kemaman, Terengganu
-2282 	Kepong, Selangor
-3189 	Kepong, Selangor
-2701 	Klang, Selangor
-2841 	Klang, Selangor
-2972 	Klang, Selangor
-2974 	Klang, Selangor
-2351 	Kluang, Johor
-2381 	Kluang, Johor
-2465 	Kuala Lumpur, Malaysia
-2644 	Kuala Lumpur, Malaysia
-2825 	Kuala Lumpur, Malaysia
-2948 	Kuala Lumpur, Malaysia
-3026 	Kuala Lumpur, Malaysia
-3121 	Kuala Lumpur, Malaysia
-3216 	Kuala Lumpur, Malaysia
-3263 	Kuala Lumpur, Malaysia
-1220 	Kuala Lumpur, Malaysia
-3290 	Kuala Lumpur, Malaysia
-2476 	Kuala Selangor, Selangor
-2484 	Kuantan, Pahang
-2554 	Kuantan, Pahang
-3050 	Kuantan, Pahang
-2993 	Kuching, Sarawak
-2500 	Melaka, Malaysia
-2537 	Melaka, Malaysia
-2670 	Melaka, Malaysia
-2756 	Melaka, Malaysia
-2813 	Melaka, Malaysia
-1009 	Melaka, Malaysia
-3010 	Melaka, Malaysia
-2379 	Muar, Johor
-2286 	Muar, Johor
-2288 	Nilai, Negeri Sembilan
-2473 	Nilai, Negeri Sembilan
-2682 	Pahang, Malaysia
-2903 	Pahang, Malaysia
-2408 	Perak, Malaysia
-2603 	Perak, Malaysia
-3224 	Perak, Malaysia
-3141 	Petaling Jaya, Selangor
-2879 	Puchong, Selangor
-2253 	Pulau Pinang, Malaysia
-2687 	Pulau Pinang, Malaysia
-1011 	Pulau Pinang, Malaysia
-2930 	Pulau Pinang, Malaysia
-3012 	Pulau Pinang, Malaysia
-3200 	Pulau Pinang, Malaysia
-2454 	Puncak Alam, Selangor
-3136 	Putrajaya, Malaysia
-2438 	Rawang, Selangor
-2921 	Rawang, Selangor
-3084 	Rawang, Selangor
-2869 	Sabah, Malaysia
-3259 	Sandakan, Sabah
-1392 	Selangor, Malaysia
-2848 	Selangor, Malaysia
-3115 	Selangor, Malaysia
-2700 	Semenyih, Selangor
-2724 	Semenyih, Selangor
-2666 	Semporna, Sabah
-2743 	Sepang, Selangor
-2457 	Shah Alam, Selangor
-2460 	Shah Alam, Selangor
-2525 	Shah Alam, Selangor
-2547 	Shah Alam, Selangor
-3044 	Sitiawan, Perak
-2691 	Sungai Buloh, Selangor
-2655 	Sungai Petani, Kedah
-2429 	Taiping, Perak
-3127 	Taman Salak Selatan, Kuala Lumpur
-3099 	Taman Tun Dr Ismail, Kuala Lumpur
-2623 	Tampin, Melaka
-2536 	Wangsa Maju, Kuala Lumpur`;
+a = `2861	France
+2104	-
+2096	-
+2011	-
+1682	-
+1576	-
+1237	-
+757	-
+731	-
+700	-
+698	-
+495	-
+136	-
+118	-
+3161	-
+3143	-
+3006	-
+2882	-
+2881	-
+1600	-
+1212	-
+1049	-
+978	-
+858	-
+740	-
+2910	Australia
+2864	Australia
+3281	China
+3261	China
+3250	China
+3075	France
+3009	France
+2955	France
+2937	France
+2941	Germany
+2918	Germany
+3066	Hungary
+2961	Japan
+3090	Korea, Republic of
+3048	Korea, Republic of
+3046	Korea, Republic of
+3043	Korea, Republic of
+3018	Korea, Republic of
+2994	New Zealand
+2952	New Zealand
+2845	New Zealand
+2843	New Zealand
+3129	Singapore
+3312	United Kingdom
+3296	United Kingdom
+3287	United Kingdom
+3204	United Kingdom
+3150	United Kingdom
+3134	United Kingdom
+3094	United Kingdom
+3061	United Kingdom
+2871	United Kingdom
+3209	United States
+3041	United States
+2997	United States
+2907	United States
+2889	United States
+3021	Australia
+2945	Australia
+2846	New Zealand`;
 
 a = a.split("\n");
 
 idComma = ``;
-key_input = "where_in_malaysia";
+key_input = "country_study";
 sql = "";
 for(var _a of a){
     _a = _a.split("\t");
