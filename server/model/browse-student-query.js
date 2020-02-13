@@ -281,6 +281,9 @@ class BrowseStudentExec {
 	}
 	getWhere(user_id, param) {
 		// select item
+
+		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
+		
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
 		let country_study = this.where(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
 		let university = this.where(user_id, this.TABLE_SINGLE, "university", param.university);

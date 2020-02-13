@@ -38,3 +38,11 @@ where s.key_input = "where_in_malaysia"
 and s.val NOT IN(SELECT r.val from ref_city_state_country r)
 
 
+-- #######################
+-- COUNTRY STUDY MALAYSIA UNTUK BUKAN LOCAL
+select m.*
+from cf_map m, single_input s 
+where m.entity = "user" and m.cf = "GWINTER"
+and s.entity_id = m.entity_id
+and s.key_input = "country_study"
+and s.val = "Malaysia"

@@ -5,6 +5,32 @@ const {
 } = require("../../config/db-config");
 
 class CFQuery {
+	// getCfDiscardCountryInList(field, entity, cf, delim) {
+	// 	const templateHandler = (_field, _entity, _cf) => {
+	// 		return `"1" = (SELECT * from cfs_meta m where m.cf_name = "${_cf}" and m.meta_key = "is_local")`;
+	// 	}
+	// 	return this.getCfInList(field, entity, cf, delim, templateHandler);
+	// }
+	// getCfArr(cf, delim = ", ") {
+	// 	let cfArr = null;
+	// 	//let cfArr = cf;
+
+	// 	if (!Array.isArray(cf)) {
+	// 		if (cf.indexOf(delim) >= 0) {
+	// 			let splited = cf.split(delim);
+	// 			cfArr = [];
+	// 			for (var i in splited) {
+	// 				if (splited[i] != "") {
+	// 					cfArr.push(splited[i]);
+	// 				}
+	// 			}
+	// 		}
+	// 	} else {
+	// 		cfArr = cf;
+	// 	}
+
+	// 	return cfArr
+	// }
 	getCfInList(field, entity, cf, delim = ",") {
 		if (typeof cf === "undefined") {
 			return "1=1";
@@ -31,6 +57,7 @@ class CFQuery {
 		} else {
 			cfArr = cf;
 		}
+		//let cfArr = this.getCfArr(cf, delim);
 
 		const template = (_field, _entity, _cf) => {
 			return `'${_cf}' IN (select ms.cf from cf_map ms 
@@ -57,17 +84,17 @@ class CFQuery {
 		var order_by = "ORDER BY cf_order desc";
 		var is_active =
 			typeof params.is_active === "undefined" ?
-			"1=1" :
-			`is_active = '${params.is_active}'`;
+				"1=1" :
+				`is_active = '${params.is_active}'`;
 		var is_load =
 			typeof params.is_load === "undefined" ?
-			"1=1" :
-			`is_load = '${params.is_load}'`;
+				"1=1" :
+				`is_load = '${params.is_load}'`;
 
 		var name =
 			typeof params.name === "undefined" ?
-			"1=1" :
-			`name = '${params.name}'`;
+				"1=1" :
+				`name = '${params.name}'`;
 
 		let selMeta = "";
 		for (var i in CFSMeta) {
@@ -96,7 +123,7 @@ class CFExec {
 	cfs(params, field, extra = {}) {
 		var sql = CFQuery.getCF(params, field);
 		// console.log("CFExec",sql);
-		var toRet = DB.query(sql).then(function(res) {
+		var toRet = DB.query(sql).then(function (res) {
 			if (extra.single && res !== null) {
 				return res[0];
 			} else {
