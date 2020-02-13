@@ -190,7 +190,8 @@ class BrowseStudentExec {
 			return `SELECT 
 				s.key_input as _key
 				, r.val as _val
-				, concat(r.state, " - ", r.city) as _val_label
+				, (CASE WHEN r.city IS NOT NULL THEN concat(r.state, " - ", r.city) 
+					ELSE concat(r.state, " - Not Specified") END ) as _val_label
 				, COUNT(*) as _total 
 				FROM single_input s, ref_city_state_country r
 				where 
@@ -199,7 +200,6 @@ class BrowseStudentExec {
 				AND s.val = r.val
 				AND s.entity = 'user'
 				AND r.state IS NOT NULL
-				AND r.city IS NOT NULL
 				AND ${where}
 				group by s.key_input, s.val`;
 		}
