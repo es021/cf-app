@@ -187,11 +187,12 @@ class BrowseStudentExec {
 				return EMPTY_FILTER;
 			}
 
+			// (CASE WHEN r.city IS NOT NULL THEN concat(r.state, " - ", r.city)
+
 			return `SELECT 
 				s.key_input as _key
 				, r.val as _val
-				, (CASE WHEN r.city IS NOT NULL THEN concat(r.state, " - ", r.city) 
-					ELSE concat(r.state, " - Not Specified") END ) as _val_label
+				, r.state as _val_label
 				, COUNT(*) as _total 
 				FROM single_input s, ref_city_state_country r
 				where 
@@ -199,6 +200,7 @@ class BrowseStudentExec {
 				AND s.key_input = "where_in_malaysia"
 				AND s.val = r.val
 				AND s.entity = 'user'
+				AND r.city IS NULL
 				AND r.state IS NOT NULL
 				AND ${where}
 				group by s.key_input, s.val`;
