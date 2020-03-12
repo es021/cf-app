@@ -17,7 +17,8 @@ import {
   setLocalStorageCf,
   isRoleRec,
   getCF_externalHomeUrl,
-  isRedirectExternalHomeUrl
+  isRedirectExternalHomeUrl,
+  getCF
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -194,15 +195,30 @@ class PrimaryLayout extends React.Component {
     return <LeftBarLayout menuList={sideMenu}></LeftBarLayout>
   }
 
-  getClassName() {
-    let r = "primary-layout";
-    if (this.isHasLeftBar()) {
-      r += " with-left-bar"
+  getClassName(isAuthorized) {
+    let cf = getCF();
+    let r = `primary-layout cf-${cf}`;
+    if (!isAuthorized) {
+      r += " landing-page";
+    } else {
+      if (this.isHasLeftBar()) {
+        r += " with-left-bar"
+      }
     }
+
+    console.log(r)
+    console.log(r)
+    console.log(r)
+    console.log(r)
+    console.log(r)
+    console.log(r)
+    console.log(r)
+    console.log(r)
+    console.log(r)
     return r;
   }
   render() {
-    if(isRedirectExternalHomeUrl(this.props)){
+    if (isRedirectExternalHomeUrl(this.props)) {
       window.location = getCF_externalHomeUrl();
       return null;
     }
@@ -245,12 +261,9 @@ class PrimaryLayout extends React.Component {
 
     var route = Navigation.getRoute(path, COMING_SOON);
 
-
-
-
     if (!isAuthorized()) {
       return (
-        <div className="primary-layout landing-page">
+        <div className={this.getClassName(false)}>
           <HeaderLayout {...this.props} menuList={headerMenu} />
           <div className="content">
             <div id={this.pageId} className="main">{route}</div>
@@ -260,7 +273,7 @@ class PrimaryLayout extends React.Component {
       );
     } else {
       return (
-        <div className={this.getClassName()}>
+        <div className={this.getClassName(true)}>
           <FocusCard />
           <SupportChat />
           <BlockLoader />

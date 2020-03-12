@@ -79,6 +79,9 @@ let scss = [
   "input-select",
   "input-checkbox",
   "list-board",
+
+  // kena letak bawah skali
+  "custom-SHELL"
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");
