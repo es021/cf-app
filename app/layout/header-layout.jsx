@@ -13,6 +13,12 @@ import { NavLink } from "react-router-dom";
 export default class HeaderLayout extends React.Component {
   constructor(props) {
     super(props);
+
+    this.iconUrl = AppConfig.HeaderIconUrl;
+    this.icon = ImgConfig.AppIcon;
+    this.title = getCFObj().title;
+    this.desc = AppConfig.Desc;
+
   }
 
   render() {
@@ -40,15 +46,15 @@ export default class HeaderLayout extends React.Component {
     return (
       <header className={HeaderClass}>
         <div className="img">
-          <a target="_blank" href={AppConfig.HeaderIconUrl}>
-            <img src={ImgConfig.AppIcon} />
+          <a target="_blank" href={this.iconUrl}>
+            <img src={this.icon} />
           </a>
         </div>
         <div className="title">
-          <b>{getCFObj().title}</b>
+          <b>{this.title}</b>
           {/* <b>{AppConfig.Name}</b> */}
           <br />
-          <small>{AppConfig.Desc}</small>
+          <small>{this.desc}</small>
         </div>
         <div className="menu">{this.props.menuList}</div>
         <div className="menu-small">
