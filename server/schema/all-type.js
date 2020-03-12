@@ -276,8 +276,8 @@ const CfsType = new GraphQLObjectType({
 		hall_cfg_onsite_call_use_group: __.Int,
 		external_home_url: __.String,
 
-		// for org
 		organizations: __.String,
+		custom_style : __.String,
 
 		// Organizer: __.String,
 		// Collaborator: __.String,

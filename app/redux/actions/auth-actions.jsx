@@ -61,23 +61,23 @@ export function getLocalStorageCf() {
 
 
 
-export function getLocalStorageCfOrg() {
+export function getLocalStorageCfJsonObject(key, defaultReturn) {
     let allCf = getLocalStorageCf();
     let toRet = {};
 
     for (var cfName in allCf) {
-        let org = allCf[cfName]["organizations"];
+        let obj = allCf[cfName][key];
         try {
-            org = JSON.parse(org);
+            obj = JSON.parse(obj);
         } catch (err) {
-            org = [];
+            obj = defaultReturn;
         }
 
-        if (!Array.isArray(org)) {
-            org = [];
+        if (obj == null || typeof obj === "undefined") {
+            obj = defaultReturn;
         }
 
-        toRet[cfName] = org;
+        toRet[cfName] = obj;
         // for (var i in CFSMetaOrg) {
         //     let attr = [CFSMetaOrg[i]]
         //     toRet[cfName][attr] = allCf[cfName][attr];
@@ -100,23 +100,6 @@ export function getCfTitle(cf) {
     }
 }
 
-// export function getLocalStorageCfOrg() {
-//     let allCf = getLocalStorageCf();
-//     let toRet = {};
-
-//     for (var cfName in allCf) {
-//         toRet[cfName] = {};
-//         for (var i in CFSMetaOrg) {
-//             let attr = [CFSMetaOrg[i]]
-//             toRet[cfName][attr] = allCf[cfName][attr];
-//             if(toRet[cfName][attr] == null){
-//                 toRet[cfName][attr] = [];
-//             }
-//         }
-//     }
-//     return toRet;
-// }
-
 // used in auth-reducer
 export function getCFDefault() {
     return CF_DEFAULT;
@@ -135,8 +118,14 @@ export function isCfLocal(){
 
 // return organizers
 export function getCFOrg() {
-    let CareerFairOrg = getLocalStorageCfOrg();
-    let toRet = CareerFairOrg[getCF()];
+    let allCfObj = getLocalStorageCfJsonObject("organizations", []);
+    let toRet = allCfObj[getCF()];
+    return toRet;
+}
+
+export function getCFCustomStyle() {
+    let allCfObj = getLocalStorageCfJsonObject("custom_style", {});
+    let toRet = allCfObj[getCF()];
     return toRet;
 }
 

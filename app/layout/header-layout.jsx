@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { AppConfig, ImgConfig, RootPath , HeaderClass, FooterClass} from "../../config/app-config";
+import { AppConfig, ImgConfig, AssetCustomUrl, RootPath, HeaderClass, FooterClass } from "../../config/app-config";
 import {
   getCFObj,
+  getCFCustomStyle,
   getAuthUser,
   isAuthorized,
   isRedirectExternalHomeUrl
@@ -19,10 +20,23 @@ export default class HeaderLayout extends React.Component {
     this.title = getCFObj().title;
     this.desc = AppConfig.Desc;
 
+    let style = getCFCustomStyle()
+    if (style) {
+      if (style.header_icon_url) this.iconUrl = style.header_icon_url
+      if (style.header_icon) this.icon = AssetCustomUrl + style.header_icon
+      if (style.header_desc) this.desc = style.header_desc
+    }
+
+    console.log("this.iconUrl", this.iconUrl)
+    console.log("this.icon", this.icon)
+    console.log("this.title", this.title)
+    console.log("this.desc", this.desc)
+    // console.log("getCFCustomStyle");
+  
   }
 
   render() {
-    if(isRedirectExternalHomeUrl(this.props)){
+    if (isRedirectExternalHomeUrl(this.props)) {
       return null;
     }
 

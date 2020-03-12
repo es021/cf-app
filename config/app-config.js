@@ -25,6 +25,7 @@ const RootPath = (isProd) ? "/cf" : "";
 const AppPath = RootPath + "/app";
 var SiteUrl = (isProd) ? `https://seedsjobfairapp.com/cf` : "http://localhost:4000";
 var AssetUrl = (isProd) ? `https://seedsjobfairapp.com/public` : SiteUrl;
+var AssetCustomUrl = AssetUrl + "/asset/custom/";
 var UploadUrl = AssetUrl + "/upload";
 var StaticUrl = AssetUrl + "/static";
 var ImageUrl = AssetUrl + "/asset/image";
@@ -112,7 +113,8 @@ module.exports = {
     ImgConfig,
     ImageUrl,
     IsNewHall,
-    IsRecruiterNewHall
+    IsRecruiterNewHall,
+    AssetCustomUrl
 };
 
 

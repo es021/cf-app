@@ -651,6 +651,7 @@ const CFSMeta = {
 	IS_LOCAL: "is_local",
 	// for CareerFairOrg
 	ORGANIZATIONS: "organizations",
+	CUSTOM_STYLE: "custom_style",
 
 	// ORGANIZER: "Organizer",
 	// COLLABORATOR: "Collaborator",

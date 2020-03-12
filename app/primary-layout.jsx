@@ -117,6 +117,7 @@ class PrimaryLayout extends React.Component {
     can_register
     organizations
     hall_cfg_onsite_call_use_group
+    custom_style
   }}`;
 
     /**
