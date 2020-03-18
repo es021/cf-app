@@ -1,0 +1,75 @@
+@import "define/mixin.scss";
+
+
+.primary-layout.cf-CIMB {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: #ef2f24;
+  $COLOR_HEADER_SUBTITLE: #200101;
+  $COLOR_HEADER_LINK: #200101;
+  $COLOR_HEADER_TITLE: white;
+  $COLOR_HEADER_LINK_ACTIVE: white;
+
+  header {
+    .img img {
+      padding: 5px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", #ef2f24, white, #ef2f24);
+  @include custom_btn_focus("success", white, #ef2f24, #ef2f24);
+  @include custom_btn_active("success", white, #cf251c, #cf251c);
+
+  @include custom_btn_default("primary", white, #ef2f24, #ef2f24);
+  @include custom_btn_focus("primary", #ef2f24, white, #ef2f24);
+  @include custom_btn_active("primary", white, #ef2f24, #ef2f24);
+
+  @include custom_btn_default("blue", #ef2f24, white, #ef2f24);
+  @include custom_btn_focus("blue", white, #ef2f24, #ef2f24);
+  @include custom_btn_active("blue", white, #cf251c, #cf251c);
+
+  @include custom_btn_default("default", white, #ef2f24, #ef2f24);
+  @include custom_btn_focus("default", #ef2f24, white, #ef2f24);
+  @include custom_btn_active("default", white, #ef2f24, #ef2f24);
+
+}
+

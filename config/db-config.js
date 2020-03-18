@@ -653,6 +653,7 @@ const CFSMeta = {
 	// for CareerFairOrg
 	ORGANIZATIONS: "organizations",
 	CUSTOM_STYLE: "custom_style",
+	CUSTOM_FEATURE: "custom_feature",
 
 	// ORGANIZER: "Organizer",
 	// COLLABORATOR: "Collaborator",

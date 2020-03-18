@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { AppConfig, ImgConfig, AssetCustomUrl, RootPath, HeaderClass, FooterClass } from "../../config/app-config";
+import * as CustomCf from "../../config/custom-cf-config";
 import {
   getCFObj,
   getCFCustomStyle,
@@ -22,16 +23,16 @@ export default class HeaderLayout extends React.Component {
 
     let style = getCFCustomStyle()
     if (style) {
-      if (style.header_icon_url) this.iconUrl = style.header_icon_url
-      if (style.header_icon) this.icon = AssetCustomUrl + style.header_icon
-      if (style.header_desc) this.desc = style.header_desc
+      if (style[CustomCf.Style.HEADER_ICON_URL]) this.iconUrl = style[CustomCf.Style.HEADER_ICON_URL]
+      if (style[CustomCf.Style.HEADER_ICON]) this.icon = AssetCustomUrl + style[CustomCf.Style.HEADER_ICON]
+      if (style[CustomCf.Style.HEADER_DESC]) this.desc = style[CustomCf.Style.HEADER_DESC]
     }
 
     console.log("this.iconUrl", this.iconUrl)
     console.log("this.icon", this.icon)
     console.log("this.title", this.title)
     console.log("this.desc", this.desc)
-    // console.log("getCFCustomStyle");
+    console.log("style",style);
   
   }
 

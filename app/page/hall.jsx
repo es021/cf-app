@@ -17,6 +17,7 @@ import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
 import { RootPath, ImageUrl, AppPath } from "../../config/app-config";
+import { Feature } from "../../config/custom-cf-config";
 import { CompanyEnum } from "../../config/db-config";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
@@ -28,7 +29,8 @@ import {
   getCFObj,
   getAuthUser,
   isComingSoon,
-  isRoleOrganizer
+  isRoleOrganizer,
+  isCfFeatureOff
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
@@ -172,6 +174,10 @@ export default class HallPage extends React.Component {
     );
   }
   getSponsor() {
+    if(isCfFeatureOff(Feature.SPONSOR)){
+      return null;
+    }
+    
     return (
       <div style={{ marginTop: "25px", marginBottom: "25px" }} className="sponsor-section main-width">
         <SponsorList
@@ -240,6 +246,9 @@ export default class HallPage extends React.Component {
   //   </div >
   // }
   getCompanyBooth(backgroundColor) {
+    if(isCfFeatureOff(Feature.COMPANY_BOOTH)){
+      return null;
+    }
 
     return <div className="col-md-12 no-padding">
       <ListRow title="Company Profiles"

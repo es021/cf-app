@@ -4,9 +4,12 @@ const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
 var IsRecruiterNewHall = false;
-const IsDailyCoEnable = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
+
+
+const IsDailyCoEnable = ALWAYS_FALSE;
 const IsGruveoEnable = ALWAYS_FALSE;
+
 // if (typeof location !== "undefined") {
 //     IsNewHall = location.href.indexOf("new=1") >= 0 ? true : false;
 //     console.log("location.href", location.href);

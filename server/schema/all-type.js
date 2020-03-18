@@ -278,6 +278,7 @@ const CfsType = new GraphQLObjectType({
 
 		organizations: __.String,
 		custom_style : __.String,
+		custom_feature : __.String,
 
 		// Organizer: __.String,
 		// Collaborator: __.String,

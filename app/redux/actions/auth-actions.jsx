@@ -111,7 +111,7 @@ export function getAllCF() {
     return CareerFair;
 }
 
-export function isCfLocal(){
+export function isCfLocal() {
     let cfObj = getCFObj();
     return cfObj.is_local === 1
 }
@@ -129,6 +129,24 @@ export function getCFCustomStyle() {
     return toRet;
 }
 
+export function getCFCustomFeature() {
+    let allCfObj = getLocalStorageCfJsonObject("custom_feature", {});
+    let toRet = allCfObj[getCF()];
+    return toRet;
+}
+
+import * as CustomCf from "../../../config/custom-cf-config";
+
+export function isCfFeatureOff(key) {
+    try {
+        let feature = getCFCustomFeature();
+        return feature[key] == CustomCf.OFF;
+    } catch (err) {
+
+    }
+    return false;
+}
+
 // return object cf by key in auth
 export function getCFObj() {
     let CareerFair = getLocalStorageCf();
@@ -137,10 +155,10 @@ export function getCFObj() {
 
 export function isRedirectExternalHomeUrl(props) {
     if (!isAuthorized()) {
-        console.log("props.location.pathname",props.location.pathname);
-        console.log("props.location.pathname",props.location.pathname);
+        console.log("props.location.pathname", props.location.pathname);
+        console.log("props.location.pathname", props.location.pathname);
         let path = props.location.pathname
-        if (["/auth/","/auth","/cf/auth/","/cf/auth"].indexOf(path) >= 0) {
+        if (["/auth/", "/auth", "/cf/auth/", "/cf/auth"].indexOf(path) >= 0) {
             let externalHomeUrl = getCF_externalHomeUrl();
             if (externalHomeUrl) {
                 return true;
