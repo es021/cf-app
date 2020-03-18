@@ -639,7 +639,8 @@ const eventsParam = {
 	company_id: __.Int,
 	page: __.Int,
 	offset: __.Int,
-	order_by: __.String
+	cf: __.String,
+	order_by: __.String,
 }
 
 fields["events"] = {

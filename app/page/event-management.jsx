@@ -10,6 +10,7 @@ import {
   // isRoleAdmin,
   // isRoleRec
 } from "../redux/actions/auth-actions";
+import { getDataCareerFair } from "../component/form";
 
 // import PropTypes from "prop-types";
 // import { AppPath } from "../../config/app-config";
@@ -51,6 +52,7 @@ export default class EventManagement extends React.Component {
             </ul>
           </small>
         </td>,
+        <td>{JSON.stringify(d.cf)}</td>,
         <td>
           <small>
             <ul className="normal">
@@ -80,6 +82,7 @@ export default class EventManagement extends React.Component {
         <tr>
           <th>ID</th>
           <th>Event</th>
+          <th>CF</th>
           <th>Details</th>
         </tr>
       </thead>
@@ -88,6 +91,7 @@ export default class EventManagement extends React.Component {
     this.loadData = (page, offset) => {
       var query = `query{
                 events(page:${page},offset:${offset}) {
+                  cf
                   ID 
                   company_id
                   company{ID name img_url img_position img_size}
@@ -114,6 +118,11 @@ export default class EventManagement extends React.Component {
     // if ever needed
     // hook before submit
     this.formWillSubmit = (d, edit) => {
+      // remove cf
+      if(!edit){
+        delete d[Event.CF];
+      }
+
       //udpated by
       if (edit) {
         d[Event.UPDATED_BY] = getAuthUser().ID;
@@ -142,8 +151,8 @@ export default class EventManagement extends React.Component {
       delete d[Event.END_TIME + "_DATE"];
       delete d[Event.END_TIME + "_TIME"];
 
-      
-      if(d[Event.END_TIME] < d[Event.START_TIME]){
+
+      if (d[Event.END_TIME] < d[Event.START_TIME]) {
         return "'End Time' cannot be less than 'Start Time'";
       }
 
@@ -163,7 +172,7 @@ export default class EventManagement extends React.Component {
 
     this.getEditFormDefault = ID => {
       const query = `query{event(ID:${ID})
-            {ID company_id type title description location start_time end_time}}`;
+            {ID cf company_id type title description location start_time end_time}}`;
       return getAxiosGraphQLQuery(query).then(res => {
         var data = res.data.data.event;
         console.log(data);
@@ -189,7 +198,22 @@ export default class EventManagement extends React.Component {
         `query{companies(include_sponsor:1){ID name cf}}`
       ).then(res => {
         var companies = res.data.data.companies;
+
+        var dataCF = getDataCareerFair();
+        dataCF.push({ key: "NONE", label: "No Career Fair" });
+
         var ret = [{ header: "Event Form" }];
+        let cfInput = edit
+          ? {
+            label: "Career Fair",
+            name: Event.CF,
+            type: "checkbox",
+            data: dataCF
+          } : {
+            label: "Career Fair",
+            disabled : true,
+            sublabel: "Career fair can be choosen after you created the event. Click on edit button."
+          };
 
         ret.push(
           ...[
@@ -198,7 +222,7 @@ export default class EventManagement extends React.Component {
               name: Event.TYPE,
               type: "select",
               required: true,
-              data: ["",EventEnum.TYPE_PHYSICAL, EventEnum.TYPE_VIRTUAL]
+              data: ["", EventEnum.TYPE_PHYSICAL, EventEnum.TYPE_VIRTUAL]
             },
             {
               label: "Company",
@@ -209,6 +233,7 @@ export default class EventManagement extends React.Component {
                 return { key: d.ID, label: d.name };
               })
             },
+            cfInput,
             {
               label: "Title",
               name: Event.TITLE,

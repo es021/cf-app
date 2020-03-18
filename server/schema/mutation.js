@@ -1201,6 +1201,7 @@ fields["edit_event"] = {
   type: EventType,
   args: {
     ID: __.IntNonNull,
+    cf: __.StringList,
     company_id: __.Int,
     type: __.String,
     title: __.String,

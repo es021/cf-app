@@ -639,6 +639,7 @@ const EventType = new GraphQLObjectType({
 		ID: __.Int,
 		is_ended: __.Int,
 		company_id: __.Int,
+		cf: __.StringList,
 		type: __.String,
 		title: __.String,
 		description: __.String,

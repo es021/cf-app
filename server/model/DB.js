@@ -1,7 +1,8 @@
 var Mysql = require("promise-mysql");
 const {
     User,
-    Company
+    Company,
+    Event
 } = require('../../config/db-config');
 const {
     Secret
@@ -174,6 +175,9 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
         switch (table) {
             case Company.TABLE:
                 entity = "company";
+                break;
+            case Event.TABLE:
+                entity = "event";
                 break;
             case User.TABLE:
                 entity = "user";

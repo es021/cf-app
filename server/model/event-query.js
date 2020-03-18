@@ -14,6 +14,7 @@ class EventExec {
 
         var id = (typeof params.ID !== "undefined") ? `ID = '${params.ID}'` : "1=1";
         var company_id = (typeof params.company_id !== "undefined") ? `company_id = '${params.company_id}'` : "1=1";
+        var cf_where = (typeof params.cf === "undefined") ? "1=1" : `(${DB.cfMapSelect("event", "e.ID", params.cf)}) = '${params.cf}'`;
 
         var order_by = "";
         var limit = "";
@@ -27,7 +28,7 @@ class EventExec {
             limit = DB.prepareLimit(params.page, params.offset);
         }
 
-        var where = `${id} and ${company_id}`;
+        var where = `${id} and ${company_id} and ${cf_where}`;
 
 
         var sql = `select ${select} from ${Event.TABLE} e
@@ -48,9 +49,15 @@ class EventExec {
             }
 
             for (var i in res) {
+                var id = res[i]["ID"];
+                var company_id = res[i]["company_id"];
+
                 if (typeof field["company"] !== "undefined") {
-                    var company_id = res[i]["company_id"];
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
+                }
+
+                if (typeof field["cf"] !== "undefined") {
+                    res[i]["cf"] = DB.getCF("event", id);
                 }
 
                 if (typeof field["interested"] !== "undefined") {

@@ -36,8 +36,8 @@ export function getDataCareerFair(type) {
       key: cf,
       label: (
         <span>
-          <img src={ImgConfig.getFlag(d.flag, 24)}></img>
-          {" " + d.title}
+          {/* <img src={ImgConfig.getFlag(d.flag, 24)}></img> */}
+          <b>{`[ ${d.name} ]`}</b>{" - "}{d.title}
         </span>
       )
     };
@@ -145,8 +145,8 @@ export default class Form extends React.Component {
           toFocus = formObj;
         }
 
-        if(formObj.type == "input_suggestion"){
-            toFocus = formObj.el
+        if (formObj.type == "input_suggestion") {
+          toFocus = formObj.el
         }
       }
     }
@@ -187,7 +187,7 @@ export default class Form extends React.Component {
         if (formObj.type == "number" && value !== "") {
           try {
             value = Number.parseFloat(value);
-          } catch (err) {}
+          } catch (err) { }
         }
 
         // ignore the multiple
@@ -329,8 +329,8 @@ export default class Form extends React.Component {
     this.form[name] = {
       type: "input_suggestion",
       val: v,
-      name : name,
-      el : e.target
+      name: name,
+      el: e.target
     };
     this.setState(prevState => {
       prevState.input_suggestion_form[name] = v;
@@ -591,18 +591,18 @@ export default class Form extends React.Component {
           {d.header}
         </div>
       ) : (
-        <div className="form-item">
-          {label}
-          {sublabel}
-          <div className={formClass} key={i}>
-            <div className="form-input">
-              {this.renderItem(d)}
-              {this.addMultiple(d)}
+          <div className="form-item">
+            {label}
+            {sublabel}
+            <div className={formClass} key={i}>
+              <div className="form-input">
+                {this.renderItem(d)}
+                {this.addMultiple(d)}
+              </div>
+              {this.getWarning(d)}
             </div>
-            {this.getWarning(d)}
           </div>
-        </div>
-      );
+        );
     });
 
     // 2. form submit ---------

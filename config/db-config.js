@@ -75,6 +75,7 @@ const Meta = {
 const Event = {
 	TABLE: "events",
 	ID: "ID",
+	CF: "cf",
 	COMPANY_ID: "company_id",
 	TITLE: "title",
   LOCATION: "location",

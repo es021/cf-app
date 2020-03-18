@@ -7,7 +7,7 @@ import { Time } from "../lib/time";
 import ProfileCard from "../component/profile-card.jsx";
 import { InterestedButton } from "../component/interested";
 import {
-  getAuthUser, isRoleStudent,
+  getAuthUser, isRoleStudent, getCF,
   // getCF,
   // isRoleOrganizer,
   // isRoleAdmin,
@@ -57,7 +57,7 @@ export class EventList extends React.Component {
       }
 
       // order_by:"end_time desc"
-      return `user_id:${getAuthUser().ID}, 
+      return `cf:"${getCF()}", user_id:${getAuthUser().ID}, 
         ${paging} `
     }
     this.loadCount = () => {
