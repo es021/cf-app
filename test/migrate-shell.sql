@@ -18,4 +18,5 @@ INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES
 (NULL, 'SHELL', 'can_login', '1'), 
 (NULL, 'SHELL', 'schedule', '{\"timezone\":\"GMT +0800 (+08)\",\"data\":[]}'), 
 (NULL, 'SHELL', 'custom_style', '{\"header_icon\":\"shell_icon.png\",\"header_icon_url\":\"https://seedsjobfair.com/virtual-fairs\",\"header_desc\":\"Powered By Seeds\"}'), 
+(NULL, 'SHELL', 'custom_feature', ''),
 (NULL, 'SHELL', 'organizations', '[]');
