@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
-import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../../../helper/api-helper";
 import {
   DocLinkEnum,
   UserEnum,
