@@ -4,6 +4,7 @@ const {
   QueueType,
   FeedbackQsType,
   ZoomInviteType,
+  ZoomMeetingType,
   LogType,
   AuditoriumType,
   DashboardType,
@@ -42,6 +43,7 @@ const {
   Event,
   Message,
   Queue,
+  ZoomMeeting,
   ZoomInvite,
   FeedbackQs,
   Availability,
@@ -471,6 +473,43 @@ fields["edit_group_session_join"] = {
     } catch (err) {
       return {};
     }
+  }
+};
+
+
+/*******************************************/
+/* zoom_meeting ******************/
+fields["add_zoom_meeting"] = {
+  type: ZoomMeetingType,
+  args: {
+		session_id: __.Int,
+		group_session_id: __.Int,
+		pre_screen_id: __.Int,
+		host_id: __.Int,
+		zoom_host_id: __.String,
+		zoom_meeting_id: __.Int,
+		start_url: __.String,
+		join_url: __.String,
+		started_at: __.Int,
+		is_expired: __.String
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert(ZoomMeeting.TABLE, arg).then(function(res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_zoom_meeting"] = {
+  type: ZoomMeetingType,
+  args: {
+    ID: __.IntNonNull,
+    is_expired: __.String
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update(ZoomMeeting.TABLE, arg).then(function(res) {
+      return res;
+    });
   }
 };
 

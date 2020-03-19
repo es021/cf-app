@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 import { Loader } from "../../../component/loader";
 import Form from "../../../component/form";
 import * as Navigation from "../../../component/navigation";
+import axios from 'axios';
 
 //importing for list
 import List, { ProfileListItem } from "../../../component/list";
@@ -9,7 +10,7 @@ import {
   getAxiosGraphQLQuery,
   getWpAjaxAxios
 } from "../../../../helper/api-helper";
-import { SiteUrl, IsGruveoEnable } from "../../../../config/app-config";
+import { SiteUrl, IsGruveoEnable, ZoomCheckMeetingExpiredUrl } from "../../../../config/app-config";
 import { Time } from "../../../lib/time";
 import obj2arg from "graphql-obj2arg";
 import * as layoutActions from "../../../redux/actions/layout-actions";
@@ -112,7 +113,7 @@ export function joinVideoCall(
     pre_screen_id: pre_screen_id,
     group_session_id: group_session_id,
     session_id: session_id,
-    join_url : join_url
+    join_url: join_url
   });
 
   let isJoin = false;
@@ -134,7 +135,8 @@ export function joinVideoCall(
   // start post join action
   layoutActions.loadingBlockLoader("Please Wait..");
   var loaded = 0;
-  var toLoad = isJoin ? 2 : 1;
+  var toLoad = 1;
+  // var toLoad = isJoin ? 2 : 1;
   var hasError = false;
   const closeBlockLoader = () => {
     loaded++;
@@ -158,55 +160,79 @@ export function joinVideoCall(
   }
 
   // 1. check if expired
-  const successInterceptorExpired = data => {
-    if (data == 1) {
-      windowPopup.close();
-      layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
-      hasError = true;
-      if (expiredHandler != null) {
-        expiredHandler();
-      }
-    } else {
-      closeBlockLoader();
-    }
-  };
-  getWpAjaxAxios(
-    "wzs21_zoom_ajax",
-    {
-      query: "is_meeting_expired",
-      ...data
-    },
-    successInterceptorExpired,
-    true
-  );
+  // const successInterceptorExpired = data => {
+  //   if (data == 1) {
+  //     windowPopup.close();
+  //     layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
+  //     hasError = true;
+  //     if (expiredHandler != null) {
+  //       expiredHandler();
+  //     }
+  //   } else {
+  //     closeBlockLoader();
+  //   }
+  // };
+  // getWpAjaxAxios(
+  //   "wzs21_zoom_ajax",
+  //   {
+  //     query: "is_meeting_expired",
+  //     ...data
+  //   },
+  //   successInterceptorExpired,
+  //   true
+  // );
 
-  // 2. check if recruiter not ready
-  if (isJoin) {
-    const successInterceptorStatus = data => {
-      let recNotReady = false;
-      if (data.status == 0 && typeof data.error === "undefined") {
-        recNotReady = true;
-      }
-      if (recNotReady) {
+  axios.post(ZoomCheckMeetingExpiredUrl, data)
+    .then(data => {
+      data = data.data;
+      if (data.is_waiting && isJoin) {
         windowPopup.close();
         layoutActions.errorBlockLoader(
           "Recruiter is not ready yet. Please try again in a few minutes"
         );
         hasError = true;
+      } else if (data.is_expired) {
+        windowPopup.close();
+        layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
+        hasError = true;
+        if (expiredHandler != null) {
+          expiredHandler();
+        }
       } else {
         closeBlockLoader();
       }
-    };
-    getWpAjaxAxios(
-      "wzs21_zoom_ajax",
-      {
-        query: "get_meeting_status",
-        ...data
-      },
-      successInterceptorStatus,
-      true
-    );
-  }
+    })
+    .catch(err => {
+      closeBlockLoader();
+    });
+
+  // 2. check if recruiter not ready
+  // if (isJoin) {
+  //   const successInterceptorStatus = data => {
+  //     let recNotReady = false;
+  //     if (data.status == 0 && typeof data.error === "undefined") {
+  //       recNotReady = true;
+  //     }
+  //     if (recNotReady) {
+  //       windowPopup.close();
+  //       layoutActions.errorBlockLoader(
+  //         "Recruiter is not ready yet. Please try again in a few minutes"
+  //       );
+  //       hasError = true;
+  //     } else {
+  //       closeBlockLoader();
+  //     }
+  //   };
+  //   getWpAjaxAxios(
+  //     "wzs21_zoom_ajax",
+  //     {
+  //       query: "get_meeting_status",
+  //       ...data
+  //     },
+  //     successInterceptorStatus,
+  //     true
+  //   );
+  // }
 }
 
 class Chat extends React.Component {
@@ -327,7 +353,7 @@ class Chat extends React.Component {
                 <div
                   className={`${
                     this.props.isRec ? "btn-blue" : "btn-default"
-                  } btn btn-block btn-sm`}
+                    } btn btn-block btn-sm`}
                   onClick={() => {
                     joinVideoCall(mesData.data.join_url, this.props.session_id);
                   }}
@@ -384,9 +410,9 @@ class Chat extends React.Component {
     // todos
     var query = `query{
             messages(which_company : "${this.getWhichCompany(
-              "user_1",
-              "user_2"
-            )}",
+      "user_1",
+      "user_2"
+    )}",
                 user_1:${this.props.self_id}, user_2:${this.props.other_id}, 
                 page:${page},offset:${offset}){
                 id_message_number message has_read from_user_id created_at}}`;
@@ -535,13 +561,13 @@ class Chat extends React.Component {
     var items =
       this.props.can_do_multiple && listRecs.length > 0
         ? [
-            {
-              label: "Invite other recruiters to join (optional)",
-              type: "checkbox",
-              name: "recs",
-              data: listRecs
-            }
-          ]
+          {
+            label: "Invite other recruiters to join (optional)",
+            type: "checkbox",
+            name: "recs",
+            data: listRecs
+          }
+        ]
         : [];
 
     var onSubmit = data => {

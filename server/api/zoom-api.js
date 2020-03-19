@@ -1,8 +1,10 @@
 const {
     getAxios,
     postAxios,
-    deleteAxios
+    deleteAxios,
+    graphql
 } = require('../../helper/api-helper');
+const obj2arg = require("graphql-obj2arg");
 
 const jwt = require('jsonwebtoken');
 const {
@@ -51,7 +53,7 @@ class ZoomApi {
         if (!err) {
             err = "Server Error";
         }
-        console.log("[error]", err);
+        //console.log("[error]", err);
         return err;
     }
 
@@ -81,7 +83,88 @@ class ZoomApi {
             return res.data;
         });
     }
-    createMeeting() {
+    localCreate(postParam, meetingData) {
+        /**
+         *     $ins[self::COL_SESSION_ID] = $session_id;
+        $ins[self::COL_GROUP_SESSION_ID] = $group_session_id;
+        $ins[self::COL_HOST_ID] = $host_id;
+        $ins[self::COL_ZOOM_HOST_ID] = $zoom_data->host_id;
+        $ins[self::COL_ZOOM_MEETING_ID] = $zoom_data->id;
+        $ins[self::COL_START_URL] = $zoom_data->start_url;
+        $ins[self::COL_JOIN_URL] = $zoom_data->join_url;
+         */
+        var data = {
+            pre_screen_id: postParam.pre_screen_id,
+            group_session_id: postParam.group_session_id,
+            host_id: postParam.host_id,
+            zoom_host_id: meetingData.host_id,
+            zoom_meeting_id: meetingData.id,
+            start_url: meetingData.start_url,
+            join_url: meetingData.join_url,
+        };
+        var q = `mutation{add_zoom_meeting(${obj2arg(data, {
+            noOuterBraces: true
+        })}) {ID}}`;
+        return graphql(q)
+    }
+    localUpdateExpired(meetingLocalData) {
+        var data = {
+            ID : meetingLocalData.ID,
+            is_expired : "1"
+        };
+        var q = `mutation{edit_zoom_meeting(${obj2arg(data, {
+            noOuterBraces: true
+        })}) {ID}}`;
+        return graphql(q)
+    }
+    localGet(postParam) {
+        var data = {
+            join_url: postParam.join_url,
+            pre_screen_id: postParam.pre_screen_id,
+            group_session_id: postParam.group_session_id,
+            zoom_host_id: postParam.zoom_host_id,
+            zoom_meeting_id: postParam.zoom_meeting_id,
+        };
+        var q = `query{zoom_meeting(${obj2arg(data, {
+            noOuterBraces: true
+        })}) { ID is_expired zoom_meeting_id}}`;
+        return graphql(q).then((res) => {
+            return res.data.data.zoom_meeting;
+        });
+    }
+    isExpired(param) {
+        // console.log("param", param);
+
+        // check local
+        return this.localGet(param).then((meetingLocalData) => {
+            // console.log("meetingLocalData", meetingLocalData)
+            if (meetingLocalData.is_expired == "1") {
+                return { is_expired: true }
+            } else {
+                let zoom_meeting_id = meetingLocalData.zoom_meeting_id;
+                // kalau belum expired, check zoom
+                return getAxios(`${Zoom.RootUrl}/meetings/${zoom_meeting_id}`, {}, this.getHeaders()).then((res) => {
+                    let meetingData = res.data;
+                    let meetingStatus = meetingData.status;
+                    // console.log("meetingStatus", meetingStatus);
+                    if (meetingStatus == "waiting" || meetingStatus == "started") {
+                        return { is_expired: false, is_waiting: meetingStatus == "waiting" }
+                    } else {
+                        this.localUpdateExpired(meetingLocalData);
+                        return { is_expired: true }
+                    }
+                }).catch((err) => {
+                    this.localUpdateExpired(meetingLocalData);
+                    return { is_expired: true }
+                })
+
+            }
+        })
+
+    }
+    createMeeting(param) {
+        //console.log("param", param);
+
         return this.custCreateUser().then((userData) => {
             let userId = userData.id;
 
@@ -92,10 +175,14 @@ class ZoomApi {
                     "type": "1",
                 },
                 this.getHeaders()
-            ).then((res)=>{
+            ).then((res) => {
                 let meetingData = res.data;
-                console.log("meetingData", meetingData);
-                return meetingData;
+                // console.log("meetingData", meetingData);
+
+                return this.localCreate(param, meetingData).then((resLocalCreate) => {
+                    // console.log("resLocalCreate",resLocalCreate)
+                    return meetingData;
+                })
             })
 
         }).catch((error) => {

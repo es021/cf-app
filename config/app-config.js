@@ -5,8 +5,7 @@ const ALWAYS_FALSE = false;
 
 var IsRecruiterNewHall = false;
 var IsNewHall = ALWAYS_TRUE;
-const IsDailyCoEnable = ALWAYS_TRUE;
-
+const IsDailyCoEnable = ALWAYS_FALSE;
 const IsGruveoEnable = ALWAYS_FALSE;
 
 // if (typeof location !== "undefined") {
@@ -34,6 +33,8 @@ var ImageUrl = AssetUrl + "/asset/image";
 var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
+var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
+var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
 
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost:8085" : "http://localhost:80";
@@ -98,6 +99,8 @@ module.exports = {
     FooterClass,
     IsDailyCoEnable,
     DailyCoCreateRoomUrl,
+    ZoomCreateRoomUrl,
+    ZoomCheckMeetingExpiredUrl,
     IsGruveoEnable,
     SocketUrl,
     LandingUrl,

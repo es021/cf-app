@@ -542,6 +542,10 @@ const ZoomInvite = {
 	TABLE: "zoom_invites"
 };
 
+const ZoomMeeting = {
+	TABLE: "zoom_meetings"
+};
+
 const ForumComment = {
 	TABLE: "forum_comments"
 };
@@ -754,6 +758,7 @@ module.exports = {
 	Auditorium,
 	AuditoriumEnum,
 	ZoomInvite,
+	ZoomMeeting,
 	Availability,
 	GroupSession,
 	GroupSessionJoin,

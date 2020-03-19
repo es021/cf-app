@@ -41,7 +41,8 @@ const {
 	LocationType,
 	InterestedType,
 	CountType,
-	VideoType
+	VideoType,
+	ZoomMeetingType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -154,6 +155,9 @@ const {
 const {
 	BrowseStudentExec
 } = require("../model/browse-student-query.js");
+const {
+	ZoomMeetingExec
+} = require("../model/zoom-meeting-query.js");
 const {
 	__
 } = require("../../config/graphql-config");
@@ -463,10 +467,10 @@ fields["group_session_joins"] = {
 /* browse_student ******************/
 
 let argBrowseStudent = {
-	discard_filter : __.String,
-	
+	discard_filter: __.String,
+
 	company_id: __.Int,
-	interested_only : __.String,
+	interested_only: __.String,
 	favourited_only: __.String,
 	page: __.Int,
 	offset: __.Int,
@@ -629,6 +633,21 @@ fields["zoom_invites"] = {
 	},
 	resolve(parentValue, arg, context, info) {
 		return ZoomExec.zoom_invites(arg, graphqlFields(info));
+	}
+};
+
+
+/*******************************************/
+/* zoom_meetings ******************/
+fields["zoom_meeting"] = {
+	type: ZoomMeetingType,
+	args: {
+		join_url: __.String,
+		pre_screen_id: __.Int,
+		group_session_id: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return ZoomMeetingExec.single(arg, graphqlFields(info));
 	}
 };
 

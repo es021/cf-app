@@ -821,6 +821,24 @@ const HallGalleryType = new GraphQLObjectType({
 	})
 });
 
+const ZoomMeetingType = new GraphQLObjectType({
+	name: "ZoomMeeting",
+	fields: () => ({
+		ID: __.Int,
+		session_id: __.Int,
+		group_session_id: __.Int,
+		pre_screen_id: __.Int,
+		host_id: __.Int,
+		zoom_host_id: __.String,
+		zoom_meeting_id: __.Int,
+		start_url: __.String,
+		join_url: __.String,
+		created_at: __.String,
+		started_at: __.Int,
+		is_expired: __.String
+	})
+});
+
 module.exports = {
 	FilterType,
 	BrowseStudentType,
@@ -830,6 +848,7 @@ module.exports = {
 	UserType,
 	ForumCommentType,
 	ForumReplyType,
+	ZoomMeetingType,
 	ZoomInviteType,
 	CompanyType,
 	QueueType,

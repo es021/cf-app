@@ -61,9 +61,12 @@ export default class HeaderLayout extends React.Component {
     return (
       <header className={HeaderClass}>
         <div className="img">
-          <a target="_blank" href={this.iconUrl}>
+          <NavLink to={`${RootPath}/app`}>
             <img src={this.icon} />
-          </a>
+          </NavLink>
+          {/* <a target="_blank" href={this.iconUrl}>
+            <img src={this.icon} />
+          </a> */}
         </div>
         <div className="title">
           <b>{this.title}</b>

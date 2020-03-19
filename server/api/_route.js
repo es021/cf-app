@@ -45,15 +45,15 @@ const initializeAllRoute = function (app, root) {
   const { ZoomApi } = require('./zoom-api');
   app.post(root + '/zoom/:action', function (req, res, next) {
     var action = req.params.action;
-    console.log(action);
-    console.log(action);
-    console.log(action);
-    console.log(action);
-    console.log(action);
-
     switch (action) {
       case 'create-meeting':
-        ZoomApi.createMeeting()
+        ZoomApi.createMeeting(req.body)
+          .then((response) => {
+            routeResHandler(res, response);
+          });
+        break;
+      case 'is-expired':
+        ZoomApi.isExpired(req.body)
           .then((response) => {
             routeResHandler(res, response);
           });
