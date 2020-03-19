@@ -35,6 +35,9 @@ export default class LandingPage extends React.Component {
     this.body.style.backgroundPosition = this.CFDetail.banner_pos
       ? this.CFDetail.banner_pos
       : "center center";
+    this.body.style.backgroundSize = this.CFDetail.banner_size
+      ? this.CFDetail.banner_size
+      : "cover";
 
     //add scroll event listener
     this.body.onscroll = () => {
