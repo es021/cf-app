@@ -1,6 +1,5 @@
 @import "define/mixin.scss";
 
-
 .primary-layout.cf-CIMB {
   // #############################################
   // #############################################
@@ -48,7 +47,50 @@
     }
   }
 
+  // #############################################
+  // #############################################
+  // CHAT
 
+  #home {
+    #home-welcome {
+      h1{
+        // width: 70%;
+      }
+    }
+  }
+
+  .content-landing-page {
+    background: rgba(0, 0, 0, 0.35) !important;
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  #chat {
+    .chat-input {
+      button {
+        color: white;
+        background-color: #820024;
+      }
+
+      button:hover {
+        background-color: darken(#820024, 10);
+      }
+
+      button:active {
+        background-color: #820024;
+      }
+    }
+
+    .chat-box .other-item {
+      background-color: #820024;
+    }
+  }
+  #chat-list {
+    .cl-header {
+      background-color: #820024;
+    }
+  }
 
   // #############################################
   // #############################################
@@ -70,6 +112,4 @@
   @include custom_btn_default("default", white, #ef2f24, #ef2f24);
   @include custom_btn_focus("default", #ef2f24, white, #ef2f24);
   @include custom_btn_active("default", white, #ef2f24, #ef2f24);
-
 }
-

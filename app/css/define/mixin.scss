@@ -35,8 +35,10 @@
   .#{$class}.active,
   .#{$class}:active {
     color: white;
-    background-color: darken($color, 10) !important;
-    border-color: darken($color, 15) !important;
+    // background-color: darken($color, 10) !important;
+    // border-color: darken($color, 15) !important;
+    background-color: darken($color, 10) ;
+    border-color: darken($color, 15) ;
   }
 
   .#{$class}[disabled]:hover {

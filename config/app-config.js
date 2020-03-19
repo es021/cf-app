@@ -5,9 +5,8 @@ const ALWAYS_FALSE = false;
 
 var IsRecruiterNewHall = false;
 var IsNewHall = ALWAYS_TRUE;
+const IsDailyCoEnable = ALWAYS_TRUE;
 
-
-const IsDailyCoEnable = ALWAYS_FALSE;
 const IsGruveoEnable = ALWAYS_FALSE;
 
 // if (typeof location !== "undefined") {

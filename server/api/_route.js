@@ -7,7 +7,7 @@ const { UploadUrl } = require("../../config/app-config");
 const { FileJSONProgress } = require("../../helper/file-helper");
 const { graphql } = require("../../helper/api-helper");
 
-const initializeAllRoute = function(app, root) {
+const initializeAllRoute = function (app, root) {
   // server error in node server no need to be return to client
   // we will just log the error in intercepter
 
@@ -42,24 +42,28 @@ const initializeAllRoute = function(app, root) {
 	  */
 
   // Activity Route ----------------------------------------------------------------
-  // const { ZoomAPI } = require('./zoom-api');
-  // app.post(root + '/zoom/:action', function (req, res, next) {
-  //     var action = req.params.action;
-  //     console.log(action);
+  const { ZoomApi } = require('./zoom-api');
+  app.post(root + '/zoom/:action', function (req, res, next) {
+    var action = req.params.action;
+    console.log(action);
+    console.log(action);
+    console.log(action);
+    console.log(action);
+    console.log(action);
 
-  //     switch (action) {
-  //         case 'test':
-  //             ZoomAPI.test()
-  //                 .then((response) => {
-  //                     routeResHandler(res, response);
-  //                 });
-  //             break;
-  //     }
-  // });
+    switch (action) {
+      case 'create-meeting':
+        ZoomApi.createMeeting()
+          .then((response) => {
+            routeResHandler(res, response);
+          });
+        break;
+    }
+  });
 
   // Route For Test Stuff -------------------------------------------------------------------
   const { TestAPI } = require("./test-api");
-  app.post(root + "/test/:action", function(req, res, next) {
+  app.post(root + "/test/:action", function (req, res, next) {
     var action = req.params.action;
     switch (action) {
       case "new-db":
@@ -76,7 +80,7 @@ const initializeAllRoute = function(app, root) {
   // Route For Daily Co -------------------------------------------------------------------
   const { DailyCoApi } = require("./daily-co-api");
 
-  app.post(root + "/daily-co/:action", function(req, res, next) {
+  app.post(root + "/daily-co/:action", function (req, res, next) {
     var action = req.params.action;
     switch (action) {
       case "create-room":
@@ -107,7 +111,7 @@ const initializeAllRoute = function(app, root) {
   // Route To Store in Meta -------------------------------------------------------------------
 
   const { MetaAPI } = require("./other-api");
-  app.post(root + "/add-meta", function(req, res, next) {
+  app.post(root + "/add-meta", function (req, res, next) {
     MetaAPI.add(req.body.key, req.body.value, req.body.source).then(
       response => {
         routeResHandler(res, response);
@@ -116,7 +120,7 @@ const initializeAllRoute = function(app, root) {
   });
 
   const { LogApi } = require("./other-api");
-  app.post(root + "/add-log", function(req, res, next) {
+  app.post(root + "/add-log", function (req, res, next) {
     LogApi.add(req.body.event, req.body.data, req.body.user_id).then(
       response => {
         routeResHandler(res, response);
@@ -125,7 +129,7 @@ const initializeAllRoute = function(app, root) {
   });
 
   const { CfsApi } = require("./other-api");
-  app.post(root + "/get-all-cf", function(req, res, next) {
+  app.post(root + "/get-all-cf", function (req, res, next) {
     // active only
     CfsApi.getAllCf().then(response => {
       routeResHandler(res, response);
@@ -162,7 +166,7 @@ const initializeAllRoute = function(app, root) {
 
   // Activity Route ----------------------------------------------------------------
   const { ActivityAPI } = require("./activity-api");
-  app.post(root + "/activity/:action", function(req, res, next) {
+  app.post(root + "/activity/:action", function (req, res, next) {
     var action = req.params.action;
     console.log(action);
 
@@ -196,7 +200,7 @@ const initializeAllRoute = function(app, root) {
 
   // Auth Route ----------------------------------------------------------------
   const { AuthAPI } = require("./auth-api");
-  app.post(root + "/auth/:action", function(req, res, next) {
+  app.post(root + "/auth/:action", function (req, res, next) {
     var action = req.params.action;
     switch (action) {
       case "login":
@@ -248,7 +252,7 @@ const initializeAllRoute = function(app, root) {
   // when login will get password without slash in local storage,
   // use that password lah.
   const { XLSApi } = require("./xls-api");
-  app.get(root + "/xls/:action/:filter/:password/:user_id", function(
+  app.get(root + "/xls/:action/:filter/:password/:user_id", function (
     req,
     res,
     next
@@ -326,7 +330,7 @@ const initializeAllRoute = function(app, root) {
   // 	progressDelete(fileName, 60 * 1000);
   // }
   const { CoconutAPI } = require("./coconut-api");
-  app.post(root + "/coconut-webhook/:entity/:entity_id/:meta_key", function(
+  app.post(root + "/coconut-webhook/:entity/:entity_id/:meta_key", function (
     req,
     res,
     next
@@ -402,7 +406,7 @@ const initializeAllRoute = function(app, root) {
       });
   }
 
-  app.post(root + "/upload/:type/:name", function(req, res) {
+  app.post(root + "/upload/:type/:name", function (req, res) {
     console.log("post upload");
     // const uploadTimeout = 60 * 1000;
     // req.setTimeout(uploadTimeout);
@@ -422,7 +426,7 @@ const initializeAllRoute = function(app, root) {
     // 	});
     // }
 
-    form.parse(req, function(err, fields, files) {
+    form.parse(req, function (err, fields, files) {
       //progessParseCompleted(fileName);
       // get file ext
       var fileExt = files[type].name.split(".").pop();
@@ -476,9 +480,9 @@ const initializeAllRoute = function(app, root) {
       //console.log(new_path);
       //console.log(url);
 
-      fs.readFile(old_path, function(err, data) {
-        fs.writeFile(new_path, data, function(err) {
-          fs.unlink(old_path, function(err) {
+      fs.readFile(old_path, function (err, data) {
+        fs.writeFile(new_path, data, function (err) {
+          fs.unlink(old_path, function (err) {
             if (err) {
               res.status(500);
               res.json({

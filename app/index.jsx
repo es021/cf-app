@@ -81,7 +81,8 @@ let scss = [
   "list-board",
 
   // kena letak bawah skali
-  "custom-SHELL"
+  "custom-SHELL",
+  "custom-CIMB"
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");

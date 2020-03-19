@@ -24,7 +24,7 @@ const getGraphQlErrorMes = (rawMes) => {
 }
 
 // add errMes in responseObj.response.data
-const rejectPromiseError = function(responseObj, errMes) {
+const rejectPromiseError = function (responseObj, errMes) {
 	if (errMes !== null) {
 		if (typeof responseObj["response"] === "undefined") {
 			responseObj["response"] = {};
@@ -70,7 +70,7 @@ axios.interceptors.response.use(response => {
 		if (error.response.config.url == graphQLUrl) {
 			//error.response["data"] = `[GraphQL Error] ${error.response.data.errors[0].message}`;
 			let q = null;
-			try{q = error.response.config.params.query}catch(err){}
+			try { q = error.response.config.params.query } catch (err) { }
 			console.log("[Intercept GraphQL Error 2]", q);
 			retErr = getGraphQlErrorMes(error.response.data.errors[0].message);
 		}
@@ -133,6 +133,17 @@ function getStaticAxios(filename, version = null) {
 		}, (err) => {
 			rejectPromiseError(err, `Failed To Load Static Asset - ${url}`)
 		});
+}
+
+function getAxios(requestUrl, params, headers) {
+	// return axios.get(requestUrl, JSON.stringify(params), config);
+	return axios({
+		method: 'get',
+		params: params,
+		headers: headers,
+		proxy: false,
+		url: requestUrl
+	})
 }
 
 function postAxios(requestUrl, params, headers) {
@@ -218,6 +229,7 @@ module.exports = {
 	graphql,
 	deleteAxios,
 	postAxios,
+	getAxios,
 	getStaticAxios,
 	getAxiosGraphQLQuery,
 	getPHPApiAxios,

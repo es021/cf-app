@@ -207,15 +207,15 @@ class PrimaryLayout extends React.Component {
       }
     }
 
-    console.log(r)
-    console.log(r)
-    console.log(r)
-    console.log(r)
-    console.log(r)
-    console.log(r)
-    console.log(r)
-    console.log(r)
-    console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
+    // console.log(r)
     return r;
   }
   render() {
@@ -266,7 +266,7 @@ class PrimaryLayout extends React.Component {
       return (
         <div className={this.getClassName(false)}>
           <HeaderLayout {...this.props} menuList={headerMenu} />
-          <div className="content">
+          <div className="content content-landing-page">
             <div id={this.pageId} className="main">{route}</div>
           </div>
           <FooterLayout {...this.props} />
