@@ -1,5 +1,16 @@
 @import "define/mixin.scss";
 
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+body.landing-page {
+  .primary-layout.cf-CIMB {
+    .content-landing-page {
+      background: rgba(0, 0, 0, 0.35) !important;
+    }
+  }
+}
+
 .primary-layout.cf-CIMB {
   // #############################################
   // #############################################
@@ -53,14 +64,10 @@
 
   #home {
     #home-welcome {
-      h1{
+      h1 {
         // width: 70%;
       }
     }
-  }
-
-  .content-landing-page {
-    background: rgba(0, 0, 0, 0.35) !important;
   }
 
   // #############################################
