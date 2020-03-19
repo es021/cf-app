@@ -129,8 +129,29 @@ export default class UserPopup extends Component {
     this.isSelfUser = false;
     this.state = {
       data: null,
-      loading: true
+      loading: true,
+      privs : null
     };
+  }
+
+  loadCompanyPriv() {
+    if (isRoleRec() && !this.props.companyPrivs) {
+      this.setState({ loading: true })
+      var q = `query {company(ID:${getAuthUser().rec_company}) { priviledge } }`;
+      graphql(q).then(res => {
+        var privs = res.data.data.company.priviledge;
+        this.setState(prevState => {
+          if (privs == null) {
+            privs = "";
+          }
+          return {
+            privs: privs, loading : false
+          };
+        });
+      });
+    }else{
+      this.setState({ loading: false })
+    }
   }
 
   componentWillMount() {
@@ -147,6 +168,9 @@ export default class UserPopup extends Component {
     if (this.id == this.authUser.ID) {
       this.isSelfUser = true;
     }
+
+
+    this.loadCompanyPriv();
 
     console.log("UserPage", "componentWillMount");
     var query =
@@ -201,8 +225,10 @@ export default class UserPopup extends Component {
 
     getAxiosGraphQLQuery(query).then(res => {
       this.setState(() => {
-        return { data: res.data.data.user, loading: false };
+        return { data: res.data.data.user};
       });
+
+      this.loadCompanyPriv();
     });
   }
 
@@ -610,8 +636,10 @@ export default class UserPopup extends Component {
     if (!isRoleRec()) {
       return null;
     }
+
+    let companyPriv = this.props.companyPrivs ? this.props.companyPrivs : this.state.privs;
     var canSchedule = CompanyEnum.hasPriv(
-      this.props.companyPrivs,
+      companyPriv,
       CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
     );
 
