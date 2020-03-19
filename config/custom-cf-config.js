@@ -1,6 +1,7 @@
 const ON = "ON";
 const OFF = "OFF";
 const Feature = {
+    LANDING_COMPANY_LIST : "LANDING_COMPANY_LIST",
     HOME_GALLERY : "HOME_GALLERY",
     COMPANY_BOOTH : "COMPANY_BOOTH",
     SPONSOR : "SPONSOR",

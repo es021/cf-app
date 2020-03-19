@@ -137,6 +137,10 @@ export function getCFCustomFeature() {
 
 import * as CustomCf from "../../../config/custom-cf-config";
 
+export function cfFeature(){
+    return CustomCf.Feature;
+}
+
 export function isCfFeatureOff(key) {
     try {
         let feature = getCFCustomFeature();

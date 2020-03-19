@@ -9,7 +9,7 @@ import {
   ImageUrl
 } from "../../config/app-config";
 import { Redirect, NavLink } from "react-router-dom";
-import { getCF, getCFObj, getCFOrg, getCF_externalHomeUrl, isAuthorized, isRedirectExternalHomeUrl } from "../redux/actions/auth-actions";
+import { getCF, getCFObj, getCFOrg, getCF_externalHomeUrl, isAuthorized, isRedirectExternalHomeUrl, isCfFeatureOff, cfFeature } from "../redux/actions/auth-actions";
 import SponsorList from "./partial/static/sponsor-list";
 import { Time } from "../lib/time";
 import Timer from "../component/timer";
@@ -262,11 +262,12 @@ export default class LandingPage extends React.Component {
         </div>
       </div>
     );
-
+    
+    let sponsor = isCfFeatureOff(cfFeature().LANDING_COMPANY_LIST) ? null :  <SponsorList type="landing"></SponsorList>;
     var homeBody = (
       <div id="home-body">
         <br></br>
-        <SponsorList type="landing"></SponsorList>
+        {sponsor}
         {this.getOrgsSection()}
       </div>
     );
