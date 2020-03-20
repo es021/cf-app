@@ -407,6 +407,7 @@ const PrescreenType = new GraphQLObjectType({
 		student_id: __.Int,
 		company_id: __.Int,
 		status: __.String,
+		pic: __.String,
 		special_type: __.String,
 		appointment_time: __.Int,
 
@@ -643,6 +644,7 @@ const EventType = new GraphQLObjectType({
 		cf: __.StringList,
 		type: __.String,
 		title: __.String,
+		pic: __.String,
 		description: __.String,
 		location: __.String,
 		start_time: __.Int,

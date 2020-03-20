@@ -49,6 +49,7 @@ export default class HallPage extends React.Component {
     this.CFDetail = getCFObj();
     this.title = this.CFDetail.title;
 
+  
     this.authUser = getAuthUser();
 
     this.state = {
@@ -56,6 +57,10 @@ export default class HallPage extends React.Component {
     }
   }
 
+  isRecCurrentEvent(){
+    // rec akan nampak apa yang student nampak
+    return this.props.location.pathname.indexOf("rec-current-event") >= 0;
+  }
   componentWillMount() {
     // this.body = document.getElementsByTagName("body")[0];
     // this.body.className += " body-full-width ";
@@ -348,12 +353,12 @@ export default class HallPage extends React.Component {
 
     let v = null;
 
-    if (isRoleStudent()) {
+    if (isRoleStudent() || this.isRecCurrentEvent()) {
       v = <div className="hall-page">
         {this.getGallery()}
         {this.getTitle()}
         {this.getSponsor()}
-        {this.getInterview(null)}
+        {this.isRecCurrentEvent() ? null : this.getInterview(null)}
         {this.getCompanyBooth("#eef0ee")}
         {this.getEvents(null)}
         {this.getJobPost("#eef0ee")}

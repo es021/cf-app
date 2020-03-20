@@ -92,7 +92,7 @@ export class VacancyList extends React.Component {
 
       let cf_param = "";
       if (this.props.isListAll) {
-        if(this.props.filterByCf){
+        if (this.props.filterByCf) {
           cf_param = `cf:"${getCF()}",`
         }
       }
@@ -226,7 +226,7 @@ export class VacancyList extends React.Component {
 }
 
 VacancyList.propTypes = {
-  filterByCf : PropTypes.bool,
+  filterByCf: PropTypes.bool,
   isListAll: PropTypes.bool,
   company_id: PropTypes.number,
   limitLoad: PropTypes.number,
@@ -235,7 +235,7 @@ VacancyList.propTypes = {
 };
 
 VacancyList.defaultProps = {
-  filterByCf : true,
+  filterByCf: true,
   isListAll: false,
   listClass: "flex-wrap-start",
   offset: 6,
@@ -568,7 +568,24 @@ export default class CompanyPage extends Component {
     );
 
     //return <div key={this.state.bannerKey} className="banner" style={style} />;
-    return <div className="banner" style={style} />;
+    return <div className="banner" style={style}>
+      {this.getEditButton()}
+    </div>;
+  }
+
+  getEditButton() {
+    if (this.isRecThisCompany()) {
+      return <div className="main-width main-width-lg container-fluid flex-center" style={{ height: "100%" }}>
+        <div id="company-edit-btn" className="text-right" style={{ width: "100%" }}>
+          <NavLink to={`${AppPath}/manage-company/${this.ID}/about`}
+             className="btn btn-gray btn-bold btn-round-10 btn-lg">
+            <i className="fa fa-edit left"></i>Edit Company Profile
+            </NavLink>
+        </div>
+      </div>
+    }
+
+    return null;
   }
 
   openResumeDrop() {

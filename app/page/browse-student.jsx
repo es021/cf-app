@@ -137,9 +137,10 @@ export class BrowseStudent extends React.Component {
 
       v = <div className="container-fluid">
         <div className="row">
-          {/* <div className="col-lg-1"></div> */}
-          <div className="col-lg-4">
+          <div className="col-lg-1"></div>
+          <div className="col-lg-3">
             <BrowseStudentFilter
+              company_id={this.company_id}
               filterStr={this.state.filterStr}
               isRec={this.isRec}
               disabledFilter={this.state.disabledFilter}
@@ -148,7 +149,7 @@ export class BrowseStudent extends React.Component {
               getQueryParam={this.getQueryParam}
               onChange={this.onChangeFilter}></BrowseStudentFilter>
           </div>
-          <div className="col-lg-8">
+          <div className="col-lg-7">
             <BrowseStudentList
               company_id={this.company_id}
               isRec={this.isRec}
@@ -159,7 +160,7 @@ export class BrowseStudent extends React.Component {
               getQueryParam={this.getQueryParam}
               filterStr={this.state.filterStr}></BrowseStudentList>
           </div>
-          {/* <div className="col-lg-1"></div> */}
+          <div className="col-lg-1"></div>
         </div>
       </div>
     }

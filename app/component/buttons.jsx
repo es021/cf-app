@@ -12,10 +12,7 @@ export class ButtonExport extends React.Component {
     }
 
     render() {
-        var style = {
-            marginBottom: "5px"
-        }
-        return (<a style={style} className="btn btn-sm btn-success" href={getXLSUrl(this.props.action, this.props.filter)}><i className="fa fa-file-excel-o left"></i>
+        return (<a style={this.props.style} className={`btn btn-sm btn-${this.props.btnClass}`} href={getXLSUrl(this.props.action, this.props.filter)}><i className="fa fa-file-excel-o left"></i>
             {this.props.text}
         </a>);
     }
@@ -24,11 +21,17 @@ export class ButtonExport extends React.Component {
 ButtonExport.propsType = {
     action: PropTypes.string.isRequired,
     filter: PropTypes.any,
-    text: PropTypes.string
+    text: PropTypes.string,
+    btnClass: PropTypes.string,
+    style: PropTypes.object
 };
 
 ButtonExport.defaultProps = {
-    text: "Export Data"
+    text: "Export Data",
+    btnClass: "success",
+    style: {
+        marginBottom: "5px"
+    }
 };
 
 

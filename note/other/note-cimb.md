@@ -12,8 +12,32 @@ header tab
 - untuk profile bagi dia takyah click apa2 - takleh edit profile
 - home tukar balik ke app punya home page
 
+download excel kat student listing page
+
 table base-
 3 row sahaja-
 interview list kat home page
     -show upcoming
     -offset- 30 mins
+
+
+
+new rec layout
+----------------
+edit job post
+add pic
+yang event tu tukar kepada webinar and stuffs
+
+
+header 
+- home
+- logout
+-
+
+left bar
+- My Company
+- Event ( pegi ke apa yg student nampak (home))
+
+dashbord 
+- btn all student
+- btn interested student 

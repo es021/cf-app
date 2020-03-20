@@ -63,6 +63,19 @@ a.dark:hover,
     }
 }
 
-@include button_color("btn-primary", $COLOR_DARK);
-@include button_color("btn-blue", #286090);
-@include button_color("btn-dark-green", #3f8726);
+@include button_color("btn-primary", $COLOR_DARK, white);
+@include button_color("btn-blue", #286090, white);
+@include button_color("btn-dark-green", #3f8726, white);
+@include button_color("btn-gray", #e4e6eb, #050505);
+
+.btn-bold{
+    font-weight: bold;
+}
+
+.btn-round-5{
+    border-radius: 5px !important;
+}
+
+.btn-round-10{
+    border-radius: 10px !important;
+}

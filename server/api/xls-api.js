@@ -1,5 +1,6 @@
 const { getAxiosGraphQLQuery } = require("../../helper/api-helper");
 const { Time } = require("../../app/lib/time");
+const { FilterNotObject } = require("../../config/xls-config")
 const axios = require("axios");
 const obj2arg = require("graphql-obj2arg");
 
@@ -43,15 +44,19 @@ class XLSApi {
 
   // filter in JSON object, return {filename, content}
   export(action, filter) {
-    if (filter !== "null") {
-      try {
-        filter = JSON.parse(filter);
-      } catch (err) {
-        return new Promise(err);
+    console.log(action, filter);
+    if (FilterNotObject.indexOf(action) <= -1) {
+      if (filter !== "null") {
+        try {
+          filter = JSON.parse(filter);
+        } catch (err) {
+          return new Promise(err);
+        }
+      } else {
+        filter = {};
       }
-    } else {
-      filter = {};
     }
+
 
     switch (action) {
       // xls/students/{"cf":"USA"}
@@ -70,7 +75,64 @@ class XLSApi {
         return this.session_requests(filter.company_id);
       case "student_listing":
         return this.student_listing(filter);
+      case "browse_student":
+        return this.browse_student(filter);
     }
+  }
+
+  browse_student(filterStr) {
+    console.log("filterStr", filterStr)
+    var filename = `Student Listing`;
+    var query = `query{
+      browse_student (${filterStr}) 
+      {
+          student_id
+          student{
+              university country_study available_month available_year
+              ID first_name last_name user_email description 
+              doc_links {type label url} field_study{val} looking_for_position{val}
+    }}} `;
+
+    // 2. prepare props to generate table
+    const headers = null;
+
+    // 3. resctruct data to be in one level only
+    const restructData = data => {
+      var hasChildren = ["student"];
+      var newData = {};
+      for (var key in data) {
+        var d = data[key];
+        if (hasChildren.indexOf(key) >= 0) {
+          for (var k in d) {
+            newData[`${key}_${k}`] = d[k];
+          }
+        } else {
+          newData[key] = d;
+        }
+      }
+      newData = this.restructAppendTypeForStudent(newData, "student_");
+      return newData;
+    };
+
+    // 3. rename title use company name
+    // const renameTitle = (originalTitle, dataIndex0) => {
+    //   let toRet = originalTitle;
+    //   if (typeof dataIndex0["company_name"] !== "undefined") {
+    //     toRet = `Student Listing - ${dataIndex0["company_name"]}`;
+    //   }
+    //   return toRet;
+    // };
+
+    // 4. fetch and return
+    return this.fetchAndReturn(
+      query,
+      "browse_student",
+      filename,
+      headers,
+      null,
+      restructData,
+      null//renameTitle
+    );
   }
 
   session_requests(cid) {
@@ -141,8 +203,8 @@ class XLSApi {
     // 1. create query
     var query = `query{
             student_listing(${obj2arg(queryParam, {
-              noOuterBraces: true
-            })}) {
+      noOuterBraces: true
+    })}) {
               student{${this.student_field}}
               company{name}
             }
@@ -557,16 +619,16 @@ class XLSApi {
   }
 
   defaultRowHook(k, d) {
-   
+
     let isDateTime = false;
-    for(var i in this.DateTime){
-      if(k.indexOf(this.DateTime[i]) >= 0){
-        isDateTime  = true;
+    for (var i in this.DateTime) {
+      if (k.indexOf(this.DateTime[i]) >= 0) {
+        isDateTime = true;
         break;
       }
     }
     if (isDateTime) {
-      let t =  Time.getString(d);
+      let t = Time.getString(d);
       return t;
     }
 

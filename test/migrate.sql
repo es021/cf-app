@@ -1,3 +1,16 @@
+-- Add PIC untuk interview
+ALTER TABLE `pre_screens` ADD `pic` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `status`; 
+
+-- Add  PIC untuk event
+ALTER TABLE `events` ADD `pic` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `title`; 
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 CREATE TABLE `wp_career_fair`.`events` 
 ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
 `company_id` BIGINT(20) NOT NULL , 
@@ -12,14 +25,6 @@ CREATE TABLE `wp_career_fair`.`events`
 `updated_by` BIGINT(20) NULL , 
 `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 PRIMARY KEY (`ID`), INDEX (`company_id`)) ENGINE = InnoDB; 
-
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 ALTER TABLE `wp_career_fair`.`single_input` ADD INDEX (`val`, `key_input`);
 

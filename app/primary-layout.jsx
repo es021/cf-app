@@ -179,7 +179,8 @@ class PrimaryLayout extends React.Component {
   }
 
   isHasLeftBar() {
-    return isRoleRec() && IsRecruiterNewHall;
+    return false;
+    //return isRoleRec() && IsRecruiterNewHall;
   }
 
   getLeftBar(path, COMING_SOON) {

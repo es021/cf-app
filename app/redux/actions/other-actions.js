@@ -5,6 +5,9 @@ import {
     SiteUrl
 } from '../../../config/app-config';
 import {
+    FilterNotObject
+} from '../../../config/xls-config';
+import {
     getAuthUser
 } from './auth-actions';
 
@@ -31,8 +34,8 @@ export function addLog(event, data = null, user_id = null) {
 
 export function getXLSUrl(action, filter = null) {
     var user = getAuthUser();
-
-
-    filter = (filter == null) ? "null" : JSON.stringify(filter);
+    if (FilterNotObject.indexOf(action) <= -1) {
+        filter = (filter == null) ? "null" : JSON.stringify(filter);
+    }
     return SiteUrl + `/xls/${action}/${filter}/${user.user_pass}/${user.ID}`;
 }

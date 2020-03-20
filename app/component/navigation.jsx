@@ -396,16 +396,40 @@ function getMenuItem(COMING_SOON) {
     //   default_param: { current: "all-student" },
     //   disabled: !isRoleRec()
     // },
+   
+    {
+      url: "/rec-current-event",
+      label: "Event",
+      icon: "slack",
+      component: HallPage,
+      bar_app: true,
+      bar_auth: false,
+      // hd_app: IsRecruiterNewHall ? false : true,
+      hd_app : true,
+      hd_auth: false,
+      disabled: !isRoleRec() 
+    }, 
+    {
+      url: "/company/:id/",
+      label: "Company Profile",
+      icon: "building",
+      component: CompanyPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app : true,
+      hd_auth: false,
+      default_param: { id: getAuthUser().rec_company},
+      disabled: !isRoleRec()
+    },
     {
       url: "/manage-company/:id/:current",
-      label: "My Company",
-      icon: "building",
       component: ManageCompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: IsRecruiterNewHall ? false : true,
+      // hd_app: IsRecruiterNewHall ? false : true,
+      hd_app : true,
       hd_auth: false,
-      routeOnly: isRoleAdmin() || isRoleOrganizer(),
+      routeOnly: true,
       default_param: { id: getAuthUser().rec_company, current: "about" },
       disabled: !isRoleRec() && !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -433,7 +457,7 @@ function getMenuItem(COMING_SOON) {
       default_param: { current: "session" },
       //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
       // remove mmy activity from student
-      disabled: (isRoleStudent() && COMING_SOON) //for student disable first
+      disabled: isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
     },
     {
       // Admin Only

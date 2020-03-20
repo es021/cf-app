@@ -3,6 +3,8 @@ import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
 import { isCfLocal } from "../../../redux/actions/auth-actions";
+import { ButtonExport } from '../../../component/buttons.jsx';
+
 
 export function createFilterStr(filterObj, validCf) {
     validCf = Array.isArray(validCf) ? validCf : []
@@ -537,6 +539,10 @@ export class BrowseStudentFilter extends React.Component {
             return { key: prevState.key + 1 }
         })
     }
+    getButtonExport(){
+        let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
+       return <ButtonExport style={{marginLeft :"10px"}} btnClass="default btn-round-5" action="browse_student" text="Download As Excel" filter={filter}></ButtonExport>
+    }
     render() {
         let v = null;
         if (this.state.loading) {
@@ -544,14 +550,16 @@ export class BrowseStudentFilter extends React.Component {
                 <Loader text="Loading Filter"></Loader>
             </div>
         } else {
+
             let btnAction = <div className="text-left">
                 <button style={{ marginRight: "10px", paddingRight: "20px", paddingLeft: "20px" }}
-                    className="btn btn-success btn-sm" onClick={this.onSearch}>
+                    className="btn btn-primary btn-round-5 btn-sm" onClick={this.onSearch}>
                     Search
                 </button>
-                <button className="btn btn-default btn-sm" onClick={this.onResetFilter}>
+                <button className="btn btn-default btn-round-5 btn-sm" onClick={this.onResetFilter}>
                     Reset Filter
                 </button>
+                {this.getButtonExport()}
             </div>;
             btnAction = this._section(btnAction);
 
@@ -571,6 +579,7 @@ export class BrowseStudentFilter extends React.Component {
 }
 
 BrowseStudentFilter.propTypes = {
+    company_id : PropTypes.number,
     filterStr: PropTypes.string,
     onChange: PropTypes.func,
     filterState: PropTypes.obj,
