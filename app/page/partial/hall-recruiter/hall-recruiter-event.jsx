@@ -1,320 +1,324 @@
 //Faizul Here
 
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import PropTypes from "prop-types";
-import { Loader } from "../../../component/loader";
-import obj2arg from "graphql-obj2arg";
-import ProfileCard from "../../../component/profile-card.jsx";
-import {
-  Prescreen,
-  PrescreenEnum,
-  SessionRequestEnum,
-  EntityRemoved,
-  GroupSessionJoin,
-  LogEnum,
-  CFSMeta
-} from "../../../../config/db-config";
-import { ButtonLink } from "../../../component/buttons.jsx";
-import { ProfileListItem } from "../../../component/list";
-import { Time } from "../../../lib/time";
-import { showNotification } from "../../../lib/notification";
-import { RootPath } from "../../../../config/app-config";
-import { NavLink } from "react-router-dom";
-import { getAuthUser, getCFObj, getCompanyCf } from "../../../redux/actions/auth-actions";
-import { ActivityAPIErr } from "../../../../server/api/activity-api";
-import UserPopup, { createUserDocLinkList } from "../popup/user-popup";
-import {
-  emitQueueStatus,
-  emitHallActivity
-} from "../../../socket/socket-client";
-import {
-  isUserOnline,
-  isCompanyOnline
-} from "../../../redux/actions/user-actions";
+import { createImageElement, PCType } from "../../../component/profile-card.jsx";
+import { getAuthUser, getCF, isRoleAdmin } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
-import * as activityActions from "../../../redux/actions/activity-actions";
-import * as hallAction from "../../../redux/actions/hall-actions";
-
-import { openSIAddForm, isNormalSI } from "../activity/scheduled-interview";
-import Tooltip from "../../../component/tooltip";
-
+import { RootPath } from "../../../../config/app-config";
+import { EventEnum } from "../../../../config/db-config";
 import { isRoleRec, isRoleStudent } from "../../../redux/actions/auth-actions";
-import { joinVideoCall } from "../session/chat";
-
-import { getAxiosGraphQLQuery, graphql } from "../../../../helper/api-helper";
-import * as HallViewHelper from "../../view-helper/hall-view-helper";
-import ToogleTimezone from "../../../component/toggle-timezone";
-import { openLiveSession } from "../hall/live-session";
-import { addLog } from "../../../redux/actions/other-actions";
+import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import ListBoard from "../../../component/list-board";
+import VacancyPopup from "../popup/vacancy-popup";
+import { InterestedButton } from "../../../component/interested.jsx";
+import { EmptyCard } from "../../../component/card.jsx";
+import { Time } from "../../../lib/time";
+import { NavLink } from "react-router-dom";
 
-// require("../../../css/border-card.scss");
-
-
-class EventList extends React.Component {
+export default class HallRecruiterEvent extends React.Component {
   constructor(props) {
     super(props);
-    this.LIMIT_SHOW_LESS = 2;
+    this.loadData = this.loadData.bind(this);
+    this.renderList = this.renderList.bind(this);
+    this.getDataFromRes = this.getDataFromRes.bind(this);
+    this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
-    this.state = {
-      time: Date.now()
+    this.offset = 3;
+  }
+
+  loadData(page, offset) {
+    var query = `query{
+        events(${this.getMainQueryParam(page, offset)}) {
+          cf
+          ID
+          is_ended
+          company_id
+          type
+          title
+          location
+          interested{ID is_interested}
+          start_time
+          end_time
+        }
+      }`;
+    return getAxiosGraphQLQuery(query);
+  }
+  componentWillMount() {
+
+    this.getMainQueryParam = (page, offset) => {
+      let paging = "";
+      if (page && offset) {
+        paging = `page:${page},offset:${offset}`;
+      }
+
+      // order_by:"end_time desc"
+      return `company_id:${getAuthUser().rec_company}, user_id:${getAuthUser().ID}, 
+        ${paging} `
+    }
+    this.loadCount = () => {
+      var query = `query{
+        events_count(${this.getMainQueryParam()})
+       }`;
+
+      return getAxiosGraphQLQuery(query);
     };
-  }
-  isShowItem(i) {
-    if (!this.props.isShowMore) {
-      if (i >= this.LIMIT_SHOW_LESS) {
-        return false;
-      }
+
+    this.getCountFromRes = (res) => {
+      return res.data.data.events_count
     }
 
-    return true;
   }
-  populateList() {
-    let toRet = [];
-    for (var i in this.props.list) {
-      let d = this.props.list[i];
-      if (!this.isShowItem(i)) {
-        continue;
-      }
-      toRet.push(this.renderItem(d, i));
-    }
-    return toRet;
+  onClickCard(d) {
+    layoutActions.storeUpdateFocusCard(d.title, VacancyPopup, {
+      id: d.ID,
+      isRecThisCompany: this.isRecThisCompany()
+    });
+  }
+  isRecThisCompany() {
+    return (
+      (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
+      isRoleAdmin()
+    );
   }
 
-  renderItem(d, i) {
+  // renderList(d, i) {
+  //   let detailStyle = {
+  //     position: "relative",
+  //     fontSize: "14px",
+  //     textAlign: "left"
+  //   };
+
+  //   // let companyName = isRoleRec() ? (
+  //   //   d.company.name
+  //   // ) : (
+  //   //     <NavLink to={`${AppPath}/company/${d.company.ID}`}>
+  //   //       {d.company.name}
+  //   //     </NavLink>
+  //   //   );
+  //   let companyName = d.company.name;
+  //   let notSpecified = <i className="text-muted">Not Speficied</i>;
+
+  //   let include_timezone = true;
+  //   let time = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
+
+  //   let locationText = <div className="el-location-text">{d.location}</div>
+  //   let location = <div className="el-location">
+  //     <i className="fa fa-map-marker left" style={{ marginRight: "12px" }}></i>
+  //     {!d.location
+  //       ? notSpecified
+  //       : <span>
+  //         {
+  //           d.type == EventEnum.TYPE_VIRTUAL
+  //             ? <b><a target="_blank" href={d.location}>{locationText}</a></b> // location jadi url utk virtual
+  //             : locationText // location biasa untuk physical
+  //         }
+  //       </span>
+  //     }
+  //   </div>
+
+  //   let title = <div className="el-title"><b>{d.title}</b><br /></div>
+
+  //   let details = (
+  //     <div className="el-details" style={detailStyle}>
+  //       {title}
+  //       {time}
+  //       {location}
+  //     </div>
+  //   );
+
+  //   let rsvpButton = (
+  //     <InterestedButton
+  //       customStyle={{
+  //         top: "3px",
+  //         left: "7px",
+  //         width: "max-content",
+  //       }}
+  //       customView={
+  //         ({
+  //           // loading,
+  //           // isModeCount,
+  //           // isModeAction,
+  //           // like_count,
+  //           // onClickModeCount,
+  //           is_interested,
+  //           onClickModeAction
+  //         }) => {
+  //           let r = null;
+
+  //           // if (Time.getUnixTimestampNow() > d.end_time) {
+  //           if (d.is_ended) {
+  //             r = <div className="el-ended el-action-item">Event Ended</div>
+  //           } else {
+  //             if (is_interested) {
+  //               r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
+  //             } else {
+  //               r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
+  //             }
+  //           }
+
+  //           return <div className="el-action">{r}</div>
+  //         }
+  //       }
+  //       isModeCount={true}
+  //       isModeAction={false}
+  //       finishHandler={is_interested => {
+  //         if (is_interested == 1) {
+  //           layoutActions.successBlockLoader(
+  //             <div>
+  //               Successfully RSVP'ed for event
+  //               <br></br>
+  //               <b>{d.title}</b>
+  //               <br></br>
+  //               with {companyName}
+  //             </div>
+  //           );
+  //         }
+
+  //         // else {
+  //         //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
+  //         // }
+  //       }}
+  //       ID={d.interested.ID}
+  //       is_interested={d.interested.is_interested}
+  //       entity={"event"}
+  //       entity_id={d.ID}
+  //     ></InterestedButton>
+  //   );
+
+  //   //rsvpButton = null;
+  //   let v = (
+  //     <div className="event-list" style={{ position: "relative" }}>
+  //       {isRoleStudent() ? rsvpButton : null}
+  //       {details}
+  //     </div>
+  //   );
+  //   return v;
+  // }
+  getRsvpList(d) {
+    return (
+      <InterestedButton
+        customStyle={{
+          top: "3px",
+          left: "7px",
+          width: "max-content",
+        }}
+        customView={
+          ({
+            // loading,
+            // isModeCount,
+            // isModeAction,
+            // like_count,
+            onClickModeCount,
+            // is_interested,
+            // onClickModeAction
+          }) => {
+
+            let mainText = `See RSVP List`;
+            return (
+              <button
+                className={`btn btn-md btn-gray btn-round-5 btn-block`}
+                onClick={onClickModeCount}>
+                <i className="fa left fa-users"></i>{mainText}
+              </button>
+            );
+          }}
+        ID={d.interested.ID}
+        is_interested={d.interested.is_interested}
+        entity={"event"}
+        entity_id={d.ID}
+      ></InterestedButton>
+    );
+  }
+  renderList(d, i) {
     let v = null;
-    if (d._type == "cf") {
-      let dateStr = Time.getPeriodString(
-        d.start,
-        d.end
-      );
+    // let companyName = d.company.name;
+    let notSpecified = <i className="text-muted">Not Speficied</i>;
 
-      let btnAction = <div style={{ marginTop: "5px" }}>
-        <NavLink
-          to={`${RootPath}/app/browse-student?filter_cf=${d.name}`}
-          className="btn-sm btn btn-block btn-success">
-          See All Student
+    let include_timezone = true;
+    let dateStr = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
+
+
+    let locationIcon = <i className="fa fa-map-marker left" style={{ marginRight: "8px" }}></i>;
+    let locationText = <div className="el-location-text">{locationIcon}{d.location}</div>
+    let location = <div className="el-location">
+      {!d.location
+        ? [locationIcon, notSpecified]
+        : <span>
+          {
+            d.type == EventEnum.TYPE_VIRTUAL
+              ? <b><a target="_blank" href={d.location}>{locationText}</a></b> // location jadi url utk virtual
+              : locationText // location biasa untuk physical
+          }
+        </span>
+      }
+    </div>
+
+
+    let btnAction = <div style={{ marginTop: "5px" }}>
+      <NavLink
+        to={`${RootPath}/app/browse-student?filter_cf=${d.name}`}
+        className="btn-sm btn btn-block btn-success">
+        See All Student
         </NavLink>
-      </div>
+    </div>
 
-      let title = <div style={{ color: "#484848" }}><b>{d.title}</b></div>
+    let title = <div style={{ color: "#484848" }}><b>{d.title}</b></div>
 
-      v = <div className="lb-list-item text-left" style={{ padding: "10px 15px" }}>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-9">
-              {title}
-              <div>
-                <small className="text-muted">
-                  <i className="fa fa-calendar left"></i>
-                  {dateStr}
-                </small>
-                <br></br>
-                <small className="text-muted">
-                  <i className="fa fa-clock-o left"></i>
-                  {d.time_str_mas ? d.time_str_mas : d.time_str}
-                </small>
-              </div>
+    v = <div className="lb-list-item text-left">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-sm-8 no-padding" style={{ padding: "10px 15px" }}>
+            {title}
+            <div>
+              <small className="text-muted">
+                <i className="fa fa-calendar left"></i>
+                {dateStr}
+              </small>
+              <br></br>
+              <small className="text-muted">
+                {location}
+              </small>
             </div>
-            <div className="col-sm-3">
-              {btnAction}
-            </div>
+          </div>
+          <div className="col-sm-4 no-padding" style={{ padding: "10px 15px" , paddingBottom:"15px"}}>
+            {this.getRsvpList(d)}
           </div>
         </div>
       </div>
-    } else {
-      <div>{JSON.stringify(d)}</div>
-    }
+    </div>
+
 
     return v;
   }
-  render() {
-    var body = null;
-    if (this.props.fetching) {
-      body = <Loader isCenter={true} size="2" />;
-    } else {
-      body = this.populateList();
-      if (this.props.list.length === 0) {
-        body = (
-          <div className="text-muted" style={{ padding: "15px 5px" }}>
-            <i>Nothing to show here</i>
-          </div>
-        );
-      }
-    }
 
-    let btnToggleShowMore = null;
-    if (this.props.list.length > this.LIMIT_SHOW_LESS) {
-      btnToggleShowMore = <div
-        className="lb-list-item text-left"
-        style={{ padding: '5px 20px' }}>
-        <a className="btn-link" onClick={this.props.toggleShowMore}>
-          <small>
-            <b>
-              {
-                this.props.isShowMore
-                  ? <span><i className="fa fa-minus left"></i>Show Less</span>
-                  : <span><i className="fa fa-plus left"></i>Show More</span>
-              }
-            </b>
-          </small>
-        </a>
-      </div>;
-    }
-
-
-    return <div style={{
-      paddingBottom: "10px 0px",
-      borderBottom: "20px solid #f5f5f5"
-    }}>
-      <div className="text-left lb-subtitle">
-        <i className={`fa left fa-${this.props.icon}`}></i>
-        {this.props.title} ({this.props.list.length})
-      </div>
-      {body}
-      {btnToggleShowMore}
-    </div>;
-
-  }
-}
-
-EventList.propTypes = {
-};
-
-EventList.defaultProps = {
-};
-
-// ##################################################################################################################
-// ##################################################################################################################
-// ##################################################################################################################
-
-class HallRecruiterEvent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.refresh = this.refresh.bind(this);
-    this.state = {
-      loading: true,
-      data: []
-    }
+  getDataFromRes(res) {
+    return res.data.data.events;
   }
 
-  componentWillMount() {
-    this.refresh()
-  }
-
-  componentDidUpdate() {
-  }
-
-  refresh() {
-    this.setState({ loading: true })
-    let q = `query{cfs(is_load:1){
-      ID
-      name
-      title
-      time_str
-      time_str_mas
-      start
-      end
-    }}`
-    graphql(q).then(res => {
-      this.setState({ data: res.data.data.cfs, loading: false })
-    })
-  }
-  toggleShowMore(key) {
-    this.setState((prevState) => {
-      let k = "is_show_more_" + key;
-      let toRet = {};
-      toRet[k] = prevState[k] ? false : true;
-      return toRet;
-    })
-  }
 
   render() {
-    // 3. list
-    let listMyEvent = [];
-    let listOtherEvent = [];
-    let myCompanyCf = getCompanyCf(["TEST"]);
-    for (var i in this.state.data) {
-      let newObj = this.state.data[i];
-      newObj._type = "cf"
-      if (myCompanyCf.indexOf(newObj.name) >= 0) {
-        listMyEvent.push(newObj);
-      } else {
-        listOtherEvent.push(newObj);
-      }
+
+    // kalau list semua
+    let countParam = {
+      loadCount: this.loadCount,
+      getCountFromRes: this.getCountFromRes
     }
 
-
-    // 5. view
-    let list = <div>
-      <EventList
-        toggleShowMore={() => { this.toggleShowMore("my_events") }}
-        isShowMore={this.state["is_show_more_my_events"]}
-        title="My Events"
-        icon="star"
-        fetching={this.state.loading}
-        list={listMyEvent}
-      />
-      <EventList
-        toggleShowMore={() => { this.toggleShowMore("other_events") }}
-        isShowMore={this.state["is_show_more_other_events"]}
-        title="Other Events"
-        icon="clock-o"
-        fetching={this.state.loading}
-        list={listOtherEvent}
-      />
-    </div>
-
-    var v = <div>
+    return (
       <ListBoard
+        {...countParam}
+        // hideLoadMore={this.props.limitLoad ? true : false}
         // action_icon="plus"
-        // action_text="Schedule New Interview"
-        // action_to={`browse-student`}
-        icon={"calendar"}
-        title={
-          <span>
-            Events
-          {" "}
-            <a onClick={this.refresh} className="btn-link text-bold">
-              <small><i className="fa fa-refresh"></i></small>
-            </a>
-          </span>
-        }
-        customList={list}
-      >
-      </ListBoard>
-    </div>
-
-    return <div>{v}</div>;
+        // action_text="Add New Job Post"
+        // action_to={`manage-company/${this.props.company_id}/vacancy`}
+        title="My Event"
+        icon="calendar"
+        appendText={"Load More"}
+        loadData={this.loadData}
+        getDataFromRes={this.getDataFromRes}
+        renderList={this.renderList}
+        offset={this.offset}
+      />
+    );
   }
 }
-
-HallRecruiterEvent.defaultProps = {
-}
-
-HallRecruiterEvent.propTypes = {
-
-}
-
-// TODO status online
-function mapStateToProps(state, ownProps) {
-  return {
-    ...ownProps,
-    activity: state.hall.activity,
-    online_users: state.user.online_users,
-    online_companies: state.user.online_companies
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      loadActivity: hallAction.loadActivity
-    },
-    dispatch
-  );
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HallRecruiterEvent);

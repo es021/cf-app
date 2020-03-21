@@ -113,9 +113,9 @@ class InterviewList extends React.Component {
         }}
         data-entity={entity}
         data-entity_id={entity_id}
-        className="btn btn-sm btn-default"
+        className="btn btn-sm btn-gray btn-round-5 btn-block"
       >
-        Remove Card
+        <i className="fa fa-trash left"></i>Remove Card
       </button>
     );
   }
@@ -261,6 +261,7 @@ class InterviewList extends React.Component {
     var status = null;
     var time = null;
     var status_text = null;
+    var status_text_color = null;
     var removeEntity = null;
     var removeEntityId = null;
 
@@ -329,11 +330,13 @@ class InterviewList extends React.Component {
         }
         if (isRoleRec()) {
           status_text = "Waiting confirmation from student";
+          status_text_color = "rgb(135, 107, 0)";
           //crtSession = null;
         }
         break;
       case PrescreenEnum.STATUS_REJECTED:
         status_text = "Interview rejected";
+        status_text_color = "red"; 
         //crtSession = null;
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
@@ -368,9 +371,9 @@ class InterviewList extends React.Component {
                 data-participant_id={obj.ID}
                 data-id={d.ID}
                 onClick={this.startVideoCallPreScreen.bind(this)}
-                className="btn btn-sm btn-success"
+                className="btn btn-sm btn-gray btn-round-5 btn-block"
               >
-                Start Video Call
+                <i className="fa fa-video-camera left"></i>Start Video Call
               </div>
             );
           }
@@ -417,7 +420,8 @@ class InterviewList extends React.Component {
         var hasStart = false;
         if (!d.is_expired && d.join_url != "" && d.join_url != null) {
           hasStart = true;
-          status_text = "You have start the call";
+          status_text = "Video call started";
+          status_text_color = "#17a917";
 
         } else {
           if (d.is_expired) {
@@ -433,9 +437,9 @@ class InterviewList extends React.Component {
               onClick={() =>
                 joinVideoCall(d.join_url, null, isExpiredHandler, null, d.ID)
               }
-              className="btn btn-sm btn-blue"
+              className="btn btn-sm btn-gray btn-round-5 btn-block"
             >
-              Join Video Call
+              <i className="fa fa-sign-in left"></i>Join Video Call
             </a>
           );
 
@@ -482,7 +486,7 @@ class InterviewList extends React.Component {
               }
               className="action btn-link"
             >
-              Click Here To Rejoin Video Call
+              <b>Click Here To Rejoin Video Call</b>
             </a>
           </div>
 
@@ -497,9 +501,9 @@ class InterviewList extends React.Component {
                   PrescreenEnum.STATUS_ENDED
                 );
               }}
-              className="btn btn-sm btn-danger"
+              className="btn btn-sm btn-gray btn-round-5 btn-block"
             >
-              End Video Call
+              <i className="fa fa-times left"></i>End Video Call
               </div>
           );
         }
@@ -518,8 +522,8 @@ class InterviewList extends React.Component {
 
     // finalize status
     status = status_text == null ? null :
-      <div>
-        <i className="fa fa-info-circle left"></i>
+      <div style={{color:status_text_color}}>
+        <i className="fa fa-info-circle left" ></i>
         {status_text}
       </div>;
 
@@ -575,10 +579,8 @@ class InterviewList extends React.Component {
         isOnlineCard = isCompanyOnline(this.props.online_companies, obj.ID);
       }
 
-      return <li
-        className="lb-list-item text-left">
-        <div className="flex-start">
-          {/* left */}
+      /**
+       * <div className="flex-start">
           <div className="flex-grow-2" style={{ padding: "10px 17px" }}>
             <div>{title}</div>
             <div className="text-muted"><small>{time}</small></div>
@@ -593,11 +595,43 @@ class InterviewList extends React.Component {
                 : null
             }
           </div>
-          {/* right */}
           <div className="flex-grow-1 flex-self-center-start">
             {action}
           </div>
         </div>
+       */
+      return <li
+        className="lb-list-item text-left">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-8 no-padding">
+              {/* left */}
+              <div style={{ padding: "10px 17px" }}>
+                <div>{title}</div>
+                <div className="text-muted"><small>{time}</small></div>
+                {
+                  status
+                    ? <div className="text-muted"><small>{status}</small></div>
+                    : null
+                }
+                {
+                  rejoinLink
+                    ? <div className="text-muted" style={{ marginTop: "5px" }}><small>{rejoinLink}</small></div>
+                    : null
+                }
+              </div>
+            </div>
+            {/* right */}
+            <div className="col-sm-4 no-padding">
+              <div style={{ textAlign:"left", margin: "auto", margin: "10px 17px", marginBottom : "17px" }}>
+                {action}
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
       </li>
 
       // return (<li>

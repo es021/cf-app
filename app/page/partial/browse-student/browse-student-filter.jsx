@@ -539,9 +539,9 @@ export class BrowseStudentFilter extends React.Component {
             return { key: prevState.key + 1 }
         })
     }
-    getButtonExport(){
+    getButtonExport() {
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
-       return <ButtonExport style={{marginLeft :"10px"}} btnClass="default btn-round-5" action="browse_student" text="Download As Excel" filter={filter}></ButtonExport>
+        return <ButtonExport style={{  margin : "5px"}} btnClass="default btn-round-5" action="browse_student" text="Download As Excel" filter={filter}></ButtonExport>
     }
     render() {
         let v = null;
@@ -552,11 +552,13 @@ export class BrowseStudentFilter extends React.Component {
         } else {
 
             let btnAction = <div className="text-left">
-                <button style={{ marginRight: "10px", paddingRight: "20px", paddingLeft: "20px" }}
+                <button style={{ margin: "5px" }}
                     className="btn btn-primary btn-round-5 btn-sm" onClick={this.onSearch}>
+                    <i className="fa fa-search left"></i>
                     Search
                 </button>
-                <button className="btn btn-default btn-round-5 btn-sm" onClick={this.onResetFilter}>
+                <button style={{ margin: "5px" }} className="btn btn-default btn-round-5 btn-sm" onClick={this.onResetFilter}>
+                    <i className="fa fa-times left"></i>
                     Reset Filter
                 </button>
                 {this.getButtonExport()}
@@ -579,7 +581,7 @@ export class BrowseStudentFilter extends React.Component {
 }
 
 BrowseStudentFilter.propTypes = {
-    company_id : PropTypes.number,
+    company_id: PropTypes.number,
     filterStr: PropTypes.string,
     onChange: PropTypes.func,
     filterState: PropTypes.obj,
