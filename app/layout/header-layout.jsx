@@ -6,7 +6,9 @@ import {
   getCFCustomStyle,
   getAuthUser,
   isAuthorized,
-  isRedirectExternalHomeUrl
+  isRedirectExternalHomeUrl,
+  isRoleRec,
+  isRoleStudent
 } from "../redux/actions/auth-actions";
 import { ButtonIcon } from "../component/buttons.jsx";
 import { createImageElement } from "../component/profile-card.jsx";
@@ -32,8 +34,8 @@ export default class HeaderLayout extends React.Component {
     console.log("this.icon", this.icon)
     console.log("this.title", this.title)
     console.log("this.desc", this.desc)
-    console.log("style",style);
-  
+    console.log("style", style);
+
   }
 
   render() {
@@ -42,20 +44,17 @@ export default class HeaderLayout extends React.Component {
     }
 
     let authUser = getAuthUser();
+    let avatar = createImageElement(
+      authUser.img_url,
+      authUser.img_pos,
+      authUser.img_size,
+      "40px",
+      "with-border hover-shadow"
+    )
     let userIcon = isAuthorized() ? (
-      <NavLink to={`${RootPath}/app/edit-profile/profile`}>
-        {createImageElement(
-          authUser.img_url,
-          authUser.img_pos,
-          authUser.img_size,
-          "40px",
-          "with-border hover-shadow"
-        )}
-        {/* <ProfileCard type="student" theme="dark"
-        title={null} subtitle={null}
-        img_url={authUser.img_url} img_pos={authUser.img_pos} img_size={authUser.img_size}
-        body={null}></ProfileCard> */}
-      </NavLink>
+      isRoleStudent()
+        ? <NavLink to={`${RootPath}/app/edit-profile/profile`}>{avatar}</NavLink>
+        : avatar
     ) : null;
 
     return (

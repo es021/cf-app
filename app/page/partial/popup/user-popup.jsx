@@ -169,9 +169,6 @@ export default class UserPopup extends Component {
       this.isSelfUser = true;
     }
 
-
-    this.loadCompanyPriv();
-
     console.log("UserPage", "componentWillMount");
     var query =
       this.props.role === UserEnum.ROLE_STUDENT

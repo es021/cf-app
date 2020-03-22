@@ -1,5 +1,12 @@
 -- clear event data
 
+-- clear user map
+delete
+FROM cf_map  
+where 1=1
+and cf = "CIMB"
+and entity = "user"
+
 -- clear interview list
 delete from pre_screens WHERE
 company_id in (
