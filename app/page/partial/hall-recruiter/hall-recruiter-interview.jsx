@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import obj2arg from "graphql-obj2arg";
-import ProfileCard from "../../../component/profile-card.jsx";
+import ProfileCard, { getImageObj, PCType } from "../../../component/profile-card.jsx";
 import {
   Prescreen,
   PrescreenEnum,
@@ -49,6 +49,8 @@ import ToogleTimezone from "../../../component/toggle-timezone";
 import { openLiveSession } from "../hall/live-session";
 import { addLog } from "../../../redux/actions/other-actions";
 import ListBoard from "../../../component/list-board";
+import InputEditable from "../../../component/input-editable";
+import { getPicElement } from "../../hall-recruiter";
 
 // require("../../../css/border-card.scss");
 
@@ -59,7 +61,7 @@ class InterviewList extends React.Component {
     this.confirmUpdatePrescreen = this.confirmUpdatePrescreen.bind(
       this
     );
-    this.LIMIT_SHOW_LESS = 2;
+    this.LIMIT_SHOW_LESS = this.props.limitShowLess;
     this.authUser = getAuthUser();
     this.state = {
       time: Date.now()
@@ -330,13 +332,13 @@ class InterviewList extends React.Component {
         }
         if (isRoleRec()) {
           status_text = "Waiting confirmation from student";
-          status_text_color = "rgb(135, 107, 0)";
+          status_text_color = "rgb(213, 21, 39)";
           //crtSession = null;
         }
         break;
       case PrescreenEnum.STATUS_REJECTED:
         status_text = "Interview rejected";
-        status_text_color = "red"; 
+        status_text_color = "red";
         //crtSession = null;
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
@@ -486,7 +488,7 @@ class InterviewList extends React.Component {
               }
               className="action btn-link"
             >
-              <b>Click Here To Rejoin Video Call</b>
+              <b><u>Click Here To Rejoin Video Call</u></b>
             </a>
           </div>
 
@@ -522,7 +524,7 @@ class InterviewList extends React.Component {
 
     // finalize status
     status = status_text == null ? null :
-      <div style={{color:status_text_color}}>
+      <div style={{ color: status_text_color }}>
         <i className="fa fa-info-circle left" ></i>
         {status_text}
       </div>;
@@ -569,95 +571,140 @@ class InterviewList extends React.Component {
       var time = objRenderHelper.time;
       var status = objRenderHelper.status;
       var rejoinLink = objRenderHelper.rejoinLink;
+      let isOnline = isUserOnline(this.props.online_users, obj.ID);
+      let avatar = (
+        <ProfileCard
+          type={PCType.STUDENT}
+          customStyleParent={{ margin: "0px" }}
+          className="with-border"
+          isOnline={isOnline}
+          img_url={obj.img_url}
+          img_pos={obj.img_pos}
+          img_size={obj.img_size}
+          img_dimension="50px"
+        ></ProfileCard>
+      );
 
-      // var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
-      let isOnlineCard = false;
-      if (isRoleRec()) {
-        isOnlineCard = isUserOnline(this.props.online_users, obj.ID);
-      }
-      if (isRoleStudent()) {
-        isOnlineCard = isCompanyOnline(this.props.online_companies, obj.ID);
-      }
 
-      /**
-       * <div className="flex-start">
-          <div className="flex-grow-2" style={{ padding: "10px 17px" }}>
-            <div>{title}</div>
-            <div className="text-muted"><small>{time}</small></div>
-            {
-              status
-                ? <div className="text-muted"><small>{status}</small></div>
-                : null
-            }
-            {
-              rejoinLink
-                ? <div className="text-muted" style={{ marginTop: "5px" }}><small>{rejoinLink}</small></div>
-                : null
-            }
-          </div>
-          <div className="flex-grow-1 flex-self-center-start">
-            {action}
-          </div>
-        </div>
-       */
+
+
+      let pic = getPicElement(d, "edit_prescreen", "Interviewer");
+      // renderList
       return <li
         className="lb-list-item text-left">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-8 no-padding">
-              {/* left */}
-              <div style={{ padding: "10px 17px" }}>
-                <div>{title}</div>
-                <div className="text-muted"><small>{time}</small></div>
-                {
-                  status
-                    ? <div className="text-muted"><small>{status}</small></div>
-                    : null
-                }
-                {
-                  rejoinLink
-                    ? <div className="text-muted" style={{ marginTop: "5px" }}><small>{rejoinLink}</small></div>
-                    : null
-                }
-              </div>
+          <div className="row" style={{ padding: "15px 7px" }}>
+            {/* avatar */}
+            <div className="col-sm-1 ">
+              {avatar}
             </div>
-            {/* right */}
-            <div className="col-sm-4 no-padding">
-              <div style={{ textAlign:"left", margin: "auto", margin: "10px 17px", marginBottom : "17px" }}>
+            {/* name */}
+            <div className="col-sm-3 ">
+              {/* <div style={{ padding: "13px 20px" }}> */}
+              <div style={{ marginBottom: "8px", fontSize: "16px" }}>{title}</div>
+              {/* </div> */}
+            </div>
+            {/* details */}
+            <div className="col-sm-6">
+              {/* <div style={{ padding: "13px 20px" }}> */}
+              <div className="text-muted-dark"><small>{time}</small></div>
+              {pic}
+              {!status ? null : <div className="text-muted-dark"><small>{status}</small></div>}
+              {!rejoinLink ? null : <div className="text-muted-dark" style={{ marginTop: "13px" }}><small>{rejoinLink}</small></div>}
+              {/* </div> */}
+            </div>
+            {/* action */}
+            <div className="col-sm-2 ">
+              <div style={{
+                textAlign: "left", margin: "auto",
+                // margin: "13px 17px", marginBottom: "17px"
+              }}>
                 {action}
               </div>
-
             </div>
-
           </div>
         </div>
 
       </li>
-
-      // return (<li>
-      //   <ProfileListItem
-      //     isOnline={isOnlineCard}
-      //     className=""
-      //     //header={labelType}
-      //     title={title}
-      //     list_type="card"
-      //     img_url={obj.img_url}
-      //     custom_width={custom_width}
-      //     img_pos={img_position}
-      //     img_size={obj.img_size}
-      //     img_dimension="50px"
-      //     body={body}
-      //     badge={badge}
-      //     badge_tooltip={badge_tooltip}
-      //     subtitle={subtitle}
-      //     type="recruiter"
-      //     key={i}
-      //   />
-      //   );
-      // </li>
-
     });
   }
+
+
+  // populateList() {
+  //   return this.props.list.map((d, i) => {
+  //     if (!this.props.isShowMore) {
+  //       if (i >= this.LIMIT_SHOW_LESS) {
+  //         return null;
+  //       }
+  //     }
+
+  //     var action = null;
+  //     var obj = d.student;
+  //     if (typeof obj === "undefined") {
+  //       return false;
+  //     }
+  //     obj.name = obj.first_name + " " + obj.last_name;
+
+  //     // 1. name
+  //     var title = (
+  //       <ButtonLink
+  //         label={<div><b>{obj.first_name}</b>{" "}{obj.last_name}</div>}
+  //         onClick={() =>
+  //           layoutActions.storeUpdateFocusCard(
+  //             obj.first_name + " " + obj.last_name,
+  //             UserPopup,
+  //             { id: obj.ID }
+  //           )
+  //         }
+  //       />
+  //     );
+
+  //     var objRenderHelper = this.renderHelper(d, obj);
+  //     var action = objRenderHelper.action;
+  //     var time = objRenderHelper.time;
+  //     var status = objRenderHelper.status;
+  //     var rejoinLink = objRenderHelper.rejoinLink;
+
+  //     // var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
+  //     let isOnline = false;
+  //     if (isRoleRec()) {
+  //       isOnline = isUserOnline(this.props.online_users, obj.ID);
+  //     }
+  //     if (isRoleStudent()) {
+  //       isOnline = isCompanyOnline(this.props.online_companies, obj.ID);
+  //     }      
+
+  //     let pic = getPicElement(d, "edit_prescreen", "Interviwer");
+  //     // renderList
+  //     return <li
+  //       className="lb-list-item text-left">
+  //       <div className="container-fluid">
+  //         <div className="row">
+  //           <div className="col-sm-8 no-padding">
+  //             {/* left */}
+  //             <div style={{ padding: "13px 17px" }}>
+  //               <div style={{ marginBottom: "8px", fontSize: "16px" }}>{title}</div>
+  //               <div className="text-muted-dark"><small>{time}</small></div>
+  //               {pic}
+  //               {!status ? null : <div className="text-muted-dark"><small>{status}</small></div>}
+  //               {!rejoinLink ? null : <div className="text-muted-dark" style={{ marginTop: "13px" }}><small>{rejoinLink}</small></div>}
+  //             </div>
+  //           </div>
+  //           {/* right */}
+  //           <div className="col-sm-4 no-padding">
+  //             <div style={{
+  //               textAlign: "left", margin: "auto",
+  //               margin: "13px 17px", marginBottom: "17px"
+  //             }}>
+  //               {action}
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+
+  //     </li>
+  //   });
+  // }
   render() {
     var body = null;
     if (this.props.fetching) {
@@ -666,7 +713,7 @@ class InterviewList extends React.Component {
       body = this.populateList();
       if (this.props.list.length === 0) {
         body = (
-          <div className="text-muted" style={{ padding: "15px 5px" }}>
+          <div className="text-muted list-empty-text">
             <i>Nothing to show here</i>
           </div>
         );
@@ -684,7 +731,7 @@ class InterviewList extends React.Component {
               {
                 this.props.isShowMore
                   ? <span><i className="fa fa-minus left"></i>Show Less</span>
-                  : <span><i className="fa fa-plus left"></i>Show More</span>
+                  : <span><i className="fa fa-plus left"></i>Show All ({this.props.list.length})</span>
               }
             </b>
           </small>
@@ -695,7 +742,7 @@ class InterviewList extends React.Component {
 
     return <div style={{
       paddingBottom: "10px 0px",
-      borderBottom: "20px solid #f5f5f5"
+      borderBottom: "40px solid #f5f5f5"
     }}>
       <div className="text-left lb-subtitle">
         <i className={`fa left fa-${this.props.icon}`}></i>
@@ -709,9 +756,11 @@ class InterviewList extends React.Component {
 }
 
 InterviewList.propTypes = {
+  limitShowLess: PropTypes.number
 };
 
 InterviewList.defaultProps = {
+  limitShowLess: 2
 };
 
 
@@ -785,6 +834,7 @@ class HallRecruiterInterview extends React.Component {
     // 5. view
     let list = <div>
       <InterviewList
+        limitShowLess={2}
         toggleShowMore={() => { this.toggleShowMore("active") }}
         isShowMore={this.state["is_show_more_active"]}
         title="Active Interviews"
@@ -795,6 +845,7 @@ class HallRecruiterInterview extends React.Component {
         list={listActive}
       />
       <InterviewList
+        limitShowLess={1}
         toggleShowMore={() => { this.toggleShowMore("pending") }}
         isShowMore={this.state["is_show_more_pending"]}
         title="Pending Interviews"
@@ -805,6 +856,7 @@ class HallRecruiterInterview extends React.Component {
         list={listPending}
       />
       <InterviewList
+        limitShowLess={1}
         toggleShowMore={() => { this.toggleShowMore("ended") }}
         isShowMore={this.state["is_show_more_ended"]}
         title="Ended / Rejected Interviews"
@@ -821,7 +873,7 @@ class HallRecruiterInterview extends React.Component {
         action_icon="plus"
         action_text="Schedule New Interview"
         action_to={`browse-student`}
-        icon={"users"}
+        icon={"video-camera"}
         title={
           <span>
             My Interviews

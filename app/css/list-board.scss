@@ -2,7 +2,7 @@
   // min-width: 400px;
   // max-width: 400px;
   width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 55px;
   box-shadow: 1px 3px 4px 1px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
   overflow: hidden;
@@ -24,7 +24,9 @@
 
   .lb-paging {
     font-size: 14px;
-    margin-bottom: 10px !important;
+    margin: 0px !important;
+    padding: 7px 0px;
+    background: whitesmoke;
   }
 
   .lb-title {
@@ -54,6 +56,10 @@
     margin: 0;
     // padding: 10px 0px;
     background: white;
+    .list-empty-text{
+      font-style: italic;
+      padding: 20px 5px;
+    }
   }
 
   .lb-list-item {

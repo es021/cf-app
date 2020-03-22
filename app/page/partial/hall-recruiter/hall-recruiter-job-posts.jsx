@@ -19,7 +19,7 @@ export default class HallRecruiterJobPosts extends React.Component {
     this.getDataFromRes = this.getDataFromRes.bind(this);
     this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
-    this.offset = 4;
+    this.offset = 5;
   }
 
   loadData(page, offset) {

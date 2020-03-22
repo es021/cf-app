@@ -14,6 +14,9 @@ import { InterestedButton } from "../../../component/interested.jsx";
 import { EmptyCard } from "../../../component/card.jsx";
 import { Time } from "../../../lib/time";
 import { NavLink } from "react-router-dom";
+import InputEditable from "../../../component/input-editable";
+import obj2arg from "graphql-obj2arg";
+import { getPicElement } from "../../hall-recruiter.jsx";
 
 export default class HallRecruiterEvent extends React.Component {
   constructor(props) {
@@ -23,7 +26,7 @@ export default class HallRecruiterEvent extends React.Component {
     this.getDataFromRes = this.getDataFromRes.bind(this);
     this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
-    this.offset = 3;
+    this.offset = 5;
   }
 
   loadData(page, offset) {
@@ -31,6 +34,7 @@ export default class HallRecruiterEvent extends React.Component {
         events(${this.getMainQueryParam(page, offset)}) {
           cf
           ID
+          pic
           is_ended
           company_id
           type
@@ -81,119 +85,6 @@ export default class HallRecruiterEvent extends React.Component {
     );
   }
 
-  // renderList(d, i) {
-  //   let detailStyle = {
-  //     position: "relative",
-  //     fontSize: "14px",
-  //     textAlign: "left"
-  //   };
-
-  //   // let companyName = isRoleRec() ? (
-  //   //   d.company.name
-  //   // ) : (
-  //   //     <NavLink to={`${AppPath}/company/${d.company.ID}`}>
-  //   //       {d.company.name}
-  //   //     </NavLink>
-  //   //   );
-  //   let companyName = d.company.name;
-  //   let notSpecified = <i className="text-muted">Not Speficied</i>;
-
-  //   let include_timezone = true;
-  //   let time = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
-
-  //   let locationText = <div className="el-location-text">{d.location}</div>
-  //   let location = <div className="el-location">
-  //     <i className="fa fa-map-marker left" style={{ marginRight: "12px" }}></i>
-  //     {!d.location
-  //       ? notSpecified
-  //       : <span>
-  //         {
-  //           d.type == EventEnum.TYPE_VIRTUAL
-  //             ? <b><a target="_blank" href={d.location}>{locationText}</a></b> // location jadi url utk virtual
-  //             : locationText // location biasa untuk physical
-  //         }
-  //       </span>
-  //     }
-  //   </div>
-
-  //   let title = <div className="el-title"><b>{d.title}</b><br /></div>
-
-  //   let details = (
-  //     <div className="el-details" style={detailStyle}>
-  //       {title}
-  //       {time}
-  //       {location}
-  //     </div>
-  //   );
-
-  //   let rsvpButton = (
-  //     <InterestedButton
-  //       customStyle={{
-  //         top: "3px",
-  //         left: "7px",
-  //         width: "max-content",
-  //       }}
-  //       customView={
-  //         ({
-  //           // loading,
-  //           // isModeCount,
-  //           // isModeAction,
-  //           // like_count,
-  //           // onClickModeCount,
-  //           is_interested,
-  //           onClickModeAction
-  //         }) => {
-  //           let r = null;
-
-  //           // if (Time.getUnixTimestampNow() > d.end_time) {
-  //           if (d.is_ended) {
-  //             r = <div className="el-ended el-action-item">Event Ended</div>
-  //           } else {
-  //             if (is_interested) {
-  //               r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
-  //             } else {
-  //               r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
-  //             }
-  //           }
-
-  //           return <div className="el-action">{r}</div>
-  //         }
-  //       }
-  //       isModeCount={true}
-  //       isModeAction={false}
-  //       finishHandler={is_interested => {
-  //         if (is_interested == 1) {
-  //           layoutActions.successBlockLoader(
-  //             <div>
-  //               Successfully RSVP'ed for event
-  //               <br></br>
-  //               <b>{d.title}</b>
-  //               <br></br>
-  //               with {companyName}
-  //             </div>
-  //           );
-  //         }
-
-  //         // else {
-  //         //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
-  //         // }
-  //       }}
-  //       ID={d.interested.ID}
-  //       is_interested={d.interested.is_interested}
-  //       entity={"event"}
-  //       entity_id={d.ID}
-  //     ></InterestedButton>
-  //   );
-
-  //   //rsvpButton = null;
-  //   let v = (
-  //     <div className="event-list" style={{ position: "relative" }}>
-  //       {isRoleStudent() ? rsvpButton : null}
-  //       {details}
-  //     </div>
-  //   );
-  //   return v;
-  // }
   getRsvpList(d) {
     return (
       <InterestedButton
@@ -216,7 +107,7 @@ export default class HallRecruiterEvent extends React.Component {
             let mainText = `See RSVP List`;
             return (
               <button
-                className={`btn btn-md btn-gray btn-round-5 btn-block`}
+                className={`btn btn-sm btn-gray btn-round-5 btn-block`}
                 onClick={onClickModeCount}>
                 <i className="fa left fa-users"></i>{mainText}
               </button>
@@ -238,7 +129,7 @@ export default class HallRecruiterEvent extends React.Component {
     let dateStr = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
 
 
-    let locationIcon = <i className="fa fa-map-marker left" style={{ marginRight: "8px" }}></i>;
+    let locationIcon = <i className="fa fa-map-marker left" style={{ marginRight: "7px" }}></i>;
     let locationText = <div className="el-location-text">{locationIcon}{d.location}</div>
     let location = <div className="el-location">
       {!d.location
@@ -246,7 +137,7 @@ export default class HallRecruiterEvent extends React.Component {
         : <span>
           {
             d.type == EventEnum.TYPE_VIRTUAL
-              ? <b><a target="_blank" href={d.location}>{locationText}</a></b> // location jadi url utk virtual
+              ? <b><a target="_blank" href={d.location}><u>{locationText}</u></a></b> // location jadi url utk virtual
               : locationText // location biasa untuk physical
           }
         </span>
@@ -262,25 +153,63 @@ export default class HallRecruiterEvent extends React.Component {
         </NavLink>
     </div>
 
-    let title = <div style={{ color: "#484848" }}><b>{d.title}</b></div>
+    let title = <div style={{ color: "rgb(9, 23, 35)", marginBottom: "8px", fontSize: "16px" }}><b>{d.title}</b></div>
 
+    // let pic = <InputEditable
+    //   editTitle="Edit PIC / Interviewer"
+    //   val={d.pic}
+    //   data={{ ID: d.ID }}
+    //   formItems={(fixedName) => {
+    //     return [
+    //       {
+    //         name: fixedName,
+    //         type: "text",
+    //         placeholder: "John Doe, Sarah Hopper",
+    //       }
+    //     ]
+    //   }}
+    //   render={(val, loading, openEditPopup) => {
+    //     let notAssigned = <span className="text-muted"><i>No PIC / Interviewer Assigned</i></span>;
+    //     let editing = <span className="text-muted"><i>Editing.. Please Wait.</i></span>;
+    //     let editIcon = <a><i onClick={openEditPopup} className="fa fa-pencil right btn-link"></i></a>;
+
+    //     return <div className="text-muted-dark">
+    //       <small>
+    //         <i className="fa fa-user left"></i>
+    //         {loading ? editing : <span>{!val ? notAssigned : val}{editIcon}</span>
+    //         }
+    //       </small>
+    //     </div >
+    //   }}
+    //   query={(data, newVal) => {
+    //     let upd = {
+    //       ID: data.ID,
+    //       pic: newVal,
+    //       updated_by: getAuthUser().ID
+    //     }
+    //     return `mutation { edit_event(${obj2arg(upd, { noOuterBraces: true })}) {ID pic } }`
+    //   }}
+    // />
+
+    let pic = getPicElement(d, "edit_event", "PIC");
     v = <div className="lb-list-item text-left">
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-8 no-padding" style={{ padding: "10px 15px" }}>
             {title}
             <div>
-              <small className="text-muted">
+              <small className="text-muted-dark">
                 <i className="fa fa-calendar left"></i>
                 {dateStr}
               </small>
               <br></br>
-              <small className="text-muted">
+              {pic}
+              <small className="text-muted-dark">
                 {location}
               </small>
             </div>
           </div>
-          <div className="col-sm-4 no-padding" style={{ padding: "10px 15px" , paddingBottom:"15px"}}>
+          <div className="col-sm-4 no-padding" style={{ padding: "10px 15px", paddingBottom: "15px" }}>
             {this.getRsvpList(d)}
           </div>
         </div>
@@ -311,7 +240,7 @@ export default class HallRecruiterEvent extends React.Component {
         // action_icon="plus"
         // action_text="Add New Job Post"
         // action_to={`manage-company/${this.props.company_id}/vacancy`}
-        title="My Event"
+        title="My Events"
         icon="calendar"
         appendText={"Load More"}
         loadData={this.loadData}

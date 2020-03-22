@@ -10,9 +10,50 @@ import {
   getAuthUser
 } from "../redux/actions/auth-actions";
 import { ButtonAction } from "../component/buttons";
+import InputEditable from "../component/input-editable";
+import obj2arg from "graphql-obj2arg";
 
+// require("../css/hall.scss");''
 
-// require("../css/hall.scss");
+export function getPicElement(d, mutation_edit, entity) {
+  let pic = <InputEditable
+    editTitle={`Edit ${entity}`}
+    val={d.pic}
+    data={{ ID: d.ID }}
+    formItems={(fixedName) => {
+      return [
+        {
+          name: fixedName,
+          type: "text",
+          placeholder: "John Doe, Sarah Hopper",
+        }
+      ]
+    }}
+    render={(val, loading, openEditPopup) => {
+      let notAssigned = <span className="text-muted"><i>No {entity} Assigned</i></span>;
+      let editing = <span className="text-muted"><i>Assigning {entity}. Please Wait.</i></span>;
+      let editIcon = <a><i onClick={openEditPopup} className="fa fa-pencil right btn-link"></i></a>;
+
+      return <div className="text-muted-dark">
+        <small>
+          <i className="fa fa-user-circle left"></i><b>{entity}</b>{" : "}
+          {loading ? editing : <span>{!val ? notAssigned : val}{editIcon}</span>
+          }
+        </small>
+      </div >
+    }}
+    query={(data, newVal) => {
+      let upd = {
+        ID: data.ID,
+        pic: newVal,
+        updated_by: getAuthUser().ID
+      }
+      return `mutation { ${mutation_edit}(${obj2arg(upd, { noOuterBraces: true })}) { ID pic } }`
+    }}
+  />
+
+  return pic;
+}
 
 export default class HallRecruiterPage extends React.Component {
   constructor(props) {
@@ -72,18 +113,23 @@ export default class HallRecruiterPage extends React.Component {
       <br></br>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-12">
             <HallRecruiterInterview></HallRecruiterInterview>
-          </div>
-          <div className="col-md-6">
-            <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-6">
+            <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
+          </div>
+          <div className="col-md-6">
             <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
           </div>
         </div>
+        {/* <div className="row">
+          <div className="col-md-12">
+            <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
+          </div>
+        </div> */}
       </div>
       {/* <DashboardFeed cf="USA19" type="recruiter"></DashboardFeed> */}
     </div>

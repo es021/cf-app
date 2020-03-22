@@ -76,6 +76,7 @@ const Event = {
 	TABLE: "events",
 	ID: "ID",
 	CF: "cf",
+	PIC: "pic",
 	COMPANY_ID: "company_id",
 	TITLE: "title",
   LOCATION: "location",
@@ -250,6 +251,7 @@ const PasswordReset = {
 const Prescreen = {
 	TABLE: "pre_screens",
 	ID: "ID",
+	PIC : "pic",
 	STUDENT_ID: "student_id",
 	COMPANY_ID: "company_id",
 	CREATED_AT: "created_at",

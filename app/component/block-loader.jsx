@@ -101,7 +101,7 @@ class BlockLoader extends React.Component {
             }
 
             if (state.custom.customView !== null) {
-                action = <div>
+                action = <div style={{width: "100%"}}>
                     {state.custom.customView}
                     <br></br>
                     {closeLink}
