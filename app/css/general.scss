@@ -58,6 +58,10 @@ p {
 	padding-left: 10px;
 }
 
+a.no-underline:hover, a.no-underline:active, a.no-underline:focus{
+	text-decoration: none;
+}
+
 div.line {
 	border: 0;
 	height: 1px;

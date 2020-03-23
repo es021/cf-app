@@ -57,7 +57,7 @@ const AppConfig = {
     PHPApi: PHPApi,
     PHPNotificationApi: PHPNotificationApi,
     FbAppId: "315194262317447",
-    FbPageId : "1400113583365638", // innovaseedssolutions
+    FbPageId : "488956294912178", // seedsjobfair
     WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",
     WwwUrl: "https://seedsjobfairapp.com"

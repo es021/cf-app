@@ -8,10 +8,11 @@ import { Loader } from '../component/loader';
 import { createUserTitle } from './users';
 import { createImageElement } from '../component/profile-card.jsx';
 import { Time } from '../lib/time';
-import MessengerPlugin from "react-messenger-plugin";
+// import MessengerPlugin from "react-messenger-plugin";
 import { BOTH } from '../../config/socket-config';
 import { socketOn } from '../socket/socket-client';
 import { addLog } from '../redux/actions/other-actions.js';
+import { isMobileDevice } from "../lib/util";
 
 // require('../css/forum.scss');
 // require('../css/support-chat.scss');
@@ -21,100 +22,107 @@ export class SupportChat extends React.Component {
     constructor(props) {
         super(props);
 
-        this.toogle = this.toogle.bind(this);
-        this.getChatBox = this.getChatBox.bind(this);
-        this.state = {
-            show: false,
-            supportUser: false,
-        };
+        // this.toogle = this.toogle.bind(this);
+        // this.getChatBox = this.getChatBox.bind(this);
+        // this.state = {
+        //     show: false,
+        //     supportUser: false,
+        // };
 
-        this.self_id = getAuthUser().ID;
-        this.hide = this.self_id === SupportUserID;
+        // this.self_id = getAuthUser().ID;
+        // this.hide = this.self_id === SupportUserID;
     }
 
-    getChatBox() {
-        if (this.state.supportUser === false) {
-            // get support user
-            var query = `query{ user(ID:${SupportUserID}) {  
-            ID first_name last_name img_url img_pos img_size
-            }}`;
+    // getChatBox() {
+    //     if (this.state.supportUser === false) {
+    //         // get support user
+    //         var query = `query{ user(ID:${SupportUserID}) {  
+    //         ID first_name last_name img_url img_pos img_size
+    //         }}`;
 
-            getAxiosGraphQLQuery(query).then((res) => {
-                this.setState(() => {
-                    var user = res.data.data.user;
-                    return { supportUser: user }
-                });
-            });
-            return <div style={{ padding: "10px" }}>
-                <Loader text="Initializing chat with support"></Loader>
-            </div>;
-        } else if (this.state.supportUser === null) {
-            return <div style={{ padding: "10px" }}>Support is not available currently</div>;
+    //         getAxiosGraphQLQuery(query).then((res) => {
+    //             this.setState(() => {
+    //                 var user = res.data.data.user;
+    //                 return { supportUser: user }
+    //             });
+    //         });
+    //         return <div style={{ padding: "10px" }}>
+    //             <Loader text="Initializing chat with support"></Loader>
+    //         </div>;
+    //     } else if (this.state.supportUser === null) {
+    //         return <div style={{ padding: "10px" }}>Support is not available currently</div>;
 
-        } else {
-            return <div>
-                <Chat session_id={null}
-                    disableChat={false}
-                    other_id={SupportUserID}
-                    other_data={this.state.supportUser}
-                    self_id={this.self_id}>
-                </Chat>
-            </div>;
-        }
-    }
+    //     } else {
+    //         return <div>
+    //             <Chat session_id={null}
+    //                 disableChat={false}
+    //                 other_id={SupportUserID}
+    //                 other_data={this.state.supportUser}
+    //                 self_id={this.self_id}>
+    //             </Chat>
+    //         </div>;
+    //     }
+    // }
 
-    toogle() {
-        if (!this.state.show) {
-            addLog(LogEnum.EVENT_CLICK_GOT_QUESTION, "");
-        }
-        this.setState((prevState) => {
-            return { show: !prevState.show };
-        });
-    }
+    // toogle() {
+    //     if (!this.state.show) {
+    //         addLog(LogEnum.EVENT_CLICK_GOT_QUESTION, "");
+    //     }
+    //     this.setState((prevState) => {
+    //         return { show: !prevState.show };
+    //     });
+    // }
 
     getFbMessager() {
-        return <MessengerPlugin
-            appId={AppConfig.FbAppId}
-            pageId={AppConfig.FbPageId}
-        />
-    }
-    render() {
-
-        if (isRoleAdmin()) {
-            return <div id="support-chat" className={"sc-open"}>
-                {this.getFbMessager()} LALALALA
-            </div>;
+        let url = "";
+        if (isMobileDevice()) {
+            url = `https://m.facebook.com/messages/compose?ids=${AppConfig.FbPageId}`;
+        } else {
+            url = `https://m.me/${AppConfig.FbPageId}`;
         }
 
-
-
-        if (this.hide) {
-            return null;
-        }
-
-        var v = null;
-        var className = "";
-        if (!this.state.show) {
-            className = "sc-open";
-            v = <div onClick={this.toogle}
-                className="btn btn-success btn-lg">
+        return <a href={url} target="_blank" className="no-underline">
+            <div className="btn btn-success btn-lg">
                 <span>
                     <span className="sc-open-text">Got<br></br>Question<br></br></span>
                     <i className="fa fa-question-circle fa-3x"></i>
                 </span>
-            </div>;
-
-        } else {
-            v = <div>
-                <button className="btn btn-sm btn-danger btn-block"
-                    onClick={this.toogle}>Close Chat</button>
-                {this.getChatBox()}
-            </div>;
-
-        }
-        return <div id="support-chat" className={className}>
-            {v}
+            </div>
+        </a>
+    }
+    render() {
+        return <div id="support-chat" className={"sc-open"}>
+            {this.getFbMessager()}
         </div>;
+
+
+        // if (this.hide) {
+        //     return null;
+        // }
+
+        // var v = null;
+        // var className = "";
+        // if (!this.state.show) {
+        //     className = "sc-open";
+        //     v = <div onClick={this.toogle}
+        //         className="btn btn-success btn-lg">
+        //         <span>
+        //             <span className="sc-open-text">Got<br></br>Question<br></br></span>
+        //             <i className="fa fa-question-circle fa-3x"></i>
+        //         </span>
+        //     </div>;
+
+        // } else {
+        //     v = <div>
+        //         <button className="btn btn-sm btn-danger btn-block"
+        //             onClick={this.toogle}>Close Chat</button>
+        //         {this.getChatBox()}
+        //     </div>;
+
+        // }
+        // return <div id="support-chat" className={className}>
+        //     {v}
+        // </div>;
     }
 }
 
