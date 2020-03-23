@@ -137,14 +137,24 @@ export class HallGalleryView extends React.Component {
     });
   }
 
-  nextOnClick() {
+  getNextMap() {
     let nextMap = {};
-    nextMap[CENTER] = LEFT_1;
-    nextMap[RIGHT_1] = CENTER;
-    nextMap[RIGHT_2] = RIGHT_1;
-    nextMap[LEFT_1] = LEFT_2;
-    nextMap[LEFT_2] = RIGHT_2;
+    if (this.total() <= 3) {
+      nextMap[CENTER] = LEFT_1;
+      nextMap[RIGHT_1] = CENTER;
+      nextMap[LEFT_1] = RIGHT_1;
+    } else {
+      nextMap[CENTER] = LEFT_1;
+      nextMap[RIGHT_1] = CENTER;
+      nextMap[RIGHT_2] = RIGHT_1;
+      nextMap[LEFT_1] = LEFT_2;
+      nextMap[LEFT_2] = RIGHT_2;
+    }
+    return nextMap;
+  }
 
+  nextOnClick() {
+    let nextMap = this.getNextMap();
     let parent = document.getElementById("hall-gallery");
 
     let elObj = {};
@@ -164,6 +174,9 @@ export class HallGalleryView extends React.Component {
       // console.log("el.className", el.className);
       // console.log("currentClass", currentClass);
       // console.log("changeClass", changeClass);
+      if (!el) {
+        continue;
+      }
       el.className = el.className.replaceAll(currentClass, changeClass);
     }
   }
@@ -198,14 +211,33 @@ export class HallGalleryView extends React.Component {
     }
   }
 
+  total() {
+    return this.state.data.length;
+  }
+
   getAllItem() {
     // to change if ada CR count
     let data = [];
-    data.push(this.getItemByOffset(-2, this.currentIndex));
-    data.push(this.getItemByOffset(-1, this.currentIndex));
-    data.push(this.getItemByOffset(0, this.currentIndex));
-    data.push(this.getItemByOffset(1, this.currentIndex));
-    data.push(this.getItemByOffset(2, this.currentIndex));
+    if (this.total() <= 1) {
+      data.push(this.getItemByOffset(null, this.currentIndex));
+      data.push(this.getItemByOffset(null, this.currentIndex));
+      data.push(this.getItemByOffset(0, this.currentIndex));
+      data.push(this.getItemByOffset(null, this.currentIndex));
+      data.push(this.getItemByOffset(null, this.currentIndex));
+    } else if (this.total() <= 3) {
+      data.push(this.getItemByOffset(null, this.currentIndex));
+      data.push(this.getItemByOffset(-1, this.currentIndex));
+      data.push(this.getItemByOffset(0, this.currentIndex));
+      data.push(this.getItemByOffset(1, this.currentIndex));
+      data.push(this.getItemByOffset(null, this.currentIndex));
+    } else {
+      data.push(this.getItemByOffset(-2, this.currentIndex));
+      data.push(this.getItemByOffset(-1, this.currentIndex));
+      data.push(this.getItemByOffset(0, this.currentIndex));
+      data.push(this.getItemByOffset(1, this.currentIndex));
+      data.push(this.getItemByOffset(2, this.currentIndex));
+    }
+
     return data;
   }
   getItemClassName(i) {
@@ -233,6 +265,9 @@ export class HallGalleryView extends React.Component {
   }
 
   createItemView(d, i) {
+    if (!d) {
+      return null;
+    }
     let className = this.getItemClassName(i);
     className = `hg-item ${className}`;
 
@@ -312,6 +347,7 @@ export class HallGalleryView extends React.Component {
 
     let offsetIndex = currentIndex + offset;
     let realIndex = null;
+    // console.log("offsetIndex", offsetIndex)
     if (offsetIndex >= 0 && offsetIndex < this.state.data.length) {
       realIndex = offsetIndex;
     } else if (offsetIndex >= this.state.data.length) {
@@ -321,9 +357,10 @@ export class HallGalleryView extends React.Component {
       realIndex = this.state.data.length + offsetIndex;
     }
 
-    // console.log("offset", offset);
-    // console.log("offsetIndex", offsetIndex);
-    // console.log("realIndex", realIndex);
+    if (realIndex == currentIndex) {
+      // jangan kluarkan
+      realIndex = null
+    }
 
     if (realIndex != null) {
       return this.state.data[realIndex];
@@ -370,9 +407,9 @@ export class HallGalleryView extends React.Component {
 
       v = (
         <div className="hg-item hg-container">
-          {leftArrow}
+          {this.total() <= 1 ? null : leftArrow}
           {this.itemViews}
-          {rightArrow}
+          {this.total() <= 1 ? null : rightArrow}
         </div>
       );
     }
@@ -449,7 +486,7 @@ export class ManageHallGallery extends React.Component {
       var q = `query{hall_galleries(${this.searchParams} 
               order_by: "cf asc, is_active desc, item_order asc", page:${page}, offset:${offset}) 
             { ${this.FIELD_SELECT} } }`;
-      console.log(q);
+      // console.log(q);
       return getAxiosGraphQLQuery(q);
     };
 
