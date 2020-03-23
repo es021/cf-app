@@ -12,7 +12,7 @@ import { Time } from '../lib/time';
 import { BOTH } from '../../config/socket-config';
 import { socketOn } from '../socket/socket-client';
 import { addLog } from '../redux/actions/other-actions.js';
-import { isMobileDevice } from "../lib/util";
+// import { isMobileDevice } from "../lib/util";
 
 // require('../css/forum.scss');
 // require('../css/support-chat.scss');
@@ -75,11 +75,13 @@ export class SupportChat extends React.Component {
 
     getFbMessager() {
         let url = "";
-        if (isMobileDevice()) {
-            url = `https://m.facebook.com/messages/compose?ids=${AppConfig.FbPageId}`;
-        } else {
-            url = `https://m.me/${AppConfig.FbPageId}`;
-        }
+        url = `https://m.me/${AppConfig.FbPageId}`;
+
+        // if (isMobileDevice()) {
+        //     url = `https://m.facebook.com/messages/compose?ids=${AppConfig.FbPageId}`;
+        // } else {
+            // url = `https://m.me/${AppConfig.FbPageId}`;
+        // }
 
         return <a href={url} target="_blank" className="no-underline">
             <div className="btn btn-success btn-lg">
