@@ -173,6 +173,10 @@ class ZoomApi {
                 {
                     "topic": "Private Call",
                     "type": "1",
+                    "settings": {
+                        "host_video": true,
+                        "participant_video": true
+                    }
                 },
                 this.getHeaders()
             ).then((res) => {
