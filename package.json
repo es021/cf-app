@@ -53,6 +53,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-facebook": "^4.2.1",
+    "react-messenger-plugin": "^2.1.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

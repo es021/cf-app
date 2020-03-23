@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Chat from './partial/session/chat.jsx';
-import { SupportUserID } from '../../config/app-config';
+import { SupportUserID, AppConfig } from '../../config/app-config';
 import { SupportSession, LogEnum } from '../../config/db-config';
-import { getAuthUser } from '../redux/actions/auth-actions';
+import { getAuthUser, isRoleAdmin } from '../redux/actions/auth-actions';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { Loader } from '../component/loader';
 import { createUserTitle } from './users';
 import { createImageElement } from '../component/profile-card.jsx';
 import { Time } from '../lib/time';
-
+import MessengerPlugin from "react-messenger-plugin";
 import { BOTH } from '../../config/socket-config';
 import { socketOn } from '../socket/socket-client';
 import { addLog } from '../redux/actions/other-actions.js';
@@ -72,7 +72,22 @@ export class SupportChat extends React.Component {
         });
     }
 
+    getFbMessager() {
+        return <MessengerPlugin
+            appId={AppConfig.FbAppId}
+            pageId={AppConfig.FbPageId}
+        />
+    }
     render() {
+
+        if (isRoleAdmin()) {
+            return <div id="support-chat" className={"sc-open"}>
+                {this.getFbMessager()} LALALALA
+            </div>;
+        }
+
+
+
         if (this.hide) {
             return null;
         }
