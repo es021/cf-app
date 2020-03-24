@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LandingUrl, IsNewHall, IsRecruiterNewHall } from "../../config/app-config";
+import { LandingUrl, IsNewHall, IsRecruiterNewHall, IsOnVideoResume } from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
 import VolunteerScheduledInterview from "../page/volunteer-scheduled-interview";
@@ -327,7 +327,7 @@ function getMenuItem(COMING_SOON) {
       hd_app: true,
       hd_auth: false,
       default_param: { current: "video-resume" },
-      disabled: !isRoleStudent()
+      disabled: !isRoleStudent() || !IsOnVideoResume
     },
     // {
     //   // Student Only

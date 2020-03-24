@@ -66,19 +66,27 @@ export default class List extends React.Component {
     return this.props.type.indexOf("append") >= 0;
   }
 
-  load(type) {
-    // set new page
-    if (type == this.NEXT) {
-      this.page++;
-    }
-
-    if (type == this.PREV) {
-      if (this.page == 1) {
-        return false;
+  load(type, page) {
+    if (page) {
+      if(this.page == page){
+        return;
+      }
+      this.page = page;
+    } else {
+      // set new page
+      if (type == this.NEXT) {
+        this.page++;
       }
 
-      this.page--;
+      if (type == this.PREV) {
+        if (this.page == 1) {
+          return false;
+        }
+
+        this.page--;
+      }
     }
+
 
     // set fetching to true if not append type
     if (!this.isAppendType()) {
@@ -261,69 +269,93 @@ export default class List extends React.Component {
     var fetchBtn = null;
     var extraTop = null;
     var extraBottom = null;
-    let endCount = 0;
-    let startCount = 0;
-
+    // let endCount = 0;
+    // let startCount = 0;
     if (this.props.type == "list" || this.props.type == "table") {
-      let countView = null;
-      if (this.props.loadCount) {
-        startCount = (this.page - 1) * this.props.offset + 1;
-        endCount = this.page * this.props.offset;
-        endCount = endCount > this.state.count ? this.state.count : endCount;
-        countView = (
-          <small>
-            <br></br>
-            {startCount} - {endCount} of {this.state.count}
-            <br></br>
-          </small>
-        );
-      }
+      // let countView = null;
+      let paging = null;
 
-      let prevView =
-        this.page > 1 ? (
-          <small style={{ marginRight: "6px" }}>
-            <ButtonLink
-              onClick={() => this.load(this.PREV)}
-              label="<< Prev"
-            ></ButtonLink>
-          </small>
-        ) : null;
+      paging = <Paging
+          onClickNext={() => this.load(this.NEXT)}
+          onClickPrev={() => this.load(this.PREV)}
+          onClickPage={(page) => this.load(null, page)}
+          total={this.state.count}
+          offset={this.props.offset}
+          currentPage={this.page}
+          totalInPage={this.state.fetchCount}
+          hasTotal={this.props.loadCount}
+          limitButton={this.props.limitPaging}
+        />
 
-      let nextView =
-        this.state.fetchCount >= this.props.offset ? (
-          <small style={{ marginLeft: "6px" }}>
-            <ButtonLink
-              onClick={() => this.load(this.NEXT)}
-              label="Next >>"
-            ></ButtonLink>
-          </small>
-        ) : null;
+      // if (this.props.loadCount) {
+      //   // startCount = (this.page - 1) * this.props.offset + 1;
+      //   // endCount = this.page * this.props.offset;
+      //   // endCount = endCount > this.state.count ? this.state.count : endCount;
+      //   // countView = (
+      //   //   <small>
+      //   //     <br></br>
+      //   //     {startCount} - {endCount} of {this.state.count}
+      //   //     <br></br>
+      //   //   </small>
+      //   // );
 
-      // remove next kalau dah page last
-      if (this.props.loadCount && endCount >= this.state.count) {
-        nextView = null;
-      }
+      //   paging = <Paging
+      //     onClickNext={() => this.load(this.NEXT)}
+      //     onClickPrev={() => this.load(this.PREV)}
+      //     onClickPage={(page) => this.load(null, page)}
+      //     total={this.state.count}
+      //     offset={this.props.offset}
+      //     currentPage={this.page}
+      //   />
+      // }
 
-      var paging = (
-        <div
-          className={this.props.pageClass}
-          style={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "20px",
-            marginTop: "10px"
-          }}
-        >
-          <div style={{ minWidth: "70px" }}>{prevView}</div>
-          <div>
-            <b>Page {this.page}</b>
-            {countView}
-          </div>
-          <div style={{ minWidth: "70px" }}>{nextView}</div>
-        </div>
-      );
+      // let prevView =
+      //   this.page > 1 ? (
+      //     <small style={{ marginRight: "6px" }}>
+      //       <ButtonLink
+      //         onClick={() => this.load(this.PREV)}
+      //         label="<< Prev"
+      //       ></ButtonLink>
+      //     </small>
+      //   ) : null;
+
+      // let nextView =
+      //   this.state.fetchCount >= this.props.offset ? (
+      //     <small style={{ marginLeft: "6px" }}>
+      //       <ButtonLink
+      //         onClick={() => this.load(this.NEXT)}
+      //         label="Next >>"
+      //       ></ButtonLink>
+      //     </small>
+      //   ) : null;
+
+      // // remove next kalau dah page last
+      // if (this.props.loadCount && endCount >= this.state.count) {
+      //   nextView = null;
+      // }
+
+      // var paging = (
+      //   <div
+      //     className={this.props.pageClass}
+      //     style={{
+      //       textAlign: "center",
+      //       display: "flex",
+      //       alignItems: "center",
+      //       justifyContent: "center",
+      //       marginBottom: "20px",
+      //       marginTop: "10px"
+      //     }}
+      //   >
+      //     <div style={{ minWidth: "70px" }}>{prevView}</div>
+      //     <div>
+      //       <b>Page {this.page}</b>
+      //       {countView}
+      //     </div>
+      //     <div style={{ minWidth: "70px" }}>{nextView}</div>
+      //   </div>
+      // );
+
+      // paging = [pagingNew, paging];
       //topView = (this.props.offset >= 10 && this.state.fetchCount >= 10) ? paging : null;
       topView = this.props.hideLoadMore || this.props.isHidePagingTop ? null : paging;
       bottomView = this.props.hideLoadMore || this.props.isHidePagingBottom ? null : paging;
@@ -378,6 +410,7 @@ List.propTypes = {
   customEmpty: PropTypes.element,
   listClass: PropTypes.string,
   listRef: PropTypes.object,
+  limitPaging: PropTypes.number, // total count for the list
   totalCount: PropTypes.number, // total count for the list
   key: PropTypes.number, // to force update
   // function
@@ -425,6 +458,7 @@ List.defaultProps = {
 
 import ProfileCard, { PCType } from "./profile-card.jsx";
 import { Page } from "react-facebook";
+import Paging from "./paging.jsx";
 
 export class ProfileListItem extends Component {
   render() {

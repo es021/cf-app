@@ -79,6 +79,7 @@ let scss = [
   "input-select",
   "input-checkbox",
   "list-board",
+  "paging",
 
   // kena letak bawah skali
   "custom-SHELL",

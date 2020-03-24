@@ -82,33 +82,33 @@ export class BrowseStudentList extends React.Component {
     }
     getFilterDescription() {
         return null;
-        let cfList = [];
-        let cfs = this.props.filterState.cf;
+        // let cfList = [];
+        // let cfs = this.props.filterState.cf;
 
-        if (!Array.isArray(cfs) || cfs.length <= 0) {
-            if (!this.props.isRec) {
-                cfs.push("All Career Fair");
-            } else {
-                cfs = this.props.company_cf
-            }
-        }
+        // if (!Array.isArray(cfs) || cfs.length <= 0) {
+        //     if (!this.props.isRec) {
+        //         cfs.push("All Career Fair");
+        //     } else {
+        //         cfs = this.props.company_cf
+        //     }
+        // }
 
-        if (Array.isArray(cfs)) {
-            for (var i in cfs) {
-                let title = getCfTitle(cfs[i]);
-                if (title == null) {
-                    title = cfs[i]
-                }
+        // if (Array.isArray(cfs)) {
+        //     for (var i in cfs) {
+        //         let title = getCfTitle(cfs[i]);
+        //         if (title == null) {
+        //             title = cfs[i]
+        //         }
 
-                cfList.push(<li>{title}</li>);
-            }
-        }
+        //         cfList.push(<li>{title}</li>);
+        //     }
+        // }
 
-        return <div style={{ fontWeight: "10px", textAlign: "center" }}
-            className="text-muted">
-            <i>Showing students from</i>
-            <ul>{cfList}</ul>
-        </div>;
+        // return <div style={{ fontWeight: "10px", textAlign: "center" }}
+        //     className="text-muted">
+        //     <i>Showing students from</i>
+        //     <ul>{cfList}</ul>
+        // </div>;
     }
     render() {
         let v = null;

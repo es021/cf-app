@@ -1,0 +1,35 @@
+$THEME: #22537c;
+.paging {
+	margin: 25px 0px;
+  .pg-btn-items {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+    .pg-btn {
+      padding: 2px 7px;
+      cursor: pointer;
+    //   background: white;
+    //   border: 1px solid $THEME;
+      margin: 0px 3px;
+      border-radius: 4px;
+      color: $THEME;
+    }
+
+    .pg-btn:hover,
+    .pg-btn.active {
+
+      background: $THEME;
+      color: white;
+    }
+
+    .pg-page {
+      ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+      }
+    }
+  }
+}

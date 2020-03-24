@@ -3,7 +3,8 @@
 const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
-var IsRecruiterNewHall = true;
+var IsOnVideoResume = ALWAYS_FALSE; 
+var IsRecruiterNewHall = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
 const IsDailyCoEnable = ALWAYS_FALSE;
 const IsGruveoEnable = ALWAYS_FALSE;
@@ -97,6 +98,7 @@ if (!isProd) {
 
 module.exports = {
     HeaderClass,
+    IsOnVideoResume,
     FooterClass,
     IsDailyCoEnable,
     DailyCoCreateRoomUrl,

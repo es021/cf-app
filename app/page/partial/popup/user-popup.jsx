@@ -9,7 +9,7 @@ import {
   PrescreenEnum
 } from "../../../../config/db-config";
 import { getMonthLabel } from "../../../../config/data-config";
-import { ImgConfig, RootPath } from "../../../../config/app-config";
+import { ImgConfig, RootPath, IsOnVideoResume } from "../../../../config/app-config";
 import { CompanyEnum } from "../../../../config/db-config";
 import ProfileCard from "../../../component/profile-card.jsx";
 import PageSection from "../../../component/page-section";
@@ -202,7 +202,7 @@ export default class UserPopup extends Component {
                 interested_role {val}
                 interested_job_location {val}
                 doc_links{label url type}
-                video_resume {ID url}
+                ${IsOnVideoResume ? "video_resume {ID url}" : ""}
             }}`
         : `query {
               user(ID:${id}) {
@@ -505,7 +505,7 @@ export default class UserPopup extends Component {
     );
     var rightBody = (
       <div>
-        {user.video_resume != null && user.video_resume.url ? (
+        {(IsOnVideoResume && user.video_resume != null && user.video_resume.url) ? (
           <PageSection
             className={pageClassName}
             title={this.getTitle("Video Resume", "youtube-play")}

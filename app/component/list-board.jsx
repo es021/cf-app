@@ -29,6 +29,7 @@ export default class ListBoard extends React.Component {
         } else {
             list = <List
                 {...this.props}
+                pagingLimit={5}
                 // key={this.state.key}
                 // extraData={this.state.extraData}
                 // type="append-bottom"
