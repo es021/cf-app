@@ -30,6 +30,8 @@ export default class HeaderLayout extends React.Component {
       if (style[CustomCf.Style.HEADER_DESC]) this.desc = style[CustomCf.Style.HEADER_DESC]
     }
 
+    this.title = this.title.replaceAll("<br>"," ")
+
     console.log("this.iconUrl", this.iconUrl)
     console.log("this.icon", this.icon)
     console.log("this.title", this.title)

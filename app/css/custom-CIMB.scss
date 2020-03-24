@@ -1,5 +1,9 @@
 @import "define/mixin.scss";
 
+$CIMB_RED_DARK : #66000f;
+$CIMB_RED_DARK_LIGHT : #9f505c;
+$CIMB_RED : #ff0000;
+
 // #############################################
 // #############################################
 // LANDING PAGE SPECIFIC
@@ -15,11 +19,11 @@ body.landing-page {
   // #############################################
   // #############################################
   // HEADER
-  $COLOR_HEADER: #ef2f24;
-  $COLOR_HEADER_SUBTITLE: #200101;
-  $COLOR_HEADER_LINK: #200101;
-  $COLOR_HEADER_TITLE: white;
-  $COLOR_HEADER_LINK_ACTIVE: white;
+  $COLOR_HEADER: white;
+  $COLOR_HEADER_LINK: $CIMB_RED_DARK_LIGHT;
+  $COLOR_HEADER_TITLE: $CIMB_RED_DARK;
+  $COLOR_HEADER_SUBTITLE: $CIMB_RED_DARK_LIGHT;
+  $COLOR_HEADER_LINK_ACTIVE: $CIMB_RED_DARK ;
 
   header {
     .img img {
@@ -58,17 +62,7 @@ body.landing-page {
     }
   }
 
-  // #############################################
-  // #############################################
-  // CHAT
 
-  #home {
-    #home-welcome {
-      h1 {
-        // width: 70%;
-      }
-    }
-  }
 
   // #############################################
   // #############################################
@@ -104,20 +98,20 @@ body.landing-page {
   // BUTTON
 
   // text, background, border
-  @include custom_btn_default("success", #ef2f24, white, #ef2f24);
-  @include custom_btn_focus("success", #ef2f24, #f8f1f1, #ef2f24);
-  @include custom_btn_active("success", #ef2f24, white, #ef2f24);
+  @include custom_btn_default("success", $CIMB_RED, white, $CIMB_RED);
+  @include custom_btn_focus("success", $CIMB_RED, #f8f1f1, $CIMB_RED);
+  @include custom_btn_active("success", $CIMB_RED, white, $CIMB_RED);
 
-  @include custom_btn_default("default", #ef2f24, white, #ef2f24);
-  @include custom_btn_focus("default", #ef2f24, #f8f1f1, #ef2f24);
-  @include custom_btn_active("default", #ef2f24, white, #ef2f24);
+  @include custom_btn_default("default", $CIMB_RED, white, $CIMB_RED);
+  @include custom_btn_focus("default", $CIMB_RED, #f8f1f1, $CIMB_RED);
+  @include custom_btn_active("default", $CIMB_RED, white, $CIMB_RED);
 
-  @include custom_btn_default("primary", white, #ef2f24, #ef2f24);
-  @include custom_btn_focus("primary", white, #d61919, #ef2f24);
-  @include custom_btn_active("primary", white, #ef2f24, #ef2f24);
+  @include custom_btn_default("primary", white, $CIMB_RED, $CIMB_RED);
+  @include custom_btn_focus("primary", white, #e60606, $CIMB_RED);
+  @include custom_btn_active("primary", white, $CIMB_RED, $CIMB_RED);
 
-  @include custom_btn_default("blue", white, #ef2f24, #ef2f24);
-  @include custom_btn_focus("blue", white, #d61919, #ef2f24);
-  @include custom_btn_active("blue", white, #ef2f24, #ef2f24);
+  @include custom_btn_default("blue", white, $CIMB_RED, $CIMB_RED);
+  @include custom_btn_focus("blue", white, #e60606, $CIMB_RED);
+  @include custom_btn_active("blue", white, $CIMB_RED, $CIMB_RED);
 
 }

@@ -252,7 +252,7 @@ export const UserFormItem = [
         type: "checkbox",
         data: [{
             key: "accepted",
-            label: <small>I agree to <a href={`${DocumentUrl}/privacy-policy.pdf`} target="_blank">terms and conditions</a></small>
+            label: <small>I agree to <a href={`${DocumentUrl}/privacy-policy-2020.pdf`} target="_blank">terms and conditions</a></small>
         }],
         //required: true,,
         register: 1, editStudent: 0, editRec: 0

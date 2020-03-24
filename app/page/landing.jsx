@@ -226,7 +226,7 @@ export default class LandingPage extends React.Component {
       <h1 style={{ marginTop: "5px" }}>
         <small>WELCOME TO</small>
         <br></br>
-        {this.CFDetail.title}
+        <span dangerouslySetInnerHTML={{__html : this.CFDetail.title}}></span>
         <br></br>
         <div className="subtitle">
           {this.subtitle}
