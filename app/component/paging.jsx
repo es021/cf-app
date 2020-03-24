@@ -164,7 +164,7 @@ export default class Paging extends Component {
       {/* <div className="pg-count">
         {this.viewCount()}
       </div> */}
-      {this.debug()}
+      {/* {this.debug()} */}
       <div className="pg-btn-items">
         <div className="pg-prev pg-arrow">
           {this.viewPrev()}
