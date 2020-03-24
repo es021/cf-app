@@ -12,6 +12,7 @@ export class BrowseStudentList extends React.Component {
         };
 
         this.offset = 10;
+        this.offset = 3;
         this.renderList = this.renderList.bind(this);
         this.loadCount = this.loadCount.bind(this);
         this.getCountFromRes = this.getCountFromRes.bind(this);

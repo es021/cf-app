@@ -31,7 +31,8 @@ export default class Paging extends Component {
   }
 
   totalPage() {
-    let totalPage = Math.floor(this.props.total / this.props.offset) + 1
+    let remainder = this.props.total % this.props.offset
+    let totalPage = Math.floor(this.props.total / this.props.offset) + (remainder > 0 ? 1 : 0)
     return totalPage;
   }
 
@@ -54,7 +55,7 @@ export default class Paging extends Component {
     return this.props.currentPage == this.totalPage();
   }
   currentPage() {
-    return this.props.currentPage;
+    return Number.parseInt(this.props.currentPage);
   }
   total() {
     return this.props.total;
@@ -163,7 +164,7 @@ export default class Paging extends Component {
       {/* <div className="pg-count">
         {this.viewCount()}
       </div> */}
-      {/* {this.debug()} */}
+      {this.debug()}
       <div className="pg-btn-items">
         <div className="pg-prev pg-arrow">
           {this.viewPrev()}

@@ -68,7 +68,8 @@ export default class List extends React.Component {
 
   load(type, page) {
     if (page) {
-      if(this.page == page){
+      page = Number.parseInt(page);
+      if(isNaN(page) || this.page == page){
         return;
       }
       this.page = page;
