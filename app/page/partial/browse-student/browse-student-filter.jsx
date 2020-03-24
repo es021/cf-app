@@ -198,9 +198,15 @@ export class BrowseStudentFilter extends React.Component {
                         filters: []
                     }
                 }
+
+                let label = f._val_label ? f._val_label : f._val;
+                if(k == "cf"){
+                    label = label.replaceAll("<br>", " ");
+                }
+
                 filterObj[k].filters.push({
                     val: f._val,
-                    label: f._val_label ? f._val_label : f._val,
+                    label: label,
                     total: f._total,
                 })
             }
