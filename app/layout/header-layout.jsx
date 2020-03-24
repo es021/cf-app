@@ -27,6 +27,7 @@ export default class HeaderLayout extends React.Component {
     if (style) {
       if (style[CustomCf.Style.HEADER_ICON_URL]) this.iconUrl = style[CustomCf.Style.HEADER_ICON_URL]
       if (style[CustomCf.Style.HEADER_ICON]) this.icon = AssetCustomUrl + style[CustomCf.Style.HEADER_ICON]
+      if (style[CustomCf.Style.HEADER_TITLE]) this.title = style[CustomCf.Style.HEADER_TITLE]
       if (style[CustomCf.Style.HEADER_DESC]) this.desc = style[CustomCf.Style.HEADER_DESC]
     }
 

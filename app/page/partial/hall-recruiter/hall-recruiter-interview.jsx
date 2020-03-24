@@ -332,7 +332,7 @@ class InterviewList extends React.Component {
         }
         if (isRoleRec()) {
           status_text = "Waiting confirmation from student";
-          status_text_color = "rgb(213, 21, 39)";
+          status_text_color = "rgb(196, 120, 0)";
           //crtSession = null;
         }
         break;

@@ -7,6 +7,7 @@ const Feature = {
     SPONSOR : "SPONSOR",
 }    
 const Style = {
+    HEADER_TITLE : "HEADER_TITLE",
     HEADER_ICON : "HEADER_ICON",
     HEADER_ICON_URL : "HEADER_ICON_URL",
     HEADER_DESC : "HEADER_DESC"
