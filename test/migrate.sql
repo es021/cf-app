@@ -1,15 +1,17 @@
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 -- Add PIC untuk interview
 ALTER TABLE `pre_screens` ADD `pic` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `status`; 
 
 -- Add  PIC untuk event
 ALTER TABLE `events` ADD `pic` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `title`; 
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 CREATE TABLE `wp_career_fair`.`events` 
 ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
