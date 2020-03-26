@@ -881,6 +881,7 @@ const companies_param = {
 	page: __.Int,
 	offset: __.Int,
 	cf: __.String,
+	search_name: __.String,
 	accept_prescreen: __.Int,
 	include_sponsor: __.Int,
 	ignore_type: __.String,

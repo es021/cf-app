@@ -18,7 +18,8 @@ import {
   isRoleRec,
   getCF_externalHomeUrl,
   isRedirectExternalHomeUrl,
-  getCF
+  getCF,
+  isRoleAdmin
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -160,8 +161,15 @@ class PrimaryLayout extends React.Component {
     });
   }
   setPageId() {
-    let pageId = location.href.split("/");
-    this.pageId = pageId[pageId.length - 1];
+    let url = location.href;
+    if(url.indexOf("/app/") >= 0){
+      url = url.split("/app/");
+    }else if(url.indexOf("/auth/") >= 0){
+      url = url.split("/auth/");
+    }
+    url = url[1].split("/");
+
+    this.pageId = url[0];
     if (this.pageId.indexOf("?") >= 0) {
       this.pageId = this.pageId.split("?")[0];
     }
@@ -179,7 +187,7 @@ class PrimaryLayout extends React.Component {
   }
 
   isHasLeftBar() {
-    return false;
+    return isRoleAdmin();
     //return isRoleRec() && IsRecruiterNewHall;
   }
 

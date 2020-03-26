@@ -28,6 +28,9 @@ class CompanyQuery {
         var type_where = (typeof params.type === "undefined") ? "1=1" :
             `c.${Company.TYPE} LIKE '%${params.type}%'`;
 
+        var search_name = (typeof params.search_name === "undefined") ? "1=1" :
+            `c.${Company.NAME} LIKE '%${params.search_name}%'`;
+
         var id_where = (typeof params.ID === "undefined") ? "1=1" :
             `c.${Company.ID} = '${params.ID}'`;
 
@@ -57,7 +60,7 @@ class CompanyQuery {
         var sql = `from ${Company.TABLE} c where 1=1 
             and ${ignore_type} and ${id_where} 
             and ${include_sponsor} and ${type_where} 
-            and ${cf_where} and ${ps_where}
+            and ${cf_where} and ${ps_where} and ${search_name}
             and c.ID != ${SupportUserID}
             ${order_by}`;
 

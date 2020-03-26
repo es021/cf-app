@@ -105,7 +105,7 @@ export class BrowseStudentFilter extends React.Component {
     getExtraFilter() {
         return {
             favourited_only: {
-                isRecOnly: true,
+                // isRecOnly: true,
                 title: "",
                 filters: [{
                     val: "1",
@@ -129,7 +129,7 @@ export class BrowseStudentFilter extends React.Component {
                 }]
             },
             interested_only: {
-                isRecOnly: true,
+                // isRecOnly: true,
                 title: "",
                 filters: [{
                     val: "1",
@@ -165,7 +165,6 @@ export class BrowseStudentFilter extends React.Component {
             page: page,
             offset: offset,
             filterStr: this.props.filterStr,
-            isRec: this.props.isRec,
             company_id: this.props.company_id
         })
     }
@@ -518,9 +517,9 @@ export class BrowseStudentFilter extends React.Component {
             if (!keyFilter) {
                 continue;
             }
-            if (keyFilter.isRecOnly && !this.props.isRec) {
-                continue;
-            }
+            // if (keyFilter.isRecOnly && !this.props.isRec) {
+            //     continue;
+            // }
             let v = null
             if (keyFilter.isSelect) {
                 v = this.filterSelect(k, keyFilter);

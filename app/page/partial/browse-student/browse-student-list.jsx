@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import List from "../../../component/list";
 import { graphql } from "../../../../helper/api-helper";
 import { BrowseStudentCard } from "./browse-student-card";
-import { getCfTitle } from "../../../redux/actions/auth-actions";
+import { getCfTitle, isRoleRec, isRoleAdmin } from "../../../redux/actions/auth-actions";
 
 export class BrowseStudentList extends React.Component {
     constructor(props) {
@@ -34,7 +34,7 @@ export class BrowseStudentList extends React.Component {
             <BrowseStudentCard
                 company_id={this.props.company_id}
                 privs={this.props.privs}
-                isRec={this.props.isRec}
+                isRec={isRoleRec()}
                 data={d}
                 index={i}
                 search={""}
@@ -47,7 +47,6 @@ export class BrowseStudentList extends React.Component {
             page: page,
             offset: offset,
             filterStr: this.props.filterStr,
-            isRec: this.props.isRec,
             company_id: this.props.company_id
         })
     }
@@ -126,7 +125,9 @@ export class BrowseStudentList extends React.Component {
 
         return (
             <div className="browse-student-list">
-                <h1>Student Listing</h1>
+                <h1>
+                    Student Listing {isRoleAdmin() ? <small><br></br>{this.props.company_name}</small> : ""}
+                </h1>
                 {this.getFilterDescription()}
                 {v}
             </div>
@@ -141,7 +142,7 @@ BrowseStudentList.propTypes = {
     disabledFilter: PropTypes.object,
     privs: PropTypes.object,
     company_id: PropTypes.number,
-    isRec: PropTypes.bool,
+    company_name: PropTypes.string,
     getQueryParam: PropTypes.func
 }
 

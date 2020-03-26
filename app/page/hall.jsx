@@ -48,6 +48,7 @@ export default class HallPage extends React.Component {
     this.getHighlight = this.getHighlight.bind(this);
     this.CFDetail = getCFObj();
     this.title = this.CFDetail.title;
+    this.title = this.title.replaceAll("<br>"," ")
 
   
     this.authUser = getAuthUser();

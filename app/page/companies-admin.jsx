@@ -14,6 +14,7 @@ import { Redirect, NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
 import { CompanyEnum, Company } from '../../config/db-config';
 import { AppPath } from '../../config/app-config';
+import GeneralFormPage from '../component/general-form.js';
 
 function createCompanyTitleLink(d, search = "") {
     if (d == null) {
@@ -51,6 +52,9 @@ class CompaniesPage extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
+        this.searchFormOnSubmit = this.searchFormOnSubmit.bind(this);
+        this.getMainQueryParam = this.getMainQueryParam.bind(this);
+        this.loadData = this.loadData.bind(this);
         this.state = {
             error: null,
             disableSubmit: false,
@@ -59,20 +63,53 @@ class CompaniesPage extends React.Component {
         };
     }
 
+    searchFormOnSubmit(d) {
+        this.search = d;
+        this.searchParams = "";
+
+        this.searchParamGet = (key, val) => {
+            return val != "" && typeof val !== "undefined" && val != null
+                ? `${key}:"${val}",`
+                : "";
+        };
+
+        for (var i in d) {
+            if (Array.isArray(d[i])) {
+                try {
+                    d[i] = d[i][0];
+                } catch (err) {
+                    d[i] = "";
+                }
+            }
+        }
+
+        if (d != null) {
+            this.searchParams += this.searchParamGet("search_name", d.search_name);
+        }
+        this.setState(prevState => {
+            return { search: d };
+        });
+    }
+
     componentWillMount() {
         this.offset = 5;
         this.tableHeader = <thead>
             <tr>
                 <th>#</th>
                 <th>ID</th>
-                <th>CF</th>
                 <th>Company</th>
-                <th>About</th>
-                <th>Privilege</th>
-                <th>Export Data</th>
+                <th>Details</th>
+                <th>Student Listing <br></br><small>(Export excel here)</small></th>
                 <th>Recruiters</th>
             </tr>
         </thead>;
+
+        this.searchFormItem = [{
+            label: "Company Name",
+            name: "search_name",
+            type: "text",
+            placeholder: "Shell"
+        }];
 
         this.addFormItem = [
             {
@@ -96,7 +133,7 @@ class CompaniesPage extends React.Component {
         var params = {
             include_sponsor: 1,
             order_by: "updated_at desc",
-            page: page, 
+            page: page,
             offset: offset
         };
 
@@ -104,15 +141,17 @@ class CompaniesPage extends React.Component {
             params["cf"] = getCF();
         }
 
+        // status
+        // accept_prescreen
+
+
         return getAxiosGraphQLQuery(`
         query{
-            companies(${obj2arg(params, { noOuterBraces: true })}){
+            companies(${this.getMainQueryParam(page, offset)}){
                 ID
-                cf
                 name
+                cf
                 type
-                status
-                accept_prescreen
                 sponsor_only
                 recruiters{
                     ID user_email
@@ -121,6 +160,22 @@ class CompaniesPage extends React.Component {
             }
         }`);
     };
+
+    getMainQueryParam(page, offset) {
+        var params = {
+            include_sponsor: 1,
+            order_by: "updated_at desc",
+            page: page,
+            offset: offset
+        };
+        if (isRoleOrganizer()) {
+            params["cf"] = getCF();
+        }
+
+        let r = (this.searchParams ? this.searchParams : "")
+            + " " + obj2arg(params, { noOuterBraces: true });
+        return r;
+    }
 
     renderList(d, i) {
         var row = [];
@@ -132,7 +187,7 @@ class CompaniesPage extends React.Component {
 
 
         // data from query
-        var dismiss = ["type", "sponsor_only", "accept_prescreen"];
+        var dismiss = ["type", "sponsor_only", "accept_prescreen", "priviledge"];
         var recs = null;
         for (var key in d) {
             if (dismiss.indexOf(key) >= 0) {
@@ -150,29 +205,43 @@ class CompaniesPage extends React.Component {
                     <br></br>
                     {CompanyEnum.getTypeStr(d.type)}
                 </td>);
-            } else if (key == "status") {
-                row.push(<td>
-                    <small>
-                        <ul className="normal">
-                            <li>{(d.status)}</li>
-                            {(d.sponsor_only) ? <li>Sponsor Only</li> : null}
-                            {(d.accept_prescreen) ? <li>Accept Prescreen</li> : null}
-                        </ul>
-                    </small>
-                </td>);
-            } else if (key == "recruiters") {
+            }
+            // else if (key == "status") {
+            //     row.push(<td>
+            //         <small>
+            //             <ul className="normal">
+            //                 <li>{(d.status)}</li>
+            //                 {(d.sponsor_only) ? <li>Sponsor Only</li> : null}
+            //                 {(d.accept_prescreen) ? <li>Accept Prescreen</li> : null}
+            //             </ul>
+            //         </small>
+            //     </td>);
+            // } 
+            else if (key == "recruiters") {
                 recs = d[key].map((rec, i) => {
                     return <li>{`${rec.user_email} (${rec.ID})`}</li>;
                 });
-            } else if (key == "priviledge") {
-                var privs = d[key];
+            } else if (key == "cf") {
+                var privs = d["priviledge"];
                 privs = CompanyEnum.parsePrivs(privs);
-                var privsList = privs.map((d, i) => {
-                    return <li>{d}</li>;
+                privs = privs.map((_d, i) => {
+                    return <span>{_d}, </span>;
                 });
-                row.push(<td>{privsList}</td>);
-            } else if (key == "cf" && d.cf.length > 1) {
-                row.push(<td>{JSON.stringify(d.cf)}</td>);
+
+
+                var cf = d.cf.map((_d, i) => {
+                    return <span>{_d}, </span>;
+                });
+
+                let detail = <div>
+                    <b><u>Career Fair</u></b><br></br>
+                    {cf}
+                    <br></br><br></br>
+                    <b><u>Privilege</u></b><br></br>
+                    {privs}
+                </div>
+                row.push(<td>{detail}</td>);
+
             }
             else {
                 row.push(<td>{d[key]}</td>);
@@ -182,25 +251,28 @@ class CompaniesPage extends React.Component {
         // {d.accept_prescreen ? <ButtonExport action="prescreens" text="Prescreens"
         //         filter={{ company_id: d.ID }}></ButtonExport> : null}
         //export data
-        row.push(<td className="text-center">
-            <ButtonExport action="student_listing" text="Student Listing"
-                filter={{ company_id: d.ID, cf: getCF() }}></ButtonExport>
-            {/* <ButtonExport action="prescreens" text="Prescreens"
-                filter={{ company_id: d.ID }}></ButtonExport> */}
-            {/* <ButtonExport action="resume_drops" text="Resume Drops"
-                filter={{ company_id: d.ID }}></ButtonExport> */}
-            {/* <ButtonExport action="sessions" text="Past Sessions"
-                filter={{ company_id: d.ID }}></ButtonExport> */}
-            {/* <ButtonExport action="session_requests" text="Session Request"
-                filter={{ company_id: d.ID }}></ButtonExport> */}
-        </td>);
+        // row.push(<td className="text-center">
+        //     <ButtonExport action="student_listing" text="Student Listing"
+        //         filter={{ company_id: d.ID, cf: getCF() }}></ButtonExport>
+        //     {/* <ButtonExport action="prescreens" text="Prescreens"
+        //         filter={{ company_id: d.ID }}></ButtonExport> */}
+        //     {/* <ButtonExport action="resume_drops" text="Resume Drops"
+        //         filter={{ company_id: d.ID }}></ButtonExport> */}
+        //     {/* <ButtonExport action="sessions" text="Past Sessions"
+        //         filter={{ company_id: d.ID }}></ButtonExport> */}
+        //     {/* <ButtonExport action="session_requests" text="Session Request"
+        //         filter={{ company_id: d.ID }}></ButtonExport> */}
+        // </td>);
+
+        // student listing
+        row.push(<td><NavLink className="btn btn-gray btn-round-5" to={`${AppPath}/browse-student-company/${d.ID}`}>View Student Listing</NavLink></td>)
 
         //recruiter
         row.push(<td>
             <ul>{recs}</ul>
         </td>);
 
-        return <tr>{row}</tr>;
+        return row;
     };
 
     getDataFromRes(res) {
@@ -227,13 +299,27 @@ class CompaniesPage extends React.Component {
                 </div>
             }
             <h3>Companies</h3>
-            <List type="table"
+            {/* <List type="table"
                 tableHeader={this.tableHeader}
                 getDataFromRes={this.getDataFromRes}
                 loadData={this.loadData}
                 offset={this.offset}
                 key={this.state.key}
-                renderList={this.renderList}></List>
+                renderList={this.renderList}></List> */}
+
+            <GeneralFormPage
+                tableHeader={this.tableHeader}
+                hasResetFilter={false}
+                searchFormNonPopup={true}
+                searchFormItem={this.searchFormItem}
+                searchFormOnSubmit={this.searchFormOnSubmit}
+                entity_singular={"Company"}
+                noMutation={true}
+                dataOffset={this.offset}
+                renderRow={this.renderList}
+                getDataFromRes={this.getDataFromRes}
+                loadData={this.loadData}
+            />
         </div>);
     }
 }

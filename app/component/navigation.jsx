@@ -142,32 +142,7 @@ function getMenuItem(COMING_SOON) {
       hd_auth: true
     },
     // ###############################################################
-    // VOLUNTEER
-    {
-      url: "/manage-scheduled-interview",
-      label: "Manage Scheduled Interview",
-      icon: "building",
-      component: VolunteerScheduledInterview,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      disabled: !isRoleVolunteer() && !isRoleAdmin()
-    },
-    // ###############################################################
     // ADMIN
-    {
-      // Admin Only
-      url: "/students",
-      label: "Students",
-      icon: "user",
-      component: UsersPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
-    },
     {
       // Admin Only
       url: "/companies",
@@ -176,7 +151,20 @@ function getMenuItem(COMING_SOON) {
       component: CompaniesPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
+    },
+    {
+      url: "/manage-events",
+      // EUR FIX
+      //label: "Auditorium",
+      label: "Manage Events",
+      icon: "microphone",
+      component: EventManagement,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -188,7 +176,7 @@ function getMenuItem(COMING_SOON) {
       component: RecruiterPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -200,9 +188,36 @@ function getMenuItem(COMING_SOON) {
       component: ManageHallGallery,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
+    },
+    // ###############################################################
+    // NOT AS IMPORTANT
+    {
+      // Admin Only
+      url: "/students",
+      label: "Students",
+      icon: "user",
+      component: UsersPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
+    },
+    // ###############################################################
+    // VOLUNTEER
+    {
+      url: "/manage-scheduled-interview",
+      label: "Manage Scheduled Interview",
+      icon: "building",
+      component: VolunteerScheduledInterview,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleVolunteer() && !isRoleAdmin()
     },
     {
       // Admin Only
@@ -212,7 +227,7 @@ function getMenuItem(COMING_SOON) {
       component: DashboardPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -224,7 +239,7 @@ function getMenuItem(COMING_SOON) {
       component: AnalyticPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       default_param: { current: "subscriber" },
       disabled: !isRoleAdmin()
@@ -255,19 +270,6 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleStudent()
     },
     {
-      url: "/manage-events",
-      // EUR FIX
-      //label: "Auditorium",
-      label: "Manage Events",
-      icon: "microphone",
-      component: EventManagement,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
-    },
-    {
       url: "/browse-student",
       label: "All Students",
       icon: "users",
@@ -276,7 +278,17 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: IsRecruiterNewHall ? false : true,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
+      disabled: !isRoleRec()
+    },
+    {
+      url: "/browse-student-company/:id",
+      component: BrowseStudent,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: IsRecruiterNewHall ? false : true,
+      hd_auth: false,
+      routeOnly: true,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
     {
       url: "/interested-student",
@@ -369,7 +381,7 @@ function getMenuItem(COMING_SOON) {
     //     // is not coming soon and one of the row then show = !disabled
     //     disabled: isDisabled("career-fair", COMING_SOON)
     // },
-   
+
     // {
     //   url: "/my-activity/:current",
     //   label: isRoleRec() ? "All Students" : "My Activity",
@@ -396,7 +408,7 @@ function getMenuItem(COMING_SOON) {
     //   default_param: { current: "all-student" },
     //   disabled: !isRoleRec()
     // },
-   
+
     {
       url: "/rec-current-event",
       label: "Event",
@@ -405,10 +417,10 @@ function getMenuItem(COMING_SOON) {
       bar_app: true,
       bar_auth: false,
       // hd_app: IsRecruiterNewHall ? false : true,
-      hd_app : true,
+      hd_app: true,
       hd_auth: false,
-      disabled: !isRoleRec() 
-    }, 
+      disabled: !isRoleRec()
+    },
     {
       url: "/company/:id/",
       label: "Company Profile",
@@ -416,9 +428,9 @@ function getMenuItem(COMING_SOON) {
       component: CompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app : true,
+      hd_app: true,
       hd_auth: false,
-      default_param: { id: getAuthUser().rec_company},
+      default_param: { id: getAuthUser().rec_company },
       disabled: !isRoleRec()
     },
     {
@@ -427,7 +439,7 @@ function getMenuItem(COMING_SOON) {
       bar_app: true,
       bar_auth: false,
       // hd_app: IsRecruiterNewHall ? false : true,
-      hd_app : true,
+      hd_app: true,
       hd_auth: false,
       routeOnly: true,
       default_param: { id: getAuthUser().rec_company, current: "about" },
@@ -457,7 +469,7 @@ function getMenuItem(COMING_SOON) {
       default_param: { current: "session" },
       //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
       // remove mmy activity from student
-      disabled: isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
+      disabled: isRoleAdmin() || isRoleOrganizer() || isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
     },
     {
       // Admin Only
@@ -469,7 +481,7 @@ function getMenuItem(COMING_SOON) {
       component: AuditoriumManagement,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
@@ -504,7 +516,7 @@ function getMenuItem(COMING_SOON) {
       component: Overview,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
       // EUR FIX
       disabled: !isRoleAdmin()
@@ -920,7 +932,7 @@ export function getBar(
       </li>
     );
 
-    console.log("d.has_external_url",d.has_external_url);
+    console.log("d.has_external_url", d.has_external_url);
 
     // handle for normal url or popup
     if (d.is_popup == true) {
@@ -935,7 +947,7 @@ export function getBar(
           {item_li}
         </a>
       );
-    } 
+    }
     else if (d.has_external_url == true) {
       return (
         <a
@@ -946,7 +958,7 @@ export function getBar(
           {item_li}
         </a>
       );
-    } 
+    }
     else {
       return (
         <NavLink
