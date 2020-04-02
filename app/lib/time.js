@@ -189,6 +189,21 @@ Time.prototype.getPeriodString = function (start, end, dates) {
     }
 }
 
+
+Time.prototype.isUnixToday = function (unixtimestamp) {
+    var date = new Date();
+    let y = date.getFullYear();
+    let m = date.getMonth();
+    let d = date.getDate();
+
+    var startToday = new Date(y, m, d);
+    startToday = startToday.getTime() / 1000;
+    var endToday = new Date(y, m, d, 23, 59, 59);
+    endToday = endToday.getTime() / 1000;
+
+   return unixtimestamp >= startToday && unixtimestamp <= endToday;
+};
+
 Time.prototype.getUnixTimestampNow = function () {
     var date = new Date();
     return Math.round(date.getTime() / 1000);

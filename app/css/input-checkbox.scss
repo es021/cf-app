@@ -1,4 +1,10 @@
 .checkbox-style-1 {
+  // &.lg{
+  //   label{
+  //     font-size: 40px;
+  //   }
+  // }
+
   .cb1-container {
     font-weight: initial;
     display: block;
@@ -76,6 +82,21 @@
   }
   // ####################################
   // size variation
+  // medium
+  .cb1-container.medium {
+    font-size: 14px;
+    padding-left: 22px;
+    .cb1-checkmark {
+      height: 18px;
+      width: 18px;
+    }
+    .cb1-checkmark:after {
+      left: 5px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+    }
+  }
   // small
   .cb1-container.small {
     font-size: 12px;

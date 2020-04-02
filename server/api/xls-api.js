@@ -88,7 +88,9 @@ class XLSApi {
       {
           student_id
           student{
-              university country_study available_month available_year
+              university country_study 
+              graduation_month graduation_year
+              available_month available_year
               ID first_name last_name user_email description 
               doc_links {type label url} field_study{val} looking_for_position{val}
     }}} `;

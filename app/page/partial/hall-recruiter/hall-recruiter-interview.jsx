@@ -156,7 +156,7 @@ class InterviewList extends React.Component {
       let parentContainer = parentCard.parentNode;
       let parentLbList = parentContainer.parentNode;
       animateHide(parentLbList);
-    
+
       getAxiosGraphQLQuery(q).then(data => { });
     };
 
@@ -605,7 +605,7 @@ class InterviewList extends React.Component {
   render() {
     var body = null;
     if (this.props.fetching) {
-      body = <div style={{padding:"20px 0px"}}><Loader isCenter={true} size="2" /></div>;
+      body = <div style={{ padding: "20px 0px" }}><Loader isCenter={true} size="2" /></div>;
     } else {
       body = this.populateList();
       if (this.props.list.length === 0) {
@@ -668,9 +668,52 @@ class HallRecruiterInterview extends React.Component {
   constructor(props) {
     super(props);
     this.refresh = this.refresh.bind(this);
+    this.FILTER_TODAY = "FILTER_TODAY";
+    this.COUNTS = {};
+    this.FILTERS = [
+      {
+        key: this.FILTER_TODAY,
+        label: "Show Today's Only",
+        defaultChecked: false,
+      },
+      {
+        key: PrescreenEnum.STATUS_WAIT_CONFIRM,
+        label: "Pending",
+        defaultChecked: true,
+      },
+      {
+        key: PrescreenEnum.STATUS_RESCHEDULE,
+        label: "Reschedule Requested",
+        defaultChecked: true,
+      },
+      {
+        key: PrescreenEnum.STATUS_APPROVED,
+        label: "Confirmed",
+        defaultChecked: true,
+      },
+      {
+        key: PrescreenEnum.STATUS_STARTED,
+        label: "Started",
+        defaultChecked: true,
+      },
+      {
+        key: PrescreenEnum.STATUS_ENDED,
+        label: "Ended",
+        defaultChecked: false,
+      },
+      {
+        key: PrescreenEnum.STATUS_REJECTED,
+        label: "Rejected",
+        defaultChecked: false,
+      }
+    ]
 
-    this.state = {
+    this.state = {}
+    for (var i in this.FILTERS) {
+      let f = this.FILTERS[i]
+      this.state[f.key] = f.defaultChecked
     }
+
   }
 
   componentWillMount() {
@@ -684,7 +727,6 @@ class HallRecruiterInterview extends React.Component {
     this.props.loadActivity(hallAction.ActivityType.PRESCREEN);
   }
   toggleShowMore(key) {
-
     this.setState((prevState) => {
       let k = "is_show_more_" + key;
       let toRet = {};
@@ -693,15 +735,102 @@ class HallRecruiterInterview extends React.Component {
     })
   }
 
+  getFilterItem({ key, label, defaultChecked }) {
+    let count = this.COUNTS[key];
+    count = count ? count : 0;
+    if (key == this.FILTER_TODAY) {
+      count = null
+    } else {
+      count = ` (${count}) `;
+    }
+
+    return <div className="checkbox-style-1" style={{ marginRight: "20px" }}>
+      <label className={`cb1-container medium green text-muted ${this.state[key] ? "text-bold" : ""}`}>
+        {label}{count}
+        <input
+          disabled={false}
+          className={"bsf-input"}
+          type="checkbox"
+          defaultChecked={this.state[key]}
+          // checked={}
+          data-key={key}
+          onChange={(e) => {
+            let key = e.currentTarget.dataset.key;
+            let checked = e.currentTarget.checked;
+            this.updateFilter(key, checked);
+          }} />
+        <span className="cb1-checkmark"></span>
+      </label>
+    </div>
+  }
+  updateFilter(key, checked) {
+    this.setState((prevState) => {
+      let toRet = {};
+      toRet[key] = checked;
+      return toRet;
+    })
+  }
   getFilter() {
-    return null;
+    // return null;
     return <div className="flex-wrap-start" style={{ padding: "10px 15px" }}>
-      <div><input type="checkbox"></input> sadfasdf</div>
-      <div><input type="checkbox"></input> sadfasdf</div>
-      <div><input type="checkbox"></input> sadfasdf</div>
+      {this.FILTERS.map((d, i) => {
+        return this.getFilterItem(d);
+      })}
     </div>
   }
 
+  filterList(list) {
+    let toRet = [];
+    let counts = {};
+    var pushed = {};
+    // counts[this.FILTER_TODAY] = 0;
+
+    const pushItem = (toRet, d) => {
+      if (!pushed[d.ID]) {
+        pushed[d.ID] = true;
+        toRet.push(d)
+      }
+      return toRet;
+    }
+
+    let statusChecked = [];
+    for (let key in this.state) {
+      if (this.state[key] === true) {
+        statusChecked.push(key);
+      }
+    }
+
+    for (let i in list) {
+      let d = list[i];
+
+      // by status
+      if (!counts[d.status]) {
+        counts[d.status] = 0;
+      }
+      counts[d.status]++;
+      if (statusChecked.indexOf(d.status) >= 0) {
+        if (this.state[this.FILTER_TODAY]) {
+          if (Time.isUnixToday(d.appointment_time)) {
+            toRet = pushItem(toRet, d);
+          }
+        } else {
+          toRet = pushItem(toRet, d);
+        }
+      }
+
+      // by this.FILTER_TODAY
+      // if (Time.isUnixToday(d.appointment_time)) {
+      //   counts[this.FILTER_TODAY]++;
+      //   if (this.state[this.FILTER_TODAY]) {
+      //     toRet = pushItem(toRet, d);
+      //   }
+      // }
+
+    }
+
+    this.COUNTS = counts;
+    return toRet;
+  }
   render() {
     var d = this.props.activity;
 
@@ -735,8 +864,9 @@ class HallRecruiterInterview extends React.Component {
     // 4. fetching
     let fetching = d.fetching.prescreens;
     let list = d.prescreens
-    let total = list.length;
-
+    // let grandTotal = list.length;
+    list = this.filterList(list);
+    // let total = list.length;
 
     // 5. view
     let listView = <InterviewList
@@ -753,14 +883,16 @@ class HallRecruiterInterview extends React.Component {
 
     var v = <div>
       <ListBoard
+        key={JSON.stringify(this.state)}
         action_icon="plus"
         action_text="Schedule New Interview"
         action_to={`browse-student`}
         icon={"video-camera"}
         title={
           <span>
-            My Interviews {total > 0 ? ` (${total}) ` : null}
-          {" "}
+            My Interviews
+            {/* <small>{grandTotal > 0 ? ` (showing ${total}/${grandTotal}) ` : null}</small> */}
+            {" "}
             <a onClick={this.refresh} className="btn-link text-bold">
               <small><i className="fa fa-refresh"></i></small>
             </a>
