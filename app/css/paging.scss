@@ -1,4 +1,6 @@
-$THEME: #22537c;
+@import "define/variable.scss";
+
+$THEME: $COLOR-SEEDS;
 .paging {
 	margin: 25px 0px;
   .pg-btn-items {

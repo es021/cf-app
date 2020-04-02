@@ -1,11 +1,13 @@
+@import "define/variable.scss";
+
 .list-board {
   // min-width: 400px;
   // max-width: 400px;
   width: 100%;
   margin-bottom: 55px;
-  box-shadow: 1px 3px 4px 1px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  overflow: hidden;
+  // box-shadow: 1px 3px 4px 1px rgba(0, 0, 0, 0.4);
+  // border-radius: 5px;
+  // overflow: hidden;
 
   // .lb-action {
   // 	padding: 13px 10px;
@@ -29,12 +31,18 @@
     background: whitesmoke;
   }
 
+  .paging{
+    margin: 15px 0px;
+  }
+
   .lb-title {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     text-align: left;
-    padding: 7px 15px;
-    background: whitesmoke;
+    padding: 7px 0px;
+    margin-bottom: 10px;
+    color: $COLOR-SEEDS;
+    // background: whitesmoke;
     // border-bottom: 1px solid #c1c1c1;
 
     .lb-action {
@@ -52,17 +60,38 @@
     border-bottom: 1px solid #d2d2d2;
   }
 
+  .lb-filter {
+    background: white;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 6px -3px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
   .lb-list {
+    box-shadow: 1px 1px 6px -3px rgba(0, 0, 0, 0.4);
+    // box-shadow: 1px 3px 4px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
     margin: 0;
     // padding: 10px 0px;
     background: white;
-    .list-empty-text{
+    .list-empty-text {
       font-style: italic;
       padding: 20px 5px;
     }
   }
-
+  
+  .lb-list-header {
+    border-bottom: 1px solid $COLOR-SEEDS;
+    color: #828284;
+    padding: 7px 0px;
+  }
   .lb-list-item {
     border-bottom: 1px solid #d2d2d2;
+  }
+
+  .lb-list-item:nth-child(odd) {
+    background-color: #fcfcfd;
   }
 }

@@ -408,6 +408,7 @@ const PrescreenType = new GraphQLObjectType({
 		company_id: __.Int,
 		status: __.String,
 		pic: __.String,
+		note: __.String,
 		special_type: __.String,
 		appointment_time: __.Int,
 

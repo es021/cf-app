@@ -387,128 +387,19 @@ class ActvityList extends React.Component {
     var mes = "";
     if (status === PrescreenEnum.STATUS_APPROVED) {
       mes += "Approving";
+      mes += ` Scheduled Call with ${other_name} ?`;
     }
     if (status === PrescreenEnum.STATUS_REJECTED) {
       mes += "Rejecting";
+      mes += ` Scheduled Call with ${other_name} ?`;
+    }
+    if (status === PrescreenEnum.STATUS_RESCHEDULE) {
+      mes += "Requesting For Reschedule";
+      mes += ` with ${other_name} ?`;
     }
 
-    mes += ` Scheduled Call with ${other_name} ?`;
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
-
-  // getTimeStrNew(unixtime, showTimeOnly, customText) {
-  //   const className = "time-container";
-
-  //   if (
-  //     unixtime === undefined &&
-  //     showTimeOnly === undefined &&
-  //     customText !== undefined
-  //   ) {
-  //     return <div className={className}>{customText}</div>;
-  //   }
-  //   // debug
-  //   // unixtime = (1552804854865/1000) + 500;
-  //   // let bodyToRet = null;
-
-  //   // let timeStr = Time.getString(unixtime);
-
-  //   // if (showTimeOnly) {
-  //   //   return timeStr;
-  //   // }
-
-  //   // let passedText = "Waiting For Recruiter";
-  //   // let happeningIn = Time.getHapenningIn(unixtime, {
-  //   //   passedText: isRoleStudent() ? passedText : null,
-  //   //   startCountMinute: 24 * 60 // 24 hours
-  //   // });
-
-  //   // if (happeningIn != null) {
-  //   //   if (happeningIn != passedText) {
-  //   //     happeningIn = <span>Starting In {happeningIn}</span>;
-  //   //   }
-  //   //   happeningIn = (
-  //   //     <div
-  //   //       style={{ marginBottom: "-6px", fontWeight: "bold" }}
-  //   //       className="text-primary"
-  //   //     >
-  //   //       {happeningIn}
-  //   //       <br />
-  //   //     </div>
-  //   //   );
-
-  //   //   bodyToRet = (
-  //   //     <span>
-  //   //       {happeningIn}
-  //   //       <br />
-  //   //       {timeStr}
-  //   //     </span>
-  //   //   );
-  //   // } else {
-  //   //   bodyToRet = timeStr;
-  //   // }
-
-  //   const createBody = timeStr => {
-  //     // 1. create happening in
-
-  //     if (showTimeOnly) {
-  //       return timeStr;
-  //     }
-
-  //     let passedText = "Waiting For Recruiter";
-  //     let happeningIn = Time.getHapenningIn(unixtime, {
-  //       passedText: isRoleStudent() ? passedText : null,
-  //       startCountMinute: 24 * 60 // 24 hours
-  //     });
-
-  //     if (happeningIn != null) {
-  //       if (happeningIn != passedText) {
-  //         happeningIn = <span>Starting In {happeningIn}</span>;
-  //       }
-  //       happeningIn = (
-  //         <div
-  //           style={{ marginBottom: "-6px", fontWeight: "bold" }}
-  //           className="text-primary"
-  //         >
-  //           {happeningIn}
-  //           <br />
-  //         </div>
-  //       );
-  //       return (
-  //         <span>
-  //           {happeningIn}
-  //           <br />
-  //           {timeStr}
-  //         </span>
-  //       );
-  //     } else {
-  //       return timeStr;
-  //     }
-  //   };
-
-  //   const createView = (body, toggler) => {
-  //     return (
-  //       <div className={className}>
-  //         {body}
-  //         <div style={{ marginTop: "5px" }} />
-  //         {toggler}
-  //       </div>
-  //     );
-  //   };
-
-  //   return (
-  //     <ToogleTimezone
-  //       createDefaultTime={unix => {
-  //         return Time.getString(unix);
-  //       }}
-  //       createAlternateTime={unix => {
-  //         return Time.getStringMas(unix);
-  //       }}
-  //       unixtimestamp={unixtime}
-  //       createBody={createBody}
-  //       createView={createView}
-  //     />
-  //   );
-  // }
 
   getTimeStrNew(unixtime, showTimeOnly, customText) {
     // debug
@@ -751,8 +642,6 @@ class ActvityList extends React.Component {
     var textStatus = "";
     switch (d.status) {
       case PrescreenEnum.STATUS_WAIT_CONFIRM:
-        // New Flow
-        if (isRoleStudent()) {
           btnAcceptReject = (
             <div>
               <div
@@ -765,11 +654,24 @@ class ActvityList extends React.Component {
                     PrescreenEnum.STATUS_APPROVED
                   );
                 }}
-                className="btn btn-sm btn-success"
+                className="btn btn-sm btn-green"
               >
                 Accept Interview
               </div>
-
+              <div
+                id={d.ID}
+                data-other_id={obj.ID}
+                data-other_name={obj.name}
+                onClick={e => {
+                  this.confirmAcceptRejectPrescreen(
+                    e,
+                    PrescreenEnum.STATUS_RESCHEDULE
+                  );
+                }}
+                className="btn btn-sm btn-blue"
+              >
+                Request For Reschedule
+              </div>
               <div
                 id={d.ID}
                 data-other_id={obj.ID}
@@ -780,18 +682,16 @@ class ActvityList extends React.Component {
                     PrescreenEnum.STATUS_REJECTED
                   );
                 }}
-                className="btn btn-sm btn-danger"
+                className="btn btn-sm btn-red"
               >
                 Reject Interview
               </div>
             </div>
           );
-        }
-        if (isRoleRec()) {
-          label_color_status = "primary";
-          textStatus = "Waiting Confirmation";
-          //crtSession = null;
-        }
+        break;
+      case PrescreenEnum.STATUS_RESCHEDULE:
+        label_color_status = "info";
+        textStatus = "Reschedule Requested";
         break;
       case PrescreenEnum.STATUS_REJECTED:
         label_color_status = "danger";
@@ -802,43 +702,6 @@ class ActvityList extends React.Component {
         removeEntityId = d.ID;
         break;
       case PrescreenEnum.STATUS_APPROVED:
-        if (isRoleRec()) {
-          if (
-            d.is_onsite_call == 1 &&
-            getCFObj()[CFSMeta.HALL_CFG_ONSITE_CALL_USE_GROUP] == 1
-          ) {
-            btnStartVCall = (
-              <div
-                data-appointment_time={d.appointment_time}
-                data-participant_id={obj.ID}
-                data-id={d.ID}
-                data-company_id={d.company_id}
-                onClick={e => {
-                  let eD = e.currentTarget.dataset;
-                  openLiveSession(eD.company_id);
-                  addLog(LogEnum.EVENT_CLICK_CONNECT_WITH_ONSITE, eD);
-                }}
-                className="btn btn-sm btn-success"
-              >
-                Connect With On-site
-              </div>
-            );
-          } else {
-            btnStartVCall = (
-              <div
-                data-appointment_time={d.appointment_time}
-                data-participant_id={obj.ID}
-                data-id={d.ID}
-                onClick={this.startVideoCallPreScreen.bind(this)}
-                className="btn btn-sm btn-success"
-              >
-                Start Video Call
-              </div>
-            );
-          }
-          break;
-        }
-
         label_color_status = "success";
         textStatus = "Accepted";
         break;
@@ -852,7 +715,6 @@ class ActvityList extends React.Component {
         hasRemove = true;
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
-
         break;
       case PrescreenEnum.STATUS_STARTED:
         let isExpiredHandler = () => {
@@ -933,27 +795,6 @@ class ActvityList extends React.Component {
           };
           openNotificationStart_PS();
         }
-        if (hasStart && isRoleRec()) {
-          // bukak start url
-          btnJoinVCall = (
-            <a
-              onClick={() =>
-                joinVideoCall(
-                  d.join_url,
-                  null,
-                  isExpiredHandler,
-                  null,
-                  d.ID,
-                  d.start_url
-                )
-              }
-              className="action btn btn-primary btn-sm"
-            >
-              Click To Rejoin
-            </a>
-          );
-        }
-
         break;
     }
     let labelStatus = (

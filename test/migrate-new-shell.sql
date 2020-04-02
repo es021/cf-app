@@ -20,3 +20,5 @@ INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES
 (NULL, 'SHELL', 'custom_style', '{\"HEADER_ICON\":\"shell_icon.png\",\"HEADER_ICON_URL\":\"https://seedsjobfair.com/virtual-fairs\",\"HEADER_DESC\":\"Powered By Seeds\"}'), 
 (NULL, 'SHELL', 'custom_feature', ''),
 (NULL, 'SHELL', 'organizations', '[]');
+
+

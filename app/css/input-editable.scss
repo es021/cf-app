@@ -1,0 +1,18 @@
+.popup-input-editable {
+  .fc-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form-row {
+      width: 90%;
+      max-width: 400px;
+
+      .form-header {
+        border-bottom: none;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+    }
+  }
+}

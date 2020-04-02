@@ -80,6 +80,7 @@ let scss = [
   "input-checkbox",
   "list-board",
   "paging",
+  "hall-recruiter",
 
   // kena letak bawah skali
   "custom-SHELL",

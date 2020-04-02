@@ -17,6 +17,33 @@
   background: linear-gradient($top, $bottom); /* Standard syntax */
 }
 
+@mixin button_color_outline($class, $color) {
+  .#{$class} {
+    color: $color;
+    border-color: $color;
+  }
+
+  .#{$class}:hover {
+    color: white;
+    background-color: $color;
+    border-color: $color;
+  }
+
+  .#{$class}.focus,
+  .#{$class}:focus,
+  .#{$class}.active,
+  .#{$class}:active {
+    color: white;
+    background-color: $color;
+    border-color: $color;
+  }
+
+  .#{$class}[disabled]:hover {
+    color: white;
+    background-color: $color;
+    border-color: $color;
+  }
+}
 @mixin button_color($class, $color, $text_color) {
   .#{$class} {
     color: $text_color;
@@ -34,11 +61,11 @@
   .#{$class}:focus,
   .#{$class}.active,
   .#{$class}:active {
-    color: $text_color;
+    color: $color;
     // background-color: darken($color, 10) !important;
     // border-color: darken($color, 15) !important;
-    background-color: darken($color, 10) ;
-    border-color: darken($color, 15) ;
+    // background-color: darken($color, 10) ;
+    // border-color: darken($color, 15) ;
   }
 
   .#{$class}[disabled]:hover {

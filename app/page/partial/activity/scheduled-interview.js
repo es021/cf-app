@@ -26,8 +26,50 @@ import {
   createUserMajorList
 } from "../popup/user-popup";
 
+export const appointmentTimeValidation = function (d) {
+  if (
+    d[Prescreen.APPNMENT_TIME + "_DATE"] ||
+    d[Prescreen.APPNMENT_TIME + "_TIME"]
+  ) {
+
+    let toRet = null;
+    toRet = Time.getUnixFromDateTimeInput(
+      d[Prescreen.APPNMENT_TIME + "_DATE"],
+      d[Prescreen.APPNMENT_TIME + "_TIME"]
+    );
+
+    // ##################################################
+    // appointment time must be bigger than current time
+    //if (this.props.isFormStudentListing) {
+    if (
+      d[Prescreen.APPNMENT_TIME + "_DATE"] &&
+      d[Prescreen.APPNMENT_TIME + "_TIME"]
+    ) {
+      if (Time.getUnixTimestampNow() > toRet) {
+        return `${Time.getString(toRet)} is not a valid appointment time. Please choose appointment time later than current time.`;
+      }
+    } else {
+      return "Please fill in Appointment Time and Appointment Date";
+    }
+    // }
+
+    // ##################################################
+    //appointment time must be only on the last day
+    // if (!isRoleAdmin()) {
+    //     var lastDay = Time.convertDBTimeToUnix(getCFObj().end);
+    //     if (d[Prescreen.APPNMENT_TIME] < lastDay && d[Prescreen.SPECIAL_TYPE] == PrescreenEnum.ST_NEXT_ROUND) {
+    //         return `Next Round interview only allowed to be scheduled on the last day of the Career Fair. Please change the appoinment date and time to be later than ${Time.getString(lastDay)}`;
+    //     }
+    // }
+
+    return toRet;
+  } else {
+    return "Please fill in Appointment Time and Appointment Date";
+  }
+}
+
 // Normal SI is limited to today for appmnt time
-export const isNormalSI = function(type) {
+export const isNormalSI = function (type) {
   var ar = [
     PrescreenEnum.ST_INTV_REQUEST,
     PrescreenEnum.ST_FORUM,
@@ -99,7 +141,7 @@ export function openSIFormAnytime(student_id, company_id) {
 
 // Create Scheduled Interview 2
 export function openSIAddForm(student_id, company_id, type, success) {
-  console.log("company_id",company_id)
+  console.log("company_id", company_id)
   if (!(student_id && isRoleAdmin())) {
     if (!(student_id && company_id)) {
       layoutActions.errorBlockLoader(
@@ -147,24 +189,24 @@ export class ScheduledInterview extends React.Component {
         <small>Click edit to set appointment time.</small>
       </span>
     ) : (
-      <span>
-        Scheduled Session
+        <span>
+          Scheduled Session
         <Tooltip
-          left="-62px"
-          bottom="28px"
-          width="150px"
-          content={
-            <small>
-              {" "}
-              <i className="fa fa-question-circle"></i>
-            </small>
-          }
-          tooltip={
-            "Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"
-          }
-        ></Tooltip>
-      </span>
-    );
+            left="-62px"
+            bottom="28px"
+            width="150px"
+            content={
+              <small>
+                {" "}
+                <i className="fa fa-question-circle"></i>
+              </small>
+            }
+            tooltip={
+              "Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"
+            }
+          ></Tooltip>
+        </span>
+      );
 
     this.successAddHandler = d => {
       if (this.props.formOnly) {
@@ -349,7 +391,7 @@ export class ScheduledInterview extends React.Component {
                   }
                 }
               }`;
-              //is_onsite_call
+      //is_onsite_call
       console.log(query);
       return getAxiosGraphQLQuery(query);
     };
@@ -423,40 +465,13 @@ export class ScheduledInterview extends React.Component {
 
       if (d.status == PrescreenEnum.STATUS_PENDING) {
         d[Prescreen.APPNMENT_TIME] = null;
-      }
-      // date time handling only for not pending only
-      else if (
-        d[Prescreen.APPNMENT_TIME + "_DATE"] ||
-        d[Prescreen.APPNMENT_TIME + "_TIME"]
-      ) {
-        d[Prescreen.APPNMENT_TIME] = Time.getUnixFromDateTimeInput(
-          d[Prescreen.APPNMENT_TIME + "_DATE"],
-          d[Prescreen.APPNMENT_TIME + "_TIME"]
-        );
-
-        // appointment time must be bigger than current time
-        if (this.props.isFormStudentListing) {
-          if (
-            d[Prescreen.APPNMENT_TIME + "_DATE"] &&
-            d[Prescreen.APPNMENT_TIME + "_TIME"]
-          ) {
-            if (Time.getUnixTimestampNow() > d[Prescreen.APPNMENT_TIME]) {
-              return `${Time.getString(
-                d[Prescreen.APPNMENT_TIME]
-              )} is not a valid appointment time. Please choose appointment time later than current time.`;
-            }
-          } else {
-            return "Please fill in Appointment Time and Appointment Date";
-          }
+      } else {
+        let response = appointmentTimeValidation(d);
+        if (typeof response === "string") {
+          return response;
+        } else {
+          d[Prescreen.APPNMENT_TIME] = response;
         }
-
-        //appointment time must be only on the last day
-        // if (!isRoleAdmin()) {
-        //     var lastDay = Time.convertDBTimeToUnix(getCFObj().end);
-        //     if (d[Prescreen.APPNMENT_TIME] < lastDay && d[Prescreen.SPECIAL_TYPE] == PrescreenEnum.ST_NEXT_ROUND) {
-        //         return `Next Round interview only allowed to be scheduled on the last day of the Career Fair. Please change the appoinment date and time to be later than ${Time.getString(lastDay)}`;
-        //     }
-        // }
       }
 
       delete d[Prescreen.APPNMENT_TIME + "_DATE"];
@@ -481,7 +496,7 @@ export class ScheduledInterview extends React.Component {
                 special_type
                 appointment_time}}`;
 
-                //                is_onsite_call
+      //                is_onsite_call
 
 
       return getAxiosGraphQLQuery(query).then(res => {
@@ -522,7 +537,7 @@ export class ScheduledInterview extends React.Component {
       if (typeof studentId !== "undefined") {
         query = `query{user(ID:${
           this.props.defaultFormItem[Prescreen.STUDENT_ID]
-        })
+          })
                     {ID
                     first_name
                     last_name}}`;

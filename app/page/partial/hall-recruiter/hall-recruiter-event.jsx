@@ -16,7 +16,8 @@ import { Time } from "../../../lib/time";
 import { NavLink } from "react-router-dom";
 import InputEditable from "../../../component/input-editable";
 import obj2arg from "graphql-obj2arg";
-import { getPicElement } from "../../hall-recruiter.jsx";
+
+import * as HallRecruiterHelper from "./hall-recruiter-helper";
 
 export default class HallRecruiterEvent extends React.Component {
   constructor(props) {
@@ -191,8 +192,8 @@ export default class HallRecruiterEvent extends React.Component {
     //   }}
     // />
 
-    let pic = getPicElement(d, "edit_event", "PIC");
-    v = <div className="lb-list-item text-left">
+    let pic = HallRecruiterHelper.getPicElement(d, "edit_event", "PIC");
+    v = <div className="text-left">
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-8 no-padding" style={{ padding: "10px 15px" }}>

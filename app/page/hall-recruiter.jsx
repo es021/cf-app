@@ -4,7 +4,8 @@ import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import HallRecruiterInterview from "./partial/hall-recruiter/hall-recruiter-interview";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
 import { RootPath } from "../../config/app-config";
-
+import { Prescreen, PrescreenEnum } from "../../config/db-config";
+import { Time } from "../lib/time";
 import {
   getCFObj,
   getAuthUser
@@ -12,48 +13,146 @@ import {
 import { ButtonAction } from "../component/buttons";
 import InputEditable from "../component/input-editable";
 import obj2arg from "graphql-obj2arg";
+import { appointmentTimeValidation } from "./partial/activity/scheduled-interview";
 
 // require("../css/hall.scss");''
+// export function getAppointmentTimeElement(d, happeningIn) {
+//   return <InputEditable
+//     editTitle={`Edit Appoinment Time`}
+//     val={d.appointment_time}
+//     data={{ ID: d.ID }}
+//     formWillSubmit={(dForm) => {
+//       let res = appointmentTimeValidation(dForm);
 
-export function getPicElement(d, mutation_edit, entity) {
-  let pic = <InputEditable
-    editTitle={`Edit ${entity}`}
-    val={d.pic}
-    data={{ ID: d.ID }}
-    formItems={(fixedName) => {
-      return [
-        {
-          name: fixedName,
-          type: "text",
-          placeholder: "John Doe, Sarah Hopper",
-        }
-      ]
-    }}
-    render={(val, loading, openEditPopup) => {
-      let notAssigned = <span className="text-muted"><i>No {entity} Assigned</i></span>;
-      let editing = <span className="text-muted"><i>Assigning {entity}. Please Wait.</i></span>;
-      let editIcon = <a><i onClick={openEditPopup} className="fa fa-pencil right btn-link"></i></a>;
+//       let val = typeof res !== "string" ? res : null;
+//       let err = typeof res === "string" ? res : null;
 
-      return <div className="text-muted-dark">
-        <small>
-          <i className="fa fa-user-circle left"></i><b>{entity}</b>{" : "}
-          {loading ? editing : <span>{!val ? notAssigned : val}{editIcon}</span>
-          }
-        </small>
-      </div >
-    }}
-    query={(data, newVal) => {
-      let upd = {
-        ID: data.ID,
-        pic: newVal,
-        updated_by: getAuthUser().ID
-      }
-      return `mutation { ${mutation_edit}(${obj2arg(upd, { noOuterBraces: true })}) { ID pic } }`
-    }}
-  />
+//       // console.log("valFromForm", dForm);
+//       // console.log("response", res);
+//       // kalau takde error tapi value sama je dgn yang dulu
+//       if (!err) {
+//         if (val == d.appointment_time) {
+//           err = "Please enter a different time from the current appointment time."
+//           val = null;
+//         }
+//       }
 
-  return pic;
-}
+//       return {
+//         val: val,
+//         error: err,
+//       }
+//     }}
+//     formItems={(fixedName) => {
+//       return [
+//         {
+//           header: <div>Current Appointment Time:<br></br>
+//             <small className="text-muted">{Time.getString(d.appointment_time, true)}</small>
+//             <br></br>
+//             <br></br>
+//           </div>
+//         },
+//         {
+//           header: <div>Enter A New Appointment Time:
+//           </div>
+//         },
+//         {
+//           name: Prescreen.APPNMENT_TIME + "_DATE",
+//           type: "date",
+//           placeholder: ""
+//         },
+//         {
+//           name: Prescreen.APPNMENT_TIME + "_TIME",
+//           type: "time",
+//           placeholder: ""
+//         }
+//       ]
+//     }}
+//     render={(val, loading, openEditPopup) => {
+//       let include_timezone = false;
+//       let timeStr = Time.getString(val, include_timezone);
+//       // timeStr = [timeStr, happeningIn]
+
+//       // let notAssigned = <span className="text-muted"><i>No {entity} Assigned</i></span>;
+//       let editing = <span className="text-muted"><i>Updating Appointment Time. Please Wait.</i></span>;
+//       let editIcon = null;
+//       if (d.status == PrescreenEnum.STATUS_WAIT_CONFIRM) {
+//         editIcon = <a className="btn-link-bright"><i onClick={openEditPopup} className="fa fa-edit left"></i></a>;
+//       } else {
+//         editIcon = <i className="text-muted fa fa-edit left"></i>;
+//       }
+
+//       return <span className="text-muted-dark">
+//         {loading ? editing : <span>{editIcon}{timeStr}</span>}
+//       </span >
+//     }}
+//     query={(data, newVal) => {
+//       let upd = {
+//         ID: data.ID,
+//         appointment_time: newVal,
+//         updated_by: getAuthUser().ID
+//       }
+//       return `mutation { edit_prescreen(${obj2arg(upd, { noOuterBraces: true })}) { ID appointment_time } }`
+//     }}
+//   />
+// }
+// export function getPicElement(d, mutation_edit, entity) {
+//   let pic = <InputEditable
+//     editTitle={`Edit ${entity}`}
+//     val={d.pic}
+//     data={{ ID: d.ID }}
+//     formItems={(fixedName) => {
+//       return [
+//         { header: `Edit ${entity}` },
+//         {
+//           name: fixedName,
+//           type: "text",
+//           placeholder: "John Doe, Sarah Hopper",
+//         }
+//       ]
+//     }}
+//     render={(val, loading, openEditPopup) => {
+//       let notAssigned = <span className="text-muted"><i>No {entity} Assigned</i></span>;
+//       let editing = <span className="text-muted"><i>Assigning {entity}. Please Wait.</i></span>;
+
+//       let content = null;
+
+//       // ##########################################
+//       // FOR EVENT
+//       if (mutation_edit == "edit_event") {
+//         let editIcon = <a className="btn-link-bright" onClick={openEditPopup}><i className="fa fa-edit right"></i></a>;
+//         content = <small>
+//           <i className="fa fa-user-circle left"></i>
+//           <b>{entity}</b>
+//           {" : "}
+//           {loading ? editing : <span>{!val ? notAssigned : val}{editIcon}</span>}
+//         </small>;
+//       }
+//       // ##########################################
+//       // FOR PRESCREEN
+//       else if (mutation_edit == "edit_prescreen") {
+//         // val = [<b>{entity}</b>, " : ", val];
+//         let editIcon = <a className="btn-link-bright" onClick={openEditPopup}><i className="fa fa-edit left"></i></a>;
+//         content = <div>
+//           {loading ? editing : <span>{editIcon}{!val ? notAssigned : val}</span>}
+//         </div>
+//       }
+
+//       return <div className="text-muted-dark">
+//         {content}
+//       </div >
+//     }}
+//     query={(data, newVal) => {
+//       let upd = {
+//         ID: data.ID,
+//         pic: newVal,
+//         updated_by: getAuthUser().ID
+//       }
+//       return `mutation { ${mutation_edit}(${obj2arg(upd, { noOuterBraces: true })}) { ID pic } }`
+//     }}
+//   />
+
+//   return pic;
+// }
 
 export default class HallRecruiterPage extends React.Component {
   constructor(props) {

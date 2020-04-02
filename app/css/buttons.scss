@@ -2,80 +2,87 @@
 @import "define/variable.scss";
 
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a.dark,
 .button-icon.dark {
-    color: lighten($COLOR_LINK, 10);
+  color: lighten($COLOR_LINK, 10);
 }
 
 a.dark:hover,
 .button-icon.dark:hover {
-    color: lighten($COLOR_LINK, 20);
+  color: lighten($COLOR_LINK, 20);
 }
 
-
-
 .btn {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .text.btn-link {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.btn-link-bright{
+    color: #0098e1
 }
 
 .text.btn-link:active {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .btn-delete-card {
-    position: absolute;
-    top: 0;
-    right: 5px;
-    padding: 0;
-    color: $COLOR-RED;
-    width: auto !important;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  padding: 0;
+  color: $COLOR-RED;
+  width: auto !important;
 }
 
 .btn-action {
-    margin: 10px 10px;
-    padding: 15px 20px;
-    // width: 350px;
-    max-width: 90vw;
-    box-shadow: 2px 3px 10px -1px rgba(0, 0, 0, 0.5);
-    border-radius: 15px !important;
+  margin: 10px 10px;
+  padding: 15px 20px;
+  // width: 350px;
+  max-width: 90vw;
+  box-shadow: 2px 3px 10px -1px rgba(0, 0, 0, 0.5);
+  border-radius: 15px !important;
 
-    .fa {
-        margin-bottom: 15px;
-    }
+  .fa {
+    margin-bottom: 15px;
+  }
 
-    .inner-link {
-        color: white;
-        text-decoration: underline;
-    }
-    .inner-link:hover{
-        font-weight: bold;
-    }
-    .inner-link:active{
-        font-weight: initial;
-        text-decoration: none;
-    }
+  .inner-link {
+    color: white;
+    text-decoration: underline;
+  }
+  .inner-link:hover {
+    font-weight: bold;
+  }
+  .inner-link:active {
+    font-weight: initial;
+    text-decoration: none;
+  }
 }
 
 @include button_color("btn-primary", $COLOR_DARK, white);
-@include button_color("btn-blue", #286090, white);
 @include button_color("btn-dark-green", #3f8726, white);
 @include button_color("btn-gray", #e4e6eb, #050505);
 
-.btn-bold{
-    font-weight: bold;
+@include button_color("btn-blue", #286090, white);
+@include button_color("btn-blue-light", #0098e1, white);
+@include button_color("btn-red", red, white);
+@include button_color("btn-green", #27ca27, white);
+@include button_color_outline("btn-green-outline", #27ca27);
+
+.btn-bold {
+  font-weight: bold;
 }
 
-.btn-round-5{
-    border-radius: 5px !important;
+.btn-round-5 {
+  border-radius: 5px !important;
 }
 
-.btn-round-10{
-    border-radius: 10px !important;
+.btn-round-10 {
+  border-radius: 10px !important;
 }

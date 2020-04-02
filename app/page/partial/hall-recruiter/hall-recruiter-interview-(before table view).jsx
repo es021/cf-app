@@ -50,9 +50,7 @@ import { openLiveSession } from "../hall/live-session";
 import { addLog } from "../../../redux/actions/other-actions";
 import ListBoard from "../../../component/list-board";
 import InputEditable from "../../../component/input-editable";
-
-import * as HallRecruiterHelper from "./hall-recruiter-helper";
-import { animateHide } from "../../view-helper/view-helper";
+import { getPicElement, getAppointmentTimeElement } from "../../hall-recruiter";
 
 // require("../../../css/border-card.scss");
 export function getTimeStrNew(d) {
@@ -80,21 +78,37 @@ export function getTimeStrNew(d) {
     }
   }
 
+
   // debug
   //unixtime = (1552804854865/1000) + 500;
+  // const className = "time-container";
+  // if (
+  //   unixtime === undefined &&
+  //   showTimeOnly === undefined &&
+  //   customText !== undefined
+  // ) {
+  //   return <div className={className}>{customText}</div>;
+  // }
+
+  // let include_timezone = true;
+  // let timeStr = Time.getString(unixtime, include_timezone);
+  let timeStr = getAppointmentTimeElement(d);
+
+
+  timeStr = <span><i className="fa fa-clock-o left"></i>{timeStr}</span>
+  if (showTimeOnly) {
+    return <div>{timeStr}</div>;
+  }
 
   let passedText = "Waiting For Recruiter";
   let happeningIn = Time.getHapenningIn(unixtime, {
     passedText: isRoleStudent() ? passedText : null,
-    // startCountMinute: 24 * 60 // 24 hours
-    startCountMinute: 4000 * 60 // 24 hours
+    startCountMinute: 24 * 60 // 24 hours
   });
 
-  if (showTimeOnly || happeningIn == null) {
-    return HallRecruiterHelper.getAppointmentTimeElement(d);
-  } else {
+  if (happeningIn != null) {
     if (happeningIn != passedText) {
-      happeningIn = <small>Starting In {happeningIn}</small>;
+      happeningIn = <span>Starting In {happeningIn}</span>;
     }
     happeningIn = (
       <div
@@ -104,7 +118,15 @@ export function getTimeStrNew(d) {
         {happeningIn}
       </div>
     );
-    return HallRecruiterHelper.getAppointmentTimeElement(d, happeningIn);
+    return (
+      <span>
+        {happeningIn}
+        <br />
+        {timeStr}
+      </span>
+    );
+  } else {
+    return timeStr;
   }
 }
 
@@ -148,15 +170,17 @@ class InterviewList extends React.Component {
       ins[EntityRemoved.USER_ID] = this.authUser.ID;
       let q = `mutation { add_entity_removed (${obj2arg(ins, {
         noOuterBraces: true
-      })}) { ID } }`;
+      })})
+                { ID } }`;
 
       let parentButton = e.currentTarget.parentNode;
       let parentPcBody = parentButton.parentNode;
       let parentCard = parentPcBody.parentNode;
-      let parentContainer = parentCard.parentNode;
-      let parentLbList = parentContainer.parentNode;
-      animateHide(parentLbList);
-    
+      parentCard.className = parentCard.className += "profile-card-hidden";
+      //console.log(parentCard);
+      setTimeout(() => {
+        parentCard.hidden = true;
+      }, 700);
       getAxiosGraphQLQuery(q).then(data => { });
     };
 
@@ -264,18 +288,13 @@ class InterviewList extends React.Component {
     var rejoinLink = null;
     var status = null;
     var time = null;
-
-    var status_obj = null;
-    // var status_text = null;
-    // var status_color = null;
-    // var status_icon = null;
-
+    var status_text = null;
+    var status_text_color = null;
     var removeEntity = null;
     var removeEntityId = null;
 
     let btnJoinVCall = null;
     var btnStartVCall = null;
-    var btnRejoinVCall = null;
     var btnRemoveVCall = null;
     var btnEndVCall = null;
     var btnAcceptReject = null;
@@ -295,80 +314,108 @@ class InterviewList extends React.Component {
 
     switch (d.status) {
       case PrescreenEnum.STATUS_WAIT_CONFIRM:
-        status_obj = HallRecruiterHelper.Status.STATUS_WAIT_CONFIRM;
-        // status_text = "Pending";
-        // status_color = "rgb(255, 169, 43)";
-        // status_icon = "clock-o"
+        // New Flow
+        if (isRoleStudent()) {
+          btnAcceptReject = (
+            <div>
+              <div
+                id={d.ID}
+                data-other_id={obj.ID}
+                data-other_name={obj.name}
+                onClick={e => {
+                  this.confirmUpdatePrescreen(
+                    e,
+                    PrescreenEnum.STATUS_APPROVED
+                  );
+                }}
+                className="btn btn-sm btn-success"
+              >
+                Accept Interview
+              </div>
 
-        break;
-      case PrescreenEnum.STATUS_RESCHEDULE:
-        status_obj = HallRecruiterHelper.Status.STATUS_RESCHEDULE;
-        // status_text = "Reschedule Requested";
-        // status_color = "rgb(17, 6, 26)";
-        // status_icon = "calendar"
-
+              <div
+                id={d.ID}
+                data-other_id={obj.ID}
+                data-other_name={obj.name}
+                onClick={e => {
+                  this.confirmUpdatePrescreen(
+                    e,
+                    PrescreenEnum.STATUS_REJECTED
+                  );
+                }}
+                className="btn btn-sm btn-danger"
+              >
+                Reject Interview
+              </div>
+            </div>
+          );
+        }
+        if (isRoleRec()) {
+          status_text = "Waiting confirmation from student";
+          status_text_color = "rgb(196, 120, 0)";
+          //crtSession = null;
+        }
         break;
       case PrescreenEnum.STATUS_REJECTED:
-        status_obj = HallRecruiterHelper.Status.STATUS_REJECTED;
-        // status_text = "Rejected";
-        // status_color = "red";
-        // status_icon = "warning"
-
+        status_text = "Interview rejected";
+        status_text_color = "red";
+        //crtSession = null;
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
         btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
         break;
       case PrescreenEnum.STATUS_APPROVED:
-        if (
-          d.is_onsite_call == 1 &&
-          getCFObj()[CFSMeta.HALL_CFG_ONSITE_CALL_USE_GROUP] == 1
-        ) {
-          btnStartVCall = (
-            <div
-              data-appointment_time={d.appointment_time}
-              data-participant_id={obj.ID}
-              data-id={d.ID}
-              data-company_id={d.company_id}
-              onClick={e => {
-                let eD = e.currentTarget.dataset;
-                openLiveSession(eD.company_id);
-                addLog(LogEnum.EVENT_CLICK_CONNECT_WITH_ONSITE, eD);
-              }}
-              className="btn btn-sm btn-success"
-            >
-              Connect With On-site
+        if (isRoleRec()) {
+          if (
+            d.is_onsite_call == 1 &&
+            getCFObj()[CFSMeta.HALL_CFG_ONSITE_CALL_USE_GROUP] == 1
+          ) {
+            btnStartVCall = (
+              <div
+                data-appointment_time={d.appointment_time}
+                data-participant_id={obj.ID}
+                data-id={d.ID}
+                data-company_id={d.company_id}
+                onClick={e => {
+                  let eD = e.currentTarget.dataset;
+                  openLiveSession(eD.company_id);
+                  addLog(LogEnum.EVENT_CLICK_CONNECT_WITH_ONSITE, eD);
+                }}
+                className="btn btn-sm btn-success"
+              >
+                Connect With On-site
               </div>
-          );
-        } else {
-          btnStartVCall = (
-            <div
-              data-appointment_time={d.appointment_time}
-              data-participant_id={obj.ID}
-              data-id={d.ID}
-              onClick={this.startVideoCallPreScreen.bind(this)}
-              className="btn btn-sm btn-green btn-round-5 btn-block btn-bold"
-            >
-              <i className="fa fa-video-camera left"></i>Start Call
+            );
+          } else {
+            btnStartVCall = (
+              <div
+                data-appointment_time={d.appointment_time}
+                data-participant_id={obj.ID}
+                data-id={d.ID}
+                onClick={this.startVideoCallPreScreen.bind(this)}
+                className="btn btn-sm btn-gray btn-round-5 btn-block"
+              >
+                <i className="fa fa-video-camera left"></i>Start Video Call
               </div>
-          );
+            );
+          }
+          break;
         }
-        // status_text = "Interview Accepted";
-        status_obj = HallRecruiterHelper.Status.STATUS_APPROVED;
-        // status_text = "Confirmed";
-        // status_color = "#00ab1b";
-        // status_icon = "check"
 
+        status_text = "Accepted";
         break;
       case PrescreenEnum.STATUS_ENDED:
+        // btnRemoveVCall = (
+        //   <div className="action btn btn-danger btn-sm" disabled="disabled">
+        //     Ended
+        //   </div>
+        // );
+
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
         btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
 
-        // status_text = "Video Call Ended";
-        status_obj = HallRecruiterHelper.Status.STATUS_ENDED;
-        // status_text = "Ended";
-        // status_color = "red";
-        // status_icon = "times"
+
         break;
       case PrescreenEnum.STATUS_STARTED:
         let isExpiredHandler = () => {
@@ -395,10 +442,9 @@ class InterviewList extends React.Component {
         var hasStart = false;
         if (!d.is_expired && d.join_url != "" && d.join_url != null) {
           hasStart = true;
-          status_obj = HallRecruiterHelper.Status.STATUS_STARTED;
-          // status_text = "Ongoing";
-          // status_color = "#0098e1";
-          // status_icon = "dot-circle-o";
+          status_text = "Video call started";
+          status_text_color = "#17a917";
+
         } else {
           time = getTimeStrNew(d, true);
 
@@ -408,31 +454,50 @@ class InterviewList extends React.Component {
           //   time = getTimeStrNew(d, false);
           // }
         }
-        if (hasStart) {
-          // bukak start url
-          // rejoinLink = <div>
-          //   <a
-          //     onClick={() =>
-          //       joinVideoCall(
-          //         d.join_url,
-          //         null,
-          //         isExpiredHandler,
-          //         null,
-          //         d.ID,
-          //         d.start_url
-          //       )
-          //     }
-          //     className="action btn-link"
-          //   >
-          //     <b><u>Click Here To Rejoin Video Call</u></b>
-          //   </a>
-          // </div>
+        if (hasStart && isRoleStudent()) {
+          // bukak join url
+          btnJoinVCall = (
+            <a
+              onClick={() =>
+                joinVideoCall(d.join_url, null, isExpiredHandler, null, d.ID)
+              }
+              className="btn btn-sm btn-gray btn-round-5 btn-block"
+            >
+              <i className="fa fa-sign-in left"></i>Join Video Call
+            </a>
+          );
 
-          btnRejoinVCall = (
-            <div
-              id={d.ID}
-              data-other_id={obj.ID}
-              data-other_name={obj.name}
+          const openNotificationStart_PS = () => {
+            // block loader to inform the video call has started
+            // if time updated is less than bufferMin
+            var bufferMin = 2;
+            var diff =
+              Time.getUnixTimestampNow() -
+              Time.convertDBTimeToUnix(d.updated_at);
+            if (diff <= bufferMin * 60) {
+              var popupBody = (
+                <div>
+                  <br />
+                  1-1 session with
+                  <br />
+                  <b>{obj.name}</b>
+                  <br />
+                  has started
+                  <br />
+                  <br />
+                  {btnJoinVCall}
+                </div>
+              );
+              var notiId = `pre-screen-${d.ID}`;
+              showNotification(notiId, popupBody);
+            }
+          };
+          openNotificationStart_PS();
+        }
+        if (hasStart && isRoleRec()) {
+          // bukak start url
+          rejoinLink = <div>
+            <a
               onClick={() =>
                 joinVideoCall(
                   d.join_url,
@@ -443,11 +508,11 @@ class InterviewList extends React.Component {
                   d.start_url
                 )
               }
-              className="btn btn-sm btn-blue-light btn-bold btn-round-5 btn-block"
+              className="action btn-link"
             >
-              <i className="fa fa-sign-in left"></i>Join Call
-            </div>
-          );
+              <b><u>Click Here To Rejoin Video Call</u></b>
+            </a>
+          </div>
 
           btnEndVCall = (
             <div
@@ -460,9 +525,9 @@ class InterviewList extends React.Component {
                   PrescreenEnum.STATUS_ENDED
                 );
               }}
-              className="btn btn-sm btn-red btn-bold btn-round-5 btn-block"
+              className="btn btn-sm btn-gray btn-round-5 btn-block"
             >
-              <i className="fa fa-times left"></i>End Call
+              <i className="fa fa-times left"></i>End Video Call
               </div>
           );
         }
@@ -473,14 +538,18 @@ class InterviewList extends React.Component {
     // finalize action
     action = [
       btnStartVCall,
-      btnRejoinVCall,
       btnEndVCall,
       d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null,
       d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null,
       d.status == PrescreenEnum.STATUS_ENDED || PrescreenEnum.STATUS_REJECTED ? btnRemoveVCall : null,
     ]
 
-    status = HallRecruiterHelper.getStatusElement(d, status_obj);
+    // finalize status
+    status = status_text == null ? null :
+      <div style={{ color: status_text_color }}>
+        <i className="fa fa-info-circle left" ></i>
+        {status_text}
+      </div>;
 
     return {
       time: time,
@@ -489,6 +558,7 @@ class InterviewList extends React.Component {
       rejoinLink: rejoinLink
     };
   }
+
   populateList() {
     return this.props.list.map((d, i) => {
       if (!this.props.isShowMore) {
@@ -506,18 +576,16 @@ class InterviewList extends React.Component {
 
       // 1. name
       var title = (
-        <div className="iv-title">
-          <ButtonLink
-            label={<div><b>{obj.first_name}</b>{" "}{obj.last_name}</div>}
-            onClick={() =>
-              layoutActions.storeUpdateFocusCard(
-                obj.first_name + " " + obj.last_name,
-                UserPopup,
-                { id: obj.ID }
-              )
-            }
-          />
-        </div>
+        <ButtonLink
+          label={<div><b>{obj.first_name}</b>{" "}{obj.last_name}</div>}
+          onClick={() =>
+            layoutActions.storeUpdateFocusCard(
+              obj.first_name + " " + obj.last_name,
+              UserPopup,
+              { id: obj.ID }
+            )
+          }
+        />
       );
 
       var objRenderHelper = this.renderHelper(d, obj);
@@ -540,39 +608,31 @@ class InterviewList extends React.Component {
       );
 
 
-      let pic = HallRecruiterHelper.getPicElement(d, "edit_prescreen", "Interviewer");
-      let note = HallRecruiterHelper.getNoteElement(d);
+
+
+      let pic = getPicElement(d, "edit_prescreen", "Interviewer");
       // renderList
       return <li
         className="lb-list-item text-left">
         <div className="container-fluid">
-          <div className="row" style={{ padding: "15px 10px" }}>
+          <div className="row" style={{ padding: "15px 7px" }}>
             {/* avatar */}
-            <div className="col-md-1 padding-sm container-avatar">
-              {avatar}<div className="md-and-less">{title}</div>
+            <div className="col-sm-1 ">
+              {avatar}
             </div>
             {/* name */}
-            <div className="col-md-2 padding-sm lg-and-more">
-              <div style={{ marginBottom: "8px", fontSize: "15px" }}>{title}</div>
+            <div className="col-sm-3 ">
+              <div style={{ marginBottom: "8px", fontSize: "16px" }}>{title}</div>
             </div>
-            {/* status */}
-            <div className="col-md-1 padding-sm">
-              <div style={{ marginBottom: "10px", fontSize: "12px" }}>{status}</div>
-            </div>
-            {/* time */}
-            <div className="col-md-2 padding-sm">
-              <div style={{ marginBottom: "4px", fontSize: "13px" }}>{time}</div>
-            </div>
-            {/* interviewer */}
-            <div className="col-md-2 padding-sm">
-              <div style={{ marginBottom: "4px", fontSize: "13px" }}>{pic}</div>
-            </div>
-            {/* note */}
-            <div className="col-md-2 padding-sm">
-              <div style={{ marginBottom: "10px", fontSize: "13px" }}>{note}</div>
+            {/* details */}
+            <div className="col-sm-6">
+              <div className="text-muted-dark"><small>{time}</small></div>
+              {pic}
+              {!status ? null : <div className="text-muted-dark"><small>{status}</small></div>}
+              {!rejoinLink ? null : <div className="text-muted-dark" style={{ marginTop: "13px" }}><small>{rejoinLink}</small></div>}
             </div>
             {/* action */}
-            <div className="col-md-2 padding-sm">
+            <div className="col-sm-2 ">
               <div style={{
                 textAlign: "left", margin: "auto",
               }}>
@@ -585,33 +645,93 @@ class InterviewList extends React.Component {
       </li>
     });
   }
-  getHeader() {
-    return <li
-      className="lb-list-header text-left">
-      <div className="container-fluid">
-        <div className="row" style={{ padding: "15px 10px" }}>
-          <div className="col-md-1 padding-sm container-avatar">Student</div>
-          <div className="col-md-2 padding-sm lg-and-more"></div>
-          <div className="col-md-1 padding-sm">Status</div>
-          <div className="col-md-2 padding-sm">Appointment Time</div>
-          <div className="col-md-2 padding-sm">Interviewer</div>
-          <div className="col-md-2 padding-sm">Note</div>
-          <div className="col-md-2 padding-sm"></div>
-        </div>
-      </div>
-    </li>
-  }
 
+
+  // populateList() {
+  //   return this.props.list.map((d, i) => {
+  //     if (!this.props.isShowMore) {
+  //       if (i >= this.LIMIT_SHOW_LESS) {
+  //         return null;
+  //       }
+  //     }
+
+  //     var action = null;
+  //     var obj = d.student;
+  //     if (typeof obj === "undefined") {
+  //       return false;
+  //     }
+  //     obj.name = obj.first_name + " " + obj.last_name;
+
+  //     // 1. name
+  //     var title = (
+  //       <ButtonLink
+  //         label={<div><b>{obj.first_name}</b>{" "}{obj.last_name}</div>}
+  //         onClick={() =>
+  //           layoutActions.storeUpdateFocusCard(
+  //             obj.first_name + " " + obj.last_name,
+  //             UserPopup,
+  //             { id: obj.ID }
+  //           )
+  //         }
+  //       />
+  //     );
+
+  //     var objRenderHelper = this.renderHelper(d, obj);
+  //     var action = objRenderHelper.action;
+  //     var time = objRenderHelper.time;
+  //     var status = objRenderHelper.status;
+  //     var rejoinLink = objRenderHelper.rejoinLink;
+
+  //     // var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
+  //     let isOnline = false;
+  //     if (isRoleRec()) {
+  //       isOnline = isUserOnline(this.props.online_users, obj.ID);
+  //     }
+  //     if (isRoleStudent()) {
+  //       isOnline = isCompanyOnline(this.props.online_companies, obj.ID);
+  //     }      
+
+  //     let pic = getPicElement(d, "edit_prescreen", "Interviwer");
+  //     // renderList
+  //     return <li
+  //       className="lb-list-item text-left">
+  //       <div className="container-fluid">
+  //         <div className="row">
+  //           <div className="col-sm-8 no-padding">
+  //             {/* left */}
+  //             <div style={{ padding: "13px 17px" }}>
+  //               <div style={{ marginBottom: "8px", fontSize: "16px" }}>{title}</div>
+  //               <div className="text-muted-dark"><small>{time}</small></div>
+  //               {pic}
+  //               {!status ? null : <div className="text-muted-dark"><small>{status}</small></div>}
+  //               {!rejoinLink ? null : <div className="text-muted-dark" style={{ marginTop: "13px" }}><small>{rejoinLink}</small></div>}
+  //             </div>
+  //           </div>
+  //           {/* right */}
+  //           <div className="col-sm-4 no-padding">
+  //             <div style={{
+  //               textAlign: "left", margin: "auto",
+  //               margin: "13px 17px", marginBottom: "17px"
+  //             }}>
+  //               {action}
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+
+  //     </li>
+  //   });
+  // }
   render() {
     var body = null;
     if (this.props.fetching) {
-      body = <div style={{padding:"20px 0px"}}><Loader isCenter={true} size="2" /></div>;
+      body = <Loader isCenter={true} size="2" />;
     } else {
       body = this.populateList();
       if (this.props.list.length === 0) {
         body = (
           <div className="text-muted list-empty-text">
-            <i>Nothing to show here.</i>
+            <i>Nothing to show here</i>
           </div>
         );
       }
@@ -636,18 +756,19 @@ class InterviewList extends React.Component {
       </div>;
     }
 
-    return <div className="hall-recruiter-interview" style={{
+
+    return <div style={{
       paddingBottom: "10px 0px",
-      // borderBottom: "40px solid #f5f5f5"
+      borderBottom: "40px solid #f5f5f5"
     }}>
-      {/* <div className="text-left lb-subtitle">
+      <div className="text-left lb-subtitle">
         <i className={`fa left fa-${this.props.icon}`}></i>
         {this.props.title} ({this.props.list.length})
-      </div> */}
-      <div className="lg-and-more">{this.getHeader()}</div>
+      </div>
       {body}
       {btnToggleShowMore}
     </div>;
+
   }
 }
 
@@ -664,6 +785,7 @@ InterviewList.defaultProps = {
 // ##################################################################################################################
 // ##################################################################################################################
 
+const sec = "act-sec";
 class HallRecruiterInterview extends React.Component {
   constructor(props) {
     super(props);
@@ -693,63 +815,75 @@ class HallRecruiterInterview extends React.Component {
     })
   }
 
-  getFilter() {
-    return null;
-    return <div className="flex-wrap-start" style={{ padding: "10px 15px" }}>
-      <div><input type="checkbox"></input> sadfasdf</div>
-      <div><input type="checkbox"></input> sadfasdf</div>
-      <div><input type="checkbox"></input> sadfasdf</div>
-    </div>
-  }
-
   render() {
     var d = this.props.activity;
 
     // 3. list
-    // let listActive = [];
-    // let listPending = [];
-    // let listEnded = [];
-    // for (var i in d.prescreens) {
+    let listActive = [];
+    let listPending = [];
+    let listEnded = [];
+    for (var i in d.prescreens) {
 
-    //   let newObj = d.prescreens[i];
-    //   newObj._type = hallAction.ActivityType.PRESCREEN;
+      let newObj = d.prescreens[i];
+      newObj._type = hallAction.ActivityType.PRESCREEN;
 
-    //   switch (newObj.status) {
-    //     case PrescreenEnum.STATUS_WAIT_CONFIRM:
-    //       listPending.push(newObj);
-    //       break;
-    //     case PrescreenEnum.STATUS_ENDED:
-    //       listEnded.push(newObj);
-    //       break;
-    //     case PrescreenEnum.STATUS_REJECTED:
-    //       listEnded.push(newObj);
-    //       break;
-    //     default:
-    //       listActive.push(newObj);
-    //       break;
-    //   }
+      switch (newObj.status) {
+        case PrescreenEnum.STATUS_WAIT_CONFIRM:
+          listPending.push(newObj);
+          break;
+        case PrescreenEnum.STATUS_ENDED:
+          listEnded.push(newObj);
+          break;
+        case PrescreenEnum.STATUS_REJECTED:
+          listEnded.push(newObj);
+          break;
+        default:
+          listActive.push(newObj);
+          break;
+      }
 
-    // }
+    }
 
 
     // 4. fetching
     let fetching = d.fetching.prescreens;
-    let list = d.prescreens
-    let total = list.length;
-
 
     // 5. view
-    let listView = <InterviewList
-      limitShowLess={50}
-      toggleShowMore={() => { this.toggleShowMore("all_list") }}
-      isShowMore={this.state["is_show_more_all_list"]}
-      // title="My Interviews"
-      // icon="star"
-      online_users={this.props.online_users}
-      online_companies={this.props.online_companies}
-      fetching={fetching}
-      list={list}
-    />
+    let list = <div>
+      <InterviewList
+        limitShowLess={2}
+        toggleShowMore={() => { this.toggleShowMore("active") }}
+        isShowMore={this.state["is_show_more_active"]}
+        title="Active Interviews"
+        icon="star"
+        online_users={this.props.online_users}
+        online_companies={this.props.online_companies}
+        fetching={fetching}
+        list={listActive}
+      />
+      <InterviewList
+        limitShowLess={1}
+        toggleShowMore={() => { this.toggleShowMore("pending") }}
+        isShowMore={this.state["is_show_more_pending"]}
+        title="Pending Interviews"
+        icon="clock-o"
+        online_users={this.props.online_users}
+        online_companies={this.props.online_companies}
+        fetching={fetching}
+        list={listPending}
+      />
+      <InterviewList
+        limitShowLess={1}
+        toggleShowMore={() => { this.toggleShowMore("ended") }}
+        isShowMore={this.state["is_show_more_ended"]}
+        title="Ended / Rejected Interviews"
+        icon="check-circle"
+        online_users={this.props.online_users}
+        online_companies={this.props.online_companies}
+        fetching={fetching}
+        list={listEnded}
+      />
+    </div>
 
     var v = <div>
       <ListBoard
@@ -759,15 +893,14 @@ class HallRecruiterInterview extends React.Component {
         icon={"video-camera"}
         title={
           <span>
-            My Interviews {total > 0 ? ` (${total}) ` : null}
+            My Interviews
           {" "}
             <a onClick={this.refresh} className="btn-link text-bold">
               <small><i className="fa fa-refresh"></i></small>
             </a>
           </span>
         }
-        filter={this.getFilter()}
-        customList={listView}
+        customList={list}
       >
       </ListBoard>
     </div>

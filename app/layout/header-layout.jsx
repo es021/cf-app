@@ -18,7 +18,8 @@ export default class HeaderLayout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.iconUrl = AppConfig.HeaderIconUrl;
+    // this.iconUrl = AppConfig.HeaderIconUrl;
+    this.iconUrl = null;
     this.icon = ImgConfig.AppIcon;
     this.title = getCFObj().title;
     this.desc = AppConfig.Desc;
@@ -31,7 +32,7 @@ export default class HeaderLayout extends React.Component {
       if (style[CustomCf.Style.HEADER_DESC]) this.desc = style[CustomCf.Style.HEADER_DESC]
     }
 
-    this.title = this.title.replaceAll("<br>"," ")
+    this.title = this.title.replaceAll("<br>", " ")
 
     console.log("this.iconUrl", this.iconUrl)
     console.log("this.icon", this.icon)
@@ -63,12 +64,14 @@ export default class HeaderLayout extends React.Component {
     return (
       <header className={HeaderClass}>
         <div className="img">
-          <NavLink to={`${RootPath}/app`}>
-            <img src={this.icon} />
-          </NavLink>
-          {/* <a target="_blank" href={this.iconUrl}>
-            <img src={this.icon} />
-          </a> */}
+          {this.iconUrl ?
+            <a target="_blank" href={this.iconUrl}>
+              <img src={this.icon} />
+            </a>
+            : <NavLink to={`${RootPath}/app`}>
+              <img src={this.icon} />
+            </NavLink>
+          }
         </div>
         <div className="title">
           <b>{this.title}</b>

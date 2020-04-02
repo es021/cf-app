@@ -45,24 +45,34 @@ export default class ListBoard extends React.Component {
                 // hideLoadMore={this.props.hideLoadMore}
                 offset={this.props.offset}
             />
-
         }
         let action = !this.props.action_text
             ? null
-            : <div>
-                <NavLink className="lb-action btn-link" to={AppPath + "/" + this.props.action_to}>
-                    <i className={`fa fa-${this.props.action_icon} left`}></i>
-                    {this.props.action_text}
-                </NavLink>
-            </div>
+            : <NavLink className="btn btn-md btn-round-5 btn-green-outline btn-bold" to={AppPath + "/" + this.props.action_to}>
+                <i className={`fa fa-${this.props.action_icon} left`}></i>
+                {this.props.action_text}
+            </NavLink>
+        // lb-action 
+
 
         return <div className="list-board">
-
+            {/* title */}
             <div className="lb-title">
-                <i className={`fa fa-${this.props.icon} left`}></i>
-                {this.props.title}
-                {action}
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-8 no-padding">
+                            <i className={`fa fa-${this.props.icon} left`}></i>
+                            {this.props.title}
+                        </div>
+                        <div className="col-md-4 no-padding text-right">
+                            {action}
+                        </div>
+                    </div>
+                </div>
             </div>
+            {/* filter */}
+            {this.props.filter ? <div className="lb-filter">{this.props.filter}</div> : null}
+            {/* list */}
             {list}
         </div>
     }

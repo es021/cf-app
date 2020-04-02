@@ -1,0 +1,23 @@
+@import "define/variable.scss";
+
+.hall-recruiter-interview {
+  .container-avatar {
+    @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      .iv-title {
+        margin-left: 10px;
+      }
+    }
+  }
+  .interview-status {
+    text-align: center;
+
+    @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+      border: 1px solid;
+      border-right: none;
+      border-left: none;
+    }
+  }
+}

@@ -102,7 +102,7 @@ export function getActivityQueryAttr(type) {
             select = ` ID status created_at ${getEntitySelect(role, type)} `;
             break;
         case ActivityType.PRESCREEN:
-            select = ` ${isRoleRec() ? "pic" : ""} ID company_id is_expired is_onsite_call join_url start_url appointment_time updated_at special_type status ${getEntitySelect(role, type)} `;
+            select = ` ${isRoleRec() ? "pic note" : ""} ID company_id is_expired is_onsite_call join_url start_url appointment_time updated_at special_type status ${getEntitySelect(role, type)} `;
             break;
         case ActivityType.ZOOM_INVITE:
             select = ` ID join_url session_id created_at recruiter { first_name last_name user_email } ${getEntitySelect(role, type)} `;

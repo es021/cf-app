@@ -252,6 +252,7 @@ const Prescreen = {
 	TABLE: "pre_screens",
 	ID: "ID",
 	PIC : "pic",
+	NOTE : "note",
 	STUDENT_ID: "student_id",
 	COMPANY_ID: "company_id",
 	CREATED_AT: "created_at",
@@ -271,6 +272,7 @@ const PrescreenEnum = {
 	// New SI Flow
 	STATUS_STARTED: "0_Started", // recruiter create session
 	STATUS_WAIT_CONFIRM: "1_Waiting", // recruiter schedule for interview (in student listing)
+	STATUS_RESCHEDULE: "1b_RESCHEDULE", // student request for reschedule
 	STATUS_APPROVED: "2_Approved", // approve by student (tru email action)
 	STATUS_REJECTED: "3_Rejected", // reject by student (tru email action)
 	STATUS_ENDED: "4_Ended", // dh started and then dia expired dh video call

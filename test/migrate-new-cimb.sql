@@ -15,3 +15,4 @@ INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES
 (NULL, 'CIMB', 'custom_style', '{\"HEADER_ICON\":\"cimb_icon.png\",\"HEADER_DESC\":\"Powered By Seeds\"}'), 
 (NULL, 'CIMB', 'custom_feature', ''),
 (NULL, 'CIMB', 'organizations', '[{\"label\":\"In Collaboration With\",\"icon_size\":\"150\",\"data\":[{\"name\":\"United Kingdom and Eire (Ireland) Council for Malaysian Students\",\"logo\":\"UKEC.png\",\"shortname\":\"UKEC\"}]}]');
+

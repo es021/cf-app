@@ -1,4 +1,7 @@
 
+-- Add PIC untuk note
+ALTER TABLE `pre_screens` ADD `note` TEXT NULL DEFAULT NULL AFTER `pic`; 
+
 
 -- ##############################################################
 -- ##############################################################

@@ -764,15 +764,18 @@ class UserExec {
 						status_3: PrescreenEnum.STATUS_REJECTED,
 						status_4: PrescreenEnum.STATUS_STARTED,
 						status_5: PrescreenEnum.STATUS_ENDED,
-						order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
+						status_6: PrescreenEnum.STATUS_RESCHEDULE,
+						// order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
 						discard_removed: true,
 						discard_removed_user_id: user_id
 					};
 					if (role === UserEnum.ROLE_STUDENT) {
 						par["student_id"] = user_id;
+						par["order_by"] = `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`
 					}
 					if (role === UserEnum.ROLE_RECRUITER) {
 						par["company_id"] = company_id;
+						par["order_by"] = `${Prescreen.APPNMENT_TIME} desc`
 					}
 
 					res[i]["prescreens"] = PrescreenExec.prescreens(

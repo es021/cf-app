@@ -12,4 +12,7 @@ INSERT INTO `cfs_meta` (`ID`, `cf_name`, `meta_key`, `meta_value`) VALUES
 (NULL, 'SEEDS', 'start', 'Apr 20 2020 10:00:00 GMT +0800 (+08)'), 
 (NULL, 'SEEDS', 'banner', 'SEEDS.jpg'), 
 (NULL, 'SEEDS', 'flag', 'null'), 
-(NULL, 'SEEDS', 'title', 'Seeds Online Career Fair') 
+(NULL, 'SEEDS', 'title', 'Seeds Online Career Fair') ;
+
+
+
