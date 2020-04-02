@@ -1,7 +1,9 @@
 
-add remove (hidden) for all iv card
-cron job utk ended kan sume zoom call yg dah expired
-
+1. add remove (hidden) for all iv card
+2. filter and sort iv card
+3. cron job utk ended kan sume zoom call yg dah expired
+4. left bar design baru (jgn deploy - make it separate)
+5. tengok design baru cheet huan
 
 <!-- pagination for list
 custom cosmetic for cf

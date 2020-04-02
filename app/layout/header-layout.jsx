@@ -26,7 +26,7 @@ export default class HeaderLayout extends React.Component {
 
     let style = getCFCustomStyle()
     if (style) {
-      if (style[CustomCf.Style.HEADER_ICON_URL]) this.iconUrl = style[CustomCf.Style.HEADER_ICON_URL]
+      if (style[CustomCf.Style.HEADER_ICON_URL] && !isAuthorized()) this.iconUrl = style[CustomCf.Style.HEADER_ICON_URL]
       if (style[CustomCf.Style.HEADER_ICON]) this.icon = AssetCustomUrl + style[CustomCf.Style.HEADER_ICON]
       if (style[CustomCf.Style.HEADER_TITLE]) this.title = style[CustomCf.Style.HEADER_TITLE]
       if (style[CustomCf.Style.HEADER_DESC]) this.desc = style[CustomCf.Style.HEADER_DESC]
@@ -34,11 +34,11 @@ export default class HeaderLayout extends React.Component {
 
     this.title = this.title.replaceAll("<br>", " ")
 
-    console.log("this.iconUrl", this.iconUrl)
-    console.log("this.icon", this.icon)
-    console.log("this.title", this.title)
-    console.log("this.desc", this.desc)
-    console.log("style", style);
+    // console.log("this.iconUrl", this.iconUrl)
+    // console.log("this.icon", this.icon)
+    // console.log("this.title", this.title)
+    // console.log("this.desc", this.desc)
+    // console.log("style", style);
 
   }
 
