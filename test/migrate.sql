@@ -1,14 +1,19 @@
+-- Add auto_expired_at untuk zoom_meetings
+ALTER TABLE `zoom_meetings` ADD 
+`auto_expired_at` BIGINT(20) UNSIGNED NULL 
+COMMENT 'time at which this meeting is make auto ENDED (expired) by cron job' 
+AFTER `is_expired`; 
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
 
 -- Add PIC untuk note
 ALTER TABLE `pre_screens` ADD `note` TEXT NULL DEFAULT NULL AFTER `pic`; 
-
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 -- Add PIC untuk interview
 ALTER TABLE `pre_screens` ADD `pic` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `status`; 

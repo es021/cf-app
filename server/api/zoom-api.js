@@ -133,7 +133,7 @@ class ZoomApi {
         });
     }
     isExpired(param) {
-        // console.log("param", param);
+        console.log("isExpired", param);
 
         // check local
         return this.localGet(param).then((meetingLocalData) => {
