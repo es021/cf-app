@@ -22,7 +22,7 @@ export class BrowseStudent extends React.Component {
       }
     }
 
-  
+
     this.state = {
       filterStr: "",
       defaultFilterState: {},
@@ -30,7 +30,7 @@ export class BrowseStudent extends React.Component {
       disabledFilter: {},
       loading: false,
       privs: [],
-      companyCF : [],
+      companyCF: [],
       companyName: ""
     };
   }
@@ -68,9 +68,9 @@ export class BrowseStudent extends React.Component {
     var q = `query {company(ID:${this.company_id}) { priviledge name cf } }`;
     graphql(q).then(res => {
       var companyCF = res.data.data.company.cf;
-      console.log("companyCF",companyCF)
-      console.log("companyCF",companyCF)
-      console.log("companyCF",companyCF)
+      console.log("companyCF", companyCF)
+      console.log("companyCF", companyCF)
+      console.log("companyCF", companyCF)
       var privs = res.data.data.company.priviledge;
       this.privs = privs;
       this.setState(prevState => {
@@ -84,21 +84,21 @@ export class BrowseStudent extends React.Component {
         let disabledFilter = null;
         disabledFilter = {
           cf: (v) => {
-              let toDisabled = companyCF.indexOf(v) <= -1
-              return toDisabled;
+            let toDisabled = companyCF.indexOf(v) <= -1
+            return toDisabled;
           }
         }
-    
-        console.log("defaultFilterState",defaultFilterState)
-        console.log("defaultFilterState",defaultFilterState)
-        console.log("defaultFilterState",defaultFilterState)
-        console.log("defaultFilterState",defaultFilterState)
+
+        console.log("defaultFilterState", defaultFilterState)
+        console.log("defaultFilterState", defaultFilterState)
+        console.log("defaultFilterState", defaultFilterState)
+        console.log("defaultFilterState", defaultFilterState)
         return {
           filterStr: createFilterStr(defaultFilterState, companyCF),
           defaultFilterState: defaultFilterState,
           filterState: defaultFilterState,
           disabledFilter: disabledFilter,
-          companyCF : companyCF,
+          companyCF: companyCF,
           loading: false,
           privs: privs,
           companyName: companyName
@@ -149,7 +149,14 @@ export class BrowseStudent extends React.Component {
 
       v = <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-1"></div>
+          <div className="col-lg-12 text-left">
+            <h1>
+              <b>Student Listing {isRoleAdmin() ? " - " + this.state.companyName : ""}</b>
+            </h1>
+          </div>
+        </div>
+        <div className="row">
+          {/* <div className="col-lg-1"></div> */}
           <div className="col-lg-4">
             <BrowseStudentFilter
               company_id={this.company_id}
@@ -160,7 +167,7 @@ export class BrowseStudent extends React.Component {
               getQueryParam={this.getQueryParam}
               onChange={this.onChangeFilter}></BrowseStudentFilter>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-8">
             <BrowseStudentList
               company_id={this.company_id}
               company_name={this.state.companyName}
@@ -171,7 +178,7 @@ export class BrowseStudent extends React.Component {
               getQueryParam={this.getQueryParam}
               filterStr={this.state.filterStr}></BrowseStudentList>
           </div>
-          <div className="col-lg-1"></div>
+          {/* <div className="col-lg-1"></div> */}
         </div>
       </div>
     }

@@ -12,7 +12,15 @@ export function isHasLeftBar() {
     return isRoleAdmin() || isRoleRec();
     //return isRoleRec() && IsRecruiterNewHall;
 }
+
+export function isLeftBarForSmallScreen() {
+    return (getWindowWidth() <= 860);
+}
+
 export function showLeftBar() {
+    if (!isLeftBarForSmallScreen()) {
+        return;
+    }
     try {
         document.getElementsByClassName("lbar-content")[0].style.right = 0
         document.getElementsByClassName("lbar-background")[0].style.display = "inherit"
@@ -22,7 +30,12 @@ export function showLeftBar() {
 }
 
 export function hideLeftBar() {
+    if (!isLeftBarForSmallScreen()) {
+        return;
+    }
     try {
+
+        // this does not effect the left-bar yang sentiasa showing sebab ada
         document.getElementsByClassName("lbar-content")[0].style.right = "-215px";
         document.getElementsByClassName("lbar-background")[0].style.display = "none"
     } catch (err) {
@@ -33,16 +46,16 @@ export function hideLeftBar() {
 export default class LeftBarLayout extends React.Component {
     constructor(props) {
         super(props);
-        console.log("root path");
-        console.log(RootPath);
+        // console.log("root path");
+        // console.log(RootPath);
         this.state = {
-            isSmall: (getWindowWidth() <= 860)
+            isSmall: isLeftBarForSmallScreen()
         }
     }
 
     componentWillMount() {
         window.addEventListener('resize', (event) => {
-            if (getWindowWidth() <= 860) {
+            if (isLeftBarForSmallScreen()) {
                 if (!this.state.isSmall) {
                     this.setState(() => {
                         return { isSmall: true }
@@ -89,7 +102,10 @@ export default class LeftBarLayout extends React.Component {
                             <b>{authUser.first_name}</b><br></br>
                             <small>{authUser.last_name}</small><br></br>
                             <small>
-                                <i><NavLink className="btn-link" to={`${RootPath}/app/edit-profile/profile`}>Edit Profile</NavLink></i>
+                                <i><NavLink
+                                    onClick={() => hideLeftBar()}
+                                    className="btn-link"
+                                    to={`${RootPath}/app/edit-profile/profile`}>Edit Profile</NavLink></i>
                             </small>
 
                         </div>

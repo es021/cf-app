@@ -125,9 +125,9 @@ export class BrowseStudentList extends React.Component {
 
         return (
             <div className="browse-student-list">
-                <h1>
+                {/* <h1>
                     Student Listing {isRoleAdmin() ? <small><br></br>{this.props.company_name}</small> : ""}
-                </h1>
+                </h1> */}
                 {this.getFilterDescription()}
                 {v}
             </div>

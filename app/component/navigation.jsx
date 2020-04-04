@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LandingUrl, IsNewHall, IsRecruiterNewHall, IsOnVideoResume} from "../../config/app-config";
+import { LandingUrl, IsNewHall, IsRecruiterNewHall, IsOnVideoResume } from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
 import VolunteerScheduledInterview from "../page/volunteer-scheduled-interview";
@@ -875,7 +875,7 @@ export function getBar(
     }
 
     if (d.component === null && d.href != "") {
-      
+
       return (
         <a href={d.href} target="blank">
           <li>
@@ -888,9 +888,15 @@ export function getBar(
 
     // generate item
     const onClickBar = e => {
-      hideLeftBar();
-
       let label = e.currentTarget.dataset.label;
+      let type = e.currentTarget.dataset.type;
+
+      // kalau tekan kat left-bar yang hidden masa screen kecik tu
+      // kita nk dia hide balik lepas tekan
+      if (type == "left-bar") {
+        hideLeftBar();
+      }
+
       addLog(LogEnum.EVENT_CLICK_LEFT_BAR, label);
 
       // for popup
@@ -964,7 +970,7 @@ export function getBar(
       );
     }
     else {
-      console.log("d",d);
+      console.log("d", d);
 
       return (
         <NavLink
@@ -972,6 +978,7 @@ export function getBar(
           data-label={d.label}
           exact={exact}
           key={i}
+          data-type={isHeader ? "header" : "left-bar"}
           onClick={onClickBar}
           activeClassName="active"
         >
