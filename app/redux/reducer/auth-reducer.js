@@ -88,9 +88,9 @@ function fixCFAuth(auth, cf = null) {
   }
 
   // if still null get default
-  if (auth["cf"] == null) {
-    auth["cf"] = CF_DEFAULT;
-  }
+  // if (auth["cf"] == null) {
+  //   auth["cf"] = CF_DEFAULT;
+  // }
 
   // fix untuk amik yang default kalau takde param cf kat url
   // if (!IS_HAS_PARAM_CF) {
@@ -164,7 +164,9 @@ export default function authReducer(state = auth, action) {
     }
     case authActions.DO_LOGOUT: {
       clearAuthLocalStorage();
-      return getNewState(state, fixCFAuth(authReducerInitState, state.cf));
+      setAuthLocalStorage({cf : state.cf, user: {}, isAuthorized : false});
+      let toRet =  getNewState(state, fixCFAuth(authReducerInitState, state.cf));
+      return toRet;
     }
     case authActions.DO_LOGIN + "_PENDING": {
       var newState = {

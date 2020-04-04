@@ -1,3 +1,5 @@
+@import "define/variable.scss";
+
 $TOP: 6px;
 $RIGHT: 12px;
 $FONT_SIZE: 25px;
@@ -7,6 +9,9 @@ $FONT_SIZE_COUNT: 15px;
   position: absolute;
   cursor: pointer;
   color: grey;
+  &.user{
+    color : $COLOR-SEEDS;
+  }
 
   top: $TOP;
   right: $RIGHT;
@@ -19,6 +24,9 @@ $FONT_SIZE_COUNT: 15px;
 
 .interested.selected {
   color: red;
+  &.user {
+    color: $COLOR-SEEDS;
+  }
 }
 
 .interested.in-action {
@@ -39,21 +47,24 @@ $FONT_SIZE_COUNT: 15px;
 }
 .interested.in-count:hover {
   color: red;
+  &.user {
+    color: $COLOR-SEEDS;
+  }
 }
 
-.interested-bottom{
-  top:unset;
+.interested-bottom {
+  top: unset;
   bottom: $TOP;
 }
 .interested-bottom.in-action {
-  top:unset;
+  top: unset;
   bottom: $TOP;
   .fa-heart:hover {
-    top:unset;
+    top: unset;
     bottom: $TOP - 2;
   }
   .fa-heart:active {
-    top:unset;
+    top: unset;
     bottom: $TOP;
   }
 }

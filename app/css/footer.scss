@@ -1,54 +1,59 @@
 @import "define/variable.scss";
 
-footer{
-    text-align: center;
-    color:lightgray;
-    font-size:13px;
-    
-    .container-fluid{
-        background: $COLOR_DARK;
+footer {
+  border-top: 1px solid $COLOR_BORDER_LAYOUT;
+  text-align: center;
+  color: rgb(7, 6, 6);
+  font-size: 13px;
+
+  .container-fluid {
+    // background: $COLOR_DARK;
+    background: white;
+  }
+
+  .title {
+    color: #969696;
+    font-size: 90%;
+
+    //top side bottom
+    //margin: 15px 0 5px;
+  }
+  .org-link{
+      color: rgb(78, 70, 70);
+  }
+
+  .copyright {
+    padding: 10px 20px;
+    color: #969696;
+    border-top: 1px solid $COLOR_BORDER_LAYOUT;
+    margin-bottom: 5px;
+    font-size: 90%;
+    text-align: right;
+  }
+
+  .brand {
+    padding-bottom: 20px;
+
+    .social {
+      .button-icon {
+        margin: 0 7px;
+      }
     }
-    
-    .title{
-        color: darkgray;
-        font-size: 90%;
-
-        //top side bottom
-        //margin: 15px 0 5px;
-    }
-
-
-    .brand{
-        padding-bottom: 20px;
-
-        .social{            
-            .button-icon{
-                margin:0 7px;
-            }
-        }
-
-        .copyright{
-            margin-bottom: 5px;
-            font-size: 85%;
-        }
-    }
-
+  }
 }
 
-@media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP){
-    footer{
-        .orgs{
-            text-align: center;
-        }
+@media only screen and (max-width: $LAYOUT_SM_BOOTSTRAP) {
+  footer {
+    .orgs,
+    .copyright {
+      text-align: center;
     }
-
+  }
 }
 
-
-
-footer.app-hidden{
-    opacity: 0;
-    .container-fluid{
-        background: white;
-    }
+footer.app-hidden {
+  opacity: 0;
+  .container-fluid {
+    background: white;
+  }
 }

@@ -1,0 +1,136 @@
+@import "define/variable.scss";
+
+left_bar {
+  text-align: left;
+  background: $COLOR_DARKER;
+
+  .left_bar_nav {
+    ul li {
+      padding: 5px 10px;
+      color: $COLOR_DARKER_TEXT;
+      display: flex;
+      position: relative;
+      .menu_count {
+        color: white;
+        background: #f62626;
+        font-size: 10px;
+        border-radius: 100%;
+        height: 18px;
+        width: 18px;
+        position: absolute;
+        right: 7px;
+        top: 7px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+
+    ul li .fa {
+      padding-right: 7px;
+      width: 24px;
+      text-align: center;
+      margin-top: 3px;
+    }
+
+    ul a {
+      text-decoration: none !important;
+    }
+
+    ul a.active li,
+    ul li:hover {
+      background-color: $COLOR_DARKEST;
+    }
+
+    ul li:active {
+      background-color: darken($COLOR_DARKEST, 5);
+    }
+  }
+
+  .left_bar_profile .profile-card {
+    .#{$PROFILE_CARD}picture {
+      cursor: pointer;
+      width: ($LEFTBAR_LG_WIDTH / 1.5) !important;
+      height: ($LEFTBAR_LG_WIDTH / 1.5) !important;
+    }
+
+    .#{$PROFILE_CARD}picture:hover {
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// @media only screen and (max-width: $LAYOUT_MD) {
+//   left_bar {
+//     .left_bar_nav {
+//       ul li .menu_label {
+//         display: none;
+//       }
+
+//       ul li .fa {
+//         width: auto;
+//       }
+//     }
+
+//     .left_bar_profile .profile-card {
+//       margin: 10px 0;
+//       margin-bottom: 7px;
+
+//       .#{$PROFILE_CARD}picture {
+//         width: ($LEFTBAR_MD_WIDTH - 10) !important;
+//         height: ($LEFTBAR_MD_WIDTH - 10) !important;
+//         border-radius: 0;
+//       }
+
+//       .#{$PROFILE_CARD}title,
+//       .#{$PROFILE_CARD}subtitle,
+//       .#{$PROFILE_CARD}body {
+//         display: none;
+//       }
+//     }
+//   }
+// }
+
+/**Layout for Small Size 360px */
+@media only screen and (max-width: $LAYOUT_SM) {
+  left_bar {
+
+    .left_bar_profile .profile-card {
+      margin: 10px 0;
+      margin-bottom: 7px;
+
+      .#{$PROFILE_CARD}picture {
+        width: ($LEFTBAR_MD_WIDTH - 10) !important;
+        height: ($LEFTBAR_MD_WIDTH - 10) !important;
+        border-radius: 0;
+      }
+
+      .#{$PROFILE_CARD}title,
+      .#{$PROFILE_CARD}subtitle,
+      .#{$PROFILE_CARD}body {
+        display: none;
+      }
+    }
+
+    .left_bar_nav {
+      ul {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      ul li .menu_label {
+        display: none;
+      }
+
+      ul li .fa {
+        padding-right: 0;
+        width: auto;
+      }
+    }
+
+    .left_bar_profile .profile-card {
+      margin: 5px;
+    }
+  }
+}

@@ -1,8 +1,9 @@
 @import "define/mixin.scss";
 
-$CIMB_RED_DARK : #66000f;
-$CIMB_RED_DARK_LIGHT : #9f505c;
-$CIMB_RED : #ff0000;
+$CIMB_RED_DARK: #66000f;
+$CIMB_RED_DARK_LIGHT: #9f505c;
+// $CIMB_RED: #ff0000;
+$CIMB_RED: #a81128;
 
 // #############################################
 // #############################################
@@ -23,7 +24,7 @@ body.landing-page {
   $COLOR_HEADER_LINK: $CIMB_RED_DARK_LIGHT;
   $COLOR_HEADER_TITLE: $CIMB_RED_DARK;
   $COLOR_HEADER_SUBTITLE: $CIMB_RED_DARK_LIGHT;
-  $COLOR_HEADER_LINK_ACTIVE: $CIMB_RED_DARK ;
+  $COLOR_HEADER_LINK_ACTIVE: $CIMB_RED_DARK;
 
   header {
     .img img {
@@ -62,7 +63,81 @@ body.landing-page {
     }
   }
 
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $CIMB_RED;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: 1px #d97a7e solid;
+    }
+  }
 
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $CIMB_RED;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $CIMB_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $CIMB_RED;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $CIMB_RED;
+    }
+    .pg-page {
+      color: $CIMB_RED;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $CIMB_RED);
+
+    .lb-title {
+      color: $CIMB_RED;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $CIMB_RED;
+    }
+  }
 
   // #############################################
   // #############################################
@@ -107,11 +182,10 @@ body.landing-page {
   @include custom_btn_active("default", $CIMB_RED, white, $CIMB_RED);
 
   @include custom_btn_default("primary", white, $CIMB_RED, $CIMB_RED);
-  @include custom_btn_focus("primary", white, #e60606, $CIMB_RED);
+  @include custom_btn_focus("primary", white, darken($CIMB_RED, 10), $CIMB_RED);
   @include custom_btn_active("primary", white, $CIMB_RED, $CIMB_RED);
 
   @include custom_btn_default("blue", white, $CIMB_RED, $CIMB_RED);
-  @include custom_btn_focus("blue", white, #e60606, $CIMB_RED);
+  @include custom_btn_focus("blue", white, darken($CIMB_RED, 10), $CIMB_RED);
   @include custom_btn_active("blue", white, $CIMB_RED, $CIMB_RED);
-
 }

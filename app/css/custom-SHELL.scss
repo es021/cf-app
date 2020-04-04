@@ -1,45 +1,42 @@
 @import "define/mixin.scss";
 
+$SHELL_ORANGE: #f6d330;
+$SHELL_RED: #cc2229;
 .primary-layout.cf-SHELL {
-
   // #############################################
   // #############################################
   // HEADER
-  $COLOR_HEADER: #333333;
-  $COLOR_HEADER_SUBTITLE: #a8a8a8;
-  $COLOR_HEADER_LINK: #a8a8a8;
-  $COLOR_HEADER_TITLE: #f6d330;
-  $COLOR_HEADER_LINK_ACTIVE: #f6d330;
 
   header {
-    background: $COLOR_HEADER;
+    background: $SHELL_ORANGE;
     .title {
-      color: $COLOR_HEADER_TITLE;
+      color: $SHELL_RED;
       small {
-        color: $COLOR_HEADER_SUBTITLE;
+        color: $SHELL_RED;
       }
     }
     .menu,
-    .menu-small {
+    .menu-small, 
+    .menu-small-new {
       a {
-        color: $COLOR_HEADER_LINK;
+        color: #926622;
       }
       a:hover {
-        color: $COLOR_HEADER_LINK_ACTIVE;
+        color: $SHELL_RED;
       }
     }
 
     .menu {
       ul {
         .active {
-          color: $COLOR_HEADER_LINK_ACTIVE;
+          color: $SHELL_RED;
         }
       }
     }
 
     .menu-small {
       ul {
-        background: $COLOR_HEADER;
+        background: $SHELL_ORANGE;
       }
     }
   }
@@ -60,4 +57,81 @@
   @include custom_btn_focus("blue", white, #b91e24, #a81d22);
   @include custom_btn_active("blue", white, #aa161b, #97151a);
 
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $SHELL_RED;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: 1px #d97a7e solid;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $SHELL_RED;
+    }
+  }
+
+   // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $SHELL_ORANGE;
+            color: $SHELL_RED;
+          }
+        }
+      }
+    }
+  }
+
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $SHELL_RED;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $SHELL_RED;
+    }
+
+    .pg-page {
+      color: $SHELL_RED;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $SHELL_RED);
+
+    .lb-title {
+      color: $SHELL_RED;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $SHELL_RED;
+    }
+  }
 }

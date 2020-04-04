@@ -11,8 +11,10 @@ import {
   isRoleStudent
 } from "../redux/actions/auth-actions";
 import { ButtonIcon } from "../component/buttons.jsx";
+import { showLeftBar, isHasLeftBar } from "./left-bar-layout";
 import { createImageElement } from "../component/profile-card.jsx";
 import { NavLink } from "react-router-dom";
+import LeftBarLayout from "./left-bar-layout";
 
 export default class HeaderLayout extends React.Component {
   constructor(props) {
@@ -48,7 +50,7 @@ export default class HeaderLayout extends React.Component {
     }
 
     let authUser = getAuthUser();
-    let avatar = createImageElement(
+    let avatar = isHasLeftBar() ? null : createImageElement(
       authUser.img_url,
       authUser.img_pos,
       authUser.img_size,
@@ -80,10 +82,24 @@ export default class HeaderLayout extends React.Component {
           <small>{this.desc}</small>
         </div>
         <div className="menu">{this.props.menuList}</div>
-        <div className="menu-small">
-          <ButtonIcon size="lg" icon="bars" />
-          {this.props.menuList}
-        </div>
+
+        {isHasLeftBar()
+          ? <div className="menu-small-new">
+            <ButtonIcon size="lg" icon="bars" onClick={() => {
+              showLeftBar()
+            }} />
+            {/* <div className="menu-hide-show">
+              <LeftBarLayout menuList={this.props.sideMenuList}></LeftBarLayout>
+            </div> */}
+          </div>
+          : 
+          // this one will only show the header
+          <div className="menu-small">
+            <ButtonIcon size="lg" icon="bars" />
+            {this.props.menuList}
+          </div>
+        }
+
         {userIcon}
       </header>
     );

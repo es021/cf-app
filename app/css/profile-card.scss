@@ -155,7 +155,13 @@
     opacity: 0;
 }
 
-.profile-card.with-border {
+// .profile-card.with-border {
+//     .pc-picture {
+//         border: #cbd9e5 0.2px solid;
+//     }
+// }
+
+.profile-card{
     .pc-picture {
         border: #cbd9e5 0.2px solid;
     }

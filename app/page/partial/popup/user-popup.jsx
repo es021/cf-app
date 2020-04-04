@@ -130,7 +130,7 @@ export default class UserPopup extends Component {
     this.state = {
       data: null,
       loading: true,
-      privs : null
+      privs: null
     };
   }
 
@@ -145,11 +145,11 @@ export default class UserPopup extends Component {
             privs = "";
           }
           return {
-            privs: privs, loading : false
+            privs: privs, loading: false
           };
         });
       });
-    }else{
+    } else {
       this.setState({ loading: false })
     }
   }
@@ -222,7 +222,7 @@ export default class UserPopup extends Component {
 
     getAxiosGraphQLQuery(query).then(res => {
       this.setState(() => {
-        return { data: res.data.data.user};
+        return { data: res.data.data.user };
       });
 
       this.loadCompanyPriv();
@@ -618,8 +618,8 @@ export default class UserPopup extends Component {
     }
     return (
       <NavLink
-        style={{ minWidth: "200px" }}
-        className="btn btn-blue btn-lg"
+        style={{ minWidth: "200px", margin: "7px" }}
+        className="btn btn-blue btn-lg btn-round-10 "
         to={`${RootPath}/app/student-chat/${user.ID}`}
         onClick={e => {
           layoutActions.storeHideFocusCard();
@@ -655,8 +655,8 @@ export default class UserPopup extends Component {
 
     return (
       <a
-        style={{ minWidth: "200px" }}
-        className="btn btn-success btn-lg"
+      style={{ minWidth: "200px", margin: "7px" }}
+      className="btn btn-success btn-lg btn-round-10 "
         onClick={e => {
           actionHandler();
         }}
@@ -682,6 +682,7 @@ export default class UserPopup extends Component {
       var actionForRec = (
         <div style={{ marginTop: "10px", marginBottom: "18px" }}>
           {this.getStartChat(user)}
+          {/* <span style={{ padding: "0px 5px" }}></span> */}
           {this.getScheduleCall(user)}
         </div>
       );
@@ -716,7 +717,11 @@ export default class UserPopup extends Component {
               <div className="row">
                 <div
                   className="col-md-12 com-pop-left"
-                  style={{ marginBottom: "-25px" }}
+                  style={{
+                    // borderBottom: "1px solid gray",
+                    marginBottom: "10px",
+                    // paddingBottom: "10px"
+                  }}
                 >
                   <div
                     className="com-pop-pic"

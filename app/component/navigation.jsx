@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LandingUrl, IsNewHall, IsRecruiterNewHall, IsOnVideoResume } from "../../config/app-config";
+import { LandingUrl, IsNewHall, IsRecruiterNewHall, IsOnVideoResume} from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
 import VolunteerScheduledInterview from "../page/volunteer-scheduled-interview";
@@ -72,6 +72,7 @@ import ListEvent from "../page/list-events";
 import ListInterviews from "../page/list-interviews";
 import { BrowseStudent } from "../page/browse-student";
 import HallRecruiterPage from "../page/hall-recruiter";
+import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -138,7 +139,7 @@ function getMenuItem(COMING_SOON) {
       external_url: getCF_externalHomeUrl(),
       bar_app: true,
       bar_auth: true,
-      hd_app: true,
+      hd_app: isHasLeftBar() ? false : true,
       hd_auth: true
     },
     // ###############################################################
@@ -295,7 +296,7 @@ function getMenuItem(COMING_SOON) {
       label: "Interested Students",
       icon: "heart",
       component: BrowseStudent,
-      bar_app: true,
+      bar_app: false,
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
@@ -417,7 +418,7 @@ function getMenuItem(COMING_SOON) {
       bar_app: true,
       bar_auth: false,
       // hd_app: IsRecruiterNewHall ? false : true,
-      hd_app: true,
+      hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
       disabled: !isRoleRec()
     },
@@ -428,7 +429,7 @@ function getMenuItem(COMING_SOON) {
       component: CompanyPage,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
       default_param: { id: getAuthUser().rec_company },
       disabled: !isRoleRec()
@@ -450,9 +451,9 @@ function getMenuItem(COMING_SOON) {
       label: "Add Job Post",
       icon: "suitcase",
       component: ManageCompanyPage,
-      bar_app: true,
+      bar_app: false,
       bar_auth: false,
-      hd_app: IsRecruiterNewHall ? false : true,
+      hd_app: false,
       hd_auth: false,
       default_param: { id: getAuthUser().rec_company, current: "vacancy" },
       disabled: !isRoleRec()
@@ -502,9 +503,9 @@ function getMenuItem(COMING_SOON) {
       icon: "envelope-o",
       count_attr: "count_inbox",
       component: CompanyChatInbox,
-      bar_app: false,
+      bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
       disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
       //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
@@ -570,9 +571,9 @@ function getMenuItem(COMING_SOON) {
       label: "Logout",
       icon: "sign-out",
       component: LogoutPage,
-      bar_app: false,
+      bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: isHasLeftBar() ? false : true,
       hd_auth: false
     },
     {
@@ -651,7 +652,7 @@ function getMenuItem(COMING_SOON) {
         bar_auth: false,
         hd_app: true,
         hd_auth: false,
-        routeOnly: isRoleStudent()
+        routeOnly: true
       },
       {
         url: "/student-chat/:id",
@@ -660,7 +661,7 @@ function getMenuItem(COMING_SOON) {
         bar_auth: false,
         hd_app: true,
         hd_auth: false,
-        routeOnly: isRoleRec()
+        routeOnly: true
       },
       {
         url: "/company/:id",
@@ -874,6 +875,7 @@ export function getBar(
     }
 
     if (d.component === null && d.href != "") {
+      
       return (
         <a href={d.href} target="blank">
           <li>
@@ -886,6 +888,8 @@ export function getBar(
 
     // generate item
     const onClickBar = e => {
+      hideLeftBar();
+
       let label = e.currentTarget.dataset.label;
       addLog(LogEnum.EVENT_CLICK_LEFT_BAR, label);
 
@@ -960,6 +964,8 @@ export function getBar(
       );
     }
     else {
+      console.log("d",d);
+
       return (
         <NavLink
           to={`${path}${url}`}

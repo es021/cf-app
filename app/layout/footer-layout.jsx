@@ -25,6 +25,9 @@ class FixedImg extends React.Component {
 export default class Footer extends React.Component {
   constructor(props) {
     super(props);
+
+    var date = new Date();
+    this.YEAR = date.getYear() + 1900;
   }
 
   componentWillMount() {
@@ -54,7 +57,7 @@ export default class Footer extends React.Component {
     this.orgs = list.map(function (d, i) {
       var items = d.items.map((d, i) => (
         <li key={i}>
-          <a style={{ color: "white" }} target="_blank" href={d.url}>
+          <a className="org-link" target="_blank" href={d.url}>
             {d.name} {d.shortname ? `(${d.shortname})` : null}
           </a>
         </li>
@@ -72,23 +75,26 @@ export default class Footer extends React.Component {
       );
     });
 
-    var date = new Date();
-    var year = date.getYear() + 1900;
+    // fill in empty section
+    for(var i = 0; i < 2 - list.length; i++){
+      this.orgs.push(<div className={`orgs col-sm-4`}></div>)
+    }
+
     var btn_size = "25px";
     this.brand = (
       <div className="brand">
         <h3 className="title">
-          Powered By<br></br>SEEDS
+          POWERED BY
         </h3>
         <FixedImg
           // url={ImgConfig.IsIconInverse}
-          url={ImgConfig.AppIcon}
-          height="56"
-          width="64"
+          url={ImgConfig.AppIconFooter}
+          height="31"
+          width="144"
           style={{
             "backgroundPosition": "bottom"
           }}
-        ></FixedImg>
+        ></FixedImg><br></br>
         <div className="social">
           <ButtonIcon
             href={AppConfig.FbUrl}
@@ -106,9 +112,9 @@ export default class Footer extends React.Component {
             size={btn_size}
           ></ButtonIcon>
         </div>
-        <div className="copyright">
+        {/* <div className="copyright">
           © {year}, Innovaseeds Solutions<br></br>All Rights Reserved
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -121,8 +127,15 @@ export default class Footer extends React.Component {
     return (
       <footer className={FooterClass}>
         <div className="container-fluid">
-          {this.orgs}
-          <div className="col-sm-4">{this.brand}</div>
+          <div className="row">
+            {this.orgs}
+            <div className="col-sm-4">{this.brand}</div>
+          </div>
+          <div className="row ">
+            <div className="col-sm-12 copyright">
+              © {this.YEAR}, Innovaseeds Solutions. All Rights Reserved.
+            </div>
+          </div>
         </div>
       </footer>
     );

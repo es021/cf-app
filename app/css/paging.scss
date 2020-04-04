@@ -1,6 +1,5 @@
 @import "define/variable.scss";
 
-$THEME: $COLOR-SEEDS;
 .paging {
 	margin: 25px 0px;
   .pg-btn-items {
@@ -15,17 +14,18 @@ $THEME: $COLOR-SEEDS;
     //   border: 1px solid $THEME;
       margin: 0px 3px;
       border-radius: 4px;
-      color: $THEME;
+      color: $COLOR-SEEDS;
     }
 
     .pg-btn:hover,
     .pg-btn.active {
 
-      background: $THEME;
+      background: $COLOR-SEEDS;
       color: white;
     }
 
     .pg-page {
+      color: $COLOR-SEEDS;
       ul {
         display: flex;
         align-items: center;

@@ -88,9 +88,15 @@ InterestedUserList.propTypes = {
 export class InterestedButton extends React.Component {
   constructor(props) {
     super(props);
+    
     this.onClickModeCount = this.onClickModeCount.bind(this);
     this.onClickModeAction = this.onClickModeAction.bind(this);
     this.authUser = getAuthUser();
+
+
+    this.icon = this.props.customType;
+    this.className = this.props.customType;
+
     this.state = {
       loading: false,
       ID: this.props.ID,
@@ -193,13 +199,13 @@ export class InterestedButton extends React.Component {
       v = (
         <div
           style={this.props.customStyle}
-          className={`interested ${classBottom} in-count`}
+          className={`interested ${classBottom} in-count ${this.className}`}
         >
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
             <div onClick={this.onClickModeCount}>
-              <i className="fa fa-heart left"></i>
+              <i className={`fa fa-${this.icon} left`}></i>
               {this.state.count}
             </div>
           )}
@@ -213,19 +219,19 @@ export class InterestedButton extends React.Component {
             {...this.props.tooltipObj}
             alignCenter={true}
             content={
-              <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+              <i onClick={this.onClickModeAction} className={`fa fa-${this.icon}`}></i>
             }
            
           />
         );
       }else{
-        iconLike = <i onClick={this.onClickModeAction} className="fa fa-heart"></i>
+        iconLike = <i onClick={this.onClickModeAction} className={`fa fa-${this.icon}`}></i>
       }
        
       v = (
         <div
           style={this.props.customStyle}
-          className={`interested ${classBottom} in-action ${
+          className={`interested ${classBottom} ${this.className} in-action ${
             this.state.is_interested == 1 ? "selected" : ""
           }`}
         >
@@ -242,9 +248,11 @@ export class InterestedButton extends React.Component {
   }
 }
 InterestedButton.propTypes = {
+  icon: PropTypes.string,
   tooltipObj: PropTypes.obj,
   finishHandler: PropTypes.func,
   customStyle: PropTypes.object,
+  customType : PropTypes.oneOf(["user", "heart"]),
   isBottom: PropTypes.bool,
   customUserId: PropTypes.number,
   customView: PropTypes.func,
@@ -258,6 +266,7 @@ InterestedButton.propTypes = {
 };
 
 InterestedButton.defaultProps = {
+  customType : "heart",
   tooltipObj: null,
   customStyle: {},
   isBottom: false,

@@ -29,7 +29,7 @@ import { IsRecruiterNewHall } from "../config/app-config";
 import * as Navigation from "./component/navigation.jsx";
 import HeaderLayout from "./layout/header-layout.jsx";
 import FooterLayout from "./layout/footer-layout";
-import LeftBarLayout from "./layout/left-bar-layout.jsx";
+import LeftBarLayout, {isHasLeftBar} from "./layout/left-bar-layout.jsx";
 import RightBarLayout from "./layout/right-bar-layout.jsx";
 
 //singleton
@@ -186,21 +186,10 @@ class PrimaryLayout extends React.Component {
     // })
   }
 
-  isHasLeftBar() {
-    return isRoleAdmin();
-    //return isRoleRec() && IsRecruiterNewHall;
-  }
-
-  getLeftBar(path, COMING_SOON) {
-    if (!this.isHasLeftBar()) {
+  getLeftBar(sideMenu) {
+    if (!isHasLeftBar()) {
       return null;
     }
-
-    var sideMenu = Navigation.getBar(path, {
-      COMING_SOON: COMING_SOON,
-      isHeader: false,
-      count_notification: this.props.notification_count
-    });
 
     return <LeftBarLayout menuList={sideMenu}></LeftBarLayout>
   }
@@ -211,7 +200,7 @@ class PrimaryLayout extends React.Component {
     if (!isAuthorized) {
       r += " landing-page";
     } else {
-      if (this.isHasLeftBar()) {
+      if (isHasLeftBar()) {
         r += " with-left-bar"
       }
     }
@@ -282,13 +271,19 @@ class PrimaryLayout extends React.Component {
         </div>
       );
     } else {
+      let sideMenu = Navigation.getBar(path, {
+        COMING_SOON: COMING_SOON,
+        isHeader: false,
+        count_notification: this.props.notification_count
+      });
+
       return (
         <div className={this.getClassName(true)}>
           <FocusCard />
           <SupportChat />
           <BlockLoader />
-          <HeaderLayout {...this.props} menuList={headerMenu} />
-          {this.getLeftBar(path, COMING_SOON)}
+          <HeaderLayout {...this.props} sideMenuList={sideMenu} menuList={headerMenu} />
+          {this.getLeftBar(sideMenu)}
           <div className="content">
             <div id={this.pageId} className="main">{route}</div>
             {/* <RightBarLayout /> */}

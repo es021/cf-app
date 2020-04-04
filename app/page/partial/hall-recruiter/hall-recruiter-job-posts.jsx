@@ -104,6 +104,8 @@ export default class HallRecruiterJobPosts extends React.Component {
 
     let interestedBtn = (
       <InterestedButton
+      customStyle={{fontSize:"18px"}}
+        customType={"user"}
         isModeCount={isModeCount}
         isModeAction={isModeAction}
         ID={d.interested.ID}

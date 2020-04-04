@@ -207,7 +207,7 @@ export default class HallRecruiterPage extends React.Component {
     document.setTitle("Recruiter Home Page");
     let v = null;
     v = <div className="hall-page">
-      <h2>Welcome {this.authUser.company.name} !</h2>
+      <h1 className="text-left"><b>Welcome {this.authUser.company.name} !</b></h1>
       {this.getRecruiterAction()}
       <br></br>
       <div className="container-fluid">

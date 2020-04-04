@@ -1,13 +1,13 @@
 @import 'define/variable.scss';
-$page-sec : "page-sec";
+// $page-sec : "page-sec";
 
-.#{$page-sec} {
+.page-sec {
 
-    .#{$page-sec}-title {
+    .page-sec-title {
         color: $COLOR_TITLE;
     }
 
-    .#{$page-sec}-body {
+    .page-sec-body {
         padding-bottom: 15px;
         
         overflow-y: hidden;
@@ -15,12 +15,12 @@ $page-sec : "page-sec";
 
     // EUR FIX
     // kalau tk hidden nanti kat company punya page tak jadi
-    .#{$page-sec}-overflow {
+    .page-sec-overflow {
         overflow: visible;
     }
 }
 
-.#{$page-sec}:last-of-type {
+.page-sec:last-of-type {
 
     //border-bottom: none;
     .line {
@@ -30,11 +30,12 @@ $page-sec : "page-sec";
 }
 
 // Left
-.#{$page-sec}.left {
+.page-sec.left {
     text-align: left;
 
-    .#{$page-sec}-title {
+    .page-sec-title {
         border-bottom: 1px darkgray solid;
+        padding-bottom: 4px;
     }
 
     .line {

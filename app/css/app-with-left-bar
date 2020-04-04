@@ -1,0 +1,51 @@
+@import "define/variable.scss";
+
+.primary-layout.with-left-bar {
+  left_bar {
+    width: $LEFTBAR_LG_WIDTH;
+    left: 0;
+    top: 0;
+    position: fixed;
+    height: 100%;
+    z-index: 10;
+  }
+
+  header,
+  .content,
+  footer {
+    padding-left: $LEFTBAR_LG_WIDTH;
+  }
+
+  @media only screen and (max-width: $LAYOUT_LG) {
+    header,
+    .content,
+    footer {
+      padding-left: 0;
+    }
+
+    //hide left bar and position it under header bar
+    left_bar {
+      left: inherit;
+      right: -$LEFTBAR_LG_WIDTH;
+      right: 0px;
+      // width: 100%;
+      // height: $LEFTBAR_SM_HEIGHT;
+      // top: $HEADER_HEIGHT;
+      // z-index: 2;
+      // display: flex;
+      // align-items: center;
+    }
+
+    .content {
+      //padding-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
+
+      .main {
+        padding: 10px;
+      }
+    }
+
+    .landing-page .content {
+      padding-top: $HEADER_HEIGHT;
+    }
+  }
+}

@@ -85,8 +85,14 @@ export default class HallRecruiterEvent extends React.Component {
       isRoleAdmin()
     );
   }
-
-  getRsvpList(d) {
+  // getJoinButton(d) {
+  //   return <button
+  //     className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
+  //     onClick={null}>
+  //     <i className="fa left fa-sign-in"></i>Join Event
+  //   </button>
+  // }
+  getRsvpButton(d) {
     return (
       <InterestedButton
         customStyle={{
@@ -108,9 +114,9 @@ export default class HallRecruiterEvent extends React.Component {
             let mainText = `See RSVP List`;
             return (
               <button
-                className={`btn btn-sm btn-gray btn-round-5 btn-block`}
+                className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
                 onClick={onClickModeCount}>
-                <i className="fa left fa-users"></i>{mainText}
+                <i className="fa left fa-user"></i>{mainText}
               </button>
             );
           }}
@@ -211,7 +217,7 @@ export default class HallRecruiterEvent extends React.Component {
             </div>
           </div>
           <div className="col-sm-4 no-padding" style={{ padding: "10px 15px", paddingBottom: "15px" }}>
-            {this.getRsvpList(d)}
+            {this.getRsvpButton(d)}
           </div>
         </div>
       </div>

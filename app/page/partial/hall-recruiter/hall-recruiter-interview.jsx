@@ -137,11 +137,9 @@ class InterviewList extends React.Component {
   }
 
 
-  getRemoveButton(entity, entity_id) {
-    const onClickRemove = e => {
-      let entity = e.currentTarget.dataset.entity;
-      let entity_id = e.currentTarget.dataset.entity_id;
+  getRemoveButton(d) {
 
+    const confirmRemove = (parentEl, entity, entity_id) => {
       let ins = {};
       ins[EntityRemoved.ENTITY] = entity;
       ins[EntityRemoved.ENTITY_ID] = Number.parseInt(entity_id);
@@ -149,27 +147,45 @@ class InterviewList extends React.Component {
       let q = `mutation { add_entity_removed (${obj2arg(ins, {
         noOuterBraces: true
       })}) { ID } }`;
-
-      let parentButton = e.currentTarget.parentNode;
-      let parentPcBody = parentButton.parentNode;
-      let parentCard = parentPcBody.parentNode;
-      let parentContainer = parentCard.parentNode;
-      let parentLbList = parentContainer.parentNode;
-      animateHide(parentLbList);
-
+      animateHide(parentEl, () => {
+        this.props.onRemoveItem(entity_id)
+      });
       getAxiosGraphQLQuery(q).then(data => { });
     };
 
+
+    let entity = Prescreen.TABLE;
+    let entity_id = d.ID;
+    let confirmMes = <div>
+      <div>Continue removing interview with <b>{d.student.first_name}{" "}{d.student.last_name}</b> ?</div>
+      <small><i className="text-danger">* This action cannot be undone *</i></small>
+
+    </div>
     return (
       <button
         onClick={e => {
-          onClickRemove(e);
+
+          let entity = e.currentTarget.dataset.entity;
+          let entity_id = e.currentTarget.dataset.entity_id;
+          let parentButton = e.currentTarget.parentNode;
+          let parentPcBody = parentButton.parentNode;
+          let parentCard = parentPcBody.parentNode;
+          let parentContainer = parentCard.parentNode;
+          let parentLbList = parentContainer.parentNode;
+
+          // console.log(parentLbList, entity, entity_id);
+          layoutActions.confirmBlockLoader(confirmMes, () => {
+            layoutActions.storeHideBlockLoader();
+            confirmRemove(parentLbList, entity, entity_id);
+          })
+
         }}
         data-entity={entity}
         data-entity_id={entity_id}
         className="btn btn-sm btn-gray btn-round-5 btn-block"
       >
-        <i className="fa fa-trash left"></i>Remove Card
+        <i className="fa fa-trash left"></i>
+        Remove Card
       </button>
     );
   }
@@ -314,9 +330,9 @@ class InterviewList extends React.Component {
         // status_color = "red";
         // status_icon = "warning"
 
-        removeEntity = Prescreen.TABLE;
-        removeEntityId = d.ID;
-        btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
+        // removeEntity = Prescreen.TABLE;
+        // removeEntityId = d.ID;
+        // btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
         break;
       case PrescreenEnum.STATUS_APPROVED:
         if (
@@ -360,9 +376,9 @@ class InterviewList extends React.Component {
 
         break;
       case PrescreenEnum.STATUS_ENDED:
-        removeEntity = Prescreen.TABLE;
-        removeEntityId = d.ID;
-        btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
+        // removeEntity = Prescreen.TABLE;
+        // removeEntityId = d.ID;
+        // btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
 
         // status_text = "Video Call Ended";
         status_obj = HallRecruiterHelper.Status.STATUS_ENDED;
@@ -468,6 +484,17 @@ class InterviewList extends React.Component {
         }
 
         break;
+    }
+
+    // add remove button for certain2 status
+    if ([
+      PrescreenEnum.STATUS_WAIT_CONFIRM,
+      PrescreenEnum.STATUS_RESCHEDULE,
+      PrescreenEnum.STATUS_APPROVED,
+      PrescreenEnum.STATUS_ENDED,
+      PrescreenEnum.STATUS_REJECTED
+    ].indexOf(d.status) >= 0) {
+      btnRemoveVCall = this.getRemoveButton(d);
     }
 
     // finalize action
@@ -652,11 +679,9 @@ class InterviewList extends React.Component {
 }
 
 InterviewList.propTypes = {
-  limitShowLess: PropTypes.number
 };
 
 InterviewList.defaultProps = {
-  limitShowLess: 2
 };
 
 
@@ -668,6 +693,7 @@ class HallRecruiterInterview extends React.Component {
   constructor(props) {
     super(props);
     this.refresh = this.refresh.bind(this);
+    this.onRemoveItem = this.onRemoveItem.bind(this);
     this.FILTER_TODAY = "FILTER_TODAY";
     this.COUNTS = {};
     this.FILTERS = [
@@ -708,7 +734,10 @@ class HallRecruiterInterview extends React.Component {
       }
     ]
 
-    this.state = {}
+    this.state = {
+      removedId: [],
+    }
+
     for (var i in this.FILTERS) {
       let f = this.FILTERS[i]
       this.state[f.key] = f.defaultChecked
@@ -803,6 +832,10 @@ class HallRecruiterInterview extends React.Component {
     for (let i in list) {
       let d = list[i];
 
+      if (this.state.removedId.indexOf(d.ID + "") >= 0) {
+        continue;
+      }
+
       // by status
       if (!counts[d.status]) {
         counts[d.status] = 0;
@@ -830,6 +863,13 @@ class HallRecruiterInterview extends React.Component {
 
     this.COUNTS = counts;
     return toRet;
+  }
+  onRemoveItem(ID) {
+    this.setState((prevState) => {
+      let r = this.state.removedId;
+      r.push(ID);
+      return { removedId: r }
+    })
   }
   render() {
     var d = this.props.activity;
@@ -879,6 +919,7 @@ class HallRecruiterInterview extends React.Component {
       online_companies={this.props.online_companies}
       fetching={fetching}
       list={list}
+      onRemoveItem={this.onRemoveItem}
     />
 
     var v = <div>
