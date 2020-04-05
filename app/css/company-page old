@@ -1,0 +1,53 @@
+@import "define/variable.scss";
+
+.company-page {
+  #company-edit-btn {
+    align-self: end;
+
+    @media only screen and (max-width: 990px) {
+      align-self: start;
+      a {
+        margin-right: 10px;
+        padding: 7px 10px;
+        font-size: 14px;
+        border-radius: 5px !important;
+      }
+    }
+
+    @media only screen and (max-width: 500px) {
+        a {
+            margin-right: 10px;
+            padding: 4px 7px;
+            font-size: 12px;
+            border-radius: 3px !important;
+          }
+    }
+  }
+
+  .banner {
+    width: 100%;
+    background: white;
+  }
+
+  .com-pop-left {
+    margin-top: -150px;
+  }
+  .com-pop-pic {
+    //z-index: 13;
+    position: relative;
+    //border-bottom: 1px darkgray solid;
+    .profile-card {
+      .pc-picture {
+        border: 1px solid darkgray;
+      }
+      .pc-title {
+        // margin: 6px 0px;
+        // font-size: 20px;
+      }
+    }
+
+    @media only screen and (max-width: 500px) {
+      margin-top: 130px;
+    }
+  }
+}

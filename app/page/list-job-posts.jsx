@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { VacancyList } from "./company";
+import { VacancyList } from "./partial/company/vacancy";
 
 export default class ListJobPosts extends React.Component {
   constructor(props) {

@@ -140,7 +140,7 @@ export const getStyleBannerObj = function (url, size, pos, width, height) {
     url,
     size,
     pos,
-    dimensionBanner
+    width && height ? dimensionBanner : null
   );
 
   // add height

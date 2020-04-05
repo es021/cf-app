@@ -15,7 +15,7 @@ $banner_height : 130px;
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 11;
+        z-index: 20;
     }
 
     .#{$fc}content{
@@ -24,7 +24,7 @@ $banner_height : 130px;
         background: whitesmoke;
         position:fixed;
         top:0;
-        z-index: 12;
+        z-index: 21;
         @include center_horizontal($fc_width);
 
         .#{$fc}header{

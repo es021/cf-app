@@ -583,7 +583,7 @@ class InterviewList extends React.Component {
               <div style={{ marginBottom: "8px", fontSize: "15px" }}>{title}</div>
             </div>
             {/* status */}
-            <div className="col-md-1 padding-sm">
+            <div className="col-md-2 padding-sm">
               <div style={{ marginBottom: "10px", fontSize: "12px" }}>{status}</div>
             </div>
             {/* time */}
@@ -595,7 +595,7 @@ class InterviewList extends React.Component {
               <div style={{ marginBottom: "4px", fontSize: "13px" }}>{pic}</div>
             </div>
             {/* note */}
-            <div className="col-md-2 padding-sm">
+            <div className="col-md-1 padding-sm">
               <div style={{ marginBottom: "10px", fontSize: "13px" }}>{note}</div>
             </div>
             {/* action */}
@@ -619,7 +619,7 @@ class InterviewList extends React.Component {
         <div className="row" style={{ padding: "15px 10px" }}>
           <div className="col-md-1 padding-sm container-avatar">Student</div>
           <div className="col-md-2 padding-sm lg-and-more"></div>
-          <div className="col-md-1 padding-sm">Status</div>
+          <div className="col-md-2 text-center padding-sm">Status</div>
           <div className="col-md-2 padding-sm">Appointment Time</div>
           <div className="col-md-2 padding-sm">Interviewer</div>
           <div className="col-md-2 padding-sm">Note</div>

@@ -158,20 +158,20 @@ export function getCFObj() {
 }
 
 export function isRedirectExternalHomeUrl(props) {
-    return false;
-
-    // if (!isAuthorized()) {
-    //     console.log("props.location.pathname", props.location.pathname);
-    //     console.log("props.location.pathname", props.location.pathname);
-    //     let path = props.location.pathname
-    //     if (["/auth/", "/auth", "/cf/auth/", "/cf/auth"].indexOf(path) >= 0) {
-    //         let externalHomeUrl = getCF_externalHomeUrl();
-    //         if (externalHomeUrl) {
-    //             return true;
-    //         }
-    //     }
-    // }
     // return false;
+
+    if (!isAuthorized()) {
+        console.log("props.location.pathname", props.location.pathname);
+        console.log("props.location.pathname", props.location.pathname);
+        let path = props.location.pathname
+        if (["/auth/", "/auth", "/cf/auth/", "/cf/auth"].indexOf(path) >= 0) {
+            let externalHomeUrl = getCF_externalHomeUrl();
+            if (externalHomeUrl) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function getCF_externalHomeUrl() {

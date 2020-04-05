@@ -77,17 +77,18 @@ div.line {
   }
 }
 
-.animate-hide{
-  transition: opacity 0.5s ease-in-out;
-}
-
-
 .md-and-less {
   display: none;
   @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
     display: initial;
   }
 }
+
+.animate-hide{
+  transition: opacity 0.5s ease-in-out;
+}
+
+
 
 .padding-sm {
   padding: 0px 8px;

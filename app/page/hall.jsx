@@ -37,7 +37,7 @@ import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helpe
 import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
 import ListRow from "../component/list-row";
-import { VacancyList } from "./company";
+import { VacancyList } from "./partial/company/vacancy";
 import { EventList } from "./event-list";
 
 // require("../css/hall.scss");

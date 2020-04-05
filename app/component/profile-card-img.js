@@ -25,7 +25,10 @@ export function getSizeStr(sizeStr) {
 
 //default is 100px
 export function getPositionStr(dimension, posStr, unit = "px", toString = false) {
-
+    if(!dimension){
+        return posStr;
+    }
+    
     let DEBUG = posStr == "602px -16px";
 
     if (typeof posStr === "undefined" || posStr == "" || posStr == null) {

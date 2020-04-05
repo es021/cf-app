@@ -183,9 +183,18 @@ Time.prototype.getPeriodString = function (start, end, dates) {
         return r;
 
     } else {
-        var startStr = Time.getString(start, false, false, false, true); // day n month only
-        var endStr = Time.getString(end, false, false, true, false); // with year
-        return `${startStr} - ${endStr}`;
+        // same date
+        if (Time.getString(start, false, false, true, false) == Time.getString(end, false, false, true, false)) {
+            var startStr = Time.getString(start, false, false, true, false); // with year
+            return `${startStr}`;
+        }
+        // diff date
+        else {
+            var startStr = Time.getString(start, false, false, false, true); // day n month only
+            var endStr = Time.getString(end, false, false, true, false); // with year
+            return `${startStr} - ${endStr}`;
+        }
+
     }
 }
 
@@ -201,7 +210,7 @@ Time.prototype.isUnixToday = function (unixtimestamp) {
     var endToday = new Date(y, m, d, 23, 59, 59);
     endToday = endToday.getTime() / 1000;
 
-   return unixtimestamp >= startToday && unixtimestamp <= endToday;
+    return unixtimestamp >= startToday && unixtimestamp <= endToday;
 };
 
 Time.prototype.getUnixTimestampNow = function () {

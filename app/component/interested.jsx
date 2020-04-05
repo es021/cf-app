@@ -15,6 +15,7 @@ export class InterestedUserList extends React.Component {
     this.loadData = this.loadData.bind(this);
     this.renderList = this.renderList.bind(this);
     this.authUser = getAuthUser();
+    this.offset = 8;
   }
 
   loadData(page, offset) {
@@ -30,9 +31,7 @@ export class InterestedUserList extends React.Component {
       user{ID first_name last_name img_url img_pos img_size}}}`);
   }
 
-  componentWillMount() {
-    this.offset = 8;
-  }
+  componentWillMount() {}
 
   renderList(d, i) {
     let img = createImageElement(
