@@ -164,7 +164,7 @@ export default function authReducer(state = auth, action) {
     }
     case authActions.DO_LOGOUT: {
       clearAuthLocalStorage();
-      setAuthLocalStorage({cf : state.cf, user: {}, isAuthorized : false});
+      // setAuthLocalStorage({cf : state.cf, user: {}, isAuthorized : false});
       let toRet =  getNewState(state, fixCFAuth(authReducerInitState, state.cf));
       return toRet;
     }
