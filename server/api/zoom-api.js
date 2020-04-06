@@ -175,7 +175,9 @@ class ZoomApi {
                     "type": "1",
                     "settings": {
                         "host_video": true,
-                        "participant_video": true
+                        "participant_video": true,
+                        "waiting_room" : false,
+                        "meeting_authentication": false
                     }
                 },
                 this.getHeaders()
