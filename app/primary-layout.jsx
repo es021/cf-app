@@ -92,6 +92,7 @@ class PrimaryLayout extends React.Component {
 		created_at
 		updated_at
 		title
+		title_landing
 		flag
 		banner
 		banner_pos

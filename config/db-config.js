@@ -630,6 +630,7 @@ const EntityRemoved = {
 const CFSMeta = {
 	TABLE: "cfs_meta",
 	TITLE: "title",
+	TITLE_LANDING: "title_landing",
 	FLAG: "flag",
 	BANNER: "banner",
 	BANNER_POS: "banner_pos",

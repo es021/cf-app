@@ -171,10 +171,10 @@ export default class LandingPage extends React.Component {
   }
 
   render() {
-   if(isRedirectExternalHomeUrl(this.props)){
-     return null;
-   }
-   
+    if (isRedirectExternalHomeUrl(this.props)) {
+      return null;
+    }
+
     //  <NavLink to={`${RootPath}/auth/sign-up-recruiter`} className="btn btn-lg btn-danger">
     //  <i className="fa fa-suitcase left"></i>Recruiter</NavLink>
 
@@ -226,7 +226,7 @@ export default class LandingPage extends React.Component {
       <h1 style={{ marginTop: "5px" }}>
         <small>WELCOME TO</small>
         <br></br>
-        <span dangerouslySetInnerHTML={{__html : this.CFDetail.title}}></span>
+        <span dangerouslySetInnerHTML={{ __html: this.CFDetail.title_landing ? this.CFDetail.title_landing : this.CFDetail.title }}></span>
         <br></br>
         <div className="subtitle">
           {this.subtitle}
@@ -265,8 +265,8 @@ export default class LandingPage extends React.Component {
         </div>
       </div>
     );
-    
-    let sponsor = isCfFeatureOff(cfFeature().LANDING_COMPANY_LIST) ? null :  <SponsorList type="landing"></SponsorList>;
+
+    let sponsor = isCfFeatureOff(cfFeature().LANDING_COMPANY_LIST) ? null : <SponsorList type="landing"></SponsorList>;
     var homeBody = (
       <div id="home-body">
         <br></br>

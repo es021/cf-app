@@ -175,9 +175,9 @@ export default class HallRecruiterPage extends React.Component {
   // }
   getRecruiterAction() {
     return <div className="title-sectaion">
-      <div className="main-width">
+      <div className="">
         <ButtonAction
-          style={{ width: "350px" }}
+          style={{ width: "350px", maxWidth:"70vw" }}
           btnClass="btn-lg btn-success"
           // to={`${RootPath}/app/my-activity/student-listing`}
           to={`${RootPath}/app/browse-student`}
@@ -189,7 +189,7 @@ export default class HallRecruiterPage extends React.Component {
         />
 
         <ButtonAction
-          style={{ width: "350px" }}
+          style={{ width: "350px", maxWidth:"70vw" }}
           btnClass="btn-lg btn-blue"
           // to={`${RootPath}/app/my-activity/student-listing`}
           to={`${RootPath}/app/browse-student?interested_only=1`}

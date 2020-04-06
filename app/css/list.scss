@@ -1,330 +1,336 @@
-@import 'define/variable.scss';
+@import "define/variable.scss";
 
 .card-wide {
-    .profile-card {
-        margin: 0;
+//   &.card-wide-with-action {
+//     @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+//         padding-top: 30px;
+//     }
+//   }
+  .profile-card {
+    margin: 0;
 
-        .pc-picture {
-            border: #cbd9e5 1px solid;
-        }
+    .pc-picture {
+      border: #cbd9e5 1px solid;
+    }
+  }
+
+  .card-container {
+    @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+      justify-content: center;
+      padding: 5px 15px;
+
+      &.with-action{
+        padding-top: 30px;
+      }
+
+      .card-wide-item {
+        width: 100%;
+      }
     }
 
-    .card-container {
-        @media only screen and (max-width: 990px) {
-            justify-content: center;
-            padding: 5px 15px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+    max-width: 800px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    padding-left: 0;
 
-            .card-wide-item {
-                width: 100%;
-            }
-        }
-
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        text-align: left;
-        max-width: 800px;
-        margin-bottom: 20px;
-        padding: 0 15px;
-        padding-left: 0;
-
-        h4 {
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
-
-        .card-wide-item {
-            padding: 10px 0;
-        }
-
-        .item-action {
-            position: absolute;
-            top: -6px;
-            right: -5px;
-        }
+    h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
     }
+
+    .card-wide-item {
+      padding: 10px 0;
+    }
+
+    .item-action {
+      position: absolute;
+      top: -6px;
+      right: -5px;
+    }
+  }
 }
 
 // Simple List Item
 // -- used in company-popup
 .simple-li {
-    margin-bottom: 25px;
-    text-align: justify;
-    border-bottom: whitesmoke 1px solid;
-    font-size: 15px;
+  margin-bottom: 25px;
+  text-align: justify;
+  border-bottom: whitesmoke 1px solid;
+  font-size: 15px;
 
-    .sili-title {
-        font-weight: bold;
-    }
+  .sili-title {
+    font-weight: bold;
+  }
 
-    .sili-operation {
-        font-size: 85%;
-        margin-left: 10px;
-    }
+  .sili-operation {
+    font-size: 85%;
+    margin-left: 10px;
+  }
 
-    .sili-subtitle {
-        color: gray;
-        font-size: 90%;
-    }
+  .sili-subtitle {
+    color: gray;
+    font-size: 90%;
+  }
 
-    .sili-body {
-        max-height: 60px;
-        overflow: hidden;
-        font-size: 90%;
-    }
+  .sili-body {
+    max-height: 60px;
+    overflow: hidden;
+    font-size: 90%;
+  }
 }
 
 .simple-li:last-of-type {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .simple-li-card {
-    border-bottom: none;
-    margin: 10px;
-    width: 200px;
-    background: white;
-    box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
-    padding: 5px 10px;
+  border-bottom: none;
+  margin: 10px;
+  width: 200px;
+  background: white;
+  box-shadow: 3px 4px 5px -4px rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
 
-    .sili-body {
-        word-break: break-all !important;
-    }
+  .sili-body {
+    word-break: break-all !important;
+  }
 }
 
 .simple-li-card:last-of-type {
-    margin: 10px;
+  margin: 10px;
 }
 
 // Profile Card List Item
 // -- used in company-popup
 .profile-card.profile-li {
-    display: grid;
-    text-align: left;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 2fr;
-    grid-template-areas: "img title body""img subtitle body";
+  display: grid;
+  text-align: left;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 2fr;
+  grid-template-areas: "img title body" "img subtitle body";
 
-    .pc-picture {
-        grid-area: img;
-    }
+  .pc-picture {
+    grid-area: img;
+  }
 
-    .pc-title {
-        align-self: end;
-        grid-area: title;
-    }
+  .pc-title {
+    align-self: end;
+    grid-area: title;
+  }
 
-    .pc-subtitle {
-        align-self: start;
-        grid-area: subtitle;
-    }
+  .pc-subtitle {
+    align-self: start;
+    grid-area: subtitle;
+  }
 }
 
 // -- used in activity-section
 .profile-card.profile-li-card {
-    background-color: white;
-    box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
-    width: 140px;
-    margin: 8px 10px;
-    //min-height: 212px; // New SI Flow
+  background-color: white;
+  box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
+  width: 140px;
+  margin: 8px 10px;
+  //min-height: 212px; // New SI Flow
 
-    .pc-title {
-        font-size: 15px;
-        padding: 0px 5px;
-        height: 40px;
-        line-height: 15px;
-        display: flex;
-        align-items: center;
+  .pc-title {
+    font-size: 15px;
+    padding: 0px 5px;
+    height: 40px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  .pc-subtitle {
+    font-size: 12px;
+    line-height: 12px;
+    padding: 0px 5px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    min-height: 24px; // New SI Flow
+  }
+
+  .pc-body {
+    margin-top: 5px;
+
+    .btn {
+      width: 100%;
     }
+  }
 
-    .pc-subtitle {
-        font-size: 12px;
-        line-height: 12px;
-        padding: 0px 5px;
-        margin: 5px;
-        display: flex;
-        align-items: center;
-        min-height: 24px; // New SI Flow
-    }
-
-    .pc-body {
-        margin-top: 5px;
-
-        .btn {
-            width: 100%;
-        }
-    }
-
-    .pc-picture {
-        margin-top: 10px;
-        border: darken($COLOR_BACKGROUND, 10) 1px solid;
-    }
+  .pc-picture {
+    margin-top: 10px;
+    border: darken($COLOR_BACKGROUND, 10) 1px solid;
+  }
 }
 
 // Custom List (Icon)
 // -- used student popup
 .custom-list-icon {
-    font-size: 15px;
+  font-size: 15px;
 
-    .li-icon {
-        margin-bottom: 15px;
+  .li-icon {
+    margin-bottom: 15px;
 
-        .cli-label {
-            font-size: 80%;
-            opacity: 0.65;
+    .cli-label {
+      font-size: 80%;
+      opacity: 0.65;
 
-            .fa {
-                margin-right: 7px;
-            }
-        }
-
-        .cli-value {}
+      .fa {
+        margin-right: 7px;
+      }
     }
+
+    .cli-value {
+    }
+  }
 }
 
-$COLOR_LABEL_CUSTOM : #31708f;
+$COLOR_LABEL_CUSTOM: #31708f;
 
 // Custom List (Label)
 // -- used student popup
 .custom-list-label {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    font-size: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 20px;
 
-    li {
-        margin: 3px;
-        border-radius: 8px;
-        padding: 7px;
-        font-weight: 100;
-        max-width: 100%;
-        overflow: hidden;
+  li {
+    margin: 3px;
+    border-radius: 8px;
+    padding: 7px;
+    font-weight: 100;
+    max-width: 100%;
+    overflow: hidden;
 
-        a {
-            color: white;
-        }
-
-        .label {
-            max-width: 90%;
-        }
-
-        .badge {
-            background: rgba(0, 0, 0, 0);
-            border: $COLOR_LABEL_CUSTOM solid 1px;
-            color: $COLOR_LABEL_CUSTOM;
-            border-radius: 100%;
-            font-size: 10px;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
-            justify-content: center;
-            cursor: pointer;
-            align-items: center;
-            margin-left: 3px;
-        }
-
-        .badge:hover {
-            background: $COLOR_LABEL_CUSTOM;
-            color: white;
-
-            i {
-                color: white;
-            }
-        }
-
-        .badge:active {
-            background: $COLOR_LABEL_CUSTOM;
-
-            i {
-                color: rgba(255, 255, 255, 0.6);
-            }
-        }
+    a {
+      color: white;
     }
 
-    li.label-custom {
-        background: rgba(0, 0, 0, 0);
-        border: 1px solid $COLOR_LABEL_CUSTOM;
-        color: $COLOR_LABEL_CUSTOM;
-        font-weight: bold;
-
-        i {
-            color: $COLOR_LABEL_CUSTOM;
-        }
-
-        a {
-            color: $COLOR_LABEL_CUSTOM;
-        }
+    .label {
+      max-width: 90%;
     }
 
+    .badge {
+      background: rgba(0, 0, 0, 0);
+      border: $COLOR_LABEL_CUSTOM solid 1px;
+      color: $COLOR_LABEL_CUSTOM;
+      border-radius: 100%;
+      font-size: 10px;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      justify-content: center;
+      cursor: pointer;
+      align-items: center;
+      margin-left: 3px;
+    }
+
+    .badge:hover {
+      background: $COLOR_LABEL_CUSTOM;
+      color: white;
+
+      i {
+        color: white;
+      }
+    }
+
+    .badge:active {
+      background: $COLOR_LABEL_CUSTOM;
+
+      i {
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+
+  li.label-custom {
+    background: rgba(0, 0, 0, 0);
+    border: 1px solid $COLOR_LABEL_CUSTOM;
+    color: $COLOR_LABEL_CUSTOM;
+    font-weight: bold;
+
+    i {
+      color: $COLOR_LABEL_CUSTOM;
+    }
+
+    a {
+      color: $COLOR_LABEL_CUSTOM;
+    }
+  }
 }
 
-
 .custom-list-label.li-ux {
-    li {
-        cursor: pointer;
-    }
+  li {
+    cursor: pointer;
+  }
 
-    li:hover {
-        opacity: 0.8;
-    }
+  li:hover {
+    opacity: 0.8;
+  }
 
-    li:active {
-        opacity: 1;
-    }
+  li:active {
+    opacity: 1;
+  }
 }
 
 .custom-list-label.li-sm {
-    li {
-        padding: 4px 7px;
-        margin: 0px 3px;
-        font-size: 14px;
-        border-color: #62a1c0;
-        margin-bottom: 3px;
-    }
-
+  li {
+    padding: 4px 7px;
+    margin: 0px 3px;
+    font-size: 14px;
+    border-color: #62a1c0;
+    margin-bottom: 3px;
+  }
 }
 
 // used in session request
 // rec view
 .custom-list-icon-link {
+  display: flex;
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .icon-circle {
+    margin: 2px;
+    border-radius: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    a:hover {
-        text-decoration: none;
-    }
+  .icon-circle:hover {
+    opacity: 0.8;
+  }
 
-    .icon-circle {
-        margin: 2px;
-        border-radius: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .icon-circle:hover {
-        opacity: 0.8;
-    }
-
-    .icon-circle:active {
-        opacity: 1;
-    }
+  .icon-circle:active {
+    opacity: 1;
+  }
 }
-
 
 // used in session request
 // rec view
 .custom-list-icon-list {
-    .li-icon-list{
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 7px;
-    }
-    .icon-circle {
-        margin: 2px;
-        margin-right: 5px;
-        border-radius: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .li-icon-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 7px;
+  }
+  .icon-circle {
+    margin: 2px;
+    margin-right: 5px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

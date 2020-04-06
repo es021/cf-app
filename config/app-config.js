@@ -36,6 +36,7 @@ var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
+const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
 
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost:8085" : "http://localhost:80";
@@ -99,6 +100,7 @@ if (!isProd) {
 
 module.exports = {
     HeaderClass,
+    TermsAndConditionUrl,
     IsOnVideoResume,
     FooterClass,
     IsDailyCoEnable,

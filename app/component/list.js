@@ -587,9 +587,13 @@ export class ProfileListWide extends Component {
 
     let action = this.getAction();
 
+    // if(action != null){
+    //   className += " card-wide-with-action ";
+    // }
+
     return (
       <div className={className}>
-        <div className="card-container container-fluid">
+        <div className={`card-container container-fluid ${action != null ? "with-action" : ""}`}>
           {this.props.rootContent}
           {this.props.is_no_image ? (
             <div style={{ marginRight: "15px" }}></div>

@@ -60,11 +60,11 @@ export default class ListBoard extends React.Component {
             <div className="lb-title">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-8 no-padding">
+                        <div className="col-md-8 no-padding lb-title-text">
                             <i className={`fa fa-${this.props.icon} left`}></i>
                             {this.props.title}
                         </div>
-                        <div className="col-md-4 no-padding text-right">
+                        <div className="col-md-4 no-padding lb-title-action">
                             {action}
                         </div>
                     </div>

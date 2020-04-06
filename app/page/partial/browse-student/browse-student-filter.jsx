@@ -199,9 +199,11 @@ export class BrowseStudentFilter extends React.Component {
                 }
 
                 let label = f._val_label ? f._val_label : f._val;
-                if(k == "cf"){
-                    label = label.replaceAll("<br>", " ");
-                }
+                // if(k == "cf"){
+                //     // label = label.replaceAll("<br>", " ");
+                //     label = <span dangerouslySetInnerHTML={{__html : label}}></span>
+
+                // }
 
                 filterObj[k].filters.push({
                     val: f._val,

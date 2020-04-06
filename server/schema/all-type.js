@@ -247,6 +247,7 @@ const CfsType = new GraphQLObjectType({
 
 		// meta
 		title: __.String,
+		title_landing: __.String,
 		flag: __.String,
 		banner: __.String,
 		banner_pos: __.String,

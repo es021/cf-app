@@ -31,7 +31,7 @@
     background: whitesmoke;
   }
 
-  .paging{
+  .paging {
     margin: 15px 0px;
   }
 
@@ -45,8 +45,16 @@
     // background: whitesmoke;
     // border-bottom: 1px solid #c1c1c1;
 
-    .lb-action {
-      font-size: 15px;
+    // .lb-action {
+    //   font-size: 15px;
+    // }
+
+    .lb-title-action {
+      text-align: right;
+
+      @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+        text-align: left;
+      }
     }
   }
 
@@ -82,7 +90,7 @@
       padding: 20px 5px;
     }
   }
-  
+
   .lb-list-header {
     border-bottom: 1px solid $COLOR-SEEDS;
     color: #828284;
