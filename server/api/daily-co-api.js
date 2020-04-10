@@ -42,7 +42,7 @@ class DailyCoApi {
         });
     }
     createNewRoom() {
-        //console.log("createNewRoom")
+x        //console.log("createNewRoom")
         /**
              curl -H "Content-Type: application/json" \
             -H "Authorization: Bearer $YOUR_API_KEY" \

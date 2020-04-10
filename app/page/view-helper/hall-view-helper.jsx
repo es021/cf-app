@@ -2,7 +2,8 @@ import React from "react";
 import * as hallAction from "../../redux/actions/hall-actions";
 import {
   addLogCreateCall,
-  createGruveoLink
+  createGruveoLink,
+  joinVideoCall
 } from "../partial/session/chat.jsx";
 import axios from 'axios';
 
@@ -106,7 +107,11 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
         emitHallActivity(to_trigger_entity, to_trigger_ids[i], null);
       }
       layoutActions.storeHideBlockLoader();
-      window.open(start_url);
+      
+      // window.open(start_url);
+      let pre_screen_id = type == TYPE_PRIVATE_SESSION ? id : undefined;
+      let group_session_id = type == TYPE_GROUP_SESSION ? id : undefined;
+      joinVideoCall(join_url, null, null, group_session_id, pre_screen_id, start_url);
       bindedSuccessHandler();
     });
   };
@@ -152,10 +157,11 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
             </h4>
             <br />
             <a
-              href={data.url}
-              target="_blank"
-              className="btn btn-success btn-lg"
+              // href={data.url}
+              // target="_blank"
+              className="btn btn-green btn-round-10 btn-lg"
               onClick={() => {
+
                 recDoStart(data.url, data.url);
               }}
             >

@@ -3,10 +3,10 @@
 const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
+const IsDailyCoEnable = ALWAYS_TRUE;
 var IsOnVideoResume = ALWAYS_FALSE; 
 var IsRecruiterNewHall = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
-const IsDailyCoEnable = ALWAYS_FALSE;
 const IsGruveoEnable = ALWAYS_FALSE;
 
 // if (typeof location !== "undefined") {

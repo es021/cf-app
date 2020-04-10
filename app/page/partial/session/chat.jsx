@@ -118,15 +118,17 @@ export function joinVideoCall(
 
   let isJoin = false;
   let windowPopup = null;
-  let windowId = "zoom_" + Date.now();
+  let windowId = join_url;
   let windowParam = `scrollbars=no,resizable=no,status=no,location=no, toolbar=no,menubar=no,
                 width=600,height=400,left=100,top=100`;
+  console.log("opening window with id", windowId);
   if (start_url != null) {
     windowPopup = window.open(start_url, windowId, windowParam);
   } else {
     isJoin = true;
     windowPopup = window.open(join_url, windowId, windowParam);
   }
+
   if (isGruveoLink(join_url) || isDailyCoLink(join_url)) {
     return;
   }
