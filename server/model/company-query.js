@@ -51,6 +51,22 @@ class CompanyQuery {
 
         var ignore_type = (typeof params.ignore_type === "undefined") ? "1=1" : `c.type NOT IN ${params.ignore_type}`;
 
+        var ignore_priv = "";
+        if(typeof params.ignore_priv === "undefined") {
+            ignore_priv = "1=1";
+        }else{
+            ignore_priv = " c.priviledge IS NULL ";
+            let arr = params.ignore_priv.split("::");
+            for(var i in arr){
+                let a = arr[i];
+                if(a){
+                    ignore_priv += ` OR c.priviledge NOT LIKE "%${a}%" `;
+                }
+            }
+            ignore_priv = ` (${ignore_priv}) `;
+        }
+   
+
         var limit = DB.prepareLimit(params.page, params.offset);
 
         var order_by = (typeof params.order_by === "undefined") ?
@@ -61,10 +77,10 @@ class CompanyQuery {
             and ${ignore_type} and ${id_where} 
             and ${include_sponsor} and ${type_where} 
             and ${cf_where} and ${ps_where} and ${search_name}
-            and c.ID != ${SupportUserID}
+            and c.ID != ${SupportUserID} and ${ignore_priv}
             ${order_by}`;
 
-        //console.log(sql);
+        console.log(sql);
 
         if (extra.count) {
 			return `select count(*) as cnt ${sql}`;
