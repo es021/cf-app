@@ -9,7 +9,7 @@ import {
   removeClassEl
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
-import { isRoleStudent } from "../../../redux/actions/auth-actions";
+import { isRoleStudent, isRoleRec } from "../../../redux/actions/auth-actions";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -153,7 +153,7 @@ export default class ManageUserProfile extends React.Component {
           ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // defined multi choice
@@ -165,7 +165,7 @@ export default class ManageUserProfile extends React.Component {
           hideInputSuggestion: true,
           ref_order_by: "val ASC",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // single
@@ -176,7 +176,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Malaysia",
           ref_table_name: "country",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // single
@@ -190,7 +190,7 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_val: country,
           ref_filter_find_id: true, // kena ubah kat ref-query
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // single select
@@ -202,7 +202,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Type something here",
           ref_table_name: "qualification",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         // {
         //   // free multi choice (location)
@@ -229,7 +229,7 @@ export default class ManageUserProfile extends React.Component {
           list_title: null,
           ref_table_name: "field_study",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // single
@@ -240,7 +240,7 @@ export default class ManageUserProfile extends React.Component {
           sublabel: "CGPA, First Class, etc",
           input_placeholder: "Type something here",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // single
@@ -263,7 +263,7 @@ export default class ManageUserProfile extends React.Component {
           ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // free multi choice
@@ -277,7 +277,7 @@ export default class ManageUserProfile extends React.Component {
           suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
           suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         // {
         //   // select multi choice
@@ -302,7 +302,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Cyberjaya, Selangor",
           ref_table_name: "location_malaysia",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // free multi choice (location)
@@ -317,7 +317,7 @@ export default class ManageUserProfile extends React.Component {
             : "Popular in your area",
           ref_table_name: "location",
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // free multi choice
@@ -333,7 +333,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "skill",
           ref_offset : 11,
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         {
           // free multi choice
@@ -346,7 +346,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "extracurricular",
           ref_offset : 11,
           is_required: true,
-          hidden: !isRoleStudent()
+          hidden: isRoleRec()
         },
         // {
         //   // single
