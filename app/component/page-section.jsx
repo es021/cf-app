@@ -45,13 +45,16 @@ export default class PageSection extends React.Component {
         if (typeof body === "function") {
             body = React.createElement(body, {});
         }
-        const title = (!this.props.canToggle)
+        let title = (!this.props.canToggle)
             ? <h3 className={`${sec}-title`}>
                 {this.props.title}
             </h3>
             : <h3 onClick={(ev) => { this.toggleBody(ev) }} className={`${sec}-title`}>
                 <a>{this.props.title}</a>
             </h3>;
+
+        /// override by custom title
+        title = this.props.customTitle ? this.props.customTitle : title;
 
         let showOverflow = this.props.showOverflow ? `${sec}-overflow` : "";
 
@@ -66,8 +69,7 @@ export default class PageSection extends React.Component {
             {this.state.maxHeight === null ? null :
                 <div style={{ marginTop: "" }}>
                     <a onClick={() => { this.toggleShowMoreLess() }}>
-                        {this.state.maxHeight == this.MAXEST ? "Show Less"
-                            : <span>..................<br></br>Show More</span>}
+                        <span><b>{this.state.maxHeight == this.MAXEST ? "See Less" : "See More"}</b></span>
                     </a>
                 </div>
             }
@@ -77,7 +79,8 @@ export default class PageSection extends React.Component {
 }
 
 PageSection.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    customTitle: PropTypes.string,
     body: PropTypes.element.isRequired,
     className: PropTypes.oneOf(["left"]),
     canToggle: PropTypes.bool,

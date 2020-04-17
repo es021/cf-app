@@ -59,8 +59,6 @@ export function getLocalStorageCf() {
     return cfObj;
 }
 
-
-
 export function getLocalStorageCfJsonObject(key, defaultReturn) {
     let allCf = getLocalStorageCf();
     let toRet = {};
@@ -352,6 +350,14 @@ export function isRoleAdmin() {
         getAuthUser().role === UserEnum.ROLE_ADMIN ||
         getAuthUser().role === UserEnum.ROLE_SUPPORT;
 }
+
+export function isRecruiterCompany(cid) {
+    return (
+      (isRoleRec() && getAuthUser().rec_company == cid) ||
+      isRoleAdmin()
+    );
+}
+
 
 export function isTestUser() {
     return TestUser.indexOf(getAuthUser().ID) >= 0;

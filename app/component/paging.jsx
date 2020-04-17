@@ -160,7 +160,8 @@ export default class Paging extends Component {
       return <div className="paging"></div>;
     }
 
-    return <div className="paging">
+    let alignClass = this.props.align ? `paging-${this.props.align}` : "";
+    return <div className={`paging ${alignClass}`}>
       {/* <div className="pg-count">
         {this.viewCount()}
       </div> */}
@@ -186,7 +187,7 @@ Paging.propTypes = {
   offset: PropTypes.number,
   total: PropTypes.number.isRequired,
   hasTotal: PropTypes.bool,
-
+  align:PropTypes.string,
   pagingLimit: PropTypes.number,
   onClickPage: PropTypes.func,
   onClickPrev: PropTypes.func,

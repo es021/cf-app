@@ -1,4 +1,6 @@
 
+npm install flickity --save
+
 <!-- 1. add remove (hidden) for all iv card -->
 <!-- 2. filter and sort iv card -->
 <!-- 3. cron job utk ended kan sume zoom call yg dah expired -->

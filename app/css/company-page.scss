@@ -1,53 +1,145 @@
 @import "define/variable.scss";
 
 .company-page {
-  #company-edit-btn {
-    align-self: end;
+  margin-top: 20px;
+  .cp-body {
+    margin-top: 40px;
+    text-align: left;
 
-    @media only screen and (max-width: 990px) {
-      align-self: start;
-      a {
-        margin-right: 10px;
-        padding: 7px 10px;
-        font-size: 14px;
-        border-radius: 5px !important;
-      }
+    .cp-additional-info {
+      border: solid $COLOR-SEEDS 1px;
+      padding: 22px 40px;
+      border-radius: 16px;
+      margin-top: 26px;
+      font-size: 90%;
     }
 
-    @media only screen and (max-width: 500px) {
-        a {
-            margin-right: 10px;
-            padding: 4px 7px;
-            font-size: 12px;
-            border-radius: 3px !important;
+    .cp-gallery {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .cp-gallery-arrow {
+        margin: 0px 10px;
+      }
+
+      .cp-gallery-container {
+        overflow: hidden;
+
+        .cp-gallery-container-inner {
+          transition: transform ease-in-out 0.5s;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .cp-gallery-item {
+            &:first-of-type{
+              margin-left: 0px;
+            }
+            &:last-of-type{
+              margin-right: 0px;
+            }
+            margin: 7px 10px;
           }
+        }
+      }
+    }
+
+    .cp-quick-link {
+      padding: 15px 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 1px 1px 4px -1px rgba(0, 0, 0, 0.3);
+
+      .cp-quick-link-item {
+        background: $COLOR-SEEDS-LIGHT;
+        color: $COLOR-SEEDS;
+        width: max-content;
+        font-weight: bold;
+        font-size: 85%;
+        padding: 3px 13px;
+        margin: 10px 10px;
+        border-radius: 13px;
+      }
     }
   }
 
-  .banner {
-    width: 100%;
+  .cp-header {
     background: white;
-  }
-
-  .com-pop-left {
-    margin-top: -150px;
-  }
-  .com-pop-pic {
-    //z-index: 13;
-    position: relative;
-    //border-bottom: 1px darkgray solid;
-    .profile-card {
-      .pc-picture {
-        border: 1px solid darkgray;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, 0.25);
+    .cp-header-banner-small {
+      height: 200px;
+      display: inline-block;
+      width: 100%;
+      @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP) {
+        display: none;
       }
-      .pc-title {
-        // margin: 6px 0px;
-        // font-size: 20px;
+    }
+    .cp-header-banner-large {
+      height: 400px;
+    }
+    .cp-header-avatar {
+      @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP) {
+        height: 400px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+        margin-top: -100px;
+      }
+      padding: 10px 15px;
+      position: relative;
+      .profile-card {
+        margin: 0px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        .pc-picture {
+          border: 1px solid darkgray;
+        }
+        .pc-title {
+          font-weight: bold;
+          // margin: 6px 0px;
+          // font-size: 20px;
+        }
       }
     }
 
-    @media only screen and (max-width: 500px) {
-      margin-top: 130px;
+    // .com-pop-left {
+    //   margin-top: -150px;
+    // }
+
+    #company-edit-btn {
+      align-self: end;
+
+      @media only screen and (max-width: 990px) {
+        align-self: start;
+        a {
+          padding: 5px 9px;
+          font-size: 13px;
+          border-radius: 5px !important;
+        }
+      }
+
+      @media only screen and (max-width: 500px) {
+        a {
+          padding: 4px 7px;
+          font-size: 12px;
+          border-radius: 3px !important;
+        }
+      }
     }
+
+    // .banner {
+    //   width: 100%;
+    //   background: white;
+    // }
+
+    // @media only screen and (max-width: 500px) {
+    //   margin-top: 130px;
+    // }
   }
 }

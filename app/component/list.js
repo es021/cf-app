@@ -69,7 +69,7 @@ export default class List extends React.Component {
   load(type, page) {
     if (page) {
       page = Number.parseInt(page);
-      if(isNaN(page) || this.page == page){
+      if (isNaN(page) || this.page == page) {
         return;
       }
       this.page = page;
@@ -115,7 +115,7 @@ export default class List extends React.Component {
           //empty list
           if (data.length <= 0) {
             var empty = this.props.showEmpty ? (
-              <div className="text-muted text-center list-empty-text">
+              <div style={{width:"100%"}} className="text-muted text-center list-empty-text">
                 Nothing To Show Here
               </div>
             ) : null;
@@ -208,6 +208,24 @@ export default class List extends React.Component {
     );
   }
 
+  getListClass() {
+    let r = "";
+
+    if (this.props.listClass) {
+      r += this.props.listClass;
+    }
+
+    if (this.props.listAlign == "left") {
+      r += " flex-wrap-start ";
+    }
+
+    if (this.props.listAlign == "right") {
+      r += " flex-wrap-end ";
+    }
+
+    return r;
+
+  }
   renderDataContent() {
     var dataContent = null;
 
@@ -222,7 +240,7 @@ export default class List extends React.Component {
           <div className=" table-responsive">
             <table
               ref={this.props.listRef}
-              className={`${this.props.listClass} table table-striped table-bordered table-hover table-condensed text-left`}
+              className={`${this.getListClass()} table table-striped table-bordered table-hover table-condensed text-left`}
             >
               {this.props.tableHeader}
               <tbody>{this.state.listItem}</tbody>
@@ -277,16 +295,17 @@ export default class List extends React.Component {
       let paging = null;
 
       paging = <Paging
-          onClickNext={() => this.load(this.NEXT)}
-          onClickPrev={() => this.load(this.PREV)}
-          onClickPage={(page) => this.load(null, page)}
-          total={this.state.count}
-          offset={this.props.offset}
-          currentPage={this.page}
-          totalInPage={this.state.fetchCount}
-          hasTotal={this.props.loadCount}
-          limitButton={this.props.limitPaging}
-        />
+        align={this.props.listAlign}
+        onClickNext={() => this.load(this.NEXT)}
+        onClickPrev={() => this.load(this.PREV)}
+        onClickPage={(page) => this.load(null, page)}
+        total={this.state.count}
+        offset={this.props.offset}
+        currentPage={this.page}
+        totalInPage={this.state.fetchCount}
+        hasTotal={this.props.loadCount}
+        limitButton={this.props.limitPaging}
+      />
 
       // if (this.props.loadCount) {
       //   // startCount = (this.page - 1) * this.props.offset + 1;
@@ -391,7 +410,7 @@ export default class List extends React.Component {
     var content = (
       <div className={`${this.props.divClass}`}>
         {topView}
-        <ul className={`${this.props.listClass}`} ref={this.props.listRef}>
+        <ul className={`${this.getListClass()}`} ref={this.props.listRef}>
           {extraTop}
           {this.renderDataContent()}
           {extraBottom}
@@ -410,6 +429,7 @@ List.propTypes = {
   customLoading: PropTypes.element,
   customEmpty: PropTypes.element,
   listClass: PropTypes.string,
+  listAlign: PropTypes.string,
   listRef: PropTypes.object,
   limitPaging: PropTypes.number, // total count for the list
   totalCount: PropTypes.number, // total count for the list
@@ -838,11 +858,15 @@ export class CustomList extends Component {
     // console.log(this.props.className, this.props.items)
     // console.log(this.props.className, this.props.items)
     // console.log(this.props.className, this.props.items)
+
     if (this.props.items.length === 0) {
+      let emptyStyle = {
+        width: "100%"
+      }
       if (typeof this.props.emptyMessage !== "undefined") {
-        return <div className="text-muted">{this.props.emptyMessage}</div>;
+        return <div style={emptyStyle} className="text-muted">{this.props.emptyMessage}</div>;
       } else {
-        return <div className="text-muted">Nothing To Show Here</div>;
+        return <div style={emptyStyle} className="text-muted">Nothing To Show Here</div>;
       }
     }
 

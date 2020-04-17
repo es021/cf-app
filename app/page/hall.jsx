@@ -235,7 +235,7 @@ export default class HallPage extends React.Component {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title="Events & Webinars"
         backgroundColor={backgroundColor}
-        items={<EventList limitLoad={4} />}
+        items={<EventList limitLoad={4}/>}
         see_more_text="See More Events & Webinars"
         see_more_to={`${AppPath}/list-events`}
       ></ListRow>

@@ -1,17 +1,18 @@
 @import "define/variable.scss";
 
 .paging {
-	margin: 25px 0px;
+  margin: 25px 0px;
+
   .pg-btn-items {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .pg-btn {
       padding: 2px 7px;
       cursor: pointer;
-    //   background: white;
-    //   border: 1px solid $THEME;
+      //   background: white;
+      //   border: 1px solid $THEME;
       margin: 0px 3px;
       border-radius: 4px;
       color: $COLOR-SEEDS;
@@ -19,7 +20,6 @@
 
     .pg-btn:hover,
     .pg-btn.active {
-
       background: $COLOR-SEEDS;
       color: white;
     }
@@ -32,6 +32,21 @@
         justify-content: center;
         margin: 0;
       }
+    }
+  }
+
+  &.paging-left {
+    .pg-btn-items {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
+  &.paging-right {
+    .pg-btn-items {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
     }
   }
 }

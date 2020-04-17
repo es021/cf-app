@@ -51,14 +51,20 @@ export class EventList extends React.Component {
     // });
 
     this.getMainQueryParam = (page, offset) => {
-      let paging = "";
+      let param = "";
+
       if (page && offset) {
-        paging = `page:${page},offset:${offset}`;
+        param += `page:${page},offset:${offset},`;
+      }
+
+      if (this.props.company_id) {
+        param += `company_id:${this.props.company_id},`;
       }
 
       // order_by:"end_time desc"
-      return `cf:"${getCF()}", user_id:${getAuthUser().ID}, 
-        ${paging} `
+      param = `cf:"${getCF()}",user_id:${getAuthUser().ID},${param}`;
+      param = param.substr(0, param.length - 1);
+      return param;
     }
     this.loadCount = () => {
       var query = `query{
@@ -304,8 +310,15 @@ export class EventList extends React.Component {
     );
 
     //rsvpButton = null;
+    let viewStyle = {
+      position : "relative",
+    }
+    if(this.props.isFullWidth){
+      viewStyle["width"] = "100%";
+    }
+    
     let v = (
-      <div className="event-list" style={{ position: "relative" }}>
+      <div className="event-list" style={viewStyle}>
         {isRoleStudent() ? rsvpButton : null}
         {img}
         {details}
@@ -324,19 +337,31 @@ export class EventList extends React.Component {
       }
     }
 
+    let offset = 0;
+    if (this.props.limitLoad) {
+      offset = this.props.limitLoad;
+    }
+    else if (this.props.customOffset) {
+      offset = this.props.customOffset;
+    }
+    else {
+      offset = this.offset;
+    }
+
     return (
       <List
         {...countParam}
         key={this.state.key}
         type="list"
-        listClass={"flex-wrap"}
+        listClass={this.props.listClass ? this.props.listClass : "flex-wrap"}
         pageClass="text-right"
         listRef={v => (this.dashBody = v)}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
         extraData={this.state.extraData}
         hideLoadMore={this.props.limitLoad ? true : false}
-        offset={this.props.limitLoad ? this.props.limitLoad : this.offset}
+        offset={offset}
+        listAlign={this.props.listAlign}
         renderList={this.renderList}
       />
     );
@@ -345,7 +370,11 @@ export class EventList extends React.Component {
 }
 
 EventList.propTypes = {
-  limitLoad: PropTypes.number
+  limitLoad: PropTypes.number,
+  company_id: PropTypes.number,
+  customOffset: PropTypes.number,
+  listAlign : PropTypes.string,
+  isFullWidth : PropTypes.bool,
 }
 
 EventList.defaultProps = {

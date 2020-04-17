@@ -55,21 +55,23 @@ export default class ListBoard extends React.Component {
         // lb-action 
 
 
-        return <div className="list-board">
+        return <div className="list-board" style={{marginBottom : this.props.isNoMarginBottom ? "0px" : ""}}>
             {/* title */}
-            <div className="lb-title">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-8 no-padding lb-title-text">
-                            <i className={`fa fa-${this.props.icon} left`}></i>
-                            {this.props.title}
-                        </div>
-                        <div className="col-md-4 no-padding lb-title-action">
-                            {action}
+            {this.props.isNoTitle ? null :
+                <div className="lb-title">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-8 no-padding lb-title-text">
+                                <i className={`fa fa-${this.props.icon} left`}></i>
+                                {this.props.title}
+                            </div>
+                            <div className="col-md-4 no-padding lb-title-action">
+                                {action}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
             {/* filter */}
             {this.props.filter ? <div className="lb-filter">{this.props.filter}</div> : null}
             {/* list */}
@@ -78,10 +80,12 @@ export default class ListBoard extends React.Component {
     }
 }
 ListBoard.propTypes = {
-
+    isNoTitle: PropTypes.bool,
+    isNoMarginBottom: PropTypes.bool,
 };
 
 ListBoard.defaultProps = {
-
+    isNoTitle: false,
+    isNoMarginBottom: false,
 };
 

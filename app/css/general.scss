@@ -181,6 +181,12 @@ h3.left {
   flex-wrap: wrap;
 }
 
+.flex-wrap-end {
+  justify-content: end;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .flex-wrap-center {
   justify-content: center;
   display: flex;

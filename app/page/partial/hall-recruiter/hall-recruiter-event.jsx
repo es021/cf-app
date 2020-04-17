@@ -2,7 +2,9 @@
 
 import React from "react";
 import { createImageElement, PCType } from "../../../component/profile-card.jsx";
-import { getAuthUser, getCF, isRoleAdmin } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCF, isRoleAdmin, isRecruiterCompany } from "../../../redux/actions/auth-actions";
+import PropTypes from 'prop-types';
+
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { RootPath } from "../../../../config/app-config";
 import { EventEnum } from "../../../../config/db-config";
@@ -18,6 +20,7 @@ import InputEditable from "../../../component/input-editable";
 import obj2arg from "graphql-obj2arg";
 
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
+
 
 export default class HallRecruiterEvent extends React.Component {
   constructor(props) {
@@ -57,7 +60,7 @@ export default class HallRecruiterEvent extends React.Component {
       }
 
       // order_by:"end_time desc"
-      return `company_id:${getAuthUser().rec_company}, user_id:${getAuthUser().ID}, 
+      return `company_id:${this.props.company_id}, user_id:${getAuthUser().ID}, 
         ${paging} `
     }
     this.loadCount = () => {
@@ -80,10 +83,11 @@ export default class HallRecruiterEvent extends React.Component {
     });
   }
   isRecThisCompany() {
-    return (
-      (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
-      isRoleAdmin()
-    );
+    isRecruiterCompany(this.props.company_id);
+    // return (
+    //   (isRoleRec() && this.authUser.rec_company == this.props.company_id) ||
+    //   isRoleAdmin()
+    // );
   }
   // getJoinButton(d) {
   //   return <button
@@ -248,6 +252,8 @@ export default class HallRecruiterEvent extends React.Component {
         // action_text="Add New Job Post"
         // action_to={`manage-company/${this.props.company_id}/vacancy`}
         title="My Events"
+        isNoTitle={this.props.isNoTitle}
+        isNoMarginBottom={this.props.isNoMarginBottom}
         icon="calendar"
         appendText={"Load More"}
         loadData={this.loadData}
@@ -257,4 +263,13 @@ export default class HallRecruiterEvent extends React.Component {
       />
     );
   }
+}
+
+HallRecruiterEvent.propTypes = {
+  isNoTitle : PropTypes.bool,
+  isNoMarginBottom : PropTypes.bool
+}
+
+HallRecruiterEvent.defaultProps = {
+  isNoTitle : false
 }

@@ -5,29 +5,26 @@ import PageSection from "../component/page-section";
 import { NavLink } from "react-router-dom";
 import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import ProfileCard from "../component/profile-card.jsx";
-import { EmptyCard } from "../component/card.jsx";
-import List, { SimpleListItem, ProfileListItem } from "../component/list";
+import { ProfileListItem, CustomList } from "../component/list";
 import { Loader } from "../component/loader";
+import { getYoutubeIframe } from "../component/gallery";
 import {
   getAuthUser,
   isRoleRec,
   isRoleStudent,
   isRoleAdmin,
   doAfterValidateComingSoon,
-  getCF
+  isRecruiterCompany,
 } from "../redux/actions/auth-actions";
-import { DocLinkEnum, CompanyEnum, LogEnum } from "../../config/db-config";
-//import { CustomList, createIconLink } from "../component/list";
+import { LogEnum, DocLinkEnum } from "../../config/db-config";
 import * as activityActions from "../redux/actions/activity-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import * as hallAction from "../redux/actions/hall-actions";
 import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
-import { RootPath, ImgConfig, AppPath } from "../../config/app-config";
+import { AppPath } from "../../config/app-config";
 
 import { addLog } from "../redux/actions/other-actions";
 import { getFeedbackPopupView } from "./partial/analytics/feedback";
-//import { GroupSessionView } from "./partial/hall/group-session";
-import { LiveSessionView, openLiveSession } from "./partial/hall/live-session";
 
 import { Gallery, isGalleryIframe } from "../component/gallery";
 import ValidationStudentAction, {
@@ -35,14 +32,10 @@ import ValidationStudentAction, {
 } from "../component/validation-student-action";
 import { BANNER_HEIGHT, BANNER_WIDTH } from "../component/profile-card-img";
 import {
-  PCType,
   getStyleBannerObj,
-  createImageElement
 } from "../component/profile-card";
-import ActionBox from "../component/action-box";
 import { InterestedButton } from "../component/interested";
 
-import VacancyPopup from "./partial/popup/vacancy-popup";
 import ResumeDropPopup from "./partial/popup/resume-drop-popup";
 
 import {
@@ -52,6 +45,8 @@ import {
 import { ButtonAction } from "../component/buttons";
 import { getDangerousHtml } from "../lib/util";
 import { VacancyList } from "./partial/company/vacancy";
+import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
+import { EventList } from "./event-list";
 
 export default class CompanyPage extends Component {
   constructor(props) {
@@ -62,9 +57,14 @@ export default class CompanyPage extends Component {
       data: null,
       loading: true,
       isHiddenValidation: true,
-      keyValidation: 0
+      keyValidation: 0,
+      galleryTranslate: 0,
+      galleryCurrentIndex: 1,
     };
 
+    this.SECTION_MAX_HEIGHT = 143;
+    this.SECTION_MARGIN_BOTTOM = "60px";
+    this.SECTION_TITLE_MARGIN_BOTTOM = "20px";
     this.ID = null;
     if (this.props.match) {
       this.ID = this.props.match.params.id;
@@ -80,7 +80,7 @@ export default class CompanyPage extends Component {
     this.getRecs = this.getRecs.bind(this);
     this.startQueue = this.startQueue.bind(this);
     this.addSessionRequest = this.addSessionRequest.bind(this);
-    this.getBtnLike = this.getBtnLike.bind(this);
+    this.getSubscribeBtn = this.getSubscribeBtn.bind(this);
   }
 
   isRecThisCompany() {
@@ -93,11 +93,11 @@ export default class CompanyPage extends Component {
   }
 
   componentWillUnmount() {
-    unsetBodyFullWidth();
+    // unsetBodyFullWidth();
   }
 
   componentWillMount() {
-    setBodyFullWidth();
+    // setBodyFullWidth();
 
     var logData = {
       id: Number.parseInt(this.ID),
@@ -350,31 +350,17 @@ export default class CompanyPage extends Component {
   }
 
   getBanner() {
-    // window.addEventListener("resize", event => {
-    //   this.setState(prevState => {
-    //     let newWidth = this.getBodyWidth();
-    //     if (prevState.bannerKey - newWidth >= 100) {
-    //       return { bannerKey: newWidth };
-    //     }
-    //   });
-    // });
-
     var data = this.state.data;
-
-    let width = this.getBodyWidth();
-    let height = (width / BANNER_WIDTH) * BANNER_HEIGHT;
-
-    width += "px";
-    height += "px";
-
     var style = getStyleBannerObj(
       data.banner_url,
       data.banner_size,
       data.banner_position,
-      width,
-      height
+      null,
+      null
     );
-
+    style.backgroundPosition = "center center";
+    style.backgroundSize = "cover";
+    style.height = "100%"
     //return <div key={this.state.bannerKey} className="banner" style={style} />;
     return <div className="banner" style={style}>
       {this.getEditButton()}
@@ -383,10 +369,10 @@ export default class CompanyPage extends Component {
 
   getEditButton() {
     if (this.isRecThisCompany()) {
-      return <div className="main-width main-width-lg container-fluid flex-center" style={{ height: "100%" }}>
+      return <div className="flex-center" style={{ height: "100%", padding: "15px" }}>
         <div id="company-edit-btn" className="text-right" style={{ width: "100%" }}>
           <NavLink to={`${AppPath}/manage-company/${this.ID}/about`}
-             className="btn btn-gray btn-bold btn-round-10 btn-lg">
+            className="btn btn-gray btn-bold btn-round-10 btn-lg">
             <i className="fa fa-edit left"></i>Edit Company Profile
             </NavLink>
         </div>
@@ -405,10 +391,10 @@ export default class CompanyPage extends Component {
     );
   }
 
-  getBtnLike(styleBtnAction) {
+  getSubscribeBtn() {
     let data = this.state.data;
 
-    const getBtnLikeCustomView = ({
+    const getSubscribeBtnCustomView = ({
       loading,
       isModeCount,
       isModeAction,
@@ -418,19 +404,15 @@ export default class CompanyPage extends Component {
       onClickModeAction
     }) => {
       if (isModeAction) {
+        let btnColor = is_interested ? "blue" : "grey";
+        let btnText = is_interested ? `Subscribed` : `Subscribe`
+        let btnIcon = loading ? "spinner fa-pulse" : "thumbs-up"
         return (
-          <ButtonAction
-            style={styleBtnAction}
-            btnClass={`btn-lg btn-${is_interested ? "blue" : "default"}`}
-            onClick={onClickModeAction}
-            icon={loading ? "spinner fa-pulse" : "thumbs-up"}
-            iconSize="2x"
-            mainText={
-              loading ? null : is_interested ? `Liked` : `Like This Company`
-            }
-            // subText={`with ${this.state.data.name}`}
-            subText={null}
-          />
+          <button className={`btn btn-sm btn-block btn-round-10 btn-${btnColor} btn-bold`}
+            onClick={onClickModeAction}>
+            <i className={`fa fa-${btnIcon} left`}></i>
+            {btnText}
+          </button>
         );
       } else if (isModeCount) {
         let mainText = `Liked By ${like_count} Student${
@@ -438,13 +420,11 @@ export default class CompanyPage extends Component {
           }`;
         return (
           <ButtonAction
-            style={styleBtnAction}
             btnClass={`btn-lg btn-blue`}
             onClick={onClickModeCount}
             icon={loading ? "spinner fa-pulse" : "thumbs-up"}
             iconSize="2x"
             mainText={mainText}
-            // subText={`with ${this.state.data.name}`}
             subText={null}
           />
         );
@@ -458,7 +438,7 @@ export default class CompanyPage extends Component {
 
     return (
       <InterestedButton
-        customView={getBtnLikeCustomView}
+        customView={getSubscribeBtnCustomView}
         isModeCount={isModeCount}
         isModeAction={isModeAction}
         ID={data.interested.ID}
@@ -473,56 +453,6 @@ export default class CompanyPage extends Component {
     if (!isRoleStudent() || this.props.displayOnly) {
       return null;
     }
-
-    const qs_successView = (
-      <div>
-        <h3 className="text-success">Successfully Submitted Your Question</h3>
-        See your posted question in
-        <br />
-        <NavLink
-          onClick={e => {
-            layoutActions.storeHideBlockLoader();
-            layoutActions.storeHideFocusCard();
-          }}
-          to={AppPath + `/forum/${this.forum_id}`}
-        >
-          company forum
-        </NavLink>
-        <br />
-        <br />
-        <button
-          onClick={e => {
-            layoutActions.storeHideBlockLoader();
-          }}
-          className="btn btn-sm btn-blue"
-        >
-          Got It!
-        </button>
-      </div>
-    );
-
-    const qs_onSubmit = data => {
-      layoutActions.loadingBlockLoader("Submitting Your Question...");
-
-      // todos insert to forum
-      var ins = {
-        user_id: getAuthUser().ID,
-        content: data,
-        is_owner: 0,
-        forum_id: this.forum_id
-      };
-
-      let query = `mutation{ add_forum_comment (${obj2arg(ins, {
-        noOuterBraces: true
-      })}) { ID } }`;
-      getAxiosGraphQLQuery(query).then(res => {
-        this.setState(prevState => {
-          return { qsLastSubmitted: Date.now() };
-        });
-
-        layoutActions.customViewBlockLoader(null, qs_successView);
-      });
-    };
 
     const btn_onClickResume = () => {
       this.setState(prevState => {
@@ -540,127 +470,219 @@ export default class CompanyPage extends Component {
       doAfterValidateComingSoon(doAction);
     };
 
-    const styleBtnAction = {
-      width: "100%",
-      margin: "0px",
-      marginBottom: "10px",
-      fontSize: "15px"
-    };
+    return <div className="container-fluid">
+      <div className="row" >
+        {/* top full */}
+        <div className="col-sm-12  no-padding"
+          style={{ padding: "5px" }}>
+          <button className="btn btn-sm btn-block btn-round-10 btn-green btn-bold"
+            onClick={btn_onClickResume}>
+            <i className="fa fa-download left"></i>Drop Your Resume
+        </button>
+        </div>
 
-    // let colSize = "3"
-    let colSize = "4";
-    return (
-      <div className="row" style={{ marginTop: "15px" }}>
-        <div className={`col-md-${colSize}`}>
-          {this.getBtnLike(styleBtnAction)}
+        {/* bottom left */}
+        <div className="col-lg-6 no-padding"
+          style={{ padding: "5px" }}>
+          {this.getSubscribeBtn()}
         </div>
-        {/* <div className={`col-md-${colSize}`}>
-          <ButtonAction
-            style={styleBtnAction}
-            btnClass="btn-lg btn-danger"
-            onClick={() => {
-              openLiveSession(this.ID);
-            }}
-            icon="podcast"
-            iconSize="2x"
-            mainText={"Join Live Session"}
-            // subText={`with ${this.state.data.name}`}
-            subText={null}
-          />
-        </div> */}
-        <div className={`col-md-${colSize}`}>
-          <ButtonAction
-            style={styleBtnAction}
-            btnClass="btn-lg btn-danger"
-            onClick={btn_onClickChat}
-            icon="comments"
-            iconSize="2x"
-            mainText={`Chat With Us`}
-            /// ${this.state.data.name}
-            subText={null}
-          />
-        </div>
-        <div className={`col-md-${colSize}`}>
-          <ButtonAction
-            style={styleBtnAction}
-            btnClass="btn-lg btn-success"
-            onClick={btn_onClickResume}
-            icon="download"
-            iconSize="2x"
-            mainText={"Drop Your Resume"}
-            subText={null}
-          />
+
+        {/* bottom right */}
+        <div className="col-lg-6 no-padding"
+          style={{ padding: "5px" }}>
+          <button className="btn btn-sm btn-block btn-round-10 btn-red btn-bold"
+            onClick={btn_onClickChat}>
+            <i className="fa fa-comments left"></i>Chat With Us
+        </button>
         </div>
       </div>
+    </div>
 
-      /* <ActionBox
-            title={
-              <div>
-                <i className="fa fa-download left" />
-                <b>Drop Your Resume</b>
-              </div>
-            }
-            isButton={true}
-            btn_onClick={btn_onClickResume}
-          /> */
-      /* <ActionBox
-          {...this.props}
-          title={
-            <div>
-              <i className="fa fa-comments left" />
-              <b>Chat With Recruiter</b>
+  }
+
+  _title_(icon, text) {
+    return <h3 className="text-bold"
+      style={{ marginBottom: this.SECTION_TITLE_MARGIN_BOTTOM }}>
+      <i className={`fa fa-${icon} left`}></i>
+      {text}
+    </h3>;
+  }
+
+  getAboutUs(data) {
+    if (!data.description && !data.more_info) {
+      return null;
+    } else {
+      return <div>
+        {
+          !data.description ? null : (
+            <PageSection
+              maxHeight={this.SECTION_MAX_HEIGHT}
+              canToggle={this.props.canToggle}
+              className="left"
+              customTitle={this._title_("user", "About Us")}
+              body={
+                <p
+                  dangerouslySetInnerHTML={getDangerousHtml(data.description)}
+                ></p>
+              }
+            />
+          )
+        }
+        {
+          !data.more_info ? null : (
+            <div className="cp-additional-info">
+              <b>Additional Information</b><br></br>
+              <p dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}></p>
             </div>
-          }
-          isDoAfterComingSoon={true}
-          isNavLink={true}
-        /> */
-      /* <div className={`col-md-4`}>
-        <ActionBox
-          key={this.state.qsLastSubmitted}
-          title={
-            <div>
-              <i className="fa fa-bullhorn left" />
-              <b>Ask Us A Question</b>
-            </div>
-          }
-          isQuestion={true}
-          qs_onSubmit={qs_onSubmit}
-        />
-      </div> */
+          )
+        }
+      </div>
+    }
+  }
+
+  getEvent(data) {
+    return <div>
+      {this._title_("calendar", "Events & Webinar")}
+      {isRecruiterCompany(this.ID)
+        ? <HallRecruiterEvent isNoTitle={true} isNoMarginBottom={true} company_id={this.ID}></HallRecruiterEvent>
+        : <EventList company_id={this.ID} customOffset={4} listAlign="center"  isFullWidth={true} />
+      }
+    </div>
+  }
+
+  getJobPost(data) {
+    return <div>
+      {this._title_("suitcase", "Job Post Opportunity")}
+      getJobPost
+  </div>
+  }
+  isUrlYoutube(url) {
+    return url.containText("youtube") || url.containText("youtu.be");
+  }
+  isGallery(d) {
+    return d.type == DocLinkEnum.TYPE_DOC || this.isUrlYoutube(d.url);
+  }
+
+  slideGallery(direction, width, count) {
+    // const maxRight = (width * count * -1) + (width / 2);
+    // const totalWidth = document.getElementsByClassName("cp-gallery-container")[0].clientWidth;
+
+
+    this.setState((prevState) => {
+
+      let trans = prevState.galleryTranslate;
+      let currentIndex = prevState.galleryCurrentIndex;
+      let offsetMove = width;
+
+
+      // console.log("maxRight", maxRight);
+      // console.log("totalWidth", totalWidth);
+      // console.log("currentIndex", currentIndex);
+
+      if (direction == "left" && currentIndex > 1) {
+        trans += offsetMove;
+        currentIndex -= 1;
+
+      } else if (direction == "right" && currentIndex < count) {
+        trans -= offsetMove;
+        currentIndex += 1;
+      }
+
+      return { galleryTranslate: trans, galleryCurrentIndex: currentIndex };
+    })
+  }
+
+  getGallery(data) {
+    let doc_links = data.doc_links;
+    let count = 0;
+    let width = 310;
+
+    let list = doc_links.map((d, i) => {
+      if (this.isGallery(d)) {
+        count++;
+        let item = null;
+        if (d.type == DocLinkEnum.TYPE_DOC) {
+          item = <iframe src={d.url} frameBorder="0" />;
+        } else if (this.isUrlYoutube(d.url)) {
+          item = getYoutubeIframe(d.url);
+        }
+        return <div className="cp-gallery-item">{item}</div>
+      }
+      return null;
+    });
+
+    if (count <= 0) {
+      return null;
+    }
+
+    const arrow = (direction) => {
+      let color = null;
+      if ((direction == "left" && this.state.galleryCurrentIndex == 1)
+        || (direction == "right" && this.state.galleryCurrentIndex == count)) {
+        color = "grey";
+      }
+
+      return <div className="cp-gallery-arrow" >
+        <a onClick={() => { this.slideGallery(direction, width, count) }}>
+          <i style={{ color: color }} className={`fa fa-2x fa-chevron-circle-${direction}`}></i>
+        </a>
+      </div>
+    }
+
+    let sliderGallery = (
+      <div className="cp-gallery">
+        {arrow("left")}
+        <div className="cp-gallery-container">
+          <div className="cp-gallery-container-inner"
+            style={{ transform: this.state.galleryTranslate ? `translateX(${this.state.galleryTranslate}px)` : null }}>
+            {list}
+          </div>
+        </div>
+        {arrow("right")}
+      </div>
+    );
+    return <div>
+      {this._title_("image", "Gallery")}
+      <div className="lg-and-more">
+        {sliderGallery}
+      </div>
+      <div className="md-and-less text-center">
+        {list}
+      </div>
+    </div>
+
+
+  }
+  isQuickLink(d) {
+    return !this.isGallery(d);
+  }
+  getQuickLink(data) {
+    let doc_links = data.doc_links;
+    let count = 0;
+
+    let list = doc_links.map((d, i) => {
+      if (this.isQuickLink(d)) {
+        count++;
+        return <a target='_blank' href={`${d.url}`}>
+          <div className="cp-quick-link-item">
+            {d.label}
+          </div>
+        </a>
+      }
+      return null;
+    });
+
+    if (count <= 0) {
+      return null;
+    }
+
+    return (
+      <div className="cp-quick-link">
+        <b><i className="fa fa-link left"></i>Quick Link</b><br></br>
+        {list}
+      </div>
     );
   }
-  // getStudentAction(data) {
-  //   // tukar action kepada button
-  //   const onClickResume = () => {
-  //     this.setState(prevState => {
-  //       return {
-  //         isHiddenValidation: false,
-  //         keyValidation: new Date().getTime()
-  //       };
-  //     });
-  //   };
-  //   var action =
-  //     !isRoleStudent() || this.props.displayOnly ? null : (
-  //       <div>
-  //         <button className="btn btn-blue btn-block" onClick={onClickResume}>
-  //           <i className="fa fa-download left" />
-  //           Drop Your Resume
-  //         </button>
-  //         <NavLink
-  //           to={`${RootPath}/app/forum/company_${data.ID}`}
-  //           onClick={() => {
-  //             layoutActions.storeHideFocusCard();
-  //           }}
-  //           className="btn btn-primary btn-block"
-  //         >
-  //           <i className="fa fa-comments left" />
-  //           Ask A Question
-  //         </NavLink>
-  //       </div>
-  //     );
-
-  //   return action;
-  // }
 
   render() {
     var id = null;
@@ -675,30 +697,6 @@ export default class CompanyPage extends Component {
       const vacancies = this.getVacancies(data.ID);
       const recs = this.getRecs(data.recruiters, data.rec_privacy);
       const doc_link = this.getDocLinks(data.doc_links);
-      const askForum = this.getAskForum();
-
-      // ##################################################################################
-      // for group session
-
-      // var gSession =
-      //   !isRoleStudent() || this.props.displayOnly ? null : (
-      //     <div>
-      //       {/* <ButtonAction
-      //         style={{ width: "100%", margin: "0px", marginBottom: "10px" }}
-      //         btnClass="btn-lg btn-blue"
-      //         onClick={() => { openLiveSession(this.ID); }}
-      //         icon="podcast"
-      //         iconSize="2x"
-      //         mainText={"Join Live Session"}
-      //         subText={`with ${this.state.data.name}`}
-      //       /> */}
-      //       <LiveSessionView
-      //         forStudent={true}
-      //         company_id={this.ID}
-      //         user_id={this.authUser.ID}
-      //       />
-      //     </div>
-      //   );
 
       // ##################################################################################
       // for action
@@ -709,52 +707,33 @@ export default class CompanyPage extends Component {
       var profilePic = (
         <ProfileCard
           type="company"
-          img_dimension={"200px"}
+          img_dimension={"150px"}
           className={"with-border"}
           img_url={data.img_url}
           img_pos={data.img_position}
           img_size={data.img_size}
-          title={<h3>{data.name}</h3>}
-          subtitle={data.tagline}
-          body={null}
+          // title={<h3>{data.name}</h3>}
+          // subtitle={data.tagline}
+          body={<div>
+            <h3><b>{data.name}</b></h3>
+            <p className="text-muted text-center">{data.tagline}</p>
+          </div>}
         />
       );
 
-      // var forumLink = (
-      //   <NavLink
-      //     onClick={e => {
-      //       layoutActions.storeHideBlockLoader();
-      //       layoutActions.storeHideFocusCard();
-      //     }}
-      //     to={AppPath + `/forum/${this.forum_id}`}
-      //   >
-      //     <small>Go To Company Forum</small>
-      //   </NavLink>
-      // );
-
       var rightBody = (
         <div>
-          {!this.isRecThisCompany() || this.props.displayOnly
+          {!this.isRecThisCompany()
             ? null
-            : this.getBtnLike({ fontSize: "15px", width: "100%" })}
-          {/* {this.props.displayOnly ? null : forumLink} */}
-          {/* {gSession} */}
+            : this.getSubscribeBtn({ fontSize: "15px", width: "100%" })}
         </div>
       );
 
-      var maxHeight = 143;
+      var maxHeight = this.SECTION_MAX_HEIGHT;
       var leftBody = (
         <div>
           <div>
             {actionBox}
-            {askForum == null ? null : (
-              <PageSection
-                canToggle={this.props.canToggle}
-                className="left"
-                title="Ask Us Anything"
-                body={askForum}
-              />
-            )}
             {doc_link == null ? null : (
               <PageSection
                 canToggle={this.props.canToggle}
@@ -769,7 +748,6 @@ export default class CompanyPage extends Component {
                 canToggle={this.props.canToggle}
                 className="left"
                 title="About"
-                //body={<p>{data.description}</p>}
                 body={
                   <p
                     dangerouslySetInnerHTML={getDangerousHtml(data.description)}
@@ -810,22 +788,55 @@ export default class CompanyPage extends Component {
         </div>
       );
 
-      view = this.props.displayOnly ? (
-        <div>
-          {profilePic}
-          {rightBody}
-          {leftBody}
-        </div>
-      ) : (
-          <div className="company-page">
-            {this.getBanner()}
-            <ValidationStudentAction
-              source={ValidationSource.DROP_RESUME}
-              key={this.state.keyValidation}
-              isHidden={this.state.isHiddenValidation}
-              successHandler={() => this.openResumeDrop()}
-            />
-            <div className="main-width main-width-lg container-fluid">
+      view =
+        <div className="company-page">
+          <ValidationStudentAction
+            source={ValidationSource.DROP_RESUME}
+            key={this.state.keyValidation}
+            isHidden={this.state.isHiddenValidation}
+            successHandler={() => this.openResumeDrop()}
+          />
+
+
+          {/* HEADER - banner n logo */}
+          <div className="container-fluid cp-header" >
+            <div className="row">
+              <div className="cp-header-banner-small col-md-9 no-padding md-and-less">
+                {this.getBanner()}
+              </div>
+              <div className="cp-header-avatar col-md-3 no-padding">
+                {profilePic}
+                {this.getStudentActionBox(data)}
+              </div>
+              <div className="cp-header-banner-large col-md-9 no-padding lg-and-more">
+                {this.getBanner()}
+              </div>
+            </div>
+          </div>
+
+          {/* BODY - details */}
+          <div className="container-fluid cp-body" >
+            <div className="row">
+              <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                {this.getAboutUs(data)}
+              </div>
+              <div className="col-md-4 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                {this.getQuickLink(data)}
+              </div>
+              <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                {this.getEvent(data)}
+              </div>
+              <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                {this.getJobPost(data)}
+              </div>
+              <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                {this.getGallery(data)}
+              </div>
+            </div>
+          </div>
+
+          {/* {this.getBanner()} */}
+          {/* <div className="main-width main-width-lg container-fluid">
               <div className="row">
                 <div
                   style={{ padding: "20px" }}
@@ -838,9 +849,8 @@ export default class CompanyPage extends Component {
                   {leftBody}
                 </div>
               </div>
-            </div>
-          </div>
-        );
+            </div> */}
+        </div>
     }
 
     return view;

@@ -61,7 +61,7 @@
   .#{$class}:focus,
   .#{$class}.active,
   .#{$class}:active {
-    color: $color;
+    color: $text_color;
     // background-color: darken($color, 10) !important;
     // border-color: darken($color, 15) !important;
     // background-color: darken($color, 10) ;
