@@ -66,6 +66,33 @@ body.landing-page {
 
   // #############################################
   // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $CIMB_RED;
+      border-bottom: 2px solid $CIMB_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $CIMB_RED 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #ffd7d7;
+          color: $CIMB_RED;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
   // PAGE SECTION
   .page-sec {
     .page-sec-title {

@@ -47,6 +47,7 @@ import { getDangerousHtml } from "../lib/util";
 import { VacancyList } from "./partial/company/vacancy";
 import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import { EventList } from "./event-list";
+import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
 
 export default class CompanyPage extends Component {
   constructor(props) {
@@ -544,8 +545,8 @@ export default class CompanyPage extends Component {
     return <div>
       {this._title_("calendar", "Events & Webinar")}
       {isRecruiterCompany(this.ID)
-        ? <HallRecruiterEvent isNoTitle={true} isNoMarginBottom={true} company_id={this.ID}></HallRecruiterEvent>
-        : <EventList company_id={this.ID} customOffset={4} listAlign="center"  isFullWidth={true} />
+        ? <HallRecruiterEvent offset={3} isNoTitle={true} isNoMarginBottom={true} company_id={this.ID}></HallRecruiterEvent>
+        : <EventList company_id={this.ID} isHidePagingTop={true} customOffset={4} listAlign="center" isFullWidth={true} />
       }
     </div>
   }
@@ -553,8 +554,12 @@ export default class CompanyPage extends Component {
   getJobPost(data) {
     return <div>
       {this._title_("suitcase", "Job Post Opportunity")}
-      getJobPost
-  </div>
+      {isRecruiterCompany(this.ID)
+        ? <HallRecruiterJobPosts offset={4} isNoTitle={true} isNoMarginBottom={true} company_id={this.ID}></HallRecruiterJobPosts>
+        : <VacancyList listClass="flex-wrap-center text-left" offset={4} isHidePagingTop={true} isFullWidth={true} filterByCf={true} isListAll={true} company_id={this.ID} />
+        // : <EventList company_id={this.ID} customOffset={4} listAlign="center" isFullWidth={true} />
+      }
+    </div>
   }
   isUrlYoutube(url) {
     return url.containText("youtube") || url.containText("youtu.be");
@@ -643,10 +648,10 @@ export default class CompanyPage extends Component {
     );
     return <div>
       {this._title_("image", "Gallery")}
-      <div className="lg-and-more">
+      <div className="show-on-lg-and-more">
         {sliderGallery}
       </div>
-      <div className="md-and-less text-center">
+      <div className="show-on-md-and-less text-center">
         {list}
       </div>
     </div>
@@ -801,14 +806,14 @@ export default class CompanyPage extends Component {
           {/* HEADER - banner n logo */}
           <div className="container-fluid cp-header" >
             <div className="row">
-              <div className="cp-header-banner-small col-md-9 no-padding md-and-less">
+              <div className="cp-header-banner-small col-md-9 no-padding show-on-md-and-less">
                 {this.getBanner()}
               </div>
               <div className="cp-header-avatar col-md-3 no-padding">
                 {profilePic}
                 {this.getStudentActionBox(data)}
               </div>
-              <div className="cp-header-banner-large col-md-9 no-padding lg-and-more">
+              <div className="cp-header-banner-large col-md-9 no-padding show-on-lg-and-more">
                 {this.getBanner()}
               </div>
             </div>

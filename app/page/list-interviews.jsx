@@ -9,7 +9,10 @@ export default class ListInterviews extends React.Component {
   render() {
     return <div >
       <h1>My Interviews</h1>
-      <ActivitySection />
+      <div style={{ maxWidth: "700px", margin: "auto" }}>
+        <ActivitySection type="row" isFullWidth={true} />
+      </div>
+
     </div >
   }
 }

@@ -132,6 +132,108 @@ class CFExec {
 		});
 		return toRet;
 	}
+	updateCfMeta(name, data) {
+		var meta_key_in = "";
+		var meta_pair_case = "";
+
+		//to check not exist user meta
+		var meta_key = [];
+
+		for (var k in data) {
+			meta_key.push(k);
+			meta_key_in += `'${k}',`;
+			meta_pair_case += ` WHEN '${k}' THEN '${DB.escStr(data[k])}' `;
+		}
+
+		var where = `WHERE meta_key IN (${meta_key_in.slice(
+      0,
+      -1
+    )}) and cf_name = '${name}'`;
+
+		var check_sql = `SELECT * FROM cfs_meta ${where}`;
+
+		var update_sql = `UPDATE cfs_meta
+            SET meta_value = CASE meta_key 
+            ${meta_pair_case} 
+            END ${where}`;
+
+		//check what does not exist
+		return DB.query(check_sql).then(res => {
+			var key_check = res.map((d, i) => d["meta_key"]);
+
+			//insert what does not exist
+			var insert_val = "";
+			meta_key.map((d, i) => {
+				if (key_check.indexOf(d) <= -1) {
+					insert_val += `('${name}','${d}','${DB.escStr(data[d])}'),`;
+				}
+			});
+
+			if (insert_val !== "") {
+				var insert_sql = ` INSERT INTO cfs_meta (cf_name, meta_key, meta_value) VALUES ${insert_val.slice(0,-1)} `;
+				return DB.query(insert_sql).then(res => {
+					//only then update what's left
+					return DB.query(update_sql);
+				});
+			}
+			// if not need to insert just update
+			else {
+				return DB.query(update_sql);
+			}
+		});
+	}
+	editCf(arg) {
+		console.log("arg", arg);
+		var name = arg.name;
+
+		//update User table
+		var updateCf = {};
+		var updateCfMeta = {};
+		//console.log(arg);
+
+		var userVal = Object.keys(CFS).map(function(key) {
+			return CFS[key];
+		});
+
+		var userMetaVal = Object.keys(CFSMeta).map(function(key) {
+			return CFSMeta[key];
+		});
+
+		for (var k in arg) {
+			var v = arg[k];
+
+			//change key here
+			//handle for image props
+			// if (k === "img_url") {
+			// 	k = CFSMeta.IMG_URL;
+			// }
+			// if (k === "img_size") {
+			// 	k = CFSMeta.IMG_SIZE;
+			// }
+			// if (k === "img_pos") {
+			// 	k = CFSMeta.IMG_POS;
+			// }
+
+			if (userVal.indexOf(k) > -1) {
+				updateCf[k] = v;
+			}
+
+			if (userMetaVal.indexOf(k) > -1) {
+				updateCfMeta[k] = v;
+			}
+		}
+
+		// //update both
+		// console.log("update both");
+		let idKey = "name";
+		return DB.update(CFS.TABLE, updateCf, idKey).then(res => {
+			if (Object.keys(updateCfMeta).length >= 1) {
+				return this.updateCfMeta(name, updateCfMeta);
+			} else {
+				return res;
+			}
+		});
+	}
 }
 
 CFExec = new CFExec();

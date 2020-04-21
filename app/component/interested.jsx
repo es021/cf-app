@@ -6,7 +6,7 @@ import * as layoutActions from "../redux/actions/layout-actions";
 import { Loader } from "./loader";
 import List from "../component/list";
 import { PCType, createImageElement } from "../component/profile-card";
-import { createUserTitle } from "../page/users";
+import { createUserTitle, openUserPopup } from "../page/users";
 import Tooltip from "../component/tooltip";
 
 export class InterestedUserList extends React.Component {
@@ -31,7 +31,7 @@ export class InterestedUserList extends React.Component {
       user{ID first_name last_name img_url img_pos img_size}}}`);
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   renderList(d, i) {
     let img = createImageElement(
@@ -43,14 +43,20 @@ export class InterestedUserList extends React.Component {
       PCType.STUDENT
     );
 
+    // let action = <div>
+    //   <button>Schedule Call</button>
+    //   <button>Chat Now</button>
+    // </div>
     return (
       <div
         className="flex-center"
-        style={{ margin: "0px", width: "50%", justifyContent: "flex-start" }}
+        style={{ background: "white", padding: "0px 18px", borderRadius: "10px", margin: "10px", width: "400px", justifyContent: "flex-start" }}
       >
         <div>{img}</div>
         <div className="text-left" style={{ marginLeft: "10px" }}>
-          <b>{createUserTitle(d.user, {}, true, true)}</b>
+          {/* <b>{createUserTitle(d.user, {}, true, true)}</b> */}
+          <div><b>{d.user.first_name}</b>{" "}{d.user.last_name}</div>
+          <div><a className="btn-link" onClick={() => { openUserPopup(d.user) }}><b><small>View Profile</small></b></a></div>
         </div>
       </div>
     );
@@ -61,13 +67,14 @@ export class InterestedUserList extends React.Component {
   }
 
   render() {
+    let title = this.props.title ? this.props.title : "Liked By";
     return (
       <div style={{ padding: "10px" }}>
-        <h3 className="text-left">Liked By</h3>
+        <h3 className="text-left">{title}</h3>
         <List
           isHidePagingTop={true}
           type="list"
-          listClass="flex-wrap-start"
+          listClass="flex-wrap-center"
           pageClass="text-left"
           getDataFromRes={this.getDataFromRes}
           loadData={this.loadData}
@@ -81,13 +88,14 @@ export class InterestedUserList extends React.Component {
 
 InterestedUserList.propTypes = {
   entity: PropTypes.string,
-  entity_id: PropTypes.number
+  entity_id: PropTypes.number,
+  title : PropTypes.string
 };
 
 export class InterestedButton extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.onClickModeCount = this.onClickModeCount.bind(this);
     this.onClickModeAction = this.onClickModeAction.bind(this);
     this.authUser = getAuthUser();
@@ -122,13 +130,19 @@ export class InterestedButton extends React.Component {
       });
     }
   }
-  onClickModeCount(e) {
+  onClickModeCount(e, title) {
     if (this.props.isNonClickable) {
       return;
     }
-    layoutActions.storeUpdateFocusCard("Liked By", InterestedUserList, {
+
+    if(!title){
+      title = "Liked By";
+    }
+
+    layoutActions.storeUpdateFocusCard(title, InterestedUserList, {
       entity: this.props.entity,
-      entity_id: this.props.entity_id
+      entity_id: this.props.entity_id,
+      title : title
     });
   }
   onClickModeAction(e) {
@@ -157,7 +171,7 @@ export class InterestedButton extends React.Component {
       mutation = "add_interested";
       q = `mutation { add_interested (
         user_id:${
-          this.props.customUserId ? this.props.customUserId : this.authUser.ID
+        this.props.customUserId ? this.props.customUserId : this.authUser.ID
         }, 
         entity:"${this.props.entity}",
         entity_id:${this.props.entity_id}
@@ -203,16 +217,16 @@ export class InterestedButton extends React.Component {
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
-            <div onClick={this.onClickModeCount}>
-              <i className={`fa fa-${this.icon} left`}></i>
-              {this.state.count}
-            </div>
-          )}
+              <div onClick={this.onClickModeCount}>
+                <i className={`fa fa-${this.icon} left`}></i>
+                {this.state.count}
+              </div>
+            )}
         </div>
       );
     } else if (this.props.isModeAction) {
       let iconLike = null;
-      if(this.props.tooltipObj){
+      if (this.props.tooltipObj) {
         iconLike = (
           <Tooltip
             {...this.props.tooltipObj}
@@ -220,25 +234,25 @@ export class InterestedButton extends React.Component {
             content={
               <i onClick={this.onClickModeAction} className={`fa fa-${this.icon}`}></i>
             }
-           
+
           />
         );
-      }else{
+      } else {
         iconLike = <i onClick={this.onClickModeAction} className={`fa fa-${this.icon}`}></i>
       }
-       
+
       v = (
         <div
           style={this.props.customStyle}
           className={`interested ${classBottom} ${this.className} in-action ${
             this.state.is_interested == 1 ? "selected" : ""
-          }`}
+            }`}
         >
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
-            iconLike
-          )}
+              iconLike
+            )}
         </div>
       );
     }
@@ -251,7 +265,7 @@ InterestedButton.propTypes = {
   tooltipObj: PropTypes.obj,
   finishHandler: PropTypes.func,
   customStyle: PropTypes.object,
-  customType : PropTypes.oneOf(["user", "heart"]),
+  customType: PropTypes.oneOf(["user", "heart"]),
   isBottom: PropTypes.bool,
   customUserId: PropTypes.number,
   customView: PropTypes.func,
@@ -265,7 +279,7 @@ InterestedButton.propTypes = {
 };
 
 InterestedButton.defaultProps = {
-  customType : "heart",
+  customType: "heart",
   tooltipObj: null,
   customStyle: {},
   isBottom: false,

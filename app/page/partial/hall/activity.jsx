@@ -45,9 +45,7 @@ import { joinVideoCall } from "../session/chat";
 
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
-import ToogleTimezone from "../../../component/toggle-timezone";
-import { openLiveSession } from "./live-session";
-import { addLog } from "../../../redux/actions/other-actions";
+import * as HallRecruiterHelper from "../hall-recruiter/hall-recruiter-helper";
 
 // require("../../../css/border-card.scss");
 
@@ -386,12 +384,12 @@ class ActvityList extends React.Component {
     // create confirm message
     var mes = "";
     if (status === PrescreenEnum.STATUS_APPROVED) {
-      mes += "Approving";
-      mes += ` Scheduled Call with ${other_name} ?`;
+      mes += "Acceptiing";
+      mes += ` Interview Call with ${other_name} ?`;
     }
     if (status === PrescreenEnum.STATUS_REJECTED) {
       mes += "Rejecting";
-      mes += ` Scheduled Call with ${other_name} ?`;
+      mes += ` Interview Call with ${other_name} ?`;
     }
     if (status === PrescreenEnum.STATUS_RESCHEDULE) {
       mes += "Requesting For Reschedule";
@@ -404,48 +402,52 @@ class ActvityList extends React.Component {
   getTimeStrNew(unixtime, showTimeOnly, customText) {
     // debug
     //unixtime = (1552804854865/1000) + 500;
-    const className = "time-container";
-    if (
-      unixtime === undefined &&
-      showTimeOnly === undefined &&
-      customText !== undefined
-    ) {
-      return <div className={className}>{customText}</div>;
-    }
+    // const className = "time-container";
+    // if (
+    //   unixtime === undefined &&
+    //   showTimeOnly === undefined &&
+    //   customText !== undefined
+    // ) {
+    //   return <div className={className}>{customText}</div>;
+    // }
 
     let timeStr = Time.getString(unixtime);
-    if (showTimeOnly) {
-      return <div>{timeStr}</div>;
-    }
+    timeStr = <span className="text-muted"><i className="fa fa-clock-o left"></i>{timeStr}<br></br>(local time)</span>;
 
-    let passedText = "Waiting For Recruiter";
-    let happeningIn = Time.getHapenningIn(unixtime, {
-      passedText: isRoleStudent() ? passedText : null,
-      startCountMinute: 24 * 60 // 24 hours
-    });
+    return timeStr;
+    
+    // if (showTimeOnly) {
+    //   return <div>{timeStr}</div>;
+    // }
 
-    if (happeningIn != null) {
-      if (happeningIn != passedText) {
-        happeningIn = <span>Starting In {happeningIn}</span>;
-      }
-      happeningIn = (
-        <div
-          style={{ marginBottom: "-6px", fontWeight: "bold" }}
-          className="text-primary"
-        >
-          {happeningIn}
-        </div>
-      );
-      return (
-        <span>
-          {happeningIn}
-          <br />
-          {timeStr}
-        </span>
-      );
-    } else {
-      return timeStr;
-    }
+    // let passedText = "Waiting For Recruiter";
+    // let happeningIn = Time.getHapenningIn(unixtime, {
+    //   passedText: isRoleStudent() ? passedText : null,
+    //   startCountMinute: 24 * 60 // 24 hours
+    // });
+
+    // if (happeningIn != null) {
+    //   if (happeningIn != passedText) {
+    //     happeningIn = <span>Starting In {happeningIn}</span>;
+    //   }
+    //   happeningIn = (
+    //     <div
+    //       style={{ marginBottom: "-6px", fontWeight: "bold" }}
+    //       className="text-primary"
+    //     >
+    //       {happeningIn}
+    //     </div>
+    //   );
+    //   return (
+    //     <span>
+    //       {happeningIn}
+    //       <br />
+    //       {timeStr}
+    //     </span>
+    //   );
+    // } else {
+    //   return timeStr;
+    // }
   }
 
   addRemoveButton(body, hasRemove, removeEntity, removeEntityId) {
@@ -605,25 +607,24 @@ class ActvityList extends React.Component {
   // return body n subtitle
   renderPreScreen(d, obj, title) {
     // 2. subtitle and body
-    var subtitle = null;
-    var body = null;
-    //var crtSession = null;
+    var time = null;
+    var action = null;
     var hasRemove = null;
     var removeEntity = null;
     var removeEntityId = null;
 
     let btnJoinVCall = null;
     var btnStartVCall = null;
-    var btnEndedVCall = null;
+    // var btnEndedVCall = null;
     var btnAcceptReject = null;
 
     if (
       d.status == PrescreenEnum.STATUS_REJECTED ||
       d.status == PrescreenEnum.STATUS_ENDED
     ) {
-      subtitle = this.getTimeStrNew(d.appointment_time, true);
+      time = this.getTimeStrNew(d.appointment_time, true);
     } else {
-      subtitle = this.getTimeStrNew(d.appointment_time, false);
+      time = this.getTimeStrNew(d.appointment_time, false);
     }
 
     //body = <div style={{ height: "30px" }}></div>;
@@ -638,85 +639,86 @@ class ActvityList extends React.Component {
 
     // label for status
     // New SI Flow
-    var label_color_status = "";
-    var textStatus = "";
+    var statusObj = {};
     switch (d.status) {
       case PrescreenEnum.STATUS_WAIT_CONFIRM:
-          btnAcceptReject = (
-            <div>
-              <div
-                id={d.ID}
-                data-other_id={obj.ID}
-                data-other_name={obj.name}
-                onClick={e => {
-                  this.confirmAcceptRejectPrescreen(
-                    e,
-                    PrescreenEnum.STATUS_APPROVED
-                  );
-                }}
-                className="btn btn-sm btn-green"
-              >
-                Accept Interview
+        statusObj = HallRecruiterHelper.Status.STATUS_WAIT_CONFIRM
+        btnAcceptReject = (
+          <div>
+            <div
+              id={d.ID}
+              data-other_id={obj.ID}
+              data-other_name={obj.name}
+              onClick={e => {
+                this.confirmAcceptRejectPrescreen(
+                  e,
+                  PrescreenEnum.STATUS_APPROVED
+                );
+              }}
+              className="btn btn-block btn-sm btn-bold btn-round-5 btn-blue-light"
+            >
+              Accept Interview
               </div>
-              <div
-                id={d.ID}
-                data-other_id={obj.ID}
-                data-other_name={obj.name}
-                onClick={e => {
-                  this.confirmAcceptRejectPrescreen(
-                    e,
-                    PrescreenEnum.STATUS_RESCHEDULE
-                  );
-                }}
-                className="btn btn-sm btn-blue"
-              >
-                Request For Reschedule
+            <div
+              id={d.ID}
+              data-other_id={obj.ID}
+              data-other_name={obj.name}
+              onClick={e => {
+                this.confirmAcceptRejectPrescreen(
+                  e,
+                  PrescreenEnum.STATUS_RESCHEDULE
+                );
+              }}
+              className="btn btn-block btn-sm btn-bold btn-round-5 btn-yellow"
+            >
+              Request For Reschedule
               </div>
-              <div
-                id={d.ID}
-                data-other_id={obj.ID}
-                data-other_name={obj.name}
-                onClick={e => {
-                  this.confirmAcceptRejectPrescreen(
-                    e,
-                    PrescreenEnum.STATUS_REJECTED
-                  );
-                }}
-                className="btn btn-sm btn-red"
-              >
-                Reject Interview
+            <div
+              id={d.ID}
+              data-other_id={obj.ID}
+              data-other_name={obj.name}
+              onClick={e => {
+                this.confirmAcceptRejectPrescreen(
+                  e,
+                  PrescreenEnum.STATUS_REJECTED
+                );
+              }}
+              className="btn btn-block btn-sm btn-bold btn-round-5 btn-red"
+            >
+              Reject Interview
               </div>
-            </div>
-          );
+          </div>
+        );
         break;
       case PrescreenEnum.STATUS_RESCHEDULE:
-        label_color_status = "info";
-        textStatus = "Reschedule Requested";
+        statusObj = HallRecruiterHelper.Status.STATUS_RESCHEDULE;
         break;
       case PrescreenEnum.STATUS_REJECTED:
-        label_color_status = "danger";
-        textStatus = "Interview Rejected";
+        statusObj = HallRecruiterHelper.Status.STATUS_REJECTED
         //crtSession = null;
         hasRemove = true;
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
         break;
       case PrescreenEnum.STATUS_APPROVED:
-        label_color_status = "success";
-        textStatus = "Accepted";
+        statusObj = HallRecruiterHelper.Status.STATUS_APPROVED
         break;
       case PrescreenEnum.STATUS_ENDED:
-        btnEndedVCall = (
-          <div className="action btn btn-danger btn-sm" disabled="disabled">
-            Ended
-          </div>
-        );
+        statusObj = HallRecruiterHelper.Status.STATUS_ENDED
+        // btnEndedVCall = (
+        //   <div
+        //     className="action btn btn-danger btn-sm"
+        //     disabled="disabled">
+        //     Ended
+        //   </div>
+        // );
         ///crtSession = null;
         hasRemove = true;
         removeEntity = Prescreen.TABLE;
         removeEntityId = d.ID;
         break;
       case PrescreenEnum.STATUS_STARTED:
+        statusObj = HallRecruiterHelper.Status.STATUS_STARTED
         let isExpiredHandler = () => {
           var mes = (
             <div>
@@ -741,28 +743,26 @@ class ActvityList extends React.Component {
         var hasStart = false;
         if (!d.is_expired && d.join_url != "" && d.join_url != null) {
           hasStart = true;
-          subtitle = this.getTimeStrNew(
-            undefined,
-            undefined,
-            "Video Call Has Started"
-          );
-          console.log("HERRREEEE");
+          // time = this.getTimeStrNew(
+          //   undefined,
+          //   undefined,
+          //   "Video Call Has Started"
+          // );
         } else {
-          console.log("HERRREEEE 22222222");
           if (d.is_expired) {
-            subtitle = this.getTimeStrNew(d.appointment_time, true);
+            time = this.getTimeStrNew(d.appointment_time, true);
           } else {
-            subtitle = this.getTimeStrNew(d.appointment_time, false);
+            time = this.getTimeStrNew(d.appointment_time, false);
           }
         }
-        if (hasStart && isRoleStudent()) {
+        if (hasStart) {
           // bukak join url
           btnJoinVCall = (
             <a
               onClick={() =>
                 joinVideoCall(d.join_url, null, isExpiredHandler, null, d.ID)
               }
-              className="btn btn-sm btn-blue"
+              className="btn btn-block btn-sm btn-bold btn-round-5 btn-green"
             >
               Join Video Call
             </a>
@@ -797,50 +797,24 @@ class ActvityList extends React.Component {
         }
         break;
     }
-    let labelStatus = (
-      <div style={{ marginBottom: "7px" }}>
-        <label className={`label label-${label_color_status}`}>
-          {textStatus}
-        </label>
-      </div>
-    );
 
-    // openLiveSession use function utk bukak
-    // let topLabel = (
-    //   <div className="label label-danger">
-    //     <i className="fa fa-user left" />
-    //     Private Call
-    //   </div>
-    // );
+    action = []
+    if (d.status == PrescreenEnum.STATUS_WAIT_CONFIRM) {
+      action.push(btnAcceptReject);
+    }
+    if (d.status == PrescreenEnum.STATUS_STARTED) {
+      action.push(btnJoinVCall);
+    }
 
-    body = (
-      <div>
-        {btnStartVCall == null ? labelStatus : null}
-        {isRoleRec() ? btnStartVCall : null}
-        {d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null}
-        {d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null}
-        {d.status == PrescreenEnum.STATUS_ENDED ? btnEndedVCall : null}
-      </div>
-    );
+    // action = this.addRemoveButton(action, hasRemove, removeEntity, removeEntityId);
 
-    body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
-
-    // ammend title
-    subtitle = [
-      isRoleRec()
-        ? createUserDocLinkList(obj.doc_links, obj.ID, true, true)
-        : null,
-      subtitle
-    ];
-
-    subtitle = <div>{subtitle}</div>
+    time = <div>{time}</div>
 
     return {
       title: title,
-      body: body,
-      subtitle: subtitle,
-      // topLabel: topLabel,
-      // topLabelClass: "danger"
+      time: time,
+      action: action,
+      statusObj: statusObj
     };
   }
 
@@ -850,88 +824,22 @@ class ActvityList extends React.Component {
       body = <Loader isCenter={true} size="2" />;
     } else {
       body = this.props.list.map((d, i) => {
-        // todos for type here
-
-        var obj = isRoleRec() ? d.student : d.company;
-
+        var obj = d.company;
         if (typeof obj === "undefined") {
           return false;
         }
-
-        if (isRoleRec()) {
-          obj.name = obj.first_name + " " + obj.last_name;
-        }
-
-        // 1. title
-        var title = null;
-        if (isRoleRec()) {
-          var params = { id: obj.ID };
-          title = (
-            <ButtonLink
-              label={obj.first_name + " " + obj.last_name}
-              onClick={() =>
-                layoutActions.storeUpdateFocusCard(
-                  obj.first_name + " " + obj.last_name,
-                  UserPopup,
-                  params
-                )
-              }
-            />
-          );
-        } else if (isRoleStudent()) {
-          title = obj.name;
-        }
-
-        var custom_width = "180px";
-        var subtitle = null;
-        var objTemp = null;
-        // var topLabel = null;
-        // var topLabelClass = "";
-        var badge = null;
-        var badge_tooltip = null;
-
-        // if (isRoleRec()) {
-        //   //show online status for rec
-        //   badge = this.props.online_users[obj.ID] == 1 ? "" : null;
-        //   badge_tooltip = `User Currently Online`;
-        // }
-
+        var title = obj.name
+        var objRender = null;
         let _type = d._type;
-
         switch (_type) {
           // #############################################################
           // Scheduled Session Card View
-
           case hallAction.ActivityType.PRESCREEN:
-            objTemp = this.renderPreScreen(d, obj, title);
-            body = objTemp.body;
-            title = objTemp.title;
-            subtitle = objTemp.subtitle;
-            // topLabel = objTemp.topLabel;
-            // topLabelClass = objTemp.topLabelClass;
+            objRender = this.renderPreScreen(d, obj, title);
             break;
-
-          // #############################################################
-          // group session Card View
-          // case hallAction.ActivityType.GROUP_SESSION_JOIN:
-          //   objTemp = this.renderGroupSessionJoin(d, obj, title);
-          //   body = objTemp.body;
-          //   title = objTemp.title;
-          //   subtitle = objTemp.subtitle;
-          //   topLabel = objTemp.topLabel;
-          //   topLabelClass = objTemp.topLabelClass;
-          //   break;
         }
 
-        // var labelType = (
-        //   <div className={`left-label left-label-${topLabelClass}`}>
-        //     <div className="label-arrow" />
-        //     {topLabel}
-        //   </div>
-        // );
-        // body = [body, labelType];
-
-        var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
+        // var img_position = isRoleRec() ? obj.img_pos : obj.img_position;
         let isOnlineCard = false;
         if (isRoleRec()) {
           isOnlineCard = isUserOnline(this.props.online_users, obj.ID);
@@ -939,27 +847,55 @@ class ActvityList extends React.Component {
         if (isRoleStudent()) {
           isOnlineCard = isCompanyOnline(this.props.online_companies, obj.ID);
         }
+        let img = <ProfileCard
+          type="company"
+          isOnline={isOnlineCard}
+          img_url={obj.img_url}
+          img_pos={obj.img_pos}
+          img_size={obj.img_size}
+          img_dimension={"65px"}
+          className={" with-border"}
+          body={null}
+        />
+        let details = <div>
+          <b style={{fontSize:"16px"}}>{objRender.title}</b>
+          {objRender.time}
+        </div>
+        let action = objRender.action;
+        let status = HallRecruiterHelper.getStatusElement(d, objRender.statusObj);
 
-        return (
-          <ProfileListItem
-            isOnline={isOnlineCard}
-            className=""
-            //header={labelType}
-            title={title}
-            list_type="card"
-            img_url={obj.img_url}
-            custom_width={custom_width}
-            img_pos={img_position}
-            img_size={obj.img_size}
-            img_dimension="50px"
-            body={body}
-            badge={badge}
-            badge_tooltip={badge_tooltip}
-            subtitle={subtitle}
-            type="recruiter"
-            key={i}
-          />
-        );
+        return <div className={`student-interview type-${this.props.view_type}`}
+          style={{ width: this.props.isFullWidth ? "100%" : "180px" }}>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-2 sinv-image">{img}</div>
+              {/* <div className="col-md-1 sinv-image">{status}</div> */}
+              <div className="break-15-on-md-and-less"></div>
+              <div className="col-md-5  text-left sinv-detail">{details}</div>
+              <div className="break-15-on-md-and-less"></div>
+              <div className="col-md-5  sinv-action">{action.length > 0 ? action : status}</div>
+            </div>
+          </div>
+        </div>
+
+        // return (
+        //   <ProfileListItem
+        //     isOnline={isOnlineCard}
+        //     className=""
+        //     //header={labelType}
+        //     list_type="card"
+        //     img_url={obj.img_url}
+        //     custom_width={custom_width}
+        //     img_pos={img_position}
+        //     img_size={obj.img_size}
+        //     img_dimension="50px"
+        //     title={title}
+        //     // body={body}
+        //     // subtitle={subtitle}
+        //     type="recruiter"
+        //     key={i}
+        //   />
+        // );
       });
 
       if (this.props.list.length === 0) {
@@ -976,6 +912,7 @@ class ActvityList extends React.Component {
 }
 
 ActvityList.propTypes = {
+  isFullWidth: PropTypes.bool,
   noBorderCard: PropTypes.bool,
   type: PropTypes.oneOf([
     hallAction.ActivityType.SESSION,
@@ -983,6 +920,7 @@ ActvityList.propTypes = {
     hallAction.ActivityType.PRESCREEN
   ]).isRequired,
   title: PropTypes.string.isRequired,
+  view_type: PropTypes.string,
   subtitle: PropTypes.string,
   bc_type: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
@@ -1209,6 +1147,8 @@ class ActivitySection extends React.Component {
     // 5. view
     var ps_gs = (
       <ActvityList
+        view_type={this.props.type}
+        isFullWidth={this.props.isFullWidth}
         limitLoad={this.props.limitLoad}
         noBorderCard={true}
         bc_type="vertical"
@@ -1228,11 +1168,13 @@ class ActivitySection extends React.Component {
 }
 
 ActivitySection.defaultProps = {
-  limitLoad: PropTypes.number
+  limitLoad: PropTypes.number,
+  isFullWidth: PropTypes.bool,
+  type: PropTypes.string,
 }
 
 ActivitySection.propTypes = {
-
+  type: "card"
 }
 
 // TODO status online

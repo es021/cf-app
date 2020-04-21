@@ -1,0 +1,65 @@
+@import "define/variable.scss";
+
+// ##################################
+// show
+
+.show-on-lg-and-more {
+  display: none;
+  @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP + 1) {
+    display: initial;
+  }
+}
+
+.show-on-md-and-less {
+  display: none;
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    display: initial;
+  }
+}
+
+
+// ##################################
+// center
+.center-on-md-and-less {
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    text-align: center;
+  }
+}
+
+// ##################################
+// break
+.break-10-on-md-and-less {
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    height: 15px;
+    display: inline-block;
+  }
+}
+.break-15-on-md-and-less {
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    height: 15px;
+    display: inline-block;
+  }
+}
+.break-20-on-md-and-less {
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    height: 20px;
+    display: inline-block;
+  }
+}
+
+
+// ##################################
+// no-padding
+.no-padding-on-md-and-less {
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    padding: 0px;
+  }
+}
+
+// ##################################
+// no-margin
+.no-margin-on-md-and-less {
+  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+    margin: 0px;
+  }
+}

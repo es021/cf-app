@@ -576,10 +576,10 @@ class InterviewList extends React.Component {
           <div className="row" style={{ padding: "15px 10px" }}>
             {/* avatar */}
             <div className="col-md-1 padding-sm container-avatar">
-              {avatar}<div className="md-and-less">{title}</div>
+              {avatar}<div className="show-on-md-and-less">{title}</div>
             </div>
             {/* name */}
-            <div className="col-md-2 padding-sm lg-and-more">
+            <div className="col-md-2 padding-sm show-on-lg-and-more">
               <div style={{ marginBottom: "8px", fontSize: "15px" }}>{title}</div>
             </div>
             {/* status */}
@@ -618,7 +618,7 @@ class InterviewList extends React.Component {
       <div className="container-fluid">
         <div className="row" style={{ padding: "15px 10px" }}>
           <div className="col-md-1 padding-sm container-avatar">Student</div>
-          <div className="col-md-2 padding-sm lg-and-more"></div>
+          <div className="col-md-2 padding-sm show-on-lg-and-more"></div>
           <div className="col-md-2 text-center padding-sm">Status</div>
           <div className="col-md-2 padding-sm">Appointment Time</div>
           <div className="col-md-2 padding-sm">Interviewer</div>
@@ -671,7 +671,7 @@ class InterviewList extends React.Component {
         <i className={`fa left fa-${this.props.icon}`}></i>
         {this.props.title} ({this.props.list.length})
       </div> */}
-      <div className="lg-and-more">{this.getHeader()}</div>
+      <div className="show-on-lg-and-more">{this.getHeader()}</div>
       {body}
       {btnToggleShowMore}
     </div>;

@@ -42,50 +42,21 @@ $HWW_ACTION_SM: 100px;
         padding: 15px;
         background: #e6e6e6;
         color: #565656;
-        //border-top: 1px solid $COLOR_TITLE;
-        //border-bottom: 1px solid $COLOR_TITLE;
+        text-align: left;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
+        .title-section-left{
+            @media only screen and (max-width:$LAYOUT_MD_BOOTSTRAP){
+                margin-bottom:30px;
+            }
 
-        // width: 100%;
-        // position: absolute;
-        // left: 0;
+        }
+        .title-section-right{
+            .event-list{
+                margin: 0;
+                box-shadow: none;
+            }
+        }
     }
-
-    // .btn-action {
-    //     margin: 10px 10px;
-    //     padding: 15px 20px;
-    //     width: 350px;
-    //     max-width: 90vw;
-    //     box-shadow: 2px 3px 10px -1px rgba(0, 0, 0, 0.5);
-    //     border-radius: 15px !important;
-
-    //     .fa {
-    //         margin-bottom: 15px;
-    //     }
-
-    //     .inner-link {
-    //         color: white;
-    //         text-decoration: underline;
-    //     }
-    //     .inner-link:hover{
-    //         font-weight: bold;
-    //     }
-    //     .inner-link:active{
-    //         font-weight: initial;
-    //         text-decoration: none;
-    //     }
-    // }
-
-    // .title-section.ts-outline{
-    //     background:none;
-    //     border : 1px solid #e6e6e6;
-    //     border-left: none;
-    //     border-right: none;
-    // }
 
     .activity-section {
         .my-activity {
@@ -170,6 +141,10 @@ $HWW_ACTION_SM: 100px;
         display: flex;
         align-items: center;
         justify-content: center;
+        // background: black;
+        padding: 50px 0px;
+        // background: rgb(59,180,74);
+        // background: linear-gradient(0deg, rgba(59,180,74,0.6838936258096988) 0%, rgba(59,180,74,1) 45%); 
     }
 
     .sponsor-section {

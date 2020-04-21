@@ -45,6 +45,7 @@ let scss = [
   "forum",
   "gallery",
   "general",
+  "general-layout",
   "group-session",
   "hall",
   "hall-gallery",

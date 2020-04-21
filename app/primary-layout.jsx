@@ -83,6 +83,10 @@ class PrimaryLayout extends React.Component {
   }
 
   loadCf() {
+    // schedule
+    // override_coming_soon
+    // page_url
+		// page_banner
     var query = `query{cfs(is_load:1){
 		ID
 		name
@@ -92,12 +96,11 @@ class PrimaryLayout extends React.Component {
 		created_at
 		updated_at
 		title
-		title_landing
+    title_landing
+    welcome_text
 		flag
 		banner
 		banner_pos
-		schedule
-		override_coming_soon
     logo
     logo_height_hall
 		logo_width_hall
@@ -114,8 +117,6 @@ class PrimaryLayout extends React.Component {
 		time_str_mas
 		test_start
 		test_end
-		page_url
-		page_banner
 		can_login
     can_register
     organizations

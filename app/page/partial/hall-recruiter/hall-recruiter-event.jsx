@@ -30,7 +30,7 @@ export default class HallRecruiterEvent extends React.Component {
     this.getDataFromRes = this.getDataFromRes.bind(this);
     this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
-    this.offset = 5;
+    this.offset = this.props.offset ? this.props.offset : 5;
   }
 
   loadData(page, offset) {
@@ -119,7 +119,7 @@ export default class HallRecruiterEvent extends React.Component {
             return (
               <button
                 className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
-                onClick={onClickModeCount}>
+                onClick={() => { onClickModeCount(null, "RSVP List") }}>
                 <i className="fa left fa-user"></i>{mainText}
               </button>
             );
@@ -266,10 +266,10 @@ export default class HallRecruiterEvent extends React.Component {
 }
 
 HallRecruiterEvent.propTypes = {
-  isNoTitle : PropTypes.bool,
-  isNoMarginBottom : PropTypes.bool
+  isNoTitle: PropTypes.bool,
+  isNoMarginBottom: PropTypes.bool
 }
 
 HallRecruiterEvent.defaultProps = {
-  isNoTitle : false
+  isNoTitle: false
 }

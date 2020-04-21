@@ -702,7 +702,7 @@ export class ManageHallGallery extends React.Component {
   render() {
     document.setTitle("Manage Hall Gallery");
     return (
-      <div className="main-width main-width-lg">
+      <div className="main-width-lg">
         <h3>Manage Hall Gallery</h3>
         <GeneralFormPage
           entity_singular="Hall Gallery"

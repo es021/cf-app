@@ -706,14 +706,14 @@ export default class CompanyPage extends Component {
 
           <div className="container-fluid cp-header" >
             <div className="row">
-              <div className="cp-header-banner-small col-md-9 no-padding md-and-less">
+              <div className="cp-header-banner-small col-md-9 no-padding show-on-md-and-less">
                 {this.getBanner()}
               </div>
               <div className="cp-header-avatar col-md-3 no-padding">
                 {profilePic}
                 {this.getStudentActionBox(data)}
               </div>
-              <div className="cp-header-banner-large col-md-9 no-padding lg-and-more">
+              <div className="cp-header-banner-large col-md-9 no-padding show-on-lg-and-more">
                 {this.getBanner()}
               </div>
             </div>

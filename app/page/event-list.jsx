@@ -5,7 +5,7 @@ import List from "../component/list";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 import ProfileCard from "../component/profile-card.jsx";
-import { InterestedButton } from "../component/interested";
+// import { InterestedButton } from "../component/interested";
 import {
   getAuthUser, isRoleStudent, getCF,
   // getCF,
@@ -13,8 +13,8 @@ import {
   // isRoleAdmin,
   // isRoleRec
 } from "../redux/actions/auth-actions";
-import * as layoutActions from "../redux/actions/layout-actions";
-import ToogleTimezone from "../component/toggle-timezone";
+// import * as layoutActions from "../redux/actions/layout-actions";
+// import ToogleTimezone from "../component/toggle-timezone";
 
 
 // import { AppPath } from "../../config/app-config";
@@ -82,6 +82,8 @@ export class EventList extends React.Component {
   // ##############################################################
   // function for list
   loadData(page, offset) {
+    //           interested{ID is_interested}
+
     var query = `query{
         events(${this.getMainQueryParam(page, offset)}) {
           ID
@@ -91,7 +93,9 @@ export class EventList extends React.Component {
           type
           title
           location
-          interested{ID is_interested}
+          url_recorded
+          url_join
+          url_rsvp
           start_time
           end_time
         }
@@ -132,7 +136,7 @@ export class EventList extends React.Component {
           img_pos={d.company.img_pos}
           img_size={d.company.img_size}
           img_dimension={"65px"}
-          className={"square with-border"}
+          className={" with-border"}
           body={null}
         />
       </div>
@@ -151,23 +155,23 @@ export class EventList extends React.Component {
     //       {d.company.name}
     //     </NavLink>
     //   );
-    let companyName = d.company.name;
+    // let companyName = d.company.name;
 
     // Display Time
     // ToogleTimezone
-    const createBody = timeStr => {
-      return timeStr;
-    };
-    const createView = (body, toggler) => {
-      return (
-        <div className="el-time">
-          {body} {toggler}
-        </div>
-      );
-    };
-    const createCustomToggler = (isDefaultTime, onClick) => {
-      return <div className="el-toggle-timezone" onClick={onClick}>{" "}Toggle Timezone {isDefaultTime}</div>
-    }
+    // const createBody = timeStr => {
+    //   return timeStr;
+    // };
+    // const createView = (body, toggler) => {
+    //   return (
+    //     <div className="el-time">
+    //       {body} {toggler}
+    //     </div>
+    //   );
+    // };
+    // const createCustomToggler = (isDefaultTime, onClick) => {
+    //   return <div className="el-toggle-timezone" onClick={onClick}>{" "}Toggle Timezone {isDefaultTime}</div>
+    // }
     // let time = (
     //   <ToogleTimezone
     //     createCustomToggler={createCustomToggler}
@@ -189,8 +193,7 @@ export class EventList extends React.Component {
     // let time = <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(d.start_time)} {Time.getStringShortMas(d.start_time)} (MYT)</div>;
     let notSpecified = <i className="text-muted">Not Speficied</i>;
 
-    let include_timezone = true;
-    let time = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
+    let time = d.start_time ? [Time.getString(d.start_time), <span className="text-muted">{" "}(local time)</span>] : notSpecified;
 
     let locationText = <div className="el-location-text">{d.location}</div>
     let location = <div className="el-location">
@@ -211,9 +214,9 @@ export class EventList extends React.Component {
 
     let details = (
       <div className="el-details" style={detailStyle}>
-        {title}
-        {time}
-        {location}
+        <b>{title}</b>
+        <span style={{fontWeight:"normal"}}><i className="text-muted fa fa-clock-o left"></i>{time}</span>
+        {/* {location} */}
       </div>
     );
 
@@ -248,80 +251,112 @@ export class EventList extends React.Component {
     // }
 
 
+    // let rsvpButton = (
+    //   <InterestedButton
+    //     customStyle={{
+    //       top: "3px",
+    //       left: "7px",
+    //       width: "max-content",
+    //     }}
+    //     customView={
+    //       ({
+    //         // loading,
+    //         // isModeCount,
+    //         // isModeAction,
+    //         // like_count,
+    //         // onClickModeCount,
+    //         is_interested,
+    //         onClickModeAction
+    //       }) => {
+    //         let r = null;
 
+    //         // if (Time.getUnixTimestampNow() > d.end_time) {
+    //         if (d.is_ended) {
+    //           r = <div className="el-ended el-action-item">Event Ended</div>
+    //         } else {
+    //           if (is_interested) {
+    //             r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
+    //           } else {
+    //             r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
+    //           }
+    //         }
 
-    let rsvpButton = (
-      <InterestedButton
-        customStyle={{
-          top: "3px",
-          left: "7px",
-          width: "max-content",
-        }}
-        customView={
-          ({
-            // loading,
-            // isModeCount,
-            // isModeAction,
-            // like_count,
-            // onClickModeCount,
-            is_interested,
-            onClickModeAction
-          }) => {
-            let r = null;
+    //         return <div className="el-action">{r}</div>
+    //       }
+    //     }
+    //     isModeCount={false}
+    //     isModeAction={true}
+    //     finishHandler={is_interested => {
+    //       if (is_interested == 1) {
+    //         layoutActions.successBlockLoader(
+    //           <div>
+    //             Successfully RSVP'ed for event
+    //             <br></br>
+    //             <b>{d.title}</b>
+    //             <br></br>
+    //             with {companyName}
+    //           </div>
+    //         );
+    //       }
 
-            // if (Time.getUnixTimestampNow() > d.end_time) {
-            if (d.is_ended) {
-              r = <div className="el-ended el-action-item">Event Ended</div>
-            } else {
-              if (is_interested) {
-                r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
-              } else {
-                r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
-              }
-            }
-
-            return <div className="el-action">{r}</div>
-          }
-        }
-        isModeCount={false}
-        isModeAction={true}
-        finishHandler={is_interested => {
-          if (is_interested == 1) {
-            layoutActions.successBlockLoader(
-              <div>
-                Successfully RSVP'ed for event
-                <br></br>
-                <b>{d.title}</b>
-                <br></br>
-                with {companyName}
-              </div>
-            );
-          }
-
-          // else {
-          //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
-          // }
-        }}
-        ID={d.interested.ID}
-        is_interested={d.interested.is_interested}
-        entity={"event"}
-        entity_id={d.ID}
-      ></InterestedButton>
-    );
+    //       // else {
+    //       //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
+    //       // }
+    //     }}
+    //     ID={d.interested.ID}
+    //     is_interested={d.interested.is_interested}
+    //     entity={"event"}
+    //     entity_id={d.ID}
+    //   ></InterestedButton>
+    // );
 
     //rsvpButton = null;
-    let viewStyle = {
-      position : "relative",
+
+    let actionStudent = null;
+    if (isRoleStudent()) {
+      let rsvp = null;
+      let join = null;
+      let recorded = null;
+
+      if (d.url_rsvp && !Time.isPast(d.end_time)) {
+        rsvp = <div><a target="_blank" className="btn btn-sm btn-blue-light text-bold btn-block btn-round-5" href={d.url_rsvp}>RSVP</a></div>;
+      }
+      if (d.url_join && Time.isBetween(d.start_time, d.end_time)) {
+        join = <div><a target="_blank" className="btn btn-sm btn-green btn-block text-bold btn-round-5" href={d.url_join}>Join</a></div>;
+      }
+      if (d.url_recorded && Time.isPast(d.end_time)) {
+        recorded = <div>
+          <a target="_blank" className="btn btn-sm btn-red btn-block text-bold btn-round-5" href={d.url_recorded}>
+            <div className="show-on-lg-and-more">Watch<br></br>Recorded</div>
+            <div className="show-on-md-and-less">Watch Recorded</div>
+          </a></div>;
+      }
+
+      actionStudent = <div className="el-action">
+        {join}
+        {rsvp}
+        {recorded}
+      </div>
     }
-    if(this.props.isFullWidth){
+
+    let viewStyle = {
+      position: "relative",
+    }
+    if (this.props.isFullWidth) {
       viewStyle["width"] = "100%";
     }
-    
+
     let v = (
-      <div className="event-list" style={viewStyle}>
-        {isRoleStudent() ? rsvpButton : null}
-        {img}
-        {details}
+      <div className={`event-list type-${this.props.type}`} style={viewStyle}>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-2">{img}</div>
+            <div className="break-15-on-md-and-less"></div>
+            <div className="col-md-7">{details}</div>
+            <div className="break-15-on-md-and-less"></div>
+            <div className="col-md-3">{actionStudent}</div>
+          </div>
+        </div>
       </div>
     );
     return v;
@@ -352,12 +387,14 @@ export class EventList extends React.Component {
       <List
         {...countParam}
         key={this.state.key}
+        isHidePagingTop={this.props.isHidePagingTop}
         type="list"
         listClass={this.props.listClass ? this.props.listClass : "flex-wrap"}
         pageClass="text-right"
         listRef={v => (this.dashBody = v)}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
+        isListNoMargin={this.props.isListNoMargin}
         extraData={this.state.extraData}
         hideLoadMore={this.props.limitLoad ? true : false}
         offset={offset}
@@ -370,12 +407,16 @@ export class EventList extends React.Component {
 }
 
 EventList.propTypes = {
+  type : PropTypes.string,
   limitLoad: PropTypes.number,
   company_id: PropTypes.number,
   customOffset: PropTypes.number,
-  listAlign : PropTypes.string,
-  isFullWidth : PropTypes.bool,
+  listAlign: PropTypes.string,
+  isListNoMargin: PropTypes.bool,
+  isFullWidth: PropTypes.bool,
+  isHidePagingTop: PropTypes.bool
 }
 
 EventList.defaultProps = {
+  type : "card"
 }

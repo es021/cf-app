@@ -117,7 +117,7 @@ class GeneralForm extends React.Component {
 
     var query = `mutation{${this.props.edit ? "edit" : "add"}_${
       this.props.entity
-    } 
+      } 
             (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
     getAxiosGraphQLQuery(query).then(
@@ -144,7 +144,7 @@ class GeneralForm extends React.Component {
         onSubmit={this.formOnSubmit}
         submitText={`${this.props.edit ? "Edit" : "Add"} ${
           this.props.entity_singular
-        }`}
+          }`}
         defaultValues={this.formDefault}
         btnColorClass={this.props.btnColorClass}
         disableSubmit={this.state.disableSubmit}
@@ -402,13 +402,15 @@ export default class GeneralFormPage extends React.Component {
     var datas = (
       <div key={this.state.key}>
         <List
+          listClass={this.props.listClass}
           loadCount={this.props.loadCount}
           getCountFromRes={this.props.getCountFromRes}
           type={listType}
           tableHeader={this.props.tableHeader}
           getDataFromRes={this.props.getDataFromRes}
           loadData={this.props.loadData}
-          offset={this.props.dataOffset}
+          hideLoadMore={this.props.hideLoadMore}
+          offset={this.props.offset}
           renderList={renderList}
         ></List>
       </div>
@@ -432,8 +434,8 @@ export default class GeneralFormPage extends React.Component {
           </a>
         </h4>
       ) : (
-        this.getAddForm()
-      );
+          this.getAddForm()
+        );
     }
 
     // console.log("this.props.searchFormItem ", this.props.searchFormItem);
@@ -445,7 +447,7 @@ export default class GeneralFormPage extends React.Component {
     let showFilter = this.props.hasResetFilter && this.state.hasFilter;
     let searchForm = null;
     let resetFilterView = showFilter ? (
-    <div className="reset-filter">
+      <div className="reset-filter">
         <a
           onClick={() => {
             this.resetFilter();
@@ -463,7 +465,7 @@ export default class GeneralFormPage extends React.Component {
             <SearchForm
               formItem={this.props.searchFormItem}
               contentBottom={
-                <div style={{marginTop:"7px"}}>
+                <div style={{ marginTop: "7px" }}>
                   {this.props.searchFormContentBottom}
                   {resetFilterView}
                 </div>
@@ -489,6 +491,23 @@ export default class GeneralFormPage extends React.Component {
           </h4>
         );
       }
+    }
+
+  
+    if (this.props.isSearchOnLeft) {
+      return <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-4">
+            {this.props.dataTitle !== null ? <h2>{this.props.dataTitle}</h2> : null}
+            {addForm}
+            {searchForm}
+            {this.props.contentBelowFilter}
+          </div>
+          <div className="col-md-8">
+            {datas}
+          </div>
+        </div>
+      </div>
     }
 
     return (
@@ -557,7 +576,7 @@ GeneralFormPage.defaultProps = {
 
 /////////////////////////////////////////////
 
-export const openEditPopup = function(
+export const openEditPopup = function (
   id,
   entity,
   entity_singular,
@@ -589,7 +608,7 @@ export const openEditPopup = function(
   );
 };
 
-export const openDeletePopup = function(
+export const openDeletePopup = function (
   id,
   entity,
   onSuccess,

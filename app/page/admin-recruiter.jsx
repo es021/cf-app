@@ -10,7 +10,7 @@ import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { User, UserMeta } from '../../config/db-config';
 import { Time } from '../lib/time';
 import { createUserTitle } from './users';
-import { createCompanyTitle } from './companies-admin';
+import { createCompanyTitle } from './admin-company';
 
 
 export default class RecruitersPage extends React.Component {

@@ -52,7 +52,7 @@ export default class EventManagement extends React.Component {
             </ul>
           </small>
         </td>,
-        <td>{JSON.stringify(d.cf)}</td>,
+        <td style={{maxWidth:"200px"}}>{JSON.stringify(d.cf)}</td>,
         <td>
           <small>
             <ul className="normal">
@@ -67,6 +67,15 @@ export default class EventManagement extends React.Component {
               </li>
               <li>
                 <b>Location</b> : {d.location}
+              </li>
+              <li>
+                <b>RSVP Link</b> : {d.url_rsvp}
+              </li>
+              <li>
+                <b>Join Link</b> : {d.url_join}
+              </li>
+              <li>
+                <b>Recorded Link</b> : {d.url_recorded}
               </li>
               <li>
                 <b>Description</b> : {d.description}
@@ -98,6 +107,9 @@ export default class EventManagement extends React.Component {
                   type
                   title
                   location
+                  url_recorded
+                  url_join
+                  url_rsvp
                   description
                   start_time
                   end_time
@@ -172,7 +184,7 @@ export default class EventManagement extends React.Component {
 
     this.getEditFormDefault = ID => {
       const query = `query{event(ID:${ID})
-            {ID cf company_id type title description location start_time end_time}}`;
+            {ID cf company_id type title description location url_recorded url_join url_rsvp start_time end_time}}`;
       return getAxiosGraphQLQuery(query).then(res => {
         var data = res.data.data.event;
         console.log(data);
@@ -195,7 +207,7 @@ export default class EventManagement extends React.Component {
 
     this.getFormItemAsync = edit => {
       return getAxiosGraphQLQuery(
-        `query{companies(include_sponsor:1){ID name cf}}`
+        `query{companies(include_sponsor:1, order_by:"name asc"){ID name cf}}`
       ).then(res => {
         var companies = res.data.data.companies;
 
@@ -279,6 +291,21 @@ export default class EventManagement extends React.Component {
               name: Event.LOCATION,
               type: "text",
               placeholder: ""
+            },
+            {
+              label: "RSVP Link",
+              name: Event.URL_RSVP,
+              type: "text",
+            },
+            {
+              label: "Join Link",
+              name: Event.URL_JOIN,
+              type: "text",
+            },
+            {
+              label: "Recorded Link",
+              name: Event.URL_RECORDED,
+              type: "text",
             },
             {
               label: "Description",

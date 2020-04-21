@@ -10,6 +10,7 @@ import ListBoard from "../../../component/list-board";
 import VacancyPopup from "../popup/vacancy-popup";
 import { InterestedButton } from "../../../component/interested.jsx";
 import { EmptyCard } from "../../../component/card.jsx";
+import PropTypes from 'prop-types';
 
 export default class HallRecruiterJobPosts extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class HallRecruiterJobPosts extends React.Component {
     this.getDataFromRes = this.getDataFromRes.bind(this);
     this.onClickCard = this.onClickCard.bind(this);
     this.authUser = getAuthUser();
-    this.offset = 5;
+    this.offset = this.props.offset ? this.props.offset : 5;
   }
 
   loadData(page, offset) {
@@ -104,7 +105,7 @@ export default class HallRecruiterJobPosts extends React.Component {
 
     let interestedBtn = (
       <InterestedButton
-      customStyle={{fontSize:"18px"}}
+        customStyle={{ fontSize: "18px" }}
         customType={"user"}
         isModeCount={isModeCount}
         isModeAction={isModeAction}
@@ -157,8 +158,12 @@ export default class HallRecruiterJobPosts extends React.Component {
 
     return (
       <ListBoard
+       
         {...countParam}
         // hideLoadMore={this.props.limitLoad ? true : false}
+        isNoTitle={this.props.isNoTitle}
+        isNoMarginBottom={this.props.isNoMarginBottom}
+
         action_icon="plus"
         action_text="Add New Job Post"
         action_to={`manage-company/${this.props.company_id}/vacancy`}
@@ -182,4 +187,13 @@ export default class HallRecruiterJobPosts extends React.Component {
       />
     );
   }
+}
+
+
+HallRecruiterJobPosts.propTypes = {
+  isNoTitle: PropTypes.bool,
+  isNoMarginBottom: PropTypes.bool
+}
+
+HallRecruiterJobPosts.defaultProps = {
 }

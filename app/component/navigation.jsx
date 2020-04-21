@@ -17,8 +17,9 @@ import SignUpPage from "../page/sign-up";
 import AboutPage from "../page/about";
 import LogoutPage from "../page/logout";
 import UsersPage from "../page/users";
-import CompaniesPage from "../page/companies-admin";
-import RecruiterPage from "../page/recruiters";
+import CompaniesPage from "../page/admin-company";
+import RecruiterPage from "../page/admin-recruiter"; 
+import AdminCf from "../page/admin-cf"; 
 import HallPage from "../page/hall";
 import HallPageOld from "../page/hall-old";
 import ActAccountPage from "../page/activate-account";
@@ -171,7 +172,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       // Admin Only
-      url: "/recruiters",
+      url: "/admin-recruiter",
       label: "Recruiters",
       icon: "black-tie",
       component: RecruiterPage,

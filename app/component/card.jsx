@@ -19,7 +19,11 @@ export class EmptyCard extends React.Component {
       className += " clickable ";
     }
     return (
-      <div style={style} className={className} onClick={()=>this.props.onClick(this.props.paramForOnClick)}>
+      <div style={style} className={className} onClick={() => {
+        if (this.props.onClick) {
+          this.props.onClick(this.props.paramForOnClick)
+        }
+      }}>
         {this.props.body}
       </div>
     );
@@ -27,7 +31,7 @@ export class EmptyCard extends React.Component {
 }
 
 EmptyCard.propTypes = {
-  paramForOnClick : PropTypes.object,
+  paramForOnClick: PropTypes.object,
   body: PropTypes.object,
   borderRadius: PropTypes.string,
   minHeight: PropTypes.string,

@@ -1,57 +1,108 @@
 @import "define/variable.scss";
 
+$BLUE_CODE: #1569e0;
+
 .vacancy-card-recruiter {
   position: relative;
-	text-align: left;
-  	padding: 10px 13px;
+  text-align: left;
+  padding: 10px 13px;
 
+  .title {
+    line-height: 18px;
+    margin-bottom: 7px;
+    margin-top: 3px;
+    width: 90%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+  }
 
-	.title {
-		line-height: 18px;
-		margin-bottom: 7px;
-		margin-top: 3px;
-		width: 90%;
-		cursor: pointer;
-		font-weight: bold;
-		font-size: 16px;
-	}
+  .location,
+  .type {
+    opacity: 0.8;
+  }
+}
 
-	.location,
-	.type {
-		opacity: 0.8;
-	}
+.vacancy-action {
+  &.type-button {
+    position: initial;
+    margin: 0px 0px;
+  }
+  
+  z-index: 5;
+  position: absolute;
+  right: 7px;
+  width: max-content;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  margin: 0px 5px;
+  color: white;
+
+  .action-item {
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  .action-loading {
+    background: grey;
+  }
+  .action-not-done {
+    background: $BLUE_CODE;
+  }
+
+  .action-not-done:hover {
+    background: darken($BLUE_CODE, 15);
+  }
+
+  .action-not-done:active {
+    background: $BLUE_CODE;
+  }
+
+  // btn registered
+  .action-done {
+    background: $COLOR-SEEDS;
+  }
+
+  .action-done:hover {
+    background: darken($COLOR-SEEDS, 15);
+  }
+
+  .action-done:active {
+    background: $COLOR-SEEDS;
+  }
 }
 
 .vacancy-card {
-	height: 100%;
-	width: 100%;
-	padding: 10px 13px;
-	position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 10px 13px;
+  position: relative;
 
-	.img {
-		.profile-card {
-			align-items: start;
-			margin: 0;
+  .img {
+    .profile-card {
+      align-items: start;
+      margin: 0;
 
-			.pc-picture {
-				border: 1px solid darkgray;
-			}
-		}
+      .pc-picture {
+        border: 1px solid darkgray;
+      }
+    }
 
-		margin-bottom: 7px;
-	}
+    margin-bottom: 7px;
+  }
 
-	.title {
-		line-height: 18px;
-		margin-bottom: 7px;
-		margin-top: 3px;
-		cursor: pointer;
-		font-weight: bold;
-		font-size: 17px;
-	}
+  .title {
+    line-height: 18px;
+    margin-bottom: 7px;
+    margin-top: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 17px;
+  }
 
-	.location,
-	.type {
-		opacity: 0.8;
-	}
+  .location,
+  .type {
+    opacity: 0.8;
+  }
 }

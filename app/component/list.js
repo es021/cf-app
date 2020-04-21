@@ -407,10 +407,16 @@ export default class List extends React.Component {
       }
     }
 
+    let listStyle = {}
+    if(this.props.isListNoMargin){
+      listStyle.margin = "0px";
+      listStyle.padding = "0px";
+    }
+    
     var content = (
       <div className={`${this.props.divClass}`}>
         {topView}
-        <ul className={`${this.getListClass()}`} ref={this.props.listRef}>
+        <ul style={listStyle} className={`${this.getListClass()}`} ref={this.props.listRef}>
           {extraTop}
           {this.renderDataContent()}
           {extraBottom}
@@ -424,6 +430,8 @@ export default class List extends React.Component {
 
 List.propTypes = {
   // general props
+  
+  isListNoMargin : PropTypes.bool,
   hideLoadMore: PropTypes.bool,
   offset: PropTypes.number.isRequired,
   customLoading: PropTypes.element,

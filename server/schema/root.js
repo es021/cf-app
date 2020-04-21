@@ -1,5 +1,6 @@
 //import all type
 const {
+	DistinctType,
 	FilterType,
 	BrowseStudentType,
 	UserType,
@@ -1046,6 +1047,7 @@ const vacancies_param = {
 	type: __.String,
 	user_id: __.Int,
 	company_id: __.Int,
+	location: __.String,
 	page: __.Int,
 	offset: __.Int,
 	order_by: __.String
@@ -1063,6 +1065,15 @@ fields["vacancies_count"] = {
 	resolve(parentValue, arg, context, info) {
 		return VacancyExec.vacancies(arg, graphqlFields(info), {
 			count: true
+		});
+	}
+};
+fields["vacancies_distinct"] = {
+	type: new GraphQLList(DistinctType),
+	args: vacancies_param,
+	resolve(parentValue, arg, context, info) {
+		return VacancyExec.vacancies(arg, graphqlFields(info), {
+			distinct: true
 		});
 	}
 };

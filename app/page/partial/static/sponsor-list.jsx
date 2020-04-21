@@ -91,10 +91,12 @@ export default class SponsorList extends React.Component {
     // }
     if (this.isHallPage()) {
       return createImageElement(d.img_url, d.img_pos, d.img_size
-        , "130px"
+        , "100px"
         , "with-border no-vertical-margin"
-        , PCType.Company,
-        { borderRadius: "7px" });
+        , PCType.Company
+        // ,{ borderRadius: "7px" }
+        , {margin:"10px"}
+      );
     } else {
       return (
         <div className={`sponsor-card ${className}`}>

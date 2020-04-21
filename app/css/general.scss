@@ -70,25 +70,9 @@ div.line {
   background-image: linear-gradient(to right, white, darkgray, white);
 }
 
-.lg-and-more {
-  display: none;
-  @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP) {
-    display: initial;
-  }
-}
-
-.md-and-less {
-  display: none;
-  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
-    display: initial;
-  }
-}
-
-.animate-hide{
+.animate-hide {
   transition: opacity 0.5s ease-in-out;
 }
-
-
 
 .padding-sm {
   padding: 0px 8px;
@@ -192,6 +176,14 @@ h3.left {
   display: flex;
   flex-wrap: wrap;
 }
+
+.flex-wrap-center-center {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 
 .flex-wrap-space-between {
   justify-content: space-between;

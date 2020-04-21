@@ -219,6 +219,25 @@ Time.prototype.getUnixTimestampNow = function () {
 };
 
 
+Time.prototype.isNow = function (unix) {
+    var date = new Date();
+    return unix = Math.round(date.getTime() / 1000);
+};
+Time.prototype.isPast = function (unix) {
+    var date = new Date();
+    return unix < Math.round(date.getTime() / 1000);
+};
+Time.prototype.isFuture = function (unix) {
+    var date = new Date();
+    return unix > Math.round(date.getTime() / 1000);
+};
+Time.prototype.isBetween = function (unixStart, unixEnd) {
+    var date = new Date();
+    let now = Math.round(date.getTime() / 1000)
+    return unixStart <= now && now <= unixEnd;
+};
+
+
 Time.prototype.convertDBTimeToUnix = function (db_time) {
     //return Date.parse(db_time) / 1000;
 

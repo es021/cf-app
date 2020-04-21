@@ -8,6 +8,7 @@ class VacancyQuery {
 		var cf_where = (typeof params.cf === "undefined") ? "1=1" :
 			`company_id IN (select m.entity_id from cf_map m where m.entity = "company" and cf = "${params.cf}" ) `;
 		var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = '${params.ID}' `;
+		var location_where = (typeof params.location === "undefined") ? "1=1" : `location = '${params.location}' `;
 		var title_where = (typeof params.title === "undefined") ? "1=1" : `title like '%${params.title}%' `;
 		var type_where = (typeof params.type === "undefined") ? "1=1" : `type = '${params.type}' `;
 		var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}' `;
@@ -15,15 +16,47 @@ class VacancyQuery {
 
 		var limit = DB.prepareLimit(params.page, params.offset);
 
-		var sql = `from ${Vacancy.TABLE} where 
+		var sql = `from ${Vacancy.TABLE} v where 
 			1=1 and
 			${cf_where} and
 			${id_where} and 
 			${title_where} and 
 			${type_where} and 
+			${location_where} and
 			${com_where} ${order_by}`;
 
-		if (extra.count) {
+		if (extra.distinct) {
+			return `
+			select distinct
+				"Company" as "_category", 
+				"company_id" as "_key", 
+				 company_id as "_val",
+				(select c.name from companies c where c.ID = v.company_id) as "_label" 
+				${sql}
+
+			UNION ALL
+
+			select distinct
+				"Type" as "_category", 
+				"type" as "_key", 
+				type as "_val",
+				type as "_label" 
+				${sql} and type != ""
+
+			UNION ALL
+
+			select distinct
+				"Location" as "_category", 	
+				"location" as "_key", 
+				location as "_val",
+				location as "_label" 
+				${sql} and location != ""
+
+			ORDER BY _key, _label
+			
+			`
+		}
+		else if (extra.count) {
 			return `select count(*) as cnt ${sql}`;
 		} else {
 			return `select * ${sql} ${limit}`;
@@ -43,9 +76,14 @@ class VacancyExec {
 		} = require('./interested-query.js');
 
 		var sql = VacancyQuery.getVacancy(params, extra);
-		var toRet = DB.query(sql).then(function(res) {
+		console.log(sql)
+		var toRet = DB.query(sql).then(function (res) {
 			if (extra.count) {
 				return res[0]["cnt"];
+			}
+
+			if (extra.distinct) {
+				return res;
 			}
 
 			for (var i in res) {

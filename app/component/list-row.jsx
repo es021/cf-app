@@ -23,9 +23,12 @@ export default class ListRow extends React.Component {
             </a>
         }
         return (<div className="list-row" style={{ backgroundColor: this.props.backgroundColor }}>
-            <div className="lr-container">
-                <div className="lr-title">{this.props.title}{'  '}
-                    <i className="fa  fa-long-arrow-right"></i></div>
+            <div className="lr-container" style={this.props.containerStyle}>
+                <h3 className="lr-title text-bold">
+                    <i className={`fa fa-${this.props.icon} left`}></i>{'  '}
+                    {this.props.title}{'  '}
+                    <i className="fa  fa-long-arrow-right"></i>
+                </h3>
                 <div className="lr-body">{this.props.items}</div>
                 <div className="lr-footer">
                     <b>
@@ -39,8 +42,10 @@ export default class ListRow extends React.Component {
 
 ListRow.propsType = {
     backgroundColor: PropTypes.string,
+    containerStyle: PropTypes.object,
     items: PropTypes.any,
     title: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     see_more_text: PropTypes.string,
     see_more_to: PropTypes.string,
     see_more_onclick: PropTypes.func,

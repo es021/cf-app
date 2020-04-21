@@ -23,17 +23,16 @@ class EventExec {
             select = "COUNT(*) as total";
             limit = "";
         } else {
-            order_by = `order by ` + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `is_ended asc, start_time asc`);
-            select = "(CASE WHEN UNIX_TIMESTAMP() > end_time THEN 1 ELSE 0 END) as is_ended, e.*";
+            order_by = `order by ` + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `is_ended asc, offset_from_now asc, start_time asc`);
+            select = "(CASE WHEN UNIX_TIMESTAMP() > end_time THEN 1 ELSE 0 END) as is_ended, ABS(start_time - UNIX_TIMESTAMP()) as offset_from_now,  e.*";
             limit = DB.prepareLimit(params.page, params.offset);
         }
 
         var where = `${id} and ${company_id} and ${cf_where}`;
-
-
         var sql = `select ${select} from ${Event.TABLE} e
             where  ${where}
             ${order_by} ${limit}`;
+
         console.log(sql);
         return sql;
     }

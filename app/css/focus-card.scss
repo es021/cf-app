@@ -2,164 +2,160 @@
 @import "define/mixin.scss";
 
 //  $fc_width : 520px;
-$fc_width : 900px;
-$fc : "fc-";
-$banner_height : 130px;
+$fc_width: 900px;
+$fc: "fc-";
+$banner_height: 130px;
 
-#focus-card {    
-    .#{$fc}background{
-        display: block;
-        background: rgba(0,0,0,0.5);
-        height: 100vh;
-        width: 100vw;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 20;
+#focus-card {
+  .#{$fc}background {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+  }
+
+  .#{$fc}content {
+    width: 100%;
+    background: whitesmoke;
+    position: fixed;
+    top: 0;
+    z-index: 21;
+    @include center_horizontal($fc_width);
+
+    .#{$fc}header {
+      width: 100%;
+      background: white;
+      color: $COLOR-SEEDS;
+      border-bottom: 2px solid $COLOR-SEEDS;
+      //border-bottom: grey 1px solid;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 15px;
     }
 
-    .#{$fc}content{
+    .#{$fc}header.previous {
+      padding-top: 22px;
+    }
 
-        width: 100%;
-        background: whitesmoke;
-        position:fixed;
-        top:0;
-        z-index: 21;
-        @include center_horizontal($fc_width);
+    .#{$fc}body {
+      padding: 0 10px;
+      max-height: 85vh;
+      min-height: 50vh;
+      margin-bottom: 25px;
+      overflow-y: auto;
 
-        .#{$fc}header{
-            width: 100%;
-            background: $COLOR_DARKER;
-            color:$COLOR_DARKER_TEXT;
-            //border-bottom: grey 1px solid;
-            padding:2px;
-        }
+      .loader {
+        padding-top: 100px;
+      }
+    }
 
-        .#{$fc}header.previous{
-            padding-top: 22px;
-        }
-        
-        .#{$fc}body{
-            padding: 0 10px;
-            max-height: 85vh;
-            min-height: 50vh;
-            margin-bottom: 25px;
-            overflow-y: auto;
+    .#{$fc}previous-btn {
+      position: absolute;
+      left: 5px;
+      top: 2px;
+    }
 
-            .loader{
-                padding-top: 100px;
-            }
-        }
+    .#{$fc}close-btn {
+      // a {
+      //   color: red;
+      // }
+      position: absolute;
+      right: 5px;
+      top: 2px;
+    }
 
-        .#{$fc}previous-btn{
-            position: absolute;
-            left: 5px;
-            top: 2px;
-        }
-
-        .#{$fc}close-btn{
-            position: absolute;
-            right: 5px;
-            top: 2px;
-        }
-
-        .#{$fc}title{
-            font-size:18px;
-        }
-    } 
+    .#{$fc}title {
+      font-size: 18px;
+    }
+  }
 }
 
 // #####################################
 // for banner;
 
 #focus-card {
-
-        
-    .#{$fc}body{
-
-        position: relative;
-        .#{$fc}banner{
-            //background-image: url("http://localhost:4000/asset/image/banner/EUR.jpg");
-            //background-position: center center;
-            height: $banner_height;
-            width: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        .container-fluid{
-            margin-top: $banner_height;
-
-        }
-        // .com-pop-left{
-        //     margin-top:-90px;
-        // }
-        // .com-pop-pic{
-        //      z-index: 13;
-        //      position: relative;
-        //      //border-bottom: 1px darkgray solid;
-        //      .profile-card{
-        //          .pc-picture{
-        //             border: 1px solid darkgray;
-        //          }
-        //          .pc-title{
-        //             // margin: 6px 0px;
-        //             // font-size: 20px;
-        //          }
-        //      }
-        // }
+  .#{$fc}body {
+    position: relative;
+    .#{$fc}banner {
+      //background-image: url("http://localhost:4000/asset/image/banner/EUR.jpg");
+      //background-position: center center;
+      height: $banner_height;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
-  
-    .#{$fc}body{
+
+    .container-fluid {
+      margin-top: $banner_height;
     }
+    // .com-pop-left{
+    //     margin-top:-90px;
+    // }
+    // .com-pop-pic{
+    //      z-index: 13;
+    //      position: relative;
+    //      //border-bottom: 1px darkgray solid;
+    //      .profile-card{
+    //          .pc-picture{
+    //             border: 1px solid darkgray;
+    //          }
+    //          .pc-title{
+    //             // margin: 6px 0px;
+    //             // font-size: 20px;
+    //          }
+    //      }
+    // }
+  }
+
+  .#{$fc}body {
+  }
 }
 
-#focus-card.no-margin{
-    .#{$fc}content{
-        .#{$fc}body{
-            padding: 0;
-            margin: 0;
-            min-height: 0vh;
-        }
+#focus-card.no-margin {
+  .#{$fc}content {
+    .#{$fc}body {
+      padding: 0;
+      margin: 0;
+      min-height: 0vh;
     }
+  }
 }
 
-#focus-card.fc-NotificationFeed{
-    .#{$fc}content{
-        @include center_horizontal(700px);
-    }
+#focus-card.fc-NotificationFeed {
+  .#{$fc}content {
+    @include center_horizontal(700px);
+  }
 }
 
-@media only screen and (min-width: 800px){
-    #focus-card.fc-CompanyPopup{
-        .#{$fc}content{
-            @include center_horizontal(900px);
-        }
+@media only screen and (min-width: 800px) {
+  #focus-card.fc-CompanyPopup {
+    .#{$fc}content {
+      @include center_horizontal(900px);
     }
+  }
 }
 
-@media only screen and (max-width: $fc_width){
-    #focus-card {
-        .#{$fc}content{
-
-            width: 100%;
-            margin-left: 0px;
-            left: 0;
-        }
+@media only screen and (max-width: $fc_width) {
+  #focus-card {
+    .#{$fc}content {
+      width: 100%;
+      margin-left: 0px;
+      left: 0;
     }
-
-   
+  }
 }
 
+#focus-card.small {
+  .#{$fc}body {
+    min-height: 0;
 
-
-#focus-card.small{
-    .#{$fc}body{
-        min-height: 0;
-
-        .loader{
-            padding-top: 10px;
-        }
+    .loader {
+      padding-top: 10px;
     }
+  }
 }

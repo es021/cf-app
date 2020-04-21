@@ -79,14 +79,17 @@ const Event = {
 	PIC: "pic",
 	COMPANY_ID: "company_id",
 	TITLE: "title",
-  LOCATION: "location",
-  DESCRIPTION: "description",
+	LOCATION: "location",
+	URL_RECORDED: "url_recorded",
+	URL_JOIN: "url_join",
+	URL_RSVP: "url_rsvp",
+	DESCRIPTION: "description",
 	TYPE: "type",
 	START_TIME: "start_time",
 	END_TIME: "end_time",
 	CREATED_BY: "created_by",
-  UPDATED_BY: "updated_by",
-  CREATED_AT: "created_at",
+	UPDATED_BY: "updated_by",
+	CREATED_AT: "created_at",
 	UPDATED_AT: "updated_at"
 };
 
@@ -251,8 +254,8 @@ const PasswordReset = {
 const Prescreen = {
 	TABLE: "pre_screens",
 	ID: "ID",
-	PIC : "pic",
-	NOTE : "note",
+	PIC: "pic",
+	NOTE: "note",
 	STUDENT_ID: "student_id",
 	COMPANY_ID: "company_id",
 	CREATED_AT: "created_at",
@@ -616,9 +619,6 @@ const NotificationsEnum = {
 	IMG_ENTITY_COMPANY: "company"
 };
 
-const CFS = {
-	TABLE: "cfs"
-};
 
 const EntityRemoved = {
 	TABLE: "entity_removed",
@@ -627,9 +627,21 @@ const EntityRemoved = {
 	USER_ID: "user_id"
 };
 
+
+const CFS = {
+	TABLE: "cfs",
+	NAME: "name",
+	COUNTRY: "country",
+	TIME: "time",
+	IS_ACTIVE: "is_active",
+	IS_LOAD: "is_load",
+	CF_ORDER: "cf_order",
+};
+
 const CFSMeta = {
 	TABLE: "cfs_meta",
 	TITLE: "title",
+	WELCOME_TEXT: "welcome_text",
 	TITLE_LANDING: "title_landing",
 	FLAG: "flag",
 	BANNER: "banner",

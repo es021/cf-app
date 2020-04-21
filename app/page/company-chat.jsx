@@ -21,7 +21,7 @@ import { Time } from "../lib/time";
 import { BOTH } from "../../config/socket-config";
 import { socketOn } from "../socket/socket-client";
 import EmptyState from "../component/empty-state.jsx";
-import { createCompanyTitle } from "./companies-admin.jsx";
+import { createCompanyTitle } from "./admin-company.jsx";
 import { isCompanyOnline } from "../redux/actions/user-actions";
 import { connect } from "react-redux";
 

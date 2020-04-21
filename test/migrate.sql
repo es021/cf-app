@@ -1,8 +1,15 @@
+ALTER TABLE `events` ADD `url_rsvp` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
+ALTER TABLE `events` ADD `url_join` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
+ALTER TABLE `events` ADD `url_recorded` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
+
+
+
 -- Add auto_expired_at untuk zoom_meetings
 ALTER TABLE `zoom_meetings` ADD 
 `auto_expired_at` BIGINT(20) UNSIGNED NULL 
 COMMENT 'time at which this meeting is make auto ENDED (expired) by cron job' 
 AFTER `is_expired`; 
+
 
 
 -- ##############################################################

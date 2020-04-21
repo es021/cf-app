@@ -85,6 +85,34 @@ $SHELL_RED: #cc2229;
     }
   }
 
+  
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $SHELL_RED;
+      border-bottom: 2px solid $SHELL_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $SHELL_RED 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #fff3ba;
+          color: $SHELL_RED;
+        }
+      }
+    }
+  }
+
    // #############################################
   // #############################################
   // LEFT BAR

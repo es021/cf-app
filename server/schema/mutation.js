@@ -35,7 +35,8 @@ const {
   MultiType,
   SingleType,
   InterestedType,
-  VideoType
+  VideoType,
+  CfsType
 } = require("./all-type.js");
 
 //import all action for type
@@ -80,12 +81,14 @@ const {
 const graphqlFields = require("graphql-fields");
 
 const { UserExec } = require("../model/user-query.js");
+const { CFExec } = require("../model/cf-query.js");
 const { QueueExec } = require("../model/queue-query.js");
 const { MessageExec } = require("../model/message-query.js");
 const { ResumeDropExec } = require("../model/resume-drop-query.js");
 const { MultiExec } = require("../model/multi-query");
 const DB = require("../model/DB.js");
 const { __ } = require("../../config/graphql-config");
+const Props = require("./props");
 
 const {
   GraphQLObjectType,
@@ -115,7 +118,7 @@ fields["add_video"] = {
     updated_at: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Video.TABLE, arg).then(function(res) {
+    return DB.insert(Video.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -133,7 +136,7 @@ fields["edit_video"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Video.TABLE, arg).then(function(res) {
+      return DB.update(Video.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -161,7 +164,7 @@ fields["add_interested"] = {
     entity_id: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Interested.TABLE, arg).then(function(res) {
+    return DB.insert(Interested.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -175,7 +178,7 @@ fields["edit_interested"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Interested.TABLE, arg).then(function(res) {
+      return DB.update(Interested.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -194,7 +197,7 @@ fields["add_single"] = {
     val: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(SingleInput.TABLE, arg).then(function(res) {
+    return DB.insert(SingleInput.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -208,7 +211,7 @@ fields["edit_single"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(SingleInput.TABLE, arg).then(function(res) {
+      return DB.update(SingleInput.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -233,7 +236,7 @@ fields["add_multi"] = {
       val: arg.val
     };
     let table_name = "multi_" + arg.table_name;
-    return DB.insert(table_name, param).then(function(res) {
+    return DB.insert(table_name, param).then(function (res) {
       return res;
     });
   }
@@ -264,7 +267,7 @@ fields["add_notification"] = {
     img_id: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Notifications.TABLE, arg).then(function(res) {
+    return DB.insert(Notifications.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -278,7 +281,7 @@ fields["edit_notification"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Notifications.TABLE, arg).then(function(res) {
+      return DB.update(Notifications.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -296,7 +299,7 @@ fields["add_entity_removed"] = {
     user_id: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(EntityRemoved.TABLE, arg).then(function(res) {
+    return DB.insert(EntityRemoved.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -319,7 +322,7 @@ fields["add_hall_gallery"] = {
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(HallGallery.TABLE, arg).then(function(res) {
+    return DB.insert(HallGallery.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -343,7 +346,7 @@ fields["edit_hall_gallery"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(HallGallery.TABLE, arg).then(function(res) {
+      return DB.update(HallGallery.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -364,7 +367,7 @@ fields["add_qs_popup"] = {
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(QsPopup.TABLE, arg).then(function(res) {
+    return DB.insert(QsPopup.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -383,7 +386,7 @@ fields["edit_qs_popup"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(QsPopup.TABLE, arg).then(function(res) {
+      return DB.update(QsPopup.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -400,7 +403,7 @@ fields["add_qs_popup_answer"] = {
     answer: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(QsPopupAnswer.TABLE, arg).then(function(res) {
+    return DB.insert(QsPopupAnswer.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -417,7 +420,7 @@ fields["add_group_session"] = {
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(GroupSession.TABLE, arg).then(function(res) {
+    return DB.insert(GroupSession.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -436,7 +439,7 @@ fields["edit_group_session"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(GroupSession.TABLE, arg).then(function(res) {
+      return DB.update(GroupSession.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -453,7 +456,7 @@ fields["add_group_session_join"] = {
     user_id: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(GroupSessionJoin.TABLE, arg).then(function(res) {
+    return DB.insert(GroupSessionJoin.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -467,7 +470,7 @@ fields["edit_group_session_join"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(GroupSessionJoin.TABLE, arg).then(function(res) {
+      return DB.update(GroupSessionJoin.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -482,19 +485,19 @@ fields["edit_group_session_join"] = {
 fields["add_zoom_meeting"] = {
   type: ZoomMeetingType,
   args: {
-		session_id: __.Int,
-		group_session_id: __.Int,
-		pre_screen_id: __.Int,
-		host_id: __.Int,
-		zoom_host_id: __.String,
-		zoom_meeting_id: __.Int,
-		start_url: __.String,
-		join_url: __.String,
-		started_at: __.Int,
-		is_expired: __.String
+    session_id: __.Int,
+    group_session_id: __.Int,
+    pre_screen_id: __.Int,
+    host_id: __.Int,
+    zoom_host_id: __.String,
+    zoom_meeting_id: __.Int,
+    start_url: __.String,
+    join_url: __.String,
+    started_at: __.Int,
+    is_expired: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(ZoomMeeting.TABLE, arg).then(function(res) {
+    return DB.insert(ZoomMeeting.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -507,7 +510,7 @@ fields["edit_zoom_meeting"] = {
     is_expired: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(ZoomMeeting.TABLE, arg).then(function(res) {
+    return DB.update(ZoomMeeting.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -525,7 +528,7 @@ fields["add_zoom_invite"] = {
     participant_id: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(ZoomInvite.TABLE, arg).then(function(res) {
+    return DB.insert(ZoomInvite.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -546,7 +549,7 @@ fields["add_message"] = {
       arg.receiver_id,
       arg.message,
       arg.which_company
-    ).then(function(res) {
+    ).then(function (res) {
       return res;
     });
   }
@@ -560,7 +563,7 @@ fields["edit_message"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Message.TABLE, arg, "id_message_number").then(function(
+      return DB.update(Message.TABLE, arg, "id_message_number").then(function (
         res
       ) {
         return res;
@@ -579,7 +582,7 @@ fields["add_availability"] = {
     timestamp: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Availability.TABLE, arg).then(function(res) {
+    return DB.insert(Availability.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -595,7 +598,7 @@ fields["edit_availability"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Availability.TABLE, arg).then(function(res) {
+      return DB.update(Availability.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -630,7 +633,7 @@ fields["add_company"] = {
     accept_prescreen: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Company.TABLE, arg).then(function(res) {
+    return DB.insert(Company.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -663,7 +666,7 @@ fields["edit_company"] = {
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Company.TABLE, arg).then(function(res) {
+      return DB.update(Company.TABLE, arg).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -721,12 +724,32 @@ fields["edit_user"] = {
   resolve(parentValue, arg, context, info) {
     var ID = arg.ID;
     return UserExec.editUser(arg).then(
-      function(res) {
+      function (res) {
         return UserExec.user(
           {
             ID: ID
           },
           graphqlFields(info)
+        );
+      },
+      err => {
+        return err;
+      }
+    );
+  }
+};
+
+/* cf ******************/
+fields["edit_cf"] = {
+  type: CfsType,
+  args: Props.Cfs,
+  resolve(parentValue, arg, context, info) {
+    return CFExec.editCf(arg).then(
+      function (res) {
+        return CFExec.cfs(
+          { name: arg.name },
+          graphqlFields(info),
+          { single: true }
         );
       },
       err => {
@@ -749,7 +772,7 @@ fields["add_doc_link"] = {
     description: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(DocLink.TABLE, arg).then(function(res) {
+    return DB.insert(DocLink.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -765,7 +788,7 @@ fields["edit_doc_link"] = {
     description: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(DocLink.TABLE, arg).then(function(res) {
+    return DB.update(DocLink.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -792,7 +815,7 @@ fields["add_session_note"] = {
     note: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(SessionNotes.TABLE, arg).then(function(res) {
+    return DB.insert(SessionNotes.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -805,7 +828,7 @@ fields["edit_session_note"] = {
     note: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(SessionNotes.TABLE, arg).then(function(res) {
+    return DB.update(SessionNotes.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -833,7 +856,7 @@ fields["add_session_rating"] = {
     rating: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(SessionRating.TABLE, arg).then(function(res) {
+    return DB.insert(SessionRating.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -846,7 +869,7 @@ fields["edit_session_rating"] = {
     rating: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(SessionRating.TABLE, arg).then(function(res) {
+    return DB.update(SessionRating.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -861,7 +884,7 @@ fields["add_password_reset"] = {
     token: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(PasswordReset.TABLE, arg).then(function(res) {
+    return DB.insert(PasswordReset.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -874,7 +897,7 @@ fields["edit_password_reset"] = {
     is_expired: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(PasswordReset.TABLE, arg).then(function(res) {
+    return DB.update(PasswordReset.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -890,7 +913,7 @@ fields["add_log"] = {
     user_id: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Log.TABLE, arg).then(function(res) {
+    return DB.insert(Log.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -908,7 +931,7 @@ fields["add_dashboard"] = {
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Dashboard.TABLE, arg).then(function(res) {
+    return DB.insert(Dashboard.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -923,7 +946,7 @@ fields["edit_dashboard"] = {
     type: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Dashboard.TABLE, arg).then(function(res) {
+    return DB.update(Dashboard.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -957,7 +980,7 @@ fields["add_vacancy"] = {
     ref_country: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Vacancy.TABLE, arg).then(function(res) {
+    return DB.insert(Vacancy.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -978,7 +1001,7 @@ fields["edit_vacancy"] = {
     ref_country: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Vacancy.TABLE, arg).then(function(res) {
+    return DB.update(Vacancy.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1003,7 +1026,7 @@ fields["add_skill"] = {
     label: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Skill.TABLE, arg).then(function(res) {
+    return DB.insert(Skill.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1031,7 +1054,7 @@ fields["add_session"] = {
     entity_id: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Session.TABLE, arg).then(function(res) {
+    return DB.insert(Session.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1046,7 +1069,7 @@ fields["edit_session"] = {
     started_at: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Session.TABLE, arg).then(function(res) {
+    return DB.update(Session.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1062,7 +1085,7 @@ fields["add_session_request"] = {
     status: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(SessionRequest.TABLE, arg).then(function(res) {
+    return DB.insert(SessionRequest.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1076,7 +1099,7 @@ fields["edit_session_request"] = {
     updated_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(SessionRequest.TABLE, arg).then(function(res) {
+    return DB.update(SessionRequest.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1092,7 +1115,7 @@ fields["add_queue"] = {
     status: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Queue.TABLE, arg).then(function(res) {
+    return DB.insert(Queue.TABLE, arg).then(function (res) {
       return QueueExec.queues(
         {
           ID: res.ID
@@ -1113,7 +1136,7 @@ fields["edit_queue"] = {
     status: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Queue.TABLE, arg).then(function(res) {
+    return DB.update(Queue.TABLE, arg).then(function (res) {
       return QueueExec.queues(
         {
           ID: res.ID
@@ -1139,7 +1162,7 @@ fields["add_forum_comment"] = {
   },
   resolve(parentValue, arg, context, info) {
     console.log(arg);
-    return DB.insert(ForumComment.TABLE, arg).then(function(res) {
+    return DB.insert(ForumComment.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1152,7 +1175,7 @@ fields["edit_forum_comment"] = {
     content: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(ForumComment.TABLE, arg).then(function(res) {
+    return DB.update(ForumComment.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1165,7 +1188,7 @@ fields["delete_forum_comment"] = {
   },
   resolve(parentValue, arg, context, info) {
     arg["is_deleted"] = 1;
-    return DB.update(ForumComment.TABLE, arg).then(function(res) {
+    return DB.update(ForumComment.TABLE, arg).then(function (res) {
       return arg.ID;
     });
   }
@@ -1182,7 +1205,7 @@ fields["add_forum_reply"] = {
     is_owner: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(ForumReply.TABLE, arg).then(function(res) {
+    return DB.insert(ForumReply.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1195,7 +1218,7 @@ fields["edit_forum_reply"] = {
     content: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(ForumReply.TABLE, arg).then(function(res) {
+    return DB.update(ForumReply.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1208,7 +1231,7 @@ fields["delete_forum_reply"] = {
   },
   resolve(parentValue, arg, context, info) {
     arg["is_deleted"] = 1;
-    return DB.update(ForumReply.TABLE, arg).then(function(res) {
+    return DB.update(ForumReply.TABLE, arg).then(function (res) {
       return arg.ID;
     });
   }
@@ -1225,13 +1248,16 @@ fields["add_event"] = {
     title: __.StringNonNull,
     pic: __.String,
     location: __.String,
+    url_recorded: __.String,
+    url_join: __.String,
+    url_rsvp: __.String,
     description: __.String,
     start_time: __.IntNonNull,
     end_time: __.IntNonNull,
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Event.TABLE, arg).then(function(res) {
+    return DB.insert(Event.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1247,13 +1273,16 @@ fields["edit_event"] = {
     pic: __.String,
     title: __.String,
     location: __.String,
+    url_recorded: __.String,
+    url_join: __.String,
+    url_rsvp: __.String,
     description: __.String,
     start_time: __.Int,
     end_time: __.Int,
     updated_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Event.TABLE, arg).then(function(res) {
+    return DB.update(Event.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1286,7 +1315,7 @@ fields["add_auditorium"] = {
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Auditorium.TABLE, arg).then(function(res) {
+    return DB.insert(Auditorium.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1308,7 +1337,7 @@ fields["edit_auditorium"] = {
     updated_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Auditorium.TABLE, arg).then(function(res) {
+    return DB.update(Auditorium.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1334,7 +1363,7 @@ fields["add_feedback_qs"] = {
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(FeedbackQs.TABLE, arg).then(function(res) {
+    return DB.insert(FeedbackQs.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1350,7 +1379,7 @@ fields["edit_feedback_qs"] = {
     updated_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(FeedbackQs.TABLE, arg).then(function(res) {
+    return DB.update(FeedbackQs.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1370,7 +1399,7 @@ fields["add_prescreen"] = {
     updated_by: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Prescreen.TABLE, arg).then(function(res) {
+    return DB.insert(Prescreen.TABLE, arg).then(function (res) {
       return res;
     });
   }
@@ -1392,7 +1421,7 @@ fields["edit_prescreen"] = {
     appointment_time: __.Int
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(Prescreen.TABLE, arg).then(function(res) {
+    return DB.update(Prescreen.TABLE, arg).then(function (res) {
       // to update Availability if rejected
       if (res[Prescreen.STATUS] == PrescreenEnum.STATUS_REJECTED) {
         let updAvQuery = `UPDATE ${Availability.TABLE} av
@@ -1431,7 +1460,7 @@ fields["add_resume_drop"] = {
     message: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(ResumeDrop.TABLE, arg).then(function(res) {
+    return DB.insert(ResumeDrop.TABLE, arg).then(function (res) {
       return ResumeDropExec.resume_drops(
         {
           ID: res.ID
@@ -1453,7 +1482,7 @@ fields["edit_resume_drop"] = {
     message: __.String
   },
   resolve(parentValue, arg, context, info) {
-    return DB.update(ResumeDrop.TABLE, arg).then(function(res) {
+    return DB.update(ResumeDrop.TABLE, arg).then(function (res) {
       return ResumeDropExec.resume_drops(
         {
           ID: res.ID
@@ -1487,7 +1516,7 @@ fields["add_meta"] = {
     source: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(Meta.TABLE, arg).then(function(res) {
+    return DB.insert(Meta.TABLE, arg).then(function (res) {
       return res;
     });
   }

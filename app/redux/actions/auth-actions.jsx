@@ -205,20 +205,20 @@ export function getCF() {
 export function isComingSoon() {
     //return false;
 
-    if (isOverrideComingSoonUser()) {
-        return false;
-    }
+    // if (isOverrideComingSoonUser()) {
+    //     return false;
+    // }
 
 
     var isComingSoon = true;
     var cfObj = getCFObj();
 
-    let override_coming_soon = cfObj.override_coming_soon;
-    console.log("override_coming_soon", override_coming_soon)
+    // let override_coming_soon = cfObj.override_coming_soon;
+    // console.log("override_coming_soon", override_coming_soon)
 
-    if (override_coming_soon === "true") {
-        return false;
-    }
+    // if (override_coming_soon === "true") {
+    //     return false;
+    // }
 
 
     var timenow = Time.getUnixTimestampNow();

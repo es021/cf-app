@@ -1,197 +1,203 @@
 @import "define/variable.scss";
 
 // ####################################
-// CONSTANTS 
+// CONSTANTS
 $HWW_ALL: 420px;
 $HWW_IMAGE: 90px;
 $HWW_ACTION: 120px;
 
-$HWW_ALL_SM : 415px;
+$HWW_ALL_SM: 415px;
 $HWW_IMAGE_SM: 70px;
 $HWW_ACTION_SM: 100px;
 
+$GREEN_CODE: #4d873c;
+$BLUE_CODE: #1569e0;
 
-$GREEN_CODE : #4d873c;
-$BLUE_CODE : #1569e0;
-
-#list-events.main{
-	max-width: 1100px;
+#list-events.main {
+  max-width: 1100px;
 }
 
 .event-list {
-	width: 490px;
-	border-radius: 7px;
-	overflow: hidden;
-	display: flex;
-	background: white;
-	margin: 5px 10px;
-	margin-bottom: 20px;
-	box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
-	padding: 5px 10px;
-	position: relative;
+  width: 500px;
+  max-width: 70vw;
+  overflow: hidden;
+  // display: flex;
+  background: white;
 
-	.el-image {
-		align-self: flex-start;
+  &.type-card {
+    border-radius: 7px;
+    margin: 5px 10px;
+    margin-bottom: 20px;
+    box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
+  }
 
-		.profile-card {
-			margin: 10px;
-			margin-right: 10px;
-			margin-left: 5px;
-		}
-	}
+  &.type-row {
+    border-bottom: 1px solid rgb(185, 178, 178);
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
 
-	.el-action {
-		z-index: 5;
-		position: absolute;
-		right: 0;
-		width: max-content;
-		font-size: 12px;
-		text-align: center;
-		cursor: pointer;
-		margin: 0px 5px;
-		color: white;
+  padding: 15px 10px;
+  position: relative;
 
-		.el-action-item {
-			border-radius: 4px;
-			padding: 1px 5px;
-		}
+  .el-image {
+    // align-self: flex-start;
 
-		// btn rsvp
-		.el-ended {
-			background: gray;
-		}
+    .profile-card {
+      margin: 0px;
+      // margin-right: 10px;
+      // margin-left: 5px;
+    }
+  }
 
-		.el-rsvp {
-			background: $BLUE_CODE;
-		}
+  .el-action {
+    a {
+      margin-bottom: 10px;
+    }
+  }
 
-		.el-rsvp:hover {
-			background: darken($BLUE_CODE, 15);
-		}
+  // .el-action {
+  // 	z-index: 5;
+  // 	position: absolute;
+  // 	right: 0;
+  // 	width: max-content;
+  // 	font-size: 12px;
+  // 	text-align: center;
+  // 	cursor: pointer;
+  // 	margin: 0px 5px;
+  // 	color: white;
 
-		.el-rsvp:active {
-			background: $BLUE_CODE;
-		}
+  // 	.el-action-item {
+  // 		border-radius: 4px;
+  // 		padding: 1px 5px;
+  // 	}
 
-		// btn registered
-		.el-rsvped {
-			background: $GREEN_CODE;
-		}
+  // 	// btn rsvp
+  // 	.el-ended {
+  // 		background: gray;
+  // 	}
 
-		.el-rsvped:hover {
-			background: darken($GREEN_CODE, 15);
-		}
+  // 	.el-rsvp {
+  // 		background: $BLUE_CODE;
+  // 	}
 
-		.el-rsvped:active {
-			background: $GREEN_CODE;
-		}
-	}
+  // 	.el-rsvp:hover {
+  // 		background: darken($BLUE_CODE, 15);
+  // 	}
 
-	.el-details {
-		flex-grow: 2;
-		align-self: center;
+  // 	.el-rsvp:active {
+  // 		background: $BLUE_CODE;
+  // 	}
 
+  // 	// btn registered
+  // 	.el-rsvped {
+  // 		background: $GREEN_CODE;
+  // 	}
 
-		.el-title {
-			font-size: 14px;
-			width: 70%;
-			margin-bottom: 7px;
-		}
+  // 	.el-rsvped:hover {
+  // 		background: darken($GREEN_CODE, 15);
+  // 	}
 
-		.el-time,
-		.el-location {
-			font-size: 13px;
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
+  // 	.el-rsvped:active {
+  // 		background: $GREEN_CODE;
+  // 	}
+  // }
 
-			.el-location-text {
-				white-space: nowrap;
-				width: 300px;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-		}
+  .el-details {
+    flex-grow: 2;
+    // align-self: center;
 
-		.el-time {
-			height: 100%;
-			display: flex;
+    .el-title {
+      font-size: 16px;
+      // width: 70%;
+      margin-bottom: 4px;
+    }
 
-			.el-toggle-timezone {
-				font-size: 11px;
+    .el-time,
+    .el-location {
+      font-size: 13px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
 
-				cursor: pointer;
-				padding: 2px 5px;
-				border-radius: 5px;
-				margin-left: 0px;
-				//background: $GREEN_CODE;
-				color: $BLUE_CODE;
-			}
+      .el-location-text {
+        white-space: nowrap;
+        width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
 
-			.el-toggle-timezone:hover {
-				text-decoration: underline;
-				//background: darken($GREEN_CODE, 15);
-			}
+    .el-time {
+      height: 100%;
+      display: flex;
 
-			.el-toggle-timezone:active {
-				text-decoration: none;
-				//background: $GREEN_CODE;
-			}
-		}
-	}
+      .el-toggle-timezone {
+        font-size: 11px;
 
+        cursor: pointer;
+        padding: 2px 5px;
+        border-radius: 5px;
+        margin-left: 0px;
+        //background: $GREEN_CODE;
+        color: $BLUE_CODE;
+      }
 
+      .el-toggle-timezone:hover {
+        text-decoration: underline;
+        //background: darken($GREEN_CODE, 15);
+      }
 
-
+      .el-toggle-timezone:active {
+        text-decoration: none;
+        //background: $GREEN_CODE;
+      }
+    }
+  }
 }
 
-
 @media only screen and (max-width: 500px) {
-	.event-list {
-		width: 230px;
-		margin: 10px;
-		flex-wrap: wrap;
-		justify-content: center;
+  .event-list {
+    // width: 230px;
+    margin: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 
+    .el-image {
+      .profile-card {
+        margin: 0;
+        margin-top: 25px;
+      }
+    }
 
+    .el-action {
+      left: 0;
+    }
 
-		.el-image {
-			.profile-card {
-				margin: 0;
-				margin-top: 25px;
-			}
-		}
+    .el-details {
+      padding: 10px;
+      width: 100%;
 
-		.el-action {
-			left: 0;
-		}
+      .el-time {
+        flex-wrap: wrap;
 
+        .el-toggle-timezone {
+          margin-left: 0px;
+        }
+      }
 
-		.el-details {
-			padding: 10px;
-			width: 100%;
+      .el-location {
+        .el-location-text {
+          width: 177px;
+        }
+      }
 
-			.el-time {
-				flex-wrap: wrap;
-
-				.el-toggle-timezone {
-					margin-left: 0px;
-				}
-			}
-
-			.el-location{
-				.el-location-text{
-					width: 177px;
-				}
-			}
-
-			.el-title,
-			.el-image,
-			.el-time {
-				width: 100%;
-			}
-
-
-		}
-	}
+      .el-title,
+      .el-image,
+      .el-time {
+        width: 100%;
+      }
+    }
+  }
 }

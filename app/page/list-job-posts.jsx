@@ -9,8 +9,10 @@ export default class ListJobPosts extends React.Component {
 
   render() {
     return <div >
-      <h1>Job Posts</h1>
-      <VacancyList offset={9} filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left"/>
+      <h1 className="text-bold text-left">
+        <i className="fa fa-suitcase left"></i>Job Posts
+      </h1>
+      <VacancyList isFullWidth={true} isSearchOnLeft={true} isEnableSearch={true} offset={9} filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left" />
     </div >
   }
 }

@@ -14,6 +14,42 @@ import { addLog } from "../redux/actions/other-actions";
 import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 
+export function getApplyButton(objVacancy, type) {
+  if(!isRoleStudent()){
+    return null;
+  }
+  let d = objVacancy;
+  return <InterestedButton
+    customStyle={{
+      top: "3px",
+      left: "7px",
+      width: "max-content",
+    }}
+    customView={
+      ({
+        loading,
+        is_interested,
+        onClickModeAction
+      }) => {
+        let r = null;
+        if (loading) {
+          r = <div className="action-item action-loading"><i className="fa fa-spinner fa-pulse left"></i>Loading</div>
+        } else if (is_interested) {
+          r = <div className="action-item action-done" onClick={onClickModeAction}><i className="fa fa-check left"></i>Applied</div>
+        } else {
+          r = <div className="action-item action-not-done" onClick={onClickModeAction}><i className="fa fa-plus left"></i>Apply</div>
+        }
+        return <div className={`vacancy-action type-${type}`}>{r}</div>
+      }
+    }
+    isModeCount={false}
+    isModeAction={true}
+    is_interested={d.interested.is_interested}
+    ID={d.interested.ID}
+    entity={"vacancies"}
+    entity_id={d.ID}
+  ></InterestedButton>
+}
 export default class VacancyPage extends React.Component {
   constructor(props) {
     super(props);
@@ -80,32 +116,32 @@ export default class VacancyPage extends React.Component {
       if (this.state.data === null) {
         view = <NotFoundPage {...this.props}></NotFoundPage>;
       } else {
-        let isModeCount = this.props.isRecThisCompany;
-        let isModeAction = isRoleStudent();
-        let interestedBtn = (
-          <InterestedButton
-            customStyle={{
-                position :"initial",
-            //   top: "3px",
-            //   left: "20px",
-            //   width: "max-content"
-            }}
-            isModeCount={isModeCount}
-            isModeAction={isModeAction}
-            ID={vacan.interested.ID}
-            is_interested={vacan.interested.is_interested}
-            entity={"vacancies"}
-            entity_id={vacan.ID}
-            tooltipObj={{
-              arrowPosition: "left",
-              left: "41px",
-              bottom: "-2px",
-              width: "97px",
-              tooltip: "Show Interest",
-              debug: false
-            }}
-          ></InterestedButton>
-        );
+        // let isModeCount = this.props.isRecThisCompany;
+        // let isModeAction = isRoleStudent();
+        // let interestedBtn = (
+        //   <InterestedButton
+        //     customStyle={{
+        //       position: "initial",
+        //       //   top: "3px",
+        //       //   left: "20px",
+        //       //   width: "max-content"
+        //     }}
+        //     isModeCount={isModeCount}
+        //     isModeAction={isModeAction}
+        //     ID={vacan.interested.ID}
+        //     is_interested={vacan.interested.is_interested}
+        //     entity={"vacancies"}
+        //     entity_id={vacan.ID}
+        //     tooltipObj={{
+        //       arrowPosition: "left",
+        //       left: "41px",
+        //       bottom: "-2px",
+        //       width: "97px",
+        //       tooltip: "Show Interest",
+        //       debug: false
+        //     }}
+        //   ></InterestedButton>
+        // );
 
         if (!this.props.isPopup) {
           document.setTitle("Vacancy - " + vacan.title);
@@ -169,7 +205,7 @@ export default class VacancyPage extends React.Component {
               body={
                 <div>
                   {" "}
-                  {interestedBtn}
+                  {getApplyButton(vacan, "button")}
                   <div style={{ height: "10px" }}></div>
                   {about}
                 </div>

@@ -1,5 +1,4 @@
-
-npm install flickity --save
+AdminCf
 
 <!-- 1. add remove (hidden) for all iv card -->
 <!-- 2. filter and sort iv card -->

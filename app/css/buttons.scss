@@ -73,6 +73,7 @@ a.dark:hover,
 @include button_color("btn-blue-light", #0098e1, white);
 @include button_color("btn-red", red, white);
 @include button_color("btn-green", #27ca27, white);
+@include button_color("btn-yellow", rgb(255, 169, 43), white);
 @include button_color_outline("btn-green-outline", #27ca27);
 
 .btn-bold {

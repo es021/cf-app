@@ -45,12 +45,12 @@ import { EventList } from "./event-list";
 export default class HallPage extends React.Component {
   constructor(props) {
     super(props);
-    this.getHighlight = this.getHighlight.bind(this);
+    // this.getHighlight = this.getHighlight.bind(this);
     this.CFDetail = getCFObj();
     this.title = this.CFDetail.title;
     // this.title = <div dangerouslySetInnerHTML={{__html : this.title}}></div>
 
-  
+
     this.authUser = getAuthUser();
 
     this.state = {
@@ -58,7 +58,7 @@ export default class HallPage extends React.Component {
     }
   }
 
-  isRecCurrentEvent(){
+  isRecCurrentEvent() {
     // rec akan nampak apa yang student nampak
     return this.props.location.pathname.indexOf("rec-current-event") >= 0;
   }
@@ -98,117 +98,62 @@ export default class HallPage extends React.Component {
     unsetBodyFullWidth();
   }
 
-  getHighlight() {
-    var v = null;
+  // getHighlight() {
+  //   var v = null;
 
-    if (isRoleRec()) {
-      var vData = [
-        {
-          label: "Student Listing & Resume Drop",
-          url: `${RootPath}/app/my-activity/student-listing`,
-          icon: "users"
-        }
-      ];
+  //   if (isRoleRec()) {
+  //     var vData = [
+  //       {
+  //         label: "Student Listing & Resume Drop",
+  //         url: `${RootPath}/app/my-activity/student-listing`,
+  //         icon: "users"
+  //       }
+  //     ];
 
-      var views = vData.map((d, i) => {
-        return (
-          <span>
-            <i className={`fa left fa-${d.icon}`} />
-            <NavLink to={`${d.url}`}>{`${d.label}`}</NavLink>
-          </span>
-        );
-      });
+  //     var views = vData.map((d, i) => {
+  //       return (
+  //         <span>
+  //           <i className={`fa left fa-${d.icon}`} />
+  //           <NavLink to={`${d.url}`}>{`${d.label}`}</NavLink>
+  //         </span>
+  //       );
+  //     });
 
-      v = <CustomList className="label" alignCenter={true} items={views} />;
-    }
-    return v;
-  }
-  getGallery() {
-    // let imgUrl = `${ImageUrl}/banner/${this.CFDetail.banner}`;
-    // var galleryStyle = {
-    //   backgroundImage: `url('${imgUrl}')`,
-    //   backgroundPosition: this.CFDetail.banner_pos,
-    //   backgroundSize: "cover"
-    // };
-    // return (
-    //   <div style={galleryStyle} className="gallery-section">
-    //     Gallery
-    //   </div>
-    // );
+  //     v = <CustomList className="label" alignCenter={true} items={views} />;
+  //   }
+  //   return v;
+  // }
 
-    return (
-      <div className="gallery-section main-width">
-        <HallGalleryView />
-      </div>
-    );
-  }
-  getTitle() {
-    var logo = null;
-    let has = {
-      logo: this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null,
-      height:
-        this.CFDetail.logo_height_hall !== "undefined" &&
-        this.CFDetail.logo_height_hall !== null,
-      width:
-        this.CFDetail.logo_width_hall !== "undefined" &&
-        this.CFDetail.logo_width_hall !== null,
-      margin:
-        this.CFDetail.logo_margin_hall !== "undefined" &&
-        this.CFDetail.logo_margin_hall !== null
-    };
-    if (has.logo && has.height && has.width && has.margin) {
-      let imgUrl = `${ImageUrl}${this.CFDetail.logo}`;
-      var logoStyle = {
-        backgroundImage: `url('${imgUrl}')`,
-        backgroundPosition: this.CFDetail.logo_position,
-        backgroundSize: this.CFDetail.logo_size,
-        height: this.CFDetail.logo_height_hall,
-        width: this.CFDetail.logo_width_hall,
-        margin: this.CFDetail.logo_margin_hall
-      };
-      logo = <div className="title-logo" style={logoStyle} />;
-    }
-
-    return (
-      <div className="title-section">
-        <div>Welcome To {this.title}</div>
-        {logo}
-        <div style={{ width: "100%" }}>
-          {this.getTimerComingSoon()}
-        </div>
-      </div>
-    );
-  }
-  getSponsor() {
-    if(isCfFeatureOff(Feature.SPONSOR)){
-      return null;
-    }
-    
-    return (
-      <div style={{ marginTop: "25px", marginBottom: "25px" }} className="sponsor-section main-width">
-        <SponsorList
-          //ignore_types={[CompanyEnum.TYPE_BRONZE]}
-          title={false}
-          part_com={false}
-          type="hall-page"
-          sponsor_size="85px"
-        />
-      </div>
-    );
-  }
-  getInterview(backgroundColor) {
-    return <div className="col-md-12 no-padding">
-      <ListRow title="My Interviews"
-        backgroundColor={backgroundColor}
-        items={<ActivitySection limitLoad={5} />}
-        see_more_text="See More Interviews"
-        see_more_onclick={() => {
-          // console.log(`${AppPath}/list-interviews`)
-          window.location = `${AppPath}/list-interviews`;
-        }}
-      ></ListRow>
-    </div >
-  }
+  // getSponsor(backgroundColor) {
+  //   if (isCfFeatureOff(Feature.SPONSOR)) {
+  //     return null;
+  //   }
+  //   ///marginTop: "25px", marginBottom: "25px"
+  //   return (
+  //     <div style={{ backgroundColor: backgroundColor, }} className="sponsor-section">
+  //       <SponsorList
+  //         //ignore_types={[CompanyEnum.TYPE_BRONZE]}
+  //         title={false}
+  //         part_com={false}
+  //         type="hall-page"
+  //         sponsor_size="85px"
+  //       />
+  //     </div>
+  //   );
+  // }
+  // getInterview(backgroundColor) {
+  //   return <div className="col-md-12 no-padding">
+  //     <ListRow title="My Interviews"
+  //       backgroundColor={backgroundColor}
+  //       items={<ActivitySection limitLoad={5} />}
+  //       see_more_text="See More Interviews"
+  //       see_more_onclick={() => {
+  //         // console.log(`${AppPath}/list-interviews`)
+  //         window.location = `${AppPath}/list-interviews`;
+  //       }}
+  //     ></ListRow>
+  //   </div >
+  // }
   // getActivityAndWebinar() {
   //   return (
   //     <div className="activity-section main-width main-width-lg">
@@ -221,26 +166,6 @@ export default class HallPage extends React.Component {
   //     </div>
   //   );
   // }
-  getJobPost(backgroundColor) {
-    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Job Posts"
-        backgroundColor={backgroundColor}
-        items={<VacancyList limitLoad={4} filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left" />}
-        see_more_text="See More Job Posts"
-        see_more_to={`${AppPath}/list-job-posts`}
-      ></ListRow>
-    </div >
-  }
-  getEvents(backgroundColor) {
-    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Events & Webinars"
-        backgroundColor={backgroundColor}
-        items={<EventList limitLoad={4}/>}
-        see_more_text="See More Events & Webinars"
-        see_more_to={`${AppPath}/list-events`}
-      ></ListRow>
-    </div >
-  }
   // getEventAndWebinar() {
   //   return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
   //     <ListRow title="Events & Webinars"
@@ -251,133 +176,269 @@ export default class HallPage extends React.Component {
   //     ></ListRow>
   //   </div >
   // }
+
+  // getRecruiterAction() {
+  //   /**
+  //    * 2 When Are you live?
+  //     - kalau ada : Next Live at xxxxx
+  //     - kalau takde : Click here to set your live session
+  //     // this.state.next_live_session_time
+  //   */
+  //   let nextSessionStr = "Click here to set your live session";
+  //   if (this.state.next_live_session_time != null &&
+  //     this.state.next_live_session_time > 0) {
+  //     nextSessionStr = `Next Live @ ${Time.getString(this.state.next_live_session_time)}`
+  //   }
+
+  //   return <div className="title-sectaion">
+  //     <div className="main-width">
+  //       <ButtonAction
+  //         style={{ width: "350px" }}
+  //         btnClass="btn-lg btn-success"
+  //         // to={`${RootPath}/app/my-activity/student-listing`}
+  //         to={`${RootPath}/app/browse-student`}
+  //         icon="users"
+  //         iconSize="3x"
+  //         mainText={"All Students"}
+  //         // subText={`See who's interested in ${this.authUser.company.name}`}
+  //         subText={`Browse all students`}
+  //       />
+
+  //       <ButtonAction
+  //         style={{ width: "350px" }}
+  //         btnClass="btn-lg btn-blue"
+  //         // to={`${RootPath}/app/my-activity/student-listing`}
+  //         to={`${RootPath}/app/browse-student?interested_only=1`}
+  //         icon="user"
+  //         iconSize="3x"
+  //         mainText={"Interested Students"}
+  //         // subText={`See who's interested in ${this.authUser.company.name}`}
+  //         subText={`Browse students interested in you`}
+  //       />
+
+  //       {/* <ButtonAction
+  //         style={{ width: "350px" }}
+  //         btnClass="btn-lg btn-danger"
+  //         onClick={() => { openLiveSession(this.authUser.rec_company); }}
+  //         icon="podcast"
+  //         iconSize="3x"
+  //         mainText={"Go Live"}
+  //         subButtonText={nextSessionStr}
+  //         subButtonOnClick={() => {
+  //           console.log("check when");
+  //           createNewLiveSessionPopup(this.authUser.rec_company, () => {
+  //             console.log("yey")
+  //           })
+  //         }}
+  //       /> */}
+
+
+  //     </div >
+  //   </div >
+  // }
+
+  // getTimerComingSoon() {
+  //   if (isComingSoon()) {
+  //     var doneMes = null;
+  //     return <Timer end={this.CFDetail.start} doneMes={doneMes}></Timer>
+  //   }
+
+  //   return null
+  // }
+  getGallery(backgroundColor) {
+    return (
+      <div className="gallery-section" style={{ backgroundColor: backgroundColor }}>
+        <HallGalleryView />
+      </div>
+    );
+  }
+  getTitle() {
+    // var logo = null;
+    // let has = {
+    //   logo: this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null,
+    //   height:
+    //     this.CFDetail.logo_height_hall !== "undefined" &&
+    //     this.CFDetail.logo_height_hall !== null,
+    //   width:
+    //     this.CFDetail.logo_width_hall !== "undefined" &&
+    //     this.CFDetail.logo_width_hall !== null,
+    //   margin:
+    //     this.CFDetail.logo_margin_hall !== "undefined" &&
+    //     this.CFDetail.logo_margin_hall !== null
+    // };
+    // if (has.logo && has.height && has.width && has.margin) {
+    //   let imgUrl = `${ImageUrl}${this.CFDetail.logo}`;
+    //   var logoStyle = {
+    //     backgroundImage: `url('${imgUrl}')`,
+    //     backgroundPosition: this.CFDetail.logo_position,
+    //     backgroundSize: this.CFDetail.logo_size,
+    //     height: this.CFDetail.logo_height_hall,
+    //     width: this.CFDetail.logo_width_hall,
+    //     margin: this.CFDetail.logo_margin_hall
+    //   };
+    //   logo = <div className="title-logo" style={logoStyle} />;
+    // }
+    return (
+      <div className="title-section">
+        <div className="container-fluid">
+          <div className="row flex-wrap-center-center" style={{ maxWidth: "1400px", margin: "auto" }}>
+            <div className="title-section-left col-md-7 flex-wrap-center-center center-on-md-and-less" style={{ justifyContent: "flex-start" }}>
+              <div>
+                {/* title */}
+                Welcome To {this.title}<br></br>
+                {/* welcome text */}
+                {!this.CFDetail.welcome_text ? null :
+                  <small className="text-muted"><span dangerouslySetInnerHTML={{ __html: this.CFDetail.welcome_text }}></span></small>}
+              </div>
+              {/* {logo} */}
+              {/* <div style={{ width: "100%" }}>
+                {this.getTimerComingSoon()}
+              </div> */}
+            </div>
+            <div className="title-section-right col-md-5 no-padding" style={{ marginTop: "-10px" }}>
+              <b style={{ fontSize: "60%" }} className="text-muted"><i>Next / Upcoming Event</i></b>
+              <EventList isListNoMargin={true} limitLoad={1} isFullWidth={true} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  getWelcomeAndSponsor(backgroundColor) {
+    return <div style={{ backgroundColor: backgroundColor }} className="welcome-and-sponsor-section">
+      <div className="main-width">
+        <div className="text-left" style={{ marginBottom: "30px" }}>
+          <h2>
+            <b>Welcome {getAuthUser().first_name} !</b>
+            <br></br>
+            {!this.CFDetail.welcome_text ? null :
+              <small className="text-muted"><span dangerouslySetInnerHTML={{ __html: this.CFDetail.welcome_text }}></span></small>}
+          </h2>
+        </div>
+        <div className="text-center" style={{ marginBottom: "20px" }}>
+          <h3><small>Current / Upcoming Event : </small></h3>
+          {/* <EventList isListNoMargin={true} limitLoad={2} listAlign="left" /> */}
+          <EventList isListNoMargin={true} limitLoad={2} listAlign="center" />
+        </div>
+        <SponsorList
+          title={false}
+          part_com={false}
+          type="hall-page"
+          sponsor_size="85px"
+        />
+      </div>
+    </div>
+  }
+  getJobPost(backgroundColor) {
+    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+      <ListRow title="Job Posts"
+        icon="suitcase"
+        backgroundColor={backgroundColor}
+        items={<VacancyList limitLoad={4} filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left" />}
+        see_more_text="See More Job Posts"
+        see_more_to={`${AppPath}/list-job-posts`}
+      ></ListRow>
+    </div >
+  }
+  getEvents(backgroundColor) {
+    // for recruiter
+    return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
+      <ListRow title="Events & Webinars"
+        icon="calendar"
+        backgroundColor={backgroundColor}
+        items={<EventList limitLoad={4} isFullWidth={true} />}
+        see_more_text="See More Events & Webinars"
+        see_more_to={`${AppPath}/list-events`}
+      ></ListRow>
+    </div >
+  }
+  getInterviewAndEvent(backgroundColor) {
+    return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
+      <div className="row main-width">
+        <div className="col-md-6">
+          <ListRow title="My Interviews"
+            icon="video-camera"
+            backgroundColor={null}
+            containerStyle={{ padding: "20px 0px" }}
+            items={<ActivitySection type="row" limitLoad={4} type="row" isFullWidth={true} />}
+            see_more_text="See More Interviews"
+            see_more_onclick={() => {
+              // console.log(`${AppPath}/list-interviews`)
+              window.location = `${AppPath}/list-interviews`;
+            }}
+          ></ListRow>
+        </div>
+        <div className="col-md-6">
+          <ListRow title="Events & Webinars"
+            backgroundColor={null}
+            icon="calendar"
+            containerStyle={{ padding: "20px 0px" }}
+            items={<EventList limitLoad={4} type="row" isFullWidth={true} />}
+            see_more_text="See More Events & Webinars"
+            see_more_to={`${AppPath}/list-events`}
+          ></ListRow>
+        </div>
+      </div>
+
+    </div>
+  }
   getCompanyBooth(backgroundColor) {
-    if(isCfFeatureOff(Feature.COMPANY_BOOTH)){
+    if (isCfFeatureOff(Feature.COMPANY_BOOTH)) {
       return null;
     }
 
     return <div className="col-md-12 no-padding">
       <ListRow title="Company Profiles"
+        icon="building-o"
         backgroundColor={backgroundColor}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
         see_more_text="See More Companies"
         see_more_to={`${AppPath}/list-companies`}
       ></ListRow>
     </div >
-
-    // return (
-    //   <div className="company-section">
-    //     <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-    //       <div className="title-section">
-    //         <div>Company Booth</div>
-    //       </div>
-    //       <div className="main-width main-width-lg">
-    //         <CompaniesSection {...this.props} />
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
   }
 
-  getRecruiterAction() {
-    /**
-     * 2 When Are you live?
-      - kalau ada : Next Live at xxxxx
-      - kalau takde : Click here to set your live session
-      // this.state.next_live_session_time
-    */
-    let nextSessionStr = "Click here to set your live session";
-    if (this.state.next_live_session_time != null &&
-      this.state.next_live_session_time > 0) {
-      nextSessionStr = `Next Live @ ${Time.getString(this.state.next_live_session_time)}`
-    }
-
-    return <div className="title-sectaion">
-      <div className="main-width">
-        <ButtonAction
-          style={{ width: "350px" }}
-          btnClass="btn-lg btn-success"
-          // to={`${RootPath}/app/my-activity/student-listing`}
-          to={`${RootPath}/app/browse-student`}
-          icon="users"
-          iconSize="3x"
-          mainText={"All Students"}
-          // subText={`See who's interested in ${this.authUser.company.name}`}
-          subText={`Browse all students`}
-        />
-
-        <ButtonAction
-          style={{ width: "350px" }}
-          btnClass="btn-lg btn-blue"
-          // to={`${RootPath}/app/my-activity/student-listing`}
-          to={`${RootPath}/app/browse-student?interested_only=1`}
-          icon="user"
-          iconSize="3x"
-          mainText={"Interested Students"}
-          // subText={`See who's interested in ${this.authUser.company.name}`}
-          subText={`Browse students interested in you`}
-        />
-
-        {/* <ButtonAction
-          style={{ width: "350px" }}
-          btnClass="btn-lg btn-danger"
-          onClick={() => { openLiveSession(this.authUser.rec_company); }}
-          icon="podcast"
-          iconSize="3x"
-          mainText={"Go Live"}
-          subButtonText={nextSessionStr}
-          subButtonOnClick={() => {
-            console.log("check when");
-            createNewLiveSessionPopup(this.authUser.rec_company, () => {
-              console.log("yey")
-            })
-          }}
-        /> */}
-
-
-      </div >
-    </div >
-  }
-
-
-  getTimerComingSoon() {
-    if (isComingSoon()) {
-      var doneMes = null;
-      return <Timer end={this.CFDetail.start} doneMes={doneMes}></Timer>
-    }
-
-    return null
-  }
 
   render() {
     document.setTitle("Career Fair");
 
     let v = null;
 
-    if (isRoleStudent() || this.isRecCurrentEvent()) {
+    if (isRoleStudent()) {
       v = <div className="hall-page">
-        {this.getGallery()}
-        {this.getTitle()}
-        {this.getSponsor()}
-        {this.isRecCurrentEvent() ? null : this.getInterview(null)}
+        {this.getGallery("#eef0ee")}
+        {/* {this.getTitle()}
+        {this.getSponsor("#e6e6e6")} */}
+        {this.getWelcomeAndSponsor(null)}
+        {this.getInterviewAndEvent("#eef0ee")}
+        {/* {this.getInterview("#eef0ee")} */}
+        {this.getCompanyBooth(null)}
+        {/* {this.getEvents("#eef0ee")} */}
+        {this.getJobPost("#eef0ee")}
+      </div>
+    } else if (this.isRecCurrentEvent()) {
+      v = <div className="hall-page">
+        {this.getGallery("#eef0ee")}
+        {this.getWelcomeAndSponsor(null)}
         {this.getCompanyBooth("#eef0ee")}
         {this.getEvents(null)}
         {this.getJobPost("#eef0ee")}
       </div>
-    } else if (isRoleRec()) {
+    }
+    //  else if (isRoleRec()) {
+    //   v = <div className="hall-page">
+    //     {this.getGallery()}
+    //     {this.getTitle()}
+    //     {this.getSponsor()}
+    //     {this.getRecruiterAction(this.state)}
+    //     {this.getInterview("#eef0ee")}
+    //     {this.getEvents(null)}
+    //   </div>
+    // } 
+    else if (isRoleAdmin() || isRoleOrganizer()) {
       v = <div className="hall-page">
-        {this.getGallery()}
-        {this.getTitle()}
-        {this.getSponsor()}
-        {this.getRecruiterAction(this.state)}
-        {this.getInterview("#eef0ee")}
-        {this.getEvents(null)}
-      </div>
-    } else if (isRoleAdmin() || isRoleOrganizer()) {
-      v = <div className="hall-page">
-        {this.getGallery()}
-        {this.getTitle()}
-        {this.getSponsor()}
+        {this.getGallery("#eef0ee")}
+        {this.getWelcomeAndSponsor(null)}
         {this.getCompanyBooth("#eef0ee")}
         {this.getEvents(null)}
       </div>
