@@ -410,7 +410,7 @@ export default class GeneralFormPage extends React.Component {
           getDataFromRes={this.props.getDataFromRes}
           loadData={this.props.loadData}
           hideLoadMore={this.props.hideLoadMore}
-          offset={this.props.offset}
+          offset={this.props.offset || this.props.dataOffset}
           renderList={renderList}
         ></List>
       </div>
