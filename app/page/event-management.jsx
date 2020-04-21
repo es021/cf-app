@@ -52,7 +52,7 @@ export default class EventManagement extends React.Component {
             </ul>
           </small>
         </td>,
-        <td style={{maxWidth:"200px"}}>{JSON.stringify(d.cf)}</td>,
+        <td style={{ maxWidth: "200px" }}>{JSON.stringify(d.cf)}</td>,
         <td>
           <small>
             <ul className="normal">
@@ -131,7 +131,7 @@ export default class EventManagement extends React.Component {
     // hook before submit
     this.formWillSubmit = (d, edit) => {
       // remove cf
-      if(!edit){
+      if (!edit) {
         delete d[Event.CF];
       }
 
@@ -175,12 +175,21 @@ export default class EventManagement extends React.Component {
     this.forceDiff = [
       Event.LOCATION,
       Event.DESCRIPTION,
+      Event.URL_RSVP,
+      Event.URL_JOIN,
+      Event.URL_RECORDED,
       Event.START_TIME + "_DATE",
       Event.START_TIME + "_TIME",
       Event.END_TIME + "_DATE",
       Event.END_TIME + "_TIME"
     ];
-    this.acceptEmpty = [Event.DESCRIPTION, Event.LOCATION];
+    this.acceptEmpty = [
+      Event.DESCRIPTION,
+      Event.LOCATION,
+      Event.URL_RSVP,
+      Event.URL_JOIN,
+      Event.URL_RECORDED
+    ];
 
     this.getEditFormDefault = ID => {
       const query = `query{event(ID:${ID})
@@ -223,7 +232,7 @@ export default class EventManagement extends React.Component {
             data: dataCF
           } : {
             label: "Career Fair",
-            disabled : true,
+            disabled: true,
             sublabel: "Career fair can be choosen after you created the event. Click on edit button."
           };
 

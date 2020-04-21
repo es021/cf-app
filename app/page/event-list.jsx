@@ -5,7 +5,7 @@ import List from "../component/list";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 import ProfileCard from "../component/profile-card.jsx";
-// import { InterestedButton } from "../component/interested";
+import { InterestedButton } from "../component/interested";
 import {
   getAuthUser, isRoleStudent, getCF,
   // getCF,
@@ -13,7 +13,7 @@ import {
   // isRoleAdmin,
   // isRoleRec
 } from "../redux/actions/auth-actions";
-// import * as layoutActions from "../redux/actions/layout-actions";
+import * as layoutActions from "../redux/actions/layout-actions";
 // import ToogleTimezone from "../component/toggle-timezone";
 
 
@@ -93,6 +93,7 @@ export class EventList extends React.Component {
           type
           title
           location
+          interested{ID is_interested}
           url_recorded
           url_join
           url_rsvp
@@ -155,7 +156,7 @@ export class EventList extends React.Component {
     //       {d.company.name}
     //     </NavLink>
     //   );
-    // let companyName = d.company.name;
+    let companyName = d.company.name;
 
     // Display Time
     // ToogleTimezone
@@ -216,7 +217,7 @@ export class EventList extends React.Component {
       <div className="el-details" style={detailStyle}>
         <b>{title}</b>
         <span style={{fontWeight:"normal"}}><i className="text-muted fa fa-clock-o left"></i>{time}</span>
-        {/* {location} */}
+        {location}
       </div>
     );
 
@@ -251,64 +252,64 @@ export class EventList extends React.Component {
     // }
 
 
-    // let rsvpButton = (
-    //   <InterestedButton
-    //     customStyle={{
-    //       top: "3px",
-    //       left: "7px",
-    //       width: "max-content",
-    //     }}
-    //     customView={
-    //       ({
-    //         // loading,
-    //         // isModeCount,
-    //         // isModeAction,
-    //         // like_count,
-    //         // onClickModeCount,
-    //         is_interested,
-    //         onClickModeAction
-    //       }) => {
-    //         let r = null;
+    let rsvpButton = (
+      <InterestedButton
+        customStyle={{
+          top: "3px",
+          left: "7px",
+          width: "max-content",
+        }}
+        customView={
+          ({
+            // loading,
+            // isModeCount,
+            // isModeAction,
+            // like_count,
+            // onClickModeCount,
+            is_interested,
+            onClickModeAction
+          }) => {
+            let r = null;
 
-    //         // if (Time.getUnixTimestampNow() > d.end_time) {
-    //         if (d.is_ended) {
-    //           r = <div className="el-ended el-action-item">Event Ended</div>
-    //         } else {
-    //           if (is_interested) {
-    //             r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
-    //           } else {
-    //             r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
-    //           }
-    //         }
+            // if (Time.getUnixTimestampNow() > d.end_time) {
+            if (d.is_ended) {
+              r = <div className="el-ended el-action-item">Event Ended</div>
+            } else {
+              if (is_interested) {
+                r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
+              } else {
+                r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
+              }
+            }
 
-    //         return <div className="el-action">{r}</div>
-    //       }
-    //     }
-    //     isModeCount={false}
-    //     isModeAction={true}
-    //     finishHandler={is_interested => {
-    //       if (is_interested == 1) {
-    //         layoutActions.successBlockLoader(
-    //           <div>
-    //             Successfully RSVP'ed for event
-    //             <br></br>
-    //             <b>{d.title}</b>
-    //             <br></br>
-    //             with {companyName}
-    //           </div>
-    //         );
-    //       }
+            return <div className="el-action">{r}</div>
+          }
+        }
+        isModeCount={false}
+        isModeAction={true}
+        finishHandler={is_interested => {
+          if (is_interested == 1) {
+            layoutActions.successBlockLoader(
+              <div>
+                Successfully RSVP'ed for event
+                <br></br>
+                <b>{d.title}</b>
+                <br></br>
+                with {companyName}
+              </div>
+            );
+          }
 
-    //       // else {
-    //       //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
-    //       // }
-    //     }}
-    //     ID={d.interested.ID}
-    //     is_interested={d.interested.is_interested}
-    //     entity={"event"}
-    //     entity_id={d.ID}
-    //   ></InterestedButton>
-    // );
+          // else {
+          //   layoutActions.successBlockLoader(`YRSVP'ed for ${d.title} webinar`)
+          // }
+        }}
+        ID={d.interested.ID}
+        is_interested={d.interested.is_interested}
+        entity={"event"}
+        entity_id={d.ID}
+      ></InterestedButton>
+    );
 
     //rsvpButton = null;
 
@@ -333,9 +334,10 @@ export class EventList extends React.Component {
       }
 
       actionStudent = <div className="el-action">
-        {join}
+        {rsvpButton}
+        {/* {join}
         {rsvp}
-        {recorded}
+        {recorded} */}
       </div>
     }
 
