@@ -14,13 +14,30 @@
       font-size: 90%;
     }
 
+    // for small has no gallery container
+    .cp-gallery-title {
+      width: 300px;
+      padding: 5px 0px;
+      margin-bottom: 20px;
+      a {
+        font-weight: bold;
+      }
+    }
+    .cp-gallery-item {
+      iframe{
+        height: 200px;
+      }
+    }
+
     .cp-gallery {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
 
       .cp-gallery-arrow {
         margin: 0px 10px;
+        margin-top: 90px;
+        align-self: flex-start;
       }
 
       .cp-gallery-container {
@@ -30,12 +47,13 @@
           transition: transform ease-in-out 0.5s;
           display: flex;
           justify-content: flex-start;
-          align-items: center;
+          align-items: flex-start;
+          
           .cp-gallery-item {
-            &:first-of-type{
+            &:first-of-type {
               margin-left: 0px;
             }
-            &:last-of-type{
+            &:last-of-type {
               margin-right: 0px;
             }
             margin: 7px 10px;

@@ -601,7 +601,7 @@ export default class CompanyPage extends Component {
     let doc_links = data.doc_links;
     let count = 0;
     let width = 310;
-
+    
     let list = doc_links.map((d, i) => {
       if (this.isGallery(d)) {
         count++;
@@ -611,7 +611,15 @@ export default class CompanyPage extends Component {
         } else if (this.isUrlYoutube(d.url)) {
           item = getYoutubeIframe(d.url);
         }
-        return <div className="cp-gallery-item">{item}</div>
+
+        let title = <a className="btn-link" href={d.url} target="_blank">{d.label}</a>
+
+        return <div className="cp-gallery-item">
+            {item}
+            <div className="cp-gallery-title">
+              {title}
+            </div>
+          </div>
       }
       return null;
     });
@@ -636,14 +644,14 @@ export default class CompanyPage extends Component {
 
     let sliderGallery = (
       <div className="cp-gallery">
-        {arrow("left")}
+        {count > 1 ? arrow("left") : null}
         <div className="cp-gallery-container">
           <div className="cp-gallery-container-inner"
             style={{ transform: this.state.galleryTranslate ? `translateX(${this.state.galleryTranslate}px)` : null }}>
             {list}
           </div>
         </div>
-        {arrow("right")}
+        {count > 1 ? arrow("right") : null}
       </div>
     );
     return <div>

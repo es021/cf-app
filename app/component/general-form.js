@@ -498,7 +498,7 @@ export default class GeneralFormPage extends React.Component {
       return <div className="container-fluid">
         <div className="row">
           <div className="col-md-4">
-            {this.props.dataTitle !== null ? <h2>{this.props.dataTitle}</h2> : null}
+            {this.props.dataTitle ? <h2>{this.props.dataTitle}</h2> : null}
             {addForm}
             {searchForm}
             {this.props.contentBelowFilter}
@@ -512,11 +512,11 @@ export default class GeneralFormPage extends React.Component {
 
     return (
       <div>
-        {this.props.dataTitle !== null ? <h2>{this.props.dataTitle}</h2> : null}
+        {this.props.dataTitle ? <h2>{this.props.dataTitle}</h2> : null}
         {addForm}
         {searchForm}
         {this.props.contentBelowFilter}
-        <div style={{ marginTop: "15px" }}>{datas}</div>
+        <div>{datas}</div>
       </div>
     );
   }
