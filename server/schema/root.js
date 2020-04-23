@@ -471,8 +471,11 @@ let argBrowseStudent = {
 	discard_filter: __.String,
 
 	company_id: __.Int,
+	
 	interested_only: __.String,
 	favourited_only: __.String,
+	like_job_post_only: __.String,
+	
 	page: __.Int,
 	offset: __.Int,
 

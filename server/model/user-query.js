@@ -56,8 +56,8 @@ class UserQuery {
 	getSearchMulti(table_name, field, search_params) {
 		if (typeof search_params !== "undefined") {
 			return `(${this.selectMultiMain(table_name, field, {
-        isConcatVal: true
-      })}) LIKE '%${search_params}%' `;
+				isConcatVal: true
+			})}) LIKE '%${search_params}%' `;
 		} else {
 			return "1=1";
 		}
@@ -95,9 +95,9 @@ class UserQuery {
 	getSearchSingle(key_input, field, search_params) {
 		if (typeof search_params !== "undefined") {
 			return `(${this.selectSingleMain(
-        field,
-        key_input
-      )}) LIKE '%${search_params}%' `;
+				field,
+				key_input
+			)}) LIKE '%${search_params}%' `;
 		} else {
 			return "1=1";
 		}
@@ -105,9 +105,9 @@ class UserQuery {
 	getSearchMeta(field, search_params, meta_key) {
 		if (typeof search_params !== "undefined") {
 			return `(${this.selectMetaMain(
-        field,
-        meta_key
-      )}) like '%${search_params}%'`;
+				field,
+				meta_key
+			)}) like '%${search_params}%'`;
 		} else {
 			return "1=1";
 		}
@@ -153,20 +153,20 @@ class UserQuery {
 
 	getSearchEmail(field, search_params) {
 		return `(${this.selectUserField(
-      field,
-      User.EMAIL
-    )} limit 0,1) like '%${search_params}%'`;
+			field,
+			User.EMAIL
+		)} limit 0,1) like '%${search_params}%'`;
 	}
 
 	getSearchNameOrEmail(field, search_name, search_email) {
 		var name =
 			typeof search_name === "undefined" ?
-			"" :
-			this.getSearchName(field, search_name);
+				"" :
+				this.getSearchName(field, search_name);
 		var email =
 			typeof search_email === "undefined" ?
-			"" :
-			this.getSearchEmail(field, search_email);
+				"" :
+				this.getSearchEmail(field, search_email);
 		if (name == "" && email == "") {
 			return `1=1`;
 		} else if (name == "" && email != "") {
@@ -185,15 +185,15 @@ class UserQuery {
 		// both is injected
 		var name =
 			typeof params.search_user === "undefined" ?
-			"" :
-			`CONCAT((${this.selectMetaMain("u.ID", UserMeta.FIRST_NAME)}),' ',
+				"" :
+				`CONCAT((${this.selectMetaMain("u.ID", UserMeta.FIRST_NAME)}),' ',
             (${this.selectMetaMain("u.ID", UserMeta.LAST_NAME)}))
             like '%${params.search_user}%'`;
 
 		var email =
 			typeof params.search_user === "undefined" ?
-			"" :
-			`u.${User.EMAIL} like '%${params.search_user}%'`;
+				"" :
+				`u.${User.EMAIL} like '%${params.search_user}%'`;
 
 		if (name != "" && email != "") {
 			query += `and (${name} or ${email})`;
@@ -208,18 +208,18 @@ class UserQuery {
 		// search degree
 		query +=
 			typeof params.search_degree === "undefined" ?
-			"" :
-			` and CONCAT((${this.selectMetaMain("u.ID", UserMeta.MAJOR)}),
+				"" :
+				` and CONCAT((${this.selectMetaMain("u.ID", UserMeta.MAJOR)}),
             (${this.selectMetaMain("u.ID", UserMeta.MINOR)}))
             like '%${params.search_degree}%'`;
 
 		// search university
 		query +=
 			typeof params.search_university === "undefined" ?
-			"" :
-			` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${
-            params.search_university
-          }%'`;
+				"" :
+				` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${
+				params.search_university
+				}%'`;
 
 		return query;
 	}
@@ -233,23 +233,23 @@ class UserQuery {
 			typeof params.ID !== "undefined" ? `u.ID = ${params.ID}` : `1=1`;
 		var email_condition =
 			typeof params.user_email !== "undefined" ?
-			`u.user_email = '${params.user_email}'` :
-			`1=1`;
+				`u.user_email = '${params.user_email}'` :
+				`1=1`;
 		var role_condition =
 			typeof params.role !== "undefined" ?
-			`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${
-            params.role
-          }%' ` :
-			`1=1`;
+				`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${
+				params.role
+				}%' ` :
+				`1=1`;
 		var order_by =
 			typeof params.order_by !== "undefined" ?
-			`order by u.${params.order_by}` :
-			`order by u.${User.ID} desc`;
+				`order by u.${params.order_by}` :
+				`order by u.${User.ID} desc`;
 
 		var cf_where =
 			typeof params.cf === "undefined" ?
-			"1=1" :
-			`(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
+				"1=1" :
+				`(${DB.cfMapSelect("user", "u.ID", params.cf)}) = '${params.cf}'`;
 
 		// var new_only_where = (typeof params.new_only === "undefined" || !params.new_only) ? "1=1" :
 		//     `u.ID in (SELECT distinct l.user_id
@@ -261,8 +261,8 @@ class UserQuery {
 
 		var new_only_where =
 			typeof params.new_only === "undefined" || !params.new_only ?
-			"1=1" :
-			`u.user_email not like '%test.%'`;
+				"1=1" :
+				`u.user_email not like '%test.%'`;
 
 		// add meta condition
 		var meta_condition = " 1=1 ";
@@ -274,8 +274,8 @@ class UserQuery {
 					meta_condition += " AND ";
 				}
 				meta_condition += `(${this.selectMetaMain("u.ID", key)}) = '${
-          meta_cons[key]
-        }' `;
+					meta_cons[key]
+					}' `;
 				i++;
 			}
 		}
@@ -300,9 +300,9 @@ class UserQuery {
 			var key_input = Single[k];
 			if (typeof field[key_input] !== "undefined") {
 				meta_sel += `, (${this.selectSingleMain(
-          "u.ID",
-          key_input
-        )}) as ${key_input} \n`;
+					"u.ID",
+					key_input
+				)}) as ${key_input} \n`;
 			}
 		}
 
@@ -318,9 +318,9 @@ class UserQuery {
 
 	selectRole(user_id, meta_key, as) {
 		return `(select SUBSTRING_INDEX(SUBSTRING_INDEX((${this.selectMetaMain(
-      user_id,
-      meta_key
-    )}),'\"',2),'\"',-1)) as ${as}`;
+			user_id,
+			meta_key
+		)}),'\"',2),'\"',-1)) as ${as}`;
 	}
 
 	selectUserField(user_id, field) {
@@ -346,9 +346,9 @@ UserQuery = new UserQuery();
 class UserExec {
 	hasFeedback(user_id) {
 		var sql = `select (${UserQuery.selectMetaMain(
-      user_id,
-      "feedback"
-    )}) as feedback`;
+			user_id,
+			"feedback"
+		)}) as feedback`;
 		return DB.query(sql).then(res => {
 			try {
 				var feedback = res[0].feedback;
@@ -359,7 +359,7 @@ class UserExec {
 				) {
 					return 1;
 				}
-			} catch (err) {}
+			} catch (err) { }
 			return 0;
 		});
 	}
@@ -378,9 +378,9 @@ class UserExec {
 		}
 
 		var where = `WHERE meta_key IN (${meta_key_in.slice(
-      0,
-      -1
-    )}) and user_id = '${user_id}'`;
+			0,
+			-1
+		)}) and user_id = '${user_id}'`;
 
 		var check_sql = `SELECT * FROM wp_cf_usermeta ${where}`;
 
@@ -403,9 +403,9 @@ class UserExec {
 
 			if (insert_val !== "") {
 				var insert_sql = `INSERT INTO wp_cf_usermeta (user_id,meta_key,meta_value) VALUES ${insert_val.slice(
-          0,
-          -1
-        )}`;
+					0,
+					-1
+				)}`;
 
 				return DB.query(insert_sql).then(res => {
 					//only then update what's left
@@ -429,11 +429,11 @@ class UserExec {
 		var updateUserMeta = {};
 		//console.log(arg);
 
-		var userVal = Object.keys(User).map(function(key) {
+		var userVal = Object.keys(User).map(function (key) {
 			return User[key];
 		});
 
-		var userMetaVal = Object.keys(UserMeta).map(function(key) {
+		var userMetaVal = Object.keys(UserMeta).map(function (key) {
 			return UserMeta[key];
 		});
 
@@ -506,8 +506,11 @@ class UserExec {
 			InterestedExec
 		} = require("./interested-query.js");
 		const {
-			SingleExec
-		} = require("./single-query");
+			VacancyExec
+		} = require("./vacancy-query");
+		// const {
+		// 	SingleExec
+		// } = require("./single-query");
 
 		// extra field that need role value to find
 		if (
@@ -540,7 +543,7 @@ class UserExec {
 
 		// console.log("[UserExec]", sql);
 
-		var toRet = DB.query(sql).then(function(res) {
+		var toRet = DB.query(sql).then(function (res) {
 			for (var i in res) {
 				var user_id = res[i]["ID"];
 				var company_id = res[i]["rec_company"];
@@ -569,10 +572,10 @@ class UserExec {
 					let key = Multi[mi];
 					if (typeof field[key] !== "undefined") {
 						res[i][key] = MultiExec.list({
-								table_name: key,
-								entity: "user",
-								entity_id: user_id
-							},
+							table_name: key,
+							entity: "user",
+							entity_id: user_id
+						},
 							field[key]
 						);
 					}
@@ -581,10 +584,10 @@ class UserExec {
 				// student_listing_interested ****************************************************
 				if (typeof field["student_listing_interested"] !== "undefined") {
 					res[i]["student_listing_interested"] = InterestedExec.single({
-							user_id: params.company_id,
-							entity: "student_listing",
-							entity_id: user_id
-						},
+						user_id: params.company_id,
+						entity: "student_listing",
+						entity_id: user_id
+					},
 						field["student_listing_interested"]
 					);
 				}
@@ -755,6 +758,19 @@ class UserExec {
 					);
 				}
 
+				// interested_vacancies_by_company ****************************************************
+				if (
+					typeof field["interested_vacancies_by_company"] !== "undefined" &&
+					typeof params.company_id !== "undefined"
+				) {
+					res[i]["interested_vacancies_by_company"] = VacancyExec.vacancies({
+						interested_user_id: user_id,
+						company_id: params.company_id
+					},
+						field["interested_vacancies_by_company"]
+					);
+				}
+
 				// prescreens ****************************************************
 				if (typeof field["prescreens"] !== "undefined") {
 					// New SI Flow
@@ -808,9 +824,9 @@ class UserExec {
 				// doc_links ****************************************************
 				if (typeof field["doc_links"] !== "undefined") {
 					res[i]["doc_links"] = DocLinkExec.doc_links({
-							user_id: user_id,
-							order_by: "label"
-						},
+						user_id: user_id,
+						order_by: "label"
+					},
 						field["doc_links"]
 					);
 				}
@@ -818,8 +834,8 @@ class UserExec {
 				// skills ****************************************************
 				if (typeof field["skills"] !== "undefined") {
 					res[i]["skills"] = SkillExec.skills({
-							user_id: user_id
-						},
+						user_id: user_id
+					},
 						field["skills"]
 					);
 				}

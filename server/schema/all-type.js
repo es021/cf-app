@@ -156,6 +156,7 @@ const UserType = new GraphQLObjectType({
 		// need to provide company_id
 		booked_at: __.ListOf(AvailabilityType),
 		prescreens_for_student_listing: __.ListOf(PrescreenType),
+		interested_vacancies_by_company: __.ListOf(VacancyType),
 
 		// NEW PROFILE
 		first_name: __.String,

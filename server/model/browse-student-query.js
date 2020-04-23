@@ -265,16 +265,29 @@ class BrowseStudentExec {
 
 	}
 
-	whereShowInterest(company_id, user_id, param) {
+	whereLikeJobPost(company_id, user_id, param) {
+		let type = "job_post";
+		return this.whereShowInterest(company_id, user_id, param, type);
+	}
+	whereShowInterest(company_id, user_id, param, type) {
 		const interest = (entity, entity_id_where) => {
 			let qIn = ` select i.is_interested from interested i 
 			where i.entity = '${entity}' and i.entity_id IN (${entity_id_where}) and i.user_id = ${user_id}`;
 			return ` 1 IN (${qIn}) `;
 		}
 		if (param === "1") {
-			let r = interest("vacancies", `select v.ID from vacancies v where v.company_id = '${company_id}'`)
-				+ " OR " + interest("companies", `'${company_id}'`)
-				+ " OR " + interest("event", `select e.ID from events e where e.company_id = '${company_id}'`)
+			let r = "";
+			if (type == "job_post") {
+				// job post only
+				r = interest("vacancies", `select v.ID from vacancies v where v.company_id = '${company_id}'`)
+			} else {
+				// ALL
+				// job post, company and event
+				r = interest("vacancies", `select v.ID from vacancies v where v.company_id = '${company_id}'`)
+					+ " OR " + interest("companies", `'${company_id}'`)
+					+ " OR " + interest("event", `select e.ID from events e where e.company_id = '${company_id}'`)
+			}
+
 			return `( ${r} )`;
 
 		} else {
@@ -285,7 +298,7 @@ class BrowseStudentExec {
 		// select item
 
 		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
-		
+
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
 		let country_study = this.where(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
 		let university = this.where(user_id, this.TABLE_SINGLE, "university", param.university);
@@ -304,6 +317,7 @@ class BrowseStudentExec {
 		);
 
 		var show_interest = this.whereShowInterest(param.company_id, user_id, param.interested_only);
+		var like_job_post = this.whereLikeJobPost(param.company_id, user_id, param.like_job_post_only);
 
 		let work_availability = this.whereDateRange({
 			user_id: user_id,
@@ -334,6 +348,7 @@ class BrowseStudentExec {
 		});
 
 		return `1=1 
+			AND ${like_job_post}
 			AND ${show_interest}
 			AND ${favourited}
 			AND ${cf}

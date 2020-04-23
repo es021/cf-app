@@ -4,16 +4,18 @@ import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import HallRecruiterInterview from "./partial/hall-recruiter/hall-recruiter-interview";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
 import { RootPath } from "../../config/app-config";
-import { Prescreen, PrescreenEnum } from "../../config/db-config";
+import { Prescreen, PrescreenEnum, CompanyEnum } from "../../config/db-config";
 import { Time } from "../lib/time";
 import {
   getCFObj,
-  getAuthUser
+  getAuthUser,
+  loadCompanyPriv
 } from "../redux/actions/auth-actions";
 import { ButtonAction } from "../component/buttons";
 import InputEditable from "../component/input-editable";
 import obj2arg from "graphql-obj2arg";
 import { appointmentTimeValidation } from "./partial/activity/scheduled-interview";
+import { Loader } from "../component/loader";
 
 // require("../css/hall.scss");''
 // export function getAppointmentTimeElement(d, happeningIn) {
@@ -162,13 +164,22 @@ export default class HallRecruiterPage extends React.Component {
     this.authUser = getAuthUser();
     this.company_id = this.authUser.rec_company
     this.state = {
+      loading: false,
+      isJobPostingOnly: false
     }
   }
 
+  componentWillMount() {
+    this.setState({ loading: true });
 
-  // componentWillMount() {
-  //   setBodyFullWidth();
-  // }
+    loadCompanyPriv(this.company_id, (priv) => {
+      let isJobPostingOnly = false;
+      if (CompanyEnum.hasPriv(priv, CompanyEnum.PRIV.JOB_POSTING_ONLY)) {
+        isJobPostingOnly = true;
+      }
+      this.setState({ loading: false, isJobPostingOnly: isJobPostingOnly })
+    });
+  }
 
   // componentWillUnmount() {
   //   unsetBodyFullWidth();
@@ -176,29 +187,51 @@ export default class HallRecruiterPage extends React.Component {
   getRecruiterAction() {
     return <div className="title-sectaion">
       <div className="">
-        <ButtonAction
-          style={{ width: "350px", maxWidth:"70vw" }}
-          btnClass="btn-lg btn-success"
-          // to={`${RootPath}/app/my-activity/student-listing`}
-          to={`${RootPath}/app/browse-student`}
-          icon="users"
-          iconSize="3x"
-          mainText={"All Students"}
-          // subText={`See who's interested in ${this.authUser.company.name}`}
-          subText={`Browse all students`}
-        />
+        {this.state.isJobPostingOnly
+          ?
 
-        <ButtonAction
-          style={{ width: "350px", maxWidth:"70vw" }}
-          btnClass="btn-lg btn-blue"
-          // to={`${RootPath}/app/my-activity/student-listing`}
-          to={`${RootPath}/app/browse-student?interested_only=1`}
-          icon="user"
-          iconSize="3x"
-          mainText={"Interested Students"}
-          // subText={`See who's interested in ${this.authUser.company.name}`}
-          subText={`Browse students interested in you`}
-        />
+          // ########################################
+          // job posting only
+          // ########################################
+          <ButtonAction
+            style={{ width: "350px", maxWidth: "70vw" }}
+            btnClass="btn-lg btn-success"
+            // to={`${RootPath}/app/my-activity/student-listing`}
+            to={`${RootPath}/app/student-list-job-post`}
+            icon="user"
+            iconSize="3x"
+            mainText={"Student Listing"}
+            // subText={`See who's interested in ${this.authUser.company.name}`}
+            subText={`Browse students from job posts applicants`}
+          />
+
+          // ########################################
+          // normal
+          // ########################################
+          : [<ButtonAction
+            style={{ width: "350px", maxWidth: "70vw" }}
+            btnClass="btn-lg btn-success"
+            // to={`${RootPath}/app/my-activity/student-listing`}
+            to={`${RootPath}/app/browse-student`}
+            icon="users"
+            iconSize="3x"
+            mainText={"All Students"}
+            // subText={`See who's interested in ${this.authUser.company.name}`}
+            subText={`Browse all students`}
+          />,
+          <ButtonAction
+            style={{ width: "350px", maxWidth: "70vw" }}
+            btnClass="btn-lg btn-blue"
+            // to={`${RootPath}/app/my-activity/student-listing`}
+            to={`${RootPath}/app/browse-student?interested_only=1`}
+            icon="user"
+            iconSize="3x"
+            mainText={"Interested Students"}
+            // subText={`See who's interested in ${this.authUser.company.name}`}
+            subText={`Browse students interested in you`}
+          />]
+        }
+
       </div >
     </div >
   }
@@ -206,32 +239,38 @@ export default class HallRecruiterPage extends React.Component {
   render() {
     document.setTitle("Recruiter Home Page");
     let v = null;
-    v = <div className="hall-page">
-      <h1 className="text-left"><b>Welcome {this.authUser.company.name} !</b></h1>
-      {this.getRecruiterAction()}
-      <br></br>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-12">
-            <HallRecruiterInterview></HallRecruiterInterview>
+
+    if (this.state.loading) {
+      v = <Loader size="3" text="Loading Company Info..."></Loader>
+    } else {
+      v = <div className="hall-page">
+        <h1 className="text-left"><b>Welcome {this.authUser.company.name} !</b></h1>
+        {this.getRecruiterAction()}
+        <br></br>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-12">
+              <HallRecruiterInterview></HallRecruiterInterview>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6">
-            <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
+          <div className="row">
+            <div className="col-md-6">
+              <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
+            </div>
+            <div className="col-md-6">
+              <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
+            </div>
           </div>
-          <div className="col-md-6">
-            <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
-          </div>
-        </div>
-        {/* <div className="row">
+          {/* <div className="row">
           <div className="col-md-12">
             <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
           </div>
         </div> */}
+        </div>
+        {/* <DashboardFeed cf="USA19" type="recruiter"></DashboardFeed> */}
       </div>
-      {/* <DashboardFeed cf="USA19" type="recruiter"></DashboardFeed> */}
-    </div>
+    }
+
 
     return v;
   }

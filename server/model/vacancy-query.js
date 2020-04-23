@@ -14,6 +14,12 @@ class VacancyQuery {
 		var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}' `;
 		var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by} `;
 
+		var interested_user_id = "1=1";
+		if(params.interested_user_id && params.company_id){
+			interested_user_id = ` v.ID IN (select i.entity_id from interested i 
+					where i.entity = "vacancies" and i.user_id = "${params.interested_user_id}" ) `
+		}
+
 		var limit = DB.prepareLimit(params.page, params.offset);
 
 		var sql = `from ${Vacancy.TABLE} v where 
@@ -23,6 +29,7 @@ class VacancyQuery {
 			${title_where} and 
 			${type_where} and 
 			${location_where} and
+			${interested_user_id} and
 			${com_where} ${order_by}`;
 
 		if (extra.distinct) {

@@ -6,12 +6,18 @@ import { isCfLocal } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 
 
-export function createFilterStr(filterObj, validCf) {
+export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
     validCf = Array.isArray(validCf) ? validCf : []
 
     let r = "";
     let filterExist = {};
     for (var k in filterObj) {
+
+        if (isPageStudentListJobPost) {
+            if (k == "cf") {
+                continue;
+            }
+        }
 
         let combineVal = "";
         for (var i in filterObj[k]) {
@@ -35,16 +41,18 @@ export function createFilterStr(filterObj, validCf) {
     // add required filter (cf, event)
     // even user tak pilih pun kita kena filter jugak
     // sbb kalau tak dia akan dpt view semua
-    if (filterExist.cf !== true) {
-        let cfFilter = ""
-        for (var i in validCf) {
-            if (validCf[i] != "") {
-                cfFilter += validCf[i] + "::";
+    if (!isPageStudentListJobPost) {
+        if (filterExist.cf !== true) {
+            let cfFilter = ""
+            for (var i in validCf) {
+                if (validCf[i] != "") {
+                    cfFilter += validCf[i] + "::";
+                }
             }
-        }
-        cfFilter = cfFilter.substr(0, cfFilter.length - 2);
-        if (cfFilter != "") {
-            r += ` cf:"${cfFilter}"`;
+            cfFilter = cfFilter.substr(0, cfFilter.length - 2);
+            if (cfFilter != "") {
+                r += ` cf:"${cfFilter}"`;
+            }
         }
     }
 
@@ -67,10 +75,18 @@ export class BrowseStudentFilter extends React.Component {
         }
 
         this.orderFilter = [
-            "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
+            "like_job_post_only", "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
             "looking_for_position", "working_availability_from", "working_availability_to",
             "graduation_from", "graduation_to", "interested_job_location", "where_in_malaysia", "skill"
         ];
+
+        this.hiddenFilter = [
+            "like_job_post_only"
+        ]
+        if (this.props.isPageStudentListJobPost) {
+            this.hiddenFilter.push("cf");
+            this.hiddenFilter.push("interested_only");
+        }
 
         this.customClass = {
             "working_availability_from": "no-border",
@@ -101,7 +117,6 @@ export class BrowseStudentFilter extends React.Component {
             this.filterState = {};
         }
     }
-
     getExtraFilter() {
         return {
             favourited_only: {
@@ -123,6 +138,25 @@ export class BrowseStudentFilter extends React.Component {
                                     </small>
                                 </div>
                             }
+                        ></Tooltip>
+                    </div>,
+                    total: null
+                }]
+            },
+            like_job_post_only: {
+                // isRecOnly: true,
+                title: "",
+                filters: [{
+                    val: "1",
+                    label: <div>Show <b>students that liked your job post</b> only
+                         <Tooltip
+                            bottom="13px"
+                            left="-90px"
+                            width="200px"
+                            alignCenter={true}
+                            debug={false}
+                            content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+                            tooltip={null}
                         ></Tooltip>
                     </div>,
                     total: null
@@ -159,21 +193,23 @@ export class BrowseStudentFilter extends React.Component {
             }
         }
     }
-
-    getQueryParam(page, offset) {
-        return this.props.getQueryParam({
-            page: page,
-            offset: offset,
-            filterStr: this.props.filterStr,
-            company_id: this.props.company_id
-        })
-    }
-
-    //${this.getQueryParam()}
     loadFilter() {
         this.setState({ loading: true })
+        let param = `discard_filter:"${this.discardFilter}"`;
+
+        // limit filter and count untuk initial filter je
+        // for case page student list job post, dia akan filter sapa yang like job post je
+        if (this.props.isPageStudentListJobPost) {
+            let queryParam = this.props.getQueryParam({
+                filterStr: this.props.filterStr,
+                company_id: this.props.company_id,
+                noBracket: true,
+            })
+            param += ` , ${queryParam} `
+        }
+
         let q = `query{
-            browse_student_filter(discard_filter:"${this.discardFilter}") {
+            browse_student_filter( ${param} ) {
               _key
               _val
               _total
@@ -519,6 +555,11 @@ export class BrowseStudentFilter extends React.Component {
             if (!keyFilter) {
                 continue;
             }
+
+            if (this.hiddenFilter.indexOf(k) >= 0) {
+                continue;
+            }
+
             // if (keyFilter.isRecOnly && !this.props.isRec) {
             //     continue;
             // }
@@ -539,7 +580,6 @@ export class BrowseStudentFilter extends React.Component {
         this.props.onChange(this.filterState);
     }
     onResetFilter() {
-
         this.initFilterState();
         this.props.onChange(this.filterState);
         this.setState((prevState) => {
@@ -548,7 +588,7 @@ export class BrowseStudentFilter extends React.Component {
     }
     getButtonExport() {
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
-        return <ButtonExport style={{  margin : "5px"}} btnClass="default btn-round-5" action="browse_student" text="Download As Excel" filter={filter}></ButtonExport>
+        return <ButtonExport style={{ margin: "5px" }} btnClass="default btn-round-5" action="browse_student" text="Download As Excel" filter={filter}></ButtonExport>
     }
     render() {
         let v = null;
@@ -588,6 +628,8 @@ export class BrowseStudentFilter extends React.Component {
 }
 
 BrowseStudentFilter.propTypes = {
+    isPageStudentListJobPost: PropTypes.bool,
+    isPageInterestedStudent: PropTypes.bool,
     company_id: PropTypes.number,
     filterStr: PropTypes.string,
     onChange: PropTypes.func,

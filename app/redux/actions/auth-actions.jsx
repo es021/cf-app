@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import { graphql } from "../../../helper/api-helper"
 import {
     store
 } from '../store.js';
@@ -149,6 +150,17 @@ export function isCfFeatureOff(key) {
     return false;
 }
 
+export function loadCompanyPriv(cid, success) {
+    var q = `query {company(ID:${cid}) { priviledge } }`;
+    graphql(q).then(res => {
+        var companyCF = res.data.data.company.cf;
+        console.log("companyCF", companyCF)
+        console.log("companyCF", companyCF)
+        console.log("companyCF", companyCF)
+        var privs = res.data.data.company.priviledge;
+        success(privs);
+    });
+}
 // return object cf by key in auth
 export function getCFObj() {
     let CareerFair = getLocalStorageCf();
@@ -353,8 +365,8 @@ export function isRoleAdmin() {
 
 export function isRecruiterCompany(cid) {
     return (
-      (isRoleRec() && getAuthUser().rec_company == cid) ||
-      isRoleAdmin()
+        (isRoleRec() && getAuthUser().rec_company == cid) ||
+        isRoleAdmin()
     );
 }
 

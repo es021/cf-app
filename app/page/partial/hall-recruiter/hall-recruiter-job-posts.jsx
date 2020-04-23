@@ -111,6 +111,7 @@ export default class HallRecruiterJobPosts extends React.Component {
         isModeAction={isModeAction}
         ID={d.interested.ID}
         is_interested={d.interested.is_interested}
+        popupTitle={"Applicants"}
         entity={"vacancies"}
         entity_id={d.ID}
         tooltipObj={{

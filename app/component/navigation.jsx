@@ -297,13 +297,25 @@ function getMenuItem(COMING_SOON) {
       label: "Interested Students",
       icon: "heart",
       component: BrowseStudent,
+      routeOnly: true,
       bar_app: false,
       bar_auth: false,
-      hd_app: false,
+      hd_app: true,
       hd_auth: false,
       disabled: !isRoleRec()
     },
-
+    {
+      url: "/student-list-job-post",
+      label: "Student Listing",
+      icon: "user",
+      component: BrowseStudent,
+      routeOnly: true,
+      bar_app: true,
+      bar_auth: false,
+      // hd_app: true,
+      hd_auth: false,
+      disabled: !isRoleRec()
+    },
     {
       url: "/auditorium",
       // EUR FIX

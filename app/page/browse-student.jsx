@@ -2,10 +2,13 @@ import React, { PropTypes } from "react";
 import { BrowseStudentFilter, createFilterStr } from "./partial/browse-student/browse-student-filter";
 import { BrowseStudentList } from "./partial/browse-student/browse-student-list";
 import { graphql } from "../../helper/api-helper";
+import { CompanyEnum } from "../../config/db-config";
+import { AppRoot } from "../../config/app-config";
 import { isRoleRec, getAuthUser, getCF, getCompanyCf, isRoleAdmin } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
 import { _GET } from "../lib/util";
-
+import EmptyState from "../component/empty-state";
+import { Redirect } from "react-router";
 
 export class BrowseStudent extends React.Component {
   constructor(props) {
@@ -35,6 +38,12 @@ export class BrowseStudent extends React.Component {
     };
   }
 
+  isPageStudentListJobPost() {
+    return this.props.match.path.indexOf("student-list-job-post") >= 0;
+  }
+  isPageInterestedStudent() {
+    return this.props.match.path.indexOf("interested-student") >= 0;
+  }
   getDefaultFilterState(company_cf) {
     let r = {};
 
@@ -45,8 +54,12 @@ export class BrowseStudent extends React.Component {
       r["cf"] = company_cf.indexOf(currentCf) >= 0 ? [currentCf] : company_cf
     }
 
-    if (_GET("interested_only") == "1" || this.props.match.path.indexOf("interested-student") >= 0) {
+    if (_GET("interested_only") == "1" || this.isPageInterestedStudent()) {
       r["interested_only"] = ["1"];
+    }
+
+    if (_GET("like_job_post_only") == "1" || this.isPageStudentListJobPost()) {
+      r["like_job_post_only"] = ["1"];
     }
 
     return r;
@@ -54,7 +67,11 @@ export class BrowseStudent extends React.Component {
 
   onChangeFilter(filterState) {
     this.setState(() => {
-      return { filterStr: createFilterStr(filterState, this.company_cf), filterState: filterState }
+      let filterStr = createFilterStr(filterState, this.company_cf, { isPageStudentListJobPost: this.isPageStudentListJobPost() })
+      return {
+        filterStr: filterStr,
+        filterState: filterState
+      }
     })
   }
 
@@ -88,13 +105,9 @@ export class BrowseStudent extends React.Component {
             return toDisabled;
           }
         }
-
-        console.log("defaultFilterState", defaultFilterState)
-        console.log("defaultFilterState", defaultFilterState)
-        console.log("defaultFilterState", defaultFilterState)
-        console.log("defaultFilterState", defaultFilterState)
+        let filterStr = createFilterStr(defaultFilterState, companyCF, { isPageStudentListJobPost: this.isPageStudentListJobPost() });
         return {
-          filterStr: createFilterStr(defaultFilterState, companyCF),
+          filterStr: filterStr,
           defaultFilterState: defaultFilterState,
           filterState: defaultFilterState,
           disabledFilter: disabledFilter,
@@ -111,7 +124,8 @@ export class BrowseStudent extends React.Component {
     page,
     offset,
     filterStr,
-    company_id
+    company_id,
+    noBracket
   }) {
     let toRet = ""
     toRet = `company_id : ${company_id}`;
@@ -133,54 +147,71 @@ export class BrowseStudent extends React.Component {
     if (toRet.trim() == "") {
       return "";
     } else {
-      return `(${toRet})`;
+      if (noBracket) {
+        return toRet;
+      } else {
+        return `(${toRet})`;
+      }
     }
   }
 
 
   render() {
-    document.setTitle("Browse Student");
+    let title = "Student Listing"
+    // if(this.isPageStudentListJobPost()){
+    //   title = ""
+    // }
+
+    document.setTitle(title);
 
     let v = null;
     if (this.state.loading) {
       v = <Loader></Loader>
     } else {
-
-
-      v = <div className="container-fluid">
-        <div className="row">
-          <div className="col-lg-12 text-left">
-            <h1>
-              <b>Student Listing {isRoleAdmin() ? " - " + this.state.companyName : ""}</b>
-            </h1>
+      if (!this.isPageStudentListJobPost() && CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.JOB_POSTING_ONLY)) {
+        // redirect to student list job post
+        return <Redirect to={`/app/student-list-job-post`}></Redirect>
+        // v = <EmptyState body={<div className="text-muted">Sorry. It seems that you have no access<br></br>to all student profiles yet.</div>}></EmptyState>
+      } else {
+        v = <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-12 text-left">
+              <h1>
+                <b>{title}{" "}{isRoleAdmin() ? " - " + this.state.companyName : ""}</b>
+              </h1>
+            </div>
+          </div>
+          <div className="row">
+            {/* <div className="col-lg-1"></div> */}
+            <div className="col-lg-4">
+              <BrowseStudentFilter
+                isPageStudentListJobPost={this.isPageStudentListJobPost()}
+                isPageInterestedStudent={this.isPageInterestedStudent()}
+                company_id={this.company_id}
+                filterStr={this.state.filterStr}
+                disabledFilter={this.state.disabledFilter}
+                filterState={this.state.filterState}
+                defaultFilterState={this.state.defaultFilterState}
+                getQueryParam={this.getQueryParam}
+                onChange={this.onChangeFilter}></BrowseStudentFilter>
+            </div>
+            <div className="col-lg-8">
+              <BrowseStudentList
+                isPageStudentListJobPost={this.isPageStudentListJobPost()}
+                isPageInterestedStudent={this.isPageInterestedStudent()}
+                company_id={this.company_id}
+                company_name={this.state.companyName}
+                privs={this.state.privs}
+                company_cf={this.state.companyCF}
+                disabledFilter={this.state.disabledFilter}
+                filterState={this.state.filterState}
+                getQueryParam={this.getQueryParam}
+                filterStr={this.state.filterStr}></BrowseStudentList>
+            </div>
+            {/* <div className="col-lg-1"></div> */}
           </div>
         </div>
-        <div className="row">
-          {/* <div className="col-lg-1"></div> */}
-          <div className="col-lg-4">
-            <BrowseStudentFilter
-              company_id={this.company_id}
-              filterStr={this.state.filterStr}
-              disabledFilter={this.state.disabledFilter}
-              filterState={this.state.filterState}
-              defaultFilterState={this.state.defaultFilterState}
-              getQueryParam={this.getQueryParam}
-              onChange={this.onChangeFilter}></BrowseStudentFilter>
-          </div>
-          <div className="col-lg-8">
-            <BrowseStudentList
-              company_id={this.company_id}
-              company_name={this.state.companyName}
-              privs={this.state.privs}
-              company_cf={this.state.companyCF}
-              disabledFilter={this.state.disabledFilter}
-              filterState={this.state.filterState}
-              getQueryParam={this.getQueryParam}
-              filterStr={this.state.filterStr}></BrowseStudentList>
-          </div>
-          {/* <div className="col-lg-1"></div> */}
-        </div>
-      </div>
+      }
     }
 
 

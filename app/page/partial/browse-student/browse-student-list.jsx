@@ -67,6 +67,7 @@ export class BrowseStudentList extends React.Component {
             {
                 student_id
                 student{
+                    ${this.props.isPageStudentListJobPost ? " interested_vacancies_by_company {ID title} " : ""}
                     student_listing_interested{ID is_interested}
                     prescreens_for_student_listing{status appointment_time}
                     university country_study available_month available_year
@@ -137,6 +138,8 @@ export class BrowseStudentList extends React.Component {
 
 
 BrowseStudentList.propTypes = {
+    isPageStudentListJobPost: PropTypes.bool,
+    isPageInterestedStudent: PropTypes.bool,
     filterStr: PropTypes.string,
     filterState: PropTypes.object,
     disabledFilter: PropTypes.object,

@@ -139,6 +139,10 @@ export class InterestedButton extends React.Component {
       title = "Liked By";
     }
 
+    if(this.props.popupTitle){
+      title = this.props.popupTitle;
+    }
+
     layoutActions.storeUpdateFocusCard(title, InterestedUserList, {
       entity: this.props.entity,
       entity_id: this.props.entity_id,
@@ -261,6 +265,7 @@ export class InterestedButton extends React.Component {
   }
 }
 InterestedButton.propTypes = {
+  popupTitle : PropTypes.string,
   icon: PropTypes.string,
   tooltipObj: PropTypes.obj,
   finishHandler: PropTypes.func,

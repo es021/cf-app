@@ -88,11 +88,15 @@ class XLSApi {
       {
           student_id
           student{
+              first_name last_name user_email phone_number
               university country_study 
               graduation_month graduation_year
               available_month available_year
-              ID first_name last_name user_email description 
-              doc_links {type label url} field_study{val} looking_for_position{val}
+              description 
+              interested_vacancies_by_company{ title }
+              doc_links {type label url} 
+              field_study{val} 
+              looking_for_position{val}
     }}} `;
 
     // 2. prepare props to generate table
@@ -263,11 +267,24 @@ class XLSApi {
       renameTitle
     );
   }
+  restructChangeHeaderForStudent(data, preKey = ""){
+    let toRet = {};
+    for(var k in data){
+      let newK = k;
+      if(k == preKey + "interested_vacancies_by_company"){
+        newK = "applied_job_post";
+      }else{
+        newK = newK.replace("student_", "");
+      }
+      toRet[newK] = data[k];
+    }
+    return toRet;
+  }
   restructAppendTypeForStudent(newData, preKey = "") {
     newData = this.restructAppendType({
       data: newData,
       key: preKey + "video_resume",
-      label: "video_resume",
+      label: "video resume",
       renderCol: d => {
         return `<a href="${d.url}">${d.url}</a><br>`;
       }
@@ -282,6 +299,7 @@ class XLSApi {
     });
 
     let multi_input = [
+      "interested_vacancies_by_company",
       "extracurricular",
       "field_study",
       "skill",
@@ -294,19 +312,29 @@ class XLSApi {
       key = preKey + key;
       let multiArr = newData[key];
       let multiStr = "";
+   
       if (Array.isArray(multiArr)) {
         multiArr.map((d, j) => {
           let toRet = "";
           if (j > 0) {
             toRet += " | ";
           }
-          multiStr += `${toRet}${d.val}`;
+
+          let v = d.val;
+          if(key.indexOf("interested_vacancies_by_company") >= 0){
+            v = d.title;
+          }
+
+          multiStr += `${toRet}${v}`;
         });
         newData[key] = multiStr;
       } else {
         newData[key] = "-";
       }
     }
+
+    newData = this.restructChangeHeaderForStudent(newData, preKey);
+
     return newData;
   }
 
