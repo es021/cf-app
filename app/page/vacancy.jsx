@@ -15,7 +15,7 @@ import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 
 export function getApplyButton(objVacancy, type) {
-  if(!isRoleStudent()){
+  if (!isRoleStudent()) {
     return null;
   }
   let d = objVacancy;
@@ -194,8 +194,8 @@ export default class VacancyPage extends React.Component {
         );
 
         var desc =
-          vacan.description !== null ? <p>{vacan.description}</p> : non;
-        var req = vacan.requirement !== null ? <p>{vacan.requirement}</p> : non;
+          vacan.description !== null ? <p dangerouslySetInnerHTML={{ __html: vacan.description }}></p> : non;
+        var req = vacan.requirement !== null ? <p dangerouslySetInnerHTML={{ __html: vacan.requirement }}></p> : non;
 
         view = (
           <div>
