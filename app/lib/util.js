@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV === "production" && false) {
-  console.log = function(mes) {
+  console.log = function (mes) {
     return;
   };
 }
@@ -90,7 +90,7 @@ export function scrollToY(element, to, duration) {
   var difference = to - element.scrollTop;
   var perTick = (difference / duration) * 10;
 
-  setTimeout(function() {
+  setTimeout(function () {
     element.scrollTop = element.scrollTop + perTick;
     if (element.scrollTop === to) return;
     scrollToY(element, to, duration - 10);
@@ -102,7 +102,7 @@ export function scrollToX(element, to, duration) {
   var difference = to - element.scrollLeft;
   var perTick = (difference / duration) * 10;
 
-  setTimeout(function() {
+  setTimeout(function () {
     element.scrollLeft = element.scrollLeft + perTick;
     if (element.scrollLeft === to) return;
     scrollToX(element, to, duration - 10);
@@ -134,7 +134,7 @@ export function _GET(parameterName) {
   return result;
 }
 
-String.prototype.parseJson = function() {
+String.prototype.parseJson = function () {
   try {
     return JSON.parse(this);
   } catch (err) {
@@ -142,16 +142,16 @@ String.prototype.parseJson = function() {
   }
 };
 
-String.prototype.containText = function(text) {
+String.prototype.containText = function (text) {
   return this.toUpperCase().indexOf(text.toUpperCase()) >= 0;
 };
 
-String.prototype.endsWith = function(text) {
+String.prototype.endsWith = function (text) {
   var last4 = this.substring(this.length - text.length);
   return last4.toUpperCase() == text.toUpperCase();
 };
 
-String.prototype.replaceAll = function(
+String.prototype.replaceAll = function (
   search,
   replacement,
   ignoreCase = false
@@ -161,14 +161,14 @@ String.prototype.replaceAll = function(
   return target.replace(new RegExp(search, `${i}g`), replacement);
 };
 
-String.prototype.insertSubstring = function(substring, position) {
+String.prototype.insertSubstring = function (substring, position) {
   var target = this;
   return [target.slice(0, position), substring, target.slice(position)].join(
     ""
   );
 };
 
-String.prototype.capitalizeAll = function() {
+String.prototype.capitalizeAll = function () {
   let arr = this.split(" ");
 
   let toRet = "";
@@ -181,11 +181,11 @@ String.prototype.capitalizeAll = function() {
   return toRet;
 };
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-String.prototype.focusSubstring = function(substring) {
+String.prototype.focusSubstring = function (substring, wrapStart = "<b>", wrapEnd = "</b>") {
   if (typeof substring !== "string" || substring == "" || substring == null) {
     return this;
   }
@@ -197,19 +197,19 @@ String.prototype.focusSubstring = function(substring) {
   }
   var start = match["index"];
   var end = start + substring.length;
-  target = target.insertSubstring("</b>", end);
-  target = target.insertSubstring("<b>", start);
+  target = target.insertSubstring(wrapEnd, end);
+  target = target.insertSubstring(wrapStart, start);
   return target;
 };
 
 import { getCF } from "../redux/actions/auth-actions";
-document.setTitle = function(title) {
+document.setTitle = function (title) {
   document.title = `${getCF()} | ${title}`;
 };
 
 // #############################################################
 
-console.error = function(err, err2, err3, err4, err5) {
+console.error = function (err, err2, err3, err4, err5) {
   let discardArr = ["Warning:"];
 
   for (var i in discardArr) {

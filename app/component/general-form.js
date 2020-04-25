@@ -214,6 +214,7 @@ export default class GeneralFormPage extends React.Component {
   getAddForm() {
     return (
       <GeneralForm
+        emptyMessage={this.props.emptyMessage}
         entity={this.props.entity}
         entity_singular={this.props.entity_singular}
         formItem={this.props.getFormItem(false)}
@@ -229,6 +230,7 @@ export default class GeneralFormPage extends React.Component {
   addPopup() {
     const generateForm = formItem => {
       layoutActions.storeUpdateFocusCard(`Add ${this.Entity}`, GeneralForm, {
+        emptyMessage:this.props.emptyMessage,
         discardDiff: this.props.discardDiff,
         forceDiff: this.props.forceDiff,
         entity: this.props.entity,
@@ -263,6 +265,7 @@ export default class GeneralFormPage extends React.Component {
           `Editing ${this.Entity} #${id}`,
           GeneralForm,
           {
+            emptyMessage : this.props.emptyMessage,
             discardDiff: this.props.discardDiff,
             forceDiff: this.props.forceDiff,
             acceptEmpty: this.props.acceptEmpty,
@@ -402,6 +405,7 @@ export default class GeneralFormPage extends React.Component {
     var datas = (
       <div key={this.state.key}>
         <List
+          emptyMessage={this.props.emptyMessage}
           listClass={this.props.listClass}
           loadCount={this.props.loadCount}
           getCountFromRes={this.props.getCountFromRes}
@@ -493,7 +497,7 @@ export default class GeneralFormPage extends React.Component {
       }
     }
 
-  
+
     if (this.props.isSearchOnLeft) {
       return <div className="container-fluid">
         <div className="row">
@@ -590,6 +594,7 @@ export const openEditPopup = function (
     `Editing ${entity_singular} #${id}`,
     GeneralForm,
     {
+      emptyMessage : this.props.emptyMessage,
       forceDiff: [],
       dicardDiff: [],
       entity: entity,

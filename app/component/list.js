@@ -114,9 +114,10 @@ export default class List extends React.Component {
         try {
           //empty list
           if (data.length <= 0) {
+            let emptyView = this.props.emptyMessage ? this.props.emptyMessage : "Nothing To Show Here";
             var empty = this.props.showEmpty ? (
               <div style={{width:"100%"}} className="text-muted text-center list-empty-text">
-                Nothing To Show Here
+                {emptyView}
               </div>
             ) : null;
 

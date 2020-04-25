@@ -20,6 +20,7 @@ import VacancyPopup from "../popup/vacancy-popup";
 import { getApplyButton } from "../../vacancy";
 import GeneralFormPage from "../../../component/general-form";
 import { Loader } from "../../../component/loader";
+import { getEmptyMessageWithSearchQuery } from "../../view-helper/view-helper";
 
 
 // for student only
@@ -40,6 +41,7 @@ export class VacancyList extends React.Component {
     this.state = {
       loading: false,
       searchFormItem: [],
+      search: []
     }
   }
 
@@ -116,6 +118,10 @@ export class VacancyList extends React.Component {
 
     if (d != null) {
       this.searchParams += this.searchParamGet(
+        "title",
+        d.title
+      );
+      this.searchParams += this.searchParamGet(
         "company_id",
         d.company_id,
         true // isInt
@@ -131,8 +137,8 @@ export class VacancyList extends React.Component {
     }
 
     // this.setState(prevState => {
-    //   // console.log("setState searchFormOnSubmit", prevState);
-    //   // console.log("d", d);
+    //   console.log("setState searchFormOnSubmit", prevState);
+    //   console.log("d", d);
     //   return { search: d };
     // });
   }
@@ -161,10 +167,19 @@ export class VacancyList extends React.Component {
       }
     }`;
 
-    const EMPTY_OPTION = {key : "", label : ""}
+    const EMPTY_OPTION = { key: "", label: "" }
     graphql(q).then((res) => {
       let data = res.data.data.vacancies_distinct;
       let searchFormItem = [];
+
+      // first saerch field = text
+      searchFormItem.push({
+        label: "Title",
+        name: "title",
+        type: "text",
+        placeholder: "Engineer"
+      })
+
       let currentKey = null;
       let currentData = [EMPTY_OPTION];
       let currentCategory = "";
@@ -278,18 +293,23 @@ export class VacancyList extends React.Component {
     //   ></InterestedButton>
     // );
 
+    let title = (this.search["title"]) ? d.title.focusSubstring(this.search["title"], "<u>", "</u>") : d.title;
+    title = (
+      <div
+        className="title btn-link"
+        onClick={() => {
+          this.onClickCard(d);
+        }}
+        dangerouslySetInnerHTML={{ __html: title }}
+      ></div>
+    );
+
+
     let body = (
       <div className="vacancy-card">
         {getApplyButton(d)}
         <div className="img">{img}</div>
-        <div
-          className="title btn-link"
-          onClick={() => {
-            this.onClickCard(d);
-          }}
-        >
-          {d.title}
-        </div>
+        {title}
         <div className="location">{d.location}</div>
         <div className="type">{d.type ? d.type + " Job" : null}</div>
       </div>
