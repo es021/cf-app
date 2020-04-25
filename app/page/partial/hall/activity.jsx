@@ -384,7 +384,7 @@ class ActvityList extends React.Component {
     // create confirm message
     var mes = "";
     if (status === PrescreenEnum.STATUS_APPROVED) {
-      mes += "Acceptiing";
+      mes += "Accepting";
       mes += ` Interview Call with ${other_name} ?`;
     }
     if (status === PrescreenEnum.STATUS_REJECTED) {

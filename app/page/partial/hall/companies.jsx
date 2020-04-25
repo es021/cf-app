@@ -215,8 +215,9 @@ class CompaniesSection extends React.Component {
       if (page && offset) {
         paging_param = `page:${page}, offset:${offset}`
       }
-     
-      return ` cf:"${getCF()}", ${paging_param}, ignore_priv:"::${CompanyEnum.PRIV.JOB_POSTING_ONLY}::" `
+      
+      // , ignore_priv:"::${CompanyEnum.PRIV.JOB_POSTING_ONLY}::"
+      return ` cf:"${getCF()}", ${paging_param} `
     }
 
     this.loadCount = () => {
