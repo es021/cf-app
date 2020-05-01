@@ -150,7 +150,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
     let recorded = null;
     let ended = null;
     let breakElement = isPopup ? " " : <br></br>;
-    if (d.url_rsvp && !Time.isPast(d.end_time)) {
+    if (d.url_rsvp && !Time.isPast(d.start_time)) {
       rsvp = <div><a target="_blank" className="btn btn-sm btn-blue-light text-bold btn-block btn-round-5" href={d.url_rsvp}>
         <i className="fa fa-plus left"></i>
         RSVP
