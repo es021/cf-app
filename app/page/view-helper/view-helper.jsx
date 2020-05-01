@@ -36,6 +36,9 @@ export function getEventTitle(d) {
 }
 
 export function getEventLocation(d) {
+  if (IsNewEventCard) {
+    return null;
+  }
   let notSpecified = <i className="text-muted">Not Speficied</i>;
   let locationIcon = <i className="fa fa-map-marker left" style={{ marginRight: "7px" }}></i>;
   let locationText = <div className="el-location-text">{locationIcon}{d.location}</div>
