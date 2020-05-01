@@ -20,6 +20,7 @@ import InputEditable from "../../../component/input-editable";
 import obj2arg from "graphql-obj2arg";
 
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
+import { getEventAction, getEventTitle, getEventLocation } from "../../view-helper/view-helper.jsx";
 
 
 export default class HallRecruiterEvent extends React.Component {
@@ -43,10 +44,14 @@ export default class HallRecruiterEvent extends React.Component {
           company_id
           type
           title
-          location
-          interested{ID is_interested}
+          url_recorded
+          url_join
+          url_rsvp
           start_time
           end_time
+
+          location
+          interested{ID is_interested}
         }
       }`;
     return getAxiosGraphQLQuery(query);
@@ -96,41 +101,41 @@ export default class HallRecruiterEvent extends React.Component {
   //     <i className="fa left fa-sign-in"></i>Join Event
   //   </button>
   // }
-  getRsvpButton(d) {
-    return (
-      <InterestedButton
-        customStyle={{
-          top: "3px",
-          left: "7px",
-          width: "max-content",
-        }}
-        customView={
-          ({
-            // loading,
-            // isModeCount,
-            // isModeAction,
-            // like_count,
-            onClickModeCount,
-            // is_interested,
-            // onClickModeAction
-          }) => {
+  // getRsvpButton(d) {
+  //   return (
+  //     <InterestedButton
+  //       customStyle={{
+  //         top: "3px",
+  //         left: "7px",
+  //         width: "max-content",
+  //       }}
+  //       customView={
+  //         ({
+  //           // loading,
+  //           // isModeCount,
+  //           // isModeAction,
+  //           // like_count,
+  //           onClickModeCount,
+  //           // is_interested,
+  //           // onClickModeAction
+  //         }) => {
 
-            let mainText = `See RSVP List`;
-            return (
-              <button
-                className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
-                onClick={() => { onClickModeCount(null, "RSVP List") }}>
-                <i className="fa left fa-user"></i>{mainText}
-              </button>
-            );
-          }}
-        ID={d.interested.ID}
-        is_interested={d.interested.is_interested}
-        entity={"event"}
-        entity_id={d.ID}
-      ></InterestedButton>
-    );
-  }
+  //           let mainText = `See RSVP List`;
+  //           return (
+  //             <button
+  //               className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
+  //               onClick={() => { onClickModeCount(null, "RSVP List") }}>
+  //               <i className="fa left fa-user"></i>{mainText}
+  //             </button>
+  //           );
+  //         }}
+  //       ID={d.interested.ID}
+  //       is_interested={d.interested.is_interested}
+  //       entity={"event"}
+  //       entity_id={d.ID}
+  //     ></InterestedButton>
+  //   );
+  // }
   renderList(d, i) {
     let v = null;
     // let companyName = d.company.name;
@@ -140,31 +145,6 @@ export default class HallRecruiterEvent extends React.Component {
     let dateStr = d.start_time ? Time.getString(d.start_time, include_timezone) : notSpecified;
 
 
-    let locationIcon = <i className="fa fa-map-marker left" style={{ marginRight: "7px" }}></i>;
-    let locationText = <div className="el-location-text">{locationIcon}{d.location}</div>
-    let location = <div className="el-location">
-      {!d.location
-        ? [locationIcon, notSpecified]
-        : <span>
-          {
-            d.type == EventEnum.TYPE_VIRTUAL
-              ? <b><a target="_blank" href={d.location}><u>{locationText}</u></a></b> // location jadi url utk virtual
-              : locationText // location biasa untuk physical
-          }
-        </span>
-      }
-    </div>
-
-
-    let btnAction = <div style={{ marginTop: "5px" }}>
-      <NavLink
-        to={`${RootPath}/app/browse-student?filter_cf=${d.name}`}
-        className="btn-sm btn btn-block btn-success">
-        See All Student
-        </NavLink>
-    </div>
-
-    let title = <div style={{ color: "rgb(9, 23, 35)", marginBottom: "8px", fontSize: "16px" }}><b>{d.title}</b></div>
 
     // let pic = <InputEditable
     //   editTitle="Edit PIC / Interviewer"
@@ -206,8 +186,8 @@ export default class HallRecruiterEvent extends React.Component {
     v = <div className="text-left">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-sm-8 no-padding" style={{ padding: "10px 15px" }}>
-            {title}
+          <div className="col-sm-8 no-padding" style={{ fontWeight: "", padding: "10px 15px" }}>
+            <div style={{ marginBottom: "8px", fontSize: "16px" }}>{getEventTitle(d)}</div>
             <div>
               <small className="text-muted-dark">
                 <i className="fa fa-calendar left"></i>
@@ -215,13 +195,12 @@ export default class HallRecruiterEvent extends React.Component {
               </small>
               <br></br>
               {pic}
-              <small className="text-muted-dark">
-                {location}
-              </small>
+              {getEventLocation(d)}
             </div>
           </div>
           <div className="col-sm-4 no-padding" style={{ padding: "10px 15px", paddingBottom: "15px" }}>
-            {this.getRsvpButton(d)}
+            {/* {this.getRsvpButton(d)} */}
+            {getEventAction(d)}
           </div>
         </div>
       </div>

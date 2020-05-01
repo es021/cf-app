@@ -96,6 +96,7 @@ export class HallGalleryView extends React.Component {
     ];
 
     this.state = {
+      allData: defaultItems,
       data: defaultItems,
       loading: true
     };
@@ -114,8 +115,9 @@ export class HallGalleryView extends React.Component {
     // return;
 
     // load data
+    // , page:1, offset:5
     let q = `query{
-      hall_galleries(cf :"${getCF()}", is_active: 1, page:1, offset:5) {
+      hall_galleries(cf :"${getCF()}", is_active: 1) {
         ID
         item_order
         is_active
@@ -132,11 +134,52 @@ export class HallGalleryView extends React.Component {
     getAxiosGraphQLQuery(q).then(res => {
       this.setState(prevState => {
         let hg = res.data.data.hall_galleries;
-        return { loading: false, data: hg };
+        return { loading: false, data: this.getFiveItem(hg), allData: hg };
       });
     });
   }
+  updateFiveItem(direction) {
+    // this.getFiveItem(this.state.allData, direction)
+    // this.setState((prevState) => {
+    //   return { data: this.getFiveItem(this.state.allData, prevState.data, direction) }
+    // })
+  }
+  getFiveItem(allItems, prevFiveItems, direction) {
+    console.log("direction", direction);
+    console.log("prevFiveItems", prevFiveItems);
+    const LIMIT = 5;
+    const TOTAL_ALL_DATA = this.state.allData.length;
+    let toRet = [];
+    if (typeof this.currentIndex === "undefined") {
+      for (var i in allItems) {
+        let item = allItems[i];
+        if (i < LIMIT) {
+          toRet.push(item)
+        }
+      }
+    } else if (direction == "next") {
 
+      // this.currentIndex++;
+      // for (var i = this.currentIndex; i < TOTAL_ALL_DATA; i++) {
+      //   let item = items[i];
+      //   toRet.push(item)
+      // }
+    } else if (direction == "prev") {
+      // this.currentIndex--
+    }
+
+    // if (this.currentIndex >= TOTAL_ALL_DATA) {
+    //   this.currentIndex = 0;
+    // }
+
+    // if (this.currentIndex < 0) {
+    //   this.currentIndex = TOTAL_ALL_DATA - 1
+    // }
+
+    // console.log("toRet", toRet)
+
+    return toRet;
+  }
   getNextMap() {
     let nextMap = {};
     if (this.total() <= 3) {
@@ -154,6 +197,8 @@ export class HallGalleryView extends React.Component {
   }
 
   nextOnClick() {
+    this.updateFiveItem("next");
+
     let nextMap = this.getNextMap();
     let parent = document.getElementById("hall-gallery");
 
@@ -181,6 +226,8 @@ export class HallGalleryView extends React.Component {
     }
   }
   prevOnClick() {
+    this.updateFiveItem("prev");
+
     let prevMap = {};
     prevMap[CENTER] = RIGHT_1;
     prevMap[RIGHT_1] = RIGHT_2;
@@ -240,7 +287,7 @@ export class HallGalleryView extends React.Component {
 
     return data;
   }
-  getItemClassName(i) {
+  getItemClassName(i, d) {
     // to change if ada CR count
     let toRet = "";
     switch (i) {
@@ -261,6 +308,8 @@ export class HallGalleryView extends React.Component {
         break;
     }
 
+    console.log(i, d.item_order, toRet);
+
     return toRet;
   }
 
@@ -268,7 +317,8 @@ export class HallGalleryView extends React.Component {
     if (!d) {
       return null;
     }
-    let className = this.getItemClassName(i);
+
+    let className = this.getItemClassName(i, d);
     className = `hg-item ${className}`;
 
     let classNameTitle = "hg-item-title";
@@ -340,6 +390,7 @@ export class HallGalleryView extends React.Component {
     }
   }
 
+  // TODO
   getItemByOffset(offset, currentIndex) {
     if (offset == 0) {
       return this.state.data[currentIndex];
@@ -405,13 +456,13 @@ export class HallGalleryView extends React.Component {
         </div>
       );
 
-      v = (
+      v = [
         <div className="hg-item hg-container">
           {this.total() <= 1 ? null : leftArrow}
           {this.itemViews}
           {this.total() <= 1 ? null : rightArrow}
         </div>
-      );
+      ]
     }
 
     return (

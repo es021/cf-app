@@ -535,6 +535,7 @@ const LogEnum = {
 	EVENT_CLICK_USER_DOC: "click_user_doc", // data -> user_id
 	EVENT_VISIT_COMPANY: "visit_company", // data -> company_id
 	EVENT_VISIT_VACANCY: "visit_vacancy", // data -> vacancy_id
+	EVENT_VISIT_EVENT: "visit_event", // data -> event_id
 	EVENT_CALL_GRUVEO: "call_gruveo", // data -> session_id
 	EVENT_CALL_DAILY_CO: "call_daily_co", // data -> session_id
 	EVENT_CALL_ZOOM: "call_zoom", // data -> session_id

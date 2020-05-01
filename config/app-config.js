@@ -3,6 +3,7 @@
 const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
+var IsNewEventCard = true;
 const IsDailyCoEnable = ALWAYS_TRUE;
 var IsOnVideoResume = ALWAYS_FALSE; 
 var IsRecruiterNewHall = ALWAYS_TRUE;
@@ -99,6 +100,7 @@ if (!isProd) {
 }
 
 module.exports = {
+    IsNewEventCard,
     HeaderClass,
     TermsAndConditionUrl,
     IsOnVideoResume,

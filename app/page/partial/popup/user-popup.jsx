@@ -110,7 +110,7 @@ export function createUserDocLinkList(
       <CustomList
         className={"label"}
         isSmall={isSmall}
-        emptyMessage={"No Document Or Links Uploaded"}
+        emptyMessage={<i><small>No Document Or Links Uploaded</small></i>}
         alignCenter={alignCenter}
         items={dl}
         onClick={onClickDocLink}

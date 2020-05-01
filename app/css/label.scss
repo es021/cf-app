@@ -1,0 +1,13 @@
+@import "define/mixin.scss";
+@import "define/variable.scss";
+
+.label.label-light{
+  &.label-success{
+    color: #3bb44a;
+    background-color: #e0ffdb;
+  }
+  &.label-info{
+    color: #00adee;
+    background-color: #e0f2ff;
+  }
+}

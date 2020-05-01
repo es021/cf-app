@@ -72,18 +72,20 @@ export class BrowseStudentCard extends React.Component {
         );
 
         // create uni view
-        let uniView = this.notSpecifiedView("University");
+        // let uniView = this.notSpecifiedView("University");
+        let uniView = null;
         if (d.student.university != null && d.student.university != "") {
             uniView = <b>{d.student.university}</b>;
         }
 
         let placeView = null;
         if (d.student.country_study != null && d.student.country_study != "") {
-            placeView = <small>, {d.student.country_study}</small>;
+            placeView = <span>, {d.student.country_study}</span>;
         }
 
 
-        let fieldStudyView = this.notSpecifiedView("Major");
+        // let fieldStudyView = this.notSpecifiedView("Major");
+        let fieldStudyView = null;
         let field_study = d.student.field_study;
         if (Array.isArray(field_study)) {
             fieldStudyView = field_study.map((d, i) => {
@@ -96,63 +98,59 @@ export class BrowseStudentCard extends React.Component {
 
             if (field_study.length > 0) {
                 fieldStudyView = (
-                    <i>
-                        <br />
+                    <i className="text-muted">
+                        {/* <br /> */}
                         {fieldStudyView}
                     </i>
                 );
             }
         }
 
-        var labelView = null;
         let lookingForView = [];
-        var hasLookFor =
-            Array.isArray(d.student.looking_for_position) &&
-            d.student.looking_for_position.length >= 0;
-        if (hasLookFor) {
-            for (var i in d.student.looking_for_position) {
-                let lfp = d.student.looking_for_position[i];
-                lfp = lfp.val;
-                var labelType = "";
-                switch (lfp) {
-                    case UserEnum.LOOK_FOR_FULL_TIME:
-                        labelType = "success";
-                        break;
-                    case UserEnum.LOOK_FOR_PART_TIME:
-                        labelType = "danger";
-                        break;
-                    case UserEnum.LOOK_FOR_INTERN:
-                        labelType = "warning";
-                        break;
-                }
-
-                lookingForView.push(
-                    <Tooltip
-                        bottom="19px"
-                        left="-19px"
-                        width="114px"
-                        alignCenter={true}
-                        content={
-                            <label
-                                style={{ marginRight: "5px" }}
-                                className={`label label-${labelType}`}
-                            >
-                                {lfp}
-                            </label>
-                        }
-                        tooltip={null}
-                    />
-                );
+        for (var i in d.student.looking_for_position) {
+            let lfp = d.student.looking_for_position[i];
+            lfp = lfp.val;
+            var labelType = "";
+            switch (lfp) {
+                case UserEnum.LOOK_FOR_FULL_TIME:
+                    labelType = "success";
+                    break;
+                case UserEnum.LOOK_FOR_PART_TIME:
+                    labelType = "danger";
+                    break;
+                case UserEnum.LOOK_FOR_INTERN:
+                    labelType = "info";
+                    break;
             }
 
-            labelView = (
-                <div style={{ fontSize: "16px", margin: "6px 0px" }}>
-                    {lookingForView}
-                </div>
+            lookingForView.push(
+                <Tooltip
+                    bottom="19px"
+                    left="-19px"
+                    width="114px"
+                    alignCenter={true}
+                    content={
+                        <label
+                            style={{ marginRight: "5px", fontSize: "13px" }}
+                            className={`label label-light label-${labelType}`}
+                        >
+                            {lfp}
+                        </label>
+                    }
+                    tooltip={null}
+                />
             );
         }
 
+        if (lookingForView.length > 0) {
+            lookingForView = <div>{lookingForView}</div>
+        } else {
+            lookingForView = null;
+        }
+
+
         var scheduledView = null;
+        var scheduledViewSm = null;
         if (d.student.prescreens_for_student_listing
             && d.student.prescreens_for_student_listing.length > 0) {
             // find index yang tak DONE lagi
@@ -168,28 +166,27 @@ export class BrowseStudentCard extends React.Component {
 
             // find yang tak DONE lagi
             let tempObj = d.student.prescreens_for_student_listing[baIndex];
-            let psStatus = tempObj.status != null ? tempObj.status : null;
+            // let psStatus = tempObj.status != null ? tempObj.status : null;
+            // {psStatus == PrescreenEnum.STATUS_STARTED
+            //     ? "Session Created on "
+            //     : "Scheduled Interview on "}
             scheduledView = (
-                <div style={{ marginBottom: "8px", marginTop: "0px" }}>
-                    <label className={`label label-success label-custom`}>
-                        {psStatus == PrescreenEnum.STATUS_STARTED
-                            ? "Session Created on "
-                            : "Scheduled Interview on "}
-                        <b>{Time.getString(tempObj.appointment_time)}</b>
-                    </label>
+                <div>
+                    <i className="fa fa-check-circle left"></i>
+                    Scheduled Interview on <b>{Time.getString(tempObj.appointment_time)}</b>
                 </div>
             );
         }
 
-        let studentInfo = (
-            <div style={{ lineHeight: "17px" }}>
-                {scheduledView}
-                {labelView}
-                {uniView}
-                {placeView}
-                {fieldStudyView}
-            </div>
-        );
+        // let studentInfo = (
+        //     <div style={{ lineHeight: "17px" }}>
+        //         {scheduledView}
+        //         {labelView}
+        //         {uniView}
+        //         {placeView}
+        //         {fieldStudyView}
+        //     </div>
+        // );
 
         var styleToggler = { marginLeft: "-12px", marginBottom: "-10px" };
         var description = null;
@@ -221,35 +218,69 @@ export class BrowseStudentCard extends React.Component {
             }
         }
 
-        var details = (
-            <div>
-                {studentInfo}
-                <div style={{ marginTop: "8px" }}>
-                    {createUserDocLinkList(
-                        d.student.doc_links,
-                        d.student_id,
-                        false,
-                        false,
-                        false,
-                        true
-                    )}
-                </div>
-                {description}
-            </div>
-        );
+        // var details = (
+        //     <div >
+        //         {studentInfo}
+        //         <div style={{ marginTop: "8px" }}>
+        //             {createUserDocLinkList(
+        //                 d.student.doc_links,
+        //                 d.student_id,
+        //                 false,
+        //                 false,
+        //                 false,
+        //                 true
+        //             )}
+        //         </div>
+        //         {description}
+        //     </div>
+        // );
 
         // action Start Chat
-        const action_disabled = !this.props.isRec;
-        const isNavLink = true;
-
+        // const action_disabled = !this.props.isRec;
+        // const isNavLink = true;
+        // var canSchedule = CompanyEnum.hasPriv(
+        //     this.props.privs,
+        //     CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
+        // );
+        // const action_handler = [
+        //     () => { },
+        //     () => {
+        //         console.log("Schedule Call");
+        //         if (canSchedule) {
+        //             openSIFormAnytime(d.student_id, this.props.company_id);
+        //         } else {
+        //             // EUR FIX
+        //             // See Availability
+        //             layoutActions.errorBlockLoader(
+        //                 "Opps.. It seems that you don't have privilege to schedule private session yet"
+        //             );
+        //         }
+        //     }
+        // ];
+        // const action_color = ["blue", "success"]
+        // const action_text = [
+        //     <small>
+        //         <i className="fa fa-comment left" />
+        //         Start Chat
+        //     </small>,
+        //     <small>
+        //         <i className="fa fa-video-camera left" />
+        //         Schedule Call
+        //     </small>
+        // ];
+        // const action_to = [`${RootPath}/app/student-chat/${d.student.ID}`, null];
 
         var canSchedule = CompanyEnum.hasPriv(
             this.props.privs,
             CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
         );
-        const action_handler = [
-            () => { },
-            () => {
+        const actionChat = <NavLink to={`${RootPath}/app/student-chat/${d.student.ID}`}
+            className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
+            <i className="fa fa-comment left" />
+            Start Chat
+        </NavLink>
+        const actionSchedule = <button
+            onClick={() => {
                 console.log("Schedule Call");
                 if (canSchedule) {
                     openSIFormAnytime(d.student_id, this.props.company_id);
@@ -260,31 +291,45 @@ export class BrowseStudentCard extends React.Component {
                         "Opps.. It seems that you don't have privilege to schedule private session yet"
                     );
                 }
-            }
-        ];
-        const action_color = ["blue", "success"]
-        const action_text = [
-            <small>
-                <i className="fa fa-comment left" />
-                Start Chat
-            </small>,
-            <small>
-                <i className="fa fa-video-camera left" />
-                Schedule Call
-            </small>
-        ];
-        const action_to = [`${RootPath}/app/student-chat/${d.student.ID}`, null];
+            }}
+            className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
+            <i className="fa fa-video-camera left" />
+            Schedule Call
+        </button>
 
         // like button
-        let likeButton = !this.props.isRec ? null : (
+        let actionShortlist = !this.props.isRec ? null : (
             <InterestedButton
-                tooltipObj={{
-                    left: "-36px",
-                    bottom: "26px",
-                    width: "97px",
-                    tooltip: "Shortlist student",
-                    debug: false
-                }}
+                // tooltipObj={{
+                //     left: "-36px",
+                //     bottom: "26px",
+                //     width: "97px",
+                //     tooltip: "Shortlist student",
+                //     debug: false
+                // }}
+                customView={
+                    ({
+                        loading,
+                        is_interested,
+                        onClickModeAction
+                    }) => {
+                        let r = null;
+                        if (loading) {
+                            r = <button className="btn btn-grey btn-round-5 btn-block btn-sm text-bold" >
+                                <i className="fa fa-spinner fa-pulse left"></i>Loading
+                            </button>
+                        } else if (is_interested) {
+                            r = <button className="btn btn-green btn-round-5 btn-block btn-sm text-bold" onClick={onClickModeAction}>
+                                <i className="fa fa-check left"></i>Shortlisted
+                            </button>
+                        } else {
+                            r = <button className="btn btn-grey btn-round-5 btn-block btn-sm text-bold" onClick={onClickModeAction}>
+                                <i className="fa fa-plus left"></i>Shortlist
+                            </button>
+                        }
+                        return r
+                    }
+                }
                 isBottom={true}
                 customUserId={this.props.company_id}
                 isModeCount={false}
@@ -297,24 +342,65 @@ export class BrowseStudentCard extends React.Component {
             ></InterestedButton>
         );
 
+        let doclinkView = createUserDocLinkList(
+            d.student.doc_links,
+            d.student_id,
+            false,
+            false,
+            false,
+            true
+        )
+
+        let body = <div className="container-fluid">
+            <div className="row browse-student-card-body">
+                <div className="col-md-9">
+                    {scheduledView ? <div style={{ marginBottom: "10px" }} className="bsc-scheduled"><u>{scheduledView}</u></div> : null}
+                    <div className="bsc-title">{title}</div>
+                    {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
+                    <div>
+                        {uniView}
+                        {placeView}
+                    </div>
+                    {fieldStudyView}
+                    {/* {description} */}
+                </div>
+                {this.props.isRec ?
+                    <div className="col-md-3 center-on-md-and-less">
+                        <div className="break-10-on-md-and-less"></div>
+                        {/* {actionChat} */}
+                        {actionSchedule}
+                        {actionShortlist}
+                        <div className="break-10-on-md-and-less"></div>
+                    </div>
+                    : null}
+            </div>
+            <div className="row browse-student-card-footer">
+                <div className="col-md-12">
+                    {doclinkView}
+                </div>
+            </div>
+        </div>
         var item = (
-            <ProfileListWide
-                action_disabled={action_disabled}
-                rootContent={likeButton}
-                is_no_image={true}
-                title={title}
-                body={details}
-                isNavLink={isNavLink}
-                action_color={action_color}
-                action_to={action_to}
-                action_text={action_text}
-                action_handler={action_handler}
-                type={"student"}
-                key={i}
-            />
+            <div key={i}>
+                {body}
+            </div>
+            // <ProfileListWide
+            //     // rootContent={likeButton}
+            //     is_no_image={true}
+            //     title={null}
+            //     body={body}
+            //     // isNavLink={null}
+            //     action_disabled={true}
+            //     // action_color={action_color}
+            //     // action_to={action_to}
+            //     // action_text={action_text}
+            //     // action_handler={action_handler}
+            //     type={"student"}
+            //     key={i}
+            // />
         );
 
-        return item;
+        return <div className="browse-student-card">{item}</div>;
     }
 }
 

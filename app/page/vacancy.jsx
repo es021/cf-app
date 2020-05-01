@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 import { addLog } from "../redux/actions/other-actions";
 import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
-import { getHrefValidUrl } from "./view-helper/view-helper";
+import { getHrefValidUrl, getCompanyTitle } from "./view-helper/view-helper";
 
 export function getApplyButton(objVacancy, type) {
   if (!isRoleStudent()) {
@@ -151,9 +151,9 @@ export default class VacancyPage extends React.Component {
         var non = <div className="text-muted">Nothing To Show Here</div>;
 
         var items = [
-          <span>
-            <i className="fa fa-hashtag left"></i>Vacancy Id - {vacan.ID}
-          </span>,
+          // <span>
+          //   <i className="fa fa-hashtag left"></i>Vacancy Id - {vacan.ID}
+          // </span>,
           !vacan.type ? null : (
             <span>
               <i className="fa fa-star left"></i>
@@ -168,7 +168,7 @@ export default class VacancyPage extends React.Component {
           ),
           <span>
             <i className="fa fa-building left"></i>
-            {vacan.company.name}
+            {getCompanyTitle(vacan.company)}
           </span>,
           !vacan.application_url ? null : (
             <span>

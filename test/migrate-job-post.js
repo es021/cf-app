@@ -1,530 +1,518 @@
-a = `Artificial Intelligence Engineer	Full time 		Klang	In line with the journey towards Industry 4.0, Top Glove has need of future-ready Artificial Intelligence Engineers to dive headlong into researching, developing, & deploying next gen AI systems. An AI Engineer is expected to participate in and carry out projects to research, develop, and deploy AI based systems to build smart machines, smart systems, and ultimately smart factories.	•	Be involved in the full development cycle of AI engineering projects, covering research, design, development, deployment, support, and eventually carrying out upgrades and improvements.
-•	Work in agile teams to plan and execute AI engineering projects towards value adding goals and objectives.
-•	Interact regularly with end users to interpret their needs and requirements and represent them in the field
-•	Build and improve models to high quality standards and adapt them to real manufacturing environments
-•	Work within a well defined architecture and integrate new models seamlessly into the existing environment
-•	Research new state of the art technologies in AI and identify how to adopt them to the benefit of the company
-•	Collaborate and communicate effectively with project manager and other project participants to provide assistance and technical support
-•	Comply with project plans and industry standards	•	Degree in Computer Science/Software Development or relevant fields
-OR
-•	Strong skill levels in Python and especially with AI or ML toolkits
-•	Experience in AI or ML research projects
-•	Experience in Computer Vision is a huge plus
-•	Ability to work with multiple discipline projects
-•	Project management and leadership skills
-•	Top tier communication skills
-•	Time management and organization skills
-•	Attention to detail and analytical mindset are a must
-•	Self-driven, motivated, and open to new ideas and information
+a = `Engineer / Executive - QA (Regularoty Affairs) 	1	Sepang	"1. To ensure products manufactured or distributed comply with the required regulations, such as Food & Drug Administration (FDA), Medicines and Healthcare products Regulatory Agency (MHRA), Canadian Medical Device Regulation (CMDR) and etc.     
+2. To assist Manager to ensure the appropriate licensing and legal compliance of products in order to control the safety and efficacy of products.
+3. To assist Manager to manage and facilitate all submissions e.g 510(k) and/or renewal of licence, product listing and registration/certification     
+4. Liaising with regulatory authorities and designated agents
+5. Provide ongoing support to product development for regulatory issues and questions.
+6. Provide regulatory support to currently marketed products as necessary.  
+7. Keep up to date with changes in regulatory legislation, guidelines and etc. 
+8. Assures the ongoing compliance by reviewing company practices and provide advice on changes to systems, such as Technical File, Risk Management File, ISO documentation and other regulatory issues.
+9. To update Technical File and all related regulatory documentations when necessary.
+10. Review labelling, storage and packaging requirements in accordance to Packaging Material Labelling Requirement Checklist.     
+11. Conduct Internal Quality Audits covering all elements in the ISO 9001, ISO 13485, CMDR, Medical Device Directives (MDD 93/42/EEC), US FDA Quality System Regulation and Japanese Good Manufacturing Practices."	"1. Candidate must possess at least a Bachelor's Degree / Professional Degree in Biology / Chemistry / Biotechnology / Food Technology / Nutrition / Polymer / Material or relevant background.
+2. At least 2 year(s) of working experience in the related field is required for this position.
+3. Applicants must be willing to work in Sepang factory.
+4. Preferably Junior Executives specializing in Quality Control/Assurance or equivalent."
 ****wzs21****
-Production Engineer@Researcher	Full time 		Klang		01) To learn on existing factory production lines and systems related.
-02) Propose and execute studies and projects related to process efficiency and cost reduction.
-03) Research and propose latest engineering technologies applicable to glove manufacturing
-process.
-04) Work closely with Production and related departments on project execution.
-05) To ensure proper SOP and documentations related to projects executed.
-06) Shall take additional responsibility as instructed by the immediate Superior.
-07) The scope of authority shall refer to the selected work process procedure / instruction.	01) To learn on existing factory production lines and systems related.
-02) Propose and execute studies and projects related to process efficiency and cost reduction.
-03) Research and propose latest engineering technologies applicable to glove manufacturing
-process.
-04) Work closely with Production and related departments on project execution.
-05) To ensure proper SOP and documentations related to projects executed.
-06) Shall take additional responsibility as instructed by the immediate Superior.
-07) The scope of authority shall refer to the selected work process procedure / instruction.
+Engineer / Executive - QA (Complaint Handling) 	1	Sepang	"1. Check, identify and report on any deviations in procedure in regards to handling of customer complaints, corrective action and preventive actions. 
+2. Review and update the related procedures to ensure its accuracy and validity.  
+3. Acknowledge complaints promptly and responding to them within set time limits and systematically.
+4. Conduct preliminary investigation and issue Corrective/Preventive Action to related department when deemed necessary. If no, provide justification.          
+5. Submit the completed Corrective Action Request Form to superior for review and acceptance.
+6. Update the Corrective Action Request Status Log.     
+7. Prepare the report / response letter and submit to Assistant Manager/ Manager Audit and Senior QA Manager for review and approval.      
+8. Follow up on the progress of Corrective Action activities to make sure that the action taken is completed within the promised dateline.       
+9. Complete the relevant sections of the Corrective Action Request Status Log.
+10. Update the Customer Complaint Form.      
+11. Conduct Internal Quality Audits as per HSB-SOP-036 Internal Audits covering all elements in the ISO 9001, ISO 13485, CMDR, Medical Device Directives (MDD 93/42/EEC), US FDA Quality System Regulation, Japanese Good Manufacturing Practices and etc."	"1. Good Communication Skills in both verbal and written clear and easy to understand and include listening skills. ( Both English and Bahasa Malaysia )
+2. Ability to analyze and solve problem.   
+3. Ability to organize, supervise and provide guidance.  
+4. Degree in Science or any relevent background or Diploma In Science with at least 5 years working experience.
+5. Preferably with 1-2 years of working experience in manufacturing environment."
 ****wzs21****
-EXECUTIVE, SOURCING & PROCUREMENT	Full time 		Klang		01) Responsible to source, negotiate and purchase materials from both local and oversea vendors.
-02) Evaluate vendor’s quotation to ensure that they are in line with the technical and commercial
-specifications required for the project or user, responsible to negotiate on pricing to ensure items
-and services are sourced and awarded competitively.
-03) To increase awareness and drive implementation of e-procurement tool Ariba within organization
-and supplier base to ensure improve visibility on items sourced.
-04) Advise internal and external parties on issues regarding purchasing Terms & Conditions.
-05) In charge of daily operational purchasing needs such as planning, issuing and following up on
-Purchase Orders delivery and delivery schedules to meet factory or user’s requirements.
-06) To follow up payment status when required and assist in progress claim verification.
-07) Responsible and handle import shipments for related suppliers as well as coordinate special
-logistics arrangement during import process, serving as liaison for forwarding agent and custom
-office.
-08) Resolve supply, quality, service and invoicing issues with vendors.
-09) Evaluate supplier performance based on quality standards, delivery time & best prices and
-ensure all the criteria are met according to the organizational requirements and expectation.
-10) Prepare analysis report and purchase history when needed, to assist in vendor meeting
-arrangement, including but not limited to Top 10 inventory items & usage, Excess, Stock report,
-Group maintenance expense and Group production line utilization.
-11) Analyze and perform benchmark and comparison in factory project expenses in order to facilitate
-decision making in cost management during project execution.
-12) To assist in vendor meeting arrangement and visit report preparation.
-13) Responsible for implementing internal procurement strategies in line with company purchasing
-policy of Just In Time and Just Enough.
-14) To assist in new supplier’s qualification and ensure background, quality and experience meets
-business need for item or service sourced.
-15) Undertake any other ad-hoc duties as assigned.
-Others:
-01) Assist in research assignments on relevant topics to benchmark and facilitate comparison and
-decision making for continuous improvement.
-02) Train and provide guidance to new purchaser, including company’s purchasing procedure and
-policies, SAP training and report preparation.
-03) Being part of the Group Sourcing Team members and to champion the products sourcing that
-was assigned by the superiors for the respective factory under Top Glove Group of companies.
-04) The job holder has to undertake any other duty assigned to her by superiors.
-05) Shall take additional responsibility as instructed by the immediate superior.
-06) The scope of authority shall refer to the selected work process procedure/ instruction.	01) Degree in any related courses or equivalents from reputable universities.
-02) Good command of English & Malay (spoken and written).
-03) Strong interpersonal skills, problem solver and planner with organizational and analytical ability.
-
-04) Experience in executing Global Procurement & Sourcing activities.
-05) Proven experience working with cross functional teams to ensure cost control and process
-improvements.
-06) Experience in ERP environment and Microsoft Office.
+Supervisor - HR (Security)	2	Sepang	"1. Enforce Company Policies, Rules & Regulations and Security Procedures with full dedication and Affairs & Security.
+2. Monitor and supervise all security guards assigned at factory & ensure they are performing according to their job descriptions.
+3. Monitor and enforce that security guards are in strict compliance to disciplinary system.
+4. Perform regular patrolling around premises to detect & report security threats and non-compliances to policies & procedures.
+5. Monitor and detect for pilferages and sabotage to Company's asset / properties and operations   report to SO-HR for action and to HCA&S.
+6. Carry out regular checks on perimeter fencing, gates, building doors and windows to detect any breach or Defects & needs to repair and ensure the security integrity of the premises.
+7. Practice good public & inter-personal relations skills at all times and avoid personal conflict.
+8. Carry out instructions from time to time from HCA&S or SO-HR and to submit report.
+9. Assist in promoting the good name of the Company as well as giving active support to goodwill initiatives of the Company.
+10. Assess security threat to the Company from neighbouring communities and regularly report to Head-Community Affairs & Security."	"1. Able to supervise and enforce security procedures.
+2. Able to be actively involved in the monitoring and enforcing of security guards job performance and discipline.
+3. Able to detect and report of pilferages, sabotage, disciplinary acts and non-compliance of Company's Policies, Rules & Regulations and safety & security issues.
+4. High in integrity and confidential ability.
+5. Able to work long hours & Physically strong and fit.
+6. Preferred at least pass SPM.
+7. Preferred 2 years’ relevant experience in in-house security.
+8. Ex-police or army personnel preferred.
+9. Able to work on night shift as & when required."
 ****wzs21****
-M&E Engineer	Full time 		Klang		a) To study and carry out research in term of cost reduction project for utilities such as gas,
-electricity and water.
-b) To do research in reducing unplanned and planned downtime for factory and engineering.
-c) To carry out continuous time study for engineering work and propose solutions to reduce
-process time.
-d) To study on new engineering technologies to implement to current machineries and
-related system.
-e) To ensure proper SOP and documentations related to projects executed.
-f) To monitor and to ensure all works and projects are carried out smoothly and efficiently.
-g) To assist in electrical and burner department for the factory as well
-h) Any other duties as directed by the M&E Manager	1) Degree in Mechanical, Automation, Electrical Engineering or equivalent from reputable
-universities.
-2) Fresh candidate also acceptable since in-house training provided.
-3) Good command of English & Malay (spoken and written).
-4) Results oriented, strong follow up and good negotiation skills.
-5) Pleasant personality and able to interact all level of people.
-6) Knowledge in electrical diagram, power supply and control system.
+Hostel Warden - HR	2	Sepang	"1. Responsible in providing comfortable, clean and safe accommodation.
+2. Preparing foreign workers accommodation, including arranging and installing furniture and other necessities.
+3. To monitor overall movement of hostel and seeks to maintain the fair and safe operation at all times.
+4. Patrolling and doing a day to day spot check and reporting any disciplinary problems & misbehaviors.
+5. Oversees inspections of the hostel facilities & accommodation and fill in checklist.
+6. Identifying any hostels damages and repair required.
+7. Documenting and record information in standard form for any hostels repair and complaint.
+8. Monitoring any hostels maintenance work and repairs to ensure good quality work.
+9. Coordinate for room allocation & keys distribution for new join staff.
+10. Monitor collection of utilities bills every month.
+11. Assisting HR staffs on any matters related to foreign employees and hostels.
+12. To response during crisis situations such as an emergency a riot or a natural disaster"	"1. Candidate must at least possess a Diploma or any related field.
+2. Minimum 1 year relevant experience.
+3. Willing to attend emergencies after office hours.
+4. Able to work independently, under pressure, highly committed & responsible.
+5. Must have valid driving license B2 & D (car and motorcycle)."
 ****wzs21****
-Engineer, Research & Development	Full time 		Klang		1) Design and develop new products to meet market trend and demand, manage product development
-from lab scale to pilot run.
-2) Conduct R&D study for value added, regulatory compliance, quality improvement, or cost reduction of
-existing products.
-3) Carry out hands on research on process enhancement, new material development, or new technology
-for quality improvement or cost down initiative.
-4) Offer technical support on production process, raw material analysis, quality troubleshooting,
-engineering design, and customer inquiries.
-5) Provide engineering solutions for improvement in process efficiency, process automation, and line
-design.
-6) Work closely with other internal functions such as Marketing and Production to provide product
-expertise and render technical support on product development to achieve business goals.
-7) Develop close working relationships with external parties such as research collaboration partners, raw
-material suppliers, and testing laboratories.
-8) Communicate effectively and regularly to reporting superiors on project progress, results and analysis
-in terms of complete study reports, presentations, and meetings.
-09) Ensure all lab equipment is well maintained, utilized in proper manner and calibrated periodically.
-10) Shall take additional responsibility as instructed by the immediate superior.
-11) The scope of authority shall refer to the selected work process procedure/ instruction.	1) Bachelor’s Degree with relevant Engineering background (Material Engineering, Chemical Engineering,
-Mechanical Engineering, Polymer Engineering etc.) or equivalent from reputable universities.
-2) Good command of English & Malay (spoken and written).
-3) Results oriented, strong follow up and good negotiation skills.
-4) Pleasant personality and able to interact all level of people.
+Industrial Nurse - Human Resource	1	Bestari Jaya	"1. To assess patient health problem and needs, develop & implement nursing care for minor ailments and dressing for minor injuries.
+2. Day to day operating of in-plant Healthcare.
+3. Reduce illness by listening to complaint, diagnosis condition, dispensing medication & advise preventive measure.
+4. Provide direct care, including emergency treatment or occupational injuries and illness.
+5. Issue Company medical chit/ letter to employees for annual medical examination, major ailments/ injuries that require attention of panel doctor.
+6. To make necessary arrangements for referral cases to hospital (i.e. Guarantee letters, appointments, transport in case of emergency).
+7. Administer first aid medical emergency or work related injuries.
+8. Implement an Emergency Protocol (i.e. who will send employees to hospital, which hospital, etc.)
+9. Administer prescribed medicines, injection or other treatment. Also to issue MC leaves as instructed by doctor.
+10. Check & verify all medical bills & MC leaves including verification / approval process.
+11. Managing medical records and creating emergency workplace preparedness plans.
+12. To keep Sickbay well equipped, clean and organized.
+13. Maintain employee confidence by keeping medical information confidential.
+14.Monitor of red alert process, registration, distribution and monthly report."	"1. Good written and communication skills in BM and English.
+2. Pleasant personality, professional, matured and excellent interpersonal skills.
+3. Computer literate and report writing skills.
+4. Able to work independently with a high degree of commitment, Hardworking & dependable.
+5. Highly committed & responsible.
+6. Pleasant personality, professional, matured and excellent interpersonal skills.
+7. Candidate must at least Diploma/ Degree in Nursing or equivalent.
+8. State registered Nurse (SRN) registered with Malaysian Nursing Board, Ministry of Health Malaysia.
+9. Minimum 2 years working experience especially in manufacturing environment.
+10. Willing to work on shift rotation and long hours."
 ****wzs21****
-Chemist, Research & Development	Full time 		Klang		1) Design and develop new products to meet market trend and demand, manage product development
-from lab scale to pilot run.
-2) Conduct R&D study for value added, regulatory compliance, quality improvement, or cost reduction of
-existing products.
-3) Carry out hands on research on process enhancement, new material development, or new technology
-for quality improvement or cost down initiative.
-4) Offer technical support on production process, raw material analysis, quality troubleshooting, and
-customer inquiries.
-5) Work closely with other internal functions such as Marketing and Production to provide product
-expertise and render technical support on product development to achieve business goals.
-6) Develop close working relationships with external parties such as research collaboration partners, raw
-material suppliers, and testing laboratories.
-7) Communicate effectively and regularly to reporting superiors on project progress, results and analysis
-in terms of complete study reports, presentations, and meetings.
-8) Ensure all lab equipment is well maintained, utilized in proper manner and calibrated periodically.
-9) Shall take additional responsibility as instructed by the immediate superior.
-10) The scope of authority shall refer to the selected work process procedure / instruction.	1) Bachelor’s Degree with relevant Chemistry background (Biochemistry, Applied Chemistry, Industrial
-Chemistry, etc.) or equivalent from reputable universities.
-2) Good command of English & Malay (spoken and written).
-3) Results oriented, strong follow up and good negotiation skills.
-4) Pleasant personality and able to interact all level of people.
+Executive - Business Development 	1	Sri Damansara	"wzs21bulletTo assist sales team with order processing, and monitoring to ensure orders are delivered through. 
+wzs21bulletTo work closely with internal staff- warehouse, planner & production, purchasing, accounts, sales & marketing team to ensure a smooth operation.
+wzs21bulletTo monitor inventory and ensuring adequate stocks are always maintained.
+wzs21bulletTo liaise with sales team and analyse inventory report for ordering based on historical data, forecast etc.
+wzs21bulletTo prepare weekly and monthly report, and provide analysis of report.
+wzs21bulletTo keep proper customers database & send relevant sales campaign materials to customers.
+wzs21bulletTo assist sales to attend to customer’s enquiries, provide quotations, samples and all other necessary information.
+wzs21bulletTo manage trade debtors (if any).
+wzs21bulletTo source for relevant exhibitions for participation and prepare the necessary documents, and materials.
+wzs21bulletTo assist in preparation of tender documents. 
+wzs21bulletTo prepare sales & marketing collaterals (samples, brochures, buntings, PowerPoint presentation etc.) & ensuring proper stocks inventory.
+wzs21bulletTo source for marketing materials and negotiate for best offers without compromising quality.
+wzs21bulletTo maintain proper filing and documentations.
+wzs21bulletTo undertake other special assignment, ad-hoc functions and other related duties specified by the company.
+"	"
+wzs21bulletCandidate must possess at least a Bachelor's Degree, Professional Degree, Master's Degree in Business / International Business / Marketing / Biotechnology
+wzs21bulletFresh graduate with highly driven are encourage to apply.
+wzs21bulletExperience candidate should have minimum 2 years experience as medical representative  .
+wzs21bulletApplicants must be willing to work in Sri Damansara..
+wzs21bulletFull-Time position(s) available.
+"
 ****wzs21****
-Executive, Research & Development	Full time 		Klang		1) Ensure the quality and quantity of gloves produced in the factory meet customers’ requirements at all
-time.
-2) Ensure that quality level for incoming, in-process and outgoing meets company’s goal and objectives
-and also of the ISO 9002 certification standard.
-3) To constantly study and implement new formulations and work procedures in compounding process or
-related functions to improve on glove quality and productivity.
-4) To perform research and development and work with other chemists to develop more new or value
-added products.
-5) Practice good housekeeping concept and ensure the laboratory and compounding area and all jobs done
-within it are properly performed in compliant to the industrial safety and health requirements.
-6) Analyze daily feedback and reports from production and QA department to propose and implement
-corrective action in order to improve glove quality.
-7) Provide training to compounding supervisor, line boys and lab assistants on the compounding process
-and other relevant knowledge on glove production.
-8) Manage and coordinate with supervisors and chemists to have sufficient workforce to ensure the smooth
-running of compounding and laboratory department.
-9) To control the chemical usage in compounding department and to make sure all chemicals used in the
-compounding process are within the standard.
-10) To analyze the line and to assist compounding and laboratory department in data analysis and trouble
-shooting.
-11) Shall take additional responsibility as instructed by the immediate superior.
-12) The scope of authority shall refer to the selected work process procedure instruction.	1) Degree in any science courses or equivalent from reputable universities.
-2) Good command of English & Malay (spoken and written).
-3) Results oriented, strong follow up and good negotiation skills.
-4) Pleasant personality and able to interact all level of people.
+Chemist 	4	Sepang	"wzs21bulletDevelop new products / processes/ product and process improvement for gloves. 
+wzs21bulletWork towards cost saving exercises for products and processes.    
+wzs21bulletWork with Technical Chemists to transfer the new product/ process/ product and process improvement to production.       
+wzs21bulletWork with Technical Chemists to transfer cost saving for product and processes to production. 
+wzs21bulletBe RESOURCEFUL by continually keeping up to date with the developments in his/her own field and keeping abreast with issues internally and externally to identify new areas of learning, improve knowledge and suggest/develop new ideas, products or processes. 
+wzs21bulletDocument changes in product due to new product, product improvement, product changes and other changes in the design control file within the time frame stipulated in KPI.
+wzs21bulletExecute and follow through with the research and development work in a systematic manner, documenting all work accurately and completely.
+wzs21bulletLiaise with external suppliers and customers in matters regarding materials, chemicals and glove issues.
+wzs21bulletDiligently work to ensure all new products, product improvements, process improvements, product and process changes are documented and communicated correctly using the change control procedure / WI.
+wzs21bulletEnsure that all work activities are done in strict accordance to own department’s work instructions and procedures to conform to both Hartalega’s Quality and SHE system. 
+wzs21bulletProvide support to sales & marketing and external customers in relation to their enquiries in a timely manner as stipulated in KPI.  
+wzs21bulletOffer assistance to operations and other departments when circumstances warrant.
+wzs21bulletWork well with colleagues and stick to work related promises made to own team and to other departments.
+wzs21bulletAll other tasks as assigned by superior.
+"	"wzs21bulletCandidate must possess at least a Bachelor science in Pure chemistry/ analytical chemistry/ resources chemistry/ applied chemistry.
+wzs21bulletPreferably chemist in manufacturing industries or chemical industries.
+wzs21bulletFresh graduate with highly driven are encourage to apply.
+wzs21bulletExperience candidate should have minimum 2 years experience as manufacturing industry  .
+wzs21bulletApplicants must be willing to work in Sepang..
+wzs21bulletFull-Time position(s) available.
+"
 ****wzs21****
-Researcher, Research & Development	Full time 		Klang		1) Design and develop new innovative products to create new market trend and demand, manage product
-development from lab scale to pilot run.
-2) Conduct R&D study for value added, regulatory compliance, quality improvement, or cost reduction of
-existing products.
-3) Carry out research to achieve industry breakthrough in process enhancement, new material
-development, or new technology for quality improvement or cost down initiative.
-4) Offer technical support on production process, raw material analysis, quality troubleshooting,
-engineering design, and customer inquiries.
-5) Provide engineering solutions for improvement in process efficiency, process automation, and line
-design.
-6) Work closely with other internal functions such as Marketing and Production to provide product
-expertise and render technical support on product development to achieve business goals.
-7) Develop close working relationships with external parties such as research collaboration partners, raw
-material suppliers, and testing laboratories.
-8) Communicate effectively and regularly to reporting superiors on project progress, results and analysis
-in terms of complete study reports, presentations, and meetings.
-9) Ensure all lab equipment is well maintained, utilized in proper manner and calibrated periodically.
-10) Shall take additional responsibility as instructed by the immediate superior.
-11) The scope of authority shall refer to the selected work process procedure/ instruction.	1) PhD in any related background (Chemistry, Engineering, Science, etc.) or equivalent from reputable
-universities.
-2) Good command of English & Malay (spoken and written).
-3) Results oriented, strong follow up and good negotiation skills.
-4) Pleasant personality and able to interact all level of people.
+Executive - Sales (Export)	5	Sri Damansara	"wzs21bulletSell company products by establishing contact and developing relationship with prospective customers. 
+wzs21bulletExpands business with existing customers by promoting new products or through a sales strategy. 
+wzs21bulletMaintains good rapport with customers by providing support, high level of service, market and product information, regulatory guidance, and market trend.  
+wzs21bulletWorking closely with marketing team to promote products and services. 
+wzs21bulletMaintains professional and technical knowledge by attending training courses, seminars, conferences, workshops and reading periodicals.  
+wzs21bulletTo meet individual and team KPI set by the company. 
+wzs21bulletMaintain accuracy information of documents such as CRF and Forecast Quantity.
+wzs21bulletMaintain the filing of agreements and contracts signed with customers.  
+wzs21bulletResponsible for customer enquiries pertaining to quotation, products, samples, registration, shipments, artworks, visitation and payments. 
+wzs21bulletHandling customer visits, meeting and transportation/hotel room booking arrangement.   
+wzs21bulletResponsible for sending new pricing to customers and update CRF.  
+wzs21bulletSuggest price review based on feedback from customers. 
+wzs21bulletResponsible for accuracy of Purchase Order processing.  
+wzs21bulletMonitoring payment of customers.
+wzs21bulletFollow up payment with customer when necessary.
+wzs21bulletProvides training, coaching and motivating Customer Assistant.   
+wzs21bulletResponsible for middle and year end performance appraisal for Customer Assistant.  
+wzs21bulletInvolves internal and external audits.  
+wzs21bulletInvolves preparation of exhibition and attends exhibition both local and overseas. 
+wzs21bulletOrganizes PC0 meeting, kick off meeting and participate into UAT testing with other departments involved for new customers and new requirements.  
+wzs21bulletResponsible for accuracy of initial production of new items via sighting the production process.  
+wzs21bulletAssists Sales Manager in the yearly sales budget planning by providing customer’s sales forecast. 
+wzs21bulletTo perform customer survey. 
+wzs21bulletAny tasks assigned by Manager.
+"	"
+wzs21bulletCandidate must possess at least a Bachelor's Degree, Professional Degree, Master's Degree in Business / International Business / Marketing / Psychology / Economics
+wzs21bulletPreferably export sales or international sales exposure candidates.
+wzs21bulletFresh graduate with highly driven are encourage to apply.
+wzs21bulletExperience candidate should have minimum 2 years experience in sales .
+wzs21bulletApplicants must be willing to work in Sri Damansara..
+wzs21bulletFull-Time position(s) available.
+"
 ****wzs21****
-Engineer, Research & Development (Software)	Full time 		Klang		1) Primarily responsible on software development, software design, unit and integration test, system
-deployments and professional technical supports.
-2) Guide user in formulating requirements
-3) Maintain the existing systems and perform system enhancement based on user’s requirement.
-4) Work with system application engineer to create interface software for data digitalization
-5) To provide accurate and timely technical support on all the company products and services.
-6) To develop new application. To enhance the existing application.
-7) To assist in system implementation and support.
-8) Responsible to design and develop web applications for data management.
-9) Perform other ad-hoc projects and task as assigned by supervisor	1) Bachelor’s Degree with relevant Computer Science background (Computer Science, Engineering
-Programming, etc.) or equivalent from reputable universities.
-2) Preferably have 1 year experience in developing interface software
-3) Good command of English & Malay (spoken and written).
-4) Results oriented, strong follow up and good negotiation skills.
-5) Pleasant personality and able to interact all level of people. 
+Senior Software Application Developer	3	Petaling Jaya	"Responsible for development of in-house applications in the organization according to requirements.  
+Participate in all phases of system development life cycle which include requirements analysis.
+Contribute to solution design activities.
+Ensure all codes are optimized, written and documented in compliance to organization's standard.
+Implementation of new system and enhancements of existing system 
+Provide guidance and support to junior developer.
+Conduct testing and apply quality control procedures.   
+Conduct training to user if needed."	"Candidate must possess at least a Bachelor's Degree in Computer Science or related.
+4- 5 years of working experience in the related field is required for this position.
+Working experience with  C#, .NET, and SQL SSRS reporting.
+Familiar with SQL Server 2012 or above  and .NET technologies .
+Knowledge with version control system, preferred Team Foundation server (TFS).
+Knowledge with barcode printing programming language will be an added advantage 
+Strong analytical, problem solving and process, solution oriented abilities.
+Strategic thinker with a positive attitude, proactive and able to work under pressure in a fast-paced environment."
 ****wzs21****
-IT Job Description	Full time 		Klang		1. Provide first level end user support for related systems by identifying, resolving or escalating
-the problems to vendor to ensure the service commitment is met.
-2. Ensure all projects are delivered on time and to the highest possible standard.
-3. Implement, troubleshoot and maintain IT infrastructure, networks, email and web services
-(Hardware team).
-4. Involve in open source application implementation and support (hardware team).
-5. Maintain an up to date IT hardware and software inventory for Head Office and factories
-(hardware team).
-6. Participate in projects to enhance the quality and efficiency of all software systems or
-business processes by analysing the problems to identify root causes and proposing new
-ideas (software team).
-7. Track, log and report all sues for audit and improvement purposes (software team).
-8. Assist in the development and documentation of Standard IT operation policies and
-procedures (software team).
-9. Doing specification, design and document all new improvement or software changes
-(software team).
-10. Test and implement new ERP modules or changes (software team).
-11. To work with ERP modules team for the enhancement (software team).
-12. Perform other responsibilities as assigned by superior or Management from time to time.	1. Candidate must possess at least Degree in IT, Computer Science or equivalent from
-reputable universities.
-2. Minimum 2 years of related working experience in hardware support of software support.
+Senior Nintex Developer	1	Petaling Jaya	"Responsible for design and build the applications within Nintex environment and propose a pragmatic solution, finding a compromise between ideal technical solution and actual solution based on business needs.
+Manage and fulfil management’s expectations & requirements to support business growth and objectives.
+Work effectively and efficiently with internal IT team and external party (e.g. vendors, consultant, suppliers) to ensure seamless support to management & users on IT matters which involves both software and hardware. 
+To organize and support the structure/design, development/deployment of back-office Applications Business Solutions in ensuring quality/prompt deliverable by using Nintex platform.
+To design and build the applications by using Nintex Workflow and Nintex Forms.
+To work together with SharePoint Developer team in term of develop and maintain the SharePoint environment.
+Works within IT, cross-functionally and with vendors, in order to successfully identify, prioritize, and resolve issues and provide subject matter expertise for enhancements, developments, and operational improvements to the applications.​"	"Candidate must possess at least a Bachelor's Degree in Computer Engineering, Computer Science or its equivalent in related IT field.
+At least 3- 5 years of working experience in the related field is required for this position.
+Strong and experience Nintex developer knowledge and knows how to design Sharepoint web parts, user controls, etc.
+Experienced in XML/JSON and good understanding of SharePoint Designer, IIS and web configuration files
+Experienced in Visual studio / SharePoint designer, well versed on .NET 3.5/4.0/4.5 framework and experienced with CSS.
+Experienced with customizing master pages and site definition page layouts and building and deploying custom web parts.
+Ability to identify gaps and provide recommendations and enhancements that will enhance operations and reduce risks.
+Good knowledge of IT Software Development Life Cycle (SDLC).
+Applicants must be willing to work in Damansara Utama,Petaling Jaya.
+"
+****wzs21****
+Nintex Developer	1	Petaling Jaya	"To provide services of development, design and testing of enterprise solutions to Hartalega.
+To be responsible for developing, coding, installing, testing, debugging, and documenting Web applications and custom components using the latest versions of the Nintex, .NET Framework, ASP.NET, C#, SharePoint, Office 365, PowerApps, and other advanced components of Microsoft technology. This role will have a primary focus with an anticipated 50% or more of time spent on SharePoint.
+Designing and Developing SharePoint Features.
+Installation /Configuration /Setup.
+SharePoint Portal – Development /Customization.
+Create and modify lists, document libraries, workflows, web parts, custom forms, plugins, layout, and scripts using SharePoint and SharePoint Designer.
+Experience using SharePoint Workflow Automation with other tools like Nintex / K2.
+Portal Security – Experience securing access to SharePoint resources at all levels from item to farm.
+Experience creating custom Master Pages and Site Templates.
+Familiarity with PowerApps, Flow, Microsoft/Office Graph, and SharePoint Modern Pages/Web Parts preferred"	"Degree in IT or any equivalent.
+Preferably at least 3-year experience in SharePoint
+Knowledge on web technology development will be beneficial.
+Fresh grade will be considering if have sufficient knowledge in Microsoft technology or Development
+Experience in SharePoint 2013 / 2016 / Cloud.
+Strong understanding/experience with OOP – Object-Oriented Programming Concepts.
+Thorough hands-on knowledge of the SDLC.
+Knowledge of infrastructure, architecture and configuration/administration services related to SharePoint.
+Knowledge of User Experience Design principles.
+Experience with SharePoint 2013 administration.
+The ability to create mock-ups and style guides.
+C# /ASP.NET Development.
+SQL Server Development – T-SQL /Stored Procedures /Joins /Triggers /Functions /Indexes.
+Web Development experience in other technologies."
+****wzs21****
+RPA Developer	1	Petaling Jaya	"Monitoring the overall functioning of processes, identifying improvement areas and implementing adequate measures to maximize customer satisfaction level
+Operating as an advisor or business consultant and recommending process automation improvements
+Designing and implementing software robotics and process automation
+Bring a level of robotics knowledge to the client and play an important role in identifying and targeting new opportunities with both existing and new clients
+Analyzing, documenting and re-engineering business processes in scope for automation and robotics
+Designing and Implementing solutions around RPA software like Blue Prism, Automation Anywhere and UI Path and to advise our clients on RPA tool selection
+Support business development activities, responding to the proposals as a RPA subject matter expert, by coordinating with key stake holders in the company
+Defines more specific development tasks, task dependencies, and provides time estimates to complete work
+Creates product test plans for processes not developed including identification of data sets, systems and environments
+Perform Quality assurance tests for all developments before their go-live and resolve any potential issues
+Ensure timely and qualitative closure of all digitization projects
+Acts as a resource and communicates effectively with internal stakeholders, technical leads, and management to regularly report on status, issues, and risks
+Provides status reports and metrics on assigned projects
+Determines RPA best practices and suggests how to improve current quality processes, standards and practices"	"Bachelor Degree in Computer Science, Computer Systems Engineering, Information Technology, AI & Machine Learning, ITIL Certify or any other equivalent.
+Preferably candidates with 3 years of working experience in RPA field."
+****wzs21****
+Engineer - IT Project	1	Petaling Jaya	"Ensuring procedures are followed for: the registration of infrastructure project requests; recording of project plans and progress; archiving key contractual documentation; and the creation of key information required for projects to start and to be billed.
+Providing the financial data stored by the PMO to the client's process.
+Developing a close working relationship with the supplier PMOs and the teams to ensure that the process for getting infrastructure projects delivered is as efficient as possible.
+Delivery against KPIs for client's PMO Services by maintaining service level target and improve measurement process
+Contribute to client's service quality improvements by helping to strengthening Supplier PMOs back office team.
+Ensuring follow & adhere to agreed client's work/process standards and comply with SLAs.
+Provide guidance and support Supplier PMOs effectively while ensuring project delivery E2E process is followed
+Ensure project folders are file with project related info by Supplier PMOs. Escalate as necessary when issue arise
+Provide support to Supplier PMOs in ensuring system is always updated with accurate info.
+Accurately updating all Project related Data in system based on proposal received
+Quality Assurance for client's PMO procedure & documentation during project/requests, closure.
+Proactively taking lead to updates the handbook to make sure it is always evergreen
+Over 20 reports that need to be produced in one month to the Management.
+"	"Candidate must possess at least a Bachelor's Degree, Post Graduate Diploma, Professional Degree, any field exspecially in IT.
+At least 2 year(s) of working experience in the related field or project base is required for this position.
+Fresh Graduates are encouraged to apply.
+PMO experience and Stakeholder Management is highly desirable.
+Strong administrative skills
+Attention to detail / Accuracy
+Strong interpersonal / communication skills - Strong in English
+Planning & organizational skills
+Ability to recognize and meet important deadlines"
+****wzs21****
+Engineer - System Support	1	Petaling Jaya	"Administrate the factory shop floor system and ensure it is running in a stable and optimum mode including all integrations and automation.
+Responsible for the operation and administration of the company’s internal networks, servers, email and network security systems.
+Deploy and manage WINTEL servers such as Active Directory, storage systems.
+Provide 2nd level support with problem investigation and root cause analysis. Provide a fix or workaround as needed.
+Perform health checks on systems, servers, jobs and integrations.
+Analyze system and make recommendations for improvement based on performance and capacity reporting.
+Performance tuning and system maintenance.
+Develop scripts and jobs that helps regulate, alert and monitor system.
+Evaluate hot fixes, patches and product releases (including Service Pack and Version upgrades) that need to be applied in the system for product bug fix and overall support for the system.
+Manage application and system releases including ensuring backup and rollback plan are in place as part of risk management.
+Coordinate with relevant parties for all platform changes (business, integrations, infrastructure, and security) to ensure system is running stable.
+Maintain system configuration and documentation."	"At least Bachelor's Degree, Professional Degree in Computer Science / Information Technology or Electrical / Electronic Engineering.
+Professional Certification such as CCNA, ITIL, MCSE or PRINCE2/PMP is an added advantage.
+Minimum of 3-5 years in system and network administration.
+Consulting organization experience preferred.
+Windows server 2008, Active Directory, VMWARE visualization.
+Experience with deployment of various LAN, WAN and IT Security technologies such as DNS, DHCP, SMTP, VLANS and VPN.
+Experience in administrating communication system such as PABX, Video Conference.
+Hands on experience in deploy, troubleshoot and administer email system.
+Experienced in system and application testing & ticketing tracking system (e.g. OTRS).
+Strong analytical, problem solving and process, solution oriented abilities.
+Possess strong sense of teamwork, integrity, self motivation, positive attitude, and initiative to problem solving."
+****wzs21****
+Database Administrator	1	Petaling Jaya	"Install, configure, migrate, upgrade and maintain multiple databases required for development, testing and production.
+Enforce database change management, security standards and best practices.
+Design and maintain backup and data archiving plan for all databases in company
+Design and prepare for Disaster Recovery and perform test on recovery plan.
+Responsible for database design, stored procedure creation for front end application
+Support departmental operations in a high throughput production environment by proactively managing the performance, Integrity, and security of business applications databases and database servers.
+Support application development in technical troubleshooting, database tuning and performance monitoring
+Provide support to software developer in best practices for database design, programming, and tuning.
+"	"Candidate must possess at least a Bachelor's Degree in Computer Science or related
+Minimum 4 years of working experience in the related field is required for this position
+Experience in MSSQL database administration in production environment 
+Experience with MS SQL Server business intelligence stack: Integration Services, ETL/OLAP/Analysis Services and Reporting Services 
+Hands-on experience in capacity planning and performance tuning 
+Knowledge of SQL server backup and restore strategies 
+Strong analytical, problem solving and process, solution oriented abilities
+Strategic thinker with a positive attitude, proactive and able to work under pressure in a fast-paced environment 
+Full-Time position(s) available."
+****wzs21****
+Planner	3	Sepang	"Forecast & pre - plan the dipping lines capacity by products & time horizon.
+Derive a monthly production-planning schedule and forward to respective related parties.
+Input Sales Order (SO) & Demand forecast in the respective Product Planning Spread Sheet.
+Determine the Estimated Time Delivery (ETD) of Sales Order/Production Enquiry and inform Sales & Marketing department accordingly.
+Firm the Sale Order in the D365 System upon final confirmation on ETD.
+Re-schedule and firm the planned batch order (FG & Gloves); planned transfer order in D365 system.
+Verify the data (customer code, ETD, quantity & product code) correctness in Product Planning Sheet.
+Update the actual production quantity in the Product Planning Sheet on a daily basis.
+Coordinate with Plant Manager/ Executives on any changes in the Capacity Planning & Time Horizon.
+Conduct daily meeting with Packing Executives and follow up the status of Sales Order.
+Highlight to Operation Manager or any shipment required delay or reschedule.
+Coordinate with purchasing on any advance packaging required due to special production run.
+Coordinate with shipping on any shipment required change in ETD.
+Daily chaired the shipment meeting.
+Inform and discuss with Sales & Marketing if there any constrains on shipment ETD & product limitation.
+Update Bill of Material (BOM) in D365 System.
+Coordinate with Compounding Manager/ Executive on the capacity for all plants.
+Work closely with packing head on packing planning.
+Arrange the direct material in – coming based on monthly production schedule.
+Ensure all the direct material delivered as per schedule planned.
+Keep track of inventory movement (work - in – progress, raw material, temporary packing and packaging material) on a daily basis.
+Submit a temporary inventory status to superior – Planning on a weekly basis"	"Candidate must possess at least a Bachelor's Degree in Supply Chain, Post Graduate Diploma, Professional Degree, in any related field.
+Candidate with Diploma need to have at least 5 years experiences  in some tooling use for capacity & scheduling planning is added advantage if from similar industry.
+Fresh graduate with Degree are welcome to apply.
+Applicants must be willing to work in Sepang.
+Preferably  Executives specializing in Manufacturing/Production Operations or equivalent.
+Full-Time position(s) available.
+"
+****wzs21****
+HRBP	1	Sepang	"Acting as single point of the contact for the employees and managers in the Operation Departments.
+Establish good customer relationship via close networking and open communication with all stakeholders.
+Responsible for HR fundamentals in the operation Departments by supporting and advising, operation managers in the areas of, but not limited to: managing performance, discipline, grievance, terminations and develop appropriate strategies to drive improvements or changes to ensure consistency in employment practices and the maintenance of healthy industrial relations.
+Coordinating and overseeing the implementation of new HR policies and procedures for the company so that all employees are constantly apprised of changes in HR policies and procedures.
+To maintain awareness of changes in employment law, government policy and emergence of best practice using this to provide strategic advice to colleagues’ / Operation Managers on effective use of human resource and all organizational development issues.
+Maintains in depth knowledge of legal requirements related to day-to-day management of employees, reducing legal risks and ensure regulatory compliance.
+Manage employee services day-to-day operations (facilities and amenities) including canteen, prayer room and foreign worker lockers to be in functional conditions consistent with organizational requirements.
+Provide best solutions and practices to further enhance their effectiveness, maintain good employee relations, employee engagement and teamwork.
+Develop structured programs, corrective action and activities to drive employee engagement.
+To carry out such other duties and responsibilities as are consistent with the role."	"Must possess at least a Bachelor’s Degree, Degree in Human Resource Management / Industrial Relations / Business Administration / Law or equivalent.
+At least 3 years of relevant experience in managing industrial and employee relations, preferably in a manufacturing environment, have experience in HRBP is an added advantage."
+****wzs21****
+Executive - HSE	1	Sepang	"Design, implements, monitors & maintain all policies and procedures relating to safety, health & environmental with the ultimate aim of ensuring a high level of safety and health standards in the company.
+Keep abreast of current & emerging safety and health standards & practices. Report any new or updated information to management and the Safety and Health Committee “the committee”.  
+Keep abreast of current & emerging health issues (e.g. disease, epidemics, etc.) and propose plan of action to the management and the Committee on a timely basis.                                                    
+Propose solutions day-to-day safety and health issues that affect company personnel & property and discuss with the management and the Committee. 
+Perform detailed inspection of plant & office facilities on a weekly basis in accordance to inspection checklist to ensure compliance with safety standards and rectify any safety & health deficiencies must be highlighted.  
+Take appropriate steps to resolve any citations issued by government inspectors. Revise safety and health policy as necessary to avoid recurrence of problems.                                                       
+Perform detailed investigations after occurrence accidents. Provide report on cause of accidents and consideration within a reasonable time frame after each accident.                         
+Organise training on fire drill, first aid, Chemicals spilled / leakage & other areas which help to strengthen Health, Safety and Environment.                         Organise and coordinate safety and health meetings, including arranging for minute to be taken.  
+Study adequacy at safety and fire-fighting equipment’s in each department, discuss with respective department Heads & arrange for purchase of new equipment if required. Upon delivery of equipment, identify suitable location and monitor to ensure satisfactory installation. For all new equipment, train respective department supervisors & executives on correct usage & document training. If possible, to provide them a quick reference manual. Ensure training is then conducted by supervisors / executives for others employees in departments and documented.  
+Perform regular inspection and testing of all safety and fire-fighting equipment to ensure they are in good working condition. Ensure servicing of equipment is done on timely basis.  
+Perform Health and Safety training (including usage of safety and fire-fighting equipment) on a regular and systematic basis."	"Bachelor Degree in Safety or any relevant field.
+Certified Safety & Health Officer and at least pass examination paper 1,2,3 (NIOSH)
+Candidate with Green Book is preferable.
+Minimum 1-2 years relevant working experience.
+Candidates with building and facilities maintenance are preferable.
+Good communication skills and able to work independently.
+Willing to work at Sepang factory."
+****wzs21****
+Executive - Purchasing	1	Sepang	"1. Implement and adhere to SOPs, Code of business conduct in area of responsibilities.
+2. To manage project purchases.
+3. Lead in sourcing activities for goods and services, negotiate and recommend for right and best option.
+4. To solve suppliers or contrator's related issues, coordinate comunication between project team and suppliers or contractors.
+5. To prepare tender documents and assign PR for project purchases to respective buyer.
+6. To monitor all weighing and receiving activities for all project purchases.
+7. To assist and ensure purchasing assistant or clerks follow up on deliveries and ensure goods are received on time to prevent disruptions to operations.
+8. To assist in driving improvements to purchasing's processess and decision support system.
+"	"1. Degree in any field.
+2. Fresh graduates are encouraged to apply for this position.
+3. Good knowledge of procurement methods including sourcing, tendering, negotiating, contract administration and etc.
+4. A team player with good planning, organizing and communication skills.
+5. Must be able to work in a very fast pace.
+6. Applicants must be willing to work in Sepang."
+****wzs21****
+Engineer - Production	1	Sepang	"1. Assist the Production Manager in maintaining & troubleshooting the daily production process and product quality deficiency.
+2. Ensure all production process are consistent with written work instructions & procedures in order to comply with ISO9001/13485/GMP requirements.   
+3. Ensure quality of glove produced by checking regularly QAI reports & also other related department reports. If there are quality problems, to investigate further by discussion with related personnel before deciding & ensuring proper, corrective & preventive actions are taken to rectify problems.     
+4. Follow up with Supervisors if there is any corrective & preventive actions taken.   
+5. Ensure subordinate, i.e. supervisors are performing their duties effectively according to their written Job Descriptions.    
+6. Ensure good housekeeping & proper handling, storage and preservation of the product at all related areas.     
+7. Ensure all engineering works are properly planned with Engineering and Control & Instrumenation Department in order to minimise downtime.
+8. Ensure there is proper preventive maintenance on all production lines, i.e. coagulant, latex, chlorination, cleaning tanks, GSR and supporting equipments, i.e. chillers, compressors, scrubbers, etc on a regular basis.     
+"	"1. Bachelor Degree in Mechanical/Chemical Engineering
+2. Good communication, leadership and people-management skills
 3. Fresh graduates are encouraged to apply.
-4. Good command of English (spoken and written).
-5. Experience with any standard ERP packages will be an advantage.
-6. Experience in Web development, Internet Information Servers, Apache Tomcat, JavaScript,
-PHP, .Net, MS SQL, MY SQL, JSON, Python will be an added advantage
+4. Applicants must be willing to work in Sepang.
+5. Willing to work in shift basis."
 ****wzs21****
-Finance Executive	Full time 		Klang		1. Prepare company full set of Accounts
-2. Prepare staff payrolls and review workers payrolls
-3. Conduct monthly physical stocks take
-4. Prepare monthly profit projections
-5. Provide training to accounts assistant and clerks
-6. Review and ensure timely submission of monthly, quarterly, and yearly reporting
-7. Collaborate with other department manager to support overall department goals and
-objective
-8. Perform other responsibilities as assigned by superior or Management from time to time	1. Candidate must possess at least a Degree/ Professional Degree in Finance, Accountancy,
-Banking or equivalent from reputable universities
-2. At least 2 years of experience in the field (fresh graduates are encouraged to apply)
-3. Good command of English (spoken and written)
-4. Able to converse and read in Mandarin will be an added advantage
-5. Exposure in SAP will be an added advantage
+Engineer - Control & Instrumentation	3	Sepang	"1. To ensure all safety procedures are followed.
+2. To plan and coordinate all control system and instrumentation activities in the plant.
+3. To assign daily work to Engineering personnel oversee their work
+4. To plan and assist in plant maintenance to ensure that all equipment is functioning properly and to ensure any plant   machinery or equipment breakdown is attended to promptly and properly.
+5. To plan and execute instrumentation calibration according to required accuracy and frequency.
+6. To involve in control system continuous improvement plan and machinery automation.
+7. To oversee installation and testing of new control system and instrumentation.
+8. To prepare report on the engineering matters including repairs, personnel need, spare parts and supplies.
+9. To monitor all relevant spare part and ensure appropriate spare part stock is available.
+10. To review control system and instrumentation documentation to ensure they are accurate and applicable to plan machinery.
+11. To work with internal & external regulatory agency inspectors to correct any aspects of maintenance that is cited for inspection."	"1. Minimum Bachelor in Engineering in Mechatronic/Electrical.
+2. Minimum 1 year working with PLC (preferably SIEMENS) and instrumentation.
+3. Able to configure or modify PLC program or instrument. Supervisory and communication skills.
+4. Good troubleshooting skills on PLC & instrumentation and able to understand wiring/loop drawings.
+5. Applicants must be willing to work in Sepang."
 ****wzs21****
-Human Resource (Executive)	Full time 		Klang		1) To Assist Senior Human Resource, Admin and Training Executive and
-Human Resources Manager to execute latest directive on Human
-Resource Matters.
-2) Liaise with Government Authorities on matters related to Human
-Resources such as Labor and Immigration Department.
-3) Responsible of arranging accommodation purchasing for the purpose of
-company houses.
-4) Responsible of coordinating and managing gotong – royong schedule for
-foreign workers hostels.
-5) Responsible of coordinating with Human Resources Personnel from
-respective factories of the worker’s welfare meeting and agenda.
-6) Assist the Human Resources Manager to prepare the necessary
-documentation on Domestic Inquiry.
-7) Assist the Human Resources Manager to monitor Daily Working Reports
-of Human Resource Officers.
-8) Assist the Human Resources Manager and Group Human Resources
-Admin Senior Manager to vet through documents received from
-Personnel from other departments before sending to their office for
-approval, comments and feedback.
-9) Assist Human Resources Manager to attend to foreign workers
-disciplinary issues.
-10) Shall take additional responsibility as instructed by the immediate
-superior.
-11) The scope of authority shall refer to the selected work process
-procedure/ instruction.	1) Candidate must possess Bachelor Degree in Human Resources
-Management or equivalent from reputable universities.
-2) Good command of English & Malay (spoken and written).
-3) Results oriented, strong follow up and good negotiation skills.
-4) Pleasant personality and able to interact all level of people.
-5) Preferably 3-5 years of related working experience.
-6) A team player with strong communication skill.
-7) Pleasant personality and able to interact with all level of people.
-8) working attitude and able to work independently in a team environment.
-9) High level of integrity and able to maintain confidentiality.
+Engineer - Plant & Process	1	Sepang	"1.To monitor and provide guideline to electrical and mechanical breakdown maintenance, preventive maintenance and improvement project for all area inside Hartalega NGC premises.
+2. To ensure subordinate efficiency and highest quality and to lead them to better productivity.
+3. To lead the team and plan for annual maintenance execution work and complete on time.
+4. Liaise with contractor or supplier on projects/modification/improvement activities.
+5. To ensure LOTO are used for all electrical isolation work.
+6. To troubleshooting machine and determined repair and modification if necessary.
+7. To make sure all damaged items and properly segregated for repair and disposal if beyond repair.
+8. To ensure downtime are minimal by performing the job efficiently as per guideline in KPI.
+9. Always feedback to superior regarding any outstanding issues/items.
+10. To improve overall equipment efficiency (OEE).
+11. To ensure and practice self-safety and remind others on all works performed.
+12. To ensure all documents are done and kept properly in compliance with ISO and to keep track of all records (Checklists, commissioning reports, and etc)
+13. To rectify complain from internal and external customers.
+14. To update daily report, weekly report, monthly report, annual maintenance report and others report that assigned to them.
+15. To prepare budget annually and review every quarterly. 
+"	"1. Degree in Mechanical Engineering.
+2. Preferably candidates with 1-2 years of experience in the related field.
+3. Fresh graduates are encouraged to apply for this position.
+4. Able to work independently with minimum supervision form superior.
+5. Able to provide structured solution to engineering problems.
+6. Applicants must be willing to work in Sepang."
 ****wzs21****
-Admin (Secretary)	Full time 		Klang		1) Arrange and coordinate conferences, factory and corporate site meeting.
-2) Take down meeting minutes for all the relevant meetings
-3) Follow up on issues raised up during meetings; make sure all action has been
-taken by related parties.
-4) Arrange for appointments and interviews.
-5) Liaising with staff in other departments and with external contacts;
-6) Composes official correspondence for superior’s signature, disposes of
-routine correspondence.
-7) Set up and maintain paper and electronic filing systems for records,
-correspondence,
-8) Maintains important and confidential records, schedules
-9) Reads reports and summarizes information to facilitate superior’s review.
-10) To process hiring, staff onboarding, confirmation/ appraisal, transfer,
-resignation.
-11) Shall take additional responsibility as instructed by the immediate superior.
-12) The scope of authority shall refer to the selected work process procedure
-instruction.	1) Degree in related fields or equivalent from reputable universities.
-
-2) Good command of English & Malay (spoken and written).
-3) Results oriented, strong follow up and good negotiation skills.
-4) Pleasant personality and able to interact all level of people.
+Engineer - Control & Instrumentation	1	Bestari Jaya	"1. To ensure all safety procedures are followed.
+2. To plan and coordinate all control system and instrumentation activities in the plant.
+3. To assign daily work to Engineering personnel oversee their work
+4. To plan and assist in plant maintenance to ensure that all equipment is functioning properly and to ensure any plant   machinery or equipment breakdown is attended to promptly and properly.
+5. To plan and execute instrumentation calibration according to required accuracy and frequency.
+6. To involve in control system continuous improvement plan and machinery automation.
+7. To oversee installation and testing of new control system and instrumentation.
+8. To prepare report on the engineering matters including repairs, personnel need, spare parts and supplies.
+9. To monitor all relevant spare part and ensure appropriate spare part stock is available.
+10. To review control system and instrumentation documentation to ensure they are accurate and applicable to plan machinery.
+11. To work with internal & external regulatory agency inspectors to correct any aspects of maintenance that is cited for inspection."	"1. Minimum Bachelor in Engineering in Mechatronic/Electrical.
+2. Able to configure or modify PLC program or instrument. Supervisory and communication skills.
+3. Good troubleshooting skills on PLC & instrumentation and able to understand wiring/loop drawings.                                            4. Fresh graduates are encouraged to apply for this position.
+5. Applicants must be willing to work in Bestari Jaya."
 ****wzs21****
-EXECUTIVE, MANUFACTURING (PRODUCTION, SAP)	Full time 		Klang		01) To monitor and ensure accurate update of SAP data for Compounding / Production /
-ODC / CR / Packing department. Daily Troubleshooting - attend to Packing, ODC/CR,
-Dipping, &amp; Compounding SAP issues. Daily GI vs GR checking to ensure all order are
-balanced & prevent Undistributed Variances.
-02) To involve in stock count activity during end month and ensure accurate update of SAP
-data. Ensure Month End Physical Stock Take Accurate &amp; minimize (to zero) Stock
-Adjustment.
-03) Daily checking of SFG COGI & Weekly checking of Chemical/Latex COGI.
-04) Daily monitoring of Abnormal Transfer Posting.
-05) Meet Compounding Go-LIVE & SFG Go-LIVE timeline.
-06) Prepare &amp; present Slide for HOD meeting (relief).
-07) Factory Cost Per Carton Analysis.
-08) Create/Extend/Change/Delete new product codes.
-09) Monitor 2nd Grade & Torn Glove.
-10) To involve in Monthly SAP Meeting & take minutes.
-11) SAP PP Master data maintenance.
-12) To provide training to the workers and follow up implementation of new practices.
-13) Shall take additional responsibility as instructed by the immediate Superior.
-14) The scope of authority shall refer to the selected work process procedure / instruction.	01) A degree in relevant or equivalent from reputable universities.
-02) Good command of English & Malay (spoken and written).
-03) Results oriented, strong follow up and good negotiation skills.
-04) Pleasant personality and able to interact all level of people.
-05) Able to work in day / night shifts and weekends as required by Management.
-06) Analytical Thinking / Problem Solving skills.
-07) Attention to Detail.
-08) Business Acumen.
-09) Commitment.
-10) Communication skills.
-11) Decision Making.
-12) Planning And Organizing.
-****wzs21****
-Executive, Manufacturing (Planner)	Full time 		Klang		01) Manage the production planning and overall packing operation.
-02) Evaluates and reviews Weekly Sales Review (WSR) - analyse and produce forecasts for
-planning.
-03) Co-ordinate with the marketing, shipping / Purchasing department on all issues
-pertaining to the processing of sales orders.
-04) Liaised with Marketing, Production, QA, Shipping / Purchasing to ensure on time
-container delivery to customer.
-05) Monitor production output and to ensure that packing output achieves the target.
-06) Liaised with shipping department for deliveries of shipment, and coordinating with
-other factories for combined shipment orders.
-07) Co-ordinate with the Purchasing department on status of each sales order and to order
-packing materials accordingly.
-08) Liaised with QA regarding pertaining to the product quality issue.
-09) Issuing of work order and arrangement of packing activities.
-10) Maintain good recording in SAP system for any planning transaction.
-11) Ensure smooth running of the packing department and to ensure that the packing
-activity is cost effective and operate at high efficiency.
-12) Shall take additional responsibility as instructed by the immediate superior.
-13) The scope of authority shall refer to the selected work process procedure instruction.	01) Degree / Diploma in any disciplines or equivalent from reputable universities.
-(please state your CGPA)
-02) Good command of English & Malay (spoken and written).
-03) Results oriented, strong follow up and good negotiation skills.
-04) Pleasant personality and able to interact all level of people.
-****wzs21****
-EXECUTIVE, MANUFACTURING (PACKING)	Full time 		Klang		01) Prepares production timetables for manufacturers of industrial products.
-02) Responsible of drawing up master schedule to set up sequence and lead time of every
-operation to meet up shipping times according to sales estimates or customer orders.
-03) Responsible to coordinating product delivery dates, monitoring purchase orders and
-negotiating prices.
-04) Submitting progress report to production managers.
-05) Shall take additional responsibility as instructed by the immediate Superior
-06) The scope of authority shall refer to the selected work process procedure / instruction.	01) Candidate must possess at least a Bachelor’s Degree in Engineering, Operations
-Management, Marketing, Business Admin or equivalent from reputable universities.
-02) Fresh graduate / entry level applicants are encouraged to apply.
-03) CGPA should be 3.00 and above.
-04) Good command of English & Malay (spoken and written).
-05) Results oriented, strong follow up and good negotiation skills.
-06) Pleasant personality and able to interact all level of people.
-****wzs21****
-ENGINEER, QUALITY ASSURANCE	Full time 		Klang		01) To be responsible the quality and quantity of gloves produced in the factory meets the
-requirement.
-02) Responsible for Quality Management of Product and In-Process activities.
-03) Monitoring QA activities to achieve maximum quality and productivity.
-04) Ensure the quality and quantity of gloves produced in the factory meets customer
-requirements at all time.
-05) Assist Quality Manager in Establishing, Implementing and Maintaining the quality
-Standard Operating Procedures(SOP).
-06) Support the Quality Inspectors to ensure that products and processes comply with the
-relevant requirements of the Quality Management System.
-07) To check on the QA data analysis and inform to the Production regarding the
-production problem from time to time.
-08) Ensure the QA personnel are doing their job correctly and provide adequate training
-when necessary.
-09) Interface with Operations to ensure transfer to Production of new products are
-accordance with approved requirements.
-10) Analyse failure, corrective and preventive action to respond to customer complaints.
-11) To ensure the SOP and all filing related to ISO 9001 & GMP are maintained and up to
-date.
-12) Write or review technical and performance specifications, quality levels, sampling plans,
-and inspection procedures.
-13) Identify areas where specifications & procedures are lacking or lack compliance.
-14) Motivate the work force to optimize productivity, quality improvement and efficiency.
-15) Shall take additional responsibility as instructed by the immediate superior.
-16) The scope of authority shall refer to the selected work process procedure/ instruction.	01) Degree in Chemistry/ Engineering or any related courses or equivalents from reputable
-universities.
-02) Good command of English & Malay (spoken and written).
-03) Results oriented, strong follow up and good negotiation skills.
-04) Pleasant personality and able to interact all level of people.
-****wzs21****
-ENGINEER, QUALITY ASSURANCE (IPQC)	Full time 		Klang		01) To be responsible in controlling & monitoring latex compounding  chemical
-preparation standard compliance.
-02) To be responsible in controlling & monitoring the production parameter compliance.
-03) To be responsible in controlling & monitoring incoming, online offline former
-compliance.
-04) To be responsible in controlling & monitoring glove quality & glove weight at the
-production line.
-05) To be responsible in checking & verifying any CAR raised by IPQC worker upon non-conformance findings.
-06) To be responsible in establishing schedule for line & compounding area spot check & fixed inspection.
-07) To be responsible in registering & conducting validation process for all R&D or improvement project taken throughout the operation area.
-08) To be responsible in reviewing manpower allocation for QC online team.
-09) To be responsible in embarking continuously improvement project related to QA/IPQC
-team.
-10) Shall take additional responsibility as instructed by the immediate superior.
-11) The scope of authority shall refer to the selected work process procedure/ instruction.	01) Degree / Master in relevant disciplines.
-02) Good command of English & Malay (spoken and written).
-03) Results oriented, strong follow up and good negotiation skills.
-04) Pleasant personality and able to interact all level of people.
-05) At least 1 year experience in the same line.
-06) Fresh candidate also acceptable since in-house training provided.
-07) Discipline, well-organized, able to work in deadline-oriented environment.
-08) Would be an added advantage to have worked in ISO 9001 environment.
-****wzs21****
-Data Analyst	Full time 		Klang		1) Requirement study with business user.
-2) Data cleansing.
-3) Data mining.
-4) Data model
-5) Perform descriptive analysis.
-6) Develop data visualization (chart or dashboard).
-7) Perform Unit Test and User Acceptance Test.
-8) Roll out the model to business users.
-9) Support business users.
-10) Shall take additional responsibility as instructed by the immediate Superior.
-11) The scope of authority shall refer to the selected work process procedure / instruction.	1) Bachelor’s Degree in Information Technology or equivalent from reputable universities.
-2) Results oriented, strong follow up and good negotiation skills.
-3) Pleasant personality and able to interact all level of people.
-4) Excellent communication and presentation skills.
-5) Problem solving and critical analysis skills.
-6) Time management and teamwork.
-****wzs21****
-CHEMIST, MANUFACTURING (PRODUCTION)	Full time 		Klang		01) To monitor the line parameters such as chemicals, temperature, level etc.
-02) To assist supervisors in trouble shooting.
-03) To carry out R & D work if necessary.
-04) To co-ordinate with compounding on the type of latex and formulation use.
-05) To monitor the usage of chemical.
-06) To liaise with Production/ Manufacturing Executive and manager on any quality
-problem.
-07) Shall take additional responsibility as instructed by the immediate Superior.
-08) The scope of authority shall refer to the selected work process procedure / instruction	01) Degree / Diploma in Chemistry or Science or equivalent from reputable universities.
-02) Good command of English & Malay (spoken and written).
-03) Results oriented, strong follow up and good negotiation skills.
-04) Pleasant personality and able to interact all level of people.
-****wzs21****
-CHEMIST, MANUFACTURING (COMPOUNDING)	Full time 		Klang		01) Monitoring of the Compounding process flow and the compliances with the
-requirement of the compounding process as follow the sequence and method.
-02) Manage and monitoring Compounding workers’ job scope, attendance, work
-performance and discipline. Ensure workers are trained and understand the proper
-compounding process and carried out proper compound.
-03) Analyse compounding process and perform troubleshooting for Compounding
-improvement and report to management accordingly.
-04) Carry out testing and recommendation for process improvement based on the system
-improvement on the Compounding to the management in order to set the standard of
-performance and management style.
-05) To liaise with Production and R&D Chemist for the new chemicals testing as to meet the
-product requirement and standards. To also carry out testing on chemicals testing for
-further improve quality with efficient low cost.
-06) To standardize and improve of the Compounding tanks system and to meet with the
-standards requirement. To minimize the wastages and mistakes in Compounding process
-and work.
-07) Shall take additional responsibility as instructed by the immediate Superior.
-08) The scope of authority shall refer to the selected work process procedure / instruction.	01) Degree in Chemical Engineering / Polymer Engineering / Science Related or equivalent
-from reputable universities.
-02) Good command of English & Malay (spoken and written).
-03) Results oriented, strong follow up and good negotiation skills.
-04) Pleasant personality and able to interact all level of people.
+Engineer - Plant & Process	2	Bestari Jaya	"1.To monitor and provide guideline to electrical and mechanical breakdown maintenance, preventive maintenance and improvement project for all area inside Hartalega NGC premises.
+2. To ensure subordinate efficiency and highest quality and to lead them to better productivity.
+3. To lead the team and plan for annual maintenance execution work and complete on time.
+4. Liaise with contractor or supplier on projects/modification/improvement activities.
+5. To ensure LOTO are used for all electrical isolation work.
+6. To troubleshooting machine and determined repair and modification if necessary.
+7. To make sure all damaged items and properly segregated for repair and disposal if beyond repair.
+8. To ensure downtime are minimal by performing the job efficiently as per guideline in KPI.
+9. Always feedback to superior regarding any outstanding issues/items.
+10. To improve overall equipment efficiency (OEE).
+11. To ensure and practice self-safety and remind others on all works performed.
+12. To ensure all documents are done and kept properly in compliance with ISO and to keep track of all records (Checklists, commissioning reports, and etc)
+13. To rectify complain from internal and external customers.
+14. To update daily report, weekly report, monthly report, annual maintenance report and others report that assigned to them.
+15. To prepare budget annually and review every quarterly. 
+"	"1. Degree in Mechanical Engineering.
+2. Preferably candidates with 1-2 years of experience in the related field.
+3. Fresh graduates are encouraged to apply for this position.
+4. Able to work independently with minimum supervision form superior.
+5. Able to provide structured solution to engineering problems.
+6. Applicants must be willing to work in Bestari Jaya."
 `;
 
-// PRE_DESC = `In line with the journey towards Industry 4.0, Top Glove has need of future-ready Artificial Intelligence Engineers to dive headlong into researching, developing, & deploying next gen AI systems. An AI Engineer is expected to participate in and carry out projects to research, develop, and deploy AI based systems to build smart machines, smart systems, and ultimately smart factories.\n\n`
-COMPANY_ID = 685;
+COMPANY_ID = 686;
 
 INDEX = {
     TITLE: 0,
-    TYPE: 1,
-    LOCATION: 3,
-    DESC: 5,
-    REQ: 6,
-    URL: 2,
+    TYPE: "Full Time",
+    LOCATION: 2,
+    DESC: 3,
+    REQ: 4,
+    URL: "",
 }
+String.prototype.replaceAll = function (search, replacement, ignoreCase = false) {
+    var i = (ignoreCase) ? "i" : "";
+    var target = this;
+    return target.replace(new RegExp(search, `${i}g`), replacement);
+};
+
 
 function reformat(str) {
     const DUH = "DUHjdfknsadjvkqervqer";
-    if (str.indexOf("1)") >= 0) {
+    const BULLET = "wzs21bullet"
+
+    str = str.replaceAll(`"`, "");
+    str = str.replaceAll(`'`, "\\'");
+
+    if (str.indexOf("1.") >= 0 || str.indexOf(BULLET) >= 0) {
         // console.log(str);
-        for (var i = 1; i <= 20; i++) {
-            str = str.replace(`0${i}) `, DUH);
-            str = str.replace(`${i}) `, DUH);
+        for (var i = 1; i <= 50; i++) {
+            str = str.replace(`0${i}. `, DUH);
+            str = str.replace(`${i}. `, DUH);
         }
+
+
+
+        str = str.replaceAll(BULLET, DUH);
+
 
         let arr = str.split(DUH);
         str = "";
-        for(var a of arr){
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            a = a.replace("\n"," ");
-            if(a == ""){
+        for (var a of arr) {
+            a = a.replaceAll("\n", " ");
+            if (a == "") {
                 continue;
             }
             str += `<li>${a}</li>`;
         }
-        let toRet =  `<ol>${str}</ol>`;
+        let toRet = `<ol>${str}</ol>`;
         // console.log(toRet);
 
         return toRet;
@@ -540,11 +528,11 @@ for (var _a of a) {
     // console.log(_a);
 
     let title = _a[INDEX.TITLE];
-    let type = _a[INDEX.TYPE];
-    let location = _a[INDEX.LOCATION];
-    let desc = _a[INDEX.DESC];
-    let req = _a[INDEX.REQ];
-    let url = _a[INDEX.URL];
+    let location = typeof INDEX.LOCATION !== "number" ? INDEX.LOCATION : _a[INDEX.LOCATION];
+    let desc = typeof INDEX.DESC !== "number" ? INDEX.DESC : _a[INDEX.DESC];
+    let req = typeof INDEX.REQ !== "number" ? INDEX.REQ : _a[INDEX.REQ];
+    let type = typeof INDEX.TYPE !== "number" ? INDEX.TYPE : _a[INDEX.TYPE];
+    let url = typeof INDEX.URL !== "number" ? INDEX.URL : _a[INDEX.URL];
 
     desc = reformat(desc);
     req = reformat(req);
@@ -556,5 +544,5 @@ for (var _a of a) {
     VALUES 
     ('${COMPANY_ID}', '${title}', '${location}', '${desc}', '${req}', '${type}', '${url}',  1); \n`;
 }
-
+console.log("total", a.length);
 console.log(sql)

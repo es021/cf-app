@@ -82,6 +82,7 @@ let scss = [
   "list-board",
   "paging",
   "hall-recruiter",
+  "label",
 
   // kena letak bawah skali
   "custom-SHELL",

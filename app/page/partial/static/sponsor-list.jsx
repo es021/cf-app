@@ -53,9 +53,11 @@ export default class SponsorList extends React.Component {
       }
     });
 
+    // , ignore_priv:"::${CompanyEnum.PRIV.JOB_POSTING_ONLY}::" 
+
     var query = `query{companies(cf:"${
       this.CF
-      }", ignore_type:"(${ignore_type})", include_sponsor:1, ignore_priv:"::${CompanyEnum.PRIV.JOB_POSTING_ONLY}::" )
+      }", ignore_type:"(${ignore_type})", include_sponsor:1)
         {name cf type img_url img_position img_size}}`;
 
     getAxiosGraphQLQuery(query).then(res => {

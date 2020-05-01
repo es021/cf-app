@@ -27,6 +27,7 @@ import { isCompanyOnline } from "../../../redux/actions/user-actions";
 import CompanyPopup from "../popup/company-popup";
 import List from "../../../component/list";
 
+
 // require("../../../css/company-sec.scss");
 
 function mapStateToProps(state, ownProps) {
