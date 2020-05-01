@@ -80,12 +80,11 @@ export class BrowseStudentFilter extends React.Component {
             "graduation_from", "graduation_to", "interested_job_location", "where_in_malaysia", "skill"
         ];
 
-        this.hiddenFilter = [
-            "like_job_post_only"
-        ]
+        this.hiddenFilter = []
         if (this.props.isPageStudentListJobPost) {
             this.hiddenFilter.push("cf");
             this.hiddenFilter.push("interested_only");
+            this.hiddenFilter.push("like_job_post_only");
         }
 
         this.customClass = {
@@ -148,14 +147,14 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>students that liked your job post</b> only
+                    label: <div>Show <b>applicants from your job post</b> only
                          <Tooltip
                             bottom="13px"
                             left="-90px"
                             width="200px"
                             alignCenter={true}
                             debug={false}
-                            content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+                            content={null}
                             tooltip={null}
                         ></Tooltip>
                     </div>,
