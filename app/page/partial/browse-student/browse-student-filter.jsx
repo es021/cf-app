@@ -587,7 +587,8 @@ export class BrowseStudentFilter extends React.Component {
     }
     getButtonExport() {
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
-        return <ButtonExport style={{ margin: "5px" }} btnClass="default btn-round-5" action="browse_student" text="Download As Excel" filter={filter}></ButtonExport>
+        return <ButtonExport style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
+            text={<span>Export <b>Searched Result</b> As Excel</span>} filter={filter}></ButtonExport>
     }
     render() {
         let v = null;
