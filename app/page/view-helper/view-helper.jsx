@@ -149,15 +149,25 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
     let join = null;
     let recorded = null;
     let ended = null;
+
+    // get five min before start in unix
+    let fiveMinBeforeStart = null;
+    try {
+      fiveMinBeforeStart = d.start_time - (5 * 60);
+    }
+    catch (err) {
+      fiveMinBeforeStart = d.start_time
+    }
+
     let breakElement = isPopup ? " " : <br></br>;
-    if (d.url_rsvp && !Time.isPast(d.start_time)) {
+    if (d.url_rsvp && !Time.isPast(fiveMinBeforeStart)) {
       rsvp = <div><a target="_blank" className="btn btn-sm btn-blue-light text-bold btn-block btn-round-5" href={d.url_rsvp}>
         <i className="fa fa-plus left"></i>
         RSVP
         </a>
       </div>;
     }
-    if (d.url_join && Time.isBetween(d.start_time, d.end_time)) {
+    if (d.url_join && Time.isBetween(fiveMinBeforeStart, d.end_time)) {
       join = <div><a target="_blank" className="btn btn-sm btn-green btn-block text-bold btn-round-5" href={d.url_join}>
         <i className="fa fa-sign-in left"></i>
         Join
