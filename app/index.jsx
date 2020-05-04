@@ -21,6 +21,7 @@ import { store } from "./redux/store.js";
 // import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
 import PrimaryLayout from "./primary-layout.jsx";
 import TestLayout from "./layout/test-layout.jsx";
+import NoCfLayout from "./layout/no-cf-layout.jsx";
 
 //require("./lib/AutoComplete.js");
 //require("./lib/font-awesome-4.7.0/css/font-awesome.css");
@@ -101,6 +102,7 @@ const App = () => (
         <AuthorizedRoute path={`${RootPath}/app`} component={PrimaryLayout} />
         <Route path={`${RootPath}/auth`} component={PrimaryLayout} />
         <Route path={`${RootPath}/test`} component={TestLayout} />
+        <Route path={`${RootPath}/nocf`} component={NoCfLayout} />
       </Switch>
     </BrowserRouter>
   </Provider>

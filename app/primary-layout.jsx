@@ -19,17 +19,18 @@ import {
   getCF_externalHomeUrl,
   isRedirectExternalHomeUrl,
   getCF,
-  isRoleAdmin
+  isRoleAdmin,
+  getAuthUser
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
 import { LogEnum, CFSMetaObject } from "../config/db-config";
-import { IsRecruiterNewHall } from "../config/app-config";
+import { IsRecruiterNewHall, RootPath } from "../config/app-config";
 
 import * as Navigation from "./component/navigation.jsx";
 import HeaderLayout from "./layout/header-layout.jsx";
 import FooterLayout from "./layout/footer-layout";
-import LeftBarLayout, {isHasLeftBar} from "./layout/left-bar-layout.jsx";
+import LeftBarLayout, { isHasLeftBar } from "./layout/left-bar-layout.jsx";
 import RightBarLayout from "./layout/right-bar-layout.jsx";
 
 //singleton
@@ -86,7 +87,7 @@ class PrimaryLayout extends React.Component {
     // schedule
     // override_coming_soon
     // page_url
-		// page_banner
+    // page_banner
     var query = `query{cfs(is_load:1){
 		ID
 		name
@@ -164,9 +165,9 @@ class PrimaryLayout extends React.Component {
   }
   setPageId() {
     let url = location.href;
-    if(url.indexOf("/app/") >= 0){
+    if (url.indexOf("/app/") >= 0) {
       url = url.split("/app/");
-    }else if(url.indexOf("/auth/") >= 0){
+    } else if (url.indexOf("/auth/") >= 0) {
       url = url.split("/auth/");
     }
     url = url[1].split("/");
@@ -219,6 +220,24 @@ class PrimaryLayout extends React.Component {
     return r;
   }
   render() {
+
+    // redirect to /nocf/ if cf is null
+    // if (getCF() == null) {
+    //   let prev = "";
+    //   if (this.props.location.state) {
+    //     prev = this.props.location.state.from.pathname;
+    //   } else {
+    //     prev = this.props.location.pathname;
+    //   }
+    //   prev = prev.replace("/app", "");
+    //   prev = prev.replace("/auth", "");
+    //   if (prev[0] != "/") {
+    //     prev = "/" + prev;
+    //   }
+    //   console.log("redirect to nocf", prev);
+    //   return <Redirect to={`${RootPath}/nocf${prev}`}></Redirect>
+    // }
+
     if (isRedirectExternalHomeUrl(this.props)) {
       window.location = getCF_externalHomeUrl();
       return null;

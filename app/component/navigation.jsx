@@ -18,8 +18,8 @@ import AboutPage from "../page/about";
 import LogoutPage from "../page/logout";
 import UsersPage from "../page/users";
 import CompaniesPage from "../page/admin-company";
-import RecruiterPage from "../page/admin-recruiter"; 
-import AdminCf from "../page/admin-cf"; 
+import RecruiterPage from "../page/admin-recruiter";
+import AdminCf from "../page/admin-cf";
 import HallPage from "../page/hall";
 import HallPageOld from "../page/hall-old";
 import ActAccountPage from "../page/activate-account";
@@ -755,7 +755,8 @@ function getMenuItem(COMING_SOON) {
         bar_auth: true,
         hd_app: true,
         hd_auth: true,
-        routeOnly: true
+        routeOnly: true,
+        enableInNoCf: true
       },
       {
         url: "/resume-drop/:company_id",
@@ -794,27 +795,37 @@ function getMenuItem(COMING_SOON) {
 // ############################################################################/
 /**** HELPER FUNCTION *******/
 
-export function getRoute(path, COMING_SOON) {
+export function getRoute(path, COMING_SOON, isNoCf = false) {
   var isLog = isAuthorized();
   var menuItem = getMenuItem(COMING_SOON);
   var routes = menuItem.map(function (d, i) {
-    //restricted
+
     if (d.disabled) {
       return false;
     }
 
-    var exact = d.url === "/" ? true : false;
-
-    if (!d.allRoute) {
-      if (isLog && !(d.hd_app || d.bar_app)) {
-        return;
-      }
-
-      if (!isLog && !(d.hd_auth || d.bar_auth)) {
-        return;
+    // ##################################
+    // validation for /nocf/
+    if (isNoCf) {
+      if (!d.enableInNoCf) {
+        return false;
       }
     }
+    // ##################################
+    // validation for /auth/ and /app/
+    else {
+      var exact = d.url === "/" ? true : false;
 
+      if (!d.allRoute) {
+        if (isLog && !(d.hd_app || d.bar_app)) {
+          return;
+        }
+
+        if (!isLog && !(d.hd_auth || d.bar_auth)) {
+          return;
+        }
+      }
+    }
     return (
       <Route
         path={`${path}${d.url}`}

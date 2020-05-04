@@ -96,7 +96,7 @@ export class HallGalleryView extends React.Component {
     ];
 
     this.state = {
-      allData: defaultItems,
+      // allData: defaultItems,
       data: defaultItems,
       loading: true
     };
@@ -134,7 +134,8 @@ export class HallGalleryView extends React.Component {
     getAxiosGraphQLQuery(q).then(res => {
       this.setState(prevState => {
         let hg = res.data.data.hall_galleries;
-        return { loading: false, data: this.getFiveItem(hg), allData: hg };
+        // return { loading: false, data: this.getFiveItem(hg), allData: hg };
+        return { loading: false, data: hg };
       });
     });
   }
@@ -186,18 +187,60 @@ export class HallGalleryView extends React.Component {
       nextMap[CENTER] = LEFT_1;
       nextMap[RIGHT_1] = CENTER;
       nextMap[LEFT_1] = RIGHT_1;
-    } else {
+    } else if (this.total() <= 5) {
       nextMap[CENTER] = LEFT_1;
       nextMap[RIGHT_1] = CENTER;
       nextMap[RIGHT_2] = RIGHT_1;
       nextMap[LEFT_1] = LEFT_2;
       nextMap[LEFT_2] = RIGHT_2;
+    } else {
+      // NEW_GALLERY
+      nextMap[CENTER] = LEFT_1;
+      nextMap[RIGHT_1] = CENTER;
+      nextMap[RIGHT_2] = RIGHT_1;
+      nextMap[LEFT_1] = LEFT_2;
+
+      nextMap[this.getHiddenClass(0)] = RIGHT_2;
+      nextMap[LEFT_2] = this.getHiddenClass(this.totalHidden() - 1);
+
+      for (var i = 1; i < this.totalHidden(); i++) {
+        nextMap[this.getHiddenClass(i)] = this.getHiddenClass(i - 1)
+      }
     }
+
     return nextMap;
+  }
+  getPrevMap() {
+    let prevMap = {};
+
+    if (this.total() <= 5) {
+      prevMap[CENTER] = RIGHT_1;
+      prevMap[RIGHT_1] = RIGHT_2;
+      prevMap[RIGHT_2] = LEFT_2;
+      prevMap[LEFT_1] = CENTER;
+      prevMap[LEFT_2] = LEFT_1;
+      return prevMap;
+    } else {
+      // NEW_GALLERY
+      prevMap[CENTER] = RIGHT_1;
+      prevMap[RIGHT_1] = RIGHT_2;
+      prevMap[LEFT_1] = CENTER;
+      prevMap[LEFT_2] = LEFT_1;
+
+      prevMap[RIGHT_2] = this.getHiddenClass(0);
+      prevMap[this.getHiddenClass(this.totalHidden() - 1)] = LEFT_2;
+
+      for (var i = 0; i < this.totalHidden() - 1; i++) {
+        prevMap[this.getHiddenClass(i)] = this.getHiddenClass(i + 1)
+      }
+    }
+
+    console.log("prevMap", prevMap)
+    return prevMap;
   }
 
   nextOnClick() {
-    this.updateFiveItem("next");
+    // this.updateFiveItem("next");
 
     let nextMap = this.getNextMap();
     let parent = document.getElementById("hall-gallery");
@@ -211,6 +254,16 @@ export class HallGalleryView extends React.Component {
 
       elObj[currentClass] = el;
     }
+
+    let allHidden = parent.getElementsByClassName(this.getHiddenClass());
+    for (var i = 0; i < this.totalHidden(); i++) {
+      let el = allHidden[i];
+      let currentClass = el.className.replaceAll("hg-item ", "");
+      elObj[currentClass] = el;
+    }
+
+
+    // console.log("elObj", elObj)
 
     for (var currentClass in elObj) {
       let el = elObj[currentClass];
@@ -226,15 +279,9 @@ export class HallGalleryView extends React.Component {
     }
   }
   prevOnClick() {
-    this.updateFiveItem("prev");
+    // this.updateFiveItem("prev");
 
-    let prevMap = {};
-    prevMap[CENTER] = RIGHT_1;
-    prevMap[RIGHT_1] = RIGHT_2;
-    prevMap[RIGHT_2] = LEFT_2;
-    prevMap[LEFT_1] = CENTER;
-    prevMap[LEFT_2] = LEFT_1;
-
+    let prevMap = this.getPrevMap();
     let parent = document.getElementById("hall-gallery");
 
     let elObj = {};
@@ -246,6 +293,14 @@ export class HallGalleryView extends React.Component {
 
       elObj[currentClass] = el;
     }
+
+    let allHidden = parent.getElementsByClassName(this.getHiddenClass());
+    for (var i = 0; i < this.totalHidden(); i++) {
+      let el = allHidden[i];
+      let currentClass = el.className.replaceAll("hg-item ", "");
+      elObj[currentClass] = el;
+    }
+
 
     for (var currentClass in elObj) {
       let el = elObj[currentClass];
@@ -260,6 +315,9 @@ export class HallGalleryView extends React.Component {
 
   total() {
     return this.state.data.length;
+  }
+  totalHidden() {
+    return this.total() - 5;
   }
 
   getAllItem() {
@@ -283,11 +341,30 @@ export class HallGalleryView extends React.Component {
       data.push(this.getItemByOffset(0, this.currentIndex));
       data.push(this.getItemByOffset(1, this.currentIndex));
       data.push(this.getItemByOffset(2, this.currentIndex));
+
+      // NEW_GALLERY
+      if (this.totalHidden() > 0) {
+        for (var i = 3; i < this.total() - 2; i++) {
+          data.push(this.getItemByOffset(i, this.currentIndex));
+        }
+      }
     }
 
     return data;
   }
+  // NEW_GALLERY
+  getHiddenClass(index) {
+    let r = `hg-item-hidden`;
+
+
+    if (typeof index !== "undefined") {
+      r += ` hg-hidden-${index}`;
+    }
+
+    return r;
+  }
   getItemClassName(i, d) {
+
     // to change if ada CR count
     let toRet = "";
     switch (i) {
@@ -305,6 +382,10 @@ export class HallGalleryView extends React.Component {
         break;
       case 4:
         toRet = RIGHT_2;
+        break;
+      // NEW_GALLERY
+      default:
+        toRet = this.getHiddenClass(i - 5);
         break;
     }
 

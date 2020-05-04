@@ -796,10 +796,38 @@ Time.prototype.getTimezoneMas = function (date = null) {
     return this.getTimezone(date, true);
 }
 
+// Time.prototype.getUnixFromDateTimeInput = function (date_input, time_input) {
+//     var datetime = date_input + "T" + time_input + ":00";
+//     var d = new Date(datetime);
+//     return Math.floor(d.getTime() / 1000);
+// };
+
 Time.prototype.getUnixFromDateTimeInput = function (date_input, time_input) {
-    var datetime = date_input + "T" + time_input + ":00";
-    var d = new Date(datetime);
-    return Math.floor(d.getTime() / 1000);
+    try {
+        let dateArr = date_input.split("-");
+        let timeArr = time_input.split(":");
+
+        let year = dateArr[0];
+        let month = dateArr[1];
+        let day = dateArr[2];
+        let hour = timeArr[0];
+        let min = timeArr[1];
+        let sec = 0;
+
+        year = Number.parseInt(year);
+        month = Number.parseInt(month);
+        day = Number.parseInt(day);
+        hour = Number.parseInt(hour);
+        min = Number.parseInt(min);
+        sec = Number.parseInt(sec);
+
+        // var datetime = date_input + "T" + time_input + ":00";
+        // var d = new Date(datetime);
+
+        var d = new Date(year, month - 1, day, hour, min, sec);
+        return Math.floor(d.getTime() / 1000);
+    } catch (err) { }
+
 };
 
 Time.prototype.getInputFromUnix = function (unixtimestamp) {

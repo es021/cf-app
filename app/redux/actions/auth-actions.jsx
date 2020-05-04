@@ -188,7 +188,7 @@ export function getCF_externalHomeUrl() {
     if (!isAuthorized()) {
         // let obj = getCFObj();
         let style = getCFCustomStyle();
-        style[CustomCf.Style.HEADER_ICON_URL]
+        // style[CustomCf.Style.HEADER_ICON_URL]
         if (style) {
             return style[CustomCf.Style.HEADER_ICON_URL];
         }

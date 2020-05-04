@@ -96,7 +96,6 @@ function fixCFAuth(auth, cf = null) {
   // if (!IS_HAS_PARAM_CF) {
   //   auth["cf"] = CF_DEFAULT;
   // }
-
   return auth;
 }
 
