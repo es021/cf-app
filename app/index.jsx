@@ -87,7 +87,8 @@ let scss = [
 
   // kena letak bawah skali
   "custom-SHELL",
-  "custom-CIMB"
+  "custom-CIMB",
+  "custom-IMPACT",
 ];
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");
