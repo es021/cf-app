@@ -31,8 +31,9 @@ export default class EmptyState extends Component {
 
   render() {
     let img = <img className="img img-responsive" style={{ height: "100px", margin: "auto" }}
-      src={`${ImageUrl}/new-icon-transparent.png`}></img>
-    let title = <h3 style={{ marginTop: "5px" }}>Hi {this.authUser.first_name}!</h3>
+      src={`${ImageUrl}/icon-empty-state.png`}></img>
+    // let title = <h3 style={{ marginTop: "5px" }}>Hi {this.authUser.first_name}!</h3>
+    let title = <h3 style={{ marginTop: "5px" }}>There's nothing here, yet.</h3>
 
     return <div className="empty-state">
       {img}
