@@ -9,7 +9,7 @@ import {
   PrescreenEnum
 } from "../../../../config/db-config";
 import { getMonthLabel } from "../../../../config/data-config";
-import { ImgConfig, RootPath, IsOnVideoResume } from "../../../../config/app-config";
+import { ImgConfig, RootPath, IsOnVideoResume, AppPath } from "../../../../config/app-config";
 import { CompanyEnum } from "../../../../config/db-config";
 import ProfileCard from "../../../component/profile-card.jsx";
 import PageSection from "../../../component/page-section";
@@ -271,17 +271,18 @@ export default class UserPopup extends Component {
             label: "Company",
             icon: "suitcase",
             value: (
-              <a
-                onClick={() =>
-                  layoutActions.storeUpdateFocusCard(
-                    d.company.name,
-                    CompanyPopup,
-                    { id: d.rec_company }
-                  )
-                }
-              >
-                {d.company.name}
-              </a>
+              <NavLink to={`${AppPath}/company/${d.rec_company}`}>{d.company.name}</NavLink>
+              // <a
+              //   onClick={() =>
+              //     layoutActions.storeUpdateFocusCard(
+              //       d.company.name,
+              //       CompanyPopup,
+              //       { id: d.rec_company }
+              //     )
+              //   }
+              // >
+              //   {d.company.name}
+              // </a>
             )
           },
           {
