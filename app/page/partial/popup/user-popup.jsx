@@ -271,7 +271,10 @@ export default class UserPopup extends Component {
             label: "Company",
             icon: "suitcase",
             value: (
-              <NavLink to={`${AppPath}/company/${d.rec_company}`}>{d.company.name}</NavLink>
+              <NavLink onClick={() => { layoutActions.storeHideFocusCard() }}
+                to={`${AppPath}/company/${d.rec_company}`}>
+                {d.company.name}
+              </NavLink>
               // <a
               //   onClick={() =>
               //     layoutActions.storeUpdateFocusCard(
@@ -656,8 +659,8 @@ export default class UserPopup extends Component {
 
     return (
       <a
-      style={{ minWidth: "200px", margin: "7px" }}
-      className="btn btn-success btn-lg btn-round-10 "
+        style={{ minWidth: "200px", margin: "7px" }}
+        className="btn btn-success btn-lg btn-round-10 "
         onClick={e => {
           actionHandler();
         }}
