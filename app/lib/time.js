@@ -618,7 +618,21 @@ Time.prototype.convertToAlternateTimezone = function (date) {
 
 // mysql UNIX_TIMESTAMP(column)
 
-Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false, monthOnly = false, yearOnly = false, isTimezoneMas = false) {
+
+Time.prototype.getStringDay = function (unix) {
+    return Time.getString(unix, false, false, false, false, false, false, false, false, true);
+}
+
+Time.prototype.getStringMonth = function (unix) {
+    return Time.getString(unix, false, false, false, false, false, true);
+}
+
+Time.prototype.getStringYear = function (unix) {
+    return Time.getString(unix, false, false, false, false, false, false, true);
+}
+
+
+Time.prototype.getString = function (unixtimestamp, include_timezone = false, isShort = false, dateOnly = false, dateMonthOnly = false, getSecond = false, monthOnly = false, yearOnly = false, isTimezoneMas = false, dayOnly = false) {
 
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";
@@ -680,6 +694,9 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
         toReturn += " ";
         toReturn += newDate.getDate();
 
+        if(dayOnly){
+            return newDate.getDate();
+        }
         if (yearOnly) {
             return newDate.getFullYear();
         }

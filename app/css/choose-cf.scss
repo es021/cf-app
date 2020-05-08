@@ -1,0 +1,25 @@
+.choose-cf-card {
+  max-width: 500px;
+  border: 1px solid #c2b9b9;
+  margin: 20px 10px;
+
+  .ccf-date {
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+  }
+
+  .ccf-body {
+    min-height: 120px;
+    background: white;
+    padding: 10px 20px;
+    .ccf-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .ccf-action {
+      margin-top: 20px;
+    }
+  }
+}

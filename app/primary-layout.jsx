@@ -42,6 +42,7 @@ import { BOTH } from '../config/socket-config';
 
 
 import * as hallAction from "./redux/actions/hall-actions";
+import { setCurrentCfLocalStorage } from "./redux/reducer/auth-reducer";
 
 //state is from redux reducer
 // with multiple objects
@@ -237,6 +238,11 @@ class PrimaryLayout extends React.Component {
     //   console.log("redirect to nocf", prev);
     //   return <Redirect to={`${RootPath}/nocf${prev}`}></Redirect>
     // }
+
+
+    // save current cf to local storage
+    // resolve issue when auth.cf set to null after logout
+    setCurrentCfLocalStorage(getCF());
 
     if (isRedirectExternalHomeUrl(this.props)) {
       window.location = getCF_externalHomeUrl();

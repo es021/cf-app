@@ -84,6 +84,7 @@ let scss = [
   "paging",
   "hall-recruiter",
   "label",
+  "choose-cf",
 
   // kena letak bawah skali
   "custom-SHELL",

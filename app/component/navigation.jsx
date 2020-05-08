@@ -74,6 +74,7 @@ import ListInterviews from "../page/list-interviews";
 import { BrowseStudent } from "../page/browse-student";
 import HallRecruiterPage from "../page/hall-recruiter";
 import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
+import { ChooseCfPage } from "./choose-cf";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -751,6 +752,16 @@ function getMenuItem(COMING_SOON) {
       {
         url: "/activate-account/:key/:user_id",
         component: ActAccountPage,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true,
+        enableInNoCf: true
+      },
+      {
+        url: "/choose-cf",
+        component: ChooseCfPage,
         bar_app: true,
         bar_auth: true,
         hd_app: true,

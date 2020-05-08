@@ -2,9 +2,11 @@ import { getNewState } from "./_helper";
 import * as authActions from "../actions/auth-actions";
 import { _GET } from "../../lib/util";
 
-const CF_DEFAULT = authActions.getCFDefault();
-const IS_HAS_PARAM_CF = location.href.indexOf("?cf=") >= 0;
+// const CF_DEFAULT = authActions.getCFDefault();
+// const IS_HAS_PARAM_CF = location.href.indexOf("?cf=") >= 0;
 
+const AUTH_LOCAL_STORAGE = "auth";
+const CURRENT_CF_LOCAL_STORAGE = "current-cf";
 var getCF = _GET("cf");
 
 const authReducerInitState = {
@@ -28,7 +30,27 @@ try {
   hasLocalStorageSupport = false;
 }
 
-const AUTH_LOCAL_STORAGE = "auth";
+export function setCurrentCfLocalStorage(cf){
+  if(cf == "" || cf == null || typeof cf === "undefined"){
+    return;
+  }
+  if (!hasLocalStorageSupport) {
+    return;
+  }
+  window.localStorage.setItem(CURRENT_CF_LOCAL_STORAGE, cf);
+}
+
+export function getCurrentCfLocalStorage(){
+  if (!hasLocalStorageSupport) {
+    return null;
+  }
+  let cf = window.localStorage.getItem(CURRENT_CF_LOCAL_STORAGE);
+  if(cf == "" || cf == null || typeof cf === "undefined"){
+    return null;
+  }
+
+  return cf;
+}
 
 function setAuthLocalStorage(newItem) {
   if (!hasLocalStorageSupport) {

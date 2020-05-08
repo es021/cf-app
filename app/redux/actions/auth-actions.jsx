@@ -20,6 +20,14 @@ import {
 import {
     Time
 } from '../../lib/time';
+import {
+    emitLogout
+} from '../../socket/socket-client';
+import {
+    errorBlockLoader, customBlockLoader, storeHideBlockLoader, customViewBlockLoader, customViewBlockLoaderSmall
+} from './layout-actions.js';
+import layoutReducer from "../reducer/layout-reducer.js";
+import { getCurrentCfLocalStorage } from "../reducer/auth-reducer";
 
 // import {
 //     CareerFair,
@@ -122,11 +130,13 @@ export function getCFOrg() {
     return toRet;
 }
 
-export function getCFCustomStyle() {
+export function getCFCustom(cf) {
     let allCfObj = getLocalStorageCfJsonObject("custom_style", {});
-    let toRet = allCfObj[getCF()];
+    cf = (typeof cf === "undefined") ? getCF() : cf;
+    let toRet = allCfObj[cf];
     return toRet;
 }
+
 
 export function getCFCustomFeature() {
     let allCfObj = getLocalStorageCfJsonObject("custom_feature", {});
@@ -187,7 +197,7 @@ export function isRedirectExternalHomeUrl(props) {
 export function getCF_externalHomeUrl() {
     if (!isAuthorized()) {
         // let obj = getCFObj();
-        let style = getCFCustomStyle();
+        let style = getCFCustom();
         // style[CustomCf.Style.HEADER_ICON_URL]
         if (style) {
             return style[CustomCf.Style.HEADER_ICON_URL];
@@ -207,6 +217,10 @@ export function getCF() {
         cf = ToReplaceCf[cf];
     }
     console.log("Current CF -> ", cf);
+
+    if (cf == null) {
+        cf = getCurrentCfLocalStorage();
+    }
     return cf;
 }
 
@@ -412,14 +426,6 @@ export function login(email, password, cf) {
         });
     };
 }
-
-import {
-    emitLogout
-} from '../../socket/socket-client';
-import {
-    errorBlockLoader, customBlockLoader, storeHideBlockLoader, customViewBlockLoader, customViewBlockLoaderSmall
-} from './layout-actions.js';
-import layoutReducer from "../reducer/layout-reducer.js";
 
 export const DO_LOGOUT = "DO_LOGOUT";
 export function logout() {

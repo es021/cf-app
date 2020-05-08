@@ -268,7 +268,8 @@ export default class SignUpPage extends React.Component {
       content = (
         <div>
           <h3>
-            Student Registration<br></br>
+            {/* Student Registration<br></br> */}
+            Youth Registration<br></br>
           </h3>
           {/* <a target="_blank" href={`${LandingUrl}#Companies`}>
             Not A Student?

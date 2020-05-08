@@ -3,7 +3,7 @@ import { AppConfig, ImgConfig, AssetCustomUrl, RootPath, HeaderClass, FooterClas
 import * as CustomCf from "../../config/custom-cf-config";
 import {
   getCFObj,
-  getCFCustomStyle,
+  getCFCustom,
   getAuthUser,
   isAuthorized,
   isRedirectExternalHomeUrl,
@@ -26,7 +26,7 @@ export default class HeaderLayout extends React.Component {
     this.title = getCFObj().title;
     this.desc = AppConfig.Desc;
 
-    let style = getCFCustomStyle()
+    let style = getCFCustom()
     if (style) {
       if (style[CustomCf.Style.HEADER_ICON_URL] && !isAuthorized()) this.iconUrl = style[CustomCf.Style.HEADER_ICON_URL]
       if (style[CustomCf.Style.HEADER_ICON]) this.icon = AssetCustomUrl + style[CustomCf.Style.HEADER_ICON]
