@@ -3,7 +3,7 @@ import { BrowseStudentFilter, createFilterStr } from "./partial/browse-student/b
 import { BrowseStudentList } from "./partial/browse-student/browse-student-list";
 import { graphql } from "../../helper/api-helper";
 import { CompanyEnum } from "../../config/db-config";
-import { AppRoot } from "../../config/app-config";
+import { AppRoot, AppPath } from "../../config/app-config";
 import { isRoleRec, getAuthUser, getCF, getCompanyCf, isRoleAdmin } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
 import { _GET } from "../lib/util";
@@ -170,7 +170,7 @@ export class BrowseStudent extends React.Component {
     } else {
       if (!this.isPageStudentListJobPost() && CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.JOB_POSTING_ONLY)) {
         // redirect to student list job post
-        return <Redirect to={`/app/student-list-job-post`}></Redirect>
+        return <Redirect to={`${AppPath}/student-list-job-post`}></Redirect>
         // v = <EmptyState body={<div className="text-muted">Sorry. It seems that you have no access<br></br>to all student profiles yet.</div>}></EmptyState>
       } else {
         v = <div className="container-fluid">
