@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
+import { CFSMeta } from '../../config/db-config';
 import * as layoutAction from "../redux/actions/layout-actions";
-import { getLocalStorageCf, getCFCustom } from '../redux/actions/auth-actions';
+import { getLocalStorageCf, getCFCustom, getCFObj } from '../redux/actions/auth-actions';
 import { Time } from "../lib/time"
-import * as CustomCf from "../../config/custom-cf-config";
 
 export class ChooseCfPage extends React.Component {
     orderByStartTime(cfs) {
@@ -28,8 +28,9 @@ export class ChooseCfPage extends React.Component {
     }
     render() {
         let cfs = getLocalStorageCf();
-        let COLORS = ["#bd3044","#00b9a9", "#2d3e50", "#e24443", "#235494"]
+        let COLORS = ["#bd3044", "#00b9a9", "#2d3e50", "#e24443", "#235494"]
         cfs = this.orderByStartTime(cfs);
+        let cfObj = getCFObj();
 
         let cfsView = [];
         let index = -1;
@@ -39,8 +40,7 @@ export class ChooseCfPage extends React.Component {
                 continue;
             }
             index++;
-            let custom = getCFCustom(cf.name);
-            let desc = custom[CustomCf.Style.HEADER_DESC];
+            let desc = cfObj[CFSMeta.TEXT_HEADER_DESC];
             if (desc == "Powered By Seeds") {
                 desc = null;
             }

@@ -8,8 +8,9 @@ import {
   LandingUrl,
   ImageUrl
 } from "../../config/app-config";
+import { CFSMeta } from "../../config/db-config";
 import { Redirect, NavLink } from "react-router-dom";
-import { getCF, getCFObj, getCFOrg, getCF_externalHomeUrl, isAuthorized, isRedirectExternalHomeUrl, isCfFeatureOff, cfFeature } from "../redux/actions/auth-actions";
+import { getCF, getCFObj, getCFOrg, getCF_externalHomeUrl, isAuthorized, isRedirectExternalHomeUrl, isCfFeatureOff } from "../redux/actions/auth-actions";
 import SponsorList from "./partial/static/sponsor-list";
 import { Time } from "../lib/time";
 import Timer from "../component/timer";
@@ -100,23 +101,23 @@ export default class LandingPage extends React.Component {
     this.body.className = "";
   }
 
-  getCfLogo() {
-    var logo = null;
-    if (this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null) {
-      let imgUrl = `${ImageUrl}${this.CFDetail.logo}`;
-      var logoStyle = {
-        backgroundImage: `url('${imgUrl}')`,
-        backgroundPosition: this.CFDetail.logo_position,
-        backgroundSize: this.CFDetail.logo_size,
-        height: this.CFDetail.logo_height,
-        width: this.CFDetail.logo_width,
-        margin: "auto"
-      };
-      logo = <div style={logoStyle}></div>;
-    }
+  // getCfLogo() {
+  //   var logo = null;
+  //   if (this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null) {
+  //     let imgUrl = `${ImageUrl}${this.CFDetail.logo}`;
+  //     var logoStyle = {
+  //       backgroundImage: `url('${imgUrl}')`,
+  //       backgroundPosition: this.CFDetail.logo_position,
+  //       backgroundSize: this.CFDetail.logo_size,
+  //       height: this.CFDetail.logo_height,
+  //       width: this.CFDetail.logo_width,
+  //       margin: "auto"
+  //     };
+  //     logo = <div style={logoStyle}></div>;
+  //   }
 
-    return logo;
-  }
+  //   return logo;
+  // }
 
   getOrgItem(d, size = 75) {
     var url = ImgConfig.getLogo(d.logo);
@@ -254,7 +255,7 @@ export default class LandingPage extends React.Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-6 left-side">
-              {this.getCfLogo()}
+              {/* {this.getCfLogo()} */}
               {intro}
             </div>
             <div className="col-lg-6 right-side">
@@ -266,11 +267,11 @@ export default class LandingPage extends React.Component {
       </div>
     );
 
-    let sponsor = isCfFeatureOff(cfFeature().LANDING_COMPANY_LIST) ? null : <SponsorList type="landing"></SponsorList>;
+    let sponsorAndCompany = isCfFeatureOff(CFSMeta.FEATURE_SPONSOR) ? null : <SponsorList type="landing"></SponsorList>;
     var homeBody = (
       <div id="home-body">
         <br></br>
-        {sponsor}
+        {sponsorAndCompany}
         {this.getOrgsSection()}
       </div>
     );

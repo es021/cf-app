@@ -15,6 +15,7 @@ import {
 import {
     User,
     UserEnum,
+    CFSMeta
     // CFSMetaOrg
 } from '../../../config/db-config';
 import {
@@ -137,23 +138,10 @@ export function getCFCustom(cf) {
     return toRet;
 }
 
-
-export function getCFCustomFeature() {
-    let allCfObj = getLocalStorageCfJsonObject("custom_feature", {});
-    let toRet = allCfObj[getCF()];
-    return toRet;
-}
-
-import * as CustomCf from "../../../config/custom-cf-config";
-
-export function cfFeature() {
-    return CustomCf.Feature;
-}
-
 export function isCfFeatureOff(key) {
     try {
-        let feature = getCFCustomFeature();
-        return feature[key] == CustomCf.OFF;
+        let cfObj = getCFObj();
+        return cfObj[key] == "OFF" || cfObj[key] == "0";
     } catch (err) {
 
     }
@@ -196,11 +184,9 @@ export function isRedirectExternalHomeUrl(props) {
 
 export function getCF_externalHomeUrl() {
     if (!isAuthorized()) {
-        // let obj = getCFObj();
-        let style = getCFCustom();
-        // style[CustomCf.Style.HEADER_ICON_URL]
-        if (style) {
-            return style[CustomCf.Style.HEADER_ICON_URL];
+        let obj = getCFObj();
+        if (obj[CFSMeta.LINK_EXTERNAL_HOME]) {
+            return obj[CFSMeta.LINK_EXTERNAL_HOME];
         }
     }
 
@@ -257,14 +243,14 @@ export function isComingSoon() {
         }
     }
 
-    if (cfObj.test_start != null && cfObj.test_end != null) {
-        var timetest_start = Time.convertDBTimeToUnix(cfObj.test_start);
-        var timetest_end = Time.convertDBTimeToUnix(cfObj.test_end);
+    // if (cfObj.test_start != null && cfObj.test_end != null) {
+    //     var timetest_start = Time.convertDBTimeToUnix(cfObj.test_start);
+    //     var timetest_end = Time.convertDBTimeToUnix(cfObj.test_end);
 
-        if (timenow >= timetest_start && timenow <= timetest_end) {
-            isComingSoon = false;
-        }
-    }
+    //     if (timenow >= timetest_start && timenow <= timetest_end) {
+    //         isComingSoon = false;
+    //     }
+    // }
 
     console.log("isComingSoon", isComingSoon)
 

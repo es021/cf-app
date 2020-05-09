@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import { CFSMeta } from "../../config/db-config";
 import { AppConfig, ImgConfig, AssetCustomUrl, RootPath, HeaderClass, FooterClass } from "../../config/app-config";
-import * as CustomCf from "../../config/custom-cf-config";
 import {
   getCFObj,
   getCFCustom,
@@ -26,13 +26,12 @@ export default class HeaderLayout extends React.Component {
     this.title = getCFObj().title;
     this.desc = AppConfig.Desc;
 
-    let style = getCFCustom()
-    if (style) {
-      if (style[CustomCf.Style.HEADER_ICON_URL] && !isAuthorized()) this.iconUrl = style[CustomCf.Style.HEADER_ICON_URL]
-      if (style[CustomCf.Style.HEADER_ICON]) this.icon = AssetCustomUrl + style[CustomCf.Style.HEADER_ICON]
-      if (style[CustomCf.Style.HEADER_TITLE]) this.title = style[CustomCf.Style.HEADER_TITLE]
-      if (style[CustomCf.Style.HEADER_DESC]) this.desc = style[CustomCf.Style.HEADER_DESC]
-    }
+    let cfObj = getCFObj();
+
+    if (cfObj[CFSMeta.LINK_EXTERNAL_HOME] && !isAuthorized()) this.iconUrl = cfObj[CFSMeta.LINK_EXTERNAL_HOME]
+    if (cfObj[CFSMeta.IMAGE_HEADER_ICON]) this.icon = AssetCustomUrl + cfObj[CFSMeta.IMAGE_HEADER_ICON]
+    if (cfObj[CFSMeta.TEXT_HEADER_TITLE]) this.title = cfObj[CFSMeta.TEXT_HEADER_TITLE]
+    if (cfObj[CFSMeta.TEXT_HEADER_DESC]) this.desc = cfObj[CFSMeta.TEXT_HEADER_DESC]
 
     this.title = this.title.replaceAll("<br>", " ")
 
@@ -92,7 +91,7 @@ export default class HeaderLayout extends React.Component {
               <LeftBarLayout menuList={this.props.sideMenuList}></LeftBarLayout>
             </div> */}
           </div>
-          : 
+          :
           // this one will only show the header
           <div className="menu-small">
             <ButtonIcon size="lg" icon="bars" />

@@ -17,8 +17,7 @@ import SponsorList from "./partial/static/sponsor-list";
 import { WebinarHall } from "../page/auditorium.jsx";
 import ActivitySection from "./partial/hall/activity";
 import { RootPath, ImageUrl, AppPath } from "../../config/app-config";
-import { Feature } from "../../config/custom-cf-config";
-import { CompanyEnum } from "../../config/db-config";
+import { CFSMeta } from "../../config/db-config";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 
@@ -125,9 +124,7 @@ export default class HallPage extends React.Component {
   // }
 
   // getSponsor(backgroundColor) {
-  //   if (isCfFeatureOff(Feature.SPONSOR)) {
-  //     return null;
-  //   }
+
   //   ///marginTop: "25px", marginBottom: "25px"
   //   return (
   //     <div style={{ backgroundColor: backgroundColor, }} className="sponsor-section">
@@ -253,31 +250,6 @@ export default class HallPage extends React.Component {
     );
   }
   getTitle() {
-    // var logo = null;
-    // let has = {
-    //   logo: this.CFDetail.logo !== "undefined" && this.CFDetail.logo !== null,
-    //   height:
-    //     this.CFDetail.logo_height_hall !== "undefined" &&
-    //     this.CFDetail.logo_height_hall !== null,
-    //   width:
-    //     this.CFDetail.logo_width_hall !== "undefined" &&
-    //     this.CFDetail.logo_width_hall !== null,
-    //   margin:
-    //     this.CFDetail.logo_margin_hall !== "undefined" &&
-    //     this.CFDetail.logo_margin_hall !== null
-    // };
-    // if (has.logo && has.height && has.width && has.margin) {
-    //   let imgUrl = `${ImageUrl}${this.CFDetail.logo}`;
-    //   var logoStyle = {
-    //     backgroundImage: `url('${imgUrl}')`,
-    //     backgroundPosition: this.CFDetail.logo_position,
-    //     backgroundSize: this.CFDetail.logo_size,
-    //     height: this.CFDetail.logo_height_hall,
-    //     width: this.CFDetail.logo_width_hall,
-    //     margin: this.CFDetail.logo_margin_hall
-    //   };
-    //   logo = <div className="title-logo" style={logoStyle} />;
-    // }
     return (
       <div className="title-section">
         <div className="container-fluid">
@@ -383,7 +355,7 @@ export default class HallPage extends React.Component {
     </div>
   }
   getCompanyBooth(backgroundColor) {
-    if (isCfFeatureOff(Feature.COMPANY_BOOTH)) {
+    if (isCfFeatureOff(CFSMeta.FEATURE_COMPANY_BOOTH)) {
       return null;
     }
 

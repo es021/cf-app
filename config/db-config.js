@@ -644,43 +644,55 @@ const CFSMeta = {
 	TITLE: "title",
 	WELCOME_TEXT: "welcome_text",
 	TITLE_LANDING: "title_landing",
-	FLAG: "flag",
 	BANNER: "banner",
 	BANNER_POS: "banner_pos",
-	SCHEDULE: "schedule",
-	OVERRIDE_COMING_SOON: "override_coming_soon",
-	LOGO: "logo",
-	LOGO_HEIGHT_HALL: "logo_height_hall",
-	LOGO_WIDTH_HALL: "logo_width_hall",
-	LOGO_MARGIN_HALL: "logo_margin_hall",
-	LOGO_HEIGHT: "logo_height",
-	LOGO_WIDTH: "logo_width",
-	LOGO_POSITION: "logo_position",
-	LOGO_SIZE: "logo_size",
 	START: "start",
 	END: "end",
 	TIME_STR: "time_str",
 	TIME_STR_MAS: "time_str_mas",
-	TEST_START: "test_start",
-	TEST_END: "test_end",
-	PAGE_URL: "page_url",
-	PAGE_BANNER: "page_banner",
 	CAN_REGISTER: "can_register",
 	CAN_LOGIN: "can_login",
 	MAIL_CHIMP_LIST: "mail_chimp_list",
-
 	HALL_CFG_ONSITE_CALL_USE_GROUP: "hall_cfg_onsite_call_use_group",
-	EXTERNAL_HOME_URL: "external_home_url",
 	IS_LOCAL: "is_local",
-	// for CareerFairOrg
-	ORGANIZATIONS: "organizations",
-	CUSTOM_STYLE: "custom_style",
-	CUSTOM_FEATURE: "custom_feature",
+	ORGANIZATIONS: "organizations", // json object
 
-	// ORGANIZER: "Organizer",
-	// COLLABORATOR: "Collaborator",
-	// POWERED: "Powered",
-	// UNIVERSITY: "University"
+	// custom on/off features
+	FEATURE_COMPANY_BOOTH: "feature_company_booth",
+	FEATURE_SPONSOR: "feature_sponsor",
+	
+	// custom text
+	TEXT_HEADER_TITLE : "text_header_title",
+    TEXT_HEADER_DESC : "text_header_desc",
+    TEXT_STUDENT_SINGLE : "text_student_single",
+    TEXT_STUDENT_PLURAL : "text_student_plural",
+	
+	// custom image
+	IMAGE_HEADER_ICON : "image_header_icon",
+	
+	// custom link
+	LINK_EXTERNAL_HOME: "link_external_home",
+
+	// not really used
+	// FLAG: "flag",
+	// SCHEDULE: "schedule",
+	// OVERRIDE_COMING_SOON: "override_coming_soon",
+	// PAGE_URL: "page_url",
+	// PAGE_BANNER: "page_banner",
+	// TEST_START: "test_start",
+	// TEST_END: "test_end",
+	// LOGO: "logo",
+	// LOGO_HEIGHT_HALL: "logo_height_hall",
+	// LOGO_WIDTH_HALL: "logo_width_hall",
+	// LOGO_MARGIN_HALL: "logo_margin_hall",
+	// LOGO_HEIGHT: "logo_height",
+	// LOGO_WIDTH: "logo_width",
+	// LOGO_POSITION: "logo_position",
+	// LOGO_SIZE: "logo_size",
+
+	// CUSTOM_STYLE: "custom_style",
+	// CUSTOM_FEATURE: "custom_feature",
+
 };
 
 const CFSMetaObject = [

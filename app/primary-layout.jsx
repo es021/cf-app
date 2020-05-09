@@ -100,34 +100,46 @@ class PrimaryLayout extends React.Component {
 		title
     title_landing
     welcome_text
-		flag
+    
 		banner
-		banner_pos
+		banner_pos    
+		start
+    end
+    is_local
+		time_str
+		time_str_mas
+		can_login
+    can_register
+    organizations
+    hall_cfg_onsite_call_use_group
+
+    feature_company_booth
+    feature_sponsor
+    
+    text_header_title
+    text_header_desc
+    text_student_single
+    text_student_plural
+
+    image_header_icon
+    
+    link_external_home
+
+  }}`;
+
+    /**
     logo
+    flag
     logo_height_hall
 		logo_width_hall
 		logo_margin_hall
 		logo_height
 		logo_width
 		logo_position
-		logo_size
-		start
-    end
-    external_home_url
-    is_local
-		time_str
-		time_str_mas
-		test_start
-		test_end
-		can_login
-    can_register
-    organizations
-    hall_cfg_onsite_call_use_group
-    custom_style
-    custom_feature
-  }}`;
-
-    /**
+    logo_size
+    test_start
+    test_end
+    
      * Organizer
       Collaborator
       Powered

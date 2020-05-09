@@ -17,7 +17,6 @@ EXPORT.Cfs = {
     title: __.String,
     welcome_text: __.String,
     title_landing: __.String,
-    flag: __.String,
     banner: __.String,
     banner_pos: __.String,
 
@@ -25,33 +24,49 @@ EXPORT.Cfs = {
     // override_coming_soon: __.String,
     // page_banner: __.String,
 
-    logo: __.String,
-    logo_height_hall: __.String,
-    logo_width_hall: __.String,
-    logo_margin_hall: __.String,
-    logo_height: __.String,
-    logo_width: __.String,
-    logo_position: __.String,
-    logo_size: __.String,
     start: __.String,
     end: __.String,
     time_str: __.String,
     time_str_mas: __.String,
-    test_start: __.String,
-    test_end: __.String,
     mail_chimp_list: __.String,
     page_url: __.String,
     can_login: __.Int,
     can_register: __.Int,
-
     is_local: __.Int,
-    hall_cfg_onsite_call_use_group: __.Int,
-    external_home_url: __.String,
-
     organizations: __.String,
-    custom_style: __.String,
-    custom_feature: __.String,
+    hall_cfg_onsite_call_use_group: __.Int,
 
+	// custom on/off features
+    feature_company_booth: __.String,
+    feature_sponsor: __.String,
+    
+    // custom text
+    text_header_title: __.String,
+    text_header_desc: __.String,
+    text_student_single: __.String,
+    text_student_plural: __.String,
+
+    // custom image
+    image_header_icon: __.String,
+    
+    // custom link
+    link_external_home: __.String,
+
+    // not really used
+    // flag: __.String,
+    // logo: __.String,
+    // logo_height_hall: __.String,
+    // logo_width_hall: __.String,
+    // logo_margin_hall: __.String,
+    // logo_height: __.String,
+    // logo_width: __.String,
+    // logo_position: __.String,
+    // logo_size: __.String,
+    // test_start: __.String,
+    // test_end: __.String,
+    // custom_style: __.String,
+    // custom_feature: __.String,
+    // external_home_url: __.String,
     // Organizer: __.String,
     // Collaborator: __.String,
     // Powered: __.String,
