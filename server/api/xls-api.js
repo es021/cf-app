@@ -73,8 +73,8 @@ class XLSApi {
         return this.sessions(filter.company_id);
       case "session_requests":
         return this.session_requests(filter.company_id);
-      case "student_listing":
-        return this.student_listing(filter);
+      // case "student_listing":
+      //   return this.student_listing(filter);
       case "browse_student":
         return this.browse_student(filter);
     }
@@ -87,17 +87,20 @@ class XLSApi {
       browse_student (${filterStr}) 
       {
           student_id
-          student{
-              first_name last_name user_email phone_number
-              university country_study 
-              graduation_month graduation_year
-              available_month available_year
-              description 
-              interested_vacancies_by_company{ title }
-              doc_links {type label url} 
-              field_study{val} 
-              looking_for_position{val}
-    }}} `;
+          student{${this.student_field}}
+      }
+    } `;
+
+    // first_name last_name user_email phone_number
+    // grade university country_study where_in_malaysia
+    // graduation_month graduation_year  
+    // working_availability_month working_availability_year
+    // qualification
+    // description 
+    // interested_vacancies_by_company{ title }
+    // doc_links {type label url} 
+    // field_study{val} 
+    // looking_for_position{val}
 
     // 2. prepare props to generate table
     const headers = null;
@@ -187,86 +190,86 @@ class XLSApi {
   }
 
   //EUR FIX
-  student_listing(filter) {
-    let cid = filter.company_id;
-    let cf = filter.cf;
-    let for_rec = filter.for_rec;
+  // student_listing(filter) {
+  //   let cid = filter.company_id;
+  //   let cf = filter.cf;
+  //   let for_rec = filter.for_rec;
 
-    // debug
-    for_rec = typeof for_rec === "undefined" ? false : for_rec;
+  //   // debug
+  //   for_rec = typeof for_rec === "undefined" ? false : for_rec;
 
-    // 0. create filename
-    var filename = `Student Listing - Company ${cid}`;
+  //   // 0. create filename
+  //   var filename = `Student Listing - Company ${cid}`;
 
-    let queryParam = JSON.parse(JSON.stringify(filter));
-    delete queryParam["for_rec"];
+  //   let queryParam = JSON.parse(JSON.stringify(filter));
+  //   delete queryParam["for_rec"];
 
-    // console.log("queryParam",queryParam)
-    // console.log("queryParam",queryParam)
-    // console.log("queryParam",queryParam)
-    // console.log("queryParam",queryParam)
-    // console.log("queryParam",queryParam)
-    // 1. create query
-    var query = `query{
-            student_listing(${obj2arg(queryParam, {
-      noOuterBraces: true
-    })}) {
-              student{${this.student_field}}
-              company{name}
-            }
-          }`;
+  //   // console.log("queryParam",queryParam)
+  //   // console.log("queryParam",queryParam)
+  //   // console.log("queryParam",queryParam)
+  //   // console.log("queryParam",queryParam)
+  //   // console.log("queryParam",queryParam)
+  //   // 1. create query
+  //   var query = `query{
+  //           student_listing(${obj2arg(queryParam, {
+  //     noOuterBraces: true
+  //   })}) {
+  //             student{${this.student_field}}
+  //             company{name}
+  //           }
+  //         }`;
 
-    // 2. prepare props to generate table
-    const headers = null;
+  //   // 2. prepare props to generate table
+  //   const headers = null;
 
-    // 3. resctruct data to be in one level only
-    const restructData = data => {
-      var hasChildren = ["student", "company"];
-      var newData = {};
-      for (var key in data) {
-        var d = data[key];
-        if (hasChildren.indexOf(key) >= 0) {
-          for (var k in d) {
-            newData[`${key}_${k}`] = d[k];
-          }
-        } else {
-          newData[key] = d;
-        }
-      }
+  //   // 3. resctruct data to be in one level only
+  //   const restructData = data => {
+  //     var hasChildren = ["student", "company"];
+  //     var newData = {};
+  //     for (var key in data) {
+  //       var d = data[key];
+  //       if (hasChildren.indexOf(key) >= 0) {
+  //         for (var k in d) {
+  //           newData[`${key}_${k}`] = d[k];
+  //         }
+  //       } else {
+  //         newData[key] = d;
+  //       }
+  //     }
 
-      newData = this.restructAppendTypeForStudent(newData, "student_");
+  //     newData = this.restructAppendTypeForStudent(newData, "student_");
 
-      // removed some data for recruiter
-      if (for_rec) {
-        var toRemoved = ["student_ID", "created_at"];
-        for (var i in toRemoved) {
-          delete newData[toRemoved[i]];
-        }
-      }
+  //     // removed some data for recruiter
+  //     if (for_rec) {
+  //       var toRemoved = ["student_ID", "created_at"];
+  //       for (var i in toRemoved) {
+  //         delete newData[toRemoved[i]];
+  //       }
+  //     }
 
-      return newData;
-    };
+  //     return newData;
+  //   };
 
-    // 3. rename title use company name
-    const renameTitle = (originalTitle, dataIndex0) => {
-      let toRet = originalTitle;
-      if (typeof dataIndex0["company_name"] !== "undefined") {
-        toRet = `Student Listing - ${dataIndex0["company_name"]}`;
-      }
-      return toRet;
-    };
+  //   // 3. rename title use company name
+  //   const renameTitle = (originalTitle, dataIndex0) => {
+  //     let toRet = originalTitle;
+  //     if (typeof dataIndex0["company_name"] !== "undefined") {
+  //       toRet = `Student Listing - ${dataIndex0["company_name"]}`;
+  //     }
+  //     return toRet;
+  //   };
 
-    // 4. fetch and return
-    return this.fetchAndReturn(
-      query,
-      "student_listing",
-      filename,
-      headers,
-      null,
-      restructData,
-      renameTitle
-    );
-  }
+  //   // 4. fetch and return
+  //   return this.fetchAndReturn(
+  //     query,
+  //     "student_listing",
+  //     filename,
+  //     headers,
+  //     null,
+  //     restructData,
+  //     renameTitle
+  //   );
+  // }
   restructChangeHeaderForStudent(data, preKey = ""){
     let toRet = {};
     for(var k in data){
