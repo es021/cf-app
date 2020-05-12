@@ -22,6 +22,8 @@ class XLSApi {
         phone_number 
         sponsor
         where_in_malaysia
+        interested_vacancies_by_company{ title }
+        description
         user_registered
         video_resume {url}
         extracurricular {val}
