@@ -328,7 +328,7 @@ class UserQuery {
 	}
 
 	selectMetaMain(user_id, meta_key) {
-		return `select m.meta_value from wp_cf_usermeta m where m.user_id = ${user_id} and m.meta_key = '${meta_key}'`;
+		return `select m.meta_value from wp_cf_usermeta m where m.user_id = ${user_id} and m.meta_key = '${meta_key}' order by umeta_id desc limit 0,1`;
 	}
 
 	selectMeta(user_id, meta_key, as) {
