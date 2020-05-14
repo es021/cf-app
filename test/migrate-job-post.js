@@ -1,481 +1,332 @@
-a = `Engineer / Executive - QA (Regularoty Affairs) 	1	Sepang	"1. To ensure products manufactured or distributed comply with the required regulations, such as Food & Drug Administration (FDA), Medicines and Healthcare products Regulatory Agency (MHRA), Canadian Medical Device Regulation (CMDR) and etc.     
-2. To assist Manager to ensure the appropriate licensing and legal compliance of products in order to control the safety and efficacy of products.
-3. To assist Manager to manage and facilitate all submissions e.g 510(k) and/or renewal of licence, product listing and registration/certification     
-4. Liaising with regulatory authorities and designated agents
-5. Provide ongoing support to product development for regulatory issues and questions.
-6. Provide regulatory support to currently marketed products as necessary.  
-7. Keep up to date with changes in regulatory legislation, guidelines and etc. 
-8. Assures the ongoing compliance by reviewing company practices and provide advice on changes to systems, such as Technical File, Risk Management File, ISO documentation and other regulatory issues.
-9. To update Technical File and all related regulatory documentations when necessary.
-10. Review labelling, storage and packaging requirements in accordance to Packaging Material Labelling Requirement Checklist.     
-11. Conduct Internal Quality Audits covering all elements in the ISO 9001, ISO 13485, CMDR, Medical Device Directives (MDD 93/42/EEC), US FDA Quality System Regulation and Japanese Good Manufacturing Practices."	"1. Candidate must possess at least a Bachelor's Degree / Professional Degree in Biology / Chemistry / Biotechnology / Food Technology / Nutrition / Polymer / Material or relevant background.
-2. At least 2 year(s) of working experience in the related field is required for this position.
-3. Applicants must be willing to work in Sepang factory.
-4. Preferably Junior Executives specializing in Quality Control/Assurance or equivalent."
+a = `Senior Credit Analyst (Japanese Speaking)	Full Time		Petaling Jaya (Accessible by MRT)	"-Analyze customer financial profile and identify related risk exposure for different industries client.
+-Perform analysis and monitor Industry and market risk.
+-Travel and perform on-site client visits. Report observation and provide risk assessment upon completion of visits.
+-Serve as a Subject Matter Expert with proactive advice and provide guidance to IBM business units and functional team.
+-Work independently, make firm/ informed judgement and decision to protect IBM interest, balancing risk and returns.
+-Provide recommendation or alternative options including deal restructure to enhance IBM’s credit position and enable IBM to win.
+-Work closely with other regional credit centers in Europe and Americas as well as with global competency leaders in U.S.
+-Proactively participate and/or lead on global IBM or credit initiatives and projects."	"Possess at least degree in Finance, Accounting, related professional qualification.
+Min. 5-8 years work experience in credit risk analysis.
+Must possess JLPT level certification, Japanese University Graduate or Native Speaker.
+Able to analyze full financial statement to assess the financial profile of a company.
+Meticulous, diligence, strong analytical and problem-solving skills.
+Resilient and able to work independently under pressure and meet tight deadlines.
+Excellent written and verbal communication skills.
+Strong leadership skills and able to provide consistent guidance to younger team members in daily operations.
+Ability to engage senior management to manage business escalations.
+Able to learn and acquire credit skills quickly to handle more complex deals.
+Possess growth mindset, innovation & agile. Always looking for ways to improve.
+Excellent teaming and collaboration skills across functions and with the COE."
 ****wzs21****
-Engineer / Executive - QA (Complaint Handling) 	1	Sepang	"1. Check, identify and report on any deviations in procedure in regards to handling of customer complaints, corrective action and preventive actions. 
-2. Review and update the related procedures to ensure its accuracy and validity.  
-3. Acknowledge complaints promptly and responding to them within set time limits and systematically.
-4. Conduct preliminary investigation and issue Corrective/Preventive Action to related department when deemed necessary. If no, provide justification.          
-5. Submit the completed Corrective Action Request Form to superior for review and acceptance.
-6. Update the Corrective Action Request Status Log.     
-7. Prepare the report / response letter and submit to Assistant Manager/ Manager Audit and Senior QA Manager for review and approval.      
-8. Follow up on the progress of Corrective Action activities to make sure that the action taken is completed within the promised dateline.       
-9. Complete the relevant sections of the Corrective Action Request Status Log.
-10. Update the Customer Complaint Form.      
-11. Conduct Internal Quality Audits as per HSB-SOP-036 Internal Audits covering all elements in the ISO 9001, ISO 13485, CMDR, Medical Device Directives (MDD 93/42/EEC), US FDA Quality System Regulation, Japanese Good Manufacturing Practices and etc."	"1. Good Communication Skills in both verbal and written clear and easy to understand and include listening skills. ( Both English and Bahasa Malaysia )
-2. Ability to analyze and solve problem.   
-3. Ability to organize, supervise and provide guidance.  
-4. Degree in Science or any relevent background or Diploma In Science with at least 5 years working experience.
-5. Preferably with 1-2 years of working experience in manufacturing environment."
+Senior Oracle Database Administrator (DBA)	Full Time		Cyberjaya	"Design, Installation, configuration, patching and upgrading of database server software and related products.
+Establish and maintain recovery and backup policies and procedures.
+Routine maintenance, backups, refreshes migrations, loads, routine checks, tuning in production, development and test environments.
+Implement and maintain database security (create and maintain users and roles, assign privileges).
+Ensuring data integrity and availability.
+Establish and execute periodic disaster recovery testing.
+Performance management, and tuning.
+Database management, monitoring, and maintenance.
+Capacity planning.
+Database licensing.
+Database security, and encryption.
+Evaluation of database features and database related products.
+Database administration for Oracle on premise and in cloud.
+Setup and maintain documentation and standards.
+Manage Oracle Exadata environments, including coordinating with Platinum support and coordination with application owners on quarterly patching activities.
+Work closely with technical and client management to ensure implementation of database management and support tools for complex business application development requirements and processes in accordance with latest enterprise direction."	"Bachelor’s degree in computer science, information systems.
+5-10 years of IT experience with a record of progressive career growth.
+5-10 years’ experience with Database Administration.
+Experience with managing Oracle Exadata environments including Oracle Enterprise Linux (OEL6/7) administration, Cell Node Management, ASM administration.
+Hands on experience in Patching all Exadata Components.
+Experience with Oracle database products such as Real Application Clusters (RAC), Active Data Guard, and Oracle Enterprise Manager (OEM).
+Experience with managing a Data Warehouse on Exadata.
+Software Products: Oracle 11g/12c RDBMS, Oracle 11g/12c RAC, OEM 12c, RMAN, Oracle Dataguard (Physical and Active), Advanced Replication, Streams, Golden Gate, Partitioning, OVM, Netapp Snap Manager, Advanced Security, Data Vault.
+Extensive experience with Database troubleshooting to identify root cause.
+Experience working on other relational databases viz. SQl Server and MySQL will be plus.
+In depth understanding of ITIL/ITSM principles in managing operational service delivery.
+Excellent communication (written, verbal and presentation) skills, and advanced problem-solving orientation and decision-making skills.
+Proven ability to develop, present and justify positions to all levels within the company."
 ****wzs21****
-Supervisor - HR (Security)	2	Sepang	"1. Enforce Company Policies, Rules & Regulations and Security Procedures with full dedication and Affairs & Security.
-2. Monitor and supervise all security guards assigned at factory & ensure they are performing according to their job descriptions.
-3. Monitor and enforce that security guards are in strict compliance to disciplinary system.
-4. Perform regular patrolling around premises to detect & report security threats and non-compliances to policies & procedures.
-5. Monitor and detect for pilferages and sabotage to Company's asset / properties and operations   report to SO-HR for action and to HCA&S.
-6. Carry out regular checks on perimeter fencing, gates, building doors and windows to detect any breach or Defects & needs to repair and ensure the security integrity of the premises.
-7. Practice good public & inter-personal relations skills at all times and avoid personal conflict.
-8. Carry out instructions from time to time from HCA&S or SO-HR and to submit report.
-9. Assist in promoting the good name of the Company as well as giving active support to goodwill initiatives of the Company.
-10. Assess security threat to the Company from neighbouring communities and regularly report to Head-Community Affairs & Security."	"1. Able to supervise and enforce security procedures.
-2. Able to be actively involved in the monitoring and enforcing of security guards job performance and discipline.
-3. Able to detect and report of pilferages, sabotage, disciplinary acts and non-compliance of Company's Policies, Rules & Regulations and safety & security issues.
-4. High in integrity and confidential ability.
-5. Able to work long hours & Physically strong and fit.
-6. Preferred at least pass SPM.
-7. Preferred 2 years’ relevant experience in in-house security.
-8. Ex-police or army personnel preferred.
-9. Able to work on night shift as & when required."
+Java Angular Developer	Full Time		Cyberjaya	"Software Developers at IBM are the backbone of our strategic initiatives to design, code, test, and provide industry-leading solutions that make the world run today – 
+planes and trains take off on time, bank transactions complete in the blink of an eye and the world remains safe because of the work our software developers do.  
+Whether you are working on projects internally or for a client, software development is critical to the success of IBM and our clients worldwide. 
+At IBM, you will use the latest software development tools, techniques and approaches and work with leading minds in the industry to build solutions you can be proud of."	"Candidates should have a degree in software development, software engineering or IT related fields.
+Min 3-5 years of working experience.
+Must have strong communication skills and resilience to learn and support changing business needs.
+Candidates have strong knowledge of the development process life cycle of design, development, test, deployment and support.
+Good understanding on Agile practices and knowledge on Service management.
+3 years of development experience in JavaAngular.
+2 + years of development experience in Python with API and Micro service architecture.
+Good understanding on Mango DB."
 ****wzs21****
-Hostel Warden - HR	2	Sepang	"1. Responsible in providing comfortable, clean and safe accommodation.
-2. Preparing foreign workers accommodation, including arranging and installing furniture and other necessities.
-3. To monitor overall movement of hostel and seeks to maintain the fair and safe operation at all times.
-4. Patrolling and doing a day to day spot check and reporting any disciplinary problems & misbehaviors.
-5. Oversees inspections of the hostel facilities & accommodation and fill in checklist.
-6. Identifying any hostels damages and repair required.
-7. Documenting and record information in standard form for any hostels repair and complaint.
-8. Monitoring any hostels maintenance work and repairs to ensure good quality work.
-9. Coordinate for room allocation & keys distribution for new join staff.
-10. Monitor collection of utilities bills every month.
-11. Assisting HR staffs on any matters related to foreign employees and hostels.
-12. To response during crisis situations such as an emergency a riot or a natural disaster"	"1. Candidate must at least possess a Diploma or any related field.
-2. Minimum 1 year relevant experience.
-3. Willing to attend emergencies after office hours.
-4. Able to work independently, under pressure, highly committed & responsible.
-5. Must have valid driving license B2 & D (car and motorcycle)."
+Service Desk Analyst (Japanese Speaking)	Full Time		Cyberjaya	"Handle IT inquiries/incidents or problem via phone, email, fax, web and other means set by the respective account.
+Manages and provide management support to the agents who are supporting the customer inquiries and problems.
+Responsible for the development and motivation of the agents and ensuring they have the necessary tools and information.
+Proactively solve problems and provide timely resolution to ensure minimal impact to customer and employee satisfaction.
+Identify the most appropriate course of action for problem resolution and effectively communicate plans to those impacted.
+Responsible for ensuring resources are utilized efficiently and in the way that consistently promote the customer quality and satisfaction."	"Diploma or Bachelor’s degree or equivalent.
+Fresh graduate or Min 1-2 year Helpdesk Experience.
+Good spoken English & Japanese.
+Good technical knowledge in Win2K/XP environment, IE, MSOffice 2000/2003, Lotus Notes, Basic Network troubleshooting skill.
+Demonstrated ability to think critically and analytically.
+Proven supervisory skills and ability to organize and clearly communicate thoughts and ideas.
+Must be willing to work in a stressful environment.
+Must be customer oriented.
+Strong written and verbal communication skills.
+Willing to take on extra tasks that are given."
 ****wzs21****
-Industrial Nurse - Human Resource	1	Bestari Jaya	"1. To assess patient health problem and needs, develop & implement nursing care for minor ailments and dressing for minor injuries.
-2. Day to day operating of in-plant Healthcare.
-3. Reduce illness by listening to complaint, diagnosis condition, dispensing medication & advise preventive measure.
-4. Provide direct care, including emergency treatment or occupational injuries and illness.
-5. Issue Company medical chit/ letter to employees for annual medical examination, major ailments/ injuries that require attention of panel doctor.
-6. To make necessary arrangements for referral cases to hospital (i.e. Guarantee letters, appointments, transport in case of emergency).
-7. Administer first aid medical emergency or work related injuries.
-8. Implement an Emergency Protocol (i.e. who will send employees to hospital, which hospital, etc.)
-9. Administer prescribed medicines, injection or other treatment. Also to issue MC leaves as instructed by doctor.
-10. Check & verify all medical bills & MC leaves including verification / approval process.
-11. Managing medical records and creating emergency workplace preparedness plans.
-12. To keep Sickbay well equipped, clean and organized.
-13. Maintain employee confidence by keeping medical information confidential.
-14.Monitor of red alert process, registration, distribution and monthly report."	"1. Good written and communication skills in BM and English.
-2. Pleasant personality, professional, matured and excellent interpersonal skills.
-3. Computer literate and report writing skills.
-4. Able to work independently with a high degree of commitment, Hardworking & dependable.
-5. Highly committed & responsible.
-6. Pleasant personality, professional, matured and excellent interpersonal skills.
-7. Candidate must at least Diploma/ Degree in Nursing or equivalent.
-8. State registered Nurse (SRN) registered with Malaysian Nursing Board, Ministry of Health Malaysia.
-9. Minimum 2 years working experience especially in manufacturing environment.
-10. Willing to work on shift rotation and long hours."
+Software Developer 	Full Time		Cyberjaya	"You will be responsible for design and development of UI and APIs for Applications that run on handle Oracle Workload Multi-Cloud environment like IBM, Oracle, AWS, Azure etc.
+Designing on complex requirements, Development of  REST APIs with detailed specifications to integrate with auxiliary applications.
+Demonstrate expertise in the knowledge of Web Application Full Stack Development.
+Manage integration issues and troubleshooting. involving Angular & spring boot."	"Minimum 5+ years of experience in IT domain.
+Any Degree, BE/B.Tech or MCA from a reputed institute.
+Working knowledge of Linux OS, HTML5, SCSS/CSS, Angular 6+, spring, spring boot, JSP & MySQL.
+Ability to follow standard procedures along with basic knowledge of SQL and databases reporting and querying.
+Experience in Full Stack Web Applications.
+Proficient in Business level UI developments.
+Knowledge on other programming languages like Shell/Perl/Python is preferred."
 ****wzs21****
-Executive - Business Development 	1	Sri Damansara	"wzs21bulletTo assist sales team with order processing, and monitoring to ensure orders are delivered through. 
-wzs21bulletTo work closely with internal staff- warehouse, planner & production, purchasing, accounts, sales & marketing team to ensure a smooth operation.
-wzs21bulletTo monitor inventory and ensuring adequate stocks are always maintained.
-wzs21bulletTo liaise with sales team and analyse inventory report for ordering based on historical data, forecast etc.
-wzs21bulletTo prepare weekly and monthly report, and provide analysis of report.
-wzs21bulletTo keep proper customers database & send relevant sales campaign materials to customers.
-wzs21bulletTo assist sales to attend to customer’s enquiries, provide quotations, samples and all other necessary information.
-wzs21bulletTo manage trade debtors (if any).
-wzs21bulletTo source for relevant exhibitions for participation and prepare the necessary documents, and materials.
-wzs21bulletTo assist in preparation of tender documents. 
-wzs21bulletTo prepare sales & marketing collaterals (samples, brochures, buntings, PowerPoint presentation etc.) & ensuring proper stocks inventory.
-wzs21bulletTo source for marketing materials and negotiate for best offers without compromising quality.
-wzs21bulletTo maintain proper filing and documentations.
-wzs21bulletTo undertake other special assignment, ad-hoc functions and other related duties specified by the company.
-"	"
-wzs21bulletCandidate must possess at least a Bachelor's Degree, Professional Degree, Master's Degree in Business / International Business / Marketing / Biotechnology
-wzs21bulletFresh graduate with highly driven are encourage to apply.
-wzs21bulletExperience candidate should have minimum 2 years experience as medical representative  .
-wzs21bulletApplicants must be willing to work in Sri Damansara..
-wzs21bulletFull-Time position(s) available.
-"
+Financial Analyst (Japanese Speaking)	Full Time		Petaling Jaya	"IBM Financial Analysts play a unique and integral role in driving business decisions, supporting operations and influencing business results.
+As a Financial Analyst you are considered to be a trusted business advisor, working within the company’s business units and geographies, as well as in a myriad of specialized corporate functions.
+In this role you’ll be responsible for the analysis of the IBM forecast, budget, actuals and business metrics and dynamics.
+You’ll interact directly with line management in the business units and geographies on the development of forecast and budget variance analysis, and provide ongoing business assessments and recommended solutions.
+You’ll also experience opportunities for skills development training and leadership development."	"Bachelor’s Degree Basic knowledge in Finance and Accounting concepts.
+Basic knowledge in Finance Planning, Forecasting, Budgeting or Services Accounting.
+Basic knowledge in MS Office – Word, Excel, Power Point.
+English and Japanese: Fluent
+JLPT Level certification, Japanese University Graduate or Native Speaker.
+Preferred Accounting/Finance Certified in ACCA, CIMA, CPA.
+Fresh graduates and candidates with up to 5 years experience in Finance and Accounting are encouraged to apply.
+Candidates with experience in professional firms are encouraged to apply.
+Relevant internship experience is an added advantage.
+Proven track record in University/Work Environment with an interest in financial or quantitative.
+Strong communicator, great interpersonal and influencing skills.
+Flexible and Adaptable.
+Demonstrated good leadership and initiative."
 ****wzs21****
-Chemist 	4	Sepang	"wzs21bulletDevelop new products / processes/ product and process improvement for gloves. 
-wzs21bulletWork towards cost saving exercises for products and processes.    
-wzs21bulletWork with Technical Chemists to transfer the new product/ process/ product and process improvement to production.       
-wzs21bulletWork with Technical Chemists to transfer cost saving for product and processes to production. 
-wzs21bulletBe RESOURCEFUL by continually keeping up to date with the developments in his/her own field and keeping abreast with issues internally and externally to identify new areas of learning, improve knowledge and suggest/develop new ideas, products or processes. 
-wzs21bulletDocument changes in product due to new product, product improvement, product changes and other changes in the design control file within the time frame stipulated in KPI.
-wzs21bulletExecute and follow through with the research and development work in a systematic manner, documenting all work accurately and completely.
-wzs21bulletLiaise with external suppliers and customers in matters regarding materials, chemicals and glove issues.
-wzs21bulletDiligently work to ensure all new products, product improvements, process improvements, product and process changes are documented and communicated correctly using the change control procedure / WI.
-wzs21bulletEnsure that all work activities are done in strict accordance to own department’s work instructions and procedures to conform to both Hartalega’s Quality and SHE system. 
-wzs21bulletProvide support to sales & marketing and external customers in relation to their enquiries in a timely manner as stipulated in KPI.  
-wzs21bulletOffer assistance to operations and other departments when circumstances warrant.
-wzs21bulletWork well with colleagues and stick to work related promises made to own team and to other departments.
-wzs21bulletAll other tasks as assigned by superior.
-"	"wzs21bulletCandidate must possess at least a Bachelor science in Pure chemistry/ analytical chemistry/ resources chemistry/ applied chemistry.
-wzs21bulletPreferably chemist in manufacturing industries or chemical industries.
-wzs21bulletFresh graduate with highly driven are encourage to apply.
-wzs21bulletExperience candidate should have minimum 2 years experience as manufacturing industry  .
-wzs21bulletApplicants must be willing to work in Sepang..
-wzs21bulletFull-Time position(s) available.
-"
+Accounting Analyst (Korean Speaking)	Full Time		Petaling Jaya (Accessible by MRT)	"Provide accounting support to countries in the Asia Pacific region.
+Prepare local financial statements in accordance with local GAAP.
+Comply with country legal and statutory reporting requirement.
+Provide advice and counsel to management on US and country Generally Accepted Accounting Practices and guidelines.
+Perform self-inspection on work areas and implement measures to ensure compliance with IBM accounting and country practices and guidelines."	"Candidates must possess at least a Bachelor’s Degree in Finance/ Accounting/ Banking/ Economics, Commerce, Business Studies/ Administration/ Management (Major in Finance or Accounting will be added advantages).
+English and Korean: Fluent
+S-TOPIK certification, graduated from Korean University or native speaker.
+Fresh graduates and candidates with up to 5 years of experience are encouraged to apply.
+Excellent academic achievement with an equivalent First Class Honours degree or a strong Second Class Upper Honours. (Minimum CGPA 3.0) Accompanied by strong achievements in extra-curriculum activities or development programs.
+Strong people and communication skills.
+Able to quickly absorb professional knowledge.
+Have proficient IT skills to perform the job required.
+Motivated and results-driven individual with initiative."
 ****wzs21****
-Executive - Sales (Export)	5	Sri Damansara	"wzs21bulletSell company products by establishing contact and developing relationship with prospective customers. 
-wzs21bulletExpands business with existing customers by promoting new products or through a sales strategy. 
-wzs21bulletMaintains good rapport with customers by providing support, high level of service, market and product information, regulatory guidance, and market trend.  
-wzs21bulletWorking closely with marketing team to promote products and services. 
-wzs21bulletMaintains professional and technical knowledge by attending training courses, seminars, conferences, workshops and reading periodicals.  
-wzs21bulletTo meet individual and team KPI set by the company. 
-wzs21bulletMaintain accuracy information of documents such as CRF and Forecast Quantity.
-wzs21bulletMaintain the filing of agreements and contracts signed with customers.  
-wzs21bulletResponsible for customer enquiries pertaining to quotation, products, samples, registration, shipments, artworks, visitation and payments. 
-wzs21bulletHandling customer visits, meeting and transportation/hotel room booking arrangement.   
-wzs21bulletResponsible for sending new pricing to customers and update CRF.  
-wzs21bulletSuggest price review based on feedback from customers. 
-wzs21bulletResponsible for accuracy of Purchase Order processing.  
-wzs21bulletMonitoring payment of customers.
-wzs21bulletFollow up payment with customer when necessary.
-wzs21bulletProvides training, coaching and motivating Customer Assistant.   
-wzs21bulletResponsible for middle and year end performance appraisal for Customer Assistant.  
-wzs21bulletInvolves internal and external audits.  
-wzs21bulletInvolves preparation of exhibition and attends exhibition both local and overseas. 
-wzs21bulletOrganizes PC0 meeting, kick off meeting and participate into UAT testing with other departments involved for new customers and new requirements.  
-wzs21bulletResponsible for accuracy of initial production of new items via sighting the production process.  
-wzs21bulletAssists Sales Manager in the yearly sales budget planning by providing customer’s sales forecast. 
-wzs21bulletTo perform customer survey. 
-wzs21bulletAny tasks assigned by Manager.
-"	"
-wzs21bulletCandidate must possess at least a Bachelor's Degree, Professional Degree, Master's Degree in Business / International Business / Marketing / Psychology / Economics
-wzs21bulletPreferably export sales or international sales exposure candidates.
-wzs21bulletFresh graduate with highly driven are encourage to apply.
-wzs21bulletExperience candidate should have minimum 2 years experience in sales .
-wzs21bulletApplicants must be willing to work in Sri Damansara..
-wzs21bulletFull-Time position(s) available.
-"
+Digital Development Representative - Inside Sales	Full Time			"Screening & Qualifying marketing generated responses.
+Follow up leads as a result of lead generating activities organised by marketing (seminars, trade shows, direct mails etc.).
+Follow up other sourced leads (Web, Incoming call, Livechat, Digital Marketing Campaigns).
+Screening and qualifying these leads according to defined criteria (e.g. BANT).
+Canvassing and developing target accounts.
+Creating opportunities according to the defined criteria through research of customers and prospects independently from lead generating programs performed by marketing.
+Nurture customer relationships as needed for the more complex sale or solution sales.
+Have a team approach with aligned account managers and other key positions within the sales organisation.
+Help increase the quality of opportunities in the pipeline and create a critical mass of short listed opportunities.
+Company profiling (Target Accounts) The DDR responsible for profiling named accounts. In close cooperation with the sales team he/she will provide insight into target accounts, structure and priorities so that the sales teams can point their efforts most effectively.
+Enriching and ensuring data quality.
+Monitoring developments in the business community and using this information to be more effective in discussions with prospects and customers.
+Providing weekly reports."	"Excellent communication in English, speaking, reading and writing.
+Passion for technology.
+Strong client relationship focus (both internal & external).
+Strong presentation & written skills, negotiation skills.
+Competitive nature. Goal -oriented. Maintains a sense of urgency in a deadline-driven setting. “Can do” attitude.
+Time Management to work proactively in a multi-tasking, fast paced environment.
+Self-starter with the ability work well in a high paced selling team environment.
+Problem solving and creative thinking.
+Flexibility to adjust to business needs.
+Cloud, Security, AI, Cognitive, Analytics, Blockchain knowledge or experience are added advantages.
+Experience with C-Level Conversations.
+3-4 years in Direct or Indirect Sales.
+Experience in Leading/Actively Participating in deals and or/ 1 year of Solution Selling Experience."
 ****wzs21****
-Senior Software Application Developer	3	Petaling Jaya	"Responsible for development of in-house applications in the organization according to requirements.  
-Participate in all phases of system development life cycle which include requirements analysis.
-Contribute to solution design activities.
-Ensure all codes are optimized, written and documented in compliance to organization's standard.
-Implementation of new system and enhancements of existing system 
-Provide guidance and support to junior developer.
-Conduct testing and apply quality control procedures.   
-Conduct training to user if needed."	"Candidate must possess at least a Bachelor's Degree in Computer Science or related.
-4- 5 years of working experience in the related field is required for this position.
-Working experience with  C#, .NET, and SQL SSRS reporting.
-Familiar with SQL Server 2012 or above  and .NET technologies .
-Knowledge with version control system, preferred Team Foundation server (TFS).
-Knowledge with barcode printing programming language will be an added advantage 
-Strong analytical, problem solving and process, solution oriented abilities.
-Strategic thinker with a positive attitude, proactive and able to work under pressure in a fast-paced environment."
+Client Representative (Financial Services Industry)	Full Time		Petaling Jaya	"You are responsible for the client relationship with a few Financial Services Clients.
+You are the integrator of IBM providing one face, one IBM strategy for the client, responsible for overall revenue, profit and client satisfaction.
+You are involved in the development of the overall account plan and has primary responsibility for identifying & prioritizing opportunities, and developing solutions primarily in the software and services areas, be it with internal or external parties.
+Understands the client’s organization and develops and executes a relationship plan to address both IT and Line-of-Business organizations.
+Builds relationship with the client’s leadership team earning a reputation as one of the client’s trusted business advisors.
+Demonstrates a high level of business acumen and applies a thorough understanding of the client’s business, organization, strategy and financial position.
+Skilled in consultative selling involving business partners, solution vendors as appropriate, with a deep understanding of the client’s needs and IBM business & brand strategies, IBM capabilities and how these translate into solutions and value for the client.
+Understands and navigates IBM to identify, acquire and coordinate a team of critical resources (internal and/or external) needed to address client needs.
+Plan and facilitate and/or conduct complex negotiations reaching lasting agreements and commitments."	"Bachelor’s Degree with at least 8 years of working experience.
+At least 5 years experience in IT Sales and Account Management.
+At least 5 years experience in Client Relationship.
+At least 5 years experience in Banking.
+English: Fluent"
 ****wzs21****
-Senior Nintex Developer	1	Petaling Jaya	"Responsible for design and build the applications within Nintex environment and propose a pragmatic solution, finding a compromise between ideal technical solution and actual solution based on business needs.
-Manage and fulfil management’s expectations & requirements to support business growth and objectives.
-Work effectively and efficiently with internal IT team and external party (e.g. vendors, consultant, suppliers) to ensure seamless support to management & users on IT matters which involves both software and hardware. 
-To organize and support the structure/design, development/deployment of back-office Applications Business Solutions in ensuring quality/prompt deliverable by using Nintex platform.
-To design and build the applications by using Nintex Workflow and Nintex Forms.
-To work together with SharePoint Developer team in term of develop and maintain the SharePoint environment.
-Works within IT, cross-functionally and with vendors, in order to successfully identify, prioritize, and resolve issues and provide subject matter expertise for enhancements, developments, and operational improvements to the applications.​"	"Candidate must possess at least a Bachelor's Degree in Computer Engineering, Computer Science or its equivalent in related IT field.
-At least 3- 5 years of working experience in the related field is required for this position.
-Strong and experience Nintex developer knowledge and knows how to design Sharepoint web parts, user controls, etc.
-Experienced in XML/JSON and good understanding of SharePoint Designer, IIS and web configuration files
-Experienced in Visual studio / SharePoint designer, well versed on .NET 3.5/4.0/4.5 framework and experienced with CSS.
-Experienced with customizing master pages and site definition page layouts and building and deploying custom web parts.
-Ability to identify gaps and provide recommendations and enhancements that will enhance operations and reduce risks.
-Good knowledge of IT Software Development Life Cycle (SDLC).
-Applicants must be willing to work in Damansara Utama,Petaling Jaya.
-"
+Procurement Specialist (Tactical Sourcer- Japanese Speaking)	Full Time		Petaling Jaya	"This role is for employees at the Procurement Centers that perform operative tasks, but not sourcing, and provides a consistent global process that consolidates purchase order processing and procurement support services in centralized locations around the world.
+Involves consolidating low risk, low value, fast-turn around transactions and advising on supplier contracts to ensure that IBM benefits from the best possible value and service from these quality suppliers.
+The employee leads technical support or the business processes."	"English and Japanese: Fluent
+JLPT Level certification, Japanese University Graduate or Native Speaker
+Fresh graduates and candidates with up to 5 years of working experience are encouraged to apply
+Knowledge on Purchase Order, Procurement Administrative and SAP System
+Procurement Process Knowledge
+Transaction Process
+Financial Delivery Knowledge
+Experience and working knowledge in key functional processes.
+Awareness of business activities.
+Requires negotiation skills to achieve coordination.
+Ability to recommend improvements to existing technical procedures based on understanding of new technologies.
+Use advanced technical knowledge to perform and apply new technical procedures to the business processes.
+Working individually or as a team member, may set work priorities within well established procedures and objectives.
+May provide coordination of activities.
+Gives Technical/ Process Flow direction. Viewed as a Technical or Process expert.
+Accountable for individual results, and for the impact of the results on the team, interrelated activities, or project."
 ****wzs21****
-Nintex Developer	1	Petaling Jaya	"To provide services of development, design and testing of enterprise solutions to Hartalega.
-To be responsible for developing, coding, installing, testing, debugging, and documenting Web applications and custom components using the latest versions of the Nintex, .NET Framework, ASP.NET, C#, SharePoint, Office 365, PowerApps, and other advanced components of Microsoft technology. This role will have a primary focus with an anticipated 50% or more of time spent on SharePoint.
-Designing and Developing SharePoint Features.
-Installation /Configuration /Setup.
-SharePoint Portal – Development /Customization.
-Create and modify lists, document libraries, workflows, web parts, custom forms, plugins, layout, and scripts using SharePoint and SharePoint Designer.
-Experience using SharePoint Workflow Automation with other tools like Nintex / K2.
-Portal Security – Experience securing access to SharePoint resources at all levels from item to farm.
-Experience creating custom Master Pages and Site Templates.
-Familiarity with PowerApps, Flow, Microsoft/Office Graph, and SharePoint Modern Pages/Web Parts preferred"	"Degree in IT or any equivalent.
-Preferably at least 3-year experience in SharePoint
-Knowledge on web technology development will be beneficial.
-Fresh grade will be considering if have sufficient knowledge in Microsoft technology or Development
-Experience in SharePoint 2013 / 2016 / Cloud.
-Strong understanding/experience with OOP – Object-Oriented Programming Concepts.
-Thorough hands-on knowledge of the SDLC.
-Knowledge of infrastructure, architecture and configuration/administration services related to SharePoint.
-Knowledge of User Experience Design principles.
-Experience with SharePoint 2013 administration.
-The ability to create mock-ups and style guides.
-C# /ASP.NET Development.
-SQL Server Development – T-SQL /Stored Procedures /Joins /Triggers /Functions /Indexes.
-Web Development experience in other technologies."
+Financial Analyst (Korean Speaking)	Full Time		Petaling Jaya (Accessible by MRT)	"IBM Financial Analysts play a unique and integral role in driving business decisions, supporting operations and influencing business results.
+As a Financial Analyst you are considered to be a trusted business advisor, working within the company’s business units and geographies, as well as in a myriad of specialized corporate functions.
+In this role you’ll be responsible for the analysis of the IBM forecast, budget, actuals and business metrics and dynamics.
+You’ll interact directly with line management in the business units and geographies on the development of forecast and budget variance analysis, and provide ongoing business assessments and recommended solutions.
+You’ll also experience opportunities for skills development training and leadership development."	"Bachelor’s Degree Basic knowledge in Finance and Accounting concepts.
+Basic knowledge in Finance Planning, Forecasting, Budgeting or Services Accounting.
+Basic knowledge in MS Office – Word, Excel, Power Point.
+English and Korean: Fluent
+S-TOPIK certification, graduated from Korean University or native speaker.
+Preferred Accounting/Finance Certified in ACCA, CIMA, CPA.
+Fresh graduates and candidates with up to 5 years experience in Finance and Accounting are encouraged to apply.
+Candidates with experience in professional firms are encouraged to apply.
+Relevant internship experience is an added advantage.
+Proven track record in University/Work Environment with an interest in financial or quantitative.
+Strong communicator, great interpersonal and influencing skills.
+Flexible and Adaptable.
+Demonstrated good leadership and initiative."
 ****wzs21****
-RPA Developer	1	Petaling Jaya	"Monitoring the overall functioning of processes, identifying improvement areas and implementing adequate measures to maximize customer satisfaction level
-Operating as an advisor or business consultant and recommending process automation improvements
-Designing and implementing software robotics and process automation
-Bring a level of robotics knowledge to the client and play an important role in identifying and targeting new opportunities with both existing and new clients
-Analyzing, documenting and re-engineering business processes in scope for automation and robotics
-Designing and Implementing solutions around RPA software like Blue Prism, Automation Anywhere and UI Path and to advise our clients on RPA tool selection
-Support business development activities, responding to the proposals as a RPA subject matter expert, by coordinating with key stake holders in the company
-Defines more specific development tasks, task dependencies, and provides time estimates to complete work
-Creates product test plans for processes not developed including identification of data sets, systems and environments
-Perform Quality assurance tests for all developments before their go-live and resolve any potential issues
-Ensure timely and qualitative closure of all digitization projects
-Acts as a resource and communicates effectively with internal stakeholders, technical leads, and management to regularly report on status, issues, and risks
-Provides status reports and metrics on assigned projects
-Determines RPA best practices and suggests how to improve current quality processes, standards and practices"	"Bachelor Degree in Computer Science, Computer Systems Engineering, Information Technology, AI & Machine Learning, ITIL Certify or any other equivalent.
-Preferably candidates with 3 years of working experience in RPA field."
+Business Support Operation	Full Time		Petaling Jaya (Accessible by MRT)	"This Financing Business Support Professional has responsibility for maintaining a good client relationship with IBM clients and business partners, as well as internal client relationships, in support of financing agreements.
+The individual maintains responsibility and expertise in Client Financing, Commercial Financing or Global Asset Recovery Services.
+The individuals in this role use dedicated financing systems and processes in the support of varied responsibilities such as Contract Preparation and Acceptance, Inception Billing/Settlement, Indexing, Returns, Mid-Lease and End of Lease Administration, Vendor Financing, Project Financing, Syndications, Buy Desk, Inventory and Accounts Receivable Financing, Volume Purchase/Settlement Management and Collections.
+The role provides operational and administrative support to the business by being responsible for organizational tasks of varying complexity.
+Individuals may provide strategic and comprehensive support to IBM acting as a resource on tracking business results, formulating business strategy, managing process ownership and system requirements driving cost and productivity benefits while strengthening IBM’s system of internal controls."	"Bachelor’s Degree (Preferably majoring in Business/ Management).
+Fresh graduates and candidates with up to 5 years of experience are encouraged to apply.
+Experience in Operation, Reporting and Administrative Skills.
+Process driven with can do attitude.
+Good communication, interpersonal, negotiation and relationship management skills
+Able to work long hours/weekends/public holidays and handle work pressure in a high performance culture.
+Able to work independently but also a good team player."
 ****wzs21****
-Engineer - IT Project	1	Petaling Jaya	"Ensuring procedures are followed for: the registration of infrastructure project requests; recording of project plans and progress; archiving key contractual documentation; and the creation of key information required for projects to start and to be billed.
-Providing the financial data stored by the PMO to the client's process.
-Developing a close working relationship with the supplier PMOs and the teams to ensure that the process for getting infrastructure projects delivered is as efficient as possible.
-Delivery against KPIs for client's PMO Services by maintaining service level target and improve measurement process
-Contribute to client's service quality improvements by helping to strengthening Supplier PMOs back office team.
-Ensuring follow & adhere to agreed client's work/process standards and comply with SLAs.
-Provide guidance and support Supplier PMOs effectively while ensuring project delivery E2E process is followed
-Ensure project folders are file with project related info by Supplier PMOs. Escalate as necessary when issue arise
-Provide support to Supplier PMOs in ensuring system is always updated with accurate info.
-Accurately updating all Project related Data in system based on proposal received
-Quality Assurance for client's PMO procedure & documentation during project/requests, closure.
-Proactively taking lead to updates the handbook to make sure it is always evergreen
-Over 20 reports that need to be produced in one month to the Management.
-"	"Candidate must possess at least a Bachelor's Degree, Post Graduate Diploma, Professional Degree, any field exspecially in IT.
-At least 2 year(s) of working experience in the related field or project base is required for this position.
-Fresh Graduates are encouraged to apply.
-PMO experience and Stakeholder Management is highly desirable.
-Strong administrative skills
-Attention to detail / Accuracy
-Strong interpersonal / communication skills - Strong in English
-Planning & organizational skills
-Ability to recognize and meet important deadlines"
+Service Desk Analyst (Mandarin & Cantonese Speaking)	Full Time		Cyberjaya	"Handle IT inquiries/incidents or problem via phone, email, fax, web and other means set by the respective account.
+Manages and provide management support to the agents who are supporting the customer inquiries and problems.
+Responsible for the development and motivation of the agents and ensuring they have the necessary tools and information.
+Proactively solve problems and provide timely resolution to ensure minimal impact to customer and employee satisfaction.
+Identify the most appropriate course of action for problem resolution and effectively communicate plans to those impacted.
+Responsible for ensuring resources are utilized efficiently and in the way that consistently promote the customer quality and satisfaction"	"Diploma or Bachelor’s degree or equivalent.
+Fresh graduate or Min 1-2 year Helpdesk Experience.
+Good spoken English & Mandarin.
+Good technical knowledge in Win2K/XP environment, IE, MSOffice 2000/2003, Lotus Notes, Basic Network troubleshooting skill.
+Demonstrated ability to think critically and analytically.
+Proven supervisory skills and ability to organize and clearly communicate thoughts and ideas.
+Must be willing to work in a stressful environment.
+Must be customer oriented.
+Strong written and verbal communication skills.
+Willing to take on extra tasks that are given."
 ****wzs21****
-Engineer - System Support	1	Petaling Jaya	"Administrate the factory shop floor system and ensure it is running in a stable and optimum mode including all integrations and automation.
-Responsible for the operation and administration of the company’s internal networks, servers, email and network security systems.
-Deploy and manage WINTEL servers such as Active Directory, storage systems.
-Provide 2nd level support with problem investigation and root cause analysis. Provide a fix or workaround as needed.
-Perform health checks on systems, servers, jobs and integrations.
-Analyze system and make recommendations for improvement based on performance and capacity reporting.
-Performance tuning and system maintenance.
-Develop scripts and jobs that helps regulate, alert and monitor system.
-Evaluate hot fixes, patches and product releases (including Service Pack and Version upgrades) that need to be applied in the system for product bug fix and overall support for the system.
-Manage application and system releases including ensuring backup and rollback plan are in place as part of risk management.
-Coordinate with relevant parties for all platform changes (business, integrations, infrastructure, and security) to ensure system is running stable.
-Maintain system configuration and documentation."	"At least Bachelor's Degree, Professional Degree in Computer Science / Information Technology or Electrical / Electronic Engineering.
-Professional Certification such as CCNA, ITIL, MCSE or PRINCE2/PMP is an added advantage.
-Minimum of 3-5 years in system and network administration.
-Consulting organization experience preferred.
-Windows server 2008, Active Directory, VMWARE visualization.
-Experience with deployment of various LAN, WAN and IT Security technologies such as DNS, DHCP, SMTP, VLANS and VPN.
-Experience in administrating communication system such as PABX, Video Conference.
-Hands on experience in deploy, troubleshoot and administer email system.
-Experienced in system and application testing & ticketing tracking system (e.g. OTRS).
-Strong analytical, problem solving and process, solution oriented abilities.
-Possess strong sense of teamwork, integrity, self motivation, positive attitude, and initiative to problem solving."
+Finance Delivery Analyst	Full Time			"Exposure to Cash Application (Applying Cash ) and reporting /Credit and collections.
+Exposure to AR Reconciliation and Age wise Analysis of overdues.
+Experienced in Procure to Pay procedures and delivery."	"Fresh graduates and candidates with up to 5 years of working experience are encouraged to apply.
+Preferably academic background in Finance/ Accounting/ Business Management and any other relevant academic background.
+Candidates with relevant working experience in F&A BPO or any other industry in accounting field & handling Collections are also encouraged to apply.
+Ability to communicate with accuracy and clarity both verbally and written in English.
+Working knowledge of ERP environment, preferably SAP.
+Aptitude for understanding and solving problems.
+Required to handle customer calls. Ability to speak in a clear manner."
 ****wzs21****
-Database Administrator	1	Petaling Jaya	"Install, configure, migrate, upgrade and maintain multiple databases required for development, testing and production.
-Enforce database change management, security standards and best practices.
-Design and maintain backup and data archiving plan for all databases in company
-Design and prepare for Disaster Recovery and perform test on recovery plan.
-Responsible for database design, stored procedure creation for front end application
-Support departmental operations in a high throughput production environment by proactively managing the performance, Integrity, and security of business applications databases and database servers.
-Support application development in technical troubleshooting, database tuning and performance monitoring
-Provide support to software developer in best practices for database design, programming, and tuning.
-"	"Candidate must possess at least a Bachelor's Degree in Computer Science or related
-Minimum 4 years of working experience in the related field is required for this position
-Experience in MSSQL database administration in production environment 
-Experience with MS SQL Server business intelligence stack: Integration Services, ETL/OLAP/Analysis Services and Reporting Services 
-Hands-on experience in capacity planning and performance tuning 
-Knowledge of SQL server backup and restore strategies 
-Strong analytical, problem solving and process, solution oriented abilities
-Strategic thinker with a positive attitude, proactive and able to work under pressure in a fast-paced environment 
-Full-Time position(s) available."
+Accounting Analysis	Full Time		Petaling Jaya (Accessible by MRT)	"Provide accounting support to countries in the Asia Pacific region.
+Prepare local financial statements in accordance with local GAAP.
+Comply with country legal and statutory reporting requirement.
+Provide advice and counsel to management on US and country Generally Accepted Accounting Practices and guidelines.
+Perform self-inspection on work areas and implement measures to ensure compliance with IBM accounting and country practices and guidelines."	"Candidates must possess at least a Bachelor’s Degree in Finance/ Accounting/ Banking/ Economics, Commerce, Business Studies/ Administration/ Management (Major in Finance or Accounting will be added advantages).
+Fresh graduates and candidates with up to 5 years of experience are encouraged to apply.
+Excellent academic achievement with an equivalent First Class Honours degree or a strong Second Class Upper Honours. (Minimum CGPA 3.0) Accompanied by strong achievements in extra-curriculum activities or development programs.
+Strong people and communication skills.
+Able to quickly absorb professional knowledge.
+Have proficient IT skills to perform the job required.
+Motivated and results-driven individual with initiative.
+Knowledge of a second language (Mandarin/ Cantonese, Japanese, Korean) would be an added advantage."
 ****wzs21****
-Planner	3	Sepang	"Forecast & pre - plan the dipping lines capacity by products & time horizon.
-Derive a monthly production-planning schedule and forward to respective related parties.
-Input Sales Order (SO) & Demand forecast in the respective Product Planning Spread Sheet.
-Determine the Estimated Time Delivery (ETD) of Sales Order/Production Enquiry and inform Sales & Marketing department accordingly.
-Firm the Sale Order in the D365 System upon final confirmation on ETD.
-Re-schedule and firm the planned batch order (FG & Gloves); planned transfer order in D365 system.
-Verify the data (customer code, ETD, quantity & product code) correctness in Product Planning Sheet.
-Update the actual production quantity in the Product Planning Sheet on a daily basis.
-Coordinate with Plant Manager/ Executives on any changes in the Capacity Planning & Time Horizon.
-Conduct daily meeting with Packing Executives and follow up the status of Sales Order.
-Highlight to Operation Manager or any shipment required delay or reschedule.
-Coordinate with purchasing on any advance packaging required due to special production run.
-Coordinate with shipping on any shipment required change in ETD.
-Daily chaired the shipment meeting.
-Inform and discuss with Sales & Marketing if there any constrains on shipment ETD & product limitation.
-Update Bill of Material (BOM) in D365 System.
-Coordinate with Compounding Manager/ Executive on the capacity for all plants.
-Work closely with packing head on packing planning.
-Arrange the direct material in – coming based on monthly production schedule.
-Ensure all the direct material delivered as per schedule planned.
-Keep track of inventory movement (work - in – progress, raw material, temporary packing and packaging material) on a daily basis.
-Submit a temporary inventory status to superior – Planning on a weekly basis"	"Candidate must possess at least a Bachelor's Degree in Supply Chain, Post Graduate Diploma, Professional Degree, in any related field.
-Candidate with Diploma need to have at least 5 years experiences  in some tooling use for capacity & scheduling planning is added advantage if from similar industry.
-Fresh graduate with Degree are welcome to apply.
-Applicants must be willing to work in Sepang.
-Preferably  Executives specializing in Manufacturing/Production Operations or equivalent.
-Full-Time position(s) available.
-"
+End of Lease Business Support Professional - Support ANZ Market	Full Time		 Petaling Jaya (Accessible by MRT)	"Acts as interface between customer and IBM setting realistic expectations, resolving fulfillment/contract/decision related problems and providing support to customer ensuring a high level of satisfaction.
+Have responsibility for more complex customer relationships, but with support of more experienced team members.
+Ensures resolution of contract related problems and disputes related to EOL.
+Understands and provides advice on IBM (GARS) offerings and solutions. Prepares associated contracts and supplements and performs reconciliation in line with commitment periods and contract end.
+Maintains an awareness of customer decision and returns and communicates problems/issues to customers and appropriate IBM contact point.
+Maintains awareness of customer debt/accounts receivable status and initiates appropriate collection activities. Coordinates communication with customer and works with counterparts to resolve customer disputes and problems.
+Responds to fulfillment queries and ensures satisfaction with IBM fulfillment practices.
+Ensures compliance to all audit guidelines and adheres to all established processes.
+Assumes additional responsibilities as assigned."	"Fresh graduate or have 1 year and above experienced in the back end office.
+Open for candidates with any education background.
+Have a good communication and willing to support extra hours when required.
+Have a right attitude and willing to take challenges.
+Able to handle pressure and stress."
 ****wzs21****
-HRBP	1	Sepang	"Acting as single point of the contact for the employees and managers in the Operation Departments.
-Establish good customer relationship via close networking and open communication with all stakeholders.
-Responsible for HR fundamentals in the operation Departments by supporting and advising, operation managers in the areas of, but not limited to: managing performance, discipline, grievance, terminations and develop appropriate strategies to drive improvements or changes to ensure consistency in employment practices and the maintenance of healthy industrial relations.
-Coordinating and overseeing the implementation of new HR policies and procedures for the company so that all employees are constantly apprised of changes in HR policies and procedures.
-To maintain awareness of changes in employment law, government policy and emergence of best practice using this to provide strategic advice to colleagues’ / Operation Managers on effective use of human resource and all organizational development issues.
-Maintains in depth knowledge of legal requirements related to day-to-day management of employees, reducing legal risks and ensure regulatory compliance.
-Manage employee services day-to-day operations (facilities and amenities) including canteen, prayer room and foreign worker lockers to be in functional conditions consistent with organizational requirements.
-Provide best solutions and practices to further enhance their effectiveness, maintain good employee relations, employee engagement and teamwork.
-Develop structured programs, corrective action and activities to drive employee engagement.
-To carry out such other duties and responsibilities as are consistent with the role."	"Must possess at least a Bachelor’s Degree, Degree in Human Resource Management / Industrial Relations / Business Administration / Law or equivalent.
-At least 3 years of relevant experience in managing industrial and employee relations, preferably in a manufacturing environment, have experience in HRBP is an added advantage."
+Procurement Specialist (Tactical Buyer- Mandarin Speaking)	Full Time		Petaling Jaya (Accessible by MRT)	"Review requisition requirements and work efficiently with requesters and/or client employees to fulfill the requisition in the form of a Purchase Order to the appropriate Supplier.
+Recognize Non Catalog Purchases that should be directed to a Catalog Solution.
+Work efficiently with requester/client for additional information or any questions.
+Determine Source from Sourcing provided Master File.
+Negotiate cost savings and terms when applicable (non contracted sources).
+Procurement of low dollar purchases services (including source identification as needed).
+Price and delivery Confirmation.
+PO Order receipt Confirmation.
+Knowledge of all client specific processes and procedures.
+Complete Customer requests for set up of new suppliers including providing applicable information.
+Interface with clients and suppliers on supplier and payment issues in conjunction with tactical commodity manager.
+Maintain all relevant supplier documentation.
+Ensure audit readiness of all purchasing documents.
+Work with cluster leads and team lead.
+Resolve blocked invoices.
+Expedite and Emergency Orders and follow up on deliveries.
+Perform special projects as needed.
+Sourcing, Purchase , Negotiate, Vendor management.
+Regional Support Role: China."	"English and Mandarin: Fluent.
+Fresh graduates and candidates with up to 5 years of working experience are encouraged to apply.
+Knowledge on Purchase Order, Procurement Administrative and SAP System.
+Procurement Process Knowledge.
+Tactical Sourcing skills.
+Procurement Operation skills.
+Able to work individually or as a team and ability to prioritise work accordingly."
 ****wzs21****
-Executive - HSE	1	Sepang	"Design, implements, monitors & maintain all policies and procedures relating to safety, health & environmental with the ultimate aim of ensuring a high level of safety and health standards in the company.
-Keep abreast of current & emerging safety and health standards & practices. Report any new or updated information to management and the Safety and Health Committee “the committee”.  
-Keep abreast of current & emerging health issues (e.g. disease, epidemics, etc.) and propose plan of action to the management and the Committee on a timely basis.                                                    
-Propose solutions day-to-day safety and health issues that affect company personnel & property and discuss with the management and the Committee. 
-Perform detailed inspection of plant & office facilities on a weekly basis in accordance to inspection checklist to ensure compliance with safety standards and rectify any safety & health deficiencies must be highlighted.  
-Take appropriate steps to resolve any citations issued by government inspectors. Revise safety and health policy as necessary to avoid recurrence of problems.                                                       
-Perform detailed investigations after occurrence accidents. Provide report on cause of accidents and consideration within a reasonable time frame after each accident.                         
-Organise training on fire drill, first aid, Chemicals spilled / leakage & other areas which help to strengthen Health, Safety and Environment.                         Organise and coordinate safety and health meetings, including arranging for minute to be taken.  
-Study adequacy at safety and fire-fighting equipment’s in each department, discuss with respective department Heads & arrange for purchase of new equipment if required. Upon delivery of equipment, identify suitable location and monitor to ensure satisfactory installation. For all new equipment, train respective department supervisors & executives on correct usage & document training. If possible, to provide them a quick reference manual. Ensure training is then conducted by supervisors / executives for others employees in departments and documented.  
-Perform regular inspection and testing of all safety and fire-fighting equipment to ensure they are in good working condition. Ensure servicing of equipment is done on timely basis.  
-Perform Health and Safety training (including usage of safety and fire-fighting equipment) on a regular and systematic basis."	"Bachelor Degree in Safety or any relevant field.
-Certified Safety & Health Officer and at least pass examination paper 1,2,3 (NIOSH)
-Candidate with Green Book is preferable.
-Minimum 1-2 years relevant working experience.
-Candidates with building and facilities maintenance are preferable.
-Good communication skills and able to work independently.
-Willing to work at Sepang factory."
+Financial Analyst	Full Time		Petaling Jaya (Accessible by MRT)	"IBM Financial Analysts play a unique and integral role in driving business decisions, supporting operations and influencing business results.
+As a Financial Analyst you are considered to be a trusted business advisor, working within the company’s business units and geographies, as well as in a myriad of specialized corporate functions.
+In this role you’ll be responsible for the analysis of the IBM forecast, budget, actuals and business metrics and dynamics.
+You’ll interact directly with line management in the business units and geographies on the development of forecast and budget variance analysis, and provide ongoing business assessments and recommended solutions.
+You’ll also experience opportunities for skills development training and leadership development."	"Bachelor’s Degree Basic knowledge in Finance and Accounting concepts.
+Basic knowledge in Finance Planning, Forecasting, Budgeting or Services Accounting.
+Basic knowledge in MS Office – Word, Excel, Power Point.
+English: Fluent
+Preferred Accounting/Finance Certified in ACCA, CIMA, CPA.
+Fresh graduates and candidates with up to 5 years experience in Finance and Accounting are encouraged to apply.
+Candidates with experience in professional firms are encouraged to apply.
+Relevant internship experience is an added advantage.
+Proven track record in University/Work Environment with an interest in financial or quantitative.
+Strong communicator, great interpersonal and influencing skills.
+Flexible and Adaptable.
+Demonstrated good leadership and initiative."
 ****wzs21****
-Executive - Purchasing	1	Sepang	"1. Implement and adhere to SOPs, Code of business conduct in area of responsibilities.
-2. To manage project purchases.
-3. Lead in sourcing activities for goods and services, negotiate and recommend for right and best option.
-4. To solve suppliers or contrator's related issues, coordinate comunication between project team and suppliers or contractors.
-5. To prepare tender documents and assign PR for project purchases to respective buyer.
-6. To monitor all weighing and receiving activities for all project purchases.
-7. To assist and ensure purchasing assistant or clerks follow up on deliveries and ensure goods are received on time to prevent disruptions to operations.
-8. To assist in driving improvements to purchasing's processess and decision support system.
-"	"1. Degree in any field.
-2. Fresh graduates are encouraged to apply for this position.
-3. Good knowledge of procurement methods including sourcing, tendering, negotiating, contract administration and etc.
-4. A team player with good planning, organizing and communication skills.
-5. Must be able to work in a very fast pace.
-6. Applicants must be willing to work in Sepang."
-****wzs21****
-Engineer - Production	1	Sepang	"1. Assist the Production Manager in maintaining & troubleshooting the daily production process and product quality deficiency.
-2. Ensure all production process are consistent with written work instructions & procedures in order to comply with ISO9001/13485/GMP requirements.   
-3. Ensure quality of glove produced by checking regularly QAI reports & also other related department reports. If there are quality problems, to investigate further by discussion with related personnel before deciding & ensuring proper, corrective & preventive actions are taken to rectify problems.     
-4. Follow up with Supervisors if there is any corrective & preventive actions taken.   
-5. Ensure subordinate, i.e. supervisors are performing their duties effectively according to their written Job Descriptions.    
-6. Ensure good housekeeping & proper handling, storage and preservation of the product at all related areas.     
-7. Ensure all engineering works are properly planned with Engineering and Control & Instrumenation Department in order to minimise downtime.
-8. Ensure there is proper preventive maintenance on all production lines, i.e. coagulant, latex, chlorination, cleaning tanks, GSR and supporting equipments, i.e. chillers, compressors, scrubbers, etc on a regular basis.     
-"	"1. Bachelor Degree in Mechanical/Chemical Engineering
-2. Good communication, leadership and people-management skills
-3. Fresh graduates are encouraged to apply.
-4. Applicants must be willing to work in Sepang.
-5. Willing to work in shift basis."
-****wzs21****
-Engineer - Control & Instrumentation	3	Sepang	"1. To ensure all safety procedures are followed.
-2. To plan and coordinate all control system and instrumentation activities in the plant.
-3. To assign daily work to Engineering personnel oversee their work
-4. To plan and assist in plant maintenance to ensure that all equipment is functioning properly and to ensure any plant   machinery or equipment breakdown is attended to promptly and properly.
-5. To plan and execute instrumentation calibration according to required accuracy and frequency.
-6. To involve in control system continuous improvement plan and machinery automation.
-7. To oversee installation and testing of new control system and instrumentation.
-8. To prepare report on the engineering matters including repairs, personnel need, spare parts and supplies.
-9. To monitor all relevant spare part and ensure appropriate spare part stock is available.
-10. To review control system and instrumentation documentation to ensure they are accurate and applicable to plan machinery.
-11. To work with internal & external regulatory agency inspectors to correct any aspects of maintenance that is cited for inspection."	"1. Minimum Bachelor in Engineering in Mechatronic/Electrical.
-2. Minimum 1 year working with PLC (preferably SIEMENS) and instrumentation.
-3. Able to configure or modify PLC program or instrument. Supervisory and communication skills.
-4. Good troubleshooting skills on PLC & instrumentation and able to understand wiring/loop drawings.
-5. Applicants must be willing to work in Sepang."
-****wzs21****
-Engineer - Plant & Process	1	Sepang	"1.To monitor and provide guideline to electrical and mechanical breakdown maintenance, preventive maintenance and improvement project for all area inside Hartalega NGC premises.
-2. To ensure subordinate efficiency and highest quality and to lead them to better productivity.
-3. To lead the team and plan for annual maintenance execution work and complete on time.
-4. Liaise with contractor or supplier on projects/modification/improvement activities.
-5. To ensure LOTO are used for all electrical isolation work.
-6. To troubleshooting machine and determined repair and modification if necessary.
-7. To make sure all damaged items and properly segregated for repair and disposal if beyond repair.
-8. To ensure downtime are minimal by performing the job efficiently as per guideline in KPI.
-9. Always feedback to superior regarding any outstanding issues/items.
-10. To improve overall equipment efficiency (OEE).
-11. To ensure and practice self-safety and remind others on all works performed.
-12. To ensure all documents are done and kept properly in compliance with ISO and to keep track of all records (Checklists, commissioning reports, and etc)
-13. To rectify complain from internal and external customers.
-14. To update daily report, weekly report, monthly report, annual maintenance report and others report that assigned to them.
-15. To prepare budget annually and review every quarterly. 
-"	"1. Degree in Mechanical Engineering.
-2. Preferably candidates with 1-2 years of experience in the related field.
-3. Fresh graduates are encouraged to apply for this position.
-4. Able to work independently with minimum supervision form superior.
-5. Able to provide structured solution to engineering problems.
-6. Applicants must be willing to work in Sepang."
-****wzs21****
-Engineer - Control & Instrumentation	1	Bestari Jaya	"1. To ensure all safety procedures are followed.
-2. To plan and coordinate all control system and instrumentation activities in the plant.
-3. To assign daily work to Engineering personnel oversee their work
-4. To plan and assist in plant maintenance to ensure that all equipment is functioning properly and to ensure any plant   machinery or equipment breakdown is attended to promptly and properly.
-5. To plan and execute instrumentation calibration according to required accuracy and frequency.
-6. To involve in control system continuous improvement plan and machinery automation.
-7. To oversee installation and testing of new control system and instrumentation.
-8. To prepare report on the engineering matters including repairs, personnel need, spare parts and supplies.
-9. To monitor all relevant spare part and ensure appropriate spare part stock is available.
-10. To review control system and instrumentation documentation to ensure they are accurate and applicable to plan machinery.
-11. To work with internal & external regulatory agency inspectors to correct any aspects of maintenance that is cited for inspection."	"1. Minimum Bachelor in Engineering in Mechatronic/Electrical.
-2. Able to configure or modify PLC program or instrument. Supervisory and communication skills.
-3. Good troubleshooting skills on PLC & instrumentation and able to understand wiring/loop drawings.                                            4. Fresh graduates are encouraged to apply for this position.
-5. Applicants must be willing to work in Bestari Jaya."
-****wzs21****
-Engineer - Plant & Process	2	Bestari Jaya	"1.To monitor and provide guideline to electrical and mechanical breakdown maintenance, preventive maintenance and improvement project for all area inside Hartalega NGC premises.
-2. To ensure subordinate efficiency and highest quality and to lead them to better productivity.
-3. To lead the team and plan for annual maintenance execution work and complete on time.
-4. Liaise with contractor or supplier on projects/modification/improvement activities.
-5. To ensure LOTO are used for all electrical isolation work.
-6. To troubleshooting machine and determined repair and modification if necessary.
-7. To make sure all damaged items and properly segregated for repair and disposal if beyond repair.
-8. To ensure downtime are minimal by performing the job efficiently as per guideline in KPI.
-9. Always feedback to superior regarding any outstanding issues/items.
-10. To improve overall equipment efficiency (OEE).
-11. To ensure and practice self-safety and remind others on all works performed.
-12. To ensure all documents are done and kept properly in compliance with ISO and to keep track of all records (Checklists, commissioning reports, and etc)
-13. To rectify complain from internal and external customers.
-14. To update daily report, weekly report, monthly report, annual maintenance report and others report that assigned to them.
-15. To prepare budget annually and review every quarterly. 
-"	"1. Degree in Mechanical Engineering.
-2. Preferably candidates with 1-2 years of experience in the related field.
-3. Fresh graduates are encouraged to apply for this position.
-4. Able to work independently with minimum supervision form superior.
-5. Able to provide structured solution to engineering problems.
-6. Applicants must be willing to work in Bestari Jaya."
-`;
+Account Collection Specialist	Full Time		Petaling Jaya (Accessible by MRT)	"-The individuals in this role use dedicated financing systems and processes in the support of varied responsibilities such as Contract Preparation and Acceptance, Vendor Financing, Project Financing, Syndications, Inventory and Accounts Receivable Financing, Volume Purchase/Settlement Management and Collections.
+• Manage the receivables for collection portfolio assigned and ensure all overdue by customer are paid promptly by calling and other means of reaching out to clients, maintaining customer relations.
+• Organize collection to meet Operational KPIs. Attend AR Review calls.
+• Provide complete and solid collection status and progress updates.
+• Plan and implement collection strategies and engage in direct collection of receivables.
+• Coordinate with credit control, bad debts analyst of exceptional, problematic or suspicious customer and provide case histories where applicable to minimise bad debt and loss from fraud.
+• Work closely with Cash Application Team to advice and ensure that payment are allocate/apply correctly, include clearing UFA (Unapplied Fund Account).
+• Perform credit & finance analysis by providing AR status / outstanding to Credit / Treasury for credit release purposes or on customer account.
+• In order to manage credit limits terms and order releasing, the role provides operational and administrative support to the business by being responsible for organizational tasks of varying complexity."	"Fresh graduate and those with 1- 5 years of working experience are encouraged to apply.
+Preferably those with Finance/ Accounting background but open to other academic background as well.
+Account receivable, client relationship management related experience are plus points."`;
 
-COMPANY_ID = 686;
+DELIMITER = "\n****wzs21****\n"
+// DELIMITER = "\n"
+COMPANY_ID = 750;
 
 INDEX = {
     TITLE: 0,
-    TYPE: "Full Time",
-    LOCATION: 2,
-    DESC: 3,
-    REQ: 4,
-    URL: "",
+    // TYPE: "Full Time",
+    TYPE: 1,
+    LOCATION: 3,
+    DESC: 4,
+    REQ: 5,
+    URL: 2,
 }
 String.prototype.replaceAll = function (search, replacement, ignoreCase = false) {
     var i = (ignoreCase) ? "i" : "";
@@ -521,7 +372,7 @@ function reformat(str) {
     return str;
 }
 
-a = a.split("\n****wzs21****\n");
+a = a.split(DELIMITER);
 sql = "";
 for (var _a of a) {
     _a = _a.split("\t");
@@ -542,7 +393,7 @@ for (var _a of a) {
     sql += `INSERT INTO vacancies 
     (company_id, title, location, description, requirement, type, application_url,  created_by) 
     VALUES 
-    ('${COMPANY_ID}', '${title}', '${location}', '${desc}', '${req}', '${type}', '${url}',  1); \n`;
+    ('${COMPANY_ID}', '${title}', '${location}', '${desc}', '${req}', '${type}', '${url}',  1); \n\n\n`;
 }
 console.log("total", a.length);
 console.log(sql)

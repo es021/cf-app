@@ -151,6 +151,14 @@ Page 3
 - (Multi) What kind of company do you want to work in?
 
 
+vacancy_id  |	  cf
+-----------------------
+35			        SEEDS
+35			        IMPACT
+36			        SEEDS
+
+** vacancy yg takde tagging by cf akan displayed in all cf **
+
 
 ##############################################
 

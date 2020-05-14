@@ -5,8 +5,14 @@ const {
 
 class VacancyQuery {
 	getVacancy(params, extra) {
+		var cf_specific_where = (typeof params.cf === "undefined") ? "1=1" :
+		`("${params.cf}" in (select m.cf FROM cf_map m where m.entity_id = v.ID and entity = "vacancy")
+			OR
+		(select m.cf FROM cf_map m where m.entity_id = v.ID and entity = "vacancy") is null )`;
+
 		var cf_where = (typeof params.cf === "undefined") ? "1=1" :
 			`company_id IN (select m.entity_id from cf_map m where m.entity = "company" and cf = "${params.cf}" ) `;
+			
 		var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = '${params.ID}' `;
 		var location_where = (typeof params.location === "undefined") ? "1=1" : `location = '${params.location}' `;
 		var title_where = (typeof params.title === "undefined") ? "1=1" : `title like '%${params.title}%' `;
@@ -24,6 +30,7 @@ class VacancyQuery {
 
 		var sql = `from ${Vacancy.TABLE} v where 
 			1=1 and
+			${cf_specific_where} and
 			${cf_where} and
 			${id_where} and 
 			${title_where} and 
