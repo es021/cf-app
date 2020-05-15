@@ -562,7 +562,7 @@ export default class CompanyPage extends Component {
     </div>
   }
   isUrlYoutube(url) {
-    return url.containText("youtube") || url.containText("youtu.be");
+    return (url.containText("youtube") && url.containText("?v=")) || url.containText("youtu.be");
   }
   isGallery(d) {
     return d.type == DocLinkEnum.TYPE_DOC || this.isUrlYoutube(d.url);

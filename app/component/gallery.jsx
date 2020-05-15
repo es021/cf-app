@@ -16,7 +16,7 @@ export function isGalleryIframe(type, url) {
 
 export function getYoutubeIframe(rawUrl) {
   let embed = null;
-  if (rawUrl.containText("youtube")) {
+  if (rawUrl.containText("youtube") && rawUrl.containText("?v=")) {
     //src="https://www.youtube.com/embed/tzayZzSebrY"
     embed = getParamUrl(rawUrl, "v");
   } else if (rawUrl.containText("youtu.be")) {
@@ -180,7 +180,7 @@ export class Gallery extends React.Component {
         // var embed = getParamUrl(d.url, "v");
         // preview = getYoutubeIframe(embed);
       } else if (
-        d.url.containText("youtube") ||
+        (d.url.containText("youtube") && d.url.containText("?v=")) ||
         d.url.containText("youtu.be")
       ) {
         //https://youtu.be/RNMTDv-w9MU

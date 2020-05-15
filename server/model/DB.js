@@ -52,19 +52,19 @@ DB.prototype.sanitize = function(param){
 
 /**** CF *******/
 DB.prototype.cfMapSelect = function (entity, entity_id, cf) {
-    var cf_where = (typeof cf === "undefined") ? "1=1" : `cf= '${cf}'`;
-    return `SELECT cf from cf_map where entity = '${entity}' and entity_id = ${entity_id} and ${cf_where}`;
+    // var cf_where = (typeof cf === "undefined") ? "1=1" : `cf= '${cf}'`;
+    // return `SELECT cf from cf_map where entity = '${entity}' and entity_id = ${entity_id} and ${cf_where}`;
 
-    // var cf_where = (typeof cf === "undefined") ? "1=1" : `cmap.cf= '${cf}'`;
-    // return `
-    //     SELECT cmap.cf 
-    //     from cf_map cmap , cfs cftable 
-    //     where cmap.entity = '${entity}' and 
-    //     cmap.entity_id = ${entity_id} and 
-    //     ${cf_where} and
-    //     cftable.name = cmap.cf
-    //     order by cftable.created_at desc
-    // `;
+    var cf_where = (typeof cf === "undefined") ? "1=1" : `cmaptable.cf= '${cf}'`;
+    return `
+        SELECT cmaptable.cf 
+        from cf_map cmaptable , cfs cftable 
+        where cmaptable.entity = '${entity}' and 
+        cmaptable.entity_id = ${entity_id} and 
+        ${cf_where} and
+        cftable.name = cmaptable.cf
+        order by cftable.created_at desc
+    `;
 };
 
 DB.prototype.getCF = function (entity, entity_id) {
