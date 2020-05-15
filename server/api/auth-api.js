@@ -207,8 +207,9 @@ class AuthAPI {
 	//##########################################################################################
 	// Activate Account Module
 
-	createActivationLink(act_key, user_id) {
-		return `${SiteUrl}/auth/activate-account/${act_key}/${user_id}`;
+	createActivationLink(act_key, user_id, cf) {
+		let cfParam = cf ? `?cf=${cf}` : "";
+		return `${SiteUrl}/auth/activate-account/${act_key}/${user_id}/${cfParam}`;
 	}
 
 	activateAccount(act_key, user_id) {
@@ -486,7 +487,8 @@ class AuthAPI {
 			//send Email here
 			var act_link = this.createActivationLink(
 				data[UserMeta.ACTIVATION_KEY],
-				data[User.ID]
+				data[User.ID],
+				cf
 			);
 
 			var email_data = {
