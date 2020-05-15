@@ -94,11 +94,11 @@ class AuthAPI {
 			update[User.SKIP_DELETE_CF] = true;
 
 			var query = `mutation{edit_user(${obj2arg(update, {
-				noOuterBraces: true
-			})}) {ID}}`;
+        noOuterBraces: true
+      })}) {ID}}`;
 			getAxiosGraphQLQuery(query).then(
-				res => { },
-				err => { }
+				res => {},
+				err => {}
 			);
 		}
 	}
@@ -257,9 +257,8 @@ class AuthAPI {
 	// Reset Password Module
 
 	// helper function
-	createPasswordResetLink(token, user_id, cf) {
-		let cfParam = cf ? `?cf=${cf}` : "";
-		return `${SiteUrl}/auth/password-reset/${token}/${user_id}/${cfParam}`;
+	createPasswordResetLink(token, user_id) {
+		return `${SiteUrl}/auth/password-reset/${token}/${user_id}`;
 	}
 
 	// helper function
@@ -339,30 +338,12 @@ class AuthAPI {
 		return string.replace(new RegExp(search, `g`), replacement);
 	}
 
-	getLatestCf(userObj) {
-		let cfArr = [];
-		try {
-			if (userObj.role == UserEnum.ROLE_RECRUITER) {
-				cfArr = userObj.company.cf;
-			} else {
-				cfArr = userObj.cf;
-			}
-		} catch (err) { }
-
-		let latestCf = null;
-		if (Array.isArray(cfArr) && cfArr.length > 0) {
-			latestCf = cfArr[0];
-		}
-
-		return latestCf;
-	}
-
 	password_reset_request(user_email) {
 		// get user id from email
-		var id_query = `query{ user(user_email:"${user_email}"){ID first_name role cf company{cf} } }`;
+		var id_query = `query{ user(user_email:"${user_email}"){ID first_name} }`;
 		return getAxiosGraphQLQuery(id_query).then(res => {
 			var user = res.data.data.user;
-			let latestCf = this.getLatestCf(user);
+
 			if (user == null) {
 				return AuthAPIErr.INVALID_EMAIL;
 			} else {
@@ -383,7 +364,7 @@ class AuthAPI {
 							to: user_email,
 							params: {
 								first_name: user.first_name,
-								link: this.createPasswordResetLink(token, user.ID, latestCf)
+								link: this.createPasswordResetLink(token, user.ID)
 							},
 							type: "RESET_PASSWORD"
 						};
@@ -427,12 +408,12 @@ class AuthAPI {
         }
       }`).then((res) => {
 
-				let mail_chimp_list = res.data.data.cf["mail_chimp_list"];
-				console.log("mail_chimp_list", mail_chimp_list);
+        let mail_chimp_list = res.data.data.cf["mail_chimp_list"];
+        console.log("mail_chimp_list", mail_chimp_list);
 
 				let listId = mail_chimp_list == "local" ? MailChimp.ListIdLocal : MailChimp.ListId;
-				let url = `https://us16.api.mailchimp.com/3.0/lists/${listId}/members`;
-				console.log("url", url);
+        let url = `https://us16.api.mailchimp.com/3.0/lists/${listId}/members`;
+        console.log("url", url);
 
 				let params = {
 					email_address: email,
