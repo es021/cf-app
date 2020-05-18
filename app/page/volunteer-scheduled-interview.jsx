@@ -150,7 +150,7 @@ export default class VolunteerScheduledInterview extends React.Component {
             }
           );
         },
-        () => {}
+        () => { }
       );
     };
     //##########################################
@@ -160,16 +160,28 @@ export default class VolunteerScheduledInterview extends React.Component {
       let labelText = "";
       switch (d.status) {
         case PrescreenEnum.STATUS_APPROVED:
-          labelClass = "primary";
+          labelClass = "success";
           labelText = "Approved";
           break;
         case PrescreenEnum.STATUS_STARTED:
-          labelClass = "success";
+          labelClass = "primary";
           labelText = "Started";
           break;
         case PrescreenEnum.STATUS_ENDED:
           labelClass = "danger";
           labelText = "Ended";
+          break;
+        case PrescreenEnum.STATUS_WAIT_CONFIRM:
+          labelClass = "warning";
+          labelText = "Pending";
+          break;
+        case PrescreenEnum.STATUS_RESCHEDULE:
+          labelClass = "info";
+          labelText = "Reschedule Requested";
+          break;
+        case PrescreenEnum.STATUS_REJECTED:
+          labelClass = "danger";
+          labelText = "Rejected";
           break;
       }
       let status = (
@@ -319,7 +331,7 @@ export default class VolunteerScheduledInterview extends React.Component {
       if (typeof studentId !== "undefined") {
         query = `query{user(ID:${
           this.props.defaultFormItem[Prescreen.STUDENT_ID]
-        })
+          })
                       {ID
                       first_name
                       last_name}}`;

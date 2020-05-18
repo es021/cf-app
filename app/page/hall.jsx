@@ -291,6 +291,13 @@ export default class HallPage extends React.Component {
           <h3><small>Current / Upcoming Event : </small></h3>
           {/* <EventList isListNoMargin={true} limitLoad={2} listAlign="left" /> */}
           <EventList isListNoMargin={true} limitLoad={2} listAlign="center" />
+          <div className="text-right">
+            <b>
+              <NavLink to={`${AppPath}/list-events`}>
+                See More Events{" "}<i className="fa fa-long-arrow-right"></i>
+              </NavLink>
+            </b>
+          </div>
         </div>
         <SponsorList
           title={false}

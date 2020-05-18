@@ -507,7 +507,9 @@ class AuthAPI {
 				user[UserMeta.FIRST_NAME],
 				user[UserMeta.LAST_NAME]
 			);
-			getWpAjaxAxios("app_send_email", email_data);
+			
+			// skip send welcome email
+			// getWpAjaxAxios("app_send_email", email_data);
 		};
 
 		return getWpAjaxAxios("app_register_user", data, successInterceptor);
