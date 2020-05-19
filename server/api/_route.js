@@ -289,6 +289,47 @@ const initializeAllRoute = function (app, root) {
     );
   });
 
+  app.post(root + "/xls/:action/:password/:user_id", function (
+    req,
+    res,
+    next
+  ) {
+    var password = req.params.password;
+    var user_id = req.params.user_id;
+    var action = req.params.action;
+    var filter = req.body.filter;
+
+    console.log('password', password)
+    console.log('action', action)
+    console.log('user_id', user_id)
+    console.log('filter', filter)
+
+    AuthAPI.checkPasswordWithoutSlash(
+      password,
+      user_id,
+      () => {
+        XLSApi.export(action, filter).then(
+          response => {
+            res.header(
+              "Content-Type",
+              "application/vnd.ms-excel; charset=utf-8"
+            );
+            res.header(
+              "Content-Disposition",
+              `attachement; filename="${response.filename} - SeedsJobFair.xls"`
+            );
+            res.send(response.content);
+          },
+          err => {
+            res.send(err);
+          }
+        );
+      },
+      err => {
+        res.send(err);
+      }
+    );
+  });
   //upload route ----------------------------------------------------------------
 
   // var UPLOAD_PROGRESS = {

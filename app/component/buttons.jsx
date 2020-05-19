@@ -2,19 +2,71 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getXLSUrl } from '../redux/actions/other-actions';
 import { NavLink } from "react-router-dom";
-
+import {
+    TestUser,
+    AppConfig,
+    SiteUrl
+} from '../../config/app-config';
+import {
+    FilterNotObject
+} from '../../config/xls-config';
+import {
+    getAuthUser
+} from '../redux/actions/auth-actions';
 // require("../css/buttons.scss");
 
 export class ButtonExport extends React.Component {
 
     componentWillMount() {
         //this.url =;
+        this.post = (path, params) => {
+            let method = "post"
+
+            var form = document.createElement("form");
+
+            //Move the submit function to another variable
+            //so that it doesn't get overwritten.
+            form._submit_function_ = form.submit;
+
+            form.setAttribute("method", method);
+            form.setAttribute("action", path);
+
+            for (var key in params) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+
+            document.body.appendChild(form);
+            form._submit_function_(); //Call the renamed function.
+        }
     }
 
+    onClick() {
+        let filter = this.props.filter;
+        let action = this.props.action;
+        var user = getAuthUser();
+        if (FilterNotObject.indexOf(action) <= -1) {
+            filter = (filter == null) ? "null" : JSON.stringify(filter);
+        }
+        // filter = encodeURIComponent(filter);
+        let url = SiteUrl + `/xls/${action}/${user.user_pass}/${user.ID}`;
+        this.post(url, { filter: filter })
+    }
     render() {
-        return (<a style={this.props.style} className={`btn btn-sm btn-${this.props.btnClass}`} href={getXLSUrl(this.props.action, this.props.filter)}><i className="fa fa-file-excel-o left"></i>
+        return (<a style={this.props.style}
+            className={`btn btn-sm btn-${this.props.btnClass}`}
+            onClick={() => { this.onClick() }}>
+            <i className="fa fa-file-excel-o left"></i>
             {this.props.text}
         </a>);
+
+        // return (<a style={this.props.style} className={`btn btn-sm btn-${this.props.btnClass}`} href={getXLSUrl(this.props.action, this.props.filter)}><i className="fa fa-file-excel-o left"></i>
+        //     {this.props.text}
+        // </a>);
     }
 }
 
