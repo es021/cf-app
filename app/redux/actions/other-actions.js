@@ -37,5 +37,8 @@ export function getXLSUrl(action, filter = null) {
     if (FilterNotObject.indexOf(action) <= -1) {
         filter = (filter == null) ? "null" : JSON.stringify(filter);
     }
+
+    filter = encodeURIComponent(filter);
+
     return SiteUrl + `/xls/${action}/${filter}/${user.user_pass}/${user.ID}`;
 }
