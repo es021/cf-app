@@ -10,6 +10,7 @@ import {
 import {
     getAuthUser
 } from './auth-actions';
+// import {Time} from "../../lib/time";
 
 
 export function addLog(event, data = null, user_id = null) {
@@ -37,8 +38,9 @@ export function getXLSUrl(action, filter = null) {
     if (FilterNotObject.indexOf(action) <= -1) {
         filter = (filter == null) ? "null" : JSON.stringify(filter);
     }
-
     filter = encodeURIComponent(filter);
 
-    return SiteUrl + `/xls/${action}/${filter}/${user.user_pass}/${user.ID}`;
+    let version = "encoded-20200519";
+    let toRet = SiteUrl + `/xls/${action}/${filter}/${user.user_pass}/${user.ID}?v=${version}`;
+    return toRet;
 }
