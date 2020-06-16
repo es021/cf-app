@@ -124,6 +124,7 @@ const AvailabilityType = new GraphQLObjectType({
 	})
 });
 
+// 3. @custom_user_info_by_cf
 const UserType = new GraphQLObjectType({
 	name: "User",
 	fields: () => ({

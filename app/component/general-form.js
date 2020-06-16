@@ -230,7 +230,7 @@ export default class GeneralFormPage extends React.Component {
   addPopup() {
     const generateForm = formItem => {
       layoutActions.storeUpdateFocusCard(`Add ${this.Entity}`, GeneralForm, {
-        emptyMessage:this.props.emptyMessage,
+        emptyMessage: this.props.emptyMessage,
         discardDiff: this.props.discardDiff,
         forceDiff: this.props.forceDiff,
         entity: this.props.entity,
@@ -256,16 +256,17 @@ export default class GeneralFormPage extends React.Component {
   // create general form for edit record
   editPopup(e) {
     const id = e.currentTarget.id;
+    let curElement = e.currentTarget;
 
     const generateForm = formItem => {
       layoutActions.loadingBlockLoader("Fetching information..");
-      this.props.getEditFormDefault(id).then(res => {
+      this.props.getEditFormDefault(id, curElement).then(res => {
         layoutActions.storeHideBlockLoader();
         layoutActions.storeUpdateFocusCard(
           `Editing ${this.Entity} #${id}`,
           GeneralForm,
           {
-            emptyMessage : this.props.emptyMessage,
+            emptyMessage: this.props.emptyMessage,
             discardDiff: this.props.discardDiff,
             forceDiff: this.props.forceDiff,
             acceptEmpty: this.props.acceptEmpty,
@@ -353,13 +354,18 @@ export default class GeneralFormPage extends React.Component {
 
     var view = null;
     const renderList = (d, i) => {
+      let extra = {};
+      if (this.props.getExtraEditData) {
+        extra = this.props.getExtraEditData(d);
+      }
+
       var editAct = (
-        <a id={d.ID} onClick={this.editPopup.bind(this)}>
+        <a id={d.ID} {...extra} onClick={this.editPopup.bind(this)}>
           Edit
         </a>
       );
       var delAct = (
-        <a id={d.ID} onClick={this.deletePopup.bind(this)}>
+        <a id={d.ID} {...extra} onClick={this.deletePopup.bind(this)}>
           Delete
         </a>
       );
@@ -527,6 +533,7 @@ export default class GeneralFormPage extends React.Component {
 }
 
 GeneralFormPage.propTypes = {
+  getExtraEditData : PropTypes.func,
   searchFormContentBottom: PropTypes.object,
   searchFormNonPopup: PropTypes.bool,
   hasResetFilter: PropTypes.bool,
@@ -594,7 +601,7 @@ export const openEditPopup = function (
     `Editing ${entity_singular} #${id}`,
     GeneralForm,
     {
-      emptyMessage : this.props.emptyMessage,
+      emptyMessage: this.props.emptyMessage,
       forceDiff: [],
       dicardDiff: [],
       entity: entity,

@@ -172,6 +172,17 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
     {
+      url: "/manage-cf",
+      label: "Manage Career Fair",
+      icon: "home",
+      component: AdminCf,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin()
+    },
+    {
       // Admin Only
       url: "/admin-recruiter",
       label: "Recruiters",

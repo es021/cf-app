@@ -7,7 +7,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import { getAxiosGraphQLQuery } from "../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql, graphqlAttr } from "../helper/api-helper";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Loader } from "./component/loader";
@@ -24,7 +24,7 @@ import {
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
-import { LogEnum, CFSMetaObject } from "../config/db-config";
+import { LogEnum, CFSMetaObject, CFS, CFSMeta } from "../config/db-config";
 import { IsRecruiterNewHall, RootPath } from "../config/app-config";
 
 import * as Navigation from "./component/navigation.jsx";
@@ -89,44 +89,6 @@ class PrimaryLayout extends React.Component {
     // override_coming_soon
     // page_url
     // page_banner
-    var query = `query{cfs(is_load:1){
-		ID
-		name
-		country
-		time
-		is_active
-		created_at
-		updated_at
-		title
-    title_landing
-    welcome_text
-    
-		banner
-		banner_pos    
-		start
-    end
-    is_local
-		time_str
-		time_str_mas
-		can_login
-    can_register
-    organizations
-    hall_cfg_onsite_call_use_group
-
-    feature_company_booth
-    feature_sponsor
-    
-    text_header_title
-    text_header_desc
-    text_student_single
-    text_student_plural
-
-    image_header_icon
-    
-    link_external_home
-
-  }}`;
-
     /**
     logo
     flag
@@ -146,7 +108,49 @@ class PrimaryLayout extends React.Component {
       University
      */
 
-    getAxiosGraphQLQuery(query).then(res => {
+
+    /**
+     ID
+      name
+      country
+      time
+      is_active
+      created_at
+      updated_at
+      title
+      title_landing
+      welcome_text
+      
+      banner
+      banner_pos    
+      start
+      end
+      is_local
+      time_str
+      time_str_mas
+      can_login
+      can_register
+      organizations
+      hall_cfg_onsite_call_use_group
+  
+      feature_company_booth
+      feature_sponsor
+      
+      text_header_title
+      text_header_desc
+      text_student_single
+      text_student_plural
+  
+      image_header_icon
+      
+      link_external_home
+     */
+
+
+    var query = `query{cfs(is_load:1)
+      { ${graphqlAttr(CFS, CFSMeta)} } }`;
+
+    graphql(query).then(res => {
       var cfs = res.data.data.cfs;
       let attrObj = CFSMetaObject;
       for (var i in cfs) {

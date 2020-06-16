@@ -10,6 +10,8 @@ EXPORT.Cfs = {
     country: __.String,
     time: __.String,
     is_active: __.String,
+    is_load: __.String,
+    cf_order: __.String,
     created_at: __.String,
     updated_at: __.String,
 

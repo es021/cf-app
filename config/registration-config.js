@@ -3,30 +3,46 @@ const {
     UserMeta
 } = require('./db-config.js');
 
+// 1. @custom_user_info_by_cf
+const isCustomUserInfoOn = (cf, key) => {
+    let valid = [];
+    if (cf == "MONASH") {
+        valid = ["new_custom"]
+    }
+
+    return valid.indexOf(key) >= 0;
+}
+
+
 const Single = {
-    first_name : "first_name",
-    last_name : "last_name",
-    country_study : "country_study",
-    university : "university",
-    qualification : "qualification",
-    graduation_month : "graduation_month",
-    graduation_year : "graduation_year",
-    working_availability_month : "working_availability_month",
-    working_availability_year : "working_availability_year",
-    where_in_malaysia : "where_in_malaysia",
-    grade : "grade",
-    phone_number : "phone_number",
+    first_name: "first_name",
+    last_name: "last_name",
+    country_study: "country_study",
+    university: "university",
+    qualification: "qualification",
+    graduation_month: "graduation_month",
+    graduation_year: "graduation_year",
+    working_availability_month: "working_availability_month",
+    working_availability_year: "working_availability_year",
+    where_in_malaysia: "where_in_malaysia",
+    grade: "grade",
+    phone_number: "phone_number",
     //sponsor : "sponsor",
     //description : "description",
+
+    // 2a. @custom_user_info_by_cf
+
 }
 
 const Multi = {
-    field_study : "field_study",
-    looking_for_position : "looking_for_position",
-    interested_role : "interested_role",
-    interested_job_location : "interested_job_location",
-    skill : "skill",
-    extracurricular : "extracurricular",
+    field_study: "field_study",
+    looking_for_position: "looking_for_position",
+    interested_role: "interested_role",
+    interested_job_location: "interested_job_location",
+    skill: "skill",
+    extracurricular: "extracurricular",
+
+    // 2b. @custom_user_info_by_cf
 }
 
 const RequiredFieldStudent = [
@@ -67,5 +83,6 @@ const RequiredFieldRecruiter = [
 module.exports = {
     Single, Multi,
     RequiredFieldStudent,
-    RequiredFieldRecruiter
+    RequiredFieldRecruiter,
+    isCustomUserInfoOn
 };

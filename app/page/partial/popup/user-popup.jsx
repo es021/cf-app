@@ -170,6 +170,7 @@ export default class UserPopup extends Component {
     }
 
     console.log("UserPage", "componentWillMount");
+    // 6a. @custom_user_info_by_cf
     var query =
       this.props.role === UserEnum.ROLE_STUDENT
         ? `query {
@@ -249,6 +250,8 @@ export default class UserPopup extends Component {
     }
     return ret;
   }
+
+  // 6b. @custom_user_info_by_cf
   getBasicInfo(d) {
     var notSpecifed = (
       <small>
@@ -408,6 +411,7 @@ export default class UserPopup extends Component {
     );
   }
 
+  // 6c. @custom_user_info_by_cf
   getStudentBody(user) {
     //about
     const basic = this.getBasicInfo(user);

@@ -18,7 +18,7 @@ const {
 	RequiredFieldStudent,
 	Multi,
 	Single
-} = require("../../config/registration-config.js");
+} = require("../../config/registration-config");
 
 const {
 	DocLinkExec

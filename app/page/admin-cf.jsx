@@ -6,8 +6,8 @@ import UserPopup from './partial/popup/user-popup';
 
 //importing for list
 import List from '../component/list';
-import { getAxiosGraphQLQuery } from '../../helper/api-helper';
-import { User, UserMeta } from '../../config/db-config';
+import { getAxiosGraphQLQuery, graphql, graphqlAttr } from '../../helper/api-helper';
+import { User, UserMeta, CFS, CFSMeta } from '../../config/db-config';
 import { Time } from '../lib/time';
 import { createUserTitle } from './users';
 import { createCompanyTitle } from './admin-company';
@@ -16,19 +16,85 @@ import { createCompanyTitle } from './admin-company';
 export default class AdminCf extends React.Component {
     constructor(props) {
         super(props);
+
+        this.CfFormAttribute = this.getCfFormAttribute();
+
+    }
+
+    getCfFormAttribute() {
+        let r = [];
+        let obj = { ...CFS, ...CFSMeta }
+        for (var k in obj) {
+
+            if (["TABLE", "ID", "TIME", "CREATED_AT", "UPDATED_AT"].indexOf(k) >= 0) {
+                continue;
+            }
+
+
+            r.push(obj[k]);
+        }
+
+        return r;
+    }
+
+    formType(name) {
+        if (["can_login", "can_register", "is_local", "hall_cfg_onsite_call_use_group"].indexOf(name) >= 0) {
+            return "number";
+        }
+        if (["organizations"].indexOf(name) >= 0) {
+            return "textarea"
+        }
+        return "text";
+    }
+    formSublabel(name) {
+        if (name == "start" || name == "end") {
+            return <div>Please follow the following format :<br></br>
+                <b>Jul 18 2019 10:00:00 GMT +0800 (+08)</b></div>;
+        }
+
+        if (["is_active", "is_load", "can_register", "can_login", "hall_cfg_onsite_call_use_group", "is_local"].indexOf(name) >= 0) {
+            return <div>Accepted value : <b>1</b> or <b>0</b></div>;
+        }
+
+        if (["cf_order"].indexOf(name) >= 0) {
+            return <div>Accepted value : <b>Numeric</b></div>;
+        }
+
+        if (["feature_company_booth", "feature_sponsor"].indexOf(name) >= 0) {
+            return <div>Accepted value : <b>ON</b> or <b>OFF</b></div>;
+        }
+
+        /**
+         * [{"label":"Host Universities","icon_size":"150","data":[{"name":"Universiti Teknologi MARA","logo":"UITM.jpg","shortname":"UITM"},{"name":"Universiti Tunku Abdul Rahman","shortname":"UTAR","logo":"UTAR.jpg"},{"name":"Universiti Teknologi Malaysia","shortname":"UTM","logo":"UTM.jpg"}]},{"label":"Championed By","icon_size":"200","data":[{"name":"Malaysia Digital Economy Corporation","logo":"MDEC.jpg","shortname":"MDEC"}]},{"label":"Strategic Partner","icon_size":"150","data":[{"name":"Seeds Job Fair","logo":"logo.png"}]}]
+         */
+        if (["organizations"].indexOf(name) >= 0) {
+            return <div>Accepted value : <b>JSON Array</b><br></br>
+            <span>{`[{"label":"Universities","icon_size":"150","data":[{"name":"Universiti Teknologi MARA","logo":"UITM.jpg","shortname":"UITM"}]}]`}</span>
+            </div>;
+        }
+        return null;
+    }
+    formHidden(name) {
+        if ([""].indexOf(name) >= 0) {
+            return true;
+        }
+        return false;
+    }
+    formRequired(name) {
+        if ([""].indexOf(name) >= 0) {
+            return true;
+        }
+        return false;
+    }
+    formDisabled(name) {
+        if (["name"].indexOf(name) >= 0) {
+            return true;
+        }
+        return false;
     }
 
     componentWillMount() {
         this.offset = 10;
-        this.tableHeader = <thead>
-            <tr>
-                <th>ID</th>
-                <th>Student</th>
-                <th>Company</th>
-                <th>Position</th>
-                <th>Registered At</th>
-            </tr>
-        </thead>;
 
         //##########################################
         //  search
@@ -36,131 +102,116 @@ export default class AdminCf extends React.Component {
         this.search = {};
         this.searchFormItem = [{ header: "Enter Your Search Query" },
         {
-            label: "Find Recruiter",
-            name: "search_user",
+            label: "Tag : ",
+            name: "name",
             type: "text",
-            placeholder: "Type student name or email"
+            placeholder: "SEEDS, IMPACT, CITRA"
         }];
 
         this.searchFormOnSubmit = (d) => {
             this.search = d;
             this.searchParams = "";
             if (d != null) {
-                this.searchParams += (d.search_user) ? `search_user:"${d.search_user}",` : "";
+                this.searchParams += (d.name) ? `name:"${d.name}",` : "";
             }
         };
 
 
         this.loadData = (page, offset) => {
-            return getAxiosGraphQLQuery(`
-            query{
-            users(${this.searchParams} role:"recruiter", page:${page}, offset:${offset}, order_by:"updated_at desc"){
-                ID
-                user_email
-                first_name
-                rec_company
-                last_name
-                company{ID name}
-                rec_position 
-                user_registered
-            }
-        }`);
+            return graphql(`query{cfs(${this.searchParams} is_load:1, page:${page}, offset:${offset}, order_by:"cf_order desc")
+                { ${graphqlAttr(CFS, CFSMeta)} } }`);
         };
 
 
+
+        this.tableHeader = <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Order</th>
+                <th>Details</th>
+            </tr>
+        </thead>;
+
         this.renderRow = (d, i) => {
             var row = [];
-            var dismiss = ["user_email", "last_name","rec_company"];
+            let detailColumn = [];
 
             for (var key in d) {
-                if (dismiss.indexOf(key) >= 0) {
-                    continue;
-                }
-                if (key == "first_name") {
-                    row.push(<td>{createUserTitle(d, this.search.search_user)}</td>);
-                } else if (key == "user_registered") {
-                    row.push(<td>{Time.getString(d.user_registered)}</td>);
-                } else if (key == "company") {
-                    if (d.rec_company == -1) {
-                        row.push(<td><span className="text-muted">Not Specified</span></td>);
-                    } else {
-                        row.push(<td>{createCompanyTitle(d.company)}</td>);
-                    }
-                } else {
+                if (key == "ID" || key == "name" || key == "cf_order") {
                     row.push(<td>{d[key]}</td>);
+                } else {
+                    detailColumn.push(<div><b>{key}</b> : {d[key]}</div>)
                 }
             }
+
+            row.push(<td>{detailColumn}</td>);
+
             return row;
         }
 
         this.getDataFromRes = (res) => {
-            return res.data.data.users;
+            return res.data.data.cfs;
         }
 
+        this.acceptEmpty = this.CfFormAttribute;
 
         // props for edit
         // create form add new default
-        this.getFormItemAsync = (edit) => {
-            var query = `query{
-                companies{
-                  ID name
-                }
-              }`
+        this.getFormItem = (edit) => {
 
-            return getAxiosGraphQLQuery(query)
-                .then((res) => {
-                    var companies = res.data.data.companies.map((d, i) => {
-                        return { key: d.ID, label: d.name };
-                    });
+            var ret = [{ header: "Career Fair Form" }];
 
+            for (var attr of this.CfFormAttribute) {
+                let name = attr;
 
-                    var ret = [{ header: "Recruiter Form" }];
-                    //for create only
-                    ret.push(...[{
-                        name: User.ID,
-                        type: "number",
-                        required: true,
-                        hidden: true,
-                        disabled: true
-                    },
-                    {
-                        label: "Select Company For This Recruiter",
-                        name: UserMeta.REC_COMPANY,
-                        type: "select",
-                        required: true,
-                        data: Array({ key: -1, label: "No Company" }, ...companies)
-                    }]);
+                ret.push({
+                    label: name,
+                    sublabel: this.formSublabel(name),
+                    name: name,
+                    type: this.formType(name),
+                    required: this.formRequired(name),
+                    hidden: this.formHidden(name),
+                    disabled: this.formDisabled(name)
+                })
+            }
 
-                    return ret;
-                });
+            return ret;
         }
 
+        this.getExtraEditData = (d) => {
+            let r = {};
+            r["data-name"] = d.name;
+            return r;
+        }
 
-        this.getEditFormDefault = (ID) => {
-            const query = `query{user(ID:${ID}){
-                ID rec_company
+        this.getEditFormDefault = (id, el) => {
+            let name = el.dataset.name;
+            const query = `query{cf(name:"${name}"){
+                ${graphqlAttr(CFS, CFSMeta)}
             }}`;
 
             return getAxiosGraphQLQuery(query).then((res) => {
-                var user = res.data.data.user;
-                return user;
+                return res.data.data.cf;
             });
         }
     }
 
     render() {
-        document.setTitle("Recruiters");
-        return (<div><h3>Recruiterss</h3>
+        document.setTitle("Career Fair");
+        return (<div><h3>Career Fair</h3>
 
             <GeneralFormPage
+                getExtraEditData={this.getExtraEditData}
+                searchFormNonPopup={true}
                 dataTitle={this.dataTitle}
                 noMutation={true}
                 canEdit={true}
                 dataOffset={20}
-                getFormItemAsync={this.getFormItemAsync}
+                getFormItem={this.getFormItem}
                 getEditFormDefault={this.getEditFormDefault}
-                entity_singular="Recruiter"
-                entity="user"
+                entity_singular="Career Fair"
+                entity="user" // todo
                 searchFormItem={this.searchFormItem}
                 searchFormOnSubmit={this.searchFormOnSubmit}
                 tableHeader={this.tableHeader}

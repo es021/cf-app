@@ -6,6 +6,7 @@ const obj2arg = require("graphql-obj2arg");
 
 class XLSApi {
   constructor() {
+    // 7. @custom_user_info_by_cf
     this.student_field = `ID
         first_name
         last_name

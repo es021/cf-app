@@ -81,11 +81,13 @@ class CFQuery {
 		}
 	}
 	getCF(params, field) {
-		var order_by = "ORDER BY cf_order desc";
+		var order_by = `ORDER BY ${typeof params.order_by === "undefined" ? "cf_order desc" : params.order_by}`;
+
 		var is_active =
 			typeof params.is_active === "undefined" ?
 				"1=1" :
 				`is_active = '${params.is_active}'`;
+
 		var is_load =
 			typeof params.is_load === "undefined" ?
 				"1=1" :
@@ -95,6 +97,9 @@ class CFQuery {
 			typeof params.name === "undefined" ?
 				"1=1" :
 				`name = '${params.name}'`;
+
+		var limit = DB.prepareLimit(params.page, params.offset);
+
 
 		let selMeta = "";
 		for (var i in CFSMeta) {
@@ -107,7 +112,7 @@ class CFQuery {
 
 		return `select c.* ${selMeta} from ${CFS.TABLE} c
             where 1=1 AND ${is_active} AND ${is_load} AND ${name}
-            ${order_by}`;
+            ${order_by} ${limit}`;
 
 		// var id_where = (typeof params.ID === "undefined") ? "1=1" : `ID = "${params.ID}"`;
 		// var can_login_where = (typeof params.can_login === "undefined") ? "1=1" : `can_login = '${params.can_login}'`;
@@ -146,9 +151,9 @@ class CFExec {
 		}
 
 		var where = `WHERE meta_key IN (${meta_key_in.slice(
-      0,
-      -1
-    )}) and cf_name = '${name}'`;
+			0,
+			-1
+		)}) and cf_name = '${name}'`;
 
 		var check_sql = `SELECT * FROM cfs_meta ${where}`;
 
@@ -170,7 +175,7 @@ class CFExec {
 			});
 
 			if (insert_val !== "") {
-				var insert_sql = ` INSERT INTO cfs_meta (cf_name, meta_key, meta_value) VALUES ${insert_val.slice(0,-1)} `;
+				var insert_sql = ` INSERT INTO cfs_meta (cf_name, meta_key, meta_value) VALUES ${insert_val.slice(0, -1)} `;
 				return DB.query(insert_sql).then(res => {
 					//only then update what's left
 					return DB.query(update_sql);
@@ -191,11 +196,11 @@ class CFExec {
 		var updateCfMeta = {};
 		//console.log(arg);
 
-		var userVal = Object.keys(CFS).map(function(key) {
+		var userVal = Object.keys(CFS).map(function (key) {
 			return CFS[key];
 		});
 
-		var userMetaVal = Object.keys(CFSMeta).map(function(key) {
+		var userMetaVal = Object.keys(CFSMeta).map(function (key) {
 			return CFSMeta[key];
 		});
 

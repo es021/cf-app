@@ -628,17 +628,21 @@ const EntityRemoved = {
 	USER_ID: "user_id"
 };
 
-
+// 7
 const CFS = {
 	TABLE: "cfs",
+	ID : "ID",
 	NAME: "name",
 	COUNTRY: "country",
 	TIME: "time",
 	IS_ACTIVE: "is_active",
 	IS_LOAD: "is_load",
 	CF_ORDER: "cf_order",
+	CREATED_AT : "created_at",
+	UPDATED_AT : "updated_at"
 };
 
+// 23
 const CFSMeta = {
 	TABLE: "cfs_meta",
 	TITLE: "title",

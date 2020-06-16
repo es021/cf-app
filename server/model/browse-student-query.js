@@ -243,6 +243,7 @@ class BrowseStudentExec {
 
 		let where = this.getWhere("s.entity_id", param);
 
+		// 4. @custom_user_info_by_cf
 		let q = `SELECT * FROM (
 			${cfFilter(where)}
 			UNION ALL

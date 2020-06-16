@@ -117,6 +117,21 @@ function graphql(q) {
 	return getAxiosGraphQLQuery(q);
 }
 
+function graphqlAttr(...dbConfigArr) {
+	let r = "";
+	for(var conf of dbConfigArr){
+		for(var k in conf){
+			if(k == "TABLE"){
+				continue;
+			}
+
+			r += ` ${conf[k]} `
+		}
+	}
+
+	return r;
+}
+
 function getStaticAxios(filename, version = null) {
 	var config = {
 		proxy: false
@@ -226,6 +241,7 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 
 //Export functions 
 module.exports = {
+	graphqlAttr,
 	graphql,
 	deleteAxios,
 	postAxios,
