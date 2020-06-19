@@ -5,6 +5,7 @@ const {
 const {
 	CFQuery
 } = require("./cf-query");
+const { isCustomUserInfoOn } = require("../../config/registration-config")
 
 // all-type
 // mutation
@@ -136,6 +137,8 @@ class BrowseStudentExec {
 		return toRet;
 	}
 	queryFilter(param) {
+		const currentCf = param.current_cf;
+
 		const EMPTY_FILTER = `select 
 		'' as _key 
 		, '' as _val
@@ -223,6 +226,15 @@ class BrowseStudentExec {
 					s.val IN (select r.val from ref_country r)
 				)  `
 
+			// 4b. @custom_user_info_by_cf -- filter single
+			let unemployment_period = !isCustomUserInfoOn(currentCf, "unemployment_period")
+				? "1=0"
+				: `( 
+						s.key_input = "unemployment_period"
+							AND
+						s.val IN (select r.val from ref_unemployment_period r)
+					)`
+
 			return `SELECT 
 			s.key_input as _key
 			, s.val as _val
@@ -233,6 +245,8 @@ class BrowseStudentExec {
 			${university} 
 			OR 
 			${country_study}
+			OR 
+			${unemployment_period}
 			AND s.entity = 'user'
 			AND ${where}
 			group by s.key_input, s.val`;
@@ -243,7 +257,7 @@ class BrowseStudentExec {
 
 		let where = this.getWhere("s.entity_id", param);
 
-		// 4. @custom_user_info_by_cf
+		// 4a. @custom_user_info_by_cf
 		let q = `SELECT * FROM (
 			${cfFilter(where)}
 			UNION ALL

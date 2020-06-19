@@ -9,7 +9,7 @@ import {
   removeClassEl
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
-import { isRoleStudent, isRoleRec } from "../../../redux/actions/auth-actions";
+import { isRoleStudent, isRoleRec, getCF } from "../../../redux/actions/auth-actions";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ export default class ManageUserProfile extends React.Component {
       if (item.is_required === true) {
         return true;
       }
-    } catch (err) {}
+    } catch (err) { }
     return false;
   }
 
@@ -226,7 +226,7 @@ export default class ManageUserProfile extends React.Component {
           table_name: Reg.Multi.field_study,
           discard_ref_from_default: true,
           label: "What is your field of study?",
-          sublabel : "You can choose more than one field of study",
+          sublabel: "You can choose more than one field of study",
           list_title: null,
           ref_table_name: "field_study",
           is_required: true,
@@ -252,6 +252,18 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "XXX-XXXXXXX",
           is_required: true,
           hidden: false
+        },
+        {
+          // single select
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.unemployment_period,
+          key_input: Reg.Single.unemployment_period,
+          label: "How long have you been unemployed?",
+          ref_table_name: "unemployment_period",
+          ref_order_by: "ID asc",
+          is_required: true,
+          hidden: isRoleRec() || !Reg.isCustomUserInfoOn(getCF(), "unemployment_period")
         },
         {
           // single
@@ -330,9 +342,9 @@ export default class ManageUserProfile extends React.Component {
           // suggestion_search_by_ref: "major",
           // suggestion_search_by_val: major,
           //list_title: major ? `Popular job for major ${major}` : "",
-          ref_order_by : "ID asc",
+          ref_order_by: "ID asc",
           ref_table_name: "skill",
-          ref_offset : 11,
+          ref_offset: 11,
           is_required: true,
           hidden: isRoleRec()
         },
@@ -343,9 +355,9 @@ export default class ManageUserProfile extends React.Component {
           table_name: Reg.Multi.extracurricular,
           label: "Organization / Extracurricular Activities",
           input_placeholder: "",
-          ref_order_by : "ID asc",
+          ref_order_by: "ID asc",
           ref_table_name: "extracurricular",
-          ref_offset : 11,
+          ref_offset: 11,
           is_required: true,
           hidden: isRoleRec()
         },

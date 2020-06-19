@@ -164,6 +164,7 @@ const UserType = new GraphQLObjectType({
 		last_name: __.String,
 		country_study: __.String,
 		university: __.String,
+		unemployment_period: __.String,
 		qualification: __.String,
 		graduation_month: __.String,
 		graduation_year: __.String,

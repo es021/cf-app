@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
-import { isCfLocal } from "../../../redux/actions/auth-actions";
+import { isCfLocal, getCF } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 
 
@@ -74,7 +74,9 @@ export class BrowseStudentFilter extends React.Component {
             this.discardFilter += "::university::";
         }
 
+        // 4c. @custom_user_info_by_cf
         this.orderFilter = [
+            "unemployment_period",
             "like_job_post_only", "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
             "looking_for_position", "working_availability_from", "working_availability_to",
             "graduation_from", "graduation_to", "interested_job_location", "where_in_malaysia", "skill"
@@ -194,7 +196,7 @@ export class BrowseStudentFilter extends React.Component {
     }
     loadFilter() {
         this.setState({ loading: true })
-        let param = `discard_filter:"${this.discardFilter}"`;
+        let param = `current_cf:"${getCF()}", discard_filter:"${this.discardFilter}"`;
 
         // limit filter and count untuk initial filter je
         // for case page student list job post, dia akan filter sapa yang like job post je
@@ -343,6 +345,7 @@ export class BrowseStudentFilter extends React.Component {
     }
 
     getTitleFromKey(key) {
+        // 4d. @custom_user_info_by_cf
         return {
             cf: "Career Fair",
             university: "University",
@@ -352,6 +355,7 @@ export class BrowseStudentFilter extends React.Component {
             where_in_malaysia: "City/State In Malaysia",
             looking_for_position: "Looking For",
             skill: "Skills",
+            unemployment_period: "Unemployment Period",
         }[key];
     }
 
