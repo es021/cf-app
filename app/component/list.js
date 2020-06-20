@@ -13,6 +13,7 @@ export default class List extends React.Component {
     this.page = 0;
     this.load = this.load.bind(this);
     this.loadCount = this.loadCount.bind(this);
+    this.appendButtonOnClick = this.appendButtonOnClick.bind(this);
     this.isAppendType = this.isAppendType.bind(this);
     this.showLoadMore = this.showLoadMore.bind(this);
     this.renderDataContent = this.renderDataContent.bind(this);
@@ -116,7 +117,7 @@ export default class List extends React.Component {
           if (data.length <= 0) {
             let emptyView = this.props.emptyMessage ? this.props.emptyMessage : "Nothing To Show Here";
             var empty = this.props.showEmpty ? (
-              <div style={{width:"100%"}} className="text-muted text-center list-empty-text">
+              <div style={{ width: "100%" }} className="text-muted text-center list-empty-text">
                 {emptyView}
               </div>
             ) : null;
@@ -275,6 +276,11 @@ export default class List extends React.Component {
     return false;
   }
 
+  appendButtonOnClick() {
+    this.isAppend = true;
+    this.load(this.NEXT);
+  }
+
   render() {
     var loading = this.props.customLoading ? (
       this.props.customLoading
@@ -390,8 +396,7 @@ export default class List extends React.Component {
           <small style={{ marginLeft: "6px" }}>
             <ButtonLink
               onClick={() => {
-                this.isAppend = true;
-                this.load(this.NEXT);
+                this.appendButtonOnClick();
               }}
               label={this.props.appendText}
             ></ButtonLink>
@@ -409,11 +414,11 @@ export default class List extends React.Component {
     }
 
     let listStyle = {}
-    if(this.props.isListNoMargin){
+    if (this.props.isListNoMargin) {
       listStyle.margin = "0px";
       listStyle.padding = "0px";
     }
-    
+
     var content = (
       <div className={`${this.props.divClass}`}>
         {topView}
@@ -431,8 +436,8 @@ export default class List extends React.Component {
 
 List.propTypes = {
   // general props
-  
-  isListNoMargin : PropTypes.bool,
+
+  isListNoMargin: PropTypes.bool,
   hideLoadMore: PropTypes.bool,
   offset: PropTypes.number.isRequired,
   customLoading: PropTypes.element,

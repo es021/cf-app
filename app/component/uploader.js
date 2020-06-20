@@ -11,7 +11,9 @@ import {
 export const FileType = {
 	IMG: "image",
 	DOC: "document",
-	VIDEO: "video"
+	VIDEO: "video",
+	CUSTOM: "custom",
+	ALL: "all",
 };
 
 export function uploadFile(file, type, name, extraParam = {}, onUploadProgress) {
@@ -74,14 +76,18 @@ export class Uploader extends React.Component {
 				allowable_format = this.VALID_VIDEO;
 				maxSize = this.MAX_SIZE_VIDEO;
 				break;
+			case FileType.CUSTOM:
+				allowable_format = this.props.getValidFormat();
+				maxSize = this.props.getMaxSizeInMb();
+				break;
 		}
 
 		var error = true;
 		var nameSplit = file.name.split(".");
 		var type =
 			file.type !== "" ?
-			file.type.split("/")[1] :
-			nameSplit[nameSplit.length - 1];
+				file.type.split("/")[1] :
+				nameSplit[nameSplit.length - 1];
 		if (file.size > maxSize * this.MB_TO_B) {
 			if (error === true) {
 				error = "";
@@ -90,12 +96,14 @@ export class Uploader extends React.Component {
 			error += "Maximum file size allowed is " + maxSize + " MB\n";
 		}
 
-		if (allowable_format.indexOf(type) < 0) {
-			if (error === true) {
-				error = "";
+		if (allowable_format != FileType.ALL) {
+			if (allowable_format.indexOf(type) < 0) {
+				if (error === true) {
+					error = "";
+				}
+				error += "File of type " + type + " is not supported. \n";
+				error += "Supported File : " + JSON.stringify(allowable_format) + "\n";
 			}
-			error += "File of type " + type + " is not supported. \n";
-			error += "Supported File : " + JSON.stringify(allowable_format) + "\n";
 		}
 
 		return error;
@@ -137,33 +145,33 @@ export class Uploader extends React.Component {
 	}
 
 	render() {
-		return ( <
+		return (<
 			form >
 			<
 			label > {
-				this.props.label
-			} < /label> <
-			input name = {
-				this.props.name
-			}
-			type = "file"
-			onChange = {
-				this.onChange
-			}
-			required = {
-				this.props.required
-			}
-			ref = {
-				v => (this.form[this.props.name] = v)
-			}
-			/> < /
+					this.props.label
+				} < /label> <
+					input name={
+						this.props.name
+					}
+					type="file"
+					onChange={
+						this.onChange
+					}
+					required={
+						this.props.required
+					}
+					ref={
+						v => (this.form[this.props.name] = v)
+					}
+				/> < /
 			form >
 		);
 	}
 }
 
 Uploader.propTypes = {
-	name: PropTypes.string.isRequired,
+					name: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	type: PropTypes.oneOf([FileType.IMG, FileType.DOC]),
 	required: PropTypes.bool,

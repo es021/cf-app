@@ -270,8 +270,12 @@ class DocLinkForm extends React.Component {
 
     render() {
 
-        var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit) ? <Uploader label="Upload Document" name="new-document" type={FileType.DOC} onSuccess={this.uploaderOnSuccess}
-            onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader> : null;
+        var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit)
+            ? <Uploader label="Upload Document" name="new-document"
+                type={FileType.DOC} onSuccess={this.uploaderOnSuccess}
+                onChange={this.uploaderOnChange}
+                onError={this.uploaderOnError}></Uploader>
+            : null;
 
         var form = <Form className="form-row"
             items={this.getFormItem()}

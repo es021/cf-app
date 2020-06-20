@@ -283,7 +283,7 @@ class CompanyChatInbox extends React.Component {
           obj.total_unread++;
           obj.isNew = true;
         }
-        
+
         prevState.sessions[keyId] = obj;
 
         return { sessions: prevState.sessions };
@@ -553,10 +553,10 @@ class CompanyChatInbox extends React.Component {
         d.last_message != null ? (
           d.last_message
         ) : (
-          <small className="text-muted">
-            <i>Nothing To Show Here</i>
-          </small>
-        );
+            <small className="text-muted">
+              <i>Nothing To Show Here</i>
+            </small>
+          );
 
       let countUnread =
         d.total_unread <= 0 ? null : (
@@ -646,33 +646,53 @@ class CompanyChatInbox extends React.Component {
       if (Object.keys(this.state.sessions).length <= 0) {
         view = this.getEmptyState();
       } else {
-        let titleRight = null;
+
+        let avatar = null;
+      
         try {
           let d = this.getCurrentChatObj();
           let imgIcon = this.getImageIcon(d);
-          titleRight = [
+          avatar = [
             imgIcon,
             <div className="flex-center">
-              {d.entity.first_name + " " + d.entity.last_name}
+              <div>
+                {d.entity.first_name + " " + d.entity.last_name}
+              </div>
             </div>
           ];
-        } catch (err) {}
+        } catch (err) { }
+
+
 
         view.push(
-          <div className="col-sm-12">
-            <div id="chat-list">
-              <div className="cl-header">
+          <div id="chat-list" className="container-fluid">
+            <div className="row">
+              {/* <div className="cl-header col-md-12 no-padding">
                 <div className="clh-title">
                   <div className="clh-title-left">Inbox</div>
-                  <div className="clh-title-right">{titleRight}</div>
+                  <div className="clh-title-right">{avatar}</div>
                 </div>
                 {newBtn}
-              </div>
-              <div className="cl-parent-body">
-                <div className="cl-body" ref={v => (this.chatListBody = v)}>
+              </div> */}
+              <div className="col-sm-4 no-padding cl-column" ref={v => (this.chatListBody = v)}>
+                <div className="cl-header">
+                  <div className="clh-title">
+                    Inbox
+                  </div>
+                </div>
+                <div className="cl-list">
                   {this.getChatList()}
                 </div>
-                <div className="cl-chat">{this.getChatBox()}</div>
+              </div>
+              <div className="col-sm-8 no-padding cl-column">
+                <div className="cl-header">
+                  <div className="clh-title">
+                    {avatar}
+                  </div>
+                </div>
+                <div className="cl-chat">
+                  {this.getChatBox()}
+                </div>
               </div>
             </div>
           </div>

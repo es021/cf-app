@@ -174,31 +174,31 @@ $IMPACT_YELLOW: #f39200;
   // #############################################
   // #############################################
   // CHAT
-  #chat {
-    .chat-input {
-      button {
-        color: white;
-        background-color: #1d1d5b;
-      }
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
 
-      button:hover {
-        background-color: darken(#1d1d5b, 10);
-      }
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
 
-      button:active {
-        background-color: #1d1d5b;
-      }
-    }
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
 
-    .chat-box .other-item {
-      background-color: #1d1d5b;
-    }
-  }
-  #chat-list {
-    .cl-header {
-      background-color: #1d1d5b;
-    }
-  }
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
 
   // #############################################
   // #############################################

@@ -10,7 +10,7 @@ import {
   getAxiosGraphQLQuery,
   getWpAjaxAxios
 } from "../../../../helper/api-helper";
-import { SiteUrl, IsGruveoEnable, ZoomCheckMeetingExpiredUrl } from "../../../../config/app-config";
+import { UploadUrl, SiteUrl, IsGruveoEnable, ZoomCheckMeetingExpiredUrl } from "../../../../config/app-config";
 import { Time } from "../../../lib/time";
 import obj2arg from "graphql-obj2arg";
 import * as layoutActions from "../../../redux/actions/layout-actions";
@@ -29,6 +29,7 @@ import {
   socketOff,
   emitHallActivity
 } from "../../../socket/socket-client";
+import { Uploader, uploadFile, FileType } from '../../../component/uploader';
 
 //import { ButtonLink } from '../../../component/buttons.jsx';
 //import UserPopup from '../popup/user-popup';
@@ -237,9 +238,97 @@ export function joinVideoCall(
   // }
 }
 
+class ChatFileUploader extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.uploaderOnChange = this.uploaderOnChange.bind(this);
+    this.uploaderOnError = this.uploaderOnError.bind(this);
+    this.uploaderOnSuccess = this.uploaderOnSuccess.bind(this);
+
+    this.state = {
+      error: null,
+      currentFile: null
+    }
+  }
+
+  onSubmit() {
+    if (this.state.currentFile === null) {
+      this.setState(() => {
+        return { error: "Please Select A File First" };
+      });
+    } else {
+      var fileName = `chat-attachement`;
+      this.setState({ error: null })
+      uploadFile(this.state.currentFile, FileType.DOC, fileName).then((res) => {
+        if (res.data.url !== null) {
+          let fileUrl = `${UploadUrl}/${res.data.url}`;
+          this.props.success(fileUrl);
+          layoutActions.storeHideBlockLoader();
+        }
+      });
+    }
+  }
+
+  /* props for Uploader --Start */
+  uploaderOnChange(file) {
+    console.log("uploaderOnChange");
+  }
+
+  uploaderOnError(err) {
+    console.log("uploaderOnError", err);
+    this.setState(() => {
+      return { error: err, currentFile: null };
+    });
+  }
+
+  uploaderOnSuccess(file) {
+    console.log("uploaderOnSuccess", file);
+    this.setState(() => {
+      return { error: null, currentFile: file };
+    });
+
+  }
+
+  render() {
+    let v = null;
+    v = <div style={{ padding: "10px" }}>
+      <Uploader label="Upload File" name="new-file"
+        type={FileType.CUSTOM}
+        getValidFormat={() => {
+          return FileType.ALL;
+        }}
+        getMaxSizeInMb={() => {
+          return 10;
+        }}
+        onSuccess={this.uploaderOnSuccess}
+        onChange={this.uploaderOnChange}
+        onError={this.uploaderOnError}>
+      </Uploader>
+      {!this.state.error ? null :
+        <div style={{
+          marginTop: "12px",
+          color: "#f20909"
+        }}>{this.state.error}</div>
+      }
+      <button onClick={() => { this.onSubmit() }}
+        className="btn btn-round-10 btn-block btn-blue"
+        style={{ marginTop: "22px", marginBottom: "-26px" }}>
+        Send File
+    </button>
+    </div >
+
+
+    return v;
+  }
+
+
+}
+
 class Chat extends React.Component {
   constructor(props) {
     super(props);
+    this.onScrollChatBox = this.onScrollChatBox.bind(this);
     this.loadData = this.loadData.bind(this);
     this.parseMessage = this.parseMessage.bind(this);
     this.createMessageJSON = this.createMessageJSON.bind(this);
@@ -449,6 +538,16 @@ class Chat extends React.Component {
     });
   }
 
+  onScrollChatBox(e) {
+    // let element = e.target
+    // if (element.scrollTop == 0) {
+    //   console.log("top of scroll");
+    //   console.log(this.listComponent);
+    //   if (this.listComponent.showLoadMore()) {
+    //     this.listComponent.appendButtonOnClick();
+    //   }
+    // }
+  }
   scrollToBottom() {
     if (this.chatBox) {
       this.chatBox.scrollTop = 99999999;
@@ -810,9 +909,24 @@ class Chat extends React.Component {
     );
   }
 
+  // file
+  addFileOnClick() {
+    let noClose = false;
+    layoutActions.customViewBlockLoader(null, <ChatFileUploader success={(fileUrl => {
+      this.sendChat(fileUrl);
+    })}></ChatFileUploader>, noClose);
+  }
+
   getChatInput() {
+    let addFileButton = <div onClick={(e) => { this.addFileOnClick(e) }}
+      className="btn-add-file">
+      <i className="fa fa-paperclip fa-2x"></i>
+    </div>
+
     return (
       <div className="chat-input">
+        {addFileButton}
+
         <textarea
           ref={v => (this.chatInput = v)}
           rows="3"
@@ -835,7 +949,7 @@ class Chat extends React.Component {
         />
         <button
           disabled={this.props.disableChat}
-          className="btn btn-blue"
+          className="btn-send btn btn-blue"
           onClick={() => this.sendChat()}
         >
           Send
@@ -919,8 +1033,8 @@ class Chat extends React.Component {
     return (
       <div id="chat">
         {this.getChatHeader()}
-        <div className="chat-box" ref={v => (this.chatBox = v)}>
-          <List
+        <div className="chat-box" onScroll={this.onScrollChatBox} ref={v => (this.chatBox = v)}>
+          <List ref={v => (this.listComponent = v)}
             type="append-top"
             appendText="Load Previous"
             getDataFromRes={this.getDataFromRes}

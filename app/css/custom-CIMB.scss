@@ -170,31 +170,31 @@ body.landing-page {
   // #############################################
   // #############################################
   // CHAT
-  #chat {
-    .chat-input {
-      button {
-        color: white;
-        background-color: #820024;
-      }
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #820024;
+  //     }
 
-      button:hover {
-        background-color: darken(#820024, 10);
-      }
+  //     button:hover {
+  //       background-color: darken(#820024, 10);
+  //     }
 
-      button:active {
-        background-color: #820024;
-      }
-    }
+  //     button:active {
+  //       background-color: #820024;
+  //     }
+  //   }
 
-    .chat-box .other-item {
-      background-color: #820024;
-    }
-  }
-  #chat-list {
-    .cl-header {
-      background-color: #820024;
-    }
-  }
+  //   .chat-box .other-item {
+  //     background-color: #820024;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #820024;
+  //   }
+  // }
 
   // #############################################
   // #############################################

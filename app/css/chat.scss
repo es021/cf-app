@@ -3,21 +3,25 @@
 // $THEME_1: #286090;
 // $THEME_2: lightblue;
 $THEME_1: $COLOR_DARK;
-$THEME_2:$COLOR_HEADER_LINK;
+$THEME_2: $COLOR_HEADER_LINK;
 
-$CHAT_HEIGHT_HEADER : 65px;
-$CHAT_HEIGHT_BODY : 350px;
-$CHAT_HEIGHT_TEXT_BOX : 80px;
-$CHAT_HEIGHT_TOTAL : $CHAT_HEIGHT_HEADER+$CHAT_HEIGHT_BODY+$CHAT_HEIGHT_TEXT_BOX;
+$CHAT_HEIGHT_HEADER: 65px;
+$CHAT_HEIGHT_BODY: 400px;
+$CHAT_HEIGHT_TEXT_BOX: 80px;
+$CHAT_HEIGHT_TOTAL: $CHAT_HEIGHT_HEADER + $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX;
 
 $MARGIN: 40%;
 
+#my-inbox.main {
+  // max-width: none;
+  padding: 10px 10px;
+}
+
 #chat {
   margin: auto;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 
   .chat-header {
-
     .profile-card.profile-li {
       grid-template-columns: 1fr 8fr;
       grid-template-rows: 1fr 1fr;
@@ -69,16 +73,17 @@ $MARGIN: 40%;
   }
 
   .chat-box {
-    border: 1px solid $THEME_1;
+    // border: 1px solid $THEME_1;
     border-bottom: none;
+    background: #e5ddd5;
     height: $CHAT_HEIGHT_BODY;
     overflow-y: scroll;
-    padding: 10px 5px;
+    padding: 10px 15px;
     margin: 0;
 
     .chat-item {
       text-align: left;
-      margin: 5px 0px;
+      margin: 7px 0px;
       padding: 4px 2px;
       padding: 5px;
       border-radius: 5px;
@@ -97,16 +102,16 @@ $MARGIN: 40%;
 
     .self-item {
       margin-left: $MARGIN;
-      background: white;
-      color: $THEME_1;
-      border: solid 1px $THEME_1;
+      background: #dcf8c6;
+      color: #303030;
+      // border: solid 1px $THEME_1;
     }
 
     .other-item {
       margin-right: $MARGIN;
-      background: $THEME_1;
-      border: solid 1px $THEME_1;
-      color: white;
+      background: white;
+      // border: solid 1px #303030;
+      color: #303030;
 
       a,
       a:hover {
@@ -140,82 +145,102 @@ $MARGIN: 40%;
   .chat-input {
     height: $CHAT_HEIGHT_TEXT_BOX;
     display: flex;
+    padding: 10px;
+    background: #f0f0f0;
+    border: #e5ddd5 1px solid;
 
     textarea {
+      border-radius: 10px;
+      border: 1px;
       flex-grow: 3;
       padding: 3px 5px;
+      margin-right: 10px;
     }
 
-    button {
-      background-color: $THEME_1;
+    .btn-add-file {
+      margin-right: 5px;
+      color: #a2a2a2;
+      background: rgba(0, 0, 0, 0);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+    .btn-add-file:hover {
+      color: #6e6e6e;
+      background: rgba(0, 0, 0, 0);
+    }
+    .btn-add-file:active {
+      color: #a2a2a2;
     }
 
-    button:hover {
-      background-color: darken($THEME_1, 10);
-    }
 
-    button:active {
-      background-color: $THEME_1;
+    
+    button.btn-send {
+      border-radius: 5px !important;
+      background-color: #5682a3;
+      border: none;
+    }
+    button.btn-send:hover {
+      background-color: darken(#5682a3, 10);
+    }
+    button.btn-send:active {
+      background-color: #5682a3;
     }
   }
 }
 
-
 #chat-list {
+  // scrollbar-color: rgba(0, 0, 0, 0.2) hsla(0, 0%, 100%, 0.1);
+  // scrollbar-width: thin;
+  border: 1px solid #dfe5ec;
+  background: white;
   margin-bottom: 20px;
-  border: solid 1px $THEME_1;
-  height: $CHAT_HEIGHT_TOTAL;
-
+  // border: solid 1px $THEME_1;
+  // height: $CHAT_HEIGHT_TOTAL;
+  .cl-column {
+    // min-height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX -3px;
+  }
   .cl-header {
     text-align: left;
     padding: 10px;
-    background: $THEME_1;
+    background: #5682a3;
     height: $CHAT_HEIGHT_HEADER;
     color: white;
-
     .clh-title {
       display: flex;
       font-size: 16px;
-
-      .clh-title-left {
-        width: 50%;
-      }
-
-      .clh-title-right {
-        .profile-card {
-          margin: 0;
-          padding: 0;
-          margin-right: 15px;
-        }
-
-        display: flex;
-        width: 50%;
+      .profile-card {
+        margin: 0;
+        padding: 0;
+        margin-right: 15px;
       }
     }
   }
 
   .cl-parent-body {
-    display: flex;
+    // display: flex;
   }
 
-  .cl-body {
+  .cl-list {
     // border: solid 1px $THEME_1;
-    width: 100%;
+    // width: 100%;
+    height: 100%;
     height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
     overflow-y: scroll;
-    border-right: 1px solid;
-
+    // border-right: 1px solid;
   }
 
   .cl-chat {
-    width: 100%;
+    // width: 100%;
 
     .chat-box {
       border: none;
     }
 
     .chat-box-empty {
-      height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
+      margin-top: 20px;
+      // height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -223,5 +248,4 @@ $MARGIN: 40%;
       color: darkgray;
     }
   }
-
 }
