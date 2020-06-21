@@ -174,8 +174,6 @@ $MARGIN: 40%;
       color: #a2a2a2;
     }
 
-
-    
     button.btn-send {
       border-radius: 5px !important;
       background-color: #5682a3;
@@ -229,6 +227,43 @@ $MARGIN: 40%;
     height: $CHAT_HEIGHT_BODY + $CHAT_HEIGHT_TEXT_BOX - 3px;
     overflow-y: scroll;
     // border-right: 1px solid;
+
+    .frm-content {
+      white-space: nowrap;
+      width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .chat-file {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    margin-bottom: 4px;
+    background: #cfe9ba;
+    color: #303030;
+    text-decoration: none;
+
+    &:hover {
+      background: #c3e8a6;
+    }
+
+    &:active {
+      background: #cfe9ba;
+    }
+
+    i.fa {
+      margin-right: 7px;
+      color: #79909b;
+    }
+
+    .cf-name{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
   }
 
   .cl-chat {

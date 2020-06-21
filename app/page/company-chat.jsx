@@ -558,6 +558,13 @@ class CompanyChatInbox extends React.Component {
             </small>
           );
 
+      if (body.indexOf(`MESSAGE_JSON{"type":"FILE"`) >= 0) {
+        body = <div style={{ fontWeight:"bold", color: "gray" }}>
+          <i className="fa fa-file left" style={{ color: "gray" }}></i>
+          {"  "}File Attachment
+        </div>
+      }
+
       let countUnread =
         d.total_unread <= 0 ? null : (
           <div className="frm-count">{d.total_unread}</div>
@@ -648,7 +655,7 @@ class CompanyChatInbox extends React.Component {
       } else {
 
         let avatar = null;
-      
+
         try {
           let d = this.getCurrentChatObj();
           let imgIcon = this.getImageIcon(d);
@@ -674,7 +681,7 @@ class CompanyChatInbox extends React.Component {
                 </div>
                 {newBtn}
               </div> */}
-              <div className="col-sm-4 no-padding cl-column" ref={v => (this.chatListBody = v)}>
+              <div className="col-md-4 no-padding cl-column" ref={v => (this.chatListBody = v)}>
                 <div className="cl-header">
                   <div className="clh-title">
                     Inbox
@@ -684,7 +691,7 @@ class CompanyChatInbox extends React.Component {
                   {this.getChatList()}
                 </div>
               </div>
-              <div className="col-sm-8 no-padding cl-column">
+              <div className="col-md-8 no-padding cl-column">
                 <div className="cl-header">
                   <div className="clh-title">
                     {avatar}

@@ -109,6 +109,18 @@ export class Uploader extends React.Component {
 		return error;
 	}
 
+	getFileNameWithoutType(fileName) {
+		let toRet = fileName;
+		if (typeof toRet === "string") {
+			toRet = toRet.split(".");
+			delete toRet[toRet.length - 1];
+			toRet = toRet.join(".");
+			toRet = toRet.substring(0, toRet.length - 1);
+		}
+
+		return toRet;
+	}
+
 	onChange(event) {
 		this.props.onChange(event);
 
@@ -130,7 +142,8 @@ export class Uploader extends React.Component {
 		//valid file
 		if (res === true) {
 			console.log("valid");
-			this.props.onSuccess(file);
+			let fileNameWithoutType = this.getFileNameWithoutType(file.name);
+			this.props.onSuccess(file, fileNameWithoutType);
 			//this.previewImage(file, this.reposition);
 			//this.initImageProperties();
 		}
@@ -144,35 +157,25 @@ export class Uploader extends React.Component {
 		ev.preventDefault();
 	}
 
+	// overflow: hidden;
+	// text-overflow: ellipsis;
 	render() {
-		return (<
-			form >
-			<
-			label > {
-					this.props.label
-				} < /label> <
-					input name={
-						this.props.name
-					}
-					type="file"
-					onChange={
-						this.onChange
-					}
-					required={
-						this.props.required
-					}
-					ref={
-						v => (this.form[this.props.name] = v)
-					}
-				/> < /
-			form >
+		return (<form>
+			<label>{this.props.label}</label>
+			<input name={this.props.name} style={{ width: this.props.width, overflow: "hidden", textOverflow: "ellipsis" }}
+				type="file"
+				onChange={this.onChange}
+				required={this.props.required}
+				ref={v => (this.form[this.props.name] = v)} />
+		</form>
 		);
 	}
 }
 
 Uploader.propTypes = {
-					name: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
 	label: PropTypes.string,
+	width: PropTypes.string,
 	type: PropTypes.oneOf([FileType.IMG, FileType.DOC]),
 	required: PropTypes.bool,
 	onChange: PropTypes.func,

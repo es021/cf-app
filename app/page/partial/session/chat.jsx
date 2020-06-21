@@ -248,7 +248,9 @@ class ChatFileUploader extends React.Component {
 
     this.state = {
       error: null,
-      currentFile: null
+      currentFile: null,
+      fileNameWithoutType: "",
+      sending: false,
     }
   }
 
@@ -258,13 +260,19 @@ class ChatFileUploader extends React.Component {
         return { error: "Please Select A File First" };
       });
     } else {
-      var fileName = `chat-attachement`;
-      this.setState({ error: null })
+
+      var fileName = this.state.fileNameWithoutType;
+      // remove .type from file name
+
+
+      this.setState({ error: null, sending: true })
       uploadFile(this.state.currentFile, FileType.DOC, fileName).then((res) => {
         if (res.data.url !== null) {
           let fileUrl = `${UploadUrl}/${res.data.url}`;
-          this.props.success(fileUrl);
+          this.props.success(fileUrl, this.state.currentFile.name);
           layoutActions.storeHideBlockLoader();
+        } else {
+          this.setState({ error: "Something went wrong. Please try again", sending: false })
         }
       });
     }
@@ -282,10 +290,10 @@ class ChatFileUploader extends React.Component {
     });
   }
 
-  uploaderOnSuccess(file) {
+  uploaderOnSuccess(file, fileNameWithoutType) {
     console.log("uploaderOnSuccess", file);
     this.setState(() => {
-      return { error: null, currentFile: file };
+      return { error: null, currentFile: file, fileNameWithoutType: fileNameWithoutType };
     });
 
   }
@@ -294,12 +302,13 @@ class ChatFileUploader extends React.Component {
     let v = null;
     v = <div style={{ padding: "10px" }}>
       <Uploader label="Upload File" name="new-file"
+        width="230px"
         type={FileType.CUSTOM}
         getValidFormat={() => {
           return FileType.ALL;
         }}
         getMaxSizeInMb={() => {
-          return 10;
+          return 50;
         }}
         onSuccess={this.uploaderOnSuccess}
         onChange={this.uploaderOnChange}
@@ -312,10 +321,12 @@ class ChatFileUploader extends React.Component {
         }}>{this.state.error}</div>
       }
       <button onClick={() => { this.onSubmit() }}
+        disabled={this.state.sending}
         className="btn btn-round-10 btn-block btn-blue"
         style={{ marginTop: "22px", marginBottom: "-26px" }}>
-        Send File
-    </button>
+        {this.state.sending ? <i className={`fa fa-spinner fa-pulse left`}></i> : null}
+        {this.state.sending ? `Sending...` : `Send File`}
+      </button>
     </div >
 
 
@@ -357,6 +368,7 @@ class Chat extends React.Component {
     this.MESSAGE_HTML = "MESSAGE_HTML";
 
     this.JSON_ZOOM = "ZOOM";
+    this.JSON_FILE = "FILE";
     this.unmounted = false;
   }
 
@@ -433,9 +445,10 @@ class Chat extends React.Component {
       try {
         mesData = JSON.parse(mesData);
         console.log("parseMessageJSON", mesData);
+
+        // #######################################################
+        // message when video call is created (not used)
         if (mesData.type == this.JSON_ZOOM) {
-          // console.log(mesData);
-          // do something with mesData
           return (
             <div>
               <small>[AUTO MESSAGE]</small>
@@ -454,7 +467,16 @@ class Chat extends React.Component {
               </div>
             </div>
           );
-        } else {
+        }
+        // #######################################################
+        // message when file is sent
+        else if (mesData.type == this.JSON_FILE) {
+          return <a href={mesData.data.file_url} target="_blank" className="chat-file">
+            <i className="fa fa-file fa-2x"></i>
+            <div className="cf-name">{mesData.data.file_name}</div>
+          </a>
+        }
+        else {
           return JSON.stringify(mesData);
         }
       } catch (err) {
@@ -912,9 +934,14 @@ class Chat extends React.Component {
   // file
   addFileOnClick() {
     let noClose = false;
-    layoutActions.customViewBlockLoader(null, <ChatFileUploader success={(fileUrl => {
-      this.sendChat(fileUrl);
-    })}></ChatFileUploader>, noClose);
+    layoutActions.customViewBlockLoader(null,
+      <ChatFileUploader
+        success={(fileUrl, fileName) => {
+          this.sendChat(
+            this.createMessageJSON(this.JSON_FILE, { file_url: fileUrl, file_name: fileName })
+          );
+        }}></ChatFileUploader>,
+      noClose);
   }
 
   getChatInput() {
