@@ -486,11 +486,12 @@ class InterviewList extends React.Component {
         break;
     }
 
+    // @new_flow_cancel_interview - buang remove button
     // add remove button for certain2 status
     if ([
-      PrescreenEnum.STATUS_WAIT_CONFIRM,
-      PrescreenEnum.STATUS_RESCHEDULE,
-      PrescreenEnum.STATUS_APPROVED,
+      // PrescreenEnum.STATUS_WAIT_CONFIRM,
+      // PrescreenEnum.STATUS_RESCHEDULE,
+      // PrescreenEnum.STATUS_APPROVED,
       PrescreenEnum.STATUS_ENDED,
       PrescreenEnum.STATUS_REJECTED
     ].indexOf(d.status) >= 0) {
@@ -730,7 +731,7 @@ class HallRecruiterInterview extends React.Component {
       {
         key: PrescreenEnum.STATUS_REJECTED,
         label: "Rejected",
-        defaultChecked: false,
+        defaultChecked: true,
       }
     ]
 
