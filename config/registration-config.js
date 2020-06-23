@@ -6,9 +6,9 @@ const {
 // 1. @custom_user_info_by_cf
 const isCustomUserInfoOn = (cf, key) => {
     let valid = [];
-    if (cf == "MDEC") {
-        valid = ["unemployment_period"]
-    }
+    // if (cf == "MDEC") {
+    //     valid = ["unemployment_period"]
+    // }
 
     return valid.indexOf(key) >= 0;
 }
