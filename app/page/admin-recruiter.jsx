@@ -102,7 +102,7 @@ export default class RecruitersPage extends React.Component {
         // create form add new default
         this.getFormItemAsync = (edit) => {
             var query = `query{
-                companies{
+                companies(order_by:"c.name asc"){
                   ID name
                 }
               }`

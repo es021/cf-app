@@ -15,6 +15,18 @@ import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 import { getHrefValidUrl, getCompanyTitle } from "./view-helper/view-helper";
 
+function applyOnClick(obj, onClickModeAction) {
+  console.log("obj", obj);
+  let url = obj.application_url;
+  if (url) {
+    url = getHrefValidUrl(url);
+    window.open(url, "_blank");
+  }
+  if (onClickModeAction) {
+    onClickModeAction();
+  }
+}
+
 export function getApplyButton(objVacancy, type) {
   if (!isRoleStudent()) {
     return null;
@@ -38,7 +50,10 @@ export function getApplyButton(objVacancy, type) {
         } else if (is_interested) {
           r = <div className="action-item action-done" onClick={onClickModeAction}><i className="fa fa-check left"></i>Applied</div>
         } else {
-          r = <div className="action-item action-not-done" onClick={onClickModeAction}><i className="fa fa-plus left"></i>Apply</div>
+          r = <div className="action-item action-not-done"
+            onClick={() => { applyOnClick(objVacancy, onClickModeAction); }}>
+            <i className="fa fa-plus left"></i>Apply
+          </div>
         }
         return <div className={`vacancy-action type-${type}`}>{r}</div>
       }

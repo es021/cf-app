@@ -151,6 +151,7 @@ export class VacancyList extends React.Component {
                 title
                 type
                 location 
+                application_url
                 company{ img_url, img_position, img_size }
                 interested{ID is_interested}
         }}`);
