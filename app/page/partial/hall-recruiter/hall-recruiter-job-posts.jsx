@@ -159,7 +159,7 @@ export default class HallRecruiterJobPosts extends React.Component {
 
     return (
       <ListBoard
-       
+
         {...countParam}
         // hideLoadMore={this.props.limitLoad ? true : false}
         isNoTitle={this.props.isNoTitle}

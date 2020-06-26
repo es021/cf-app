@@ -8,6 +8,7 @@ import List from "../component/list";
 import { PCType, createImageElement } from "../component/profile-card";
 import { createUserTitle, openUserPopup } from "../page/users";
 import Tooltip from "../component/tooltip";
+import { AppPath } from "../../config/app-config";
 
 export class InterestedUserList extends React.Component {
   constructor(props) {
@@ -89,7 +90,7 @@ export class InterestedUserList extends React.Component {
 InterestedUserList.propTypes = {
   entity: PropTypes.string,
   entity_id: PropTypes.number,
-  title : PropTypes.string
+  title: PropTypes.string
 };
 
 export class InterestedButton extends React.Component {
@@ -135,19 +136,24 @@ export class InterestedButton extends React.Component {
       return;
     }
 
-    if(!title){
+    if (!title) {
       title = "Liked By";
     }
 
-    if(this.props.popupTitle){
+    if (this.props.popupTitle) {
       title = this.props.popupTitle;
     }
 
-    layoutActions.storeUpdateFocusCard(title, InterestedUserList, {
-      entity: this.props.entity,
-      entity_id: this.props.entity_id,
-      title : title
-    });
+    if (this.props.entity == "vacancies") {
+      // untuk vacancies like bukak dekat page list-job-applicants
+      window.open(`${AppPath}/list-job-applicants/${this.props.entity_id}`, "_blank");
+    } else {
+      layoutActions.storeUpdateFocusCard(title, InterestedUserList, {
+        entity: this.props.entity,
+        entity_id: this.props.entity_id,
+        title: title
+      });
+    }
   }
   onClickModeAction(e) {
     if (this.props.isNonClickable) {
@@ -265,7 +271,7 @@ export class InterestedButton extends React.Component {
   }
 }
 InterestedButton.propTypes = {
-  popupTitle : PropTypes.string,
+  popupTitle: PropTypes.string,
   icon: PropTypes.string,
   tooltipObj: PropTypes.obj,
   finishHandler: PropTypes.func,

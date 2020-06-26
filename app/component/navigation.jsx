@@ -75,6 +75,7 @@ import { BrowseStudent } from "../page/browse-student";
 import HallRecruiterPage from "../page/hall-recruiter";
 import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
+import ListJobApplicants from "../page/list-job-applicants";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -616,6 +617,15 @@ function getMenuItem(COMING_SOON) {
   /**** ROUTE ONLY *******/
   menuItem.push(
     ...[
+      {
+        url: "/list-job-applicants/:id",
+        component: ListJobApplicants,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
       {
         url: "/list-interviews",
         component: ListInterviews,
