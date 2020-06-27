@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 //import { Redirect, NavLink } from 'react-router-dom';
 import Form, { toggleSubmit, getDataCareerFair } from "../component/form";
-import { UserMeta, User, UserEnum } from "../../config/db-config";
+import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
 import { register, getCF, getCFObj } from "../redux/actions/auth-actions";
@@ -264,11 +264,17 @@ export default class SignUpPage extends React.Component {
       window.scrollTo(0, 0);
       content = this.getPostRegisterView(user);
     } else {
+      let registrationTitle = this.CFObj[CFSMeta.TEXT_REGISTRATION_TITLE];
+      if (!registrationTitle) {
+        registrationTitle = "Student Registration";
+      }
+
       let formItems = getRegisterFormItem(1);
       content = (
         <div>
           <h3>
-            Student Registration<br></br>
+            {registrationTitle}<br></br>
+            {/* Student Registration<br></br> */}
             {/* Youth Registration<br></br> */}
           </h3>
           {/* <a target="_blank" href={`${LandingUrl}#Companies`}>

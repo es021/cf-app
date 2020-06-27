@@ -3,6 +3,7 @@ const {
     __
 } = require("../../config/graphql-config");
 
+// 2. @adding_cf_meta
 var EXPORT = {};
 EXPORT.Cfs = {
     ID: __.Int,
@@ -47,6 +48,7 @@ EXPORT.Cfs = {
     text_header_desc: __.String,
     text_student_single: __.String,
     text_student_plural: __.String,
+    text_registration_title: __.String,
 
     // custom image
     image_header_icon: __.String,

@@ -166,7 +166,7 @@ export default class HallRecruiterJobPosts extends React.Component {
         isNoMarginBottom={this.props.isNoMarginBottom}
 
         action_icon="plus"
-        action_text="Add New Job Post"
+        action_text="Add / Edit Job Post"
         action_to={`manage-company/${this.props.company_id}/vacancy`}
         title="Job Posts"
         icon="suitcase"

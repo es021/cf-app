@@ -4,3 +4,7 @@
 company-chat.jsx
 
 @new_flow_cancel_interview
+
+@adding_cf_meta
+# accessing 
+# cfObj[CFSMeta.<KEY>]

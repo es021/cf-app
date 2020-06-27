@@ -643,6 +643,7 @@ const CFS = {
 };
 
 // 23
+// 1. @adding_cf_meta
 const CFSMeta = {
 	TABLE: "cfs_meta",
 	TITLE: "title",
@@ -670,6 +671,7 @@ const CFSMeta = {
     TEXT_HEADER_DESC : "text_header_desc",
     TEXT_STUDENT_SINGLE : "text_student_single",
     TEXT_STUDENT_PLURAL : "text_student_plural",
+    TEXT_REGISTRATION_TITLE : "text_registration_title",
 	
 	// custom image
 	IMAGE_HEADER_ICON : "image_header_icon",
