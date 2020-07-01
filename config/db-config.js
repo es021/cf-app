@@ -671,7 +671,9 @@ const CFSMeta = {
     TEXT_HEADER_DESC : "text_header_desc",
     TEXT_STUDENT_SINGLE : "text_student_single",
     TEXT_STUDENT_PLURAL : "text_student_plural",
-    TEXT_REGISTRATION_TITLE : "text_registration_title",
+	TEXT_REGISTRATION_TITLE : "text_registration_title",
+	TEXT_COMPANY_ENTITY_SINGLE : "text_company_entity_single",
+	TEXT_COMPANY_ENTITY_PLURAL : "text_company_entity_plural",
 	
 	// custom image
 	IMAGE_HEADER_ICON : "image_header_icon",

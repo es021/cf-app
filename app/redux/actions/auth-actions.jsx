@@ -165,6 +165,18 @@ export function getCFObj() {
     return CareerFair[getCF()];
 }
 
+export function getCfCustomMeta(key, defaultVal) {
+    let toRet = "";
+    try {
+        toRet = getCFObj()[key]
+    } catch (err) { }
+
+    if (!toRet) {
+        toRet = defaultVal;
+    }
+    return toRet;
+}
+
 export function isRedirectExternalHomeUrl(props) {
     // return false;
 

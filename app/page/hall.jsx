@@ -29,7 +29,8 @@ import {
   getAuthUser,
   isComingSoon,
   isRoleOrganizer,
-  isCfFeatureOff
+  isCfFeatureOff,
+  getCfCustomMeta
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
@@ -366,12 +367,15 @@ export default class HallPage extends React.Component {
       return null;
     }
 
+    let companyEntitySingle = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_SINGLE, "Company")
+    let companyEntityPlural = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_PLURAL, "Companies")
+
     return <div className="col-md-12 no-padding">
-      <ListRow title="Company Profiles"
+      <ListRow title={`${companyEntitySingle} Profiles`}
         icon="building-o"
         backgroundColor={backgroundColor}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
-        see_more_text="See More Companies"
+        see_more_text={`See More ${companyEntityPlural}`}
         see_more_to={`${AppPath}/list-companies`}
       ></ListRow>
     </div >

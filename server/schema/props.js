@@ -39,20 +39,22 @@ EXPORT.Cfs = {
     organizations: __.String,
     hall_cfg_onsite_call_use_group: __.Int,
 
-	// custom on/off features
+    // custom on/off features
     feature_company_booth: __.String,
     feature_sponsor: __.String,
-    
+
     // custom text
     text_header_title: __.String,
     text_header_desc: __.String,
     text_student_single: __.String,
     text_student_plural: __.String,
     text_registration_title: __.String,
+    text_company_entity_single: __.String,
+    text_company_entity_plural: __.String,
 
     // custom image
     image_header_icon: __.String,
-    
+
     // custom link
     link_external_home: __.String,
 
