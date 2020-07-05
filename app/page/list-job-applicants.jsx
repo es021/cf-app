@@ -35,6 +35,7 @@ export default class ListJobApplicants extends React.Component {
     if (this.state.loading) {
       v = <Loader text="Loading job post information..."></Loader>
     } else {
+      document.setTitle(`${this.state.data.title} - Applicants`);
       v = <InterestedUserList
         entity={"vacancies"}
         title={<div></div>}
