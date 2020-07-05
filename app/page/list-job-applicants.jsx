@@ -32,10 +32,11 @@ export default class ListJobApplicants extends React.Component {
   }
   render() {
     let v = null;
+    let title = this.state.data ? this.state.data.title : null;
     if (this.state.loading) {
       v = <Loader text="Loading job post information..."></Loader>
     } else {
-      document.setTitle(`${this.state.data.title} - Applicants`);
+      document.setTitle(`${title} - Applicants`);
       v = <InterestedUserList
         entity={"vacancies"}
         title={<div></div>}
@@ -45,7 +46,7 @@ export default class ListJobApplicants extends React.Component {
     return <div>
       <div className="text-center">
         <h3><small>List of Applicants</small><br></br>
-          {this.state.data ? this.state.data.title : null}
+          {title}
         </h3>
       </div>
       <div style={{ maxWidth: "900px", margin: "auto" }}>
