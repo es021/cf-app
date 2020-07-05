@@ -60,7 +60,7 @@ export default class AdminCf extends React.Component {
             return <div>Accepted value : <b>Numeric</b></div>;
         }
 
-        if (["feature_company_booth", "feature_sponsor"].indexOf(name) >= 0) {
+        if (["feature_company_booth", "feature_sponsor", "feature_drop_resume"].indexOf(name) >= 0) {
             return <div>Accepted value : <b>ON</b> or <b>OFF</b></div>;
         }
 

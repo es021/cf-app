@@ -15,6 +15,8 @@ export class InterestedUserList extends React.Component {
     super(props);
     this.loadData = this.loadData.bind(this);
     this.renderList = this.renderList.bind(this);
+    this.loadCount = this.loadCount.bind(this);
+    this.getCountFromRes = this.getCountFromRes.bind(this);
     this.authUser = getAuthUser();
     this.offset = 8;
   }
@@ -67,13 +69,27 @@ export class InterestedUserList extends React.Component {
     return res.data.data.interested_list;
   }
 
+
+  loadCount() {
+    let q = `query{interested_count
+            (entity:"${this.props.entity}", 
+              entity_id:${this.props.entity_id}, is_interested:1) 
+            {total}}`;
+    return graphql(q);
+  }
+  getCountFromRes(res) {
+    return res.data.data.interested_count.total
+  }
+
   render() {
     let title = this.props.title ? this.props.title : "Liked By";
     return (
       <div style={{ padding: "10px" }}>
         <h3 className="text-left">{title}</h3>
         <List
-          isHidePagingTop={true}
+          loadCount={this.loadCount}
+          getCountFromRes={this.getCountFromRes}
+          // isHidePagingTop={true}
           type="list"
           listClass="flex-wrap-center"
           pageClass="text-left"

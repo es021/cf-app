@@ -665,6 +665,7 @@ const CFSMeta = {
 	// custom on/off features
 	FEATURE_COMPANY_BOOTH: "feature_company_booth",
 	FEATURE_SPONSOR: "feature_sponsor",
+	FEATURE_DROP_RESUME: "feature_drop_resume",
 	
 	// custom text
 	TEXT_HEADER_TITLE : "text_header_title",

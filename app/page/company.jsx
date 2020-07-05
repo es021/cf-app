@@ -15,8 +15,9 @@ import {
   isRoleAdmin,
   doAfterValidateComingSoon,
   isRecruiterCompany,
+  isCfFeatureOff,
 } from "../redux/actions/auth-actions";
-import { LogEnum, DocLinkEnum } from "../../config/db-config";
+import { LogEnum, DocLinkEnum, CFSMeta } from "../../config/db-config";
 import * as activityActions from "../redux/actions/activity-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import * as hallAction from "../redux/actions/hall-actions";
@@ -474,13 +475,19 @@ export default class CompanyPage extends Component {
     return <div className="container-fluid">
       <div className="row" >
         {/* top full */}
-        <div className="col-sm-12  no-padding"
-          style={{ padding: "5px" }}>
-          <button className="btn btn-sm btn-block btn-round-10 btn-green btn-bold"
-            onClick={btn_onClickResume}>
-            <i className="fa fa-download left"></i>Drop Your Resume
-        </button>
-        </div>
+        {/* if (isCfFeatureOff(CFSMeta.FEATURE_COMPANY_BOOTH)) {
+      return null;
+    } */}
+
+        {isCfFeatureOff(CFSMeta.FEATURE_DROP_RESUME) ? null :
+          <div className="col-sm-12  no-padding"
+            style={{ padding: "5px" }}>
+            <button className="btn btn-sm btn-block btn-round-10 btn-green btn-bold"
+              onClick={btn_onClickResume}>
+              <i className="fa fa-download left"></i>Drop Your Resume
+            </button>
+          </div>
+        }
 
         {/* bottom left */}
         <div className="col-lg-6 no-padding"
@@ -601,7 +608,7 @@ export default class CompanyPage extends Component {
     let doc_links = data.doc_links;
     let count = 0;
     let width = 310;
-    
+
     let list = doc_links.map((d, i) => {
       if (this.isGallery(d)) {
         count++;
@@ -615,11 +622,11 @@ export default class CompanyPage extends Component {
         let title = <a className="btn-link" href={d.url} target="_blank">{d.label}</a>
 
         return <div className="cp-gallery-item">
-            {item}
-            <div className="cp-gallery-title">
-              {title}
-            </div>
+          {item}
+          <div className="cp-gallery-title">
+            {title}
           </div>
+        </div>
       }
       return null;
     });
