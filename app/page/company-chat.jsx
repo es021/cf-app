@@ -558,12 +558,15 @@ class CompanyChatInbox extends React.Component {
             </small>
           );
 
-      if (body.indexOf(`MESSAGE_JSON{"type":"FILE"`) >= 0) {
-        body = <div style={{ fontWeight:"bold", color: "gray" }}>
-          <i className="fa fa-file left" style={{ color: "gray" }}></i>
-          {"  "}File Attachment
-        </div>
-      }
+      try {
+        if (body.indexOf(`MESSAGE_JSON{"type":"FILE"`) >= 0) {
+          body = <div style={{ fontWeight: "bold", color: "gray" }}>
+            <i className="fa fa-file left" style={{ color: "gray" }}></i>
+            {"  "}File Attachment
+          </div>
+        }
+      } catch (err) { }
+
 
       let countUnread =
         d.total_unread <= 0 ? null : (
