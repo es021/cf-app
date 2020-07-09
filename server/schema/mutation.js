@@ -681,6 +681,10 @@ fields["edit_user"] = {
   args: {
     // all roles
     ID: __.IntNonNull,
+
+    // @kpt_validation
+    kpt: __.String,
+    user_email: __.String,
     user_email: __.String,
     user_pass: __.String,
     first_name: __.String,

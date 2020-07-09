@@ -138,8 +138,8 @@ class PrimaryLayout extends React.Component {
       
       text_header_title
       text_header_desc
-      text_student_single
-      text_student_plural
+      text_student_entity_single
+      text_student_entity_plural
   
       image_header_icon
       

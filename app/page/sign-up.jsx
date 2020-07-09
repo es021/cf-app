@@ -15,6 +15,7 @@ import {
   TotalRegisterStep
 } from "../../config/user-config";
 import ManageUserProfile from "./partial/user/manage-user-profile";
+import { AuthAPIErr } from "../../config/auth-config";
 
 export default class SignUpPage extends React.Component {
   constructor(props) {
@@ -69,6 +70,14 @@ export default class SignUpPage extends React.Component {
     return 0;
   }
 
+  // @kpt_validation
+  getKptErrorValidation(kpt) {
+    if (kpt.length != 12) {
+      return <div>Please enter 12 digit only.</div>
+    }
+    return false;
+  }
+
   formOnSubmit(d) {
     console.log("sign up", d);
     var err = this.filterForm(d);
@@ -86,8 +95,38 @@ export default class SignUpPage extends React.Component {
       // }
 
       if (this.state.currentStep == 1) {
+
+        // @kpt_validation - validate ic number
+        if (d[UserMeta.KPT]) {
+          let ERR_KPT = <span>IC number (<b>{d[UserMeta.KPT]}</b>) is invalid.</span>;
+          try {
+            let kpt = d[UserMeta.KPT];
+            kpt = kpt.replaceAll("-", "");
+            kpt = kpt.replaceAll(" ", "");
+            let errorValidation = this.getKptErrorValidation(kpt);
+            if (errorValidation !== false) {
+              toggleSubmit(this, {
+                error: <div>
+                  {ERR_KPT}<br></br>
+                  {errorValidation}
+                </div>
+              });
+              return;
+
+            } else {
+              d[UserMeta.KPT] = kpt;
+            }
+
+          } catch (err) {
+            toggleSubmit(this, { error: ERR_KPT });
+            return;
+          }
+        }
+
+
         //prepare data for registration
         d[User.LOGIN] = d[User.EMAIL];
+
         // get default cf from
         d[User.CF] = this.CF;
         d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
@@ -112,7 +151,25 @@ export default class SignUpPage extends React.Component {
             });
           },
           err => {
-            toggleSubmit(this, { error: err.response.data });
+            let errorMsg = err.response.data;
+
+            // @kpt_validation - KPT_ALREADY_EXIST
+            if (errorMsg == AuthAPIErr.KPT_ALREADY_EXIST) {
+              errorMsg = <div>
+                IC number (<b>{d[UserMeta.KPT]}</b>) already exist in our system.<br></br>
+                Please login with the registered email to continue.
+              </div>
+            }
+            // @kpt_validation - KPT_NOT_JPA
+            else if (errorMsg == AuthAPIErr.KPT_NOT_JPA) {
+              errorMsg = <div>
+                Sorry. You are not allowed to register.<br></br>
+                Your IC number (<b>{d[UserMeta.KPT]}</b>) does not match any record in our JPA's Sponsor database.
+              </div>
+            }
+
+            toggleSubmit(this, { error: errorMsg });
+
           }
         );
       }
@@ -269,7 +326,9 @@ export default class SignUpPage extends React.Component {
         registrationTitle = "Student Registration";
       }
 
-      let formItems = getRegisterFormItem(1);
+      // @kpt_validation
+      let formItems = getRegisterFormItem(1, getCF());
+
       content = (
         <div>
           <h3>

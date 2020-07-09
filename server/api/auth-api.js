@@ -32,6 +32,7 @@ const {
 const {
 	AuthAPIErr
 } = require("../../config/auth-config");
+const registrationConfig = require("../../config/registration-config");
 
 const MailChimp = {
 	//ListId: "5be77e4419", // Test List
@@ -141,6 +142,9 @@ class AuthAPI {
 			res => {
 				var user = res.data.data.user;
 				if (user !== null) {
+
+
+
 					//check if active
 					// FIX 2019 - remove filter not active
 					// if (user.user_status === UserEnum.STATUS_NOT_ACT) {
@@ -164,6 +168,18 @@ class AuthAPI {
 								if (!this.isCFValid(user, cf)) {
 									return AuthAPIErr.INVALID_CF;
 								} else {
+
+									// @kpt_validation
+									if (registrationConfig.isDoJpaKptValidation(cf)) {
+										if (!user.kpt) {
+											// @kpt_validation - KPT_NOT_FOUND_IN_USER_RECORD
+											return AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD;
+										} else {
+											// **** TODO **** @kpt_validation - KPT_NOT_JPA
+											return AuthAPIErr.KPT_NOT_JPA;
+										}
+									}
+
 									//delete (user[User.PASSWORD]);
 
 									user[User.PASSWORD] = user[User.PASSWORD].replaceAll("/", "");
@@ -411,6 +427,9 @@ class AuthAPI {
 		var cf = user[User.CF];
 		delete user[User.CF];
 
+		// @kpt_validation
+		var kpt = user[UserMeta.KPT];
+
 		var userdata = user;
 		var usermeta = user;
 
@@ -507,12 +526,27 @@ class AuthAPI {
 				user[UserMeta.FIRST_NAME],
 				user[UserMeta.LAST_NAME]
 			);
-			
+
 			// skip send welcome email
 			// getWpAjaxAxios("app_send_email", email_data);
 		};
 
-		return getWpAjaxAxios("app_register_user", data, successInterceptor);
+		// @kpt_validation
+		if (kpt) {
+			return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
+				try {
+					console.log("@kpt_validation", res.data.data)
+					if (res.data.data.user.kpt) {
+						// @kpt_validation - KPT_ALREADY_EXIST
+						return AuthAPIErr.KPT_ALREADY_EXIST;
+					}
+				} catch (err) { }
+				return getWpAjaxAxios("app_register_user", data, successInterceptor);
+			});
+		} else {
+			return getWpAjaxAxios("app_register_user", data, successInterceptor);
+		}
+
 	}
 }
 

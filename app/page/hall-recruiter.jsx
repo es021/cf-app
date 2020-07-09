@@ -4,18 +4,20 @@ import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import HallRecruiterInterview from "./partial/hall-recruiter/hall-recruiter-interview";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
 import { RootPath } from "../../config/app-config";
-import { Prescreen, PrescreenEnum, CompanyEnum } from "../../config/db-config";
+import { Prescreen, PrescreenEnum, CompanyEnum, CFSMeta } from "../../config/db-config";
 import { Time } from "../lib/time";
 import {
   getCFObj,
   getAuthUser,
-  loadCompanyPriv
+  loadCompanyPriv,
+  getCfCustomMeta
 } from "../redux/actions/auth-actions";
 import { ButtonAction } from "../component/buttons";
 import InputEditable from "../component/input-editable";
 import obj2arg from "graphql-obj2arg";
 import { appointmentTimeValidation } from "./partial/activity/scheduled-interview";
 import { Loader } from "../component/loader";
+import { _student_single, _student_plural, _student_plural_lower } from "../redux/actions/text-action";
 
 // require("../css/hall.scss");''
 // export function getAppointmentTimeElement(d, happeningIn) {
@@ -162,6 +164,7 @@ export default class HallRecruiterPage extends React.Component {
     this.CFDetail = getCFObj();
     this.title = this.CFDetail.title;
     this.authUser = getAuthUser();
+
     this.company_id = this.authUser.rec_company
     this.state = {
       loading: false,
@@ -200,9 +203,9 @@ export default class HallRecruiterPage extends React.Component {
             to={`${RootPath}/app/student-list-job-post`}
             icon="user"
             iconSize="3x"
-            mainText={"Student Listing"}
+            mainText={_student_single() + " Listing"}
             // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={`Browse students from job posts applicants`}
+            subText={`Browse ${_student_plural_lower()} from job posts applicants`}
           />
 
           // ########################################
@@ -215,9 +218,9 @@ export default class HallRecruiterPage extends React.Component {
             to={`${RootPath}/app/browse-student`}
             icon="users"
             iconSize="3x"
-            mainText={"All Students"}
+            mainText={`All ${_student_plural()}`}
             // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={`Browse all students`}
+            subText={`Browse all ${_student_plural_lower()}`}
           />,
           <ButtonAction
             style={{ width: "350px", maxWidth: "70vw" }}
@@ -226,9 +229,9 @@ export default class HallRecruiterPage extends React.Component {
             to={`${RootPath}/app/browse-student?interested_only=1`}
             icon="user"
             iconSize="3x"
-            mainText={"Interested Students"}
+            mainText={`Interested ${_student_plural()}`}
             // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={`Browse students interested in you`}
+            subText={`Browse ${_student_plural_lower()} interested in you`}
           />]
         }
 

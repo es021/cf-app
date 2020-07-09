@@ -13,6 +13,12 @@ const isCustomUserInfoOn = (cf, key) => {
     return valid.indexOf(key) >= 0;
 }
 
+// @kpt_validation - SET_CF_HERE
+const isDoJpaKptValidation = (cf) => {
+    // let valid = ["JPN", "TEST"];
+    let valid = ["JPN"];
+    return valid.indexOf(cf) >= 0;
+}
 
 const Single = {
     first_name: "first_name",
@@ -31,7 +37,7 @@ const Single = {
     //description : "description",
 
     // 2a. @custom_user_info_by_cf
-    unemployment_period : "unemployment_period"
+    unemployment_period: "unemployment_period"
 
 }
 
@@ -51,6 +57,11 @@ const RequiredFieldStudent = [
     UserMeta.LAST_NAME,
     User.EMAIL,
     User.PASSWORD,
+
+    // @kpt_validation
+    UserMeta.KPT,
+
+
     //`${User.PASSWORD}-confirm`,
     UserMeta.PHONE_NUMBER,
     UserMeta.MAS_STATE,
@@ -82,6 +93,7 @@ const RequiredFieldRecruiter = [
 
 
 module.exports = {
+    isDoJpaKptValidation,
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,

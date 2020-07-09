@@ -76,6 +76,7 @@ import HallRecruiterPage from "../page/hall-recruiter";
 import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
+import { _student_plural } from "../redux/actions/text-action";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -286,7 +287,8 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/browse-student",
-      label: "All Students",
+      // label: "All Students",
+      label: "All " + _student_plural(),
       icon: "users",
       component: BrowseStudent,
       bar_app: true,

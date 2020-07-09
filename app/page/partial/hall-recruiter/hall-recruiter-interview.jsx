@@ -53,6 +53,7 @@ import InputEditable from "../../../component/input-editable";
 
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { animateHide } from "../../view-helper/view-helper";
+import { _student_single } from "../../../redux/actions/text-action";
 
 // require("../../../css/border-card.scss");
 export function getTimeStrNew(d) {
@@ -353,7 +354,7 @@ class InterviewList extends React.Component {
               className="btn btn-sm btn-success"
             >
               Connect With On-site
-              </div>
+            </div>
           );
         } else {
           btnStartVCall = (
@@ -365,7 +366,7 @@ class InterviewList extends React.Component {
               className="btn btn-sm btn-green btn-round-5 btn-block btn-bold"
             >
               <i className="fa fa-video-camera left"></i>Start Call
-              </div>
+            </div>
           );
         }
         // status_text = "Interview Accepted";
@@ -479,7 +480,7 @@ class InterviewList extends React.Component {
               className="btn btn-sm btn-red btn-bold btn-round-5 btn-block"
             >
               <i className="fa fa-times left"></i>End Call
-              </div>
+            </div>
           );
         }
 
@@ -618,7 +619,7 @@ class InterviewList extends React.Component {
       className="lb-list-header text-left">
       <div className="container-fluid">
         <div className="row" style={{ padding: "15px 10px" }}>
-          <div className="col-md-1 padding-sm container-avatar">Student</div>
+          <div className="col-md-1 padding-sm container-avatar">{_student_single()}</div>
           <div className="col-md-2 padding-sm show-on-lg-and-more"></div>
           <div className="col-md-2 text-center padding-sm">Status</div>
           <div className="col-md-2 padding-sm">Appointment Time</div>

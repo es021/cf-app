@@ -8,8 +8,8 @@ import {
 import { ButtonLink } from '../app/component/buttons.jsx';
 import { getDataCareerFair } from '../app/component/form';
 import { DocumentUrl, TermsAndConditionUrl } from './app-config';
-import { Month, Year, Sponsor, MasState, Country , StudyField, DegreeLevel} from './data-config';
-import { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
+import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from './data-config';
+import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 export const TotalRegisterStep = 3;
 
 
@@ -30,14 +30,28 @@ export const UserFormItem = [
     {
         header: "Basic Information",
         register: 1, editStudent: 1, editRec: 1
-    }, {
+    },
+    {
+        // @kpt_validation
+        label: "IC Number",
+        name: UserMeta.KPT,
+        type: "text",
+        placeholder: "XXXXXX-XX-XXXX",
+        //required: true,
+        isOnlyInCf: (cf) => {
+            return registrationConfig.isDoJpaKptValidation(cf)
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
         label: "First Name",
         name: UserMeta.FIRST_NAME,
         type: "text",
         placeholder: "John",
         //required: true,
         register: 1, editStudent: 0, editRec: 0
-    }, {
+    },
+    {
         label: "Last Name",
         name: UserMeta.LAST_NAME,
         type: "text",
@@ -58,7 +72,7 @@ export const UserFormItem = [
         placeholder: "*****",
         //required: true,
         register: 1, editStudent: 0, editRec: 0
-    }, 
+    },
     // {
     //     label: "Confirm Password",
     //     name: `${User.PASSWORD}-confirm`,
@@ -73,7 +87,7 @@ export const UserFormItem = [
         type: "text",
         placeholder: "HR Manager",
         register: 0, editStudent: 0, editRec: 1
-    }, 
+    },
     {
         header: "A Little More About Yourself",
         register: 2, editStudent: 0, editRec: 0
@@ -309,12 +323,19 @@ export function getEditProfileFormItem(type) {
     return toRet;
 }
 
-export function getRegisterFormItem(registerStep) {
+export function getRegisterFormItem(registerStep, cf) {
     let toRet = [];
 
     for (var i in UserFormItem) {
         let item = UserFormItem[i];
         item = setAdditionalAttribute(item);
+
+        // @kpt_validation
+        if (item.isOnlyInCf) {
+            if (!item.isOnlyInCf(cf)) {
+                continue;
+            }
+        }
 
         if (item.register == registerStep) {
             toRet.push(item);

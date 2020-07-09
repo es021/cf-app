@@ -9,6 +9,7 @@ import { Loader } from "../component/loader";
 import { _GET } from "../lib/util";
 import EmptyState from "../component/empty-state";
 import { Redirect } from "react-router";
+import { _student_single } from "../redux/actions/text-action";
 
 export class BrowseStudent extends React.Component {
   constructor(props) {
@@ -157,7 +158,7 @@ export class BrowseStudent extends React.Component {
 
 
   render() {
-    let title = "Student Listing"
+    let title = `${_student_single()} Listing`
     // if(this.isPageStudentListJobPost()){
     //   title = ""
     // }

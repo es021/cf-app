@@ -231,10 +231,18 @@ class UserQuery {
 		// create basic conditions
 		var id_condition =
 			typeof params.ID !== "undefined" ? `u.ID = ${params.ID}` : `1=1`;
+
 		var email_condition =
 			typeof params.user_email !== "undefined" ?
 				`u.user_email = '${params.user_email}'` :
 				`1=1`;
+
+		// @kpt_validation
+		var kpt_condition =
+			typeof params.kpt !== "undefined" ?
+				`(${this.selectMetaMain("u.ID", UserMeta.KPT)}) = '${params.kpt}' ` :
+				`1=1`;
+
 		var role_condition =
 			typeof params.role !== "undefined" ?
 				`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${
@@ -308,7 +316,7 @@ class UserQuery {
 
 		var sql = `SELECT u.* ${meta_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
-           AND ${id_condition} AND ${meta_condition} 
+		   AND ${id_condition} AND ${meta_condition} AND ${kpt_condition}
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;

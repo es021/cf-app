@@ -47,8 +47,8 @@ EXPORT.Cfs = {
     // custom text
     text_header_title: __.String,
     text_header_desc: __.String,
-    text_student_single: __.String,
-    text_student_plural: __.String,
+    text_student_entity_single: __.String,
+    text_student_entity_plural: __.String,
     text_registration_title: __.String,
     text_company_entity_single: __.String,
     text_company_entity_plural: __.String,

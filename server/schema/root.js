@@ -804,6 +804,8 @@ fields["user"] = {
 	type: UserType,
 	args: {
 		ID: __.Int,
+		// @kpt_validation
+		kpt: __.String,
 		user_email: __.String
 	},
 	resolve(parentValue, arg, context, info) {

@@ -142,6 +142,9 @@ const UserMeta = {
 	IS_ACTIVATED: "is_activated",
 	ACTIVATION_KEY: "activation_key",
 
+	// @kpt_validation
+	KPT : "kpt",
+
 	// student only
 	UNIVERSITY: "university",
 	PHONE_NUMBER: "phone_number",
@@ -670,8 +673,8 @@ const CFSMeta = {
 	// custom text
 	TEXT_HEADER_TITLE : "text_header_title",
     TEXT_HEADER_DESC : "text_header_desc",
-    TEXT_STUDENT_SINGLE : "text_student_single",
-    TEXT_STUDENT_PLURAL : "text_student_plural",
+    TEXT_STUDENT_ENTITY_SINGLE : "text_student_entity_single",
+    TEXT_STUDENT_ENTITY_PLURAL : "text_student_entity_plural",
 	TEXT_REGISTRATION_TITLE : "text_registration_title",
 	TEXT_COMPANY_ENTITY_SINGLE : "text_company_entity_single",
 	TEXT_COMPANY_ENTITY_PLURAL : "text_company_entity_plural",

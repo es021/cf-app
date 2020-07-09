@@ -143,6 +143,9 @@ const UserType = new GraphQLObjectType({
 		cf: __.StringList,
 		user_registered: __.String,
 
+		// @kpt_validation
+		kpt: __.String,
+
 		//active activity
 		queues: __.ListOf(QueueType),
 		session_requests: __.ListOf(SessionRequestType),

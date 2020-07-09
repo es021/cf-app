@@ -9,7 +9,9 @@ const AuthUserKey = ["ID",
 	"cf",
 	"img_url",
 	"img_pos",
-	"img_size"
+	"img_size",
+	// @kpt_validation
+	"kpt"
 ];
 
 const AuthAPIErr = {
@@ -19,7 +21,12 @@ const AuthAPIErr = {
 	INVALID_ACTIVATION: "INVALID_ACTIVATION",
 	INVALID_CF: "INVALID_CF",
 	TOKEN_INVALID: "TOKEN_INVALID",
-	TOKEN_EXPIRED: "TOKEN_EXPIRED"
+	TOKEN_EXPIRED: "TOKEN_EXPIRED",
+
+	// @kpt_validation
+	KPT_NOT_JPA : "KPT_NOT_JPA",
+	KPT_ALREADY_EXIST : "KPT_ALREADY_EXIST",
+	KPT_NOT_FOUND_IN_USER_RECORD : "KPT_NOT_FOUND_IN_USER_RECORD"
 };
 
 module.exports = {
