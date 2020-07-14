@@ -135,6 +135,7 @@ export default class CompanyPage extends Component {
                 banner_position
                 banner_size
                 rec_privacy
+                tags{label}
                 doc_links{ID label url type}
                 more_info
                 ${rec_query}
@@ -676,6 +677,27 @@ export default class CompanyPage extends Component {
   isQuickLink(d) {
     return !this.isGallery(d);
   }
+  getTag(data) {
+    let tags = data.tags;
+    let count = 0;
+    let list = tags.map((d, i) => {
+      count++;
+      return <div className="cp-quick-link-item">
+        {d.label}
+      </div>
+    });
+
+    if (count <= 0) {
+      return null;
+    }
+
+    return (
+      <div className="cp-quick-link">
+        <b><i className="fa fa-slack left"></i>Tag</b><br></br>
+        {list}
+      </div>
+    );
+  }
   getQuickLink(data) {
     let doc_links = data.doc_links;
     let count = 0;
@@ -842,6 +864,8 @@ export default class CompanyPage extends Component {
               </div>
               <div className="col-md-4 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getQuickLink(data)}
+                <div style={{ height: "25px" }}></div>
+                {this.getTag(data)}
               </div>
               <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getEvent(data)}

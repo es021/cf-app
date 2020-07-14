@@ -1,8 +1,29 @@
+-- new table tag
+CREATE TABLE `wp_career_fair`.`tag` 
+( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`entity` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`entity_id` BIGINT(20) NOT NULL , 
+`label` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+PRIMARY KEY (`ID`), UNIQUE (`entity`, `entity_id`, `label`)) 
+ENGINE = InnoDB; 
+
+
+-- new ref
+monash_school
+sunway_faculty
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 ALTER TABLE `events` ADD `url_rsvp` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
 ALTER TABLE `events` ADD `url_join` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
 ALTER TABLE `events` ADD `url_recorded` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
-
-
 
 -- Add auto_expired_at untuk zoom_meetings
 ALTER TABLE `zoom_meetings` ADD 
@@ -10,14 +31,6 @@ ALTER TABLE `zoom_meetings` ADD
 COMMENT 'time at which this meeting is make auto ENDED (expired) by cron job' 
 AFTER `is_expired`; 
 
-
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 -- Add PIC untuk note
 ALTER TABLE `pre_screens` ADD `note` TEXT NULL DEFAULT NULL AFTER `pic`; 

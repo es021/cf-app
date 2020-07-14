@@ -298,17 +298,19 @@ const initializeAllRoute = function (app, root) {
     var user_id = req.params.user_id;
     var action = req.params.action;
     var filter = req.body.filter;
+    var cf = req.body.cf;
 
     console.log('password', password)
     console.log('action', action)
     console.log('user_id', user_id)
     console.log('filter', filter)
+    console.log('cf', cf)
 
     AuthAPI.checkPasswordWithoutSlash(
       password,
       user_id,
       () => {
-        XLSApi.export(action, filter).then(
+        XLSApi.export(action, filter, cf).then(
           response => {
             res.header(
               "Content-Type",

@@ -3,37 +3,10 @@ const { Time } = require("../../app/lib/time");
 const { FilterNotObject } = require("../../config/xls-config")
 const axios = require("axios");
 const obj2arg = require("graphql-obj2arg");
+const { isCustomUserInfoOff } = require("../../config/registration-config");
 
 class XLSApi {
   constructor() {
-    // 7. @custom_user_info_by_cf
-    this.student_field = `ID
-        first_name
-        last_name
-        user_email
-        doc_links{label url}
-        country_study 
-        university 
-        qualification
-        graduation_month 
-        graduation_year
-        working_availability_month 
-        working_availability_year
-        grade 
-        phone_number 
-        sponsor
-        where_in_malaysia
-        interested_vacancies_by_company{ title }
-        description
-        user_registered
-        video_resume {url}
-        extracurricular {val}
-        skill {val}
-        field_study {val}
-        looking_for_position {val}
-        interested_role {val}
-        interested_job_location {val}
-    `;
 
     this.DateTime = [
       "created_at",
@@ -45,9 +18,57 @@ class XLSApi {
     ];
   }
 
+  student_field() {
+    // 9. @custom_user_info_by_cf
+    return `
+      ID
+      first_name
+      last_name
+      user_email
+      doc_links{label url}
+      ${this.addIfValid("country_study")}
+      ${this.addIfValid("monash_school")}
+      ${this.addIfValid("sunway_faculty")}
+      university 
+      qualification
+      graduation_month 
+      graduation_year
+      working_availability_month 
+      working_availability_year
+      grade 
+      phone_number 
+      sponsor
+      ${this.addIfValid("where_in_malaysia")}
+      interested_vacancies_by_company{ title }
+      description
+      user_registered
+      video_resume {url}
+      ${this.addIfValid("extracurricular", "{val}")}
+      skill {val}
+      ${this.addIfValid("field_study", "{val}")}
+      looking_for_position {val}
+      interested_role {val}
+      interested_job_location {val}
+  `;
+  }
+
+  addIfValid(studentField, attrList = "") {
+    let toRet = studentField + " " + attrList;
+    if (!this.CF) {
+      return toRet;
+    } else {
+      if (!isCustomUserInfoOff(this.CF, studentField)) {
+        return toRet;
+      }
+    }
+    return "";
+  }
+
   // filter in JSON object, return {filename, content}
-  export(action, filter) {
-    console.log(action, filter);
+  export(action, filter, cf) {
+    this.CF = cf;
+
+    console.log(action, filter, cf);
     if (FilterNotObject.indexOf(action) <= -1) {
       if (filter !== "null") {
         try {
@@ -79,7 +100,7 @@ class XLSApi {
       // case "student_listing":
       //   return this.student_listing(filter);
       case "browse_student":
-        return this.browse_student(filter);
+        return this.browse_student(filter, cf);
     }
   }
 
@@ -90,7 +111,7 @@ class XLSApi {
       browse_student (${filterStr}) 
       {
           student_id
-          student{${this.student_field}}
+          student{${this.student_field()}}
       }
     } `;
 
@@ -154,7 +175,7 @@ class XLSApi {
     // 1. create query
     var query = `query{
             session_requests(company_id:${cid}) {
-              student{${this.student_field}}
+              student{${this.student_field()}}
               company{name}
               status
               created_at
@@ -217,7 +238,7 @@ class XLSApi {
   //           student_listing(${obj2arg(queryParam, {
   //     noOuterBraces: true
   //   })}) {
-  //             student{${this.student_field}}
+  //             student{${this.student_field()}}
   //             company{name}
   //           }
   //         }`;
@@ -273,13 +294,13 @@ class XLSApi {
   //     renameTitle
   //   );
   // }
-  restructChangeHeaderForStudent(data, preKey = ""){
+  restructChangeHeaderForStudent(data, preKey = "") {
     let toRet = {};
-    for(var k in data){
+    for (var k in data) {
       let newK = k;
-      if(k == preKey + "interested_vacancies_by_company"){
+      if (k == preKey + "interested_vacancies_by_company") {
         newK = "applied_job_post";
-      }else{
+      } else {
         newK = newK.replace("student_", "");
       }
       toRet[newK] = data[k];
@@ -318,7 +339,7 @@ class XLSApi {
       key = preKey + key;
       let multiArr = newData[key];
       let multiStr = "";
-   
+
       if (Array.isArray(multiArr)) {
         multiArr.map((d, j) => {
           let toRet = "";
@@ -327,7 +348,7 @@ class XLSApi {
           }
 
           let v = d.val;
-          if(key.indexOf("interested_vacancies_by_company") >= 0){
+          if (key.indexOf("interested_vacancies_by_company") >= 0) {
             v = d.title;
           }
 
@@ -352,7 +373,7 @@ class XLSApi {
     var query = `query{
             resume_drops(company_id:${cid}) {
               message
-              student{${this.student_field}}
+              student{${this.student_field()}}
               company{name}
               created_at
               updated_at
@@ -397,7 +418,7 @@ class XLSApi {
     // 1. create query
     var query = `query{
             prescreens(company_id:${cid}, special_type:"Pre Screen") {
-              student{${this.student_field}}
+              student{${this.student_field()}}
               created_at
               company{name}
               status
@@ -448,7 +469,7 @@ class XLSApi {
             sessions(company_id:${cid}) {
               session_notes{note}
               session_ratings{category rating}
-              student{${this.student_field}}
+              student{${this.student_field()}}
               company{name}
               created_at
               started_at

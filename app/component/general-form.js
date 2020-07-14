@@ -359,16 +359,20 @@ export default class GeneralFormPage extends React.Component {
         extra = this.props.getExtraEditData(d);
       }
 
+      let actionClass = this.props.isMutationUseIcon ? "badge" : null;
+
       var editAct = (
-        <a id={d.ID} {...extra} onClick={this.editPopup.bind(this)}>
-          Edit
+        <a className={actionClass} id={d.ID} {...extra} onClick={this.editPopup.bind(this)}>
+          {this.props.isMutationUseIcon ? <i className="fa fa-edit"></i> : "Edit"}
         </a>
       );
+
       var delAct = (
-        <a id={d.ID} {...extra} onClick={this.deletePopup.bind(this)}>
-          Delete
+        <a className={actionClass} id={d.ID} {...extra} onClick={this.deletePopup.bind(this)}>
+          {this.props.isMutationUseIcon ? <i className="fa fa-times"></i> : "Delete"}
         </a>
       );
+
 
       var action = null;
       var row = [];
@@ -384,7 +388,9 @@ export default class GeneralFormPage extends React.Component {
         action = <td className="text-right">{editAct}</td>;
       }
 
-      if (this.props.actionFirst) {
+      if (this.props.customRenderRow) {
+        row.push(this.props.customRenderRow(d, editAct, delAct));
+      } else if (this.props.actionFirst) {
         row.push(action);
         row.push(this.props.renderRow(d));
       } else {
@@ -411,6 +417,8 @@ export default class GeneralFormPage extends React.Component {
     var datas = (
       <div key={this.state.key}>
         <List
+          isHidePagingTop={this.props.isHidePagingTop}
+          isHidePagingBottom={this.props.isHidePagingBottom}
           emptyMessage={this.props.emptyMessage}
           listClass={this.props.listClass}
           loadCount={this.props.loadCount}
@@ -533,7 +541,7 @@ export default class GeneralFormPage extends React.Component {
 }
 
 GeneralFormPage.propTypes = {
-  getExtraEditData : PropTypes.func,
+  getExtraEditData: PropTypes.func,
   searchFormContentBottom: PropTypes.object,
   searchFormNonPopup: PropTypes.bool,
   hasResetFilter: PropTypes.bool,

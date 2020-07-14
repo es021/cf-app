@@ -123,10 +123,11 @@ export default class ManageUserProfile extends React.Component {
 
     return r[id];
   }
-  // 5. @custom_user_info_by_cf
+  // 2. @custom_user_info_by_cf
   getInputItems() {
     let field_study = this.getFieldStudyListStr();
     let country = this.state.currentData[Reg.Single.country_study];
+    let cf = getCF();
 
     let r = [];
     if (this.isEdit()) {
@@ -154,7 +155,7 @@ export default class ManageUserProfile extends React.Component {
           ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.graduation_month)
         },
         {
           // defined multi choice
@@ -166,7 +167,7 @@ export default class ManageUserProfile extends React.Component {
           hideInputSuggestion: true,
           ref_order_by: "val ASC",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.looking_for_position)
         },
         {
           // single
@@ -177,7 +178,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Malaysia",
           ref_table_name: "country",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.country_study)
         },
         {
           // single
@@ -191,7 +192,31 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_val: country,
           ref_filter_find_id: true, // kena ubah kat ref-query
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.monash_school,
+          key_input: Reg.Single.monash_school,
+          label: "Which school are you from?",
+          // input_placeholder: "Malaysia",
+          ref_table_name: "monash_school",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.monash_school)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.sunway_faculty,
+          key_input: Reg.Single.sunway_faculty,
+          label: "Which faculty are you from?",
+          // input_placeholder: "Malaysia",
+          ref_table_name: "sunway_faculty",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_faculty)
         },
         {
           // single select
@@ -203,7 +228,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Type something here",
           ref_table_name: "qualification",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)
         },
         // {
         //   // free multi choice (location)
@@ -230,7 +255,7 @@ export default class ManageUserProfile extends React.Component {
           list_title: null,
           ref_table_name: "field_study",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.field_study)
         },
         {
           // single
@@ -241,7 +266,7 @@ export default class ManageUserProfile extends React.Component {
           sublabel: "CGPA, First Class, etc",
           input_placeholder: "Type something here",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.grade)
         },
         {
           // single
@@ -251,19 +276,7 @@ export default class ManageUserProfile extends React.Component {
           label: "What is your phone number?",
           input_placeholder: "XXX-XXXXXXX",
           is_required: true,
-          hidden: false
-        },
-        {
-          // single select
-          type: "single",
-          input_type: "select",
-          id: Reg.Single.unemployment_period,
-          key_input: Reg.Single.unemployment_period,
-          label: "How long have you been unemployed?",
-          ref_table_name: "unemployment_period",
-          ref_order_by: "ID asc",
-          is_required: true,
-          hidden: isRoleRec() || !Reg.isCustomUserInfoOn(getCF(), "unemployment_period")
+          hidden: false || Reg.isCustomUserInfoOff(cf, Reg.Single.phone_number)
         },
         {
           // single
@@ -276,21 +289,35 @@ export default class ManageUserProfile extends React.Component {
           ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.working_availability_month)
         },
+        {
+          // single select
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.unemployment_period,
+          key_input: Reg.Single.unemployment_period,
+          label: "How long have you been unemployed?",
+          ref_table_name: "unemployment_period",
+          ref_order_by: "ID asc",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.unemployment_period)
+        },
+
         {
           // free multi choice
           type: "multi",
           id: Reg.Multi.interested_role,
           table_name: Reg.Multi.interested_role,
-          label: "What types of jobs will you be searching for?",
+          label: "What types of jobs are you interested in?",
+          // label: "What types of jobs will you be searching for?",
           input_placeholder: "Web Developer",
           list_title: field_study ? `Popular job for your field of study` : "",
           ref_table_name: "job_role",
           suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
           suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_role)
         },
         // {
         //   // select multi choice
@@ -315,7 +342,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Cyberjaya, Selangor",
           ref_table_name: "location_malaysia",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.where_in_malaysia)
         },
         {
           // free multi choice (location)
@@ -330,7 +357,7 @@ export default class ManageUserProfile extends React.Component {
             : "Popular in your area",
           ref_table_name: "location",
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_job_location)
         },
         {
           // free multi choice
@@ -346,7 +373,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "skill",
           ref_offset: 11,
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.skill)
         },
         {
           // free multi choice
@@ -359,7 +386,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "extracurricular",
           ref_offset: 11,
           is_required: true,
-          hidden: isRoleRec()
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.extracurricular)
         },
         // {
         //   // single

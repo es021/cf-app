@@ -18,7 +18,8 @@ import * as layoutActions from "../../../redux/actions/layout-actions";
 import {
   isRoleRec,
   getAuthUser,
-  isRoleAdmin
+  isRoleAdmin,
+  getCF
 } from "../../../redux/actions/auth-actions";
 import CompanyPopup from "./company-popup";
 import { addLog } from "../../../redux/actions/other-actions";
@@ -26,6 +27,7 @@ import { openSIAddForm } from "../activity/scheduled-interview";
 import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
+import { isCustomUserInfoOff, Single } from "../../../../config/registration-config";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -154,6 +156,14 @@ export default class UserPopup extends Component {
     }
   }
 
+  addIfValid(studentField, attrList = "") {
+    let toRet = studentField + " " + attrList;
+    if (!isCustomUserInfoOff(getCF(), studentField)) {
+      return toRet;
+    }
+    return "";
+  }
+
   componentWillMount() {
     var id = null;
 
@@ -170,7 +180,7 @@ export default class UserPopup extends Component {
     }
 
     console.log("UserPage", "componentWillMount");
-    // 6a. @custom_user_info_by_cf
+    // 7a. @custom_user_info_by_cf
     var query =
       this.props.role === UserEnum.ROLE_STUDENT
         ? `query {
@@ -184,7 +194,7 @@ export default class UserPopup extends Component {
                 degree_level
                 first_name
                 last_name
-                country_study
+                ${this.addIfValid("country_study")}
                 university
                 qualification
                 graduation_month
@@ -196,12 +206,14 @@ export default class UserPopup extends Component {
                 phone_number
                 sponsor
                 description
-                skill {val}
-                extracurricular {val}
-                field_study {val}
-                looking_for_position {val}
-                interested_role {val}
-                interested_job_location {val}
+                ${this.addIfValid("monash_school")}
+                ${this.addIfValid("sunway_faculty")}
+                ${this.addIfValid("skill", "{val}")}
+                ${this.addIfValid("extracurricular", "{val}")}
+                ${this.addIfValid("field_study", "{val}")}
+                ${this.addIfValid("looking_for_position", "{val}")}
+                ${this.addIfValid("interested_role", "{val}")}
+                ${this.addIfValid("interested_job_location", "{val}")}
                 doc_links{label url type}
                 ${IsOnVideoResume ? "video_resume {ID url}" : ""}
             }}`
@@ -251,7 +263,7 @@ export default class UserPopup extends Component {
     return ret;
   }
 
-  // 6b. @custom_user_info_by_cf
+  // 7b. @custom_user_info_by_cf -display single
   getBasicInfo(d) {
     var notSpecifed = (
       <small>
@@ -326,6 +338,22 @@ export default class UserPopup extends Component {
       //     : this.createListForMulti(d.field_study)
       // });
 
+      if (!isCustomUserInfoOff(getCF(), Single.monash_school)) {
+        items.push({
+          label: "School",
+          icon: "university",
+          value: this.isValueEmpty(d.monash_school) ? notSpecifed : d.monash_school
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.sunway_faculty)) {
+        items.push({
+          label: "Faculty",
+          icon: "university",
+          value: this.isValueEmpty(d.sunway_faculty) ? notSpecifed : d.sunway_faculty
+        })
+      }
+
       items.push(
         {
           label: "University",
@@ -357,12 +385,7 @@ export default class UserPopup extends Component {
           label: "Grade / CGPA",
           icon: "book",
           value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
-        },
-        {
-          label: "City/State in Malaysia",
-          icon: "map-marker",
-          value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
-        },
+        }
         // {
         //   label: "Work Availability Date",
         //   icon: "suitcase",
@@ -373,6 +396,15 @@ export default class UserPopup extends Component {
         //   )
         // }
       );
+
+
+      if (!isCustomUserInfoOff(getCF(), Single.where_in_malaysia)) {
+        items.push({
+          label: "City/State in Malaysia",
+          icon: "map-marker",
+          value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
+        })
+      }
     }
 
     return <CustomList className="icon" items={items}></CustomList>;
@@ -411,7 +443,6 @@ export default class UserPopup extends Component {
     );
   }
 
-  // 6c. @custom_user_info_by_cf
   getStudentBody(user) {
     //about
     const basic = this.getBasicInfo(user);
@@ -438,45 +469,47 @@ export default class UserPopup extends Component {
 
     var doc_link = createUserDocLinkList(user.doc_links, this.id, false);
 
-    const field_study = (
+    // 7c. @custom_user_info_by_cf - disply multi
+
+    const field_study = !isCustomUserInfoOff(getCF(), "field_study") ? (
       <CustomList
         alignCenter={false}
         className="label"
         items={user.field_study.map((d, i) => d.val)}
       ></CustomList>
-    );
+    ) : null;
 
-    const interested_role = (
+    const interested_role = !isCustomUserInfoOff(getCF(), "interested_role") ? (
       <CustomList
         alignCenter={false}
         className="label"
         items={user.interested_role.map((d, i) => d.val)}
       ></CustomList>
-    );
+    ) : null;
 
-    const skill = (
+    const skill = !isCustomUserInfoOff(getCF(), "skill") ? (
       <CustomList
         alignCenter={false}
         className="label"
         items={user.skill.map((d, i) => d.val)}
       ></CustomList>
-    );
+    ) : null;
 
-    const extracurricular = (
+    const extracurricular = !isCustomUserInfoOff(getCF(), "extracurricular") ? (
       <CustomList
         alignCenter={false}
         className="label"
         items={user.extracurricular.map((d, i) => d.val)}
       ></CustomList>
-    );
+    ) : null;
 
-    const interested_job_location = (
+    const interested_job_location = !isCustomUserInfoOff(getCF(), "interested_job_location") ? (
       <CustomList
         alignCenter={false}
         className="label"
         items={user.interested_job_location.map((d, i) => d.val)}
       ></CustomList>
-    );
+    ) : null;
 
     var pageClassName = this.props.isSessionPage ? "" : "left";
     var leftBody = (
@@ -488,18 +521,22 @@ export default class UserPopup extends Component {
           body={basic}
         ></PageSection>
 
-        <PageSection
-          alignCenter={false}
-          className={pageClassName}
-          title={this.getTitle("Field Of Study", "graduation-cap")}
-          body={field_study}
-        ></PageSection>
+        {!isCustomUserInfoOff(getCF(), "field_study") ?
+          <PageSection
+            alignCenter={false}
+            className={pageClassName}
+            title={this.getTitle("Field Of Study", "graduation-cap")}
+            body={field_study}
+          ></PageSection> : null}
 
-        <PageSection
-          className={pageClassName}
-          title={this.getTitle("Skills", "star")}
-          body={skill}
-        ></PageSection>
+
+
+        {!isCustomUserInfoOff(getCF(), "extracurricular") ?
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Organization / Extracurricular Activities", "podcast")}
+            body={extracurricular}
+          ></PageSection> : null}
 
         {user.description != "" && user.description != null ? (
           <PageSection
@@ -527,23 +564,26 @@ export default class UserPopup extends Component {
           body={doc_link}
         ></PageSection>
 
-        <PageSection
-          className={pageClassName}
-          title={this.getTitle("Interested Job Position", "suitcase")}
-          body={interested_role}
-        ></PageSection>
+        {!isCustomUserInfoOff(getCF(), "skill") ?
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Skills", "star")}
+            body={skill}
+          ></PageSection> : null}
 
-        <PageSection
-          className={pageClassName}
-          title={this.getTitle("Interested Job Location", "map-marker")}
-          body={interested_job_location}
-        ></PageSection>
+        {!isCustomUserInfoOff(getCF(), "interested_role") ?
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Interested Job Position", "suitcase")}
+            body={interested_role}
+          ></PageSection> : null}
 
-        <PageSection
-          className={pageClassName}
-          title={this.getTitle("Organization / Extracurricular Activities", "podcast")}
-          body={extracurricular}
-        ></PageSection>
+        {!isCustomUserInfoOff(getCF(), "interested_job_location") ?
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Interested Job Location", "map-marker")}
+            body={interested_job_location}
+          ></PageSection> : null}
       </div>
     );
 

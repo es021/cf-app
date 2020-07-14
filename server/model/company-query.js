@@ -52,20 +52,20 @@ class CompanyQuery {
         var ignore_type = (typeof params.ignore_type === "undefined") ? "1=1" : `c.type NOT IN ${params.ignore_type}`;
 
         var ignore_priv = "";
-        if(typeof params.ignore_priv === "undefined") {
+        if (typeof params.ignore_priv === "undefined") {
             ignore_priv = "1=1";
-        }else{
+        } else {
             ignore_priv = " c.priviledge IS NULL ";
             let arr = params.ignore_priv.split("::");
-            for(var i in arr){
+            for (var i in arr) {
                 let a = arr[i];
-                if(a){
+                if (a) {
                     ignore_priv += ` OR c.priviledge NOT LIKE "%${a}%" `;
                 }
             }
             ignore_priv = ` (${ignore_priv}) `;
         }
-   
+
 
         var limit = DB.prepareLimit(params.page, params.offset);
 
@@ -80,12 +80,12 @@ class CompanyQuery {
             and c.ID != ${SupportUserID} and ${ignore_priv}
             ${order_by}`;
 
-        console.log(sql);
+        // console.log(sql);
 
         if (extra.count) {
-			return `select count(*) as cnt ${sql}`;
-		} else {
-			return `select c.*, c.img_position as img_pos ${sql} ${limit}`;
+            return `select count(*) as cnt ${sql}`;
+        } else {
+            return `select c.*, c.img_position as img_pos ${sql} ${limit}`;
         }
     }
 }
@@ -113,6 +113,7 @@ const {
 const {
     InterestedExec
 } = require('./interested-query.js');
+const { TagExec } = require('./tag-query.js');
 
 class CompanyExec {
     getCompanyHelper(type, params, field, extra = {}) {
@@ -127,21 +128,29 @@ class CompanyExec {
 
         return DB.query(sql).then(function (res) {
             if (extra.count) {
-				return res[0]["cnt"];
+                return res[0]["cnt"];
             }
-            
+
             for (var i in res) {
 
                 var company_id = res[i]["ID"];
 
+                //Add tags ***********************************
+                if (typeof field["tags"] !== "undefined") {
+                    res[i]["tags"] = TagExec.list({
+                        entity: "company",
+                        entity_id: company_id
+                    }, field["tags"]);
+                }
+
                 //Add interested ***********************************
                 if (typeof field["interested"] !== "undefined") {
-					res[i]["interested"] = InterestedExec.single({
-						user_id: params.user_id,
-						entity: "companies",
-						entity_id: company_id
-					}, field["interested"]);
-				}
+                    res[i]["interested"] = InterestedExec.single({
+                        user_id: params.user_id,
+                        entity: "companies",
+                        entity_id: company_id
+                    }, field["interested"]);
+                }
 
                 //Add recruiters ***********************************
                 if (typeof field["recruiters"] !== "undefined") {
@@ -160,7 +169,7 @@ class CompanyExec {
                 }
 
                 if (typeof field["active_queues_count"] !== "undefined") {
-                    delete(act_q["order_by"]);
+                    delete (act_q["order_by"]);
                     res[i]["active_queues_count"] = QueueExec.queues(act_q, {}, {
                         count: true
                     });
@@ -211,7 +220,7 @@ class CompanyExec {
                 }
 
                 if (typeof field["active_prescreens_count"] !== "undefined") {
-                    delete(act_ps["order_by"]);
+                    delete (act_ps["order_by"]);
                     res[i]["active_prescreens_count"] = PrescreenExec.prescreens(act_ps, {}, {
                         count: true
                     });
@@ -228,7 +237,7 @@ class CompanyExec {
                 }
 
                 if (typeof field["vacancies_count"] !== "undefined") {
-                    delete(act_ps["order_by"]);
+                    delete (act_ps["order_by"]);
                     res[i]["vacancies_count"] = VacancyExec.vacancies(vc, {}, {
                         count: true
                     });

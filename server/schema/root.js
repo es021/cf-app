@@ -43,7 +43,8 @@ const {
 	InterestedType,
 	CountType,
 	VideoType,
-	ZoomMeetingType
+	ZoomMeetingType,
+	TagType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -135,6 +136,9 @@ const {
 	VideoExec
 } = require("../model/video-query.js");
 const {
+	TagExec
+} = require("../model/tag-query.js");
+const {
 	VacancySuggestionExec
 } = require("../model/vacancy-suggestion-query.js");
 const DB = require("../model/DB.js");
@@ -178,7 +182,32 @@ __.String;
 var fields = {};
 
 /*******************************************/
-/*******************/
+/*****  tag  **************/
+fields["tags"] = {
+	type: new GraphQLList(TagType),
+	args: {
+		entity: __.String,
+		entity_id: __.Int,
+		page: __.Int,
+		offset: __.Int
+	},
+	resolve(parentValue, arg, context, info) {
+		return TagExec.list(arg, graphqlFields(info));
+	}
+};
+
+fields["tag"] = {
+	type: TagType,
+	args: {
+		ID: __.Int
+	},
+	resolve(parentValue, arg, context, info) {
+		return TagExec.single(arg, graphqlFields(info));
+	}
+};
+
+/*******************************************/
+/**** videos ***************/
 fields["videos"] = {
 	type: new GraphQLList(VideoType),
 	args: {
@@ -467,6 +496,7 @@ fields["group_session_joins"] = {
 /*******************************************/
 /* browse_student ******************/
 
+// 5. @custom_user_info_by_cf
 let argBrowseStudent = {
 	discard_filter: __.String,
 
@@ -488,6 +518,8 @@ let argBrowseStudent = {
 	country_study: __.String,
 	university: __.String,
 	where_in_malaysia: __.String,
+	monash_school: __.String,
+	sunway_faculty: __.String,
 
 	// multi (delimeter '::')
 	field_study: __.String,

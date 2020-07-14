@@ -36,6 +36,7 @@ const {
   SingleType,
   InterestedType,
   VideoType,
+  TagType,
   CfsType
 } = require("./all-type.js");
 
@@ -62,6 +63,7 @@ const {
   ResumeDrop,
   Session,
   Prescreen,
+  Tag,
   PrescreenEnum,
   ForumComment,
   ForumReply,
@@ -104,6 +106,51 @@ const {
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
 var fields = {};
+
+
+/* tag  ******************/
+
+fields["add_tag"] = {
+  type: TagType,
+  args: {
+    entity: __.String,
+    entity_id: __.Int,
+    label: __.String
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert(Tag.TABLE, arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_tag"] = {
+  type: TagType,
+  args: {
+    ID: __.IntNonNull,
+    label: __.String
+  },
+  resolve(parentValue, arg, context, info) {
+    try {
+      return DB.update(Tag.TABLE, arg).then(function (res) {
+        return res;
+      });
+    } catch (err) {
+      return {};
+    }
+  }
+};
+
+fields["delete_tag"] = {
+  type: GraphQLInt,
+  args: {
+    ID: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.delete(Tag.TABLE, arg.ID);
+  }
+};
+
 
 /* video  ******************/
 

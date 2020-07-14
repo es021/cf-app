@@ -733,6 +733,16 @@ const Video = {
 	UPDATED_AT: "updated_at"
 };
 
+const Tag = {
+	TABLE: "tag",
+	ID: "ID",
+	ENTITY: "entity",
+	ENTITY_ID: "entity_id",
+	LABEL: "label",
+	CREATED_AT: "created_at",
+	UPDATED_AT: "updated_at"
+};
+
 const VideoEnum = {
 	RESUME: "resume"
 }
@@ -760,6 +770,7 @@ const HallGalleryEnum = {
 };
 
 module.exports = {
+	Tag,
 	VideoEnum,
 	QsPopup,
 	QsPopupEnum,

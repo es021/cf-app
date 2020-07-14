@@ -317,7 +317,8 @@ class PrimaryLayout extends React.Component {
       let sideMenu = Navigation.getBar(path, {
         COMING_SOON: COMING_SOON,
         isHeader: false,
-        count_notification: this.props.notification_count
+        count_notification: this.props.notification_count,
+        count_inbox: this.props.inbox_count
       });
 
       return (

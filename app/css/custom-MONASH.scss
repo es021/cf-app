@@ -1,0 +1,206 @@
+@import "define/mixin.scss";
+
+$MONASH_LIGHT_BLUE: #006dae;
+$MONASH_LIGHT_BLUE_SUB: #ffffffb9;
+
+.primary-layout.cf-MONASH {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $MONASH_LIGHT_BLUE;
+  $COLOR_HEADER_LINK: $MONASH_LIGHT_BLUE_SUB;
+  $COLOR_HEADER_TITLE: white;
+  $COLOR_HEADER_SUBTITLE: $MONASH_LIGHT_BLUE_SUB;
+  $COLOR_HEADER_LINK_ACTIVE: white;
+
+  header {
+    .img {
+      padding : 10px 7px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $MONASH_LIGHT_BLUE;
+      border-bottom: 2px solid $MONASH_LIGHT_BLUE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $MONASH_LIGHT_BLUE 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $MONASH_LIGHT_BLUE;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $MONASH_LIGHT_BLUE;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $MONASH_LIGHT_BLUE;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $MONASH_LIGHT_BLUE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $MONASH_LIGHT_BLUE;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $MONASH_LIGHT_BLUE;
+    }
+    .pg-page {
+      color: $MONASH_LIGHT_BLUE;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $MONASH_LIGHT_BLUE);
+
+    .lb-title {
+      color: $MONASH_LIGHT_BLUE;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $MONASH_LIGHT_BLUE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $MONASH_LIGHT_BLUE, white, $MONASH_LIGHT_BLUE);
+  @include custom_btn_focus("success", $MONASH_LIGHT_BLUE, #f8f1f1, $MONASH_LIGHT_BLUE);
+  @include custom_btn_active("success", $MONASH_LIGHT_BLUE, white, $MONASH_LIGHT_BLUE);
+
+  @include custom_btn_default("default", $MONASH_LIGHT_BLUE, white, $MONASH_LIGHT_BLUE);
+  @include custom_btn_focus("default", $MONASH_LIGHT_BLUE, #f8f1f1, $MONASH_LIGHT_BLUE);
+  @include custom_btn_active("default", $MONASH_LIGHT_BLUE, white, $MONASH_LIGHT_BLUE);
+
+  @include custom_btn_default("primary", white, $MONASH_LIGHT_BLUE, $MONASH_LIGHT_BLUE);
+  @include custom_btn_focus("primary", white, darken($MONASH_LIGHT_BLUE, 10), $MONASH_LIGHT_BLUE);
+  @include custom_btn_active("primary", white, $MONASH_LIGHT_BLUE, $MONASH_LIGHT_BLUE);
+
+  @include custom_btn_default("blue", white, $MONASH_LIGHT_BLUE, $MONASH_LIGHT_BLUE);
+  @include custom_btn_focus("blue", white, darken($MONASH_LIGHT_BLUE, 10), $MONASH_LIGHT_BLUE);
+  @include custom_btn_active("blue", white, $MONASH_LIGHT_BLUE, $MONASH_LIGHT_BLUE);
+}

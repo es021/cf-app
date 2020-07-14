@@ -47,6 +47,7 @@ export class ButtonExport extends React.Component {
 
     onClick() {
         let filter = this.props.filter;
+        let cf = this.props.cf;
         let action = this.props.action;
         var user = getAuthUser();
         if (FilterNotObject.indexOf(action) <= -1) {
@@ -54,7 +55,7 @@ export class ButtonExport extends React.Component {
         }
         // filter = encodeURIComponent(filter);
         let url = SiteUrl + `/xls/${action}/${user.user_pass}/${user.ID}`;
-        this.post(url, { filter: filter })
+        this.post(url, { filter: filter, cf: cf })
     }
     render() {
         return (<a style={this.props.style}

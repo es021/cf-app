@@ -5,7 +5,7 @@ const {
 const {
 	CFQuery
 } = require("./cf-query");
-const { isCustomUserInfoOn } = require("../../config/registration-config")
+const { isCustomUserInfoOff, Single } = require("../../config/registration-config")
 
 // all-type
 // mutation
@@ -133,7 +133,7 @@ class BrowseStudentExec {
 			}
 		} catch (err) { }
 
-		console.log("isDiscardFilter", filter, toRet);
+		// console.log("isDiscardFilter", filter, toRet);
 		return toRet;
 	}
 	queryFilter(param) {
@@ -210,7 +210,8 @@ class BrowseStudentExec {
 		}
 
 		const singleFilter = (where) => {
-			let university = this.isDiscardFilter(param, "university")
+			let university = isCustomUserInfoOff(currentCf, Single.university) ||
+				this.isDiscardFilter(param, "university")
 				? "1=0"
 				: `( 
 					s.key_input = "university"
@@ -218,7 +219,8 @@ class BrowseStudentExec {
 					s.val IN (select r.val from ref_university r)
 				) `
 
-			let country_study = this.isDiscardFilter(param, "country_study")
+			let country_study = isCustomUserInfoOff(currentCf, Single.country_study)
+				|| this.isDiscardFilter(param, "country_study")
 				? "1=0"
 				: `( 
 					s.key_input = "country_study"
@@ -227,13 +229,29 @@ class BrowseStudentExec {
 				)  `
 
 			// 4b. @custom_user_info_by_cf -- filter single
-			let unemployment_period = !isCustomUserInfoOn(currentCf, "unemployment_period")
+			let unemployment_period = isCustomUserInfoOff(currentCf, Single.unemployment_period)
 				? "1=0"
 				: `( 
 						s.key_input = "unemployment_period"
 							AND
 						s.val IN (select r.val from ref_unemployment_period r)
 					)`
+
+			let monash_school = isCustomUserInfoOff(currentCf, Single.monash_school)
+				? "1=0"
+				: `( 
+					s.key_input = "monash_school"
+						AND
+					s.val IN (select r.val from ref_monash_school r)
+				)`
+
+			let sunway_faculty = isCustomUserInfoOff(currentCf, Single.sunway_faculty)
+				? "1=0"
+				: `( 
+					s.key_input = "sunway_faculty"
+						AND
+					s.val IN (select r.val from ref_sunway_faculty r)
+				)`
 
 			return `SELECT 
 			s.key_input as _key
@@ -247,6 +265,10 @@ class BrowseStudentExec {
 			${country_study}
 			OR 
 			${unemployment_period}
+			OR
+			${monash_school}
+			OR
+			${sunway_faculty}
 			AND s.entity = 'user'
 			AND ${where}
 			group by s.key_input, s.val`;
@@ -257,7 +279,7 @@ class BrowseStudentExec {
 
 		let where = this.getWhere("s.entity_id", param);
 
-		// 4a. @custom_user_info_by_cf
+		// 4a. @custom_user_info_by_cf -- filter multi
 		let q = `SELECT * FROM (
 			${cfFilter(where)}
 			UNION ALL
@@ -312,6 +334,10 @@ class BrowseStudentExec {
 	getWhere(user_id, param) {
 		// select item
 
+		// @browse_student_only_showing_one_cf
+		// let current_cf = "1=1";
+		let current_cf = !param.current_cf ? "1=1" : CFQuery.getCfInList(user_id, "user", [param.current_cf]);
+
 		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
 
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
@@ -362,7 +388,8 @@ class BrowseStudentExec {
 			}
 		});
 
-		return `1=1 
+		return `1=1
+			AND ${current_cf}
 			AND ${like_job_post}
 			AND ${show_interest}
 			AND ${favourited}
@@ -403,7 +430,7 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		console.log(sql);
+		// console.log(sql);
 		return sql;
 	}
 	// TODO
@@ -443,7 +470,7 @@ class BrowseStudentExec {
 	}
 	getHelper(type, param, field, extra = {}) {
 		var sql = this.query(param, type);
-		console.log("[BrowseStudentExec]", sql)
+		// console.log("[BrowseStudentExec]", sql)
 		var toRet = DB.query(sql).then(res => {
 			if (this.isList(type)) {
 				return this.resList(res, field, param);

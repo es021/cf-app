@@ -3,22 +3,6 @@ const {
     UserMeta
 } = require('./db-config.js');
 
-// 1. @custom_user_info_by_cf
-const isCustomUserInfoOn = (cf, key) => {
-    let valid = [];
-    // if (cf == "MDEC") {
-    //     valid = ["unemployment_period"]
-    // }
-
-    return valid.indexOf(key) >= 0;
-}
-
-// @kpt_validation - SET_CF_HERE
-const isDoJpaKptValidation = (cf) => {
-    // let valid = ["JPN", "TEST"];
-    let valid = ["JPN"];
-    return valid.indexOf(cf) >= 0;
-}
 
 const Single = {
     first_name: "first_name",
@@ -36,9 +20,10 @@ const Single = {
     //sponsor : "sponsor",
     //description : "description",
 
-    // 2a. @custom_user_info_by_cf
-    unemployment_period: "unemployment_period"
-
+    // 1a. @custom_user_info_by_cf
+    unemployment_period: "unemployment_period",
+    monash_school: "monash_school",
+    sunway_faculty: "sunway_faculty"
 }
 
 const Multi = {
@@ -49,8 +34,61 @@ const Multi = {
     skill: "skill",
     extracurricular: "extracurricular",
 
-    // 2b. @custom_user_info_by_cf
+    // 1b. @custom_user_info_by_cf
 }
+
+// 1c. @custom_user_info_by_cf
+const isCustomUserInfoOff = (cf, key) => {
+
+    let offCf = null;
+    let onCf = null;
+
+    switch (key) {
+        // ###############
+        // by default is OFF
+        case Single.unemployment_period:
+            onCf = ["NAME_CF_HERE"];
+            break;
+        case Single.monash_school:
+            onCf = ["MONASH"];
+            break;
+        case Single.sunway_faculty:
+            onCf = ["SUNWAY"];
+            break;
+
+        // ###############
+        // by default is ON
+        case Single.country_study:
+            offCf = ["MONASH", "SUNWAY"];
+            break;
+        case Multi.field_study:
+            offCf = ["MONASH", "SUNWAY"];
+            break;
+        case Single.where_in_malaysia:
+            offCf = ["MONASH", "SUNWAY"];
+            break;
+        case Multi.extracurricular:
+            offCf = ["MONASH", "SUNWAY"];
+            break;
+    }
+
+    if (offCf) {
+        return offCf.indexOf(cf) >= 0;
+    }
+    if (onCf) {
+        return onCf.indexOf(cf) <= -1;
+    }
+
+    return false;
+}
+
+// @kpt_validation - SET_CF_HERE
+const isDoJpaKptValidation = (cf) => {
+    // let valid = ["JPN", "TEST"];
+    let valid = ["JPN"];
+    return valid.indexOf(cf) >= 0;
+}
+
 
 const RequiredFieldStudent = [
     UserMeta.FIRST_NAME,
@@ -97,5 +135,5 @@ module.exports = {
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,
-    isCustomUserInfoOn
+    isCustomUserInfoOff
 };

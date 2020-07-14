@@ -74,13 +74,20 @@ export class BrowseStudentFilter extends React.Component {
             this.discardFilter += "::university::";
         }
 
-        // 4c. @custom_user_info_by_cf
+        // 6a. @custom_user_info_by_cf
         this.orderFilter = [
+            "like_job_post_only", "interested_only", "favourited_only",
+            // "cf",
+            "country_study",
             "unemployment_period",
-            "like_job_post_only", "interested_only", "favourited_only", "cf", "country_study", "university", "field_study",
+            "monash_school",
+            "sunway_faculty",
+            "university", "field_study",
             "looking_for_position", "working_availability_from", "working_availability_to",
             "graduation_from", "graduation_to", "interested_job_location", "where_in_malaysia", "skill"
         ];
+        // @browse_student_only_showing_one_cf
+        // remove comment cf above to revert
 
         this.hiddenFilter = []
         if (this.props.isPageStudentListJobPost) {
@@ -345,8 +352,10 @@ export class BrowseStudentFilter extends React.Component {
     }
 
     getTitleFromKey(key) {
-        // 4d. @custom_user_info_by_cf
+        // 6b. @custom_user_info_by_cf
         return {
+            monash_school: "School",
+            sunway_faculty: "Faculty",
             cf: "Career Fair",
             university: "University",
             country_study: "Country Of Study",
@@ -592,7 +601,7 @@ export class BrowseStudentFilter extends React.Component {
     getButtonExport() {
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
         return <ButtonExport style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
-            text={<span>Export <b>Searched Result</b> As Excel</span>} filter={filter}></ButtonExport>
+            text={<span>Export <b>Searched Result</b> As Excel</span>} filter={filter} cf={getCF()}></ButtonExport>
     }
     render() {
         let v = null;

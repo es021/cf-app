@@ -168,6 +168,8 @@ const UserType = new GraphQLObjectType({
 		country_study: __.String,
 		university: __.String,
 		unemployment_period: __.String,
+		monash_school: __.String,
+		sunway_faculty: __.String,
 		qualification: __.String,
 		graduation_month: __.String,
 		graduation_year: __.String,
@@ -401,6 +403,7 @@ const CompanyType = new GraphQLObjectType({
 		active_sessions: __.ListOf(SessionType),
 		pending_requests: __.ListOf(SessionRequestType),
 		recruiters: __.ListOf(UserType),
+		tags: __.ListOf(TagType),
 		doc_links: __.ListOf(DocLinkType),
 		interested: __.IsType(InterestedType),
 
@@ -510,6 +513,18 @@ const InterestedType = new GraphQLObjectType({
 		created_at: __.String,
 		updated_at: __.String,
 		user: __.IsType(UserType)
+	})
+});
+
+const TagType = new GraphQLObjectType({
+	name: "Tag",
+	fields: () => ({
+		ID: __.Int,
+		entity: __.String,
+		entity_id: __.String,
+		label: __.String,
+		created_at: __.String,
+		updated_at: __.String
 	})
 });
 
@@ -817,6 +832,9 @@ const ZoomMeetingType = new GraphQLObjectType({
 	})
 });
 
+
+
+
 module.exports = {
 	DistinctType,
 	FilterType,
@@ -863,6 +881,7 @@ module.exports = {
 	SingleType,
 	MultiType,
 	RefType,
-	VideoType
+	VideoType,
+	TagType
 	//, CFType
 };

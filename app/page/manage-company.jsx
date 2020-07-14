@@ -56,6 +56,7 @@ import { ResumeDrop } from "./partial/activity/resume-drop";
 import { StudentListing } from "./partial/activity/student-listing.jsx";
 import { ScheduledInterview } from "./partial/activity/scheduled-interview";
 import CompanyPage from "./company";
+import ManageTag from "./tag";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -632,6 +633,12 @@ export default class ManageCompanyPage extends React.Component {
         props: { company_id: this.company_id },
         routeOnly: isRoleRec(),
         icon: "star"
+      },
+      "tag": {
+        label: "Tags",
+        component: ManageTag,
+        props: { entity: "company", entity_id: this.company_id },
+        icon: "slack"
       },
       "doc-link": {
         label: "Document & Link",
