@@ -79,13 +79,30 @@ class BrowseStudentExec {
 			let subQ = "";
 			switch (table_type) {
 				case this.TABLE_SINGLE:
-					subQ = `select COUNT(s.ID) 
+					if (key == "name") {
+
+						subQ = `select COUNT(s.ID) 
+						FROM single_input s
+						where 1=1
+						AND 
+						(
+							(s.key_input = "first_name" AND s.val LIKE "%${val}%")
+							OR
+							(s.key_input = "last_name" AND s.val LIKE "%${val}%")
+						)
+						AND s.entity_id = ${user_id} 
+						AND s.entity = 'user'`;
+
+					} else {
+						subQ = `select COUNT(s.ID) 
 						FROM single_input s
 						where 1=1
 						AND s.key_input = "${key}"
 						AND s.val IN ${inWhere}
 						AND s.entity_id = ${user_id} 
 						AND s.entity = 'user'`;
+					}
+
 					break;
 				case this.TABLE_MULTI:
 					subQ = `select COUNT(m.val) from multi_${key} m 
@@ -337,6 +354,7 @@ class BrowseStudentExec {
 		// @browse_student_only_showing_one_cf
 		// let current_cf = "1=1";
 		let current_cf = !param.current_cf ? "1=1" : CFQuery.getCfInList(user_id, "user", [param.current_cf]);
+		let name = !param.name ? "1=1" : this.where(user_id, this.TABLE_SINGLE, "name", param.name);
 
 		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
 
@@ -389,6 +407,7 @@ class BrowseStudentExec {
 		});
 
 		return `1=1
+			AND ${name}
 			AND ${current_cf}
 			AND ${like_job_post}
 			AND ${show_interest}

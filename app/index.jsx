@@ -79,6 +79,7 @@ let scss = [
   "event",
   "browse-student",
   "input-select",
+  "input-text",
   "input-checkbox",
   "list-board",
   "paging",

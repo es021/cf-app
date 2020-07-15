@@ -78,6 +78,7 @@ export class BrowseStudentFilter extends React.Component {
         this.orderFilter = [
             "like_job_post_only", "interested_only", "favourited_only",
             // "cf",
+            "name",
             "country_study",
             "unemployment_period",
             "monash_school",
@@ -105,6 +106,11 @@ export class BrowseStudentFilter extends React.Component {
             key: 1,
             loading: false,
             filters: {
+                "name": {
+                    title: "Name",
+                    isText: true,
+                },
+                // todo
                 ...this.getDateStateObj("working_availability", "from", "Working Availability From"),
                 ...this.getDateStateObj("working_availability", "to", "Working Availability To"),
                 ...this.getDateStateObj("graduation", "from", "Graduation Date From"),
@@ -291,13 +297,12 @@ export class BrowseStudentFilter extends React.Component {
         }
     }
 
-    addFilter(key, val, isSelect = false) {
-        console.log("addFilter", key, val);
+    addFilter(key, val, isSingleValue = false) {
         if (!this.filterState[key]) {
             this.filterState[key] = [];
         }
 
-        if (isSelect) {
+        if (isSingleValue) {
             this.filterState[key] = [val]
         } else {
             if (this.filterState[key].indexOf(val) <= -1) {
@@ -309,11 +314,11 @@ export class BrowseStudentFilter extends React.Component {
         console.log(this.filterState);
 
     }
-    removeFilter(key, val, isSelect = false) {
+    removeFilter(key, val, isSingleValue = false) {
         console.log("removeFilter", key, val);
 
         if (this.filterState[key]) {
-            if (isSelect || this.filterState[key].indexOf(val) >= 0) {
+            if (isSingleValue || this.filterState[key].indexOf(val) >= 0) {
                 this.filterState[key].splice(this.filterState[key].indexOf(val), 1)
             }
         }
@@ -421,6 +426,34 @@ export class BrowseStudentFilter extends React.Component {
             });
         }
     }
+
+    // todo
+    filterText(k, keyFilter) {
+        console.log("k", k)
+        console.log("keyFilter", keyFilter)
+        return <div>
+            {this._title(keyFilter.title)}
+            <input
+                style={{ width: "80%" }}
+                className={"text-style-1"}
+                name={k}
+                placeholder="Search by name"
+                onChange={(e) => {
+                    let name = e.currentTarget.name;
+                    let val = e.currentTarget.value;
+                    console.log("TEXT HANDLER", name, val);
+                    let isSingleValue = true;
+                    if (!val) {
+                        this.removeFilter(name, val, isSingleValue);
+                    } else {
+                        this.addFilter(name, val, isSingleValue);
+                    }
+                }}
+                type={"text"}
+            />
+        </div>
+    }
+
     filterSelect(k, keyFilter) {
         let valItems = []
         for (var i in keyFilter.children) {
@@ -434,11 +467,11 @@ export class BrowseStudentFilter extends React.Component {
                         let name = e.currentTarget.name;
                         let val = e.currentTarget.value;
                         console.log("SELECT HANDLER", name, val);
-                        let isSelect = true;
+                        let isSingleValue = true;
                         if (!val) {
-                            this.removeFilter(name, val, isSelect);
+                            this.removeFilter(name, val, isSingleValue);
                         } else {
-                            this.addFilter(name, val, isSelect);
+                            this.addFilter(name, val, isSingleValue);
                         }
                     }}
 
@@ -578,6 +611,8 @@ export class BrowseStudentFilter extends React.Component {
             let v = null
             if (keyFilter.isSelect) {
                 v = this.filterSelect(k, keyFilter);
+            } else if (keyFilter.isText) {
+                v = this.filterText(k, keyFilter);
             } else {
                 v = this.filterCheckbox(k, keyFilter)
             }

@@ -61,14 +61,15 @@ export class BrowseStudentCard extends React.Component {
     render() {
         var i = this.props.index;
         var d = this.props.data;
-        var search = this.props.search;
+        // var search = this.props.search;
 
         var title = createUserTitle(
             d.student,
-            search.search_student,
-            true,
-            undefined,
-            { companyPrivs: this.props.privs, company_id: this.props.company_id }
+            this.props.search,
+            true, // hideEmail
+            undefined, // nameBreakLine
+            { companyPrivs: this.props.privs, company_id: this.props.company_id }, // otherPropForPopup
+            true // isFocusUnderline
         );
 
         // create uni view
@@ -409,6 +410,6 @@ BrowseStudentCard.propTypes = {
     data: PropTypes.object,
     index: PropTypes.number,
     isRec: PropTypes.bool,
-    search: PropTypes.object,
+    search: PropTypes.string,
     privs: PropTypes.object
 };

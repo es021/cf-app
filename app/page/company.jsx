@@ -863,9 +863,9 @@ export default class CompanyPage extends Component {
                 {this.getAboutUs(data)}
               </div>
               <div className="col-md-4 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
-                {this.getQuickLink(data)}
-                <div style={{ height: "25px" }}></div>
                 {this.getTag(data)}
+                <div style={{ height: "25px" }}></div>
+                {this.getQuickLink(data)}
               </div>
               <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getEvent(data)}

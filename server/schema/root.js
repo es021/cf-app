@@ -510,7 +510,8 @@ let argBrowseStudent = {
 
 	page: __.Int,
 	offset: __.Int,
-
+	
+	name: __.String,
 	// cv/events (delimeter '::')
 	cf: __.String,
 

@@ -22,7 +22,8 @@ export function createUserTitle(
   search = "",
   hideEmail,
   nameBreakLine,
-  otherPropForPopup = {}
+  otherPropForPopup = {},
+  isFocusUnderline
 ) {
   hideEmail = typeof hideEmail === "undefined" ? false : hideEmail;
   nameBreakLine = typeof nameBreakLine === "undefined" ? false : nameBreakLine;
@@ -34,7 +35,7 @@ export function createUserTitle(
     name = `${d.first_name} ${d.last_name}`;
   }
 
-  var focusedName = name.focusSubstring(search);
+  var focusedName = isFocusUnderline ? name.focusSubstring(search, "<u>", "</u>") : name.focusSubstring(search);
   focusedName = (
     <a
       onClick={() => {

@@ -30,6 +30,11 @@ export class BrowseStudentList extends React.Component {
     }
 
     renderList(d, i) {
+        let search = "";
+        try {
+            search = this.props.filterState.name[0];
+        } catch (err) { }
+
         return <div>
             <BrowseStudentCard
                 company_id={this.props.company_id}
@@ -37,7 +42,8 @@ export class BrowseStudentList extends React.Component {
                 isRec={isRoleRec()}
                 data={d}
                 index={i}
-                search={""}
+                // search={""}
+                search={search}
             ></BrowseStudentCard>
         </div>;
     }

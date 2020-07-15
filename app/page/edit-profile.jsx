@@ -396,7 +396,7 @@ class EditProfile extends React.Component {
             className={"edit-profile"}
             add_img_ops={true}
             title={<b>{this.authUser.user_email}</b>}
-            subtitle={<i>{this.authUser.role.capitalize()}</i>}
+            // subtitle={<i>{this.authUser.role.capitalize()}</i>}
             img_url={this.authUser.img_url}
             img_pos={this.authUser.img_pos}
             img_size={this.authUser.img_size}
