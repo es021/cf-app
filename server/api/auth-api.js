@@ -15,7 +15,7 @@ const {
 	Single
 } = require("../../config/registration-config");
 const {
-	SiteUrl
+	SiteUrl, EmailPhpAdmin
 } = require("../../config/app-config");
 const {
 	AuthUserKey
@@ -405,11 +405,23 @@ class AuthAPI {
 							type: "RESET_PASSWORD"
 						};
 
-						console.log("send_email", email_data);
-						getWpAjaxAxios("app_send_email", email_data);
-						return {
-							status: 1
-						};
+						return postAxios(EmailPhpAdmin, email_data).then(res => {
+							console.log("[password_reset_request success]", res);
+							return {
+								status: 1
+							};
+						}).catch(error => {
+							console.log("[password_reset_request error]", error);
+							return {
+								status: 0
+							};
+						});
+
+						// console.log("send_email", email_data);
+						// getWpAjaxAxios("app_send_email", email_data);
+						// return {
+						// 	status: 1
+						// };
 					});
 				});
 			}

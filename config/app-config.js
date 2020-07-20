@@ -5,7 +5,7 @@ const ALWAYS_FALSE = false;
 
 var IsNewEventCard = true;
 const IsDailyCoEnable = ALWAYS_TRUE;
-var IsOnVideoResume = ALWAYS_FALSE; 
+var IsOnVideoResume = ALWAYS_FALSE;
 var IsRecruiterNewHall = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
 const IsGruveoEnable = ALWAYS_FALSE;
@@ -20,14 +20,16 @@ const IsGruveoEnable = ALWAYS_FALSE;
 // ###################################################
 
 console.log("environment - " + process.env.NODE_ENV);
+var Domain = "https://seedsjobfairapp.com/";
+
 var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
 var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
-const SocketUrl = (isProd) ? `https://seedsjobfairapp.com/socket` : "http://localhost:6000";
+const SocketUrl = (isProd) ? `${Domain}/socket` : "http://localhost:6000";
 
 const RootPath = (isProd) ? "/cf" : "";
 const AppPath = RootPath + "/app";
-var SiteUrl = (isProd) ? `https://seedsjobfairapp.com/cf` : "http://localhost:4000";
-var AssetUrl = (isProd) ? `https://seedsjobfairapp.com/public` : SiteUrl;
+var SiteUrl = (isProd) ? `${Domain}/cf` : "http://localhost:4000";
+var AssetUrl = (isProd) ? `${Domain}/public` : SiteUrl;
 var AssetCustomUrl = AssetUrl + "/asset/custom/";
 var UploadUrl = AssetUrl + "/upload";
 var StaticUrl = AssetUrl + "/static";
@@ -37,6 +39,7 @@ var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
+var EmailPhpAdmin = `${Domain}/php-api/email`;
 const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
 
 
@@ -60,7 +63,7 @@ const AppConfig = {
     PHPApi: PHPApi,
     PHPNotificationApi: PHPNotificationApi,
     FbAppId: "315194262317447",
-    FbPageId : "488956294912178", // seedsjobfair
+    FbPageId: "488956294912178", // seedsjobfair
     WPAjaxApi: WPAjaxApi,
     FbUrl: "https://www.fb.com/innovaseedssolutions",
     WwwUrl: "https://seedsjobfairapp.com"
@@ -100,6 +103,7 @@ if (!isProd) {
 }
 
 module.exports = {
+    EmailPhpAdmin,
     IsNewEventCard,
     HeaderClass,
     TermsAndConditionUrl,
