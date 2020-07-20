@@ -148,6 +148,17 @@ export function isCfFeatureOff(key) {
     return false;
 }
 
+export function isCfFeatureOn(key) {
+    try {
+        let cfObj = getCFObj();
+        return cfObj[key] == "ON" || cfObj[key] == "1";
+    } catch (err) {
+
+    }
+    return false;
+}
+
+
 export function loadCompanyPriv(cid, success) {
     var q = `query {company(ID:${cid}) { priviledge } }`;
     graphql(q).then(res => {

@@ -14,6 +14,9 @@ import Tooltip from '../../../component/tooltip';
 
 // for recruiters
 export function openFeedbackBlockRec() {
+    // disabled feedback
+    return null;
+
     if (isRoleRec()) {
         // check if last day
         var endtime = Time.convertDBTimeToUnix(getCFObj().end);

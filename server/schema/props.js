@@ -43,6 +43,7 @@ EXPORT.Cfs = {
     feature_company_booth: __.String,
     feature_sponsor: __.String,
     feature_drop_resume: __.String,
+    feature_feedback: __.String,
 
     // custom text
     text_header_title: __.String,

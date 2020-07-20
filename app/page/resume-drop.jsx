@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { getAuthUser } from "../redux/actions/auth-actions";
+import { getAuthUser, isCfFeatureOn } from "../redux/actions/auth-actions";
 import {
   storeHideFocusCard,
   storeUpdateFocusCard
 } from "../redux/actions/layout-actions";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
-import { ResumeDrop, UserEnum } from "../../config/db-config";
+import { ResumeDrop, UserEnum, CFSMeta } from "../../config/db-config";
 import Form, { toggleSubmit, checkDiff } from "../component/form";
 import { Loader } from "../component/loader";
 import PropTypes from "prop-types";
@@ -138,7 +138,7 @@ export default class ResumeDropPage extends React.Component {
     // load existing resume drop
     var query = `query{resume_drop(student_id:${user_id}, company_id:${
       this.company_id
-    }){
+      }){
                     ID doc_links{ID label url} message updated_at}}`;
 
     getAxiosGraphQLQuery(query).then(res => {
@@ -261,8 +261,8 @@ export default class ResumeDropPage extends React.Component {
           {customMes}
         </p>
       ) : (
-        defaultMes
-      );
+          defaultMes
+        );
     let v = (
       <div>
         <h4 className="text-primary">Whats Next?</h4>
@@ -303,7 +303,11 @@ export default class ResumeDropPage extends React.Component {
       );
       console.log("isEdit", this.isEdit);
       // has limit need to fill feedback
-      if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
+
+      console.log("isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)", isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK));
+      
+      // @open_feedback_by_career_fair
+      if (isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK) && this.state.data.resume_drops_limit !== null && !this.isEdit) {
         view = (
           <div>
             <br />
@@ -397,8 +401,8 @@ export default class ResumeDropPage extends React.Component {
         var title = this.props.company_id ? (
           <br />
         ) : (
-          <h4>{this.state.data.company.name}</h4>
-        );
+            <h4>{this.state.data.company.name}</h4>
+          );
 
         if (!this.props.company_id) {
           document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
