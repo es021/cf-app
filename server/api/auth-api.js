@@ -409,13 +409,13 @@ class AuthAPI {
 							console.log("[password_reset_request success]", res);
 							return {
 								status: 1,
-								res: res
+								// res: res
 							};
 						}).catch(error => {
 							console.log("[password_reset_request error]", error);
 							return {
 								status: 0,
-								error: error
+								// error: error
 							};
 						});
 
