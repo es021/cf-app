@@ -141,7 +141,7 @@ function Main() {
     
         switch ($type) {
             case TYPE_RESET_PASSWORD:
-                $title = "[" . APPS_NAME . "] Reset Password Link";
+                $title = "Reset Password Link";
                 $body = body_resetPassword($params["first_name"], $params["link"]);
                 break;
     
