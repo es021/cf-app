@@ -39,7 +39,7 @@ var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
-var EmailPhpAdmin = `${Domain}/php-api/email/email.php`;
+var EmailPhpAdmin = ((isProd) ? Domain : "http://localhost:8085/cf-app/server") + `/php-api/email/email.php`;
 const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
 
 

@@ -203,6 +203,40 @@ function getPHPNotificationApiAxios(script, params) {
 	return axios.post(requestUrl, qs.stringify(params), config);
 }
 
+
+// only in ajax_external -- response is fixed here
+function postPhpAdmin(url, params, successInterceptor = null) {
+	var config = {
+		proxy: false
+	};
+	return axios.post(url, qs.stringify(params), config).then((res) => {
+		console.log("postPhpAdmin success");
+		console.log(res.data);
+		console.log("postPhpAdmin success");
+		if (res.data.err) {
+			return res.data.err;
+		} else {
+
+			var retData = res.data.data;
+
+			if (typeof retData == "undefined") {
+				retData = res.data;
+			}
+
+			if (successInterceptor !== null) {
+				successInterceptor(retData);
+			}
+
+			return retData;
+		}
+	}, (err) => {
+		console.log("postPhpAdmin err");
+		console.log(err.response);
+		console.log("postPhpAdmin err");
+		return err.response.data;
+	});
+}
+
 // only in ajax_external -- response is fixed here
 function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = false) {
 
@@ -241,6 +275,7 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 
 //Export functions 
 module.exports = {
+	postPhpAdmin,
 	graphqlAttr,
 	graphql,
 	deleteAxios,

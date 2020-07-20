@@ -70,11 +70,11 @@ function sendMail($TITLE, $BODY, $TO_EMAIL, $TO_NAME, $isHTML = false) {
     //$mail->addAttachment('images/phpmailer_mini.png');
     //send the message, check for errors
     if (!$mail->send()) {
-        echo "Error sent email to ".$TO_EMAIL;
-        echo $mail->ErrorInfo;
+        //echo "Error sent email to ".$TO_EMAIL;
+        //echo $mail->ErrorInfo;
         return $mail->ErrorInfo;
     } else {
-        echo "Successfully sent email to ".$TO_EMAIL;
+        //echo "Successfully sent email to ".$TO_EMAIL;
         return true;
         //Section 2: IMAP
         //Uncomment these to save your message in the 'Sent Mail' folder.
@@ -122,16 +122,17 @@ function body_resetPassword($first_name, $reset_link){
 function Main() {
     $resData = null;
     $resErr = null;
-    if(!isset($_POST["data"]["to"])){
+    if(!isset($_POST["to"])){
         $resErr = "POST data 'to' is not set";
-    } else if(!isset($_POST["data"]["params"])){
+    } else if(!isset($_POST["params"])){
         $resErr = "POST data 'params' is not set";
-    } else if(!isset($_POST["data"]["type"])){
+    } else if(!isset($_POST["type"])){
         $resErr = "POST data 'type' is not set";
     } else{
-        $to = $_POST["data"]["to"];
-        $params = $_POST["data"]["params"];
-        $type = $_POST["data"]["type"];
+
+        $to = $_POST["to"];
+        $params = $_POST["params"];
+        $type = $_POST["type"];
     
         $title = "";
         $body = "";
@@ -149,7 +150,7 @@ function Main() {
         $isHtml = true;
         $responseSend = sendMail($title, $body, $to, $name, $isHtml);
     
-        if($responseSend == true){
+        if($responseSend === true){
             $resData = "Successfully sent email $type to $to";
         } else {
             $resErr = "Failed to send email $type to $to. Error => $responseSend";
@@ -161,16 +162,15 @@ function Main() {
 
 
 // $_POST = array(
-//     "data" => array(
 //         "to" => "zulsarhan.shaari@gmail.com",
 //         "params" => array(
 //             "first_name" => "Wan Zul",
 //             "link" => "www.link.com",
 //         ),
 //         "type" => "RESET_PASSWORD",
-//     )
-// );
+//);
 
 Main();
+
 ?>
 

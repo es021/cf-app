@@ -3,7 +3,8 @@ const {
 	getAxiosGraphQLQuery,
 	getPHPApiAxios,
 	getWpAjaxAxios,
-	postAxios
+	postAxios,
+	postPhpAdmin
 } = require("../../helper/api-helper");
 const {
 	User,
@@ -405,19 +406,14 @@ class AuthAPI {
 							type: "RESET_PASSWORD"
 						};
 
-						return postAxios(EmailPhpAdmin, email_data).then(res => {
-							console.log("[password_reset_request success]", res);
-							return {
-								status: 1,
-								// res: res
-							};
-						}).catch(error => {
-							console.log("[password_reset_request error]", error);
-							return {
-								status: 0,
-								// error: error
-							};
+						console.log("email_data", email_data)
+						postPhpAdmin(EmailPhpAdmin, email_data, data =>{
+							console.log("postPhpAdmin finish")
+							console.log(data);
 						});
+						return {
+							status: 1,
+						};
 
 						// console.log("send_email", email_data);
 						// getWpAjaxAxios("app_send_email", email_data);
