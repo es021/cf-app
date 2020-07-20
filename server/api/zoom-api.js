@@ -185,6 +185,10 @@ class ZoomApi {
                 let meetingData = res.data;
                 // console.log("meetingData", meetingData);
 
+                if(param.isSkipLocalCreate){
+                    return meetingData;
+                }
+
                 return this.localCreate(param, meetingData).then((resLocalCreate) => {
                     // console.log("resLocalCreate",resLocalCreate)
                     return meetingData;

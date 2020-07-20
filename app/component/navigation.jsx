@@ -17,6 +17,7 @@ import SignUpPage from "../page/sign-up";
 import AboutPage from "../page/about";
 import LogoutPage from "../page/logout";
 import UsersPage from "../page/users";
+import AdminZoom from "../page/admin-zoom";
 import CompaniesPage from "../page/admin-company";
 import RecruiterPage from "../page/admin-recruiter";
 import AdminCf from "../page/admin-cf";
@@ -178,6 +179,17 @@ function getMenuItem(COMING_SOON) {
       label: "Manage Career Fair",
       icon: "home",
       component: AdminCf,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin()
+    },
+    {
+      url: "/admin-zoom",
+      label: "Zoom API",
+      icon: "video-camera",
+      component: AdminZoom,
       bar_app: true,
       bar_auth: false,
       hd_app: false,
