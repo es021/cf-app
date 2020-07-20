@@ -111,7 +111,7 @@ function body_resetPassword($first_name, $reset_link){
             <small>Please ignore this email if you did not make a request to change your password.</small>
             <br><br>
             Regards,<br>
-            <i>Innovaseeds Solutions</i>
+            <i>Seeds Job Fair</i>
         </span>
     <?php
     $output_string = ob_get_contents();
