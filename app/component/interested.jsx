@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { getAuthUser } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF } from "../redux/actions/auth-actions";
 import { graphql } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { Loader } from "./loader";
@@ -9,6 +9,8 @@ import { PCType, createImageElement } from "../component/profile-card";
 import { createUserTitle, openUserPopup } from "../page/users";
 import Tooltip from "../component/tooltip";
 import { AppPath } from "../../config/app-config";
+import { lang } from "../../helper/lang-helper";
+import { ButtonExport } from "./buttons";
 
 export class InterestedUserList extends React.Component {
   constructor(props) {
@@ -32,6 +34,21 @@ export class InterestedUserList extends React.Component {
       ){
       user_id
       user{ID first_name last_name img_url img_pos img_size}}}`);
+  }
+
+  getButtonExport() {
+    if (!this.props.export_action) {
+      return null;
+    }
+    return <ButtonExport isOverrideBtnClass={true}
+      btnClass="btn btn-blue-light btn-bold btn-md btn-round-5"
+      action={this.props.export_action}
+      text={<span>{lang("Download")} {lang("As Excel")}</span>}
+      filter={{
+        title: this.props.export_title,
+        entity: this.props.entity,
+        entity_id: this.props.entity_id,
+      }} cf={getCF()}></ButtonExport>
   }
 
   componentWillMount() { }
@@ -86,6 +103,7 @@ export class InterestedUserList extends React.Component {
     return (
       <div style={{ padding: "10px" }}>
         <h3 className="text-left">{title}</h3>
+        {this.getButtonExport()}
         <List
           loadCount={this.loadCount}
           getCountFromRes={this.getCountFromRes}
@@ -106,8 +124,14 @@ export class InterestedUserList extends React.Component {
 InterestedUserList.propTypes = {
   entity: PropTypes.string,
   entity_id: PropTypes.number,
-  title: PropTypes.string
+  title: PropTypes.string,
+  export_title: PropTypes.string,
+  export_action: PropTypes.bool
 };
+
+InterestedUserList.defaultProps = {
+  export_action: null,
+}
 
 export class InterestedButton extends React.Component {
   constructor(props) {

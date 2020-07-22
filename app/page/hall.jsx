@@ -39,6 +39,7 @@ import { getCFTimeDetail } from "./coming-soon";
 import ListRow from "../component/list-row";
 import { VacancyList } from "./partial/company/vacancy";
 import { EventList } from "./event-list";
+import { lang } from "../../helper/lang-helper";
 
 // require("../css/hall.scss");
 
@@ -282,20 +283,20 @@ export default class HallPage extends React.Component {
       <div className="main-width">
         <div className="text-left" style={{ marginBottom: "30px" }}>
           <h2>
-            <b>Welcome {getAuthUser().first_name} !</b>
+            <b>{lang("Welcome")} {getAuthUser().first_name} !</b>
             <br></br>
             {!this.CFDetail.welcome_text ? null :
               <small className="text-muted"><span dangerouslySetInnerHTML={{ __html: this.CFDetail.welcome_text }}></span></small>}
           </h2>
         </div>
         <div className="text-center" style={{ marginBottom: "20px" }}>
-          <h3><small>Current / Upcoming Event : </small></h3>
+          <h3><small>{lang("Current / Upcoming Event")} : </small></h3>
           {/* <EventList isListNoMargin={true} limitLoad={2} listAlign="left" /> */}
           <EventList isListNoMargin={true} limitLoad={2} listAlign="center" />
           <div className="text-right">
             <b>
               <NavLink to={`${AppPath}/list-events`}>
-                See More Events{" "}<i className="fa fa-long-arrow-right"></i>
+                {lang("See More Events")}{" "}<i className="fa fa-long-arrow-right"></i>
               </NavLink>
             </b>
           </div>
@@ -311,11 +312,11 @@ export default class HallPage extends React.Component {
   }
   getJobPost(backgroundColor) {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Job Posts"
+      <ListRow title={lang("Job Posts")}
         icon="suitcase"
         backgroundColor={backgroundColor}
         items={<VacancyList limitLoad={4} filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left" />}
-        see_more_text="See More Job Posts"
+        see_more_text={lang("See More Job Posts")}
         see_more_to={`${AppPath}/list-job-posts`}
       ></ListRow>
     </div >
@@ -327,7 +328,7 @@ export default class HallPage extends React.Component {
         icon="calendar"
         backgroundColor={backgroundColor}
         items={<EventList limitLoad={4} isFullWidth={true} />}
-        see_more_text="See More Events & Webinars"
+        see_more_text={lang("See More Events & Webinars")}
         see_more_to={`${AppPath}/list-events`}
       ></ListRow>
     </div >
@@ -341,7 +342,7 @@ export default class HallPage extends React.Component {
             backgroundColor={null}
             containerStyle={{ padding: "20px 0px" }}
             items={<ActivitySection type="row" limitLoad={4} type="row" isFullWidth={true} />}
-            see_more_text="See More Interviews"
+            see_more_text={lang("See More Interviews")}
             see_more_onclick={() => {
               // console.log(`${AppPath}/list-interviews`)
               window.location = `${AppPath}/list-interviews`;
@@ -354,7 +355,7 @@ export default class HallPage extends React.Component {
             icon="calendar"
             containerStyle={{ padding: "20px 0px" }}
             items={<EventList limitLoad={4} type="row" isFullWidth={true} />}
-            see_more_text="See More Events & Webinars"
+            see_more_text={lang("See More Events & Webinars")}
             see_more_to={`${AppPath}/list-events`}
           ></ListRow>
         </div>
@@ -375,7 +376,7 @@ export default class HallPage extends React.Component {
         icon="building-o"
         backgroundColor={backgroundColor}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
-        see_more_text={`See More ${companyEntityPlural}`}
+        see_more_text={lang(`See More ${companyEntityPlural}`)}
         see_more_to={`${AppPath}/list-companies`}
       ></ListRow>
     </div >

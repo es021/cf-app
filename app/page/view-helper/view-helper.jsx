@@ -7,6 +7,7 @@ import React from "react";
 import { isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
 import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
+import { lang } from "../../../helper/lang-helper";
 
 export function animateHide(el, finishHandler) {
   el.className = el.className += " animate-hide";
@@ -120,11 +121,11 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
             if (is_interested == 1) {
               layoutActions.successBlockLoader(
                 <div>
-                  Successfully RSVP'ed for event
+                  {lang("Successfully RSVP'ed for event")}
                   <br></br>
                   <b>{d.title}</b>
                   <br></br>
-                  with {companyName}
+                  {lang("with")} {companyName}
                 </div>
               );
             }
@@ -170,8 +171,8 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
     if (d.url_join && Time.isBetween(fiveMinBeforeStart, d.end_time)) {
       join = <div><a target="_blank" className="btn btn-sm btn-green btn-block text-bold btn-round-5" href={d.url_join}>
         <i className="fa fa-sign-in left"></i>
-        Join
-        </a>
+        {lang("Join")}
+      </a>
       </div>;
     }
     if (Time.isPast(d.end_time)) {
@@ -180,10 +181,10 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
           <a target="_blank" className="btn btn-sm btn-red btn-block text-bold btn-round-5" href={d.url_recorded}>
             <i className="fa fa-play-circle left"></i>
             <div className="show-on-lg-and-more">
-              Watch{breakElement}Recorded
+              {lang("Watch")}{breakElement}{lang("Recorded")}
             </div>
             <div className="show-on-md-and-less">
-              Watch Recorded
+              {lang("Watch")} {lang("Recorded")}
             </div>
           </a>
         </div>;
@@ -191,10 +192,10 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
         ended = <div>
           <a className="btn btn-sm btn-gray btn-disabled btn-block text-bold btn-round-5">
             <div className="show-on-lg-and-more">
-              Event{breakElement}Ended
+              {lang("Event")}{breakElement}{lang("Ended")}
             </div>
             <div className="show-on-md-and-less">
-              Event Ended
+              {lang("Event")} {lang("Ended")}
             </div>
           </a>
         </div>;

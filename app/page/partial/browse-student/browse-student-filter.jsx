@@ -4,6 +4,7 @@ import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
+import { lang } from "../../../../helper/lang-helper";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
@@ -107,14 +108,14 @@ export class BrowseStudentFilter extends React.Component {
             loading: false,
             filters: {
                 "name": {
-                    title: "Name",
+                    title: lang("Name"),
                     isText: true,
+                    placeholder: lang("Search by name")
                 },
-                // todo
-                ...this.getDateStateObj("working_availability", "from", "Working Availability From"),
-                ...this.getDateStateObj("working_availability", "to", "Working Availability To"),
-                ...this.getDateStateObj("graduation", "from", "Graduation Date From"),
-                ...this.getDateStateObj("graduation", "to", "Graduation Date To"),
+                ...this.getDateStateObj("working_availability", "from", lang("Working Availability") + " " + lang("From")),
+                ...this.getDateStateObj("working_availability", "to", lang("Working Availability") + " " + lang("To")),
+                ...this.getDateStateObj("graduation", "from", lang("Graduation Date") + " " + lang("From")),
+                ...this.getDateStateObj("graduation", "to", lang("Graduation Date") + " " + lang("To")),
             },
             dataset_year: [],
             dataset_month: [],
@@ -138,7 +139,7 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>shortlisted students</b> only
+                    label: <div>{lang("Show")} <b>{lang("shortlisted students")}</b> {lang("only")}
                         <Tooltip
                             bottom="13px"
                             left="-88px"
@@ -148,7 +149,7 @@ export class BrowseStudentFilter extends React.Component {
                             content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
                             tooltip={
                                 <div style={{ padding: "0px 5px" }} className="text-left">
-                                    <small>Click on heart sign to shortlist students
+                                    <small>{lang("Click on grey shortlist button to shortlist students")}
                                     </small>
                                 </div>
                             }
@@ -162,8 +163,8 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>applicants from your job post</b> only
-                         <Tooltip
+                    label: <div>{lang("Show")} <b>{lang("applicants from your job post")}</b> {lang("only")}
+                        <Tooltip
                             bottom="13px"
                             left="-90px"
                             width="200px"
@@ -181,8 +182,8 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>Show <b>interested students</b> only
-                         <Tooltip
+                    label: <div>{lang("Show")} <b>{lang("interested students")}</b> {lang("only")}
+                        <Tooltip
                             bottom="13px"
                             left="-90px"
                             width="200px"
@@ -191,11 +192,11 @@ export class BrowseStudentFilter extends React.Component {
                             content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
                             tooltip={
                                 <div style={{ padding: "0px 5px" }} className="text-left">
-                                    <small>Students that :
+                                    <small>{lang("Students that")} :
                                     <ol>
-                                            <li>Liked your company profile</li>
-                                            <li>Liked your job posts </li>
-                                            <li>RSVP'ed for your events </li>
+                                            <li>{lang("Liked your company profile")}</li>
+                                            <li>{lang("Liked your job posts")}</li>
+                                            <li>{lang("RSVP'ed for your events")}</li>
                                         </ol>
                                     </small>
                                 </div>
@@ -257,7 +258,7 @@ export class BrowseStudentFilter extends React.Component {
 
                 filterObj[k].filters.push({
                     val: f._val,
-                    label: label,
+                    label: lang(label),
                     total: f._total,
                 })
             }
@@ -359,17 +360,17 @@ export class BrowseStudentFilter extends React.Component {
     getTitleFromKey(key) {
         // 6b. @custom_user_info_by_cf
         return {
-            monash_school: "School",
-            sunway_faculty: "Faculty",
-            cf: "Career Fair",
-            university: "University",
-            country_study: "Country Of Study",
-            field_study: "Field Of Study",
-            interested_job_location: "Preferred Job Location",
-            where_in_malaysia: "City/State In Malaysia",
-            looking_for_position: "Looking For",
-            skill: "Skills",
-            unemployment_period: "Unemployment Period",
+            monash_school: lang("School"),
+            sunway_faculty: lang("Faculty"),
+            cf: lang("Career Fair"),
+            university: lang("University"),
+            country_study: lang("Country Of Study"),
+            field_study: lang("Field Of Study"),
+            interested_job_location: lang("Preferred Job Location"),
+            where_in_malaysia: lang("City/State In Malaysia"),
+            looking_for_position: lang("Looking For"),
+            skill: lang("Skills"),
+            unemployment_period: lang("Unemployment Period"),
         }[key];
     }
 
@@ -405,7 +406,7 @@ export class BrowseStudentFilter extends React.Component {
     }
     header() {
         let v = <div>
-            <div style={{ fontWeight: "bold", fontSize: "15px" }}>Filter</div>
+            <div style={{ fontWeight: "bold", fontSize: "15px" }}>{lang("Filter")}</div>
         </div>
         return this._section(v);
     }
@@ -428,7 +429,7 @@ export class BrowseStudentFilter extends React.Component {
     }
 
     // todo
-    filterText(k, keyFilter) {
+    filterText(k, keyFilter, placeholder) {
         console.log("k", k)
         console.log("keyFilter", keyFilter)
         return <div>
@@ -437,7 +438,7 @@ export class BrowseStudentFilter extends React.Component {
                 style={{ width: "80%" }}
                 className={"text-style-1"}
                 name={k}
-                placeholder="Search by name"
+                placeholder={placeholder}
                 onChange={(e) => {
                     let name = e.currentTarget.name;
                     let val = e.currentTarget.value;
@@ -579,7 +580,7 @@ export class BrowseStudentFilter extends React.Component {
                     })
                 }}>
                     <br></br>
-                    {isStateShowMore ? "Show Less" : "Show More " + keyFilter.title}
+                    {isStateShowMore ? lang("Show Less") : lang("Show More") + " " + keyFilter.title}
                 </a>
             }
         }
@@ -612,7 +613,7 @@ export class BrowseStudentFilter extends React.Component {
             if (keyFilter.isSelect) {
                 v = this.filterSelect(k, keyFilter);
             } else if (keyFilter.isText) {
-                v = this.filterText(k, keyFilter);
+                v = this.filterText(k, keyFilter, keyFilter.placeholder);
             } else {
                 v = this.filterCheckbox(k, keyFilter)
             }
@@ -636,25 +637,25 @@ export class BrowseStudentFilter extends React.Component {
     getButtonExport() {
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
         return <ButtonExport style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
-            text={<span>Export <b>Searched Result</b> As Excel</span>} filter={filter} cf={getCF()}></ButtonExport>
+            text={<span>{lang("Export")} <b>{lang("Searched Result")}</b> {lang("As Excel")}</span>}
+            filter={filter} cf={getCF()}></ButtonExport>
     }
     render() {
         let v = null;
         if (this.state.loading) {
             v = <div style={{ fontSize: "14px", textAlign: "center", padding: "20px" }}>
-                <Loader text="Loading Filter"></Loader>
+                <Loader text={lang("Loading") + " " + lang("Filter")}></Loader>
             </div>
         } else {
-
             let btnAction = <div className="text-left">
                 <button style={{ margin: "5px" }}
                     className="btn btn-primary btn-round-5 btn-sm" onClick={this.onSearch}>
                     <i className="fa fa-search left"></i>
-                    Search
+                    {lang("Search")}
                 </button>
                 <button style={{ margin: "5px" }} className="btn btn-default btn-round-5 btn-sm" onClick={this.onResetFilter}>
                     <i className="fa fa-times left"></i>
-                    Reset Filter
+                    {lang("Reset Filter")}
                 </button>
                 {this.getButtonExport()}
             </div>;

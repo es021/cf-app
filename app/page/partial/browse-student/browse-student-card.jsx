@@ -25,6 +25,7 @@ import {
     PrescreenEnum,
     CompanyEnum
 } from "../../../../config/db-config";
+import { lang } from "../../../../helper/lang-helper";
 
 import Tooltip from "../../../component/tooltip";
 
@@ -53,7 +54,7 @@ export class BrowseStudentCard extends React.Component {
     notSpecifiedView(entity) {
         return (
             <div className="text-muted">
-                <i>{entity} Not Specifed</i>
+                <i>{lang(entity)} {lang("Not Specifed")}</i>
             </div>
         );
     }
@@ -135,7 +136,7 @@ export class BrowseStudentCard extends React.Component {
                             style={{ marginRight: "5px", fontSize: "13px" }}
                             className={`label label-light label-${labelType}`}
                         >
-                            {lfp}
+                            {lang(lfp)}
                         </label>
                     }
                     tooltip={null}
@@ -151,7 +152,6 @@ export class BrowseStudentCard extends React.Component {
 
 
         var scheduledView = null;
-        var scheduledViewSm = null;
         if (d.student.prescreens_for_student_listing
             && d.student.prescreens_for_student_listing.length > 0) {
             // find index yang tak DONE lagi
@@ -174,7 +174,7 @@ export class BrowseStudentCard extends React.Component {
             scheduledView = (
                 <div>
                     <i className="fa fa-check-circle left"></i>
-                    Scheduled Interview on <b>{Time.getString(tempObj.appointment_time)}</b>
+                    {lang("Scheduled Interview on")} <b>{Time.getString(tempObj.appointment_time)}</b>
                 </div>
             );
         }
@@ -189,35 +189,35 @@ export class BrowseStudentCard extends React.Component {
         //     </div>
         // );
 
-        var styleToggler = { marginLeft: "-12px", marginBottom: "-10px" };
-        var description = null;
-        if (d.student.description !== null && d.student.description != "") {
-            if (!this.state.isShowMore) {
-                description = (
-                    <div style={styleToggler}>
-                        <a onClick={this.toggleShowMore} className="btn btn-link">
-                            See More About This Student ...
-              </a>
-                    </div>
-                );
-            } else {
-                description = (
-                    <p style={{ marginTop: "7px" }}>
-                        <b>
-                            <u>About {d.student.first_name}</u>
-                        </b>
-                        <br />
-                        <small>{d.student.description}</small>
-                        <br />
-                        <div style={styleToggler}>
-                            <a onClick={this.toggleShowMore} className="btn btn-link">
-                                See Less
-                </a>
-                        </div>
-                    </p>
-                );
-            }
-        }
+        // var styleToggler = { marginLeft: "-12px", marginBottom: "-10px" };
+        // var description = null;
+        // if (d.student.description !== null && d.student.description != "") {
+        //     if (!this.state.isShowMore) {
+        //         description = (
+        //             <div style={styleToggler}>
+        //                 <a onClick={this.toggleShowMore} className="btn btn-link">
+        //                     See More About This Student ...
+        //       </a>
+        //             </div>
+        //         );
+        //     } else {
+        //         description = (
+        //             <p style={{ marginTop: "7px" }}>
+        //                 <b>
+        //                     <u>{lang("About")} {d.student.first_name}</u>
+        //                 </b>
+        //                 <br />
+        //                 <small>{d.student.description}</small>
+        //                 <br />
+        //                 <div style={styleToggler}>
+        //                     <a onClick={this.toggleShowMore} className="btn btn-link">
+        //                         {lang("See Less")}
+        //                     </a>
+        //                 </div>
+        //             </p>
+        //         );
+        //     }
+        // }
 
         // var details = (
         //     <div >
@@ -275,11 +275,13 @@ export class BrowseStudentCard extends React.Component {
             this.props.privs,
             CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
         );
-        const actionChat = <NavLink to={`${RootPath}/app/student-chat/${d.student.ID}`}
-            className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
-            <i className="fa fa-comment left" />
-            Start Chat
-        </NavLink>
+
+        // const actionChat = <NavLink to={`${RootPath}/app/student-chat/${d.student.ID}`}
+        //     className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
+        //     <i className="fa fa-comment left" />
+        //     {lang("Start Chat")}
+        // </NavLink>
+
         const actionSchedule = <button
             onClick={() => {
                 console.log("Schedule Call");
@@ -289,13 +291,13 @@ export class BrowseStudentCard extends React.Component {
                     // EUR FIX
                     // See Availability
                     layoutActions.errorBlockLoader(
-                        "Opps.. It seems that you don't have privilege to schedule private session yet"
+                        lang("Opps.. It seems that you don't have privilege to schedule private session yet")
                     );
                 }
             }}
             className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
             <i className="fa fa-video-camera left" />
-            Schedule Call
+            {lang("Schedule Call")}
         </button>
 
         // like button
@@ -317,15 +319,15 @@ export class BrowseStudentCard extends React.Component {
                         let r = null;
                         if (loading) {
                             r = <button className="btn btn-grey btn-round-5 btn-block btn-sm text-bold" >
-                                <i className="fa fa-spinner fa-pulse left"></i>Loading
+                                <i className="fa fa-spinner fa-pulse left"></i>{lang("Loading")}
                             </button>
                         } else if (is_interested) {
                             r = <button className="btn btn-green btn-round-5 btn-block btn-sm text-bold" onClick={onClickModeAction}>
-                                <i className="fa fa-check left"></i>Shortlisted
+                                <i className="fa fa-check left"></i>{lang("Shortlisted")}
                             </button>
                         } else {
                             r = <button className="btn btn-grey btn-round-5 btn-block btn-sm text-bold" onClick={onClickModeAction}>
-                                <i className="fa fa-plus left"></i>Shortlist
+                                <i className="fa fa-plus left"></i>{lang("Shortlist")}
                             </button>
                         }
                         return r

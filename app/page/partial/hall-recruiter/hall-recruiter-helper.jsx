@@ -10,6 +10,7 @@ import { appointmentTimeValidation } from "../../partial/activity/scheduled-inte
 import * as layoutAction from "../../../redux/actions/layout-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import { emitHallActivity } from "../../../socket/socket-client";
+import { lang } from "../../../../helper/lang-helper";
 
 
 // ##########################################################################################
@@ -38,11 +39,11 @@ export function getStatusElement(d, status_obj) {
       className="interview-status"
       style={{
         padding: "4px 2px",
-        fontSize: "12px", 
+        fontSize: "12px",
         color: status_obj.color, fontWeight: "bold"
       }}>
       <i className={getStatusElementIconClass(status_obj.icon)} ></i><br></br>
-      <span className={getStatusElementTextClass()}>{status_obj.text}</span>
+      <span className={getStatusElementTextClass()}>{lang(status_obj.text)}</span>
     </div>;
 }
 export function updateStatusViewToPending(ID) {
@@ -79,8 +80,8 @@ export function getNoteElement(d) {
       ]
     }}
     render={(val, loading, openEditPopup) => {
-      let notAssigned = <span className="text-muted"><i>Write down your note..</i></span>;
-      let editing = <span className="text-muted"><i>Updating {entity}. Please Wait.</i></span>;
+      let notAssigned = <span className="text-muted"><i>{lang("Write down your note..")}</i></span>;
+      let editing = <span className="text-muted"><i>{lang("Updating")} {lang(entity)}. {lang("Please Wait")}.</i></span>;
       let editIcon = <a className="btn-link-bright" onClick={openEditPopup}><i className="fa fa-edit left"></i></a>;
       return <div className="text-muted-dark">
         {loading ? editing : <span>{editIcon}{!val ? notAssigned : val}</span>}
@@ -167,7 +168,7 @@ export function getAppointmentTimeElement(d, happeningIn) {
       // timeStr = [timeStr, happeningIn]
 
       // let notAssigned = <span className="text-muted"><i>No {entity} Assigned</i></span>;
-      let editing = <span className="text-muted"><i>Updating Appointment Time. Please Wait.</i></span>;
+      let editing = <span className="text-muted"><i>{lang("Updating Appointment Time")}. {lang("Please Wait")}.</i></span>;
       let editIcon = null;
       if (d.status == PrescreenEnum.STATUS_RESCHEDULE) {
         editIcon = <a className="btn-link-bright"><i onClick={openEditPopup} className="fa fa-edit left"></i></a>;
@@ -198,12 +199,12 @@ export function getAppointmentTimeElement(d, happeningIn) {
 
 export function getPicElement(d, mutation_edit, entity) {
   let pic = <InputEditable
-    editTitle={`Edit ${entity}`}
+    editTitle={`${lang("Edit")} ${lang(entity)}`}
     val={d.pic}
     data={{ ID: d.ID }}
     formItems={(fixedName) => {
       return [
-        { header: `Edit ${entity}` },
+        { header: `${lang("Edit")} ${lang(entity)}` },
         {
           name: fixedName,
           type: "text",
@@ -212,8 +213,8 @@ export function getPicElement(d, mutation_edit, entity) {
       ]
     }}
     render={(val, loading, openEditPopup) => {
-      let notAssigned = <span className="text-muted"><i>No {entity} Assigned</i></span>;
-      let editing = <span className="text-muted"><i>Assigning {entity}. Please Wait.</i></span>;
+      let notAssigned = <span className="text-muted"><i>{lang(`No`)} {lang(entity)} {lang("Assigned")}</i></span>;
+      let editing = <span className="text-muted"><i>{lang("Assigning")}{lang(entity)}. {lang("Please Wait")}.</i></span>;
 
       let content = null;
 

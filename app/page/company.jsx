@@ -49,6 +49,7 @@ import { VacancyList } from "./partial/company/vacancy";
 import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import { EventList } from "./event-list";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
+import { lang } from "../../helper/lang-helper";
 
 export default class CompanyPage extends Component {
   constructor(props) {
@@ -376,8 +377,9 @@ export default class CompanyPage extends Component {
         <div id="company-edit-btn" className="text-right" style={{ width: "100%" }}>
           <NavLink to={`${AppPath}/manage-company/${this.ID}/about`}
             className="btn btn-gray btn-bold btn-round-10 btn-lg">
-            <i className="fa fa-edit left"></i>Edit Company Profile
-            </NavLink>
+            <i className="fa fa-edit left"></i>
+            {lang("Edit") + " " + lang("Company Profile")}
+          </NavLink>
         </div>
       </div>
     }
@@ -408,7 +410,7 @@ export default class CompanyPage extends Component {
     }) => {
       if (isModeAction) {
         let btnColor = is_interested ? "blue" : "grey";
-        let btnText = is_interested ? `Subscribed` : `Subscribe`
+        let btnText = is_interested ? lang(`Subscribed`) : lang("Subscribe")
         let btnIcon = loading ? "spinner fa-pulse" : "thumbs-up"
         return (
           <button className={`btn btn-sm btn-block btn-round-10 btn-${btnColor} btn-bold`}
@@ -485,7 +487,7 @@ export default class CompanyPage extends Component {
             style={{ padding: "5px" }}>
             <button className="btn btn-sm btn-block btn-round-10 btn-green btn-bold"
               onClick={btn_onClickResume}>
-              <i className="fa fa-download left"></i>Drop Your Resume
+              <i className="fa fa-download left"></i>{lang("Drop Your Resume")}
             </button>
           </div>
         }
@@ -501,8 +503,8 @@ export default class CompanyPage extends Component {
           style={{ padding: "5px" }}>
           <button className="btn btn-sm btn-block btn-round-10 btn-red btn-bold"
             onClick={btn_onClickChat}>
-            <i className="fa fa-comments left"></i>Chat With Us
-        </button>
+            <i className="fa fa-comments left"></i>{lang("Chat With Us")}
+          </button>
         </div>
       </div>
     </div>
@@ -513,7 +515,7 @@ export default class CompanyPage extends Component {
     return <h3 className="text-bold"
       style={{ marginBottom: this.SECTION_TITLE_MARGIN_BOTTOM }}>
       <i className={`fa fa-${icon} left`}></i>
-      {text}
+      {lang(text)}
     </h3>;
   }
 
@@ -693,7 +695,7 @@ export default class CompanyPage extends Component {
 
     return (
       <div className="cp-quick-link">
-        <b><i className="fa fa-slack left"></i>Tag</b><br></br>
+        <b><i className="fa fa-slack left"></i>{lang("Tag")}</b><br></br>
         {list}
       </div>
     );
@@ -720,7 +722,7 @@ export default class CompanyPage extends Component {
 
     return (
       <div className="cp-quick-link">
-        <b><i className="fa fa-link left"></i>Quick Link</b><br></br>
+        <b><i className="fa fa-link left"></i>{lang("Quick Link")}</b><br></br>
         {list}
       </div>
     );
@@ -732,19 +734,19 @@ export default class CompanyPage extends Component {
     var view = null;
 
     if (this.state.loading) {
-      view = <Loader size="3" text="Loading Company Information..." />;
+      view = <Loader size="3" text={lang("Loading Company Information...")} />;
     } else {
       document.setTitle(`${data.name}`);
 
-      const vacancies = this.getVacancies(data.ID);
-      const recs = this.getRecs(data.recruiters, data.rec_privacy);
-      const doc_link = this.getDocLinks(data.doc_links);
+      // const vacancies = this.getVacancies(data.ID);
+      // const recs = this.getRecs(data.recruiters, data.rec_privacy);
+      // const doc_link = this.getDocLinks(data.doc_links);
 
       // ##################################################################################
       // for action
 
       //var action = this.getStudentAction(data);
-      var actionBox = this.getStudentActionBox(data);
+      // var actionBox = this.getStudentActionBox(data);
 
       var profilePic = (
         <ProfileCard
@@ -763,72 +765,72 @@ export default class CompanyPage extends Component {
         />
       );
 
-      var rightBody = (
-        <div>
-          {!this.isRecThisCompany()
-            ? null
-            : this.getSubscribeBtn({ fontSize: "15px", width: "100%" })}
-        </div>
-      );
+      // var rightBody = (
+      //   <div>
+      //     {!this.isRecThisCompany()
+      //       ? null
+      //       : this.getSubscribeBtn({ fontSize: "15px", width: "100%" })}
+      //   </div>
+      // );
 
-      var maxHeight = this.SECTION_MAX_HEIGHT;
-      var leftBody = (
-        <div>
-          <div>
-            {actionBox}
-            {doc_link == null ? null : (
-              <PageSection
-                canToggle={this.props.canToggle}
-                className="left"
-                title="Gallery"
-                body={doc_link}
-              />
-            )}
-            {data.description == "" ? null : (
-              <PageSection
-                maxHeight={maxHeight}
-                canToggle={this.props.canToggle}
-                className="left"
-                title="About"
-                body={
-                  <p
-                    dangerouslySetInnerHTML={getDangerousHtml(data.description)}
-                  ></p>
-                }
-              />
-            )}
-            <PageSection
-              canToggle={this.props.canToggle}
-              initShow={true}
-              className="left"
-              title="Job Opportunity"
-              body={vacancies}
-            />
-            {data.more_info == "" ? null : (
-              <PageSection
-                maxHeight={maxHeight}
-                canToggle={this.props.canToggle}
-                className="left"
-                title="Additional Information"
-                //body={<p>{data.more_info}</p>}
-                body={
-                  <p
-                    dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}
-                  ></p>
-                }
-              />
-            )}
-            {recs === null ? null : (
-              <PageSection
-                canToggle={this.props.canToggle}
-                className="left"
-                title="Recruiters"
-                body={recs}
-              />
-            )}
-          </div>
-        </div>
-      );
+      // var maxHeight = this.SECTION_MAX_HEIGHT;
+      // var leftBody = (
+      //   <div>
+      //     <div>
+      //       {actionBox}
+      //       {doc_link == null ? null : (
+      //         <PageSection
+      //           canToggle={this.props.canToggle}
+      //           className="left"
+      //           title="Gallery"
+      //           body={doc_link}
+      //         />
+      //       )}
+      //       {data.description == "" ? null : (
+      //         <PageSection
+      //           maxHeight={maxHeight}
+      //           canToggle={this.props.canToggle}
+      //           className="left"
+      //           title="About"
+      //           body={
+      //             <p
+      //               dangerouslySetInnerHTML={getDangerousHtml(data.description)}
+      //             ></p>
+      //           }
+      //         />
+      //       )}
+      //       <PageSection
+      //         canToggle={this.props.canToggle}
+      //         initShow={true}
+      //         className="left"
+      //         title="Job Opportunity"
+      //         body={vacancies}
+      //       />
+      //       {data.more_info == "" ? null : (
+      //         <PageSection
+      //           maxHeight={maxHeight}
+      //           canToggle={this.props.canToggle}
+      //           className="left"
+      //           title="Additional Information"
+      //           //body={<p>{data.more_info}</p>}
+      //           body={
+      //             <p
+      //               dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}
+      //             ></p>
+      //           }
+      //         />
+      //       )}
+      //       {recs === null ? null : (
+      //         <PageSection
+      //           canToggle={this.props.canToggle}
+      //           className="left"
+      //           title="Recruiters"
+      //           body={recs}
+      //         />
+      //       )}
+      //     </div>
+      //   </div>
+      // );
 
       view =
         <div className="company-page">

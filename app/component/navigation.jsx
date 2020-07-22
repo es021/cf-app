@@ -78,6 +78,7 @@ import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
 import { _student_plural } from "../redux/actions/text-action";
+import { lang } from "../../helper/lang-helper";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -137,7 +138,7 @@ function getMenuItem(COMING_SOON) {
     // },
     {
       url: "/",
-      label: "Home",
+      label: lang("Home"),
       icon: "home",
       component: homeComponent,
       has_external_url: getCF_externalHomeUrl() ? true : false,
@@ -287,7 +288,7 @@ function getMenuItem(COMING_SOON) {
     {
       // Student Only
       url: "/edit-profile/:current",
-      label: "My Profile",
+      label: lang("My Profile"),
       icon: "user",
       component: EditProfilePage,
       bar_app: true,
@@ -300,7 +301,7 @@ function getMenuItem(COMING_SOON) {
     {
       url: "/browse-student",
       // label: "All Students",
-      label: "All " + _student_plural(),
+      label: lang("All " + _student_plural()),
       icon: "users",
       component: BrowseStudent,
       bar_app: true,
@@ -321,7 +322,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/interested-student",
-      label: "Interested Students",
+      label: lang("Interested Students"),
       icon: "heart",
       component: BrowseStudent,
       routeOnly: true,
@@ -333,7 +334,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/student-list-job-post",
-      label: "Student Listing",
+      label: lang("Student Listing"),
       icon: "user",
       component: BrowseStudent,
       routeOnly: true,
@@ -347,7 +348,7 @@ function getMenuItem(COMING_SOON) {
       url: "/auditorium",
       // EUR FIX
       //label: "Auditorium",
-      label: "Webinar",
+      label: lang("Webinar"),
       icon: "microphone",
       component: AuditoriumFeed,
       bar_app: true,
@@ -359,7 +360,7 @@ function getMenuItem(COMING_SOON) {
     {
       // Student Only
       url: "/edit-profile/:current",
-      label: "Upload Document",
+      label: lang("Upload Document"),
       icon: "file-text",
       component: EditProfilePage,
       bar_app: true,
@@ -372,7 +373,7 @@ function getMenuItem(COMING_SOON) {
     {
       // Student Only
       url: "/edit-profile/:current",
-      label: "Upload Video Resume",
+      label: lang("Upload Video Resume"),
       icon: "youtube-play",
       component: EditProfilePage,
       bar_app: true,
@@ -398,7 +399,7 @@ function getMenuItem(COMING_SOON) {
     {
       // Student Only
       url: "/edit-profile/:current",
-      label: "Manage Availability",
+      label: lang("Manage Availability"),
       icon: "clock-o",
       component: EditProfilePage,
       bar_app: true,
@@ -452,7 +453,7 @@ function getMenuItem(COMING_SOON) {
 
     {
       url: "/rec-current-event",
-      label: "Event",
+      label: lang("Event"),
       icon: "slack",
       component: HallPage,
       bar_app: true,
@@ -464,7 +465,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/company/:id/",
-      label: "Company Profile",
+      label: lang("Company Profile"),
       icon: "building",
       component: CompanyPage,
       bar_app: true,
@@ -488,7 +489,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/manage-company/:id/:current",
-      label: "Add Job Post",
+      label: lang("Add Job Post"),
       icon: "suitcase",
       component: ManageCompanyPage,
       bar_app: false,
@@ -500,7 +501,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/my-activity/:current",
-      label: "My Activity",
+      label: lang("My Activity"),
       icon: "list-ul",
       component: ActivityPage,
       bar_app: false,
@@ -539,7 +540,7 @@ function getMenuItem(COMING_SOON) {
     // },
     {
       url: "/my-inbox",
-      label: "Inbox",
+      label: lang("Inbox"),
       icon: "envelope-o",
       count_attr: "count_inbox",
       component: CompanyChatInbox,
@@ -597,7 +598,7 @@ function getMenuItem(COMING_SOON) {
     // },
     {
       url: "/login",
-      label: "Login",
+      label: lang("Login"),
       icon: "sign-in",
       component: LoginPage,
       bar_app: false,
@@ -608,7 +609,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/logout",
-      label: "Logout",
+      label: lang("Logout"),
       icon: "sign-out",
       component: LogoutPage,
       bar_app: true,
@@ -618,7 +619,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/sign-up",
-      label: "Sign Up",
+      label: lang("Sign Up"),
       icon: "user-plus",
       component: SignUpPage,
       bar_app: false,

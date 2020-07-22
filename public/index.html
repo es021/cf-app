@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<!-- Depecrated See server/html/index.html -->
-
 <html lang="en-US">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/" />
-    <link rel="icon" href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-32x32.png" sizes="32x32"
-    />
-    <link rel="icon" href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-192x192.png" sizes="192x192"
-    />
-    <link rel="apple-touch-icon-precomposed" href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-180x180.png"
-    />
-    <meta name="msapplication-TileImage" content="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-270x270.png"
-    />
+    <link rel="icon"
+        href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-32x32.png"
+        sizes="32x32" />
+    <link rel="icon"
+        href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-192x192.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed"
+        href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-180x180.png" />
+    <meta name="msapplication-TileImage"
+        content="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/02/cropped-new-icon-transparent-270x270.png" />
     <meta name="description" content="{{description}}" />
-    <title>Seeds</title>
+    <title>{{title}}</title>
 </head>
 
 <body>
@@ -28,7 +28,8 @@
 
     <!-- message for uncompatible -->
     <div id="app-error" class="app-loading" style="display:none; opacity:0; z-index:0;">
-        <img class="img" src="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2017/04/cropped-icon-192x192.png"></img>
+        <img class="img"
+            src="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2017/04/cropped-icon-192x192.png"></img>
         <h2>Opps.. It seems that your browser is not supported</h2>
         <h4>List Of Browsers Compatibility</h4>
         <ul class="normal">
@@ -106,8 +107,11 @@
 
             // load Javascript -------------------------------------------------------------------------
             //var jsToLoad = [ASSET_ROOT + "/js/vendors.bundle.js", ASSET_ROOT + "/js/main.bundle.js"];
-            var jsToLoad = [ASSET_ROOT + "/js/main.bundle.js"];
-
+            var jsToLoad = [
+                ASSET_ROOT + "/js/main.bundle.js"
+                //,ASSET_ROOT + "/lang/malay.js" //@enable_lang
+            ];
+            
             var jsLoaded = 0;
             jsToLoad.map(function (d, i) {
                 loadAsset("js", d, function () {
@@ -154,10 +158,12 @@
                     };
                 }
 
-                if (type === 'js') {
+                if (url.indexOf("/lang/") >= 0) {
+                    asset.src = url + "?v=" + lang_version;
+                    body.appendChild(asset);
+                } else if (type === 'js') {
                     asset.src = url + "?v=" + js_version;
                     body.appendChild(asset);
-
                 } else if (type === 'css') {
                     asset.href = url + "?v=" + css_version;
                     head.appendChild(asset);
@@ -165,9 +171,13 @@
 
             }
         }
-        var js_version = "11";
-        var css_version = "11";
-        MainLoadAsset(js_version, css_version);
+
+        var lang_version = "lang-v1";
+        var app_version = "monash-v6";
+        var js_version = app_version;
+        var css_version = app_version;
+        MainLoadAsset(js_version, css_version, lang_version);
+
     </script>
 </body>
 

@@ -10,6 +10,7 @@ import { _GET } from "../lib/util";
 import EmptyState from "../component/empty-state";
 import { Redirect } from "react-router";
 import { _student_single } from "../redux/actions/text-action";
+import { lang } from "../../helper/lang-helper";
 
 export class BrowseStudent extends React.Component {
   constructor(props) {
@@ -158,7 +159,7 @@ export class BrowseStudent extends React.Component {
 
 
   render() {
-    let title = `${_student_single()} Listing`
+    let title = lang(`${_student_single()} Listing`);
     // if(this.isPageStudentListJobPost()){
     //   title = ""
     // }

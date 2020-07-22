@@ -28,6 +28,7 @@ import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { isCustomUserInfoOff, Single } from "../../../../config/registration-config";
+import { lang } from "../../../../helper/lang-helper";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -88,7 +89,7 @@ export function createUserDocLinkList(
       dl,
       alignCenter,
       onClickDocLink,
-      "No Document Or Links Uploaded"
+      lang("No Document Or Links Uploaded")
     );
   } else if (isSimple) {
     ret = doc_links.map((d, i) => {
@@ -112,7 +113,7 @@ export function createUserDocLinkList(
       <CustomList
         className={"label"}
         isSmall={isSmall}
-        emptyMessage={<i><small>No Document Or Links Uploaded</small></i>}
+        emptyMessage={<i><small>{lang("No Document Or Links Uploaded")}</small></i>}
         alignCenter={alignCenter}
         items={dl}
         onClick={onClickDocLink}
@@ -267,13 +268,13 @@ export default class UserPopup extends Component {
   getBasicInfo(d) {
     var notSpecifed = (
       <small>
-        <i className="text-muted">Not Specified</i>
+        <i className="text-muted">{lang("Not Specified")}</i>
       </small>
     );
 
     var items = [
       {
-        label: "Email",
+        label: lang("Email"),
         icon: "envelope",
         value: d.user_email
       }
@@ -283,7 +284,7 @@ export default class UserPopup extends Component {
       if (d.company !== null) {
         items.push(
           {
-            label: "Company",
+            label: lang("Company"),
             icon: "suitcase",
             value: (
               <NavLink onClick={() => { layoutActions.storeHideFocusCard() }}
@@ -304,27 +305,27 @@ export default class UserPopup extends Component {
             )
           },
           {
-            label: "Position",
+            label: lang("Position"),
             icon: "black-tie",
             value: d.rec_position ? (
               d.rec_position
             ) : (
-                <span className="text-muted">Position Not Specified</span>
+                <span className="text-muted">{lang("Position Not Specified")}</span>
               )
           }
         );
       } else {
         items.push({
-          label: "Company",
+          label: lang("Company"),
           icon: "suitcase",
-          value: <span className="text-muted">No Company</span>
+          value: <span className="text-muted">{lang("No Company")}</span>
         });
       }
     }
 
     if (d.role === UserEnum.ROLE_STUDENT) {
       items.push({
-        label: "Phone Number",
+        label: lang("Phone Number"),
         icon: "phone",
         value: this.isValueEmpty(d.phone_number) ? notSpecifed : d.phone_number
       });

@@ -18,6 +18,7 @@ import obj2arg from "graphql-obj2arg";
 import { appointmentTimeValidation } from "./partial/activity/scheduled-interview";
 import { Loader } from "../component/loader";
 import { _student_single, _student_plural, _student_plural_lower } from "../redux/actions/text-action";
+import { lang } from "../../helper/lang-helper";
 
 // require("../css/hall.scss");''
 // export function getAppointmentTimeElement(d, happeningIn) {
@@ -203,9 +204,9 @@ export default class HallRecruiterPage extends React.Component {
             to={`${RootPath}/app/student-list-job-post`}
             icon="user"
             iconSize="3x"
-            mainText={_student_single() + " Listing"}
+            mainText={lang(_student_single() + " Listing")}
             // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={`Browse ${_student_plural_lower()} from job posts applicants`}
+            subText={lang(`Browse ${_student_plural_lower()} from job posts applicants`)}
           />
 
           // ########################################
@@ -218,9 +219,9 @@ export default class HallRecruiterPage extends React.Component {
             to={`${RootPath}/app/browse-student`}
             icon="users"
             iconSize="3x"
-            mainText={`All ${_student_plural()}`}
+            mainText={lang(`All ${_student_plural()}`)}
             // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={`Browse all ${_student_plural_lower()}`}
+            subText={lang(`Browse all ${_student_plural_lower()}`)}
           />,
           <ButtonAction
             style={{ width: "350px", maxWidth: "70vw" }}
@@ -229,9 +230,9 @@ export default class HallRecruiterPage extends React.Component {
             to={`${RootPath}/app/browse-student?interested_only=1`}
             icon="user"
             iconSize="3x"
-            mainText={`Interested ${_student_plural()}`}
+            mainText={lang(`Interested ${_student_plural()}`)}
             // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={`Browse ${_student_plural_lower()} interested in you`}
+            subText={lang(`Browse ${_student_plural_lower()} interested in you`)}
           />]
         }
 
@@ -240,14 +241,14 @@ export default class HallRecruiterPage extends React.Component {
   }
 
   render() {
-    document.setTitle("Recruiter Home Page");
+    document.setTitle(lang("Recruiter Home Page"));
     let v = null;
 
     if (this.state.loading) {
-      v = <Loader size="3" text="Loading Company Info..."></Loader>
+      v = <Loader size="3" text={lang("Loading Company Information...")}></Loader>
     } else {
       v = <div className="hall-page">
-        <h1 className="text-left"><b>Welcome {this.authUser.company.name} !</b></h1>
+        <h1 className="text-left"><b>{lang("Welcome")} {this.authUser.company.name} !</b></h1>
         {this.getRecruiterAction()}
         <br></br>
         <div className="container-fluid">

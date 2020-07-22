@@ -54,6 +54,7 @@ import InputEditable from "../../../component/input-editable";
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { animateHide } from "../../view-helper/view-helper";
 import { _student_single } from "../../../redux/actions/text-action";
+import { lang } from "../../../../helper/lang-helper";
 
 // require("../../../css/border-card.scss");
 export function getTimeStrNew(d) {
@@ -158,8 +159,8 @@ class InterviewList extends React.Component {
     let entity = Prescreen.TABLE;
     let entity_id = d.ID;
     let confirmMes = <div>
-      <div>Continue removing interview with <b>{d.student.first_name}{" "}{d.student.last_name}</b> ?</div>
-      <small><i className="text-danger">* This action cannot be undone *</i></small>
+      <div>{lang("Continue removing interview with")} <b>{d.student.first_name}{" "}{d.student.last_name}</b> ?</div>
+      <small><i className="text-danger">* {lang("This action cannot be undone")} *</i></small>
 
     </div>
     return (
@@ -186,7 +187,7 @@ class InterviewList extends React.Component {
         className="btn btn-sm btn-gray btn-round-5 btn-block"
       >
         <i className="fa fa-trash left"></i>
-        Remove Card
+        {lang("Remove Card")}
       </button>
     );
   }
@@ -253,16 +254,16 @@ class InterviewList extends React.Component {
     // create confirm message
     var mes = "";
     if (status === PrescreenEnum.STATUS_ENDED) {
-      mes += "Ending";
+      mes += lang("Ending");
     }
     if (status === PrescreenEnum.STATUS_APPROVED) {
-      mes += "Approving";
+      mes += lang("Approving");
     }
     if (status === PrescreenEnum.STATUS_REJECTED) {
-      mes += "Rejecting";
+      mes += lang("Rejecting");
     }
 
-    mes += ` Scheduled Call with ${other_name} ?`;
+    mes += ` ${lang("Scheduled Call with")} ${other_name} ?`;
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
 
@@ -307,7 +308,7 @@ class InterviewList extends React.Component {
         : d.special_type;
 
     if (isNormalSI(ps_type)) {
-      ps_type = "Scheduled Session";
+      ps_type = lang("Scheduled Session");
     }
 
     switch (d.status) {
@@ -365,7 +366,7 @@ class InterviewList extends React.Component {
               onClick={this.startVideoCallPreScreen.bind(this)}
               className="btn btn-sm btn-green btn-round-5 btn-block btn-bold"
             >
-              <i className="fa fa-video-camera left"></i>Start Call
+              <i className="fa fa-video-camera left"></i>{lang("Start Call")}
             </div>
           );
         }
@@ -391,9 +392,9 @@ class InterviewList extends React.Component {
         let isExpiredHandler = () => {
           var mes = (
             <div>
-              Unable to join.
+              {lang("Unable to join.")}
               <br />
-              This 1-1 session has ended.
+              {lang("This 1-1 session has ended.")}
             </div>
           );
           layoutActions.errorBlockLoader(mes);
@@ -462,7 +463,7 @@ class InterviewList extends React.Component {
               }
               className="btn btn-sm btn-blue-light btn-bold btn-round-5 btn-block"
             >
-              <i className="fa fa-sign-in left"></i>Join Call
+              <i className="fa fa-sign-in left"></i>{lang("Join Call")}
             </div>
           );
 
@@ -479,7 +480,7 @@ class InterviewList extends React.Component {
               }}
               className="btn btn-sm btn-red btn-bold btn-round-5 btn-block"
             >
-              <i className="fa fa-times left"></i>End Call
+              <i className="fa fa-times left"></i>{lang("End Call")}
             </div>
           );
         }
@@ -569,7 +570,7 @@ class InterviewList extends React.Component {
       );
 
 
-      let pic = HallRecruiterHelper.getPicElement(d, "edit_prescreen", "Interviewer");
+      let pic = HallRecruiterHelper.getPicElement(d, "edit_prescreen", lang("Interviewer"));
       let note = HallRecruiterHelper.getNoteElement(d);
       // renderList
       return <li
@@ -640,7 +641,7 @@ class InterviewList extends React.Component {
       if (this.props.list.length === 0) {
         body = (
           <div className="text-muted list-empty-text">
-            <i>Nothing to show here.</i>
+            <i>{lang("Nothing to show here")}.</i>
           </div>
         );
       }
@@ -656,8 +657,8 @@ class InterviewList extends React.Component {
             <b>
               {
                 this.props.isShowMore
-                  ? <span><i className="fa fa-minus left"></i>Show Less</span>
-                  : <span><i className="fa fa-plus left"></i>Show All ({this.props.list.length})</span>
+                  ? <span><i className="fa fa-minus left"></i>{lang("Show Less")}</span>
+                  : <span><i className="fa fa-plus left"></i>{lang("Show All")} ({this.props.list.length})</span>
               }
             </b>
           </small>
@@ -701,37 +702,37 @@ class HallRecruiterInterview extends React.Component {
     this.FILTERS = [
       {
         key: this.FILTER_TODAY,
-        label: "Show Today's Only",
+        label: lang("Show Today's Only"),
         defaultChecked: false,
       },
       {
         key: PrescreenEnum.STATUS_WAIT_CONFIRM,
-        label: "Pending",
+        label: lang("Pending"),
         defaultChecked: true,
       },
       {
         key: PrescreenEnum.STATUS_RESCHEDULE,
-        label: "Reschedule Requested",
+        label: lang("Reschedule Requested"),
         defaultChecked: true,
       },
       {
         key: PrescreenEnum.STATUS_APPROVED,
-        label: "Confirmed",
+        label: lang("Confirmed"),
         defaultChecked: true,
       },
       {
         key: PrescreenEnum.STATUS_STARTED,
-        label: "Started",
+        label: lang("Started"),
         defaultChecked: true,
       },
       {
         key: PrescreenEnum.STATUS_ENDED,
-        label: "Ended",
+        label: lang("Ended"),
         defaultChecked: false,
       },
       {
         key: PrescreenEnum.STATUS_REJECTED,
-        label: "Rejected",
+        label: lang("Rejected"),
         defaultChecked: true,
       }
     ]
@@ -928,12 +929,12 @@ class HallRecruiterInterview extends React.Component {
       <ListBoard
         key={JSON.stringify(this.state)}
         action_icon="plus"
-        action_text="Schedule New Interview"
+        action_text={lang("Schedule New Interview")}
         action_to={`browse-student`}
         icon={"video-camera"}
         title={
           <span>
-            My Interviews
+            {lang("My Interviews")}
             {/* <small>{grandTotal > 0 ? ` (showing ${total}/${grandTotal}) ` : null}</small> */}
             {" "}
             <a onClick={this.refresh} className="btn-link text-bold">

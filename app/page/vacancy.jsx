@@ -14,6 +14,7 @@ import { addLog } from "../redux/actions/other-actions";
 import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 import { getHrefValidUrl, getCompanyTitle } from "./view-helper/view-helper";
+import { lang } from "../../helper/lang-helper";
 
 function applyOnClick(obj, onClickModeAction) {
   console.log("obj", obj);
@@ -46,13 +47,13 @@ export function getApplyButton(objVacancy, type) {
       }) => {
         let r = null;
         if (loading) {
-          r = <div className="action-item action-loading"><i className="fa fa-spinner fa-pulse left"></i>Loading</div>
+          r = <div className="action-item action-loading"><i className="fa fa-spinner fa-pulse left"></i>{lang("Loading")}</div>
         } else if (is_interested) {
-          r = <div className="action-item action-done" onClick={onClickModeAction}><i className="fa fa-check left"></i>Applied</div>
+          r = <div className="action-item action-done" onClick={onClickModeAction}><i className="fa fa-check left"></i>{lang("Applied")}</div>
         } else {
           r = <div className="action-item action-not-done"
             onClick={() => { applyOnClick(objVacancy, onClickModeAction); }}>
-            <i className="fa fa-plus left"></i>Apply
+            <i className="fa fa-plus left"></i>{lang("Apply")}
           </div>
         }
         return <div className={`vacancy-action type-${type}`}>{r}</div>
@@ -127,7 +128,7 @@ export default class VacancyPage extends React.Component {
     }
 
     if (this.state.loading) {
-      view = <Loader size="3" text="Loading Vacancy Information..."></Loader>;
+      view = <Loader size="3" text={lang("Loading Vacancy Information...")}></Loader>;
     } else {
       if (this.state.data === null) {
         view = <NotFoundPage {...this.props}></NotFoundPage>;
@@ -160,10 +161,10 @@ export default class VacancyPage extends React.Component {
         // );
 
         if (!this.props.isPopup) {
-          document.setTitle("Vacancy - " + vacan.title);
+          document.setTitle(lang("Vacancy") + " - " + vacan.title);
         }
 
-        var non = <div className="text-muted">Nothing To Show Here</div>;
+        var non = <div className="text-muted">{lang("Nothing To Show Here")}</div>;
 
         var items = [
           // <span>
@@ -229,12 +230,12 @@ export default class VacancyPage extends React.Component {
             ></PageSection>
             <PageSection
               className="left"
-              title="Description"
+              title={lang("Description")}
               body={desc}
             ></PageSection>
             <PageSection
               className="left"
-              title="Requirement"
+              title={lang("Requirement")}
               body={req}
             ></PageSection>
           </div>

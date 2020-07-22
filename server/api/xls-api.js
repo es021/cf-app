@@ -101,9 +101,60 @@ class XLSApi {
       //   return this.student_listing(filter);
       case "browse_student":
         return this.browse_student(filter, cf);
+      case "list_job_applicants":
+        return this.list_job_applicants(filter, cf);
     }
   }
 
+  list_job_applicants(filter, cf) {
+    console.log("filter", filter)
+    var filename = `Student Listing`;
+    var query = `query{
+        interested_list (entity:"${filter.entity}", entity_id:${filter.entity_id},is_interested : 1) 
+        {
+          user_id
+          user{${this.student_field()}}
+        }
+      } `;
+
+    // 2. prepare props to generate table
+    const headers = null;
+
+    // 3. resctruct data to be in one level only
+    const restructData = data => {
+      var hasChildren = ["user"];
+      var newData = {};
+      for (var key in data) {
+        var d = data[key];
+        if (hasChildren.indexOf(key) >= 0) {
+          for (var k in d) {
+            newData[`${key}_${k}`] = d[k];
+          }
+        } else {
+          newData[key] = d;
+        }
+      }
+      newData = this.restructAppendTypeForStudent(newData, "user_");
+      return newData;
+    };
+
+    const renameTitle = (originalTitle, dataIndex0) => {
+      let toRet = originalTitle;
+      toRet = `List Applicants - ${filter.title}`;
+      return toRet;
+    };
+
+    // 4. fetch and return
+    return this.fetchAndReturn(
+      query,
+      "interested_list", // data field
+      filename,
+      headers,
+      null,
+      restructData,
+      renameTitle //renameTitle
+    );
+  }
   browse_student(filterStr) {
     console.log("filterStr", filterStr)
     var filename = `Student Listing`;

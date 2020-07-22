@@ -58,8 +58,14 @@ export class ButtonExport extends React.Component {
         this.post(url, { filter: filter, cf: cf })
     }
     render() {
+
+        let btnClass = `btn btn-sm btn-${this.props.btnClass}`
+        if(this.props.isOverrideBtnClass){
+            btnClass = this.props.btnClass;
+        }
+        
         return (<a style={this.props.style}
-            className={`btn btn-sm btn-${this.props.btnClass}`}
+            className={btnClass}
             onClick={() => { this.onClick() }}>
             <i className="fa fa-file-excel-o left"></i>
             {this.props.text}
@@ -76,10 +82,12 @@ ButtonExport.propsType = {
     filter: PropTypes.any,
     text: PropTypes.string,
     btnClass: PropTypes.string,
+    isOverrideBtnClass: PropTypes.bool,
     style: PropTypes.object
 };
 
 ButtonExport.defaultProps = {
+    isOverrideBtnClass : false,
     text: "Export Data",
     btnClass: "success",
     style: {

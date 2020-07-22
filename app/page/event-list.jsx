@@ -16,6 +16,7 @@ import {
   // isRoleRec
 } from "../redux/actions/auth-actions";
 import { getEventTitle, getEventAction, getEventLocation } from "./view-helper/view-helper";
+import { lang } from "../../helper/lang-helper";
 // import ToogleTimezone from "../component/toggle-timezone";
 // import { AppPath } from "../../config/app-config";
 // import { NavLink } from "react-router-dom";
@@ -339,9 +340,9 @@ export class EventList extends React.Component {
     //   />
     // );
     // let time = <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(d.start_time)} {Time.getStringShortMas(d.start_time)} (MYT)</div>;
-    let notSpecified = <i className="text-muted">Not Speficied</i>;
+    let notSpecified = <i className="text-muted">{lang("Not Speficied")}</i>;
 
-    let time = d.start_time ? [Time.getString(d.start_time), <span className="text-muted">{" "}(local time)</span>] : notSpecified;
+    let time = d.start_time ? [Time.getString(d.start_time), <span className="text-muted">{" (" + lang("local time") + ")"}</span>] : notSpecified;
 
     // let locationText = <div className="el-location-text">{d.location}</div>
     // let location = <div className="el-location">

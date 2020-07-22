@@ -1,3 +1,5 @@
+const { lang } = require("../../helper/lang-helper");
+
 var Time = function () {
     this.ALT_TIMEZONE_SHORT = "MYT";
     this.ALTERNATE_TIMEZONE = "Asia/Kuala_Lumpur";
@@ -686,6 +688,10 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
 
     //console.log(newDate.getTimezoneOffset());
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    for (var i = 0; i < months.length; i++) {
+        months[i] = lang(months[i]);
+    }
+
     var toReturn = "";
     //month start with zero
 
@@ -694,7 +700,7 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
         toReturn += " ";
         toReturn += newDate.getDate();
 
-        if(dayOnly){
+        if (dayOnly) {
             return newDate.getDate();
         }
         if (yearOnly) {
@@ -732,7 +738,7 @@ Time.prototype.getString = function (unixtimestamp, include_timezone = false, is
     toReturn += " " + pm_am;
 
     if (include_timezone) {
-        toReturn += " (local time)";
+        toReturn += ` (${lang("local time")})`;
 
         // let tz = this.getTimezoneShort(newDate);
         // if (tz) {

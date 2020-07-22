@@ -38,6 +38,8 @@ export default class ListJobApplicants extends React.Component {
     } else {
       document.setTitle(`${title} - Applicants`);
       v = <InterestedUserList
+        export_action={"list_job_applicants"}
+        export_title={title}
         entity={"vacancies"}
         title={<div></div>}
         entity_id={this.vacancyId}
