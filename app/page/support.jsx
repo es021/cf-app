@@ -93,6 +93,9 @@ export class SupportChat extends React.Component {
         </a>
     }
     render() {
+
+        return null;
+        
         return <div id="support-chat" className={"sc-open"}>
             {this.getFbMessager()}
         </div>;

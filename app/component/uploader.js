@@ -55,7 +55,7 @@ export class Uploader extends React.Component {
 		];
 		this.form = {};
 
-		this.MAX_SIZE = 2; // in MB
+		this.MAX_SIZE = 5; // in MB
 		this.MB_TO_B = 1000000;
 
 		this.MAX_SIZE_VIDEO = 500;
