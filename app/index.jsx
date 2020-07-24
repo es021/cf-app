@@ -88,10 +88,14 @@ let scss = [
   "choose-cf",
 
   // kena letak bawah skali
-  "custom-SHELL",
   "custom-CIMB",
   "custom-IMPACT",
+  "custom-MICRON",
+  "custom-MONASH",
+  "custom-SHELL",
+  "custom-SUNWAY",
 ];
+
 for (var i in scss) {
   require("./css/" + scss[i] + ".scss");
 }
