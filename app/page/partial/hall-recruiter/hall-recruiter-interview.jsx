@@ -54,7 +54,7 @@ import InputEditable from "../../../component/input-editable";
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { animateHide } from "../../view-helper/view-helper";
 import { _student_single } from "../../../redux/actions/text-action";
-import { lang } from "../../../../helper/lang-helper";
+import lang from "../../../lib/lang";
 
 // require("../../../css/border-card.scss");
 export function getTimeStrNew(d) {

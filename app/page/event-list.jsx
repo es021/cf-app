@@ -16,7 +16,7 @@ import {
   // isRoleRec
 } from "../redux/actions/auth-actions";
 import { getEventTitle, getEventAction, getEventLocation } from "./view-helper/view-helper";
-import { lang } from "../../helper/lang-helper";
+import lang from "../lib/lang";
 // import ToogleTimezone from "../component/toggle-timezone";
 // import { AppPath } from "../../config/app-config";
 // import { NavLink } from "react-router-dom";

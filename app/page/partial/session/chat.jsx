@@ -30,6 +30,7 @@ import {
   emitHallActivity
 } from "../../../socket/socket-client";
 import { Uploader, uploadFile, FileType } from '../../../component/uploader';
+import lang from "../../../lib/lang";
 
 //import { ButtonLink } from '../../../component/buttons.jsx';
 //import UserPopup from '../popup/user-popup';
@@ -257,7 +258,7 @@ class ChatFileUploader extends React.Component {
   onSubmit() {
     if (this.state.currentFile === null) {
       this.setState(() => {
-        return { error: "Please Select A File First" };
+        return { error: lang("Please Select A File First") };
       });
     } else {
 
@@ -272,7 +273,7 @@ class ChatFileUploader extends React.Component {
           this.props.success(fileUrl, this.state.currentFile.name);
           layoutActions.storeHideBlockLoader();
         } else {
-          this.setState({ error: "Something went wrong. Please try again", sending: false })
+          this.setState({ error: lang("Something went wrong. Please try again"), sending: false })
         }
       });
     }
@@ -301,7 +302,7 @@ class ChatFileUploader extends React.Component {
   render() {
     let v = null;
     v = <div style={{ padding: "10px" }}>
-      <Uploader label="Upload File" name="new-file"
+      <Uploader label={lang("Upload File")} name="new-file"
         width="230px"
         type={FileType.CUSTOM}
         getValidFormat={() => {
@@ -325,7 +326,7 @@ class ChatFileUploader extends React.Component {
         className="btn btn-round-10 btn-block btn-blue"
         style={{ marginTop: "22px", marginBottom: "-26px" }}>
         {this.state.sending ? <i className={`fa fa-spinner fa-pulse left`}></i> : null}
-        {this.state.sending ? `Sending...` : `Send File`}
+        {this.state.sending ? lang(`Sending...`) : lang(`Send File`)}
       </button>
     </div >
 
@@ -971,7 +972,7 @@ class Chat extends React.Component {
               ev.preventDefault();
             }
           }}
-          placeholder={`Ask New Question..`}
+          placeholder={lang(`Ask New Question..`)}
           name="message"
         />
         <button
@@ -979,7 +980,7 @@ class Chat extends React.Component {
           className="btn-send btn btn-blue"
           onClick={() => this.sendChat()}
         >
-          Send
+          {lang("Send")}
         </button>
       </div>
     );

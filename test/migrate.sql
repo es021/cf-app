@@ -280,7 +280,7 @@ ALTER TABLE `pre_screens` CHANGE `is_expired` `is_expired` SMALLINT(1) NOT NULL 
 -- copy cf meta
 INSERT INTO cfs_meta (cf_name, meta_key, meta_value) 
 SELECT 'SHELL', meta_key, meta_value FROM cfs_meta 
-where cf_name = 'GWINTER' 
+where cf_name = 'IMPACT' 
 
 -- ###############################
 -- change request

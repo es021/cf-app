@@ -28,7 +28,7 @@ import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { isCustomUserInfoOff, Single } from "../../../../config/registration-config";
-import { lang } from "../../../../helper/lang-helper";
+import lang from "../../../lib/lang";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -341,7 +341,7 @@ export default class UserPopup extends Component {
 
       if (!isCustomUserInfoOff(getCF(), Single.monash_school)) {
         items.push({
-          label: "School",
+          label: lang("School"),
           icon: "university",
           value: this.isValueEmpty(d.monash_school) ? notSpecifed : d.monash_school
         })
@@ -349,7 +349,7 @@ export default class UserPopup extends Component {
 
       if (!isCustomUserInfoOff(getCF(), Single.sunway_faculty)) {
         items.push({
-          label: "Faculty",
+          label: lang("Faculty"),
           icon: "university",
           value: this.isValueEmpty(d.sunway_faculty) ? notSpecifed : d.sunway_faculty
         })
@@ -357,33 +357,33 @@ export default class UserPopup extends Component {
 
       items.push(
         {
-          label: "University",
+          label: lang("University"),
           icon: "university",
           value: this.isValueEmpty(d.university) ? notSpecifed : d.university
         },
         {
-          label: "Expected Graduation",
+          label: lang("Expected Graduation"),
           icon: "calendar",
           value: this.isValueEmpty(d.graduation_month)
             ? notSpecifed
             : `${d.graduation_month} ${d.graduation_year}`
         },
         {
-          label: "Working Availability",
+          label: lang("Working Availability"),
           icon: "calendar",
           value: this.isValueEmpty(d.working_availability_month)
             ? notSpecifed
             : `${d.working_availability_month} ${d.working_availability_year}`
         },
         {
-          label: "Looking For",
+          label: lang("Looking For"),
           icon: "search",
           value: this.isValueEmpty(d.looking_for_position)
             ? notSpecifed
             : this.createListForMulti(d.looking_for_position)
         },
         {
-          label: "Grade / CGPA",
+          label: lang("Grade / CGPA"),
           icon: "book",
           value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
         }
@@ -401,13 +401,18 @@ export default class UserPopup extends Component {
 
       if (!isCustomUserInfoOff(getCF(), Single.where_in_malaysia)) {
         items.push({
-          label: "City/State in Malaysia",
+          label: lang("City/State In Malaysia"),
           icon: "map-marker",
           value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
         })
       }
     }
 
+    for (let index in items) {
+      try {
+        items[index].value = lang(items[index].value);
+      } catch (err) { }
+    }
     return <CustomList className="icon" items={items}></CustomList>;
   }
 
@@ -439,7 +444,7 @@ export default class UserPopup extends Component {
     return (
       <span>
         <i style={{ marginRight: "10px" }} className={`fa fa-${icon} left`}></i>
-        {label}
+        {lang(label)}
       </span>
     );
   }
@@ -674,7 +679,7 @@ export default class UserPopup extends Component {
           layoutActions.storeHideFocusCard();
         }}
       >
-        <i className="fa fa-comments left"></i>Start Chat
+        <i className="fa fa-comments left"></i>{lang("Start Chat")}
       </NavLink>
     );
   }
@@ -697,7 +702,7 @@ export default class UserPopup extends Component {
         // EUR FIX
         // See Availability
         layoutActions.errorBlockLoader(
-          "Opps.. It seems that you don't have privilege to schedule private session yet"
+          lang("Opps.. It seems that you don't have privilege to schedule private session yet")
         );
       }
     };
@@ -711,7 +716,7 @@ export default class UserPopup extends Component {
         }}
       >
         <i className="fa fa-video-camera left" />
-        Schedule Call
+        {lang("Schedule Call")}
       </a>
     );
   }
@@ -721,7 +726,7 @@ export default class UserPopup extends Component {
     var user = this.state.data;
     var view = null;
     if (this.state.loading) {
-      view = <Loader size="3" text="Loading Student Information..."></Loader>;
+      view = <Loader size="3" text={lang("Loading Student Information...")}></Loader>;
     } else {
       var userBody =
         this.props.role === UserEnum.ROLE_STUDENT

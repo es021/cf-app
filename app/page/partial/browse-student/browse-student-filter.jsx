@@ -4,7 +4,7 @@ import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
-import { lang } from "../../../../helper/lang-helper";
+import lang from "../../../lib/lang";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {

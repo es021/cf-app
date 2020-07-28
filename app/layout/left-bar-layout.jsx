@@ -7,6 +7,7 @@ import { getWindowWidth } from '../lib/util';
 import { getPositionStr } from '../component/profile-card-img';
 import { RootPath } from '../../config/app-config';
 import store from '../redux/store';
+import lang from '../lib/lang';
 
 export function isHasLeftBar() {
     return isRoleAdmin() || isRoleRec();
@@ -105,7 +106,7 @@ export default class LeftBarLayout extends React.Component {
                                 <i><NavLink
                                     onClick={() => hideLeftBar()}
                                     className="btn-link"
-                                    to={`${RootPath}/app/edit-profile/profile`}>Edit Profile</NavLink></i>
+                                    to={`${RootPath}/app/edit-profile/profile`}>{lang("Edit Profile")}</NavLink></i>
                             </small>
 
                         </div>

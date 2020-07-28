@@ -21,6 +21,7 @@ import obj2arg from "graphql-obj2arg";
 
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { getEventAction, getEventTitle, getEventLocation } from "../../view-helper/view-helper.jsx";
+import lang from "../../../lib/lang.js";
 
 
 export default class HallRecruiterEvent extends React.Component {
@@ -230,7 +231,7 @@ export default class HallRecruiterEvent extends React.Component {
         // action_icon="plus"
         // action_text="Add New Job Post"
         // action_to={`manage-company/${this.props.company_id}/vacancy`}
-        title="My Events"
+        title={lang("My Events")}
         isNoTitle={this.props.isNoTitle}
         isNoMarginBottom={this.props.isNoMarginBottom}
         icon="calendar"

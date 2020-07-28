@@ -39,7 +39,7 @@ import { getCFTimeDetail } from "./coming-soon";
 import ListRow from "../component/list-row";
 import { VacancyList } from "./partial/company/vacancy";
 import { EventList } from "./event-list";
-import { lang } from "../../helper/lang-helper";
+import lang from "../lib/lang";
 
 // require("../css/hall.scss");
 

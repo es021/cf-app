@@ -11,6 +11,7 @@ import VacancyPopup from "../popup/vacancy-popup";
 import { InterestedButton } from "../../../component/interested.jsx";
 import { EmptyCard } from "../../../component/card.jsx";
 import PropTypes from 'prop-types';
+import lang from "../../../lib/lang.js";
 
 export default class HallRecruiterJobPosts extends React.Component {
   constructor(props) {
@@ -166,9 +167,9 @@ export default class HallRecruiterJobPosts extends React.Component {
         isNoMarginBottom={this.props.isNoMarginBottom}
 
         action_icon="plus"
-        action_text="Add / Edit Job Post"
+        action_text={lang("Add / Edit Job Post")}
         action_to={`manage-company/${this.props.company_id}/vacancy`}
-        title="Job Posts"
+        title={lang("Job Posts")}
         icon="suitcase"
         appendText={"Load More"}
         loadData={this.loadData}

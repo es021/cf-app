@@ -78,7 +78,7 @@ import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
 import { _student_plural } from "../redux/actions/text-action";
-import { lang } from "../../helper/lang-helper";
+import lang from "../lib/lang";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;

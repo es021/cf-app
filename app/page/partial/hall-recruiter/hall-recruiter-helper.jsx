@@ -10,7 +10,7 @@ import { appointmentTimeValidation } from "../../partial/activity/scheduled-inte
 import * as layoutAction from "../../../redux/actions/layout-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import { emitHallActivity } from "../../../socket/socket-client";
-import { lang } from "../../../../helper/lang-helper";
+import lang from "../../../lib/lang";
 
 
 // ##########################################################################################

@@ -24,6 +24,7 @@ import EmptyState from "../component/empty-state.jsx";
 import { createCompanyTitle } from "./admin-company.jsx";
 import { isCompanyOnline } from "../redux/actions/user-actions";
 import { connect } from "react-redux";
+import lang from "../lib/lang.js";
 
 
 export class StudentChatStarter extends React.Component {
@@ -62,7 +63,7 @@ export class StudentChatStarter extends React.Component {
     if (this.state.loading) {
       return (
         <div style={{ padding: "10px" }}>
-          <Loader text="Initializing chat with student" />
+          <Loader text={lang("Initializing chat with student")} />
         </div>
       );
     } else {
@@ -84,22 +85,22 @@ export class StudentChatStarter extends React.Component {
 
       view.push(
         <div className="col-sm-6 text-left">
-          <h4>While you're waiting...</h4>
+          <h4>{lang("While you're waiting...")}</h4>
           <ul style={{ paddingLeft: "40px" }} className="normal text-muted">
             <li>
-              You can start other conversation with different student at{" "}
+              {lang("You can start other conversation with different student at")}{" "}
               <NavLink
                 target="_blank"
                 // to={`${RootPath}/app/my-activity/student-listing`}
                 to={`${RootPath}/app/browse-student`}
               >
-                Student Listing
-              </NavLink>{" "}page
+                {lang("Student Listing")}
+              </NavLink>{" "}{lang("page")}
             </li>
             <li>
-              This conversation will be saved in{" "}
+              {lang("This conversation will be saved in")}{" "}
               <NavLink target="_blank" to={`${RootPath}/app/my-inbox`}>
-                your inbox.
+                {lang("your inbox.")}
               </NavLink>
             </li>
           </ul>
@@ -111,7 +112,7 @@ export class StudentChatStarter extends React.Component {
   }
 
   render() {
-    document.setTitle(`Chat With ${this.state.user.first_name}`);
+    document.setTitle(lang(`Chat With ${this.state.user.first_name}`));
     return <div className="company-chat-student">{this.getChatBox()}</div>;
   }
 }
@@ -158,7 +159,7 @@ export class CompanyChatStarter extends React.Component {
     if (this.state.loading) {
       return (
         <div style={{ padding: "10px" }}>
-          <Loader text="Initializing chat with recruiter" />
+          <Loader text={lang("Initializing chat with recruiter")} />
         </div>
       );
     } else {
@@ -180,10 +181,10 @@ export class CompanyChatStarter extends React.Component {
 
       view.push(
         <div className="col-sm-6 text-left">
-          <h4>While you're waiting...</h4>
+          <h4>{lang("While you're waiting...")}</h4>
           <ul style={{ paddingLeft: "40px" }} className="normal text-muted">
             <li>
-              Remember to research about{" "}
+              {lang("Remember to research about")}{" "}
               <NavLink
                 target="_blank"
                 to={`${RootPath}/app/company/${this.ID}`}
@@ -191,11 +192,11 @@ export class CompanyChatStarter extends React.Component {
                 {this.state.company.first_name}
               </NavLink>
             </li>
-            <li>Waiting time may vary, so be patient with response time.</li>
+            <li>{lang("Waiting time may vary, so be patient with response time.")}</li>
             <li>
-              This conversation will be saved in{" "}
+              {lang("This conversation will be saved in")}{" "}
               <NavLink target="_blank" to={`${RootPath}/app/my-inbox`}>
-                your inbox.
+                {lang("your inbox.")}
               </NavLink>
             </li>
           </ul>
@@ -423,7 +424,7 @@ class CompanyChatInbox extends React.Component {
         </div>
       );
     } else {
-      return <div className="chat-box-empty">Select Chat From Inbox</div>;
+      return <div className="chat-box-empty">{lang("Select Chat From Inbox")}</div>;
     }
 
     //return <div className="text-muted">Nothing To Show Here</div>;
@@ -554,7 +555,7 @@ class CompanyChatInbox extends React.Component {
           d.last_message
         ) : (
             <small className="text-muted">
-              <i>Nothing To Show Here</i>
+              <i>{lang("Nothing To Show Here")}</i>
             </small>
           );
 
@@ -562,7 +563,7 @@ class CompanyChatInbox extends React.Component {
         if (body.indexOf(`MESSAGE_JSON{"type":"FILE"`) >= 0) {
           body = <div style={{ fontWeight: "bold", color: "gray" }}>
             <i className="fa fa-file left" style={{ color: "gray" }}></i>
-            {"  "}File Attachment
+            {"  "}{lang("File Attachment")}
           </div>
         }
       } catch (err) { }
@@ -603,7 +604,7 @@ class CompanyChatInbox extends React.Component {
     // Empty State For Company Chat
     let emptyStateBody = [
       <div className="text-muted">
-        It looks like you have nothing in your inbox.
+        {lang("It looks like you have nothing in your inbox.")}
       </div>
     ];
 
@@ -611,7 +612,7 @@ class CompanyChatInbox extends React.Component {
       emptyStateBody.push(
         <div>
           <div className="text-muted">
-            Start a chat with one of the companies below.
+            {lang("Start a chat with one of the companies below.")}
           </div>
           <br />
           <br />
@@ -620,7 +621,7 @@ class CompanyChatInbox extends React.Component {
       );
     } else if (isRoleRec()) {
       emptyStateBody.push(
-        <div className="text-muted">Come back again another time.</div>
+        <div className="text-muted">{lang("Come back again another time.")}</div>
       );
     }
     view = <EmptyState body={emptyStateBody} />;
@@ -641,14 +642,14 @@ class CompanyChatInbox extends React.Component {
     var view = null;
 
     if (this.state.loading) {
-      view = <Loader text="Loading Chat List" />;
+      view = <Loader text={lang("Loading Chat List")} />;
     } else {
       view = [];
       var newBtn =
         this.state.newChat.length == 0 ? null : (
           <b>
             <a onClick={this.loadChatList}>
-              {this.state.newChat.length} New Chat
+              {this.state.newChat.length} {lang("New Chat")}
             </a>
           </b>
         );
@@ -687,7 +688,7 @@ class CompanyChatInbox extends React.Component {
               <div className="col-md-4 no-padding cl-column" ref={v => (this.chatListBody = v)}>
                 <div className="cl-header">
                   <div className="clh-title">
-                    Inbox
+                    {lang("Inbox")}
                   </div>
                 </div>
                 <div className="cl-list">
