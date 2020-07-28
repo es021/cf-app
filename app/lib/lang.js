@@ -6,7 +6,7 @@ function lang(input) {
     let cf = getCF();
 
     //@enable_lang - set cf
-    if (["TEST"].indexOf(cf) >= 0)
+    if (["MALAY"].indexOf(cf) >= 0)
       if (LANG_MALAY[input]) {
         return LANG_MALAY[input]
       } else {
