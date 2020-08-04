@@ -2,11 +2,14 @@ const { getCF } = require("../redux/actions/auth-actions")
 
 //@enable_lang
 function lang(input) {
+  //@enable_lang - set cf
+  // var CfForMalay = ["TEST"];
+  var CfForMalay = [];
+  
   try {
     let cf = getCF();
 
-    //@enable_lang - set cf
-    if (["TEST"].indexOf(cf) >= 0)
+    if (CfForMalay.indexOf(cf) >= 0)
       if (LANG_MALAY[input]) {
         return LANG_MALAY[input]
       } else {
@@ -15,7 +18,7 @@ function lang(input) {
           untranslated.push(input);
         }
       }
-  } catch (err) {}
+  } catch (err) { }
 
   return input
 

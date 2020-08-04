@@ -24,7 +24,9 @@ const Single = {
     unemployment_period: "unemployment_period",
     monash_student_id: "monash_student_id",
     monash_school: "monash_school",
-    sunway_faculty: "sunway_faculty"
+    sunway_faculty: "sunway_faculty",
+    local_or_oversea_study : "local_or_oversea_study",
+    local_or_oversea_location : "local_or_oversea_location",
 }
 
 const Multi = {
@@ -59,11 +61,17 @@ const isCustomUserInfoOff = (cf, key) => {
         case Single.monash_student_id:
             onCf = ["MONASH"];
             break;
+        case Single.local_or_oversea_study:
+            onCf = ["INTEL"];
+            break;
+        case Single.local_or_oversea_location:
+            onCf = ["INTEL"];
+            break;
 
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY"];
+            offCf = ["MONASH", "SUNWAY", "INTEL"];
             break;
         case Multi.field_study:
             offCf = ["MONASH", "SUNWAY"];

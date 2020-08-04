@@ -8,6 +8,7 @@ PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
 -- ###############################################################################################
 -- ###############################################################################################
 
+INSERT INTO wp_career_fair.ref_qualification (val) VALUES ('No Certificate'); 
 INSERT INTO wp_career_fair.ref_qualification (val) VALUES ('Primary/Secondary School/SPM/"O" Level'); 
 INSERT INTO wp_career_fair.ref_qualification (val) VALUES ('Higher Secondary/STPM/"A" Level/Pre-U'); 
 INSERT INTO wp_career_fair.ref_qualification (val) VALUES ('Professional Certificate'); 

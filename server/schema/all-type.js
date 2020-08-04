@@ -162,14 +162,18 @@ const UserType = new GraphQLObjectType({
 		interested_vacancies_by_company: __.ListOf(VacancyType),
 
 		// 3. @custom_user_info_by_cf
-		first_name: __.String,
-		last_name: __.String,
-		country_study: __.String,
-		university: __.String,
 		unemployment_period: __.String,
 		monash_student_id: __.String,
 		monash_school: __.String,
 		sunway_faculty: __.String,
+		local_or_oversea_study: __.String,
+		local_or_oversea_location: __.String,
+
+		// default
+		first_name: __.String,
+		last_name: __.String,
+		country_study: __.String,
+		university: __.String,
 		qualification: __.String,
 		graduation_month: __.String,
 		graduation_year: __.String,

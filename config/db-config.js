@@ -143,7 +143,7 @@ const UserMeta = {
 	ACTIVATION_KEY: "activation_key",
 
 	// @kpt_validation
-	KPT : "kpt",
+	KPT: "kpt",
 
 	// student only
 	UNIVERSITY: "university",
@@ -502,8 +502,21 @@ const Vacancy = {
 const VacancyEnum = {
 	TYPE_FULL_TIME: "Full Time",
 	TYPE_INTERN: "Intern",
-	TYPE_PART_TIME: "Part Time"
+	TYPE_PART_TIME: "Part Time",
+	TYPE_GRADUATE_INTERN: "Graduate Trainee / Internships",
 };
+
+const RefLocalOrOversea = {
+	isMalaysia: function (val) {
+		return val == "In Malaysia"
+	},
+	isOversea: function (val) {
+		return val == "Oversea"
+	},
+	isEmpty: function (val) {
+		return !val;
+	}
+}
 
 const Skill = {
 	TABLE: "skills",
@@ -634,15 +647,15 @@ const EntityRemoved = {
 // 7
 const CFS = {
 	TABLE: "cfs",
-	ID : "ID",
+	ID: "ID",
 	NAME: "name",
 	COUNTRY: "country",
 	TIME: "time",
 	IS_ACTIVE: "is_active",
 	IS_LOAD: "is_load",
 	CF_ORDER: "cf_order",
-	CREATED_AT : "created_at",
-	UPDATED_AT : "updated_at"
+	CREATED_AT: "created_at",
+	UPDATED_AT: "updated_at"
 };
 
 // 23
@@ -670,21 +683,27 @@ const CFSMeta = {
 	FEATURE_SPONSOR: "feature_sponsor",
 	FEATURE_DROP_RESUME: "feature_drop_resume",
 	FEATURE_FEEDBACK: "feature_feedback",
-	
+	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
+	FEATURE_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
+
 	// custom text
-	TEXT_HEADER_TITLE : "text_header_title",
-    TEXT_HEADER_DESC : "text_header_desc",
-    TEXT_STUDENT_ENTITY_SINGLE : "text_student_entity_single",
-    TEXT_STUDENT_ENTITY_PLURAL : "text_student_entity_plural",
-	TEXT_REGISTRATION_TITLE : "text_registration_title",
-	TEXT_COMPANY_ENTITY_SINGLE : "text_company_entity_single",
-	TEXT_COMPANY_ENTITY_PLURAL : "text_company_entity_plural",
-	
+	TEXT_HEADER_TITLE: "text_header_title",
+	TEXT_HEADER_DESC: "text_header_desc",
+	TEXT_STUDENT_ENTITY_SINGLE: "text_student_entity_single",
+	TEXT_STUDENT_ENTITY_PLURAL: "text_student_entity_plural",
+	TEXT_REGISTRATION_TITLE: "text_registration_title",
+	TEXT_COMPANY_ENTITY_SINGLE: "text_company_entity_single",
+	TEXT_COMPANY_ENTITY_PLURAL: "text_company_entity_plural",
+	TEXT_COMPANY_PROFILE_TERM: "text_company_profile_term",
+	TEXT_COMPANY_LABEL_JOB_POST: "text_company_label_job_post",
+	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer",
+
 	// custom image
-	IMAGE_HEADER_ICON : "image_header_icon",
-	
+	IMAGE_HEADER_ICON: "image_header_icon",
+
 	// custom link
 	LINK_EXTERNAL_HOME: "link_external_home",
+	LINK_EXTERNAL_FOLLOW: "link_external_follow",
 
 	// not really used
 	// FLAG: "flag",
@@ -829,5 +848,6 @@ module.exports = {
 	Interested,
 	Video,
 	Event,
-	EventEnum
+	EventEnum,
+	RefLocalOrOversea
 };

@@ -16,6 +16,8 @@ import {
   doAfterValidateComingSoon,
   isRecruiterCompany,
   isCfFeatureOff,
+  isCfFeatureOn,
+  getCfCustomMeta,
 } from "../redux/actions/auth-actions";
 import { LogEnum, DocLinkEnum, CFSMeta } from "../../config/db-config";
 import * as activityActions from "../redux/actions/activity-actions";
@@ -83,7 +85,7 @@ export default class CompanyPage extends Component {
     this.getRecs = this.getRecs.bind(this);
     this.startQueue = this.startQueue.bind(this);
     this.addSessionRequest = this.addSessionRequest.bind(this);
-    this.getSubscribeBtn = this.getSubscribeBtn.bind(this);
+    this.getSubscribeOrFollowBtn = this.getSubscribeOrFollowBtn.bind(this);
   }
 
   isRecThisCompany() {
@@ -396,7 +398,14 @@ export default class CompanyPage extends Component {
     );
   }
 
-  getSubscribeBtn() {
+  getSubscribeOrFollowBtn() {
+    if (isCfFeatureOn(CFSMeta.FEATURE_COMPANY_EXTERNAL_FOLLOW)) {
+      return <a target="_blank" href={getCfCustomMeta(CFSMeta.LINK_EXTERNAL_FOLLOW, `${AppPath}/not-found`)}><button
+        className={`btn btn-sm btn-block btn-round-10 btn-blue-light btn-bold`}
+        onClick={() => { }}
+      ><i className="fa fa-plus left"></i>{lang("Follow")}</button></a>
+    }
+
     let data = this.state.data;
 
     const getSubscribeBtnCustomView = ({
@@ -495,7 +504,7 @@ export default class CompanyPage extends Component {
         {/* bottom left */}
         <div className="col-lg-6 no-padding"
           style={{ padding: "5px" }}>
-          {this.getSubscribeBtn()}
+          {this.getSubscribeOrFollowBtn()}
         </div>
 
         {/* bottom right */}

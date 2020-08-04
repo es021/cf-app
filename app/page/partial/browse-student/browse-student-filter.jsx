@@ -75,18 +75,23 @@ export class BrowseStudentFilter extends React.Component {
             this.discardFilter += "::university::";
         }
 
-        // 6a. @custom_user_info_by_cf
+        // 6a. @custom_user_info_by_cf - order filter
         this.orderFilter = [
             "like_job_post_only", "interested_only", "favourited_only",
             // "cf",
             "name",
             "country_study",
+            "local_or_oversea_study",
             "unemployment_period",
             "monash_school",
             "sunway_faculty",
             "university", "field_study",
-            "looking_for_position", "working_availability_from", "working_availability_to",
-            "graduation_from", "graduation_to", "interested_job_location", "where_in_malaysia", "skill"
+            "looking_for_position",
+            "working_availability_from",
+            "working_availability_to",
+            "local_or_oversea_location",
+            "graduation_from", "graduation_to",
+            "interested_job_location", "where_in_malaysia", "skill"
         ];
         // @browse_student_only_showing_one_cf
         // remove comment cf above to revert
@@ -358,7 +363,7 @@ export class BrowseStudentFilter extends React.Component {
     }
 
     getTitleFromKey(key) {
-        // 6b. @custom_user_info_by_cf
+        // 6b. @custom_user_info_by_cf - filter label
         return {
             monash_school: lang("School"),
             sunway_faculty: lang("Faculty"),
@@ -371,6 +376,8 @@ export class BrowseStudentFilter extends React.Component {
             looking_for_position: lang("Looking For"),
             skill: lang("Skills"),
             unemployment_period: lang("Unemployment Period"),
+            local_or_oversea_study: lang("Study Place"),
+            local_or_oversea_location: lang("Currently Located"),
         }[key];
     }
 

@@ -649,6 +649,7 @@ export default class Form extends React.Component {
         {this.props.errorPosition === "top" ? formError : null}
         <div className="form-item-container">{formItems}</div>
         {this.props.errorPosition !== "top" ? formError : null}
+        {this.props.contentBeforeSubmit}
         {this.props.hideSubmit ? null : formSubmit}
         {this.props.contentBottom}
       </form>
@@ -657,6 +658,7 @@ export default class Form extends React.Component {
 }
 Form.propTypes = {
   contentBottom: PropTypes.object,
+  contentBeforeSubmit: PropTypes.object,
   hideSubmit: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired, //function(data_form)
   //[{header} | {name,type,required,placeholder,rows,defaultValue}]

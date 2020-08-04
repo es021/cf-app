@@ -46,6 +46,7 @@ import { joinVideoCall } from "../session/chat";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import * as HallRecruiterHelper from "../hall-recruiter/hall-recruiter-helper";
+import lang from "../../../lib/lang";
 
 // require("../../../css/border-card.scss");
 
@@ -764,7 +765,8 @@ class ActvityList extends React.Component {
               }
               className="btn btn-block btn-sm btn-bold btn-round-5 btn-green"
             >
-              Join Video Call
+              <i className="fa fa-sign-in left"></i>
+              {lang("Join Video Call")}
             </a>
           );
 

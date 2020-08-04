@@ -18,14 +18,16 @@ class XLSApi {
     ];
   }
 
-  student_field() {
+  student_field(isAdmin) {
     // 8. @custom_user_info_by_cf
     return `
       ID
+      ${isAdmin ? "cf" : ""}
       first_name
       last_name
       user_email
       doc_links{label url}
+      ${this.addIfValid("local_or_oversea_study")}
       ${this.addIfValid("country_study")}
       ${this.addIfValid("monash_student_id")}
       ${this.addIfValid("monash_school")}
@@ -36,6 +38,7 @@ class XLSApi {
       graduation_year
       working_availability_month 
       working_availability_year
+      ${this.addIfValid("local_or_oversea_location")}
       grade 
       phone_number 
       sponsor
@@ -102,6 +105,8 @@ class XLSApi {
       //   return this.student_listing(filter);
       case "browse_student":
         return this.browse_student(filter, cf);
+      case "all_student":
+        return this.all_student();
       case "list_job_applicants":
         return this.list_job_applicants(filter, cf);
     }
@@ -156,14 +161,17 @@ class XLSApi {
       renameTitle //renameTitle
     );
   }
-  browse_student(filterStr) {
+  all_student() {
+    return this.browse_student(`role:"Student"`, true);
+  }
+  browse_student(filterStr, isAdmin) {
     console.log("filterStr", filterStr)
     var filename = `Student Listing`;
     var query = `query{
       browse_student (${filterStr}) 
       {
           student_id
-          student{${this.student_field()}}
+          student{${this.student_field(isAdmin)}}
       }
     } `;
 

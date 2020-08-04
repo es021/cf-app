@@ -500,6 +500,8 @@ fields["group_session_joins"] = {
 let argBrowseStudent = {
 	discard_filter: __.String,
 
+	role: __.String,
+
 	company_id: __.Int,
 
 	interested_only: __.String,
@@ -510,7 +512,7 @@ let argBrowseStudent = {
 
 	page: __.Int,
 	offset: __.Int,
-	
+
 	name: __.String,
 	// cv/events (delimeter '::')
 	cf: __.String,
@@ -522,6 +524,8 @@ let argBrowseStudent = {
 	monash_student_id: __.String,
 	monash_school: __.String,
 	sunway_faculty: __.String,
+	local_or_oversea_study: __.String,
+	local_or_oversea_location: __.String,
 
 	// multi (delimeter '::')
 	field_study: __.String,
@@ -1095,7 +1099,8 @@ const vacancies_param = {
 	location: __.String,
 	page: __.Int,
 	offset: __.Int,
-	order_by: __.String
+	order_by: __.String,
+	text_company: __.String,
 }
 fields["vacancies"] = {
 	type: new GraphQLList(VacancyType),

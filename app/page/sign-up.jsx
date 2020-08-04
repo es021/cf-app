@@ -4,7 +4,7 @@ import Form, { toggleSubmit, getDataCareerFair } from "../component/form";
 import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
-import { register, getCF, getCFObj } from "../redux/actions/auth-actions";
+import { register, getCF, getCFObj, getCfCustomMeta } from "../redux/actions/auth-actions";
 import { RootPath, DocumentUrl, LandingUrl } from "../../config/app-config";
 import AvailabilityView from "./availability";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
@@ -330,6 +330,19 @@ export default class SignUpPage extends React.Component {
       // @kpt_validation
       let formItems = getRegisterFormItem(1, getCF());
 
+      let disclaimerView = null;
+      let disclaimer = getCfCustomMeta(CFSMeta.TEXT_REGISTRATION_DISCLAIMER, "");
+      if (disclaimer) {
+        disclaimerView = <div style={{
+          maxWidth: "400px",
+          margin: "auto", marginTop: "15px",
+          marginBottom: "20px", textAlign: "justify"
+        }}
+          dangerouslySetInnerHTML={{ __html: disclaimer }}>
+        </div>;
+      }
+
+
       content = (
         <div>
           <h3>
@@ -347,8 +360,11 @@ export default class SignUpPage extends React.Component {
             defaultValues={this.defaultValues}
             submitText={lang("Sign Me Up!")}
             disableSubmit={this.state.disableSubmit}
+            contentBeforeSubmit={disclaimerView}
             error={this.state.error}
           ></Form>
+
+
         </div>
       );
     }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import InputMulti from "../../../component/input-multi";
 import InputSingle from "../../../component/input-single";
 import * as Reg from "../../../../config/registration-config";
+import { RefLocalOrOversea } from "../../../../config/db-config";
 import {
   smoothScrollTo,
   focusOnInput,
@@ -14,6 +15,7 @@ import lang from "../../../lib/lang";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
+
     super(props);
     this.continueOnClick = this.continueOnClick.bind(this);
     this.inputDoneHandler = this.inputDoneHandler.bind(this);
@@ -128,6 +130,8 @@ export default class ManageUserProfile extends React.Component {
   getInputItems() {
     let field_study = this.getFieldStudyListStr();
     let country = this.state.currentData[Reg.Single.country_study];
+    let local_or_oversea_study = this.state.currentData[Reg.Single.local_or_oversea_study];
+
     let cf = getCF();
 
     let r = [];
@@ -149,7 +153,7 @@ export default class ManageUserProfile extends React.Component {
           // single
           type: "single",
           input_type: "text",
-          label: lang("Student Id"),
+          label: lang("Student ID"),
           id: Reg.Single.monash_student_id,
           key_input: Reg.Single.monash_student_id,
           is_required: true,
@@ -183,6 +187,17 @@ export default class ManageUserProfile extends React.Component {
         {
           // single
           type: "single",
+          input_type: "select",
+          id: Reg.Single.local_or_oversea_study,
+          key_input: Reg.Single.local_or_oversea_study,
+          label: lang("Where are you studying/studied?"),
+          ref_table_name: "local_or_oversea",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_study)
+        },
+        {
+          // single
+          type: "single",
           id: Reg.Single.country_study,
           key_input: Reg.Single.country_study,
           label: lang("Where are you studying"),
@@ -192,7 +207,38 @@ export default class ManageUserProfile extends React.Component {
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.country_study)
         },
         {
-          // single
+          // single - university select Malaysia only
+          // (tie with local_or_oversea_study)
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.university,
+          key_input: Reg.Single.university,
+          label: lang("Which university you are studying/studied?"),
+          sublabel: lang("In Malaysia"),
+          ref_table_name: "university",
+          ref_filter_column: "country_id",
+          ref_filter_val: 1, // Malaysia
+          is_required: true,
+          hidden: !RefLocalOrOversea.isMalaysia(local_or_oversea_study)
+            || isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+        },
+        {
+          // single - university free text without suggestion 
+          // (tie with local_or_oversea_study)
+          type: "single",
+          id: Reg.Single.university,
+          key_input: Reg.Single.university,
+          label: lang("Which university you are studying/studied?"),
+          sublabel: lang("Oversea"),
+          input_placeholder: "",
+          ref_table_name: "university",
+          is_required: true,
+          hidden: !RefLocalOrOversea.isOversea(local_or_oversea_study)
+            || isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+        },
+        {
+          // single - university with suggestion
+          // (tie with country)
           type: "single",
           id: Reg.Single.university,
           key_input: Reg.Single.university,
@@ -203,7 +249,8 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_val: country,
           ref_filter_find_id: true, // kena ubah kat ref-query
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+          hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study)
+            || isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
         {
           // single
@@ -301,6 +348,17 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "month",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.working_availability_month)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.local_or_oversea_location,
+          key_input: Reg.Single.local_or_oversea_location,
+          label: lang("Where are you currently located?"),
+          ref_table_name: "local_or_oversea",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_location)
         },
         {
           // single select

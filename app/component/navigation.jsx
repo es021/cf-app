@@ -79,6 +79,7 @@ import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
 import { _student_plural } from "../redux/actions/text-action";
 import lang from "../lib/lang";
+import AdminStudentPage from "../page/admin-student";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -221,20 +222,33 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
-    // ###############################################################
-    // NOT AS IMPORTANT
     {
       // Admin Only
       url: "/students",
-      label: "Students",
+      label: "All Students",
       icon: "user",
-      component: UsersPage,
+      component: AdminStudentPage,
       bar_app: true,
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
+      disabled: !isRoleAdmin()
     },
+    // ###############################################################
+    // NOT AS IMPORTANT
+    // {
+    //   // Admin Only
+    //   url: "/students",
+    //   label: "Students",
+    //   icon: "user",
+    //   component: UsersPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false,
+    //   disabled: !isRoleAdmin() && !isRoleOrganizer()
+    // },
+
     // ###############################################################
     // VOLUNTEER
     {

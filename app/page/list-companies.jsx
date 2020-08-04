@@ -11,9 +11,10 @@ export default class ListCompanies extends React.Component {
 
   render() {
     let companySingle = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_SINGLE, "Company");
+    let profileTerm = getCfCustomMeta(CFSMeta.TEXT_COMPANY_PROFILE_TERM, "Profiles");
     return <div >
-      <h1>{companySingle} Profiles</h1>
-      <CompaniesSection {...this.props} />
+      <h1>{companySingle} {profileTerm}</h1>
+      <CompaniesSection {...this.props} offset={12} />
     </div >
   }
 }

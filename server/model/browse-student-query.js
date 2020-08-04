@@ -5,7 +5,8 @@ const {
 const {
 	CFQuery
 } = require("./cf-query");
-const { isCustomUserInfoOff, Single } = require("../../config/registration-config")
+const { isCustomUserInfoOff, Single } = require("../../config/registration-config");
+const { UserMeta } = require("../../config/db-config.js");
 
 // all-type
 // mutation
@@ -254,6 +255,22 @@ class BrowseStudentExec {
 						s.val IN (select r.val from ref_unemployment_period r)
 					)`
 
+			let local_or_oversea_study = isCustomUserInfoOff(currentCf, Single.local_or_oversea_study)
+				? "1=0"
+				: `( 
+					s.key_input = "local_or_oversea_study"
+					AND
+					s.val IN (select r.val from ref_local_or_oversea r)
+				)`
+
+			let local_or_oversea_location = isCustomUserInfoOff(currentCf, Single.local_or_oversea_location)
+				? "1=0"
+				: `( 
+					s.key_input = "local_or_oversea_location"
+					AND
+					s.val IN (select r.val from ref_local_or_oversea r)
+				)`
+
 			let monash_school = isCustomUserInfoOff(currentCf, Single.monash_school)
 				? "1=0"
 				: `( 
@@ -282,6 +299,10 @@ class BrowseStudentExec {
 			${country_study}
 			OR 
 			${unemployment_period}
+			OR
+			${local_or_oversea_study}
+			OR
+			${local_or_oversea_location}
 			OR
 			${monash_school}
 			OR
@@ -356,6 +377,10 @@ class BrowseStudentExec {
 		let current_cf = !param.current_cf ? "1=1" : CFQuery.getCfInList(user_id, "user", [param.current_cf]);
 		let name = !param.name ? "1=1" : this.where(user_id, this.TABLE_SINGLE, "name", param.name);
 
+		var role =
+			!param.role ? `1=1` :
+				`(${UserQuery.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${param.role}%' `;
+
 		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
 
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
@@ -407,6 +432,7 @@ class BrowseStudentExec {
 		});
 
 		return `1=1
+			AND ${role}
 			AND ${name}
 			AND ${current_cf}
 			AND ${like_job_post}

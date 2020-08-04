@@ -207,6 +207,8 @@ export default class UserPopup extends Component {
                 phone_number
                 sponsor
                 description
+                ${this.addIfValid("local_or_oversea_study")}
+                ${this.addIfValid("local_or_oversea_location")}
                 ${this.addIfValid("monash_student_id")}
                 ${this.addIfValid("monash_school")}
                 ${this.addIfValid("sunway_faculty")}
@@ -349,6 +351,14 @@ export default class UserPopup extends Component {
         })
       }
 
+      if (!isCustomUserInfoOff(getCF(), Single.local_or_oversea_study)) {
+        items.push({
+          label: lang("Study Place"),
+          icon: "university",
+          value: this.isValueEmpty(d.local_or_oversea_study) ? notSpecifed : d.local_or_oversea_study
+        })
+      }
+
       if (!isCustomUserInfoOff(getCF(), Single.monash_school)) {
         items.push({
           label: lang("School"),
@@ -365,49 +375,49 @@ export default class UserPopup extends Component {
         })
       }
 
-      items.push(
-        {
-          label: lang("University"),
-          icon: "university",
-          value: this.isValueEmpty(d.university) ? notSpecifed : d.university
-        },
-        {
-          label: lang("Expected Graduation"),
-          icon: "calendar",
-          value: this.isValueEmpty(d.graduation_month)
-            ? notSpecifed
-            : `${d.graduation_month} ${d.graduation_year}`
-        },
-        {
-          label: lang("Working Availability"),
-          icon: "calendar",
-          value: this.isValueEmpty(d.working_availability_month)
-            ? notSpecifed
-            : `${d.working_availability_month} ${d.working_availability_year}`
-        },
-        {
-          label: lang("Looking For"),
-          icon: "search",
-          value: this.isValueEmpty(d.looking_for_position)
-            ? notSpecifed
-            : this.createListForMulti(d.looking_for_position)
-        },
-        {
-          label: lang("Grade / CGPA"),
-          icon: "book",
-          value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
-        }
-        // {
-        //   label: "Work Availability Date",
-        //   icon: "suitcase",
-        //   value: this.getWorkAvailable(
-        //     d.available_month,
-        //     d.available_year,
-        //     notSpecifed
-        //   )
-        // }
-      );
+      items.push({
+        label: lang("University"),
+        icon: "university",
+        value: this.isValueEmpty(d.university) ? notSpecifed : d.university
+      });
 
+      items.push({
+        label: lang("Expected Graduation"),
+        icon: "calendar",
+        value: this.isValueEmpty(d.graduation_month)
+          ? notSpecifed
+          : `${d.graduation_month} ${d.graduation_year}`
+      });
+
+      items.push({
+        label: lang("Working Availability"),
+        icon: "calendar",
+        value: this.isValueEmpty(d.working_availability_month)
+          ? notSpecifed
+          : `${d.working_availability_month} ${d.working_availability_year}`
+      });
+
+      if (!isCustomUserInfoOff(getCF(), Single.local_or_oversea_location)) {
+        items.push({
+          label: lang("Currently Located"),
+          icon: "map-marker",
+          value: this.isValueEmpty(d.local_or_oversea_location) ? notSpecifed : d.local_or_oversea_location
+        })
+      }
+
+      items.push({
+        label: lang("Looking For"),
+        icon: "search",
+        value: this.isValueEmpty(d.looking_for_position)
+          ? notSpecifed
+          : this.createListForMulti(d.looking_for_position)
+      })
+
+      items.push({
+        label: lang("Grade / CGPA"),
+        icon: "book",
+        value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
+      });
 
       if (!isCustomUserInfoOff(getCF(), Single.where_in_malaysia)) {
         items.push({
@@ -416,6 +426,7 @@ export default class UserPopup extends Component {
           value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
         })
       }
+
     }
 
     for (let index in items) {

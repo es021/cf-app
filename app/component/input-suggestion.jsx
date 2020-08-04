@@ -110,7 +110,7 @@ export default class InputSuggestion extends React.Component {
   //   }
   // }
   onBlur(e) {
-     console.log("onBlur", e);
+    console.log("onBlur", e);
     this.closeSuggestionList();
 
     if (this.props.input_onBlur) {
@@ -168,11 +168,28 @@ export default class InputSuggestion extends React.Component {
       return;
     }
 
+    /**
+     * let q = `query{ 
+          refs(
+            table_name :"${this.props.table_name}", 
+            filter_column : "${this.props.filter_column}"
+            filter_val : "${this.props.filter_val}"
+            filter_find_id : ${this.props.filter_find_id}
+            val:"${v}", page:1, offset:10
+          ) {
+            val
+          }
+        }`;
+     */
+
     for (var i in this.props.table_name) {
       let q = `query{ 
         refs(
           table_name :"${this.props.table_name}", 
-          order_by : "${this.props.order_by}"
+          order_by : "${this.props.order_by}",
+          filter_column : "${this.props.filter_column}",
+          filter_val : "${this.props.filter_val}",
+          filter_find_id : ${this.props.filter_find_id}
         ) {
           ID val table_name
         }
@@ -351,9 +368,9 @@ export default class InputSuggestion extends React.Component {
   render() {
 
     let className = "";
-    if(this.props.is_in_normal_form){
+    if (this.props.is_in_normal_form) {
       className = "input-suggestion-normal";
-    }else{
+    } else {
       className = "input-suggestion";
     }
     // console.log("inputsuggestion render",this.props.name, this.props.input_val)
@@ -372,7 +389,7 @@ export default class InputSuggestion extends React.Component {
 }
 
 InputSuggestion.propTypes = {
-  is_in_normal_form : PropTypes.bool,
+  is_in_normal_form: PropTypes.bool,
   order_by: PropTypes.string,
   use_id_as_value: PropTypes.bool,
   input_type: PropTypes.string,
@@ -392,7 +409,7 @@ InputSuggestion.propTypes = {
 };
 
 InputSuggestion.defaultProps = {
-  is_in_normal_form : false,
+  is_in_normal_form: false,
   name: "",
   filter_column: "",
   filter_val: "",

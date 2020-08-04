@@ -44,6 +44,8 @@ EXPORT.Cfs = {
     feature_sponsor: __.String,
     feature_drop_resume: __.String,
     feature_feedback: __.String,
+    feature_company_external_follow: __.String,
+    feature_job_post_filter_location: __.String,
 
     // custom text
     text_header_title: __.String,
@@ -53,12 +55,16 @@ EXPORT.Cfs = {
     text_registration_title: __.String,
     text_company_entity_single: __.String,
     text_company_entity_plural: __.String,
+    text_company_profile_term: __.String,
+    text_company_label_job_post: __.String,
+    text_registration_disclaimer: __.String,
 
     // custom image
     image_header_icon: __.String,
 
     // custom link
     link_external_home: __.String,
+    link_external_follow: __.String,
 
     // not really used
     // flag: __.String,

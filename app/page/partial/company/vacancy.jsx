@@ -8,7 +8,9 @@ import {
   isRoleRec,
   isRoleStudent,
   isRoleAdmin,
-  getCF
+  getCF,
+  getCfCustomMeta,
+  isCfFeatureOff
 } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import {
@@ -21,6 +23,7 @@ import { getApplyButton } from "../../vacancy";
 import GeneralFormPage from "../../../component/general-form";
 import { Loader } from "../../../component/loader";
 import { getEmptyMessageWithSearchQuery } from "../../view-helper/view-helper";
+import { CFSMeta, CFS } from "../../../../config/db-config";
 
 
 // for student only
@@ -69,7 +72,6 @@ export class VacancyList extends React.Component {
       }
 
 
-
       let cf_param = "";
       if (this.props.isListAll) {
         if (this.props.filterByCf) {
@@ -82,6 +84,7 @@ export class VacancyList extends React.Component {
         ${cf_param}
         ${company_id_param}
         user_id:${this.authUser.ID},  
+        text_company:"${getCfCustomMeta(CFSMeta.TEXT_COMPANY_LABEL_JOB_POST, "Company")}"
         ${paging_param}`
     }
 
@@ -186,6 +189,13 @@ export class VacancyList extends React.Component {
       let currentCategory = "";
       for (var i in data) {
         let d = data[i];
+
+        if (isCfFeatureOff(CFSMeta.FEATURE_JOB_POST_FILTER_LOCATION)) {
+          if (d._key == "location") {
+            continue;
+          }
+        }
+
         if (currentKey != d._key) {
           if (currentKey != null) {
             searchFormItem.push({
@@ -200,10 +210,12 @@ export class VacancyList extends React.Component {
 
         currentKey = d._key;
         currentCategory = d._category;
+
         currentData.push({
           key: d._val, label: d._label
         })
       }
+
       searchFormItem.push({
         label: currentCategory,
         name: currentKey,

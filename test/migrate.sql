@@ -1,3 +1,14 @@
+-- new ref
+local_or_oversea
+work_experience_year
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 -- new table tag
 CREATE TABLE `wp_career_fair`.`tag` 
 ( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
@@ -14,12 +25,6 @@ ENGINE = InnoDB;
 monash_school
 sunway_faculty
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 ALTER TABLE `events` ADD `url_rsvp` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 
 ALTER TABLE `events` ADD `url_join` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL AFTER `location`; 

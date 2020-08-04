@@ -370,13 +370,14 @@ export default class HallPage extends React.Component {
 
     let companyEntitySingle = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_SINGLE, "Company")
     let companyEntityPlural = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_PLURAL, "Companies")
+    let companyProfileTerm = getCfCustomMeta(CFSMeta.TEXT_COMPANY_PROFILE_TERM, "Profiles")
 
     return <div className="col-md-12 no-padding">
-      <ListRow title={`${companyEntitySingle} Profiles`}
+      <ListRow title={`${companyEntitySingle} ${companyProfileTerm}`}
         icon="building-o"
         backgroundColor={backgroundColor}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
-        see_more_text={lang(`See More ${companyEntityPlural}`)}
+        see_more_text={lang(`See More ${companyEntitySingle} ${companyProfileTerm}`)}
         see_more_to={`${AppPath}/list-companies`}
       ></ListRow>
     </div >
