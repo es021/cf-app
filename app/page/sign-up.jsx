@@ -16,6 +16,7 @@ import {
 } from "../../config/user-config";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
+import lang from "../lib/lang";
 
 export default class SignUpPage extends React.Component {
   constructor(props) {
@@ -63,7 +64,7 @@ export default class SignUpPage extends React.Component {
         typeof d["accept-policy"] === "undefined" ||
         d["accept-policy"][0] != "accepted"
       ) {
-        return "You must agree to terms and condition before continuing.";
+        return lang("You must agree to terms and condition before continuing.");
       }
     }
 
@@ -73,7 +74,7 @@ export default class SignUpPage extends React.Component {
   // @kpt_validation
   getKptErrorValidation(kpt) {
     if (kpt.length != 12) {
-      return <div>Please enter 12 digit only.</div>
+      return <div>{lang("Please enter 12 digit only.")}</div>
     }
     return false;
   }
@@ -258,9 +259,9 @@ export default class SignUpPage extends React.Component {
         }}
       >
         <h1>
-          Welcome {user[UserMeta.FIRST_NAME]} !<br></br>
+          {lang("Welcome")} {user[UserMeta.FIRST_NAME]} !<br></br>
           <small>
-            Let's complete your profile and get you noticed by recruiters!
+            {lang("Let's complete your profile and get you noticed by recruiters!")}
           </small>
         </h1>
         <div style={{ marginTop: "20vh" }}></div>
@@ -272,7 +273,7 @@ export default class SignUpPage extends React.Component {
     );
   }
   render() {
-    document.setTitle("Sign Up");
+    document.setTitle(lang("Sign Up"));
 
     if (!this.CFObj.can_register) {
       return (
@@ -308,10 +309,10 @@ export default class SignUpPage extends React.Component {
     if (this.state.completed || DEBUG_COMPLETED) {
       return (
         <div>
-          <h3>Congratulation! You Have Completed Your Profile</h3>
+          <h3>{lang("Congratulation! You Have Completed Your Profile")}</h3>
           <LoginPage
             defaultLogin={user[User.EMAIL]}
-            title={<h4>Login Now</h4>}
+            title={<h4>{lang("Login Now")}</h4>}
           ></LoginPage>
         </div>
       );
@@ -332,7 +333,7 @@ export default class SignUpPage extends React.Component {
       content = (
         <div>
           <h3>
-            {registrationTitle}<br></br>
+            {lang(registrationTitle)}<br></br>
             {/* Student Registration<br></br> */}
             {/* Youth Registration<br></br> */}
           </h3>
@@ -344,7 +345,7 @@ export default class SignUpPage extends React.Component {
             items={formItems}
             onSubmit={this.formOnSubmit}
             defaultValues={this.defaultValues}
-            submitText="Sign Me Up !"
+            submitText={lang("Sign Me Up!")}
             disableSubmit={this.state.disableSubmit}
             error={this.state.error}
           ></Form>

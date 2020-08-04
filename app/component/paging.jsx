@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { ButtonLink } from "./buttons";
+import lang from "../lib/lang";
 
 
 // Ask a Question style instagram
@@ -68,7 +69,7 @@ export default class Paging extends Component {
       this.currentPage() > 1 ? (
         <div className="pg-btn"
           onClick={this.props.onClickPrev}
-        >{"<< Prev"}</div>
+        >{`<< ${lang("Prev")}`}</div>
       ) : null;
 
     return prevView;
@@ -80,7 +81,7 @@ export default class Paging extends Component {
       ? (
         <div className="pg-btn"
           onClick={this.props.onClickNext}
-        >{"Next >>"}</div>
+        >{`${lang("Next")} >>`}</div>
       ) : null;
 
     // remove next kalau dah page last
@@ -101,7 +102,7 @@ export default class Paging extends Component {
   }
   viewPage() {
     if (!this.props.hasTotal) {
-        return <b>Page {this.currentPage()}</b>
+      return <b>Page {this.currentPage()}</b>
     }
 
     let arr = [];
@@ -187,7 +188,7 @@ Paging.propTypes = {
   offset: PropTypes.number,
   total: PropTypes.number.isRequired,
   hasTotal: PropTypes.bool,
-  align:PropTypes.string,
+  align: PropTypes.string,
   pagingLimit: PropTypes.number,
   onClickPage: PropTypes.func,
   onClickPrev: PropTypes.func,

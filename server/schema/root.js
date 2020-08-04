@@ -519,6 +519,7 @@ let argBrowseStudent = {
 	country_study: __.String,
 	university: __.String,
 	where_in_malaysia: __.String,
+	monash_student_id: __.String,
 	monash_school: __.String,
 	sunway_faculty: __.String,
 

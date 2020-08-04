@@ -12,9 +12,10 @@ import { Redirect, NavLink } from 'react-router-dom';
 
 import { ButtonLink } from '../component/buttons.jsx';
 // import { AuthAPIErr } from '../../server/api/auth-api';
-import {AuthAPIErr} from "../../config/auth-config";
+import { AuthAPIErr } from "../../config/auth-config";
 
 import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
+import lang from '../lib/lang';
 
 //state is from redux reducer
 // with multiple objects
@@ -42,14 +43,14 @@ class LoginPage extends React.Component {
 
         this.formItem = [
             {
-                label: "Email",
+                label: lang("Email"),
                 name: User.EMAIL,
                 type: "email",
                 placeholder: "john.doe@gmail.com",
                 required: true
             },
             {
-                label: "Password",
+                label: lang("Password"),
                 name: User.PASSWORD,
                 type: "password",
                 placeholder: "*****",
@@ -88,14 +89,14 @@ class LoginPage extends React.Component {
         const defaultPath = `${RootPath}/app/`;
 
         console.log("from login render");
-        console.log("this.props.location",this.props.location);
+        console.log("this.props.location", this.props.location);
         var from = {};
         if (typeof this.props.location !== "undefined" && typeof this.props.location.state !== "undefined") {
             from = this.props.location.state.from;
         } else {
             from = { pathname: defaultPath };
         }
-        console.log("from",from);
+        console.log("from", from);
 
 
         //handle from logout
@@ -110,9 +111,9 @@ class LoginPage extends React.Component {
         switch (error) {
             case AuthAPIErr.INVALID_EMAIL:
                 error = <span>
-                    User does not exist.
+                    {lang("User does not exist.")}
                     <br></br>
-                    <small><NavLink to={`${RootPath}/auth/sign-up`}>Sign Up Now</NavLink></small>
+                    <small><NavLink to={`${RootPath}/auth/sign-up`}>{lang("Sign Up Now")}</NavLink></small>
                 </span>;
                 break;
             case AuthAPIErr.NOT_ACTIVE:
@@ -125,14 +126,14 @@ class LoginPage extends React.Component {
                 break;
             case AuthAPIErr.WRONG_PASS:
                 error = <span>
-                    Password Incorrect
+                    {lang("Password incorrect.")}
                     <br></br>
-                    <small><NavLink to={`${RootPath}/auth/password-forgot`}>Forgot Your Password?</NavLink></small>
+                    <small><NavLink to={`${RootPath}/auth/password-forgot`}>{lang("Forgot Your Password?")}</NavLink></small>
                 </span>;
                 break;
             case AuthAPIErr.INVALID_CF:
                 error = <span>
-                    This account is not registered for the selected career fair
+                    {lang("This account is not registered for the selected career fair.")}
                 </span>;
                 break;
         }
@@ -144,17 +145,17 @@ class LoginPage extends React.Component {
             redirectToReferrer = false;
         }
 
-        console.log("redirectToReferrer",redirectToReferrer)
+        console.log("redirectToReferrer", redirectToReferrer)
         // if authorized redirect to from
         if (redirectToReferrer) {
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
-            console.log("redirect to",from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
+            console.log("redirect to", from.pathname)
 
             return (
                 <Redirect to={from} />
@@ -162,12 +163,12 @@ class LoginPage extends React.Component {
         } else {
             return (
                 <div>
-                    {this.props.title ? this.props.title : <h3>Login</h3>}
+                    {this.props.title ? this.props.title : <h3>{lang("Login")}</h3>}
                     <Form className="form-row"
                         items={this.formItem}
                         disableSubmit={fetching}
                         defaultValues={this.defaultValues}
-                        submitText="Log In"
+                        submitText={lang("Log In")}
                         onSubmit={this.formOnSubmit}
                         btnColorClass={"default"}
                         error={error}></Form>

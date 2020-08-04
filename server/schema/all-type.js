@@ -124,7 +124,6 @@ const AvailabilityType = new GraphQLObjectType({
 	})
 });
 
-// 3. @custom_user_info_by_cf
 const UserType = new GraphQLObjectType({
 	name: "User",
 	fields: () => ({
@@ -162,21 +161,20 @@ const UserType = new GraphQLObjectType({
 		prescreens_for_student_listing: __.ListOf(PrescreenType),
 		interested_vacancies_by_company: __.ListOf(VacancyType),
 
-		// NEW PROFILE
+		// 3. @custom_user_info_by_cf
 		first_name: __.String,
 		last_name: __.String,
 		country_study: __.String,
 		university: __.String,
 		unemployment_period: __.String,
+		monash_student_id: __.String,
 		monash_school: __.String,
 		sunway_faculty: __.String,
 		qualification: __.String,
 		graduation_month: __.String,
 		graduation_year: __.String,
-
 		working_availability_month: __.String,
 		working_availability_year: __.String,
-
 		grade: __.String,
 		phone_number: __.String,
 		sponsor: __.String,
@@ -189,18 +187,6 @@ const UserType = new GraphQLObjectType({
 		doc_links: __.ListOf(DocLinkType),
 		skill: __.ListOf(MultiType),
 		extracurricular: __.ListOf(MultiType),
-		// OLD ONE
-		// //student only
-		// first_name: __.String,
-		// last_name: __.String,
-		// description: __.String,
-		// university: __.String,
-		// phone_number: __.String,
-		// graduation_month: __.String,
-		// graduation_year: __.String,
-		// sponsor: __.String,
-		// /// ####
-		// deprecated will return null only
 		degree_level: __.String,
 		skills: __.ListOf(SkillType),
 		available_month: __.String,
@@ -228,6 +214,19 @@ const UserType = new GraphQLObjectType({
 		// indicator
 		is_active: __.Boolean,
 		is_profile_completed: __.Boolean // student only
+
+		// OLD ONE
+		// //student only
+		// first_name: __.String,
+		// last_name: __.String,
+		// description: __.String,
+		// university: __.String,
+		// phone_number: __.String,
+		// graduation_month: __.String,
+		// graduation_year: __.String,
+		// sponsor: __.String,
+		// /// ####
+		// deprecated will return null only
 	})
 });
 

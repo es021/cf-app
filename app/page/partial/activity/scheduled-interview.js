@@ -25,6 +25,7 @@ import {
   createUserDocLinkList,
   createUserMajorList
 } from "../popup/user-popup";
+import lang from "../../../lib/lang";
 
 export const appointmentTimeValidation = function (d) {
   if (
@@ -46,10 +47,10 @@ export const appointmentTimeValidation = function (d) {
       d[Prescreen.APPNMENT_TIME + "_TIME"]
     ) {
       if (Time.getUnixTimestampNow() > toRet) {
-        return `${Time.getString(toRet)} is not a valid appointment time. Please choose appointment time later than current time.`;
+        return `${Time.getString(toRet)} ${lang("is not a valid appointment time")}. ${lang("Please choose appointment time later than current time")}.`;
       }
     } else {
-      return "Please fill in Appointment Time and Appointment Date";
+      return lang("Please fill in Appointment Time and Appointment Date");
     }
     // }
 
@@ -64,7 +65,7 @@ export const appointmentTimeValidation = function (d) {
 
     return toRet;
   } else {
-    return "Please fill in Appointment Time and Appointment Date";
+    return lang("Please fill in Appointment Time and Appointment Date");
   }
 }
 
@@ -82,7 +83,7 @@ export const isNormalSI = function (type) {
 
 export function openSIFormNew(student_id, company_id) {
   layoutActions.storeUpdateFocusCard(
-    "Scheduled A Call",
+    lang("Scheduled A Call"),
     ScheduledInterviewNew,
     {
       company_id: company_id,
@@ -96,7 +97,7 @@ export function openSIFormAnytime(student_id, company_id) {
   if (!(student_id && isRoleAdmin())) {
     if (!(student_id && company_id)) {
       layoutActions.errorBlockLoader(
-        "Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue"
+        lang("Something went wrong. Unable to open Schedule Session Form. Please contact our support and report this issue")
       );
       return;
     }
@@ -113,7 +114,7 @@ export function openSIFormAnytime(student_id, company_id) {
   //}
 
   layoutActions.storeUpdateFocusCard(
-    "Add A New Scheduled Session",
+    lang("Add A New Scheduled Session"),
     ScheduledInterview,
     {
       company_id: company_id,
@@ -162,7 +163,7 @@ export function openSIAddForm(student_id, company_id, type, success) {
   //}
 
   layoutActions.storeUpdateFocusCard(
-    "Add A New Scheduled Session",
+    lang("Add A New Scheduled Session"),
     ScheduledInterview,
     {
       company_id: company_id,
@@ -191,7 +192,7 @@ export class ScheduledInterview extends React.Component {
     ) : (
         <span>
           Scheduled Session
-        <Tooltip
+          <Tooltip
             left="-62px"
             bottom="28px"
             width="150px"
@@ -232,16 +233,16 @@ export class ScheduledInterview extends React.Component {
         if (this.props.isFormStudentListing) {
           mes = (
             <div>
-              New private call has been successfully scheduled. View call at{" "}
+              {lang("New private call has been successfully scheduled. View call at")}{" "}
               <NavLink
                 onClick={() => {
                   layoutActions.storeHideBlockLoader();
                 }}
                 to={`${RootPath}/app/`}
               >
-                Home Page
+                {lang("Home Page")}
               </NavLink>{" "}
-              under My Activity section.
+              {lang("under Interview section.")}
             </div>
           );
         }
@@ -433,7 +434,7 @@ export class ScheduledInterview extends React.Component {
           !d[Prescreen.APPNMENT_TIME + "_DATE"] ||
           !d[Prescreen.APPNMENT_TIME + "_TIME"]
         ) {
-          return "For status Approved, appointment date and time is needed";
+          return lang("For status Approved, appointment date and time is needed");
         }
       }
 
@@ -601,7 +602,7 @@ export class ScheduledInterview extends React.Component {
   }
 
   getFormData(edit, singleStudent, studentData, companyData) {
-    var ret = [{ header: "Scheduled Session Form" }];
+    var ret = [{ header: lang("Scheduled Session Form") }];
 
     // TODO
     if (companyData !== null) {
@@ -704,16 +705,16 @@ export class ScheduledInterview extends React.Component {
         //   ]
         // },
         {
-          label: "Appointment Date",
-          sublabel: <span>Please enter your local time</span>,
+          label: lang("Appointment Date"),
+          sublabel: <span>{lang("Please enter your local time")}</span>,
           name: Prescreen.APPNMENT_TIME + "_DATE",
           hidden: this.props.isFormHidden(Prescreen.APPNMENT_TIME + "_DATE"),
           type: "date",
           placeholder: ""
         },
         {
-          label: "Appointment Time",
-          sublabel: "Please enter your local time",
+          label: lang("Appointment Time"),
+          sublabel: lang("Please enter your local time"),
           name: Prescreen.APPNMENT_TIME + "_TIME",
           hidden: this.props.isFormHidden(Prescreen.APPNMENT_TIME + "_TIME"),
           type: "time",
@@ -734,8 +735,8 @@ export class ScheduledInterview extends React.Component {
         canEdit={true}
         entity="prescreen"
         actionFirst={true}
-        entity_singular="Scheduled Session"
-        addButtonText="Add New"
+        entity_singular={lang("Scheduled Session")}
+        addButtonText={lang("Add New")}
         noMutation={true}
         canEdit={true}
         dataOffset={20}

@@ -6,6 +6,7 @@ import obj2arg from "graphql-obj2arg";
 import Form, { toggleSubmit, checkDiff } from "./form";
 import List, { CustomList } from "./list";
 import ConfirmPopup from "../page/partial/popup/confirm-popup";
+import lang from "../lib/lang";
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class SearchForm extends React.Component {
         onSubmit={this.props.formOnSubmit}
         submitText={
           <span>
-            <i className="fa fa-search left"></i>Search
+            <i className="fa fa-search left"></i>{lang("Search")}
           </span>
         }
         btnColorClass={"success btn-lg"}
@@ -123,8 +124,8 @@ class GeneralForm extends React.Component {
     getAxiosGraphQLQuery(query).then(
       res => {
         var mes = this.props.edit
-          ? `Successfully Edit ${this.Entity}!`
-          : `Successfully Added New ${this.Entity}!`;
+          ? `${lang("Successfully Edit")} ${lang(this.Entity)}!`
+          : `${lang("Successfully Added New")} ${lang(this.Entity)}!`;
         toggleSubmit(this, { error: null, success: mes });
         if (this.props.onSuccessNew) {
           this.props.onSuccessNew(d);
@@ -142,7 +143,7 @@ class GeneralForm extends React.Component {
         className="form-row"
         items={this.formItem}
         onSubmit={this.formOnSubmit}
-        submitText={`${this.props.edit ? "Edit" : "Add"} ${
+        submitText={`${this.props.edit ? lang("Edit") : lang("Add")} ${
           this.props.entity_singular
           }`}
         defaultValues={this.formDefault}
@@ -229,7 +230,7 @@ export default class GeneralFormPage extends React.Component {
   // create general form for add new record
   addPopup() {
     const generateForm = formItem => {
-      layoutActions.storeUpdateFocusCard(`Add ${this.Entity}`, GeneralForm, {
+      layoutActions.storeUpdateFocusCard(`${lang("Add")} ${this.Entity}`, GeneralForm, {
         emptyMessage: this.props.emptyMessage,
         discardDiff: this.props.discardDiff,
         forceDiff: this.props.forceDiff,
@@ -259,11 +260,11 @@ export default class GeneralFormPage extends React.Component {
     let curElement = e.currentTarget;
 
     const generateForm = formItem => {
-      layoutActions.loadingBlockLoader("Fetching information..");
+      layoutActions.loadingBlockLoader(lang("Fetching information.."));
       this.props.getEditFormDefault(id, curElement).then(res => {
         layoutActions.storeHideBlockLoader();
         layoutActions.storeUpdateFocusCard(
-          `Editing ${this.Entity} #${id}`,
+          `${lang("Editing")} ${this.Entity} #${id}`,
           GeneralForm,
           {
             emptyMessage: this.props.emptyMessage,
@@ -309,9 +310,9 @@ export default class GeneralFormPage extends React.Component {
     };
 
     layoutActions.storeUpdateFocusCard(
-      "Confirm Delete Item",
+      lang("Confirm Delete Item"),
       ConfirmPopup,
-      { title: `Continue delete this item ?`, onYes: onYes },
+      { title: lang("Continue delete this item ?"), onYes: onYes },
       "small"
     );
   }
@@ -319,7 +320,7 @@ export default class GeneralFormPage extends React.Component {
   searchPopup() {
     console.log("searchPopup");
     layoutActions.storeUpdateFocusCard(
-      "Search " + this.props.entity_singular,
+      lang("Search") + " " + this.props.entity_singular,
       SearchForm,
       {
         contentBottom: this.props.searchFormContentBottom,
@@ -363,13 +364,13 @@ export default class GeneralFormPage extends React.Component {
 
       var editAct = (
         <a className={actionClass} id={d.ID} {...extra} onClick={this.editPopup.bind(this)}>
-          {this.props.isMutationUseIcon ? <i className="fa fa-edit"></i> : "Edit"}
+          {this.props.isMutationUseIcon ? <i className="fa fa-edit"></i> : lang("Edit")}
         </a>
       );
 
       var delAct = (
         <a className={actionClass} id={d.ID} {...extra} onClick={this.deletePopup.bind(this)}>
-          {this.props.isMutationUseIcon ? <i className="fa fa-times"></i> : "Delete"}
+          {this.props.isMutationUseIcon ? <i className="fa fa-times"></i> : lang("Delete")}
         </a>
       );
 
@@ -471,7 +472,7 @@ export default class GeneralFormPage extends React.Component {
             this.resetFilter();
           }}
         >
-          <i className="fa fa-refresh left"></i>Reset Filter
+          <i className="fa fa-refresh left"></i>{lang("Reset Filter")}
         </a>
       </div>
     ) : null;
@@ -606,7 +607,7 @@ export const openEditPopup = function (
   closeOnSuccess = true
 ) {
   layoutActions.storeUpdateFocusCard(
-    `Editing ${entity_singular} #${id}`,
+    `${lang("Editing")} ${entity_singular} #${id}`,
     GeneralForm,
     {
       emptyMessage: this.props.emptyMessage,
@@ -651,9 +652,9 @@ export const openDeletePopup = function (
   };
 
   layoutActions.storeUpdateFocusCard(
-    "Confirm Delete Item",
+    lang("Confirm Delete Item"),
     ConfirmPopup,
-    { title: `Continue delete this item ?`, onYes: onYes },
+    { title: lang("Continue delete this item ?"), onYes: onYes },
     "small"
   );
 };

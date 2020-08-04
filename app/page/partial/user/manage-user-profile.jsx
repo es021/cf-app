@@ -10,6 +10,7 @@ import {
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
 import { isRoleStudent, isRoleRec, getCF } from "../../../redux/actions/auth-actions";
+import lang from "../../../lib/lang";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -91,7 +92,7 @@ export default class ManageUserProfile extends React.Component {
         type: "single",
         id: Reg.Single.last_name,
         key_input: Reg.Single.last_name,
-        input_placeholder: "Last Name",
+        input_placeholder: lang("Last Name"),
         is_required: true,
         hidden: false
       }
@@ -134,10 +135,10 @@ export default class ManageUserProfile extends React.Component {
       r.push({
         // single
         type: "single",
-        label: "What is your name?",
+        label: lang("What is your name?"),
         id: Reg.Single.first_name,
         key_input: Reg.Single.first_name,
-        input_placeholder: "First Name",
+        input_placeholder: lang("First Name"),
         is_required: true,
         hidden: false
       });
@@ -147,8 +148,18 @@ export default class ManageUserProfile extends React.Component {
         {
           // single
           type: "single",
+          input_type: "text",
+          label: lang("Student Id"),
+          id: Reg.Single.monash_student_id,
+          key_input: Reg.Single.monash_student_id,
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.monash_student_id)
+        },
+        {
+          // single
+          type: "single",
           input_type: "select",
-          label: "When is your graduation date?",
+          label: lang("When is your graduation date?"),
           id: Reg.Single.graduation_month,
           key_input: Reg.Single.graduation_month,
           // select_use_id_as_value: true,
@@ -162,7 +173,7 @@ export default class ManageUserProfile extends React.Component {
           type: "multi",
           id: Reg.Multi.looking_for_position,
           table_name: Reg.Multi.looking_for_position,
-          label: "What are you looking for?",
+          label: lang("What are you looking for?"),
           ref_table_name: "looking_for_position",
           hideInputSuggestion: true,
           ref_order_by: "val ASC",
@@ -174,7 +185,7 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.country_study,
           key_input: Reg.Single.country_study,
-          label: "Where are you studying",
+          label: lang("Where are you studying"),
           input_placeholder: "Malaysia",
           ref_table_name: "country",
           is_required: true,
@@ -185,7 +196,7 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.university,
           key_input: Reg.Single.university,
-          label: "What is your university?",
+          label: lang("What is your university?"),
           input_placeholder: "Universiti Malaya",
           ref_table_name: "university",
           ref_filter_column: "country_id",
@@ -200,7 +211,7 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.monash_school,
           key_input: Reg.Single.monash_school,
-          label: "Which school are you from?",
+          label: lang("Which school are you from?"),
           // input_placeholder: "Malaysia",
           ref_table_name: "monash_school",
           is_required: true,
@@ -212,7 +223,7 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.sunway_faculty,
           key_input: Reg.Single.sunway_faculty,
-          label: "Which faculty are you from?",
+          label: lang("Which faculty are you from?"),
           // input_placeholder: "Malaysia",
           ref_table_name: "sunway_faculty",
           is_required: true,
@@ -224,8 +235,8 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.qualification,
           key_input: Reg.Single.qualification,
-          label: "What is your highest level of certificate?",
-          input_placeholder: "Type something here",
+          label: lang("What is your highest level of certificate?"),
+          input_placeholder: lang("Type something here"),
           ref_table_name: "qualification",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)
@@ -250,8 +261,8 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Multi.field_study,
           table_name: Reg.Multi.field_study,
           discard_ref_from_default: true,
-          label: "What is your field of study?",
-          sublabel: "You can choose more than one field of study",
+          label: lang("What is your field of study?"),
+          sublabel: lang("You can choose more than one field of study"),
           list_title: null,
           ref_table_name: "field_study",
           is_required: true,
@@ -262,9 +273,9 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.grade,
           key_input: Reg.Single.grade,
-          label: "What is your grade?",
-          sublabel: "CGPA, First Class, etc",
-          input_placeholder: "Type something here",
+          label: lang("What is your grade?"),
+          sublabel: lang("CGPA, First Class, etc"),
+          input_placeholder: lang("Type something here"),
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.grade)
         },
@@ -273,7 +284,7 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.phone_number,
           key_input: Reg.Single.phone_number,
-          label: "What is your phone number?",
+          label: lang("What is your phone number?"),
           input_placeholder: "XXX-XXXXXXX",
           is_required: true,
           hidden: false || Reg.isCustomUserInfoOff(cf, Reg.Single.phone_number)
@@ -282,7 +293,7 @@ export default class ManageUserProfile extends React.Component {
           // single
           type: "single",
           input_type: "select",
-          label: "When will you be available to work?",
+          label: lang("When will you be available to work?"),
           id: Reg.Single.working_availability_month,
           key_input: Reg.Single.working_availability_month,
           // select_use_id_as_value: true,
@@ -297,7 +308,7 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.unemployment_period,
           key_input: Reg.Single.unemployment_period,
-          label: "How long have you been unemployed?",
+          label: lang("How long have you been unemployed?"),
           ref_table_name: "unemployment_period",
           ref_order_by: "ID asc",
           is_required: true,
@@ -309,10 +320,10 @@ export default class ManageUserProfile extends React.Component {
           type: "multi",
           id: Reg.Multi.interested_role,
           table_name: Reg.Multi.interested_role,
-          label: "What types of jobs are you interested in?",
+          label: lang("What types of jobs are you interested in?"),
           // label: "What types of jobs will you be searching for?",
-          input_placeholder: "Web Developer",
-          list_title: field_study ? `Popular job for your field of study` : "",
+          input_placeholder: lang("Web Developer"),
+          list_title: field_study ? lang(`Popular job for your field of study`) : "",
           ref_table_name: "job_role",
           suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
           suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
@@ -338,7 +349,7 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.where_in_malaysia,
           key_input: Reg.Single.where_in_malaysia,
-          label: "Where are you from in Malaysia?",
+          label: lang("Where are you from in Malaysia?"),
           input_placeholder: "Cyberjaya, Selangor",
           ref_table_name: "location_malaysia",
           is_required: true,
@@ -350,11 +361,11 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Multi.interested_job_location,
           table_name: Reg.Multi.interested_job_location,
           location_suggestion: Reg.Multi.interested_job_location,
-          label: "Where would you like to work in Malaysia?",
+          label: lang("Where would you like to work in Malaysia?"),
           input_placeholder: "Cyberjaya, Selangor",
           list_title: field_study
-            ? `Popular job for your field of study`
-            : "Popular in your area",
+            ? lang(`Popular job for your field of study`)
+            : lang("Popular in your area"),
           ref_table_name: "location",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_job_location)
@@ -364,7 +375,7 @@ export default class ManageUserProfile extends React.Component {
           type: "multi",
           id: Reg.Multi.skill,
           table_name: Reg.Multi.skill,
-          label: "What skills would you bring to your next job?",
+          label: lang("What skills would you bring to your next job?"),
           input_placeholder: "Leadership, Javascript, etc",
           // suggestion_search_by_ref: "major",
           // suggestion_search_by_val: major,
@@ -380,7 +391,7 @@ export default class ManageUserProfile extends React.Component {
           type: "multi",
           id: Reg.Multi.extracurricular,
           table_name: Reg.Multi.extracurricular,
-          label: "Organization / Extracurricular Activities",
+          label: lang("Organization / Extracurricular Activities"),
           input_placeholder: "",
           ref_order_by: "ID asc",
           ref_table_name: "extracurricular",

@@ -20,8 +20,9 @@ const Single = {
     //sponsor : "sponsor",
     //description : "description",
 
-    // 1a. @custom_user_info_by_cf
+    // 1a. @custom_user_info_by_cf - single
     unemployment_period: "unemployment_period",
+    monash_student_id: "monash_student_id",
     monash_school: "monash_school",
     sunway_faculty: "sunway_faculty"
 }
@@ -34,10 +35,10 @@ const Multi = {
     skill: "skill",
     extracurricular: "extracurricular",
 
-    // 1b. @custom_user_info_by_cf
+    // 1b. @custom_user_info_by_cf - multi
 }
 
-// 1c. @custom_user_info_by_cf
+// 1c. @custom_user_info_by_cf - on or off by cf
 const isCustomUserInfoOff = (cf, key) => {
 
     let offCf = null;
@@ -54,6 +55,9 @@ const isCustomUserInfoOff = (cf, key) => {
             break;
         case Single.sunway_faculty:
             onCf = ["SUNWAY"];
+            break;
+        case Single.monash_student_id:
+            onCf = ["MONASH"];
             break;
 
         // ###############

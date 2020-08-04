@@ -16,6 +16,7 @@ import { Time } from "../lib/time";
 import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
 import { getStyleImageObj } from "../component/profile-card.jsx";
+import lang from "../lib/lang.js";
 
 // require("../css/home.scss");
 
@@ -216,7 +217,7 @@ export default class LandingPage extends React.Component {
           to={`${RootPath}/auth/sign-up`}
           className="btn btn-lg btn-success"
         >
-          <i className="fa fa-user-plus left"></i>Register As Student
+          <i className="fa fa-user-plus left"></i>{lang("Register As Student")}
         </NavLink>
       </div>,
       <br></br>,
@@ -225,7 +226,7 @@ export default class LandingPage extends React.Component {
 
     var intro = (
       <h1 style={{ marginTop: "5px" }}>
-        <small>WELCOME TO</small>
+        <small>{lang("WELCOME TO")}</small>
         <br></br>
         <span dangerouslySetInnerHTML={{ __html: this.CFDetail.title_landing ? this.CFDetail.title_landing : this.CFDetail.title }}></span>
         <br></br>

@@ -8,6 +8,7 @@ import { ButtonIcon } from './buttons.jsx';
 import { Loader } from './loader';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import lang from '../lib/lang';
 
 // require("../css/block-loader.scss");
 
@@ -49,9 +50,9 @@ class BlockLoader extends React.Component {
         if (state.loading !== null) {
             view = <Loader size="3" text={state.loading}></Loader>;
         } else if (state.success !== null) {
-            view = <div><h4 className="text-success">Success!</h4>{state.success}</div>;
+            view = <div><h4 className="text-success">{lang("Success")}!</h4>{state.success}</div>;
         } else if (state.error !== null) {
-            view = <div><h4 className="text-danger">Request Failed</h4>{state.error}</div>;
+            view = <div><h4 className="text-danger">{lang("Request Failed")}</h4>{state.error}</div>;
         } else if (state.confirm !== null) {
             view = <div><h4 className="text-primary">{state.confirm.title}</h4></div>;
         } else if (state.custom !== null) {
@@ -67,7 +68,7 @@ class BlockLoader extends React.Component {
         if (state.success !== null || state.error !== null) {
             var close = <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}
                 className="btn btn-sm btn-primary">
-                CLOSE
+                {lang("CLOSE")}
             </div>;
             action = <div><br></br>
                 {close}
@@ -77,7 +78,7 @@ class BlockLoader extends React.Component {
             action = <div className="btn-group btn-group-justified">
                 <div onClick={state.confirm.yesHandler}
                     className="btn btn-sm btn-blue">
-                    YES
+                    {lang("YES")}
                 </div>
                 <div onClick={() => {
                     store.dispatch(layoutActions.hideBlockLoader());
@@ -86,7 +87,7 @@ class BlockLoader extends React.Component {
                     }
                 }}
                     className="btn btn-sm btn-default">
-                    NO
+                    {lang("NO")}
                 </div>
             </div>;
         } else if (state.custom !== null) {
@@ -95,13 +96,14 @@ class BlockLoader extends React.Component {
                 closeLink = <div style={{ marginTop: "5px" }}>
                     <small>
                         <a onClick={() => store.dispatch(layoutActions.hideBlockLoader())}>
-                            CLOSE</a>
+                            {lang("CLOSE")}
+                        </a>
                     </small>
                 </div>
             }
 
             if (state.custom.customView !== null) {
-                action = <div style={{width: "100%"}}>
+                action = <div style={{ width: "100%" }}>
                     {state.custom.customView}
                     <br></br>
                     {closeLink}
@@ -140,12 +142,12 @@ class BlockLoader extends React.Component {
         // add large class to noClose
         try {
             if (state.custom.noClose === true) {
-                if(state.custom.small !== true){
+                if (state.custom.small !== true) {
                     className += " large";
                 }
             }
 
-           
+
         } catch (err) { }
 
         return (<div style={style} id="block-loader" >

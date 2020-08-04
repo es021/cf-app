@@ -15,6 +15,7 @@ import { showLeftBar, isHasLeftBar } from "./left-bar-layout";
 import { createImageElement } from "../component/profile-card.jsx";
 import { NavLink } from "react-router-dom";
 import LeftBarLayout from "./left-bar-layout";
+import lang from "../lib/lang";
 
 export default class HeaderLayout extends React.Component {
   constructor(props) {
@@ -78,7 +79,7 @@ export default class HeaderLayout extends React.Component {
           <b>{this.title}</b>
           {/* <b>{AppConfig.Name}</b> */}
           <br />
-          <small>{this.desc}</small>
+          <small>{lang(this.desc)}</small>
         </div>
         <div className="menu">{this.props.menuList}</div>
 

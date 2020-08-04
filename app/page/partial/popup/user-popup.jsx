@@ -207,6 +207,7 @@ export default class UserPopup extends Component {
                 phone_number
                 sponsor
                 description
+                ${this.addIfValid("monash_student_id")}
                 ${this.addIfValid("monash_school")}
                 ${this.addIfValid("sunway_faculty")}
                 ${this.addIfValid("skill", "{val}")}
@@ -264,7 +265,6 @@ export default class UserPopup extends Component {
     return ret;
   }
 
-  // 7b. @custom_user_info_by_cf -display single
   getBasicInfo(d) {
     var notSpecifed = (
       <small>
@@ -338,6 +338,16 @@ export default class UserPopup extends Component {
       //     ? notSpecifed
       //     : this.createListForMulti(d.field_study)
       // });
+
+      // 7b. @custom_user_info_by_cf -display single
+
+      if (!isCustomUserInfoOff(getCF(), Single.monash_student_id)) {
+        items.push({
+          label: lang("Student ID"),
+          icon: "slack",
+          value: this.isValueEmpty(d.monash_student_id) ? notSpecifed : d.monash_student_id
+        })
+      }
 
       if (!isCustomUserInfoOff(getCF(), Single.monash_school)) {
         items.push({

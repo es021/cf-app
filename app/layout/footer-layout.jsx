@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { AppConfig, ImgConfig, FooterClass } from "../../config/app-config";
 import { ButtonIcon } from "../component/buttons.jsx";
 import { getCFOrg, isRedirectExternalHomeUrl } from "../redux/actions/auth-actions";
+import lang from "../lib/lang";
 
 //import {openNewTab} from '../lib/util';
 
@@ -76,7 +77,7 @@ export default class Footer extends React.Component {
     });
 
     // fill in empty section
-    for(var i = 0; i < 2 - list.length; i++){
+    for (var i = 0; i < 2 - list.length; i++) {
       this.orgs.push(<div className={`orgs col-sm-4`}></div>)
     }
 
@@ -84,7 +85,7 @@ export default class Footer extends React.Component {
     this.brand = (
       <div className="brand">
         <h3 className="title">
-          POWERED BY
+          {lang("POWERED BY")}
         </h3>
         <FixedImg
           // url={ImgConfig.IsIconInverse}
@@ -133,7 +134,7 @@ export default class Footer extends React.Component {
           </div>
           <div className="row ">
             <div className="col-sm-12 copyright">
-              © {this.YEAR}, Innovaseeds Solutions. All Rights Reserved.
+              © {this.YEAR}, Innovaseeds Solutions. {lang("All Rights Reserved")}.
             </div>
           </div>
         </div>

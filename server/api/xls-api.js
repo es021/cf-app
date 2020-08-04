@@ -19,7 +19,7 @@ class XLSApi {
   }
 
   student_field() {
-    // 9. @custom_user_info_by_cf
+    // 8. @custom_user_info_by_cf
     return `
       ID
       first_name
@@ -27,6 +27,7 @@ class XLSApi {
       user_email
       doc_links{label url}
       ${this.addIfValid("country_study")}
+      ${this.addIfValid("monash_student_id")}
       ${this.addIfValid("monash_school")}
       ${this.addIfValid("sunway_faculty")}
       university 
