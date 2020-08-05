@@ -26,33 +26,35 @@ class XLSApi {
       first_name
       last_name
       user_email
-      doc_links{label url}
+      doc_links {label url}
       ${this.addIfValid("local_or_oversea_study")}
       ${this.addIfValid("country_study")}
       ${this.addIfValid("monash_student_id")}
       ${this.addIfValid("monash_school")}
       ${this.addIfValid("sunway_faculty")}
-      university 
-      qualification
+      ${this.addIfValid("university")}
+      ${this.addIfValid("qualification")}
       graduation_month 
       graduation_year
       working_availability_month 
       working_availability_year
       ${this.addIfValid("local_or_oversea_location")}
+      ${this.addIfValid("gender")}
+      ${this.addIfValid("work_experience_year")}
       grade 
       phone_number 
       sponsor
       ${this.addIfValid("where_in_malaysia")}
       interested_vacancies_by_company{ title }
-      description
-      user_registered
-      video_resume {url}
+      ${this.addIfValid("description")}
+      ${this.addIfValid("user_registered")}
+      ${this.addIfValid("video_resume", "{url}")}
       ${this.addIfValid("extracurricular", "{val}")}
-      skill {val}
+      ${this.addIfValid("skill", "{val}")}
       ${this.addIfValid("field_study", "{val}")}
-      looking_for_position {val}
-      interested_role {val}
-      interested_job_location {val}
+      ${this.addIfValid("looking_for_position", "{val}")}
+      ${this.addIfValid("interested_role", "{val}")}
+      ${this.addIfValid("interested_job_location", "{val}")}
   `;
   }
 

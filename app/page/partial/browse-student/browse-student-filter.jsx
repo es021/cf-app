@@ -77,7 +77,9 @@ export class BrowseStudentFilter extends React.Component {
 
         // 6a. @custom_user_info_by_cf - order filter
         this.orderFilter = [
-            "like_job_post_only", "interested_only", "favourited_only",
+            "like_job_post_only",
+            "interested_only",
+            "favourited_only",
             // "cf",
             "name",
             "country_study",
@@ -90,6 +92,8 @@ export class BrowseStudentFilter extends React.Component {
             "working_availability_from",
             "working_availability_to",
             "local_or_oversea_location",
+            "gender",
+            "work_experience_year",
             "graduation_from", "graduation_to",
             "interested_job_location", "where_in_malaysia", "skill"
         ];
@@ -375,6 +379,8 @@ export class BrowseStudentFilter extends React.Component {
             where_in_malaysia: lang("City/State In Malaysia"),
             looking_for_position: lang("Looking For"),
             skill: lang("Skills"),
+            gender: lang("Gender"),
+            work_experience_year: lang("Relevant Working Experience"),
             unemployment_period: lang("Unemployment Period"),
             local_or_oversea_study: lang("Study Place"),
             local_or_oversea_location: lang("Currently Located"),

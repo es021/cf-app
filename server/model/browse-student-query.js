@@ -247,6 +247,22 @@ class BrowseStudentExec {
 				)  `
 
 			// 4b. @custom_user_info_by_cf -- filter single
+			let work_experience_year = isCustomUserInfoOff(currentCf, Single.work_experience_year)
+				? "1=0"
+				: `( 
+						s.key_input = "work_experience_year"
+							AND
+						s.val IN (select r.val from ref_work_experience_year r)
+					)`
+
+			let gender = isCustomUserInfoOff(currentCf, Single.gender)
+				? "1=0"
+				: `( 
+						s.key_input = "gender"
+							AND
+						s.val IN (select r.val from ref_gender r)
+					)`
+
 			let unemployment_period = isCustomUserInfoOff(currentCf, Single.unemployment_period)
 				? "1=0"
 				: `( 
@@ -294,6 +310,10 @@ class BrowseStudentExec {
 			, COUNT(*) as _total 
 			FROM single_input s
 			where 
+			${gender} 
+			OR 
+			${work_experience_year} 
+			OR 
 			${university} 
 			OR 
 			${country_study}

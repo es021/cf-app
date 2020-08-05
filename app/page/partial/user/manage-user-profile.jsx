@@ -361,6 +361,29 @@ export default class ManageUserProfile extends React.Component {
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_location)
         },
         {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.work_experience_year,
+          key_input: Reg.Single.work_experience_year,
+          label: lang("How many years of relevant working experiences in Engineering field?"),
+          ref_table_name: "work_experience_year",
+          ref_order_by: "ID asc",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.work_experience_year)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.gender,
+          key_input: Reg.Single.gender,
+          label: lang("What is your gender?"),
+          ref_table_name: "gender",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.gender)
+        },
+        {
           // single select
           type: "single",
           input_type: "select",

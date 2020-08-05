@@ -25,8 +25,10 @@ const Single = {
     monash_student_id: "monash_student_id",
     monash_school: "monash_school",
     sunway_faculty: "sunway_faculty",
-    local_or_oversea_study : "local_or_oversea_study",
-    local_or_oversea_location : "local_or_oversea_location",
+    local_or_oversea_study: "local_or_oversea_study",
+    local_or_oversea_location: "local_or_oversea_location",
+    gender: "gender",
+    work_experience_year: "work_experience_year",
 }
 
 const Multi = {
@@ -41,6 +43,7 @@ const Multi = {
 }
 
 // 1c. @custom_user_info_by_cf - on or off by cf
+// by default return false
 const isCustomUserInfoOff = (cf, key) => {
 
     let offCf = null;
@@ -67,20 +70,35 @@ const isCustomUserInfoOff = (cf, key) => {
         case Single.local_or_oversea_location:
             onCf = ["INTEL"];
             break;
+        case Single.work_experience_year:
+            onCf = ["INTEL"];
+            break;
+        case Single.gender:
+            onCf = ["INTEL"];
+            break;
 
         // ###############
         // by default is ON
         case Single.country_study:
             offCf = ["MONASH", "SUNWAY", "INTEL"];
             break;
+        case Single.where_in_malaysia:
+            offCf = ["MONASH", "SUNWAY", "INTEL"];
+            break;
         case Multi.field_study:
             offCf = ["MONASH", "SUNWAY"];
             break;
-        case Single.where_in_malaysia:
-            offCf = ["MONASH", "SUNWAY"];
-            break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY"];
+            offCf = ["MONASH", "SUNWAY", "INTEL"];
+            break;
+        case Multi.interested_role:
+            offCf = ["INTEL"];
+            break;
+        case Multi.interested_job_location:
+            offCf = ["INTEL"];
+            break;
+        case Multi.skill:
+            offCf = ["INTEL"];
             break;
     }
 

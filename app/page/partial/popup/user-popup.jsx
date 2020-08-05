@@ -27,7 +27,7 @@ import { openSIAddForm } from "../activity/scheduled-interview";
 import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
-import { isCustomUserInfoOff, Single } from "../../../../config/registration-config";
+import { isCustomUserInfoOff, Single, Multi } from "../../../../config/registration-config";
 import lang from "../../../lib/lang";
 export function createUserMajorList(major) {
   var r = null;
@@ -196,6 +196,8 @@ export default class UserPopup extends Component {
                 first_name
                 last_name
                 ${this.addIfValid("country_study")}
+                ${this.addIfValid("gender")}
+                ${this.addIfValid("work_experience_year")}
                 university
                 qualification
                 graduation_month
@@ -375,27 +377,33 @@ export default class UserPopup extends Component {
         })
       }
 
-      items.push({
-        label: lang("University"),
-        icon: "university",
-        value: this.isValueEmpty(d.university) ? notSpecifed : d.university
-      });
+      if (!isCustomUserInfoOff(getCF(), Single.university)) {
+        items.push({
+          label: lang("University"),
+          icon: "university",
+          value: this.isValueEmpty(d.university) ? notSpecifed : d.university
+        });
+      }
 
-      items.push({
-        label: lang("Expected Graduation"),
-        icon: "calendar",
-        value: this.isValueEmpty(d.graduation_month)
-          ? notSpecifed
-          : `${d.graduation_month} ${d.graduation_year}`
-      });
+      if (!isCustomUserInfoOff(getCF(), Single.graduation_month)) {
+        items.push({
+          label: lang("Expected Graduation"),
+          icon: "calendar",
+          value: this.isValueEmpty(d.graduation_month)
+            ? notSpecifed
+            : `${d.graduation_month} ${d.graduation_year}`
+        });
+      }
 
-      items.push({
-        label: lang("Working Availability"),
-        icon: "calendar",
-        value: this.isValueEmpty(d.working_availability_month)
-          ? notSpecifed
-          : `${d.working_availability_month} ${d.working_availability_year}`
-      });
+      if (!isCustomUserInfoOff(getCF(), Single.working_availability_month)) {
+        items.push({
+          label: lang("Working Availability"),
+          icon: "calendar",
+          value: this.isValueEmpty(d.working_availability_month)
+            ? notSpecifed
+            : `${d.working_availability_month} ${d.working_availability_year}`
+        });
+      }
 
       if (!isCustomUserInfoOff(getCF(), Single.local_or_oversea_location)) {
         items.push({
@@ -405,19 +413,39 @@ export default class UserPopup extends Component {
         })
       }
 
-      items.push({
-        label: lang("Looking For"),
-        icon: "search",
-        value: this.isValueEmpty(d.looking_for_position)
-          ? notSpecifed
-          : this.createListForMulti(d.looking_for_position)
-      })
+      if (!isCustomUserInfoOff(getCF(), Single.gender)) {
+        items.push({
+          label: lang("Gender"),
+          icon: "intersex",
+          value: this.isValueEmpty(d.gender) ? notSpecifed : d.gender
+        })
+      }
+      if (!isCustomUserInfoOff(getCF(), Single.work_experience_year)) {
+        items.push({
+          label: lang("Relevant Working Experience"),
+          icon: "suitcase",
+          value: this.isValueEmpty(d.work_experience_year) ? notSpecifed : d.work_experience_year
+        })
+      }
 
-      items.push({
-        label: lang("Grade / CGPA"),
-        icon: "book",
-        value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
-      });
+      if (!isCustomUserInfoOff(getCF(), Multi.looking_for_position)) {
+        items.push({
+          label: lang("Looking For"),
+          icon: "search",
+          value: this.isValueEmpty(d.looking_for_position)
+            ? notSpecifed
+            : this.createListForMulti(d.looking_for_position)
+        });
+      }
+
+
+      if (!isCustomUserInfoOff(getCF(), Single.grade)) {
+        items.push({
+          label: lang("Grade / CGPA"),
+          icon: "book",
+          value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
+        });
+      }
 
       if (!isCustomUserInfoOff(getCF(), Single.where_in_malaysia)) {
         items.push({
@@ -426,7 +454,6 @@ export default class UserPopup extends Component {
           value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
         })
       }
-
     }
 
     for (let index in items) {

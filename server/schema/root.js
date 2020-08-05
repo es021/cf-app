@@ -526,6 +526,8 @@ let argBrowseStudent = {
 	sunway_faculty: __.String,
 	local_or_oversea_study: __.String,
 	local_or_oversea_location: __.String,
+	work_experience_year: __.String,
+	gender: __.String,
 
 	// multi (delimeter '::')
 	field_study: __.String,
