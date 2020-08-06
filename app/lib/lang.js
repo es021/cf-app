@@ -3,7 +3,7 @@ const { getCF } = require("../redux/actions/auth-actions")
 //@enable_lang
 function lang(input) {
   //@enable_lang - set cf
-  var CfForMalay = ["TEST", "MDCW"];
+  var CfForMalay = ["MDCW"];
   // var CfForMalay = [];
 
   try {
