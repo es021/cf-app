@@ -26,6 +26,9 @@ export default class InputSuggestion extends React.Component {
       loading: false
     };
   }
+  isDate() {
+    return this.props.input_type == "date";
+  }
   isText() {
     return this.props.input_type == "text";
   }
@@ -317,7 +320,7 @@ export default class InputSuggestion extends React.Component {
   getFieldInput() {
     let className = this.props.is_in_normal_form ? "form-control input-sm" : ""
 
-    if (this.isText()) {
+    if (this.isText() || this.isDate()) {
       return (
         <input
           className={className}

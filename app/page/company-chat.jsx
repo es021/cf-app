@@ -427,7 +427,6 @@ class CompanyChatInbox extends React.Component {
       return <div className="chat-box-empty">{lang("Select Chat From Inbox")}</div>;
     }
 
-    //return <div className="text-muted">Nothing To Show Here</div>;
   }
 
   changeChat(user_id) {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 // require("../css/sub-nav.scss");
 import { RootPath } from '../../config/app-config';
+import lang from '../lib/lang';
 
 export default class SubNav extends React.Component {
     constructor(props) {
@@ -49,14 +50,14 @@ export default class SubNav extends React.Component {
                 li.push(<a><li id={k} className={active}
                     onClick={item.onClick}>
                     <i className={`fa fa-${item.icon}`}></i>
-                    {item.label}
+                    {lang(item.label)}
                 </li></a>);
             } else {
                 li.push(<NavLink to={`${RootPath}/app/${this.props.route}/${k}`}>
                     <li id={k} className={active}
                         onClick={this.changeItem.bind(this)}>
                         <i className={`fa fa-${item.icon}`}></i>
-                        {item.label}
+                        {lang(item.label)}
                     </li>
                 </NavLink>);
             }

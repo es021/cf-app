@@ -5,6 +5,7 @@ import { ButtonLink } from "./buttons.jsx";
 import { ImgConfig } from "../../config/app-config";
 import { getAllCF } from "../redux/actions/auth-actions";
 import InputSuggestion from "./input-suggestion";
+import lang from "../lib/lang";
 
 // require('../css/form.scss');
 
@@ -375,7 +376,7 @@ export default class Form extends React.Component {
             name={d.name}
             rows={d.rows ? d.rows : 4}
             required={d.required}
-            placeholder={d.placeholder}
+            placeholder={lang(d.placeholder)}
             ref={v => (this.form[d.name] = v)}
             defaultValue={defaultVal}
           ></textarea>
@@ -430,7 +431,7 @@ export default class Form extends React.Component {
                   max={d.max}
                   step={d.step}
                   required={d.required}
-                  placeholder={d.placeholder}
+                  placeholder={lang(d.placeholder)}
                   defaultValue={defaultVal}
                   ref={v => (this.form[name] = v)}
                 />
@@ -460,11 +461,11 @@ export default class Form extends React.Component {
                   max={d.max}
                   step={d.step}
                   required={d.required}
-                  placeholder={d.placeholder}
+                  placeholder={lang(d.placeholder)}
                   defaultValue={defaultVal}
                   ref={v => (this.form[name] = v)}
                 />
-                {data.label}
+                {lang(data.label)}
               </label>
             </div>
           );
@@ -567,7 +568,7 @@ export default class Form extends React.Component {
       if (d.label != null && d.hidden !== true && d.hideLabel !== true) {
         label = (
           <div className="form-label">
-            {d.label}
+            {lang(d.label)}
             {d.required ? " *" : null}
           </div>
         );
@@ -576,7 +577,7 @@ export default class Form extends React.Component {
       //b. sublabel ----
       var sublabel =
         d.sublabel && d.hidden !== true ? (
-          <div className="form-sublabel">{d.sublabel}</div>
+          <div className="form-sublabel">{lang(d.sublabel)}</div>
         ) : null;
 
       // bootstrap form class
@@ -588,12 +589,12 @@ export default class Form extends React.Component {
 
       return d.header ? (
         <div className="form-header" key={i}>
-          {d.header}
+          {lang(d.header)}
         </div>
       ) : (
           <div className="form-item">
-            {label}
-            {sublabel}
+            {lang(label)}
+            {lang(sublabel)}
             <div className={formClass} key={i}>
               <div className="form-input">
                 {this.renderItem(d)}
@@ -609,7 +610,7 @@ export default class Form extends React.Component {
     var disableSubmit = this.props.disableSubmit;
     var submitText = this.props.submitText ? this.props.submitText : "Submit";
     if (disableSubmit) {
-      submitText = <Loader text_pos="right" text="Please Wait"></Loader>;
+      submitText = <Loader text_pos="right" text={lang("Please Wait")}></Loader>;
     }
 
     var formSubmit = (
@@ -619,14 +620,14 @@ export default class Form extends React.Component {
           className={`btn btn-md btn-${this.props.btnColorClass}`}
           disabled={disableSubmit}
         >
-          {submitText}
+          {lang(submitText)}
         </button>
       </div>
     );
 
     // 3. form error ---------
     var formError = this.props.error ? (
-      <div className="form-error alert alert-danger">{this.props.error} </div>
+      <div className="form-error alert alert-danger">{lang(this.props.error)} </div>
     ) : null;
 
     // 4. form success ---------

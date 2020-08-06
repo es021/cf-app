@@ -8,6 +8,7 @@ import { Loader } from "../../../component/loader";
 import PageSection from "../../../component/page-section";
 import { Time } from "../../../lib/time";
 import { getCompanyTitle, getEventAction } from "../../view-helper/view-helper";
+import lang from "../../../lib/lang";
 
 export default class EventPopup extends Component {
     constructor(props) {
@@ -66,7 +67,7 @@ export default class EventPopup extends Component {
             if (this.state.data === null) {
                 view = <NotFoundPage {...this.props}></NotFoundPage>;
             } else {
-                var non = <div className="text-muted">Nothing To Show Here</div>;
+                var non = <div className="text-muted">{lang("Nothing To Show Here")}</div>;
 
                 var info = [
                     // <div>
@@ -94,13 +95,13 @@ export default class EventPopup extends Component {
                 var desc = event.description ? <p dangerouslySetInnerHTML={{ __html: event.description }}></p> : non;
 
                 view = (
-                    <div style={{padding: "10px 20px"}}>
+                    <div style={{ padding: "10px 20px" }}>
                         <PageSection
                             className="left"
                             title={event.title}
                             body={
                                 <div>
-                                    <div style={{maxWidth:"300px"}}>{getEventAction(event, {isPopup:true})}</div>
+                                    <div style={{ maxWidth: "300px" }}>{getEventAction(event, { isPopup: true })}</div>
                                     <div style={{ height: "20px " }}></div>
                                     {info}
                                 </div>

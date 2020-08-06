@@ -194,16 +194,16 @@ export default class List extends React.Component {
       dataContent = this.state.empty ? (
         this.state.listItem
       ) : (
-        <div className=" table-responsive">
-          <table
-            ref={this.props.listRef}
-            className={`${this.props.listClass} table table-striped table-bordered table-hover table-condensed text-left`}
-          >
-            {this.props.tableHeader}
-            <tbody>{this.state.listItem}</tbody>
-          </table>
-        </div>
-      );
+          <div className=" table-responsive">
+            <table
+              ref={this.props.listRef}
+              className={`${this.props.listClass} table table-striped table-bordered table-hover table-condensed text-left`}
+            >
+              {this.props.tableHeader}
+              <tbody>{this.state.listItem}</tbody>
+            </table>
+          </div>
+        );
     } else {
       dataContent = this.state.listItem;
     }
@@ -231,8 +231,8 @@ export default class List extends React.Component {
     var loading = this.props.customLoading ? (
       this.props.customLoading
     ) : (
-      <Loader isCenter={true} size="2" text="Loading.."></Loader>
-    );
+        <Loader isCenter={true} size="2" text="Loading.."></Loader>
+      );
 
     var topView = null;
     var bottomView = null;
@@ -364,6 +364,7 @@ List.defaultProps = {
 
 import ProfileCard, { PCType } from "./profile-card.jsx";
 import { Page } from "react-facebook";
+import lang from "../lib/lang.js";
 
 export class ProfileListItem extends Component {
   render() {
@@ -477,8 +478,8 @@ export class ProfileListWide extends Component {
           {this.props.is_no_image ? (
             <div style={{ marginRight: "15px" }}></div>
           ) : (
-            <div className={`${className}-item col-md-2`}>{imgView}</div>
-          )}
+              <div className={`${className}-item col-md-2`}>{imgView}</div>
+            )}
           <div className={`${className}-item col-md-${contentSize}`}>
             <div className="item-main">
               <h4>{this.props.title}</h4>
@@ -493,7 +494,7 @@ export class ProfileListWide extends Component {
 }
 
 ProfileListWide.propTypes = {
-  rootContent :PropTypes.object,
+  rootContent: PropTypes.object,
   title: PropTypes.any.isRequired,
   subtitle: PropTypes.string.isRequired,
   img_url: PropTypes.string,
@@ -668,13 +669,13 @@ export class CustomList extends Component {
         <div style={styleText}>{text}</div>
       </NavLink>
     ) : (
-      <a href={d.url} target="blank">
-        <div style={style} className="icon-circle">
-          <i className={`fa fa-${d.icon}`}></i>
-          <div style={styleText}>{text}</div>
-        </div>
-      </a>
-    );
+        <a href={d.url} target="blank">
+          <div style={style} className="icon-circle">
+            <i className={`fa fa-${d.icon}`}></i>
+            <div style={styleText}>{text}</div>
+          </div>
+        </a>
+      );
 
     var onClick = d.onClick ? d.onClick : this.props.onClick;
     var content = (
@@ -721,7 +722,7 @@ export class CustomList extends Component {
       if (typeof this.props.emptyMessage !== "undefined") {
         return <div className="text-muted">{this.props.emptyMessage}</div>;
       } else {
-        return <div className="text-muted">Nothing To Show Here</div>;
+        return <div className="text-muted">{lang("Nothing To Show Here")}</div>;
       }
     }
 

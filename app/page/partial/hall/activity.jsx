@@ -416,7 +416,7 @@ class ActvityList extends React.Component {
     timeStr = <span className="text-muted"><i className="fa fa-clock-o left"></i>{timeStr}<br></br>(local time)</span>;
 
     return timeStr;
-    
+
     // if (showTimeOnly) {
     //   return <div>{timeStr}</div>;
     // }
@@ -860,7 +860,7 @@ class ActvityList extends React.Component {
           body={null}
         />
         let details = <div>
-          <b style={{fontSize:"16px"}}>{objRender.title}</b>
+          <b style={{ fontSize: "16px" }}>{objRender.title}</b>
           {objRender.time}
         </div>
         let action = objRender.action;
@@ -903,7 +903,7 @@ class ActvityList extends React.Component {
       if (this.props.list.length === 0) {
         body = (
           <div className="text-muted">
-            <i>Nothing to show here</i>
+            <i>{lang("Nothing to show here")}</i>
           </div>
         );
       }

@@ -449,7 +449,7 @@ export default class GeneralFormPage extends React.Component {
         <h4>
           <a onClick={this.addPopup}>
             <i className="fa fa-plus left"></i>
-            {this.props.addButtonText}
+            {lang(this.props.addButtonText)}
           </a>
         </h4>
       ) : (
@@ -517,7 +517,7 @@ export default class GeneralFormPage extends React.Component {
       return <div className="container-fluid">
         <div className="row">
           <div className="col-md-4">
-            {this.props.dataTitle ? <h2>{this.props.dataTitle}</h2> : null}
+            {this.props.dataTitle ? <h2>{lang(this.props.dataTitle)}</h2> : null}
             {addForm}
             {searchForm}
             {this.props.contentBelowFilter}
@@ -531,7 +531,7 @@ export default class GeneralFormPage extends React.Component {
 
     return (
       <div>
-        {this.props.dataTitle ? <h2>{this.props.dataTitle}</h2> : null}
+        {this.props.dataTitle ? <h2>{lang(this.props.dataTitle)}</h2> : null}
         {addForm}
         {searchForm}
         {this.props.contentBelowFilter}

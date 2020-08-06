@@ -195,6 +195,8 @@ export default class UserPopup extends Component {
                 degree_level
                 first_name
                 last_name
+                ${this.addIfValid("birth_date")}
+                ${this.addIfValid("kpt")}
                 ${this.addIfValid("country_study")}
                 ${this.addIfValid("gender")}
                 ${this.addIfValid("work_experience_year")}
@@ -344,6 +346,22 @@ export default class UserPopup extends Component {
       // });
 
       // 7b. @custom_user_info_by_cf -display single
+
+      if (!isCustomUserInfoOff(getCF(), Single.kpt)) {
+        items.push({
+          label: lang("IC Number"),
+          icon: "slack",
+          value: this.isValueEmpty(d.kpt) ? notSpecifed : d.kpt
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.birth_date)) {
+        items.push({
+          label: lang("Date Of Birth"),
+          icon: "birthday-cake",
+          value: this.isValueEmpty(d.birth_date) ? notSpecifed : d.birth_date
+        })
+      }
 
       if (!isCustomUserInfoOff(getCF(), Single.monash_student_id)) {
         items.push({

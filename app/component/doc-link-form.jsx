@@ -14,6 +14,7 @@ import { store } from '../redux/store';
 import {
     _GET
 } from '../lib/util';
+import lang from '../lib/lang';
 
 function hasDocLabel(dl, label, isExact) {
     isExact = typeof isExact === "undefined" ? false : isExact;
@@ -112,7 +113,7 @@ class DocLinkForm extends React.Component {
     }
 
     getFormItem() {
-        var CUSTOM = "Custom Label";
+        var CUSTOM = lang("Custom Label");
         var type = this.props.type;
         var labelData = [""];
         labelData.push(...(this.isForUser()) ? DocLinkEnum.USER_LABELS : DocLinkEnum.COMPANY_LABELS);
@@ -161,7 +162,7 @@ class DocLinkForm extends React.Component {
             label: "Label",
             name: DocLink.LABEL,
             type: "select",
-            sublabel: <span>Select `{CUSTOM}` to write a custom label</span>,
+            sublabel: `Select ${CUSTOM} to write a custom label`,
             onChange: (e) => {
                 if (e.currentTarget.value == CUSTOM) {
                     this.setLabelText(true);
@@ -173,8 +174,8 @@ class DocLinkForm extends React.Component {
 
         if ((typeof this.state !== "undefined" && this.state.labelText)) {
             labelObj.type = "text";
-            labelObj.sublabel = <span><a onClick={() => this.setLabelText(false)}>Select from dropdown</a></span>;
-            labelObj.placeholder = "Write down custom label here";
+            labelObj.sublabel = <span><a onClick={() => this.setLabelText(false)}>{lang("Select from dropdown")}</a></span>;
+            labelObj.placeholder = lang("Write down custom label here");
             labelObj.onChange = false;
         }
 
@@ -238,6 +239,7 @@ class DocLinkForm extends React.Component {
         getAxiosGraphQLQuery(query).then((res) => {
 
             var mes = (this.props.edit) ? `Successfully Edit ${this.props.type.capitalize()}!` : `Successfully Added New ${this.props.type.capitalize()}!`;
+            mes = lang(mes);
             toggleSubmit(this, { error: null, success: mes });
             if (this.props.onSuccessNew) {
                 this.props.onSuccessNew();
@@ -271,7 +273,7 @@ class DocLinkForm extends React.Component {
     render() {
 
         var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit)
-            ? <Uploader label="Upload Document" name="new-document"
+            ? <Uploader label={lang("Upload Document")} name="new-document"
                 type={FileType.DOC} onSuccess={this.uploaderOnSuccess}
                 onChange={this.uploaderOnChange}
                 onError={this.uploaderOnError}></Uploader>
@@ -407,7 +409,7 @@ export default class DocLinkPage extends React.Component {
     render() {
 
         var items = (this.state.data.length <= 0)
-            ? <div className="text-muted">Nothing To Show Here</div>
+            ? <div className="text-muted">{lang("Nothing To Show Here")}</div>
             : this.state.data.map((d, i) => {
                 //var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
                 //var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
@@ -428,20 +430,21 @@ export default class DocLinkPage extends React.Component {
         }
 
         var titleList = ((this.props.entity == "user") ? "My " : "") + "Document & Link";
-
+        titleList = lang(titleList);
+        
         return <div className="row container-fluid">
             <div className="col-sm-6">
-                <h3 className="left">Add New Document</h3>
+                <h3 className="left">{lang("Add New Document")}</h3>
                 <DocLinkForm id={this.props.id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity={this.props.entity}></DocLinkForm>
             </div>
             <div className="col-sm-6">
-                <h3 className="left">Add New Link</h3>
+                <h3 className="left">{lang("Add New Link")}</h3>
                 <DocLinkForm id={this.props.id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_LINK} entity={this.props.entity}></DocLinkForm>
             </div>
             <div className="col-sm-12">
                 <br></br>
                 <h3 className="left">{titleList}</h3>
-                {(this.state.fetching) ? <Loader size="2" text="Loading Document & Link.."></Loader> : items}
+                {(this.state.fetching) ? <Loader size="2" text={lang("Loading Document & Link..")}></Loader> : items}
                 <br></br>
             </div>
         </div>;

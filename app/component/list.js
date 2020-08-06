@@ -4,6 +4,10 @@ import { Loader } from "./loader";
 import PropTypes from "prop-types";
 import Tooltip from "./tooltip";
 import { NavLink } from "react-router-dom";
+import ProfileCard, { PCType } from "./profile-card.jsx";
+import { Page } from "react-facebook";
+import Paging from "./paging.jsx";
+import lang from "../lib/lang.js";
 
 // require("../css/list.scss");
 
@@ -115,7 +119,7 @@ export default class List extends React.Component {
         try {
           //empty list
           if (data.length <= 0) {
-            let emptyView = this.props.emptyMessage ? this.props.emptyMessage : "Nothing To Show Here";
+            let emptyView = this.props.emptyMessage ? this.props.emptyMessage : lang("Nothing To Show Here");
             var empty = this.props.showEmpty ? (
               <div style={{ width: "100%" }} className="text-muted text-center list-empty-text">
                 {emptyView}
@@ -491,9 +495,6 @@ List.defaultProps = {
 /*******************************************************************************************/
 /*******************************************************************************************/
 
-import ProfileCard, { PCType } from "./profile-card.jsx";
-import { Page } from "react-facebook";
-import Paging from "./paging.jsx";
 
 export class ProfileListItem extends Component {
   render() {
@@ -880,7 +881,7 @@ export class CustomList extends Component {
       if (typeof this.props.emptyMessage !== "undefined") {
         return <div style={emptyStyle} className="text-muted">{this.props.emptyMessage}</div>;
       } else {
-        return <div style={emptyStyle} className="text-muted">Nothing To Show Here</div>;
+        return <div style={emptyStyle} className="text-muted">{lang("Nothing To Show Here")}</div>;
       }
     }
 

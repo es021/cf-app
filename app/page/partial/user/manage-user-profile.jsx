@@ -162,6 +162,27 @@ export default class ManageUserProfile extends React.Component {
         {
           // single
           type: "single",
+          input_type: "text",
+          label: lang("IC Number"),
+          id: Reg.Single.kpt,
+          key_input: Reg.Single.kpt,
+          is_required: false,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.kpt)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "date",
+          label: lang("Date Of Birth"),
+          id: Reg.Single.birth_date,
+          key_input: Reg.Single.birth_date,
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.birth_date)
+        },
+
+        {
+          // single
+          type: "single",
           input_type: "select",
           label: lang("When is your graduation date?"),
           id: Reg.Single.graduation_month,
@@ -321,7 +342,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.grade,
           key_input: Reg.Single.grade,
           label: lang("What is your grade?"),
-          sublabel: lang("CGPA, First Class, etc"),
+          sublabel: lang("CGPA, GPA, First Class, WAM, etc"),
           input_placeholder: lang("Type something here"),
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.grade)
@@ -403,7 +424,7 @@ export default class ManageUserProfile extends React.Component {
           table_name: Reg.Multi.interested_role,
           label: lang("What types of jobs are you interested in?"),
           // label: "What types of jobs will you be searching for?",
-          input_placeholder: lang("Web Developer"),
+          input_placeholder: lang("Web Developer, Graphic Design, etc"),
           list_title: field_study ? lang(`Popular job for your field of study`) : "",
           ref_table_name: "job_role",
           suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
@@ -445,7 +466,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("Where would you like to work in Malaysia?"),
           input_placeholder: "Cyberjaya, Selangor",
           list_title: field_study
-            ? lang(`Popular job for your field of study`)
+            ? lang(`Popular location for your field of study`)
             : lang("Popular in your area"),
           ref_table_name: "location",
           is_required: true,
@@ -506,6 +527,7 @@ export default class ManageUserProfile extends React.Component {
       ]
     );
 
+    r = Reg.reorderByCf(cf, r);
     return r;
   }
   isLastItem(curIndex) {
@@ -605,7 +627,7 @@ export default class ManageUserProfile extends React.Component {
             }
           }}
         >
-          Submit
+          {lang("Submit")}
         </button>
       </div>
     );
@@ -651,6 +673,9 @@ export default class ManageUserProfile extends React.Component {
   }
   render() {
     let view = this.getInputItems().map((d, i) => {
+      if(!d){
+        return null;
+      }
       if (d.hidden) {
         return null;
       }

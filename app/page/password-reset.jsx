@@ -4,11 +4,12 @@ import { Loader } from '../component/loader';
 import Form, { toggleSubmit } from '../component/form';
 import Restricted from './partial/static/restricted';
 // import { AuthAPIErr } from '../../server/api/auth-api';
-import {AuthAPIErr} from "../../config/auth-config";
+import { AuthAPIErr } from "../../config/auth-config";
 
 import { passwordResetOld, passwordResetToken, getAuthUser, isAuthorized } from '../redux/actions/auth-actions';
 import { NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
+import lang from '../lib/lang';
 
 export default class PasswordResetPage extends React.Component {
     constructor(props) {
@@ -61,7 +62,7 @@ export default class PasswordResetPage extends React.Component {
         var formItem = [];
         if (this.type == this.TYPE_OLD) {
             formItem.push({
-                label: "Old Password",
+                label: lang("Old Password"),
                 name: "old_password",
                 type: "password",
                 placeholder: "****",
@@ -70,14 +71,14 @@ export default class PasswordResetPage extends React.Component {
         }
 
         formItem.push(...[{
-            label: "New Password",
+            label: lang("New Password"),
             name: "new_password",
             type: "password",
             placeholder: "****",
             required: true
         },
         {
-            label: "Confirm New Password",
+            label: lang("Confirm New Password"),
             name: "confirm_new_password",
             type: "password",
             placeholder: "****",
@@ -127,25 +128,25 @@ export default class PasswordResetPage extends React.Component {
         if (this.type == this.TYPE_OLD) {
             passwordResetOld(d.new_password, d.old_password, this.user_id)
                 .then((res) => { this.finishFormSubmit(res) }
-                , (err) => { this.finishFormSubmit(null, err) });
+                    , (err) => { this.finishFormSubmit(null, err) });
 
         } else if (this.type == this.TYPE_TOKEN) {
             passwordResetToken(d.new_password, this.token, this.user_id)
                 .then(
-                (res) => { this.finishFormSubmit(res) }
-                , (err) => { this.finishFormSubmit(null, err) });
+                    (res) => { this.finishFormSubmit(res) }
+                    , (err) => { this.finishFormSubmit(null, err) });
         }
     }
 
     render() {
-        document.setTitle("Password Reset");
+        document.setTitle(lang("Password Reset"));
 
         if (!this.type) {
             return <Restricted></Restricted>;
         }
 
         return (<div>
-            <h3>Password Reset</h3>
+            <h3>{lang("Password Reset")}</h3>
             <Form className="form-row"
                 items={this.formItem}
                 disableSubmit={this.state.disableSubmit}

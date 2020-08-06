@@ -170,6 +170,8 @@ const UserType = new GraphQLObjectType({
 		local_or_oversea_location: __.String,
 		work_experience_year: __.String,
 		gender: __.String,
+		birth_date: __.String,
+		kpt: __.String,
 
 		// default
 		first_name: __.String,

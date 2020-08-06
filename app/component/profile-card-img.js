@@ -8,6 +8,7 @@ import obj2arg from 'graphql-obj2arg';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { updateAuthUser } from '../redux/actions/auth-actions';
 import { UploadUrl } from '../../config/app-config.js';
+import lang from '../lib/lang.js';
 
 // require("../css/profile-card.scss");
 const pc = "pc-";
@@ -486,7 +487,7 @@ export default class ProfileCardImg extends React.Component {
             if (this.props.type == "user") {
                 console.log(res.data.data.edit_user);
                 updateAuthUser(res.data.data.edit_user);
-                toggleSubmit(this, { error: null, success: "Your Change Has Been Saved!" });
+                toggleSubmit(this, { error: null, success: lang("Your Change Has Been Saved!") });
             }
 
             location.reload();
@@ -534,13 +535,13 @@ export default class ProfileCardImg extends React.Component {
             </div>
 
             <div><br></br>
-                <Uploader label="Upload A New Picture" name="new-picture" type={FileType.IMG} onSuccess={this.uploaderOnSuccess}
+                <Uploader label={lang("Upload A New Picture")} name="new-picture" type={FileType.IMG} onSuccess={this.uploaderOnSuccess}
                     onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
             </div>
             <Form className="form-row"
                 items={this.formItems}
                 onSubmit={this.formOnSubmit}
-                submitText='Save'
+                submitText={lang("Save")}
                 defaultValues={this.imgVal}
                 disableSubmit={this.state.disableSubmit}
                 error={this.state.error}

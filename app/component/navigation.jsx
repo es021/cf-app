@@ -467,7 +467,7 @@ function getMenuItem(COMING_SOON) {
 
     {
       url: "/rec-current-event",
-      label: lang("Event"),
+      label: lang("See Event"),
       icon: "slack",
       component: HallPage,
       bar_app: true,
@@ -513,20 +513,20 @@ function getMenuItem(COMING_SOON) {
       default_param: { id: getAuthUser().rec_company, current: "vacancy" },
       disabled: !isRoleRec()
     },
-    {
-      url: "/my-activity/:current",
-      label: lang("My Activity"),
-      icon: "list-ul",
-      component: ActivityPage,
-      bar_app: false,
-      bar_auth: false,
-      hd_app: true,
-      hd_auth: false,
-      default_param: { current: "session" },
-      //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
-      // remove mmy activity from student
-      disabled: isRoleAdmin() || isRoleOrganizer() || isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
-    },
+    // {
+    //   url: "/my-activity/:current",
+    //   label: lang("My Activity"),
+    //   icon: "list-ul",
+    //   component: ActivityPage,
+    //   bar_app: false,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   default_param: { current: "session" },
+    //   //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
+    //   // remove mmy activity from student
+    //   disabled: isRoleAdmin() || isRoleOrganizer() || isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
+    // },
     {
       // Admin Only
       url: "/auditorium-management",

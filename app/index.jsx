@@ -95,6 +95,7 @@ let scss = [
   "custom-SHELL",
   "custom-SUNWAY",
   "custom-INTEL",
+  "custom-MDCW",
 ];
 
 for (var i in scss) {

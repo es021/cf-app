@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Time } from "../lib/time";
 import { _GET } from "../lib/util";
+import lang from "../lib/lang";
 
 // require("../css/time-converter.scss");
 
 export default class TimeConverterPage extends React.Component {
-  componentWillMount() {}
+  componentWillMount() { }
 
   getBlock({ date, time, day, timezone, tcClass }) {
     return (
@@ -24,7 +25,7 @@ export default class TimeConverterPage extends React.Component {
 
     let v = null;
     if (unix == null) {
-      v = <div>Nothing To Show Here</div>;
+      v = <div>{lang("Nothing To Show Here")}</div>;
     } else {
       unix = Number.parseInt(unix);
       let timeTitle = Time.getHappeningAgo(unix, {

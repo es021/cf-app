@@ -57,6 +57,7 @@ import { StudentListing } from "./partial/activity/student-listing.jsx";
 import { ScheduledInterview } from "./partial/activity/scheduled-interview";
 import CompanyPage from "./company";
 import ManageTag from "./tag";
+import lang from "../lib/lang";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -98,11 +99,11 @@ class VacancySubPage extends React.Component {
     this.tableHeader = (
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Type</th>
-          <th>Location</th>
-          <th>Last Updated</th>
+          <th>{lang("ID")}</th>
+          <th>{lang("Title")}</th>
+          <th>{lang("Type")}</th>
+          <th>{lang("Location")}</th>
+          <th>{lang("Last Updated")}</th>
         </tr>
       </thead>
     );

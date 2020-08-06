@@ -260,7 +260,7 @@ export default class CompanyPage extends Component {
     }
 
     if (list.length === 0) {
-      return <div className="text-muted">Nothing To Show Here</div>;
+      return <div className="text-muted">{lang("Nothing To Show Here")}</div>;
     }
     // console.log(rec_privacy);
     // console.log(this.isRec);

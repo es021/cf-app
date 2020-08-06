@@ -37,6 +37,7 @@ import LogoutPage from "../page/logout";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import UploaderVideo from "../component/uploader-video";
 import { createVideoDropbox } from "./partial/popup/user-popup";
+import lang from "../lib/lang";
 
 class StudentVideoResume extends React.Component {
   constructor(props) {
@@ -74,14 +75,14 @@ class StudentVideoResume extends React.Component {
     } else {
       v = (
         <div>
-          <div style={{ margin:"auto", width: "400px" }}>
+          <div style={{ margin: "auto", width: "400px" }}>
             {this.state.video_resume && this.state.video_resume.url
               ? [
-                  createVideoDropbox(this.state.video_resume.url),
-                  <br />,
-                  <br />,
-                  <br />
-                ]
+                createVideoDropbox(this.state.video_resume.url),
+                <br />,
+                <br />,
+                <br />
+              ]
               : null}
           </div>
 
@@ -225,8 +226,8 @@ class Skills extends React.Component {
     var skills = this.state.loading ? (
       <Loader size="2" text="Loading skills.."></Loader>
     ) : (
-      <div className="text-muted">Nothing To Show Here</div>
-    );
+        <div className="text-muted">{lang("Nothing To Show Here")}</div>
+      );
     if (!this.state.loading && this.state.skills.length > 0) {
       var skillItems = this.state.skills.map((d, i) => {
         return (
@@ -386,7 +387,7 @@ class EditProfile extends React.Component {
   render() {
     var content = null;
     if (this.state.init) {
-      content = <Loader size="2" text="Loading User Information"></Loader>;
+      content = <Loader size="2" text={lang("Loading User Information")}></Loader>;
     } else {
       content = (
         <div>
@@ -426,7 +427,7 @@ class EditProfile extends React.Component {
 
     return (
       <div className="text-left">
-        <h1>Edit Profile</h1>
+        <h1>{lang("Edit Profile")}</h1>
         {content}
       </div>
     );

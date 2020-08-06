@@ -10,6 +10,7 @@ import { getDataCareerFair } from '../app/component/form';
 import { DocumentUrl, TermsAndConditionUrl } from './app-config';
 import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from './data-config';
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
+import lang from '../app/lib/lang';
 export const TotalRegisterStep = 3;
 
 
@@ -28,12 +29,12 @@ export const UserFormItem = [
     //     register: 1, editStudent: 0, editRec: 0
     // },
     {
-        header: "Basic Information",
+        header: lang("Basic Information"),
         register: 1, editStudent: 1, editRec: 1
     },
     {
         // @kpt_validation
-        label: "IC Number",
+        label: lang("IC Number"),
         name: UserMeta.KPT,
         type: "text",
         placeholder: "XXXXXX-XX-XXXX",
@@ -44,7 +45,7 @@ export const UserFormItem = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
-        label: "First Name",
+        label: lang("First Name"),
         name: UserMeta.FIRST_NAME,
         type: "text",
         placeholder: "John",
@@ -52,21 +53,21 @@ export const UserFormItem = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
-        label: "Last Name",
+        label: lang("Last Name"),
         name: UserMeta.LAST_NAME,
         type: "text",
         placeholder: "Doe",
         //required: true,
         register: 1, editStudent: 0, editRec: 0
     }, {
-        label: "Email",
+        label: lang("Email"),
         name: User.EMAIL,
         type: "email",
         placeholder: "john.doe@gmail.com",
         //required: true,
         register: 1, editStudent: 0, editRec: 0
     }, {
-        label: "Password",
+        label: lang("Password"),
         name: User.PASSWORD,
         type: "password",
         placeholder: "*****",
@@ -82,7 +83,7 @@ export const UserFormItem = [
     //     register: 1, editStudent: 0, editRec: 0
     // }, 
     {
-        label: "Position",
+        label: lang("Position"),
         name: UserMeta.REC_POSITION,
         type: "text",
         placeholder: "HR Manager",
@@ -93,7 +94,7 @@ export const UserFormItem = [
         register: 2, editStudent: 0, editRec: 0
     },
     {
-        label: "Phone Number",
+        label: lang("Phone Number"),
         name: UserMeta.PHONE_NUMBER,
         type: "text",
         placeholder: "XXX-XXXXXXX",
@@ -266,7 +267,7 @@ export const UserFormItem = [
         type: "checkbox",
         data: [{
             key: "accepted",
-            label: <small>I agree to <a href={TermsAndConditionUrl} target="_blank">terms and conditions</a></small>
+            label: <small>{lang("I agree to")} <a href={TermsAndConditionUrl} target="_blank">{lang("terms and conditions")}</a></small>
         }],
         //required: true,,
         register: 1, editStudent: 0, editRec: 0

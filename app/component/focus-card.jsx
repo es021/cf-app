@@ -6,6 +6,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import { store } from '../redux/store';
 import { ButtonIcon } from './buttons.jsx';
 import PropTypes from 'prop-types';
+import lang from '../lib/lang';
 
 // require("../css/focus-card.scss");
 
@@ -86,7 +87,7 @@ class FocusCard extends React.Component {
                             size="18px" icon="close"></ButtonIcon>
                     </div>
                     <div className={`${fc}title`}>
-                        {focus.title}
+                        {lang(focus.title)}
                     </div>
                 </div>
                 <div className={`${fc}body`}>

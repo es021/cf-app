@@ -22,6 +22,8 @@ const Single = {
 
     // 1a. @custom_user_info_by_cf - single
     unemployment_period: "unemployment_period",
+    kpt: "kpt",
+    birth_date: "birth_date",
     monash_student_id: "monash_student_id",
     monash_school: "monash_school",
     sunway_faculty: "sunway_faculty",
@@ -40,6 +42,42 @@ const Multi = {
     extracurricular: "extracurricular",
 
     // 1b. @custom_user_info_by_cf - multi
+}
+
+const reorderByCf = (cf, r) => {
+    let order = null;
+    if (cf == "MDCW") {
+        order = [
+            Single.first_name,
+            Single.kpt,
+            Single.birth_date,
+            Single.phone_number,
+            Single.where_in_malaysia,
+            Multi.looking_for_position,
+            Single.qualification,
+            Multi.field_study,
+            Single.working_availability_month,
+            Multi.interested_role,
+            Multi.interested_job_location,
+            Multi.skill,
+        ]
+    }
+
+    if (order) {
+        let newR = [];
+        let map = {}
+        for (var i in r) {
+            map[r[i].id] = i;
+        }
+
+        for (var id of order) {
+            newR.push(r[map[id]]);
+        }
+        return newR;
+
+    } else {
+        return r;
+    }
 }
 
 // 1c. @custom_user_info_by_cf - on or off by cf
@@ -76,11 +114,17 @@ const isCustomUserInfoOff = (cf, key) => {
         case Single.gender:
             onCf = ["INTEL"];
             break;
+        case Single.kpt:
+            onCf = ["MDCW"];
+            break;
+        case Single.birth_date:
+            onCf = ["MDCW"];
+            break;
 
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
             break;
         case Single.where_in_malaysia:
             offCf = ["MONASH", "SUNWAY", "INTEL"];
@@ -89,7 +133,7 @@ const isCustomUserInfoOff = (cf, key) => {
             offCf = ["MONASH", "SUNWAY"];
             break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY", "INTEL"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
             break;
         case Multi.interested_role:
             offCf = ["INTEL"];
@@ -165,5 +209,6 @@ module.exports = {
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,
-    isCustomUserInfoOff
+    isCustomUserInfoOff,
+    reorderByCf
 };

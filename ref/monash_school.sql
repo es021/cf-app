@@ -11,6 +11,7 @@ PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
 INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Arts And Social Sciences'); 
 INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Business'); 
 INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Engineering'); 
+INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Information Technology'); 
 INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Medicine And Health Sciences'); 
 INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Pharmacy'); 
 INSERT INTO wp_career_fair.ref_monash_school (val) VALUES ('Science'); 

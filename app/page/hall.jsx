@@ -324,7 +324,7 @@ export default class HallPage extends React.Component {
   getEvents(backgroundColor) {
     // for recruiter
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title="Events & Webinars"
+      <ListRow title={lang("Events & Webinars")}
         icon="calendar"
         backgroundColor={backgroundColor}
         items={<EventList limitLoad={4} isFullWidth={true} />}
@@ -337,7 +337,7 @@ export default class HallPage extends React.Component {
     return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
       <div className="row main-width">
         <div className="col-md-6">
-          <ListRow title="My Interviews"
+          <ListRow title={lang("My Interviews")}
             icon="video-camera"
             backgroundColor={null}
             containerStyle={{ padding: "20px 0px" }}
@@ -350,7 +350,7 @@ export default class HallPage extends React.Component {
           ></ListRow>
         </div>
         <div className="col-md-6">
-          <ListRow title="Events & Webinars"
+          <ListRow title={lang("Events & Webinars")}
             backgroundColor={null}
             icon="calendar"
             containerStyle={{ padding: "20px 0px" }}
@@ -373,7 +373,7 @@ export default class HallPage extends React.Component {
     let companyProfileTerm = getCfCustomMeta(CFSMeta.TEXT_COMPANY_PROFILE_TERM, "Profiles")
 
     return <div className="col-md-12 no-padding">
-      <ListRow title={`${companyEntitySingle} ${companyProfileTerm}`}
+      <ListRow title={lang(`${companyEntitySingle} ${companyProfileTerm}`)}
         icon="building-o"
         backgroundColor={backgroundColor}
         items={<CompaniesSection {...this.props} limitLoad={3} />}
