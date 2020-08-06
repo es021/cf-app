@@ -1,573 +1,574 @@
-a = `Senior Shift Operation Engineer (MVCW)	Full time	Penang	"As a Test Equipment Shift Operation Engineer, you are responsible to the installation, modification, upgrade and maintenance of manufacturing equipment including studies equipment performance and reliability to ensure production equipment is in control and quality of product is meeting expectation; sustaining and improving key performance indices of the equipment through continuous improvement activities; reducing cost through qualifying 2nd source; ensuring effective and efficient equipment risk management strategy; continuous develop new capabilities ahead of needs.
-Responsibilities: 
-wzs21bulletPrimarily responsible for equipment transfer, install, setup, buyoff and release to support manufacturing start up
-wzs21bulletPlan, manage and work on resolving equipment line problems, and prepare the manufacturing line for ramp up
-Lead and responsible to achieve equipment performance
-wzs21bulletImplement Preventive/Predictive maintenance program
-wzs21bulletDevelop equipment maintenance specification
-wzs21bulletMonitor equipment performance key indicators and responsible to meet expectation
-wzs21bulletProvide necessary production support
-wzs21bulletDefine and sustain spare inventory system for key equipment
-wzs21bulletMonitor spare cost and drive down liabilities of spare inventories
-wzs21bulletIdentify the key cost drivers and work on cost reduction programs
-wzs21bulletDefine, develop and maintain equipment capabilities, strategy and roadmap
-wzs21bulletMaintaining a matrix on equipment capabilities and constraints
-wzs21bulletAccountable for Spare part/Tooling/meter management"	"wzs21bulletBachelor Degree in  any related Engineering
-wzs21bulletStrong written and verbal communication skills
-wzs21bulletProven ability to establish and maintain effective relationships with supported areas and peers and gain their trust and respect
-wzs21bulletExcellent multi-tasking skills
-wzs21bulletAbility to lead and participate in cross functional teams
-wzs21bulletDemonstrate excellent project/time management and priority setting skills"	https://jobs.micron.com/	Micheal	768	****wzs21****
-Test Equipment Engineer (MVCM)	Full time	Penang	"As a Test Equipment Engineer, you need to support on the equipment/process development, make decision and solve the problem, meet the expectations and requirements of internal/external customers and create and maintain relationships. Besides, you also need continue to improve engineering capability and personal/professional development. In addition, you also need mentoring other TMs and ensure consistently perform in a safe manner. 
+a = `838	Virtual Intern USA - Accounting & Finance	Intern		A virtual intern with the Accounting Team is a great opportunity to gain knowledge and experience in financial accounting, reporting, and internal controls. This project will entail working alongside the General Accounting, Accounts Payable, Payroll and Human Resources teams as well as exposure to all levels of management in the company. The virtual intern will work on a long-term project that accommodates current needs of the department and learning objectives set for the intern. 	"Motivated to learn and gain valuable experience.
+Computer skills (outlook, Word, Excel), oral communication and phone skills, be detail-oriented, well-organized, and motivated to learn.
+Accounting college students welcomed.
+"	1		****wzs21****
+838	Virtual Intern USA - Computer Programming	Intern		"•  Pairing with our Lead Engineer to learn about our systems 
+•  Writing code to develop and enhance new and existing applications 
+•  Writing unit tests to ensure all new code can be automatically tested 
+•  Writing code from a security-first mindset 
+•  Collaborating with colleagues across the company to fully understand business requirements"	"Critical thinking with great self initiative and motivation.
+A team worker with enhanced computer programming skills and knowledge. 
+Students from Computer Science/IT or Software Engineering background. E&E Engineering with the related knowledge can apply too. "	1		****wzs21****
+838	Virtual Intern USA - Logistics	Intern		"The virtual intern will learn to provide on a day to day basis, consistently high quality work. He/she will deal directly with customers about their shipments, invoice customers, update customers, learn how to clear a shipment through U.S. customs, quote rates, work on deliveries, dispatch truckers and follow up until shipments have been delivered. 
+Working in export customer service, the intern will deal directly with international agents and manufactures in USA, process export paperwork and send pre-alerts, invoice agents/customers, quote manufacturers/agents for pending shipments. "	"Good and strong commend of English.
+Students from Logistics and Supply Chain Management are welcomed. "	1		****wzs21****
+838	Virtual Intern USA - Business Administration	Intern		Office manager, customer service	"Good and strong commend of English.
+Students from Business and related background."	1		****wzs21****
+838	Virtual Intern USA - Business Administration	Intern		"Create & update Calendar event. 
+Preparing a weekly meeting log and follow up on tasks. 
+Checking mail everyday 
+Company Insurance management 
+CRM management 
+Assist on office related paperworks"	"Good and strong commend of English.
+Students from Business and related background."	1		****wzs21****
+838	Virtual Intern USA - Business Administration	Intern		Customer Support, data entry, research, Entry Level Analyst	"Good and strong commend of English.
+Students from Business and related background."	1		****wzs21****
+838	Virtual Intern USA - Computer Programming	Intern		Coding	Must have good knowledge in code developing.	1		****wzs21****
+838	Virtual Intern USA - Customer Service	Intern			Virtual interns who have a background in production, video production, graphic design, and marketing would all be able to contribute, in part, in their area of specialization, but the main request is for Customer Service	1		****wzs21****
+838	Virtual Intern USA - Graphic Design	Intern		Porject-based work will be given upon virtual internship placement confirmation	Must have Graphic Design educational background and/or work experiences	1		****wzs21****
+838	Virtual Intern USA - Marketing	Intern		"Professionally produce Case study , Newsletters, and assist on proposal 
+Market Search 
+SWOT Analysis Bi-Yearly Report 
+EMAIL Marketing design and planning 
+Checking mail everyday 
+Company Insurance management 
+CRM management 
+Assist on office related paperworks 
+Prepare and produce Social marketing contents (FB Posts, Website Album updates, Other social media posts)"	"Marketing or Business Marketing Management Graduate or related courses.
+English Communication Skills (FLUENT). 
+With Experience in MS OFFICE applications (word, excel, ppp), PDF. (Writing experience preferred) "	1		****wzs21****
+838	Virtual Intern USA - Marketing	Intern		Copy writing	"Fluent English proficiency is a must.
+Have Marketing or Business Marketing Management Graduate or related background."	1		****wzs21****
+838	Virtual Intern USA - Marketing	Intern		Someone who manages social media, instagram and facebook accounts	"Marketing or Business Marketing Management Graduate or related educational courses.
+Fluent English Communication Skills."	1		****wzs21****
+838	Virtual Intern USA - Marketing	Intern		Writing, digital marketing, content creation experience/desire.	"Prociency in English Communication Skills.
+Marketing or Business Marketing Management Graduate or related courses."	1		****wzs21****
+838	Virtual Intern USA - IT	Intern		We are looking at building up the back end security and need some self starters to help the program some well-known algorithms that will work well within our infrastructure. It would be best to have two virtual interns so they can work collaboratively. The Director & Codirector are the computer scientists, pleanty supervison will be provided.	Software Developers	2		****wzs21****
+838	Virtual Intern USA - Industrial Engineering	Intern		"Build Standard Operating Procedures in various fields.. e.g., turning something like this into an SOP.
+The SOPs wouldn't necessarily be in a certain field. They could be marketing related, eCommerce related, SaaS specific, etc.
+We are more than just a retailer. We are a brand partner. 
+Our primary areas of expertise are with Amazon.com, Jet.com, Walmart.com, and eBay.com."	"The virtual intern would have to have good analytical and/or organizational skills.
+Fluent English. 
+Must submit a profile for reviewing."	1		****wzs21****
+838	Virtual Intern USA - Human Resource / Psychology	Intern			We can offer organizational psychology (HR), and a few in clinical psychology as assistants to the Psychologists.	1		****wzs21****
+850	Internship for Computer Science & IT	Intern	Subang Jaya	"- Assist in business functions in the areas of either Information Technology/ Computer Science/ IT Service Desk.
+- Learn and practice basic day to day work or projects in a shared services environment
+- Engage in networking with colleagues from other business functions and Senior Management on best work practices
+- Discover within own team and/or with other process teams to identify and implement improvement opportunities
+- Delivering high levels of customer service to both internal or external stakeholders
+- Performing other relevant support activities as and when required"	"- Undergraduate students from reputable universities in the relevant field of study
+- Available for a minimum period of 3 months, preferably 6 months and above.
+- Good command of spoken and written English"	2	https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Internship-for-Computer-Science---IT_202004-110620	****wzs21****
+850	Internship for Accounting & Finance	Intern	Subang Jaya	"- Assist in business functions in the areas of either Accounting, Finance, or Procurement.
+- Learn and practice basic day to day work or projects in a shared services environment
+- Engage in networking with colleagues from other business functions and Senior Management on best work practices
+- Discover within own team and/or with other process teams to identify and implement improvement opportunities
+- Delivering high levels of customer service to both internal or external stakeholders
+- Performing other relevant support activities as and when required"	"- Undergraduate students from reputable universities in a relevant field of study
+- Available for a minimum period of 3 months
+- Good command of spoken and written English"	2	https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Intern--Finance---Procurement---IT---HR---Business---Corporate-Services-_201903-106512	****wzs21****
+850	Internship for Employer Branding	Intern		"- Learn and practice basic day to day work or projects in a shared services environment
+- Engage in networking with colleagues from other business functions and Senior Management on best work practices
+- Discover within own team and/or with other process teams to identify and implement improvement opportunities
+- Delivering high levels of customer service to both internal or external stakeholders
+- Performing other relevant support activities as and when required"	"- Undergraduate students from reputable universities in relevant field of study
+- Available for a minimum period of 3 months
+- Good command of spoken and written English"	1	https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Internship---Employer-Branding_202008-120656	****wzs21****
+850	Graduate Analyst	Full time 	Taman Tun Dr Ismail (TTDI)	"Required skillsets:-
+a) Looking for versatile developer who has experience in 
+one or more programming languages such as Java, OData, Python, C#, Swift, NativeScript and 
+JavaScript.
+b) Experience in SAP Cloud Platform SDK, Mobile Card Kit, and Mobile Development Kit is a plus
+c) Willing to learn and explore newest technology in development domain"	same as description 	4	"Kindly email the resume to : shamala.batumalai@rizing.com. 
+Otherwise, apply by clicking on this link: 
+https://www.linkedin.com/jobs/cap/view/1946862873/?pathWildcard=1946862873&trk=mcm"	****wzs21****
+806	Marketing Intern (Campaign)	Intern	Bangsar South			1	https://photobookworldwide.pinpointhq.com/jobs/3291	****wzs21****
+806	Marketing Intern (Prepaid)	Intern	Bangsar South			1	Pending	****wzs21****
+806	Marketing Intern (Special Projects)	Intern	Bangsar South			1	Pending	****wzs21****
+806	Product R&D Intern	Intern	Bangsar South			2	https://photobookworldwide.pinpointhq.com/jobs/3293	****wzs21****
+806	People & Culture Intern (PR & Talent Acquisition)	Intern	Bangsar South			1	Pending	****wzs21****
+806	People & Culture Intern (People Development)	Intern	Bangsar South			1	Pending	****wzs21****
+806	Creative Intern	Intern	Bangsar South			1	https://photobookworldwide.pinpointhq.com/jobs/3282	****wzs21****
+814	Internship-Payroll Analyst	Intern	Suite 5-1, Level 5, Wisma UOA Damansara II, No 6, Changkat Semantan, Damansara Heights, 50490 Kuala Lumpur	As attached	As attached	3		****wzs21****
+814	Internship-Computer Science (Software Engineering)	Intern	Suite 5-1, Level 5, Wisma UOA Damansara II, No 6, Changkat Semantan, Damansara Heights, 50490 Kuala Lumpur	As attached	As attached	1		****wzs21****
+816	Content & Creative Intern	Intern	Bangsar South	"• Understand elements of marketing and branding in the scope of our clients and interpret it through various illustrations and artworks that are required for various occasions. 
+• Work closely with our Content & Creative team to brainstorm and conceptualize in order to produce high quality creative campaign, captions, visuals and artworks for our clients. 
+• To source for, and archive various online campaigns and creative works / ideas / designs for reference. 
+• Contribute creative ideas in producing visuals / creative writing for our clients’ social media pages / online campaigns and promotions. 
+• To contribute creative input and art direction / concept for various projects including creative writing.
+•  To assist in various marketing and branding projects (through ideation and copywriting) for clients. 
+•  To assist production of creative / branding materials for the company. 
+•  To ensure all projects are completed timely and meticulously. 
+•  To manage client’s page with due diligent and timely crisis management."	"• Must have an excellent command of English, able to write in Malay and Chinese is added advantage.
+• Communications, PR, Copywriting, Graphic Design, Multimedia Design are welcome to apply.
+"	4		****wzs21****
+816	Digital Specialist	Full Time	Bangsar South	"•  Be savvy in all aspects of Digital Marketing to be seen as the Go-To-Person for all clients
+• Understand elements of marketing and branding in the scope of our clients and to propose to them effective and relevant Digital solutions
+• Work closely with our Creative team to brainstorm and conceptualize in order to produce high quality work for our clients
+• Contribute creative ideas in producing visuals / creative writing for our clients’ social media pages / online campaigns and promotions
+• To assist in various marketing and branding projects for clients
+• Develop a strategy focused both on financial gain as well as ensuring clients satisfaction
+• Conduct research to identify new markets and client needs
+• Build long-term relationships with new and existing clients
+• Liasing with all Press / PR / Publications to get your message out there about your new client wins / campaigns / successes
+• Researching, developing and taking a lead role in creating all proposals for your clients
+• To ensure all projects are completed timely and meticulously.
+• To manage client requirements and to ensure “awesome brand experience” for all parties involved be it clients, partners, colleagues and customers."	"• Minimum Diploma/Degree in Advertising/Media, Business Administration, Mass Communications, Journalism, Marketing or equivalent.
+• Required language(s): English and Malay. Mandarin will be an added advantage.
+• Excellent communication, strong analytical and negotiation skills.
+• Capable to handle multiple concurrent tasks and able to work under tight deadlines. 
+• Ability to quickly immerse in brands and problem-solving
+• Impeccable spelling and grammar
+• Good time management capability and willing to work long hours when required. "	2		****wzs21****
+816	Creative Designer	Full Time	Bangsar South	"• Be savvy in all aspects of Digital Marketing to be seen as the Go-To-Person for all clients
+• Understand elements of marketing and branding in the scope of our clients and to propose
+to them effective and relevant Digital solutions
+• Work closely with our Content & Engagement team to brainstorm and conceptualize in
+order to produce high quality work for our clients
+• Contribute creative ideas in producing visuals / creative writing for our clients’ social media
+pages / online campaigns and promotions
+• To assist in various marketing and branding projects for clients
+• To source for, and archive various online campaigns and creative works / ideas / designs
+for reference.
+• To assist production of creative / branding materials for the company.
+• Researching, developing and taking a creative role in creating all proposals for your clients
+• To ensure all projects are completed timely and meticulously.
+• To manage client requirements and to ensure “awesome brand experience” for all parties
+involved be it clients, partners, colleagues and customers."	"• Minimum Diploma/Degree in Art/Design/Creative Multimedia or equivalent.
+• Required skill(s): Videography, Photography, Adobe Photoshop, Illustrator & AfterEffects.
+• Capable to handle multiple concurrent tasks and able to work under tight deadlines
+• Good time management capability and willing to work long hours when required. "	2		****wzs21****
+803	Intern	Internship	Petaling Jaya	Assist and plan programs with the relevant teams	a person who really wants to learn	6	https://leaderonomics.org/en/component/content/article/136-internship?catid=98&Itemid=435	****wzs21****
+781	Intern - Mechanical Engineer	Intern	USJ 10, Subang	"We’re looking for a mechanical engineer intern whom will be working closely with the Phoenix engineering and production team and will obtain the insights into projects that deliver Phoenix products (acoustics noise control).
+Under supervisor’s direction, the student will create and analyse designs, run stimulations with assistance of computer programs. Besides the daily operation, there’re some research projects the interns may be working on:
+1. Rectangular Packless Silencer
+- The study of a new design of rectangular silencer, where the acoustic splitters are not filled with any absorptive infill material. Require simulation studies.
+2. Catalytic Converter
+- The study of the mechanical structure of catalytic converter and the fabrication/production process.
+3. Exhaust Silencer
+- Innovate the current design of the exhaust silencer, such as one with just a reactive section (no absorptive section).
+4. Circular Silencer
+- Study or simulation of circular silencer of different diameter to obtain the pressure drop and insertion loss values.
+5. Room Acoustics"	"• Completed first year in pursuing Mechanical Engineer or similar degree
+•  Understanding of mechanics, thermodynamics, fluid mechanics, heat transfer and energy
+•  Strong communication skills, written and verbal
+•  Creative problem solving and analytical skills
+•  Strong work ethic
+"	2 to 3	https://www.phoenixbyksm.co/	****wzs21****
+	Management Associate	Full time	Sunway	"Monash University Malaysia’s Management Apprentice Program aims to provide a tailored training and management experience for high-potential graduates to develop into the next generation of high-caliber leaders and managers of the university. The program includes exposure to the day-to-day operations of key services in the university allowing the Management Associate to acquire practical on-the-job functional knowledge and skills.
+
+The Management Associate will gain experience in at least three functional portfolios including from Business Development, Course Management, Finance, Human Resources, Marketing, Research Management, Student Recruitment, Student Services and Student Experience. The functional rotations will equip the Management Associate with well-rounded and multi-faceted understanding of key areas of the university.
+
+As part of an extensive learning and development program, the Management Associates will receive leadership development and project management opportunities throughout the two years. Successful candidate completing the two-year program may progress to a more senior role within the university and be awarded an opportunity to pursue one of Monash University Malaysia’s postgraduate qualification.
+
+1. Customer Service Excellence
+Ensure excellent customer services in providing effective and competent advice relevant to the assigned portfolios.
+Develop good understanding of relevant policies and processes relevant to the assigned portfolios.
+Keep abreast of developments in relation to the assigned portfolios.
+Ensure effective liaison with other portfolios and units in facilitating excellent service delivery to customers and stakeholders.
+Initiate and implement enhancements to impact customer service experience.
+
+2. Professional Administration
+Support the execution of processes relevant to the assigned portfolios in an accurate and timely manner.
+Observe, analyse and identify trends and suggest solutions to effectively manage business-related issues.
+Initiate and implement business process improvements relevant to the assigned portfolios.
+Maintain confidentiality in handling documentation and information within the assigned portfolios.
+Contribute to the analysis and monitoring of administrative performance through periodic reporting.
+
+3. Project Management
+Ensure effective leadership and management of the assigned cross-functional project contributing to Monash University Malaysia’s strategic direction.
+Plan and implement appropriate project management strategies to ensure timely completion of project in line with the expected outcomes.
+Deliver change management strategies as appropriate and ensure effective communication of project objectives and outcomes.
+Provide high-level support to the Project Chair in driving successful project delivery including periodic reporting on project updates.
+Present project achievements and outcomes to senior management following successful implementation of campus-wide project.
+Leadership and Development
+Participate in the various leadership and professional development programs as communicated by the Human Resources unit.
+Initiate periodic meetings with assigned coaches and mentors throughout the program and maintain systematic records of learning outcomes.
+Maintain personal development plan and periodic reflection of learnings throughout the Management Apprentice Program.
+Work collaboratively within the team of the assigned portfolios.
+Develop good strategic relationship with colleagues from relevant functional portfolios.
+As required, undertake other responsibilities as assigned by the supervisor, coach and mentor."	"1. Fresh graduate with excellent academic results (CGPA score of 3.25 and above) and with less than one year of working experience.
+2. Demonstrated leadership potentials through active involvement in extra-curricular activities.
+3. Excellent communication skills with strong English language proficiency, both verbal and written.
+4. Outstanding interpersonal skills with strong cultural competence as demonstrated in the management of key stakeholder relationships at all levels.
+5. Highly developed analytical and problem solving skills, including the ability to solve sensitive and complex problems.
+6. Ability to work well independently and as part of a team.
+7. Highly self-motivated with a strong drive to excel."	2		****wzs21****
+762	Software Engineer	Full Time	Bangsar South KL	"Working with our functional and business teams to create new modules or enhance existing modules to meet customer requirements.
+- Work with our customers to integrate our software into their IT infrastructure via web services or other technologies, and map their business requirements to our software.
+- You will be expected to learn new technologies, design test plans, provide technical advice and write great code.
+- Ignite your coding enthusiasm and code your way to build innovative web and mobile applications used by thousands of users in the financial services industry.
+- We offer both a software developer track where your main focus is creating great software, and also guiding and mentoring juniors, and a technical lead track where you combine both technical skills and leadership of teams of programmers.
+- We have an in-house application framework written in PHP and Javascript by some of the best programmers in Malaysia and you will be expected to learn and master the framework over time.
+- Experience working in squads of highly collaborative teams using AGILE methodologies and enjoy seeing your direct impact from your work."	"Candidates with a Diploma or Bachelor’s Degree are preferred, however skillset in PHP, Cordova or PhoneGap, PL/SQL, html5, JavaScript or DB2 is highly sought after.
+- If you have a Diploma or Degree in an unrelated major, but loves to code and want build your career as a programmer, just apply now.
+- No prior work experience is required as we will ignite your coding passion – turning your ideas into state-of-the-art applications. 
+- (For Senior Position) Candidate with 2 to 5 years related working experience will be remunerated accordingly.
+- Full-time position(s) (both senior & junior) are available."	10		****wzs21****
+762	Software Engineer	Intern	Bangsar South KL	"Working with our functional and business teams to create new modules or enhance existing modules to meet customer requirements.
+- Work with our customers to integrate our software into their IT infrastructure via web services or other technologies, and map their business requirements to our software.
+- You will be expected to learn new technologies, design test plans, provide technical advice and write great code.
+- Ignite your coding enthusiasm and code your way to build innovative web and mobile applications used by thousands of users in the financial services industry.
+- We offer both a software developer track where your main focus is creating great software, and also guiding and mentoring juniors, and a technical lead track where you combine both technical skills and leadership of teams of programmers.
+- We have an in-house application framework written in PHP and Javascript by some of the best programmers in Malaysia and you will be expected to learn and master the framework over time.
+- Experience working in squads of highly collaborative teams using AGILE methodologies and enjoy seeing your direct impact from your work."	"Candidates with a Diploma or Bachelor’s Degree are preferred, however skillset in PHP, Cordova or PhoneGap, PL/SQL, html5, JavaScript or DB2 is highly sought after.
+- If you have a Diploma or Degree in an unrelated major, but loves to code and want build your career as a programmer, just apply now.
+- No prior work experience is required as we will ignite your coding passion – turning your ideas into state-of-the-art applications. 
+- (For Senior Position) Candidate with 2 to 5 years related working experience will be remunerated accordingly.
+- Full-time position(s) (both senior & junior) are available."	10		****wzs21****
+762	Professional Services Engineer (Business Analyst)	Full Time	Bangsar South KL	"•	To master the Juris Application Server framework for Business Consultant and to be well versed in the capability of the Juris solution framework
+•	To be subject matter expert on banking process and workflows and guide banking users to achieve optimum efficiency using Juris solution
+•	To facilitate discovery sessions to uncover user requirements and translate these requirements into documentation with workflow diagrams
+•	To configure Juris software on a non-programming level according to the captured requirements of the banks (SQL skill trainings shall be provided to better equip the candidate)
+•	To facilitate and execute UAT sessions and working alongside programmers for rapid and full resolution of UAT defects.
+•	To analyse and understand system requirements, design specifications and business values.   
+•	To develop, design and document tests and test cases.
+•	To design and execute automated tests to verify manual and automated test results
+•	To report defects and retest resolved bugs and defects
+•	To report test coverage and document test results during execution
+•	For those with additional soft skills talent, to be moulded into trainers for users and train-the-trainer sessions
+•	High performers shall be groomed on the Juris methods of project management processes and procedures. "	"•	Candidate must possess at least a Diploma, Bachelor’s Degree, Professional Degree in Engineering (Computer/Telecommunication), Computer Science/Information Technology, Business Studies/Administration/Management/Finance/Accountancy/Banking, Mass Communications or equivalent
+•	We are seeking individuals who possess analytical & logical mind, some knowledge about programming concept
+•	Candidates who are skilled in Structure Query Language SQL, PHP, PL/SQL or possess knowledge in the financial loans processing and credit management is an advantage.
+•	Required language(s): English
+•	1 year of working experience in the related field is required for this position however fresh graduates are encouraged to apply as well
+•	Full-Time positions available"	10		****wzs21****
+762	Professional Services Engineer (Business Analyst)	Intern	Bangsar South KL	"•	To master the Juris Application Server framework for Business Consultant and to be well versed in the capability of the Juris solution framework
+•	To be subject matter expert on banking process and workflows and guide banking users to achieve optimum efficiency using Juris solution
+•	To facilitate discovery sessions to uncover user requirements and translate these requirements into documentation with workflow diagrams
+•	To configure Juris software on a non-programming level according to the captured requirements of the banks (SQL skill trainings shall be provided to better equip the candidate)
+•	To facilitate and execute UAT sessions and working alongside programmers for rapid and full resolution of UAT defects.
+•	To analyse and understand system requirements, design specifications and business values.   
+•	To develop, design and document tests and test cases.
+•	To design and execute automated tests to verify manual and automated test results
+•	To report defects and retest resolved bugs and defects
+•	To report test coverage and document test results during execution
+•	For those with additional soft skills talent, to be moulded into trainers for users and train-the-trainer sessions
+•	High performers shall be groomed on the Juris methods of project management processes and procedures. "	"•	Candidate must possess at least a Diploma, Bachelor’s Degree, Professional Degree in Engineering (Computer/Telecommunication), Computer Science/Information Technology, Business Studies/Administration/Management/Finance/Accountancy/Banking, Mass Communications or equivalent
+•	We are seeking individuals who possess analytical & logical mind, some knowledge about programming concept
+•	Candidates who are skilled in Structure Query Language SQL, PHP, PL/SQL or possess knowledge in the financial loans processing and credit management is an advantage.
+•	Required language(s): English
+•	1 year of working experience in the related field is required for this position however fresh graduates are encouraged to apply as well
+•	Full-Time positions available"	10		****wzs21****
+784	EY Graduate Programme - Technology Consulting (Technology Solution Delivery Associate, Financial Services)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Engineering, Computer Science, Information Systems, Information Technology, Computer Engineering, IT Security, Management in Information Systems or other related fields 
+•	Currently in your final year or a fresh graduate 
+•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply "	1	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-technology-consulting-technology-solution-delivery-associate-financial-services-135134 	****wzs21****
+784	EY Graduate Programme - Technology Consulting Associate (Data & Analytics) 	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Computer Science, Information Technogy, Business Analytics or other related fields
+•	Currently in your final year or a fresh graduate
+•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply"	N/A	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-data-analytics-134575	****wzs21****
+784	EY Graduate Programme - Technology Consulting Associate (EY Identity)	Full Time	Bukit Jalil	As per job posting	"•	At least an average distinction/ 2nd upper degree in in computer science, computer/ electrical engineering, information technology or a related field
+•	Currently in your final year or a fresh graduate
+•	Strong interest in the field of information security
+•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply
+•	Required Skill(s): JAVA or .NET, XML or Java Script"	11	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-ey-identity-134574	****wzs21****
+784	EY Graduate Programme - Technology Consulting Associate (Cybersecurity)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in in computer science, computer/ electrical engineering, information technology or a related field
+•	Currently in your final year or a fresh graduate
+•	Strong interest in the field of information security
+•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply"	20	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-cybersecurity-134577	****wzs21****
+784	EY Graduate Programme - Technology Consulting Associate (Solution Delivery)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Engineering, Computer Science, Information Systems, Information Technology, Computer Engineering, IT Security, Management in Information Systems or other related fields 
+•	Currently in your final year or a fresh graduate 
+•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply "	N/A	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-technology-consulting-134576	****wzs21****
+784	EY Graduate Programme - Technology Consulting Associate (Technology Risk)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Accounting, Business, Information Technology, Engineering, or other relevant fields
+•	Currently in your final year or a fresh graduate
+•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply
+"	15	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-technology-risk-134573	****wzs21****
+784	EY Internship Programme - Kuala Lumpur (Data & Analytics)	Intership	KL	As per job posting	"•	Consistently strong academic performance in the areas of accounting, commerce, economics, finance, information technology, computer science, business systems, business management, law or other business-related fields
+•	Currently a Penultimate-year university student
+•	Able to participate in the programme for a minimum duration of 8 weeks"	N/A	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-internship-programme-kuala-lumpur-133966	****wzs21****
+36	Internship for Civil Engineering Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
+Project Implementation
+Project Planning
+Site Supervision
+Landed / high-rise development
+Commercial / residential development"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Engineering (Civil) or equivalent
+Required: CIDB
+Minimum duration of 3 months
+Minimum CGPA 3.30"	<5		****wzs21****
+36	Internship for Sales & Marketing Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
+Sales & Marketing
+Customer relations
+Event planning
+Property development
+Retail development"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Marketing / Business Studies/Administration/Management, Economics, Real Estate or equivalent.
+Minimum duration of 3 months
+Minimum CGPA 3.30"	<5		****wzs21****
+36	Internship for Business Administration Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
+Sales administration
+Customer relations
+Property management
+Property development"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Business Studies/Administration/Management, Economics, or equivalent.
+Minimum duration of 3 months
+Minimum CGPA 3.30"	<5		****wzs21****
+36	Internship for Accounting Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
+Data entry
+Operational accounting
+Office administration
+Finance & treasury"	"Minimum duration of 3 months
+Minimum duration of 3 months
+Minimum CGPA 3.30"	<5		****wzs21****
+36	Internship for IT Students	Intern	Setia Alam	"Responsibilities:
+Web development
+App development
+System maintenance
+User support"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Computer Science/Information Technology or equivalent
+Minimum duration of 3 months
+Minimum CGPA 3.30
+"	<5		****wzs21****
+792	Software Tester	Full Time	Cyberjaya	"Perform high-quality automated and manual tests on the Deriv.com website, applications, backend infrastructure, and related systems.
+Collaborate closely with the rest of the QA and IT teams to create, design, and run several types of testing based on different objectives.
+Integrate various types of testing into our existing workflows, both internal and external.
+Ensure the integrity of releases by coordinating testing procedures and activities.
+Track and keep a detailed record of every bug that you discover.
+Identify, document, and investigate issues reported by our clients and the Client Support team.
+Replicate reported issues and work with our IT teams to find the root cause, understand the problem, and help come up with solutions."	"Bachelor’s degree in computer science, or an equivalent combination of technical education, training, and work experience
+Ability to write high-quality, self-documenting code using test-driven development techniques
+Passion for Linux and other open-source platforms
+Familiarity with Git
+Excellent spoken and written English communication skills"	3		****wzs21****
+792	Front End	Full Time	Cyberjaya	"Develop and maintain advanced features, tools, and applications according to best practices in UI/UX, front-end development and hybrid mobile application development.
+Test and debug our ever-evolving product line to improve their speed, scalability, and usability across multiple browsers, devices, and web standards.
+Stay on top of the latest JavaScript frameworks, libraries, and tools in order to apply them when necessary to solve challenges related to web and mobile development.
+Research and test new web technologies and make recommendations on opportunities to improve our user interface.
+Ensure the design and development of each product is consistent with our style guide, and that everything works as planned with each release.
+Communicate effectively with other team members to understand the big picture of the organisation and its goals.
+Collaborate regularly with researchers, designers, and developers on the implementation of new features and products.
+Provide technical leadership, leading by example throughout the development process."	"Experience of JavaScript, HTML, and CSS
+Experience with package managers (npm), task runners (Gulp, Webpack, Grunt), CSS
+processors (Sass, Stylus), and APIs (WebSocket)
+Familiarity with various JavaScript standards, libraries, frameworks, compilers, and
+transpilers including ES6, TypeScript, Babel, Web Workers, React, and Angular
+Extensive knowledge in advanced coding techniques and cross-platform development
+Ability to write high-quality, self-documenting code using test-driven development
+techniques
+Familiarity with testing and debugging processes, including unit testing and UI testing
+Passion for Linux and other open-source platforms
+Excellent spoken and written English communication skills"	3		****wzs21****
+792	Mobile App Developer	Full Time	Cyberjaya	"Develop iOS and Android mobile applications, writing high-quality code and tests.
+Collaborate with cross-functional teams to analyse data and decide on the best strategies to improve customers’ interaction with our mobile apps. 
+Prioritise information security and process maintenance throughout the mobile app lifecycle.
+Analyse, enhance, and support our existing mobile applications.
+Work closely with QA, Design, and Product Management teams to build the best possible UX for our mobile apps."	"Experience in Flutter framework or a keen eagerness to master it
+High proficiency and experience in one or more of the following programming languages: Java, Dart, ES6, Kotlin, Objective-C, or Swift
+Distinct competence in mobile app development for at least one platform
+In-depth understanding of design guidelines and patterns in the Android and iOS platforms and their differences
+Strong knowledge of the performance tools and optimization techniques in Android or iOS SDKs
+Excellent spoken and written English communication skills"	3		****wzs21****
+792	Data Engineer	Full Time	Cyberjaya	"Conduct full lifecycle data integration, encompassing requirements, activities, and design.
+Ask the right questions to identify potential problems, the scope of the operation, and the availability of relevant data.
+Use data governance tools to ensure data is accurate and consistent for effective analysis.
+Convert raw data into an easy-to-understand format for analysis and reporting purposes.
+Develop and implement databases by collecting, designing, processing, analysing, and presenting data in a meaningful way.
+Communicate and collaborate effectively with members of different teams across the organisation."	"Knowledge of data modelling techniques such as Kimball star schema, Anchor modelling and Data Vault
+Experience with database reporting tools such as SQL, programming languages such as Python and R, and ETL frameworks
+Strong analytical skills with the ability to transform data into optimal business decisions
+Strong communication skills
+Ability to present data using various tools to help the team to make informed business decisions
+Excellent spoken and written English communication skills"	3		****wzs21****
+792	Global Affiliates & Introducing Broker Executive	Full Time	Cyberjaya	"Grow our affiliate networks in a highly-competitive industry.
+Identify new growth opportunities, prospects, and competitors via market research and data analysis.
+Generate meaningful insights that help you to source, recruit, and support affiliates that are aligned with our values and business strategies.
+Make data-driven recommendations to increase affiliate performance. 
+Monitor and analyse affiliate activity, using metrics such as number of conversions per affiliate.
+Devise branding, marketing, and messaging strategies to help affiliates improve their
+client acquisition and retention efforts.
+Localise affiliate marketing tactics and promotional materials for designated
+markets to ensure maximum effectiveness and ROI."	"A university degree in marketing, business administration, or any other related discipline
+Outstanding market research skills and a keen understanding of the consumer journey
+Experience in affiliate marketing, growth hacking, and business development
+Experience in using a wide range of digital marketing tools and affiliate management
+platforms
+An assertive, sales-driven personality and the ability to adapt quickly and achieve
+powerful results
+Excellent spoken and written English communication skills
+Knowledge and experience in the financial services industry
+A passion for finance and technology"	3		****wzs21****
+792	Digital Marketing Executive	Full Time	Cyberjaya	"Develop in-depth knowledge of our target audience and company values.
+Assist in developing and managing digital marketing campaigns.
+Write marketing content drafts for a variety of channels.  
+Work with our copywriters and designers to optimise marketing content. 
+Conceptualise, edit, and publish digital content such as videos, infographics, and posts
+Work on printed materials to supplement online products. 
+Work with the Business Intelligence team to track and analyse website traffic flow and provide regular internal reports. 
+Organise webinars and webcasts. 
+Identify new trends in digital marketing, evaluate new technologies, and ensure that our brand is at the forefront of industry developments in mobile marketing. "	"A university degree in Marketing, Communications, or Business
+Familiar with Search Engine Optimisation (SEO), Pay-Per-Click (PPC), and Social Media Marketing concepts
+Strong analytical and communication skills
+A passion for being up-to-date on the latest digital marketing channels and tools
+Good balance of creativity and analytical skills
+Excellent spoken and written English communication skills"	3		****wzs21****
+792	Copywriter	Full Time	Cyberjaya	"Collaborate with designers, developers, analysts, and other stakeholders who are based around the world to define content requirements and strategy to achieve our desired business goals.
+Write engaging marketing and sales copy to persuade our clients and prospects to take action.
+Plan, write, and test UI copy and other text elements in our websites and apps.
+Contextualise copy for its intended audience using our style guide, tone of voice, and internal processes as reference.
+Edit and proofread copy as needed."	Excellent spoken and written English communication skills with a keen eye for detail when it comes to punctuation, spelling, grammar, and syntax	3		****wzs21****
+792	Client Support Executive	Full Time	Cyberjaya	"Resolve complex customer care issues through careful investigation and in keeping with existing policies and procedures.
+Communicate solutions to customer issues in a clear, concise, friendly, and timely
+manner.
+Respond to customer enquiries by phone, email, social media, and live chat daily.
+Process applications and customer documentation according to relevant policies and
+regulations.
+File records and documents of customer interactions according to existing guidelines.
+Identify new marketing opportunities through customer feedback and contribute ideas to expand our global customer base.
+Collaborate with members of our IT team to identify new ways to improve our products
+and services for customers.
+Perform regular testing on our products and services. 
+Collaborate with client support agents in different time zones to ensure optimum results and customer satisfaction"	Exceptional spoken and written communication skills in English	3		****wzs21****
+852	Interactive Developer	Full Time	Kuala Lumpur	"- Participate in discussions with clients to understand the requirements and technical specifications for the game or interactive experience
+
+- Understand the project needs and conceptualize, plan, develop an experience that would fulfill those needs
+
+- Keep up to date on latest technologies and programming practices for games or interactive experiences
+
+- Collaborate with directors, artists, designers and programmers to understand how to best utilise existing tools and technologies
+
+- Support regular project reviews to recommend schedule changes, cost or resource adjustments
+
+- Carry out all other related tasks
+"	"- Bachelor’s Degree in Computer Science, Software Engineering or equivalent
+
+- At least 1 year of relevant work experience required
+
+- Proficient in Photoshop, Illustrator, or other visual design and wire-framing tools
+
+- Proficient in HTML, CSS, and JavaScript
+
+- Familiarity with PHP will be a plus
  
-Responsibilities and Tasks:
- 
-wzs21bulletEquipment and Process and Development:
-wzs21bulletDevelop and modify appropriate processes for product quality control, and production efficiency
-wzs21bulletQualify design changes to equipment or processes
-wzs21bulletDevelop equipment for production applications 
-wzs21bulletIdentify process deviations
-wzs21bulletDetermine origin of deviation and isolate cause
-wzs21bulletAdequately evaluate equipment performance, throughput and reliability
-wzs21bulletUnderstand the processes dependent on equipment and equipment limitations
-wzs21bulletEnsure device quality through qualification
-wzs21bulletEnsure critical Process items are addressed in the qualification such as: Thermal issues, ESD issues, Safety issues, Calibration issues, and Software
-wzs21bulletAccess and use manufacturers maintenance manuals
-wzs21bulletInterpret manufacturers schematics, terminology, and symbols
-wzs21bulletDevelop expertise on engineering tools required to support the area (i.e. Oscilloscope, force gauge, smart scope, etc.)
-wzs21bulletDecision Making & Problem Solving:
-wzs21bulletMake effective decisions
-wzs21bulletEffectively prioritize and address problems in the area 
-wzs21bulletImplement sound decisions based on experimentation results and data collections
-wzs21bulletTake responsibility for decisions
-wzs21bulletFacilitate group decision making process
-wzs21bulletRespond to changes in priorities in a positive manner, providing constructive feedback to appropriate people when necessary
-wzs21bulletUse all available resources and information when prioritizing projects
-wzs21bulletMonitor progress to measure desired results
-wzs21bulletAble to set goals and define task priorities
-wzs21bulletBe pro-active: anticipate and analyze problems
-wzs21bulletGenerate alternative solutions, select the best solution and develop an action plan
-wzs21bulletUse problem solving skills to resolve issues before they escalate
-wzs21bulletTarget appropriate data when designing experiments
-wzs21bulletDetermine data requirements
-wzs21bulletValidate an experiment
-wzs21bulletValidate experiment conclusions
-wzs21bulletSummarize experiments and document results
-wzs21bulletUse sound Design of Experiment (DOE) concepts
-wzs21bulletEnsure reliability of data
-wzs21bulletDocument experimentation and data collection efforts appropriately
-wzs21bulletCustomer Service: -Meet the expectations and requirements of internal/external customers -Create and maintain relationships 
-wzs21bulletUse appropriate formats for summation and presentation of data and analysis such as SPC, databases, charts, graphs, and reports
-wzs21bulletMeet project timelines
-wzs21bulletRespond quickly and positively to all customers
-wzs21bulletRe-prioritize work when customer needs change
-wzs21bulletRecognize all customer needs and respond with respect
-wzs21bulletPractice open and friendly body language and eye contact
-wzs21bulletUse problem solving skills to resolve issues before they escalate
-wzs21bulletUnderstand the impact of equipment modifications and processes, and identify affected customer groups
-wzs21bulletAbility to work on, or lead technical teams as developed to address specific problems
-wzs21bulletEffectively improve equipment to address Production and ES Process problems
-wzs21bulletCoordinate, document, and implement changes and new process across affected equipment and sites
-wzs21bulletContinuous Improvement:
-wzs21bulletContinue to improve engineering capability
-wzs21bulletOngoing personal and professional development
-wzs21bulletBe innovative in design and drive change in the area 
-wzs21bulletDrive change within Micron in area of technical influence
-wzs21bulletChallenge existing paradigms and suggest alternatives
-wzs21bulletClearly identify supplier and Micron intellectual property
-wzs21bulletDevelop forward looking and flexible designs
-wzs21bulletDevelop new ideas to address complex technical problems
-wzs21bulletExplore new ideas
-wzs21bulletIdentify patentable inventions
-wzs21bulletMake timely disclosures of patentable inventions
-wzs21bulletKeep proper records for obtaining a patent
-wzs21bulletUnderstand how patent rights are lost
-wzs21bulletUse effective design practices
-wzs21bulletConsider device quality in design
-wzs21bulletDevelop diagrams and schematics including the correct terminology, notes, and symbols
-wzs21bulletUse ergonomic design practices and take into account end user applications
-wzs21bulletMinimize rework
-wzs21bulletConduct an evaluation or experiment to 'prove-out' the new design or process
-wzs21bulletDevelop intuitive technical skills through experience
-wzs21bulletImplement and verify solution
-wzs21bulletRemain actively involved in quality improvement
-wzs21bulletCommunicate Information: -Accurately relate technical information to appropriate personnel -Maintain effective communications with internal/external customers -Apply meeting and facilitation skills 
-wzs21bulletWrite effective DOE
-wzs21bulletGenerate clear and accurate meeting minutes
-wzs21bulletDevelop supplier documentation (buyoff criteria, issues list, etc.)
-wzs21bulletHost supplier meetings and effectively communicate Microns requirements
-wzs21bulletGenerate and deliver a presentation to a technical audience
-wzs21bulletUnderstand use of Project Vault and proper project tracking methods
-wzs21bulletEngage Focus Team concepts to address global issues
-wzs21bulletProperly engage internal and external customers to address project goals
-wzs21bulletKeeps all impacted groups in the communication loop
-wzs21bulletUnderstands documentation types (Supplier feedback, equipment reports, acceptance criteria, etc.) and is effective in all applicable documentation associated to their role
-wzs21bulletDisplay knowledge of and use proper methods for project cost, and Return on Investment (ROI) modeling
-wzs21bulletDevelop proper project documentation
-wzs21bulletEncourage and mentor proper project management techniques
-wzs21bulletWork as mentor for production and ES on equipment issues
-wzs21bulletDevelop installation and calibration procedures for production equipment
-wzs21bulletDevelop training programs (using available resources) for production and ES
-wzs21bulletWork with suppliers on equipment design and Micron requirements
-wzs21bulletEvaluate customer requirements and direct supplier in addressing these requirements
-wzs21bulletIdentify areas for equipment improvements and work with the supplier to implement the best solutions
-wzs21bulletTravel to supplier to evaluate equipment for Micron (any site) application
-wzs21bulletKnow and use correct terminology for electronic, mechanical, hydraulic, and pneumatic systems
-wzs21bulletMentoring: -Share knowledge and experience with other team members 
-wzs21bulletWorks as an effective mentor
-wzs21bulletDevelop and conduct training for production, ES and engineering
-wzs21bulletDevelops and maintains the respect of peers, leadership and customers
-wzs21bulletSimplify & refine current processes; eliminate unnecessary processes
-wzs21bulletDevelop missing/necessary processes
-wzs21bulletDocument changes to equipment or process and facilitate production and ES training
-wzs21bulletEncourage and mentor proper qualification techniques
-wzs21bulletUse basic SOJT training techniques and adult learning principles
-wzs21bulletBe informed of processes and procedures
-wzs21bulletBuild trust and mutual respect in order to provide support to learners
-wzs21bulletDemonstrate a flexible style that facilitates different learning styles
-wzs21bulletApply experience in answering questions for learner before, during and after training
-wzs21bulletWork through training scenarios and challenges with shift leadership"	"wzs21bulletBachelor’s Degree in Computer Engineering, Electrical & Electronics, Industrial Engineering, Manufacturing, Material Science, Mechanical Engineering, System Engineering
-wzs21bullet5 years’ experience in any of the following: 
-wzs21bulletElectrical
-wzs21bulletEngineering
-wzs21bulletMaintenance/Support
-wzs21bulletMechanical
-wzs21bulletSemiconductor Manufacturing
-wzs21bulletTechnical Communications
-wzs21bulletTelecommunications"	https://jobs.micron.com/	Micheal	768	****wzs21****
-Assembly Process Technician - Wafer Thinning and Dicing (MVCW)	Full time	Penang	"As an Assembly Process Engineering Technician, you will be primarily responsible for supporting daily line operational matters which includes material disposition, root cause investigation and yield tracking, setting up and updating operational procedure and specifications, as well as conducting training to Operations employees. Additional responsibilities include supporting qualification lots and customer samples, performing engineering evaluations and data collection as well as working on other projects as assigned.
-Responsibilities and Tasks:
-wzs21bulletAssist Engineer in conducting experiments (DOE) 
-wzs21bulletTroubleshoot deviations using systematic troubleshooting techniques 
-wzs21bulletVerify correct process variables for production (i.e. materials, machine set points, etc.) 
-wzs21bulletMonitor Process SPC and Cpk (Processs Capability) 
-wzs21bulletAssist Engineer in maintaining operation procedures/specification
-wzs21bulletMentor/ Coaching to enhanced Operator/Technician skills towards setup/simplified working procedure
-wzs21bulletSolves problems of more complexity
-wzs21bulletIntegrates thorough technical knowledge
-wzs21bulletCoordinate and conduct training/briefing for operational personnel, i.e. PEM tech, Mfg POs, etc. on product/process requirement, machine and operation procedures "	"wzs21bulletDiploma holder in electrical / mechanical engineering
-wzs21bulletMin 2 years working experience in semiconductor field in Wafer Thinning and Dicing 
-wzs21bulletGood communication and interpersonal skills with a strong interest in working in a dynamic and challenging environment.
-wzs21bulletBasic analytical skill, fast learner, independent and highly motivated and work well with given a short lead time.
-wzs21bulletAble to work effectively in a team
-wzs21bulletAble to work under minimum supervision"	https://jobs.micron.com/	Lydia	770	****wzs21****
-Assembly Snr Process Engineer – Encap (MVCW)	Full time	Penang	"As a Post Encap Process Engineer you will be primarily responsible for starting up, developing and optimizing processes to improve product quality and reliability, working on process yield improvement, cost reduction, productivity improvement and risk management as well as resolving manufacturing line problems. You will also be required to identify, diagnose and resolve assembly process related problems by applying failure analysis, FMEA, 8D or SPC methodology. Additional responsibilities include coordinating and carrying out process, equipment and material evaluation/optimization to implement changes at process step, leading and participating in yield improvement and cost reduction activities, handling new process baseline qualifications and managing, auditing and liaising with material suppliers to achieve quality, cost and risk management objectives.  
-Responsibilities and Tasks:
-wzs21bulletEvaluate and Improve Laser Mark, Solder Ball Mount, Package Singulation Processes, Materials, and/or Equipment Maintain in-depth process knowledge
-wzs21bulletMaintain materials and equipment knowledge as it relates to the process and how they interact
-wzs21bulletOptimize process and/or equipment variables by apply DOE techniques
-wzs21bulletMaintain knowledge of material attributes (shelf life, storage requirements, etc.) 
-wzs21bulletDefine process edges and center the process (CPK)
-wzs21bulletDetermine root cause and implement corrective actions 
-wzs21bulletDefine and maintain operation procedures"	"wzs21bulletBachelor's or master’s degree in Electronic, Mechanical, Mechatronic or related Engineering
-wzs21bulletMin 5 years related experience in Assembly packaging or Semiconductor manufacturing background
-wzs21bulletPossess good knowledge in Laser Mark, Solder Ball Mount, Package Singulation Processes with Ball Grid Array (BGA) Package 
-wzs21bulletFamiliar with Failure Mode Effects Analysis (FMEA), Statistical Process Control (SPC) and Problem-solving skills
-wzs21bulletKnowledge in Design of Experiment (DOE) will be an added advantage 
-wzs21bulletSelf-motivated, possess initiative and ability to work independently
-wzs21bulletTeam player with good communication and interpersonal skills"	https://jobs.micron.com/	Lydia	770	****wzs21****
-Assembly Process Engineer - Post Encap (MVCW)	Full time	Penang	"As a Post Encap Process Engineer you will be primarily responsible for starting up, developing and optimizing processes to improve product quality and reliability, working on process yield improvement, cost reduction, productivity improvement and risk management as well as resolving manufacturing line problems. You will also be required to identify, diagnose and resolve assembly process related problems by applying failure analysis, FMEA, 8D or SPC methodology. Additional responsibilities include coordinating and carrying out process, equipment and material evaluation/optimization to implement changes at process step, leading and participating in yield improvement and cost reduction activities, handling new process baseline qualifications and managing, auditing and liaising with material suppliers to achieve quality, cost and risk management objectives.  
-Responsibilities and Tasks:
-wzs21bulletEvaluate and Improve Laser Mark, Solder Ball Mount, Package Singulation Processes, Materials, and/or Equipment Maintain in-depth process knowledge
-wzs21bulletMaintain materials and equipment knowledge as it relates to the process and how they interact
-wzs21bulletOptimize process and/or equipment variables by apply DOE techniques
-wzs21bulletMaintain knowledge of material attributes (shelf life, storage requirements, etc.) 
-wzs21bulletDefine process edges and center the process (CPK)
-wzs21bulletDetermine root cause and implement corrective actions 
-wzs21bulletDefine and maintain operation procedures"	"wzs21bulletBachelor's or master’s degree in Electronic, Mechanical, Mechatronic or related Engineering
-wzs21bulletMin 5 years related experience in Assembly packaging or Semiconductor manufacturing background
-wzs21bulletPossess good knowledge in Laser Mark, Solder Ball Mount, Package Singulation Processes with Ball Grid Array (BGA) Package 
-wzs21bulletFamiliar with Failure Mode Effects Analysis (FMEA), Statistical Process Control (SPC) and Problem-solving skills
-wzs21bulletKnowledge in Design of Experiment (DOE) will be an added advantage 
-wzs21bulletSelf-motivated, possess initiative and ability to work independently
-wzs21bulletTeam player with good communication and interpersonal skills"	https://jobs.micron.com/	Lydia	770	****wzs21****
-AOI Engineer (MVCM)	Full time	Penang	"As a AOI Equipment Engineer, you will be responsible for leading and managing the activities and operation of an AOI Equipment Engineering section, working together with other functional groups locally and/or globally to accomplish organizational and business objectives by ensuring the production equipment is in control and quality/reliability of product meets expectation; sustaining and improving the key performance indices of the equipment through continuous improvement activities / projects; reducing cost through continuous cost reduction effort; defining, developing and maintaining equipment capabilities, strategy and roadmap; developing new capabilities ahead of needs. 
- 
-Responsibilities and Tasks:
-wzs21bulletUnderstand IPC-A-610
-wzs21bulletMonitor the inspection recipe quality consistently by maintaining minimum false call count 
-wzs21bulletEnsure the production equipment is in control and quality/reliability of product meets expectation 
-wzs21bulletImplement Preventive / Predictive maintenance program
-wzs21bulletProvide necessary production support
-wzs21bulletEstablish team(s) to work on continuous improvement
-wzs21bulletEstablish indirect spare inventory system for key equipment’s
-wzs21bulletSustain and improve the key performance indices of the equipment through continuous improvement activities / projects 
-wzs21bulletEstablish team(s) to work on Continuous Improvement projects
-wzs21bulletImplement Productivity Improvement programs
-wzs21bulletReduce cost through continuous cost reduction effort 
-wzs21bulletIdentify the key cost drivers and work on cost reduction programs
-wzs21bulletMonitor spare cost and drive down liabilities of spare inventories
-wzs21bulletDefine, develop and maintain equipment capabilities, strategy and roadmap 
-wzs21bulletMaintain a matrix on equipment capabilities and constraints
-wzs21bulletDevelop a strategy to develop new capabilities or to overcome the identified process constraints
-wzs21bulletWork with equipment suppliers to develop new material / capabilities
-wzs21bulletRegularly conduct equipment benchmarking exercise
-wzs21bulletDevelop new capabilities ahead of needs 
-wzs21bulletBe constantly on the lookout for new equipment suppliers / new technology and capability
-wzs21bulletWork with equipment suppliers to develop new capability
-wzs21bulletWork with Package Development team to establish production capabilities for new products"	"wzs21bulletBachelor's or Master's Degree in Mechanical/ Material/ Electrical Engineering
-wzs21bulletExcellent communication skills and coordinating abilities to work across various functional team
-wzs21bulletStrong technical know-how with proven problem solving skills
-wzs21bulletSelf-driven to achieve targets in tight schedule with limited resources
-wzs21bulletExpertise in technical documentation
-wzs21bulletExperience in SSD manufacturing, FMEA and DOE is advantageous"	https://jobs.micron.com/	Joey	771	****wzs21****
-Equipment Engineer (MVCM) 	Full time	Penang	"As a SSD Equipment Engineer, you will be responsible for leading and managing the activities and operation of an Equipment Engineering section, working together with other functional groups locally and/or globally to accomplish organizational and business objectives by ensuring the production equipment is in control and quality/reliability of product meets expectation; sustaining and improving the key performance indices of the equipment through continuous improvement activities / projects; reducing cost through continuous cost reduction effort; defining, developing and maintaining equipment capabilities, strategy and roadmap; developing new capabilities ahead of needs. 
- 
-Responsibilities and Tasks:
-wzs21bulletEnsure the production equipment is in control and quality/reliability of product meets expectation 
-wzs21bulletImplement Preventive / Predictive maintenance program
-wzs21bulletMonitor Module Test Yield and understand the key yield losses
-wzs21bulletProvide necessary production support
-wzs21bulletEstablish team(s) to work on continuous improvement
-wzs21bulletEstablish indirect spare inventory system for key equipment’s
-wzs21bulletSustain and improve the key performance indices of the equipment through continuous improvement activities / projects 
-wzs21bulletEstablish team(s) to work on Continuous Improvement projects
-wzs21bulletImplement Productivity Improvement programs
-wzs21bulletReduce cost through continuous cost reduction effort 
-wzs21bulletIdentify the key cost drivers and work on cost reduction programs
-wzs21bulletMonitor spare cost and drive down liabilities of spare inventories
-wzs21bulletDefine, develop and maintain equipment capabilities, strategy and roadmap 
-wzs21bulletMaintain a matrix on equipment capabilities and constraints
-wzs21bulletDevelop a strategy to develop new capabilities or to overcome the identified process constraints
-wzs21bulletWork with equipment suppliers to develop new material / capabilities
-wzs21bulletRegularly conduct equipment benchmarking exercise
-wzs21bulletDevelop new capabilities ahead of needs 
-wzs21bulletBe constantly on the lookout for new equipment suppliers / new technology and capability
-wzs21bulletWork with equipment suppliers to develop new capability
-wzs21bulletWork with Package Development team to establish production capabilities for new products"	"wzs21bulletBachelor's or Master's Degree in Mechanical/ Material/ Electrical Engineering
-wzs21bulletExcellent communication skills and coordinating abilities to work across various functional team
-wzs21bulletStrong technical know-how with proven problem solving skills
-wzs21bulletSelf-driven to achieve targets in tight schedule with limited resources
-wzs21bulletExpertise in technical documentation
-wzs21bulletExperience in SSD manufacturing, FMEA and DOE is advantageous"	https://jobs.micron.com/	Joey	771	****wzs21****
-Equipment Technician (MVCW)	Full time	Penang	"SSD Automation Equipment Technician is responsible for installing, maintaining, repairing, and modifying equipment in a safe manner. He or she will also monitor equipment for effectiveness and provide excellent and prompt customer service. 
+- High sensitivity to user-system interaction
 
-Responsibilities and Tasks:
-wzs21bulletInstall, maintain, repair, and modify equipment 
-wzs21bulletDiagnose equipment problems and implement solutions
-wzs21bulletUse equipment tracking systems to obtain equipment history and ensure that record keeping and documentation is in the equipment tracking system
-wzs21bulletPerform preventive maintenance and calibrations on area equipment
-wzs21bulletComply with standardized procedures and guidelines, and stays current on process and equipment procedure
-wzs21bulletRespond to equipment issues in a timely manner
-wzs21bulletOperate equipment to check the quality of performance
-wzs21bulletDetermine when calibrations and PMs are due, ensure they are conducted on time, and perform them according to the documentation
-wzs21bulletAssist the engineering group with process developments
-wzs21bulletMonitor equipment effectiveness 
-wzs21bulletMonitor the overall efficiency data and interpret results
-wzs21bulletIdentify and correct problems, and equipment inaccuracies or inefficiencies
-wzs21bulletCommunicate machine performance trends
-wzs21bulletAnticipate and analyze problems, generate alternative solutions, select the best solution, and develop an action plan
-wzs21bulletMake decisions and recommendations based on analysis of data
-wzs21bulletIdentify and drive area improvement 
-wzs21bulletIdentify and drive equipment and process improvements
-wzs21bulletAttain and maintain required certifications
-wzs21bulletRemain actively involved in quality improvement, and utilize data and other information to justify improvements
-wzs21bulletAssist with experiments or equipment evaluations to reduce inefficiencies, with process experiments and qualifications and with new and converted equipment qualifications
-wzs21bulletUtilize the suggestion program to drive improvements and follows-up on suggestions and improvements
-wzs21bulletAssist with software upgrades and enhancements
-wzs21bulletHelp collect data and suggest ways to improve tool efficiency
-wzs21bulletSuggest possible items that could be covered in a quality team
-wzs21bulletPerform all work in a safe manner 
-wzs21bulletComply with all safe work practices, which include company, local, state, and federal requirements
-wzs21bulletFollow safety and PPE protocols while working on or around equipment, and follow area safety and security procedures
-wzs21bulletKnow and apply energy isolation procedures
-wzs21bulletAccess and use the Micron Cedar program to obtain chemical information
-wzs21bulletMaintain a clean, safe, and accident-free work environment"	"wzs21bulletEducation: Certificate Diploma in Engineering
-wzs21bulletGood communicate skills and coordinating abilities to work across various functional team
-wzs21bulletAble to work under minimum supervision
-wzs21bulletExpertise in technical documentation
-wzs21bulletWilling to learn and apply knowledge in new process / equipment
-wzs21bullet2 years of Experience with FMEA and SMT (Surface Mount Technology) process is an added advantage "	https://jobs.micron.com/	Joey	771	****wzs21****
-NPI Engineer (MVCM)	Full time	Penang	"As SSD NPI Engineer, you will be primarily responsible on timely manufacturing execution of new SSD products to plan. You achieve this by developing and/ or validating processes through performing capability studies, reviewing PFMEA/ QCP, validating raw material spec and manage workstation MVA cost. You are expected to actively participate in design review to upkeep DFM/DFA requirements & mitigate risk exposure through FMEA. You will manage successful ramp of new product to HVM, train production workforce and explore value engineering, when required. You will be expected to demonstrate application of problem solving, risk management, decision making and project management techniques/methodologies to achieve your objectives.
+- Understanding of Agile/Scrum development process
 
-Responsibilities and Tasks
+- Ability to work well under pressure and manage multiple tasks simultaneously
 
-Support New Product Introduction
-wzs21bulletEvaluate new risks identified with new products and provide engineering solutions and train workforce if necessary
-wzs21bulletMonitor new product quality indices and bring it to maturity level
-wzs21bulletFeedback to NPI lead and design group on problems, potential problems / opportunities and DFM guideline
+- Self-motivated with strong problem-solving skills
 
-Develop Process of Record (POR)
-wzs21bulletDefine and detail customer requirements
-wzs21bulletDefine process variables & critical parameters
-wzs21bulletDefine process edges and center the process (CPK)
+- A team player with a positive attitude and professional work ethic
 
-Qualify New Process, Equipment and/or Material
-wzs21bulletPerform process & tool capability studies
-wzs21bulletAccess & validate CTQ for critical raw materials
-wzs21bulletDefine and implement quality systems – FMEA, QCP, SPC, as required
-wzs21bulletMaintain knowledge of board level product qualification procedures
+- Strong interpersonal and communication skills"	1		****wzs21****
+852	Junior Sound Designer	Full Time	Kuala Lumpur	"- Work with a team of artists to enhance animation, motion graphics, visual effects and interactive apps with excellent sound design
 
-Future Process/Material Development
-wzs21bulletPerform research, market survey on new process, equipment or material.
-wzs21bulletConduct evaluation or experiment on new process or material and benchmarking on new equipment.
-wzs21bulletApply decision making methodologies for selection of new process/equipment/material
-wzs21bulletHandle change of implementation of new process/equipment/material which include process specification, training material and SOP."	"wzs21bulletMinimum 3 years of work experience in Semiconductor PCBA Manufacturing industry.
-wzs21bulletBachelor's or Master's Degree in Mechanical/ Material/ Electrical Engineering
-wzs21bulletExcellent communication skills and coordinating abilities to work across various functional team
-wzs21bulletStrong technical know-how with proven problem solving skills
-wzs21bulletSelf-driven to achieve targets in tight schedule with limited resources
-wzs21bulletExpertise in technical documentation
-wzs21bulletExperience in SSD manufacturing, FMEA and DOE is advantageous."	https://jobs.micron.com/	Joey	771	****wzs21****
-Process Engineer (MVCM)	Full time	Penang	"As SSD Process Engineer, you will be primarily responsible on developing and improving processes in terms of quality, reliability, productivity, flexibility and cost of ownership. In addition to regular day to day process issues, you will tackle challenges of new product introduction, train production workforce, manage process change and explore new solution or material when required. You will be expected to demonstrate application of problem solving, risk management, decision making and project management techniques/methodologies in order to achieve your objectives.
+- Complete mixes for all of our video content
 
-Responsibilities and Tasks:
-Improve Assigned Process Yield/Quality
-wzs21bulletMaintain in-depth process knowledge
-wzs21bulletDevelop, implement and ensure effectiveness process control. Improve and review them when new risks are identified
-wzs21bulletMonitor process quality indices and continually improve them.
-wzs21bulletMaintain documentation of process specifications and standard operating procedures
-wzs21bulletImplement changes due to customer requirement, process improvement and train workforce when necessary
-wzs21bulletProblem solving of process issues which includes finding root cause, containment of materials, implement corrective and preventive actions.
- 
-Support New Product Introduction
-wzs21bulletEvaluate new risks identified with new products and provide engineering solutions and train workforce if necessary
-wzs21bulletMonitor new product quality indices and bring it to maturity level
-wzs21bulletFeedback to NPI lead and design group on problems, potential problems / opportunities and DFM guideline
- 
-Future Process/Material Development
-wzs21bulletPerform research, market survey on new process, equipment or material.
-wzs21bulletConduct evaluation or experiment on new process or material and benchmarking on new equipment.
-wzs21bulletApply decision making methodologies for selection of new process/equipment/material
-wzs21bulletManage change of implementation of new process/equipment/material which include process specification, training material and SOP."	"wzs21bulletBachelor's or Master's Degree in Mechanical/ Material/ Electrical Engineering
-wzs21bulletExcellent communication skills and coordinating abilities to work across various functional team
-wzs21bulletStrong technical know-how with proven problem solving skills
-wzs21bulletSelf-driven to achieve targets in tight schedule with limited resources
-wzs21bulletExpertise in technical documentation
-wzs21bulletExperience in SSD manufacturing, FMEA and DOE is advantageous"	https://jobs.micron.com/	Joey	771	****wzs21****
-Assembly MFG Material Supervisor (MVCW)	Full time	Penang	"Responsibilities 
-wzs21bulletManage and supervise a MFG Material consumption and tracking to meet the department's output, quality and cycle time targets
-wzs21bulletManages the accuracy on Material Inventory and Flawless Supply Chain from Internal/External Warehouses/Vendors 
-wzs21bulletPlan and execute daily shift objectives and goals as part of productivity and continuous improvement
-wzs21bulletCommunicating and liaise with Management, Planning and Engineering on daily production supplies issues
-wzs21bulletNurture teams' career development through coaching and on-the-job training
-wzs21bulletCreate and maintain a harmonious and safe working environment that instills teamwork, commitment and ownership in the team
-wzs21bulletWork to create a culture of learning and sharing of Best Known Methods to simplify procedures and process flows"	"wzs21bulletBachelor’s degree or >5 years of experience in PCBA Manufacturing Industry or knowledge in semiconductor manufacturing process and technologies
-wzs21bulletExperience in Managing BOM Counts, Material Inventory and Internal Material Audits 
-. Good knowledge in Lean Manufacturing, Continuous Improvement & Poka Yoke
-. Able to work with little or no direct supervision
-wzs21bulletAble to handle multiple priorities/tasks efficiently
-wzs21bulletGood team player, motivator and listening skills
-wzs21bulletGood verbal and written communication skills"	https://jobs.micron.com/	Issac	769	****wzs21****
-Assembly Shift MFG Engineer (Encapsulation) (MVCW)	Full time	Penang	"Responsibilities:
-wzs21bulletManage and supervise a production team consisting of skilled operators and trainer to meet the department's output, quality and cycle time targets
-wzs21bulletManages the WIP across Functional Work Area for Assembly operations to ensure smooth material flow per the given execution plan
-wzs21bulletPlan and execute daily shift objectives and goals as part of productivity and continuous improvement. High alert on Safety aspect, PPE violations and ensure safe operation procedures per SOP
-wzs21bulletCommunicate and highlight or handing/taking over duties/issues between shifts, liaise with Management, Planning and Engineering on daily production issues
-wzs21bulletNurture operators' career development through coaching and on-the-job training
-wzs21bulletCreate and maintain a harmonious and safe working environment that instills teamwork, commitment and ownership in the team
-wzs21bulletWork to create a culture of learning and sharing of Best Known Methods to simplify procedures and process flows
-wzs21bulletAble to Conduct training for Production Trainers, Lead Production Operators"	"wzs21bulletBachelor’s degree with 5 or more years of experience in PCBA Manufacturing Industry or knowledge in semiconductor manufacturing process
-wzs21bulletExperience in Supervising MFG Operations in Shift, preferably more >30HC
-. Good knowledge in Lean Manufacturing, SPC Implementations, Continuous Improvement & Poka Yoke
-. Able to work with little or no direct supervision
-wzs21bulletAble to handle multiple priorities/tasks efficiently
-wzs21bulletGood team player, motivator and listening skills
-wzs21bulletGood verbal and written communication skills
-wzs21bulletOpen to work in rotation shift and overtime"	https://jobs.micron.com/	Issac	769	****wzs21****
-Assy MFG CR1/CR2 IPPC Lead (MVCW)	Full time	Penang	"Responsibilities 
-wzs21bulletManage and Supervise Daily WIP Management and MFG Planning Strategy to meet the department's output, yield, quality and cycle time targets
-wzs21bulletAnalyze Daily/Weekly Planning and Execution Strategy for MFG Execution team, with real time data from Production Floor (Tool Uptime, WIP mixture and Constrains/restrictions)
-wzs21bulletClose Communication with MFG Execution, Engineering and Planning teams on Daily Production Issues and Limitations 
-wzs21bulletCreate and maintain a harmonious working environment that instills teamwork, commitment and ownership in the team
-wzs21bulletWork to create a culture of learning and sharing of Best Known Methods to simplify procedures and process flows
-wzs21bulletSupport Daily Production Routine on continuous basis (weekend / public holiday remote support / assist from home)"	"wzs21bulletBachelor’s Engineering degree or >5 years of experience in PCBA Manufacturing Industry or knowledge in semiconductor manufacturing process and technologies
-wzs21bulletExperience in Lean Manufacturing, high Volume Assembly Manufacturing enviroment, Continuous Improvement & Poka Yoke
-. Able to work with little or no direct supervision
-wzs21bulletAble to handle multiple priorities/tasks efficiently
-wzs21bulletGood team player, motivator and listening skills
-wzs21bulletGood verbal and written communication skills
-wzs21bulletGood knowledge in Planning Software / Excel Macro
-wzs21bulletGood Problem Solving Skills"	https://jobs.micron.com/	Issac	769	****wzs21****
-Assy MFG EPE IPPC Lead (MVCW)	Full time	Penang	"Responsibilities 
-wzs21bulletManage and Supervise Daily WIP Management and MFG Planning Strategy to meet the department's output, yield, quality and cycle time targets
-wzs21bulletAnalyze Daily/Weekly Planning and Execution Strategy for MFG Execution team, with real time data from Production Floor (Tool Uptime, WIP mixture and Constrains/restrictions)
-wzs21bulletClose Communication with MFG Execution, Engineering and Planning teams on Daily Production Issues and Limitations 
-wzs21bulletCreate and maintain a harmonious working environment that instills teamwork, commitment and ownership in the team
-wzs21bulletWork to create a culture of learning and sharing of Best Known Methods to simplify procedures and process flows
-wzs21bulletSupport Daily Production Routine on continuous basis (weekend / public holiday remote support / assist from home)"	"wzs21bulletBachelor’s Engineering degree or >5 years of experience in PCBA Manufacturing Industry or knowledge in semiconductor manufacturing process and technologies
-wzs21bulletExperience in Lean Manufacturing, high Volume Assembly Manufacturing enviroment, Continuous Improvement & Poka Yoke
-. Able to work with little or no direct supervision
-wzs21bulletAble to handle multiple priorities/tasks efficiently
-wzs21bulletGood team player, motivator and listening skills
-wzs21bulletGood verbal and written communication skills
-wzs21bulletGood knowledge in Planning Software / Excel Macro
-wzs21bulletGood Problem Solving Skills"	https://jobs.micron.com/	Issac	769	****wzs21****
-Test Manufacturing Shift Engineer (MVCW)	Full time	Penang	"As a Test Production Superintendent, you will manage a team of production supervisors and operators to meet daily production target. Maintain and implement good manufacturing discipline, facilitate communication between different departments and supporting functions to achieve common understanding and goals, and constantly encourage and engage in quality, productivity and yield improvement activities
-Responsibilities and Tasks
-wzs21bulletConduct daily meeting to review previous day performance and assign priority issue to the supporting functions, and set production targets and directions for daily activities. 
-wzs21bulletProvide daily real time WIP control to ensure smooth flow and follow up on long hour wafers. 
-wzs21bulletCheck and ensure working procedures are followed correctly and strictly. Highlight scraps related to human mistakes. 
-wzs21bulletConduct and ensure conformance of various fab audit which target to improve handling of wafers cultivate and actively engage in Lean activities. 
-wzs21bulletImplementation and follow up on clean room 5S good housekeeping. 
-wzs21bulletManage absenteeism control and counseling. Allocation of manpower, duty and manage OT control. 
-wzs21bulletReview and evaluate half yearly supervisors and operators performance. 
-wzs21bulletActively involve in Lean deploy management target and improvement. Encourage suggestions and feedback from production team members. 
-wzs21bulletPlan and advise both the shop floor management and superior on WIP profile and address problems that affect the production flow and capacity issues due to process and equipment bottlenecks 
-wzs21bulletReward and give recognition according to performance. Follow up and take corrective action on disciplinary issues. Manage conflict of interest between employees and management. Coach and provide training for his/her subordinates. 
-wzs21bulletEnvironmental Health and Safety. Carry out activities or programs which have potential environmental effect in a safe and environmentally friendly manner."		https://jobs.micron.com/	Issac	769	****wzs21****
-Senior Industrial Engineer (MVCW)	Full time	Penang	"Responsibilities and Tasks
-Capacity modelling, Management and Improvements
-wzs21bulletBuild and maintain assembly capacity model
-wzs21bulletDrive capacity improvement projects such as UPH improvement to maximize asset utilization and reduce capital investment
-wzs21bulletPlan and validate equipment throughput, uptime; bottleneck identification and optimization
-wzs21bulletPerform capacity scenario studies for production ramp and site optimization
-Cost modelling, Management and Improvements
-wzs21bulletBuild and maintain assembly cost model
-wzs21bulletAdminister assembly Opex and Capex processes
-wzs21bulletAnalyze assembly cost and drive cost reduction programs to continually reduce production costs
-wzs21bulletPerform productivity studies and improve man machine ratio for the site
-Layout Management
-wzs21bulletlayout planning and tool space optimization to achieve maximum assembly output per unit floor area
-wzs21bulletPerform layout scenario studies for new line / expansion
-Productivity and Benchmarking
-wzs21bulletParticipate in assembly productivity improvements and deploy lean manufacturing principles to improve operational performance
-Perform inter-site and industrial benchmarking to seek out best practices and propose operational KPI targets to drive manufacturing excellence"		https://jobs.micron.com/	Issac	769	****wzs21****
-Senior Test Manufacturing Scheduler (MVCW)	Full time	Penang	"Responsibilities and Tasks
-wzs21bulletAnalyzing and generating of the production plans
-wzs21bulletEstablishing plans to fulfill demand signal
-wzs21bulletPlans, schedules, coordinates, and/or monitors final approval of products through the complete production cycle
-wzs21bulletMaintain professional work environment 
-wzs21bulletWorks from engineering and daily production plans to establish production schedules within available capacity. Coordinates production plans to ensure materials are provided according to schedules.
-wzs21bulletCommunicates information, suggestions, messages, and pass downs in an organized manner 
-wzs21bulletCommunicates ideas in an organized, effective, and respectful manner. 
-wzs21bulletEstablishes effective customer relationships with other areas 
-wzs21bulletSupports changes implemented in the area, and responds in a positive and supportive manner"		https://jobs.micron.com/	Issac	769	****wzs21****
-Test Manufacturing Shift Engineer (MVCW)	Full time	Penang	"As a Test Production Superintendent, you will manage a team of production supervisors and operators to meet daily production target. Maintain and implement good manufacturing discipline, facilitate communication between different departments and supporting functions to achieve common understanding and goals, and constantly encourage and engage in quality, productivity and yield improvement activities
-Responsibilities and Tasks
-wzs21bulletConduct daily meeting to review previous day performance and assign priority issue to the supporting functions, and set production targets and directions for daily activities. 
-wzs21bulletProvide daily real time WIP control to ensure smooth flow and follow up on long hour wafers. 
-wzs21bulletCheck and ensure working procedures are followed correctly and strictly. Highlight scraps related to human mistakes. 
-wzs21bulletConduct and ensure conformance of various fab audit which target to improve handling of wafers cultivate and actively engage in Lean activities. 
-wzs21bulletImplementation and follow up on clean room 5S good housekeeping. 
-wzs21bulletManage absenteeism control and counseling. Allocation of manpower, duty and manage OT control. 
-wzs21bulletReview and evaluate half yearly supervisors and operators performance. 
-wzs21bulletActively involve in Lean deploy management target and improvement. Encourage suggestions and feedback from production team members. 
-wzs21bulletPlan and advise both the shop floor management and superior on WIP profile and address problems that affect the production flow and capacity issues due to process and equipment bottlenecks 
-wzs21bulletReward and give recognition according to performance. Follow up and take corrective action on disciplinary issues. Manage conflict of interest between employees and management. Coach and provide training for his/her subordinates. 
-wzs21bulletEnvironmental Health and Safety. Carry out activities or programs which have potential environmental effect in a safe and environmentally friendly manner"		https://jobs.micron.com/	Issac	769	****wzs21****
-IT MES Automation Senior / Engineer (MVCW)	Full time	Penang	"Micron is looking for software engineers that ha the ability to apply the appropriate technology to tackle complex software challenges.  You will have the opportunity to demonstrate the use of multiple languages, frameworks and disciplines.  You will be encouraged to experiment with new technologies which will naturally focus on continual learning of the ongoing evolution of software engineering. 
+- Q.C. all mixes before delivery, maintaining technical and creative standards
 
-Responsibilities
-wzs21bulletInvolve in the application lifecycle management for software systems in a semiconductor manufacturing environment
-wzs21bulletWork with relevant stakeholder to conduct user requirement analysis and collaborate with global IT team to implement and deliver IT solutions for Manufacturing operation
-wzs21bulletPlan and coordinate user training and acceptance testing/verification for new software to ensure a good quality software release to production
-wzs21bulletPerform applications software and hardware maintenance to ensure high uptime
-wzs21bulletMonitor system performance proactively to identify abnormalities and develop capabilities to prevent unscheduled downtime.
- Addition for Senior Engineer:
-wzs21bulletLead critical development & operation tasks and deliver within expected scope.
-wzs21bulletCoach junior team members to achieve directions assigned for the department."	"wzs21bulletMinimum Bachelor’s Degree in Electrical & Electronics/Computer Engineering, Computer Science or equivalent experience.
-wzs21bulletKnowledge in any programming language such as C#/C++ programming, Java, Perl, HTML5 and SQL
-wzs21bulletCreative and have passion in implementing innovative IT solutions to solve challenging business problems.
-wzs21bulletGood interpersonal and communication skills. 
-wzs21bulletWilling to work in a dynamic team environment to achieve a common goal through effective collaboration and commitment.
-wzs21bulletRequired to provide operation support
-wzs21bulletRequired to work in a clean room environment as needed.
-wzs21bulletSome travel will be required.
-wzs21bulletApplicant who demonstrated good software project management skill and had exposure to agile development methodology will be advantageous.
-wzs21bulletOwn mindset of working in startup company and utilize skills & experiences to build the department"	https://jobs.micron.com/	Eeleen	772	****wzs21****
-Facilities Engineer – Fire System (MVCM)	Full time	Penang	"As Facilities Engineer - Fire System at Micron Penang, you will report to the Manager/Supervisor and be part of an existing team responsible for Firefighting and protection systems. You will be working alongside other team members and contractors to carry out all fire system related activities.
- 
-Responsibilities
-wzs21bulletPlan, organize and coordinate all fire system related projects, upgrading or any contract services.
-wzs21bulletPlan and execute Preventive (PM) and Corrective Maintenance (CM) programs to ensure maximum equipment uptime and system reliability
-wzs21bulletAssess the risks and work method statement for fire system works from vendors and contractor
-wzs21bulletProvide cost estimation for budgeting, control & track actual spending of related projects
-wzs21bulletRespond, inspect and troubleshoot issues/interruptions related to fire systems.
-wzs21bulletHandling of Fire Certificate BOMBA Inspection.
-wzs21bulletWilling to work in Public Holiday and weekend if needed.
-wzs21bulletAble to develop fire alarm and fire pump house standard operation procedure and training facilities technician.
-wzs21bulletWilling to be re-assigned to other facilities tasks as needed
-wzs21bulletAble to understand the electrical low voltage system.
-wzs21bulletTo support RBA audit and meet all RBA requirement"	"wzs21bullet•Bachelor’s Degree in related engineering field
-wzs21bullet•Expertise in Fire fighting and protection systems, Relevant 3-5 years of working experience in semiconductor or cleanroom environment will be advantageous
-wzs21bullet•Excellent written and verbal communication skills
-wzs21bullet•Fluent compute skills including AutoCAD, Microsoft Word, Excel and Power Point
-wzs21bullet•Good team working and multi-tasking capabilities
-wzs21bullet•Ability to troubleshoot problems and address root causes
-wzs21bullet•familiar in FMEA and 8D report analysis
-wzs21bullet•Team oriented with a strong focus on effective team dynamics
-wzs21bullet•Strong organizational, leadership and analytical skills
-wzs21bullet•knowledge in electrical system"	https://jobs.micron.com/	Aufa	776	****wzs21****
-Facilities Engineer – Mechanical & SAP (MVCM)	Full time	Penang	"The Facilities and SAP Engineer provides engineering for design, operation, maintenance, and troubleshooting of the relevant mechanical systems site wide: Industrial and Office HVAC systems, Cleanroom Air Systems, Chilled Water Systems, Exhaust systems, Process Cooling Water Systems, Compressed Air Systems, and Process vacuum system. The candidate is expected to troubleshoot and respond to issues and interruptions of the systems, handle and execute engineering projects including upgrades, retrofits and expansion, capacity tracking and planning on relevant systems. The candidates shall also manage SAP PM system for facilities department. From developing master data, maintenance plan, maintenance task list, follow up work order closure and others deem necessary to complete the SAP process.
+- Be familiar with social media landscape, best practices and trends
 
-JOB RESPONSIBILITIES
-wzs21bulletProvide support for operational issues and root cause analysis with knowledge of the systems.
-wzs21bulletAnalyze system capabilities and future requirements during scenario evaluations based on manufacturing capacity and demand.
-wzs21bulletSupport design reviews for base-build systems in your area of responsibility ensuring specifications are met and cost reduction improvements are identified.
-wzs21bulletSupport tool install designs for the systems that connect to those tools insuring specifications are met and cost reduction improvements are identified.
-wzs21bulletReview and support capacity analysis for your systems tracking against actual data from the facility.
-wzs21bulletIdentifies and evaluates risk analysis for your systems and proposes possible improvements.
-wzs21bulletProvide solutions to real time equipment and process problems.
-wzs21bulletEvaluate new or modified equipment based on tools specification requirements and system capacity study
-wzs21bulletUse, identify and implement equipment and process control methods
-wzs21bulletDevelop and implement long term improvements in equipment or processes that result in cost reduction, improved reliability and safety improvements.
-wzs21bulletIdentify root cause from the excursion or abnormal operation and conducts analytical improvement and lesson learnt as part of preventive actions.
-wzs21bulletIdentify and evaluates interactions between equipment and processes and resolve potential problems.
-wzs21bulletWilling to support projects including other facility works re-assigned
-wzs21bulletManage project scheduling and planning for efficient and effective project execution
-wzs21bulletManage and control availability of manpower, material, cost, timeline and ensuring quality in delivery.
-wzs21bulletManage and lead Facilities SAP PM and Facilities Management System related.
-wzs21bulletTo facilitate event tracking submission to all necessary Micron Event Tracking System, including but not limited to: Maximo, GDM, and/or FMS, required for any Facilities interruption events that resulted on potential/actual production impact.
-wzs21bulletTo lead Facilities Preventive Maintenance (PM) management program, focusing on PM management, PM extension, and management review.
-wzs21bulletFollow all EHS procedures to ensure compliance with applicable regulations.
-wzs21bulletEnsure compliance of all facility equipment in accordance to regulations.
-wzs21bulletEnsure compliance of daily activity in facility within the regulatory permissible limit, and “Facilities Disciplines”.
-wzs21bulletWilling to work extra hours if necessary, to support projects that with urgency"	"wzs21bulletRelated Bachelor’s Degree in Mechanical Engineering or related field of study
-wzs21bulletExtensive background and possess genuine passion in Facility Engineering.
-wzs21bulletProficiency in setting up SAP PM FMS system and operating the system.
-wzs21bulletAble to prioritize and schedule workload and work on multiple tasks concurrently
-wzs21bulletGood organizational skills and Service attitude
-wzs21bulletExcellent communication skills and also team player
-wzs21bulletSelf-motivated
-wzs21bulletFamiliarity with semiconductor manufacturing and facility systems"	https://jobs.micron.com/	Aufa	776	****wzs21****
-Facilities Engineer - Technical Drawing and Documents Control (MVCW)	Full time	Penang	"The Facilities Engineer (Technical Drawing and Document Control) provides technical drawing support, checking, sketch, produce detail drawings for design, projects, operation, maintenance, and troubleshooting of the relevant area and system. The candidate is expected to combine, archive, maintain and produce updated revision of drawing and documents in master data system. To be responsible for ensuring proper distribution of the updated and correct drawings to internal customer, architect, consultants and contractors. The candidates need to control, update and ensure timely dissemination of latest practices/standard to all internal departments, architect, consultants and contractors so that drawings and documents produce to the required formats, standard and specification.
- 
-JOB RESPONSIBILITIES
-wzs21bulletTo check and review architectural and engineering drawing submitted by Architect/Consultants/Contractors for errors, against standard/specification, site measurement and site installation etc.
-wzs21bulletTo check and review architectural and engineering hand over documents, contracts, operation manual and etc submitted by Architect/Consultants/Contractors for errors, against standard/specification, site measurement, site installation etc.
-wzs21bulletTo archive and maintain updated revision of drawing and documents in master data system.
-wzs21bulletTo combine updated architectural drawing and engineering drawing submitted by architect/consultants/contractor into master drawing.
-wzs21bulletTo be responsible for ensuring proper distribution of the updated and correct drawings to internal customer, architect, consultants and contractors.
-wzs21bulletTo control, update and ensure timely dissemination of latest practices/standard to all internal departments, architect, consultants and contractors so that drawings and documents produce to the required formats, standard and specification.
-wzs21bulletAble to go to site to get site and machineries measurement and transform into drawings.
-wzs21bulletTo communicate with production/supplier/architect/consultant/contractors and incorporating knowledge gain into drawing.
-wzs21bulletTo produce architectural and engineering drawing to support facilities project, operation and maintenance purposes.
-wzs21bulletProduce drawing that allow system capabilities analysis and future requirements during scenario evaluations based on manufacturing capacity and demand.
-wzs21bulletSupport design reviews for base-build systems ensuring specifications are met and cost reduction improvements are identified.
-wzs21bulletSupport tool install designs for the systems that connect to those tools insuring specifications are met and cost reduction improvements are identified.
-wzs21bulletProvide solutions to real time equipment and process problems.
-wzs21bulletIdentify and evaluates interactions between space, equipment and processes and resolve potential problems.
-wzs21bulletWilling to support audit and projects including other facility works re-assigned
-wzs21bulletManage project scheduling and planning for efficient and effective project execution.
-wzs21bulletManage and control availability of manpower, material, cost, timeline and ensuring quality in delivery.
-wzs21bulletFollow all EHS procedures to ensure compliance with applicable regulations.
-wzs21bulletEnsure compliance of all facility equipment in accordance to regulations.
-wzs21bulletEnsure compliance of daily activity in facility within the regulatory permissible limit, and “Facilities Disciplines”.
-wzs21bulletWilling to work extra hours if necessary, to support projects that with urgency"	"wzs21bulletRelated Bachelor’s Degree/Diploma/study or 5 years and above working experience in AUTOCAD drawing at architect/consultant/manufacturing environment.
-wzs21bulletAble to prepare working drawings, construction and detailed drawing, P&ID drawings in AUTO CAD is a MUST.
-wzs21bulletAble to perform coordination of C&S, M&E and Architectural drawings.
-wzs21bulletExperience working in manufacturing industry drawings and documents.
-wzs21bulletExtensive AUTOCAD drawing background and possess genuine passion in Facility Engineering.
-wzs21bulletAble to prioritize and schedule workload and work on multiple tasks concurrently
-wzs21bulletGood organizational skills and Service attitude
-wzs21bulletExcellent communication skills and also team player
-wzs21bulletSelf-motivated
-wzs21bulletFamiliarity with semiconductor manufacturing and facility systems"	https://jobs.micron.com/	Aufa	776	****wzs21****`;
+- Build and organize our sound effects library
 
-DELIMITER = "****wzs21****"
+- Be able to eventually run in-house VO recording sessions for videos
+
+- Work with music stems to re-edit, enhance and modify music for our trailers and videos
+
+- Take on ad-hoc duties and other projects outside of the job description and has the ability to respond to business demands in a fast-paced environment
+"	"- Diploma/Bachelor’s Degree in Audio Engineering or equivalent
+
+- At least one year of relevant work experience is a plus
+
+- Fresh Grads are welcome to apply
+
+- Experience with recording, editing, and mixing softwares (e.g. Pro Tools, Final Cut Pro)
+
+- Technical expertise in sound engineering techniques (e.g. equalization)
+
+- A good ear with attention to detail
+
+- A strong passion in the creative industry 
+
+- Able to work under minimal supervision
+
+- Ability to work well under pressure and manage multiple tasks simultaneously
+
+- Self-motivated with strong problem-solving skills
+
+- A team player with a positive attitude and professional work ethic
+
+- Strong interpersonal and communication skills"	1		****wzs21****
+852	Motion Graphic Artist	Full Time	Kuala Lumpur	"- Conceptualize, design asset, animate and composite 2D and 3D motion graphics project
+
+- Work with illustrators, designers and producer to understand the project scope and objectives"	"- Diploma in Animation, Film and Media studies or equivalent
+
+- Minimum 1 year of experience
+
+- Familiar with 2D and 3D motion graphic workflow
+
+- Good sense of design, typography and animation
+
+- Proficient in Adobe Creative Cloud apps such as After Effects, Cinema 4D, Illustrator, Photoshop,
+Premiere Pro, etc.
+
+- Meticulous, technical, organized and creative
+
+- Ability to work well under pressure and manage multiple tasks simultaneously
+
+- Self-motivated with strong problem-solving skills
+
+- A team player with a positive attitude and professional work ethic
+
+- Strong interpersonal and communication skills
+"	1		****wzs21****
+794	Software Engineer / Software Developer	Intern	Petaling Jaya	"• Actively involved in design, development, and deployment phases of our project
+• Working closely with cross-functional and cross-country teams to ensure our application solutions 
+are delivered on time
+• Develop and build technical documentation and guideline
+• Act as an information resource and the subject matter expert for assigned areas of responsibility
+• Able to challenge and perform sanity checks and code review on new or legacy system
+• Actively contribute to, execute and monitor the team’s process improvement efforts"	"• Candidate must possess or currently pursuing a Bachelor's
+ Degree in Computer Science/Information Technology or 
+equivalent.
+• Familiar with PHP / C++ / JavaScript
+
+"	10		****wzs21****
+839	Wealth Management Advisor	Full Time	Puchong	"· Marketing financial products to clients
+· Help to plan and design a proper financial products according to clients needs
+· To develop your own network of clients via your comprehensive platform 
+· Assist on risk management 
+· Assist on financial planning"	"Candidates must at least possess Diploma level 
+Fluent English and Mandarin Speaker BEHAVIOR / ATTITUDE 
+Highly Driven 
+Street Smart 
+Future Leader SELF COMMITMENT 
+Committed in making a change for a better life "	5		****wzs21****
+839	Internship for Sales & Marketing	Intership	Puchong	"a) Your duties shall include such other functions and duties as may be assigned to you from time to time by the company.
+b)         Responsible for submitting daily reports and assisting immediate superior on daily task.""
+c)         Prepare financial planning product or service reports by collecting and analyzing customer & company financial information.
+d)  Learn the ability of financial analysis of client and company.
+e)        Learn the ability to explain all the financial analysis information to customer.
+f)        Learn Malaysia financial system by involving OCBC bank and other company product.
+g)        Learn on the financial planning role like risk management, insurance planning, retirement planning and investment planning.
+h)         At all times during your employment by the company you are to act and conduct yourself in such a manner as to serve 
+in the best interest of or which will not be prejudicial or detrimental to the name and or interest of the company."	"· Candidate must possess or currently pursuing a Diploma or Bachelor's Degree in Marketing, Finance/Accountancy/Banking or equivalent.
+· Required language(s): Mandarin, English, Bahasa Malaysia
+
+Comprehensive product training
+Hands-on working experience
+Involve in online marketing & offline marketing"	3		****wzs21****
+780	Management Trainee	Full Time	Capital Square	"A 12 month career development programme
+Job rotation across all divisions in Bank
+Networking opportunities with banking professionals
+Coaching and mentoring from the Bank's diverse pool of leaders"	"Bachelor Degree with CGPA 3.0 and above/ Master's Degree
+Less than 2 years of working experience
+Agile, creative and passionate about succeeding in a rewarding industry"	20		****wzs21****`;
+
+DELIMITER = "		****wzs21****"
+//wzs21bullet
+
 // DELIMITER = "\n"
 // COMPANY_ID = 750;
 
+TEST_COMPANY_KAT_LOCAL = "23";
+// login guna
+// test.rec.4B@gmail.com
+
 INDEX = {
-    TITLE: 0,
+    // COMPANY_ID: TEST_COMPANY_KAT_LOCAL,
+    COMPANY_ID : 0,
+    TITLE: 1,
+    TYPE: 2,
     // TYPE: "Full Time",
-    TYPE: 1,
-    LOCATION: 2,
-    DESC: 3,
-    REQ: 4,
-    URL: 5,
-    COMPANY_ID: 7,
+    LOCATION: 3,
+    DESC: 4,
+    REQ: 5,
+    URL: 7,
 }
 
 String.prototype.replaceAll = function (search, replacement, ignoreCase = false) {
@@ -578,7 +579,7 @@ String.prototype.replaceAll = function (search, replacement, ignoreCase = false)
 
 
 function reformat(str) {
-    if(!str){
+    if (!str) {
         return str
     }
     const DUH = "DUHjdfknsadjvkqervqer";
@@ -610,8 +611,8 @@ function reformat(str) {
         }
         let toRet = `<ul style="list-style:circle; padding-left: 25px;">${str}</ul>`;
 
-        toRet = toRet.replace("Responsibilities and Tasks:","</li><li><h4>Responsibilities and Tasks:</h4>")
-        toRet = toRet.replace("JOB RESPONSIBILITIES","</li><li><h4>JOB RESPONSIBILITIES:</h4>")
+        toRet = toRet.replace("Responsibilities and Tasks:", "</li><li><h4>Responsibilities and Tasks:</h4>")
+        toRet = toRet.replace("JOB RESPONSIBILITIES", "</li><li><h4>JOB RESPONSIBILITIES:</h4>")
         // console.log(toRet);
 
         return toRet;
@@ -635,6 +636,12 @@ for (var _a of a) {
     let url = typeof INDEX.URL !== "number" ? INDEX.URL : _a[INDEX.URL];
     let company_id = typeof INDEX.COMPANY_ID !== "number" ? INDEX.COMPANY_ID : _a[INDEX.COMPANY_ID];
 
+    url = url ? url : "";
+    company_id = company_id ? company_id.trim() : company_id;
+    if (!company_id) {
+        continue;
+    }
+
     desc = reformat(desc);
     req = reformat(req);
 
@@ -647,7 +654,7 @@ for (var _a of a) {
     console.log(company_id)
     console.log("_______________________________________________________")
 
-    if(!company_id){
+    if (!company_id) {
         continue
     }
     // reformat desc and req
@@ -655,7 +662,7 @@ for (var _a of a) {
     sql += `INSERT INTO vacancies 
     (company_id, title, location, description, requirement, type, application_url,  created_by) 
     VALUES 
-    ('${company_id}', '${title}', '${location}', '${desc}', '${req}', '${type}', '${url}',  1); \n\n\n`;
+    ('${company_id}', '${title}', '${location}', '${desc}', '${req}', '${type}', '${url}',  21); \n\n\n`;
 }
 // console.log("total", a.length);
 console.log(sql)

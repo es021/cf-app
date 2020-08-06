@@ -167,6 +167,9 @@ export function loadCompanyPriv(cid, success) {
         console.log("companyCF", companyCF)
         console.log("companyCF", companyCF)
         var privs = res.data.data.company.priviledge;
+        if(!privs){
+            privs = "";
+        }
         success(privs);
     });
 }
