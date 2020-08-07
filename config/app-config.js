@@ -20,7 +20,7 @@ const IsGruveoEnable = ALWAYS_FALSE;
 // ###################################################
 
 console.log("environment - " + process.env.NODE_ENV);
-var Domain = "https://seedsjobfairapp.com/";
+var Domain = "https://seedsjobfairapp.com";
 
 var isProd = (process.env.NODE_ENV === "production"); // that is deployed to server
 var isProdLocal = (process.env.NODE_ENV === "production-local"); // build for local server
