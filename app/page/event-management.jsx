@@ -97,9 +97,38 @@ export default class EventManagement extends React.Component {
       </thead>
     );
 
+
+    //##########################################
+    //  search
+    this.searchParams = "";
+    this.search = {};
+    this.searchFormItem = [{ header: "Enter Your Search Query" },
+    {
+      label: "Title : ",
+      name: "title",
+      type: "text",
+      placeholder: ""
+    },
+    {
+      label: "Career Fair : ",
+      name: "cf",
+      type: "text",
+      placeholder: "SEEDS, IMPACT, CITRA"
+    },
+    ];
+
+    this.searchFormOnSubmit = (d) => {
+      this.search = d;
+      this.searchParams = "";
+      if (d != null) {
+        this.searchParams += (d.title) ? `title:"${d.title}",` : "";
+        this.searchParams += (d.cf) ? `cf:"${d.cf}",` : "";
+      }
+    };
+
     this.loadData = (page, offset) => {
       var query = `query{
-                events(page:${page},offset:${offset}) {
+                events(${this.searchParams} page:${page},offset:${offset}) {
                   cf
                   ID 
                   company_id
@@ -352,6 +381,9 @@ export default class EventManagement extends React.Component {
         getEditFormDefault={this.getEditFormDefault}
         getFormItemAsync={this.getFormItemAsync}
         renderRow={this.renderRow}
+        searchFormNonPopup={true}
+        searchFormItem={this.searchFormItem}
+        searchFormOnSubmit={this.searchFormOnSubmit}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
         successAddHandler={this.successAddHandler}

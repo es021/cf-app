@@ -803,7 +803,7 @@ fields["edit_cf"] = {
           { single: true }
         );
       },
-      err => {
+      function (err) {
         return err;
       }
     );

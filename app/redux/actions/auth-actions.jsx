@@ -167,7 +167,7 @@ export function loadCompanyPriv(cid, success) {
         console.log("companyCF", companyCF)
         console.log("companyCF", companyCF)
         var privs = res.data.data.company.priviledge;
-        if(!privs){
+        if (!privs) {
             privs = "";
         }
         success(privs);
@@ -217,6 +217,23 @@ export function getCF_externalHomeUrl() {
     }
 
     return null;
+}
+
+export function getCF_guideUrl() {
+    if (isAuthorized()) {
+        let obj = getCFObj();
+        if (isRoleRec() && obj[CFSMeta.LINK_GUIDE_REC]) {
+            return obj[CFSMeta.LINK_GUIDE_REC];
+        }
+        if (isRoleStudent() && obj[CFSMeta.LINK_GUIDE_STUDENT]) {
+            return obj[CFSMeta.LINK_GUIDE_STUDENT];
+        }
+    }
+    return null;
+}
+
+export function getCF_hasGuideUrl() {
+    return getCF_guideUrl() ? true : false;
 }
 
 // return key of cf

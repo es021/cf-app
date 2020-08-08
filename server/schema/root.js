@@ -704,6 +704,7 @@ const eventsParam = {
 	company_id: __.Int,
 	page: __.Int,
 	offset: __.Int,
+	title: __.String,
 	cf: __.String,
 	order_by: __.String,
 }

@@ -15,6 +15,7 @@ class EventExec {
         var id = (typeof params.ID !== "undefined") ? `ID = '${params.ID}'` : "1=1";
         var company_id = (typeof params.company_id !== "undefined") ? `company_id = '${params.company_id}'` : "1=1";
         var cf_where = (typeof params.cf === "undefined") ? "1=1" : `(${DB.cfMapSelect("event", "e.ID", params.cf)}) = '${params.cf}'`;
+        var title_where = (typeof params.title !== "undefined") ? `title LIKE '%${params.title}%' ` : "1=1";
 
         var order_by = "";
         var limit = "";
@@ -28,7 +29,7 @@ class EventExec {
             limit = DB.prepareLimit(params.page, params.offset);
         }
 
-        var where = `${id} and ${company_id} and ${cf_where}`;
+        var where = `${id} and ${company_id} and ${cf_where} and ${title_where}`;
         var sql = `select ${select} from ${Event.TABLE} e
             where  ${where}
             ${order_by} ${limit}`;

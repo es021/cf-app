@@ -1,10 +1,13 @@
 @import "define/variable.scss";
 
 footer {
+  display: flex;
+  align-items: center;
   border-top: 1px solid $COLOR_BORDER_LAYOUT;
   text-align: center;
   color: rgb(7, 6, 6);
   font-size: 13px;
+  background: white;
 
   .container-fluid {
     // background: $COLOR_DARK;
@@ -18,17 +21,15 @@ footer {
     //top side bottom
     //margin: 15px 0 5px;
   }
-  .org-link{
-      color: rgb(78, 70, 70);
+  .org-link {
+    color: rgb(78, 70, 70);
   }
 
   .copyright {
     padding: 10px 20px;
     color: #969696;
-    border-top: 1px solid $COLOR_BORDER_LAYOUT;
-    margin-bottom: 5px;
     font-size: 90%;
-    text-align: right;
+    text-align: center;
   }
 
   .brand {

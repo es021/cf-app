@@ -262,6 +262,11 @@ var LANG_MALAY = {
     "Add New Job Post": "Tambah Jawatan Baru",
     "Tell more about the Job Post": "Lebih lanjut mengenai jawatan ini",
     "Tambah Job Post": "Tambah Jawatan Baru",
+    "Guide": "Panduan",
+    "Candidate Registration": "Pendaftaran Peserta",
+    "": "",
+    "": "",
+    "": "",
     "": "",
 
     // UNTRANSLATED #########################################

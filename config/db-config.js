@@ -685,6 +685,7 @@ const CFSMeta = {
 	FEATURE_FEEDBACK: "feature_feedback",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
+	FEATURE_SUBSCRIBE: "feature_subscribe",
 
 	// custom text
 	TEXT_HEADER_TITLE: "text_header_title",
@@ -704,6 +705,8 @@ const CFSMeta = {
 	// custom link
 	LINK_EXTERNAL_HOME: "link_external_home",
 	LINK_EXTERNAL_FOLLOW: "link_external_follow",
+	LINK_GUIDE_STUDENT: "link_guide_student",
+	LINK_GUIDE_REC: "link_guide_rec",
 
 	// not really used
 	// FLAG: "flag",

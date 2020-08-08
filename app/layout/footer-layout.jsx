@@ -128,10 +128,10 @@ export default class Footer extends React.Component {
     return (
       <footer className={FooterClass}>
         <div className="container-fluid">
-          <div className="row">
+          {/* <div className="row">
             {this.orgs}
             <div className="col-sm-4">{this.brand}</div>
-          </div>
+          </div> */}
           <div className="row ">
             <div className="col-sm-12 copyright">
               © {this.YEAR}, Innovaseeds Solutions. {lang("All Rights Reserved")}.

@@ -566,7 +566,7 @@ GeneralFormPage.propTypes = {
   btnColorClass: PropTypes.string,
   successAddHandler: PropTypes.func,
   discardDiff: PropTypes.array,
-  forceDiff: PropTypes.array,
+  forceDiff: PropTypes.array, // by default during edit, if there is no changes the param will not be sent to backend
   acceptEmpty: PropTypes.array, // for edit, accept empty value.. used in auditorium
   actionFirst: PropTypes.bool,
   noMutation: PropTypes.bool, // disable add, edit and delete

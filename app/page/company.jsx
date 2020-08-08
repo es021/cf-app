@@ -484,6 +484,9 @@ export default class CompanyPage extends Component {
       doAfterValidateComingSoon(doAction);
     };
 
+
+    let isSubscribeOff = isCfFeatureOff(CFSMeta.FEATURE_SUBSCRIBE);
+
     return <div className="container-fluid">
       <div className="row" >
         {/* top full */}
@@ -502,13 +505,14 @@ export default class CompanyPage extends Component {
         }
 
         {/* bottom left */}
-        <div className="col-lg-6 no-padding"
+        {isSubscribeOff ? null : <div className="col-lg-6 no-padding"
           style={{ padding: "5px" }}>
           {this.getSubscribeOrFollowBtn()}
         </div>
+        }
 
         {/* bottom right */}
-        <div className="col-lg-6 no-padding"
+        <div className={`col-lg-${isSubscribeOff ? "12" : "6"} no-padding`}
           style={{ padding: "5px" }}>
           <button className="btn btn-sm btn-block btn-round-10 btn-red btn-bold"
             onClick={btn_onClickChat}>

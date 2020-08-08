@@ -46,6 +46,7 @@ EXPORT.Cfs = {
     feature_feedback: __.String,
     feature_company_external_follow: __.String,
     feature_job_post_filter_location: __.String,
+    feature_subscribe: __.String,
 
     // custom text
     text_header_title: __.String,
@@ -65,7 +66,8 @@ EXPORT.Cfs = {
     // custom link
     link_external_home: __.String,
     link_external_follow: __.String,
-
+    link_guide_student : __.String,
+    link_guide_rec : __.String,
     // not really used
     // flag: __.String,
     // logo: __.String,

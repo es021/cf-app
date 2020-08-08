@@ -63,6 +63,8 @@ import {
   isComingSoon,
   isRoleVolunteer,
   getCF_externalHomeUrl,
+  getCF_guideUrl,
+  getCF_hasGuideUrl
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -179,7 +181,7 @@ function getMenuItem(COMING_SOON) {
     {
       url: "/manage-cf",
       label: "Manage Career Fair",
-      icon: "home",
+      icon: "slack",
       component: AdminCf,
       bar_app: true,
       bar_auth: false,
@@ -214,7 +216,7 @@ function getMenuItem(COMING_SOON) {
       // Admin Only
       url: "/hall-gallery",
       label: "Hall Gallery",
-      icon: "home",
+      icon: "image",
       component: ManageHallGallery,
       bar_app: true,
       bar_auth: false,
@@ -262,18 +264,18 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleVolunteer() && !isRoleAdmin()
     },
-    {
-      // Admin Only
-      url: "/live-feed",
-      label: "Live Feed",
-      icon: "commenting-o",
-      component: DashboardPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
-    },
+    // {
+    //   // Admin Only
+    //   url: "/live-feed",
+    //   label: "Live Feed",
+    //   icon: "commenting-o",
+    //   component: DashboardPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false,
+    //   disabled: !isRoleAdmin() && !isRoleOrganizer()
+    // },
     {
       // Admin Only
       url: "/analytics/:current",
@@ -565,20 +567,20 @@ function getMenuItem(COMING_SOON) {
       disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
       //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
     },
-    {
-      url: "/overview",
-      label: "Overview",
-      icon: "desktop",
-      component: Overview,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      // EUR FIX
-      disabled: !isRoleAdmin()
-      //disabled: COMING_SOON
-      //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
-    },
+    // {
+    //   url: "/overview",
+    //   label: "Overview",
+    //   icon: "desktop",
+    //   component: Overview,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false,
+    //   // EUR FIX
+    //   disabled: !isRoleAdmin()
+    //   //disabled: COMING_SOON
+    //   //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
+    // },
     // {
     //   url: "/about",
     //   label: "About",
@@ -622,16 +624,6 @@ function getMenuItem(COMING_SOON) {
       allRoute: true
     },
     {
-      url: "/logout",
-      label: lang("Logout"),
-      icon: "sign-out",
-      component: LogoutPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: isHasLeftBar() ? false : true,
-      hd_auth: false
-    },
-    {
       url: "/sign-up",
       label: lang("Sign Up"),
       icon: "user-plus",
@@ -640,6 +632,29 @@ function getMenuItem(COMING_SOON) {
       bar_auth: true,
       hd_app: false,
       hd_auth: true
+    },
+    {
+      url: "/guide",
+      label: lang("Guide"),
+      icon: "question-circle",
+      component: "",
+      has_external_url: true,
+      external_target: "_blank",
+      external_url: getCF_guideUrl(),
+      bar_app: getCF_hasGuideUrl(),
+      bar_auth: getCF_hasGuideUrl(),
+      hd_app: getCF_hasGuideUrl() && isRoleStudent(),
+      hd_auth: getCF_hasGuideUrl()
+    },
+    {
+      url: "/logout",
+      label: lang("Logout"),
+      icon: "sign-out",
+      component: LogoutPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false
     }
   ];
   // ############################################################################/
@@ -1048,6 +1063,7 @@ export function getBar(
         <a
           key={i}
           href={d.external_url}
+          target={d.external_target}
           activeClassName="active"
         >
           {item_li}

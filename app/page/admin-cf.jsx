@@ -18,9 +18,19 @@ export default class AdminCf extends React.Component {
         super(props);
 
         this.CfFormAttribute = this.getCfFormAttribute();
-
     }
 
+    getAcceptEmpty() {
+        let r = [];
+
+        for (var attr of this.CfFormAttribute) {
+            if (this.formType(attr) != "number") {
+                r.push(attr);
+            }
+        }
+
+        return r;
+    }
     getCfFormAttribute() {
         let r = [];
         let obj = { ...CFS, ...CFSMeta }
@@ -60,7 +70,7 @@ export default class AdminCf extends React.Component {
             return <div>Accepted value : <b>Numeric</b></div>;
         }
 
-        if (["feature_company_booth", "feature_sponsor", "feature_drop_resume"].indexOf(name) >= 0) {
+        if (name.indexOf("feature_") == 0) {
             return <div>Accepted value : <b>ON</b> or <b>OFF</b></div>;
         }
 
@@ -69,7 +79,7 @@ export default class AdminCf extends React.Component {
          */
         if (["organizations"].indexOf(name) >= 0) {
             return <div>Accepted value : <b>JSON Array</b><br></br>
-            <span>{`[{"label":"Universities","icon_size":"150","data":[{"name":"Universiti Teknologi MARA","logo":"UITM.jpg","shortname":"UITM"}]}]`}</span>
+                <span>{`[{"label":"Universities","icon_size":"150","data":[{"name":"Universiti Teknologi MARA","logo":"UITM.jpg","shortname":"UITM"}]}]`}</span>
             </div>;
         }
         return null;
@@ -154,7 +164,7 @@ export default class AdminCf extends React.Component {
             return res.data.data.cfs;
         }
 
-        this.acceptEmpty = this.CfFormAttribute;
+        this.acceptEmpty = this.getAcceptEmpty();
 
         // props for edit
         // create form add new default
@@ -195,6 +205,8 @@ export default class AdminCf extends React.Component {
                 return res.data.data.cf;
             });
         }
+
+        this.forceDiff = ["name"];
     }
 
     render() {
@@ -202,8 +214,9 @@ export default class AdminCf extends React.Component {
         return (<div><h3>Career Fair</h3>
 
             <GeneralFormPage
+                acceptEmpty={this.acceptEmpty}
+                forceDiff={this.forceDiff}
                 getExtraEditData={this.getExtraEditData}
-                searchFormNonPopup={true}
                 dataTitle={this.dataTitle}
                 noMutation={true}
                 canEdit={true}
@@ -211,7 +224,8 @@ export default class AdminCf extends React.Component {
                 getFormItem={this.getFormItem}
                 getEditFormDefault={this.getEditFormDefault}
                 entity_singular="Career Fair"
-                entity="user" // todo
+                entity="cf" // todo
+                searchFormNonPopup={true}
                 searchFormItem={this.searchFormItem}
                 searchFormOnSubmit={this.searchFormOnSubmit}
                 tableHeader={this.tableHeader}
