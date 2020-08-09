@@ -18,6 +18,11 @@ class VacancyQuery {
 		var title_where = (typeof params.title === "undefined") ? "1=1" : `title like '%${params.title}%' `;
 		var type_where = (typeof params.type === "undefined") ? "1=1" : `type = '${params.type}' `;
 		var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}' `;
+		var applied_only = (params.show_applied_only === true)
+			? `v.ID IN (select i.entity_id from interested i 
+				where i.entity = "vacancies" and i.user_id = "${params.user_id}" AND i.is_interested = 1)`
+			: `1=1`;
+
 		var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by} `;
 
 		var interested_user_id = "1=1";
@@ -36,12 +41,13 @@ class VacancyQuery {
 			${title_where} and 
 			${type_where} and 
 			${location_where} and
+			${applied_only} and
 			${interested_user_id} and
 			${com_where} ${order_by}`;
 
 		if (extra.distinct) {
 			let companyText = params.text_company ? params.text_company : "Company";
-			
+
 			return `
 			select distinct
 				"${companyText}" as "_category", 

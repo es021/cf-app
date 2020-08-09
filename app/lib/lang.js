@@ -1,15 +1,31 @@
 const { getCF } = require("../redux/actions/auth-actions")
 
-//@enable_lang
-function lang(input) {
+function isTranslateMalay() {
   //@enable_lang - set cf
   var CfForMalay = ["MDCW"];
-  // var CfForMalay = [];
+
+  // dont translate for company page
+  try {
+    let isCompanyPage = location.href.indexOf("/app/company/") >= 0
+    if (isCompanyPage) {
+      return false;
+    }
+  } catch (err) { }
 
   try {
     let cf = getCF();
+    if (CfForMalay.indexOf(cf) >= 0) {
+      return true;
+    }
+  } catch (err) { }
 
-    if (CfForMalay.indexOf(cf) >= 0)
+  return false
+}
+
+//@enable_lang
+function lang(input) {
+  try {
+    if (isTranslateMalay())
       if (LANG_MALAY[input]) {
         return LANG_MALAY[input]
       } else {
@@ -17,9 +33,7 @@ function lang(input) {
         untranslated[input] = "";
       }
   } catch (err) { }
-
   return input
-
 }
 
 module.exports = lang

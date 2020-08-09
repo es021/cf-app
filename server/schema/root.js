@@ -1098,6 +1098,7 @@ const vacancies_param = {
 	title: __.String,
 	type: __.String,
 	user_id: __.Int,
+	show_applied_only: __.Boolean,
 	company_id: __.Int,
 	location: __.String,
 	page: __.Int,

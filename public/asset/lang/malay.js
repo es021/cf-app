@@ -264,9 +264,9 @@ var LANG_MALAY = {
     "Tambah Job Post": "Tambah Jawatan Baru",
     "Guide": "Panduan",
     "Candidate Registration": "Pendaftaran Peserta",
-    "": "",
-    "": "",
-    "": "",
+    "Go to Jobs Applied": "Pergi ke Senarai Jawatan Dimohon",
+    "Go to All Job Posts": "Pergi ke Semua Senarai Jawatan",
+    "Jobs Applied": "Senarai Jawatan Dimohon",
     "": "",
 
     // UNTRANSLATED #########################################

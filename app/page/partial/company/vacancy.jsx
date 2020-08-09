@@ -79,8 +79,14 @@ export class VacancyList extends React.Component {
         }
       }
 
+      let show_applied_only = "";
+      if(this.props.showAppliedOnly){
+        show_applied_only = `show_applied_only:true`
+      }
+
       return `
         ${this.searchParams}
+        ${show_applied_only}
         ${cf_param}
         ${company_id_param}
         user_id:${this.authUser.ID},  
@@ -415,6 +421,7 @@ export class VacancyList extends React.Component {
 
 VacancyList.propTypes = {
   isListAll: PropTypes.bool,
+  showAppliedOnly: PropTypes.bool,
   isEnableSearch: PropTypes.bool,
   filterByCf: PropTypes.bool,
   company_id: PropTypes.number,
@@ -427,6 +434,7 @@ VacancyList.propTypes = {
 
 VacancyList.defaultProps = {
   filterByCf: true,
+  showAppliedOnly : false,
   isListAll: false,
   listClass: "flex-wrap-start",
   offset: 6,

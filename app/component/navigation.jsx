@@ -82,6 +82,7 @@ import ListJobApplicants from "../page/list-job-applicants";
 import { _student_plural } from "../redux/actions/text-action";
 import lang from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
+import ListJobApplied from "../page/list-job-applied";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -384,6 +385,18 @@ function getMenuItem(COMING_SOON) {
       hd_app: true,
       hd_auth: false,
       default_param: { current: "doc-link" },
+      disabled: !isRoleStudent()
+    },
+    {
+      // Student Only
+      url: "/list-job-applied",
+      label: lang("Jobs Applied"),
+      icon: "check-square-o ",
+      component: ListJobApplied,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
       disabled: !isRoleStudent()
     },
     {

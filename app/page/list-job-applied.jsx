@@ -4,7 +4,8 @@ import { VacancyList } from "./partial/company/vacancy";
 import lang from "../lib/lang";
 import { AppPath } from "../../config/app-config";
 import { NavLink } from "react-router-dom";
-export default class ListJobPosts extends React.Component {
+
+export default class ListJobApplied extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -12,24 +13,26 @@ export default class ListJobPosts extends React.Component {
   render() {
     return <div >
       <h1 className="text-bold text-left">
-        <i className="fa fa-suitcase left"></i>{lang("Job Posts")}
+        <i className="fa fa-check-square-o left"></i>{lang("Jobs Applied")}
       </h1>
+
       <div className="text-left" style={{ fontSize: "17px", marginBottom: "15px" }}>
-        <NavLink to={`${AppPath}/list-job-applied`}>
-          {lang("Go to Jobs Applied")}
+        <NavLink to={`${AppPath}/list-job-posts`}>
+          {lang("Go to All Job Posts")}
           <i className="fa fa-long-arrow-right right"></i>
         </NavLink>
       </div>
+
       <VacancyList isFullWidth={true} isSearchOnLeft={true} isEnableSearch={true} offset={9}
-        filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left" />
+        showAppliedOnly={true} isListAll={true} listClass="flex-wrap-center text-left" />
     </div >
   }
 }
 
-ListJobPosts.propTypes = {
+ListJobApplied.propTypes = {
   isPreEvent: PropTypes.bool
 };
 
-ListJobPosts.defaultProps = {
+ListJobApplied.defaultProps = {
   isPreEvent: false
 };
