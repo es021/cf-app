@@ -2,9 +2,12 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
-import { isCfLocal, getCF } from "../../../redux/actions/auth-actions";
+import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
+import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
 import lang from "../../../lib/lang";
+import { customBlockLoader } from "../../../redux/actions/layout-actions";
+import { CFSMeta } from "../../../../config/db-config";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
@@ -648,8 +651,35 @@ export class BrowseStudentFilter extends React.Component {
         })
     }
     getButtonExport() {
+        const asyncValidation = (validHandler) => {
+            var q = `query {has_feedback(user_id: ${getAuthUser().ID}) }`;
+            graphql(q).then((res) => {
+                let alreadyHasFeedback = res.data.data.has_feedback
+                let isFeatureOff = !isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)
+                let externalUrl = getCfCustomMeta(CFSMeta.LINK_EXTERNAL_FEEDBACK_REC, null);
+                if (alreadyHasFeedback || isFeatureOff || !externalUrl) {
+                    validHandler();
+                } else {
+                    var body = <div>
+                        <h3 style={{ color: "#286090" }}>
+                            {/* {lang("Help Us To Improve")} */}
+                            {lang("Your feedback is very valuable to us.")}
+                            <br></br>
+                            <small>
+                                {lang("Please answer a short feedback questions to continue.")}
+                            </small>
+                        </h3>
+                        {getExternalFeedbackBtn(externalUrl)}
+                    </div>;
+                    customBlockLoader(body, "Open Feedback Form", null, null, true);
+                    // customBlockLoader(body, "Open Feedback Form", null, `${RootPath}/app/feedback/recruiter`, true);
+                }
+            });
+        }
+
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
-        return <ButtonExport style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
+        return <ButtonExport asyncValidation={asyncValidation}
+            style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
             text={<span>{lang("Export")} <b>{lang("Searched Result")}</b> {lang("As Excel")}</span>}
             filter={filter} cf={getCF()}></ButtonExport>
     }

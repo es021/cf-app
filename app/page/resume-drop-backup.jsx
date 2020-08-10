@@ -14,7 +14,7 @@ import obj2arg from 'graphql-obj2arg';
 import { Time } from '../lib/time';
 import { hasResume, hasCV } from '../component/doc-link-form.jsx';
 
-import { getFeedbackPopupView } from './partial/analytics/feedback';
+import { feedbackStudent } from './partial/analytics/feedback';
 
 export default class ResumeDropPage extends React.Component {
 
@@ -203,7 +203,7 @@ export default class ResumeDropPage extends React.Component {
 
             // has limit need to fill feedback
             if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
-                v = getFeedbackPopupView();
+                v = feedbackStudent();
             }
             // no doc
             // else if (no_doc_link) {

@@ -407,7 +407,7 @@ class AuthAPI {
 						};
 
 						console.log("email_data", email_data)
-						postPhpAdmin(EmailPhpAdmin, email_data, data =>{
+						postPhpAdmin(EmailPhpAdmin, email_data, data => {
 							console.log("postPhpAdmin finish")
 							console.log(data);
 						});
@@ -428,7 +428,35 @@ class AuthAPI {
 
 	//##########################################################################################
 	// Registration Module
+	createRecruiter(rec) {
+		var rec_company = rec[UserMeta.REC_COMPANY];
+		var first_name = rec[UserMeta.FIRST_NAME];
 
+		var userdata = rec;
+		var usermeta = rec;
+		var data = {};
+		data["userdata"] = userdata;
+		data["usermeta"] = usermeta;
+
+		const successInterceptor = data => {
+			/** data
+			 * { ID: 909, activation_key: '92a4feb2e629fb0c79d397db6232d6b36364b5c6' }
+			 */
+			var user_id = data[User.ID];
+			// update cf and role
+			var cf_sql = `mutation{
+				edit_user(ID:${user_id}, 
+				rec_company:"${rec_company}", 
+				wp_cf_capabilities: "recruiter") {rec_company}}`;
+			getAxiosGraphQLQuery(cf_sql)
+			getAxiosGraphQLQuery(`mutation{
+				add_single(key_input:"first_name", entity:"user", entity_id:${user_id}, val:"${first_name}"){val}
+			}`);
+		};
+
+		return getWpAjaxAxios("app_register_user", data, successInterceptor);
+
+	}
 	//raw form from sign up page
 	register(user) {
 		//separate userdata and usermeta

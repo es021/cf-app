@@ -353,10 +353,9 @@ UserQuery = new UserQuery();
 
 class UserExec {
 	hasFeedback(user_id) {
-		var sql = `select (${UserQuery.selectMetaMain(
-			user_id,
-			"feedback"
-		)}) as feedback`;
+		var sql = `select 
+		(${UserQuery.selectMetaMain(user_id, "feedback")}) as feedback,
+		(${UserQuery.selectMetaMain(user_id, "has_feedback_external")}) as has_feedback_external`;
 		return DB.query(sql).then(res => {
 			try {
 				var feedback = res[0].feedback;
@@ -367,6 +366,16 @@ class UserExec {
 				) {
 					return 1;
 				}
+
+				var has_feedback_external = res[0].has_feedback_external;
+				if (
+					has_feedback_external != "" &&
+					has_feedback_external != null &&
+					typeof has_feedback_external !== "undefined"
+				) {
+					return 1;
+				}
+
 			} catch (err) { }
 			return 0;
 		});
@@ -465,6 +474,13 @@ class UserExec {
 			}
 
 			if (userMetaVal.indexOf(k) > -1) {
+				updateUserMeta[k] = v;
+			}
+
+			if (k == "wp_cf_capabilities") {
+				if (v == "recruiter") {
+					v = "a:1:{s:9:\"recruiter\";b:1;}";
+				}
 				updateUserMeta[k] = v;
 			}
 		}

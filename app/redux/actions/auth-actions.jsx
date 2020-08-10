@@ -475,6 +475,13 @@ export function register(user) {
     });
 }
 
+export function createRecruiter(rec) {
+    return axios.post(AppConfig.Api + "/auth/create-recruiter", {
+        rec: rec
+    });
+}
+
+
 export function activateAccount(key, user_id) {
     return axios.post(AppConfig.Api + "/auth/activate-account", {
         key: key,

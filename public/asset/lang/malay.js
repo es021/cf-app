@@ -267,6 +267,12 @@ var LANG_MALAY = {
     "Go to Jobs Applied": "Pergi ke Senarai Jawatan Dimohon",
     "Go to All Job Posts": "Pergi ke Semua Senarai Jawatan",
     "Jobs Applied": "Senarai Jawatan Dimohon",
+    "Your feedback is very valuable to us.": "Maklum balas anda sangat berharga bagi kami.",
+    "Please answer a short feedback questions to drop more resume.": "Sila jawab soalan maklum balas ringkas untuk meneruskan hantar resume.",
+    "Open Feedback Form": "Buka Borang Maklum Balas",
+    "Please answer a short feedback questions to continue.": "Sila jawab soalan maklum balas ringkas untuk meneruskan muat turun.",
+    "": "",
+    "": "",
     "": "",
 
     // UNTRANSLATED #########################################

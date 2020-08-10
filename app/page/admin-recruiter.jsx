@@ -11,8 +11,87 @@ import { User, UserMeta } from '../../config/db-config';
 import { Time } from '../lib/time';
 import { createUserTitle } from './users';
 import { createCompanyTitle } from './admin-company';
+import { createRecruiter } from '../redux/actions/auth-actions.jsx';
 
+class CreateRecruiter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            preview: ""
+        }
+    }
 
+    onClickCreateRecruiter(isPreview) {
+        let v = this.text_create_recruiter.value;
+        let arr = v.split("\n");
+        let preview = "";
+
+        for (var row of arr) {
+            if (row) {
+
+                let rowArr = row.split("\t");
+                let companyId = rowArr[0];
+                let userName = rowArr[1]
+                let email = rowArr[2];
+                let firstName = rowArr[3];
+                let password = rowArr[4];
+                let rec = {}
+
+                rec[User.LOGIN] = userName;
+                rec[UserMeta.REC_COMPANY] = companyId;
+                rec[User.EMAIL] = email;
+                rec[UserMeta.FIRST_NAME] = firstName;
+                rec[User.PASSWORD] = password;
+
+                if (isPreview) {
+                    preview += `<tr>
+                        <td>${companyId}</td>
+                        <td>${userName}</td>
+                        <td>${email}</td>
+                        <td>${firstName}</td>
+                        <td>${password}</td>
+                    </tr>`;
+                } else {
+                    createRecruiter(rec).then((res) => {
+                        console.log("success", res)
+                    }).catch((err) => {
+                        console.log("error", err)
+                    })
+                }
+            }
+        }
+
+        if (isPreview) {
+            preview = `
+            <table class=" table table-striped table-bordered table-hover table-condensed text-left">
+            <thead>
+                <th>Company Id</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Password</th>
+            </thead>
+            <tbody>${preview}</tbody>
+            </table>
+            `
+            this.setState({ preview: preview });
+        } else {
+            this.setState({ preview: "" });
+        }
+    }
+
+    render() {
+        let v = <div style={{ padding: "10px" }}>
+            <b>Paste table here:</b><br></br>
+            companyId   |   userName   |   email   |   firstName   |   password<br></br>
+            <textarea style={{ width: "100%" }} ref={v => (this.text_create_recruiter = v)} rows="20"></textarea><br></br><br></br>
+            <button onClick={() => { this.onClickCreateRecruiter(true) }} className="btn btn-md btn-round-5 btn-blue-light">Preview</button><br></br><br></br>
+            <div dangerouslySetInnerHTML={{ __html: this.state.preview }}></div>
+            <button disabled={!this.state.preview} onClick={() => { this.onClickCreateRecruiter() }} className="btn btn-md btn-round-5 btn-green">Create Bundle</button>
+        </div>
+        return v;
+    }
+}
 export default class RecruitersPage extends React.Component {
     constructor(props) {
         super(props);
@@ -70,7 +149,7 @@ export default class RecruitersPage extends React.Component {
 
         this.renderRow = (d, i) => {
             var row = [];
-            var dismiss = ["user_email", "last_name","rec_company"];
+            var dismiss = ["user_email", "last_name", "rec_company"];
 
             for (var key in d) {
                 if (dismiss.indexOf(key) >= 0) {
@@ -148,10 +227,14 @@ export default class RecruitersPage extends React.Component {
         }
     }
 
+    openCreateRecPopup() {
+        layoutActions.storeUpdateFocusCard("Create New Recruiter", CreateRecruiter, {});
+    }
+
     render() {
         document.setTitle("Recruiters");
-        return (<div><h3>Recruiterss</h3>
-
+        return (<div><h3>Recruiters</h3>
+            <button className="btn btn-sm btn-round-5 btn-green" onClick={() => { this.openCreateRecPopup() }}>Create New Recruiter</button>
             <GeneralFormPage
                 dataTitle={this.dataTitle}
                 noMutation={true}

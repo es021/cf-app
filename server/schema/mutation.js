@@ -759,6 +759,7 @@ fields["edit_user"] = {
     degree_level: __.String,
     major: __.String,
     minor: __.String,
+    has_feedback_external: __.String,
 
     mas_state: __.String,
     mas_postcode: __.String,
@@ -770,7 +771,8 @@ fields["edit_user"] = {
     // rec only
     company_id: __.Int,
     rec_position: __.String,
-    rec_company: __.String
+    rec_company: __.String,
+    wp_cf_capabilities: __.String,
   },
   resolve(parentValue, arg, context, info) {
     var ID = arg.ID;

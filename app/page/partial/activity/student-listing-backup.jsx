@@ -18,7 +18,7 @@ import { Time } from "../../../lib/time";
 import { createUserTitle } from "../../users";
 import { openSIFormNew } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
-import { openFeedbackBlockRec } from "../analytics/feedback";
+import { openFeedbackBlockRec_deprecated } from "../analytics/feedback";
 import { CompanyEnum, UserEnum, PrescreenEnum } from "../../../../config/db-config";
 import { Month, Year, Country, getMonthLabel } from '../../../../config/data-config';
 
@@ -327,7 +327,7 @@ export class StudentListing extends React.Component {
   }
 
   componentWillMount() {
-    openFeedbackBlockRec();
+    openFeedbackBlockRec_deprecated();
 
     this.loadPriv();
 

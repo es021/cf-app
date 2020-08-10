@@ -19,7 +19,7 @@ import CompanyPopup from "./partial/popup/company-popup";
 //import ValidationStudentAction from '../component/validation-student-action';
 //import { hasResume, hasCV } from '../component/doc-link-form.jsx';
 
-import { getFeedbackPopupView } from "./partial/analytics/feedback";
+import { feedbackStudent } from "./partial/analytics/feedback";
 
 export default class ResumeDropPage extends React.Component {
   constructor(props) {
@@ -305,13 +305,14 @@ export default class ResumeDropPage extends React.Component {
       // has limit need to fill feedback
 
       console.log("isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)", isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK));
-      
+
       // @open_feedback_by_career_fair
       if (isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK) && this.state.data.resume_drops_limit !== null && !this.isEdit) {
+        // if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
         view = (
           <div>
             <br />
-            {getFeedbackPopupView()}
+            {feedbackStudent()}
           </div>
         );
         isFeedback = true;

@@ -25,7 +25,7 @@ import {
   openSIFormAnytime
 } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
-import { openFeedbackBlockRec } from "../analytics/feedback";
+import { openFeedbackBlockRec_deprecated } from "../analytics/feedback";
 import { RootPath } from "../../../../config/app-config";
 import {
   CompanyEnum,
@@ -481,7 +481,7 @@ export class StudentListing extends React.Component {
     return toRet;
   }
   componentWillMount() {
-    openFeedbackBlockRec();
+    openFeedbackBlockRec_deprecated();
 
     this.loadPriv();
 

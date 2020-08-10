@@ -1,4 +1,6 @@
 @custom_user_info_by_cf
+@add_new_user_meta
+
 
 @chat
 company-chat.jsx

@@ -60,13 +60,21 @@ export class ButtonExport extends React.Component {
     render() {
 
         let btnClass = `btn btn-sm btn-${this.props.btnClass}`
-        if(this.props.isOverrideBtnClass){
+        if (this.props.isOverrideBtnClass) {
             btnClass = this.props.btnClass;
         }
-        
+
         return (<a style={this.props.style}
             className={btnClass}
-            onClick={() => { this.onClick() }}>
+            onClick={() => {
+                if (this.props.asyncValidation) {
+                    this.props.asyncValidation(() => {
+                        this.onClick();
+                    });
+                } else {
+                    this.onClick()
+                }
+            }}>
             <i className="fa fa-file-excel-o left"></i>
             {this.props.text}
         </a>);
@@ -87,7 +95,7 @@ ButtonExport.propsType = {
 };
 
 ButtonExport.defaultProps = {
-    isOverrideBtnClass : false,
+    isOverrideBtnClass: false,
     text: "Export Data",
     btnClass: "success",
     style: {

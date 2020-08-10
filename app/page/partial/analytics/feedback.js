@@ -2,58 +2,79 @@ import React, { PropTypes } from 'react';
 import GeneralFormPage from '../../../component/general-form';
 import { NavLink } from 'react-router-dom';
 import { Loader } from '../../../component/loader';
-import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
+import { getAxiosGraphQLQuery, graphql } from '../../../../helper/api-helper';
 import { Time } from '../../../lib/time';
-import { UserEnum, FeedbackQs } from '../../../../config/db-config';
+import { UserEnum, FeedbackQs, CFSMeta } from '../../../../config/db-config';
 import { RootPath } from '../../../../config/app-config';
-import { getAuthUser, isRoleRec, getCFObj } from '../../../redux/actions/auth-actions';
+import { getAuthUser, isRoleRec, getCFObj, getCfCustomMeta } from '../../../redux/actions/auth-actions';
 import { storeHideFocusCard, storeHideBlockLoader, customBlockLoader } from '../../../redux/actions/layout-actions';
 import Form, { toggleSubmit, checkDiff } from '../../../component/form';
 import { createUserTitle } from '../../users';
 import Tooltip from '../../../component/tooltip';
+import lang from '../../../lib/lang';
 
-// for recruiters
-export function openFeedbackBlockRec() {
-    // disabled feedback
-    return null;
 
-    if (isRoleRec()) {
-        // check if last day
-        var endtime = Time.convertDBTimeToUnix(getCFObj().end);
-        var now = Time.getUnixTimestampNow();
-        if (now >= endtime) {
-            var q = `query {has_feedback(user_id: ${getAuthUser().ID}) }`;
-            getAxiosGraphQLQuery(q).then((res) => {
-                if (!res.data.data.has_feedback) {
-                    var body =
-                        <h3 style={{ color: "#286090" }}>
-                            Help Us To Improve
-                        <br></br>
-                            <small>Please answer a short feedback questions to continue viewing this page</small>
-                        </h3 >;
-                    customBlockLoader(body, "Open Feedback Form", null, `${RootPath}/app/feedback/recruiter`, true);
-                }
-            });
-        }
-    }
-}
-
-// for students
-export function getFeedbackPopupView(isDropResume = true) {
-
-    const onClick = () => {
+export function getExternalFeedbackBtn(url) {
+    return <a target="_blank" href={url} onClick={() => {
         storeHideFocusCard();
         storeHideBlockLoader();
-    }
+        graphql(`mutation{edit_user(ID:${getAuthUser().ID}, has_feedback_external:"1"){ ID }}`).then(res => { })
+    }}>
+        <button className="btn btn-round-10 btn-lg btn-blue-light">
+            {lang("Open Feedback Form")}
+        </button>
+    </a>
+}
 
+
+// for recruiters
+export function openFeedbackBlockRec_deprecated() {
+    // disabled feedback
+    return null;
+}
+// export function feedbackRec() {
+//     // disabled feedback
+//     // return null;
+//     if (isRoleRec()) {
+//         // check if last day
+//         // var endtime = Time.convertDBTimeToUnix(getCFObj().end);
+//         // var now = Time.getUnixTimestampNow();
+//         // if (now >= endtime) {
+//         var q = `query {has_feedback(user_id: ${getAuthUser().ID}) }`;
+//         getAxiosGraphQLQuery(q).then((res) => {
+//             if (!res.data.data.has_feedback) {
+//                 var body = <div>
+//                     <h3 style={{ color: "#286090" }}>
+//                         Help Us To Improve
+//                         <br></br>
+//                         <small>Please answer a short feedback questions to continue viewing this page</small>
+//                     </h3>
+//                     {getExternalFeedbackBtn()}
+//                 </div>;
+//                 customBlockLoader(body, "Open Feedback Form", null, null, true);
+//                 // customBlockLoader(body, "Open Feedback Form", null, `${RootPath}/app/feedback/recruiter`, true);
+//             }
+//         });
+//         // }
+//     }
+// }
+
+
+// for students
+export function feedbackStudent() {
+    let externalLink = getCfCustomMeta(CFSMeta.LINK_EXTERNAL_FEEDBACK_STUDENT, null);
     return <div>
-        Your feedback is very valuable to us.
-        <br></br>Please answer a short feedback questions
-        {isDropResume ? " to drop more resume." : " to request more session with company."}
+        {lang("Your feedback is very valuable to us.")}
+        <br></br>{lang("Please answer a short feedback questions to drop more resume.")}
         <br></br><br></br>
-        <NavLink onClick={onClick}
-            className="btn btn-blue"
-            to={`${RootPath}/app/feedback/student`}>Open Feedback Form</NavLink>
+        {externalLink ? getExternalFeedbackBtn(externalLink)
+            : <NavLink onClick={() => {
+                storeHideFocusCard();
+                storeHideBlockLoader();
+            }} className="btn btn-blue-light btn-lg btn-round-10" to={`${RootPath}/app/feedback/student`}>
+                {lang("Open Feedback Form")}
+            </NavLink>
+        }
     </div>;
 }
 

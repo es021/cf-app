@@ -127,6 +127,7 @@ const Message = {
 	CREATED_AT: "created_at"
 };
 
+// @add_new_user_meta
 const UserMeta = {
 	TABLE: "wp_cf_usermeta",
 	// all roles usermeta
@@ -138,6 +139,7 @@ const UserMeta = {
 	IMG_POS: "profile_image_position",
 	IMG_SIZE: "profile_image_size",
 	FEEDBACK: "feedback",
+	HAS_FEEDBACK_EXTERNAL: "has_feedback_external",
 	USER_STATUS: "user_status",
 	IS_ACTIVATED: "is_activated",
 	ACTIVATION_KEY: "activation_key",
@@ -705,6 +707,8 @@ const CFSMeta = {
 	// custom link
 	LINK_EXTERNAL_HOME: "link_external_home",
 	LINK_EXTERNAL_FOLLOW: "link_external_follow",
+	LINK_EXTERNAL_FEEDBACK_STUDENT: "link_external_feedback_student",
+	LINK_EXTERNAL_FEEDBACK_REC: "link_external_feedback_rec",
 	LINK_GUIDE_STUDENT: "link_guide_student",
 	LINK_GUIDE_REC: "link_guide_rec",
 

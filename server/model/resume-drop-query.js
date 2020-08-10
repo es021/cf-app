@@ -31,7 +31,8 @@ class ResumeDropQuery {
         var { UserQuery } = require('./user-query.js');
         var sql = `select 
             (select count(*) from resume_drops r where r.student_id = ${user_id}) as ttl_resume
-            , (${UserQuery.selectMetaMain(user_id, "feedback")}) as feedback`;
+            , (${UserQuery.selectMetaMain(user_id, "feedback")}) as feedback
+            , (${UserQuery.selectMetaMain(user_id, "has_feedback_external")}) as has_feedback_external `;
 
         return sql;
     }
@@ -41,16 +42,24 @@ ResumeDropQuery = new ResumeDropQuery();
 const RD_LIMIT = 3;
 class ResumeDropExec {
 
+    /*******************************************/
+    /* resume_drops_limit ******************/
+    // return limit if feedback is empty
+    // return null if still not over limit or feedback is filled
     resume_drops_limit(params, field, extra = {}) {
         var sql = ResumeDropQuery.getResumeDropError(params.user_id);
         //console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             var ttl_resume = res[0].ttl_resume;
             var feedback = res[0].feedback;
+            var has_feedback_external = res[0].has_feedback_external;
             var err = null;
-            if (ttl_resume >= RD_LIMIT && (feedback == null || feedback == "")) {
+            if (ttl_resume >= RD_LIMIT
+                && (feedback == null || feedback == "")
+                && (has_feedback_external == null || has_feedback_external == "")) {
                 err = RD_LIMIT;
             }
+            // console.log("err", err)
             return err;
         });
 
@@ -76,9 +85,9 @@ class ResumeDropExec {
                 if (typeof field["doc_links"] !== "undefined") {
                     if (res[i]["doc_links"] !== "" && res[i]["doc_links"] !== null) {
                         var doc_links = JSON.parse(res[i]["doc_links"]);
-                        res[i]["doc_links"] =  doc_links.map((d, i) => {
+                        res[i]["doc_links"] = doc_links.map((d, i) => {
                             return DocLinkExec.doc_links({ ID: d }, field["doc_links"], { single: true });
-                            
+
                         });
 
                     } else {

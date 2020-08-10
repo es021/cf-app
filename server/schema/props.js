@@ -64,6 +64,8 @@ EXPORT.Cfs = {
     image_header_icon: __.String,
 
     // custom link
+    link_external_feedback_student: __.String,
+    link_external_feedback_rec: __.String,
     link_external_home: __.String,
     link_external_follow: __.String,
     link_guide_student : __.String,

@@ -22,7 +22,7 @@ import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
 import { AppPath } from "../../config/app-config";
 
 import { addLog } from "../redux/actions/other-actions";
-import { getFeedbackPopupView } from "./partial/analytics/feedback";
+import { feedbackStudent } from "./partial/analytics/feedback";
 
 import { Gallery, isGalleryIframe } from "../component/gallery";
 import ValidationStudentAction, {
@@ -163,8 +163,8 @@ export default class CompanyPage extends Component {
 
         // if no feedback open popup
         if (ttl_pending >= this.FEEDBACK_LIMIT_SR && !has_feedback) {
-          //layoutActions.storeUpdate("Feedback", getFeedbackPopupView());
-          layoutActions.errorBlockLoader(getFeedbackPopupView(false));
+          //layoutActions.storeUpdate("Feedback", feedbackStudent());
+          layoutActions.errorBlockLoader(feedbackStudent(false));
         } else {
           // add session request
           activityActions.addSessionRequest(stu_id, com_id).then(

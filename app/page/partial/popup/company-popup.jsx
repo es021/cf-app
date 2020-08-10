@@ -30,7 +30,7 @@ import { RootPath, ImgConfig, AppPath } from "../../../../config/app-config";
 import VacancyPopup from "./vacancy-popup";
 import ResumeDropPopup from "./resume-drop-popup";
 import { addLog } from "../../../redux/actions/other-actions";
-import { getFeedbackPopupView } from "../analytics/feedback";
+import { feedbackStudent } from "../analytics/feedback";
 import { GroupSessionView } from "../hall/group-session";
 import { Gallery, isGalleryIframe } from "../../../component/gallery";
 import ValidationStudentAction, { ValidationSource } from "../../../component/validation-student-action";
@@ -212,8 +212,8 @@ export default class CompanyPopup extends Component {
 
         // if no feedback open popup
         if (ttl_pending >= this.FEEDBACK_LIMIT_SR && !has_feedback) {
-          //layoutActions.storeUpdate("Feedback", getFeedbackPopupView());
-          layoutActions.errorBlockLoader(getFeedbackPopupView(false));
+          //layoutActions.storeUpdate("Feedback", feedbackStudent());
+          layoutActions.errorBlockLoader(feedbackStudent(false));
         } else {
           // add session request
           activityActions.addSessionRequest(stu_id, com_id).then(

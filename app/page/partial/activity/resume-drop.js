@@ -14,7 +14,7 @@ import { createUserTitle } from '../../users';
 import { createCompanyTitle } from '../../admin-company';
 import { openSIAddForm, openSIFormNew } from '../../partial/activity/scheduled-interview';
 import { createUserDocLinkList } from '../popup/user-popup';
-import { openFeedbackBlockRec } from '../analytics/feedback';
+import { openFeedbackBlockRec_deprecated } from '../analytics/feedback';
 
 
 export class ResumeDrop extends React.Component {
@@ -31,7 +31,7 @@ export class ResumeDrop extends React.Component {
     }
 
     componentWillMount() {
-        openFeedbackBlockRec();
+        openFeedbackBlockRec_deprecated();
         
         this.offset = 10;
         //##########################################

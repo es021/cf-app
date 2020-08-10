@@ -13,7 +13,7 @@ import { createUserTitle } from './users';
 import CompanyPopup from './partial/popup/company-popup';
 import { Loader } from '../component/loader';
 import { openSIAddForm } from './partial/activity/scheduled-interview';
-import { openFeedbackBlockRec } from './partial/analytics/feedback';
+import { openFeedbackBlockRec_deprecated } from './partial/analytics/feedback';
 
 // require('../css/forum.scss');
 
@@ -477,7 +477,7 @@ export default class ForumPage extends React.Component {
     }
 
     componentWillMount() {
-        openFeedbackBlockRec();
+        openFeedbackBlockRec_deprecated();
         this.customEmpty = <div className="text-center">
             <h4 className="text-muted">No Question Posted Yet</h4>
         </div>;

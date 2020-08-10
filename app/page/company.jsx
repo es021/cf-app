@@ -27,7 +27,7 @@ import { emitQueueStatus, emitHallActivity } from "../socket/socket-client";
 import { AppPath } from "../../config/app-config";
 
 import { addLog } from "../redux/actions/other-actions";
-import { getFeedbackPopupView } from "./partial/analytics/feedback";
+import { feedbackStudent } from "./partial/analytics/feedback";
 
 import { Gallery, isGalleryIframe } from "../component/gallery";
 import ValidationStudentAction, {
@@ -84,7 +84,7 @@ export default class CompanyPage extends Component {
 
     this.getRecs = this.getRecs.bind(this);
     this.startQueue = this.startQueue.bind(this);
-    this.addSessionRequest = this.addSessionRequest.bind(this);
+    // this.addSessionRequest = this.addSessionRequest.bind(this);
     this.getSubscribeOrFollowBtn = this.getSubscribeOrFollowBtn.bind(this);
   }
 
@@ -158,61 +158,61 @@ export default class CompanyPage extends Component {
     });
   }
 
-  addSessionRequest() {
-    var stu_id = this.authUser.ID;
-    var com_id = this.ID;
+  // addSessionRequest() {
+  //   var stu_id = this.authUser.ID;
+  //   var com_id = this.ID;
 
-    // first filter
-    var invalid = activityActions.invalidSessionRequest(com_id);
-    if (invalid !== false) {
-      layoutActions.errorBlockLoader(invalid);
-      return false;
-    } else {
-      layoutActions.loadingBlockLoader("Adding Request");
+  //   // first filter
+  //   var invalid = activityActions.invalidSessionRequest(com_id);
+  //   if (invalid !== false) {
+  //     layoutActions.errorBlockLoader(invalid);
+  //     return false;
+  //   } else {
+  //     layoutActions.loadingBlockLoader("Adding Request");
 
-      // check for feedback
-      var query = `query { has_feedback (user_id: ${stu_id}) } `;
-      getAxiosGraphQLQuery(query).then(res => {
-        var has_feedback = res.data.data.has_feedback;
-        var ttl_pending = activityActions.pendingSessionRequestCount(com_id);
+  //     // check for feedback
+  //     var query = `query { has_feedback (user_id: ${stu_id}) } `;
+  //     getAxiosGraphQLQuery(query).then(res => {
+  //       var has_feedback = res.data.data.has_feedback;
+  //       var ttl_pending = activityActions.pendingSessionRequestCount(com_id);
 
-        // if no feedback open popup
-        if (ttl_pending >= this.FEEDBACK_LIMIT_SR && !has_feedback) {
-          //layoutActions.storeUpdate("Feedback", getFeedbackPopupView());
-          layoutActions.errorBlockLoader(getFeedbackPopupView(false));
-        } else {
-          // add session request
-          activityActions.addSessionRequest(stu_id, com_id).then(
-            res => {
-              var mes = (
-                <div>
-                  Successfully send interview request to
-                  <br />
-                  <b>{this.state.data.name}</b>
-                  <br />
-                  The request status will be shown under Interview Request
-                </div>
-              );
+  //       // if no feedback open popup
+  //       if (ttl_pending >= this.FEEDBACK_LIMIT_SR && !has_feedback) {
+  //         //layoutActions.storeUpdate("Feedback", feedbackStudent());
+  //         layoutActions.errorBlockLoader(feedbackStudent(false));
+  //       } else {
+  //         // add session request
+  //         activityActions.addSessionRequest(stu_id, com_id).then(
+  //           res => {
+  //             var mes = (
+  //               <div>
+  //                 Successfully send interview request to
+  //                 <br />
+  //                 <b>{this.state.data.name}</b>
+  //                 <br />
+  //                 The request status will be shown under Interview Request
+  //               </div>
+  //             );
 
-              emitHallActivity(
-                hallAction.ActivityType.SESSION_REQUEST,
-                null,
-                com_id
-              );
+  //             emitHallActivity(
+  //               hallAction.ActivityType.SESSION_REQUEST,
+  //               null,
+  //               com_id
+  //             );
 
-              layoutActions.successBlockLoader(mes);
-              hallAction.storeLoadActivity([
-                hallAction.ActivityType.SESSION_REQUEST
-              ]);
-            },
-            err => {
-              layoutActions.errorBlockLoader(err);
-            }
-          );
-        }
-      });
-    }
-  }
+  //             layoutActions.successBlockLoader(mes);
+  //             hallAction.storeLoadActivity([
+  //               hallAction.ActivityType.SESSION_REQUEST
+  //             ]);
+  //           },
+  //           err => {
+  //             layoutActions.errorBlockLoader(err);
+  //           }
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
 
   startQueue() {
     var stu_id = getAuthUser().ID;

@@ -238,6 +238,11 @@ const initializeAllRoute = function (app, root) {
           routeResHandler(res, response);
         });
         break;
+      case "create-recruiter":
+        AuthAPI.createRecruiter(req.body.rec).then(response => {
+          routeResHandler(res, response);
+        });
+        break;
       case "activate-account":
         AuthAPI.activateAccount(req.body.key, req.body.user_id).then(
           response => {

@@ -127,6 +127,7 @@ const AvailabilityType = new GraphQLObjectType({
 const UserType = new GraphQLObjectType({
 	name: "User",
 	fields: () => ({
+		// @add_new_user_meta
 		// all roles
 		ID: __.Int,
 		user_email: __.String,
@@ -136,6 +137,7 @@ const UserType = new GraphQLObjectType({
 		img_pos: __.String,
 		img_size: __.String,
 		feedback: __.String,
+		has_feedback_external: __.String,
 		user_status: __.String,
 		activation_key: __.String,
 		role: __.String,
