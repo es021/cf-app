@@ -18,7 +18,7 @@ import obj2arg from "graphql-obj2arg";
 import { appointmentTimeValidation } from "./partial/activity/scheduled-interview";
 import { Loader } from "../component/loader";
 import { _student_single, _student_plural, _student_plural_lower } from "../redux/actions/text-action";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 // require("../css/hall.scss");''
 // export function getAppointmentTimeElement(d, happeningIn) {

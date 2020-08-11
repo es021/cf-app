@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { ButtonLink } from "./buttons";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 
 // Ask a Question style instagram

@@ -24,7 +24,7 @@ import EmptyState from "../component/empty-state.jsx";
 import { createCompanyTitle } from "./admin-company.jsx";
 import { isCompanyOnline } from "../redux/actions/user-actions";
 import { connect } from "react-redux";
-import lang from "../lib/lang.js";
+import {lang} from "../lib/lang.js";
 
 
 export class StudentChatStarter extends React.Component {

@@ -8,7 +8,7 @@ import obj2arg from 'graphql-obj2arg';
 import { getAxiosGraphQLQuery } from '../../helper/api-helper';
 import { updateAuthUser } from '../redux/actions/auth-actions';
 import { UploadUrl } from '../../config/app-config.js';
-import lang from '../lib/lang.js';
+import {lang} from '../lib/lang.js';
 
 // require("../css/profile-card.scss");
 const pc = "pc-";

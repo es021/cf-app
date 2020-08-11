@@ -57,7 +57,7 @@ import { StudentListing } from "./partial/activity/student-listing.jsx";
 import { ScheduledInterview } from "./partial/activity/scheduled-interview";
 import CompanyPage from "./company";
 import ManageTag from "./tag";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 

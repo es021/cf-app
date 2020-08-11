@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 // require("../css/sub-nav.scss");
 import { RootPath } from '../../config/app-config';
-import lang from '../lib/lang';
+import {lang} from '../lib/lang';
 
 export default class SubNav extends React.Component {
     constructor(props) {

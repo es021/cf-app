@@ -16,7 +16,7 @@ import { Time } from "../lib/time";
 import Timer from "../component/timer";
 import { getCFTimeDetail } from "./coming-soon";
 import { getStyleImageObj } from "../component/profile-card.jsx";
-import lang from "../lib/lang.js";
+import {lang} from "../lib/lang.js";
 
 // require("../css/home.scss");
 

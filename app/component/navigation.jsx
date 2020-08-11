@@ -80,7 +80,7 @@ import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
 import { _student_plural } from "../redux/actions/text-action";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
 

@@ -25,7 +25,7 @@ import {
     PrescreenEnum,
     CompanyEnum
 } from "../../../../config/db-config";
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 
 import Tooltip from "../../../component/tooltip";
 

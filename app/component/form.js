@@ -5,7 +5,7 @@ import { ButtonLink } from "./buttons.jsx";
 import { ImgConfig } from "../../config/app-config";
 import { getAllCF } from "../redux/actions/auth-actions";
 import InputSuggestion from "./input-suggestion";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 // require('../css/form.scss');
 

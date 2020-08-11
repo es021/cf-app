@@ -25,7 +25,7 @@ import {
   createUserDocLinkList,
   createUserMajorList
 } from "../popup/user-popup";
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 
 export const appointmentTimeValidation = function (d) {
   if (

@@ -1,10 +1,37 @@
 const { getCF } = require("../redux/actions/auth-actions")
+const LANG_LOCAL_STORAGE = "lang";
+const CfForMalay = ["MDCW"];
+const MALAY = "Bahasa";
+const ENGLISH = "English";
+
+function isHasOtherLang() {
+  try {
+    let cf = getCF();
+    if (CfForMalay.indexOf(cf) >= 0) {
+      return true;
+    }
+  } catch (err) { }
+  return false
+}
+
+function setLangStore(v) {
+  window.localStorage.setItem(LANG_LOCAL_STORAGE, v);
+}
+
+function getLangStore() {
+  return window.localStorage.getItem(LANG_LOCAL_STORAGE);
+}
+
+function isLangStoreEmpty() {
+  let storeLang = getLangStore();
+  return !storeLang ? true : false;
+}
 
 function isTranslateMalay() {
   //@enable_lang - set cf
-  var CfForMalay = ["MDCW"];
 
-  // dont translate for company page
+
+  // 1. check if company page default to english
   try {
     let isCompanyPage = location.href.indexOf("/app/company/") >= 0
     if (isCompanyPage) {
@@ -12,11 +39,15 @@ function isTranslateMalay() {
     }
   } catch (err) { }
 
+  // 2. check if store
   try {
     let cf = getCF();
     if (CfForMalay.indexOf(cf) >= 0) {
-      return true;
+      if (isLangStoreEmpty() || getLangStore() == MALAY) {
+        return true;
+      }
     }
+
   } catch (err) { }
 
   return false
@@ -36,4 +67,13 @@ function lang(input) {
   return input
 }
 
-module.exports = lang
+module.exports = {
+  isHasOtherLang,
+  isTranslateMalay,
+  setLangStore,
+  getLangStore,
+  isLangStoreEmpty,
+  lang,
+  MALAY,
+  ENGLISH
+}

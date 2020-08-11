@@ -14,7 +14,7 @@ import { addLog } from "../redux/actions/other-actions";
 import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 import { getHrefValidUrl, getCompanyTitle } from "./view-helper/view-helper";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 function applyOnClick(obj, onClickModeAction) {
   console.log("obj", obj);

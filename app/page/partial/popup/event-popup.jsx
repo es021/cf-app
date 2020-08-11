@@ -8,7 +8,7 @@ import { Loader } from "../../../component/loader";
 import PageSection from "../../../component/page-section";
 import { Time } from "../../../lib/time";
 import { getCompanyTitle, getEventAction } from "../../view-helper/view-helper";
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 
 export default class EventPopup extends Component {
     constructor(props) {

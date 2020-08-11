@@ -8,7 +8,7 @@ import { ButtonIcon } from './buttons.jsx';
 import { Loader } from './loader';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import lang from '../lib/lang';
+import {lang} from '../lib/lang';
 
 // require("../css/block-loader.scss");
 

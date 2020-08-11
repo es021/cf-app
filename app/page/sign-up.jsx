@@ -16,7 +16,7 @@ import {
 } from "../../config/user-config";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 export default class SignUpPage extends React.Component {
   constructor(props) {

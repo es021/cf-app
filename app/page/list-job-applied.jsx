@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { VacancyList } from "./partial/company/vacancy";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 import { AppPath } from "../../config/app-config";
 import { NavLink } from "react-router-dom";
 

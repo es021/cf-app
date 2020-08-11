@@ -21,7 +21,7 @@ import obj2arg from "graphql-obj2arg";
 
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { getEventAction, getEventTitle, getEventLocation } from "../../view-helper/view-helper.jsx";
-import lang from "../../../lib/lang.js";
+import {lang} from "../../../lib/lang.js";
 
 
 export default class HallRecruiterEvent extends React.Component {

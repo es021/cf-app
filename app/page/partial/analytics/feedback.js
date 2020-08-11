@@ -11,7 +11,7 @@ import { storeHideFocusCard, storeHideBlockLoader, customBlockLoader } from '../
 import Form, { toggleSubmit, checkDiff } from '../../../component/form';
 import { createUserTitle } from '../../users';
 import Tooltip from '../../../component/tooltip';
-import lang from '../../../lib/lang';
+import {lang} from '../../../lib/lang';
 
 
 export function getExternalFeedbackBtn(url) {

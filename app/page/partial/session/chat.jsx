@@ -30,7 +30,7 @@ import {
   emitHallActivity
 } from "../../../socket/socket-client";
 import { Uploader, uploadFile, FileType } from '../../../component/uploader';
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 
 //import { ButtonLink } from '../../../component/buttons.jsx';
 //import UserPopup from '../popup/user-popup';

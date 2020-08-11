@@ -11,7 +11,7 @@ import VacancyPopup from "../popup/vacancy-popup";
 import { InterestedButton } from "../../../component/interested.jsx";
 import { EmptyCard } from "../../../component/card.jsx";
 import PropTypes from 'prop-types';
-import lang from "../../../lib/lang.js";
+import {lang} from "../../../lib/lang.js";
 
 export default class HallRecruiterJobPosts extends React.Component {
   constructor(props) {

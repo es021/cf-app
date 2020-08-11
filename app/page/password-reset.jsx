@@ -9,7 +9,7 @@ import { AuthAPIErr } from "../../config/auth-config";
 import { passwordResetOld, passwordResetToken, getAuthUser, isAuthorized } from '../redux/actions/auth-actions';
 import { NavLink } from 'react-router-dom';
 import { RootPath } from '../../config/app-config';
-import lang from '../lib/lang';
+import {lang} from '../lib/lang';
 
 export default class PasswordResetPage extends React.Component {
     constructor(props) {

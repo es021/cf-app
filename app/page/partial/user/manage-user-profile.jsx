@@ -11,7 +11,7 @@ import {
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
 import { isRoleStudent, isRoleRec, getCF } from "../../../redux/actions/auth-actions";
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {

@@ -51,7 +51,7 @@ import { VacancyList } from "./partial/company/vacancy";
 import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import { EventList } from "./event-list";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 export default class CompanyPage extends Component {
   constructor(props) {

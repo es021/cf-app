@@ -52,7 +52,8 @@ $COLOR_RIGHT : #3a445d;
 //     13px // textFont
 // );
 
-@include as_dimension(55px, // parentWidth
+@include as_dimension(
+    75px, // parentWidth
     24px, // parentHeight
     5px, // sliderOffsetTranslate
     15px, // sliderDimension

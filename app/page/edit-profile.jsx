@@ -37,7 +37,7 @@ import LogoutPage from "../page/logout";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import UploaderVideo from "../component/uploader-video";
 import { createVideoDropbox } from "./partial/popup/user-popup";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 class StudentVideoResume extends React.Component {
   constructor(props) {

@@ -6,7 +6,7 @@ import obj2arg from "graphql-obj2arg";
 import Form, { toggleSubmit, checkDiff } from "./form";
 import List, { CustomList } from "./list";
 import ConfirmPopup from "../page/partial/popup/confirm-popup";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 class SearchForm extends React.Component {
   constructor(props) {

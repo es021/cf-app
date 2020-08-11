@@ -28,7 +28,7 @@ import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { isCustomUserInfoOff, Single, Multi } from "../../../../config/registration-config";
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 export function createUserMajorList(major) {
   var r = null;
 

@@ -46,7 +46,7 @@ import { joinVideoCall } from "../session/chat";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import * as HallRecruiterHelper from "../hall-recruiter/hall-recruiter-helper";
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 
 // require("../../../css/border-card.scss");
 

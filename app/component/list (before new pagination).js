@@ -364,7 +364,7 @@ List.defaultProps = {
 
 import ProfileCard, { PCType } from "./profile-card.jsx";
 import { Page } from "react-facebook";
-import lang from "../lib/lang.js";
+import {lang} from "../lib/lang.js";
 
 export class ProfileListItem extends Component {
   render() {

@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import ProfileCard, { PCType } from "./profile-card.jsx";
 import { Page } from "react-facebook";
 import Paging from "./paging.jsx";
-import lang from "../lib/lang.js";
+import {lang} from "../lib/lang.js";
 
 // require("../css/list.scss");
 

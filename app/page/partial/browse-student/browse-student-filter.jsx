@@ -5,7 +5,7 @@ import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
-import lang from "../../../lib/lang";
+import {lang} from "../../../lib/lang";
 import { customBlockLoader } from "../../../redux/actions/layout-actions";
 import { CFSMeta } from "../../../../config/db-config";
 

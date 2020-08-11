@@ -14,7 +14,7 @@ import { store } from '../redux/store';
 import {
     _GET
 } from '../lib/util';
-import lang from '../lib/lang';
+import {lang} from '../lib/lang';
 
 function hasDocLabel(dl, label, isExact) {
     isExact = typeof isExact === "undefined" ? false : isExact;

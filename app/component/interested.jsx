@@ -9,7 +9,7 @@ import { PCType, createImageElement } from "../component/profile-card";
 import { createUserTitle, openUserPopup } from "../page/users";
 import Tooltip from "../component/tooltip";
 import { AppPath } from "../../config/app-config";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 import { ButtonExport } from "./buttons";
 
 export class InterestedUserList extends React.Component {

@@ -7,7 +7,7 @@ import { getWindowWidth } from '../lib/util';
 import { getPositionStr } from '../component/profile-card-img';
 import { RootPath } from '../../config/app-config';
 import store from '../redux/store';
-import lang from '../lib/lang';
+import {lang} from '../lib/lang';
 
 export function isHasLeftBar() {
     return isRoleAdmin() || isRoleRec();

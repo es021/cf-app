@@ -10,7 +10,7 @@ import { getDataCareerFair } from '../app/component/form';
 import { DocumentUrl, TermsAndConditionUrl } from './app-config';
 import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from './data-config';
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
-import lang from '../app/lib/lang';
+import {lang} from '../app/lib/lang';
 export const TotalRegisterStep = 3;
 
 

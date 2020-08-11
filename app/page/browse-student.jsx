@@ -10,7 +10,7 @@ import { _GET } from "../lib/util";
 import EmptyState from "../component/empty-state";
 import { Redirect } from "react-router";
 import { _student_single } from "../redux/actions/text-action";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 export class BrowseStudent extends React.Component {
   constructor(props) {

@@ -7,7 +7,7 @@ import React from "react";
 import { isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
 import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
-import lang from "../../lib/lang";
+import {lang} from "../../lib/lang";
 
 export function animateHide(el, finishHandler) {
   el.className = el.className += " animate-hide";

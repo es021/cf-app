@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Time } from "../lib/time";
 import { _GET } from "../lib/util";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 // require("../css/time-converter.scss");
 

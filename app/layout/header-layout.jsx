@@ -15,7 +15,7 @@ import { showLeftBar, isHasLeftBar } from "./left-bar-layout";
 import { createImageElement } from "../component/profile-card.jsx";
 import { NavLink } from "react-router-dom";
 import LeftBarLayout from "./left-bar-layout";
-import lang from "../lib/lang";
+import {lang} from "../lib/lang";
 
 export default class HeaderLayout extends React.Component {
   constructor(props) {

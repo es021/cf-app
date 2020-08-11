@@ -15,7 +15,7 @@ import { ButtonLink } from '../component/buttons.jsx';
 import { AuthAPIErr } from "../../config/auth-config";
 
 import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
-import lang from '../lib/lang';
+import {lang} from '../lib/lang';
 
 //state is from redux reducer
 // with multiple objects
