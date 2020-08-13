@@ -59,6 +59,7 @@ EXPORT.Cfs = {
     text_company_profile_term: __.String,
     text_company_label_job_post: __.String,
     text_registration_disclaimer: __.String,
+    text_salutation_recruiter: __.String,
 
     // custom image
     image_header_icon: __.String,

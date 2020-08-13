@@ -697,9 +697,10 @@ const CFSMeta = {
 	TEXT_REGISTRATION_TITLE: "text_registration_title",
 	TEXT_COMPANY_ENTITY_SINGLE: "text_company_entity_single",
 	TEXT_COMPANY_ENTITY_PLURAL: "text_company_entity_plural",
-	TEXT_COMPANY_PROFILE_TERM: "text_company_profile_term",
-	TEXT_COMPANY_LABEL_JOB_POST: "text_company_label_job_post",
-	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer",
+	TEXT_COMPANY_PROFILE_TERM: "text_company_profile_term", // hall.jsx, list-companies.jsx
+	TEXT_COMPANY_LABEL_JOB_POST: "text_company_label_job_post", // vacancy.jsx
+	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer", // sign-up.jsx
+	TEXT_SALUTATION_RECRUITER: "text_salutation_recruiter", // hall-recruiter.jsx
 
 	// custom image
 	IMAGE_HEADER_ICON: "image_header_icon",

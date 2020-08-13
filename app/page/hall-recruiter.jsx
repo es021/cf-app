@@ -18,7 +18,7 @@ import obj2arg from "graphql-obj2arg";
 import { appointmentTimeValidation } from "./partial/activity/scheduled-interview";
 import { Loader } from "../component/loader";
 import { _student_single, _student_plural, _student_plural_lower } from "../redux/actions/text-action";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 // require("../css/hall.scss");''
 // export function getAppointmentTimeElement(d, happeningIn) {
@@ -248,7 +248,7 @@ export default class HallRecruiterPage extends React.Component {
       v = <Loader size="3" text={lang("Loading Company Information...")}></Loader>
     } else {
       v = <div className="hall-page">
-        <h1 className="text-left"><b>{lang("Welcome")} {this.authUser.company.name} !</b></h1>
+        <h1 className="text-left"><b>{lang(getCfCustomMeta(CFSMeta.TEXT_SALUTATION_RECRUITER, "Welcome"))} {this.authUser.company.name} !</b></h1>
         {this.getRecruiterAction()}
         <br></br>
         <div className="container-fluid">

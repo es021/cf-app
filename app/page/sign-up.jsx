@@ -16,7 +16,7 @@ import {
 } from "../../config/user-config";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 export default class SignUpPage extends React.Component {
   constructor(props) {
@@ -269,8 +269,25 @@ export default class SignUpPage extends React.Component {
           completeHandler={this.manageUserProfileComplete}
           user_id={user.ID}
         ></ManageUserProfile>
+        {this.getDisclaimerView()}
       </div>
     );
+  }
+
+  getDisclaimerView() {
+    let disclaimerView = null;
+    let disclaimer = getCfCustomMeta(CFSMeta.TEXT_REGISTRATION_DISCLAIMER, "");
+    if (disclaimer) {
+      disclaimerView = <div style={{
+        marginTop: "-140px",
+        marginBottom: "20px", 
+        textAlign: "justify"
+      }}
+        dangerouslySetInnerHTML={{ __html: disclaimer }}>
+      </div>;
+    }
+    return disclaimerView;
+
   }
   render() {
     document.setTitle(lang("Sign Up"));
@@ -330,19 +347,6 @@ export default class SignUpPage extends React.Component {
       // @kpt_validation
       let formItems = getRegisterFormItem(1, getCF());
 
-      let disclaimerView = null;
-      let disclaimer = getCfCustomMeta(CFSMeta.TEXT_REGISTRATION_DISCLAIMER, "");
-      if (disclaimer) {
-        disclaimerView = <div style={{
-          maxWidth: "400px",
-          margin: "auto", marginTop: "15px",
-          marginBottom: "20px", textAlign: "justify"
-        }}
-          dangerouslySetInnerHTML={{ __html: disclaimer }}>
-        </div>;
-      }
-
-
       content = (
         <div>
           <h3>
@@ -360,7 +364,7 @@ export default class SignUpPage extends React.Component {
             defaultValues={this.defaultValues}
             submitText={lang("Sign Me Up!")}
             disableSubmit={this.state.disableSubmit}
-            contentBeforeSubmit={disclaimerView}
+            contentBeforeSubmit={null}
             error={this.state.error}
           ></Form>
 

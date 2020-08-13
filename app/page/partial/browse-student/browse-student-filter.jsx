@@ -5,9 +5,10 @@ import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
 import { customBlockLoader } from "../../../redux/actions/layout-actions";
 import { CFSMeta } from "../../../../config/db-config";
+import { _student_plural_lower, _student_plural } from "../../../redux/actions/text-action";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
@@ -151,7 +152,7 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>{lang("Show")} <b>{lang("shortlisted students")}</b> {lang("only")}
+                    label: <div>{lang("Show")} <b>{lang(`shortlisted ${_student_plural_lower()}`)}</b> {lang("only")}
                         <Tooltip
                             bottom="13px"
                             left="-88px"
@@ -161,7 +162,7 @@ export class BrowseStudentFilter extends React.Component {
                             content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
                             tooltip={
                                 <div style={{ padding: "0px 5px" }} className="text-left">
-                                    <small>{lang("Click on grey shortlist button to shortlist students")}
+                                    <small>{lang(`Click on grey shortlist button to shortlist ${_student_plural_lower()}`)}
                                     </small>
                                 </div>
                             }
@@ -194,7 +195,7 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>{lang("Show")} <b>{lang("interested students")}</b> {lang("only")}
+                    label: <div>{lang("Show")} <b>{lang(`interested ${_student_plural_lower()}`)}</b> {lang("only")}
                         <Tooltip
                             bottom="13px"
                             left="-90px"
@@ -204,7 +205,7 @@ export class BrowseStudentFilter extends React.Component {
                             content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
                             tooltip={
                                 <div style={{ padding: "0px 5px" }} className="text-left">
-                                    <small>{lang("Students that")} :
+                                    <small>{lang(`${_student_plural()} that`)} :
                                     <ol>
                                             <li>{lang("Liked your company profile")}</li>
                                             <li>{lang("Liked your job posts")}</li>
