@@ -190,6 +190,7 @@ export default class InputSuggestion extends React.Component {
         refs(
           table_name :"${this.props.table_name}", 
           order_by : "${this.props.order_by}",
+          filter_raw : "${this.props.filter_raw}",
           filter_column : "${this.props.filter_column}",
           filter_val : "${this.props.filter_val}",
           filter_find_id : ${this.props.filter_find_id}
@@ -405,6 +406,7 @@ InputSuggestion.propTypes = {
   input_placeholder: PropTypes.string,
   table_name: PropTypes.string,
   filter_column: PropTypes.string,
+  filter_raw: PropTypes.string,
   filter_val: PropTypes.string,
   filter_find_id: PropTypes.bool,
   onChoose: PropTypes.func,
@@ -415,6 +417,7 @@ InputSuggestion.defaultProps = {
   is_in_normal_form: false,
   name: "",
   filter_column: "",
+  filter_raw: "",
   filter_val: "",
   filter_find_id: false,
   order_by: "",

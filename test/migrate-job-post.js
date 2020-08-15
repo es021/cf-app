@@ -1,555 +1,814 @@
-a = `838	Virtual Intern USA - Accounting & Finance	Intern		A virtual intern with the Accounting Team is a great opportunity to gain knowledge and experience in financial accounting, reporting, and internal controls. This project will entail working alongside the General Accounting, Accounts Payable, Payroll and Human Resources teams as well as exposure to all levels of management in the company. The virtual intern will work on a long-term project that accommodates current needs of the department and learning objectives set for the intern. 	"Motivated to learn and gain valuable experience.
-Computer skills (outlook, Word, Excel), oral communication and phone skills, be detail-oriented, well-organized, and motivated to learn.
-Accounting college students welcomed.
-"	1		****wzs21****
-838	Virtual Intern USA - Computer Programming	Intern		"•  Pairing with our Lead Engineer to learn about our systems 
-•  Writing code to develop and enhance new and existing applications 
-•  Writing unit tests to ensure all new code can be automatically tested 
-•  Writing code from a security-first mindset 
-•  Collaborating with colleagues across the company to fully understand business requirements"	"Critical thinking with great self initiative and motivation.
-A team worker with enhanced computer programming skills and knowledge. 
-Students from Computer Science/IT or Software Engineering background. E&E Engineering with the related knowledge can apply too. "	1		****wzs21****
-838	Virtual Intern USA - Logistics	Intern		"The virtual intern will learn to provide on a day to day basis, consistently high quality work. He/she will deal directly with customers about their shipments, invoice customers, update customers, learn how to clear a shipment through U.S. customs, quote rates, work on deliveries, dispatch truckers and follow up until shipments have been delivered. 
-Working in export customer service, the intern will deal directly with international agents and manufactures in USA, process export paperwork and send pre-alerts, invoice agents/customers, quote manufacturers/agents for pending shipments. "	"Good and strong commend of English.
-Students from Logistics and Supply Chain Management are welcomed. "	1		****wzs21****
-838	Virtual Intern USA - Business Administration	Intern		Office manager, customer service	"Good and strong commend of English.
-Students from Business and related background."	1		****wzs21****
-838	Virtual Intern USA - Business Administration	Intern		"Create & update Calendar event. 
-Preparing a weekly meeting log and follow up on tasks. 
-Checking mail everyday 
-Company Insurance management 
-CRM management 
-Assist on office related paperworks"	"Good and strong commend of English.
-Students from Business and related background."	1		****wzs21****
-838	Virtual Intern USA - Business Administration	Intern		Customer Support, data entry, research, Entry Level Analyst	"Good and strong commend of English.
-Students from Business and related background."	1		****wzs21****
-838	Virtual Intern USA - Computer Programming	Intern		Coding	Must have good knowledge in code developing.	1		****wzs21****
-838	Virtual Intern USA - Customer Service	Intern			Virtual interns who have a background in production, video production, graphic design, and marketing would all be able to contribute, in part, in their area of specialization, but the main request is for Customer Service	1		****wzs21****
-838	Virtual Intern USA - Graphic Design	Intern		Porject-based work will be given upon virtual internship placement confirmation	Must have Graphic Design educational background and/or work experiences	1		****wzs21****
-838	Virtual Intern USA - Marketing	Intern		"Professionally produce Case study , Newsletters, and assist on proposal 
-Market Search 
-SWOT Analysis Bi-Yearly Report 
-EMAIL Marketing design and planning 
-Checking mail everyday 
-Company Insurance management 
-CRM management 
-Assist on office related paperworks 
-Prepare and produce Social marketing contents (FB Posts, Website Album updates, Other social media posts)"	"Marketing or Business Marketing Management Graduate or related courses.
-English Communication Skills (FLUENT). 
-With Experience in MS OFFICE applications (word, excel, ppp), PDF. (Writing experience preferred) "	1		****wzs21****
-838	Virtual Intern USA - Marketing	Intern		Copy writing	"Fluent English proficiency is a must.
-Have Marketing or Business Marketing Management Graduate or related background."	1		****wzs21****
-838	Virtual Intern USA - Marketing	Intern		Someone who manages social media, instagram and facebook accounts	"Marketing or Business Marketing Management Graduate or related educational courses.
-Fluent English Communication Skills."	1		****wzs21****
-838	Virtual Intern USA - Marketing	Intern		Writing, digital marketing, content creation experience/desire.	"Prociency in English Communication Skills.
-Marketing or Business Marketing Management Graduate or related courses."	1		****wzs21****
-838	Virtual Intern USA - IT	Intern		We are looking at building up the back end security and need some self starters to help the program some well-known algorithms that will work well within our infrastructure. It would be best to have two virtual interns so they can work collaboratively. The Director & Codirector are the computer scientists, pleanty supervison will be provided.	Software Developers	2		****wzs21****
-838	Virtual Intern USA - Industrial Engineering	Intern		"Build Standard Operating Procedures in various fields.. e.g., turning something like this into an SOP.
-The SOPs wouldn't necessarily be in a certain field. They could be marketing related, eCommerce related, SaaS specific, etc.
-We are more than just a retailer. We are a brand partner. 
-Our primary areas of expertise are with Amazon.com, Jet.com, Walmart.com, and eBay.com."	"The virtual intern would have to have good analytical and/or organizational skills.
-Fluent English. 
-Must submit a profile for reviewing."	1		****wzs21****
-838	Virtual Intern USA - Human Resource / Psychology	Intern			We can offer organizational psychology (HR), and a few in clinical psychology as assistants to the Psychologists.	1		****wzs21****
-850	Internship for Computer Science & IT	Intern	Subang Jaya	"- Assist in business functions in the areas of either Information Technology/ Computer Science/ IT Service Desk.
-- Learn and practice basic day to day work or projects in a shared services environment
-- Engage in networking with colleagues from other business functions and Senior Management on best work practices
-- Discover within own team and/or with other process teams to identify and implement improvement opportunities
-- Delivering high levels of customer service to both internal or external stakeholders
-- Performing other relevant support activities as and when required"	"- Undergraduate students from reputable universities in the relevant field of study
-- Available for a minimum period of 3 months, preferably 6 months and above.
-- Good command of spoken and written English"	2	https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Internship-for-Computer-Science---IT_202004-110620	****wzs21****
-850	Internship for Accounting & Finance	Intern	Subang Jaya	"- Assist in business functions in the areas of either Accounting, Finance, or Procurement.
-- Learn and practice basic day to day work or projects in a shared services environment
-- Engage in networking with colleagues from other business functions and Senior Management on best work practices
-- Discover within own team and/or with other process teams to identify and implement improvement opportunities
-- Delivering high levels of customer service to both internal or external stakeholders
-- Performing other relevant support activities as and when required"	"- Undergraduate students from reputable universities in a relevant field of study
-- Available for a minimum period of 3 months
-- Good command of spoken and written English"	2	https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Intern--Finance---Procurement---IT---HR---Business---Corporate-Services-_201903-106512	****wzs21****
-850	Internship for Employer Branding	Intern		"- Learn and practice basic day to day work or projects in a shared services environment
-- Engage in networking with colleagues from other business functions and Senior Management on best work practices
-- Discover within own team and/or with other process teams to identify and implement improvement opportunities
-- Delivering high levels of customer service to both internal or external stakeholders
-- Performing other relevant support activities as and when required"	"- Undergraduate students from reputable universities in relevant field of study
-- Available for a minimum period of 3 months
-- Good command of spoken and written English"	1	https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Internship---Employer-Branding_202008-120656	****wzs21****
-850	Graduate Analyst	Full time 	Taman Tun Dr Ismail (TTDI)	"Required skillsets:-
-a) Looking for versatile developer who has experience in 
-one or more programming languages such as Java, OData, Python, C#, Swift, NativeScript and 
-JavaScript.
-b) Experience in SAP Cloud Platform SDK, Mobile Card Kit, and Mobile Development Kit is a plus
-c) Willing to learn and explore newest technology in development domain"	same as description 	4	"Kindly email the resume to : shamala.batumalai@rizing.com. 
-Otherwise, apply by clicking on this link: 
-https://www.linkedin.com/jobs/cap/view/1946862873/?pathWildcard=1946862873&trk=mcm"	****wzs21****
-806	Marketing Intern (Campaign)	Intern	Bangsar South			1	https://photobookworldwide.pinpointhq.com/jobs/3291	****wzs21****
-806	Marketing Intern (Prepaid)	Intern	Bangsar South			1	Pending	****wzs21****
-806	Marketing Intern (Special Projects)	Intern	Bangsar South			1	Pending	****wzs21****
-806	Product R&D Intern	Intern	Bangsar South			2	https://photobookworldwide.pinpointhq.com/jobs/3293	****wzs21****
-806	People & Culture Intern (PR & Talent Acquisition)	Intern	Bangsar South			1	Pending	****wzs21****
-806	People & Culture Intern (People Development)	Intern	Bangsar South			1	Pending	****wzs21****
-806	Creative Intern	Intern	Bangsar South			1	https://photobookworldwide.pinpointhq.com/jobs/3282	****wzs21****
-814	Internship-Payroll Analyst	Intern	Suite 5-1, Level 5, Wisma UOA Damansara II, No 6, Changkat Semantan, Damansara Heights, 50490 Kuala Lumpur	As attached	As attached	3		****wzs21****
-814	Internship-Computer Science (Software Engineering)	Intern	Suite 5-1, Level 5, Wisma UOA Damansara II, No 6, Changkat Semantan, Damansara Heights, 50490 Kuala Lumpur	As attached	As attached	1		****wzs21****
-816	Content & Creative Intern	Intern	Bangsar South	"• Understand elements of marketing and branding in the scope of our clients and interpret it through various illustrations and artworks that are required for various occasions. 
-• Work closely with our Content & Creative team to brainstorm and conceptualize in order to produce high quality creative campaign, captions, visuals and artworks for our clients. 
-• To source for, and archive various online campaigns and creative works / ideas / designs for reference. 
-• Contribute creative ideas in producing visuals / creative writing for our clients’ social media pages / online campaigns and promotions. 
-• To contribute creative input and art direction / concept for various projects including creative writing.
-•  To assist in various marketing and branding projects (through ideation and copywriting) for clients. 
-•  To assist production of creative / branding materials for the company. 
-•  To ensure all projects are completed timely and meticulously. 
-•  To manage client’s page with due diligent and timely crisis management."	"• Must have an excellent command of English, able to write in Malay and Chinese is added advantage.
-• Communications, PR, Copywriting, Graphic Design, Multimedia Design are welcome to apply.
-"	4		****wzs21****
-816	Digital Specialist	Full Time	Bangsar South	"•  Be savvy in all aspects of Digital Marketing to be seen as the Go-To-Person for all clients
-• Understand elements of marketing and branding in the scope of our clients and to propose to them effective and relevant Digital solutions
-• Work closely with our Creative team to brainstorm and conceptualize in order to produce high quality work for our clients
-• Contribute creative ideas in producing visuals / creative writing for our clients’ social media pages / online campaigns and promotions
-• To assist in various marketing and branding projects for clients
-• Develop a strategy focused both on financial gain as well as ensuring clients satisfaction
-• Conduct research to identify new markets and client needs
-• Build long-term relationships with new and existing clients
-• Liasing with all Press / PR / Publications to get your message out there about your new client wins / campaigns / successes
-• Researching, developing and taking a lead role in creating all proposals for your clients
-• To ensure all projects are completed timely and meticulously.
-• To manage client requirements and to ensure “awesome brand experience” for all parties involved be it clients, partners, colleagues and customers."	"• Minimum Diploma/Degree in Advertising/Media, Business Administration, Mass Communications, Journalism, Marketing or equivalent.
-• Required language(s): English and Malay. Mandarin will be an added advantage.
-• Excellent communication, strong analytical and negotiation skills.
-• Capable to handle multiple concurrent tasks and able to work under tight deadlines. 
-• Ability to quickly immerse in brands and problem-solving
-• Impeccable spelling and grammar
-• Good time management capability and willing to work long hours when required. "	2		****wzs21****
-816	Creative Designer	Full Time	Bangsar South	"• Be savvy in all aspects of Digital Marketing to be seen as the Go-To-Person for all clients
-• Understand elements of marketing and branding in the scope of our clients and to propose
-to them effective and relevant Digital solutions
-• Work closely with our Content & Engagement team to brainstorm and conceptualize in
-order to produce high quality work for our clients
-• Contribute creative ideas in producing visuals / creative writing for our clients’ social media
-pages / online campaigns and promotions
-• To assist in various marketing and branding projects for clients
-• To source for, and archive various online campaigns and creative works / ideas / designs
-for reference.
-• To assist production of creative / branding materials for the company.
-• Researching, developing and taking a creative role in creating all proposals for your clients
-• To ensure all projects are completed timely and meticulously.
-• To manage client requirements and to ensure “awesome brand experience” for all parties
-involved be it clients, partners, colleagues and customers."	"• Minimum Diploma/Degree in Art/Design/Creative Multimedia or equivalent.
-• Required skill(s): Videography, Photography, Adobe Photoshop, Illustrator & AfterEffects.
-• Capable to handle multiple concurrent tasks and able to work under tight deadlines
-• Good time management capability and willing to work long hours when required. "	2		****wzs21****
-803	Intern	Internship	Petaling Jaya	Assist and plan programs with the relevant teams	a person who really wants to learn	6	https://leaderonomics.org/en/component/content/article/136-internship?catid=98&Itemid=435	****wzs21****
-781	Intern - Mechanical Engineer	Intern	USJ 10, Subang	"We’re looking for a mechanical engineer intern whom will be working closely with the Phoenix engineering and production team and will obtain the insights into projects that deliver Phoenix products (acoustics noise control).
-Under supervisor’s direction, the student will create and analyse designs, run stimulations with assistance of computer programs. Besides the daily operation, there’re some research projects the interns may be working on:
-1. Rectangular Packless Silencer
-- The study of a new design of rectangular silencer, where the acoustic splitters are not filled with any absorptive infill material. Require simulation studies.
-2. Catalytic Converter
-- The study of the mechanical structure of catalytic converter and the fabrication/production process.
-3. Exhaust Silencer
-- Innovate the current design of the exhaust silencer, such as one with just a reactive section (no absorptive section).
-4. Circular Silencer
-- Study or simulation of circular silencer of different diameter to obtain the pressure drop and insertion loss values.
-5. Room Acoustics"	"• Completed first year in pursuing Mechanical Engineer or similar degree
-•  Understanding of mechanics, thermodynamics, fluid mechanics, heat transfer and energy
-•  Strong communication skills, written and verbal
-•  Creative problem solving and analytical skills
-•  Strong work ethic
-"	2 to 3	https://www.phoenixbyksm.co/	****wzs21****
-	Management Associate	Full time	Sunway	"Monash University Malaysia’s Management Apprentice Program aims to provide a tailored training and management experience for high-potential graduates to develop into the next generation of high-caliber leaders and managers of the university. The program includes exposure to the day-to-day operations of key services in the university allowing the Management Associate to acquire practical on-the-job functional knowledge and skills.
+a = `	Monash	Business Development Intern	Internship	Work From Home (until further notice)	"wzs21bulletExecute the business development and sales strategy to attract new clients and users;
+wzs21bulletExecute social media advertisement and content writing on blog;
+wzs21bulletCompile data and analyse market research;
+wzs21bulletMaintain good customer service relationships with clients"	"wzs21bulletExcellent communication skills with a pleasant disposition
+wzs21bulletProficient in spoken and written English
+wzs21bulletCompetency in Bahasa Malaysia and Mandarin is a plus
+wzs21bulletWilling to learn and ready for the fast-paced startup environment"		*******WZS********
+	Monash	Customer Service Executive	Full Time	Work From Home (until further notice)	"wzs21bulletMaintaining a positive, empathetic and professional attitude toward customers at all times;
+wzs21bulletResponding promptly, accurately and appropriately to customer inquiries via various channels; 
+wzs21bulletCommunicating and coordinating with colleagues as necessary;
+wzs21bulletEnsure customer satisfaction and provide professional customer support"	"wzs21bulletProficient in spoken and written English
+wzs21bulletCompetency in Bahasa Malaysia and Mandarin is a plus
+wzs21bulletFamiliar with the education landscape in Malaysia
+wzs21bulletWilling to learn and ready for the fast-paced startup environment"		*******WZS********
+	Monash	Graphic Designer	Full Time	Work From Home (until further notice)	"wzs21bulletDevelop art and graphic design for advertising and marketing purposes;
+wzs21bulletSourcing and liaising with vendors for the development of advertising and promotional materials for all advertising, marketing or promotion related activities;
+wzs21bulletExecute the business development and sales strategy to attract new clients and users;
+wzs21bulletExecute social media advertising and content writing on blog;
+wzs21bulletMaintain good customer service relationships with clients"	"wzs21bulletProficient in spoken and written English
+wzs21bulletCompetency in Bahasa Malaysia and Mandarin is a plus
+wzs21bulletFamiliar with Adobe Illustrator & Photoshop
+wzs21bulletVideo editing skill is a plus "		*******WZS********
+	Monash	Business Development Executive	Full Time	Work From Home (until further notice)	" wzs21bulletManage B2B partnerships;
+wzs21bulletExecute the business development and sales strategy to attract new clients and users;
+wzs21bulletExecute social media advertisement and content writing on blog;
+wzs21bulletCompile data and analyse market research;
+wzs21bulletMaintain good customer service relationships with clients"	"wzs21bulletExcellent communication skills with a pleasant disposition
+wzs21bulletProficient in spoken and written English
+wzs21bulletCompetency in Bahasa Malaysia and Mandarin is a plus
+wzs21bulletWilling to learn and ready for the fast-paced startup environment"		*******WZS********
+818	Monash	Intern wzs21bulletTreasury	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Cash Management like bank instructions and cash planning	Background in Finance. CGPA 3.00 above. 3 months minimum (14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletCompliance	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Compliance with Central Bank (Bank Negara) regarding Anti-Money Laundering, Anti-Terrorism Financing: (AML/CFT)	Thoroughness, Excel skills, Hungry to Learn. Minimum 3 months (14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletTechnology	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Fullstack software developer	C# and .Net, Good Communication, Team player. 6 months minimum (26 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletHR & Admin	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Administrative Office Management, sourcing for qoutations	Multitask, Fast Adapter, Resourceful,  Communication skills. Preferably understand Mandarin (may deal with Chinese documents). Minimum 3 months(14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletExecutive Secretary	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Corporate Registration, company documentation, assissting secretarial tasks	Efficient Organizing skills, excellent Communication skills. Preferably understand Mandarin (may deal with Chinese documents). Minimum 3 months(14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletSales Operation	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Supply Chain of Company's Sales Operation	Attention to detail, Fast Response, Proactive. Communicate well. 3 months minimum (14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletFinance	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	Journal entries, month end financial report	Background in Accounting, minimum 3 months (14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Intern wzs21bulletLegal	Internship	Kampung Kerinchi, Bangsar South, Kuala Lumpur	General Data Protection Regulations (GDPR) & Personal Data Protection Act 2010 (PDPA)	Education background in Law. Drafting skills, Initiative. 3 months minimum (14 weeks)	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	.Net Developer	Permanent	Kampung Kerinchi, Bangsar South, Kuala Lumpur	"wzs21bullet       Involve in technical development lifecycle of current and upcoming Company product transaction platform.
+wzs21bullet       Responsible for software deliverable including, but not limited to user interfaces, algorithms, data management, visualization, security.
+wzs21bullet       Appropriately balance design principles and technology standards with product timelines and customer specific requirements.
+wzs21bullet       Respond promptly and professionally to bug reports.
+"	Ability to articulate thoughts in a clear and concise manner, developing ASP.NET MVC/Web Forms applications, HTML, CSS and JavaScript development, with SQL Server development using Stored Procedures	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Database Developer	Permanent	Kampung Kerinchi, Bangsar South, Kuala Lumpur	"Design and implement database and warehouse according to business requirements 
+Build strong relationships with key business stakeholders and technology partners.
+Effectively and clearly communicate with other employees in all departments and levels of management.
+Provide query tuning and optimization.
+Create/modify SSIS packages.
+Create/modify reports in SSRS.
+Quickly respond to emergency requests.
+Involved in the design, development, and analysis of data architecture and warehousing approaches
+"	3 years relevant experience. SSIS, SSRS	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+818	Monash	Compliance Officer	Permanent	Kampung Kerinchi, Bangsar South, Kuala Lumpur	"wzs21bullet       Understand and deal with compliance matter imposed by local central bank
+wzs21bullet       Perform customer due diligence (CDD)/enhanced customer due diligence (ECDD) for corporate customer onboarding
+wzs21bullet       Conduct transaction monitoring/analysis to detect suspicious transaction and raise internal Suspicious transaction report
+wzs21bullet       Review the compliance alerts and prepare periodic ongoing monitoring reports
+wzs21bullet       Conduct periodical review on customers for any material change in the business relationship is operated and update any change in customer’s information
+wzs21bullet       Assist in establish mechanisms and formylate procedures to implement AML/CFT policies and internal controls
+wzs21bullet       Participate in new product development and business practices to assess the potential ML/TF risks
+wzs21bullet       Assess the adequacy of implementing the AML/CFT Compliance program
+"	"wzs21bullet       having 3 years compliance experience
+wzs21bullet       must be proficiency with Microsoft Office suite, including advanced Excel (V Lookup, Pivot Tables, Marco etc.), Access, statistic technique and basic understanding of accounting knowledge.
+wzs21bullet       sensitive to figures and able to apply professional scepticism
+wzs21bullet       having experience in fast-growing transactional/technology company is an advantage
+"	https://forms.gle/7N735XvyQVNYounJA	*******WZS********
+804	Monash	Audit Associate	Full time position	Kuala Lumpur	"Job overview and key responsibilities
+wzs21bulletYou will be assisting in the planning, execution and finalisation of audit assignments supporting the Audit Seniors and Managers.  This includes performing tests of controls, audit testing and preparation of audit working papers and relevant documentation for the audit files to support all opinions and testing conclusions.
+wzs21bulletYou will gain exposure to a diverse client base.
+"	"Education and professional skills / knowledge
+Education:
+wzs21bulletA recognised degree in Accounting or equivalent with at least a second class upper classification and / or a  Professional Accounting qualification
+wzs21bulletThose who are currently pursuing a recognised Professional Accounting qualification are also encouraged to apply
+Other Skills:
+wzs21bulletActive involvement in extra-curricular activities in school/university
+wzs21bulletA strong team player, analytical mindset and has good interpersonal skills
+wzs21bulletGood command of written and oral English
+"	https://www.bdo.my/en-gb/careers/career-opportunities/audit-associate	*******WZS********
+813	Monash	Engineer, Firmware Engineering	Full Time Position	Petaling Jaya, Selangor	"ESSENTIAL DUTIES AND RESPONSIBILITIES:
+wzs21bulletStay current with firmware development methodologies
+wzs21bulletPerform typical activities include design and implementation of data structures, software algorithms, data path, and drivers for HW cores to deliver cutting-edge storage products
+wzs21bulletDebug issues involving advanced drive features across a wide variety of hardware and software platforms, including PC’s, servers, RAID, and various operating systems (Windows and Linux)
+wzs21bulletFollow department processes and guidelines for firmware development and strives to meet company goals and objectives
+wzs21bulletWork with cross functional teams to bring up new hardware and develop embedded firmware for storage products
+wzs21bullet Document findings of engineering analyses and investigations
+wzs21bullet Create design documents pertinent to the various phases of firmware development
 
-The Management Associate will gain experience in at least three functional portfolios including from Business Development, Course Management, Finance, Human Resources, Marketing, Research Management, Student Recruitment, Student Services and Student Experience. The functional rotations will equip the Management Associate with well-rounded and multi-faceted understanding of key areas of the university.
+"	"Qualifications
 
-As part of an extensive learning and development program, the Management Associates will receive leadership development and project management opportunities throughout the two years. Successful candidate completing the two-year program may progress to a more senior role within the university and be awarded an opportunity to pursue one of Monash University Malaysia’s postgraduate qualification.
-
-1. Customer Service Excellence
-Ensure excellent customer services in providing effective and competent advice relevant to the assigned portfolios.
-Develop good understanding of relevant policies and processes relevant to the assigned portfolios.
-Keep abreast of developments in relation to the assigned portfolios.
-Ensure effective liaison with other portfolios and units in facilitating excellent service delivery to customers and stakeholders.
-Initiate and implement enhancements to impact customer service experience.
-
-2. Professional Administration
-Support the execution of processes relevant to the assigned portfolios in an accurate and timely manner.
-Observe, analyse and identify trends and suggest solutions to effectively manage business-related issues.
-Initiate and implement business process improvements relevant to the assigned portfolios.
-Maintain confidentiality in handling documentation and information within the assigned portfolios.
-Contribute to the analysis and monitoring of administrative performance through periodic reporting.
-
-3. Project Management
-Ensure effective leadership and management of the assigned cross-functional project contributing to Monash University Malaysia’s strategic direction.
-Plan and implement appropriate project management strategies to ensure timely completion of project in line with the expected outcomes.
-Deliver change management strategies as appropriate and ensure effective communication of project objectives and outcomes.
-Provide high-level support to the Project Chair in driving successful project delivery including periodic reporting on project updates.
-Present project achievements and outcomes to senior management following successful implementation of campus-wide project.
-Leadership and Development
-Participate in the various leadership and professional development programs as communicated by the Human Resources unit.
-Initiate periodic meetings with assigned coaches and mentors throughout the program and maintain systematic records of learning outcomes.
-Maintain personal development plan and periodic reflection of learnings throughout the Management Apprentice Program.
-Work collaboratively within the team of the assigned portfolios.
-Develop good strategic relationship with colleagues from relevant functional portfolios.
-As required, undertake other responsibilities as assigned by the supervisor, coach and mentor."	"1. Fresh graduate with excellent academic results (CGPA score of 3.25 and above) and with less than one year of working experience.
-2. Demonstrated leadership potentials through active involvement in extra-curricular activities.
-3. Excellent communication skills with strong English language proficiency, both verbal and written.
-4. Outstanding interpersonal skills with strong cultural competence as demonstrated in the management of key stakeholder relationships at all levels.
-5. Highly developed analytical and problem solving skills, including the ability to solve sensitive and complex problems.
-6. Ability to work well independently and as part of a team.
-7. Highly self-motivated with a strong drive to excel."	2		****wzs21****
-762	Software Engineer	Full Time	Bangsar South KL	"Working with our functional and business teams to create new modules or enhance existing modules to meet customer requirements.
-- Work with our customers to integrate our software into their IT infrastructure via web services or other technologies, and map their business requirements to our software.
-- You will be expected to learn new technologies, design test plans, provide technical advice and write great code.
-- Ignite your coding enthusiasm and code your way to build innovative web and mobile applications used by thousands of users in the financial services industry.
-- We offer both a software developer track where your main focus is creating great software, and also guiding and mentoring juniors, and a technical lead track where you combine both technical skills and leadership of teams of programmers.
-- We have an in-house application framework written in PHP and Javascript by some of the best programmers in Malaysia and you will be expected to learn and master the framework over time.
-- Experience working in squads of highly collaborative teams using AGILE methodologies and enjoy seeing your direct impact from your work."	"Candidates with a Diploma or Bachelor’s Degree are preferred, however skillset in PHP, Cordova or PhoneGap, PL/SQL, html5, JavaScript or DB2 is highly sought after.
-- If you have a Diploma or Degree in an unrelated major, but loves to code and want build your career as a programmer, just apply now.
-- No prior work experience is required as we will ignite your coding passion – turning your ideas into state-of-the-art applications. 
-- (For Senior Position) Candidate with 2 to 5 years related working experience will be remunerated accordingly.
-- Full-time position(s) (both senior & junior) are available."	10		****wzs21****
-762	Software Engineer	Intern	Bangsar South KL	"Working with our functional and business teams to create new modules or enhance existing modules to meet customer requirements.
-- Work with our customers to integrate our software into their IT infrastructure via web services or other technologies, and map their business requirements to our software.
-- You will be expected to learn new technologies, design test plans, provide technical advice and write great code.
-- Ignite your coding enthusiasm and code your way to build innovative web and mobile applications used by thousands of users in the financial services industry.
-- We offer both a software developer track where your main focus is creating great software, and also guiding and mentoring juniors, and a technical lead track where you combine both technical skills and leadership of teams of programmers.
-- We have an in-house application framework written in PHP and Javascript by some of the best programmers in Malaysia and you will be expected to learn and master the framework over time.
-- Experience working in squads of highly collaborative teams using AGILE methodologies and enjoy seeing your direct impact from your work."	"Candidates with a Diploma or Bachelor’s Degree are preferred, however skillset in PHP, Cordova or PhoneGap, PL/SQL, html5, JavaScript or DB2 is highly sought after.
-- If you have a Diploma or Degree in an unrelated major, but loves to code and want build your career as a programmer, just apply now.
-- No prior work experience is required as we will ignite your coding passion – turning your ideas into state-of-the-art applications. 
-- (For Senior Position) Candidate with 2 to 5 years related working experience will be remunerated accordingly.
-- Full-time position(s) (both senior & junior) are available."	10		****wzs21****
-762	Professional Services Engineer (Business Analyst)	Full Time	Bangsar South KL	"•	To master the Juris Application Server framework for Business Consultant and to be well versed in the capability of the Juris solution framework
-•	To be subject matter expert on banking process and workflows and guide banking users to achieve optimum efficiency using Juris solution
-•	To facilitate discovery sessions to uncover user requirements and translate these requirements into documentation with workflow diagrams
-•	To configure Juris software on a non-programming level according to the captured requirements of the banks (SQL skill trainings shall be provided to better equip the candidate)
-•	To facilitate and execute UAT sessions and working alongside programmers for rapid and full resolution of UAT defects.
-•	To analyse and understand system requirements, design specifications and business values.   
-•	To develop, design and document tests and test cases.
-•	To design and execute automated tests to verify manual and automated test results
-•	To report defects and retest resolved bugs and defects
-•	To report test coverage and document test results during execution
-•	For those with additional soft skills talent, to be moulded into trainers for users and train-the-trainer sessions
-•	High performers shall be groomed on the Juris methods of project management processes and procedures. "	"•	Candidate must possess at least a Diploma, Bachelor’s Degree, Professional Degree in Engineering (Computer/Telecommunication), Computer Science/Information Technology, Business Studies/Administration/Management/Finance/Accountancy/Banking, Mass Communications or equivalent
-•	We are seeking individuals who possess analytical & logical mind, some knowledge about programming concept
-•	Candidates who are skilled in Structure Query Language SQL, PHP, PL/SQL or possess knowledge in the financial loans processing and credit management is an advantage.
-•	Required language(s): English
-•	1 year of working experience in the related field is required for this position however fresh graduates are encouraged to apply as well
-•	Full-Time positions available"	10		****wzs21****
-762	Professional Services Engineer (Business Analyst)	Intern	Bangsar South KL	"•	To master the Juris Application Server framework for Business Consultant and to be well versed in the capability of the Juris solution framework
-•	To be subject matter expert on banking process and workflows and guide banking users to achieve optimum efficiency using Juris solution
-•	To facilitate discovery sessions to uncover user requirements and translate these requirements into documentation with workflow diagrams
-•	To configure Juris software on a non-programming level according to the captured requirements of the banks (SQL skill trainings shall be provided to better equip the candidate)
-•	To facilitate and execute UAT sessions and working alongside programmers for rapid and full resolution of UAT defects.
-•	To analyse and understand system requirements, design specifications and business values.   
-•	To develop, design and document tests and test cases.
-•	To design and execute automated tests to verify manual and automated test results
-•	To report defects and retest resolved bugs and defects
-•	To report test coverage and document test results during execution
-•	For those with additional soft skills talent, to be moulded into trainers for users and train-the-trainer sessions
-•	High performers shall be groomed on the Juris methods of project management processes and procedures. "	"•	Candidate must possess at least a Diploma, Bachelor’s Degree, Professional Degree in Engineering (Computer/Telecommunication), Computer Science/Information Technology, Business Studies/Administration/Management/Finance/Accountancy/Banking, Mass Communications or equivalent
-•	We are seeking individuals who possess analytical & logical mind, some knowledge about programming concept
-•	Candidates who are skilled in Structure Query Language SQL, PHP, PL/SQL or possess knowledge in the financial loans processing and credit management is an advantage.
-•	Required language(s): English
-•	1 year of working experience in the related field is required for this position however fresh graduates are encouraged to apply as well
-•	Full-Time positions available"	10		****wzs21****
-784	EY Graduate Programme - Technology Consulting (Technology Solution Delivery Associate, Financial Services)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Engineering, Computer Science, Information Systems, Information Technology, Computer Engineering, IT Security, Management in Information Systems or other related fields 
-•	Currently in your final year or a fresh graduate 
-•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply "	1	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-technology-consulting-technology-solution-delivery-associate-financial-services-135134 	****wzs21****
-784	EY Graduate Programme - Technology Consulting Associate (Data & Analytics) 	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Computer Science, Information Technogy, Business Analytics or other related fields
-•	Currently in your final year or a fresh graduate
-•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply"	N/A	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-data-analytics-134575	****wzs21****
-784	EY Graduate Programme - Technology Consulting Associate (EY Identity)	Full Time	Bukit Jalil	As per job posting	"•	At least an average distinction/ 2nd upper degree in in computer science, computer/ electrical engineering, information technology or a related field
-•	Currently in your final year or a fresh graduate
-•	Strong interest in the field of information security
-•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply
-•	Required Skill(s): JAVA or .NET, XML or Java Script"	11	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-ey-identity-134574	****wzs21****
-784	EY Graduate Programme - Technology Consulting Associate (Cybersecurity)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in in computer science, computer/ electrical engineering, information technology or a related field
-•	Currently in your final year or a fresh graduate
-•	Strong interest in the field of information security
-•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply"	20	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-cybersecurity-134577	****wzs21****
-784	EY Graduate Programme - Technology Consulting Associate (Solution Delivery)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Engineering, Computer Science, Information Systems, Information Technology, Computer Engineering, IT Security, Management in Information Systems or other related fields 
-•	Currently in your final year or a fresh graduate 
-•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply "	N/A	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-technology-consulting-134576	****wzs21****
-784	EY Graduate Programme - Technology Consulting Associate (Technology Risk)	Full Time	KL	As per job posting	"•	At least an average distinction/ 2nd upper degree in Accounting, Business, Information Technology, Engineering, or other relevant fields
-•	Currently in your final year or a fresh graduate
-•	Individuals with post-graduate degrees and / or professional qualifications are encouraged to apply
-"	15	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-graduate-programme-consulting-associate-technology-risk-134573	****wzs21****
-784	EY Internship Programme - Kuala Lumpur (Data & Analytics)	Intership	KL	As per job posting	"•	Consistently strong academic performance in the areas of accounting, commerce, economics, finance, information technology, computer science, business systems, business management, law or other business-related fields
-•	Currently a Penultimate-year university student
-•	Able to participate in the programme for a minimum duration of 8 weeks"	N/A	https://eygbl.referrals.selectminds.com/student-opportunities/jobs/ey-internship-programme-kuala-lumpur-133966	****wzs21****
-36	Internship for Civil Engineering Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
-Project Implementation
-Project Planning
-Site Supervision
-Landed / high-rise development
-Commercial / residential development"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Engineering (Civil) or equivalent
-Required: CIDB
-Minimum duration of 3 months
-Minimum CGPA 3.30"	<5		****wzs21****
-36	Internship for Sales & Marketing Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
-Sales & Marketing
-Customer relations
-Event planning
-Property development
-Retail development"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Marketing / Business Studies/Administration/Management, Economics, Real Estate or equivalent.
-Minimum duration of 3 months
-Minimum CGPA 3.30"	<5		****wzs21****
-36	Internship for Business Administration Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
-Sales administration
-Customer relations
-Property management
-Property development"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Business Studies/Administration/Management, Economics, or equivalent.
-Minimum duration of 3 months
-Minimum CGPA 3.30"	<5		****wzs21****
-36	Internship for Accounting Students	Intern	Various locations aroung Klang Valley, Penang, Johor	"Responsibilities:
-Data entry
-Operational accounting
-Office administration
-Finance & treasury"	"Minimum duration of 3 months
-Minimum duration of 3 months
-Minimum CGPA 3.30"	<5		****wzs21****
-36	Internship for IT Students	Intern	Setia Alam	"Responsibilities:
-Web development
-App development
-System maintenance
-User support"	"Malaysian undergraduate currently pursuing a Bachelor's Degree in Computer Science/Information Technology or equivalent
-Minimum duration of 3 months
-Minimum CGPA 3.30
-"	<5		****wzs21****
-792	Software Tester	Full Time	Cyberjaya	"Perform high-quality automated and manual tests on the Deriv.com website, applications, backend infrastructure, and related systems.
-Collaborate closely with the rest of the QA and IT teams to create, design, and run several types of testing based on different objectives.
-Integrate various types of testing into our existing workflows, both internal and external.
-Ensure the integrity of releases by coordinating testing procedures and activities.
-Track and keep a detailed record of every bug that you discover.
-Identify, document, and investigate issues reported by our clients and the Client Support team.
-Replicate reported issues and work with our IT teams to find the root cause, understand the problem, and help come up with solutions."	"Bachelor’s degree in computer science, or an equivalent combination of technical education, training, and work experience
-Ability to write high-quality, self-documenting code using test-driven development techniques
-Passion for Linux and other open-source platforms
-Familiarity with Git
-Excellent spoken and written English communication skills"	3		****wzs21****
-792	Front End	Full Time	Cyberjaya	"Develop and maintain advanced features, tools, and applications according to best practices in UI/UX, front-end development and hybrid mobile application development.
-Test and debug our ever-evolving product line to improve their speed, scalability, and usability across multiple browsers, devices, and web standards.
-Stay on top of the latest JavaScript frameworks, libraries, and tools in order to apply them when necessary to solve challenges related to web and mobile development.
-Research and test new web technologies and make recommendations on opportunities to improve our user interface.
-Ensure the design and development of each product is consistent with our style guide, and that everything works as planned with each release.
-Communicate effectively with other team members to understand the big picture of the organisation and its goals.
-Collaborate regularly with researchers, designers, and developers on the implementation of new features and products.
-Provide technical leadership, leading by example throughout the development process."	"Experience of JavaScript, HTML, and CSS
-Experience with package managers (npm), task runners (Gulp, Webpack, Grunt), CSS
-processors (Sass, Stylus), and APIs (WebSocket)
-Familiarity with various JavaScript standards, libraries, frameworks, compilers, and
-transpilers including ES6, TypeScript, Babel, Web Workers, React, and Angular
-Extensive knowledge in advanced coding techniques and cross-platform development
-Ability to write high-quality, self-documenting code using test-driven development
-techniques
-Familiarity with testing and debugging processes, including unit testing and UI testing
-Passion for Linux and other open-source platforms
-Excellent spoken and written English communication skills"	3		****wzs21****
-792	Mobile App Developer	Full Time	Cyberjaya	"Develop iOS and Android mobile applications, writing high-quality code and tests.
-Collaborate with cross-functional teams to analyse data and decide on the best strategies to improve customers’ interaction with our mobile apps. 
-Prioritise information security and process maintenance throughout the mobile app lifecycle.
-Analyse, enhance, and support our existing mobile applications.
-Work closely with QA, Design, and Product Management teams to build the best possible UX for our mobile apps."	"Experience in Flutter framework or a keen eagerness to master it
-High proficiency and experience in one or more of the following programming languages: Java, Dart, ES6, Kotlin, Objective-C, or Swift
-Distinct competence in mobile app development for at least one platform
-In-depth understanding of design guidelines and patterns in the Android and iOS platforms and their differences
-Strong knowledge of the performance tools and optimization techniques in Android or iOS SDKs
-Excellent spoken and written English communication skills"	3		****wzs21****
-792	Data Engineer	Full Time	Cyberjaya	"Conduct full lifecycle data integration, encompassing requirements, activities, and design.
-Ask the right questions to identify potential problems, the scope of the operation, and the availability of relevant data.
-Use data governance tools to ensure data is accurate and consistent for effective analysis.
-Convert raw data into an easy-to-understand format for analysis and reporting purposes.
-Develop and implement databases by collecting, designing, processing, analysing, and presenting data in a meaningful way.
-Communicate and collaborate effectively with members of different teams across the organisation."	"Knowledge of data modelling techniques such as Kimball star schema, Anchor modelling and Data Vault
-Experience with database reporting tools such as SQL, programming languages such as Python and R, and ETL frameworks
-Strong analytical skills with the ability to transform data into optimal business decisions
-Strong communication skills
-Ability to present data using various tools to help the team to make informed business decisions
-Excellent spoken and written English communication skills"	3		****wzs21****
-792	Global Affiliates & Introducing Broker Executive	Full Time	Cyberjaya	"Grow our affiliate networks in a highly-competitive industry.
-Identify new growth opportunities, prospects, and competitors via market research and data analysis.
-Generate meaningful insights that help you to source, recruit, and support affiliates that are aligned with our values and business strategies.
-Make data-driven recommendations to increase affiliate performance. 
-Monitor and analyse affiliate activity, using metrics such as number of conversions per affiliate.
-Devise branding, marketing, and messaging strategies to help affiliates improve their
-client acquisition and retention efforts.
-Localise affiliate marketing tactics and promotional materials for designated
-markets to ensure maximum effectiveness and ROI."	"A university degree in marketing, business administration, or any other related discipline
-Outstanding market research skills and a keen understanding of the consumer journey
-Experience in affiliate marketing, growth hacking, and business development
-Experience in using a wide range of digital marketing tools and affiliate management
-platforms
-An assertive, sales-driven personality and the ability to adapt quickly and achieve
-powerful results
-Excellent spoken and written English communication skills
-Knowledge and experience in the financial services industry
-A passion for finance and technology"	3		****wzs21****
-792	Digital Marketing Executive	Full Time	Cyberjaya	"Develop in-depth knowledge of our target audience and company values.
-Assist in developing and managing digital marketing campaigns.
-Write marketing content drafts for a variety of channels.  
-Work with our copywriters and designers to optimise marketing content. 
-Conceptualise, edit, and publish digital content such as videos, infographics, and posts
-Work on printed materials to supplement online products. 
-Work with the Business Intelligence team to track and analyse website traffic flow and provide regular internal reports. 
-Organise webinars and webcasts. 
-Identify new trends in digital marketing, evaluate new technologies, and ensure that our brand is at the forefront of industry developments in mobile marketing. "	"A university degree in Marketing, Communications, or Business
-Familiar with Search Engine Optimisation (SEO), Pay-Per-Click (PPC), and Social Media Marketing concepts
-Strong analytical and communication skills
-A passion for being up-to-date on the latest digital marketing channels and tools
-Good balance of creativity and analytical skills
-Excellent spoken and written English communication skills"	3		****wzs21****
-792	Copywriter	Full Time	Cyberjaya	"Collaborate with designers, developers, analysts, and other stakeholders who are based around the world to define content requirements and strategy to achieve our desired business goals.
-Write engaging marketing and sales copy to persuade our clients and prospects to take action.
-Plan, write, and test UI copy and other text elements in our websites and apps.
-Contextualise copy for its intended audience using our style guide, tone of voice, and internal processes as reference.
-Edit and proofread copy as needed."	Excellent spoken and written English communication skills with a keen eye for detail when it comes to punctuation, spelling, grammar, and syntax	3		****wzs21****
-792	Client Support Executive	Full Time	Cyberjaya	"Resolve complex customer care issues through careful investigation and in keeping with existing policies and procedures.
-Communicate solutions to customer issues in a clear, concise, friendly, and timely
-manner.
-Respond to customer enquiries by phone, email, social media, and live chat daily.
-Process applications and customer documentation according to relevant policies and
-regulations.
-File records and documents of customer interactions according to existing guidelines.
-Identify new marketing opportunities through customer feedback and contribute ideas to expand our global customer base.
-Collaborate with members of our IT team to identify new ways to improve our products
-and services for customers.
-Perform regular testing on our products and services. 
-Collaborate with client support agents in different time zones to ensure optimum results and customer satisfaction"	Exceptional spoken and written communication skills in English	3		****wzs21****
-852	Interactive Developer	Full Time	Kuala Lumpur	"- Participate in discussions with clients to understand the requirements and technical specifications for the game or interactive experience
-
-- Understand the project needs and conceptualize, plan, develop an experience that would fulfill those needs
-
-- Keep up to date on latest technologies and programming practices for games or interactive experiences
-
-- Collaborate with directors, artists, designers and programmers to understand how to best utilise existing tools and technologies
-
-- Support regular project reviews to recommend schedule changes, cost or resource adjustments
-
-- Carry out all other related tasks
-"	"- Bachelor’s Degree in Computer Science, Software Engineering or equivalent
-
-- At least 1 year of relevant work experience required
-
-- Proficient in Photoshop, Illustrator, or other visual design and wire-framing tools
-
-- Proficient in HTML, CSS, and JavaScript
-
-- Familiarity with PHP will be a plus
+ REQUIRED:
+wzs21bulletBachelor or Master in Computer Science, Computer/Electronics Engineering or equivalent required.
+wzs21bulletFresh graduates are encouraged to apply
+wzs21bulletEmbedded firmware experience
+wzs21bulletC/C++, assembly languages and code development processes with debug emulation and simulation tools
+wzs21bulletCapable of quickly learning new firmware, hardware, systems, tools, and methodologies
  
-- High sensitivity to user-system interaction
+PREFERRED
+wzs21bulletFamiliarity with micro-controller architecture (ARM or ARC), embedded systems are desired
+wzs21bulletKnowledge in SATA, SAS and PCIE will be an added advantage
 
-- Understanding of Agile/Scrum development process
+SKILLS:
+wzs21bulletPossess hardware and software debugging skills
+wzs21bulletMust have a high degree of problem solving skills and solutions oriented
+wzs21bulletMust have strong interpersonal skills
+wzs21bulletAbility to effectively manage projects and tasks to deliver deadlines and commitments
+wzs21bulletBe able to work under pressure for quick resolution and delivery
+wzs21bulletExcellent communication skills (written and verbal)"	https://careers.westerndigital.com/	*******WZS********
+813	Monash	Engineer, Firmware Engineering	Full Time Position	Petaling Jaya, Selangor	"ESSENTIAL DUTIES AND RESPONSIBILITIES:
 
-- Ability to work well under pressure and manage multiple tasks simultaneously
+wzs21bulletBe part of the development team that validates and delivers quality firmware for Enterprise data storage products.
+wzs21bulletLearn and understand complex technical hard drive specifications and apply that knowledge to enhance test suite and test processes.
+wzs21bulletExecute regression and end-to-end scenario test cases to validate the business, system and operational requirements.
+wzs21bulletDevelop software tools to improve test processes.
+wzs21bulletSeize proactively for test suite quality improvement plans with a data analytic approach.
+wzs21bulletDevise strategies for in-depth functionality and compatibility testing of complex drive features.
+wzs21bulletCollaborate with Test Development Engineers, Firmware Engineers and other functional teams, independently in issue resolutions.
+wzs21bulletFamiliar with using Protocol Analyzers to understand and analyze traces for failure investigation."	"Qualifications
 
-- Self-motivated with strong problem-solving skills
+REQUIRED:
+wzs21bulletBachelor or Master in Computer Science, Computer/Electronics Engineering or equivalent required.
 
-- A team player with a positive attitude and professional work ethic
+PREFERRENCE:
+wzs21bulletMinimum 1 year of working experience in relevant field or software/firmware test experience.
+wzs21bulletFresh graduates are encouraged to apply.
+wzs21bulletCapable of quickly learning hardware, systems, tools, and methodologies.
 
-- Strong interpersonal and communication skills"	1		****wzs21****
-852	Junior Sound Designer	Full Time	Kuala Lumpur	"- Work with a team of artists to enhance animation, motion graphics, visual effects and interactive apps with excellent sound design
+SKILL:
+wzs21bulletKnowledge of storage protocols: SATA and SAS
+wzs21bulletProgramming language skills (C, C++, Java, Python).
+wzs21bulletExperience in testing/product engineering.
+wzs21bulletHardware and software debugging skills.
+wzs21bulletMust have a high degree of problem-solving skills and solutions-oriented.
+wzs21bulletAbility to effectively manage projects and tasks to deliver deadlines and commitments.
+wzs21bulletSelf-motivated to work both supervised and unsupervised as part of the validation team.
+wzs21bulletStrong interpersonal skills and excellent communication in both written and verbal.
+wzs21bulletAble to work under pressure for quick resolution and delivery."	https://careers.westerndigital.com/	*******WZS********
+813	Monash	Engineer, Manufacturing	Full Time Position	Bayan Lepas, Penang	"ESSENTIAL DUTIES AND RESPONSIBILITIES:
+BROAD  FUNCTIONS :  
+wzs21bulletManage shift DL/NE in production floor to ensure meeting machine output target and shipment to HDD
+wzs21bulletProduction planning, headcount allocation, work schedule and overall shift activities.
+wzs21bulletFirst line defense for production issues such as yield and quality indicators.
+wzs21bulletCustodian of Critical production KPIs.
+wzs21bulletAssist Shift Leader to manager production routine work
+wzs21bulletCover for Shift Leader’s work when Shift Leader is on leave.
 
-- Complete mixes for all of our video content
+Regular 
+wzs21bulletShift man power arrangement.
+wzs21bulletMachine capacity planning.
+wzs21bulletInterface with support teams such as Yield team, Engineering (Process and Equipment) Teams.
+wzs21bulletMonitor KPIs and react on real-time basis.
+wzs21bulletSolve subordinates work related conflict and continue to motivate them to improve productivity as well
+wzs21bulletGive briefing to subordinates when there’s any new implementation, information and changes
 
-- Q.C. all mixes before delivery, maintaining technical and creative standards
+Irregular
+wzs21bulletVisitor line tour.
+wzs21bulletOn shift crisis management.
+wzs21bulletProduction manpower plan during major festivals.
+wzs21bulletCoordinate to shut down and start up machines when needed."	"Qualifications
+REQUIRED: 
+Degree in Engineering discipline
 
-- Be familiar with social media landscape, best practices and trends
+PREFERRED SKILL:                               
+wzs21bulletInter-personal skills
+wzs21bulletLeadership skills
+wzs21bulletLean manufacturing
+wzs21bulletDecision making
+wzs21bulletSupervise operators, technicians and superintendents
+wzs21bulletShift work"	https://careers.westerndigital.com/	*******WZS********
+813	Monash	Planner 1, Production Planning	Full Time Position	Batu Kawan, Penang	"ESSENTIAL DUTIES AND RESPONSIBILITES:
+wzs21bulletWork with CM to ensure all commits are given within the same day unless with special reasons
+wzs21bulletEnsure 100% accuracy in the commit given by CM. Zero decommits unless if it is based on external factor (freight delay / natural disaster)
+wzs21bulletCommunicate closely with CM to ensure all consigned parts are available prior loading. 
+wzs21bulletEnsure accurate inventory and WIP. To identify gaps & area of improvement for better inventory management. To conduct quarterly inventory count and validation at CM.
+wzs21bulletWork with CM and Asia planning team to ensure build plan and commit and accurately scheduled for the week. 
+wzs21bulletParticipate in weekly CM review meeting to share on CM weekly performance.
+wzs21bulletPrepare CM scorecard on monthly and quarterly basis. Work with CM on any improvement.
+wzs21bulletPrepare and participate in CM QBR and CM Ops QER"	"REQUIRED:
+wzs21bulletBachelor’s degree in related field. Preferable from IT background
 
-- Build and organize our sound effects library
+PREFERRED:
+wzs21bulletAbility to make clear, logical decisions based on facts, taking into consideration the big picture, long and short term effects, and exercising sound judgment when handling complaints, confidential and sensitive issues
 
-- Be able to eventually run in-house VO recording sessions for videos
+SKILLS:
+wzs21bulletAdvanced skills in Microsoft Word, Excel, Access and PowerPoint
+wzs21bulletExcellent written and oral communication, interpersonal and relational skills, with the ability to quickly develop relationships of trust and confidence with a variety of people and personalities, at all levels within an organization
+wzs21bulletSelf-motivated with the ability to effectively multi-task and work collaboratively in a fast-paced, team environment
+wzs21bulletStrong active listening skills with the ability to ask thoughtful and probing questions to determine client needs
+wzs21bulletDemonstrated ability to deliver consistent positive results through influencing, coordinating and managing the efforts of others
+"		*******WZS********
+805	Monash	Marketing/Business Development	Full-Time	Subang Jaya	>Assist in day-to-day operation >Maintain and build good relationship with clients                                wzs21bulletAssist in social media marketing and advertising                                      wzs21bulletAssist in marketing, strategic partnership plan and prepare proposal >Market analysis	>Possess at least Bachelor Degree in business management / marketing / psychology or a relevant field of study or equivalent                               wzs21bulletGood command in English, Mandarin is not a must, however is an added advantage 		*******WZS********
+805	Monash	Internship Graphic Design	Internship	Kuala Lumpur	>Create social media posting or poster for advertising                          wzs21bulletManaging social media account >Content planning                  wzs21bulletCreate and design the layout of art	>Creativity                         wzs21bulletKnowledge in Adobe Photoshop, Illustrator or equivalent                                    wzs21bulletPortfolio (some previous project done) sharing is needed when applying		*******WZS********
+805	Monash	Internship Video Production	Internship	Kuala Lumpur	>Assist in create and develop multimedia (audio/video) content             wzs21bulletAssist in writing Script, storyboard, budget, allocate resources, set deadlines and choose suitable forms of media for projects                                     wzs21bulletAssist in importing media, organizing raw media, editing footage and sound files	>Creativity                               wzs21bulletKnowledge in Adobe Premiere Pro/iMovie/Flimora or equivalent >Portfolio (some previous project done) sharing is needed when applying 		*******WZS********
+805	Monash	Internship Information technology	Internship	Kuala Lumpur	>Assist in building prototypes or presentation and demonstration wzs21bulletAssist in Programming/Coding         wzs21bulletAssist in contribute to the design and development effort                wzs21bulletAssist in maintaining and enhancing applications as required based on the requirements	>Possess at least HTML, C, CSS, JavaScript, Python                                wzs21bulletAble to work as individual and team >Provide portfolio (some previous project done) will be added advantage		*******WZS********
+805	Monash	Internship Marketing	Internship	Kuala Lumpur	>Assist in social media postingwzs21bulletKeep updated of social media trend >Maintain and build good relationship with clients                                wzs21bulletAssist in organizing virtual or physical events/campaigns	>Able to use Canva to design >Knowledge in Adobe Illustrator will be an added advantages           wzs21bulletPortfolio (some previous project done) sharing will be added advantage		*******WZS********
+835	Monash	Financial Analyst	Full time	Plaza IBM, Petaling Jaya	"Your Role and Responsibilities : 
+IBM Financial Analysts play a unique and integral role in driving business decisions, supporting operations and influencing business results.
 
-- Work with music stems to re-edit, enhance and modify music for our trailers and videos
+As a Financial Analyst you are considered to be a trusted business advisor, working within the company's business units and geographies, as well as in a myriad of specialized corporate functions.
 
-- Take on ad-hoc duties and other projects outside of the job description and has the ability to respond to business demands in a fast-paced environment
-"	"- Diploma/Bachelor’s Degree in Audio Engineering or equivalent
+In this role you'll be responsible for the analysis of the IBM forecast, budget, actuals and business metrics and dynamics.
 
-- At least one year of relevant work experience is a plus
+You'll interact directly with line management in the business units and geographies on the development of forecast and budget variance analysis, and provide ongoing business assessments and recommended solutions.
 
-- Fresh Grads are welcome to apply
+You'll also experience opportunities for skills development training and leadership development.
+See why it pays to work for a company that sees its return on investment (ROI) as more than just dollars and cents."	"wzs21bulletBachelor's Degree Basic knowledge in Finance and Accounting concepts
+wzs21bulletBasic knowledge in Finance Planning, Forecasting, Budgeting or Services Accounting
+wzs21bulletBasic knowledge in MS Office wzs21bulletWord, Excel, Power Point
+wzs21bulletEnglish: Fluent
+wzs21bulletPreferred Accounting/Finance Certified in ACCA, CIMA, CPA
+wzs21bulletRelevant internship experience is an added advantage
+wzs21bulletProven track record in University/Work Environment with an interest in financial or quantitative
+wzs21bulletStrong communicator, great interpersonal and influencing skills
+wzs21bulletFlexible and Adaptable
+wzs21bulletDemonstrated good leadership and initiative"		*******WZS********
+835	Monash	Accounting Analyst	Full time	Plaza IBM, Petaling Jaya	"Your role and responsibilities:
 
-- Experience with recording, editing, and mixing softwares (e.g. Pro Tools, Final Cut Pro)
+IBM KL Regional Accounting Centre (KLRAC), which commenced operations in Malaysia in 1994, provides world-class accounting services, demonstrating its outstanding leadership in supporting the Accounting processes and analysis, financial systems and process controls for the Asia Pacific.
+ 
+wzs21bullet Provide accounting support to countries in the Asia Pacific region
+wzs21bullet Prepare local financial statements in accordance with local GAAP
+wzs21bullet Comply with country legal and statutory reporting requirement
+wzs21bullet Provide advice and counsel to management on US and country Generally Accepted Accounting Practices and guidelines
+wzs21bullet Perform self-inspection on work areas and implement measures to ensure compliance with IBM accounting and country practices and guidelines."	"wzs21bullet Candidates must possess at least a Bachelor's Degree in Finance/ Accounting/ Banking/ Economics, Commerce, Business Studies/ Administration/ Management (Major in Finance or Accounting will be added advantages)
+wzs21bullet Excellent academic achievement with an equivalent First Class Honours degree or a strong Second Class Upper Honours. (Minimum CGPA 3.0) Accompanied by strong achievements in extra-curriculum activities or development programs
+wzs21bullet Grade 1 SPM/O Level certificate with a distinction in English and minimum credit in Bahasa Malaysia is essential
+wzs21bullet Strong people and communication skills
+wzs21bullet Able to quickly absorb professional knowledge. Have proficient IT skills to perform the job required -Motivated and results-driven individual with initiative
+wzs21bullet Knowledge of a second language (Mandarin/ Cantonese, Japanese, Korean) would be an added advantage*LI-CM1"		*******WZS********
+835	Monash	Account Collection Specialist	Full time	Plaza IBM, Petaling Jaya	"The IBM Global Financing Center, which commenced operations in Malaysia in 2006, is a cross-functional organization that provides expert business support, pricing, credit, IT and business controls for IBM Global Financing business across IBM’s140 growth market countries. The Center’s mission is to provide responsive and effective support services to internal clients to facilitate the achievement of planned business results and client satisfaction.
+wzs21bulletThis Financing Business Support role has responsibility for maintaining a good client relationship with IBM clients and business partners, as well as internal client relationships, in support of financing agreements.
+•The individuals in this role use dedicated financing systems and processes in the support of varied responsibilities such as Contract Preparation and Acceptance, Vendor Financing, Project Financing, Syndications, Inventory and Accounts Receivable Financing, Volume Purchase/Settlement Management and Collections.
+wzs21bulletManage the receivables for collection portfolio assigned and ensure all overdue by customer are paid promptly by calling and other means of reaching out to clients, maintaining customer relations.
+wzs21bulletOrganize collection to meet Operational KPIs.Attend AR Review calls. 
+wzs21bulletProvide complete and solid collection status and progress updates.
+wzs21bulletPlan and implement collection strategies and engage in direct collection of receivables.
+wzs21bulletCoordinate with credit control, bad debts analyst of exceptional, problematic or suspicious customer and provide case histories where applicable to minimise bad debt and loss from fraud.
+wzs21bulletWork closely with Cash Application Team to advice and ensure that payment are allocate/apply correctly, include clearing UFA (Unapplied Fund Account).
+wzs21bulletPerform credit & finance analysis by providing AR status / outstanding to Credit / Treasury for credit release purposes or on customer account.
+wzs21bulletIn order to manage credit limits terms and order releasing, the role provides operational and administrative support to the business by being responsible for organizational tasks of varying complexity."	"wzs21bulletBachelor's Degree in any major
+wzs21bulletAccount receivable, client relationship management related experience are plus points.
+wzs21bulletAble to communicate well in English and has basic Microsoft excel skills
+wzs21bulletAbility to speak in Korean, Thai, Vietnam, Hindi, Tamil and Mandarin are plus points."		*******WZS********
+835	Monash	Business Support Operation	Full time	Plaza IBM, Petaling Jaya	"Your Role and Responsibilities : 
+This Financing Business Support Professional has responsibility for maintaining a good client relationship with IBM clients and business partners, as well as internal client relationships, in support of financing agreements. The individual maintains responsibility and expertise in Client Financing, Commercial Financing or Global Asset Recovery Services. The individuals in this role use dedicated financing systems and processes in the support of varied responsibilities such as Contract Preparation and Acceptance, Inception Billing/Settlement, Indexing, Returns, Mid-Lease and End of Lease Administration, Vendor Financing, Project Financing, Syndications, Buy Desk, Inventory and Accounts Receivable Financing, Volume Purchase/Settlement Management and Collections. The role provides operational and administrative support to the business by being responsible for organizational tasks of varying complexity. Individuals may provide strategic and comprehensive support to IBM acting as a resource on tracking business results, formulating business strategy, managing process ownership and system requirements driving cost and productivity benefits while strengthening IBM’s system of internal controls."	"wzs21bulletBachelor’s Degree (Preferably majoring in Business/ Management)
+wzs21bulletProcess driven with can do attitude
+wzs21bulletGood communication, interpersonal, negotiation and relationship management skills
+wzs21bulletAble to work long hours/weekends/public holidays and handle work pressure in a high performance culture.
+•Able to work independently but also a good team player"		*******WZS********
+835	Monash	Service Desk Analyst	Full time	Cyberjaya	"Your role and responsibilities:
+wzs21bulletHandle IT inquiries/incidents or problem via phone, email, fax, web and other means set by the respective account
+wzs21bulletManages and provide management support to the agents who are supporting the customer inquiries and problems.
+wzs21bulletResponsible for the development and motivation of the agents and ensuring they have the necessary tools and information.
+wzs21bulletProactively solve problems and provide timely resolution to ensure minimal impact to customer and employee satisfaction.
+wzs21bulletIdentify the most appropriate course of action for problem resolution and effectively communicate plans to those impacted.
+wzs21bulletResponsible for ensuring resources are utilized efficiently and in the way that consistently promote the customer quality and satisfaction."	"wzs21bulletDiploma or Bachelor's degree or equivalent
+wzs21bulletGood spoken English.
+wzs21bulletGood technical knowledge in Win2K/XP environment, IE, MSOffice 2000/2003, Lotus Notes, Basic Network troubleshooting skill.
+wzs21bulletDemonstrated ability to think critically and analytically.
+wzs21bulletProven supervisory skills and ability to organize and clearly communicate thoughts and ideas.
+wzs21bulletMust be willing to work in a stressful environment.
+wzs21bulletMust be customer oriented.
+wzs21bulletStrong written and verbal communication skills.
+wzs21bulletWilling to take on extra tasks that are given.
+wzs21bulletForeign or local students who are able to speak and write in Japanese are also encouraged to apply"		*******WZS********
+835	Monash	Procurement Operations Buyer	Full time	Plaza IBM, Petaling Jaya	"Your role and responsibilities:
+As a Procurement Professional, you will be part of the Procurement Center that is essential for procurement operations and in providing a consistent global procurement process that consolidates purchase order processing and renders procurement support services in centralized locations around the world.
+wzs21bulletBe involved in the full spectrum (end-to-end) of procurement activities
+wzs21bulletConsolidate low risk, low value and fast-turn around transactions
+wzs21bulletProvide advice on supplier contracts to ensure IBM benefits from the best possible value and service from quality suppliers
+wzs21bulletBe accountable for individual results and the impact on the team, interrelated activities or project
+wzs21bulletMay lead technical support or business process"	"wzs21bulletBachelor’s Degree in any major
+wzs21bulletStrong keenness in pursuing a career in procurement, having knowledge in procurement process, transaction process and financial delivery
+wzs21bulletExperience and working knowledge in key functional processes, and awareness of business activities
+wzs21bulletAbility to communicate and negotiate effectively and to exchange information, ideas and concepts
+wzs21bulletStrong problem solving abilities: using advanced technical knowledge to perform and apply new technical procedures to the business processes, recommending improvements to existing technical procedures based on understanding of new technologies
+wzs21bulletAbility to work individually and as a team member (may set work priorities within well established procedures and objectives or provide coordination of activities)
+wzs21bulletForeign or local students who are able to speak and write in Japanese are also encouraged to apply"		*******WZS********
+835	Monash	Finance Delivery Analyst	Full time	Plaza IBM, Petaling Jaya	"Your Role and Responsibilities:  
+wzs21bulletExposure to Cash Application (Applying Cash ) and reporting /Credit and collections
+wzs21bulletExposure to AR Reconciliation and Age wise Analysis of overdues
+wzs21bulletExperienced in Procure to Pay procedures and delivery"	"wzs21bulletBachelor’s Degree in Finance/ Accounting
+wzs21bulletAbility to communicate with accuracy and clarity both verbally and written    
+wzs21bulletWorking knowledge of ERP environment, preferrably SAP
+wzs21bulletAptitude for understanding and solving problems
+wzs21bulletShould handle Customer calls. Voice skills needed."		*******WZS********
+934	Monash	Sales Operations	Internship	Kuala Lumpur	Pre & Post Sales technical assistance and product/services education	Degree in Business/Management, Computer Engineering, Cloud computing, Information Systems or equivalent work experience		*******WZS********
+934	Monash	Project Executive	Internship	Kuala Lumpur	Collecting, defining and documenting project scopes and solution requirements	Degree in Business/Management, Computer Engineering, Cloud computing, Information Systems or equivalent work experience		*******WZS********
+934	Monash	Business Analyst, ERP	Internship	Kuala Lumpur	ERP module requirements gathering and system analysis in the area	Degree in Business/Management, Computer Engineering, Information Systems or equivalent work experience		*******WZS********
+934	Monash	Business Analyst, Cloud Computing	Internship	Kuala Lumpur	Assisting with business cases with potential & existing customers by researching the needs and requirement of customers. 	Degree in Business/Management, Computer Engineering, Cloud computing, Information Systems or equivalent work experience		*******WZS********
+937	Monash	R&D Hardware Engineering Intern – Analog/Digital (EE)  	Internship	Penang	"You will be assigned an insightful mentor, who will guide you through your project and work term for a successful project experience. As an Intern, you will enjoy the unique opportunity to be exposed to many aspects of the product development cycle, including research, design, prototyping, development, testing, sustaining and manufacturing.
+wzs21bulletFor digital hardware design:
+wzs21bulletProficiency designing with synchronous elements, including flip-flops, timing diagrams, and state machines
+wzs21bulletDigital circuit design, simulation and validation with understanding of transmission lines and signal integrity 
+wzs21bulletFor analog hardware design:
+wzs21bulletProficiency designing with operational amplifiers, filters, ADC/DAC and transistors
+wzs21bulletAnalog circuit, power supply and control systems design and troubleshooting"	Degree in Electronic and Electrical Engineering, Mechatronics 		*******WZS********
+937	Monash	R&D Software Engineering Intern (EE) 	Internship	Penang	"As an Intern, you will enjoy the unique opportunity to be exposed to many aspects of the product development. Software development project opportunities include device drivers (Windows & Linux), development tools, embedded and real-time systems, BIOS and firmware, bus and network interfaces, and graphical user interfaces.
+wzs21bulletStrong understanding of computers and high-level programming languages (C/C++)
+wzs21bulletYou will learn the following concepts and principles:
+wzs21bulletOperating system components and design
+wzs21bulletComputer system architecture and organization
+wzs21bulletData structures"	Degree in Electronic and Electrical Engineering, Mechatronics, Computer Science, Computer Engineering		*******WZS********
+937	Monash	R&D Mechanical Engineering Intern (Mechanical) 	Internship	Penang	"You will be assigned an insightful mentor, who will guide you through your project and work term for a successful project experience. As an Intern, you will enjoy the unique opportunity to be exposed to many aspects of mechanical design in product development cycle, potentially include conceptual design, prototyping, development, testing, and manufacturing production.
+wzs21bulletStrong understanding of fundamental mechanical design principles and processes
+wzs21bulletStrong knowledge of:
+wzs21bullet3D CAD software programs, preferably Creo Parametric
+wzs21bulletMetal/plastic materials processing techniques
+wzs21bulletElectronics manufacturing processes/equipment"	Degree in Mechanical Engineering		*******WZS********
+937	Monash	R&D Test Development Engineering Intern (EE) 	Internship	Penang	"As an Intern, you will enjoy the unique opportunity to be involved in different aspects of product testing. Test Engineers have the opportunity to develop and implement automated test platforms, integrating both hardware and software, which are consistent with a high mix, low volume, high tech and high quality operation.
+wzs21bulletYou will learn the following concepts and principles:
+wzs21bulletSources of measurement error
+wzs21bulletAppropriate selection of instrumentation
+wzs21bulletStatistical analysis of data
+wzs21bulletSoftware design and architecture
+wzs21bulletIntegration of hardware and software"	Degree in Electronic and Electrical Engineering, Mechatronics, Computer Science, Computer Engineering		*******WZS********
+937	Monash	R&D RF Sustaining Engineering Intern (EE)	Internship	Penang	"wzs21bulletAnalyze and resolve design failures observed in RF manufacturing with robust solutions. Solutions may range from test methodology to hardware and components improvement
+wzs21bulletProvide debug tool (LabVIEW tool) to Production’s Failure Analysis Engineer and debug technicians to recover failures in Production
+wzs21bulletDecent exposure to handling RF CAD tools (AWR) and SPICE in analyzing design failures
+wzs21bulletHandle other sustaining projects such as replacing End of Life components and cost savings 
+Job expectation:
+wzs21bulletExpected to work closely with Production and spend 70% wzs21bullet80% time in Production to work on hardcore failures
+wzs21bulletWork with technical leads in Penang and Austin to brainstorm ideas and fix design issues. Flexible in communication hours with Austin (US time zone) when necessary"	Degree in Electronic and Electrical Engineering, Mechatronics, Telecommunication Engineering		*******WZS********
+937	Monash	R&D Mechanical Design Engineer	Full Time	Penang	"As a NI R&D Mechanical Design Engineer, you will enjoy challenging work and the unique opportunity to take ownership of your products and be involved in all aspects of the product development cycle, including design, prototyping, development, testing, and manufacturing production.
+Mechanical and other engineers at NI find that our stimulating work environment, which includes working in small feature-focused teams, fosters the type of engineering innovation that leads to our many award-winning products.
+Every NI Mechanical Engineer ensures that a design meets its technical specifications and business goals. You may design a variety of different projects and products, including packaging, parts, and accessories for embedded CPUs and data and image acquisition, instrumentation, motion control, and communications hardware.
+ 
+Core Job Responsibilities: 
+wzs21bullet Create/design/model/prototype electronics packaging solutions for NI products. 
+wzs21bullet Select and approve materials, components, or mechanical hardware. 
+wzs21bullet Create materials processing specifications for part manufacturing. 
+wzs21bullet Certify and support external vendors involved in product/part manufacturing. 
+wzs21bullet Provide thermal and structural analyses of products. 
+wzs21bullet Provide manufacturing support throughout product production. 
+wzs21bullet Conduct verification and validation testing for the product.
+wzs21bullet Support purchasing to ensure quality delivery of all mechanical hardware. 
+wzs21bullet Become a leading technical resource on electronics packaging technology. 
+wzs21bullet Supervise/train other mechanical engineering personnel. 
+wzs21bullet Provide technical expertise and training to internal or external customers."	"wzs21bullet B.S. or MS in mechanical engineering 
+wzs21bullet Strong creative design skills 
+wzs21bullet Thorough understanding of fundamental design principles and process 
+wzs21bullet Ideal candidates will also have: 
+wzs21bulletKnowledge of CAD/CAE packages: Pro/E, SolidWorks, AutoCAD 
+wzs21bulletExperience in metal/plastic materials processing techniques: Die casting, injection molding, metal stamping, forming, extruding, plating/finishing, and so on 
+wzs21bulletExperience with simulation software such as Flotherm, Pro/Mechanica, and so on
+wzs21bulletExperience with machining equipment: Mill, lathe, shear, and so on 
+wzs21bulletElectronics manufacturing experience – Wave solder, SMT, pick & place, and so on 
+wzs21bulletExperience in leading/mentoring junior engineers
+wzs21bullet Demonstrated passion for learning about and working with mechanical, manufacturing, and computer technologies 
+wzs21bullet Demonstrated ability to quickly learn applicable technology, systems, and products 
+wzs21bullet Demonstrated ability to: 
+wzs21bullet Work effectively in a group development environment. 
+wzs21bullet Problem-solve effectively 
+wzs21bullet Take initiative in tackling difficult issues, be a self-starter, and work independently 
+wzs21bullet Persistently drive tasks and projects to successful completion 
+wzs21bullet Take ownership of goals, schedules; manages time well 
+wzs21bullet Enjoy problem solving; thoroughly diagnose technical issues and propose viable solutions 
+wzs21bullet Listen attentively and be able to grasp fast-paced technical conversations. 
+wzs21bullet Strong work ethic and drive to succeed 
+wzs21bullet English Language Competency and effective communication skills wzs21bulletCan clearly and concisely communicate in English, so that persons you work with can understand you clearly, particularly in technical conversations"		*******WZS********
+937	Monash	R&D Analog Hardware Engineer	Full Time	Penang	" Successful candidate will have the unique opportunity to take ownership of their products to ensure designs meet technical specifications and business goals, and be involved in all aspects of product development wzs21bulletdesign, prototyping, development, testing, and manufacturing production.  NI Penang R&D Hardware Engineers may work on a variety of different projects and product areas, including data acquisition, PXI instrumentation, and embedded computers.
 
-- Technical expertise in sound engineering techniques (e.g. equalization)
+Core Job Responsibilities
+wzs21bulletDesign electronics circuits using mathematical models, circuit simulation tools and circuit design software.
+wzs21bulletUnderstand and apply technology trends
+wzs21bulletPerform component selection in line with company and product goals. Work with component manufacturers to evaluate new parts and technologies.
+wzs21bulletMake and justify design tradeoffs between cost, performance and time to market
+wzs21bulletCreate a test plan and apply it to verify and validate designs using hardware prototypes
+wzs21bulletDevelop software for testing prototypes using LabVIEW (training provided)
+wzs21bulletAnalyze data to understand circuit behavior. Debug and root-cause issues
+wzs21bulletDefine product specifications and review customer facing product documentation
+wzs21bulletMentor junior engineers and share technical knowledge within the company
+wzs21bulletFacilitate support required from Engineering Services (PCB design, technical writers etc), other R&D groups, Manufacturing and Product Marketing to ensure product success
+wzs21bulletProvide technical expertise and training related to your products to Applications Engineers and customers as needed
+wzs21bulletSupport software teams in designing drivers and application software
+wzs21bulletCollaborate with marketing teams to research product applications and customer needs. Define minimum viable product and targeted performance and features.
+wzs21bulletTo sustain product life cycle such as component EOL replacement, design improvement, cost savings, custom engineering project & etc.
+wzs21bulletInvolve in MFG support such as yield improvement, hardware debugging & MFG continuous improvement."	"
+wzs21bulletBS/MS in Electrical Engineering, Computer Engineering or other related engineering degree
+wzs21bulletExpert knowledge of analog design principles including designs using operational amplifiers, filters, and transistors
+wzs21bulletStrong understanding of analog to digital and digital to analog converters; power supply design; analog testing/troubleshooting techniques; signal integrity, layout and grounding principles; basic digital design fundamentals
+wzs21bulletGood understanding of computers and programming languages (LabVIEW experience preferred, but not required)
+wzs21bulletPassion for learning about and working with analog, digital, & other computer technologies
+wzs21bulletHands-on with common measurement devices (oscilloscope, multimeter, function generator etc.)
+wzs21bulletStrong work ethic and drive to succeed
+wzs21bulletDemonstrated ability of applying diagnostic insight to identify technical problems, propose viable options, and apply technical solutions; quickly learn applicable technologies, systems, and products;
+wzs21bulletTake ownership of products and be responsible for product success
+wzs21bulletTake initiative, be a self-starter; persistently drive tasks and projects to successful completion; take ownership of goals and schedules; manage time well;
+wzs21bulletWork effectively in a team development environment; grasp and engage in fast-paced technical conversations
+wzs21bulletEnglish Language Competency and effective communication skills wzs21bulletCan clearly and concisely communicate in English, so that persons you work with can understand you clearly, particularly in technical conversations"		*******WZS********
+937	Monash	R&D Software Engineer	Full Time		"
 
-- A good ear with attention to detail
+wzs21bulletWork and interact with a wide variety of NI staff in R&D software and hardware organizations, as well as employees from other business groups
+wzs21bulletPerform research as required to specify and develop or enhance your products
+wzs21bulletSpecify, design, implement, and test software features for new and existing products
+wzs21bulletDiagnose and debug problems with your product or problems arising when your product integrates with other NI products"	"wzs21bulletB.S. or M.S. in computer science, and/or computer engineering, and/or electrical engineering.
+wzs21bulletStrong understanding of computers and high-level programming languages (C/C++).
+wzs21bulletThorough understanding of the following concepts and principles:
+wzs21bulletSoftware design and architecture principles
+wzs21bulletOperating system components and design
+wzs21bulletComputer system architecture and organization
+wzs21bulletData structures
+wzs21bulletDevelopment methodologies including object-oriented analysis and design.
+wzs21bulletDemonstrated capability to help define and successfully complete software projects
+wzs21bulletPassion for learning about and working with computer-industry technologies
+wzs21bulletDemonstrated ability to:
+wzs21bulletWork effectively across groups and work collaboratively with teams in USA or other sites
+wzs21bulletProblem-solve effectively
+wzs21bulletTake initiative, be a self-starter, and work independently
+wzs21bulletTake ownership of goals, project schedules; persistently drive tasks /projects to completion
+wzs21bulletEnglish language competency and effective communication skills.
+wzs21bulletCan clearly and concisely communicate in English, particularly in technical conversations."		*******WZS********
+937	Monash	R&D Test Development Engineer	Full Time	Penang	"
+Position Overview & Responsibilities: 
 
-- A strong passion in the creative industry 
+The NI Test Engineering (R&D) organization has an immediate opening for talented Test Engineers with a Bachelor's degree. This is a technical leadership position at a fast-paced site that emphasizes RF and system-level test design, thus extensive background knowledge in RF will be a great advantage. This role is expected to mentor and grow the organization in the development of robust test and measurement systems, including RF.  
 
-- Able to work under minimal supervision
+As an NI Test Engineer, you will enjoy the unique opportunity to take ownership and be involved in all aspects of product & system test development challenges.Test Engineers have the opportunity to develop and implement Automated Test Platforms, integrating both Hardware and Software, which are consistent with a high mix, low volume, high tech, and high-quality operation. Engineers find that NI's strong culture of respecting the individual and cozy working environment, which includes working in small teams, fosters the type of engineering innovation that leads to our many award-winning products. 
 
-- Ability to work well under pressure and manage multiple tasks simultaneously
+Core Job Responsibilities: 
 
-- Self-motivated with strong problem-solving skills
+wzs21bulletWork and interact with a wide variety of NI staff in R&D software and hardware organizations, as well as employees from other business groups, both in Austin Texas, USA and in Debrecen, Hungary 
+wzs21bulletPerform research as required to develop or enhance your test solutions 
+wzs21bulletSpecify, design, test, and deploy automated test solutions for the manufacturing of computer-based instruments 
+wzs21bulletDefine and implement project plans, manage milestones, and hold required reviews to assure test solution readiness for product release 
+Integrate hardware and software to fully support manufacturing test for existing and new products using both traditional and computer-based instruments 
+wzs21bulletUtilize programming skills to develop test applications running on desktop and industrial PC's Review and approve product specifications and customer user documentation for the product"	"wzs21bullet B.S. in computer science, computer engineering, electrical engineering or electronics engineering, mechatronics engineering 
+wzs21bullet Strong understanding of computers and high-level programming languages (LabVIEW, TestStand are an advantage) 
+wzs21bullet Passion for learning about and working with test industry technologies 
+wzs21bullet Strong work ethic and drive to success 
+wzs21bullet Demonstrated ability to: 
+-Work effectively in a group development environment 
+-Problem-solve effectively wzs21bulletdiagnose technical issues and propose -reasonable solutions; enjoy problem solving 
+-Take initiative, be a self-starter, and work independently 
+-Persistently drive tasks and projects to successful completion 
+-Take ownership of goals, project schedules 
+-Listen attentively and grasp fast-paced technical conversations 
+-Quickly learn applicable technology, systems, and products 
+wzs21bulletIn-depth technical knowledge of RF measurements and algorithms (will be an advantage) such as: 
+-Amplitude Accuracy (with transfer to power meter) 
+-Noise 
+-Distortion (Linearity, Intermodulation, Harmonics) 
+-Phase Noise 
+-S-Parameter measurements 
+-EVM 
+wzs21bulletThorough understanding of systems design principles 
+-Must be able to design a complete test solution based on Product Specifications 
+-Must be able to select instrumentation, understand instrument datasheets, and capabilities 
+-Must be able to create a validation plan and run system quality tests such as Gage R&R and Cpk Analysis 
+wzs21bulletExcellent technical and executive communication skills and experience inworking directly with engineers and business stakeholders. "		*******WZS********
+937	Monash	R&D RF Hardware Engineer	Full Time	Penang	"This is great opportunity for individual with RF design experience who are passionate to learn new RF technology in 5G and Autonomous driving test solutions . You will engage extensively with R&D around globe and Manufacturing to re-design EOL parts & implement complete solution in core NI RF products (Signal Generators and Signal Analysers), semiconductor test system , autonomous driving test solutions and 5G test system to maintain NI RF revenue . The ideal candidate has exceptional troubleshooting and debugging skills with RF design experience on RF products development . Travel to RF design sites may be required to finalize technical requirement and product specification for  NI RF Products during re-design projects.
+Primarily you will work with RF business and technical leaders to review re-design options and propose best solution in extending RF products life span to maintain RF product revenue. 
 
-- A team player with a positive attitude and professional work ethic
+Responsibilities:
+1.   1. Re-design responsibility:
+wzs21bulletTo re-design EOL parts in NI RF Test measurement products to extend their life span to meet customer needs & maintain RF product revenue
+wzs21bulletRe-design circuitry ranges from low frequency analogue, power supply, RF and Microwave circuitries including discrete and IC based topologies.
+wzs21bulletIntegrate Design for Manufacturability  (DFM)  inputs from manufacturing to improve product yield & quality
+wzs21bulletResearch and propose alternative parts with effective solutions in consideration of  avoiding  major software & product calibration , hardware topology changes to replace  EOL parts in RF products.
+wzs21bullet Proactive in doing mock-up design as POC (Proof of Concept) to strengthen re-design proposal to get final approval from RF business leaders.
+wzs21bulletExposure in  analogue and RF  designs , DSP, and PCB layout development are mandatory  requirements
+2. Have good knowledge in  failure analysis to root cause failures during early verification and validation phase and MFG builds.
+wzs21bulletAble to come up fish bone diagram to list possible root cause and narrow down to actual rootcause.
+wzs21bulletProperly document failure / project progress and share with stake holders by sharing short and long term design solutions.
+wzs21bulletCreate debug tool and training material for  manufacturing  during product release
+3. Deploy re-design project into manufacturing to meet customer demand according  release date
+wzs21bulletGood exposure  of RF product calibration and RF test measurements best practices to solve product issues during new product introduction (NPI)
+wzs21bulletCreate proper debug guides , debug tools and provide training to MFG techs and Failure Analysis engineers"	"wzs21bulletBachelors in Engineering (or related) degree Electronics or Telecommunications
+wzs21bulletHand on problem solving skills including failure analysis and root cause analysis
+wzs21bulletRF product design experience
+wzs21bulletCross functional  communication experience
+wzs21bulletAbility to travel to Austin for training and project discussion with R&D
+"		*******WZS********
+937	Monash	R&D Sustaining Hardware Analog Engineer	Full Time	Penang	"wzs21bulletTo redesign board level hardware involving onboard power supply, Op-Amp, transistor and external power supply.  
+wzs21bulletTo sustain product life cycle such as component EOL replacement or redesign, cost savings, custom engineering project & design improvement project.  
+wzs21bulletMFG support such as yield improvement, hardware debugging & MFG continuous improvement.  
+wzs21bulletWork closely with PCB layout, mechanical, manufacturing & analog engineer.  
+wzs21bulletWork closely with marketing, sales & other R&D groups to identify, define & execute projects.  
+wzs21bulletCommunicate with global colleagues worldwide.  "	"wzs21bulletB.S or M.S in Electrical/ Electronic/ Computing Engineering  
+wzs21bulletBasic digital knowledge such as discreate logic gates, microcontroller, memory & etc.  
+wzs21bulletOutstanding communication skill with excellent oral & English.  
+wzs21bulletLabVIEW is an added advantage. 
+wzs21bulletWillingness to travel abroad for work & training purpose.  "		*******WZS********
+937	Monash	R&D Sustaining Hardware Digital Engineer	Full Time	Penang	"wzs21bulletTo redesign board level hardware involving discreate logic gates, microcontroller, memory and digital high speed I/O standard.  
+wzs21bulletTo sustain product life cycle such as component EOL replacement or redesign, cost savings, custom engineering project & design improvement project.  
+wzs21bulletMFG support such as yield improvement, hardware debugging & MFG continuous improvement.  
+wzs21bulletWork closely with PCB layout, mechanical, manufacturing & analog engineer.  
+wzs21bulletWork closely with marketing, sales & other R&D groups to identify, define & execute projects.  
+wzs21bulletCommunicate with global colleagues worldwide.  "	"wzs21bulletB.S or M.S in Electrical/ Electronic/ Computing Engineering  
+wzs21bulletBasic analog knowledge such as onboard power supply, Op-Amp, transistor & etc.  
+wzs21bulletOutstanding communication skill with excellent oral & English.  
+wzs21bulletLabVIEW is an added advantage. 
+wzs21bulletWillingness to travel abroad for work & training purpose.  "		*******WZS********
+937	Monash	R&D Sustaining Mechanical Engineer	Full Time	Penang	"
+wzs21bulletSustain product life cycle such as part change, part redesign due to EOL, cost savings, custom engineering project & continuous improvement project.  
+wzs21bulletMFG support such as yield improvement, hardware debugging & MFG continuous improvement.  
+wzs21bulletProvide thermal and structural analyses of product.  
+wzs21bulletConduct mechanical engineering verification and validation, such as thermal, structural, acoustic, and other necessary test 
+wzs21bulletWork closely with PCB layout, electrical & MFG engineer.  
+wzs21bulletWork closely with marketing, sales & other R&D groups to identify, define & execute project.
+ wzs21bulletElect and approve materials, components, or mechanical hardware.  
+wzs21bulletCreate materials processing specifications for part manufacturing.  
+wzs21bulletCertify and support external vendors involved in product/part manufacturing.  
+wzs21bulletSupport purchasing to ensure quality delivery of all mechanical hardware.  
+wzs21bulletCommunicate with global colleagues worldwide.  
+"	"wzs21bulletB.S or M.S in mechanical engineering  
+wzs21bulletKnowledge of CAD/CAE packages: Pro/E, SolidWorks, AutoCAD  
+wzs21bulletTake initiative in tackling difficult issues, be a self-starter, and work independently  
+wzs21bulletEnjoy problem solving, diagnose technical issues and propose viable solutions  
+wzs21bulletOutstanding communication skill with excellent oral & English.  
+wzs21bulletLabVIEW is an added advantage. 
+wzs21bulletWillingness to travel abroad for work & training purpose.  "		*******WZS********
+937	Monash	Technical Support Engineer	Full Time	Penang	"Technical Support Engineer (TSE) at NI partners with customers to ensure their success through deep technical knowledge of NI Products, Platforms and Systems. TSEs respond to and anticipate technical needs to help maintain or accelerate our customers' development schedule, building customer loyalty and gaining a reputation as trusted technical partners. TSEs advocate for our customers recommending Platform and System improvements to R&D, providing customer insight to sales, and make sure NI is ready to support new Products and Systems. NI Penang is the strategic hub for Asia Pacific Technical Support function, and TSE in Penang site will be providing support to customers located outside Malaysia, specifically in locations such as China, Taiwan, Korea and Japan. TSE in Penang will collaborate with the R&D and manufacturing team co-located in the same site to provide best-in-class technical support to our customers. 
+Key Performance Objectives 
+wzs21bulletAssist customers in solving engineering/scientific challenges by solving technical issues o Probe, replicate and troubleshoot customers’ technical issues o Maintain high standard in quality of service, while meeting Service Level Agreement (Average 90% or above in customer satisfaction survey) 
+wzs21bulletProvide effortless technical support via digital channel o Captures and documents knowledge to enable self-service resolution. Adopt and apply latest Knowledge-Centered Service (KCS) methodology on every customer engagement. o Leverage previously acquired technical experience, and make continuous improvements on the contents for maximum efficiency and effectiveness of digital, web-based support 
+wzs21bulletAccelerate customers’ business by fostering team proficiency of NI products within customer organization o Identifies and anticipates technical gaps within customer organization and works with management to build product, system or technical expertise. o Educates customers through technical support engagements. Guides customers through basic product startup, application troubleshooting, and/or maintenance of solutions. 
+wzs21bulletAdvocates for the customer experience within the company o Identify quality, feature, or user experience gaps and feedback to relevant functions on every customer engagement o Escalates complex technical issues internally to the appropriate group while maintaining ownership of customer interaction. 
+wzs21bulletContinuously lead peers as NI products, platform and systems, by acquiring in-depth technical expertise o Serves Sales, Support and Services organization as the point of escalation for technical issues related to NI products o Co-work with R&D in troubleshooting complex issues, identify design or manufacturing o issues and come up with best possible resolution or workaround"	"Bachelor of Engineering or Computer Science required; preferred Bachelor’s in Electrical Engineering, Computer Engineering, or Computer Science. 
+wzs21bulletExperience in Customer-Facing roles. 
+wzs21bulletProficiency in one or more programming language is required. (LabVIEW experience is preferred) 
+wzs21bulletAvailability to travel up to 20% of time throughout Asia Pacific."		*******WZS********
+937	Monash	Technical Support Engineer	Intern	Penang	"Technical Support Engineering Intern (EE)
+wzs21bulletYou will be assigned an insightful mentor who will work with you on one or more challenging projects and tasks
+o For example, robotic car using myRIO, Machine Learning using NI AML Toolkit, NI ARC Scoreboard using LabVIEW, car plate recognition using VDM, I2C communication using FPGA but not limited to these
+wzs21bulletAs an Intern, you will have the opportunity to
+o Learn NI products and platform in order to understand how industrial instrumentation being used in the industry
+o Understand how to integrate different software and hardware into one system
+o Use NI LabVIEW to program different projects
+o Earn the Certified LabVIEW Associate Developer (CLAD) certification
+o Learn customer-facing skills before partnering with real NI customers"	Degree in Electronic and Electrical Engineering, Computer Science, Mechatronics 		*******WZS********
+	Monash	Embedded System Engineer (Mechatronics or ECSE)	Both	Remote or Jakarta, Indonesia	"As an embedded system engineers, you will be involved in creating an embedded system solutions from understanding the requirement, translating it to design, source the required components, to making the circuit, integrate various components, writing firmware, all the way to seeing the product ready to be shipped =)
 
-- Strong interpersonal and communication skills"	1		****wzs21****
-852	Motion Graphic Artist	Full Time	Kuala Lumpur	"- Conceptualize, design asset, animate and composite 2D and 3D motion graphics project
+Job description as follows:
+wzs21bulletDesign and implement hardware and firmware for proof of concept, proof of technology and proof of value for IoT smart products (Source for required materials, Setup I/O peripherals, configure IoT infrastructure, develop firmware, create 3d model and test developed solution).
+wzs21bulletActively communicate and work with team to ensure developed product comply to specification requirements and governance as part of the solution ecosystem
+wzs21bulletDocument designed solutions for presentation, discussion, and technical support
+wzs21bulletDevelop, run, document and report result of automated performance test 
+wzs21bulletPerform test and assessment on system performances with respect to requirements
+wzs21bulletMaintain the high availability, fault tolerance and redundancy of various services"	"If you are hardworking, diligent, neat, loves to communicate, have nerdy fun while working out the grand plan to creating a solutions and would like to get first hands experience in developing a system solution or product then you are the person we are looking for!
 
-- Work with illustrators, designers and producer to understand the project scope and objectives"	"- Diploma in Animation, Film and Media studies or equivalent
+Technical Requirement below:
+wzs21bulletCandidate with a Bachelor’s Degree in Engineering (Mechatronic/Electromechanical), Engineering (Electrical/Electronic), Engineering (Mechanical) or equivalent.
+wzs21bulletHave interest in IoT industry, mechatronics engineering and embedded system
+wzs21bulletMotivated to learn, contribute and adapt as candidate will be constantly allocated to work with different industry 4.0 technologies features and applications
+wzs21bulletExperienced with C/C++, python, and MATLAB
+wzs21bulletFamiliar with ARM or equivalent embedded microcontroller (ESP 32 preferred)
+wzs21bulletStrong understanding in communication protocols and mechanisms at hardware and software level (UART, SPI, I2C, CAN, Ethernet IP, MQTT, Modbus)
+wzs21bulletFamiliar with sensors, actuators, and other embedded components
+wzs21bulletStrong analytical, problem solving and conceptual skill
+wzs21bulletGood communication and interpersonal skills to work with different project team"		*******WZS********
+	Monash	Mechanical Design Engineer (Mechanical)	Both	Remote or Jakarta, Indonesia	"As a mechanical design engineers, we trust you to create a designs with great visuals that still ensures all required functionality are delivered and can be efficiently manufactured
 
-- Minimum 1 year of experience
+Job description as follows:
+wzs21bulletDesign CAD model of hardware for proof of concept, proof of technology, and proof of value for IoT smart products (Design the parts, source the available components, understand what engineering fabrication or manufacturing method should be used)
+wzs21bulletActively communicate and work with team to ensure developed product comply to specification requirements
+wzs21bulletDocument designed solutions
+wzs21bulletWork with fabrication and manufacturing vendors to ensure design is translated well to production "	"If you are hardworking, diligent, neat, loves to communicate, have nerdy fun while working out the grand plan to creating a solutions and would like to get first hands experience in developing a system solution or product then you are the person we are looking for!
 
-- Familiar with 2D and 3D motion graphic workflow
+Technical Requirement below:
+wzs21bulletCandidate with a Bachelor’s Degree in Engineering (Mechatronic/Electromechanical),  Engineering (Mechanical) or equivalent.
+wzs21bulletHave interest in IoT industry, mechatronics engineering and embedded system
+wzs21bulletMotivated to learn, contribute and adapt as candidate will be constantly allocated to work with different industry 4.0 technologies features and applications
+wzs21bulletExperienced with Solidworks or other CAD software
+wzs21bulletKnow-how on tolerances and fabrication methods
+wzs21bulletStrong analytical, problem solving and conceptual skill
+wzs21bulletGood communication and interpersonal skills to work with different project team"		*******WZS********
+	Monash	React Developer (Front End)	Both	Remote or Jakarta, Indonesia	"As a developer, you will bridge the technological gaps between IoT and human through systemized dashboard and mobile app solutions 
 
-- Good sense of design, typography and animation
+Job description as follows:
+wzs21bulletDesign and develop web and mobile application for cutting-edge technology application to improve business process and enhance customer experience
+wzs21bulletWork with hardware engineers to implement business solutions and develop product based on IoT technologies
+wzs21bulletDocument designed solutions for presentation, discussion, and technical support
+wzs21bulletReport and work closely with team lead to communicate development progress"	"If you are hardworking, diligent, neat, loves to communicate, have nerdy fun while working out the grand plan to creating a solutions and would like to get first hands experience in developing a system solution or product then you are the person we are looking for!
 
-- Proficient in Adobe Creative Cloud apps such as After Effects, Cinema 4D, Illustrator, Photoshop,
-Premiere Pro, etc.
+Technical Requirements:
+wzs21bulletBachelor’s Degree in Engineering, IT, Computer Science or equivalent
+wzs21bulletFamiliar with development in Windows and Linux environment
+wzs21bulletMotivated to learn, contribute and adapt as candidate will be constantly allocated to work with different industry 4.0 technologies features and applications
+wzs21bulletExperience in basic programming and scripting language related to web and mobile app development (HTML, CSS, JavaScript, Python, C, SQL, or analogous)
+wzs21bulletGood communication and interpersonal skills to work with different project team
+wzs21bulletStrong analytical, problem solving and conceptual skill
+wzs21bulletExperience in React, React Native, Redux, and supporting libraries
+wzs21bulletExperience in UI/UX design and tools
+wzs21bulletExperience in REST API web services, socket and GraphQL
+wzs21bulletExperience in code versioning (Git)
+wzs21bulletBackend knowledge is a bonus"		*******WZS********
+	Monash	React Developer (Back End)	Both	Remote or Jakarta, Indonesia	"As a developer, you will bridge the technological gaps between IoT and human through systemized dashboard and mobile app solutions 
 
-- Meticulous, technical, organized and creative
+Job description as follows:
+wzs21bulletDesign and develop web and mobile application for cutting-edge technology application to improve business process and enhance customer experience
+wzs21bulletWork with hardware engineers to implement business solutions and develop product based on IoT technologies
+wzs21bulletDocument designed solutions for presentation, discussion, and technical support
+wzs21bulletReport and work closely with team lead to communicate development progress"	"If you are hardworking, diligent, neat, loves to communicate, have nerdy fun while working out the grand plan to creating a solutions and would like to get first hands experience in developing a system solution or product then you are the person we are looking for!
 
-- Ability to work well under pressure and manage multiple tasks simultaneously
+We use MERN stacks, that should be enough information ;)"		*******WZS********
+	Monash	Full Stack MERN Developer	Both	Remote or Jakarta, Indonesia	"As a developer, you will bridge the technological gaps between IoT and human through systemized dashboard and mobile app solutions 
 
-- Self-motivated with strong problem-solving skills
+Job description as follows:
+wzs21bulletDesign and develop web and mobile application for cutting-edge technology application to improve business process and enhance customer experience
+wzs21bulletWork with hardware engineers to implement business solutions and develop product based on IoT technologies
+wzs21bulletDocument designed solutions for presentation, discussion, and technical support
+wzs21bulletReport and work closely with team lead to communicate development progress"	"If you are hardworking, diligent, neat, loves to communicate, have nerdy fun while working out the grand plan to creating a solutions and would like to get first hands experience in developing a system solution or product then you are the person we are looking for!
 
-- A team player with a positive attitude and professional work ethic
+We use MERN stacks, that should be enough information ;)"		*******WZS********
+	Monash	Internship for Computing & IT Students	Internship	Kuala Lumpur	"Able to do basic coding, good communication & writing skills on Technical documentation, has basic knowledge on software development.
+Advantage if candidates are good at Data Analysis and proficient in Excel.
+Able to massage raw data into a good dashboard and reporting to support Management Reporting
+"	"CGPA 3.0 and above and Preference is for Malaysian 
+Candidate must possess or currently pursuing a Diploma or Bachelor's Degree in Computer Science/Information Technology or equivalent. 
+Good communication, problem solving skills, achievement orientation and able to work seamlessly in a high performance team environment and Knowledge in Programming Language is an advantage 
+Required language(s): Bahasa Malaysia, English and Applicants must be willing to work in Menara ExxonMobil KL (when required)
+"		*******WZS********
+	Monash	Software Engineering (Executive)	Full time position	Kuala Lumpur	"Front End Developer
+We are expanding our amazing and passionate technology team and are looking for Front End Developers to be part of our Agile DevOps team.
+Our Software Engineering team is responsible for the delivery of software, which may include new development, configuration, maintenance and installation of third party packages, and software integration efforts. It may include tasks from every part of the software development lifecycle, including software and website design, development, programming, and software deployment. The role requires you to work hard to stay on top of fast changing technology and invest a lot of energy in learning new tricks. You are not only caught up on industry trends in client development frameworks but also know what the near future will bring. A love for clean interfaces and a passion for great user experiences goes without saying.
+Responsibilities
+wzs21bulletBuild applications according to the design and provide designers with feedback and suggest tradeoffs when required
+wzs21bulletEnsure the code follows latest coding practices and industry standards
+wzs21bulletWork closely with backend developers to understand and properly use the systems APIs
+wzs21bulletWrite both unit and integration tests, and develop automation tools for daily tasks
+wzs21bulletChallenge ideas and opinions to avoid pitfalls and inefficient solutions
 
-- Strong interpersonal and communication skills
-"	1		****wzs21****
-794	Software Engineer / Software Developer	Intern	Petaling Jaya	"• Actively involved in design, development, and deployment phases of our project
-• Working closely with cross-functional and cross-country teams to ensure our application solutions 
-are delivered on time
-• Develop and build technical documentation and guideline
-• Act as an information resource and the subject matter expert for assigned areas of responsibility
-• Able to challenge and perform sanity checks and code review on new or legacy system
-• Actively contribute to, execute and monitor the team’s process improvement efforts"	"• Candidate must possess or currently pursuing a Bachelor's
- Degree in Computer Science/Information Technology or 
-equivalent.
-• Familiar with PHP / C++ / JavaScript
+Back End Developer
+We are expanding our amazing and passionate technology team and are looking for Back End Developers to be part of our Agile DevOps team.
+Our Software Engineering team is responsible for the delivery of software, which may include new development, configuration, maintenance and installation of third party packages, and software integration efforts. It may include tasks from every part of the software development lifecycle, including software and website design, development, programming, and software deployment. You will be responsible for the system to work behind the scenes. 
+Your role is to integrate the application with all required systems and services and provide clean and easy to use API for the front-end part of the system. Although your work is usually hidden from the user you bear the full responsibility for the application functionality, performance and scalability. You are required to know how to write clean modern APIs, integrate with legacy systems and work with databases.
 
-"	10		****wzs21****
-839	Wealth Management Advisor	Full Time	Puchong	"· Marketing financial products to clients
-· Help to plan and design a proper financial products according to clients needs
-· To develop your own network of clients via your comprehensive platform 
-· Assist on risk management 
-· Assist on financial planning"	"Candidates must at least possess Diploma level 
-Fluent English and Mandarin Speaker BEHAVIOR / ATTITUDE 
-Highly Driven 
-Street Smart 
-Future Leader SELF COMMITMENT 
-Committed in making a change for a better life "	5		****wzs21****
-839	Internship for Sales & Marketing	Intership	Puchong	"a) Your duties shall include such other functions and duties as may be assigned to you from time to time by the company.
-b)         Responsible for submitting daily reports and assisting immediate superior on daily task.""
-c)         Prepare financial planning product or service reports by collecting and analyzing customer & company financial information.
-d)  Learn the ability of financial analysis of client and company.
-e)        Learn the ability to explain all the financial analysis information to customer.
-f)        Learn Malaysia financial system by involving OCBC bank and other company product.
-g)        Learn on the financial planning role like risk management, insurance planning, retirement planning and investment planning.
-h)         At all times during your employment by the company you are to act and conduct yourself in such a manner as to serve 
-in the best interest of or which will not be prejudicial or detrimental to the name and or interest of the company."	"· Candidate must possess or currently pursuing a Diploma or Bachelor's Degree in Marketing, Finance/Accountancy/Banking or equivalent.
-· Required language(s): Mandarin, English, Bahasa Malaysia
+Responsibilities
+wzs21bulletDesign and develop the business logic and backend systems of the product
+wzs21bulletWork closely with frontend developers to design and develop functional, performing and complete APIs
+wzs21bulletWrite both unit and integration tests, and develop automation tools for daily tasks
+wzs21bulletDevelop high quality, well documented, and efficient code
+wzs21bulletChallenge ideas and opinions to avoid pitfalls and inefficient solutions
+"	"Qualifications
+Final CGPA : CGPA 3.0 and above
+Bachelor’s Degree in Software Engineering/Computer Science or any equivalent qualification
+Strong knowledge in programing
+Strong communication skills with ability to communicate complex technical concepts
+ Sound problem-solving skills with the ability to quickly process complex information and present it clearly and simply
+"		*******WZS********
+939	Monash	Intern	Internship	No. 3, Jalan Sepadu 25/123, Taman Perindustrian Axis, 40400 Shah Alam	"To learn the operation of selected laboratory equipment and prepare suitable SOPs.
+To prepare samples and standards for workshops and demonstration of selected laboratory equipment.
+To assist in business analysis and preparation of business reports.
+To assist, study and prepare potential business segments for development and growth.
+To assist in designing and preparing of marketing materials and tools, including but not limited to technical sepcifications, applications notes and method & workflow presentations.
+Minimal or no lab work
+"	Degree in Science		*******WZS********
+940	Monash	Business Analyst	Internship	Taman OUG	"Assist Business Analysts in scoping & requirements gathering for new & existing projects
+wzs21bulletAssist Business Analysts in project management, ensuring timely project deliveries
+wzs21bulletCreate test plans and various system documentations
+wzs21bulletTest new & existing web / mobile applications
+wzs21bulletPerform related duties and responsibilities as assigned by the supervisor
+"	"We love candidates who are curious, proactive, and independent.
+wzs21bulletThey must also enjoy learning new things in a fast-paced environment.
+wzs21bulletBonus points for candidates who demonstrate analytical thinking and problem solving abilities.
+wzs21bulletThis internship is suitable for students who are pursuing a Diploma or Bachelor's Degree in Computer Science, Information Technology, Business, and/or Finance
+"		*******WZS********
+940	Monash	Digital Marketing	Internship	Taman OUG	"wzs21bulletHelping in various marketing activities and monitoring, editorial research, and data analytics
+wzs21bulletBe actively involved in SEO activities and handling of social media accounts
+wzs21bulletCollect quantitative and qualitative data from marketing campaigns
+wzs21bulletPerform market analysis and research
+wzs21bulletSupport the media team in daily administrative work
+wzs21bulletAssist in Content research and planning
+"	"wzs21bulletCandidate must possess at least SPM.
+wzs21bulletFurther study/graduates in Diploma, Bachelor’s Degree or Professional Degree in Marketing, Public Relations or any related field.
+wzs21bulletFluency in English and Bahasa Melayu. Mandarin speakers will be a value-added advantage.
+wzs21bulletHave good interpersonal skills and communication skills
+wzs21bulletStrong computer skills in Microsoft Office, CRM tools or Online Analytics
+"		*******WZS********
+940	Monash	Telemarketer	Full time	Taman OUG	"wzs21bulletPlace phone calls to potential customers from our computerized directory/leads
 
-Comprehensive product training
-Hands-on working experience
-Involve in online marketing & offline marketing"	3		****wzs21****
-780	Management Trainee	Full Time	Capital Square	"A 12 month career development programme
-Job rotation across all divisions in Bank
-Networking opportunities with banking professionals
-Coaching and mentoring from the Bank's diverse pool of leaders"	"Bachelor Degree with CGPA 3.0 and above/ Master's Degree
-Less than 2 years of working experience
-Agile, creative and passionate about succeeding in a rewarding industry"	20		****wzs21****`;
+wzs21bulletPerform script (with necessary adjustments) to ensure consistency of sales program
 
-DELIMITER = "		****wzs21****"
+wzs21bulletAnswer potential customers' questions about insurance products
+
+wzs21bulletCommunicate any problems, concerns or questions to supervisory staff
+
+wzs21bulletRefer customer complaints to supervisor for quality control
+
+wzs21bulletCommunicate respectfully and politely with potential customers at all times
+"	"wzs21bulletHigh school diploma/qualification required
+
+wzs21bulletMinimum 1 year’s experience in sales (lead generation preferred) or telemarketing
+
+wzs21bulletExcellent phone manner and articulation
+
+wzs21bulletResults-driven and willing to work on commission basis
+
+wzs21bulletAbility to cope with rejection on a daily basis
+"		*******WZS********
+940	Monash	Business Development 	Internship	Taman OUG	"Provide administrative support related to business development and client servicing
+2. Manage and maintain customer relationship and prepare report on a timely manner
+3. Able to handle general administration duties
+4. Required Language – English &amp; Mandarin
+5. Required Skills – MS Office (Word, Excel &amp; Power Point)
+6. SPM/College/Pre-U
+7. No experience needed
+8. Business/Marketing studies
+"			*******WZS********
+940	Monash	Customer Service	Full Time	Taman OUG	"As a Call centre and Operation agent. (Non-sales, system-assisted)
+Answering call and query from customer via inbound or outbound call, email and chat
+Manage customer expectation and query within the SLA
+Hit monthly KPI set by management
+Overall case management and follow up with customers, banks, external client and channel partners
+Learn and develop relevant technical knowledge of Financial and Insurance products
+"	"Multi-tasking ability and detail-oriented
+strong in verbal communication and email writing,
+Eager to learn new things
+Looking to develop skills and career enhancement
+Preferably with Customer Service, Banking and Insurance experience
+Passion for personal finance and insurance is a plus
+Mandarin speaker is a plus
+Degree holder, Diploma, STPM , SPM or equivalant.
+Fresh graduate are encourage to apply
+"		*******WZS********
+793	Monash	Technical Support Engineer	Full time	Johor	As advertised	As advertised	HTTPS://TINYURL.COM/TSENGINEER-PG	*******WZS********
+793	Monash	Marketing Intern	Internship	KL	As advertised	As advertised		*******WZS********
+793	Monash	Customer Service/ Business Intern	Internship	KL	As advertised	As advertised		*******WZS********
+793	Monash	Legal Intern	Internship	KL	As advertised	As advertised		*******WZS********
+793	Monash	Finance Intern	Internship	KL	As advertised	As advertised		*******WZS********
+793	Monash	Maintenance Intern	Internship	Johor	As advertised	As advertised		*******WZS********
+793	Monash	Procurement Intern	Internship	Johor	As advertised	As advertised		*******WZS********
+793	Monash	QAQC Intern	Internship	Johor	As advertised	As advertised		*******WZS********
+793	Monash	Safety Health & Environment Intern	Internship	Johor	As advertised	As advertised		*******WZS********
+793	Monash	IT Intern	Internship	Johor	As advertised	As advertised		*******WZS********
+793	Monash	Chemistry Intern	Internship	Johor	As advertised	As advertised		*******WZS********
+	Monash	FINANCIAL PLANNER	INTERNSHIP AND FULL TIME	KOTA DAMANSARA 	"1. SELL INSURANCE POLICIES
+2. DETERMINE CUSTOMER NEEDS
+3. MAKE PRESENTATION
+4. EVALUATING BUSINESS OR
+INDIVIDUAL CUSTOMERS' NEEDS
+AND FINANCIAL STATUS
+5. ACHIEVE CUSTOMER ACQUISITION
+AND REVENUE GROWTH OBJECTIVES
+"	"1. ABILITY TO ANALYZE FINANCIAL
+INFORMATION 
+2. ATTENTION TO DETAIL
+3. STRONG ETHICS, WITH A 
+CUSTOMER-ORIENTED ATTITUTE
+4. OUTSTANDING 
+COMMUNICATION SKILLS
+"		*******WZS********
+	Monash	Intern, Finance 	Intern 	Plaza OSK 	"1. Handling financial transactions, general administrative duties and daily operations.
+2. Assist in preparing daily, weekly and monthly transactions and report including bank reconciliations.
+3. Coordinate and liaise with other company personnel, department personnel and banker on all accounting matters and resolve queries / problems arise and on other daily operational matters.
+4. Handling desktop fund transfer and ensure that there is sufficient fund to meet the daily operational requirements.
+5. Assist in preparation of audited financial statements.
+6. To carry out any other duties as and when instructed by the Management from time to time."	Accounting / Finance background 		*******WZS********
+	Monash	Planning Executive	Full Time	Melaka	"1. Prepare and co-ordinate production schedules to meet production targets at minimum cost.
+2. Responsible for coordinating deliveries and ensure proper documentation.
+"	1. Minimum 2 years of planning & logistics experience in manufacturing industry	https://jobsite.oskgroup.com/JobPortal/Vacancy/Details/446	*******WZS********
+	Monash	Service Engineer	Full Time	Melaka	1. Assist in the maintenance of plant and machinery’s to ensure reliability and minimize breakdown. Operate, maintain, troubleshoot and repair all electronic & electrical equipment and apparatus to ensure that they are properly installed and safe to operate.	"1. experienced in Programmable Logical Controller (PLC)
+2. Diploma or Degree in Engineering"		*******WZS********
+	Monash	Concierge 	Full Time 	Atria Damansara 	"1. To communicate with the customers and to ensure the concierge/ information counter in good presentable order at all times.
+2. To gather and provide all the information to customers such as travel routes, transportation availability, etc.
+3. To communicate with and provide assistance to tenants when required by centre management.
+4. To provide administrative and physical support to marketing / centre management during advertising, promotions and branding activities and stage events.
+"	Diploma or Degree in Hospitality 		*******WZS********
+	Monash	Internship in Quantity Surveying 	Internship 	Jalan Ampang 	"1. To implement all policies, activities, procedures as relevant and required by the Property Development and Construction system.
+2. To prepare Main and Sub-Contract documents including Bill of Quantities, Specification and etc. for tender.
+3. To prepare cost estimate, tendering, evaluation, analysis and tender report; To prepare recommendation Contract Award paper for Management approval.
+4. To check, validate site valuation and measurement, recommend to Management Contractor’s progress payment, variation and Final Account for Main Contracts and Sub-Contracts; To process Consultant’s fee claims, verify and recommend payment for Suppliers.
+
+"	Diploma or Degree in Quantity Surveying 		*******WZS********
+942	Monash	SAP Technical Consultant	Full Time Position	Kota Damansara	"To take a part in the development of the business solutions based on functional and technical requirements in SAP.
+
+"	"University degree in Information Technology/Computer Science/Engineering or equivalent discipline.
+
+Experience in programming, web development or mobile development.
+
+Active & Good aptitude skills
+
+Good Communication Skills"	https://e-oasia.com/career-with-us/#career	*******WZS********
+787	Monash	HR Intern	Internship  	Prai	"Position Overview
+To provide an on-the-job or experiential learning opportunity which enables students to connect what they have learned in their academic program to what is required in the employment area of interest.
+
+Position Accountability Summary
+wzs21bulletComplete various administrative duties as needed
+wzs21bulletPost job listings on job boards and social media platforms
+wzs21bulletAssist with interviews and employee onboarding
+wzs21bulletHelp keep the HR office organized
+wzs21bulletAssist the HR Manager in other duties
+
+Education, Knowledge, Experience
+wzs21bulletCurrently pursuing a degree in human resources or business administration
+wzs21bulletStrong organizational skills
+wzs21bulletExcellent communication abilities
+wzs21bulletReception or administrative experience a plus
+"	Currently pursuing a degree in human resources or business administration		*******WZS********
+787	Monash	Manufacturing Intern	Internship  	Shah Alam	"Position Overview
+To provide an on-the-job or experiential learning opportunity which enables students to connect what they have learned in their academic program to what is required in the employment area of interest.
+
+Position Accountability Summary
+wzs21bulletStudy and improve plant safety
+wzs21bulletCost analysis
+wzs21bulletProcess documentation
+wzs21bulletTaking inventory
+wzs21bulletMaterials inspection
+wzs21bulletQuality control
+wzs21bulletAssist the Manufacturing Manager in other duties 
+
+Education, Knowledge, Experience
+wzs21bulletApplicants should be Engineering majors, with abilities in MS Office and other analytical and planning tools.
+wzs21bulletShould possess strong analytic skills
+wzs21bulletHas the ability to work independently
+wzs21bulletApplicants should be eager, driven and focused
+wzs21bulletHe or she should be willing to learn and be taught skills from experienced members of the production team.
+wzs21bulletThe individual should be self-motivated and interested in adding value and making a difference within an organization.  
+"	Applicants should be Engineering majors, with abilities in MS Office and other analytical and planning tools.		*******WZS********`;
+
+const BULLET = "wzs21bullet"
+DELIMITER = "		*******WZS********"
 //wzs21bullet
 
 // DELIMITER = "\n"
@@ -562,12 +821,12 @@ TEST_COMPANY_KAT_LOCAL = "23";
 INDEX = {
     // COMPANY_ID: TEST_COMPANY_KAT_LOCAL,
     COMPANY_ID : 0,
-    TITLE: 1,
-    TYPE: 2,
+    TITLE: 2,
+    TYPE: 3,
     // TYPE: "Full Time",
-    LOCATION: 3,
-    DESC: 4,
-    REQ: 5,
+    LOCATION: 4,
+    DESC: 5,
+    REQ: 6,
     URL: 7,
 }
 
@@ -577,13 +836,49 @@ String.prototype.replaceAll = function (search, replacement, ignoreCase = false)
     return target.replace(new RegExp(search, `${i}g`), replacement);
 };
 
+function fixType(type) {
+    const ALTERNATE = {
+        TYPE_FULL_TIME: ["Full Time Position", "Full time position", "Full time", "Full-Time", "Permanent"],
+        TYPE_FULL_TIME_AND_INTERN: ["INTERNSHIP AND FULL TIME", "Both"],
+        TYPE_INTERN: ["Internship"],
+        TYPE_PART_TIME: [""],
+        TYPE_GRADUATE_INTERN: [""],
+    }
+    const VALID = {
+        TYPE_FULL_TIME: "Full Time",
+        TYPE_FULL_TIME_AND_INTERN: "Full Time & Intern",
+        TYPE_INTERN: "Intern",
+        TYPE_PART_TIME: "Part Time",
+        TYPE_GRADUATE_INTERN: "Graduate Trainee / Internships",
+    };
+
+    if (type && typeof type === "string") {
+        type = type.trim();
+        if (ALTERNATE.TYPE_FULL_TIME.indexOf(type) >= 0) {
+            return VALID.TYPE_FULL_TIME;
+        }
+        if (ALTERNATE.TYPE_FULL_TIME_AND_INTERN.indexOf(type) >= 0) {
+            return VALID.TYPE_FULL_TIME_AND_INTERN;
+        }
+        if (ALTERNATE.TYPE_INTERN.indexOf(type) >= 0) {
+            return VALID.TYPE_INTERN;
+        }
+        if (ALTERNATE.TYPE_PART_TIME.indexOf(type) >= 0) {
+            return VALID.TYPE_PART_TIME;
+        }
+        if (ALTERNATE.TYPE_GRADUATE_INTERN.indexOf(type) >= 0) {
+            return VALID.TYPE_GRADUATE_INTERN;
+        }
+    }
+
+    return type;
+}
 
 function reformat(str) {
     if (!str) {
         return str
     }
     const DUH = "DUHjdfknsadjvkqervqer";
-    const BULLET = "wzs21bullet"
 
     str = str.replaceAll(`"`, "");
     str = str.replaceAll(`'`, "\\'");
@@ -633,6 +928,8 @@ for (var _a of a) {
     let desc = typeof INDEX.DESC !== "number" ? INDEX.DESC : _a[INDEX.DESC];
     let req = typeof INDEX.REQ !== "number" ? INDEX.REQ : _a[INDEX.REQ];
     let type = typeof INDEX.TYPE !== "number" ? INDEX.TYPE : _a[INDEX.TYPE];
+    console.log(type, fixType(type));
+    type = fixType(type);
     let url = typeof INDEX.URL !== "number" ? INDEX.URL : _a[INDEX.URL];
     let company_id = typeof INDEX.COMPANY_ID !== "number" ? INDEX.COMPANY_ID : _a[INDEX.COMPANY_ID];
 
@@ -645,14 +942,14 @@ for (var _a of a) {
     desc = reformat(desc);
     req = reformat(req);
 
-    console.log(title)
-    console.log(location)
-    console.log(desc)
-    console.log(req)
-    console.log(type)
-    console.log(url)
-    console.log(company_id)
-    console.log("_______________________________________________________")
+    // console.log(title)
+    // console.log(location)
+    // console.log(desc)
+    // console.log(req)
+    // console.log(type)
+    // console.log(url)
+    // console.log(company_id)
+    // console.log("_______________________________________________________")
 
     if (!company_id) {
         continue

@@ -301,6 +301,7 @@ export default class InputSingle extends React.Component {
             input_placeholder={this.props.input_placeholder}
             onChoose={this.onChooseSuggestion}
             table_name={this.props.ref_table_name}
+            filter_raw={this.props.ref_filter_raw}
             filter_column={this.props.ref_filter_column}
             filter_val={this.props.ref_filter_val}
             filter_find_id={this.props.ref_filter_find_id}
@@ -335,12 +336,14 @@ InputSingle.propTypes = {
   sublabel: PropTypes.string,
   hideContinueButton: PropTypes.bool,
   isChildren: PropTypes.bool,
+  ref_filter_raw: PropTypes.string,
   ref_filter_column: PropTypes.string,
   ref_filter_val: PropTypes.string,
   ref_filter_find_id: PropTypes.bool
 };
 
 InputSingle.defaulProps = {
+  ref_filter_raw: "",
   ref_filter_column: "",
   ref_filter_val: "",
   ref_filter_find_id: false,

@@ -11,7 +11,7 @@ import {
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
 import { isRoleStudent, isRoleRec, getCF } from "../../../redux/actions/auth-actions";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -119,6 +119,7 @@ export default class ManageUserProfile extends React.Component {
         id: Reg.Single.working_availability_year,
         key_input: Reg.Single.working_availability_year,
         ref_table_name: "year",
+        ref_filter_raw: "val >= 2020",
         is_required: true,
         hidden: false
       }
@@ -606,10 +607,11 @@ export default class ManageUserProfile extends React.Component {
   }
   getDoneButton() {
     return (
-      <div>
+      <div style={{ marginLeft: "7px" }}>
         <br></br>
         <br></br>
         <br></br>
+        {this.props.contentBeforeSubmit}
         <button
           style={{ fontSize: "20px" }}
           className="btn btn-success btn-lg"
@@ -673,7 +675,7 @@ export default class ManageUserProfile extends React.Component {
   }
   render() {
     let view = this.getInputItems().map((d, i) => {
-      if(!d){
+      if (!d) {
         return null;
       }
       if (d.hidden) {
@@ -702,6 +704,7 @@ export default class ManageUserProfile extends React.Component {
 }
 
 ManageUserProfile.propTypes = {
+  contentBeforeSubmit: PropTypes.object,
   user_id: PropTypes.number.isRequired,
   completeHandler: PropTypes.func,
   isEdit: PropTypes.bool

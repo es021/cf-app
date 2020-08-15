@@ -50,7 +50,7 @@ const reorderByCf = (cf, r) => {
         order = [
             Single.first_name,
             Single.kpt,
-            Single.birth_date,
+            // Single.birth_date,
             Single.phone_number,
             Single.where_in_malaysia,
             Multi.looking_for_position,
@@ -91,7 +91,10 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is OFF
         case Single.unemployment_period:
-            onCf = ["NAME_CF_HERE"];
+            onCf = [""];  // not opened for any cf yet
+            break;
+        case Single.birth_date:
+            onCf = [""]; // not opened for any cf yet
             break;
         case Single.monash_school:
             onCf = ["MONASH"];
@@ -115,9 +118,6 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["INTEL"];
             break;
         case Single.kpt:
-            onCf = ["MDCW"];
-            break;
-        case Single.birth_date:
             onCf = ["MDCW"];
             break;
 

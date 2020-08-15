@@ -225,7 +225,7 @@ var LANG_MALAY = {
     "Student ID": "ID Pelajar",
     "What is your phone number?": "No Telefon",
     "When is your graduation date?": "Tarikh Graduasi",
-    "Where are you from in Malaysia?": "Dimanakah anda menetap di Malaysia?",
+    "Where are you from in Malaysia?": "Manakah anda menetap di Malaysia?",
     "What are you looking for?": "Pekerjaan apakah yang anda cari?",
     "What is your highest level of certificate?": "Apakah tahap tertinggi sijil anda?",
     "What is your field of study?": "Apakah bidang pengajian anda?",

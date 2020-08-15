@@ -57,7 +57,7 @@ import { StudentListing } from "./partial/activity/student-listing.jsx";
 import { ScheduledInterview } from "./partial/activity/scheduled-interview";
 import CompanyPage from "./company";
 import ManageTag from "./tag";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -196,7 +196,8 @@ class VacancySubPage extends React.Component {
             VacancyEnum.TYPE_FULL_TIME,
             VacancyEnum.TYPE_PART_TIME,
             VacancyEnum.TYPE_INTERN,
-            VacancyEnum.TYPE_GRADUATE_INTERN
+            VacancyEnum.TYPE_GRADUATE_INTERN,
+            VacancyEnum.TYPE_FULL_TIME_AND_INTERN,
           ]
         },
         {

@@ -503,6 +503,7 @@ const Vacancy = {
 
 const VacancyEnum = {
 	TYPE_FULL_TIME: "Full Time",
+	TYPE_FULL_TIME_AND_INTERN: "Full Time & Intern",
 	TYPE_INTERN: "Intern",
 	TYPE_PART_TIME: "Part Time",
 	TYPE_GRADUATE_INTERN: "Graduate Trainee / Internships",

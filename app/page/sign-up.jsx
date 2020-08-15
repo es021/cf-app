@@ -268,8 +268,8 @@ export default class SignUpPage extends React.Component {
         <ManageUserProfile
           completeHandler={this.manageUserProfileComplete}
           user_id={user.ID}
+          contentBeforeSubmit={this.getDisclaimerView()}
         ></ManageUserProfile>
-        {this.getDisclaimerView()}
       </div>
     );
   }
@@ -279,7 +279,7 @@ export default class SignUpPage extends React.Component {
     let disclaimer = getCfCustomMeta(CFSMeta.TEXT_REGISTRATION_DISCLAIMER, "");
     if (disclaimer) {
       disclaimerView = <div style={{
-        marginTop: "-140px",
+        // marginTop: "-140px",
         marginBottom: "20px", 
         textAlign: "justify"
       }}

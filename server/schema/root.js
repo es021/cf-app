@@ -263,6 +263,7 @@ fields["refs"] = {
 		entity: __.String,
 
 		// filter
+		filter_raw: __.String,
 		filter_column: __.String,
 		filter_val: __.String,
 		filter_find_id: __.Boolean,

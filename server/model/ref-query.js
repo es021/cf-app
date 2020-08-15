@@ -41,6 +41,7 @@ class RefExec {
 			}
 		}
 
+		let filter_raw = param.filter_raw ? param.filter_raw : "1=1";
 
 
 		let order_by = !param.order_by ? "" : `ORDER BY ${param.order_by}`;
@@ -88,7 +89,7 @@ class RefExec {
 
 		let sql = `
 			select *, "${table_name}" as table_name from ref_${table_name} where 1=1
-			and ${val} and ${category} and ${suggestion} and ${filter}
+			and ${val} and ${category} and ${suggestion} and ${filter} and ${filter_raw}
 			${order_by}
 			${limit}
 		`;
