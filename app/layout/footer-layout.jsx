@@ -134,8 +134,8 @@ export default class Footer extends React.Component {
             <div className="col-sm-4">{this.brand}</div>
           </div> */}
           <div className="row">
-            <div className="col-md-4 copyright"><LangPicker></LangPicker></div>
-            <div className="col-md-4 copyright">
+            <div className="col-md-12 copyright"><LangPicker></LangPicker></div>
+            <div className="col-md-12 copyright">
               © {this.YEAR}, Innovaseeds Solutions. {lang("All Rights Reserved")}.
             </div>
             <div className="col-md-4"></div>

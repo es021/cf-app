@@ -41,10 +41,10 @@ export class LangPicker extends React.Component {
 
     getFlagSrc(v) {
         if (v == this.MALAY) {
-            return ImgConfig.getFlag("Malaysia", 16);
+            return ImgConfig.getFlag("Malaysia", 24);
         }
         if (v == this.ENGLISH) {
-            return ImgConfig.getFlag("United Kingdom(Great Britain)", 16);
+            return ImgConfig.getFlag("United Kingdom(Great Britain)", 24);
         }
     }
 

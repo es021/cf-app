@@ -1,8 +1,10 @@
 @import "define/variable.scss";
 
 .lang-picker {
-  text-align: left;
-  @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
-    text-align: center;
-  }
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  // @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+  //   text-align: center;
+  // }
 }

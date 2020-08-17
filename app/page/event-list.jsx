@@ -447,6 +447,7 @@ export class EventList extends React.Component {
     return (
       <List
         {...countParam}
+        divClass={"full-width"}
         key={this.state.key}
         isHidePagingTop={this.props.isHidePagingTop}
         type="list"
