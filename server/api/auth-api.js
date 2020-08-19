@@ -126,25 +126,115 @@ class AuthAPI {
 
 	//##########################################################################################
 	// Login Module
-	login(user_email, password, cf, request) {
+	loginCheckPassword(user, password, cf, request) {
+		//check password
+		var pass_params = {
+			action: "check_password",
+			password: password,
+			hashed: user.user_pass
+		};
+		return getPHPApiAxios("password_hash", pass_params).then(
+			res => {
+				//password match -- cannot use === operator
+				//console.log(res);
+
+				// check if password corrent
+				if (res.data == "1") {
+					// check if valid cf
+					if (!this.isCFValid(user, cf)) {
+						return AuthAPIErr.INVALID_CF;
+					} else {
+
+						// @kpt_validation
+						if (registrationConfig.isDoJpaKptValidation(cf) && user.role == UserEnum.ROLE_STUDENT) {
+							if (!user.kpt) {
+								// @kpt_validation - KPT_NOT_FOUND_IN_USER_RECORD
+								return AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD;
+							} else if (!user.is_kpt_jpa) {
+								// @kpt_validation - KPT_NOT_JPA
+								return AuthAPIErr.KPT_NOT_JPA;
+							}
+						}
+
+						//delete (user[User.PASSWORD]);
+
+						user[User.PASSWORD] = user[User.PASSWORD].replaceAll("/", "");
+
+						//delete (user["company"]);
+						user[User.CF] = cf;
+						//get cf object here
+						//user["cf_object"] = {};
+
+						// success login here
+
+						try {
+							var logData = request.get("User-Agent");
+							LogApi.add(LogEnum.EVENT_LOGIN, logData, user.ID);
+						} catch (err) {
+							//console.log(err);
+						}
+
+						return user;
+					}
+				} else {
+					return AuthAPIErr.WRONG_PASS;
+				}
+			},
+			err => {
+				console.log("Error Auth Api getPHPApiAxios");
+				return err.response.data;
+			}
+		);
+	}
+	login(user_email, password, cf, kpt, request) {
 		var field = "";
 		AuthUserKey.map((d, i) => {
 			field += `${d},`;
 		});
 		field = field.slice(0, -1);
+
+
+
+
 		//console.log(field);
 		var user_query = `query{
             user(user_email:"${user_email}"){
-                ${field} company {cf name recruiters 
+                ${field} company {cf name recruiters
                     {ID user_email first_name last_name}}
             }}`;
 
 		return getAxiosGraphQLQuery(user_query).then(
-			res => {
+			(res) => {
 				var user = res.data.data.user;
 				if (user !== null) {
+					// check if in kpt exist
+					if (kpt && user.role == UserEnum.ROLE_STUDENT) {
 
+						// @kpt_validation - login - check if duplicate
+						return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
+							try {
+								if (res.data.data.user.kpt) {
+									// @kpt_validation - KPT_ALREADY_EXIST
+									return AuthAPIErr.KPT_ALREADY_EXIST;
+								}
+							} catch (err) { }
 
+							// @kpt_validation - login - bind the kpt with the user that try to login
+							let updateKpt = `mutation {add_single(key_input:"kpt", entity:"user", entity_id:${user.ID}, val:"${kpt}"){ val } }`
+							return graphql(updateKpt).then((res) => {
+								// query user again
+								return graphql(user_query).then((res) => {
+									user = res.data.data.user;
+									return this.loginCheckPassword(user, password, cf, request);
+								});
+							}).catch(err => {
+								return err;
+							});
+						});
+
+					} else {
+						return this.loginCheckPassword(user, password, cf, request);
+					}
 
 					//check if active
 					// FIX 2019 - remove filter not active
@@ -152,64 +242,64 @@ class AuthAPI {
 					//     return AuthAPIErr.NOT_ACTIVE;
 					// }
 
-					//check password
-					var pass_params = {
-						action: "check_password",
-						password: password,
-						hashed: user.user_pass
-					};
-					return getPHPApiAxios("password_hash", pass_params).then(
-						res => {
-							//password match -- cannot use === operator
-							//console.log(res);
+					// //check password
+					// var pass_params = {
+					// 	action: "check_password",
+					// 	password: password,
+					// 	hashed: user.user_pass
+					// };
+					// return getPHPApiAxios("password_hash", pass_params).then(
+					// 	res => {
+					// 		//password match -- cannot use === operator
+					// 		//console.log(res);
 
-							// check if password corrent
-							if (res.data == "1") {
-								// check if valid cf
-								if (!this.isCFValid(user, cf)) {
-									return AuthAPIErr.INVALID_CF;
-								} else {
+					// 		// check if password corrent
+					// 		if (res.data == "1") {
+					// 			// check if valid cf
+					// 			if (!this.isCFValid(user, cf)) {
+					// 				return AuthAPIErr.INVALID_CF;
+					// 			} else {
 
-									// @kpt_validation
-									if (registrationConfig.isDoJpaKptValidation(cf)) {
-										if (!user.kpt) {
-											// @kpt_validation - KPT_NOT_FOUND_IN_USER_RECORD
-											return AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD;
-										} else {
-											// **** TODO **** @kpt_validation - KPT_NOT_JPA
-											return AuthAPIErr.KPT_NOT_JPA;
-										}
-									}
+					// 				// @kpt_validation
+					// 				if (registrationConfig.isDoJpaKptValidation(cf)) {
+					// 					if (!user.kpt) {
+					// 						// @kpt_validation - KPT_NOT_FOUND_IN_USER_RECORD
+					// 						return AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD;
+					// 					} else if (!user.is_kpt_jpa) {
+					// 						// @kpt_validation - KPT_NOT_JPA
+					// 						return AuthAPIErr.KPT_NOT_JPA;
+					// 					}
+					// 				}
 
-									//delete (user[User.PASSWORD]);
+					// 				//delete (user[User.PASSWORD]);
 
-									user[User.PASSWORD] = user[User.PASSWORD].replaceAll("/", "");
+					// 				user[User.PASSWORD] = user[User.PASSWORD].replaceAll("/", "");
 
-									//delete (user["company"]);
-									user[User.CF] = cf;
-									//get cf object here
-									//user["cf_object"] = {};
+					// 				//delete (user["company"]);
+					// 				user[User.CF] = cf;
+					// 				//get cf object here
+					// 				//user["cf_object"] = {};
 
-									// success login here
+					// 				// success login here
 
-									try {
-										var logData = request.get("User-Agent");
-										LogApi.add(LogEnum.EVENT_LOGIN, logData, user.ID);
-									} catch (err) {
-										//console.log(err);
-									}
+					// 				try {
+					// 					var logData = request.get("User-Agent");
+					// 					LogApi.add(LogEnum.EVENT_LOGIN, logData, user.ID);
+					// 				} catch (err) {
+					// 					//console.log(err);
+					// 				}
 
-									return user;
-								}
-							} else {
-								return AuthAPIErr.WRONG_PASS;
-							}
-						},
-						err => {
-							console.log("Error Auth Api getPHPApiAxios");
-							return err.response.data;
-						}
-					);
+					// 				return user;
+					// 			}
+					// 		} else {
+					// 			return AuthAPIErr.WRONG_PASS;
+					// 		}
+					// 	},
+					// 	err => {
+					// 		console.log("Error Auth Api getPHPApiAxios");
+					// 		return err.response.data;
+					// 	}
+					// );
 				} else {
 					return AuthAPIErr.INVALID_EMAIL;
 				}
@@ -534,6 +624,7 @@ class AuthAPI {
 			// add first name and last name at single_input
 			addToSingleInput(data, user, Single.first_name);
 			addToSingleInput(data, user, Single.last_name);
+			addToSingleInput(data, user, Single.kpt);
 
 			// update cf
 			var cf_sql = `mutation{
@@ -571,15 +662,23 @@ class AuthAPI {
 
 		// @kpt_validation
 		if (kpt) {
-			return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
-				try {
-					console.log("@kpt_validation", res.data.data)
-					if (res.data.data.user.kpt) {
-						// @kpt_validation - KPT_ALREADY_EXIST
-						return AuthAPIErr.KPT_ALREADY_EXIST;
-					}
-				} catch (err) { }
-				return getWpAjaxAxios("app_register_user", data, successInterceptor);
+			// @kpt_validation - register - check if JPA
+			return graphql(` query{is_kpt_jpa(kpt:"${kpt}")} `).then((res) => {
+				let isKptJpa = res.data.data.is_kpt_jpa;
+				if (isKptJpa !== 1) {
+					return AuthAPIErr.KPT_NOT_JPA;
+				}
+				// @kpt_validation - register - check if duplicate
+				return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
+					try {
+						console.log("@kpt_validation", res.data.data)
+						if (res.data.data.user.kpt) {
+							// @kpt_validation - KPT_ALREADY_EXIST
+							return AuthAPIErr.KPT_ALREADY_EXIST;
+						}
+					} catch (err) { }
+					return getWpAjaxAxios("app_register_user", data, successInterceptor);
+				});
 			});
 		} else {
 			return getWpAjaxAxios("app_register_user", data, successInterceptor);

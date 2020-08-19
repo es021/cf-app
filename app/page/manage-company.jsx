@@ -196,8 +196,6 @@ class VacancySubPage extends React.Component {
             VacancyEnum.TYPE_FULL_TIME,
             VacancyEnum.TYPE_PART_TIME,
             VacancyEnum.TYPE_INTERN,
-            VacancyEnum.TYPE_GRADUATE_INTERN,
-            VacancyEnum.TYPE_FULL_TIME_AND_INTERN,
           ]
         },
         {

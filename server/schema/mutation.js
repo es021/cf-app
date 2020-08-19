@@ -244,7 +244,8 @@ fields["add_single"] = {
     val: __.StringNonNull
   },
   resolve(parentValue, arg, context, info) {
-    return DB.insert(SingleInput.TABLE, arg).then(function (res) {
+    let onDuplicate = ` val="${arg.val}" `;
+    return DB.insert(SingleInput.TABLE, arg, "ID", onDuplicate).then(function (res) {
       return res;
     });
   }

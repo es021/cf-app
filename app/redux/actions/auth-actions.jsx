@@ -443,14 +443,15 @@ export function updateAuthUser(user, force = false) {
 }
 
 export const DO_LOGIN = "DO_LOGIN";
-export function login(email, password, cf) {
+export function login(email, password, cf, kpt) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
             payload: axios.post(AppConfig.Api + "/auth/login", {
                 email: email,
                 password: password,
-                cf: cf
+                cf: cf,
+                kpt : kpt
             })
         });
     };

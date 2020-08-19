@@ -240,7 +240,7 @@ class UserQuery {
 		// @kpt_validation
 		var kpt_condition =
 			typeof params.kpt !== "undefined" ?
-				`(${this.selectMetaMain("u.ID", UserMeta.KPT)}) = '${params.kpt}' ` :
+				`(${this.selectSingleMain("u.ID", UserMeta.KPT)}) = '${params.kpt}' ` :
 				`1=1`;
 
 		var role_condition =
@@ -314,12 +314,21 @@ class UserQuery {
 			}
 		}
 
-		var sql = `SELECT u.* ${meta_sel}
+		let is_kpt_jpa_sel = "";
+		if (field["is_kpt_jpa"]) {
+			is_kpt_jpa_sel = `, (select rkj.val from ref_kpt_jpa rkj 
+					where val = (${this.selectSingleMain("u.ID", "kpt")})
+				) as is_kpt_jpa `
+		}
+
+		var sql = `SELECT u.* ${meta_sel} ${is_kpt_jpa_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
 		   AND ${id_condition} AND ${meta_condition} AND ${kpt_condition}
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
+
+		console.log(sql);
 
 		return sql;
 	}
@@ -435,7 +444,17 @@ class UserExec {
 			}
 		});
 	}
-
+	isKptJpa(kpt) {
+		let sql = `select rkj.val from ref_kpt_jpa rkj where val = "${kpt}"`;
+		return DB.query(sql).then((res) => {
+			try {
+				if (res[0].val) {
+					return 1;
+				}
+			} catch (err) { };
+			return 0;
+		});
+	}
 	editUser(arg) {
 		var ID = arg.ID;
 
@@ -615,6 +634,12 @@ class UserExec {
 						field["student_listing_interested"]
 					);
 				}
+
+				// // is_kpt_jpa ****************************************************
+				// if (field["is_kpt_jpa"] !== "undefined") {
+				// 	let kpt = res[i]["kpt"];
+				// 	field["is_kpt_jpa"] = this.isKptJpa(kpt);
+				// }
 
 				// is_profile_completed ****************************************************
 				if (field["is_profile_completed"] !== "undefined") {
@@ -874,7 +899,6 @@ class UserExec {
 
 		return toRet;
 	}
-
 	recruiters(company_id, field) {
 		var metaCons = {};
 		metaCons[UserMeta.REC_COMPANY] = company_id;

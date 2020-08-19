@@ -204,7 +204,7 @@ const initializeAllRoute = function (app, root) {
     var action = req.params.action;
     switch (action) {
       case "login":
-        AuthAPI.login(req.body.email, req.body.password, req.body.cf, req).then(
+        AuthAPI.login(req.body.email, req.body.password, req.body.cf, req.body.kpt, req).then(
           response => {
             routeResHandler(res, response);
           }

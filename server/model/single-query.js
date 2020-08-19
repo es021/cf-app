@@ -15,6 +15,15 @@ class SingleExec {
 		`;
     return sql;
   }
+  // insert(param) {
+  //   let sql = `INSERT INTO single_input (entity, entity_id, key_input, val) 
+  //   VALUES("${param.entity}", ${param.entity_id}, "${param.key_input}", "${param.val}") 
+  //   ON DUPLICATE KEY UPDATE val="${param.val}" `
+  //   return DB.query(sql).then(function (res) {
+  //     var insertId = res.insertId;
+  //     return DB.getByID("single_input", insertId);
+  //   });
+  // }
   isSingle(type) {
     return type == "single";
   }
@@ -40,6 +49,7 @@ class SingleExec {
     });
     return toRet;
   }
+
   single(param, field) {
     return this.getHelper("single", param, field);
   }

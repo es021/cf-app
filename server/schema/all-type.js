@@ -221,9 +221,10 @@ const UserType = new GraphQLObjectType({
 		rec_position: __.String,
 		company: __.IsType(CompanyType),
 
-		// indicator
+		// DERIVED ATTRIBUTE -
 		is_active: __.Boolean,
-		is_profile_completed: __.Boolean // student only
+		is_profile_completed: __.Boolean,
+		is_kpt_jpa: __.Boolean
 
 		// OLD ONE
 		// //student only

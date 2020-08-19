@@ -1,618 +1,2868 @@
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Accounting & Finance', '', 'A virtual intern with the Accounting Team is a great opportunity to gain knowledge and experience in financial accounting, reporting, and internal controls. This project will entail working alongside the General Accounting, Accounts Payable, Payroll and Human Resources teams as well as exposure to all levels of management in the company. The virtual intern will work on a long-term project that accommodates current needs of the department and learning objectives set for the intern. ', 'Motivated to learn and gain valuable experience.
-Computer skills (outlook, Word, Excel), oral communication and phone skills, be detail-oriented, well-organized, and motivated to learn.
-Accounting college students welcomed.
-', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Computer Programming', '', '•  Pairing with our Lead Engineer to learn about our systems 
-•  Writing code to develop and enhance new and existing applications 
-•  Writing unit tests to ensure all new code can be automatically tested 
-•  Writing code from a security-first mindset 
-•  Collaborating with colleagues across the company to fully understand business requirements', 'Critical thinking with great self initiative and motivation.
-A team worker with enhanced computer programming skills and knowledge. 
-Students from Computer Science/IT or Software Engineering background. E&E Engineering with the related knowledge can apply too. ', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Logistics', '', 'The virtual intern will learn to provide on a day to day basis, consistently high quality work. He/she will deal directly with customers about their shipments, invoice customers, update customers, learn how to clear a shipment through U.S. customs, quote rates, work on deliveries, dispatch truckers and follow up until shipments have been delivered. 
-Working in export customer service, the intern will deal directly with international agents and manufactures in USA, process export paperwork and send pre-alerts, invoice agents/customers, quote manufacturers/agents for pending shipments. ', 'Good and strong commend of English.
-Students from Logistics and Supply Chain Management are welcomed. ', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Business Administration', '', 'Office manager, customer service', 'Good and strong commend of English.
-Students from Business and related background.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Business Administration', '', 'Create & update Calendar event. 
-Preparing a weekly meeting log and follow up on tasks. 
-Checking mail everyday 
-Company Insurance management 
-CRM management 
-Assist on office related paperworks', 'Good and strong commend of English.
-Students from Business and related background.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Business Administration', '', 'Customer Support, data entry, research, Entry Level Analyst', 'Good and strong commend of English.
-Students from Business and related background.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Computer Programming', '', 'Coding', 'Must have good knowledge in code developing.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Customer Service', '', '', 'Virtual interns who have a background in production, video production, graphic design, and marketing would all be able to contribute, in part, in their area of specialization, but the main request is for Customer Service', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Graphic Design', '', 'Porject-based work will be given upon virtual internship placement confirmation', 'Must have Graphic Design educational background and/or work experiences', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Marketing', '', 'Professionally produce Case study , Newsletters, and assist on proposal 
-Market Search 
-SWOT Analysis Bi-Yearly Report 
-EMAIL Marketing design and planning 
-Checking mail everyday 
-Company Insurance management 
-CRM management 
-Assist on office related paperworks 
-Prepare and produce Social marketing contents (FB Posts, Website Album updates, Other social media posts)', 'Marketing or Business Marketing Management Graduate or related courses.
-English Communication Skills (FLUENT). 
-With Experience in MS OFFICE applications (word, excel, ppp), PDF. (Writing experience preferred) ', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Marketing', '', 'Copy writing', 'Fluent English proficiency is a must.
-Have Marketing or Business Marketing Management Graduate or related background.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Marketing', '', 'Someone who manages social media, instagram and facebook accounts', 'Marketing or Business Marketing Management Graduate or related educational courses.
-Fluent English Communication Skills.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Marketing', '', 'Writing, digital marketing, content creation experience/desire.', 'Prociency in English Communication Skills.
-Marketing or Business Marketing Management Graduate or related courses.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - IT', '', 'We are looking at building up the back end security and need some self starters to help the program some well-known algorithms that will work well within our infrastructure. It would be best to have two virtual interns so they can work collaboratively. The Director & Codirector are the computer scientists, pleanty supervison will be provided.', 'Software Developers', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Industrial Engineering', '', 'Build Standard Operating Procedures in various fields.. e.g., turning something like this into an SOP.
-The SOPs wouldn\'t necessarily be in a certain field. They could be marketing related, eCommerce related, SaaS specific, etc.
-We are more than just a retailer. We are a brand partner. 
-Our primary areas of expertise are with Amazon.com, Jet.com, Walmart.com, and eBay.com.', 'The virtual intern would have to have good analytical and/or organizational skills.
-Fluent English. 
-Must submit a profile for reviewing.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('838', 'Virtual Intern USA - Human Resource / Psychology', '', '', 'We can offer organizational psychology (HR), and a few in clinical psychology as assistants to the Psychologists.', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('850', 'Internship for Computer Science & IT', 'Subang Jaya', '- Assist in business functions in the areas of either Information Technology/ Computer Science/ IT Service Desk.
-- Learn and practice basic day to day work or projects in a shared services environment
-- Engage in networking with colleagues from other business functions and Senior Management on best work practices
-- Discover within own team and/or with other process teams to identify and implement improvement opportunities
-- Delivering high levels of customer service to both internal or external stakeholders
-- Performing other relevant support activities as and when required', '- Undergraduate students from reputable universities in the relevant field of study
-- Available for a minimum period of 3 months, preferably 6 months and above.
-- Good command of spoken and written English', 'Internship', 'https://roche.wd3.myworkdayjobs.com/roche-ext/job/Petaling-Jaya/Internship-for-Computer-Science---IT_202004-110620',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('814', '"Internship-Computer Science 
-(Software Engineering)"', '"Suite 5-1, Level 5, Wisma UOA Damansara II, No 6, 
-Changkat Semantan, Damansara Heights, 50490 Kuala Lumpur"', 'As attached', 'As attached', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('816', 'Content & Creative Intern', 'Bangsar South', '• Understand elements of marketing and branding in the scope of our clients and interpret it through various illustrations and artworks that are required for various occasions. 
-• Work closely with our Content & Creative team to brainstorm and conceptualize in order to produce high quality creative campaign, captions, visuals and artworks for our clients. 
-• To source for, and archive various online campaigns and creative works / ideas / designs for reference. 
-• Contribute creative ideas in producing visuals / creative writing for our clients’ social media pages / online campaigns and promotions. 
-• To contribute creative input and art direction / concept for various projects including creative writing.
-•  To assist in various marketing and branding projects (through ideation and copywriting) for clients. 
-•  To assist production of creative / branding materials for the company. 
-•  To ensure all projects are completed timely and meticulously. 
-•  To manage client’s page with due diligent and timely crisis management.', '• Must have an excellent command of English, able to write in Malay and Chinese is added advantage.
-• Communications, PR, Copywriting, Graphic Design, Multimedia Design are welcome to apply.
-', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('816', 'Digital Specialist', 'Bangsar South', '•  Be savvy in all aspects of Digital Marketing to be seen as the Go-To-Person for all clients
-• Understand elements of marketing and branding in the scope of our clients and to propose to them effective and relevant Digital solutions
-• Work closely with our Creative team to brainstorm and conceptualize in order to produce high quality work for our clients
-• Contribute creative ideas in producing visuals / creative writing for our clients’ social media pages / online campaigns and promotions
-• To assist in various marketing and branding projects for clients
-• Develop a strategy focused both on financial gain as well as ensuring clients satisfaction
-• Conduct research to identify new markets and client needs
-• Build long-term relationships with new and existing clients
-• Liasing with all Press / PR / Publications to get your message out there about your new client wins / campaigns / successes
-• Researching, developing and taking a lead role in creating all proposals for your clients
-• To ensure all projects are completed timely and meticulously.
-• To manage client requirements and to ensure “awesome brand experience” for all parties involved be it clients, partners, colleagues and customers.', '• Minimum Diploma/Degree in Advertising/Media, Business Administration, Mass Communications, Journalism, Marketing or equivalent.
-• Required language(s): English and Malay. Mandarin will be an added advantage.
-• Excellent communication, strong analytical and negotiation skills.
-• Capable to handle multiple concurrent tasks and able to work under tight deadlines. 
-• Ability to quickly immerse in brands and problem-solving
-• Impeccable spelling and grammar
-• Good time management capability and willing to work long hours when required. ', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('816', 'Creative Designer', 'Bangsar South', '• Be savvy in all aspects of Digital Marketing to be seen as the Go-To-Person for all clients
-• Understand elements of marketing and branding in the scope of our clients and to propose
-to them effective and relevant Digital solutions
-• Work closely with our Content & Engagement team to brainstorm and conceptualize in
-order to produce high quality work for our clients
-• Contribute creative ideas in producing visuals / creative writing for our clients’ social media
-pages / online campaigns and promotions
-• To assist in various marketing and branding projects for clients
-• To source for, and archive various online campaigns and creative works / ideas / designs
-for reference.
-• To assist production of creative / branding materials for the company.
-• Researching, developing and taking a creative role in creating all proposals for your clients
-• To ensure all projects are completed timely and meticulously.
-• To manage client requirements and to ensure “awesome brand experience” for all parties
-involved be it clients, partners, colleagues and customers.', '• Minimum Diploma/Degree in Art/Design/Creative Multimedia or equivalent.
-• Required skill(s): Videography, Photography, Adobe Photoshop, Illustrator & AfterEffects.
-• Capable to handle multiple concurrent tasks and able to work under tight deadlines
-• Good time management capability and willing to work long hours when required. ', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('803', 'Internship', 'Petaling Jaya', 'Assist and plan programs with the relevant teams', 'a person who really wants to learn', 'Internship', 'https://leaderonomics.org/en/component/content/article/136-internship?catid=98&Itemid=435',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('762', 'Software Engineer', 'Bangsar South KL', 'Working with our functional and business teams to create new modules or enhance existing modules to meet customer requirements.
--', 'Work with our customers to integrate our software into their IT infrastructure via web services or other technologies, and map their business requirements to our software.
--', 'Full Time Position', 'Ignite your coding enthusiasm and code your way to build innovative web and mobile applications used by thousands of users in the financial services industry.
--',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('762', '', '', '', '', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('762', 'Professional Services Engineer (Business Analyst)', 'Bangsar South KL', '•', 'To master the Juris Application Server framework for Business Consultant and to be well versed in the capability of the Juris solution framework
-•', 'Full Time Position', 'To facilitate discovery sessions to uncover user requirements and translate these requirements into documentation with workflow diagrams
-•',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('762', '', '', '', '', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('784', 'EY Graduate Programme - Technology Consulting (Technology Solution Delivery Associate, Financial Services)', 'KL', 'As per job posting', '•', 'Full Time', 'Currently in your final year or a fresh graduate 
-•',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('36', 'Internship for Sales & Marketing Students', 'Various locations aroung Klang Valley, Penang, Johor', 'Responsibilities:
-Sales & Marketing
-Customer relations
-Event planning
-Property development
-Retail development', 'Malaysian undergraduate currently pursuing a Bachelor\'s Degree in Marketing / Business Studies/Administration/Management, Economics, Real Estate or equivalent.
-Minimum duration of 3 months
-Minimum CGPA 3.30', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('36', 'Internship for Business Administration Students', 'Various locations aroung Klang Valley, Penang, Johor', 'Responsibilities:
-Sales administration
-Customer relations
-Property management
-Property development', 'Malaysian undergraduate currently pursuing a Bachelor\'s Degree in Business Studies/Administration/Management, Economics, or equivalent.
-Minimum duration of 3 months
-Minimum CGPA 3.30', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('36', 'Internship for Accounting Students', 'Various locations aroung Klang Valley, Penang, Johor', 'Responsibilities:
-Data entry
-Operational accounting
-Office administration
-Finance & treasury', 'Minimum duration of 3 months
-Minimum duration of 3 months
-Minimum CGPA 3.30', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('36', 'Internship for IT Students', 'Setia Alam', 'Responsibilities:
-Web development
-App development
-System maintenance
-User support', 'Malaysian undergraduate currently pursuing a Bachelor\'s Degree in Computer Science/Information Technology or equivalent
-Minimum duration of 3 months
-Minimum CGPA 3.30
-', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Software Tester', 'Cyberjaya', 'Perform high-quality automated and manual tests on the Deriv.com website, applications, backend infrastructure, and related systems.
-Collaborate closely with the rest of the QA and IT teams to create, design, and run several types of testing based on different objectives.
-Integrate various types of testing into our existing workflows, both internal and external.
-Ensure the integrity of releases by coordinating testing procedures and activities.
-Track and keep a detailed record of every bug that you discover.
-Identify, document, and investigate issues reported by our clients and the Client Support team.
-Replicate reported issues and work with our IT teams to find the root cause, understand the problem, and help come up with solutions.', 'Bachelor’s degree in computer science, or an equivalent combination of technical education, training, and work experience
-Ability to write high-quality, self-documenting code using test-driven development techniques
-Passion for Linux and other open-source platforms
-Familiarity with Git
-Excellent spoken and written English communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Front End', 'Cyberjaya', 'Develop and maintain advanced features, tools, and applications according to best practices in UI/UX, front-end development and hybrid mobile application development.
-Test and debug our ever-evolving product line to improve their speed, scalability, and usability across multiple browsers, devices, and web standards.
-Stay on top of the latest JavaScript frameworks, libraries, and tools in order to apply them when necessary to solve challenges related to web and mobile development.
-Research and test new web technologies and make recommendations on opportunities to improve our user interface.
-Ensure the design and development of each product is consistent with our style guide, and that everything works as planned with each release.
-Communicate effectively with other team members to understand the big picture of the organisation and its goals.
-Collaborate regularly with researchers, designers, and developers on the implementation of new features and products.
-Provide technical leadership, leading by example throughout the development process.', 'Experience of JavaScript, HTML, and CSS
-Experience with package managers (npm), task runners (Gulp, Webpack, Grunt), CSS
-processors (Sass, Stylus), and APIs (WebSocket)
-Familiarity with various JavaScript standards, libraries, frameworks, compilers, and
-transpilers including ES6, TypeScript, Babel, Web Workers, React, and Angular
-Extensive knowledge in advanced coding techniques and cross-platform development
-Ability to write high-quality, self-documenting code using test-driven development
-techniques
-Familiarity with testing and debugging processes, including unit testing and UI testing
-Passion for Linux and other open-source platforms
-Excellent spoken and written English communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Mobile App Developer', 'Cyberjaya', 'Develop iOS and Android mobile applications, writing high-quality code and tests.
-Collaborate with cross-functional teams to analyse data and decide on the best strategies to improve customers’ interaction with our mobile apps. 
-Prioritise information security and process maintenance throughout the mobile app lifecycle.
-Analyse, enhance, and support our existing mobile applications.
-Work closely with QA, Design, and Product Management teams to build the best possible UX for our mobile apps.', 'Experience in Flutter framework or a keen eagerness to master it
-High proficiency and experience in one or more of the following programming languages: Java, Dart, ES6, Kotlin, Objective-C, or Swift
-Distinct competence in mobile app development for at least one platform
-In-depth understanding of design guidelines and patterns in the Android and iOS platforms and their differences
-Strong knowledge of the performance tools and optimization techniques in Android or iOS SDKs
-Excellent spoken and written English communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Data Engineer', 'Cyberjaya', 'Conduct full lifecycle data integration, encompassing requirements, activities, and design.
-Ask the right questions to identify potential problems, the scope of the operation, and the availability of relevant data.
-Use data governance tools to ensure data is accurate and consistent for effective analysis.
-Convert raw data into an easy-to-understand format for analysis and reporting purposes.
-Develop and implement databases by collecting, designing, processing, analysing, and presenting data in a meaningful way.
-Communicate and collaborate effectively with members of different teams across the organisation.', 'Knowledge of data modelling techniques such as Kimball star schema, Anchor modelling and Data Vault
-Experience with database reporting tools such as SQL, programming languages such as Python and R, and ETL frameworks
-Strong analytical skills with the ability to transform data into optimal business decisions
-Strong communication skills
-Ability to present data using various tools to help the team to make informed business decisions
-Excellent spoken and written English communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Global Affiliates & Introducing Broker Executive', 'Cyberjaya', 'Grow our affiliate networks in a highly-competitive industry.
-Identify new growth opportunities, prospects, and competitors via market research and data analysis.
-Generate meaningful insights that help you to source, recruit, and support affiliates that are aligned with our values and business strategies.
-Make data-driven recommendations to increase affiliate performance. 
-Monitor and analyse affiliate activity, using metrics such as number of conversions per affiliate.
-Devise branding, marketing, and messaging strategies to help affiliates improve their
-client acquisition and retention efforts.
-Localise affiliate marketing tactics and promotional materials for designated
-markets to ensure maximum effectiveness and ROI.', 'A university degree in marketing, business administration, or any other related discipline
-Outstanding market research skills and a keen understanding of the consumer journey
-Experience in affiliate marketing, growth hacking, and business development
-Experience in using a wide range of digital marketing tools and affiliate management
-platforms
-An assertive, sales-driven personality and the ability to adapt quickly and achieve
-powerful results
-Excellent spoken and written English communication skills
-Knowledge and experience in the financial services industry
-A passion for finance and technology', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Digital Marketing Executive', 'Cyberjaya', 'Develop in-depth knowledge of our target audience and company values.
-Assist in developing and managing digital marketing campaigns.
-Write marketing content drafts for a variety of channels.  
-Work with our copywriters and designers to optimise marketing content. 
-Conceptualise, edit, and publish digital content such as videos, infographics, and posts
-Work on printed materials to supplement online products. 
-Work with the Business Intelligence team to track and analyse website traffic flow and provide regular internal reports. 
-Organise webinars and webcasts. 
-Identify new trends in digital marketing, evaluate new technologies, and ensure that our brand is at the forefront of industry developments in mobile marketing. ', 'A university degree in Marketing, Communications, or Business
-Familiar with Search Engine Optimisation (SEO), Pay-Per-Click (PPC), and Social Media Marketing concepts
-Strong analytical and communication skills
-A passion for being up-to-date on the latest digital marketing channels and tools
-Good balance of creativity and analytical skills
-Excellent spoken and written English communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Copywriter', 'Cyberjaya', 'Collaborate with designers, developers, analysts, and other stakeholders who are based around the world to define content requirements and strategy to achieve our desired business goals.
-Write engaging marketing and sales copy to persuade our clients and prospects to take action.
-Plan, write, and test UI copy and other text elements in our websites and apps.
-Contextualise copy for its intended audience using our style guide, tone of voice, and internal processes as reference.
-Edit and proofread copy as needed.', 'Excellent spoken and written English communication skills with a keen eye for detail when it comes to punctuation, spelling, grammar, and syntax', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('792', 'Client Support Executive', 'Cyberjaya', 'Resolve complex customer care issues through careful investigation and in keeping with existing policies and procedures.
-Communicate solutions to customer issues in a clear, concise, friendly, and timely
-manner.
-Respond to customer enquiries by phone, email, social media, and live chat daily.
-Process applications and customer documentation according to relevant policies and
-regulations.
-File records and documents of customer interactions according to existing guidelines.
-Identify new marketing opportunities through customer feedback and contribute ideas to expand our global customer base.
-Collaborate with members of our IT team to identify new ways to improve our products
-and services for customers.
-Perform regular testing on our products and services. 
-Collaborate with client support agents in different time zones to ensure optimum results and customer satisfaction', 'Exceptional spoken and written communication skills in English', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('852', 'Interactive Developer', 'Kuala Lumpur', '- Participate in discussions with clients to understand the requirements and technical specifications for the game or interactive experience
-
-- Understand the project needs and conceptualize, plan, develop an experience that would fulfill those needs
-
-- Keep up to date on latest technologies and programming practices for games or interactive experiences
-
-- Collaborate with directors, artists, designers and programmers to understand how to best utilise existing tools and technologies
-
-- Support regular project reviews to recommend schedule changes, cost or resource adjustments
-
-- Carry out all other related tasks
-', '- Bachelor’s Degree in Computer Science, Software Engineering or equivalent
-
-- At least 1 year of relevant work experience required
-
-- Proficient in Photoshop, Illustrator, or other visual design and wire-framing tools
-
-- Proficient in HTML, CSS, and JavaScript
-
-- Familiarity with PHP will be a plus
- 
-- High sensitivity to user-system interaction
-
-- Understanding of Agile/Scrum development process
-
-- Ability to work well under pressure and manage multiple tasks simultaneously
-
-- Self-motivated with strong problem-solving skills
-
-- A team player with a positive attitude and professional work ethic
-
-- Strong interpersonal and communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('852', 'Junior Sound Designer', 'Kuala Lumpur', '- Work with a team of artists to enhance animation, motion graphics, visual effects and interactive apps with excellent sound design
-
-- Complete mixes for all of our video content
-
-- Q.C. all mixes before delivery, maintaining technical and creative standards
-
-- Be familiar with social media landscape, best practices and trends
-
-- Build and organize our sound effects library
-
-- Be able to eventually run in-house VO recording sessions for videos
-
-- Work with music stems to re-edit, enhance and modify music for our trailers and videos
-
-- Take on ad-hoc duties and other projects outside of the job description and has the ability to respond to business demands in a fast-paced environment
-', '- Diploma/Bachelor’s Degree in Audio Engineering or equivalent
-
-- At least one year of relevant work experience is a plus
-
-- Fresh Grads are welcome to apply
-
-- Experience with recording, editing, and mixing softwares (e.g. Pro Tools, Final Cut Pro)
-
-- Technical expertise in sound engineering techniques (e.g. equalization)
-
-- A good ear with attention to detail
-
-- A strong passion in the creative industry 
-
-- Able to work under minimal supervision
-
-- Ability to work well under pressure and manage multiple tasks simultaneously
-
-- Self-motivated with strong problem-solving skills
-
-- A team player with a positive attitude and professional work ethic
-
-- Strong interpersonal and communication skills', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('852', 'Motion Graphic Artist', 'Kuala Lumpur', '- Conceptualize, design asset, animate and composite 2D and 3D motion graphics project
-
-- Work with illustrators, designers and producer to understand the project scope and objectives', '- Diploma in Animation, Film and Media studies or equivalent
-
-- Minimum 1 year of experience
-
-- Familiar with 2D and 3D motion graphic workflow
-
-- Good sense of design, typography and animation
-
-- Proficient in Adobe Creative Cloud apps such as After Effects, Cinema 4D, Illustrator, Photoshop,
-Premiere Pro, etc.
-
-- Meticulous, technical, organized and creative
-
-- Ability to work well under pressure and manage multiple tasks simultaneously
-
-- Self-motivated with strong problem-solving skills
-
-- A team player with a positive attitude and professional work ethic
-
-- Strong interpersonal and communication skills
-', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('794', 'Software Engineer / Software Developer', 'Petaling Jaya', '• Actively involved in design, development, and deployment phases of our project
-• Working closely with cross-functional and cross-country teams to ensure our application solutions 
-are delivered on time
-• Develop and build technical documentation and guideline
-• Act as an information resource and the subject matter expert for assigned areas of responsibility
-• Able to challenge and perform sanity checks and code review on new or legacy system
-• Actively contribute to, execute and monitor the team’s process improvement efforts', '• Candidate must possess or currently pursuing a Bachelor\'s
- Degree in Computer Science/Information Technology or 
-equivalent.
-• Familiar with PHP / C++ / JavaScript
-
-', 'Internship', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('839', 'Wealth Management Advisor', 'Puchong', '· Marketing financial products to clients
-· Help to plan and design a proper financial products according to clients needs
-· To develop your own network of clients via your comprehensive platform 
-· Assist on risk management 
-· Assist on financial planning', 'Candidates must at least possess Diploma level 
-Fluent English and Mandarin Speaker BEHAVIOR / ATTITUDE 
-Highly Driven 
-Street Smart 
-Future Leader SELF COMMITMENT 
-Committed in making a change for a better life ', 'Full Time', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('839', 'Internship for Sales & Marketing', 'Puchong', 'a)        Your duties shall include such other functions and duties as may be assigned to you from time to time by the company.
-b)        Responsible for submitting daily reports and assisting immediate superior on daily task.
-c)        Prepare financial planning product or service reports by collecting and analyzing customer & company financial information.
-d)        Learn the ability of financial analysis of client and company.
-e)        Learn the ability to explain all the financial analysis information to customer.
-f)        Learn Malaysia financial system by involving OCBC bank and other company product.
-g)        Learn on the financial planning role like risk management, insurance planning, retirement planning and investment planning.
-h)        At all times during your employment by the company you are to act and conduct yourself in such a manner as to serve 
-in the best interest of or which will not be prejudicial or detrimental to the name and or interest of the company.', '· Candidate must possess or currently pursuing a Diploma or Bachelor\'s Degree in Marketing, Finance/Accountancy/Banking or equivalent.
-· Required language(s): Mandarin, English, Bahasa Malaysia
-
-Comprehensive product training
-Hands-on working experience
-Involve in online marketing & offline marketing', 'Intership', '',  21); 
-
-
-INSERT INTO vacancies 
-    (company_id, title, location, description, requirement, type, application_url,  created_by) 
-    VALUES 
-    ('780', 'Management Trainee', 'Capital Square', 'A 12 month career development programme
-Job rotation across all divisions in Bank
-Networking opportunities with banking professionals
-Coaching and mentoring from the Bank\'s diverse pool of leaders', 'Bachelor Degree with CGPA 3.0 and above/ Master\'s Degree
-Less than 2 years of working experience
-Agile, creative and passionate about succeeding in a rewarding industry', 'Full Time', '',  21); 
-
-
-debugger eval code:637:9
+a = `103100056
+104060607
+104100410
+105060254
+105110119
+105110418
+107020598
+107141306
+110050659
+112100808
+113140203
+115140434
+116020186
+116110114
+120122046
+121030020
+122090164
+127140650
+128030576
+130070024
+201080589
+201110426
+202030735
+203101398
+204010252
+204120259
+205060331
+205080658
+206100067
+209110455
+211010963
+212011212
+215060669
+220012004
+221110183
+225141075
+226070125
+303081013
+306060234
+313101532
+314131338
+317021134
+318120564
+319030368
+320030568
+323101800
+329031030
+331030459
+331030731
+331080886
+405070534
+405081196
+407060276
+410101390
+410110510
+411010124
+411140850
+413081129
+413110495
+414101865
+415031045
+415050393
+415101787
+417080510
+418060618
+419020167
+419060580
+421011817
+423110544
+426010426
+501101302
+502011034
+503010244
+504110124
+510010090
+510110112
+514081515
+515101178
+518020330
+518030651
+519070292
+520100540
+521060376
+523101442
+525040284
+525100478
+528030321
+528080521
+528100019
+528101783
+529060178
+530030662
+530040115
+531020730
+605031097
+605120305
+606081694
+606121449
+609010410
+612030199
+614020576
+614070848
+616110540
+618110317
+619031290
+621110086
+623101722
+624110559
+625140143
+627030511
+630140594
+708011312
+712020086
+714060321
+714100880
+723080762
+724040236
+724060544
+724110361
+727060398
+729110176
+730010578
+731101308
+809100410
+810080541
+810130182
+810141076
+810910058
+814060214
+814110146
+816110270
+823011510
+824090126
+825110539
+826020500
+827081348
+827110268
+827110292
+828030702
+829011212
+830020247
+901060159
+906050339
+907011569
+910110074
+913011258
+913031056
+913120884
+918110482
+920011600
+920031230
+920080577
+921110600
+925050238
+926140948
+927100390
+929040336
+1001130152
+1002010662
+1007010135
+1007070154
+1008101186
+1010110567
+1011020723
+1011030622
+1014110492
+1016110146
+1017140216
+1018060832
+1021060884
+1023081320
+1024081605
+1026070846
+1028040122
+1029031244
+1101030669
+1101050416
+1101070054
+1102110214
+1104010356
+1105010710
+1108110311
+1111020122
+1117101951
+1117110292
+1118011042
+1118080590
+1118100985
+1204080511
+1205120618
+1207060866
+1207100899
+1208101498
+1209110521
+1213110444
+1213141507
+1215081106
+1219141495
+1220030848
+1221011083
+1221100836
+1222030876
+1224020516
+1230040417
+1230070536
+1231140890
+10101141179
+870909115854
+900731086260
+901119075340
+910201025478
+911204016280
+920115075398
+920221135809
+920418036126
+920611126123
+920626085897
+920812106161
+921206035062
+930106036361
+930109075470
+930114146552
+930127085939
+930215145575
+930219045360
+930318075653
+930322015397
+930407105287
+930411055008
+930419065729
+930427075417
+930518015102
+930531016505
+930705025517
+930705055345
+930712115414
+930825016498
+930907025590
+930919075157
+930927146939
+931013105422
+931019085178
+931104145024
+931116075078
+931125105953
+940103115098
+940106065030
+940107075572
+940115026084
+940117035603
+940122106269
+940204146512
+940205065140
+940205135866
+940206036333
+940206075076
+940207075422
+940209035651
+940214015014
+940215085604
+940215145232
+940216075854
+940227015320
+940228145266
+940302075877
+940310045467
+940313115774
+940329115277
+940331075067
+940410065561
+940416015274
+940424075218
+940502015932
+940503145958
+940505875006
+940508136081
+940524016725
+940527035411
+940527065696
+940528015375
+940604025218
+940612015802
+940614135963
+940616106007
+940628025028
+940630016139
+940630105932
+940703016720
+940706025729
+940709105564
+940718146130
+940720085971
+940802105622
+940804146073
+940814115166
+940817025959
+940817146304
+940818017221
+940819147079
+940823106317
+940825125108
+940913135525
+940917016814
+940920016671
+940922105694
+940925125260
+940928075473
+941007086404
+941009105314
+941015065013
+941017035862
+941018135291
+941029115210
+941029125750
+941031015120
+941114035821
+941114105113
+941123065758
+941123136237
+941201145746
+941203105967
+941204035198
+941208055073
+941209045387
+941209055518
+941214105663
+941220146234
+941228135214
+941230055619
+950102025233
+950103105470
+950103115548
+950105015612
+950105115082
+950110015895
+950112035267
+950113025423
+950113035808
+950116015036
+950116115707
+950116125278
+950116146757
+950118115102
+950118135218
+950120135452
+950122086105
+950123665029
+950127146218
+950128146412
+950130026217
+950131075424
+950204105613
+950205135347
+950207036537
+950207055439
+950211075184
+950211075221
+950212145359
+950214145539
+950217075548
+950220035715
+950221035426
+950221085466
+950222075104
+950224035181
+950228075009
+950228135382
+950301135048
+950302126311
+950303015234
+950303115198
+950304105856
+950306086142
+950307026416
+950308086437
+950310095009
+950313036477
+950313065446
+950314075187
+950314095022
+950315065124
+950316115402
+950317115236
+950319015191
+950320036272
+950321025516
+950321105858
+950323065124
+950325126875
+950326045196
+950327025541
+950327146415
+950327146829
+950330016873
+950330125375
+950402085940
+950402105091
+950402105841
+950402125527
+950403017456
+950403065837
+950407075514
+950408026183
+950410145077
+950411146848
+950414065226
+950414086537
+950418145979
+950421136379
+950422085323
+950423016530
+950427145399
+950428025129
+950428055336
+950501146155
+950503017779
+950510135044
+950510136004
+950511035256
+950511115192
+950512115864
+950513025027
+950513115014
+950515136070
+950517145579
+950517147267
+950518045078
+950518146987
+950520017324
+950523075482
+950524145040
+950525075419
+950531035691
+950601075729
+950602146154
+950602146170
+950605145413
+950607086453
+950609075758
+950609125372
+950614017130
+950614065773
+950614075760
+950614135962
+950617035502
+950618075928
+950619015409
+950619085319
+950622105253
+950623075201
+950624065486
+950624105601
+950627017674
+950630115363
+950702085846
+950703015559
+950703105597
+950704115674
+950705135183
+950711026434
+950711075674
+950717086243
+950719135934
+950719145040
+950720085604
+950726065233
+950728075208
+950729016293
+950729016592
+950804016788
+950804105713
+950804115057
+950806106381
+950806146420
+950808025323
+950810036013
+950811016794
+950811135232
+950811145502
+950814026015
+950814105282
+950817106045
+950817136287
+950820145256
+950823035765
+950824026174
+950825075285
+950827015120
+950830105936
+950831146326
+950901015488
+950901105387
+950905035769
+950907055325
+950908065525
+950909045251
+950910017645
+950911106156
+950911106236
+950914146487
+950915136096
+950919075497
+950921035953
+950923085532
+950928105002
+950929135203
+951001016834
+951005075807
+951006075008
+951011086625
+951011146456
+951013015484
+951017086263
+951018115273
+951021055312
+951021145828
+951027145853
+951030036412
+951031105782
+951102015179
+951103145258
+951106017139
+951106126183
+951107136156
+951107146864
+951115065079
+951115145407
+951118075432
+951119135177
+951120045275
+951126045022
+951126105398
+951126105515
+951126295099
+951127136030
+951128016364
+951128036015
+951128146054
+951129036041
+951130025198
+951130085203
+951204025642
+951207085990
+951208105973
+951208135670
+951210125682
+951211085563
+951212015794
+951215135492
+951218035278
+951218045564
+951220095026
+951221135325
+951225036068
+951227015332
+951230055183
+951231085413
+960101235027
+960102095273
+960104075233
+960106035892
+960106126399
+960107015164
+960107016183
+960107016810
+960107075028
+960107136353
+960108025479
+960108035562
+960108065614
+960110045225
+960110045698
+960110065955
+960110085681
+960110115692
+960110145082
+960111026149
+960111106093
+960111115176
+960112035290
+960113085441
+960113086196
+960113115196
+960114105336
+960115146148
+960116125648
+960117065739
+960117135290
+960117145237
+960118045254
+960118146194
+960118565049
+960119016578
+960119075041
+960119115031
+960119335018
+960120036218
+960120115178
+960122055076
+960122075325
+960123015527
+960123016554
+960123045419
+960123065866
+960123135422
+960124016986
+960124025313
+960124115423
+960124115458
+960125025606
+960125086468
+960125105454
+960126085408
+960126085846
+960127015559
+960127085442
+960128026057
+960128075094
+960129015931
+960129035502
+960129045073
+960130065012
+960131075044
+960131075626
+960201025262
+960201115348
+960201565154
+960202015058
+960202075042
+960202085283
+960202085830
+960202105248
+960203025709
+960203025856
+960203035886
+960203085322
+960203105653
+960205065253
+960205106174
+960206035144
+960206106010
+960206115646
+960206126054
+960206135348
+960207045010
+960207105255
+960207125395
+960208016430
+960208076089
+960208105310
+960209126447
+960209135562
+960209145074
+960210025440
+960210035972
+960210085718
+960210265006
+960211075386
+960211085912
+960211115528
+960212045453
+960212075628
+960212105516
+960212145999
+960212146051
+960213015758
+960213085318
+960213105163
+960214025368
+960214035857
+960215017204
+960215085469
+960216045143
+960217035342
+960217126404
+960218016565
+960218035520
+960219045384
+960219145094
+960219875038
+960219915087
+960220025874
+960220035933
+960220105639
+960221085481
+960221105649
+960221595094
+960222135807
+960223035605
+960224025150
+960224026380
+960225265164
+960226025242
+960226135070
+960226145922
+960227055291
+960227135988
+960228075470
+960228265047
+960229135500
+960301015379
+960301105876
+960301115142
+960302105480
+960303085450
+960303135227
+960304075641
+960304085022
+960306086539
+960307015601
+960307145051
+960310015426
+960310075701
+960312015235
+960312045047
+960312115252
+960312115420
+960312135368
+960312146200
+960313015122
+960314016186
+960314075186
+960314075442
+960314085958
+960314086256
+960315015716
+960315086741
+960315115290
+960316055074
+960316115575
+960317016958
+960317025862
+960317026363
+960317095182
+960318075677
+960318155044
+960319045007
+960319055440
+960319105794
+960319136312
+960319295022
+960319565256
+960320145005
+960322015706
+960322105461
+960322125112
+960323015038
+960323065115
+960323085300
+960324016921
+960324565066
+960324875056
+960325085611
+960326106509
+960326115392
+960326146260
+960327025284
+960327035845
+960328085385
+960328085895
+960328105630
+960328115468
+960328145819
+960330016370
+960330036187
+960330055206
+960330136006
+960331115565
+960331125528
+960401075635
+960402025277
+960402065455
+960402085763
+960402086520
+960402115256
+960403035434
+960403115354
+960404136261
+960405035569
+960405085881
+960405115614
+960405136124
+960405145143
+960405145215
+960406015324
+960406075634
+960407155089
+960408025526
+960409075672
+960409105042
+960409115005
+960410075928
+960411025383
+960411025893
+960411075487
+960411085124
+960413665093
+960414115093
+960415035343
+960415075011
+960416035628
+960416095006
+960416115046
+960416146280
+960417086224
+960418086293
+960418106346
+960418115496
+960419565229
+960420025801
+960420135090
+960420135322
+960421055500
+960421145004
+960424086222
+960424125412
+960425015418
+960425035670
+960425036024
+960425085408
+960425085555
+960425085862
+960426036325
+960426105976
+960426145038
+960427015390
+960427075203
+960427115236
+960428025486
+960428105232
+960429015386
+960429085886
+960430035640
+960430055270
+960430105522
+960501025678
+960501135359
+960502105979
+960502126024
+960503075898
+960503115116
+960505106264
+960505136076
+960506086285
+960508075416
+960508146050
+960509016100
+960509016610
+960509107061
+960509146204
+960510016001
+960510065049
+960510065655
+960510126219
+960510136003
+960512075291
+960512565039
+960513085643
+960515015825
+960515136010
+960516015499
+960516115190
+960516145701
+960516565247
+960517025306
+960517135716
+960517565003
+960518016970
+960519105254
+960519146291
+960519435050
+960520035994
+960520085924
+960520106238
+960521085408
+960521145933
+960522035568
+960522126216
+960522385090
+960523026073
+960523035842
+960523125303
+960524015974
+960524065410
+960526016604
+960526086215
+960526086311
+960526105500
+960527065272
+960528035729
+960528126006
+960529065444
+960529065460
+960530045379
+960530105941
+960531076062
+960531086420
+960531105257
+960531115340
+960601145108
+960602026055
+960602026354
+960602095085
+960603065443
+960603085364
+960604025021
+960604085622
+960604125081
+960605146095
+960606016866
+960607025588
+960607115284
+960608045011
+960609025610
+960609086253
+960609126171
+960610015751
+960610016084
+960610025466
+960610085135
+960610135382
+960612035182
+960612106585
+960612135095
+960613086432
+960613086598
+960613115168
+960614035266
+960614085538
+960614106212
+960614136147
+960615025625
+960615026185
+960615086321
+960617015404
+960617075693
+960617085357
+960617085736
+960618065331
+960621086475
+960621126641
+960621135732
+960621136065
+960621435276
+960622105615
+960623085193
+960623115380
+960623435288
+960624595056
+960625015316
+960625075837
+960625106541
+960626025620
+960626035212
+960626035677
+960626135109
+960627035142
+960627075101
+960627086230
+960627145675
+960627465011
+960628086056
+960629045379
+960629085821
+960629086269
+960630016268
+960630025033
+960701115491
+960702045210
+960702085212
+960703016112
+960704025109
+960704115008
+960704155093
+960705035317
+960706075476
+960706085332
+960707025198
+960707115521
+960708086259
+960709026143
+960710065131
+960710145764
+960710565187
+960711035196
+960713015113
+960713015949
+960713075474
+960714075652
+960714125760
+960715026086
+960716035398
+960716105106
+960717045360
+960717085346
+960718045020
+960718086041
+960718105839
+960718115404
+960720065186
+960720125011
+960721075044
+960721075386
+960721145890
+960722075062
+960722105612
+960722146449
+960723105673
+960724035566
+960724105296
+960726015235
+960726055034
+960726106364
+960727017267
+960727025283
+960727025566
+960727026366
+960727086502
+960727135132
+960727136098
+960728085990
+960728135898
+960729025359
+960729085052
+960730145702
+960731017454
+960731075232
+960731105665
+960731155187
+960801145727
+960802075687
+960802085914
+960803035716
+960803085684
+960803086548
+960804015653
+960804025229
+960804075509
+960804085168
+960804115486
+960805015858
+960806016908
+960806017409
+960806017572
+960806075692
+960808025082
+960808035352
+960808045139
+960808126713
+960810025196
+960810025882
+960810035298
+960810085666
+960810105612
+960812055217
+960812145052
+960813335093
+960814015008
+960814065478
+960815035764
+960816125411
+960816295058
+960817035506
+960817045325
+960818075323
+960819115825
+960819135463
+960820025456
+960820065095
+960820085942
+960820115566
+960821016703
+960821025538
+960821055294
+960821065011
+960821145257
+960821145812
+960822025564
+960823016133
+960823025179
+960823085163
+960824025875
+960824086029
+960824145586
+960824145906
+960825106378
+960825595028
+960826126282
+960827015410
+960827105686
+960827115470
+960828075271
+960828115632
+960829015502
+960829115327
+960830026081
+960830055632
+960830085401
+960830145646
+960831146659
+960901035234
+960901135868
+960901145142
+960903016045
+960903025646
+960903055132
+960904036208
+960904055644
+960904115440
+960905025922
+960905105180
+960906115524
+960907106232
+960908065102
+960908075079
+960908075677
+960908115253
+960908265016
+960909025348
+960909115538
+960910105249
+960910135691
+960911075205
+960911105582
+960911565239
+960912105234
+960912115539
+960913055224
+960913075356
+960914026791
+960914075366
+960914106193
+960914146099
+960915015410
+960915016122
+960915115438
+960915875015
+960916015375
+960916065401
+960917085930
+960918107062
+960918115468
+960919076165
+960920035934
+960920045470
+960920125374
+960921115768
+960922085521
+960923105205
+960923146250
+960924035966
+960924135334
+960925075417
+960925075505
+960925136339
+960926016646
+960926035804
+960926105868
+960926106537
+960926146483
+960926385142
+960927015004
+960928045491
+960929015040
+960929035914
+960929126082
+960929145670
+960930065352
+960930135373
+960930385102
+961002065653
+961002465008
+961003035894
+961005025358
+961005045447
+961005125236
+961006025712
+961006106336
+961006136308
+961006435033
+961007095093
+961007305003
+961008017409
+961008035885
+961009035019
+961010015592
+961010035745
+961010085232
+961010086251
+961011075001
+961011075562
+961014055460
+961015086090
+961015146268
+961019035573
+961019105826
+961019125210
+961020095207
+961020136128
+961020146270
+961021036428
+961022105835
+961022145511
+961025055220
+961026025736
+961026035678
+961026065033
+961026115176
+961026125817
+961026235135
+961027025092
+961027035354
+961027065502
+961027105359
+961027115637
+961027565099
+961028075032
+961028086583
+961028265135
+961029035091
+961029035593
+961029075608
+961029086171
+961030025544
+961030035056
+961031016324
+961031086592
+961031265080
+961102126062
+961103015428
+961103026274
+961103086568
+961103105861
+961103605065
+961104086447
+961105035078
+961106125489
+961107016663
+961108105748
+961108106046
+961109085195
+961111065353
+961112085700
+961112435117
+961114115707
+961115045413
+961115085677
+961115135208
+961116035380
+961117025416
+961117115278
+961117136183
+961118106007
+961118106605
+961118665095
+961119025671
+961119085906
+961121015237
+961121035000
+961122066175
+961122105461
+961123016516
+961123105455
+961123146062
+961124065125
+961124065459
+961124075200
+961124115241
+961124295238
+961125095000
+961125145100
+961126016976
+961126135625
+961127016038
+961127055264
+961127065489
+961127085156
+961128085991
+961129075648
+961129435172
+961130075266
+961130086336
+961130105533
+961201135407
+961202016282
+961202075039
+961202565222
+961203075030
+961203565013
+961204015988
+961204295246
+961204295262
+961205045206
+961205106072
+961206115210
+961207035861
+961208126212
+961208145069
+961209085256
+961209146186
+961211115178
+961212105123
+961213065514
+961213085048
+961213085216
+961214085760
+961214135270
+961217055137
+961217095083
+961217105536
+961217125465
+961217875020
+961218065759
+961219055325
+961219065697
+961219075625
+961220145192
+961221026048
+961221105563
+961221265356
+961222106437
+961223145972
+961224036049
+961225055436
+961225115443
+961227915014
+961228015720
+961228016336
+961228106286
+961228145007
+961229145260
+961230016255
+961230025338
+970102035034
+970102105450
+970103035781
+970103035837
+970103106586
+970103385204
+970104105278
+970104145990
+970105015514
+970105075226
+970105105958
+970105385072
+970105875039
+970106016105
+970106055040
+970106115074
+970106145388
+970106435182
+970107015956
+970108045049
+970108045065
+970108145074
+970108385238
+970109045067
+970109146749
+970109385280
+970110105231
+970110135254
+970111065606
+970112075187
+970113025085
+970113085248
+970113105974
+970113145837
+970114015524
+970114035808
+970114126187
+970114136043
+970115025740
+970115075094
+970115125346
+970116105750
+970116136071
+970116146042
+970117085018
+970117086088
+970118025340
+970118146505
+970119016577
+970119016622
+970120145552
+970121035128
+970121045000
+970121085731
+970121145933
+970121146311
+970122015022
+970122136123
+970122465090
+970123015649
+970123035658
+970123106348
+970124105320
+970124146034
+970124305023
+970125145500
+970125146159
+970125305121
+970126035434
+970126075452
+970126105017
+970126125982
+970127145934
+970128095078
+970131085145
+970131135878
+970131145048
+970201025034
+970201065132
+970201105034
+970201125262
+970203036124
+970203085495
+970203105046
+970203105310
+970203115156
+970203265058
+970204025021
+970204075096
+970204145808
+970205016282
+970205025234
+970205035774
+970205105365
+970205465053
+970205565070
+970205565118
+970206025420
+970206075284
+970206075815
+970206085140
+970206105068
+970206135179
+970207085249
+970208045011
+970208086171
+970208435028
+970209025274
+970209055318
+970209075204
+970209075335
+970210035883
+970210085602
+970210105722
+970211025628
+970211035842
+970211075270
+970212145947
+970212235192
+970212335011
+970212565060
+970213015124
+970213015490
+970213265019
+970214015468
+970214035602
+970214036146
+970214045499
+970214105666
+970214115485
+970214125982
+970214145000
+970214146345
+970214235006
+970215025617
+970216016384
+970216025416
+970216055332
+970216105336
+970216465104
+970217035114
+970217095053
+970218065390
+970218105444
+970218135272
+970218136531
+970218145868
+970218935069
+970219085676
+970219146192
+970220016416
+970221035328
+970221065164
+970221075696
+970221085800
+970222035645
+970222105447
+970223015830
+970223065088
+970223235024
+970224016536
+970224075405
+970224075544
+970224105950
+970224145733
+970224145880
+970225035800
+970225045128
+970225875025
+970226145032
+970226465060
+970227016590
+970227016806
+970227025315
+970227085166
+970227085625
+970227106393
+970227146336
+970228055276
+970228065589
+970228085029
+970228385187
+970301055468
+970301075100
+970301145658
+970301465184
+970302016217
+970302135451
+970302235022
+970302265264
+970303016147
+970303035866
+970303105027
+970303595003
+970304015824
+970304016253
+970304035470
+970304065602
+970305036029
+970305085226
+970306016484
+970306106543
+970307075056
+970308065378
+970309055120
+970310015046
+970310065377
+970310075137
+970310085570
+970310145166
+970311105297
+970311145512
+970311265071
+970311435106
+970312015656
+970312015744
+970312075480
+970312146859
+970313035894
+970313035923
+970314015596
+970314105380
+970314875078
+970315015264
+970315145018
+970315385249
+970317235180
+970317385031
+970318035930
+970318086068
+970318105062
+970318385367
+970319065816
+970320016819
+970320065418
+970320145530
+970321025733
+970321145188
+970321146236
+970321465026
+970321565094
+970322145032
+970322305024
+970324025202
+970324085408
+970324106520
+970324235023
+970324385486
+970325015399
+970325025714
+970325095034
+970325105183
+970325115074
+970326035578
+970326045012
+970326055181
+970326115164
+970326125397
+970326135624
+970327025056
+970327035836
+970327036097
+970327115465
+970328016709
+970328105584
+970328125016
+970329016604
+970329085052
+970329145764
+970329265088
+970330105508
+970330125437
+970330135635
+970330595084
+970331055450
+970331086361
+970331146862
+970331235160
+970401055465
+970401065612
+970401145735
+970401385296
+970402016126
+970402016337
+970402025823
+970402086060
+970402105698
+970403106342
+970403145843
+970404147410
+970405036085
+970405085303
+970405295036
+970406085268
+970406135384
+970407035975
+970407145568
+970407835016
+970408035424
+970408145447
+970409016604
+970409085167
+970410105233
+970410105305
+970410105428
+970411015512
+970412025798
+970412125879
+970412465064
+970413385082
+970413385154
+970414015382
+970414115244
+970415065082
+970415065496
+970415085171
+970415106446
+970415146667
+970416025066
+970416045091
+970416265377
+970417025762
+970417045122
+970417126539
+970418035022
+970418145301
+970419105045
+970419105256
+970419105360
+970419565092
+970420035638
+970420065634
+970420235162
+970422235158
+970423035924
+970423036046
+970423065496
+970424036072
+970424115061
+970425035020
+970425085423
+970426105975
+970426115129
+970426126506
+970427016464
+970427045388
+970427065194
+970427075376
+970427115403
+970427135578
+970428016992
+970428065014
+970428465018
+970428915066
+970429015086
+970429085500
+970429106818
+970430016852
+970430025177
+970430105505
+970430115156
+970430435117
+970501016519
+970502016000
+970502085831
+970502105011
+970502105986
+970502435088
+970503135300
+970503265236
+970503435063
+970505035186
+970505075495
+970506565074
+970508105522
+970508145591
+970509016556
+970509075150
+970510085102
+970510115084
+970510265031
+970511055001
+970512036187
+970512075506
+970512075696
+970512105648
+970512135089
+970512235047
+970513065561
+970513085044
+970513085984
+970513115098
+970513235188
+970513335162
+970514435026
+970515085099
+970515086083
+970516045478
+970517016484
+970517016927
+970517105970
+970517146350
+970518016873
+970518036284
+970518075136
+970518146264
+970519025886
+970519145984
+970520036398
+970520145949
+970522875013
+970523025336
+970524035544
+970525015844
+970525125488
+970526025390
+970526036196
+970526106123
+970526155013
+970527015952
+970527017317
+970527025843
+970527055380
+970527085301
+970527085635
+970527115304
+970527125617
+970527435164
+970528135542
+970529106217
+970529115092
+970529146665
+970530025764
+970530035938
+970530045087
+970530065053
+970530875056
+970531016050
+970531055295
+970531055316
+970531105096
+970601036453
+970601115338
+970602075171
+970602105246
+970602115321
+970602125781
+970602385313
+970603025280
+970603035235
+970603385294
+970604075677
+970605105612
+970606035062
+970606065480
+970606106393
+970606565100
+970607055348
+970607106643
+970608045141
+970608085696
+970608115103
+970608115218
+970609106348
+970609115228
+970609385228
+970609435088
+970610015582
+970610016622
+970610065416
+970611015285
+970611075114
+970611106064
+970613035386
+970614065122
+970614085916
+970614106692
+970614135768
+970614146168
+970615035128
+970615106344
+970615115662
+970616085506
+970616106442
+970616145468
+970616235092
+970617026006
+970617106751
+970617106794
+970617135245
+970617565034
+970618015069
+970618145322
+970618145947
+970619045139
+970619095179
+970619115774
+970620565043
+970620565238
+970621075732
+970621145518
+970621565176
+970622065317
+970622105235
+970622105526
+970623035785
+970623036358
+970623055559
+970623085854
+970623105528
+970623106934
+970623295085
+970624086058
+970624146428
+970625016430
+970625016668
+970625045207
+970625075801
+970625105871
+970625565034
+970626015886
+970626015915
+970626105566
+970626235176
+970627016848
+970627017154
+970627025998
+970627075653
+970627107002
+970627115109
+970628035012
+970628055048
+970628075807
+970628115485
+970629075198
+970630085430
+970630335022
+970701085236
+970702085414
+970702105526
+970702136621
+970703025472
+970704085952
+970704135120
+970704145708
+970705045442
+970705105222
+970706086000
+970706145402
+970706855068
+970707146191
+970707835018
+970708016866
+970708025105
+970708025973
+970708135419
+970709015961
+970709016243
+970709025166
+970709025246
+970709107102
+970710015272
+970710065368
+970710065392
+970710075224
+970710085668
+970710095102
+970710105761
+970710105868
+970710106211
+970710115038
+970711055145
+970711075306
+970711106256
+970711106336
+970712035082
+970712145484
+970713065398
+970713065427
+970713085954
+970714105443
+970715036144
+970715105998
+970715115002
+970715136276
+970716025332
+970716035100
+970716086266
+970716565160
+970717015080
+970717045490
+970717075147
+970717385110
+970718016413
+970718035219
+970718115059
+970718135383
+970719025055
+970719025741
+970719055019
+970719075458
+970719085314
+970720095026
+970721015067
+970721086199
+970721105222
+970722036281
+970722355039
+970723145738
+970724065051
+970725025035
+970726065434
+970726075026
+970726085515
+970727015818
+970727025514
+970727035982
+970727055246
+970727085410
+970728106316
+970728106682
+970728146545
+970729035804
+970729135370
+970730106673
+970730355100
+970731017058
+970731085659
+970731086264
+970731355276
+970801035703
+970801106559
+970802075029
+970802135060
+970802565175
+970803016178
+970803565257
+970804035856
+970804115733
+970804146302
+970805016745
+970805035233
+970805035284
+970805106222
+970806146031
+970807016044
+970807146025
+970808035036
+970808065593
+970808075396
+970808106658
+970808126368
+970809145632
+970810086043
+970810106833
+970811025920
+970811085392
+970811105955
+970812085001
+970812085204
+970812115274
+970813085775
+970814355386
+970815105610
+970815105629
+970815115704
+970816035028
+970816035327
+970816045082
+970816085500
+970816105719
+970817015096
+970817036364
+970817075144
+970817106182
+970818025050
+970818055575
+970818065386
+970818075402
+970818146442
+970819106338
+970819136203
+970819145548
+970819565278
+970820045165
+970821235016
+970821335148
+970823095192
+970823145698
+970824035116
+970825045367
+970825085094
+970825135258
+970826045174
+970826086072
+970826106811
+970827085434
+970827105044
+970828385180
+970829565167
+970830016747
+970830035323
+970831075378
+970831115640
+970831126366
+970901035612
+970902025096
+970902026267
+970902085793
+970902295002
+970903016984
+970903126681
+970903265294
+970903355118
+970904015043
+970905015125
+970905115484
+970905595238
+970906105448
+970906106045
+970906115566
+970906145837
+970906146047
+970907015524
+970907035090
+970908026188
+970908095044
+970909105398
+970909106008
+970910045222
+970910065274
+970910145530
+970910146306
+970911016482
+970911105020
+970911106533
+970911106955
+970911135764
+970911355265
+970912016142
+970912035917
+970912105591
+970912106340
+970912146414
+970912385386
+970914016330
+970914017237
+970914045246
+970915017044
+970915035912
+970915105116
+970915435238
+970916135528
+970916146809
+970917036361
+970917065234
+970917115422
+970917126666
+970918035993
+970920016054
+970920016724
+970920025276
+970920036434
+970920055416
+970920115079
+970921015790
+970921025876
+970921036110
+970921105323
+970921115927
+970922105042
+970922106037
+970922126521
+970922135364
+970923065150
+970923106901
+970924045100
+970924045557
+970924086260
+970924135739
+970926125980
+970927106538
+970927115434
+970927136956
+970928065600
+970928085898
+970928145002
+970928145694
+970929105213
+970929435124
+970930025122
+970930065386
+970930355228
+971001015637
+971001025851
+971001085352
+971001106192
+971001106248
+971001265003
+971001355316
+971002115242
+971003055368
+971003085612
+971003106671
+971004025320
+971004065058
+971007016112
+971007045060
+971007065408
+971007105692
+971008125812
+971008145012
+971008146330
+971009065786
+971009075458
+971009146244
+971011035674
+971011265090
+971011355192
+971012035836
+971012036564
+971013115141
+971013136292
+971013355268
+971014015150
+971014035506
+971014035821
+971014265280
+971015015726
+971015016358
+971015565138
+971016025117
+971016036289
+971017106314
+971017135537
+971017146092
+971018015764
+971018065892
+971018075046
+971018115300
+971018265165
+971019085668
+971019106668
+971020055378
+971020065592
+971020115748
+971020145314
+971021015044
+971021025162
+971021036179
+971021065412
+971022015978
+971022016938
+971022126096
+971022135558
+971022145414
+971023085927
+971024075659
+971024106873
+971025105450
+971025385261
+971026115466
+971026565328
+971027085334
+971028085408
+971028086048
+971028115435
+971028126310
+971029016033
+971029065265
+971030016348
+971030335066
+971031035276
+971031036084
+971031055373
+971031075542
+971031105625
+971031115209
+971031135939
+971101015618
+971101035694
+971101055150
+971102017578
+971102045560
+971103146128
+971104036609
+971104385227
+971105036950
+971105565270
+971107105470
+971107107409
+971107107687
+971107145544
+971107615059
+971108025026
+971108045326
+971108065220
+971108125430
+971108335075
+971110146484
+971111017342
+971111086188
+971112055308
+971112105942
+971113036088
+971113065110
+971113107421
+971113125742
+971113145516
+971113355206
+971114016310
+971114035781
+971114055395
+971114145964
+971114335039
+971114385060
+971115075283
+971115145974
+971115355197
+971116045107
+971117065118
+971117095157
+971118065304
+971118065558
+971119025013
+971119045030
+971119075352
+971119075686
+971119106374
+971119465051
+971120017096
+971120017715
+971120026080
+971120107016
+971120146402
+971121105450
+971121107413
+971121155079
+971121565430
+971122565256
+971123015539
+971123026473
+971123075216
+971124036008
+971124107881
+971124145773
+971124265089
+971125565622
+971126035826
+971126036474
+971126115180
+971127075491
+971128036080
+971128055118
+971128055441
+971128105840
+971128107010
+971129085992
+971130036047
+971130045381
+971201036598
+971201106285
+971202085746
+971202105938
+971202126640
+971203385265
+971204016410
+971204016672
+971204035822
+971204126353
+971204565495
+971204565655
+971205066399
+971205106848
+971206017310
+971206025820
+971206075334
+971207015990
+971207025750
+971207036572
+971208017250
+971208075469
+971209016161
+971209125368
+971209385098
+971210045357
+971211065966
+971211565776
+971212025819
+971212465064
+971213075420
+971213085696
+971213565550
+971214106209
+971214106778
+971214115228
+971215145859
+971215295048
+971215595091
+971216017103
+971216025680
+971216036697
+971216086176
+971216115272
+971216265158
+971216295074
+971217016372
+971217085394
+971217105498
+971218115153
+971219015525
+971219035892
+971219075210
+971219105520
+971219105686
+971220075314
+971221036456
+971222085348
+971222565288
+971223086094
+971224055564
+971225036365
+971225305086
+971227026339
+971228015412
+971229017241
+971229075425
+971229106578
+971229115044
+971229355048
+971230016502
+971230017492
+971230055528
+971230085321
+971230085583
+971231025937
+971231105734
+971231565327
+980101036675
+980104105744
+980108016829
+980112565468
+980122065643
+980123015541
+980124106752
+980126107580
+980127055479
+980129385068
+980130085820
+980207016306
+980207055372
+980208105503
+980209106217
+980209435029
+980212107018
+980213075716
+980213106308
+980215055516
+980217135050
+980219115520
+980222015379
+980306105953
+980313065742
+980321106006
+980322015608
+980323055580
+980329135338
+980409145181
+980413085804
+980414055498
+980415025274
+980415146842
+980416065788
+980423106525
+980425435058
+980429145736
+980501145985
+980503126294
+980507355027
+980507355035
+980509385123
+980515026362
+980517016686
+980519035143
+980523065222
+980530016701
+980604085364
+980605135394
+980605435012
+980606106245
+980609086171
+980613016942
+980624065459
+980702146001
+980714036627
+980719036001
+980721036158
+980721105803
+980722016116
+980729035854
+980730085170
+980801106769
+980805565110
+980806055067
+980811145702
+980813075584
+980819055242
+980819105318
+980826026431
+980829125566
+980902035429
+980903025724
+980904086318
+980910115058
+980921017509
+980925087475
+980925136134
+981002015734
+981018036302
+981019015765
+981019066052
+981021565280
+981022565581
+981023565436
+981027145826
+981028135216
+981102435197
+981106435194
+981110435154
+981113035957
+981116087998
+981117017406
+981126875058
+981218026387
+981220027186
+981228086068
+981229075512
+990102435423
+990103086122
+990103565385
+990106029609
+990106056375
+990106136519
+990108018487
+990109016328
+990111145460
+990112075169
+990113035134
+990114085563
+990115075420
+990115107488
+990117027377
+990117075029
+990118086336
+990121017403
+990121036137
+990122027865
+990122035355
+990123035082
+990123135788
+990124116247
+990126065703
+990127035952
+990128126805
+990129016982
+990130035793
+990131027293
+990131085661
+990131105853
+990131565438
+990201025059
+990202017878
+990203015137
+990203026952
+990205135052
+990206065535
+990206085894
+990207065799
+990210106715
+990212035383
+990212036319
+990216075390
+990216105350
+990216115794
+990217016675
+990217075616
+990219036063
+990219055176
+990219055184
+990219087856
+990221015480
+990221025259
+990221126455
+990225015381
+990226075597
+990226125355
+990227035722
+990228017059
+990228115732
+990228146352
+990303015054
+990303086995
+990303095269
+990305045679
+990306135385
+990307035984
+990307105647
+990308035951
+990308086281
+990310126019
+990311017359
+990311075188
+990311087672
+990311136067
+990313015525
+990313065186
+990314045507
+990314055465
+990315035415
+990315146537
+990318027373
+990318075383
+990318135251
+990320125271
+990321017061
+990323035730
+990323075919
+990324017024
+990325056922
+990325095091
+990325126222
+990326017060
+990326106338
+990327036757
+990327056192
+990327066243
+990328015173
+990328085876
+990331105823
+990401035163
+990402066105
+990402126403
+990403015983
+990404115089
+990407065873
+990407145937
+990409036347
+990409115539
+990411105073
+990414056633
+990414086867
+990414106063
+990417015431
+990418016313
+990418088413
+990420115505
+990420116399
+990421035187
+990423076548
+990423087562
+990424036089
+990424088145
+990425025189
+990427045685
+990428017889
+990428076053
+990428125951
+990429108467
+990429145313
+990430115349
+990430117061
+990501019013
+990501045414
+990501087833
+990501135022
+990502065839
+990502088897
+990503126488
+990504036257
+990505035483
+990506065369
+990508026486
+990510025175
+990510035293
+990510147009
+990511135448
+990512026825
+990513018755
+990513027563
+990513126780
+990514015927
+990514025295
+990514036509
+990514116373
+990515036332
+990516036764
+990517027376
+990517075749
+990517095096
+990517105274
+990519116188
+990519145421
+990520115115
+990521055249
+990521088411
+990521126457
+990522135873
+990523135437
+990524036414
+990525105565
+990528108673
+990528135647
+990531126338
+990531145600
+990601015351
+990601036451
+990602105455
+990602115792
+990604015840
+990606025209
+990606027060
+990606055424
+990606126923
+990607045017
+990608065706
+990608115777
+990609125301
+990610095031
+990610105885
+990612065805
+990612088855
+990612106873
+990612135025
+990613016538
+990614035300
+990614045349
+990614066000
+990614115116
+990615015387
+990615088551
+990616025544
+990617115293
+990619035529
+990619088241
+990621075271
+990621088021
+990623025470
+990623036401
+990624025050
+990627115342
+990627145517
+990629105658
+990629115522
+990630035730
+990703036479
+990704015901
+990704036518
+990704146207
+990705025052
+990709015353
+990709016647
+990709115303
+990710135192
+990712016883
+990712025624
+990712037158
+990712037406
+990716025517
+990720045334
+990720085061
+990722115332
+990724086563
+990726145643
+990729015553
+990730025329
+990802025070
+990804036849
+990806125343
+990809086482
+990810026305
+990810125979
+990810146155
+990811075280
+990813025965
+990814035743
+990814055154
+990814085927
+990815065063
+990816066201
+990816135107
+990820045059
+990822115284
+990823045118
+990823146293
+990826025729
+990826045252
+990828085098
+990828115365
+990830125909
+990831025125
+990831035059
+990831125708
+990901025674
+990901035549
+990901036277
+990901106327
+990901126168
+990901145836
+990902026302
+990902067032
+990903115147
+990905015182
+990906016742
+990906126415
+990909126971
+990912035384
+990912136329
+990915075189
+990916035066
+990916115357
+990916145687
+990917125725
+990918125890
+990919035141
+990919035977
+990919115192
+990920036408
+990921036450
+990923066637
+990923146127
+990924126996
+990928026239
+990928105762
+990928127689
+990929016569
+990929025254
+990929146339
+991006055310
+991008115428
+991011035605
+991012026241
+991013086422
+991014055054
+991015085722
+991019036012
+991021015675
+991022076381
+991024065512
+991024085011
+991026076477
+991026135449
+991027136515
+991028035011
+991029035355
+991029115371
+991030036064
+991030115803
+991101136071
+991102035870
+991103015599
+991103086549
+991104115348
+991105135623
+991106016191
+991110045593
+991110145041
+991113025010
+991114035800
+991115095098
+991115145913
+991117025624
+991118085290
+991118115074
+991119035703
+991119035834
+991123017305
+991123035466
+991123035511
+991123035837
+991123055248
+991123107765
+991124085967
+991125055030
+991125055639
+991127065275
+991129035678
+991129035766
+991129145914
+991130016634
+991202146041
+991203075716
+991203145585
+991204145640
+991205145781
+991206115509
+991207017126
+991207055253
+991208085964
+991208135706
+991209055302
+991209115037
+991210026007
+991210026445
+991210035245
+991210085891
+991211025292
+991211075871
+991211126018
+991211136320
+991212105489
+991214085020
+991214115074
+991218035338
+991218086071
+991218127793
+991219036367
+991220035636
+991220045228
+991221035451
+991221036147
+991224085681
+991224125065
+991226105180
+991227035559
+991227065897
+991228035200`
+a = a.split("\n");
+
+
+r = "";
+for(var _a of a){
+    r += `INSERT INTO wp_career_fair.ref_kpt_jpa (val) VALUES ('${_a}'); \n`;  
+}
+
+console.log(r);

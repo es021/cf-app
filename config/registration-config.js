@@ -158,8 +158,7 @@ const isCustomUserInfoOff = (cf, key) => {
 
 // @kpt_validation - SET_CF_HERE
 const isDoJpaKptValidation = (cf) => {
-    // let valid = ["JPN", "TEST"];
-    let valid = ["JPN"];
+    let valid = ["JPATC"];
     return valid.indexOf(cf) >= 0;
 }
 

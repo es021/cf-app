@@ -18,6 +18,19 @@ import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
 
+export const ErrorMessage = {
+  KPT_NOT_JPA: (kpt) => {
+    return <div>
+      Sorry, we couldn't find your IC (<b>{kpt}</b>) ! Email us at <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a><br></br>
+    </div>
+  },
+  KPT_ALREADY_EXIST: (kpt) => {
+    return <div>
+      IC number (<b>{kpt}</b>) is already registered to other account in our system. Please login with the registered account to continue.
+  </div>
+  }
+}
+
 export default class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
@@ -101,7 +114,7 @@ export default class SignUpPage extends React.Component {
         if (d[UserMeta.KPT]) {
           let ERR_KPT = <span>IC number (<b>{d[UserMeta.KPT]}</b>) is invalid.</span>;
           try {
-            let kpt = d[UserMeta.KPT];
+            let kpt = d[UserMeta.KPT] + "";
             kpt = kpt.replaceAll("-", "");
             kpt = kpt.replaceAll(" ", "");
             let errorValidation = this.getKptErrorValidation(kpt);
@@ -156,19 +169,17 @@ export default class SignUpPage extends React.Component {
 
             // @kpt_validation - KPT_ALREADY_EXIST
             if (errorMsg == AuthAPIErr.KPT_ALREADY_EXIST) {
-              errorMsg = <div>
-                IC number (<b>{d[UserMeta.KPT]}</b>) already exist in our system.<br></br>
-                Please login with the registered email to continue.
-              </div>
+              errorMsg = ErrorMessage.KPT_ALREADY_EXIST(d[UserMeta.KPT]);
             }
             // @kpt_validation - KPT_NOT_JPA
             else if (errorMsg == AuthAPIErr.KPT_NOT_JPA) {
-              errorMsg = <div>
-                Sorry. You are not allowed to register.<br></br>
-                Your IC number (<b>{d[UserMeta.KPT]}</b>) does not match any record in our JPA's Sponsor database.
-              </div>
-            }
+              errorMsg = ErrorMessage.KPT_NOT_JPA(d[UserMeta.KPT]);
 
+              // <div>
+              //   Sorry, we couldn't find your IC (<b>{d[UserMeta.KPT]}</b>) ! Email us at <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a><br></br>
+              // </div>
+
+            }
             toggleSubmit(this, { error: errorMsg });
 
           }
@@ -280,7 +291,7 @@ export default class SignUpPage extends React.Component {
     if (disclaimer) {
       disclaimerView = <div style={{
         // marginTop: "-140px",
-        marginBottom: "20px", 
+        marginBottom: "20px",
         textAlign: "justify"
       }}
         dangerouslySetInnerHTML={{ __html: disclaimer }}>

@@ -36,8 +36,8 @@ export const UserFormItem = [
         // @kpt_validation
         label: lang("IC Number"),
         name: UserMeta.KPT,
-        type: "text",
-        placeholder: "XXXXXX-XX-XXXX",
+        type: "number",
+        placeholder: "XXXXXXXXXX",
         //required: true,
         isOnlyInCf: (cf) => {
             return registrationConfig.isDoJpaKptValidation(cf)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as authActions from '../redux/actions/auth-actions';
-import { User } from '../../config/db-config';
+import { User, UserMeta } from '../../config/db-config';
 
 import { bindActionCreators } from 'redux';
 import Form, { getDataCareerFair } from '../component/form';
@@ -15,7 +15,8 @@ import { ButtonLink } from '../component/buttons.jsx';
 import { AuthAPIErr } from "../../config/auth-config";
 
 import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
-import {lang} from '../lib/lang';
+import { lang } from '../lib/lang';
+import { ErrorMessage } from './sign-up';
 
 //state is from redux reducer
 // with multiple objects
@@ -36,12 +37,12 @@ class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
+        this.getFormItem = this.getFormItem.bind(this);
+        this.currentKpt = "";
+
     }
-
-    componentWillMount() {
-
-
-        this.formItem = [
+    getFormItem() {
+        let r = [
             {
                 label: lang("Email"),
                 name: User.EMAIL,
@@ -63,8 +64,47 @@ class LoginPage extends React.Component {
             //     data: getDataCareerFair("login"),
             //     required: true
             // },
-
         ];
+
+
+        if (this.isNeedKptInput()) {
+            r.push({
+                label: lang("IC Number"),
+                name: UserMeta.KPT,
+                type: "number",
+                placeholder: "Enter your IC number here",
+                required: true
+            })
+        }
+        return r;
+    }
+    componentWillMount() {
+
+
+        // this.formItem = [
+        //     {
+        //         label: lang("Email"),
+        //         name: User.EMAIL,
+        //         type: "email",
+        //         placeholder: "john.doe@gmail.com",
+        //         required: true
+        //     },
+        //     {
+        //         label: lang("Password"),
+        //         name: User.PASSWORD,
+        //         type: "password",
+        //         placeholder: "*****",
+        //         required: true
+        //     },
+        //     // {
+        //     //     label: "Select Career Fair",
+        //     //     name: User.CF,
+        //     //     type: "radio",
+        //     //     data: getDataCareerFair("login"),
+        //     //     required: true
+        //     // },
+
+        // ];
 
         this.CF = getCF();
         this.defaultValues = {};
@@ -78,10 +118,19 @@ class LoginPage extends React.Component {
         this.defaultValues[User.CF] = getCF();
     }
 
+    isNeedKptInput() {
+        return [
+            AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD,
+            AuthAPIErr.KPT_NOT_JPA,
+            AuthAPIErr.KPT_ALREADY_EXIST
+        ].indexOf(this.props.redux.error) >= 0
+    }
+
     formOnSubmit(d) {
         //console.log("login", data);
         //this.props.login(d[User.EMAIL], d[User.PASSWORD], d[User.CF]);
-        this.props.login(d[User.EMAIL], d[User.PASSWORD], this.CF);
+        this.currentKpt = d[UserMeta.KPT];
+        this.props.login(d[User.EMAIL], d[User.PASSWORD], this.CF, d[UserMeta.KPT]);
     }
 
     render() {
@@ -138,6 +187,18 @@ class LoginPage extends React.Component {
                 break;
         }
 
+
+        if (error == AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD
+            || (error == AuthAPIErr.KPT_NOT_JPA && !this.currentKpt)) {
+            error = <span>
+                {lang("Please provide your IC number to continue.")}
+            </span>;
+        } else if (error == AuthAPIErr.KPT_NOT_JPA) {
+            error = ErrorMessage.KPT_NOT_JPA(this.currentKpt);
+        } else if (error == AuthAPIErr.KPT_ALREADY_EXIST) {
+            error = ErrorMessage.KPT_ALREADY_EXIST(this.currentKpt);
+        }
+
         if (error == null && !isCookieEnabled()) {
             error = <span>Cookies is needed to keep you signed in. You need to enable your browser cookies to use your account.<br></br>
                 <small><NavLink to={`${RootPath}/auth/allow-cookie`}>Click Here To Learn How</NavLink></small>
@@ -165,7 +226,7 @@ class LoginPage extends React.Component {
                 <div>
                     {this.props.title ? this.props.title : <h3>{lang("Login")}</h3>}
                     <Form className="form-row"
-                        items={this.formItem}
+                        items={this.getFormItem()}
                         disableSubmit={fetching}
                         defaultValues={this.defaultValues}
                         submitText={lang("Log In")}

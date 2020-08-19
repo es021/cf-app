@@ -632,6 +632,18 @@ fields["feedback_qs"] = {
 };
 
 /*******************************************/
+/* is_kpt_jpa ******************/
+fields["is_kpt_jpa"] = {
+	type: GraphQLInt,
+	args: {
+		kpt: __.StringNonNull
+	},
+	resolve(parentValue, arg, context, info) {
+		return UserExec.isKptJpa(arg.kpt);
+	}
+};
+
+/*******************************************/
 /* has_feedback ******************/
 fields["has_feedback"] = {
 	type: GraphQLInt,
