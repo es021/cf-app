@@ -404,10 +404,21 @@ class BrowseStudentExec {
 		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
 
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
+		
+		// 4c. @custom_user_info_by_cf - where single
 		let country_study = this.where(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
 		let university = this.where(user_id, this.TABLE_SINGLE, "university", param.university);
 		let where_in_malaysia = this.where(user_id, this.TABLE_SINGLE, "where_in_malaysia", param.where_in_malaysia);
+		let work_experience_year = this.where(user_id, this.TABLE_SINGLE, "work_experience_year", param.work_experience_year);
+		let gender = this.where(user_id, this.TABLE_SINGLE, "gender", param.gender);
+		let unemployment_period = this.where(user_id, this.TABLE_SINGLE, "unemployment_period", param.unemployment_period);
+		let local_or_oversea_study = this.where(user_id, this.TABLE_SINGLE, "local_or_oversea_study", param.local_or_oversea_study);
+		let local_or_oversea_location = this.where(user_id, this.TABLE_SINGLE, "local_or_oversea_location", param.local_or_oversea_location);
+		let monash_school = this.where(user_id, this.TABLE_SINGLE, "monash_school", param.monash_school);
+		let sunway_faculty = this.where(user_id, this.TABLE_SINGLE, "sunway_faculty", param.sunway_faculty);
 
+		
+		// 4d. @custom_user_info_by_cf - where multi
 		let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
 		let looking_for_position = this.where(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
 		let interested_job_location = this.where(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
@@ -451,7 +462,15 @@ class BrowseStudentExec {
 			}
 		});
 
+		// 4e. @custom_user_info_by_cf -- where set
 		return `1=1
+			AND ${work_experience_year}
+			AND ${gender}
+			AND ${unemployment_period}
+			AND ${local_or_oversea_study}
+			AND ${local_or_oversea_location}
+			AND ${monash_school}
+			AND ${sunway_faculty}
 			AND ${role}
 			AND ${name}
 			AND ${current_cf}
