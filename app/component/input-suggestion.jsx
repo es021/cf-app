@@ -117,9 +117,11 @@ export default class InputSuggestion extends React.Component {
     if (!this.isSelect()) {
       let firstSuggestion = null;
       try {
-        firstSuggestion = this.state.suggestion[0];
-        let v = firstSuggestion.val.capitalizeAll();
-        this.onClickSuggestion(null, v);
+        if (this.state.suggestion.length == 1) {
+          firstSuggestion = this.state.suggestion[0];
+          let v = firstSuggestion.val.capitalizeAll();
+          this.onClickSuggestion(null, v);
+        }
       } catch (err) {
 
       }
