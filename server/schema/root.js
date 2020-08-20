@@ -256,6 +256,8 @@ fields["locations"] = {
 fields["refs"] = {
 	type: new GraphQLList(RefType),
 	args: {
+		lang: __.String,
+		
 		table_name: __.StringNonNull,
 		val: __.String,
 		category: __.String,

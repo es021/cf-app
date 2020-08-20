@@ -53,6 +53,18 @@ function isTranslateMalay() {
   return false
 }
 
+
+function currentLang() {
+  let r = "";
+  if (isTranslateMalay()) {
+    r = MALAY
+  } else {
+    r = ENGLISH
+  }
+
+  return r;
+}
+
 //@enable_lang
 function lang(input) {
   try {
@@ -68,6 +80,7 @@ function lang(input) {
 }
 
 module.exports = {
+  currentLang,
   isHasOtherLang,
   isTranslateMalay,
   setLangStore,

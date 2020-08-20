@@ -51,7 +51,7 @@ import AnalyticPage from "../page/analytics";
 import { FeedbackForm } from "../page/partial/analytics/feedback";
 import { addLog } from "../redux/actions/other-actions";
 import { LogEnum } from "../../config/db-config";
-
+import { LangPickerHeader } from "../page/lang-picker";
 import {
   isAuthorized,
   isRoleStudent,
@@ -80,7 +80,7 @@ import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
 import { _student_plural } from "../redux/actions/text-action";
-import {lang} from "../lib/lang";
+import { lang, isHasOtherLang } from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
 
@@ -668,7 +668,18 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: isHasLeftBar() ? false : true,
       hd_auth: false
-    }
+    },
+    {
+      url: "",
+      label: <span>Bahasa</span>,
+      icon: "",
+      component: "",
+      isLangPicker: true,
+      bar_app: isHasLeftBar() ? true : false,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: isHasLeftBar() ? false : true,
+    },
   ];
   // ############################################################################/
   /**** ROUTE ONLY *******/
@@ -978,6 +989,10 @@ export function getBar(
 
     if (!isBarValid(isHeader, isLog, d)) {
       return;
+    }
+
+    if (d.isLangPicker) {
+      return <LangPickerHeader></LangPickerHeader>
     }
 
     var url = d.url;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
 import PropTypes from "prop-types";
+import { currentLang } from "../lib/lang";
 
 export default class InputSuggestion extends React.Component {
   constructor(props) {
@@ -186,8 +187,10 @@ export default class InputSuggestion extends React.Component {
      */
 
     for (var i in this.props.table_name) {
+      // @query_refs
       let q = `query{ 
         refs(
+          lang:"${currentLang()}",
           table_name :"${this.props.table_name}", 
           order_by : "${this.props.order_by}",
           filter_raw : "${this.props.filter_raw}",
@@ -209,8 +212,10 @@ export default class InputSuggestion extends React.Component {
       return;
     }
 
+    // @query_refs
     let q = `query{ 
           refs(
+            lang:"${currentLang()}",
             table_name :"${this.props.table_name}", 
             filter_column : "${this.props.filter_column}"
             filter_val : "${this.props.filter_val}"

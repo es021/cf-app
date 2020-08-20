@@ -8,3 +8,60 @@
   //   text-align: center;
   // }
 }
+
+.lang-picker-header {
+  cursor: pointer;
+  text-align: right;
+  position: relative;
+
+  .lang-picker-main {
+    padding: 10px 0px;
+  }
+
+  .lang-picker-popup {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    height: 0px;
+    background: white;
+    color: #050529;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+    z-index: 100;
+
+    .lang-picker-popup-item {
+      text-align: left;
+      padding: 3px 9px;
+      width: 95px;
+      &:hover {
+        background: whitesmoke;
+      }
+    }
+  }
+}
+
+.menu-small {
+  .lang-picker-header {
+      margin-top: 25px;
+    .lang-picker-main {
+      padding: 10px 10px;
+    }
+  }
+}
+
+.left_bar_nav {
+  .lang-picker-header {
+    .lang-picker-main {
+      img {
+        margin-right: 8px;
+      }
+      margin: 13px 11px;
+      padding: 0px;
+    }
+
+    .lang-picker-popup {
+      left: 12px;
+    }
+  }
+}

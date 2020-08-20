@@ -3,7 +3,7 @@ import { AppConfig, ImgConfig, FooterClass } from "../../config/app-config";
 import { ButtonIcon } from "../component/buttons.jsx";
 import { getCFOrg, isRedirectExternalHomeUrl } from "../redux/actions/auth-actions";
 import { lang } from "../lib/lang";
-import { LangPicker } from "../page/lang-picker";
+// import { LangPicker } from "../page/lang-picker";
 
 //import {openNewTab} from '../lib/util';
 
@@ -134,7 +134,7 @@ export default class Footer extends React.Component {
             <div className="col-sm-4">{this.brand}</div>
           </div> */}
           <div className="row">
-            <div className="col-md-12 copyright"><LangPicker></LangPicker></div>
+            {/* <div className="col-md-12 copyright"><LangPicker></LangPicker></div> */}
             <div className="col-md-12 copyright">
               © {this.YEAR}, Innovaseeds Solutions. {lang("All Rights Reserved")}.
             </div>

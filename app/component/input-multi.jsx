@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
+import { currentLang } from "../lib/lang";
 import { getAuthUser } from "../redux/actions/auth-actions";
 import InputSuggestion from "./input-suggestion";
 import PropTypes from "prop-types";
@@ -158,13 +159,15 @@ export default class InputMulti extends React.Component {
 
     if (this.props.discard_ref_from_default === false) {
       // list of suggestion from ref
+      // @query_refs
       let qRef = `query{
         refs(
-          table_name :"${props.ref_table_name}"
-          entity:"${props.entity}"
+          lang:"${currentLang()}",
+          table_name :"${props.ref_table_name}",
+          entity:"${props.entity}",
           entity_id:${props.entity_id}
-          order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}"
-          page:1, offset:${props.ref_offset}
+          order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}",
+          page:1, offset:${props.ref_offset},
           location_suggestion :"${props.location_suggestion}",
           category :"${props.ref_category}",
           search_by_ref :"${props.suggestion_search_by_ref}",
