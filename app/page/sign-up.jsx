@@ -135,6 +135,8 @@ export default class SignUpPage extends React.Component {
             toggleSubmit(this, { error: ERR_KPT });
             return;
           }
+        } else {
+          d[UserMeta.KPT] = "";
         }
 
 
