@@ -28,7 +28,7 @@ import { Gallery } from "../../../component/gallery";
 import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { isCustomUserInfoOff, Single, Multi } from "../../../../config/registration-config";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -266,7 +266,7 @@ export default class UserPopup extends Component {
 
     for (var i in arr) {
       let v = arr[i].val;
-      ret.push(v);
+      ret.push(lang(v));
       ret.push(<br></br>);
     }
     return ret;
@@ -409,6 +409,14 @@ export default class UserPopup extends Component {
           label: lang("University"),
           icon: "university",
           value: this.isValueEmpty(d.university) ? notSpecifed : d.university
+        });
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.qualification)) {
+        items.push({
+          label: lang("Highest Certificate"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.qualification) ? notSpecifed : d.qualification
         });
       }
 

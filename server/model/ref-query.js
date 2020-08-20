@@ -1,5 +1,37 @@
 const DB = require("./DB.js");
 
+const MALAY = "Bahasa";
+const ENGLISH = "English";
+
+// @query_refs
+const RefLang = {
+	ref_skill: [MALAY],
+	// ref_looking_for_position: [MALAY],
+	// ref_qualification: [MALAY],
+	// ref_month: [MALAY],
+	// ref_field_study: [MALAY],
+}
+
+function getLangKey(inputLang) {
+	switch (inputLang) {
+		case MALAY: return "malay";
+	}
+}
+
+function overrideLanguageTable(sql, param) {
+	if (param.lang) {
+		if (param.lang != ENGLISH) {
+			for (var currentRef in RefLang) {
+				if (sql.indexOf(currentRef) >= 0) {
+					let newRef = currentRef + "_" + getLangKey(param.lang);
+					sql = sql.replaceAll(currentRef, newRef);
+				}
+			}
+		}
+	}
+
+	return sql;
+}
 class RefExec {
 	query(param) {
 		param = DB.sanitize(param);
@@ -34,8 +66,8 @@ class RefExec {
 						filter_val = `(${filter_val})`;
 					}
 					filter = ` ${param.filter_column} IN (select x.ID from ref_${filterTable} x where x.val IN ${filter_val} ) `;
-        
-        } else {
+
+				} else {
 					filter = "1=1";
 				}
 			}
@@ -93,6 +125,10 @@ class RefExec {
 			${order_by}
 			${limit}
 		`;
+
+
+		// override if different languange
+		sql = overrideLanguageTable(sql, param);
 		return sql;
 	}
 	isSingle(type) {
@@ -135,5 +171,6 @@ class RefExec {
 
 RefExec = new RefExec();
 module.exports = {
-	RefExec
+	RefExec,
+	overrideLanguageTable
 };

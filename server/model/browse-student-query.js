@@ -7,6 +7,7 @@ const {
 } = require("./cf-query");
 const { isCustomUserInfoOff, Single } = require("../../config/registration-config");
 const { UserMeta } = require("../../config/db-config.js");
+const { overrideLanguageTable } = require("./ref-query.js");
 
 // all-type
 // mutation
@@ -365,6 +366,8 @@ class BrowseStudentExec {
 			
 		) 
 		X ORDER BY X._key, X._val_label asc, X._val asc, X._total desc`;
+
+		q = overrideLanguageTable(q, param);
 
 		return q;
 

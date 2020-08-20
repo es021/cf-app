@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
-import { currentLang } from "../lib/lang";
+import { lang, currentLang } from "../lib/lang";
 import { getAuthUser } from "../redux/actions/auth-actions";
 import InputSuggestion from "./input-suggestion";
 import PropTypes from "prop-types";
@@ -296,7 +296,7 @@ export default class InputMulti extends React.Component {
     let isDuplicate = false;
     try {
       isDuplicate = err.response.data.indexOf("ER_DUP_ENTRY") >= 0;
-    } catch (err) {}
+    } catch (err) { }
 
     // ada error tapi bukan error duplicate, kita return
     if (err != null && !isDuplicate) {
@@ -413,7 +413,7 @@ export default class InputMulti extends React.Component {
             data-i={i}
             className={`${d.isSelected ? "selected" : ""}`}
           >
-            {d.val} {icon}
+            {lang(d.val)} {icon}
           </li>
         );
       });
@@ -442,6 +442,7 @@ export default class InputMulti extends React.Component {
         <div className="mi-input">
           <InputSuggestion
             input_type={this.props.input_type}
+            select_is_translate_label={this.props.is_translate_label}
             onChoose={this.onChooseSuggestion}
             input_onChange={this.inputOnChange}
             table_name={this.props.ref_table_name}
@@ -494,12 +495,14 @@ InputMulti.propTypes = {
   suggestion_search_by_val: PropTypes.string,
   discard_ref_from_default: PropTypes.bool,
   hideContinueButton: PropTypes.bool,
-  hideInputSuggestion: PropTypes.bool
+  hideInputSuggestion: PropTypes.bool,
+  select_is_translate_label: PropTypes.bool,
 };
 
 InputMulti.defaultProps = {
   ref_offset: 10,
   discard_ref_from_default: false,
+  select_is_translate_label: false,
   ref_category: "",
   suggestion_search_by_ref: "",
   suggestion_search_by_val: "",

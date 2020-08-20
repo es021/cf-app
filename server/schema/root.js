@@ -503,6 +503,7 @@ fields["group_session_joins"] = {
 let argBrowseStudent = {
 	discard_filter: __.String,
 
+	lang: __.String,
 	role: __.String,
 
 	company_id: __.Int,

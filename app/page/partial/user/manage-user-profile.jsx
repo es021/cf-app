@@ -11,7 +11,7 @@ import {
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
 import { isRoleStudent, isRoleRec, getCF } from "../../../redux/actions/auth-actions";
-import { lang } from "../../../lib/lang";
+import { lang, isCurrentEnglish } from "../../../lib/lang";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -132,9 +132,7 @@ export default class ManageUserProfile extends React.Component {
     let field_study = this.getFieldStudyListStr();
     let country = this.state.currentData[Reg.Single.country_study];
     let local_or_oversea_study = this.state.currentData[Reg.Single.local_or_oversea_study];
-
     let cf = getCF();
-
     let r = [];
     if (this.isEdit()) {
       r.push({
@@ -188,6 +186,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("When is your graduation date?"),
           id: Reg.Single.graduation_month,
           key_input: Reg.Single.graduation_month,
+          select_is_translate_label: true,
           // select_use_id_as_value: true,
           ref_order_by: "ID asc",
           ref_table_name: "month",
@@ -202,6 +201,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("What are you looking for?"),
           ref_table_name: "looking_for_position",
           hideInputSuggestion: true,
+          select_is_translate_label: true,
           ref_order_by: "val ASC",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.looking_for_position)
@@ -241,8 +241,8 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_column: "country_id",
           ref_filter_val: 1, // Malaysia
           is_required: true,
-          hidden: !RefLocalOrOversea.isMalaysia(local_or_oversea_study)
-            || isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+          hidden: !RefLocalOrOversea.isMalaysia(local_or_oversea_study) ||
+            isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
         {
           // single - university free text without suggestion 
@@ -271,8 +271,8 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_val: country,
           ref_filter_find_id: true, // kena ubah kat ref-query
           is_required: true,
-          hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study)
-            || isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+          hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study) ||
+            isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
         {
           // single
@@ -318,6 +318,7 @@ export default class ManageUserProfile extends React.Component {
           key_input: Reg.Single.qualification,
           label: lang("What is your highest level of certificate?"),
           input_placeholder: lang("Type something here"),
+          select_is_translate_label: true,
           ref_table_name: "qualification",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)
@@ -377,6 +378,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("When will you be available to work?"),
           id: Reg.Single.working_availability_month,
           key_input: Reg.Single.working_availability_month,
+          select_is_translate_label: true,
           // select_use_id_as_value: true,
           ref_order_by: "ID asc",
           ref_table_name: "month",
@@ -439,6 +441,7 @@ export default class ManageUserProfile extends React.Component {
           // label: "What types of jobs will you be searching for?",
           input_placeholder: lang("Web Developer, Graphic Design, etc"),
           list_title: field_study ? lang(`Popular job for your field of study`) : "",
+          // ref_table_name: isCurrentEnglish() ? "job_role" : "empty",
           ref_table_name: "job_role",
           suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
           suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
@@ -491,7 +494,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Multi.skill,
           table_name: Reg.Multi.skill,
           label: lang("What skills would you bring to your next job?"),
-          input_placeholder: "Leadership, Javascript, etc",
+          input_placeholder: lang("Leadership, Javascript, etc"),
           // suggestion_search_by_ref: "major",
           // suggestion_search_by_val: major,
           //list_title: major ? `Popular job for major ${major}` : "",
@@ -540,7 +543,7 @@ export default class ManageUserProfile extends React.Component {
       ]
     );
 
-    r = Reg.reorderByCf(cf, r);
+    r = Reg.pickAndReorderByCf(cf, r);
     return r;
   }
   isLastItem(curIndex) {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
 import PropTypes from "prop-types";
-import { currentLang } from "../lib/lang";
+import { lang, currentLang } from "../lib/lang";
 
 export default class InputSuggestion extends React.Component {
   constructor(props) {
@@ -114,7 +114,18 @@ export default class InputSuggestion extends React.Component {
   //   }
   // }
   onBlur(e) {
-    console.log("onBlur", e);
+    if (!this.isSelect()) {
+      let firstSuggestion = null;
+      try {
+        firstSuggestion = this.state.suggestion[0];
+        let v = firstSuggestion.val.capitalizeAll();
+        this.onClickSuggestion(null, v);
+      } catch (err) {
+
+      }
+    }
+
+
     this.closeSuggestionList();
 
     if (this.props.input_onBlur) {
@@ -317,7 +328,7 @@ export default class InputSuggestion extends React.Component {
         let label = d.val;
         return (
           <option key={i} value={value}>
-            {label}
+            {this.props.is_translate_label ? lang(label) : label}
           </option>
         );
       });
@@ -401,6 +412,7 @@ InputSuggestion.propTypes = {
   is_in_normal_form: PropTypes.bool,
   order_by: PropTypes.string,
   use_id_as_value: PropTypes.bool,
+  is_translate_label: PropTypes.bool,
   input_type: PropTypes.string,
   icon_loading: PropTypes.bool,
   icon_done: PropTypes.bool,

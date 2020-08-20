@@ -54,6 +54,7 @@ function isTranslateMalay() {
 }
 
 
+
 function currentLang() {
   let r = "";
   if (isTranslateMalay()) {
@@ -63,6 +64,11 @@ function currentLang() {
   }
 
   return r;
+}
+
+
+function isCurrentEnglish(){
+  return currentLang() == ENGLISH;
 }
 
 //@enable_lang
@@ -80,6 +86,7 @@ function lang(input) {
 }
 
 module.exports = {
+  isCurrentEnglish,
   currentLang,
   isHasOtherLang,
   isTranslateMalay,

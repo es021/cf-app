@@ -290,6 +290,7 @@ export default class InputSingle extends React.Component {
           <InputSuggestion
             order_by={this.props.ref_order_by}
             use_id_as_value={this.props.select_use_id_as_value}
+            is_translate_label={this.props.select_is_translate_label}
             input_type={this.props.input_type}
             icon_loading={this.state.loading}
             icon_done={this.state.done_update}
@@ -339,7 +340,8 @@ InputSingle.propTypes = {
   ref_filter_raw: PropTypes.string,
   ref_filter_column: PropTypes.string,
   ref_filter_val: PropTypes.string,
-  ref_filter_find_id: PropTypes.bool
+  ref_filter_find_id: PropTypes.bool,
+  select_is_translate_label: PropTypes.bool
 };
 
 InputSingle.defaulProps = {
@@ -348,6 +350,7 @@ InputSingle.defaulProps = {
   ref_filter_val: "",
   ref_filter_find_id: false,
   select_use_id_as_value: false,
+  select_is_translate_label: false,
   isChildren: false,
   hideContinueButton: false,
   doneHandler: () => {

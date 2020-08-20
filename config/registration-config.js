@@ -45,23 +45,27 @@ const Multi = {
     // 1b. @custom_user_info_by_cf - multi
 }
 
-const reorderByCf = (cf, r) => {
+const CustomOrder = {
+    MDCW: [
+        Single.first_name,
+        Single.kpt,
+        // Single.birth_date,
+        Single.phone_number,
+        Single.where_in_malaysia,
+        Multi.looking_for_position,
+        Single.qualification,
+        Multi.field_study,
+        Single.working_availability_month,
+        Multi.interested_role,
+        Multi.interested_job_location,
+        Multi.skill,
+    ]
+}
+
+const pickAndReorderByCf = (cf, r) => {
     let order = null;
-    if (cf == "MDCW") {
-        order = [
-            Single.first_name,
-            Single.kpt,
-            // Single.birth_date,
-            Single.phone_number,
-            Single.where_in_malaysia,
-            Multi.looking_for_position,
-            Single.qualification,
-            Multi.field_study,
-            Single.working_availability_month,
-            Multi.interested_role,
-            Multi.interested_job_location,
-            Multi.skill,
-        ]
+    if (CustomOrder[cf]) {
+        order = CustomOrder[cf];
     }
 
     if (order) {
@@ -84,6 +88,13 @@ const reorderByCf = (cf, r) => {
 // 1c. @custom_user_info_by_cf - on or off by cf
 // by default return false
 const isCustomUserInfoOff = (cf, key) => {
+
+    // override all,
+    // kalau ad custom order, mmg ikut sebijik
+    if (CustomOrder[cf]) {
+        let existInCustomOrder = CustomOrder[cf].indexOf(key) >= 0
+        return !existInCustomOrder;
+    }
 
     let offCf = null;
     let onCf = null;
@@ -213,5 +224,5 @@ module.exports = {
     RequiredFieldStudent,
     RequiredFieldRecruiter,
     isCustomUserInfoOff,
-    reorderByCf
+    pickAndReorderByCf
 };

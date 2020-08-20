@@ -5,7 +5,7 @@ import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
-import { lang } from "../../../lib/lang";
+import { lang, isHasOtherLang, currentLang} from "../../../lib/lang";
 import { customBlockLoader } from "../../../redux/actions/layout-actions";
 import { CFSMeta } from "../../../../config/db-config";
 import { _student_plural_lower, _student_plural } from "../../../redux/actions/text-action";
@@ -237,6 +237,11 @@ export class BrowseStudentFilter extends React.Component {
             param += ` , ${queryParam} `
         }
 
+        // add lang param
+        if (isHasOtherLang()) {
+            param += ` , lang:"${currentLang()}" `;
+        }
+
         let q = `query{
             browse_student_filter( ${param} ) {
               _key
@@ -440,7 +445,7 @@ export class BrowseStudentFilter extends React.Component {
                 let label = d.val;
                 return (
                     <option key={i} value={value}>
-                        {label}
+                        {lang(label)}
                     </option>
                 );
             });
