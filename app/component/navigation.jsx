@@ -670,7 +670,7 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false
     },
     {
-      url: "",
+      url: "/language-picker",
       label: <span>Bahasa</span>,
       icon: "",
       component: "",
