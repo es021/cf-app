@@ -216,6 +216,7 @@ export default class UserPopup extends Component {
                 ${this.addIfValid("monash_student_id")}
                 ${this.addIfValid("monash_school")}
                 ${this.addIfValid("sunway_faculty")}
+                ${this.addIfValid("sunway_program")}
                 ${this.addIfValid("skill", "{val}")}
                 ${this.addIfValid("extracurricular", "{val}")}
                 ${this.addIfValid("field_study", "{val}")}
@@ -389,9 +390,17 @@ export default class UserPopup extends Component {
 
       if (!isCustomUserInfoOff(getCF(), Single.sunway_faculty)) {
         items.push({
-          label: lang("Faculty"),
+          label: lang("School"),
           icon: "university",
           value: this.isValueEmpty(d.sunway_faculty) ? notSpecifed : d.sunway_faculty
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.sunway_program)) {
+        items.push({
+          label: lang("Programme"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.sunway_program) ? notSpecifed : d.sunway_program
         })
       }
 

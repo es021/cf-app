@@ -34,6 +34,7 @@ class XLSApi {
       ${this.addIfValid("monash_student_id")}
       ${this.addIfValid("monash_school")}
       ${this.addIfValid("sunway_faculty")}
+      ${this.addIfValid("sunway_program")}
       ${this.addIfValid("university")}
       ${this.addIfValid("qualification")}
       graduation_month 

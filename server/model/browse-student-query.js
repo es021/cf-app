@@ -302,6 +302,14 @@ class BrowseStudentExec {
 						AND
 					s.val IN (select r.val from ref_sunway_faculty r)
 				)`
+			
+			let sunway_program = isCustomUserInfoOff(currentCf, Single.sunway_program)
+				? "1=0"
+				: `( 
+					s.key_input = "sunway_program"
+						AND
+					s.val IN (select r.val from ref_sunway_program r)
+				)`
 
 			return `SELECT 
 			s.key_input as _key
@@ -327,6 +335,8 @@ class BrowseStudentExec {
 			${monash_school}
 			OR
 			${sunway_faculty}
+			OR
+			${sunway_program}
 			AND s.entity = 'user'
 			AND ${where}
 			group by s.key_input, s.val`;
@@ -416,6 +426,7 @@ class BrowseStudentExec {
 		let local_or_oversea_location = this.where(user_id, this.TABLE_SINGLE, "local_or_oversea_location", param.local_or_oversea_location);
 		let monash_school = this.where(user_id, this.TABLE_SINGLE, "monash_school", param.monash_school);
 		let sunway_faculty = this.where(user_id, this.TABLE_SINGLE, "sunway_faculty", param.sunway_faculty);
+		let sunway_program = this.where(user_id, this.TABLE_SINGLE, "sunway_program", param.sunway_program);
 
 		
 		// 4d. @custom_user_info_by_cf - where multi
@@ -471,6 +482,7 @@ class BrowseStudentExec {
 			AND ${local_or_oversea_location}
 			AND ${monash_school}
 			AND ${sunway_faculty}
+			AND ${sunway_program}
 			AND ${role}
 			AND ${name}
 			AND ${current_cf}

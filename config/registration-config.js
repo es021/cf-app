@@ -27,6 +27,7 @@ const Single = {
     monash_student_id: "monash_student_id",
     monash_school: "monash_school",
     sunway_faculty: "sunway_faculty",
+    sunway_program: "sunway_program",
     local_or_oversea_study: "local_or_oversea_study",
     local_or_oversea_location: "local_or_oversea_location",
     gender: "gender",
@@ -100,6 +101,9 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MONASH"];
             break;
         case Single.sunway_faculty:
+            onCf = ["SUNWAY"];
+            break;
+        case Single.sunway_program:
             onCf = ["SUNWAY"];
             break;
         case Single.monash_student_id:

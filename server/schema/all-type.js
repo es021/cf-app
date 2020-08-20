@@ -168,6 +168,7 @@ const UserType = new GraphQLObjectType({
 		monash_student_id: __.String,
 		monash_school: __.String,
 		sunway_faculty: __.String,
+		sunway_program: __.String,
 		local_or_oversea_study: __.String,
 		local_or_oversea_location: __.String,
 		work_experience_year: __.String,

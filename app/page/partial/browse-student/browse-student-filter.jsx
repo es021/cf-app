@@ -91,6 +91,7 @@ export class BrowseStudentFilter extends React.Component {
             "unemployment_period",
             "monash_school",
             "sunway_faculty",
+            "sunway_program",
             "university", "field_study",
             "looking_for_position",
             "working_availability_from",
@@ -374,7 +375,8 @@ export class BrowseStudentFilter extends React.Component {
         // 6b. @custom_user_info_by_cf - filter label
         return {
             monash_school: lang("School"),
-            sunway_faculty: lang("Faculty"),
+            sunway_faculty: lang("School"),
+            sunway_program: lang("Programme"),
             cf: lang("Career Fair"),
             university: lang("University"),
             country_study: lang("Country Of Study"),

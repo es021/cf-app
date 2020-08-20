@@ -292,11 +292,23 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.sunway_faculty,
           key_input: Reg.Single.sunway_faculty,
-          label: lang("Which faculty are you from?"),
+          label: lang("Which school are you from?"),
           // input_placeholder: "Malaysia",
           ref_table_name: "sunway_faculty",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_faculty)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.sunway_program,
+          key_input: Reg.Single.sunway_program,
+          label: lang("What is the name of your programme?"),
+          // input_placeholder: "Malaysia",
+          ref_table_name: "sunway_program",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_program)
         },
         {
           // single select
