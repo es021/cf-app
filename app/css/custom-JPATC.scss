@@ -1,0 +1,224 @@
+@import "define/mixin.scss";
+
+// $JPATC_DARK_BLUE_DARK: #66000f;
+// $JPATC_DARK_BLUE_DARK_LIGHT: #9f505c;
+// $JPATC_DARK_BLUE: #ff0000;
+// $JPATC_DARK_BLUE: #a81128;
+
+$JPATC_BLUE: rgb(91, 155, 213);
+$JPATC_LIGHT_BLUE: rgb(194, 223, 253);
+$JPATC_DARK_BLUE: rgb(0,63,121);
+$JPATC_YELLOW: rgb(254, 153, 1);
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-JPATC {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $JPATC_DARK_BLUE;
+  $COLOR_HEADER_LINK: rgba(255, 255, 255, 0.7);
+  $COLOR_HEADER_TITLE: white;
+  $COLOR_HEADER_SUBTITLE: rgba(255, 255, 255, 0.7);
+  $COLOR_HEADER_LINK_ACTIVE: white;
+
+  header {
+    .img {
+      padding: 5px 5px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $JPATC_DARK_BLUE;
+      border-bottom: 2px solid $JPATC_DARK_BLUE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $JPATC_DARK_BLUE 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $JPATC_DARK_BLUE;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $JPATC_DARK_BLUE;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $JPATC_DARK_BLUE;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $JPATC_DARK_BLUE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $JPATC_DARK_BLUE;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $JPATC_DARK_BLUE;
+    }
+    .pg-page {
+      color: $JPATC_DARK_BLUE;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $JPATC_DARK_BLUE);
+
+    .lb-title {
+      color: $JPATC_DARK_BLUE;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $JPATC_DARK_BLUE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $JPATC_DARK_BLUE, white, $JPATC_DARK_BLUE);
+  @include custom_btn_focus("success", $JPATC_DARK_BLUE, #f8f1f1, $JPATC_DARK_BLUE);
+  @include custom_btn_active("success", $JPATC_DARK_BLUE, white, $JPATC_DARK_BLUE);
+
+  @include custom_btn_default("default", $JPATC_DARK_BLUE, white, $JPATC_DARK_BLUE);
+  @include custom_btn_focus("default", $JPATC_DARK_BLUE, #f8f1f1, $JPATC_DARK_BLUE);
+  @include custom_btn_active("default", $JPATC_DARK_BLUE, white, $JPATC_DARK_BLUE);
+
+  @include custom_btn_default("primary", white, $JPATC_DARK_BLUE, $JPATC_DARK_BLUE);
+  @include custom_btn_focus("primary", white, darken($JPATC_DARK_BLUE, 10), $JPATC_DARK_BLUE);
+  @include custom_btn_active("primary", white, $JPATC_DARK_BLUE, $JPATC_DARK_BLUE);
+
+  @include custom_btn_default("blue", white, $JPATC_DARK_BLUE, $JPATC_DARK_BLUE);
+  @include custom_btn_focus("blue", white, darken($JPATC_DARK_BLUE, 10), $JPATC_DARK_BLUE);
+  @include custom_btn_active("blue", white, $JPATC_DARK_BLUE, $JPATC_DARK_BLUE);
+}
