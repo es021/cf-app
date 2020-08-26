@@ -42,6 +42,8 @@ const MailChimp = {
 	ApiKey: Secret.MAIL_CHIMP_KEY
 };
 
+const LIMIT_STUDENT_JPATC = 2000;
+// const LIMIT_STUDENT_JPATC = 4;
 class AuthAPI {
 	//##########################################################################################
 	// Helper
@@ -210,25 +212,35 @@ class AuthAPI {
 					// check if in kpt exist
 					if (kpt && user.role == UserEnum.ROLE_STUDENT) {
 
-						// @kpt_validation - login - check if duplicate
-						return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
+						// @kpt_validation - login - check LIMIT_STUDENT_JPATC
+						return graphql(` query{cf(name:"JPATC") { total_student } } `).then((res) => {
 							try {
-								if (res.data.data.user.kpt) {
-									// @kpt_validation - KPT_ALREADY_EXIST
-									return AuthAPIErr.KPT_ALREADY_EXIST;
+								let total_student = res.data.data.cf.total_student;
+								if (total_student && total_student >= LIMIT_STUDENT_JPATC) {
+									return AuthAPIErr.JPA_OVER_LIMIT;
 								}
 							} catch (err) { }
 
-							// @kpt_validation - login - bind the kpt with the user that try to login
-							let updateKpt = `mutation {add_single(key_input:"kpt", entity:"user", entity_id:${user.ID}, val:"${kpt}"){ val } }`
-							return graphql(updateKpt).then((res) => {
-								// query user again
-								return graphql(user_query).then((res) => {
-									user = res.data.data.user;
-									return this.loginCheckPassword(user, password, cf, request);
+							// @kpt_validation - login - check if duplicate
+							return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
+								try {
+									if (res.data.data.user.kpt) {
+										// @kpt_validation - KPT_ALREADY_EXIST
+										return AuthAPIErr.KPT_ALREADY_EXIST;
+									}
+								} catch (err) { }
+
+								// @kpt_validation - login - bind the kpt with the user that try to login
+								let updateKpt = `mutation {add_single(key_input:"kpt", entity:"user", entity_id:${user.ID}, val:"${kpt}"){ val } }`
+								return graphql(updateKpt).then((res) => {
+									// query user again
+									return graphql(user_query).then((res) => {
+										user = res.data.data.user;
+										return this.loginCheckPassword(user, password, cf, request);
+									});
+								}).catch(err => {
+									return err;
 								});
-							}).catch(err => {
-								return err;
 							});
 						});
 
@@ -662,22 +674,32 @@ class AuthAPI {
 
 		// @kpt_validation
 		if (kpt) {
-			// @kpt_validation - register - check if JPA
-			return graphql(` query{is_kpt_jpa(kpt:"${kpt}")} `).then((res) => {
-				let isKptJpa = res.data.data.is_kpt_jpa;
-				if (isKptJpa !== 1) {
-					return AuthAPIErr.KPT_NOT_JPA;
-				}
-				// @kpt_validation - register - check if duplicate
-				return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
-					try {
-						console.log("@kpt_validation", res.data.data)
-						if (res.data.data.user.kpt) {
-							// @kpt_validation - KPT_ALREADY_EXIST
-							return AuthAPIErr.KPT_ALREADY_EXIST;
-						}
-					} catch (err) { }
-					return getWpAjaxAxios("app_register_user", data, successInterceptor);
+			// @kpt_validation - register - check if LIMIT_STUDENT_JPATC
+			return graphql(` query{cf(name:"JPATC") { total_student } } `).then((res) => {
+				try {
+					let total_student = res.data.data.cf.total_student;
+					if (total_student && total_student >= LIMIT_STUDENT_JPATC) {
+						return AuthAPIErr.JPA_OVER_LIMIT;
+					}
+				} catch (err) { }
+
+				// @kpt_validation - register - check if JPA
+				return graphql(` query{is_kpt_jpa(kpt:"${kpt}")} `).then((res) => {
+					let isKptJpa = res.data.data.is_kpt_jpa;
+					if (isKptJpa !== 1) {
+						return AuthAPIErr.KPT_NOT_JPA;
+					}
+					// @kpt_validation - register - check if duplicate
+					return graphql(`query{user(kpt:"${kpt}"){kpt}}`).then((res) => {
+						try {
+							console.log("@kpt_validation", res.data.data)
+							if (res.data.data.user.kpt) {
+								// @kpt_validation - KPT_ALREADY_EXIST
+								return AuthAPIErr.KPT_ALREADY_EXIST;
+							}
+						} catch (err) { }
+						return getWpAjaxAxios("app_register_user", data, successInterceptor);
+					});
 				});
 			});
 		} else {

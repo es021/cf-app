@@ -195,10 +195,11 @@ class CompaniesPage extends React.Component {
             }
             if (key == "name") {
                 var name = <b>
-                    <ButtonLink
+                    {createCompanyTitle(d)}
+                    {/* <ButtonLink
                         onClick={() => layoutActions.storeUpdateFocusCard(d.name, CompanyPopup, { id: d.ID })}
                         label={d.name}>
-                    </ButtonLink>
+                    </ButtonLink> */}
                 </b>;
                 row.push(<td>
                     {name}

@@ -16,6 +16,8 @@ EXPORT.Cfs = {
     created_at: __.String,
     updated_at: __.String,
 
+    total_student: __.Int,
+
     // meta
     title: __.String,
     welcome_text: __.String,

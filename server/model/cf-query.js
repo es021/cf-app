@@ -1,9 +1,12 @@
 const DB = require("./DB.js");
 const {
 	CFS,
-	CFSMeta
+	CFSMeta,
+	User
 } = require("../../config/db-config");
-
+const {
+	UserQuery
+} = require("./user-query.js");
 class CFQuery {
 	// getCfDiscardCountryInList(field, entity, cf, delim) {
 	// 	const templateHandler = (_field, _entity, _cf) => {
@@ -110,7 +113,17 @@ class CFQuery {
 			}
 		}
 
-		return `select c.* ${selMeta} from ${CFS.TABLE} c
+		let selTotalStudent = "";
+		if (typeof field["total_student"] !== "undefined") {
+			selTotalStudent = ` , (SELECT COUNT(cm.entity_id) 
+			FROM cf_map cm 
+			WHERE 1=1
+			AND cm.entity = "user" 
+			AND cm.cf = "${params.name}"
+			AND (${UserQuery.selectUserField("cm.entity_id", User.EMAIL)}) NOT LIKE 'test.%') as total_student `;
+		}
+
+		return `select c.* ${selMeta} ${selTotalStudent} from ${CFS.TABLE} c
             where 1=1 AND ${is_active} AND ${is_load} AND ${name}
             ${order_by} ${limit}`;
 
@@ -127,7 +140,7 @@ CFQuery = new CFQuery();
 class CFExec {
 	cfs(params, field, extra = {}) {
 		var sql = CFQuery.getCF(params, field);
-		// console.log("CFExec",sql);
+		console.log("CFExec",sql);
 		var toRet = DB.query(sql).then(function (res) {
 			if (extra.single && res !== null) {
 				return res[0];

@@ -19,11 +19,19 @@ import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
 
 export const ErrorMessage = {
+  JPA_OVER_LIMIT: () => {
+    return <div>
+      Sorry, this event has reached it's maximum capacity. Do reach out to{" "}
+      {/* <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a>, */}
+      <a href="mailto:jamilah.sabri@talentcorp.com.my,aina.ahsan@talentcorp.com.my">jamilah.sabri@talentcorp.com.my & aina.ahsan@talentcorp.com.my</a>
+      <br></br>
+    </div>
+  },
   KPT_NOT_JPA: (kpt) => {
     return <div>
       Sorry, we couldn't find your IC (<b>{kpt}</b>)! Email us at{" "}
       {/* <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a>, */}
-      <a href="mailto:jamilah.sabri@talentcorp.com.my,aina.ahsan@talentcorp.com.my">jamilah.sabri@talentcorp.com.my and aina.ahsan@talentcorp.com.my</a>
+      <a href="mailto:jamilah.sabri@talentcorp.com.my,aina.ahsan@talentcorp.com.my">jamilah.sabri@talentcorp.com.my & aina.ahsan@talentcorp.com.my</a>
       <br></br>
     </div>
   },
@@ -179,11 +187,10 @@ export default class SignUpPage extends React.Component {
             // @kpt_validation - KPT_NOT_JPA
             else if (errorMsg == AuthAPIErr.KPT_NOT_JPA) {
               errorMsg = ErrorMessage.KPT_NOT_JPA(d[UserMeta.KPT]);
-
-              // <div>
-              //   Sorry, we couldn't find your IC (<b>{d[UserMeta.KPT]}</b>) ! Email us at <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a><br></br>
-              // </div>
-
+            }
+            // @kpt_validation - JPA_OVER_LIMIT
+            else if (errorMsg == AuthAPIErr.JPA_OVER_LIMIT) {
+              errorMsg = ErrorMessage.JPA_OVER_LIMIT();
             }
             toggleSubmit(this, { error: errorMsg });
 

@@ -18,6 +18,7 @@ import {
   isCfFeatureOff,
   isCfFeatureOn,
   getCfCustomMeta,
+  getCF,
 } from "../redux/actions/auth-actions";
 import { LogEnum, DocLinkEnum, CFSMeta } from "../../config/db-config";
 import * as activityActions from "../redux/actions/activity-actions";
@@ -51,7 +52,8 @@ import { VacancyList } from "./partial/company/vacancy";
 import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import { EventList } from "./event-list";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
+import RestrictedPage from "./restricted";
 
 export default class CompanyPage extends Component {
   constructor(props) {
@@ -65,6 +67,7 @@ export default class CompanyPage extends Component {
       keyValidation: 0,
       galleryTranslate: 0,
       galleryCurrentIndex: 1,
+      isRestricted: false,
     };
 
     this.SECTION_MAX_HEIGHT = 143;
@@ -126,6 +129,7 @@ export default class CompanyPage extends Component {
     var query = `query {
               company(ID:${this.ID}, user_id:${this.authUser.ID}) {
                 ID
+                cf
                 name
                 tagline
                 description
@@ -153,7 +157,20 @@ export default class CompanyPage extends Component {
 
     getAxiosGraphQLQuery(query).then(res => {
       this.setState(prevState => {
-        return { data: res.data.data.company, loading: false };
+        let company = res.data.data.company;
+
+        let isRestricted = false;
+        if (!isRecruiterCompany(this.ID)) {
+          if (Array.isArray(company.cf)) {
+            if (company.cf.indexOf(getCF()) <= -1) {
+              isRestricted = true; // current cf not in company list cf
+            }
+          } else {
+            isRestricted = true // company cf not even an array
+          }
+        }
+
+        return { data: company, loading: false, isRestricted: isRestricted };
       });
     });
   }
@@ -748,6 +765,8 @@ export default class CompanyPage extends Component {
 
     if (this.state.loading) {
       view = <Loader size="3" text={lang("Loading Company Information...")} />;
+    } else if (this.state.isRestricted) {
+      view = <RestrictedPage></RestrictedPage>
     } else {
       document.setTitle(`${data.name}`);
 

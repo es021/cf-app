@@ -197,6 +197,8 @@ class LoginPage extends React.Component {
             error = ErrorMessage.KPT_NOT_JPA(this.currentKpt);
         } else if (error == AuthAPIErr.KPT_ALREADY_EXIST) {
             error = ErrorMessage.KPT_ALREADY_EXIST(this.currentKpt);
+        } else if (error == AuthAPIErr.JPA_OVER_LIMIT) {
+            error = ErrorMessage.JPA_OVER_LIMIT(this.currentKpt);
         }
 
         if (error == null && !isCookieEnabled()) {
@@ -210,13 +212,13 @@ class LoginPage extends React.Component {
         // if authorized redirect to from
         if (redirectToReferrer) {
             console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
-            console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
+            // console.log("redirect to", from.pathname)
 
             return (
                 <Redirect to={from} />
