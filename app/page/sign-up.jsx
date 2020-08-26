@@ -21,7 +21,10 @@ import { lang } from "../lib/lang";
 export const ErrorMessage = {
   KPT_NOT_JPA: (kpt) => {
     return <div>
-      Sorry, we couldn't find your IC (<b>{kpt}</b>) ! Email us at <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a><br></br>
+      Sorry, we couldn't find your IC (<b>{kpt}</b>) ! Email us at
+      {/* <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a>, */}
+      <a href="mailto:jamilah.sabri@talentcorp.com.my,aina.ahsan@talentcorp.com.my">jamilah.sabri@talentcorp.com.my and aina.ahsan@talentcorp.com.my</a>
+      <br></br>
     </div>
   },
   KPT_ALREADY_EXIST: (kpt) => {
