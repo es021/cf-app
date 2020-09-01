@@ -12,7 +12,7 @@ define("SELECT_NAME_INDEX", "SELECT_NAME_INDEX");
 
 function getExportSql($DB)
 {
-    $sql = "select * from 1_export_sql";
+    $sql = "select * from 1_export_sql order by label asc";
     $data = $DB->query_array($sql);
     return $data;
 }
