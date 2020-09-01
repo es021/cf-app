@@ -37,7 +37,8 @@ const {
   InterestedType,
   VideoType,
   TagType,
-  CfsType
+  CfsType,
+  RefKptJpaType
 } = require("./all-type.js");
 
 //import all action for type
@@ -1500,6 +1501,22 @@ fields["delete_prescreen"] = {
   },
   resolve(parentValue, arg, context, info) {
     return DB.delete(Prescreen.TABLE, arg.ID);
+  }
+};
+
+
+/*******************************************/
+/* ref_kpt_jpa ******************/
+fields["add_ref_kpt_jpa"] = {
+  type: RefKptJpaType,
+  args: {
+    val: __.StringNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    let onDuplicate = ` val="${arg.val}" `;
+    return DB.insert("ref_kpt_jpa", arg, "ID", onDuplicate).then(function (res) {
+      return res;
+    });
   }
 };
 

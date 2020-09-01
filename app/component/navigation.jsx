@@ -83,6 +83,7 @@ import { _student_plural } from "../redux/actions/text-action";
 import { lang, isHasOtherLang } from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
+import AdminMisc from "../page/admin-misc";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -190,17 +191,17 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleAdmin()
     },
-    {
-      url: "/admin-zoom",
-      label: "Zoom API",
-      icon: "video-camera",
-      component: AdminZoom,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      disabled: !isRoleAdmin()
-    },
+    // {
+    //   url: "/admin-zoom",
+    //   label: "Zoom API",
+    //   icon: "video-camera",
+    //   component: AdminZoom,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false,
+    //   disabled: !isRoleAdmin()
+    // },
     {
       // Admin Only
       url: "/admin-recruiter",
@@ -225,18 +226,18 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleAdmin() && !isRoleOrganizer()
     },
-    {
-      // Admin Only
-      url: "/students",
-      label: "All Students",
-      icon: "user",
-      component: AdminStudentPage,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      disabled: !isRoleAdmin()
-    },
+    // {
+    //   // Admin Only
+    //   url: "/students",
+    //   label: "All Students",
+    //   icon: "user",
+    //   component: AdminStudentPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false,
+    //   disabled: !isRoleAdmin()
+    // },
     // ###############################################################
     // NOT AS IMPORTANT
     // {
@@ -292,16 +293,29 @@ function getMenuItem(COMING_SOON) {
     },
     {
       // Admin Only
-      url: "/support",
-      label: "Support",
-      icon: "comments",
-      component: SupportPage,
+      url: "/misc/:current",
+      label: "Miscellaneous",
+      icon: "sliders",
+      component: AdminMisc,
       bar_app: true,
       bar_auth: false,
-      hd_app: true,
+      hd_app: false,
       hd_auth: false,
-      disabled: !isRoleSupport()
+      default_param: { current: "kpt-jpa" },
+      disabled: !isRoleAdmin()
     },
+    // {
+    //   // Admin Only
+    //   url: "/support",
+    //   label: "Support",
+    //   icon: "comments",
+    //   component: SupportPage,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: true,
+    //   hd_auth: false,
+    //   disabled: !isRoleSupport()
+    // },
     {
       // Student Only
       url: "/edit-profile/:current",
@@ -542,20 +556,20 @@ function getMenuItem(COMING_SOON) {
     //   // remove mmy activity from student
     //   disabled: isRoleAdmin() || isRoleOrganizer() || isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
     // },
-    {
-      // Admin Only
-      url: "/auditorium-management",
-      // EUR FIX
-      label: "Manage Webinar",
-      //label: "Auditorium",
-      icon: "microphone",
-      component: AuditoriumManagement,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: false,
-      hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
-    },
+    // {
+    //   // Admin Only
+    //   url: "/auditorium-management",
+    //   // EUR FIX
+    //   label: "Manage Webinar",
+    //   //label: "Auditorium",
+    //   icon: "microphone",
+    //   component: AuditoriumManagement,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   hd_app: false,
+    //   hd_auth: false,
+    //   disabled: !isRoleAdmin() && !isRoleOrganizer()
+    // },
     // {
     //   url: "/company-forum",
     //   label: "Forum",
