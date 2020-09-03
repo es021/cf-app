@@ -303,7 +303,7 @@ class BrowseStudentExec {
 						AND
 					s.val IN (select r.val from ref_sunway_faculty r)
 				)`
-			
+
 			let sunway_program = isCustomUserInfoOff(currentCf, Single.sunway_program)
 				? "1=0"
 				: `( 
@@ -312,36 +312,42 @@ class BrowseStudentExec {
 					s.val IN (select r.val from ref_sunway_program r)
 				)`
 
-			return `SELECT 
+			let toRet = `SELECT 
 			s.key_input as _key
 			, s.val as _val
 			, "" as _val_label
 			, COUNT(*) as _total 
 			FROM single_input s
 			where 
-			${gender} 
-			OR 
-			${work_experience_year} 
-			OR 
-			${university} 
-			OR 
-			${country_study}
-			OR 
-			${unemployment_period}
-			OR
-			${local_or_oversea_study}
-			OR
-			${local_or_oversea_location}
-			OR
-			${monash_school}
-			OR
-			${sunway_faculty}
-			OR
-			${sunway_program}
+			(
+				${gender} 
+				OR 
+				${work_experience_year} 
+				OR 
+				${university} 
+				OR 
+				${country_study}
+				OR 
+				${unemployment_period}
+				OR
+				${local_or_oversea_study}
+				OR
+				${local_or_oversea_location}
+				OR
+				${monash_school}
+				OR
+				${sunway_faculty}
+				OR
+				${sunway_program}
+			)
 			AND s.entity = 'user'
 			AND ${where}
 			group by s.key_input, s.val`;
 
+			console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+			console.log(toRet)
+			console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+			return toRet;
 
 
 		}
@@ -417,7 +423,7 @@ class BrowseStudentExec {
 		// let cf_by_country_discard = CFQuery.getCfDiscardCountryInList(user_id, "user", param.cf, this.DELIMITER);
 
 		let cf = CFQuery.getCfInList(user_id, "user", param.cf, this.DELIMITER);
-		
+
 		// 4c. @custom_user_info_by_cf - where single
 		let country_study = this.where(user_id, this.TABLE_SINGLE, "country_study", param.country_study);
 		let university = this.where(user_id, this.TABLE_SINGLE, "university", param.university);
@@ -431,7 +437,7 @@ class BrowseStudentExec {
 		let sunway_faculty = this.where(user_id, this.TABLE_SINGLE, "sunway_faculty", param.sunway_faculty);
 		let sunway_program = this.where(user_id, this.TABLE_SINGLE, "sunway_program", param.sunway_program);
 
-		
+
 		// 4d. @custom_user_info_by_cf - where multi
 		let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
 		let looking_for_position = this.where(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
@@ -529,7 +535,9 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		// console.log(sql);
+		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		console.log(sql)
+		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 		return sql;
 	}
 	// TODO
