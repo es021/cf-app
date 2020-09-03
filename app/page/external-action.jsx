@@ -48,12 +48,27 @@ export default class ExternalAction extends React.Component {
       this.param = JSON.parse(this.param);
     } catch (err) {
       this.error = `Unable to parse parameter (${this.param})`;
+
+      try {
+        // http://localhost:8080/auth/external-action/acceptInterview/%7B%22studentId%22:28292,%22interviewId%22:2227,%22companyName%22:%22Structural%20//%20Layout%20//%20Circuit%20//%20Analog%20Design%22,%22studentName%22:%22Ng%22%7D
+        let temp = this.param.split(`"interviewId":`);
+        temp = temp[1].split(",");
+        let interviewId = temp[0];
+        interviewId = Number.parseInt(interviewId);
+
+        temp = this.param.split(`"studentId":`);
+        temp = temp[1].split(",");
+        let studentId = temp[0];
+        studentId = Number.parseInt(studentId);
+
+        this.param = {}
+        this.param[Config.Param.INTERVIEW_ID] = interviewId;
+        this.param[Config.Param.STUDENT_ID] = studentId;
+
+      } catch (_err) {
+        this.error = `Unable to parse parameter 2 (${this.param})`;
+      }
     }
-
-    console.log("type", this.type);
-    console.log("param", this.param);
-    console.log("error", this.error);
-
 
     // if(this.error != null){
     //   return;
