@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Loader } from "../component/loader";
-import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import { Prescreen, PrescreenEnum } from "../../config/db-config";
 import obj2arg from "graphql-obj2arg";
 
@@ -14,8 +14,7 @@ const Config = {
   Param: {
     STUDENT_ID: "studentId",
     INTERVIEW_ID: "interviewId",
-    COMPANY_NAME: "companyName",
-    STUDENT_NAME: "studentName"
+    COMPANY_ID: "companyId",
   }
 };
 
@@ -24,7 +23,6 @@ export default class ExternalAction extends React.Component {
     super(props);
 
     this.doAction = this.doAction.bind(this);
-    console.log("Aasjdjajdjs")
     this.type = null;
     this.param = null;
     this.error = null;
@@ -33,7 +31,10 @@ export default class ExternalAction extends React.Component {
 
     this.state = {
       data: null,
-      loading: true
+      loadingInfo: true,
+      loading: true,
+      companyName: "",
+      studentName: "",
     };
   }
 
@@ -58,7 +59,48 @@ export default class ExternalAction extends React.Component {
     //   return;
     // }
 
-    this.doAction();
+    this.loadInfo();
+
+  }
+
+  loadInfo() {
+    var toLoad = 2;
+    var loaded = 0;
+    const finish = () => {
+      loaded++;
+      if (loaded >= toLoad) {
+        this.setState({ loadingInfo: false });
+        this.doAction();
+      }
+    }
+
+    // load user
+    if (!this.param[Config.Param.STUDENT_ID]) {
+      finish();
+    } else {
+      graphql(`query {user(ID:${this.param[Config.Param.STUDENT_ID]}) { first_name } }`).then(res => {
+        let studentName = "";
+        try {
+          studentName = res.data.data.user.first_name;
+        } catch (err) { };
+        this.setState({ studentName: studentName });
+        finish();
+      });
+    }
+
+    // load company
+    if (!this.param[Config.Param.COMPANY_ID]) {
+      finish();
+    } else {
+      graphql(`query {company(ID:${this.param[Config.Param.COMPANY_ID]}) { name } }`).then(res => {
+        let companyName = "";
+        try {
+          companyName = res.data.data.company.name;
+        } catch (err) { };
+        this.setState({ companyName: companyName });
+        finish();
+      });
+    }
 
   }
 
@@ -79,11 +121,12 @@ export default class ExternalAction extends React.Component {
           : PrescreenEnum.STATUS_REJECTED;
 
       // view generation
-      this.title = <h4>Hi {this.param[Config.Param.STUDENT_NAME]} !</h4>;
+      this.title = <h4>Hi {this.state.studentName} !</h4>;
 
-      let companyDetail = ` interview with ${
-        this.param[Config.Param.COMPANY_NAME]
-        }`;
+      let companyDetail = ` interview `;
+      if (this.state.companyName) {
+        companyDetail += `with ${this.state.companyName}`;
+      }
 
       this.textLoading =
         this.type == Config.Type.ACCEPT_INTERVIEW ? `Accepting` : `Rejecting`;
@@ -119,16 +162,17 @@ export default class ExternalAction extends React.Component {
 
   render() {
     var view = <div />;
-
+    if (this.state.loadingInfo) {
+      view = <Loader size="3" text={"Loading info..."} />;
+    }
     if (this.state.loading) {
-      view = <Loader size="3" text={this.textLoading} />;
+      view = [this.title, <Loader size="3" text={this.textLoading} />];
     } else {
-      view = this.viewDone;
+      view = [this.title, this.viewDone];
     }
 
     return (
       <div style={{ padding: "15px" }}>
-        {this.title}
         {view}
       </div>
     );
