@@ -322,9 +322,8 @@ export default class SignUpPage extends React.Component {
             Registration for
             <br></br>
             <b>{this.CFObj.title}</b>
-            <br></br>is not open yet
+            <br></br>has been closed.
             <br></br>
-            <small>Stay Tuned For More Info</small>
           </h3>
         </div>
       );

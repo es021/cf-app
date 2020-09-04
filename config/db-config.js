@@ -495,6 +495,7 @@ const Vacancy = {
 	TITLE: "title",
 	DESCRIPTION: "description",
 	REQUIREMENT: "requirement",
+	LOCATION: "location",
 	TYPE: "type",
 	APPLICATION_URL: "application_url",
 	UPDATED_AT: "updated_at",

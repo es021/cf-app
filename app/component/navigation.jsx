@@ -301,7 +301,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      default_param: { current: "kpt-jpa" },
+      default_param: { current: "job-post-bundle" },
       disabled: !isRoleAdmin()
     },
     // {

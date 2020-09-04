@@ -78,15 +78,9 @@ export default class AdminKptJpa extends React.Component {
     constructor(props) {
         super(props);
     }
-    openPopup() {
-        layoutActions.storeUpdateFocusCard("Create Bundle", CreateBundle, {});
-    }
     render() {
-        document.setTitle("Recruiters");
         return (<div><h3>JPA's IC Dataset</h3>
-            <button className="btn btn-sm btn-round-5 btn-green" onClick={() => { this.openPopup() }}>
-                Create Bundle
-            </button>
+            <CreateBundle></CreateBundle>
         </div>);
 
     }

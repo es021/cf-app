@@ -668,3 +668,55 @@ console.log(sql)
 <br>
 
 */
+
+
+/*
+// DELETED bcoz duplicates
+
+DELETE from vacancies where ID IN (7370,913,3684,7516,907,914,852,7574,7576,7572,7578,3685,7541,7531,7533,7597,7594,7585,7587,7584,7616,7618,7619,7596,7620,7583,7493,7579,7529,7492,7592,7502,7542,7543,7522,7595,7624,7497,7557,7544,7495,7510,7606,7505,7604,7608,5306,7545,7552,7499,5479,7614,7527,7613,7554,7504,7588,7528,7629,7628,7485,7488,7486,7487,7489,7490,7491,7623,7513,5635,7611,7601,7598,7599,7600,7558,7546,7536,7537,7563,7622,7580,7521,7577,7603,7602,7573,7571,7575,7582,7532,7617,7567,7569,7570,7568,7626,7627,7547,7548,7621,7540,7514,5291,7593,7590,7609,7555,7539,7564,7501,7549,7625,7615,7566,7498,7506,7534,7523,7511,7535,7612,7512,7556,7518,7515,7525,7524,7519,7517,7610,7496,7586,3710,7605,5545,7607,7526,7553,7520,1035,5518,3723,7530,7581,7494,7589,5395,176,7503,7507,7508,7509,7550,7538,7551,7591,908,909,915,7500)
+
+
+select * from interested where entity = "vacancies"
+and entity_id IN (7370,913,3684,7516,907,914,852,7574,7576,7572,7578,3685,7541,7531,7533,7597,7594,7585,7587,7584,7616,7618,7619,7596,7620,7583,7493,7579,7529,7492,7592,7502,7542,7543,7522,7595,7624,7497,7557,7544,7495,7510,7606,7505,7604,7608,5306,7545,7552,7499,5479,7614,7527,7613,7554,7504,7588,7528,7629,7628,7485,7488,7486,7487,7489,7490,7491,7623,7513,5635,7611,7601,7598,7599,7600,7558,7546,7536,7537,7563,7622,7580,7521,7577,7603,7602,7573,7571,7575,7582,7532,7617,7567,7569,7570,7568,7626,7627,7547,7548,7621,7540,7514,5291,7593,7590,7609,7555,7539,7564,7501,7549,7625,7615,7566,7498,7506,7534,7523,7511,7535,7612,7512,7556,7518,7515,7525,7524,7519,7517,7610,7496,7586,3710,7605,5545,7607,7526,7553,7520,1035,5518,3723,7530,7581,7494,7589,5395,176,7503,7507,7508,7509,7550,7538,7551,7591,908,909,915,7500)
+
+
+UPDATE  interested SET entity_id = 174 WHERE entity = 'vacancies' and entity_id = 176 ; 
+UPDATE  interested SET entity_id = 849 WHERE entity = 'vacancies' and entity_id = 852 ; 
+UPDATE  interested SET entity_id = 906 WHERE entity = 'vacancies' and entity_id = 907 ; 
+UPDATE  interested SET entity_id = 906 WHERE entity = 'vacancies' and entity_id = 908 ; 
+UPDATE  interested SET entity_id = 904 WHERE entity = 'vacancies' and entity_id = 909 ; 
+UPDATE  interested SET entity_id = 912 WHERE entity = 'vacancies' and entity_id = 913 ; 
+UPDATE  interested SET entity_id = 912 WHERE entity = 'vacancies' and entity_id = 914 ; 
+UPDATE  interested SET entity_id = 912 WHERE entity = 'vacancies' and entity_id = 915 ; 
+UPDATE  interested SET entity_id = 1034 WHERE entity = 'vacancies' and entity_id = 1035 ; 
+UPDATE  interested SET entity_id = 3683 WHERE entity = 'vacancies' and entity_id = 3684 ; 
+UPDATE  interested SET entity_id = 3683 WHERE entity = 'vacancies' and entity_id = 3685 ; 
+UPDATE  interested SET entity_id = 3709 WHERE entity = 'vacancies' and entity_id = 3710 ; 
+UPDATE  interested SET entity_id = 3722 WHERE entity = 'vacancies' and entity_id = 3723 ; 
+UPDATE  interested SET entity_id = 5394 WHERE entity = 'vacancies' and entity_id = 5395 ; 
+UPDATE  interested SET entity_id = 5517 WHERE entity = 'vacancies' and entity_id = 5518 ; 
+UPDATE  interested SET entity_id = 5544 WHERE entity = 'vacancies' and entity_id = 5545 ; 
+UPDATE  interested SET entity_id = 7344 WHERE entity = 'vacancies' and entity_id = 7491 ; 
+UPDATE  interested SET entity_id = 7345 WHERE entity = 'vacancies' and entity_id = 7492 ; 
+UPDATE  interested SET entity_id = 7348 WHERE entity = 'vacancies' and entity_id = 7495 ; 
+UPDATE  interested SET entity_id = 7356 WHERE entity = 'vacancies' and entity_id = 7503 ; 
+UPDATE  interested SET entity_id = 7385 WHERE entity = 'vacancies' and entity_id = 7532 ; 
+UPDATE  interested SET entity_id = 7389 WHERE entity = 'vacancies' and entity_id = 7536 ; 
+UPDATE  interested SET entity_id = 7394 WHERE entity = 'vacancies' and entity_id = 7541 ; 
+UPDATE  interested SET entity_id = 7400 WHERE entity = 'vacancies' and entity_id = 7547 ; 
+UPDATE  interested SET entity_id = 7406 WHERE entity = 'vacancies' and entity_id = 7553 ; 
+UPDATE  interested SET entity_id = 7407 WHERE entity = 'vacancies' and entity_id = 7554 ; 
+UPDATE  interested SET entity_id = 7417 WHERE entity = 'vacancies' and entity_id = 7564 ; 
+UPDATE  interested SET entity_id = 7419 WHERE entity = 'vacancies' and entity_id = 7566 ; 
+UPDATE  interested SET entity_id = 7423 WHERE entity = 'vacancies' and entity_id = 7570 ; 
+UPDATE  interested SET entity_id = 7430 WHERE entity = 'vacancies' and entity_id = 7577 ; 
+UPDATE  interested SET entity_id = 7431 WHERE entity = 'vacancies' and entity_id = 7578 ; 
+UPDATE  interested SET entity_id = 7434 WHERE entity = 'vacancies' and entity_id = 7581 ; 
+UPDATE  interested SET entity_id = 7475 WHERE entity = 'vacancies' and entity_id = 7622 ; 
+UPDATE  interested SET entity_id = 7476 WHERE entity = 'vacancies' and entity_id = 7623 ; 
+UPDATE  interested SET entity_id = 7477 WHERE entity = 'vacancies' and entity_id = 7624 ; 
+UPDATE  interested SET entity_id = 7480 WHERE entity = 'vacancies' and entity_id = 7627 ; 
+
+*/
+
+

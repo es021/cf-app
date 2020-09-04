@@ -4,11 +4,17 @@ import AdminZoom from './admin-zoom';
 import { AuditoriumManagement } from './auditorium';
 import AdminStudentPage from './admin-student';
 import AdminKptJpa from './admin-kpt-jpa';
+import AdminJobPostBundle from './admin-job-post-bundle';
 
 // create sub page here
 export default class AdminMisc extends React.Component {
     componentWillMount() {
         this.item = {
+            "job-post-bundle": {
+                label: "Create Job Post Bundle",
+                component: AdminJobPostBundle,
+                icon: "suitcase"
+            },
             "kpt-jpa": {
                 label: "JPA's IC Dataset",
                 component: AdminKptJpa,
