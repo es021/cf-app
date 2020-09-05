@@ -1,0 +1,222 @@
+@import "define/mixin.scss";
+
+// $MSAJ_BLACK_DARK: #66000f;
+// $MSAJ_BLACK_DARK_LIGHT: #9f505c;
+// $MSAJ_BLACK: #ff0000;
+// $MSAJ_BLACK: #a81128;
+
+$MSAJ_BLACK: #300c36;
+$MSAJ_YELLOW: #ffff49;
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-MSAJ {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $MSAJ_BLACK;
+  $COLOR_HEADER_LINK: rgba(255, 255, 255, 0.7);
+  $COLOR_HEADER_TITLE: $MSAJ_YELLOW;
+  $COLOR_HEADER_SUBTITLE: rgba(255, 255, 255, 0.7);
+  $COLOR_HEADER_LINK_ACTIVE: $MSAJ_YELLOW;
+
+  header {
+    .img {
+      padding: 13px 5px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $MSAJ_BLACK;
+      border-bottom: 2px solid $MSAJ_BLACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $MSAJ_BLACK 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $MSAJ_BLACK;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $MSAJ_BLACK;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $MSAJ_BLACK;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $MSAJ_BLACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $MSAJ_BLACK;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $MSAJ_BLACK;
+    }
+    .pg-page {
+      color: $MSAJ_BLACK;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $MSAJ_BLACK);
+
+    .lb-title {
+      color: $MSAJ_BLACK;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $MSAJ_BLACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $MSAJ_BLACK, white, $MSAJ_BLACK);
+  @include custom_btn_focus("success", $MSAJ_BLACK, #f8f1f1, $MSAJ_BLACK);
+  @include custom_btn_active("success", $MSAJ_BLACK, white, $MSAJ_BLACK);
+
+  @include custom_btn_default("default", $MSAJ_BLACK, white, $MSAJ_BLACK);
+  @include custom_btn_focus("default", $MSAJ_BLACK, #f8f1f1, $MSAJ_BLACK);
+  @include custom_btn_active("default", $MSAJ_BLACK, white, $MSAJ_BLACK);
+
+  @include custom_btn_default("primary", white, $MSAJ_BLACK, $MSAJ_BLACK);
+  @include custom_btn_focus("primary", white, darken($MSAJ_BLACK, 10), $MSAJ_BLACK);
+  @include custom_btn_active("primary", white, $MSAJ_BLACK, $MSAJ_BLACK);
+
+  @include custom_btn_default("blue", white, $MSAJ_BLACK, $MSAJ_BLACK);
+  @include custom_btn_focus("blue", white, darken($MSAJ_BLACK, 10), $MSAJ_BLACK);
+  @include custom_btn_active("blue", white, $MSAJ_BLACK, $MSAJ_BLACK);
+}
