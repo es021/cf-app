@@ -10,12 +10,12 @@ import { Vacancy } from '../../config/db-config';
 class CreateBundle extends React.Component {
     constructor(props) {
         super(props);
-        this.BULLET = "***BULLET***";
+        this.BULLET = "__WZS21_BULLET__";
         this.ROW_SEPARATOR = `___ROW_SEPARATOR___`;
         this.COLUMN_SEPARATOR = `___COLUMN_SEPARATOR___`;
         this.TEST_COMPANY_ID = 44;
         this.CREATED_BY_ID = 21;
-        
+
         this.Index = {
             COMPANY_ID: 0,
             TITLE: 1,
@@ -26,7 +26,7 @@ class CreateBundle extends React.Component {
             REQ: 6,
         }
         this.state = {
-            preview: "",
+            isTestCompany: false,
             finished: 0,
             total: 0,
         }
@@ -70,7 +70,17 @@ class CreateBundle extends React.Component {
         return type;
     }
 
-
+    reformatGeneral(str) {
+        if (!str) {
+            return str;
+        }
+        try {
+            str = str.replaceAll(`’`, "'");
+            return str;
+        } catch (err) {
+        }
+        return str;
+    }
     reformatTitleAndLocation(str) {
         if (!str) {
             return str;
@@ -94,31 +104,36 @@ class CreateBundle extends React.Component {
         str = str.replaceAll(`"`, "");
         str = str.replaceAll(`'`, "\\'");
 
-        // if (str.indexOf("1.") >= 0 || str.indexOf(this.BULLET) >= 0) {
-        //     console.log(str);
-        //     for (var i = 1; i <= 50; i++) {
-        //         str = str.replace(`0${i}. `, DUH);
-        //         str = str.replace(`${i}. `, DUH);
-        //     }
+        try {
+            str = str.replaceAll(`•`, this.BULLET);
+            if (str.indexOf("1.") >= 0 || str.indexOf(this.BULLET) >= 0) {
+                console.log(str);
+                for (var i = 1; i <= 50; i++) {
+                    str = str.replace(`0${i}. `, DUH);
+                    str = str.replace(`${i}. `, DUH);
+                }
 
-        //     str = str.replaceAll(this.BULLET, DUH);
+                str = str.replaceAll(this.BULLET, DUH);
 
-        //     let arr = str.split(DUH);
-        //     str = "";
-        //     for (var a of arr) {
-        //         a = a.replaceAll("\n", " ");
-        //         if (a == "") {
-        //             continue;
-        //         }
-        //         str += `<li>${a}</li>`;
-        //     }
-        //     let toRet = `<ul style="list-style:circle; padding-left: 25px;">${str}</ul>`;
+                let arr = str.split(DUH);
+                str = "";
+                for (var a of arr) {
+                    a = a.replaceAll("\n", " ");
+                    // console.log("a", a.length, a.trim().length, a);
+                    if (a.trim() == "") {
+                        continue;
+                    }
+                    str += `<li>${a}</li>`;
+                }
+                let toRet = `<ul style="list-style:circle; padding-left: 25px;">${str}</ul>`;
 
-        //     toRet = toRet.replace("Responsibilities and Tasks:", "</li><li><h4>Responsibilities and Tasks:</h4>")
-        //     toRet = toRet.replace("JOB RESPONSIBILITIES", "</li><li><h4>JOB RESPONSIBILITIES:</h4>")
+                toRet = toRet.replace("Responsibilities and Tasks:", "</li><li><h4>Responsibilities and Tasks:</h4>")
+                toRet = toRet.replace("JOB RESPONSIBILITIES", "</li><li><h4>JOB RESPONSIBILITIES:</h4>")
+                return toRet;
+            }
+        } catch (err) {
 
-        //     return toRet;
-        // }
+        }
 
         return str;
     }
@@ -149,11 +164,21 @@ class CreateBundle extends React.Component {
             return false;
         }
 
+        // general
+        title = this.reformatGeneral(title);
+        type = this.reformatGeneral(type);
+        location = this.reformatGeneral(location);
+        desc = this.reformatGeneral(desc);
+        req = this.reformatGeneral(req);
+
+
+        // specific
         title = this.reformatTitleAndLocation(title);
         location = this.reformatTitleAndLocation(location);
         type = this.reformatTypeDescRec(type);
         desc = this.reformatTypeDescRec(desc);
         req = this.reformatTypeDescRec(req);
+
 
         // console.log(title)
         // console.log(location)
@@ -161,7 +186,7 @@ class CreateBundle extends React.Component {
         // console.log(req)
         // console.log(type)
         // console.log(url)
-        // console.log(company_id)
+        // console.log(companyId)
         // console.log("_______________________________________________________")
 
         if (!companyId || !title) {
@@ -170,7 +195,7 @@ class CreateBundle extends React.Component {
 
         return {
             companyId: companyId,
-            title, title,
+            title: title,
             type: type,
             location: location,
             url: url,
@@ -179,11 +204,9 @@ class CreateBundle extends React.Component {
         };
     }
 
-    onClickCreate({ isPreview, isTestCompany }) {
+    onClickCreate({ isTestCompany }) {
         let v = this.text_create.value;
         let arr = v.split(this.ROW_SEPARATOR);
-        let preview = "";
-
         let total = 0;
         for (var row of arr) {
             if (row) {
@@ -201,54 +224,30 @@ class CreateBundle extends React.Component {
                 d[Vacancy.REQUIREMENT] = obj.req;
                 d[Vacancy.CREATED_BY] = this.CREATED_BY_ID;
 
-                if (isPreview) {
-                    preview += `<tr>
-                        <td>${obj.companyId}</td>
-                        <td>${obj.title}</td>
-                        <td>${obj.type}</td>
-                        <td>${obj.location}</td>
-                        <td>${obj.url}</td>
-                        <td>${obj.desc}</td>
-                        <td>${obj.req}</td>
-                    </tr>`;
-                } else {
-                    total++;
-                    let q = `mutation { 
+
+                total++;
+                console.log("total", total);
+                let q = `mutation { 
                         add_vacancy( ${obj2arg(d, { noOuterBraces: true })} ) { ID } 
                     } `;
 
-                    graphql(q).then((res) => {
-                        console.log("success", res.data.data)
-                        this.setState((prevState) => {
-                            return {
-                                finished: prevState.finished + 1
-                            }
-                        })
-                    }).catch((err) => {
-                        console.log("error", err)
+                graphql(q).then((res) => {
+                    console.log("success", res.data.data)
+                    this.setState((prevState) => {
+                        return {
+                            finished: prevState.finished + 1
+                        }
                     })
-                }
+                }).catch((err) => {
+                    console.log("error", err)
+                })
             }
         }
 
-        if (isPreview) {
-            preview = `
-            <table class=" table table-striped table-bordered table-hover table-condensed text-left">
-            <thead>
-                <th>Company ID</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Location</th>
-                <th>Application Url</th>
-                <th>Description</th>
-                <th>Requirement</th>
-            </thead>
-            <tbody>${preview}</tbody>
-            </table>
-            `
-            this.setState({ preview: preview });
+        if (isTestCompany) {
+            this.setState({ isTestCompany: true, total: total, finished: 0 });
         } else {
-            this.setState({ preview: "", total: total, finished: 0 });
+            this.setState({ isTestCompany: false, total: total, finished: 0 });
         }
     }
 
@@ -258,16 +257,30 @@ class CreateBundle extends React.Component {
             Company ID<br></br>{this.COLUMN_SEPARATOR}<br></br>Title<br></br>{this.COLUMN_SEPARATOR}<br></br>Type<br></br>{this.COLUMN_SEPARATOR}<br></br>Location<br></br>{this.COLUMN_SEPARATOR}<br></br>Application Url<br></br>{this.COLUMN_SEPARATOR}<br></br>Description<br></br>{this.COLUMN_SEPARATOR}<br></br>Requirement<br></br>{this.ROW_SEPARATOR}
             <br></br>
             <br></br>
+            <b> <a href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/09/Example-Job-Post-Bundle-Upload.xlsx" target="_blank">
+                See Excel Example</a>
+            </b>
+            <br></br>
+            <br></br>
             <b>Paste table here:</b>
             <textarea style={{ width: "100%" }} ref={v => (this.text_create = v)} rows="20"></textarea><br></br><br></br>
-            <button onClick={() => { this.onClickCreate({ isPreview: true }) }} className="btn btn-md btn-round-5 btn-blue-light">Preview</button><br></br><br></br>
-            <div dangerouslySetInnerHTML={{ __html: this.state.preview }}></div>
-            <button disabled={!this.state.preview} onClick={() => { this.onClickCreate({ isTestCompany: true }) }} className="btn btn-md btn-round-5 btn-green">
-                Create Bundle For Test Company
+            {/* <button onClick={() => { this.onClickCreate({ isPreview: true }) }} className="btn btn-md btn-round-5 btn-blue-light">Preview</button><br></br><br></br> */}
+            {/* <div dangerouslySetInnerHTML={{ __html: this.state.preview }}></div> */}
+            <button onClick={() => { this.onClickCreate({ isTestCompany: true }) }} className="btn btn-md btn-round-5 btn-green">
+                Create - Test Company For Preview
             </button>
-            <br></br><br></br>
-            <button disabled={!this.state.preview} onClick={() => { this.onClickCreate({}) }} className="btn btn-md btn-round-5 btn-green">
-                Create Bundle For Real
+            <br></br>
+            <b>
+                <a href="https://seedsjobfairapp.com/php-api/admin/export_sql.php" target="_blank">
+                    Preview - [_General_] Test Company Job Post (VIEW)</a>
+                <br></br>
+                <a href="https://seedsjobfairapp.com/php-api/admin/export_sql.php" target="_blank">
+                    Delete - [_General_] Test Company Job Post (DELETE)</a>
+            </b>
+            <br></br>
+            <br></br>
+            <button disabled={!this.state.isTestCompany} onClick={() => { this.onClickCreate({}) }} className="btn btn-md btn-round-5 btn-red">
+                Create - Real Company
             </button>
             {this.state.total ? <div><b>{this.state.finished} / {this.state.total}</b></div> : null}
         </div>
