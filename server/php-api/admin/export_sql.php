@@ -39,6 +39,8 @@ function getSelectExportSql($data)
 
 function validateSql($sql)
 {
+
+    $isDeleteTestCompany = strpos($sql, "DELETE FROM vacancies where company_id = 44") !== false;
     $sql = strtoupper($sql);
     $err = "";
 
@@ -48,8 +50,7 @@ function validateSql($sql)
 
     $bannedStr = ["DELETE ", "DROP ", "ALTER ", "TRUNCATE ", "UPDATE "];
     foreach ($bannedStr as $ban) {
-
-        if(strcmp($ban, "DELETE ") && strpos($sql, "vacancies v where v.company_id = 44") !== false){
+        if(strcmp($ban, "DELETE ") == 0 && $isDeleteTestCompany){
             continue;
         }
         if (strpos($sql, $ban) !== false) {
@@ -58,11 +59,13 @@ function validateSql($sql)
         }
     }
 
-    $compulsaryStr = ["SELECT"];
-    foreach ($compulsaryStr as $com) {
-        if (strpos($sql, $com) === false) {
-            $err = "Query must contain compulsary token '$com'";
-            return $err;
+    if(!$isDeleteTestCompany){
+        $compulsaryStr = ["SELECT"];
+        foreach ($compulsaryStr as $com) {
+            if (strpos($sql, $com) === false) {
+                $err = "Query must contain compulsary token '$com'";
+                return $err;
+            }
         }
     }
 
