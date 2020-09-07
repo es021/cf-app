@@ -49,7 +49,7 @@ function validateSql($sql)
     $bannedStr = ["DELETE ", "DROP ", "ALTER ", "TRUNCATE ", "UPDATE "];
     foreach ($bannedStr as $ban) {
 
-        if($ban == "DELETE " && strpos($sql, "vacancies v where v.company_id = 44") !== false){
+        if($strcmp($ban, "DELETE ") && strpos($sql, "vacancies v where v.company_id = 44") !== false){
             continue;
         }
         if (strpos($sql, $ban) !== false) {
