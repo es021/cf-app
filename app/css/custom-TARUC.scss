@@ -1,0 +1,224 @@
+@import "define/mixin.scss";
+
+// $TARUC_RED_DARK: #66000f;
+// $TARUC_RED_DARK_LIGHT: #9f505c;
+// $TARUC_RED: #ff0000;
+// $TARUC_RED: #a81128;
+
+$TARUC_RED: #e51b24;
+$TARUC_BLACK:  #111615;
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-TARUC {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: white;
+
+  $COLOR_HEADER_LINK:$TARUC_BLACK;
+  $COLOR_HEADER_SUBTITLE: $TARUC_BLACK;
+
+  $COLOR_HEADER_TITLE: $TARUC_RED;
+  $COLOR_HEADER_LINK_ACTIVE: $TARUC_RED;
+
+  header {
+    .img {
+      padding : 13px 7px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $TARUC_RED;
+      border-bottom: 2px solid $TARUC_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $TARUC_RED 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $TARUC_RED;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $TARUC_RED;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $TARUC_RED;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $TARUC_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $TARUC_RED;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $TARUC_RED;
+    }
+    .pg-page {
+      color: $TARUC_RED;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $TARUC_RED);
+
+    .lb-title {
+      color: $TARUC_RED;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $TARUC_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $TARUC_RED, white, $TARUC_RED);
+  @include custom_btn_focus("success", $TARUC_RED, #f8f1f1, $TARUC_RED);
+  @include custom_btn_active("success", $TARUC_RED, white, $TARUC_RED);
+
+  @include custom_btn_default("default", $TARUC_RED, white, $TARUC_RED);
+  @include custom_btn_focus("default", $TARUC_RED, #f8f1f1, $TARUC_RED);
+  @include custom_btn_active("default", $TARUC_RED, white, $TARUC_RED);
+
+  @include custom_btn_default("primary", white, $TARUC_RED, $TARUC_RED);
+  @include custom_btn_focus("primary", white, darken($TARUC_RED, 10), $TARUC_RED);
+  @include custom_btn_active("primary", white, $TARUC_RED, $TARUC_RED);
+
+  @include custom_btn_default("blue", white, $TARUC_RED, $TARUC_RED);
+  @include custom_btn_focus("blue", white, darken($TARUC_RED, 10), $TARUC_RED);
+  @include custom_btn_active("blue", white, $TARUC_RED, $TARUC_RED);
+}
