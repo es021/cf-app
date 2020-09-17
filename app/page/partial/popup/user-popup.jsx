@@ -197,6 +197,7 @@ export default class UserPopup extends Component {
                 last_name
                 ${this.addIfValid("birth_date")}
                 ${this.addIfValid("kpt")}
+                ${this.addIfValid("id_utm")}
                 ${this.addIfValid("country_study")}
                 ${this.addIfValid("gender")}
                 ${this.addIfValid("work_experience_year")}
@@ -353,6 +354,14 @@ export default class UserPopup extends Component {
           label: lang("IC Number"),
           icon: "slack",
           value: this.isValueEmpty(d.kpt) ? notSpecifed : d.kpt
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.id_utm)) {
+        items.push({
+          label: lang("Matric Number"),
+          icon: "slack",
+          value: this.isValueEmpty(d.id_utm) ? notSpecifed : d.id_utm
         })
       }
 

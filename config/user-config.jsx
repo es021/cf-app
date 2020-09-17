@@ -10,7 +10,7 @@ import { getDataCareerFair } from '../app/component/form';
 import { DocumentUrl, TermsAndConditionUrl } from './app-config';
 import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from './data-config';
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
-import {lang} from '../app/lib/lang';
+import { lang } from '../app/lib/lang';
 export const TotalRegisterStep = 3;
 
 
@@ -41,6 +41,18 @@ export const UserFormItem = [
         //required: true,
         isOnlyInCf: (cf) => {
             return registrationConfig.isDoJpaKptValidation(cf)
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        // @id_utm_validation
+        label: lang("Matric Number"),
+        name: UserMeta.ID_UTM,
+        type: "text",
+        placeholder: "",
+        //required: true,
+        isOnlyInCf: (cf) => {
+            return registrationConfig.isDoIdUtmValidation(cf)
         },
         register: 1, editStudent: 0, editRec: 0
     },

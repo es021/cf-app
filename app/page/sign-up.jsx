@@ -19,6 +19,19 @@ import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
 
 export const ErrorMessage = {
+  ID_UTM_NOT_VALID: (id_utm) => {
+    return <div>
+      Sorry, we couldn't find your Matric Number (<b>{id_utm}</b>)! Email us at{" "}
+      {/* <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a>, */}
+      <a href="mailto:graduates@seedsjobfair.com">graduates@seedsjobfair.com</a>
+      <br></br>
+    </div>
+  },
+  ID_UTM_ALREADY_EXIST: (id_utm) => {
+    return <div>
+      Matric Number (<b>{id_utm}</b>) is already registered to other account in our system. Please login with the registered account to continue.
+  </div>
+  },
   JPA_OVER_LIMIT: () => {
     return <div>
       Sorry, this event has reached it's maximum capacity. Do reach out to{" "}
@@ -103,6 +116,15 @@ export default class SignUpPage extends React.Component {
     return false;
   }
 
+
+  // @id_utm_validation
+  getIdUtmErrorValidation(id_utm) {
+    // if (id_utm.length != 12) {
+    //   return <div>{lang("Please enter 12 digit only.")}</div>
+    // }
+    return false;
+  }
+
   formOnSubmit(d) {
     console.log("sign up", d);
     var err = this.filterForm(d);
@@ -151,6 +173,33 @@ export default class SignUpPage extends React.Component {
         }
 
 
+        // @id_utm_validation - validate fe
+        if (d[UserMeta.ID_UTM]) {
+          let ERR_ = <span>Matric Number (<b>{d[UserMeta.ID_UTM]}</b>) is invalid.</span>;
+          try {
+            let v = d[UserMeta.ID_UTM] + "";
+            v = v.replaceAll(" ", "");
+            let errorValidation = this.getIdUtmErrorValidation(v);
+            if (errorValidation !== false) {
+              toggleSubmit(this, {
+                error: <div>
+                  {ERR_}<br></br>
+                  {errorValidation}
+                </div>
+              });
+              return;
+            } else {
+              d[UserMeta.ID_UTM] = v;
+            }
+          } catch (err) {
+            toggleSubmit(this, { error: ERR_ });
+            return;
+          }
+        } else {
+          d[UserMeta.ID_UTM] = "";
+        }
+
+
         //prepare data for registration
         d[User.LOGIN] = d[User.EMAIL];
 
@@ -192,6 +241,18 @@ export default class SignUpPage extends React.Component {
             else if (errorMsg == AuthAPIErr.JPA_OVER_LIMIT) {
               errorMsg = ErrorMessage.JPA_OVER_LIMIT();
             }
+
+
+            // @id_utm_validation - ID_UTM_ALREADY_EXIST
+            if (errorMsg == AuthAPIErr.ID_UTM_ALREADY_EXIST) {
+              errorMsg = ErrorMessage.ID_UTM_ALREADY_EXIST(d[UserMeta.ID_UTM]);
+            }
+            
+            // @id_utm_validation - ID_UTM_NOT_VALID
+            if (errorMsg == AuthAPIErr.ID_UTM_NOT_VALID) {
+              errorMsg = ErrorMessage.ID_UTM_NOT_VALID(d[UserMeta.ID_UTM]);
+            }
+
             toggleSubmit(this, { error: errorMsg });
 
           }

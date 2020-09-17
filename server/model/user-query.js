@@ -217,8 +217,7 @@ class UserQuery {
 		query +=
 			typeof params.search_university === "undefined" ?
 				"" :
-				` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${
-				params.search_university
+				` and (${this.selectMetaMain("u.ID", UserMeta.UNIVERSITY)}) like '%${params.search_university
 				}%'`;
 
 		return query;
@@ -243,10 +242,15 @@ class UserQuery {
 				`(${this.selectSingleMain("u.ID", UserMeta.KPT)}) = '${params.kpt}' ` :
 				`1=1`;
 
+		// @id_utm_validation
+		var id_utm_condition =
+			typeof params.id_utm !== "undefined" ?
+				`(${this.selectSingleMain("u.ID", UserMeta.ID_UTM)}) = '${params.id_utm}' ` :
+				`1=1`;
+
 		var role_condition =
 			typeof params.role !== "undefined" ?
-				`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${
-				params.role
+				`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role
 				}%' ` :
 				`1=1`;
 		var order_by =
@@ -281,8 +285,7 @@ class UserQuery {
 				if (i > 0) {
 					meta_condition += " AND ";
 				}
-				meta_condition += `(${this.selectMetaMain("u.ID", key)}) = '${
-					meta_cons[key]
+				meta_condition += `(${this.selectMetaMain("u.ID", key)}) = '${meta_cons[key]
 					}' `;
 				i++;
 			}
@@ -314,6 +317,7 @@ class UserQuery {
 			}
 		}
 
+		// @kpt_validation
 		let is_kpt_jpa_sel = "";
 		if (field["is_kpt_jpa"]) {
 			is_kpt_jpa_sel = `, (select rkj.val from ref_kpt_jpa rkj 
@@ -321,13 +325,24 @@ class UserQuery {
 				) as is_kpt_jpa `
 		}
 
-		var sql = `SELECT u.* ${meta_sel} ${is_kpt_jpa_sel}
+		// @id_utm_validation
+		let is_id_utm_sel = "";
+		if (field["is_id_utm"]) {
+			is_id_utm_sel = `, (select rkj.val from ref_id_utm rkj 
+					where val = (${this.selectSingleMain("u.ID", "id_utm")})
+				) as is_id_utm `
+		}
+
+		// @kpt_validation
+		var sql = `SELECT u.* ${meta_sel} ${is_kpt_jpa_sel} ${is_id_utm_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
-		   AND ${id_condition} AND ${meta_condition} AND ${kpt_condition}
+		   AND ${id_condition} AND ${meta_condition} AND ${kpt_condition} AND ${id_utm_condition}
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
 
+		console.log(sql);
+		console.log(sql);
 		console.log(sql);
 
 		return sql;
@@ -444,6 +459,8 @@ class UserExec {
 			}
 		});
 	}
+
+	// @kpt_validation
 	isKptJpa(kpt) {
 		let sql = `select rkj.val from ref_kpt_jpa rkj where val = "${kpt}"`;
 		return DB.query(sql).then((res) => {
@@ -455,6 +472,20 @@ class UserExec {
 			return 0;
 		});
 	}
+
+	// @id_utm_validation
+	isIdUtm(v) {
+		let sql = `select xx.val from ref_id_utm xx where xx.val = "${v}"`;
+		return DB.query(sql).then((res) => {
+			try {
+				if (res[0].val) {
+					return 1;
+				}
+			} catch (err) { };
+			return 0;
+		});
+	}
+
 	editUser(arg) {
 		var ID = arg.ID;
 
@@ -634,12 +665,6 @@ class UserExec {
 						field["student_listing_interested"]
 					);
 				}
-
-				// // is_kpt_jpa ****************************************************
-				// if (field["is_kpt_jpa"] !== "undefined") {
-				// 	let kpt = res[i]["kpt"];
-				// 	field["is_kpt_jpa"] = this.isKptJpa(kpt);
-				// }
 
 				// is_profile_completed ****************************************************
 				if (field["is_profile_completed"] !== "undefined") {

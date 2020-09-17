@@ -38,7 +38,10 @@ class LoginPage extends React.Component {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
         this.getFormItem = this.getFormItem.bind(this);
+
+        // @kpt_validation - init current
         this.currentKpt = "";
+        this.currentIdUtm = "";
 
     }
     getFormItem() {
@@ -66,7 +69,7 @@ class LoginPage extends React.Component {
             // },
         ];
 
-
+        // @kpt_validation - new field
         if (this.isNeedKptInput()) {
             r.push({
                 label: lang("IC Number"),
@@ -76,6 +79,18 @@ class LoginPage extends React.Component {
                 required: true
             })
         }
+
+        // @id_utm_validation - new field
+        if (this.isNeedIdUtmInput()) {
+            r.push({
+                label: lang("Matric Number"),
+                name: UserMeta.ID_UTM,
+                type: "text",
+                placeholder: "Enter your Matric Number here",
+                required: true
+            })
+        }
+
         return r;
     }
     componentWillMount() {
@@ -118,6 +133,7 @@ class LoginPage extends React.Component {
         this.defaultValues[User.CF] = getCF();
     }
 
+    // @kpt_validation
     isNeedKptInput() {
         return [
             AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD,
@@ -126,11 +142,28 @@ class LoginPage extends React.Component {
         ].indexOf(this.props.redux.error) >= 0
     }
 
+    isNeedIdUtmInput() {
+        return [
+            AuthAPIErr.ID_UTM_NOT_FOUND_IN_USER_RECORD,
+            AuthAPIErr.ID_UTM_NOT_VALID,
+            AuthAPIErr.ID_UTM_ALREADY_EXIST
+        ].indexOf(this.props.redux.error) >= 0
+    }
+
     formOnSubmit(d) {
-        //console.log("login", data);
-        //this.props.login(d[User.EMAIL], d[User.PASSWORD], d[User.CF]);
+        // @kpt_validation - set current
         this.currentKpt = d[UserMeta.KPT];
-        this.props.login(d[User.EMAIL], d[User.PASSWORD], this.CF, d[UserMeta.KPT]);
+
+        // @id_utm_validation - set current
+        this.currentIdUtm = d[UserMeta.ID_UTM];
+
+        this.props.login({
+            email: d[User.EMAIL],
+            password: d[User.PASSWORD],
+            cf: this.CF,
+            kpt: d[UserMeta.KPT], // @kpt_validation - login - new param
+            id_utm: d[UserMeta.ID_UTM], // @id_utm_validation - login - new param
+        });
     }
 
     render() {
@@ -188,6 +221,7 @@ class LoginPage extends React.Component {
         }
 
 
+        // @kpt_validation
         if (error == AuthAPIErr.KPT_NOT_FOUND_IN_USER_RECORD
             || (error == AuthAPIErr.KPT_NOT_JPA && !this.currentKpt)) {
             error = <span>
@@ -199,6 +233,18 @@ class LoginPage extends React.Component {
             error = ErrorMessage.KPT_ALREADY_EXIST(this.currentKpt);
         } else if (error == AuthAPIErr.JPA_OVER_LIMIT) {
             error = ErrorMessage.JPA_OVER_LIMIT(this.currentKpt);
+        }
+
+        // @id_utm_validation
+        if (error == AuthAPIErr.ID_UTM_NOT_FOUND_IN_USER_RECORD
+            || (error == AuthAPIErr.ID_UTM_NOT_VALID && !this.currentIdUtm)) {
+            error = <span>
+                {lang("Please provide your Matric Number to continue.")}
+            </span>;
+        } else if (error == AuthAPIErr.ID_UTM_NOT_VALID) {
+            error = ErrorMessage.ID_UTM_NOT_VALID(this.currentIdUtm);
+        } else if (error == AuthAPIErr.ID_UTM_ALREADY_EXIST) {
+            error = ErrorMessage.ID_UTM_ALREADY_EXIST(this.currentIdUtm);
         }
 
         if (error == null && !isCookieEnabled()) {

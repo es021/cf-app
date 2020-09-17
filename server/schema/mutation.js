@@ -731,8 +731,10 @@ fields["edit_user"] = {
     // all roles
     ID: __.IntNonNull,
 
-    // @kpt_validation
-    kpt: __.String,
+
+    kpt: __.String,// @kpt_validation
+    id_utm: __.String,// @id_utm_validation
+
     user_email: __.String,
     user_email: __.String,
     user_pass: __.String,

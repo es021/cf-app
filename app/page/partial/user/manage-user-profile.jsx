@@ -162,6 +162,16 @@ export default class ManageUserProfile extends React.Component {
           // single
           type: "single",
           input_type: "text",
+          label: lang("Matric Number"),
+          id: Reg.Single.id_utm,
+          key_input: Reg.Single.id_utm,
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.id_utm)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "text",
           label: lang("IC Number"),
           id: Reg.Single.kpt,
           key_input: Reg.Single.kpt,

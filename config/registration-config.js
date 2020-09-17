@@ -22,7 +22,10 @@ const Single = {
 
     // 1a. @custom_user_info_by_cf - single
     unemployment_period: "unemployment_period",
-    kpt: "kpt",
+
+    kpt: "kpt", // @kpt_validation - add kt Single
+    id_utm: "id_utm", // @id_utm_validation - add kt Single
+
     birth_date: "birth_date",
     monash_student_id: "monash_student_id",
     monash_school: "monash_school",
@@ -135,6 +138,9 @@ const isCustomUserInfoOff = (cf, key) => {
         case Single.kpt:
             onCf = ["MDCW"];
             break;
+        case Single.id_utm:
+            onCf = ["UTM20"];
+            break;
 
         // ###############
         // by default is ON
@@ -177,6 +183,11 @@ const isDoJpaKptValidation = (cf) => {
     return valid.indexOf(cf) >= 0;
 }
 
+// @id_utm_validation - SET_CF_HERE
+const isDoIdUtmValidation = (cf) => {
+    let valid = ["UTM20"];
+    return valid.indexOf(cf) >= 0;
+}
 
 const RequiredFieldStudent = [
     UserMeta.FIRST_NAME,
@@ -186,6 +197,9 @@ const RequiredFieldStudent = [
 
     // @kpt_validation
     UserMeta.KPT,
+
+    // @id_utm_validation
+    UserMeta.ID_UTM,
 
 
     //`${User.PASSWORD}-confirm`,
@@ -219,7 +233,8 @@ const RequiredFieldRecruiter = [
 
 
 module.exports = {
-    isDoJpaKptValidation,
+    isDoJpaKptValidation, // @kpt_validation
+    isDoIdUtmValidation, // @id_utm_validation
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,

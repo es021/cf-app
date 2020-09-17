@@ -257,7 +257,7 @@ fields["refs"] = {
 	type: new GraphQLList(RefType),
 	args: {
 		lang: __.String,
-		
+
 		table_name: __.StringNonNull,
 		val: __.String,
 		category: __.String,
@@ -637,6 +637,7 @@ fields["feedback_qs"] = {
 
 /*******************************************/
 /* is_kpt_jpa ******************/
+// @kpt_validation
 fields["is_kpt_jpa"] = {
 	type: GraphQLInt,
 	args: {
@@ -644,6 +645,20 @@ fields["is_kpt_jpa"] = {
 	},
 	resolve(parentValue, arg, context, info) {
 		return UserExec.isKptJpa(arg.kpt);
+	}
+};
+
+
+/*******************************************/
+/* is_id_utm ******************/
+// @id_utm_validation
+fields["is_id_utm"] = {
+	type: GraphQLInt,
+	args: {
+		id_utm: __.StringNonNull
+	},
+	resolve(parentValue, arg, context, info) {
+		return UserExec.isIdUtm(arg.id_utm);
 	}
 };
 
@@ -862,8 +877,8 @@ fields["user"] = {
 	type: UserType,
 	args: {
 		ID: __.Int,
-		// @kpt_validation
-		kpt: __.String,
+		kpt: __.String, // @kpt_validation
+		id_utm: __.String, // @id_utm_validation
 		user_email: __.String
 	},
 	resolve(parentValue, arg, context, info) {

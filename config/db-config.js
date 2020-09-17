@@ -147,6 +147,9 @@ const UserMeta = {
 	// @kpt_validation
 	KPT: "kpt",
 
+	// @id_utm_validation
+	ID_UTM: "id_utm",
+
 	// student only
 	UNIVERSITY: "university",
 	PHONE_NUMBER: "phone_number",

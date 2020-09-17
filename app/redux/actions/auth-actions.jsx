@@ -443,16 +443,13 @@ export function updateAuthUser(user, force = false) {
 }
 
 export const DO_LOGIN = "DO_LOGIN";
-export function login(email, password, cf, kpt) {
+
+// used in login.jsx (this.props.login)
+export function login(userDataForLogin) {
     return function (dispatch) {
         dispatch({
             type: DO_LOGIN,
-            payload: axios.post(AppConfig.Api + "/auth/login", {
-                email: email,
-                password: password,
-                cf: cf,
-                kpt : kpt
-            })
+            payload: axios.post(AppConfig.Api + "/auth/login", userDataForLogin)
         });
     };
 }

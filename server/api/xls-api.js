@@ -29,6 +29,7 @@ class XLSApi {
       doc_links {label url}
       ${this.addIfValid("birth_date")}
       ${this.addIfValid("kpt")}
+      ${this.addIfValid("id_utm")}
       ${this.addIfValid("local_or_oversea_study")}
       ${this.addIfValid("country_study")}
       ${this.addIfValid("monash_student_id")}

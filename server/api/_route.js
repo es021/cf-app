@@ -22,24 +22,24 @@ const initializeAllRoute = function (app, root) {
 
   // Facebook Route ----------------------------------------------------------------
   /*
-	  const {FBApi} = require('./fb-api');
-	  app.post(root + '/fb/:action', function (req, res, next) {
-	      var action = req.params.action;
+    const {FBApi} = require('./fb-api');
+    app.post(root + '/fb/:action', function (req, res, next) {
+        var action = req.params.action;
 
-	      switch (action) {
-	          case 'get-feed':
-	              FBApi.getFeed().then((response) => {
-	                  console.log("from __route");
-	                  console.log(response);
-	                  routeResHandler(res, response);
-	              });
+        switch (action) {
+            case 'get-feed':
+                FBApi.getFeed().then((response) => {
+                    console.log("from __route");
+                    console.log(response);
+                    routeResHandler(res, response);
+                });
 
-	              break;
-	      }
+                break;
+        }
 
 
-	  });
-	  */
+    });
+    */
 
   // Activity Route ----------------------------------------------------------------
   const { ZoomApi } = require('./zoom-api');
@@ -182,19 +182,19 @@ const initializeAllRoute = function (app, root) {
         });
         break;
       /*
-				           case 'start-queue':
-				           ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
-				           .then((response) => {
-				           routeResHandler(res, response);
-				           });
-				           break;
-				           case 'cancel-queue':
-				           ActivityAPI.cancelQueue(req.body.id)
-				           .then((response) => {
-				           routeResHandler(res, response);
-				           });
-				           break;
-				           */
+                   case 'start-queue':
+                   ActivityAPI.startQueue(req.body.student_id, req.body.company_id)
+                   .then((response) => {
+                   routeResHandler(res, response);
+                   });
+                   break;
+                   case 'cancel-queue':
+                   ActivityAPI.cancelQueue(req.body.id)
+                   .then((response) => {
+                   routeResHandler(res, response);
+                   });
+                   break;
+                   */
     }
   });
 
@@ -204,7 +204,8 @@ const initializeAllRoute = function (app, root) {
     var action = req.params.action;
     switch (action) {
       case "login":
-        AuthAPI.login(req.body.email, req.body.password, req.body.cf, req.body.kpt, req).then(
+        // req.body.email, req.body.password, req.body.cf, req.body.kpt, req
+        AuthAPI.login({ ...req.body, request: req }).then(
           response => {
             routeResHandler(res, response);
           }

@@ -10,9 +10,12 @@ const AuthUserKey = ["ID",
 	"img_url",
 	"img_pos",
 	"img_size",
-	// @kpt_validation
-	"kpt",
-	"is_kpt_jpa"
+
+	"kpt",// @kpt_validation
+	"is_kpt_jpa",// @kpt_validation
+
+	"id_utm",// @id_utm_validation
+	"is_id_utm"// @id_utm_validation
 ];
 
 const AuthAPIErr = {
@@ -25,10 +28,15 @@ const AuthAPIErr = {
 	TOKEN_EXPIRED: "TOKEN_EXPIRED",
 
 	// @kpt_validation
-	JPA_OVER_LIMIT : "JPA_OVER_LIMIT",
+	JPA_OVER_LIMIT: "JPA_OVER_LIMIT",
 	KPT_NOT_JPA: "KPT_NOT_JPA",
 	KPT_ALREADY_EXIST: "KPT_ALREADY_EXIST",
-	KPT_NOT_FOUND_IN_USER_RECORD: "KPT_NOT_FOUND_IN_USER_RECORD"
+	KPT_NOT_FOUND_IN_USER_RECORD: "KPT_NOT_FOUND_IN_USER_RECORD",
+
+	// @id_utm_validation
+	ID_UTM_NOT_FOUND_IN_USER_RECORD: "ID_UTM_NOT_FOUND_IN_USER_RECORD",
+	ID_UTM_NOT_VALID: "ID_UTM_NOT_VALID",
+	ID_UTM_ALREADY_EXIST: "ID_UTM_ALREADY_EXIST"
 };
 
 module.exports = {
