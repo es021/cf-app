@@ -1,0 +1,226 @@
+@import "define/mixin.scss";
+
+// $UTM20_RED_DARK: #66000f;
+// $UTM20_RED_DARK_LIGHT: #9f505c;
+// $UTM20_RED: #ff0000;
+// $UTM20_RED: #a81128;
+
+$UTM20_RED: #5c001e;
+$UTM20_YELLOW: #e69405;
+$UTM20_RED_LIGHT:  #5c001fc4;
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-UTM20 {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $UTM20_YELLOW;
+
+  $COLOR_HEADER_TITLE: $UTM20_RED;
+  $COLOR_HEADER_LINK_ACTIVE: $UTM20_RED;
+
+  $COLOR_HEADER_LINK:$UTM20_RED_LIGHT;
+  $COLOR_HEADER_SUBTITLE: $UTM20_RED_LIGHT;
+
+
+  header {
+    .img {
+      padding : 13px 7px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $UTM20_RED;
+      border-bottom: 2px solid $UTM20_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $UTM20_RED 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $UTM20_RED;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $UTM20_RED;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $UTM20_RED;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $UTM20_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $UTM20_RED;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $UTM20_RED;
+    }
+    .pg-page {
+      color: $UTM20_RED;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $UTM20_RED);
+
+    .lb-title {
+      color: $UTM20_RED;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $UTM20_RED;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $UTM20_RED, white, $UTM20_RED);
+  @include custom_btn_focus("success", $UTM20_RED, #f8f1f1, $UTM20_RED);
+  @include custom_btn_active("success", $UTM20_RED, white, $UTM20_RED);
+
+  @include custom_btn_default("default", $UTM20_RED, white, $UTM20_RED);
+  @include custom_btn_focus("default", $UTM20_RED, #f8f1f1, $UTM20_RED);
+  @include custom_btn_active("default", $UTM20_RED, white, $UTM20_RED);
+
+  @include custom_btn_default("primary", white, $UTM20_RED, $UTM20_RED);
+  @include custom_btn_focus("primary", white, darken($UTM20_RED, 10), $UTM20_RED);
+  @include custom_btn_active("primary", white, $UTM20_RED, $UTM20_RED);
+
+  @include custom_btn_default("blue", white, $UTM20_RED, $UTM20_RED);
+  @include custom_btn_focus("blue", white, darken($UTM20_RED, 10), $UTM20_RED);
+  @include custom_btn_active("blue", white, $UTM20_RED, $UTM20_RED);
+}

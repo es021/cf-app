@@ -5,26 +5,11 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-// import { getAxiosGraphQLQuery } from "../helper/api-helper";
 import { Provider } from "react-redux";
-// import { Loader } from "./component/loader";
 import { store } from "./redux/store.js";
-
-// import {
-//   isAuthorized,
-//   isComingSoon,
-//   setLocalStorageCf,
-//   getAuthUser
-// } from "./redux/actions/auth-actions";
-
-// import { addLog } from "./redux/actions/other-actions";
-// import { LogEnum, CFSMetaObject, CFSMetaOrg } from "../config/db-config";
 import PrimaryLayout from "./primary-layout.jsx";
 import TestLayout from "./layout/test-layout.jsx";
 import NoCfLayout from "./layout/no-cf-layout.jsx";
-
-//require("./lib/AutoComplete.js");
-//require("./lib/font-awesome-4.7.0/css/font-awesome.css");
 
 require("./lib/util.js");
 let scss = [
@@ -90,12 +75,16 @@ let scss = [
   // kena letak bawah skali
   "custom-CIMB",
   "custom-IMPACT",
+  "custom-INTEL",
+  "custom-JPATC",
+  "custom-MDCW",
   "custom-MICRON",
   "custom-MONASH",
+  "custom-MSAJ",
   "custom-SHELL",
   "custom-SUNWAY",
-  "custom-INTEL",
-  "custom-MDCW",
+  "custom-TARUC",
+  "custom-UTM20",
 ];
 
 for (var i in scss) {
