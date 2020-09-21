@@ -17,28 +17,28 @@ const { overrideLanguageTable } = require("./ref-query.js");
 
 query{
   browse_student(
-    working_availability_year_to:"2034",
-    company_id : 12,
-    favourited_only :"1",
-    page :1,
-    offset :10,
-      interested_job_location : "Cyberjaya, Selangor::Drawing",
-    skill : "Coding::Drawing",
-    cf:"NZL::UK"
+	working_availability_year_to:"2034",
+	company_id : 12,
+	favourited_only :"1",
+	page :1,
+	offset :10,
+	  interested_job_location : "Cyberjaya, Selangor::Drawing",
+	skill : "Coding::Drawing",
+	cf:"NZL::UK"
   ) {
-    student_id
-    student {
-    interested_job_location {val}
-      skill {
-        val
-      }
-      working_availability_year
-      working_availability_month
-      user_email
+	student_id
+	student {
+	interested_job_location {val}
+	  skill {
+		val
+	  }
+	  working_availability_year
+	  working_availability_month
+	  user_email
 			first_name 
-      last_name
-      cf
-    }
+	  last_name
+	  cf
+	}
   } 
 }
 
@@ -378,7 +378,15 @@ class BrowseStudentExec {
 		return q;
 
 	}
+	whereDropResume(company_id, user_id, param) {
+		if (param === "1") {
+			let q = ` (select COUNT(rd.ID) FROM resume_drops rd 
+			where rd.company_id = ${company_id} AND rd.student_id = ${user_id} ) > 0 `;
+			return q;
+		}
 
+		return "1=1";
+	}
 	whereLikeJobPost(company_id, user_id, param) {
 		let type = "job_post";
 		return this.whereShowInterest(company_id, user_id, param, type);
@@ -453,6 +461,7 @@ class BrowseStudentExec {
 
 		var show_interest = this.whereShowInterest(param.company_id, user_id, param.interested_only);
 		var like_job_post = this.whereLikeJobPost(param.company_id, user_id, param.like_job_post_only);
+		var drop_resume = this.whereDropResume(param.company_id, user_id, param.drop_resume_only);
 
 		let work_availability = this.whereDateRange({
 			user_id: user_id,
@@ -496,6 +505,7 @@ class BrowseStudentExec {
 			AND ${name}
 			AND ${current_cf}
 			AND ${like_job_post}
+			AND ${drop_resume}
 			AND ${show_interest}
 			AND ${favourited}
 			AND ${cf}

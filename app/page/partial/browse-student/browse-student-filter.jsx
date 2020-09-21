@@ -84,6 +84,7 @@ export class BrowseStudentFilter extends React.Component {
             "like_job_post_only",
             "interested_only",
             "favourited_only",
+            "drop_resume_only",
             // "cf",
             "name",
             "country_study",
@@ -178,6 +179,25 @@ export class BrowseStudentFilter extends React.Component {
                 filters: [{
                     val: "1",
                     label: <div>{lang("Show")} <b>{lang("applicants from your job post")}</b> {lang("only")}
+                        <Tooltip
+                            bottom="13px"
+                            left="-90px"
+                            width="200px"
+                            alignCenter={true}
+                            debug={false}
+                            content={null}
+                            tooltip={null}
+                        ></Tooltip>
+                    </div>,
+                    total: null
+                }]
+            },
+            drop_resume_only: {
+                // isRecOnly: true,
+                title: "",
+                filters: [{
+                    val: "1",
+                    label: <div>{lang("Show")} <b>{lang("resume drop")}</b> {lang("only")}
                         <Tooltip
                             bottom="13px"
                             left="-90px"

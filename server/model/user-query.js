@@ -341,9 +341,9 @@ class UserQuery {
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
 
-		console.log(sql);
-		console.log(sql);
-		console.log(sql);
+		// console.log(sql);
+		// console.log(sql);
+		// console.log(sql);
 
 		return sql;
 	}
