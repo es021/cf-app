@@ -70,13 +70,14 @@ const RefType = new GraphQLObjectType({
 	})
 });
 
-const RefKptJpaType = new GraphQLObjectType({
-	name: "RefKptJpa",
+const RefGeneral = new GraphQLObjectType({
+	name: "RefGeneral",
 	fields: () => ({
 		ID: __.Int,
 		val: __.String,
 	})
 });
+
 
 const NotificationType = new GraphQLObjectType({
 	name: "Notification",
@@ -908,6 +909,6 @@ module.exports = {
 	RefType,
 	VideoType,
 	TagType,
-	RefKptJpaType
+	RefGeneral
 	//, CFType
 };
