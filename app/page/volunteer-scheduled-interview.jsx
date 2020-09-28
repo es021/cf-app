@@ -24,6 +24,7 @@ import {
   createUserDocLinkList,
   createUserMajorList
 } from "./partial/popup/user-popup";
+import { createCompanyTitle } from "./admin-company";
 
 // included in my-activity for recruiter
 // add as form only in past session in my-activity
@@ -193,15 +194,19 @@ export default class VolunteerScheduledInterview extends React.Component {
           <label className={`label label-warning`}>On-site Call</label>
         ) : <label className={`label label-default`}>Virtual Call</label>;
 
+
       return [
         <td>{d.ID}</td>,
         <td>{this.getButtonEndSession(d)}</td>,
+        <td>{d.cf.join(", ")}</td>,
         <td>
           {createUserTitle(d.student, this.search.student)}
           <br></br>
+          <b>{d.student.phone_number}</b>
+          <br></br>
           <i>{d.student.university}</i>
         </td>,
-        <td>{d.company.name}</td>,
+        <td>{createCompanyTitle(d.company)}</td>,
         <td>{status}</td>,
         <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>,
         <td>{onsite_call}</td>,
@@ -218,6 +223,7 @@ export default class VolunteerScheduledInterview extends React.Component {
           <td>#</td>
           <th>ID</th>
           <th>End Session</th>
+          <th>Career Fair</th>
           <th>Student</th>
           <th>Company</th>
           <th>Status</th>
@@ -239,12 +245,12 @@ export default class VolunteerScheduledInterview extends React.Component {
         type: "text",
         placeholder: "Type student name or email"
       },
-      // {
-      //   label: "Status",
-      //   name: Prescreen.STATUS,
-      //   type: "select",
-      //   data: ["ALL", PrescreenEnum.STATUS_APPROVED, PrescreenEnum.STATUS_ENDED]
-      // }
+      {
+        label: "Career Fair",
+        name: "cf",
+        type: "text",
+        placeholder:"INTEL, MDEC, etc"
+      }
     ];
 
     this.searchFormOnSubmit = d => {
@@ -253,6 +259,7 @@ export default class VolunteerScheduledInterview extends React.Component {
       if (d != null) {
         this.searchParams += d.student ? `student_name:"${d.student}",` : "";
         this.searchParams += d.student ? `student_email:"${d.student}",` : "";
+        this.searchParams += d.cf ? `cf:"${d.cf}",` : "";
         this.searchParams +=
           d.status && d.status != "ALL" ? `status:"${d.status}",` : "";
       }
@@ -269,9 +276,10 @@ export default class VolunteerScheduledInterview extends React.Component {
                   , order_by:"appointment_time desc, status asc"
                   ) 
                   {
+                    cf
                     ID
                     company_id
-                    company{name}
+                    company{ID name cf}
                     status
                     special_type
                     is_onsite_call
@@ -279,7 +287,7 @@ export default class VolunteerScheduledInterview extends React.Component {
                     join_url
                     updated_at
                     student{
-                      ID university major minor doc_links{url label}
+                      ID university phone_number major minor doc_links{url label}
                       first_name last_name user_email
                     }
                   }
@@ -329,8 +337,7 @@ export default class VolunteerScheduledInterview extends React.Component {
       var studentId = this.props.defaultFormItem[Prescreen.STUDENT_ID];
       var query = "";
       if (typeof studentId !== "undefined") {
-        query = `query{user(ID:${
-          this.props.defaultFormItem[Prescreen.STUDENT_ID]
+        query = `query{user(ID:${this.props.defaultFormItem[Prescreen.STUDENT_ID]
           })
                       {ID
                       first_name

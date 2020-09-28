@@ -12,6 +12,9 @@ const {
     Prescreen
 } = require('../../config/db-config');
 
+const {
+    CFExec
+} = require('./cf-query.js');
 
 class PrescreenQuery {
     getPrescreen(params, extra) {
@@ -24,6 +27,16 @@ class PrescreenQuery {
 
         var is_onsite_call_where = (typeof params.is_onsite_call === "undefined") ? "1=1" :
             `is_onsite_call = ${params.is_onsite_call}`;
+
+        var cf_where = "1=1";
+        if (params.cf) {
+            cf_where = ` 
+                "${params.cf}" IN (SELECT m.cf FROM cf_map m WHERE m.entity_id = ps.student_id and m.entity = "user") 
+                AND
+                "${params.cf}" IN (SELECT m.cf FROM cf_map m WHERE m.entity_id = ps.company_id and m.entity = "company")
+            `;
+        }
+
 
         // var status_where = (typeof params.status === "undefined") ? "1=1" :
         //     `status like '%${params.status}%'`;
@@ -72,13 +85,14 @@ class PrescreenQuery {
             and ${search_user} and ${search_uni} and ${st_where}
             and ${not_ps_where} 
             AND ${removed_where}
+            AND ${cf_where}
             and ${is_onsite_call_where}
             ${order_by}`;
 
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;
         } else {
-            return `select * ${sql} ${limit}`;
+            return `select ps.* ${sql} ${limit}`;
         }
     }
 }
@@ -88,6 +102,9 @@ class PrescreenExec {
 
     prescreens(params, field, extra = {}) {
         const {
+            CFExec
+        } = require('./cf-query.js');
+        const {
             CompanyExec
         } = require('./company-query.js');
         const {
@@ -95,7 +112,9 @@ class PrescreenExec {
         } = require('./user-query.js');
 
         var sql = PrescreenQuery.getPrescreen(params, extra);
-        // console.log(sql);
+        console.log(sql);
+        console.log(sql);
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
             if (extra.count) {
@@ -114,6 +133,10 @@ class PrescreenExec {
 
                 if (typeof field["company"] !== "undefined") {
                     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
+                }
+
+                if (typeof field["cf"] !== "undefined") {
+                    res[i]["cf"] = CFExec.commonCf({ entity1: "user", id1: student_id, entity2: "company", id2: company_id });
                 }
             }
 

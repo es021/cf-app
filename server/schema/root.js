@@ -1198,6 +1198,7 @@ fields["prescreens"] = {
 		offset: __.Int,
 		not_prescreen: __.Int,
 		order_by: __.String,
+		cf: __.String,
 
 		discard_removed: __.Boolean,
 		discard_removed_user_id: __.Int,

@@ -140,7 +140,7 @@ CFQuery = new CFQuery();
 class CFExec {
 	cfs(params, field, extra = {}) {
 		var sql = CFQuery.getCF(params, field);
-		console.log("CFExec",sql);
+		console.log("CFExec", sql);
 		var toRet = DB.query(sql).then(function (res) {
 			if (extra.single && res !== null) {
 				return res[0];
@@ -198,6 +198,24 @@ class CFExec {
 			else {
 				return DB.query(update_sql);
 			}
+		});
+	}
+	commonCf({ entity1, id1, entity2, id2, queryOnly }) {
+		let q = `select X.cf FROM
+			(SELECT cf FROM cf_map WHERE entity_id = ${id1} and entity = "${entity1}") X,
+			(SELECT cf FROM cf_map WHERE entity_id = ${id2} and entity = "${entity2}") Y
+			WHERE X.cf = Y.cf`;
+
+		if (queryOnly) {
+			return q;
+		}
+		return DB.query(q).then(function (res) {
+			let toRet = [];
+			for (var r of res) {
+				toRet.push(r.cf);
+			}
+
+			return toRet;
 		});
 	}
 	editCf(arg) {
