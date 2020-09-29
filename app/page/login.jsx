@@ -6,7 +6,7 @@ import { User, UserMeta } from '../../config/db-config';
 import { bindActionCreators } from 'redux';
 import Form, { getDataCareerFair } from '../component/form';
 
-import { RootPath } from '../../config/app-config';
+import { RootPath, isProd } from '../../config/app-config';
 import { Redirect, NavLink } from 'react-router-dom';
 //<NavLink to={`${RootPath}/auth/activation-link`}>Did Not Received Email?</NavLink>
 
@@ -17,6 +17,7 @@ import { AuthAPIErr } from "../../config/auth-config";
 import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
 import { lang } from '../lib/lang';
 import { ErrorMessage } from './sign-up';
+import * as layoutActions from "../redux/actions/layout-actions";
 
 //state is from redux reducer
 // with multiple objects
@@ -166,6 +167,41 @@ class LoginPage extends React.Component {
         });
     }
 
+    showGoogleChromeWarning() {
+        if (!isProd || authActions.isRoleAdmin()) {
+            return;
+        }
+
+        try {
+
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            if (!isChrome) {
+                let message = <div style={{ fontSize: '15px', padding: "10px" }}>
+                    <br></br>
+                    <i className="fa fa-warning fa-3x"></i>
+                    <br></br>
+                    <br></br>
+                    <small><b>We detected that you are not using Google Chrome.</b></small>
+                    <br></br>
+                    <br></br>
+                    For best experience, we recommend you login again using Google Chrome.
+                    <br></br>
+                    <br></br>
+                    <button onClick={() => {
+                        layoutActions.storeHideBlockLoader();
+                    }} className="btn btn-md btn-round-10 btn-bold btn-blue-light">
+                        Okay
+                    </button>
+
+                </div>;
+
+                layoutActions.customBlockLoader(null, null, null, null, true, message, true);
+            }
+        } catch (err) {
+
+        }
+    }
+
     render() {
         document.setTitle("Login");
         const defaultPath = `${RootPath}/app/`;
@@ -254,17 +290,13 @@ class LoginPage extends React.Component {
             redirectToReferrer = false;
         }
 
-        console.log("redirectToReferrer", redirectToReferrer)
+        console.log("redirectToReferrer", redirectToReferrer);
+
         // if authorized redirect to from
         if (redirectToReferrer) {
             console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
-            // console.log("redirect to", from.pathname)
+
+            this.showGoogleChromeWarning();
 
             return (
                 <Redirect to={from} />

@@ -31,8 +31,6 @@ import * as Navigation from "./component/navigation.jsx";
 import HeaderLayout from "./layout/header-layout.jsx";
 import FooterLayout from "./layout/footer-layout";
 import LeftBarLayout, { isHasLeftBar } from "./layout/left-bar-layout.jsx";
-import RightBarLayout from "./layout/right-bar-layout.jsx";
-
 //singleton
 import FocusCard from "./component/focus-card";
 import { SupportChat } from "./page/support";
@@ -43,6 +41,9 @@ import { BOTH } from '../config/socket-config';
 
 import * as hallAction from "./redux/actions/hall-actions";
 import { setCurrentCfLocalStorage } from "./redux/reducer/auth-reducer";
+
+import * as layoutActions from "./redux/actions/layout-actions";
+
 
 //state is from redux reducer
 // with multiple objects
@@ -93,11 +94,11 @@ class PrimaryLayout extends React.Component {
     logo
     flag
     logo_height_hall
-		logo_width_hall
-		logo_margin_hall
-		logo_height
-		logo_width
-		logo_position
+    logo_width_hall
+    logo_margin_hall
+    logo_height
+    logo_width
+    logo_position
     logo_size
     test_start
     test_end
@@ -302,6 +303,9 @@ class PrimaryLayout extends React.Component {
     });
 
     var route = Navigation.getRoute(path, COMING_SOON);
+
+
+
 
     if (!isAuthorized()) {
       return (

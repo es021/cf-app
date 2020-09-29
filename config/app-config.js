@@ -103,6 +103,7 @@ if (!isProd) {
 }
 
 module.exports = {
+    isProd,
     EmailPhpAdmin,
     IsNewEventCard,
     HeaderClass,
