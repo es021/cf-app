@@ -162,7 +162,7 @@ export default class ManageUserProfile extends React.Component {
           // single
           type: "single",
           input_type: "text",
-          label: lang("UTM Acid ID"),
+          label: lang("Matrix No / UTM Acid ID"),
           id: Reg.Single.id_utm,
           key_input: Reg.Single.id_utm,
           is_required: true,

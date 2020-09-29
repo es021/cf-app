@@ -84,10 +84,10 @@ class LoginPage extends React.Component {
         // @id_utm_validation - new field
         if (this.isNeedIdUtmInput()) {
             r.push({
-                label: lang("UTM Acid ID"),
+                label: lang("Matrix No / UTM Acid ID"),
                 name: UserMeta.ID_UTM,
                 type: "text",
-                placeholder: "Enter your UTM Acid ID here",
+                placeholder: "Enter your Matrix No / UTM Acid ID here",
                 required: true
             })
         }
@@ -275,7 +275,7 @@ class LoginPage extends React.Component {
         if (error == AuthAPIErr.ID_UTM_NOT_FOUND_IN_USER_RECORD
             || (error == AuthAPIErr.ID_UTM_NOT_VALID && !this.currentIdUtm)) {
             error = <span>
-                {lang("Please provide your UTM Acid ID to continue.")}
+                {lang("Please provide your Matrix No / UTM Acid ID to continue.")}
             </span>;
         } else if (error == AuthAPIErr.ID_UTM_NOT_VALID) {
             error = ErrorMessage.ID_UTM_NOT_VALID(this.currentIdUtm);
