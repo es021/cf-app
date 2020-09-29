@@ -359,7 +359,7 @@ export default class UserPopup extends Component {
 
       if (!isCustomUserInfoOff(getCF(), Single.id_utm)) {
         items.push({
-          label: lang("Matric Number"),
+          label: lang("UTM Acid ID"),
           icon: "slack",
           value: this.isValueEmpty(d.id_utm) ? notSpecifed : d.id_utm
         })

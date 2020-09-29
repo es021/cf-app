@@ -106,7 +106,7 @@ export default class AdminRef extends React.Component {
             <br></br>
             {this.getButtonOpenCreateBundle("JPA IC Number", "kpt_jpa", ["IC Number"])}
             <br></br><br></br>
-            {this.getButtonOpenCreateBundle("UTM Matric Number", "id_utm", ["Matric Number"])}
+            {this.getButtonOpenCreateBundle("UTM UTM Acid ID", "id_utm", ["UTM Acid ID"])}
         </div>);
     }
 }

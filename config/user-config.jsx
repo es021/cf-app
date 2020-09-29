@@ -46,7 +46,7 @@ export const UserFormItem = [
     },
     {
         // @id_utm_validation
-        label: lang("Matric Number"),
+        label: lang("UTM Acid ID"),
         name: UserMeta.ID_UTM,
         type: "text",
         placeholder: "",
