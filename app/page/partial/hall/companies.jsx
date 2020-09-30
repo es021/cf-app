@@ -218,7 +218,7 @@ class CompaniesSection extends React.Component {
       }
       
       // , ignore_priv:"::${CompanyEnum.PRIV.JOB_POSTING_ONLY}::"
-      return ` cf:"${getCF()}", ${paging_param} `
+      return ` cf:"${getCF()}", ${paging_param}, order_by: "priority desc" `
     }
 
     this.loadCount = () => {

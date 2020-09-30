@@ -3,6 +3,7 @@ import SubNav from '../component/sub-nav';
 import AdminZoom from './admin-zoom';
 import { AuditoriumManagement } from './auditorium';
 import AdminStudentPage from './admin-student';
+import AdminCompanyPriority from './admin-company-priority';
 import AdminRef from './admin-ref';
 import AdminJobPostBundle from './admin-job-post-bundle';
 
@@ -24,6 +25,11 @@ export default class AdminMisc extends React.Component {
                 label: "Create Dataset",
                 component: AdminRef,
                 icon: "list"
+            },
+            "company": {
+                label: "Manage Company Priority",
+                component: AdminCompanyPriority,
+                icon: "suitcase"
             },
             "download-student-data": {
                 label: "Download Student Data",

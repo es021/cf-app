@@ -711,6 +711,7 @@ fields["edit_company"] = {
     message_drop_resume: __.String,
     group_url: __.String,
     priviledge: __.String,
+    priority: __.Int,
     cf: __.StringList
   },
   resolve(parentValue, arg, context, info) {

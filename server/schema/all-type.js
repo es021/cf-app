@@ -156,7 +156,7 @@ const UserType = new GraphQLObjectType({
 		// @kpt_validation
 		kpt: __.String,
 
-		
+
 
 		//active activity
 		queues: __.ListOf(QueueType),
@@ -189,7 +189,7 @@ const UserType = new GraphQLObjectType({
 
 		// @id_utm_validation
 		id_utm: __.String,
-		
+
 		// default
 		first_name: __.String,
 		last_name: __.String,
@@ -457,6 +457,7 @@ const CompanyType = new GraphQLObjectType({
 		accept_prescreen: __.Int,
 		group_url: __.String,
 		priviledge: __.String,
+		priority: __.Int,
 		created_at: __.String,
 		updated_at: __.String
 	})
