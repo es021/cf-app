@@ -511,6 +511,7 @@ const VacancyEnum = {
 	TYPE_INTERN: "Intern",
 	TYPE_PART_TIME: "Part Time",
 	TYPE_GRADUATE_INTERN: "Graduate Trainee / Internships",
+	TYPE_PROJECT_BASED: "Project Based",
 };
 
 const RefLocalOrOversea = {
