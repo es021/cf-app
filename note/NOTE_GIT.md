@@ -13,3 +13,7 @@ git checkout -b hotfix
 git commit -a -m 'hotfix done'
 git checkout master
 git merge hotfix
+
+
+# DELETE BRANCH
+git branch -d new_branch
