@@ -803,7 +803,27 @@ const HallGalleryEnum = {
 	TYPE_VIDEO: "video"
 };
 
+
+const IsSeen = {
+	TABLE: "is_seen",
+	ID: "ID",
+	USER_ID: "user_id",
+	TYPE: "type",
+	ENTITY_ID: "entity_id",
+	IS_SEEN: "is_seen",
+	UPDATED_AT: "updated_at",
+	CREATED_BY: "created_by"
+};
+
+const IsSeenEnum = {
+	TYPE_BROWSE_STUDENT: "browse-student",
+	TYPE_JOB_APPLICANT: "job-applicant",
+};
+
+
 module.exports = {
+	IsSeen,
+	IsSeenEnum,
 	Tag,
 	VideoEnum,
 	QsPopup,

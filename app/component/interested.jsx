@@ -8,10 +8,96 @@ import List from "../component/list";
 import { PCType, createImageElement } from "../component/profile-card";
 import { createUserTitle, openUserPopup } from "../page/users";
 import Tooltip from "../component/tooltip";
+import { addIsSeen } from "../component/is-seen";
+import BannerFloat from "../component/banner-float";
 import { AppPath } from "../../config/app-config";
-import {lang} from "../lib/lang";
+import { IsSeenEnum } from "../../config/db-config";
+import { lang } from "../lib/lang";
 import { ButtonExport } from "./buttons";
 
+class InterestedUserCard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.triggerIsSeen = this.triggerIsSeen.bind(this);
+    let is_seen = false;
+    try {
+      is_seen = this.props.data.is_seen.is_seen == 1;
+    } catch (err) { }
+
+    this.state = {
+      is_seen: is_seen,
+    };
+  }
+
+  triggerIsSeen() {
+    if (!this.state.is_seen) {
+      addIsSeen(getAuthUser().ID, IsSeenEnum.TYPE_JOB_APPLICANT, this.props.data.user.ID).then(res => {
+        this.setState({ is_seen: true })
+      })
+    }
+  }
+
+  render() {
+    let d = this.props.data;
+    let img = createImageElement(
+      d.user.img_url,
+      d.user.img_pos,
+      d.user.img_size,
+      "50px",
+      "",
+      PCType.STUDENT
+    );
+
+    let isSeenView = this.state.is_seen
+      ? null
+      : <BannerFloat
+        body={[
+          <i className={`fa fa-user-circle left`}></i>,
+          "New Application"
+        ]}
+        parentClass="row"
+        parentStyle={{
+          marginLeft: "-11px",
+          marginBottom: "20px",
+          marginTop: "-13px",
+        }}
+      />;
+
+    // @new_student_tag_before_deploy (remove line below)
+    isSeenView = null;
+
+    let viewProfileButton = <a className="btn-link"
+      onClick={() => {
+        this.triggerIsSeen();
+        openUserPopup(d.user)
+      }}>
+      <b><small>View Profile</small></b>
+    </a>;
+
+    return (
+      <div
+        style={{
+          background: "white",
+          borderRadius: "10px", margin: "20px",
+          width: "400px",
+        }}>
+        {isSeenView}
+        <div
+          className="flex-center"
+          style={{
+            justifyContent: "flex-start",
+            padding: "0px 18px", width: "100%"
+          }}>
+          <div>{img}</div>
+          <div className="text-left" style={{ marginLeft: "10px" }}>
+            <div><b>{d.user.first_name}</b>{" "}{d.user.last_name}</div>
+            <div> {viewProfileButton}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 export class InterestedUserList extends React.Component {
   constructor(props) {
     super(props);
@@ -28,10 +114,12 @@ export class InterestedUserList extends React.Component {
     return graphql(`query{ 
       interested_list(entity:"${this.props.entity}", 
       entity_id:${this.props.entity_id},
+      current_user_id:${getAuthUser().ID},
       page: ${page},
       offset: ${offset},
       is_interested : 1
       ){
+      is_seen { ID is_seen }
       user_id
       user{ID first_name last_name img_url img_pos img_size}}}`);
   }
@@ -54,32 +142,33 @@ export class InterestedUserList extends React.Component {
   componentWillMount() { }
 
   renderList(d, i) {
-    let img = createImageElement(
-      d.user.img_url,
-      d.user.img_pos,
-      d.user.img_size,
-      "50px",
-      "",
-      PCType.STUDENT
-    );
+    return <InterestedUserCard data={d}></InterestedUserCard>
+    // let img = createImageElement(
+    //   d.user.img_url,
+    //   d.user.img_pos,
+    //   d.user.img_size,
+    //   "50px",
+    //   "",
+    //   PCType.STUDENT
+    // );
 
-    // let action = <div>
-    //   <button>Schedule Call</button>
-    //   <button>Chat Now</button>
-    // </div>
-    return (
-      <div
-        className="flex-center"
-        style={{ background: "white", padding: "0px 18px", borderRadius: "10px", margin: "10px", width: "400px", justifyContent: "flex-start" }}
-      >
-        <div>{img}</div>
-        <div className="text-left" style={{ marginLeft: "10px" }}>
-          {/* <b>{createUserTitle(d.user, {}, true, true)}</b> */}
-          <div><b>{d.user.first_name}</b>{" "}{d.user.last_name}</div>
-          <div><a className="btn-link" onClick={() => { openUserPopup(d.user) }}><b><small>View Profile</small></b></a></div>
-        </div>
-      </div>
-    );
+    // // let action = <div>
+    // //   <button>Schedule Call</button>
+    // //   <button>Chat Now</button>
+    // // </div>
+    // return (
+    //   <div
+    //     className="flex-center"
+    //     style={{ background: "white", padding: "0px 18px", borderRadius: "10px", margin: "10px", width: "400px", justifyContent: "flex-start" }}
+    //   >
+    //     <div>{img}</div>
+    //     <div className="text-left" style={{ marginLeft: "10px" }}>
+    //       {/* <b>{createUserTitle(d.user, {}, true, true)}</b> */}
+    //       <div><b>{d.user.first_name}</b>{" "}{d.user.last_name}</div>
+    //       <div><a className="btn-link" onClick={() => { openUserPopup(d.user) }}><b><small>View Profile</small></b></a></div>
+    //     </div>
+    //   </div>
+    // );
   }
 
   getDataFromRes(res) {
@@ -185,7 +274,7 @@ export class InterestedButton extends React.Component {
     }
 
     if (this.props.entity == "vacancies") {
-      // untuk vacancies like bukak dekat page list-job-applicants
+      // untuk vacancies like bukak dekat page 
       window.open(`${AppPath}/list-job-applicants/${this.props.entity_id}`, "_blank");
     } else {
       layoutActions.storeUpdateFocusCard(title, InterestedUserList, {
@@ -193,6 +282,10 @@ export class InterestedButton extends React.Component {
         entity_id: this.props.entity_id,
         title: title
       });
+    }
+
+    if (this.props.postOnClick) {
+      this.props.postOnClick();
     }
   }
   onClickModeAction(e) {
@@ -220,8 +313,7 @@ export class InterestedButton extends React.Component {
       // create
       mutation = "add_interested";
       q = `mutation { add_interested (
-        user_id:${
-        this.props.customUserId ? this.props.customUserId : this.authUser.ID
+        user_id:${this.props.customUserId ? this.props.customUserId : this.authUser.ID
         }, 
         entity:"${this.props.entity}",
         entity_id:${this.props.entity_id}
@@ -241,6 +333,10 @@ export class InterestedButton extends React.Component {
         loading: false
       });
     });
+
+    if (this.props.postOnClick) {
+      this.props.postOnClick();
+    }
   }
 
   render() {
@@ -294,8 +390,7 @@ export class InterestedButton extends React.Component {
       v = (
         <div
           style={this.props.customStyle}
-          className={`interested ${classBottom} ${this.className} in-action ${
-            this.state.is_interested == 1 ? "selected" : ""
+          className={`interested ${classBottom} ${this.className} in-action ${this.state.is_interested == 1 ? "selected" : ""
             }`}
         >
           {this.state.loading ? (
@@ -326,7 +421,8 @@ InterestedButton.propTypes = {
   ID: PropTypes.number,
   is_interested: PropTypes.number,
   entity: PropTypes.string,
-  entity_id: PropTypes.number
+  entity_id: PropTypes.number,
+  postOnClick: PropTypes.func
 };
 
 InterestedButton.defaultProps = {

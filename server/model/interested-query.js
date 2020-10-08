@@ -1,4 +1,5 @@
 const DB = require("./DB.js");
+const { IsSeenEnum } = require("../../config/db-config.js");
 
 class InterestedExec {
   query(param, type) {
@@ -29,7 +30,9 @@ class InterestedExec {
     return type == "count";
   }
   getHelper(type, param, field, extra = {}) {
-	const { UserExec } = require('./user-query.js');
+    const { UserExec } = require('./user-query.js');
+    const { IsSeenExec } = require("./is-seen-query.js");
+
     //var sql = this.isSingle(type) ? this.querySingle(param, extra) : this.queryList(param, extra);
     var sql = this.query(param, type);
     // console.log("[InterestedExec]", sql);
@@ -44,9 +47,18 @@ class InterestedExec {
         }
       } else if (this.isList(type)) {
         for (var i in res) {
+          var user_id = res[i]["user_id"];
           if (typeof field["user"] !== "undefined") {
-            var user_id = res[i]["user_id"];
             res[i]["user"] = UserExec.user({ ID: user_id }, field["user"]);
+          }
+          if (typeof field["is_seen"] !== "undefined" && param.current_user_id) {
+            res[i]["is_seen"] = IsSeenExec.single({
+              user_id: param.current_user_id,
+              type: IsSeenEnum.TYPE_JOB_APPLICANT,
+              entity_id: user_id
+            },
+              field["is_seen"]
+            );
           }
         }
         return res;

@@ -2,6 +2,8 @@ import React, { PropTypes } from "react";
 import { NavLink } from "react-router-dom";
 import GeneralFormPage from "../../../component/general-form";
 import { InterestedButton } from "../../../component/interested";
+import BannerFloat from "../../../component/banner-float";
+import { addIsSeen } from "../../../component/is-seen";
 import { ButtonExport } from "../../../component/buttons.jsx";
 
 import * as layoutActions from "../../../redux/actions/layout-actions";
@@ -10,6 +12,7 @@ import {
     isRoleRec,
     isRoleStudent,
     getCF,
+    getAuthUser,
     isRoleAdmin
 } from "../../../redux/actions/auth-actions";
 import { ProfileListWide } from "../../../component/list";
@@ -23,9 +26,10 @@ import { RootPath } from "../../../../config/app-config";
 import {
     UserEnum,
     PrescreenEnum,
-    CompanyEnum
+    CompanyEnum,
+    IsSeenEnum
 } from "../../../../config/db-config";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
 
 import Tooltip from "../../../component/tooltip";
 
@@ -34,9 +38,24 @@ export class BrowseStudentCard extends React.Component {
         super(props);
         this.openSIForm = this.openSIForm.bind(this);
         this.toggleShowMore = this.toggleShowMore.bind(this);
+        this.triggerIsSeen = this.triggerIsSeen.bind(this);
+        let is_seen = false;
+        try {
+            is_seen = this.props.data.is_seen.is_seen == 1;
+        } catch (err) { }
+
         this.state = {
-            isShowMore: false
+            isShowMore: false,
+            is_seen: is_seen,
         };
+    }
+
+    triggerIsSeen() {
+        if (!this.state.is_seen) {
+            addIsSeen(getAuthUser().ID, IsSeenEnum.TYPE_BROWSE_STUDENT, this.props.data.student_id).then(res => {
+                this.setState({ is_seen: true })
+            })
+        }
     }
 
     openSIForm(student_id) {
@@ -70,7 +89,8 @@ export class BrowseStudentCard extends React.Component {
             true, // hideEmail
             undefined, // nameBreakLine
             { companyPrivs: this.props.privs, company_id: this.props.company_id }, // otherPropForPopup
-            true // isFocusUnderline
+            true, // isFocusUnderline
+            this.triggerIsSeen // postOnClick
         );
 
         // create uni view
@@ -287,6 +307,7 @@ export class BrowseStudentCard extends React.Component {
                 console.log("Schedule Call");
                 if (canSchedule) {
                     openSIFormAnytime(d.student_id, this.props.company_id);
+                    this.triggerIsSeen();
                 } else {
                     // EUR FIX
                     // See Availability
@@ -333,6 +354,7 @@ export class BrowseStudentCard extends React.Component {
                         return r
                     }
                 }
+                postOnClick={this.triggerIsSeen}
                 isBottom={true}
                 customUserId={this.props.company_id}
                 isModeCount={false}
@@ -351,10 +373,30 @@ export class BrowseStudentCard extends React.Component {
             false,
             false,
             false,
-            true
+            true,
+            this.triggerIsSeen //postOnClick
         )
 
+        let isSeenView = this.state.is_seen
+            ? null
+            : <BannerFloat
+                body={[
+                    <i className={`fa fa-user-circle left`}></i>,
+                    "New Registration"
+                ]}
+                parentClass="row"
+                parentStyle={{
+                    marginLeft: "-25px",
+                    marginBottom: "35px",
+                    marginTop: "-26px",
+                }}
+            />;
+
+        // @new_student_tag_before_deploy (remove line below)
+        isSeenView = null;
+
         let body = <div className="container-fluid">
+            {isSeenView}
             <div className="row browse-student-card-body">
                 <div className="col-md-9">
                     {scheduledView ? <div style={{ marginBottom: "10px" }} className="bsc-scheduled"><u>{scheduledView}</u></div> : null}

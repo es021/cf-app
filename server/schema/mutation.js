@@ -9,6 +9,7 @@ const {
   AuditoriumType,
   DashboardType,
   MetaType,
+  IsSeenType,
   PasswordResetType,
   SessionNoteType,
   MessageType,
@@ -65,6 +66,8 @@ const {
   Session,
   Prescreen,
   Tag,
+  IsSeen,
+  IsSeenEnum,
   PrescreenEnum,
   ForumComment,
   ForumReply,
@@ -972,6 +975,24 @@ fields["add_log"] = {
   },
   resolve(parentValue, arg, context, info) {
     return DB.insert(Log.TABLE, arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+
+/*******************************************/
+/* is_seen ******************/
+fields["add_is_seen"] = {
+  type: IsSeenType,
+  args: {
+    user_id: __.IntNonNull,
+    type: __.StringNonNull,
+    entity_id: __.IntNonNull,
+    is_seen: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert(IsSeen.TABLE, arg).then(function (res) {
       return res;
     });
   }
