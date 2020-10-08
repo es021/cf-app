@@ -342,6 +342,19 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleRec()
     },
     {
+      url: "/my-inbox",
+      label: lang("Inbox"),
+      icon: "envelope-o",
+      count_attr: "count_inbox",
+      component: CompanyChatInbox,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
+      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
+      //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
+    },
+    {
       url: "/browse-student-company/:id",
       component: BrowseStudent,
       bar_app: true,
@@ -493,19 +506,6 @@ function getMenuItem(COMING_SOON) {
     //   default_param: { current: "all-student" },
     //   disabled: !isRoleRec()
     // },
-
-    {
-      url: "/rec-current-event",
-      label: lang("See Event"),
-      icon: "slack",
-      component: HallPage,
-      bar_app: true,
-      bar_auth: false,
-      // hd_app: IsRecruiterNewHall ? false : true,
-      hd_app: isHasLeftBar() ? false : true,
-      hd_auth: false,
-      disabled: !isRoleRec()
-    },
     {
       url: "/company/:id/",
       label: lang("Company Profile"),
@@ -516,6 +516,18 @@ function getMenuItem(COMING_SOON) {
       hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
       default_param: { id: getAuthUser().rec_company },
+      disabled: !isRoleRec()
+    },
+    {
+      url: "/rec-current-event",
+      label: lang("See Event"),
+      icon: "slack",
+      component: HallPage,
+      bar_app: true,
+      bar_auth: false,
+      // hd_app: IsRecruiterNewHall ? false : true,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
       disabled: !isRoleRec()
     },
     {
@@ -581,19 +593,6 @@ function getMenuItem(COMING_SOON) {
     //   hd_auth: false,
     //   disabled: !isRoleRec()
     // },
-    {
-      url: "/my-inbox",
-      label: lang("Inbox"),
-      icon: "envelope-o",
-      count_attr: "count_inbox",
-      component: CompanyChatInbox,
-      bar_app: true,
-      bar_auth: false,
-      hd_app: isHasLeftBar() ? false : true,
-      hd_auth: false,
-      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
-      //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
-    },
     // {
     //   url: "/overview",
     //   label: "Overview",

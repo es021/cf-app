@@ -630,20 +630,20 @@ export default class ManageCompanyPage extends React.Component {
         icon: "building"
       },
       vacancy: {
-        label: "Job Opportunities",
+        label: "Manage Job Post",
         component: VacancySubPage,
         props: { company_id: this.company_id },
-        routeOnly: isRoleRec(),
-        icon: "star"
+        // routeOnly: isRoleRec(),
+        icon: "suitcase"
       },
       "tag": {
-        label: "Tags",
+        label: "Manage Tags",
         component: ManageTag,
         props: { entity: "company", entity_id: this.company_id },
         icon: "slack"
       },
       "doc-link": {
-        label: "Document & Link",
+        label: "Manage Document & Link",
         component: CompanyDocLink,
         props: { company_id: this.company_id },
         icon: "file-text"
@@ -658,7 +658,7 @@ export default class ManageCompanyPage extends React.Component {
         },
         component: null,
         icon: "eye"
-      }
+      },
     };
 
     if (isRoleAdmin()) {

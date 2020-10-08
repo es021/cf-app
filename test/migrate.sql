@@ -1,4 +1,5 @@
 
+
 CREATE TABLE `is_seen` (
   `ID` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
@@ -6,18 +7,16 @@ CREATE TABLE `is_seen` (
   `entity_id` bigint(20) NOT NULL,
   `is_seen` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ALTER TABLE `is_seen`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `type` (`type`,`entity_id`,`user_id`),
-  ADD KEY `type_2` (`type`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `entity_id` (`entity_id`);
+  ADD KEY `entity_id` (`entity_id`),
+  ADD KEY `type_2` (`type`) USING BTREE;
 ALTER TABLE `is_seen`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 -- ##############################################################
 -- ##############################################################
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
