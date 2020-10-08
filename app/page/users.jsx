@@ -23,7 +23,8 @@ export function createUserTitle(
   hideEmail,
   nameBreakLine,
   otherPropForPopup = {},
-  isFocusUnderline
+  isFocusUnderline,
+  postOnClick
 ) {
   hideEmail = typeof hideEmail === "undefined" ? false : hideEmail;
   nameBreakLine = typeof nameBreakLine === "undefined" ? false : nameBreakLine;
@@ -43,6 +44,9 @@ export function createUserTitle(
           id: d.ID,
           ...otherPropForPopup
         });
+        if (postOnClick) {
+          postOnClick();
+        }
       }}
       dangerouslySetInnerHTML={{ __html: focusedName }}
     ></a>

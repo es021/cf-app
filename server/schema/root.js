@@ -302,6 +302,7 @@ fields["interested_list"] = {
 	type: new GraphQLList(InterestedType),
 	args: {
 		entity: __.String,
+		current_user_id: __.Int, // to get is_seen
 		entity_id: __.Int,
 		is_interested: __.Int,
 		page: __.Int,
@@ -506,6 +507,7 @@ let argBrowseStudent = {
 	lang: __.String,
 	role: __.String,
 
+	current_user_id: __.Int, // to get is_seen
 	company_id: __.Int,
 
 	interested_only: __.String,

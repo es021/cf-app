@@ -71,6 +71,7 @@ export class BrowseStudentList extends React.Component {
         var query = `query{
             browse_student ${this.getQueryParam(page, offset)} 
             {
+                is_seen { ID is_seen }
                 student_id
                 student{
                     ${this.props.isPageStudentListJobPost ? " interested_vacancies_by_company {ID title} " : ""}

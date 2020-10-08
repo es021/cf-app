@@ -71,6 +71,7 @@ let scss = [
   "hall-recruiter",
   "label",
   "choose-cf",
+  "banner-float",
 
   // kena letak bawah skali
   "custom-CIMB",

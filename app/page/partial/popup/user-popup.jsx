@@ -62,12 +62,16 @@ export function createUserDocLinkList(
   alignCenter = true,
   isIconOnly = false,
   isSimple = false,
-  isSmall = false
+  isSmall = false,
+  postOnClick
 ) {
   //document and link
   var ret = null;
   const onClickDocLink = () => {
     addLog(LogEnum.EVENT_CLICK_USER_DOC, student_id);
+    if(postOnClick){
+      postOnClick();
+    }
   };
 
   var dl = [];

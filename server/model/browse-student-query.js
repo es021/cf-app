@@ -6,7 +6,7 @@ const {
 	CFQuery
 } = require("./cf-query");
 const { isCustomUserInfoOff, Single } = require("../../config/registration-config");
-const { UserMeta } = require("../../config/db-config.js");
+const { UserMeta, IsSeenEnum } = require("../../config/db-config.js");
 const { overrideLanguageTable } = require("./ref-query.js");
 
 // all-type
@@ -559,9 +559,8 @@ class BrowseStudentExec {
 	}
 	// TODO
 	resList(res, field, param) {
-		const {
-			UserExec
-		} = require("./user-query.js");
+		const { UserExec } = require('./user-query.js');
+		const { IsSeenExec } = require("./is-seen-query.js");
 
 		for (var i in res) {
 			var student_id = res[i]["student_id"];
@@ -571,6 +570,15 @@ class BrowseStudentExec {
 					company_id: param.company_id
 				},
 					field["student"]
+				);
+			}
+			if (typeof field["is_seen"] !== "undefined" && param.current_user_id) {
+				res[i]["is_seen"] = IsSeenExec.single({
+					user_id: param.current_user_id,
+					type: IsSeenEnum.TYPE_BROWSE_STUDENT,
+					entity_id: student_id
+				},
+					field["is_seen"]
 				);
 			}
 		}

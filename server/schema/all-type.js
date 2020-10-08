@@ -530,6 +530,20 @@ const VacancyType = new GraphQLObjectType({
 	})
 });
 
+// @new_student_tag
+const IsSeenType = new GraphQLObjectType({
+	name: "IsSeen",
+	fields: () => ({
+		ID: __.Int,
+		user_id: __.Int,
+		type: __.String,
+		entity_id: __.String,
+		is_seen: __.Int,
+		updated_at: __.String,
+		created_at: __.String,
+	})
+});
+
 const InterestedType = new GraphQLObjectType({
 	name: "Interested",
 	fields: () => ({
@@ -540,7 +554,8 @@ const InterestedType = new GraphQLObjectType({
 		is_interested: __.Int,
 		created_at: __.String,
 		updated_at: __.String,
-		user: __.IsType(UserType)
+		user: __.IsType(UserType),
+		is_seen: __.IsType(IsSeenType)
 	})
 });
 
@@ -614,6 +629,7 @@ const BrowseStudentType = new GraphQLObjectType({
 	fields: () => ({
 		student_id: __.Int,
 		student: __.IsType(UserType),
+		is_seen: __.IsType(IsSeenType),
 	})
 });
 
@@ -911,6 +927,7 @@ module.exports = {
 	RefType,
 	VideoType,
 	TagType,
-	RefGeneral
+	RefGeneral,
+	IsSeenType
 	//, CFType
 };

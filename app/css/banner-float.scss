@@ -1,0 +1,23 @@
+.banner-float {
+  .bf-banner {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    padding: 3px 10px;
+    background: #3bb44a;
+  }
+
+  .bf-arrow-back {
+    bottom: -9px;
+    left: -9px;
+    position: absolute;
+
+    border-bottom: 10px rgba(0, 0, 0, 0) solid;
+    border-left: 10px rgba(0, 0, 0, 0) solid;
+    border-right: 10px solid #0a441b;
+  }
+  position: relative;
+  // margin-left: -25px;
+  // margin-bottom: 35px;
+  // margin-top: -26px;
+}
