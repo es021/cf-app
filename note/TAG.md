@@ -22,3 +22,6 @@ company-chat.jsx
 @open_feedback_by_career_fair
 
 @query_refs
+
+
+@new_student_tag
