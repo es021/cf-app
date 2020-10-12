@@ -22,7 +22,7 @@ class HallGalleryExec {
 
     hall_galleries(params, field, extra = {}) {
         var sql = this.getQuery(params);
-        //console.log(sql)
+        //// console.log(sql)
         var toRet = DB.query(sql).then(function (res) {
 
             // for (var i in res) {

@@ -54,7 +54,7 @@ import InputEditable from "../../../component/input-editable";
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { animateHide } from "../../view-helper/view-helper";
 import { _student_single } from "../../../redux/actions/text-action";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
 
 // require("../../../css/border-card.scss");
 export function getTimeStrNew(d) {
@@ -297,6 +297,7 @@ class InterviewList extends React.Component {
     var btnRemoveVCall = null;
     var btnEndVCall = null;
     var btnAcceptReject = null;
+    var btnReschedule = null;
 
 
     time = getTimeStrNew(d);
@@ -321,6 +322,7 @@ class InterviewList extends React.Component {
         break;
       case PrescreenEnum.STATUS_RESCHEDULE:
         status_obj = HallRecruiterHelper.Status.STATUS_RESCHEDULE;
+        btnReschedule = HallRecruiterHelper.getRescheduleTimeElement(d);
         // status_text = "Reschedule Requested";
         // status_color = "rgb(17, 6, 26)";
         // status_icon = "calendar"
@@ -508,6 +510,7 @@ class InterviewList extends React.Component {
       d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null,
       d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null,
       d.status == PrescreenEnum.STATUS_ENDED || PrescreenEnum.STATUS_REJECTED ? btnRemoveVCall : null,
+      d.status == PrescreenEnum.STATUS_RESCHEDULE ? btnReschedule : null,
     ]
 
     status = HallRecruiterHelper.getStatusElement(d, status_obj);

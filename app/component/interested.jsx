@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { getAuthUser, getCF } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF, isRoleAdmin } from "../redux/actions/auth-actions";
 import { graphql } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { Loader } from "./loader";
@@ -136,7 +136,7 @@ export class InterestedUserList extends React.Component {
         title: this.props.export_title,
         entity: this.props.entity,
         entity_id: this.props.entity_id,
-      }} cf={getCF()}></ButtonExport>
+      }} cf={getCF()} is_admin={isRoleAdmin() ? "1" : "0"}></ButtonExport>
   }
 
   componentWillMount() { }

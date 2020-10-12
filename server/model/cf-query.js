@@ -140,7 +140,7 @@ CFQuery = new CFQuery();
 class CFExec {
 	cfs(params, field, extra = {}) {
 		var sql = CFQuery.getCF(params, field);
-		console.log("CFExec", sql);
+		// console.log("CFExec", sql);
 		var toRet = DB.query(sql).then(function (res) {
 			if (extra.single && res !== null) {
 				return res[0];
@@ -219,13 +219,13 @@ class CFExec {
 		});
 	}
 	editCf(arg) {
-		console.log("arg", arg);
+		// console.log("arg", arg);
 		var name = arg.name;
 
 		//update User table
 		var updateCf = {};
 		var updateCfMeta = {};
-		//console.log(arg);
+		//// console.log(arg);
 
 		var userVal = Object.keys(CFS).map(function (key) {
 			return CFS[key];
@@ -260,11 +260,11 @@ class CFExec {
 		}
 
 		// //update both
-		// console.log("update both");
+		// // console.log("update both");
 		let idKey = "name";
-		// console.log("here");
-		// console.log("here");
-		// console.log("here");
+		// // console.log("here");
+		// // console.log("here");
+		// // console.log("here");
 		return DB.update(CFS.TABLE, updateCf, idKey).then(res => {
 			if (Object.keys(updateCfMeta).length >= 1) {
 				return this.updateCfMeta(name, updateCfMeta);

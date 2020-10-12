@@ -1475,6 +1475,7 @@ fields["add_prescreen"] = {
     special_type: __.String,
     is_onsite_call: __.Int,
     appointment_time: __.Int,
+    reschedule_time: __.Int,
     updated_by: __.Int
   },
   resolve(parentValue, arg, context, info) {
@@ -1497,7 +1498,8 @@ fields["edit_prescreen"] = {
     start_url: __.String,
     is_onsite_call: __.Int,
     is_expired: __.Int,
-    appointment_time: __.Int
+    appointment_time: __.Int,
+    reschedule_time: __.Int
   },
   resolve(parentValue, arg, context, info) {
     return DB.update(Prescreen.TABLE, arg).then(function (res) {

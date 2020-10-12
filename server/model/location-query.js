@@ -80,7 +80,7 @@ class LocationExec {
   }
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, type);
-    // console.log("[LocationExec]", sql);
+    // // console.log("[LocationExec]", sql);
     var toRet = DB.query(sql).then(res => {
       for (var i in res) {
       }

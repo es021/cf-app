@@ -2,7 +2,7 @@ import React from "react";
 import { Prescreen, PrescreenEnum } from "../../../../config/db-config";
 import { Time } from "../../../lib/time";
 import {
-  getAuthUser
+  getAuthUser, isRoleStudent
 } from "../../../redux/actions/auth-actions";
 import InputEditable from "../../../component/input-editable";
 import obj2arg from "graphql-obj2arg";
@@ -10,7 +10,7 @@ import { appointmentTimeValidation } from "../../partial/activity/scheduled-inte
 import * as layoutAction from "../../../redux/actions/layout-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import { emitHallActivity } from "../../../socket/socket-client";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
 
 
 // ##########################################################################################
@@ -44,6 +44,9 @@ export function getStatusElement(d, status_obj) {
       }}>
       <i className={getStatusElementIconClass(status_obj.icon)} ></i><br></br>
       <span className={getStatusElementTextClass()}>{lang(status_obj.text)}</span>
+      {d.status == PrescreenEnum.STATUS_RESCHEDULE && isRoleStudent()
+        ? <span><br></br>{Time.getString(d.reschedule_time)}</span>
+        : null}
     </div>;
 }
 export function updateStatusViewToPending(ID) {
@@ -101,7 +104,13 @@ export function getNoteElement(d) {
 // ##########################################################################################
 // INTERVIEW APPOINTMENT TIME
 
-export function getAppointmentTimeElement(d, happeningIn) {
+export function getRescheduleTimeElement(d) {
+  return getAppointmentTimeElement(d, undefined, true);
+}
+
+export function getAppointmentTimeElement(d, happeningIn, isButtonReschedule) {
+  var originalVal = d.appointment_time;
+
   return <InputEditable
     editTitle={`Edit Appoinment Time`}
     val={d.appointment_time}
@@ -140,14 +149,19 @@ export function getAppointmentTimeElement(d, happeningIn) {
     formItems={(fixedName) => {
       return [
         {
-          header: <div>Current Appointment Time:<br></br>
+          header: <div>
+            Current Time:<br></br>
             <small className="text-muted">{Time.getString(d.appointment_time, true)}</small>
+            <br></br>
+            <br></br>
+            Interviewee's Suggested Time:<br></br>
+            <small className="text-muted">{Time.getString(d.reschedule_time, true)}</small>
             <br></br>
             <br></br>
           </div>
         },
         {
-          header: <div>Enter A New Appointment Time:
+          header: <div>Enter A New Time:
           </div>
         },
         {
@@ -163,6 +177,18 @@ export function getAppointmentTimeElement(d, happeningIn) {
       ]
     }}
     render={(val, loading, openEditPopup) => {
+      if (isButtonReschedule) {
+        if (originalVal != val) {
+          hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+        }
+        return <div
+          onClick={openEditPopup}
+          className="btn btn-sm btn-black btn-round-5 btn-block btn-bold"
+        >
+          <i className="fa fa-calendar left"></i>{lang("Reschedule Call")}
+        </div>
+      }
+
       let include_timezone = false;
       let timeStr = Time.getString(val, include_timezone);
       // timeStr = [timeStr, happeningIn]
@@ -171,7 +197,8 @@ export function getAppointmentTimeElement(d, happeningIn) {
       let editing = <span className="text-muted"><i>{lang("Updating Appointment Time")}. {lang("Please Wait")}.</i></span>;
       let editIcon = null;
       if (d.status == PrescreenEnum.STATUS_RESCHEDULE) {
-        editIcon = <a className="btn-link-bright"><i onClick={openEditPopup} className="fa fa-edit left"></i></a>;
+        // remove because we use reschedule button
+        // editIcon = <a className="btn-link-bright"><i onClick={openEditPopup} className="fa fa-edit left"></i></a>;
       } else {
         // editIcon = <i className="text-muted fa fa-edit left"></i>;
         editIcon = null;

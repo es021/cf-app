@@ -5,11 +5,13 @@ import {
   Prescreen,
   PrescreenEnum
 } from "../../../../config/db-config";
-import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../../../helper/api-helper";
+import * as NotificationHelper from "../../../../helper/notification-helper";
 import {
   getAuthUser,
   isRoleAdmin,
-  getCFObj
+  getCFObj,
+  getCF
 } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { ActivityType } from "../../../redux/actions/hall-actions";
@@ -25,7 +27,8 @@ import {
   createUserDocLinkList,
   createUserMajorList
 } from "../popup/user-popup";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
+import notificationConfig from "../../../../config/notification-config";
 
 export const appointmentTimeValidation = function (d) {
   if (
@@ -92,7 +95,6 @@ export function openSIFormNew(student_id, company_id) {
   );
 }
 
-// Create
 export function openSIFormAnytime(student_id, company_id) {
   if (!(student_id && isRoleAdmin())) {
     if (!(student_id && company_id)) {
@@ -133,7 +135,11 @@ export function openSIFormAnytime(student_id, company_id) {
       },
       formOnly: true,
       successAddHandlerExternal: data => {
-        console.log("success", data);
+        NotificationHelper.sendSmsByUserId(
+          student_id,
+          notificationConfig.Type.COMPANY_SCHEDULE_INTERVIEW,
+          { company_id: company_id, cf: getCF() }
+        );
       },
       defaultFormItem: defaultFormItem
     }
@@ -383,7 +389,6 @@ export class ScheduledInterview extends React.Component {
                   ID
                   status
                   special_type
-                  
                   appointment_time
                   updated_at
                   student{
@@ -536,8 +541,7 @@ export class ScheduledInterview extends React.Component {
       var studentId = this.props.defaultFormItem[Prescreen.STUDENT_ID];
       var query = "";
       if (typeof studentId !== "undefined") {
-        query = `query{user(ID:${
-          this.props.defaultFormItem[Prescreen.STUDENT_ID]
+        query = `query{user(ID:${this.props.defaultFormItem[Prescreen.STUDENT_ID]
           })
                     {ID
                     first_name

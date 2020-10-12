@@ -98,7 +98,7 @@ class VacancyExec {
 		} = require('./interested-query.js');
 
 		var sql = VacancyQuery.getVacancy(params, extra);
-		console.log(sql)
+		// // console.log(sql)
 		var toRet = DB.query(sql).then(function (res) {
 			if (extra.count) {
 				return res[0]["cnt"];

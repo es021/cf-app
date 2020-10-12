@@ -34,7 +34,7 @@ class EventExec {
             where  ${where}
             ${order_by} ${limit}`;
 
-        console.log(sql);
+        // console.log(sql);
         return sql;
     }
 
@@ -72,7 +72,7 @@ class EventExec {
             if (extra.single) {
                 return res[0];
             }
-            //console.log(res);
+            //// console.log(res);
             return res;
         });
 

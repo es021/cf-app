@@ -53,7 +53,7 @@ class ZoomMeetingExec {
   }
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, type);
-    //console.log("[ZoomMeetingExec]", sql);
+    //// console.log("[ZoomMeetingExec]", sql);
     var toRet = DB.query(sql).then(res => {
       if (this.isSingle(type)) {
         return this.resSingle(res);

@@ -139,7 +139,7 @@ class RefExec {
 			MultiExec
 		} = require("./multi-query.js");
 		var sql = this.query(param, extra);
-		// console.log("[RefExec]", sql);
+		// // console.log("[RefExec]", sql);
 		var toRet = DB.query(sql).then(res => {
 			for (var i in res) {
 				let val = res[i]["val"];

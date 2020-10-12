@@ -80,7 +80,7 @@ class CompanyQuery {
             and c.ID != ${SupportUserID} and ${ignore_priv}
             ${order_by}`;
 
-        // console.log(sql);
+        // // console.log(sql);
 
         if (extra.count) {
             return `select count(*) as cnt ${sql}`;

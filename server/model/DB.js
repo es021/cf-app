@@ -35,7 +35,7 @@ var DB = function (env) {
      if (err) {
      throw err;
      } else {
-     //console.log("DB Connected");
+     //// console.log("DB Connected");
      }
      });
      */
@@ -76,7 +76,7 @@ DB.prototype.getCF = function (entity, entity_id) {
 };
 
 DB.prototype.updateCF = function (entity, entity_id, cf, isDelete = true) {
-    //console.log("updateCF");
+    //// console.log("updateCF");
     var insertAction = () => {
         var ins = `INSERT INTO cf_map (entity, entity_id, cf) VALUES `;
         // make cf to array
@@ -180,9 +180,9 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
         var isDeleteCf = true;
         var entity = null;
         // trigger from manage-company
-        // console.log("DB UPDATE", table);
-        // console.log("data.skip_delete_cf", data.skip_delete_cf);
-        // console.log(data);
+        // // console.log("DB UPDATE", table);
+        // // console.log("data.skip_delete_cf", data.skip_delete_cf);
+        // // console.log(data);
         switch (table) {
             case Company.TABLE:
                 entity = "company";
@@ -232,7 +232,7 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
     }
 
     var sql = `UPDATE ${table} SET ${key_val} WHERE ${ID_key} = '${ID}'`;
-    //console.log(sql);
+    //// console.log(sql);
     return this.query(sql).then(function (res) {
         return DB.getByID(table, ID, ID_key);
     });
@@ -246,10 +246,10 @@ DB.prototype.delete = function (table, ID, ID_key = "ID") {
     }
 
     var sql = `DELETE FROM ${table} WHERE ${ID_key} = '${ID}'`;
-    //console.log(sql);
+    //// console.log(sql);
 
     return this.query(sql).then(function (res) {
-        //console.log("finish delete", res);
+        //// console.log("finish delete", res);
         return res.affectedRows;
     });
 };
@@ -294,8 +294,8 @@ DB.prototype.prepareInQuery = function (params) {
 
 
 //function dbSuccessHandler(res) {
-//    console.log(res[0]);
-//    console.log();
+//    // console.log(res[0]);
+//    // console.log();
 //
 //    for (var i in res) {
 //
@@ -304,7 +304,7 @@ DB.prototype.prepareInQuery = function (params) {
 //}
 //
 //function dbErrorHandler(err) {
-//    console.log(err);
+//    // console.log(err);
 //    return err;
 //
 //}
@@ -316,7 +316,7 @@ DB.prototype.prepareInQuery = function (params) {
 //        if (err) {
 //            error(err);
 //        } else {
-//            console.log(res);
+//            // console.log(res);
 //            success(res);
 //        }
 //    });

@@ -37,7 +37,7 @@ import * as layoutActions from "../../../redux/actions/layout-actions";
 import * as activityActions from "../../../redux/actions/activity-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
 
-import { openSIAddForm, isNormalSI } from "../activity/scheduled-interview";
+import { openSIAddForm, isNormalSI, appointmentTimeValidation } from "../activity/scheduled-interview";
 import Tooltip from "../../../component/tooltip";
 
 import { isRoleRec, isRoleStudent } from "../../../redux/actions/auth-actions";
@@ -46,7 +46,9 @@ import { joinVideoCall } from "../session/chat";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import * as HallRecruiterHelper from "../hall-recruiter/hall-recruiter-helper";
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
+import InputEditable from "../../../component/input-editable";
+import { addLog } from "../../../redux/actions/other-actions";
 
 // require("../../../css/border-card.scss");
 
@@ -370,7 +372,118 @@ class ActvityList extends React.Component {
       }
     );
   }
+  getRescheduleButton(d, obj) {
+    var originalVal = d.appointment_time;
 
+    return <InputEditable
+      editTitle={`Edit Appoinment Time with ${obj.name}`}
+      val={d.appointment_time}
+      data={{ ID: d.ID }}
+      queryDone={(res) => {
+        let sid = d.student.ID;
+        emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, null);
+      }}
+      formDidSubmit={(dForm) => {
+        layoutActions.successBlockLoader(<div>
+          Your reschedule request has been submitted.
+        </div>)
+
+        addLog(LogEnum.EVENT_RESCHEDULE_INTERVIEW, d);
+      }}
+      formWillSubmit={(dForm) => {
+        let res = appointmentTimeValidation(dForm);
+
+        let val = typeof res !== "string" ? res : null;
+        let err = typeof res === "string" ? res : null;
+
+        // console.log("valFromForm", dForm);
+        // console.log("response", res);
+        // kalau takde error tapi value sama je dgn yang dulu
+        if (!err) {
+          if (val == d.appointment_time) {
+            err = "Please enter a different time from the current appointment time."
+            val = null;
+          }
+        }
+
+        return {
+          val: val,
+          error: err,
+        }
+      }}
+      formItems={(fixedName) => {
+        return [
+          {
+            header: <div>
+              Current Time:<br></br>
+              <small className="text-muted">{Time.getString(d.appointment_time, true)}</small>
+              <br></br>
+              <br></br>
+            </div>
+          },
+          {
+            header: <div>Enter Your Suggestion Time:
+            </div>
+          },
+          {
+            name: Prescreen.APPNMENT_TIME + "_DATE",
+            type: "date",
+            placeholder: ""
+          },
+          {
+            name: Prescreen.APPNMENT_TIME + "_TIME",
+            type: "time",
+            placeholder: ""
+          }
+        ]
+      }}
+      render={(val, loading, openEditPopup) => {
+        if (originalVal != val) {
+          hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+        }
+        return <div
+          onClick={openEditPopup}
+          className="btn btn-block btn-sm btn-bold btn-round-5 btn-yellow"
+        >
+          <i className="fa fa-calendar left"></i>{lang("Request For Reschedule")}
+        </div>
+      }}
+      query={(data, newVal) => {
+        let upd = {
+          ID: data.ID,
+          status: PrescreenEnum.STATUS_RESCHEDULE,
+          reschedule_time: newVal,
+          updated_by: getAuthUser().ID
+        }
+        let q = `mutation { edit_prescreen(${obj2arg(upd, { noOuterBraces: true })}) { ID appointment_time } }`
+        console.log("q", q);
+        return q
+      }}
+    />
+    //   <div
+    //   id={d.ID}
+    //   data-other_id={obj.ID}
+    //   data-other_name={obj.name}
+    //   onClick={e => {
+    //     this.getRescheduleButton(
+    //       e
+    //     );
+    //   }}
+    //   className="btn btn-block btn-sm btn-bold btn-round-5 btn-yellow"
+    // >
+    //   Request For Reschedule
+    //   </div>
+
+
+    //   var other_name = e.currentTarget.dataset.other_name;
+    //   var id = e.currentTarget.id;
+    //   var user_id = this.authUser.ID;
+    //   let v = <div>
+
+    //   </div>
+    //   layoutActions.customBlockLoader(`Requesting For Reschedule with ${other_name}`, null, null, null, false, v);
+
+  }
   // for reject and cancel
   // trigger from card view button
   confirmAcceptRejectPrescreen(e, status) {
@@ -392,10 +505,12 @@ class ActvityList extends React.Component {
       mes += "Rejecting";
       mes += ` Interview Call with ${other_name} ?`;
     }
-    if (status === PrescreenEnum.STATUS_RESCHEDULE) {
-      mes += "Requesting For Reschedule";
-      mes += ` with ${other_name} ?`;
-    }
+
+    // todo
+    // if (status === PrescreenEnum.STATUS_RESCHEDULE) {
+    //   mes += "Requesting For Reschedule";
+    //   mes += ` with ${other_name} ?`;
+    // }
 
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
@@ -617,7 +732,7 @@ class ActvityList extends React.Component {
     let btnJoinVCall = null;
     var btnStartVCall = null;
     // var btnEndedVCall = null;
-    var btnAcceptReject = null;
+    var btnAcceptRescheduleReject = null;
 
     if (
       d.status == PrescreenEnum.STATUS_REJECTED ||
@@ -642,55 +757,49 @@ class ActvityList extends React.Component {
     // New SI Flow
     var statusObj = {};
     switch (d.status) {
+      // ###################################################################
       case PrescreenEnum.STATUS_WAIT_CONFIRM:
         statusObj = HallRecruiterHelper.Status.STATUS_WAIT_CONFIRM
-        btnAcceptReject = (
+        let acceptButton = <div
+          id={d.ID}
+          data-other_id={obj.ID}
+          data-other_name={obj.name}
+          onClick={e => {
+            this.confirmAcceptRejectPrescreen(
+              e,
+              PrescreenEnum.STATUS_APPROVED
+            );
+          }}
+          className="btn btn-block btn-sm btn-bold btn-round-5 btn-blue-light"
+        >
+          Accept Interview
+        </div>;
+
+        let rejectButton = <div
+          id={d.ID}
+          data-other_id={obj.ID}
+          data-other_name={obj.name}
+          onClick={e => {
+            this.confirmAcceptRejectPrescreen(
+              e,
+              PrescreenEnum.STATUS_REJECTED
+            );
+          }}
+          className="btn btn-block btn-sm btn-bold btn-round-5 btn-red"
+        >
+          Reject Interview
+        </div>;
+
+
+        btnAcceptRescheduleReject = (
           <div>
-            <div
-              id={d.ID}
-              data-other_id={obj.ID}
-              data-other_name={obj.name}
-              onClick={e => {
-                this.confirmAcceptRejectPrescreen(
-                  e,
-                  PrescreenEnum.STATUS_APPROVED
-                );
-              }}
-              className="btn btn-block btn-sm btn-bold btn-round-5 btn-blue-light"
-            >
-              Accept Interview
-              </div>
-            <div
-              id={d.ID}
-              data-other_id={obj.ID}
-              data-other_name={obj.name}
-              onClick={e => {
-                this.confirmAcceptRejectPrescreen(
-                  e,
-                  PrescreenEnum.STATUS_RESCHEDULE
-                );
-              }}
-              className="btn btn-block btn-sm btn-bold btn-round-5 btn-yellow"
-            >
-              Request For Reschedule
-              </div>
-            <div
-              id={d.ID}
-              data-other_id={obj.ID}
-              data-other_name={obj.name}
-              onClick={e => {
-                this.confirmAcceptRejectPrescreen(
-                  e,
-                  PrescreenEnum.STATUS_REJECTED
-                );
-              }}
-              className="btn btn-block btn-sm btn-bold btn-round-5 btn-red"
-            >
-              Reject Interview
-              </div>
+            {acceptButton}
+            {this.getRescheduleButton(d, obj)}
+            {rejectButton}
           </div>
         );
         break;
+      // ###################################################################
       case PrescreenEnum.STATUS_RESCHEDULE:
         statusObj = HallRecruiterHelper.Status.STATUS_RESCHEDULE;
         break;
@@ -802,7 +911,7 @@ class ActvityList extends React.Component {
 
     action = []
     if (d.status == PrescreenEnum.STATUS_WAIT_CONFIRM) {
-      action.push(btnAcceptReject);
+      action.push(btnAcceptRescheduleReject);
     }
     if (d.status == PrescreenEnum.STATUS_STARTED) {
       action.push(btnJoinVCall);
@@ -963,8 +1072,7 @@ export class ActivitySingle extends React.Component {
         return { loading: false };
       });
     } else {
-      let q = ` query {${entity} (ID:${
-        this.props.id
+      let q = ` query {${entity} (ID:${this.props.id
         }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
       getAxiosGraphQLQuery(q).then(res => {
         this.setState(prevState => {
@@ -1164,7 +1272,6 @@ class ActivitySection extends React.Component {
       />
     );
 
-    // todos
     return <div>{ps_gs}</div>;
   }
 }
@@ -1179,7 +1286,6 @@ ActivitySection.propTypes = {
   type: "card"
 }
 
-// TODO status online
 function mapStateToProps(state, ownProps) {
   return {
     ...ownProps,

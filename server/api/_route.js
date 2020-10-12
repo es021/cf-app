@@ -164,6 +164,29 @@ const initializeAllRoute = function (app, root) {
   // 	}
   // });
 
+
+  // NexmoAPI Route ----------------------------------------------------------------
+  const { NexmoAPI } = require("./nexmo-api");
+  app.post(root + "/nexmo/:action", function (req, res, next) {
+    var action = req.params.action;
+    switch (action) {
+      case "send-sms":
+        NexmoAPI.sendSms(
+          req.body.user_id,
+          req.body.to_number,
+          req.body.type,
+          req.body.param,
+          (data) => {
+            routeResHandler(res, {
+              data: data
+            });
+          }
+        );
+        break;
+    }
+  });
+
+
   // Activity Route ----------------------------------------------------------------
   const { ActivityAPI } = require("./activity-api");
   app.post(root + "/activity/:action", function (req, res, next) {
@@ -272,7 +295,7 @@ const initializeAllRoute = function (app, root) {
       password,
       user_id,
       () => {
-        XLSApi.export(action, filter).then(
+        XLSApi.export({ action, filter }).then(
           response => {
             res.header(
               "Content-Type",
@@ -305,18 +328,20 @@ const initializeAllRoute = function (app, root) {
     var action = req.params.action;
     var filter = req.body.filter;
     var cf = req.body.cf;
+    var is_admin = req.body.is_admin;
 
-    console.log('password', password)
-    console.log('action', action)
-    console.log('user_id', user_id)
-    console.log('filter', filter)
-    console.log('cf', cf)
+    // console.log('password', password)
+    // console.log('action', action)
+    // console.log('user_id', user_id)
+    // console.log('filter', filter)
+    // console.log('cf', cf)
+    // console.log('is_admin', is_admin)
 
     AuthAPI.checkPasswordWithoutSlash(
       password,
       user_id,
       () => {
-        XLSApi.export(action, filter, cf).then(
+        XLSApi.export({ action, filter, cf, is_admin }).then(
           response => {
             res.header(
               "Content-Type",
@@ -387,6 +412,8 @@ const initializeAllRoute = function (app, root) {
     CoconutAPI.webhook(req.params, req.body);
     res.send("Okay");
   });
+
+
 
   //   app.post(root + "/coconut/:action", function(req, res, next) {
   //     var action = req.params.action;

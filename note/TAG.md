@@ -2,6 +2,9 @@
 @new_student_tag
 @new_student_tag_before_deploy
 
+@sms_notification_before_deploy 
+(add crontab from remind_si)
+
 ## ########################################
 
 @custom_user_info_by_cf

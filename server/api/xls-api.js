@@ -18,11 +18,11 @@ class XLSApi {
     ];
   }
 
-  student_field(isAdmin) {
+  student_field(is_admin) {
     // 8. @custom_user_info_by_cf
     return `
       ID
-      ${isAdmin ? "cf" : ""}
+      ${is_admin == "1" ? "cf" : ""}
       first_name
       last_name
       user_email
@@ -75,10 +75,8 @@ class XLSApi {
   }
 
   // filter in JSON object, return {filename, content}
-  export(action, filter, cf) {
+  export({ action, filter, cf, is_admin }) {
     this.CF = cf;
-
-    console.log(action, filter, cf);
     if (FilterNotObject.indexOf(action) <= -1) {
       if (filter !== "null") {
         try {
@@ -110,22 +108,21 @@ class XLSApi {
       // case "student_listing":
       //   return this.student_listing(filter);
       case "browse_student":
-        return this.browse_student(filter, cf);
+        return this.browse_student(filter, cf, is_admin);
       case "all_student":
         return this.all_student();
       case "list_job_applicants":
-        return this.list_job_applicants(filter, cf);
+        return this.list_job_applicants(filter, cf, is_admin);
     }
   }
 
-  list_job_applicants(filter, cf) {
+  list_job_applicants(filter, cf, is_admin) {
     console.log("filter", filter)
     var filename = `Student Listing`;
     var query = `query{
         interested_list (entity:"${filter.entity}", entity_id:${filter.entity_id},is_interested : 1) 
         {
-          user_id
-          user{${this.student_field()}}
+          user{${this.student_field(is_admin)}}
         }
       } `;
 
@@ -170,14 +167,12 @@ class XLSApi {
   all_student() {
     return this.browse_student(`role:"Student"`, true);
   }
-  browse_student(filterStr, isAdmin) {
-    console.log("filterStr", filterStr)
+  browse_student(filterStr, cf, is_admin) {
     var filename = `Student Listing`;
     var query = `query{
       browse_student (${filterStr}) 
       {
-          student_id
-          student{${this.student_field(isAdmin)}}
+          student{${this.student_field(is_admin)}}
       }
     } `;
 
@@ -368,6 +363,7 @@ class XLSApi {
         newK = "applied_job_post";
       } else {
         newK = newK.replace("student_", "");
+        newK = newK.replace("user_", "");
       }
       toRet[newK] = data[k];
     }

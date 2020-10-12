@@ -15,7 +15,7 @@ SkillQuery = new SkillQuery();
 class SkillExec {
     skills(params, field) {
         var sql = SkillQuery.getSkill(params);
-        //console.log(sql);   
+        //// console.log(sql);   
         var toRet = DB.query(sql).then(function (res) {
             return res;
         });

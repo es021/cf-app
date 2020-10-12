@@ -401,6 +401,7 @@ const PrescreenType = new GraphQLObjectType({
 		special_type: __.String,
 		cf: __.StringList,
 		appointment_time: __.Int,
+		reschedule_time: __.Int,
 
 		join_url: __.String,
 		start_url: __.String,

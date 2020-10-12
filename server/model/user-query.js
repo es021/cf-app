@@ -226,7 +226,7 @@ class UserQuery {
 	//  key: "value"
 	//  }
 	getUser(field, params, meta_cons) {
-		//console.log(params);
+		//// console.log(params);
 		// create basic conditions
 		var id_condition =
 			typeof params.ID !== "undefined" ? `u.ID = ${params.ID}` : `1=1`;
@@ -341,9 +341,9 @@ class UserQuery {
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
 
-		// console.log(sql);
-		// console.log(sql);
-		// console.log(sql);
+		// // console.log(sql);
+		// // console.log(sql);
+		// // console.log(sql);
 
 		return sql;
 	}
@@ -494,7 +494,7 @@ class UserExec {
 			trigger_update: new Date().getTime() // this is needed to trigger updated at
 		};
 		var updateUserMeta = {};
-		//console.log(arg);
+		//// console.log(arg);
 
 		var userVal = Object.keys(User).map(function (key) {
 			return User[key];
@@ -536,7 +536,7 @@ class UserExec {
 		}
 
 		// //update both
-		// console.log("update both");
+		// // console.log("update both");
 		return DB.update(User.TABLE, updateUser).then(res => {
 			if (Object.keys(updateUserMeta).length >= 1) {
 				return this.updateUserMeta(ID, updateUserMeta);
@@ -615,7 +615,7 @@ class UserExec {
 			sql = UserQuery.getUser(field, params, metaCons);
 		}
 
-		// console.log("[UserExec]", sql);
+		// // console.log("[UserExec]", sql);
 
 		var toRet = DB.query(sql).then(function (res) {
 			for (var i in res) {
@@ -628,7 +628,7 @@ class UserExec {
 				// for (var si in Single) {
 				//   let key = Single[si];
 				//   if (typeof field[key] !== "undefined") {
-				//     console.log("Exec single ", key)
+				//     // console.log("Exec single ", key)
 				//     res[i][key] = SingleExec.single(
 				//       {
 				//         key_input: key,
@@ -674,7 +674,7 @@ class UserExec {
 					//   var reqKey = RequiredFieldStudent[j];
 					//   var reqVal = res[i][reqKey];
 					//   if (reqVal == null || reqVal == "") {
-					//     //console.log(reqKey)
+					//     //// console.log(reqKey)
 					//     res[i]["is_profile_completed"] = false;
 					//     break;
 					//   }

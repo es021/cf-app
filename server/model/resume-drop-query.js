@@ -48,7 +48,7 @@ class ResumeDropExec {
     // return null if still not over limit or feedback is filled
     resume_drops_limit(params, field, extra = {}) {
         var sql = ResumeDropQuery.getResumeDropError(params.user_id);
-        //console.log(sql);
+        //// console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             var ttl_resume = res[0].ttl_resume;
             var feedback = res[0].feedback;
@@ -59,7 +59,7 @@ class ResumeDropExec {
                 && (has_feedback_external == null || has_feedback_external == "")) {
                 err = RD_LIMIT;
             }
-            // console.log("err", err)
+            // // console.log("err", err)
             return err;
         });
 
@@ -72,7 +72,7 @@ class ResumeDropExec {
         var { DocLinkExec } = require('./doclink-query.js');
 
         var sql = ResumeDropQuery.getResumeDrop(params, field, extra);
-        console.log(sql);
+        // console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             if (extra.count) {
                 return res[0]["cnt"];

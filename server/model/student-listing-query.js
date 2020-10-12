@@ -295,7 +295,7 @@ class StudentListingExec {
     var { UserExec } = require("./user-query.js");
     var toRet = getCompanyPriv(params.company_id).then(function(priv) {
       var sql = StudentListingQuery.getStudentListing(params, priv, isCount);
-      console.log("[StudentListingExec]", sql);
+      // console.log("[StudentListingExec]", sql);
       return DB.query(sql).then(function(res) {
         if(isCount){
           return res[0]["total"];

@@ -152,7 +152,7 @@ class BrowseStudentExec {
 			}
 		} catch (err) { }
 
-		// console.log("isDiscardFilter", filter, toRet);
+		// // console.log("isDiscardFilter", filter, toRet);
 		return toRet;
 	}
 	queryFilter(param) {
@@ -344,9 +344,9 @@ class BrowseStudentExec {
 			AND ${where}
 			group by s.key_input, s.val`;
 
-			console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-			console.log(toRet)
-			console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+			// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+			// console.log(toRet)
+			// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 			return toRet;
 
 
@@ -545,9 +545,9 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-		console.log(sql)
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log(sql)
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 		return sql;
 	}
 	// TODO
@@ -595,7 +595,7 @@ class BrowseStudentExec {
 	}
 	getHelper(type, param, field, extra = {}) {
 		var sql = this.query(param, type);
-		// console.log("[BrowseStudentExec]", sql)
+		// // console.log("[BrowseStudentExec]", sql)
 		var toRet = DB.query(sql).then(res => {
 			if (this.isList(type)) {
 				return this.resList(res, field, param);

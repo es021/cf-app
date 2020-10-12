@@ -11,7 +11,7 @@ import {
     FilterNotObject
 } from '../../config/xls-config';
 import {
-    getAuthUser
+    getAuthUser, isRoleAdmin
 } from '../redux/actions/auth-actions';
 // require("../css/buttons.scss");
 
@@ -55,7 +55,7 @@ export class ButtonExport extends React.Component {
         }
         // filter = encodeURIComponent(filter);
         let url = SiteUrl + `/xls/${action}/${user.user_pass}/${user.ID}`;
-        this.post(url, { filter: filter, cf: cf })
+        this.post(url, { filter: filter, cf: cf, is_admin: isRoleAdmin() ? "1" : "0" })
     }
     render() {
 

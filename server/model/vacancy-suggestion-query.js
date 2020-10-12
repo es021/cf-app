@@ -25,7 +25,7 @@ class VacancySuggestionExec {
 	}
 	getHelper(type, param, field, extra = {}) {
 		var sql = this.isSingle(type) ? this.querySingle(param, extra) : this.queryList(param, extra);
-		//console.log("[VacancySuggestionExec]", sql);
+		//// console.log("[VacancySuggestionExec]", sql);
 		var toRet = DB.query(sql).then((res) => {
 			for (var i in res) {}
 			if (this.isSingle(type)) {

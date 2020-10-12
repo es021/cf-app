@@ -112,8 +112,8 @@ class StudentListingQuery {
         ${limit} `;
         sqlAll = sqlAll.replaceAll("j.user_id", "u.ID")
 
-        // console.log(sql);
-        // console.log(sqlAll);
+        // // console.log(sql);
+        // // console.log(sqlAll);
         
         return params.company_id <= 0 ? sqlAll : sql;
     }

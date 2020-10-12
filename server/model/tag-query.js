@@ -48,7 +48,7 @@ class TagExec {
   }
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, type);
-    // console.log("[TagExec]", sql);
+    // // console.log("[TagExec]", sql);
     var toRet = DB.query(sql).then(res => {
       if (this.isSingle(type)) {
         return this.resSingle(res);

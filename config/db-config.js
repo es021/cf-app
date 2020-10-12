@@ -567,7 +567,9 @@ const LogEnum = {
 	EVENT_CLICK_JOIN_VIDEO_CALL: "click_join_video_call",
 	EVENT_CLICK_GOT_QUESTION: "click_got_question", // <empty>
 	EVENT_CLICK_CONNECT_WITH_ONSITE: "click_connect_with_onsite", // <empty>
-	EVENT_CLICK_GALLERY: "click_gallery" // data-> label, url, student_id, company_id
+	EVENT_CLICK_GALLERY: "click_gallery", // data-> label, url, student_id, company_id
+	EVENT_RESCHEDULE_INTERVIEW: "reschedule_interview", // data-> ID, ... etc
+	EVENT_NEXMO_SMS: "nexmo_sms" // 
 };
 
 const ZoomInvite = {

@@ -1,5 +1,14 @@
 
 
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+ALTER TABLE `pre_screens`  ADD `cf` VARCHAR(50) NULL  AFTER `company_id`;
+ALTER TABLE `pre_screens` ADD `reschedule_time` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `appointment_time`; 
+
 CREATE TABLE `is_seen` (
   `ID` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
@@ -17,13 +26,8 @@ ALTER TABLE `is_seen`
   ADD KEY `type_2` (`type`) USING BTREE;
 ALTER TABLE `is_seen`
   MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
--- new ref
+
+
 local_or_oversea work_experience_year -- new table tag
 CREATE TABLE `wp_career_fair`.`tag` (
   `ID` BIGINT(20) NOT NULL AUTO_INCREMENT,

@@ -7,10 +7,10 @@ import {
 
 
 export function _student_single() {
-    return getCfCustomMeta(CFSMeta.TEXT_STUDENT_ENTITY_SINGLE, "Student");
+    return getCfCustomMeta(CFSMeta.TEXT_STUDENT_ENTITY_SINGLE, "Participant");
 }
 export function _student_plural() {
-    return getCfCustomMeta(CFSMeta.TEXT_STUDENT_ENTITY_PLURAL, "Students");
+    return getCfCustomMeta(CFSMeta.TEXT_STUDENT_ENTITY_PLURAL, "Participants");
 }
 export function _student_single_lower() {
     return _student_single().toLowerCase();

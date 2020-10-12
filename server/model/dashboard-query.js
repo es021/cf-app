@@ -14,7 +14,7 @@ class DashboardExec {
 
     dashboards(params, field, extra = {}) {
         var sql = this.getQuery(params);
-        //console.log(sql);
+        //// console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
             if (extra.single && res !== null) {

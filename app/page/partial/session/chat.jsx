@@ -14,7 +14,8 @@ import { UploadUrl, SiteUrl, IsGruveoEnable, ZoomCheckMeetingExpiredUrl } from "
 import { Time } from "../../../lib/time";
 import obj2arg from "graphql-obj2arg";
 import * as layoutActions from "../../../redux/actions/layout-actions";
-import { getOtherRecs } from "../../../redux/actions/auth-actions";
+import * as NotificationHelper from "../../../../helper/notification-helper";
+import { getCF, getOtherRecs } from "../../../redux/actions/auth-actions";
 import { ActivityType } from "../../../redux/actions/hall-actions";
 import { isCompanyOnline } from "../../../redux/actions/user-actions";
 import { addLog } from "../../../redux/actions/other-actions";
@@ -30,7 +31,8 @@ import {
   emitHallActivity
 } from "../../../socket/socket-client";
 import { Uploader, uploadFile, FileType } from '../../../component/uploader';
-import {lang} from "../../../lib/lang";
+import { lang } from "../../../lib/lang";
+import notificationConfig from "../../../../config/notification-config";
 
 //import { ButtonLink } from '../../../component/buttons.jsx';
 //import UserPopup from '../popup/user-popup';
@@ -456,8 +458,7 @@ class Chat extends React.Component {
               <br />I have created a video call session.
               <div style={{ margin: "7px 0" }}>
                 <div
-                  className={`${
-                    this.props.isRec ? "btn-blue" : "btn-default"
+                  className={`${this.props.isRec ? "btn-blue" : "btn-default"
                     } btn btn-block btn-sm`}
                   onClick={() => {
                     joinVideoCall(mesData.data.join_url, this.props.session_id);
@@ -580,6 +581,28 @@ class Chat extends React.Component {
     this.scrollToBottom();
   }
 
+  sendSmsNotificationIfNeeded(id_message_number) {
+    // 1. check if message from company
+    if (this.props.is_company_self) {
+      // 2. check if first message
+      let messageCount = id_message_number.split(":");
+      messageCount = messageCount[messageCount.length - 1];
+      if (messageCount == "1") {
+        let company_id = this.props.self_id;
+        let user_id = this.props.other_id
+
+        /**
+         DELETE FROM `messages` where id_message_number like 'company12:user136:%';
+         DELETE FROM `message_count` where id = 'company12:user136';
+         */
+        NotificationHelper.sendSmsByUserId(
+          user_id,
+          notificationConfig.Type.COMPANY_START_CHAT,
+          { company_id: company_id, cf: getCF() }
+        );
+      }
+    }
+  }
   sendChat(mes = null) {
     if (this.props.disableChat) {
       return;
@@ -610,6 +633,9 @@ class Chat extends React.Component {
       let id_message_number = res.data.data.add_message.id_message_number;
       // add to socket
       // todos
+
+      this.sendSmsNotificationIfNeeded(id_message_number);
+
       emitChatMessage(
         this.props.self_id,
         this.props.other_id,

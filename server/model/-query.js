@@ -52,7 +52,7 @@ class __Exec {
   }
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, type);
-    //console.log("[__Exec]", sql);
+    //// console.log("[__Exec]", sql);
     var toRet = DB.query(sql).then(res => {
       if (this.isSingle(type)) {
         return this.resSingle(res);

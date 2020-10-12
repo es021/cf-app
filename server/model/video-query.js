@@ -60,7 +60,7 @@ class VideoExec {
   }
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, type);
-    // console.log("[VideoExec]", sql);
+    // // console.log("[VideoExec]", sql);
     var toRet = DB.query(sql).then(res => {
       if (this.isSingle(type)) {
         return this.resSingle(res);

@@ -22,7 +22,7 @@ class AuditoriumExec {
 
         var limit = DB.prepareLimit(params.page, params.offset);
         var sql = `select * from ${Auditorium.TABLE} where ${id_where} and ${end_time_where} and ${cf_where} ${order_by} ${limit}`;
-        //console.log(sql);
+        //// console.log(sql);
         return sql;
     }
 
@@ -50,7 +50,7 @@ class AuditoriumExec {
             if (extra.single) {
                 return res[0];
             }
-            //console.log(res);
+            //// console.log(res);
             return res;
         });
 
