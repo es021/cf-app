@@ -7,6 +7,8 @@ import {
 
 function sendSms(user_id, to_number, type, param = {}) {
 	// @sms_notification_before_deploy
+	return;
+
 	axios.post(AppConfig.Api + "/nexmo/send-sms", {
 		user_id: user_id,
 		to_number: to_number,
