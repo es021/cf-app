@@ -224,9 +224,6 @@ class CreateBundle extends React.Component {
                 d[Vacancy.REQUIREMENT] = obj.req;
                 d[Vacancy.CREATED_BY] = this.CREATED_BY_ID;
 
-                if(typeof d[Vacancy.COMPANY_ID] === "string"){
-                    d[Vacancy.COMPANY_ID] = Number.parseInt(d[Vacancy.COMPANY_ID]);
-                }
 
                 total++;
                 console.log("total", total);

@@ -54,7 +54,7 @@ class NexmoAPI {
       finishHandler(company_name);
     });
   }
-  (user_id, to_number, type, param, finishHandler) {
+  sendSms(user_id, to_number, type, param, finishHandler) {
     console.log("SEND SMS")
     console.log("user_id", user_id)
     console.log("type", type)
@@ -62,11 +62,11 @@ class NexmoAPI {
 
     this.generateText(type, param, text => {
       if (to_number) {
-        this.nexmo(to_number, text, finishHandler, null);
+        this.nexmoSendSms(to_number, text, finishHandler, null);
       } else if (user_id) {
         graphql(`query{ user (ID:${user_id}) { phone_number } }`).then(res => {
           let phoneNumber = res.data.data.user.phone_number;
-          this.nexmo(phoneNumber, text, finishHandler, user_id);
+          this.nexmoSendSms(phoneNumber, text, finishHandler, user_id);
         })
       }
     })
@@ -79,7 +79,7 @@ class NexmoAPI {
     var loginUrl = `${Domain}/cf/auth/login/?cf=${cf}`;
     return ` Login at ${loginUrl} for more details.`;
   }
-  nexmo(phoneNumber, text, finishHandler, user_id = null) {
+  nexmoSendSms(phoneNumber, text, finishHandler, user_id = null) {
     const nexmo = new Nexmo({
       apiKey: Secret.NEXMO_API_KEY,
       apiSecret: Secret.NEXMO_API_SECRET,
@@ -87,7 +87,7 @@ class NexmoAPI {
     const from = 'Seeds';
     phoneNumber = this.fixPhoneNumber(phoneNumber)
     if (phoneNumber) {
-      nexmo.message.(from, phoneNumber, text);
+      nexmo.message.sendSms(from, phoneNumber, text);
       axios.post(AppConfig.Api + "/add-log", {
         event: LogEnum.EVENT_NEXMO_SMS,
         data: JSON.stringify({ from: from, to: phoneNumber, text: text }),
