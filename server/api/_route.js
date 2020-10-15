@@ -166,26 +166,25 @@ const initializeAllRoute = function (app, root) {
 
 
   // NexmoAPI Route ----------------------------------------------------------------
-  // const { NexmoAPI } = require("./nexmo-api");
-  // app.post(root + "/nexmo/:action", function (req, res, next) {
-  //   var action = req.params.action;
-  //   switch (action) {
-  //     case "send-sms":
-  //       NexmoAPI.sendSms(
-  //         req.body.user_id,
-  //         req.body.to_number,
-  //         req.body.type,
-  //         req.body.param,
-  //         (data) => {
-  //           routeResHandler(res, {
-  //             data: data
-  //           });
-  //         }
-  //       );
-  //       break;
-  //   }
-  // });
-
+  const { NexmoAPI } = require("./nexmo-api");
+  app.post(root + "/nexmo/:action", function (req, res, next) {
+    var action = req.params.action;
+    switch (action) {
+      case "send-sms":
+        NexmoAPI.sendSms(
+          req.body.user_id,
+          req.body.to_number,
+          req.body.type,
+          req.body.param,
+          (data) => {
+            routeResHandler(res, {
+              data: data
+            });
+          }
+        );
+        break;
+    }
+  });
 
   // Activity Route ----------------------------------------------------------------
   const { ActivityAPI } = require("./activity-api");
