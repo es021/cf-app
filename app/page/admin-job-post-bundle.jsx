@@ -89,6 +89,7 @@ class CreateBundle extends React.Component {
             str = str.replaceAll(`\n`, " ");
             str = str.replaceAll(`\t`, " ");
             str = str.replaceAll(`"`, "");
+            str = str.trim();
             return str;
         } catch (err) {
 
