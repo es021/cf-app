@@ -81,12 +81,13 @@ class CreateBundle extends React.Component {
         }
         return str;
     }
-    reformatTitleAndLocation(str) {
+    reformatTitleLocationUrl(str) {
         if (!str) {
             return str;
         }
         try {
             str = str.replaceAll(`\n`, " ");
+            str = str.replaceAll(`\t`, " ");
             str = str.replaceAll(`"`, "");
             return str;
         } catch (err) {
@@ -173,8 +174,9 @@ class CreateBundle extends React.Component {
 
 
         // specific
-        title = this.reformatTitleAndLocation(title);
-        location = this.reformatTitleAndLocation(location);
+        title = this.reformatTitleLocationUrl(title);
+        location = this.reformatTitleLocationUrl(location);
+        url = this.reformatTitleLocationUrl(url);
         type = this.reformatTypeDescRec(type);
         desc = this.reformatTypeDescRec(desc);
         req = this.reformatTypeDescRec(req);
