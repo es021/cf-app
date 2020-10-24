@@ -106,8 +106,8 @@ export class BrowseStudentCard extends React.Component {
         }
 
 
-        // let fieldStudyView = this.notSpecifiedView("Major");
         let fieldStudyView = null;
+        // @limit_field_of_study_2_before_deploy - comment
         let field_study = d.student.field_study;
         if (Array.isArray(field_study)) {
             fieldStudyView = field_study.map((d, i) => {
@@ -121,12 +121,21 @@ export class BrowseStudentCard extends React.Component {
             if (field_study.length > 0) {
                 fieldStudyView = (
                     <i className="text-muted">
-                        {/* <br /> */}
                         {fieldStudyView}
                     </i>
                 );
             }
         }
+
+        // // @limit_field_of_study_2_before_deploy - uncomment 
+        // fieldStudyView = <div className="text-muted">
+        //     <span>{d.student.field_study_main}</span>
+        //     {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
+        // </div>
+
+
+
+
 
         let lookingForView = [];
         for (var i in d.student.looking_for_position) {

@@ -1,3 +1,10 @@
+<!-- field_study_main -->
+SELECT MIN(ID) FROM `multi_field_study` where entity = 'user' group by entity_id, entity
+
+<!-- field_study_secondary -->
+SELECT MIN(ID) FROM `multi_field_study` where entity = 'user' and ID NOT IN (SELECT MIN(ID) FROM `multi_field_study` where entity = 'user' group by entity_id, entity) group by entity_id, entity
+
+
 AdminCf
 
 <!-- 1. add remove (hidden) for all iv card -->

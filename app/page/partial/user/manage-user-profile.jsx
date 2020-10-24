@@ -346,6 +346,32 @@ export default class ManageUserProfile extends React.Component {
         //   is_required: true,
         //   hidden: false
         // },
+        // // @limit_field_of_study_2_before_deploy - uncomment
+        // {
+        //   // single
+        //   type: "single",
+        //   input_type: "select",
+        //   label: lang("What is your main field of study?"),
+        //   id: Reg.Single.field_study_main,
+        //   key_input: Reg.Single.field_study_main,
+        //   ref_table_name: "field_study",
+        //   is_required: true,
+        //   hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_main)
+        // },
+        // // @limit_field_of_study_2_before_deploy - uncomment
+        // {
+        //   // single
+        //   type: "single",
+        //   input_type: "select",
+        //   label: lang("What is your secondary field of study?"),
+        //   sublabel: lang("If Applicable"),
+        //   id: Reg.Single.field_study_secondary,
+        //   key_input: Reg.Single.field_study_secondary,
+        //   ref_table_name: "field_study",
+        //   is_required: false,
+        //   hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_secondary)
+        // },
+        // @limit_field_of_study_2_before_deploy - comment
         {
           // select multi choice
           type: "multi",

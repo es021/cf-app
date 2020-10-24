@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Prescreen, PrescreenEnum, CFSMeta } from "../../config/db-config";
 import {
   getAxiosGraphQLQuery,
-  getPHPNotificationApiAxios
+  getPHPNotificationApiAxios,
+  graphql
 } from "../../helper/api-helper";
 import {
   getAuthUser,
@@ -85,23 +86,49 @@ export default class VolunteerScheduledInterview extends React.Component {
       // emit to reload scheduled interview
     };
 
+
+    this.getButtonApproveSession = d => {
+      let toRet = null;
+      if (
+        [PrescreenEnum.STATUS_WAIT_CONFIRM,
+        PrescreenEnum.STATUS_RESCHEDULE,
+        PrescreenEnum.STATUS_REJECTED].indexOf(d.status) >= 0
+      ) {
+        toRet = (
+          <button
+            className="btn btn-success btn-sm btn-bold btn-round-5"
+            data-student={d.student.first_name + " " + d.student.last_name}
+            data-company={d.company.name}
+            data-company_id={d.company_id}
+            data-id={d.ID}
+            onClick={e => {
+              this.updateStatusOnClick(e, PrescreenEnum.STATUS_APPROVED);
+            }}
+          >
+            Approve Session
+          </button>
+        );
+      }
+
+      return toRet;
+    };
+
     this.getButtonEndSession = d => {
       let buttonEndSession = null;
       if (d.status != PrescreenEnum.STATUS_ENDED) {
         if (
-          d.join_url ||
-          (d.is_onsite_call == 1 &&
-            getCFObj()[CFSMeta.HALL_CFG_ONSITE_CALL_USE_GROUP] == 1)
+          d.join_url
+          // || (d.is_onsite_call == 1 && getCFObj()[CFSMeta.HALL_CFG_ONSITE_CALL_USE_GROUP] == 1)
         ) {
           buttonEndSession = (
             <button
-              className="btn btn-danger btn-sm"
+              className="btn btn-danger btn-sm btn-bold btn-round-5"
               data-student={d.student.first_name + " " + d.student.last_name}
               data-company={d.company.name}
               data-company_id={d.company_id}
               data-id={d.ID}
               onClick={e => {
-                this.endSessionOnClick(e);
+                this.updateStatusOnClick(e, PrescreenEnum.STATUS_ENDED);
               }}
             >
               End Session
@@ -113,43 +140,59 @@ export default class VolunteerScheduledInterview extends React.Component {
       return buttonEndSession;
     };
 
-    this.endSessionOnClick = e => {
+    this.updateStatusOnClick = (e, status) => {
       let ID = e.currentTarget.dataset.id;
       let student = e.currentTarget.dataset.student;
       let company_id = e.currentTarget.dataset.company_id;
       let company = e.currentTarget.dataset.company;
+      let mes = "";
+      if (status == PrescreenEnum.STATUS_APPROVED) {
+        mes = "Approving";
+      }
+      else if (status == PrescreenEnum.STATUS_ENDED) {
+        mes = "Ending";
+      }
 
       layoutActions.confirmBlockLoader(
         <div>
-          Ending video call session between <b>{student}</b> and{" "}
-          <b>{company}</b>
+          {mes} video call session between <b>{student}</b> and{" "}<b>{company}</b>
           <br></br>
-          <small>
-            <i>This action cannot be undone</i>
-          </small>
+          <small><i>This action cannot be undone</i></small>
         </div>,
         () => {
-          layoutActions.loadingBlockLoader("Ending Session.. Please Wait..");
-          var pass_params = {
-            ID: ID
-          };
-          getPHPNotificationApiAxios("delete-daily-co-room", pass_params).then(
-            res => {
-              if (
-                typeof res.data == "string" &&
-                res.data.indexOf("success") >= 0
-              ) {
-                layoutActions.successBlockLoader("Successfully End Session");
-                this.setState(prevState => {
-                  return { key: prevState.key + 1 };
-                });
+          layoutActions.loadingBlockLoader("Please Wait..");
 
-                emitHallActivity(ActivityType.PRESCREEN, null, company_id);
-              } else {
-                layoutActions.errorBlockLoader("Error Message : " + res.data);
+          if (status == PrescreenEnum.STATUS_APPROVED) {
+            let q = `mutation { edit_prescreen(ID:${ID}, status:"${PrescreenEnum.STATUS_APPROVED}", updated_by: ${getAuthUser().ID}) {ID status} }`
+            graphql(q).then(res => {
+              layoutActions.successBlockLoader("Successfully Approve Session. Please refresh page to see the changes");
+            })
+          }
+          else if (status == PrescreenEnum.STATUS_ENDED) {
+            var pass_params = {
+              ID: ID
+            };
+            getPHPNotificationApiAxios("delete-daily-co-room", pass_params).then(
+              res => {
+                if (
+                  typeof res.data == "string" &&
+                  res.data.indexOf("success") >= 0
+                ) {
+                  layoutActions.successBlockLoader("Successfully End Session");
+                  this.setState(prevState => {
+                    return { key: prevState.key + 1 };
+                  });
+
+                  emitHallActivity(ActivityType.PRESCREEN, null, company_id);
+                } else {
+                  layoutActions.errorBlockLoader("Error Message : " + res.data);
+                }
               }
-            }
-          );
+            );
+          }
+
+
+
         },
         () => { }
       );
@@ -197,7 +240,7 @@ export default class VolunteerScheduledInterview extends React.Component {
 
       return [
         <td>{d.ID}</td>,
-        <td>{this.getButtonEndSession(d)}</td>,
+        <td>{this.getButtonApproveSession(d)}<br></br>{this.getButtonEndSession(d)}</td>,
         <td>{d.cf.join(", ")}</td>,
         <td>
           {createUserTitle(d.student, this.search.student)}
@@ -222,7 +265,7 @@ export default class VolunteerScheduledInterview extends React.Component {
         <tr>
           <td>#</td>
           <th>ID</th>
-          <th>End Session</th>
+          <th>Action</th>
           <th>Career Fair</th>
           <th>Student</th>
           <th>Company</th>
@@ -249,7 +292,7 @@ export default class VolunteerScheduledInterview extends React.Component {
         label: "Career Fair",
         name: "cf",
         type: "text",
-        placeholder:"INTEL, MDEC, etc"
+        placeholder: "INTEL, MDEC, etc"
       }
     ];
 

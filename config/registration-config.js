@@ -23,6 +23,9 @@ const Single = {
     // 1a. @custom_user_info_by_cf - single
     unemployment_period: "unemployment_period",
 
+    field_study_main: "field_study_main",
+    field_study_secondary: "field_study_secondary",
+
     kpt: "kpt", // @kpt_validation - add kt Single
     id_utm: "id_utm", // @id_utm_validation - add kt Single
 

@@ -248,6 +248,22 @@ class BrowseStudentExec {
 				)  `
 
 			// 4b. @custom_user_info_by_cf -- filter single
+			let field_study_main = isCustomUserInfoOff(currentCf, Single.field_study_main)
+				? "1=0"
+				: `( 
+						s.key_input = "field_study_main"
+							AND
+						s.val IN (select r.val from ref_field_study r)
+					)`
+
+			let field_study_secondary = isCustomUserInfoOff(currentCf, Single.field_study_secondary)
+			? "1=0"
+			: `( 
+					s.key_input = "field_study_secondary"
+						AND
+					s.val IN (select r.val from ref_field_study r)
+				)`
+					
 			let work_experience_year = isCustomUserInfoOff(currentCf, Single.work_experience_year)
 				? "1=0"
 				: `( 
@@ -313,13 +329,17 @@ class BrowseStudentExec {
 				)`
 
 			let toRet = `SELECT 
-			s.key_input as _key
+			(CASE WHEN s.key_input = 'field_study_secondary' THEN 'field_study_main' ELSE s.key_input END) as _key
 			, s.val as _val
 			, "" as _val_label
 			, COUNT(*) as _total 
 			FROM single_input s
 			where 
 			(
+				${field_study_secondary}
+				OR
+				${field_study_main}
+				OR
 				${gender} 
 				OR 
 				${work_experience_year} 
@@ -342,11 +362,13 @@ class BrowseStudentExec {
 			)
 			AND s.entity = 'user'
 			AND ${where}
-			group by s.key_input, s.val`;
+			group by _key, _val`;
 
-			// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-			// console.log(toRet)
-			// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+			//group by s.key_input, s.val`;
+
+			console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+			console.log(toRet)
+			console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 			return toRet;
 
 
@@ -364,7 +386,7 @@ class BrowseStudentExec {
 			UNION ALL
 			${multiFilter("skill", where)}
 			UNION ALL
-			${multiFilter("field_study", where)}
+			${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
 			UNION ALL
 			${multiFilter("looking_for_position", where)}
 			UNION ALL
@@ -444,10 +466,14 @@ class BrowseStudentExec {
 		let monash_school = this.where(user_id, this.TABLE_SINGLE, "monash_school", param.monash_school);
 		let sunway_faculty = this.where(user_id, this.TABLE_SINGLE, "sunway_faculty", param.sunway_faculty);
 		let sunway_program = this.where(user_id, this.TABLE_SINGLE, "sunway_program", param.sunway_program);
+		let field_study_main = this.where(user_id, this.TABLE_SINGLE, "field_study_main", param.field_study_main);
+		let field_study_secondary = this.where(user_id, this.TABLE_SINGLE, "field_study_secondary", param.field_study_main);
 
 
 		// 4d. @custom_user_info_by_cf - where multi
+		// @limit_field_of_study_2_before_deploy - comment
 		let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
+
 		let looking_for_position = this.where(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
 		let interested_job_location = this.where(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
 		let skill = this.where(user_id, this.TABLE_MULTI, "skill", param.skill);
@@ -493,6 +519,8 @@ class BrowseStudentExec {
 
 		// 4e. @custom_user_info_by_cf -- where set
 		return `1=1
+			AND (${field_study_main} OR ${field_study_secondary})
+			AND ${field_study /** @limit_field_of_study_2_before_deploy - comment */}
 			AND ${work_experience_year}
 			AND ${gender}
 			AND ${unemployment_period}
@@ -512,7 +540,6 @@ class BrowseStudentExec {
 			AND ${country_study}
 			AND ${university}
 			AND ${where_in_malaysia}
-			AND ${field_study}
 			AND ${looking_for_position}
 			AND ${interested_job_location}
 			AND ${skill}

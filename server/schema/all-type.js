@@ -175,6 +175,8 @@ const UserType = new GraphQLObjectType({
 		interested_vacancies_by_company: __.ListOf(VacancyType),
 
 		// 3. @custom_user_info_by_cf
+		field_study_main: __.String,
+		field_study_secondary: __.String,
 		unemployment_period: __.String,
 		monash_student_id: __.String,
 		monash_school: __.String,

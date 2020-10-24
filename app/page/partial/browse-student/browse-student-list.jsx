@@ -76,6 +76,7 @@ export class BrowseStudentList extends React.Component {
                 student{
                     ${this.props.isPageStudentListJobPost ? " interested_vacancies_by_company {ID title} " : ""}
                     student_listing_interested{ID is_interested}
+                    field_study_main field_study_secondary
                     prescreens_for_student_listing{status appointment_time}
                     university country_study available_month available_year
                     ID first_name last_name user_email description 

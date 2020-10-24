@@ -538,6 +538,8 @@ let argBrowseStudent = {
 	gender: __.String,
 
 	// multi (delimeter '::')
+	field_study_main: __.String,
+	field_study_secondary: __.String,
 	field_study: __.String,
 	looking_for_position: __.String,
 	interested_job_location: __.String,

@@ -69,7 +69,7 @@ export function createUserDocLinkList(
   var ret = null;
   const onClickDocLink = () => {
     addLog(LogEnum.EVENT_CLICK_USER_DOC, student_id);
-    if(postOnClick){
+    if (postOnClick) {
       postOnClick();
     }
   };
@@ -219,6 +219,8 @@ export default class UserPopup extends Component {
                 ${this.addIfValid("local_or_oversea_study")}
                 ${this.addIfValid("local_or_oversea_location")}
                 ${this.addIfValid("monash_student_id")}
+                ${this.addIfValid("field_study_main")}
+                ${this.addIfValid("field_study_secondary")}
                 ${this.addIfValid("monash_school")}
                 ${this.addIfValid("sunway_faculty")}
                 ${this.addIfValid("sunway_program")}
@@ -425,6 +427,26 @@ export default class UserPopup extends Component {
         });
       }
 
+
+      // // @limit_field_of_study_2_before_deploy - uncomment 
+      // if (!isCustomUserInfoOff(getCF(), Single.field_study_main)) {
+      //   items.push({
+      //     label: lang("Field of Study - Main"),
+      //     icon: "star",
+      //     value: this.isValueEmpty(d.field_study_main) ? notSpecifed : d.field_study_main
+      //   });
+      // }
+
+      // // @limit_field_of_study_2_before_deploy - uncomment 
+      // if (!isCustomUserInfoOff(getCF(), Single.field_study_secondary)) {
+      //   items.push({
+      //     label: lang("Field of Study - Secondary"),
+      //     icon: "star",
+      //     value: this.isValueEmpty(d.field_study_secondary) ? notSpecifed : d.field_study_secondary
+      //   });
+      // }
+
+
       if (!isCustomUserInfoOff(getCF(), Single.qualification)) {
         items.push({
           label: lang("Highest Certificate"),
@@ -573,6 +595,7 @@ export default class UserPopup extends Component {
 
     // 7c. @custom_user_info_by_cf - disply multi
 
+    // @limit_field_of_study_2_before_deploy - comment
     const field_study = !isCustomUserInfoOff(getCF(), "field_study") ? (
       <CustomList
         alignCenter={false}
@@ -623,13 +646,16 @@ export default class UserPopup extends Component {
           body={basic}
         ></PageSection>
 
-        {!isCustomUserInfoOff(getCF(), "field_study") ?
-          <PageSection
-            alignCenter={false}
-            className={pageClassName}
-            title={this.getTitle("Field Of Study", "graduation-cap")}
-            body={field_study}
-          ></PageSection> : null}
+        {
+          /** @limit_field_of_study_2_before_deploy - remove*/
+          !isCustomUserInfoOff(getCF(), "field_study") ?
+            <PageSection
+              alignCenter={false}
+              className={pageClassName}
+              title={this.getTitle("Field Of Study", "graduation-cap")}
+              body={field_study}
+            ></PageSection> : null
+        }
 
 
 

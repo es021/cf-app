@@ -37,6 +37,8 @@ class XLSApi {
       ${this.addIfValid("sunway_faculty")}
       ${this.addIfValid("sunway_program")}
       ${this.addIfValid("university")}
+      ${this.addIfValid("field_study_main")}
+      ${this.addIfValid("field_study_secondary")}
       ${this.addIfValid("qualification")}
       graduation_month 
       graduation_year

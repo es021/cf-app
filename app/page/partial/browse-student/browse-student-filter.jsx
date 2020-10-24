@@ -5,7 +5,7 @@ import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
-import { lang, isHasOtherLang, currentLang} from "../../../lib/lang";
+import { lang, isHasOtherLang, currentLang } from "../../../lib/lang";
 import { customBlockLoader } from "../../../redux/actions/layout-actions";
 import { CFSMeta } from "../../../../config/db-config";
 import { _student_plural_lower, _student_plural } from "../../../redux/actions/text-action";
@@ -93,7 +93,9 @@ export class BrowseStudentFilter extends React.Component {
             "monash_school",
             "sunway_faculty",
             "sunway_program",
-            "university", "field_study",
+            "university",
+            // "field_study_main", // @limit_field_of_study_2_before_deploy - uncomment
+            "field_study", // @limit_field_of_study_2_before_deploy - comment
             "looking_for_position",
             "working_availability_from",
             "working_availability_to",
@@ -405,7 +407,8 @@ export class BrowseStudentFilter extends React.Component {
             cf: lang("Career Fair"),
             university: lang("University"),
             country_study: lang("Country Of Study"),
-            field_study: lang("Field Of Study"),
+            field_study: lang("Field Of Study"), // @limit_field_of_study_2_before_deploy - comment 
+            // field_study_main: lang("Field Of Study"), // @limit_field_of_study_2_before_deploy - uncomment 
             interested_job_location: lang("Preferred Job Location"),
             where_in_malaysia: lang("City/State In Malaysia"),
             looking_for_position: lang("Looking For"),
