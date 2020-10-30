@@ -64,7 +64,7 @@ class InterestedUserCard extends React.Component {
       />;
 
     // @new_student_tag_before_deploy (remove line below)
-    isSeenView = null;
+    // isSeenView = null;
 
     let viewProfileButton = <a className="btn-link"
       onClick={() => {

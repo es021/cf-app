@@ -428,23 +428,23 @@ export default class UserPopup extends Component {
       }
 
 
-      // // @limit_field_of_study_2_before_deploy - uncomment 
-      // if (!isCustomUserInfoOff(getCF(), Single.field_study_main)) {
-      //   items.push({
-      //     label: lang("Field of Study - Main"),
-      //     icon: "star",
-      //     value: this.isValueEmpty(d.field_study_main) ? notSpecifed : d.field_study_main
-      //   });
-      // }
+      // @limit_field_of_study_2_before_deploy - uncomment 
+      if (!isCustomUserInfoOff(getCF(), Single.field_study_main)) {
+        items.push({
+          label: lang("Field of Study - Main"),
+          icon: "star",
+          value: this.isValueEmpty(d.field_study_main) ? notSpecifed : d.field_study_main
+        });
+      }
 
-      // // @limit_field_of_study_2_before_deploy - uncomment 
-      // if (!isCustomUserInfoOff(getCF(), Single.field_study_secondary)) {
-      //   items.push({
-      //     label: lang("Field of Study - Secondary"),
-      //     icon: "star",
-      //     value: this.isValueEmpty(d.field_study_secondary) ? notSpecifed : d.field_study_secondary
-      //   });
-      // }
+      // @limit_field_of_study_2_before_deploy - uncomment 
+      if (!isCustomUserInfoOff(getCF(), Single.field_study_secondary)) {
+        items.push({
+          label: lang("Field of Study - Secondary"),
+          icon: "star",
+          value: this.isValueEmpty(d.field_study_secondary) ? notSpecifed : d.field_study_secondary
+        });
+      }
 
 
       if (!isCustomUserInfoOff(getCF(), Single.qualification)) {
@@ -596,13 +596,13 @@ export default class UserPopup extends Component {
     // 7c. @custom_user_info_by_cf - disply multi
 
     // @limit_field_of_study_2_before_deploy - comment
-    const field_study = !isCustomUserInfoOff(getCF(), "field_study") ? (
-      <CustomList
-        alignCenter={false}
-        className="label"
-        items={user.field_study.map((d, i) => d.val)}
-      ></CustomList>
-    ) : null;
+    // const field_study = !isCustomUserInfoOff(getCF(), "field_study") ? (
+    //   <CustomList
+    //     alignCenter={false}
+    //     className="label"
+    //     items={user.field_study.map((d, i) => d.val)}
+    //   ></CustomList>
+    // ) : null;
 
     const interested_role = !isCustomUserInfoOff(getCF(), "interested_role") ? (
       <CustomList
@@ -648,13 +648,13 @@ export default class UserPopup extends Component {
 
         {
           /** @limit_field_of_study_2_before_deploy - remove*/
-          !isCustomUserInfoOff(getCF(), "field_study") ?
-            <PageSection
-              alignCenter={false}
-              className={pageClassName}
-              title={this.getTitle("Field Of Study", "graduation-cap")}
-              body={field_study}
-            ></PageSection> : null
+          // !isCustomUserInfoOff(getCF(), "field_study") ?
+          //   <PageSection
+          //     alignCenter={false}
+          //     className={pageClassName}
+          //     title={this.getTitle("Field Of Study", "graduation-cap")}
+          //     body={field_study}
+          //   ></PageSection> : null
         }
 
 

@@ -108,30 +108,30 @@ export class BrowseStudentCard extends React.Component {
 
         let fieldStudyView = null;
         // @limit_field_of_study_2_before_deploy - comment
-        let field_study = d.student.field_study;
-        if (Array.isArray(field_study)) {
-            fieldStudyView = field_study.map((d, i) => {
-                if (i % 2 == 0) {
-                    return <span>{d.val}</span>;
-                } else {
-                    return <span>, {d.val}</span>;
-                }
-            });
+        // let field_study = d.student.field_study;
+        // if (Array.isArray(field_study)) {
+        //     fieldStudyView = field_study.map((d, i) => {
+        //         if (i % 2 == 0) {
+        //             return <span>{d.val}</span>;
+        //         } else {
+        //             return <span>, {d.val}</span>;
+        //         }
+        //     });
 
-            if (field_study.length > 0) {
-                fieldStudyView = (
-                    <i className="text-muted">
-                        {fieldStudyView}
-                    </i>
-                );
-            }
-        }
+        //     if (field_study.length > 0) {
+        //         fieldStudyView = (
+        //             <i className="text-muted">
+        //                 {fieldStudyView}
+        //             </i>
+        //         );
+        //     }
+        // }
 
-        // // @limit_field_of_study_2_before_deploy - uncomment 
-        // fieldStudyView = <div className="text-muted">
-        //     <span>{d.student.field_study_main}</span>
-        //     {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
-        // </div>
+        // @limit_field_of_study_2_before_deploy - uncomment 
+        fieldStudyView = <div className="text-muted">
+            <span>{d.student.field_study_main}</span>
+            {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
+        </div>
 
 
 
@@ -402,7 +402,7 @@ export class BrowseStudentCard extends React.Component {
             />;
 
         // @new_student_tag_before_deploy (remove line below)
-        isSeenView = null;
+        // isSeenView = null;
 
         let body = <div className="container-fluid">
             {isSeenView}

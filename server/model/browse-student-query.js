@@ -386,14 +386,16 @@ class BrowseStudentExec {
 			UNION ALL
 			${multiFilter("skill", where)}
 			UNION ALL
-			${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
-			UNION ALL
 			${multiFilter("looking_for_position", where)}
 			UNION ALL
 			${multiFilter("interested_job_location", where)}
 			
 		) 
 		X ORDER BY X._key, X._val_label asc, X._val asc, X._total desc`;
+
+		// UNION ALL
+		// ${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
+	
 
 		q = overrideLanguageTable(q, param);
 
@@ -472,7 +474,7 @@ class BrowseStudentExec {
 
 		// 4d. @custom_user_info_by_cf - where multi
 		// @limit_field_of_study_2_before_deploy - comment
-		let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
+		// let field_study = this.where(user_id, this.TABLE_MULTI, "field_study", param.field_study);
 
 		let looking_for_position = this.where(user_id, this.TABLE_MULTI, "looking_for_position", param.looking_for_position);
 		let interested_job_location = this.where(user_id, this.TABLE_MULTI, "interested_job_location", param.interested_job_location);
@@ -517,10 +519,10 @@ class BrowseStudentExec {
 			}
 		});
 
+		// AND ${field_study /** @limit_field_of_study_2_before_deploy - comment */}
 		// 4e. @custom_user_info_by_cf -- where set
 		return `1=1
 			AND (${field_study_main} OR ${field_study_secondary})
-			AND ${field_study /** @limit_field_of_study_2_before_deploy - comment */}
 			AND ${work_experience_year}
 			AND ${gender}
 			AND ${unemployment_period}

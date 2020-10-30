@@ -1,3 +1,24 @@
+-- IMPORT FIELD STUDY MAIN
+INSERT IGNORE INTO single_input (entity, entity_id, key_input, val)
+SELECT m.entity, m.entity_id, 'field_study_main', m.val FROM multi_field_study m, 
+(
+  SELECT MIN(ID) as id FROM `multi_field_study` where entity = 'user'     
+  group by entity_id, entity
+)X
+where X.id = m.ID
+
+-- IMPORT FIELD STUDY MAIN
+INSERT IGNORE INTO single_input (entity, entity_id, key_input, val)
+SELECT m.entity, m.entity_id, 'field_study_secondary', m.val FROM multi_field_study m, 
+(
+  SELECT MIN(ID) as id FROM `multi_field_study` 
+  where entity = 'user' 
+  and ID NOT IN 
+    (SELECT MIN(ID) FROM `multi_field_study` where entity = 'user' group by entity_id, entity) 
+  group by entity_id, entity
+)X
+where X.id = m.ID
+
 
 
 -- ##############################################################

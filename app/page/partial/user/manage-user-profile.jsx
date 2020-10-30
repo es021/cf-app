@@ -346,46 +346,46 @@ export default class ManageUserProfile extends React.Component {
         //   is_required: true,
         //   hidden: false
         // },
-        // // @limit_field_of_study_2_before_deploy - uncomment
-        // {
-        //   // single
-        //   type: "single",
-        //   input_type: "select",
-        //   label: lang("What is your main field of study?"),
-        //   id: Reg.Single.field_study_main,
-        //   key_input: Reg.Single.field_study_main,
-        //   ref_table_name: "field_study",
-        //   is_required: true,
-        //   hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_main)
-        // },
-        // // @limit_field_of_study_2_before_deploy - uncomment
-        // {
-        //   // single
-        //   type: "single",
-        //   input_type: "select",
-        //   label: lang("What is your secondary field of study?"),
-        //   sublabel: lang("If Applicable"),
-        //   id: Reg.Single.field_study_secondary,
-        //   key_input: Reg.Single.field_study_secondary,
-        //   ref_table_name: "field_study",
-        //   is_required: false,
-        //   hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_secondary)
-        // },
-        // @limit_field_of_study_2_before_deploy - comment
+        // @limit_field_of_study_2_before_deploy - uncomment
         {
-          // select multi choice
-          type: "multi",
+          // single
+          type: "single",
           input_type: "select",
-          id: Reg.Multi.field_study,
-          table_name: Reg.Multi.field_study,
-          discard_ref_from_default: true,
-          label: lang("What is your field of study?"),
-          sublabel: lang("You can choose more than one field of study"),
-          list_title: null,
+          label: lang("What is your main field of study?"),
+          id: Reg.Single.field_study_main,
+          key_input: Reg.Single.field_study_main,
           ref_table_name: "field_study",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.field_study)
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_main)
         },
+        // @limit_field_of_study_2_before_deploy - uncomment
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          label: lang("What is your secondary field of study?"),
+          sublabel: lang("If Applicable"),
+          id: Reg.Single.field_study_secondary,
+          key_input: Reg.Single.field_study_secondary,
+          ref_table_name: "field_study",
+          is_required: false,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_secondary)
+        },
+        // @limit_field_of_study_2_before_deploy - comment
+        // {
+        //   // select multi choice
+        //   type: "multi",
+        //   input_type: "select",
+        //   id: Reg.Multi.field_study,
+        //   table_name: Reg.Multi.field_study,
+        //   discard_ref_from_default: true,
+        //   label: lang("What is your field of study?"),
+        //   sublabel: lang("You can choose more than one field of study"),
+        //   list_title: null,
+        //   ref_table_name: "field_study",
+        //   is_required: true,
+        //   hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.field_study)
+        // },
         {
           // single
           type: "single",
