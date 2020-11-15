@@ -86,6 +86,7 @@ let scss = [
   "custom-SUNWAY",
   "custom-TARUC",
   "custom-UTM20",
+  "custom-MASAF",
 ];
 
 for (var i in scss) {

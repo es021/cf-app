@@ -1,0 +1,226 @@
+@import "define/mixin.scss";
+
+// $MASAF_AZURE_DARK: #66000f;
+// $MASAF_AZURE_DARK_LIGHT: #9f505c;
+// $MASAF_AZURE: #ff0000;
+// $MASAF_AZURE: #a81128;
+
+$MASAF_AZURE: #41AADE;
+$UTM20_YELLOW: #e69405;
+$MASAF_BLUE:  #002F5A;
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-MASAF {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $MASAF_AZURE;
+
+  $COLOR_HEADER_TITLE: white;
+  $COLOR_HEADER_LINK_ACTIVE: white;
+
+  $COLOR_HEADER_LINK:$MASAF_BLUE;
+  $COLOR_HEADER_SUBTITLE: $MASAF_BLUE;
+
+
+  header {
+    .img {
+      padding : 13px 7px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $MASAF_AZURE;
+      border-bottom: 2px solid $MASAF_AZURE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $MASAF_AZURE 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $MASAF_AZURE;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $MASAF_AZURE;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $MASAF_AZURE;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $MASAF_AZURE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $MASAF_AZURE;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $MASAF_AZURE;
+    }
+    .pg-page {
+      color: $MASAF_AZURE;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $MASAF_AZURE);
+
+    .lb-title {
+      color: $MASAF_AZURE;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $MASAF_AZURE;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $MASAF_AZURE, white, $MASAF_AZURE);
+  @include custom_btn_focus("success", $MASAF_AZURE, #f8f1f1, $MASAF_AZURE);
+  @include custom_btn_active("success", $MASAF_AZURE, white, $MASAF_AZURE);
+
+  @include custom_btn_default("default", $MASAF_AZURE, white, $MASAF_AZURE);
+  @include custom_btn_focus("default", $MASAF_AZURE, #f8f1f1, $MASAF_AZURE);
+  @include custom_btn_active("default", $MASAF_AZURE, white, $MASAF_AZURE);
+
+  @include custom_btn_default("primary", white, $MASAF_AZURE, $MASAF_AZURE);
+  @include custom_btn_focus("primary", white, darken($MASAF_AZURE, 10), $MASAF_AZURE);
+  @include custom_btn_active("primary", white, $MASAF_AZURE, $MASAF_AZURE);
+
+  @include custom_btn_default("blue", white, $MASAF_AZURE, $MASAF_AZURE);
+  @include custom_btn_focus("blue", white, darken($MASAF_AZURE, 10), $MASAF_AZURE);
+  @include custom_btn_active("blue", white, $MASAF_AZURE, $MASAF_AZURE);
+}
