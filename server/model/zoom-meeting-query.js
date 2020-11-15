@@ -11,7 +11,7 @@ class ZoomMeetingExec {
     let join_url = !param.join_url ? "1=1" : `join_url = '${param.join_url}'`;
     let pre_screen_id = !param.pre_screen_id ? "1=1" : `pre_screen_id = '${param.pre_screen_id}'`;
     let group_session_id = !param.group_session_id ? "1=1" : `group_session_id = ${param.group_session_id}`;
-    let zoom_meeting_id = !param.zoom_meeting_id ? "1=1" : `zoom_meeting_id = ${param.zoom_meeting_id}`;
+    let zoom_meeting_id = !param.zoom_meeting_id ? "1=1" : `zoom_meeting_id = '${param.zoom_meeting_id}'`;
     let zoom_host_id = !param.zoom_host_id ? "1=1" : `zoom_host_id = ${param.zoom_host_id}`;
 
     var limit = DB.prepareLimit(param.page, param.offset);

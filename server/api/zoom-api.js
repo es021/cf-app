@@ -96,9 +96,10 @@ class ZoomApi {
         var data = {
             pre_screen_id: postParam.pre_screen_id,
             group_session_id: postParam.group_session_id,
+            chat_user_id: postParam.chat_user_id,
             host_id: postParam.host_id,
             zoom_host_id: meetingData.host_id,
-            zoom_meeting_id: meetingData.id,
+            zoom_meeting_id: meetingData.id + "",
             start_url: meetingData.start_url,
             join_url: meetingData.join_url,
         };
@@ -123,13 +124,16 @@ class ZoomApi {
             pre_screen_id: postParam.pre_screen_id,
             group_session_id: postParam.group_session_id,
             zoom_host_id: postParam.zoom_host_id,
-            zoom_meeting_id: postParam.zoom_meeting_id,
         };
         var q = `query{zoom_meeting(${obj2arg(data, {
             noOuterBraces: true
         })}) { ID is_expired zoom_meeting_id}}`;
         return graphql(q).then((res) => {
-            return res.data.data.zoom_meeting;
+            let toRet = res.data.data.zoom_meeting;
+            if(!toRet){
+                toRet = {}
+            }
+            return toRet;
         });
     }
     isExpired(param) {

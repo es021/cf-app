@@ -24,7 +24,7 @@ import EmptyState from "../component/empty-state.jsx";
 import { createCompanyTitle } from "./admin-company.jsx";
 import { isCompanyOnline } from "../redux/actions/user-actions";
 import { connect } from "react-redux";
-import {lang} from "../lib/lang.js";
+import { lang } from "../lib/lang.js";
 
 
 export class StudentChatStarter extends React.Component {
@@ -563,6 +563,12 @@ class CompanyChatInbox extends React.Component {
           body = <div style={{ fontWeight: "bold", color: "gray" }}>
             <i className="fa fa-file left" style={{ color: "gray" }}></i>
             {"  "}{lang("File Attachment")}
+          </div>
+        }
+        else if (body.indexOf(`MESSAGE_JSON{"type":"ZOOM"`) >= 0) {
+          body = <div style={{ fontWeight: "bold", color: "gray" }}>
+            <i className="fa fa-video-camera left" style={{ color: "gray" }}></i>
+            {"  "}{lang("Video Call")}
           </div>
         }
       } catch (err) { }

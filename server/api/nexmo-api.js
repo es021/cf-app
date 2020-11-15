@@ -12,17 +12,18 @@ const { LogEnum } = require('../../config/db-config');
 
 class NexmoAPI {
   generateText(type, param, finishHandler) {
+
+    let url = this.loginUrl(param.cf);
+
     if (type == notificationConfig.Type.COMPANY_SCHEDULE_INTERVIEW) {
       this.loadCompanyName(param.company_id, (company_name) => {
-        let text = `${company_name} has scheduled an interview with you.`
-        text += this.addLoginAtText(param.cf);
+        let text = `Congratulations! ${company_name} has scheduled an interview with you. To respond, please login at ${url}`
         finishHandler(text);
       })
     }
     if (type == notificationConfig.Type.COMPANY_START_CHAT) {
       this.loadCompanyName(param.company_id, (company_name) => {
-        let text = `You have new message from ${company_name}.`
-        text += this.addLoginAtText(param.cf);
+        let text = `You have a new message from ${company_name}. To reply, please login at ${url}`;
         finishHandler(text);
       })
     }
@@ -42,8 +43,8 @@ class NexmoAPI {
           updated_by: '137' }
       */
       this.loadCompanyName(param.company_id, (company_name) => {
-        let text = `Your interview with ${company_name} will start soon.`
-        text += this.addLoginAtText(param.cf);
+        // let text = `Your interview with ${company_name} will start soon.`
+        let text = `Your interview with ${company_name} is in 30 minutes. Please log in early at ${url} and click "Join Video Call" when prompted`
         finishHandler(text);
       })
     }
@@ -72,13 +73,16 @@ class NexmoAPI {
     })
 
   }
-  addLoginAtText(cf) {
-    if (!cf) {
-      return "";
-    }
-    var loginUrl = `${Domain}/cf/auth/login/?cf=${cf}`;
-    return ` Login at ${loginUrl} for more details.`;
+  loginUrl(cf) {
+    return `${Domain}/cf/auth/login/?cf=${cf}`;
   }
+  // addLoginAtText(cf) {
+  //   if (!cf) {
+  //     return "";
+  //   }
+  //   var loginUrl = `${Domain}/cf/auth/login/?cf=${cf}`;
+  //   return ` Login at ${loginUrl} for more details.`;
+  // }
   nexmoSendSms(phoneNumber, text, finishHandler, user_id = null) {
     const nexmo = new Nexmo({
       apiKey: Secret.NEXMO_API_KEY,

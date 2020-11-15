@@ -422,7 +422,7 @@ class ActvityList extends React.Component {
             </div>
           },
           {
-            header: <div>Enter Your Suggestion Time:
+            header: <div>Enter Your Preferred Time:
             </div>
           },
           {

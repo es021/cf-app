@@ -792,17 +792,30 @@ export default class UserPopup extends Component {
     if (!isRoleRec()) {
       return null;
     }
-    return (
-      <NavLink
+    // return (
+    //   <NavLink
+    //     style={{ minWidth: "200px", margin: "7px" }}
+    //     className="btn btn-blue btn-lg btn-round-10 "
+    //     to={`${RootPath}/app/student-chat/${user.ID}`}
+    //     onClick={e => {
+    //       layoutActions.storeHideFocusCard();
+    //     }}
+    //   >
+    //     <i className="fa fa-comments left"></i>{lang("Start Chat")}
+    //   </NavLink>
+    // );
+     return (
+      <a
         style={{ minWidth: "200px", margin: "7px" }}
         className="btn btn-blue btn-lg btn-round-10 "
-        to={`${RootPath}/app/student-chat/${user.ID}`}
+        href={`${RootPath}/app/student-chat/${user.ID}`}
+        target="_blank"
         onClick={e => {
           layoutActions.storeHideFocusCard();
         }}
       >
         <i className="fa fa-comments left"></i>{lang("Start Chat")}
-      </NavLink>
+      </a>
     );
   }
   getScheduleCall(user) {

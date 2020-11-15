@@ -1,3 +1,13 @@
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+ALTER TABLE `zoom_meetings` ADD `chat_user_id` BIGINT NULL DEFAULT NULL AFTER `pre_screen_id`, ADD INDEX (`chat_user_id`); 
+ALTER TABLE `zoom_meetings` CHANGE `zoom_meeting_id` `zoom_meeting_id` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL; 
+
+
 -- IMPORT FIELD STUDY MAIN
 INSERT IGNORE INTO single_input (entity, entity_id, key_input, val)
 SELECT m.entity, m.entity_id, 'field_study_main', m.val FROM multi_field_study m, 
@@ -21,12 +31,6 @@ where X.id = m.ID
 
 
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `pre_screens`  ADD `cf` VARCHAR(50) NULL  AFTER `company_id`;
 ALTER TABLE `pre_screens` ADD `reschedule_time` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `appointment_time`; 
 
