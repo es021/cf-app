@@ -1,0 +1,223 @@
+@import "define/mixin.scss";
+
+// $UNISZA_BLACK_DARK: #66000f;
+// $UNISZA_BLACK_DARK_LIGHT: #9f505c;
+// $UNISZA_BLACK: #ff0000;
+// $UNISZA_BLACK: #a81128;
+
+$UNISZA_BLACK: #000000;
+$UNISZA_YELLOW: #ffd700;
+$UNISZA_YELLOW_LIGHT: #a7962e;
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-UNISZA {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $UNISZA_BLACK;
+  $COLOR_HEADER_LINK:$UNISZA_YELLOW_LIGHT;
+  $COLOR_HEADER_TITLE: $UNISZA_YELLOW;
+  $COLOR_HEADER_SUBTITLE: $UNISZA_YELLOW_LIGHT;
+  $COLOR_HEADER_LINK_ACTIVE: $UNISZA_YELLOW;
+
+  header {
+    .img {
+      padding: 5px 5px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $UNISZA_BLACK;
+      border-bottom: 2px solid $UNISZA_BLACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $UNISZA_BLACK 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $UNISZA_BLACK;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $UNISZA_BLACK;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $UNISZA_BLACK;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $UNISZA_BLACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $UNISZA_BLACK;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $UNISZA_BLACK;
+    }
+    .pg-page {
+      color: $UNISZA_BLACK;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $UNISZA_BLACK);
+
+    .lb-title {
+      color: $UNISZA_BLACK;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $UNISZA_BLACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $UNISZA_BLACK, white, $UNISZA_BLACK);
+  @include custom_btn_focus("success", $UNISZA_BLACK, #f8f1f1, $UNISZA_BLACK);
+  @include custom_btn_active("success", $UNISZA_BLACK, white, $UNISZA_BLACK);
+
+  @include custom_btn_default("default", $UNISZA_BLACK, white, $UNISZA_BLACK);
+  @include custom_btn_focus("default", $UNISZA_BLACK, #f8f1f1, $UNISZA_BLACK);
+  @include custom_btn_active("default", $UNISZA_BLACK, white, $UNISZA_BLACK);
+
+  @include custom_btn_default("primary", white, $UNISZA_BLACK, $UNISZA_BLACK);
+  @include custom_btn_focus("primary", white, darken($UNISZA_BLACK, 10), $UNISZA_BLACK);
+  @include custom_btn_active("primary", white, $UNISZA_BLACK, $UNISZA_BLACK);
+
+  @include custom_btn_default("blue", white, $UNISZA_BLACK, $UNISZA_BLACK);
+  @include custom_btn_focus("blue", white, darken($UNISZA_BLACK, 10), $UNISZA_BLACK);
+  @include custom_btn_active("blue", white, $UNISZA_BLACK, $UNISZA_BLACK);
+}
