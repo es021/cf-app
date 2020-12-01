@@ -29,6 +29,15 @@ const Single = {
     kpt: "kpt", // @kpt_validation - add kt Single
     id_utm: "id_utm", // @id_utm_validation - add kt Single
 
+    // UNISZA ------------------------------
+    id_unisza: "id_unisza",
+    unisza_faculty: "unisza_faculty", // ref table 
+    unisza_course: "unisza_course",// ref table
+    current_semester: "current_semester", // ref table
+    course_status: "course_status",// ref table
+    employment_status: "employment_status",// ref table
+    // UNISZA ------------------------------
+
     birth_date: "birth_date",
     monash_student_id: "monash_student_id",
     monash_school: "monash_school",
@@ -144,11 +153,38 @@ const isCustomUserInfoOff = (cf, key) => {
         case Single.id_utm:
             onCf = ["UTM20"];
             break;
+        case Single.id_unisza:
+            onCf = ["UNISZA"];
+            break;
+        case Single.unisza_faculty:
+            onCf = ["UNISZA"];
+            break;
+        case Single.unisza_course:
+            onCf = ["UNISZA"];
+            break;
+        case Single.current_semester:
+            onCf = ["UNISZA"];
+            break;
+        case Single.course_status:
+            onCf = ["UNISZA"];
+            break;
+        case Single.employment_status:
+            onCf = ["UNISZA"];
+            break;
 
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW","UNISZA"];
+            break;
+        case Single.university:
+            offCf = ["UNISZA"];
+            break;
+        case Single.field_study_main:
+            offCf = ["UNISZA"];
+            break;
+        case Single.field_study_secondary:
+            offCf = ["UNISZA"];
             break;
         case Single.where_in_malaysia:
             offCf = ["MONASH", "SUNWAY", "INTEL"];

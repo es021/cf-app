@@ -205,6 +205,12 @@ export default class UserPopup extends Component {
                 ${this.addIfValid("country_study")}
                 ${this.addIfValid("gender")}
                 ${this.addIfValid("work_experience_year")}
+                ${this.addIfValid("id_unisza")}
+                ${this.addIfValid("unisza_faculty")}
+                ${this.addIfValid("unisza_course")}
+                ${this.addIfValid("current_semester")}
+                ${this.addIfValid("course_status")}
+                ${this.addIfValid("employment_status")}
                 university
                 qualification
                 graduation_month
@@ -371,6 +377,14 @@ export default class UserPopup extends Component {
         })
       }
 
+      if (!isCustomUserInfoOff(getCF(), Single.id_unisza)) {
+        items.push({
+          label: lang("Matrix Number"),
+          icon: "slack",
+          value: this.isValueEmpty(d.id_unisza) ? notSpecifed : d.id_unisza
+        })
+      }
+
       if (!isCustomUserInfoOff(getCF(), Single.birth_date)) {
         items.push({
           label: lang("Date Of Birth"),
@@ -395,6 +409,14 @@ export default class UserPopup extends Component {
         })
       }
 
+      if (!isCustomUserInfoOff(getCF(), Single.unisza_faculty)) {
+        items.push({
+          label: lang("Faculty"),
+          icon: "university",
+          value: this.isValueEmpty(d.unisza_faculty) ? notSpecifed : d.unisza_faculty
+        })
+      }
+
       if (!isCustomUserInfoOff(getCF(), Single.monash_school)) {
         items.push({
           label: lang("School"),
@@ -408,6 +430,36 @@ export default class UserPopup extends Component {
           label: lang("School"),
           icon: "university",
           value: this.isValueEmpty(d.sunway_faculty) ? notSpecifed : d.sunway_faculty
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.unisza_course)) {
+        items.push({
+          label: lang("Study Course"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.unisza_course) ? notSpecifed : d.unisza_course
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.current_semester)) {
+        items.push({
+          label: lang("Current Semester"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.current_semester) ? notSpecifed : d.current_semester
+        })
+      }
+      if (!isCustomUserInfoOff(getCF(), Single.course_status)) {
+        items.push({
+          label: lang("Course Status"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.course_status) ? notSpecifed : d.course_status
+        })
+      }
+      if (!isCustomUserInfoOff(getCF(), Single.employment_status)) {
+        items.push({
+          label: lang("Employment Status"),
+          icon: "suitcase",
+          value: this.isValueEmpty(d.employment_status) ? notSpecifed : d.employment_status
         })
       }
 

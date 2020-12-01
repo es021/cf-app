@@ -248,6 +248,36 @@ class BrowseStudentExec {
 				)  `
 
 			// 4b. @custom_user_info_by_cf -- filter single
+			let unisza_faculty = isCustomUserInfoOff(currentCf, Single.unisza_faculty)
+				? "1=0"
+				: `( 
+					s.key_input = "unisza_faculty"
+						AND
+					s.val IN (select r.val from ref_unisza_faculty r)
+				)`
+			let unisza_course = isCustomUserInfoOff(currentCf, Single.unisza_course)
+				? "1=0"
+				: `( 
+						s.key_input = "unisza_course"
+							AND
+						s.val IN (select r.val from ref_unisza_course r)
+					)`
+			let current_semester = isCustomUserInfoOff(currentCf, Single.current_semester)
+				? "1=0"
+				: `( 
+						s.key_input = "current_semester"
+					)`
+			let course_status = isCustomUserInfoOff(currentCf, Single.course_status)
+				? "1=0"
+				: `( 
+						s.key_input = "course_status"
+					)`
+			let employment_status = isCustomUserInfoOff(currentCf, Single.employment_status)
+				? "1=0"
+				: `( 
+						s.key_input = "employment_status"
+					)`
+
 			let field_study_main = isCustomUserInfoOff(currentCf, Single.field_study_main)
 				? "1=0"
 				: `( 
@@ -257,13 +287,13 @@ class BrowseStudentExec {
 					)`
 
 			let field_study_secondary = isCustomUserInfoOff(currentCf, Single.field_study_secondary)
-			? "1=0"
-			: `( 
+				? "1=0"
+				: `( 
 					s.key_input = "field_study_secondary"
 						AND
 					s.val IN (select r.val from ref_field_study r)
 				)`
-					
+
 			let work_experience_year = isCustomUserInfoOff(currentCf, Single.work_experience_year)
 				? "1=0"
 				: `( 
@@ -336,6 +366,16 @@ class BrowseStudentExec {
 			FROM single_input s
 			where 
 			(
+				${unisza_faculty}
+				OR
+				${unisza_course}
+				OR
+				${current_semester}
+				OR
+				${course_status}
+				OR
+				${employment_status}
+				OR
 				${field_study_secondary}
 				OR
 				${field_study_main}
@@ -395,7 +435,7 @@ class BrowseStudentExec {
 
 		// UNION ALL
 		// ${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
-	
+
 
 		q = overrideLanguageTable(q, param);
 
@@ -470,6 +510,12 @@ class BrowseStudentExec {
 		let sunway_program = this.where(user_id, this.TABLE_SINGLE, "sunway_program", param.sunway_program);
 		let field_study_main = this.where(user_id, this.TABLE_SINGLE, "field_study_main", param.field_study_main);
 		let field_study_secondary = this.where(user_id, this.TABLE_SINGLE, "field_study_secondary", param.field_study_main);
+		let id_unisza = this.where(user_id, this.TABLE_SINGLE, "id_unisza", param.field_study_main);
+		let unisza_faculty = this.where(user_id, this.TABLE_SINGLE, "unisza_faculty", param.field_study_main);
+		let unisza_course = this.where(user_id, this.TABLE_SINGLE, "unisza_course", param.field_study_main);
+		let current_semester = this.where(user_id, this.TABLE_SINGLE, "current_semester", param.field_study_main);
+		let course_status = this.where(user_id, this.TABLE_SINGLE, "course_status", param.field_study_main);
+		let employment_status = this.where(user_id, this.TABLE_SINGLE, "employment_status", param.field_study_main);
 
 
 		// 4d. @custom_user_info_by_cf - where multi
@@ -523,6 +569,12 @@ class BrowseStudentExec {
 		// 4e. @custom_user_info_by_cf -- where set
 		return `1=1
 			AND (${field_study_main} OR ${field_study_secondary})
+			AND ${id_unisza}
+			AND ${unisza_faculty}
+			AND ${unisza_course}
+			AND ${current_semester}
+			AND ${course_status}
+			AND ${employment_status}
 			AND ${work_experience_year}
 			AND ${gender}
 			AND ${unemployment_period}

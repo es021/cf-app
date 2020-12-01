@@ -30,6 +30,7 @@ class XLSApi {
       ${this.addIfValid("birth_date")}
       ${this.addIfValid("kpt")}
       ${this.addIfValid("id_utm")}
+      ${this.addIfValid("id_unisza")}
       ${this.addIfValid("local_or_oversea_study")}
       ${this.addIfValid("country_study")}
       ${this.addIfValid("monash_student_id")}
@@ -40,6 +41,11 @@ class XLSApi {
       ${this.addIfValid("field_study_main")}
       ${this.addIfValid("field_study_secondary")}
       ${this.addIfValid("qualification")}
+      ${this.addIfValid("unisza_faculty")}
+      ${this.addIfValid("unisza_course")}
+      ${this.addIfValid("current_semester")}
+      ${this.addIfValid("course_status")}
+      ${this.addIfValid("employment_status")}
       graduation_month 
       graduation_year
       working_availability_month 

@@ -188,6 +188,12 @@ const UserType = new GraphQLObjectType({
 		gender: __.String,
 		birth_date: __.String,
 		kpt: __.String,
+		id_unisza: __.String,
+		unisza_faculty: __.String,
+		unisza_course: __.String,
+		current_semester: __.String,
+		course_status: __.String,
+		employment_status: __.String,
 
 		// @id_utm_validation
 		id_utm: __.String,

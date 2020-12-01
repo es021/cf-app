@@ -172,6 +172,16 @@ export default class ManageUserProfile extends React.Component {
           // single
           type: "single",
           input_type: "text",
+          label: lang("Matrix Number"),
+          id: Reg.Single.id_unisza,
+          key_input: Reg.Single.id_unisza,
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.id_unisza)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "text",
           label: lang("IC Number"),
           id: Reg.Single.kpt,
           key_input: Reg.Single.kpt,
@@ -283,6 +293,66 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study) ||
             isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+        },
+        {
+          // single
+          label: lang("Faculty"),
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.unisza_faculty,
+          key_input: Reg.Single.unisza_faculty,
+          // input_placeholder: "Malaysia",
+          ref_table_name: "unisza_faculty",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.unisza_faculty)
+        },
+        {
+          // single
+          label: lang("Course of Study"),
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.unisza_course,
+          key_input: Reg.Single.unisza_course,
+          // input_placeholder: "Malaysia",
+          ref_table_name: "unisza_course",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.unisza_course)
+        },
+        {
+          // single
+          label: lang("Current Semester"),
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.current_semester,
+          key_input: Reg.Single.current_semester,
+          // input_placeholder: "Malaysia",
+          ref_table_name: "current_semester",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.current_semester)
+        },
+        {
+          // single
+          label: lang("Status of Study Course"),
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.course_status,
+          key_input: Reg.Single.course_status,
+          // input_placeholder: "Malaysia",
+          ref_table_name: "course_status",
+          is_required: true,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.course_status)
+        },
+        {
+          // single
+          label: lang("If you have completed your study, what is your current employment status?"),
+          type: "single",
+          input_type: "select",
+          id: Reg.Single.employment_status,
+          key_input: Reg.Single.employment_status,
+          // input_placeholder: "Malaysia",
+          ref_table_name: "employment_status",
+          is_required: false,
+          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.employment_status)
         },
         {
           // single

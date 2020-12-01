@@ -536,6 +536,12 @@ let argBrowseStudent = {
 	local_or_oversea_location: __.String,
 	work_experience_year: __.String,
 	gender: __.String,
+	id_unisza: __.String,
+	unisza_faculty: __.String,
+	unisza_course: __.String,
+	current_semester: __.String,
+	course_status: __.String,
+	employment_status: __.String,
 
 	// multi (delimeter '::')
 	field_study_main: __.String,
