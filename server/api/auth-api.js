@@ -214,21 +214,20 @@ class AuthAPI {
 			field += `${d},`;
 		});
 		field = field.slice(0, -1);
-
-		//console.log(field);
+		
 		var user_query = `query{
-            user(user_email:"${email}"){
+            user(user_email:"${email}", cf_to_check_id_utm:"${cf}"){
                 ${field} company {cf name recruiters
                     {ID user_email first_name last_name}}
             }}`;
 
 		return getAxiosGraphQLQuery(user_query).then(
 			(res) => {
-			
+
 				var user = res.data.data.user;
 				console.log(user);
 				console.log(user);
-				
+
 				if (user !== null) {
 					// check if in kpt exist
 					if (kpt && user.role == UserEnum.ROLE_STUDENT) {
@@ -684,6 +683,7 @@ class AuthAPI {
 			// @id_utm_validation - register - init
 			return this.registerIdUtmValidation({
 				id_utm: user[UserMeta.ID_UTM],
+				cf: cf,
 				data: data,
 				successInterceptor: successInterceptor
 			});
@@ -723,10 +723,10 @@ class AuthAPI {
 		});
 	}
 
-	registerIdUtmValidation({ id_utm, data, successInterceptor }) {
+	registerIdUtmValidation({ id_utm, cf, data, successInterceptor }) {
 
 		// @id_utm_validation - register - check if JPA
-		return graphql(` query{is_id_utm(id_utm:"${id_utm}")} `).then((res) => {
+		return graphql(` query{is_id_utm(id_utm:"${id_utm}", cf:"${cf}")} `).then((res) => {
 			let isValid = res.data.data.is_id_utm;
 			if (isValid !== 1) {
 				// @id_utm_validation - register - ID_UTM_NOT_VALID

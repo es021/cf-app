@@ -151,7 +151,7 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MDCW"];
             break;
         case Single.id_utm:
-            onCf = ["UTM20"];
+            onCf = ["UTM20", "UMT"];
             break;
         case Single.id_unisza:
             onCf = ["UNISZA"];
@@ -224,7 +224,7 @@ const isDoJpaKptValidation = (cf) => {
 
 // @id_utm_validation - SET_CF_HERE
 const isDoIdUtmValidation = (cf) => {
-    let valid = ["UTM20"];
+    let valid = ["UTM20", "UMT"];
     return valid.indexOf(cf) >= 0;
 }
 

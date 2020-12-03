@@ -27,6 +27,13 @@ const {
 	SkillExec
 } = require("./skill-query.js");
 
+function getIdUtmTable(cf) {
+	let table = "ref_id_utm"; // UTM20
+	if (cf == "UMT") {
+		table = "ref_id_umt";
+	}
+	return table
+}
 class UserQuery {
 	selectMultiMain(table_name, user_id, {
 		isConcatVal,
@@ -328,7 +335,7 @@ class UserQuery {
 		// @id_utm_validation
 		let is_id_utm_sel = "";
 		if (field["is_id_utm"]) {
-			is_id_utm_sel = `, (select rkj.val from ref_id_utm rkj 
+			is_id_utm_sel = `, (select rkj.val from ${getIdUtmTable(params.cf_to_check_id_utm)} rkj 
 					where val = (${this.selectSingleMain("u.ID", "id_utm")})
 				) as is_id_utm `
 		}
@@ -347,6 +354,8 @@ class UserQuery {
 
 		return sql;
 	}
+
+
 
 	selectRole(user_id, meta_key, as) {
 		return `(select SUBSTRING_INDEX(SUBSTRING_INDEX((${this.selectMetaMain(
@@ -474,8 +483,8 @@ class UserExec {
 	}
 
 	// @id_utm_validation
-	isIdUtm(v) {
-		let sql = `select xx.val from ref_id_utm xx where xx.val = "${v}"`;
+	isIdUtm(v, cf) {
+		let sql = `select xx.val from ${getIdUtmTable(cf)} xx where xx.val = "${v}"`;
 		return DB.query(sql).then((res) => {
 			try {
 				if (res[0].val) {

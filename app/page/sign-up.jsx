@@ -4,7 +4,7 @@ import Form, { toggleSubmit, getDataCareerFair } from "../component/form";
 import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
-import { register, getCF, getCFObj, getCfCustomMeta } from "../redux/actions/auth-actions";
+import { register, getCF, getCFObj, getCfCustomMeta, getNoMatrixLabel } from "../redux/actions/auth-actions";
 import { RootPath, DocumentUrl, LandingUrl } from "../../config/app-config";
 import AvailabilityView from "./availability";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
@@ -21,7 +21,7 @@ import { lang } from "../lib/lang";
 export const ErrorMessage = {
   ID_UTM_NOT_VALID: (id_utm) => {
     return <div>
-      Sorry, we couldn't find your Matrix No / UTM Acid ID (<b>{id_utm}</b>)! Email us at{" "}
+      Sorry, we couldn't find your {getNoMatrixLabel()} (<b>{id_utm}</b>)! Email us at{" "}
       {/* <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a>, */}
       <a href="mailto:graduates@seedsjobfair.com">graduates@seedsjobfair.com</a>
       <br></br>
@@ -29,7 +29,7 @@ export const ErrorMessage = {
   },
   ID_UTM_ALREADY_EXIST: (id_utm) => {
     return <div>
-      Matrix No / UTM Acid ID (<b>{id_utm}</b>) is already registered to other account in our system. Please login with the registered account to continue.
+      {getNoMatrixLabel()} (<b>{id_utm}</b>) is already registered to other account in our system. Please login with the registered account to continue.
   </div>
   },
   JPA_OVER_LIMIT: () => {
@@ -175,7 +175,7 @@ export default class SignUpPage extends React.Component {
 
         // @id_utm_validation - validate fe
         if (d[UserMeta.ID_UTM]) {
-          let ERR_ = <span>Matrix No / UTM Acid ID (<b>{d[UserMeta.ID_UTM]}</b>) is invalid.</span>;
+          let ERR_ = <span>{getNoMatrixLabel()} (<b>{d[UserMeta.ID_UTM]}</b>) is invalid.</span>;
           try {
             let v = d[UserMeta.ID_UTM] + "";
             v = v.replaceAll(" ", "");
@@ -247,7 +247,7 @@ export default class SignUpPage extends React.Component {
             if (errorMsg == AuthAPIErr.ID_UTM_ALREADY_EXIST) {
               errorMsg = ErrorMessage.ID_UTM_ALREADY_EXIST(d[UserMeta.ID_UTM]);
             }
-            
+
             // @id_utm_validation - ID_UTM_NOT_VALID
             if (errorMsg == AuthAPIErr.ID_UTM_NOT_VALID) {
               errorMsg = ErrorMessage.ID_UTM_NOT_VALID(d[UserMeta.ID_UTM]);

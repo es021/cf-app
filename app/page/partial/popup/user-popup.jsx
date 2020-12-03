@@ -19,7 +19,8 @@ import {
   isRoleRec,
   getAuthUser,
   isRoleAdmin,
-  getCF
+  getCF,
+  getNoMatrixLabel
 } from "../../../redux/actions/auth-actions";
 import CompanyPopup from "./company-popup";
 import { addLog } from "../../../redux/actions/other-actions";
@@ -371,7 +372,7 @@ export default class UserPopup extends Component {
 
       if (!isCustomUserInfoOff(getCF(), Single.id_utm)) {
         items.push({
-          label: lang("Matrix No / UTM Acid ID"),
+          label: lang(getNoMatrixLabel()),
           icon: "slack",
           value: this.isValueEmpty(d.id_utm) ? notSpecifed : d.id_utm
         })
@@ -856,7 +857,7 @@ export default class UserPopup extends Component {
     //     <i className="fa fa-comments left"></i>{lang("Start Chat")}
     //   </NavLink>
     // );
-     return (
+    return (
       <a
         style={{ minWidth: "200px", margin: "7px" }}
         className="btn btn-blue btn-lg btn-round-10 "

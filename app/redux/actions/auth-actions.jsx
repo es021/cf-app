@@ -138,6 +138,17 @@ export function getCFCustom(cf) {
     return toRet;
 }
 
+export function getNoMatrixLabel() {
+    let cf = getCF();
+    if(cf== "UMT20"){
+        return "Matrix No / UTM Acid ID";
+    }
+    if(cf== "UMT"){
+        return "Matrix No";
+    }
+};
+
+
 export function isCfFeatureOff(key) {
     try {
         let cfObj = getCFObj();

@@ -11,6 +11,7 @@ import { DocumentUrl, TermsAndConditionUrl } from './app-config';
 import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from './data-config';
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 import { lang } from '../app/lib/lang';
+import { getNoMatrixLabel } from '../app/redux/actions/auth-actions';
 export const TotalRegisterStep = 3;
 
 
@@ -46,7 +47,7 @@ export const UserFormItem = [
     },
     {
         // @id_utm_validation
-        label: lang("Matrix No / UTM Acid ID"),
+        label: lang(getNoMatrixLabel()),
         name: UserMeta.ID_UTM,
         type: "text",
         placeholder: "",
