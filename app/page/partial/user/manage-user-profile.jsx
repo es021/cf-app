@@ -107,6 +107,7 @@ export default class ManageUserProfile extends React.Component {
         id: Reg.Single.graduation_year,
         key_input: Reg.Single.graduation_year,
         ref_table_name: "year",
+        ref_order_by: "ID asc",
         is_required: true,
         hidden: false
       }
@@ -222,7 +223,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "looking_for_position",
           hideInputSuggestion: true,
           select_is_translate_label: true,
-          ref_order_by: "val ASC",
+          ref_order_by: "ID ASC",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.looking_for_position)
         },
@@ -351,6 +352,7 @@ export default class ManageUserProfile extends React.Component {
           key_input: Reg.Single.employment_status,
           // input_placeholder: "Malaysia",
           ref_table_name: "employment_status",
+          ref_order_by: "ID asc",
           is_required: false,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.employment_status)
         },
