@@ -510,13 +510,16 @@ class BrowseStudentExec {
 		let sunway_program = this.where(user_id, this.TABLE_SINGLE, "sunway_program", param.sunway_program);
 		let field_study_main = this.where(user_id, this.TABLE_SINGLE, "field_study_main", param.field_study_main);
 		let field_study_secondary = this.where(user_id, this.TABLE_SINGLE, "field_study_secondary", param.field_study_main);
-		let id_unisza = this.where(user_id, this.TABLE_SINGLE, "id_unisza", param.field_study_main);
-		let unisza_faculty = this.where(user_id, this.TABLE_SINGLE, "unisza_faculty", param.field_study_main);
-		let unisza_course = this.where(user_id, this.TABLE_SINGLE, "unisza_course", param.field_study_main);
-		let current_semester = this.where(user_id, this.TABLE_SINGLE, "current_semester", param.field_study_main);
-		let course_status = this.where(user_id, this.TABLE_SINGLE, "course_status", param.field_study_main);
-		let employment_status = this.where(user_id, this.TABLE_SINGLE, "employment_status", param.field_study_main);
+		let id_unisza = this.where(user_id, this.TABLE_SINGLE, "id_unisza", param.id_unisza);
+		let unisza_faculty = this.where(user_id, this.TABLE_SINGLE, "unisza_faculty", param.unisza_faculty);
+		let unisza_course = this.where(user_id, this.TABLE_SINGLE, "unisza_course", param.unisza_course);
+		let current_semester = this.where(user_id, this.TABLE_SINGLE, "current_semester", param.current_semester);
+		let course_status = this.where(user_id, this.TABLE_SINGLE, "course_status", param.course_status);
+		let employment_status = this.where(user_id, this.TABLE_SINGLE, "employment_status", param.employment_status);
 
+
+		console.log("field_study_main",field_study_main);
+		console.log("field_study_secondary",field_study_secondary);
 
 		// 4d. @custom_user_info_by_cf - where multi
 		// @limit_field_of_study_2_before_deploy - comment
@@ -626,9 +629,9 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-		// console.log(sql)
-		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		console.log(sql)
+		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 		return sql;
 	}
 	// TODO
