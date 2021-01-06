@@ -13,5 +13,8 @@ server/secret/secret.js
 server/api/zoom-api.js
 server/php-api/lib/secret.php
 server/php-api/email/secret.php
+download-file.tar.gz
+download-file-main.sh
+download-file
 log
 create-bundle
