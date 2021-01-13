@@ -39,7 +39,8 @@ const {
   VideoType,
   TagType,
   CfsType,
-  RefGeneral
+  RefGeneral,
+  HallLobbyType
 } = require("./all-type.js");
 
 //import all action for type
@@ -81,7 +82,8 @@ const {
   HallGallery,
   SingleInput,
   Interested,
-  Video
+  Video,
+  HallLobby
 } = require("../../config/db-config");
 
 const graphqlFields = require("graphql-fields");
@@ -341,6 +343,49 @@ fields["edit_notification"] = {
     }
   }
 };
+
+/* hall_lobby  ******************/
+fields["add_hall_lobby"] = {
+  type: HallLobbyType,
+  args: {
+    cf: __.StringNonNull,
+    item_order: __.Int,
+    is_active: __.Int,
+    title: __.String,
+    color: __.String,
+    url: __.String,
+    created_by: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert(HallLobby.TABLE, arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_hall_lobby"] = {
+  type: HallLobbyType,
+  args: {
+    ID: __.IntNonNull,
+    cf: __.String,
+    item_order: __.Int,
+    is_active: __.Int,
+    title: __.String,
+    color: __.String,
+    url: __.String,
+    updated_by: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    try {
+      return DB.update(HallLobby.TABLE, arg).then(function (res) {
+        return res;
+      });
+    } catch (err) {
+      return {};
+    }
+  }
+};
+
 
 /* entity_removed  ******************/
 fields["add_entity_removed"] = {

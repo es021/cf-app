@@ -1,3 +1,29 @@
+CREATE TABLE `hall_lobby` (
+  `ID` bigint(20) NOT NULL,
+  `cf` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `item_order` int(11) NOT NULL DEFAULT '0',
+  `is_active` smallint(1) NOT NULL DEFAULT '1',
+  `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `color` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `created_by` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` bigint(20) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `hall_lobby`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `item_order` (`item_order`),
+  ADD KEY `is_active` (`is_active`),
+  ADD KEY `cf` (`cf`);
+
+ALTER TABLE `hall_lobby`
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+-- ref
+utm21.sql
+
 -- ##############################################################
 -- ##############################################################
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION

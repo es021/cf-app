@@ -30,6 +30,7 @@ const {
 	GroupSessionJoinType,
 	GroupSessionType,
 	HallGalleryType,
+	HallLobbyType,
 	DocLinkType,
 	VacancySuggestionType,
 	CfsType,
@@ -130,6 +131,9 @@ const {
 	HallGalleryExec
 } = require("../model/hall-gallery-query");
 const {
+	HallLobbyExec
+} = require("../model/hall-lobby-query");
+const {
 	InterestedExec
 } = require("../model/interested-query");
 const {
@@ -175,6 +179,7 @@ const {
 	GraphQLList,
 	GraphQLNonNull
 } = require("graphql");
+const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 
 __.String;
 //------------------------------------------------------------------------------
@@ -357,7 +362,7 @@ fields["multis"] = {
 };
 
 /*******************************************/
-/* hall_galleries ******************/
+/* vacancy_suggestions ******************/
 fields["vacancy_suggestions"] = {
 	type: new GraphQLList(VacancySuggestionType),
 	args: {
@@ -371,6 +376,22 @@ fields["vacancy_suggestions"] = {
 	}
 };
 
+/*******************************************/
+/* hall_lobbies ******************/
+fields["hall_lobbies"] = {
+	type: new GraphQLList(HallLobbyType),
+	args: {
+		ID: __.Int,
+		is_active: __.Int,
+		cf: __.String,
+		order_by: __.String,
+		page: __.Int,
+		offset: __.Int
+	},
+	resolve(parentValue, arg, context, info) {
+		return HallLobbyExec.hall_lobbies(arg, graphqlFields(info));
+	}
+};
 /*******************************************/
 /* hall_galleries ******************/
 fields["hall_galleries"] = {
@@ -559,9 +580,12 @@ let argBrowseStudent = {
 	graduation_year_from: __.String,
 	graduation_month_to: __.String,
 	graduation_year_to: __.String,
-
-
 };
+
+let keys = cfCustomFunnel({ action: "get_keys_single" });
+for (let k of keys) {
+	argBrowseStudent[k] = __.String;
+}
 
 fields["browse_student_filter"] = {
 	type: new GraphQLList(FilterType),
@@ -891,6 +915,7 @@ fields["user"] = {
 		ID: __.Int,
 		kpt: __.String, // @kpt_validation
 		id_utm: __.String, // @id_utm_validation
+		cf: __.String, // @id_utm_validation
 		cf_to_check_id_utm: __.String, // @id_utm_validation
 		user_email: __.String
 	},

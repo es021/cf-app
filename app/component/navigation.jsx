@@ -68,6 +68,7 @@ import {
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
+import { ManageHallLobby } from "../page/partial/hall/hall-lobby";
 import ListCompanies from "../page/list-companies";
 import ListEventsWebinars from "../page/list-events-webinars";
 import ListJobPosts from "../page/list-job-posts";
@@ -220,6 +221,18 @@ function getMenuItem(COMING_SOON) {
       label: "Hall Gallery",
       icon: "image",
       component: ManageHallGallery,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin() && !isRoleOrganizer()
+    },
+    {
+      // Admin Only
+      url: "/hall-lobby",
+      label: "Hall Lobby",
+      icon: "group",
+      component: ManageHallLobby,
       bar_app: true,
       bar_auth: false,
       hd_app: false,

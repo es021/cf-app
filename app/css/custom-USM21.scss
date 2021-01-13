@@ -1,13 +1,7 @@
 @import "define/mixin.scss";
 
-// $UTM20_RED_DARK: #66000f;
-// $UTM20_RED_DARK_LIGHT: #9f505c;
-// $UTM20_RED: #ff0000;
-// $UTM20_RED: #a81128;
-
-$UTM20_RED: #5c001e;
-$UTM20_YELLOW: #e69405;
-$UTM20_RED_LIGHT:  #5c001fc4;
+$MAIN_COLOR:  #491d74;
+$SUB_COLOR:   #8442c5;
 
 // #############################################
 // #############################################
@@ -20,23 +14,21 @@ $UTM20_RED_LIGHT:  #5c001fc4;
 //   }
 // }
 
-.primary-layout.cf-UTM20,
-.primary-layout.cf-UTM21 {
+.primary-layout.cf-USM21 {
   // #############################################
   // #############################################
   // HEADER
-  $COLOR_HEADER: $UTM20_YELLOW;
+  $COLOR_HEADER: white;
 
-  $COLOR_HEADER_TITLE: $UTM20_RED;
-  $COLOR_HEADER_LINK_ACTIVE: $UTM20_RED;
-
-  $COLOR_HEADER_LINK:$UTM20_RED_LIGHT;
-  $COLOR_HEADER_SUBTITLE: $UTM20_RED_LIGHT;
-
+  $COLOR_HEADER_TITLE: $MAIN_COLOR;
+  $COLOR_HEADER_LINK_ACTIVE: $MAIN_COLOR;
+  
+  $COLOR_HEADER_LINK: $SUB_COLOR;
+  $COLOR_HEADER_SUBTITLE: $SUB_COLOR;
 
   header {
     .img {
-      padding : 13px 7px;
+      padding : 10px 15px;
     }
 
     background: $COLOR_HEADER;
@@ -77,8 +69,8 @@ $UTM20_RED_LIGHT:  #5c001fc4;
   // FOCUS-CARD
   #focus-card {
     .fc-header {
-      color: $UTM20_RED;
-      border-bottom: 2px solid $UTM20_RED;
+      color: $MAIN_COLOR;
+      border-bottom: 2px solid $MAIN_COLOR;
     }
   }
 
@@ -88,12 +80,12 @@ $UTM20_RED_LIGHT:  #5c001fc4;
   .company-page {
     .cp-body {
       .cp-additional-info {
-        border: solid $UTM20_RED 1px;
+        border: solid $MAIN_COLOR 1px;
       }
       .cp-quick-link {
         .cp-quick-link-item {
           background: #e7e7e7;
-          color: $UTM20_RED;
+          color: $MAIN_COLOR;
         }
       }
     }
@@ -104,7 +96,7 @@ $UTM20_RED_LIGHT:  #5c001fc4;
   // PAGE SECTION
   .page-sec {
     .page-sec-title {
-      color: $UTM20_RED;
+      color: $MAIN_COLOR;
     }
   }
   .page-sec.left {
@@ -123,7 +115,7 @@ $UTM20_RED_LIGHT:  #5c001fc4;
           ul a.active li,
           ul li:hover,
           ul li:active {
-            background-color: $UTM20_RED;
+            background-color: $MAIN_COLOR;
             color: white;
           }
         }
@@ -141,7 +133,7 @@ $UTM20_RED_LIGHT:  #5c001fc4;
     h4,
     h5,
     h6 {
-      color: $UTM20_RED;
+      color: $MAIN_COLOR;
     }
   }
 
@@ -150,14 +142,14 @@ $UTM20_RED_LIGHT:  #5c001fc4;
   // PAGING
   .paging {
     .pg-btn {
-      color: $UTM20_RED;
+      color: $MAIN_COLOR;
     }
     .pg-btn:hover,
     .pg-btn.active {
-      background: $UTM20_RED;
+      background: $MAIN_COLOR;
     }
     .pg-page {
-      color: $UTM20_RED;
+      color: $MAIN_COLOR;
     }
   }
   // #############################################
@@ -165,13 +157,13 @@ $UTM20_RED_LIGHT:  #5c001fc4;
   // LIST BOARD
 
   .list-board {
-    @include button_color_outline("btn-green-outline", $UTM20_RED);
+    @include button_color_outline("btn-green-outline", $MAIN_COLOR);
 
     .lb-title {
-      color: $UTM20_RED;
+      color: $MAIN_COLOR;
     }
     .lb-list-header {
-      border-bottom: 1px solid $UTM20_RED;
+      border-bottom: 1px solid $MAIN_COLOR;
     }
   }
 
@@ -209,19 +201,19 @@ $UTM20_RED_LIGHT:  #5c001fc4;
   // BUTTON
 
   // text, background, border
-  @include custom_btn_default("success", $UTM20_RED, white, $UTM20_RED);
-  @include custom_btn_focus("success", $UTM20_RED, #f8f1f1, $UTM20_RED);
-  @include custom_btn_active("success", $UTM20_RED, white, $UTM20_RED);
+  @include custom_btn_default("success", $MAIN_COLOR, white, $MAIN_COLOR);
+  @include custom_btn_focus("success", $MAIN_COLOR, #f8f1f1, $MAIN_COLOR);
+  @include custom_btn_active("success", $MAIN_COLOR, white, $MAIN_COLOR);
 
-  @include custom_btn_default("default", $UTM20_RED, white, $UTM20_RED);
-  @include custom_btn_focus("default", $UTM20_RED, #f8f1f1, $UTM20_RED);
-  @include custom_btn_active("default", $UTM20_RED, white, $UTM20_RED);
+  @include custom_btn_default("default", $MAIN_COLOR, white, $MAIN_COLOR);
+  @include custom_btn_focus("default", $MAIN_COLOR, #f8f1f1, $MAIN_COLOR);
+  @include custom_btn_active("default", $MAIN_COLOR, white, $MAIN_COLOR);
 
-  @include custom_btn_default("primary", white, $UTM20_RED, $UTM20_RED);
-  @include custom_btn_focus("primary", white, darken($UTM20_RED, 10), $UTM20_RED);
-  @include custom_btn_active("primary", white, $UTM20_RED, $UTM20_RED);
+  @include custom_btn_default("primary", white, $MAIN_COLOR, $MAIN_COLOR);
+  @include custom_btn_focus("primary", white, darken($MAIN_COLOR, 10), $MAIN_COLOR);
+  @include custom_btn_active("primary", white, $MAIN_COLOR, $MAIN_COLOR);
 
-  @include custom_btn_default("blue", white, $UTM20_RED, $UTM20_RED);
-  @include custom_btn_focus("blue", white, darken($UTM20_RED, 10), $UTM20_RED);
-  @include custom_btn_active("blue", white, $UTM20_RED, $UTM20_RED);
+  @include custom_btn_default("blue", white, $MAIN_COLOR, $MAIN_COLOR);
+  @include custom_btn_focus("blue", white, darken($MAIN_COLOR, 10), $MAIN_COLOR);
+  @include custom_btn_active("blue", white, $MAIN_COLOR, $MAIN_COLOR);
 }

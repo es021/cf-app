@@ -8,6 +8,7 @@ const {
 const { isCustomUserInfoOff, Single } = require("../../config/registration-config");
 const { UserMeta, IsSeenEnum } = require("../../config/db-config.js");
 const { overrideLanguageTable } = require("./ref-query.js");
+const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 
 // all-type
 // mutation
@@ -358,6 +359,18 @@ class BrowseStudentExec {
 					s.val IN (select r.val from ref_sunway_program r)
 				)`
 
+			let customKey = cfCustomFunnel({ action: "get_keys_single" })
+			let custom_single_filter = "";
+			for (let k of customKey) {
+				let ref = cfCustomFunnel({ key: k, action: "get_ref_table_by_key" })
+				if (!isCustomUserInfoOff(currentCf, k)) {
+					custom_single_filter += `( 
+						s.key_input = "${k}"
+						${ref ? `AND s.val IN (select r.val from ref_${ref} r)` : ''}	
+					) OR `
+				}
+			}
+
 			let toRet = `SELECT 
 			(CASE WHEN s.key_input = 'field_study_secondary' THEN 'field_study_main' ELSE s.key_input END) as _key
 			, s.val as _val
@@ -366,6 +379,7 @@ class BrowseStudentExec {
 			FROM single_input s
 			where 
 			(
+				${custom_single_filter}
 				${unisza_faculty}
 				OR
 				${unisza_course}
@@ -518,8 +532,8 @@ class BrowseStudentExec {
 		let employment_status = this.where(user_id, this.TABLE_SINGLE, "employment_status", param.employment_status);
 
 
-		console.log("field_study_main",field_study_main);
-		console.log("field_study_secondary",field_study_secondary);
+		console.log("field_study_main", field_study_main);
+		console.log("field_study_secondary", field_study_secondary);
 
 		// 4d. @custom_user_info_by_cf - where multi
 		// @limit_field_of_study_2_before_deploy - comment
@@ -570,7 +584,20 @@ class BrowseStudentExec {
 
 		// AND ${field_study /** @limit_field_of_study_2_before_deploy - comment */}
 		// 4e. @custom_user_info_by_cf -- where set
+		let single_keys = cfCustomFunnel({ action: "get_keys_single" });
+		let custom_single_where = "";
+		for (let k of single_keys) {
+			custom_single_where += " AND " + this.where(user_id, this.TABLE_SINGLE, k, param[k])
+		}
+		let multi_keys = cfCustomFunnel({ action: "get_keys_multi" });
+		let custom_multi_where = "";
+		for (let k of multi_keys) {
+			custom_multi_where += " AND " + this.where(user_id, this.TABLE_MULTI, k, param[k])
+		}
+
 		return `1=1
+			${custom_single_where}
+			${custom_multi_where}
 			AND (${field_study_main} OR ${field_study_secondary})
 			AND ${id_unisza}
 			AND ${unisza_faculty}

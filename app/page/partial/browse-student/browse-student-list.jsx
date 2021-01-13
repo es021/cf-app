@@ -2,7 +2,8 @@ import React, { PropTypes } from "react";
 import List from "../../../component/list";
 import { graphql } from "../../../../helper/api-helper";
 import { BrowseStudentCard } from "./browse-student-card";
-import { getCfTitle, isRoleRec, isRoleAdmin } from "../../../redux/actions/auth-actions";
+import { getCfTitle, isRoleRec, isRoleAdmin, getCF } from "../../../redux/actions/auth-actions";
+import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 
 export class BrowseStudentList extends React.Component {
     constructor(props) {
@@ -77,6 +78,7 @@ export class BrowseStudentList extends React.Component {
                     ${this.props.isPageStudentListJobPost ? " interested_vacancies_by_company {ID title} " : ""}
                     student_listing_interested{ID is_interested}
                     field_study_main field_study_secondary
+                    ${cfCustomFunnel({ action: 'get_attr_by_cf', cf: getCF() }).join(" ")}
                     prescreens_for_student_listing{status appointment_time}
                     university country_study available_month available_year
                     ID first_name last_name user_email description 

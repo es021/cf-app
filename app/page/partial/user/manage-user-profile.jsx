@@ -12,6 +12,7 @@ import {
 import PropTypes from "prop-types";
 import { isRoleStudent, isRoleRec, getCF, getNoMatrixLabel } from "../../../redux/actions/auth-actions";
 import { lang, isCurrentEnglish } from "../../../lib/lang";
+import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -133,6 +134,7 @@ export default class ManageUserProfile extends React.Component {
     let field_study = this.getFieldStudyListStr();
     let country = this.state.currentData[Reg.Single.country_study];
     let local_or_oversea_study = this.state.currentData[Reg.Single.local_or_oversea_study];
+    let currentData = JSON.parse(JSON.stringify(this.state.currentData));
     let cf = getCF();
     let r = [];
     if (this.isEdit()) {
@@ -183,10 +185,10 @@ export default class ManageUserProfile extends React.Component {
           // single
           type: "single",
           input_type: "text",
-          label: lang("IC Number"),
+          label: lang("IC/Passport Number"),
           id: Reg.Single.kpt,
           key_input: Reg.Single.kpt,
-          is_required: false,
+          is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.kpt)
         },
         {
@@ -295,6 +297,7 @@ export default class ManageUserProfile extends React.Component {
           hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study) ||
             isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
+        ...cfCustomFunnel({ action: 'get_form_item', cf: cf, isRoleRec: isRoleRec, data : currentData }),
         {
           // single
           label: lang("Faculty"),
@@ -398,9 +401,12 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.qualification,
           key_input: Reg.Single.qualification,
+          // label: lang(Reg.customLabel(cf, Reg.Single.qualification, "What is your highest level of certificate?")),
           label: lang("What is your highest level of certificate?"),
           input_placeholder: lang("Type something here"),
           select_is_translate_label: true,
+          // ref_table_name: "qualification",
+          // ref_table_name: Reg.customRef(cf, Reg.Single.qualification, "qualification"),
           ref_table_name: "qualification",
           is_required: true,
           hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)

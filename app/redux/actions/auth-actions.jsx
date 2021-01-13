@@ -29,6 +29,7 @@ import {
 } from './layout-actions.js';
 import layoutReducer from "../reducer/layout-reducer.js";
 import { getCurrentCfLocalStorage } from "../reducer/auth-reducer";
+import { getIdLabelByCf } from "../../../config/registration-config";
 
 // import {
 //     CareerFair,
@@ -138,14 +139,10 @@ export function getCFCustom(cf) {
     return toRet;
 }
 
+// @login_by_student_id
 export function getNoMatrixLabel() {
     let cf = getCF();
-    if(cf== "UMT20"){
-        return "Matrix No / UTM Acid ID";
-    }
-    if(cf== "UMT"){
-        return "Matrix No";
-    }
+    return getIdLabelByCf(cf);
 };
 
 

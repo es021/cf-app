@@ -32,6 +32,7 @@ import {
 import { lang } from "../../../lib/lang";
 
 import Tooltip from "../../../component/tooltip";
+import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 
 export class BrowseStudentCard extends React.Component {
     constructor(props) {
@@ -401,8 +402,29 @@ export class BrowseStudentCard extends React.Component {
                 }}
             />;
 
-        // @new_student_tag_before_deploy (remove line below)
-        // isSeenView = null;
+        let viewLine2 = null;
+        let viewLine3 = null;
+        let customKeyLine2 = cfCustomFunnel({ action: "get_key_student_line2", cf: getCF() })
+        let customKeyLine3 = cfCustomFunnel({ action: "get_key_student_line3", cf: getCF() })
+        if (customKeyLine2) {
+            customKeyLine2 = customKeyLine2(d.student);
+            if (d.student[customKeyLine2]) {
+                viewLine2 = <div><b>{d.student[customKeyLine2]}</b></div>
+            }
+        } else {
+            viewLine2 = <div>
+                {uniView}
+                {placeView}
+            </div>;
+        }
+        if (customKeyLine3) {
+            customKeyLine3 = customKeyLine3(d.student);
+            if (d.student[customKeyLine3]) {
+                viewLine3 = <div className="text-muted"><i>{d.student[customKeyLine3]}</i></div>
+            }
+        } else {
+            viewLine3 = fieldStudyView
+        }
 
         let body = <div className="container-fluid">
             {isSeenView}
@@ -411,17 +433,12 @@ export class BrowseStudentCard extends React.Component {
                     {scheduledView ? <div style={{ marginBottom: "10px" }} className="bsc-scheduled"><u>{scheduledView}</u></div> : null}
                     <div className="bsc-title">{title}</div>
                     {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
-                    <div>
-                        {uniView}
-                        {placeView}
-                    </div>
-                    {fieldStudyView}
-                    {/* {description} */}
+                    {viewLine2}
+                    {viewLine3}
                 </div>
                 {this.props.isRec ?
                     <div className="col-md-3 center-on-md-and-less">
                         <div className="break-10-on-md-and-less"></div>
-                        {/* {actionChat} */}
                         {actionSchedule}
                         {actionShortlist}
                         <div className="break-10-on-md-and-less"></div>

@@ -3,8 +3,112 @@ const {
     UserMeta
 } = require('./db-config.js');
 
+function getIdLabelByCf(cf) {
+    if (["UTM20", "UTM21"].indexOf(cf) >= 0) {
+        return "Matrix No / UTM Acid ID";
+    }
+    if (cf == "UMT") {
+        return "Matrix No";
+    }
+}
+const OTHER_PLEASE_SPECIFY = 'Others (Please specify in field below)';
+const CustomConfig = {
+    id_utm21: {
+        discard_form: true,
+        discard_filter: true,
+        label: getIdLabelByCf("UTM21"),
+        icon: "slack",
+        type: "single",
+        onCf: ["UTM21"]
+    },
+    level_study_utm21: {
+        label: "Level Of Study",
+        question: "What is your level of study?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "level_study_utm21",
+        is_required: true,
+        onCf: ["UTM21"]
+    },
+    faculty_utm21: {
+        label: "Faculty",
+        question: "Which faculty are you in?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "faculty_utm21",
+        is_required: true,
+        onCf: ["UTM21"]
+    },
+    graduation_utm21: {
+        label: "Graduation",
+        question: "When is your graduation?",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "graduation_utm21",
+        is_required: true,
+        onCf: ["UTM21"]
+    },
+    field_study_utm21: {
+        discard_popup_on: (d) => {
+            return d['field_study_utm21'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Field of Study",
+        question: "What is your field of study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "field_study_utm21",
+        is_required: true,
+        onCf: ["UTM21"]
+    },
+    field_study_other_utm21: {
+        discard_popup_on: (d) => {
+            return d['field_study_utm21'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Field of Study",
+        question: "Other field of study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        // ref_table_name: "field_study_utm21",
+        is_required: false,
+        onCf: ["UTM21"]
+    },
+    webinar_utm21: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "Webinar",
+        question: "Which webinar sessions are you interested in?",
+        question_sublabel: "You can choose more than one webinar session",
+        icon: "microphone",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "webinar_utm21",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "webinar_utm21",
+        is_required: true,
+        onCf: ["UTM21"],
+        attr: `{val}`
+    },
+}
+const CustomStudentCardInfo = {
+    UTM21: {
+        line2: (d) => "faculty_utm21",
+        line3: (d) => {
+            if (d['field_study_utm21'] == OTHER_PLEASE_SPECIFY) {
+                return "field_study_other_utm21"
+            } else {
+                return "field_study_utm21"
+            }
+        }
+    }
+}
 
-const Single = {
+var Single = {
     first_name: "first_name",
     last_name: "last_name",
     country_study: "country_study",
@@ -49,15 +153,24 @@ const Single = {
     work_experience_year: "work_experience_year",
 }
 
-const Multi = {
+var Multi = {
     field_study: "field_study",
     looking_for_position: "looking_for_position",
     interested_role: "interested_role",
     interested_job_location: "interested_job_location",
     skill: "skill",
     extracurricular: "extracurricular",
-
     // 1b. @custom_user_info_by_cf - multi
+}
+
+// add extra from custom
+for (let k in CustomConfig) {
+    if (CustomConfig[k].type == "single") {
+        Single[k] = k;
+    }
+    if (CustomConfig[k].type == "multi") {
+        Multi[k] = k;
+    }
 }
 
 const CustomOrder = {
@@ -74,7 +187,27 @@ const CustomOrder = {
         Multi.interested_role,
         Multi.interested_job_location,
         Multi.skill,
+    ],
+    UTM21: [
+        "id_utm21",
+        Single.first_name,
+        Single.kpt,
+        Single.phone_number,
+        "level_study_utm21",
+        "faculty_utm21",
+        "graduation_utm21",
+        "field_study_utm21",
+        "field_study_other_utm21",
+        "webinar_utm21",
     ]
+}
+
+const isInCustomOrder = (cf, key) => {
+    if (!CustomOrder[cf]) {
+        return true;
+    }
+
+    return CustomOrder[cf].indexOf(key) >= 0;
 }
 
 const pickAndReorderByCf = (cf, r) => {
@@ -151,7 +284,8 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MDCW"];
             break;
         case Single.id_utm:
-            onCf = ["UTM20", "UMT"];
+            // @login_by_student_id
+            onCf = ["UTM20", "UTM21", "UMT"];
             break;
         case Single.id_unisza:
             onCf = ["UNISZA"];
@@ -175,7 +309,7 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW","UNISZA"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW", "UNISZA"];
             break;
         case Single.university:
             offCf = ["UNISZA"];
@@ -204,6 +338,14 @@ const isCustomUserInfoOff = (cf, key) => {
         case Multi.skill:
             offCf = ["INTEL"];
             break;
+        default:
+            try {
+                onCf = CustomConfig[key].onCf
+            } catch (err) { }
+            if (!onCf) {
+                onCf = null;
+            }
+            break;
     }
 
     if (offCf) {
@@ -223,8 +365,9 @@ const isDoJpaKptValidation = (cf) => {
 }
 
 // @id_utm_validation - SET_CF_HERE
+// @login_by_student_id
 const isDoIdUtmValidation = (cf) => {
-    let valid = ["UTM20", "UMT"];
+    let valid = ["UTM20", "UTM21", "UMT"];
     return valid.indexOf(cf) >= 0;
 }
 
@@ -270,13 +413,33 @@ const RequiredFieldRecruiter = [
     //UserMeta.REC_POSITION,
 ]
 
+const customLabel = (cf, key, defaultLabel) => {
+    if (key == Single.qualification && cf == "UTM21") {
+        return "Level of Study"
+    }
+    return defaultLabel;
+}
+
+const customRef = (cf, key, defaultRef) => {
+    if (key == Single.qualification && cf == "UTM21") {
+        return "qualification_utm21"
+    }
+    return defaultRef;
+}
+
 
 module.exports = {
+    getIdLabelByCf,
+    CustomConfig,
+    CustomStudentCardInfo,
+    customLabel,
+    customRef,
     isDoJpaKptValidation, // @kpt_validation
     isDoIdUtmValidation, // @id_utm_validation
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,
     isCustomUserInfoOff,
-    pickAndReorderByCf
+    pickAndReorderByCf,
+    isInCustomOrder
 };

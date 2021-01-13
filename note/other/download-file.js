@@ -4031,7 +4031,9 @@ a= a.split("\n");
 a = a.join(",\n");
 q = `
     SELECT 
-    CONCAT(X.process, " ", X.user_email, " '", REPLACE(X.fileName,' ', '_'), "' ", X.path) as command
+    CONCAT(X.process, " ", X.user_email, " '", 
+    REPLACE(REPLACE(REPLACE(REPLACE(X.fileName,' ', '_'),'(', ''),')', ''),"'", '')
+    , "' ", X.path) as command
     FROM(
         select
         './download-file.sh' as process,

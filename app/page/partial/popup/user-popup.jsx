@@ -30,6 +30,7 @@ import { NavLink } from "react-router-dom";
 import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { isCustomUserInfoOff, Single, Multi } from "../../../../config/registration-config";
 import { lang } from "../../../lib/lang";
+import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -187,6 +188,18 @@ export default class UserPopup extends Component {
 
     console.log("UserPage", "componentWillMount");
     // 7a. @custom_user_info_by_cf
+    let customKeys = cfCustomFunnel({ action: 'get_keys_for_popup' });
+    let additionalCustomCf = "";
+    for (var k of customKeys) {
+      additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
+    }
+
+    console.log("additionalCustomCf",additionalCustomCf)
+    console.log("customKeys",customKeys)
+    console.log("additionalCustomCf",additionalCustomCf)
+    console.log("customKeys",customKeys)
+    console.log("additionalCustomCf",additionalCustomCf)
+
     var query =
       this.props.role === UserEnum.ROLE_STUDENT
         ? `query {
@@ -200,6 +213,7 @@ export default class UserPopup extends Component {
                 degree_level
                 first_name
                 last_name
+                ${additionalCustomCf}
                 ${this.addIfValid("birth_date")}
                 ${this.addIfValid("kpt")}
                 ${this.addIfValid("id_utm")}
@@ -577,6 +591,24 @@ export default class UserPopup extends Component {
           value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
         })
       }
+
+      let customKey = cfCustomFunnel({ action: "get_keys_for_popup" });
+      for (let k of customKey) {
+        let discard_popup_on = cfCustomFunnel({ action: "get_discard_popup_on_by_key", key: k });
+        if (discard_popup_on) {
+          if (discard_popup_on(d)) {
+            continue;
+          }
+        }
+        if (!isCustomUserInfoOff(getCF(), k)) {
+          items.push({
+            label: lang(cfCustomFunnel({ action: "get_label_by_key", key: k })),
+            icon: cfCustomFunnel({ action: "get_icon_by_key", key: k }),
+            value: this.isValueEmpty(d[k]) ? notSpecifed : d[k]
+          })
+        }
+      }
+
     }
 
     for (let index in items) {

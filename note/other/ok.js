@@ -25,3 +25,14 @@ function cal(stockPrice, moneyIn, moneyOut) {
 }
 
 cal(0.23, 500, 600)
+
+/**
+
+level_study_utm21
+faculty_utm21
+graduation_utm21
+field_study_utm21
+webinar_utm21
+
+
+ */

@@ -1,5 +1,5 @@
 const DB = require("./DB.js");
-
+const { getIdUtmTable, getIdUtmKey } = require("../api/auth-api");
 const {
 	User,
 	UserMeta,
@@ -27,13 +27,7 @@ const {
 	SkillExec
 } = require("./skill-query.js");
 
-function getIdUtmTable(cf) {
-	let table = "ref_id_utm"; // UTM20
-	if (cf == "UMT") {
-		table = "ref_id_umt";
-	}
-	return table
-}
+// @login_by_student_id
 class UserQuery {
 	selectMultiMain(table_name, user_id, {
 		isConcatVal,
@@ -252,7 +246,7 @@ class UserQuery {
 		// @id_utm_validation
 		var id_utm_condition =
 			typeof params.id_utm !== "undefined" ?
-				`(${this.selectSingleMain("u.ID", UserMeta.ID_UTM)}) = '${params.id_utm}' ` :
+				`(${this.selectSingleMain("u.ID", getIdUtmKey(params.cf))}) = '${params.id_utm}' ` :
 				`1=1`;
 
 		var role_condition =
@@ -336,7 +330,7 @@ class UserQuery {
 		let is_id_utm_sel = "";
 		if (field["is_id_utm"]) {
 			is_id_utm_sel = `, (select rkj.val from ${getIdUtmTable(params.cf_to_check_id_utm)} rkj 
-					where val = (${this.selectSingleMain("u.ID", "id_utm")})
+					where val = (${this.selectSingleMain("u.ID", getIdUtmKey(params.cf_to_check_id_utm))})
 				) as is_id_utm `
 		}
 

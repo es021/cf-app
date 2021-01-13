@@ -4,6 +4,7 @@ const { FilterNotObject } = require("../../config/xls-config")
 const axios = require("axios");
 const obj2arg = require("graphql-obj2arg");
 const { isCustomUserInfoOff } = require("../../config/registration-config");
+const { cfCustomFunnel } = require("../../config/cf-custom-config");
 
 class XLSApi {
   constructor() {
@@ -19,6 +20,11 @@ class XLSApi {
   }
 
   student_field(is_admin) {
+    let customKeys = cfCustomFunnel({ action: 'get_keys_for_export' });
+    let additionalCustomCf = "";
+    for (var k of customKeys) {
+      additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
+    }
     // 8. @custom_user_info_by_cf
     return `
       ID
@@ -27,8 +33,10 @@ class XLSApi {
       last_name
       user_email
       doc_links {label url}
+      ${additionalCustomCf}
       ${this.addIfValid("birth_date")}
       ${this.addIfValid("kpt")}
+      ${this.addIfValid("id_utm21")}
       ${this.addIfValid("id_utm")}
       ${this.addIfValid("id_unisza")}
       ${this.addIfValid("local_or_oversea_study")}
@@ -402,8 +410,10 @@ class XLSApi {
       "skill",
       "looking_for_position",
       "interested_role",
-      "interested_job_location"
+      "interested_job_location",
+      ...cfCustomFunnel({ action: 'get_keys_multi' })
     ];
+
     for (var i in multi_input) {
       let key = multi_input[i];
       key = preKey + key;

@@ -8,6 +8,7 @@ const {
 	GraphQLInt,
 	GraphQLBoolean
 } = require("graphql");
+const { cfCustomFunnel } = require("../../config/cf-custom-config");
 
 const {
 	__
@@ -135,134 +136,257 @@ const AvailabilityType = new GraphQLObjectType({
 
 const UserType = new GraphQLObjectType({
 	name: "User",
-	fields: () => ({
-		// @add_new_user_meta
-		// all roles
-		ID: __.Int,
-		user_email: __.String,
-		user_pass: __.String,
+	fields: () => {
+		let r = {
+			ID: __.Int,
+			user_email: __.String,
+			user_pass: __.String,
 
-		img_url: __.String,
-		img_pos: __.String,
-		img_size: __.String,
-		feedback: __.String,
-		has_feedback_external: __.String,
-		user_status: __.String,
-		activation_key: __.String,
-		role: __.String,
-		cf: __.StringList,
-		user_registered: __.String,
+			img_url: __.String,
+			img_pos: __.String,
+			img_size: __.String,
+			feedback: __.String,
+			has_feedback_external: __.String,
+			user_status: __.String,
+			activation_key: __.String,
+			role: __.String,
+			cf: __.StringList,
+			user_registered: __.String,
 
-		// @kpt_validation
-		kpt: __.String,
+			// @kpt_validation
+			kpt: __.String,
 
+			//active activity
+			queues: __.ListOf(QueueType),
+			session_requests: __.ListOf(SessionRequestType),
+			registered_prescreens: __.ListOf(PrescreenType),
+			prescreens: __.ListOf(PrescreenType),
+			sessions: __.ListOf(SessionType),
+			zoom_invites: __.ListOf(ZoomInviteType),
+			group_sessions: __.ListOf(GroupSessionType),
+			group_session_joins: __.ListOf(GroupSessionJoinType),
 
+			// student listing
+			// need to provide company_id
+			booked_at: __.ListOf(AvailabilityType),
+			prescreens_for_student_listing: __.ListOf(PrescreenType),
+			interested_vacancies_by_company: __.ListOf(VacancyType),
 
-		//active activity
-		queues: __.ListOf(QueueType),
-		session_requests: __.ListOf(SessionRequestType),
-		registered_prescreens: __.ListOf(PrescreenType),
-		prescreens: __.ListOf(PrescreenType),
-		sessions: __.ListOf(SessionType),
-		zoom_invites: __.ListOf(ZoomInviteType),
-		group_sessions: __.ListOf(GroupSessionType),
-		group_session_joins: __.ListOf(GroupSessionJoinType),
+			// 3. @custom_user_info_by_cf
+			field_study_main: __.String,
+			field_study_secondary: __.String,
+			unemployment_period: __.String,
+			monash_student_id: __.String,
+			monash_school: __.String,
+			sunway_faculty: __.String,
+			sunway_program: __.String,
+			local_or_oversea_study: __.String,
+			local_or_oversea_location: __.String,
+			work_experience_year: __.String,
+			gender: __.String,
+			birth_date: __.String,
+			kpt: __.String,
+			id_unisza: __.String,
+			unisza_faculty: __.String,
+			unisza_course: __.String,
+			current_semester: __.String,
+			course_status: __.String,
+			employment_status: __.String,
 
-		// student listing
-		// need to provide company_id
-		booked_at: __.ListOf(AvailabilityType),
-		prescreens_for_student_listing: __.ListOf(PrescreenType),
-		interested_vacancies_by_company: __.ListOf(VacancyType),
+			// @id_utm_validation
+			id_utm: __.String,
 
-		// 3. @custom_user_info_by_cf
-		field_study_main: __.String,
-		field_study_secondary: __.String,
-		unemployment_period: __.String,
-		monash_student_id: __.String,
-		monash_school: __.String,
-		sunway_faculty: __.String,
-		sunway_program: __.String,
-		local_or_oversea_study: __.String,
-		local_or_oversea_location: __.String,
-		work_experience_year: __.String,
-		gender: __.String,
-		birth_date: __.String,
-		kpt: __.String,
-		id_unisza: __.String,
-		unisza_faculty: __.String,
-		unisza_course: __.String,
-		current_semester: __.String,
-		course_status: __.String,
-		employment_status: __.String,
+			// default
+			first_name: __.String,
+			last_name: __.String,
+			country_study: __.String,
+			university: __.String,
+			qualification: __.String,
+			graduation_month: __.String,
+			graduation_year: __.String,
+			working_availability_month: __.String,
+			working_availability_year: __.String,
+			grade: __.String,
+			phone_number: __.String,
+			sponsor: __.String,
+			description: __.String,
+			field_study: __.ListOf(MultiType),
+			looking_for_position: __.ListOf(MultiType),
+			interested_role: __.ListOf(MultiType),
+			where_in_malaysia: __.String,
+			interested_job_location: __.ListOf(MultiType),
+			doc_links: __.ListOf(DocLinkType),
+			skill: __.ListOf(MultiType),
+			extracurricular: __.ListOf(MultiType),
+			degree_level: __.String,
+			skills: __.ListOf(SkillType),
+			available_month: __.String,
+			available_year: __.String,
+			cgpa: __.String,
+			study_field: __.String,
+			major: __.String,
+			minor: __.String,
+			gender: __.String,
+			mas_state: __.String,
+			mas_postcode: __.String,
+			relocate: __.String,
+			study_place: __.String,
+			looking_for: __.String,
 
-		// @id_utm_validation
-		id_utm: __.String,
-
-		// default
-		first_name: __.String,
-		last_name: __.String,
-		country_study: __.String,
-		university: __.String,
-		qualification: __.String,
-		graduation_month: __.String,
-		graduation_year: __.String,
-		working_availability_month: __.String,
-		working_availability_year: __.String,
-		grade: __.String,
-		phone_number: __.String,
-		sponsor: __.String,
-		description: __.String,
-		field_study: __.ListOf(MultiType),
-		looking_for_position: __.ListOf(MultiType),
-		interested_role: __.ListOf(MultiType),
-		where_in_malaysia: __.String,
-		interested_job_location: __.ListOf(MultiType),
-		doc_links: __.ListOf(DocLinkType),
-		skill: __.ListOf(MultiType),
-		extracurricular: __.ListOf(MultiType),
-		degree_level: __.String,
-		skills: __.ListOf(SkillType),
-		available_month: __.String,
-		available_year: __.String,
-		cgpa: __.String,
-		study_field: __.String,
-		major: __.String,
-		minor: __.String,
-		gender: __.String,
-		mas_state: __.String,
-		mas_postcode: __.String,
-		relocate: __.String,
-		study_place: __.String,
-		looking_for: __.String,
-
-		video_resume: __.IsType(VideoType),
-		student_listing_interested: __.IsType(InterestedType),
+			video_resume: __.IsType(VideoType),
+			student_listing_interested: __.IsType(InterestedType),
 
 
-		// rec only
-		rec_company: __.Int,
-		rec_position: __.String,
-		company: __.IsType(CompanyType),
+			// rec only
+			rec_company: __.Int,
+			rec_position: __.String,
+			company: __.IsType(CompanyType),
 
-		// DERIVED ATTRIBUTE -
-		is_active: __.Boolean,
-		is_profile_completed: __.Boolean,
-		is_kpt_jpa: __.Boolean, // @kpt_validation
-		is_id_utm: __.Boolean, // @id_utm_validation
+			// DERIVED ATTRIBUTE -
+			is_active: __.Boolean,
+			is_profile_completed: __.Boolean,
+			is_kpt_jpa: __.Boolean, // @kpt_validation
+			is_id_utm: __.Boolean, // @id_utm_validation
+		};
 
-		// OLD ONE
-		// //student only
-		// first_name: __.String,
-		// last_name: __.String,
-		// description: __.String,
-		// university: __.String,
-		// phone_number: __.String,
-		// graduation_month: __.String,
-		// graduation_year: __.String,
-		// sponsor: __.String,
-		// /// ####
-		// deprecated will return null only
-	})
+		let keySingle = cfCustomFunnel({ action: "get_keys_single" });
+		for (let k of keySingle) {
+			r[k] = __.String;
+		}
+		let keyMulti = cfCustomFunnel({ action: "get_keys_multi" });
+		for (let k of keyMulti) {
+			r[k] = __.ListOf(MultiType);
+		}
+		return r;
+	}
+	// fields: () => ({
+	// 	// @add_new_user_meta
+	// 	// all roles
+	// 	ID: __.Int,
+	// 	user_email: __.String,
+	// 	user_pass: __.String,
+
+	// 	img_url: __.String,
+	// 	img_pos: __.String,
+	// 	img_size: __.String,
+	// 	feedback: __.String,
+	// 	has_feedback_external: __.String,
+	// 	user_status: __.String,
+	// 	activation_key: __.String,
+	// 	role: __.String,
+	// 	cf: __.StringList,
+	// 	user_registered: __.String,
+
+	// 	// @kpt_validation
+	// 	kpt: __.String,
+
+
+
+	// 	//active activity
+	// 	queues: __.ListOf(QueueType),
+	// 	session_requests: __.ListOf(SessionRequestType),
+	// 	registered_prescreens: __.ListOf(PrescreenType),
+	// 	prescreens: __.ListOf(PrescreenType),
+	// 	sessions: __.ListOf(SessionType),
+	// 	zoom_invites: __.ListOf(ZoomInviteType),
+	// 	group_sessions: __.ListOf(GroupSessionType),
+	// 	group_session_joins: __.ListOf(GroupSessionJoinType),
+
+	// 	// student listing
+	// 	// need to provide company_id
+	// 	booked_at: __.ListOf(AvailabilityType),
+	// 	prescreens_for_student_listing: __.ListOf(PrescreenType),
+	// 	interested_vacancies_by_company: __.ListOf(VacancyType),
+
+	// 	// 3. @custom_user_info_by_cf
+	// 	field_study_main: __.String,
+	// 	field_study_secondary: __.String,
+	// 	unemployment_period: __.String,
+	// 	monash_student_id: __.String,
+	// 	monash_school: __.String,
+	// 	sunway_faculty: __.String,
+	// 	sunway_program: __.String,
+	// 	local_or_oversea_study: __.String,
+	// 	local_or_oversea_location: __.String,
+	// 	work_experience_year: __.String,
+	// 	gender: __.String,
+	// 	birth_date: __.String,
+	// 	kpt: __.String,
+	// 	id_unisza: __.String,
+	// 	unisza_faculty: __.String,
+	// 	unisza_course: __.String,
+	// 	current_semester: __.String,
+	// 	course_status: __.String,
+	// 	employment_status: __.String,
+
+	// 	// @id_utm_validation
+	// 	id_utm: __.String,
+
+	// 	// default
+	// 	first_name: __.String,
+	// 	last_name: __.String,
+	// 	country_study: __.String,
+	// 	university: __.String,
+	// 	qualification: __.String,
+	// 	graduation_month: __.String,
+	// 	graduation_year: __.String,
+	// 	working_availability_month: __.String,
+	// 	working_availability_year: __.String,
+	// 	grade: __.String,
+	// 	phone_number: __.String,
+	// 	sponsor: __.String,
+	// 	description: __.String,
+	// 	field_study: __.ListOf(MultiType),
+	// 	looking_for_position: __.ListOf(MultiType),
+	// 	interested_role: __.ListOf(MultiType),
+	// 	where_in_malaysia: __.String,
+	// 	interested_job_location: __.ListOf(MultiType),
+	// 	doc_links: __.ListOf(DocLinkType),
+	// 	skill: __.ListOf(MultiType),
+	// 	extracurricular: __.ListOf(MultiType),
+	// 	degree_level: __.String,
+	// 	skills: __.ListOf(SkillType),
+	// 	available_month: __.String,
+	// 	available_year: __.String,
+	// 	cgpa: __.String,
+	// 	study_field: __.String,
+	// 	major: __.String,
+	// 	minor: __.String,
+	// 	gender: __.String,
+	// 	mas_state: __.String,
+	// 	mas_postcode: __.String,
+	// 	relocate: __.String,
+	// 	study_place: __.String,
+	// 	looking_for: __.String,
+
+	// 	video_resume: __.IsType(VideoType),
+	// 	student_listing_interested: __.IsType(InterestedType),
+
+
+	// 	// rec only
+	// 	rec_company: __.Int,
+	// 	rec_position: __.String,
+	// 	company: __.IsType(CompanyType),
+
+	// 	// DERIVED ATTRIBUTE -
+	// 	is_active: __.Boolean,
+	// 	is_profile_completed: __.Boolean,
+	// 	is_kpt_jpa: __.Boolean, // @kpt_validation
+	// 	is_id_utm: __.Boolean, // @id_utm_validation
+
+	// 	// OLD ONE
+	// 	// //student only
+	// 	// first_name: __.String,
+	// 	// last_name: __.String,
+	// 	// description: __.String,
+	// 	// university: __.String,
+	// 	// phone_number: __.String,
+	// 	// graduation_month: __.String,
+	// 	// graduation_year: __.String,
+	// 	// sponsor: __.String,
+	// 	// /// ####
+	// 	// deprecated will return null only
+	// })
 });
 
 const FeedbackQsType = new GraphQLObjectType({
@@ -846,6 +970,23 @@ const FilterType = new GraphQLObjectType({
 	})
 });
 
+const HallLobbyType = new GraphQLObjectType({
+	name: "HallLobby",
+	fields: () => ({
+		ID: __.Int,
+		cf: __.String,
+		item_order: __.Int,
+		is_active: __.Int,
+		title: __.String,
+		color: __.String,
+		url: __.String,
+		created_at: __.String,
+		created_by: __.Int,
+		updated_at: __.String,
+		updated_by: __.Int
+	})
+});
+
 const HallGalleryType = new GraphQLObjectType({
 	name: "HallGallery",
 	fields: () => ({
@@ -929,6 +1070,7 @@ module.exports = {
 	EntityRemovedType,
 	NotificationType,
 	HallGalleryType,
+	HallLobbyType,
 	VacancySuggestionType,
 	InterestedType,
 	LocationType,

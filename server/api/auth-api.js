@@ -42,6 +42,34 @@ const MailChimp = {
 	ApiKey: Secret.MAIL_CHIMP_KEY
 };
 
+
+function getIdUtmTable(cf) {
+	let table = "ref_id_utm"; // UTM20
+	if (cf == "UTM20") {
+		table = "ref_id_utm";
+	}
+	if (cf == "UTM21") {
+		table = "ref_id_utm21";
+	}
+	if (cf == "UMT") {
+		table = "ref_id_umt";
+	}
+	return table
+}
+function getIdUtmKey(cf) {
+	let key = "id_utm"; // UTM20
+	if (cf == "UTM20") {
+		key = "id_utm";
+	}
+	if (cf == "UTM21") {
+		key = "id_utm21";
+	}
+	if (cf == "UMT") {
+		key = "id_umt";
+	}
+	return key
+}
+
 const LIMIT_STUDENT_JPATC = 2000;
 // const LIMIT_STUDENT_JPATC = 4;
 class AuthAPI {
@@ -195,7 +223,7 @@ class AuthAPI {
 
 	loginCheckPasswordIdUtmValidation(cf, user) {
 		if (registrationConfig.isDoIdUtmValidation(cf) && user.role == UserEnum.ROLE_STUDENT) {
-			if (!user.id_utm) {
+			if (!user[getIdUtmKey(cf)]) {
 				// @id_utm_validation - loginCheckPassword - ID_UTM_NOT_FOUND_IN_USER_RECORD
 				return AuthAPIErr.ID_UTM_NOT_FOUND_IN_USER_RECORD;
 			} else if (!user.is_id_utm) {
@@ -210,17 +238,27 @@ class AuthAPI {
 	login({ email, password, cf, kpt, id_utm, request }) {
 
 		var field = "";
-		AuthUserKey.map((d, i) => {
+		let authUserKey = JSON.parse(JSON.stringify(AuthUserKey));
+		let idByCf = getIdUtmKey(cf);
+		if (authUserKey.indexOf(idByCf) <= -1) {
+			authUserKey.push(idByCf)
+		}
+		authUserKey.map((d, i) => {
 			field += `${d},`;
 		});
 		field = field.slice(0, -1);
-		
+
+
 		var user_query = `query{
             user(user_email:"${email}", cf_to_check_id_utm:"${cf}"){
                 ${field} company {cf name recruiters
                     {ID user_email first_name last_name}}
             }}`;
 
+		console.log("user_query", user_query)
+		console.log("user_query", user_query)
+		console.log("user_query", user_query)
+		console.log("user_query", user_query)
 		return getAxiosGraphQLQuery(user_query).then(
 			(res) => {
 
@@ -302,16 +340,16 @@ class AuthAPI {
 
 	loginIdUtmValidation({ id_utm, user, user_query, password, cf, request }) {
 		// @id_utm_validation - login - check if duplicate
-		return graphql(`query{user(id_utm:"${id_utm}"){id_utm}}`).then((res) => {
+		return graphql(`query{user(id_utm:"${id_utm}", cf:"${cf}"){${getIdUtmKey(cf)}}}`).then((res) => {
 			try {
-				if (res.data.data.user.id_utm) {
+				if (res.data.data.user[getIdUtmKey(cf)]) {
 					// @id_utm_validation - login - ID_UTM_ALREADY_EXIST
 					return AuthAPIErr.ID_UTM_ALREADY_EXIST;
 				}
 			} catch (err) { }
 
 			// @id_utm_validation - login - bind the kpt with the user that try to login
-			let update = `mutation {add_single(key_input:"id_utm", entity:"user", entity_id:${user.ID}, val:"${id_utm}"){ val } }`
+			let update = `mutation {add_single(key_input:"${getIdUtmKey(cf)}", entity:"user", entity_id:${user.ID}, val:"${id_utm}"){ val } }`
 			return graphql(update).then((res) => {
 				// query user again
 				return graphql(user_query).then((res) => {
@@ -635,7 +673,7 @@ class AuthAPI {
 			addToSingleInput(data, user, Single.first_name);
 			addToSingleInput(data, user, Single.last_name);
 			addToSingleInput(data, user, Single.kpt); //@kpt_validation
-			addToSingleInput(data, user, Single.id_utm); //@id_utm_validation
+			addToSingleInput(data, user, getIdUtmKey(cf)); //@id_utm_validation
 
 			// update cf
 			var cf_sql = `mutation{
@@ -679,10 +717,10 @@ class AuthAPI {
 				data: data,
 				successInterceptor: successInterceptor
 			});
-		} else if (user[UserMeta.ID_UTM]) {
+		} else if (user[getIdUtmKey(cf)]) {
 			// @id_utm_validation - register - init
 			return this.registerIdUtmValidation({
-				id_utm: user[UserMeta.ID_UTM],
+				id_utm: user[getIdUtmKey(cf)],
 				cf: cf,
 				data: data,
 				successInterceptor: successInterceptor
@@ -733,7 +771,7 @@ class AuthAPI {
 				return AuthAPIErr.ID_UTM_NOT_VALID;
 			}
 			// @id_utm_validation - register - check if duplicate
-			return graphql(`query{user(id_utm:"${id_utm}"){id_utm}}`).then((res) => {
+			return graphql(`query{user(id_utm:"${id_utm}", cf: "${cf}" ){id_utm}}`).then((res) => {
 				try {
 					if (res.data.data.user.id_utm) {
 						// @id_utm_validation - register - ID_UTM_ALREADY_EXIST
@@ -753,5 +791,7 @@ AuthAPI = new AuthAPI();
 
 module.exports = {
 	AuthAPI,
-	AuthAPIErr
+	AuthAPIErr,
+	getIdUtmTable,
+	getIdUtmKey
 };

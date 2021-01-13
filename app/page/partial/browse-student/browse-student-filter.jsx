@@ -9,6 +9,8 @@ import { lang, isHasOtherLang, currentLang } from "../../../lib/lang";
 import { customBlockLoader } from "../../../redux/actions/layout-actions";
 import { CFSMeta } from "../../../../config/db-config";
 import { _student_plural_lower, _student_plural } from "../../../redux/actions/text-action";
+import { cfCustomFunnel } from "../../../../config/cf-custom-config";
+import { isInCustomOrder } from "../../../../config/registration-config";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
@@ -79,14 +81,7 @@ export class BrowseStudentFilter extends React.Component {
             this.discardFilter += "::university::";
         }
 
-        // 6a. @custom_user_info_by_cf - order filter
-        this.orderFilter = [
-            "like_job_post_only",
-            "interested_only",
-            "favourited_only",
-            "drop_resume_only",
-            // "cf",
-            "name",
+        const originalByCfOrder = [
             "unisza_faculty",
             "unisza_course",
             "current_semester",
@@ -108,7 +103,18 @@ export class BrowseStudentFilter extends React.Component {
             "gender",
             "work_experience_year",
             "graduation_from", "graduation_to",
-            "interested_job_location", "where_in_malaysia", "skill"
+            "interested_job_location",
+            "where_in_malaysia", "skill"]
+        // 6a. @custom_user_info_by_cf - order filter
+        this.orderFilter = [
+            "like_job_post_only",
+            "interested_only",
+            "favourited_only",
+            "drop_resume_only",
+            // "cf",
+            "name",
+            ...cfCustomFunnel({ action: 'get_keys_for_filter' }),
+            ...originalByCfOrder
         ];
         // @browse_student_only_showing_one_cf
         // remove comment cf above to revert
@@ -118,6 +124,11 @@ export class BrowseStudentFilter extends React.Component {
             this.hiddenFilter.push("cf");
             this.hiddenFilter.push("interested_only");
             this.hiddenFilter.push("like_job_post_only");
+        }
+        for (let k of originalByCfOrder) {
+            if (!isInCustomOrder(getCF(), k)) {
+                this.hiddenFilter.push(k);
+            }
         }
 
         this.customClass = {
@@ -406,6 +417,7 @@ export class BrowseStudentFilter extends React.Component {
     getTitleFromKey(key) {
         // 6b. @custom_user_info_by_cf - filter label
         return {
+            ...cfCustomFunnel({ action: 'get_label_for_filter' }),
             monash_school: lang("School"),
             sunway_faculty: lang("School"),
             sunway_program: lang("Programme"),

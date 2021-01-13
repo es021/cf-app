@@ -783,6 +783,20 @@ const VideoEnum = {
 	RESUME: "resume"
 }
 
+const HallLobby = {
+	TABLE: "hall_lobby",
+	ID: "ID",
+	ITEM_ORDER: "item_order",
+	CF: "cf",
+	IS_ACTIVE: "is_active",
+	TITLE: "title",
+	COLOR: "color",
+	URL: "url",
+	VIDEO_URL: "video_url",
+	CREATED_BY: "created_by",
+	UPDATED_BY: "updated_by"
+};
+
 const HallGallery = {
 	TABLE: "hall_gallery",
 	ID: "ID",
@@ -878,6 +892,7 @@ module.exports = {
 	EntityRemoved,
 	Notifications,
 	NotificationsEnum,
+	HallLobby,
 	HallGallery,
 	HallGalleryEnum,
 	SingleInput,
