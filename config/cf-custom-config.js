@@ -135,25 +135,26 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
         let keys = Object.keys(CustomConfig);
         let r = [];
         for (let k of keys) {
-            if(getByKey(k, "discard_form") === true){
+            if (getByKey(k, "discard_form") === true) {
                 continue;
             }
-            r.push({
-                label: getByKey(k, "question"),
-                type: getByKey(k, "type"),
-                sublabel: getByKey(k, "question_sublabel"),
-                input_type: getByKey(k, "input_type"),
-                table_name: getByKey(k, "table_name"),
-                list_title: getByKey(k, "list_title"),
-                discard_ref_from_default: getByKey(k, "discard_ref_from_default"),
-                id: k,
-                key_input: k,
-                ref_table_name: getByKey(k, "ref_table_name"),
-                is_required: getByKey(k, "is_required"),
-                hidden: isRoleRec ? isRoleRec() : false || isCustomUserInfoOff(cf, k)
-            });
-
-
+            let onCf = getByKey(k, "onCf")
+            if (Array.isArray(onCf) && onCf.indexOf(cf) >= 0) {
+                r.push({
+                    label: getByKey(k, "question"),
+                    type: getByKey(k, "type"),
+                    sublabel: getByKey(k, "question_sublabel"),
+                    input_type: getByKey(k, "input_type"),
+                    table_name: getByKey(k, "table_name"),
+                    list_title: getByKey(k, "list_title"),
+                    discard_ref_from_default: getByKey(k, "discard_ref_from_default"),
+                    id: k,
+                    key_input: k,
+                    ref_table_name: getByKey(k, "ref_table_name"),
+                    is_required: getByKey(k, "is_required"),
+                    hidden: isRoleRec ? isRoleRec() : false || isCustomUserInfoOff(cf, k)
+                });
+            }
         }
         return r;
     }

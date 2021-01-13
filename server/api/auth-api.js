@@ -655,14 +655,20 @@ class AuthAPI {
 
 		};
 
-		const addToSingleInput = (data, user, key) => {
+		const addToSingleInput = (data, user, key, overrideKey) => {
+			// console.log("--------------------------------")
+			// console.log("addToSingleInput", data, user, key, overrideKey)
+
 			let userId = data[User.ID];
 			var q = `mutation{
                 add_single(key_input:"${key}", 
                 entity:"user", 
                 entity_id:${userId}
-                val:"${user[key]}"
-                ) { ID }}`;
+                val:"${overrideKey ? user[overrideKey] : user[key]}"
+				) { ID }}`;
+			// console.log("--------------------------------")
+			// console.log(q);
+			// console.log("--------------------------------")
 			getAxiosGraphQLQuery(q);
 		};
 
@@ -673,7 +679,7 @@ class AuthAPI {
 			addToSingleInput(data, user, Single.first_name);
 			addToSingleInput(data, user, Single.last_name);
 			addToSingleInput(data, user, Single.kpt); //@kpt_validation
-			addToSingleInput(data, user, getIdUtmKey(cf)); //@id_utm_validation
+			addToSingleInput(data, user, getIdUtmKey(cf), "id_utm"); //@id_utm_validation
 
 			// update cf
 			var cf_sql = `mutation{
@@ -717,10 +723,10 @@ class AuthAPI {
 				data: data,
 				successInterceptor: successInterceptor
 			});
-		} else if (user[getIdUtmKey(cf)]) {
+		} else if (user.id_utm) {
 			// @id_utm_validation - register - init
 			return this.registerIdUtmValidation({
-				id_utm: user[getIdUtmKey(cf)],
+				id_utm: user.id_utm,
 				cf: cf,
 				data: data,
 				successInterceptor: successInterceptor
@@ -771,9 +777,9 @@ class AuthAPI {
 				return AuthAPIErr.ID_UTM_NOT_VALID;
 			}
 			// @id_utm_validation - register - check if duplicate
-			return graphql(`query{user(id_utm:"${id_utm}", cf: "${cf}" ){id_utm}}`).then((res) => {
+			return graphql(`query{user(id_utm:"${id_utm}", cf: "${cf}" ){${getIdUtmKey(cf)}}}`).then((res) => {
 				try {
-					if (res.data.data.user.id_utm) {
+					if (res.data.data.user[getIdUtmKey(cf)]) {
 						// @id_utm_validation - register - ID_UTM_ALREADY_EXIST
 						return AuthAPIErr.ID_UTM_ALREADY_EXIST;
 					}
