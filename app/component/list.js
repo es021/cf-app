@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import ProfileCard, { PCType } from "./profile-card.jsx";
 import { Page } from "react-facebook";
 import Paging from "./paging.jsx";
-import {lang} from "../lib/lang.js";
+import { lang } from "../lib/lang.js";
 
 // require("../css/list.scss");
 
@@ -119,7 +119,10 @@ export default class List extends React.Component {
         try {
           //empty list
           if (data.length <= 0) {
-            let emptyView = this.props.emptyMessage ? this.props.emptyMessage : lang("Nothing To Show Here");
+            let emptyView =
+              this.props.emptyMessage != null && typeof this.props.emptyMessage !== "undefined"
+                ? this.props.emptyMessage :
+                lang("Nothing To Show Here");
             var empty = this.props.showEmpty ? (
               <div style={{ width: "100%" }} className="text-muted text-center list-empty-text">
                 {emptyView}

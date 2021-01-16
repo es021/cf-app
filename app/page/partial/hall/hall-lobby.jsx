@@ -3,10 +3,178 @@ import {
   getDataCareerFair,
 } from "../../../component/form";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
-
 import React from "react";
 import { HallLobby } from "../../../../config/db-config";
 import GeneralFormPage from "../../../component/general-form";
+import PropTypes from "prop-types";
+import List from "../../../component/list";
+import { EmptyCard } from "../../../component/card.jsx";
+import { IsNewEventCard } from "../../../../config/app-config";
+import { Time } from "../../../lib/time";
+import ProfileCard from "../../../component/profile-card.jsx";
+import { getEventTitle, getEventAction, getEventLocation } from "../../view-helper/view-helper";
+import { lang } from "../../../lib/lang";
+export class HallLobbyList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.loadData = this.loadData.bind(this);
+    this.getDataFromRes = this.getDataFromRes.bind(this);
+    // this.addFeedToView = this.addFeedToView.bind(this);
+    this.renderList = this.renderList.bind(this);
+    this.offset = 8;
+
+    this.state = {
+      extraData: [],
+      key: 0
+    };
+
+    this.isInit = true;
+  }
+
+  componentWillMount() {
+    this.getMainQueryParam = (page, offset) => {
+      let param = "";
+
+      if (page && offset) {
+        param += `page:${page},offset:${offset},`;
+      }
+
+      // order_by:"end_time desc"
+      param = `cf:"${getCF()}", is_active:1,${param}`;
+      param = param.substr(0, param.length - 1);
+      return param;
+    }
+    this.loadCount = () => {
+      var query = `query{
+        hall_lobbies_count(${this.getMainQueryParam()})
+       }`;
+
+      return getAxiosGraphQLQuery(query);
+    };
+
+    this.getCountFromRes = (res) => {
+      return res.data.data.hall_lobbies_count
+    }
+  }
+
+  // ##############################################################
+  // function for list
+  loadData(page, offset) {
+    var query = `query{
+      hall_lobbies(${this.getMainQueryParam(page, offset)}) {
+          ID
+          title
+          color
+          url
+        }
+      }`;
+    return getAxiosGraphQLQuery(query);
+  }
+
+  getDataFromRes(res) {
+    // this.hasUpNext = false;
+    // this.hasNow = false;
+
+    // if (this.isInit) {
+    //   this.scrollTo = "top";
+    //   this.isInit = false;
+    // } else {
+    //   this.scrollTo = "bottom";
+    // }
+    return res.data.data.hall_lobbies;
+  }
+
+  renderList(d, i, isExtraData = false) {
+    let defaultColor = '#4a4646';
+    return <EmptyCard
+      borderRadius="10px"
+      onClick={() => {
+        if (d.url) {
+          window.open(d.url)
+        }
+      }}
+      body={
+        <div className="hall-lobby-item">
+          <div className="hli-title"
+            style={{ color: d.color ? d.color : defaultColor }}>
+            {d.title}
+          </div>
+          <div className="hli-action">
+            {/* <a href={d.url} target="_blank"> */}
+            <button
+              className="btn btn-round-5 btn-bold"
+              style={{ background: d.color ? d.color : defaultColor, color: "white" }}
+            >
+              Join Lobby{" "}<i className="fa fa-long-arrow-right"></i>
+            </button>
+            {/* </a> */}
+          </div>
+        </div>
+      }>
+    </EmptyCard>
+  }
+
+  render() {
+    let countParam = {}
+    if (!this.props.limitLoad) {
+      countParam = {
+        loadCount: this.loadCount,
+        getCountFromRes: this.getCountFromRes
+      }
+    }
+
+    let offset = 0;
+    if (this.props.limitLoad) {
+      offset = this.props.limitLoad;
+    }
+    else if (this.props.customOffset) {
+      offset = this.props.customOffset;
+    }
+    else {
+      offset = this.offset;
+    }
+
+    var r = <List
+      {...countParam}
+      emptyMessage={""}
+      divClass={"full-width"}
+      key={this.state.key}
+      isHidePagingTop={this.props.isHidePagingTop}
+      type="list"
+      listClass={this.props.listClass ? this.props.listClass : "flex-wrap"}
+      pageClass="text-right"
+      listRef={v => (this.dashBody = v)}
+      getDataFromRes={this.getDataFromRes}
+      loadData={this.loadData}
+      isListNoMargin={this.props.isListNoMargin}
+      extraData={this.state.extraData}
+      hideLoadMore={this.props.limitLoad ? true : false}
+      offset={offset}
+      listAlign={this.props.listAlign}
+      renderList={this.renderList}
+    />
+
+
+    return <div className="text-center" style={{ marginBottom: "20px" }}>
+      {r}
+    </div>
+  }
+}
+
+HallLobbyList.propTypes = {
+  type: PropTypes.string,
+  limitLoad: PropTypes.number,
+  customOffset: PropTypes.number,
+  listAlign: PropTypes.string,
+  isListNoMargin: PropTypes.bool,
+  isFullWidth: PropTypes.bool,
+  isHidePagingTop: PropTypes.bool
+}
+
+HallLobbyList.defaultProps = {
+  type: "card"
+}
 
 
 // #########################################################################################################
@@ -115,7 +283,8 @@ export class ManageHallLobby extends React.Component {
             type: "text"
           },
           {
-            label: "Color",
+            label: "Color Code",
+            sublabel: "eg : #000000",
             name: HallLobby.COLOR,
             type: "text"
           }
@@ -145,7 +314,7 @@ export class ManageHallLobby extends React.Component {
 
     this.renderRow = (d, i) => {
       var row = [];
-      var discard = ["url", "color",  "item_order"];
+      var discard = ["url", "color", "item_order"];
       for (var key in d) {
         if (discard.indexOf(key) >= 0) {
           continue;
@@ -157,7 +326,7 @@ export class ManageHallLobby extends React.Component {
                 <b>Order</b> : <span>{d.item_order}</span><br></br>
                 <b>Title</b> : <span>{d.title}</span><br></br>
                 <b>Url</b> : <span>{d.url}</span><br></br>
-                <b>Color</b> : <span>{d.color}</span><br></br>
+                <b>Color</b> : <span style={{ color: d.color ? d.color : "black" }}><b>{d.color}</b></span><br></br>
               </div>
             </td>
           );

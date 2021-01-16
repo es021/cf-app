@@ -39,7 +39,8 @@ import { getCFTimeDetail } from "./coming-soon";
 import ListRow from "../component/list-row";
 import { VacancyList } from "./partial/company/vacancy";
 import { EventList } from "./event-list";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
+import { HallLobbyList } from "./partial/hall/hall-lobby";
 
 // require("../css/hall.scss");
 
@@ -289,9 +290,11 @@ export default class HallPage extends React.Component {
               <small className="text-muted"><span dangerouslySetInnerHTML={{ __html: this.CFDetail.welcome_text }}></span></small>}
           </h2>
         </div>
-        <div className="text-center" style={{ marginBottom: "20px" }}>
+        {/* LOBBY ------------------------------------------------------------------------- */}
+        <HallLobbyList isListNoMargin={true} limitLoad={100} listAlign="center" />
+        {/* EVENT ------------------------------------------------------------------------- */}
+        <div className="text-center" style={{ marginBottom: "25px" }}>
           <h3><small>{lang("Current / Upcoming Event")} : </small></h3>
-          {/* <EventList isListNoMargin={true} limitLoad={2} listAlign="left" /> */}
           <EventList isListNoMargin={true} limitLoad={2} listAlign="center" />
           <div className="text-right">
             <b>

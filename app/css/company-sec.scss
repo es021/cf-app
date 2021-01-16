@@ -10,11 +10,11 @@ $com-sec : "com-sec";
     justify-content: center;
 
     .profile-card:hover {
-        box-shadow: 1px 2px 11px -2px rgba(0, 0, 0, 0.8);
+        box-shadow: $CARD_SHADOW_HOVER;
     }
 
     .profile-card:active {
-        box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
+        box-shadow: $CARD_SHADOW;
     }
 
     .profile-card {
@@ -25,7 +25,7 @@ $com-sec : "com-sec";
         padding: 10px 7px;
         background: white;
         //box-shadow: 2px 4px 6px -3px rgba(0,0,0,0.7);
-        box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.4);
+        box-shadow: $CARD_SHADOW;
         cursor: pointer;
         //border: darken($COLOR_BACKGROUND,10) 1px solid;
 

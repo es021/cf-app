@@ -7,6 +7,7 @@ export class EmptyCard extends React.Component {
   }
   render() {
     let style = {
+      padding: this.props.padding,
       minWidth: this.props.minWidth,
       minHeight: this.props.minHeight,
       height: this.props.height,
@@ -19,11 +20,13 @@ export class EmptyCard extends React.Component {
       className += " clickable ";
     }
     return (
-      <div style={style} className={className} onClick={() => {
-        if (this.props.onClick) {
-          this.props.onClick(this.props.paramForOnClick)
-        }
-      }}>
+      <div style={style}
+        className={className}
+        onClick={() => {
+          if (this.props.onClick) {
+            this.props.onClick(this.props.paramForOnClick)
+          }
+        }}>
         {this.props.body}
       </div>
     );
@@ -36,6 +39,7 @@ EmptyCard.propTypes = {
   borderRadius: PropTypes.string,
   minHeight: PropTypes.string,
   minWidth: PropTypes.string,
+  padding: PropTypes.string,
   height: PropTypes.string,
   width: PropTypes.string,
   onClick: PropTypes.func

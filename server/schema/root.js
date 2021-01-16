@@ -378,18 +378,29 @@ fields["vacancy_suggestions"] = {
 
 /*******************************************/
 /* hall_lobbies ******************/
+const hallLobbyParam = {
+	ID: __.Int,
+	is_active: __.Int,
+	cf: __.String,
+	order_by: __.String,
+	page: __.Int,
+	offset: __.Int
+}
 fields["hall_lobbies"] = {
 	type: new GraphQLList(HallLobbyType),
-	args: {
-		ID: __.Int,
-		is_active: __.Int,
-		cf: __.String,
-		order_by: __.String,
-		page: __.Int,
-		offset: __.Int
-	},
+	args: hallLobbyParam,
 	resolve(parentValue, arg, context, info) {
 		return HallLobbyExec.hall_lobbies(arg, graphqlFields(info));
+	}
+};
+
+fields["hall_lobbies_count"] = {
+	type: GraphQLInt,
+	args: hallLobbyParam,
+	resolve(parentValue, arg, context, info) {
+		return HallLobbyExec.hall_lobbies(arg, graphqlFields(info), {
+			count: true
+		});
 	}
 };
 /*******************************************/

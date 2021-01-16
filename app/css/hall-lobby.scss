@@ -1,0 +1,21 @@
+.hall-lobby-item{
+  overflow: hidden;
+  padding: 4px 10px;
+  margin : 10px;
+  background: white;
+  width: 350px;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  .hli-title{
+    align-self: flex-start;
+    text-align: left;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .hli-action{
+    align-self: flex-end;
+  }
+}
