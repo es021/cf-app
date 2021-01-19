@@ -1,3 +1,11 @@
+ALTER TABLE `vacancies` ADD `specialization` VARCHAR(700) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL AFTER `application_url`, ADD INDEX (`specialization`); 
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
 CREATE TABLE `hall_lobby` (
   `ID` bigint(20) NOT NULL,
   `cf` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
@@ -24,12 +32,6 @@ ALTER TABLE `hall_lobby`
 -- ref
 utm21.sql
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `zoom_meetings` ADD `chat_user_id` BIGINT NULL DEFAULT NULL AFTER `pre_screen_id`, ADD INDEX (`chat_user_id`); 
 ALTER TABLE `zoom_meetings` CHANGE `zoom_meeting_id` `zoom_meeting_id` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL; 
 

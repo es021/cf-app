@@ -1089,6 +1089,8 @@ fields["delete_dashboard"] = {
 
 /*******************************************/
 /* vacancy ******************/
+
+// @custom_vacancy_info
 fields["add_vacancy"] = {
   type: VacancyType,
   args: {
@@ -1098,6 +1100,7 @@ fields["add_vacancy"] = {
     created_by: __.IntNonNull,
     location: __.String,
     description: __.String,
+    specialization: __.String,
     requirement: __.String,
     application_url: __.String,
     ref_city: __.Int,
@@ -1111,6 +1114,7 @@ fields["add_vacancy"] = {
   }
 };
 
+// @custom_vacancy_info
 fields["edit_vacancy"] = {
   type: VacancyType,
   args: {
@@ -1118,6 +1122,7 @@ fields["edit_vacancy"] = {
     title: __.String,
     type: __.String,
     location: __.String,
+    specialization: __.String,
     description: __.String,
     requirement: __.String,
     application_url: __.String,

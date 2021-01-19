@@ -1174,6 +1174,7 @@ fields["vacancy"] = {
 };
 
 
+// @custom_vacancy_info
 const vacancies_param = {
 	cf: __.String,
 	title: __.String,
@@ -1181,6 +1182,7 @@ const vacancies_param = {
 	user_id: __.Int,
 	show_applied_only: __.Boolean,
 	company_id: __.Int,
+	specialization: __.String,
 	location: __.String,
 	page: __.Int,
 	offset: __.Int,

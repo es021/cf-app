@@ -24,6 +24,7 @@ import GeneralFormPage from "../../../component/general-form";
 import { Loader } from "../../../component/loader";
 import { getEmptyMessageWithSearchQuery } from "../../view-helper/view-helper";
 import { CFSMeta, CFS } from "../../../../config/db-config";
+import { isVacancyInfoNeeded } from "../../../../config/vacancy-config";
 
 
 // for student only
@@ -80,7 +81,7 @@ export class VacancyList extends React.Component {
       }
 
       let show_applied_only = "";
-      if(this.props.showAppliedOnly){
+      if (this.props.showAppliedOnly) {
         show_applied_only = `show_applied_only:true`
       }
 
@@ -126,6 +127,10 @@ export class VacancyList extends React.Component {
     }
 
     if (d != null) {
+      this.searchParams += this.searchParamGet(
+        "specialization",
+        d.specialization
+      );
       this.searchParams += this.searchParamGet(
         "title",
         d.title
@@ -202,6 +207,12 @@ export class VacancyList extends React.Component {
           }
         }
 
+        if (!isVacancyInfoNeeded(getCF(), "specialization")) {
+          if (d._key == "specialization") {
+            continue;
+          }
+        }
+
         if (currentKey != d._key) {
           if (currentKey != null) {
             searchFormItem.push({
@@ -247,14 +258,18 @@ export class VacancyList extends React.Component {
 
   renderList(d, i) {
     let com = d.company;
-    let img = createImageElement(
-      com.img_url,
-      com.img_position,
-      com.img_size,
-      "50px",
-      "",
-      PCType.COMPANY
-    );
+    let img = null;
+    if (com) {
+      img = createImageElement(
+        com.img_url,
+        com.img_position,
+        com.img_size,
+        "50px",
+        "",
+        PCType.COMPANY
+      );
+    }
+
 
     // let isModeCount = this.isRecThisCompany();
     // let isModeAction = isRoleStudent();
@@ -434,7 +449,7 @@ VacancyList.propTypes = {
 
 VacancyList.defaultProps = {
   filterByCf: true,
-  showAppliedOnly : false,
+  showAppliedOnly: false,
   isListAll: false,
   listClass: "flex-wrap-start",
   offset: 6,

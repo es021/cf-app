@@ -21,9 +21,10 @@ class CreateBundle extends React.Component {
             TITLE: 1,
             TYPE: 2,
             LOCATION: 3,
-            URL: 4,
-            DESC: 5,
-            REQ: 6,
+            SPECIALIZATION: 4,
+            URL: 5,
+            DESC: 6,
+            REQ: 7,
         }
         this.state = {
             isTestCompany: false,
@@ -146,6 +147,7 @@ class CreateBundle extends React.Component {
             title,
             type,
             location,
+            specialization,
             url, desc,
             req;
 
@@ -153,6 +155,7 @@ class CreateBundle extends React.Component {
 
         title = r[this.Index.TITLE];
         location = typeof this.Index.LOCATION !== "number" ? this.Index.LOCATION : r[this.Index.LOCATION];
+        specialization = typeof this.Index.SPECIALIZATION !== "number" ? this.Index.SPECIALIZATION : r[this.Index.SPECIALIZATION];
         desc = typeof this.Index.DESC !== "number" ? this.Index.DESC : r[this.Index.DESC];
         req = typeof this.Index.REQ !== "number" ? this.Index.REQ : r[this.Index.REQ];
         type = typeof this.Index.TYPE !== "number" ? this.Index.TYPE : r[this.Index.TYPE];
@@ -170,6 +173,7 @@ class CreateBundle extends React.Component {
         title = this.reformatGeneral(title);
         type = this.reformatGeneral(type);
         location = this.reformatGeneral(location);
+        specialization = this.reformatGeneral(specialization);
         desc = this.reformatGeneral(desc);
         req = this.reformatGeneral(req);
 
@@ -201,6 +205,7 @@ class CreateBundle extends React.Component {
             title: title,
             type: type,
             location: location,
+            specialization: specialization,
             url: url,
             desc: desc,
             req: req
@@ -222,6 +227,7 @@ class CreateBundle extends React.Component {
                 d[Vacancy.TITLE] = obj.title;
                 d[Vacancy.TYPE] = obj.type;
                 d[Vacancy.LOCATION] = obj.location;
+                d[Vacancy.SPECIALIZATION] = obj.specialization;
                 d[Vacancy.APPLICATION_URL] = obj.url;
                 d[Vacancy.DESCRIPTION] = obj.desc;
                 d[Vacancy.REQUIREMENT] = obj.req;
@@ -259,11 +265,18 @@ class CreateBundle extends React.Component {
 
     render() {
         let v = <div style={{ padding: "10px" }}>
-            <b>Set the column order as follows:</b><br></br>
-            Company ID<br></br>{this.COLUMN_SEPARATOR}<br></br>Title<br></br>{this.COLUMN_SEPARATOR}<br></br>Type<br></br>{this.COLUMN_SEPARATOR}<br></br>Location<br></br>{this.COLUMN_SEPARATOR}<br></br>Application Url<br></br>{this.COLUMN_SEPARATOR}<br></br>Description<br></br>{this.COLUMN_SEPARATOR}<br></br>Requirement<br></br>{this.ROW_SEPARATOR}
+            <b>Set the column order as follows:</b><br></br><br></br>
+            <b>Company ID</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Title</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Type</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Location</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Specialization</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Application Url</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Description</b><br></br>{this.COLUMN_SEPARATOR}
+            <br></br><b>Requirement</b><br></br>{this.ROW_SEPARATOR}
             <br></br>
             <br></br>
-            <b> <a href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2020/09/Example-Job-Post-Bundle-Upload.xlsx" target="_blank">
+            <b> <a href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2021/01/Example-Job-Post-Bundle-Upload.xlsx" target="_blank">
                 See Excel Example</a>
             </b>
             <br></br>

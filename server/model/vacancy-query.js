@@ -20,8 +20,11 @@ class VacancyQuery {
 		var com_where = (typeof params.company_id === "undefined") ? "1=1" : `company_id = '${params.company_id}' `;
 		var applied_only = (params.show_applied_only === true)
 			? `v.ID IN (select i.entity_id from interested i 
-				where i.entity = "vacancies" and i.user_id = "${params.user_id}" AND i.is_interested = 1)`
+			where i.entity = "vacancies" and i.user_id = "${params.user_id}" AND i.is_interested = 1)`
 			: `1=1`;
+
+		// @custom_vacancy_info
+		var specialization_where = (typeof params.specialization === "undefined") ? "1=1" : `specialization = '${params.specialization}' `;
 
 		var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by} `;
 
@@ -35,6 +38,7 @@ class VacancyQuery {
 
 		var sql = `from ${Vacancy.TABLE} v where 
 			1=1 and
+			${specialization_where} and
 			${cf_specific_where} and
 			${cf_where} and
 			${id_where} and 
@@ -73,6 +77,15 @@ class VacancyQuery {
 				location as "_val",
 				location as "_label" 
 				${sql} and location != ""
+
+			UNION ALL
+
+			select distinct
+				"Job Specialization" as "_category", 	
+				"specialization" as "_key", 
+				specialization as "_val",
+				specialization as "_label" 
+				${sql} and specialization != ""
 
 			ORDER BY _key, _label
 			

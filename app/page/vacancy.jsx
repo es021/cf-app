@@ -11,10 +11,11 @@ import NotFoundPage from "./not-found";
 import { AppConfig, RootPath, SiteUrl } from "../../config/app-config";
 import { NavLink } from "react-router-dom";
 import { addLog } from "../redux/actions/other-actions";
-import { getAuthUser, isRoleStudent } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 import { getHrefValidUrl, getCompanyTitle } from "./view-helper/view-helper";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
+import { addVacancyInfoIfNeeded, isVacancyInfoNeeded } from "../../config/vacancy-config";
 
 function applyOnClick(obj, onClickModeAction) {
   console.log("obj", obj);
@@ -95,7 +96,7 @@ export default class VacancyPage extends React.Component {
       JSON.stringify(logData),
       getAuthUser().ID
     );
-
+    // @custom_vacancy_info
     var query = `query {
               vacancy(ID:${id}, user_id:${getAuthUser().ID}) {
                 ID
@@ -107,6 +108,7 @@ export default class VacancyPage extends React.Component {
                 requirement
                 type
                 application_url
+                ${addVacancyInfoIfNeeded(getCF(), "specialization")} 
                 updated_at
                 interested{ID is_interested}
             }}`;
@@ -166,10 +168,14 @@ export default class VacancyPage extends React.Component {
 
         var non = <div className="text-muted">{lang("Nothing To Show Here")}</div>;
 
+        // @custom_vacancy_info
         var items = [
-          // <span>
-          //   <i className="fa fa-hashtag left"></i>Vacancy Id - {vacan.ID}
-          // </span>,
+          isVacancyInfoNeeded(getCF(), "specialization") && vacan.specialization != null ?
+            <span>
+              <i className="fa fa-hashtag left"></i>
+              {vacan.specialization}
+            </span>
+            : null,
           !vacan.type ? null : (
             <span>
               <i className="fa fa-star left"></i>

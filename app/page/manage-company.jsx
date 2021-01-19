@@ -26,6 +26,7 @@ import { ButtonLink } from "../component/buttons.jsx";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import {
+  getCF,
   getAuthUser,
   isRoleRec,
   updateAuthUser,
@@ -58,6 +59,7 @@ import { ScheduledInterview } from "./partial/activity/scheduled-interview";
 import CompanyPage from "./company";
 import ManageTag from "./tag";
 import { lang } from "../lib/lang";
+import { addVacancyInfoIfNeeded, getVacancyType, isVacancyInfoNeeded } from "../../config/vacancy-config";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -85,13 +87,22 @@ class VacancySubPage extends React.Component {
         </a>
       );
 
+      // @custom_vacancy_info
+      let info = [
+        <div><b>Type</b> : {d.type}</div>,
+        <div><b>Location</b> : {d.location}</div>,
+        <div><b>Application Url</b> : {d.application_url}</div>,
+        isVacancyInfoNeeded(getCF(), "specialization") ?
+          <div><b>Specialization</b> : {d.specialization}</div>
+          : null
+      ]
+
       return [
         <td>{d.ID}</td>,
         <td>
           <b>{title}</b>
         </td>,
-        <td>{d.type}</td>,
-        <td>{d.location}</td>,
+        <td>{info}</td>,
         <td>{Time.getString(d.updated_at)}</td>
       ];
     };
@@ -101,8 +112,7 @@ class VacancySubPage extends React.Component {
         <tr>
           <th>{lang("ID")}</th>
           <th>{lang("Title")}</th>
-          <th>{lang("Type")}</th>
-          <th>{lang("Location")}</th>
+          <th>{lang("Info")}</th>
           <th>{lang("Last Updated")}</th>
         </tr>
       </thead>
@@ -116,8 +126,14 @@ class VacancySubPage extends React.Component {
         order_by: Vacancy.UPDATED_AT + " desc"
       };
 
+
+      // @custom_vacancy_info
       var query = `query{vacancies(${obj2arg(param, { noOuterBraces: true })})
-            {ID title location type updated_at}}`;
+            { 
+              ID title location application_url type updated_at 
+              ${addVacancyInfoIfNeeded(getCF(), "specialization")} 
+            }
+          }`;
       return getAxiosGraphQLQuery(query);
     };
 
@@ -128,14 +144,11 @@ class VacancySubPage extends React.Component {
     };
 
     //##########################################
-    // form operation properties
-
-    // if ever needed
-    // hook before submit
     this.formWillSubmit = (d, edit) => {
       return d;
     };
 
+    // @custom_vacancy_info
     this.getEditFormDefault = ID => {
       const query = `query{
                 vacancy(ID:${ID}) {
@@ -147,6 +160,7 @@ class VacancySubPage extends React.Component {
                   type
                   application_url
                   location
+                  ${addVacancyInfoIfNeeded(getCF(), "specialization")}
                 }
               }`;
 
@@ -161,6 +175,7 @@ class VacancySubPage extends React.Component {
     this.newFormDefault[Vacancy.COMPANY_ID] = this.company_id;
     this.newFormDefault[Vacancy.CREATED_BY] = this.user_id;
 
+    // @custom_vacancy_info
     this.getFormItem = edit => {
       return [
         { header: "Job Post Form" },
@@ -192,12 +207,20 @@ class VacancySubPage extends React.Component {
           name: Vacancy.TYPE,
           type: "select",
           required: true,
+          data: getVacancyType(getCF())
+        },
+        {
+          label: "Job Specialization",
+          name: Vacancy.SPECIALIZATION,
+          required: true,
+          type: "select",
           data: [
-            VacancyEnum.TYPE_FULL_TIME,
-            VacancyEnum.TYPE_PART_TIME,
-            VacancyEnum.TYPE_INTERN,
-            VacancyEnum.TYPE_PROJECT_BASED,
-          ]
+            "",
+            VacancyEnum.ENGINEERING,
+            VacancyEnum.NON_ENGINEERING
+          ],
+          disabled: !isVacancyInfoNeeded(getCF(), Vacancy.SPECIALIZATION),
+          hidden: !isVacancyInfoNeeded(getCF(), Vacancy.SPECIALIZATION),
         },
         {
           label: "Application Url",

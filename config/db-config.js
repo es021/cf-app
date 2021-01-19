@@ -491,6 +491,7 @@ const CompanyEnum = {
 	}
 };
 
+// @custom_vacancy_info
 const Vacancy = {
 	TABLE: "vacancies",
 	ID: "ID",
@@ -500,18 +501,23 @@ const Vacancy = {
 	REQUIREMENT: "requirement",
 	LOCATION: "location",
 	TYPE: "type",
+	SPECIALIZATION: "specialization",
 	APPLICATION_URL: "application_url",
 	UPDATED_AT: "updated_at",
 	CREATED_BY: "created_by"
 };
 
 const VacancyEnum = {
+	ENGINEERING : "Engineering",
+	NON_ENGINEERING : "Non Engineering",
 	TYPE_FULL_TIME: "Full Time",
 	TYPE_FULL_TIME_AND_INTERN: "Full Time & Intern",
 	TYPE_INTERN: "Intern",
 	TYPE_PART_TIME: "Part Time",
 	TYPE_GRADUATE_INTERN: "Graduate Trainee / Internships",
 	TYPE_PROJECT_BASED: "Project Based",
+	TYPE_PERMANENT: "Permanent",
+	TYPE_CONTRACT: "Contract",
 };
 
 const RefLocalOrOversea = {

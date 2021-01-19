@@ -645,11 +645,14 @@ const VacancySuggestionType = new GraphQLObjectType({
 	})
 });
 
+
+// @custom_vacancy_info
 const VacancyType = new GraphQLObjectType({
 	name: "Vacancy",
 	fields: () => ({
 		ID: __.Int,
 		company_id: __.Int,
+		specialization: __.String,
 		title: __.String,
 		description: __.String,
 		requirement: __.String,

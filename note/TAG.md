@@ -7,6 +7,7 @@
 @new_student_tag
 ## ########################################
 
+@custom_vacancy_info
 @login_by_student_id
 @custom_user_info_by_cf
 @add_new_user_meta

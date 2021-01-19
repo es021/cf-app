@@ -121,6 +121,10 @@ export default class Form extends React.Component {
         continue;
       }
 
+      if (formObj.hidden === true) {
+        continue;
+      }
+
       var name = formObj.name;
       var value = formObj.value;
       //console.log(name,value);
