@@ -4,8 +4,11 @@ const {
 } = require('./db-config.js');
 
 function getIdLabelByCf(cf) {
-    if (["UTM20", "UTM21"].indexOf(cf) >= 0) {
+    if (["UTM20"].indexOf(cf) >= 0) {
         return "Matrix No / UTM Acid ID";
+    }
+    if (["UTM21"].indexOf(cf) >= 0) {
+        return "Matrix No / UTM Acid ID (For Unemployed Graduands Only)";
     }
     if (cf == "UMT") {
         return "Matrix No";
