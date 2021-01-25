@@ -87,6 +87,26 @@ export const UserFormItem = [
         //required: true,
         register: 1, editStudent: 0, editRec: 0
     },
+    {
+        label: lang("Level Of Study"),
+        name: "level_study_utm21",
+        type: "select",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "UTM21"
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: lang("Faculty"),
+        name: "faculty_utm21",
+        type: "select",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "UTM21"
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
     // {
     //     label: "Confirm Password",
     //     name: `${User.PASSWORD}-confirm`,
@@ -337,12 +357,16 @@ export function getEditProfileFormItem(type) {
     return toRet;
 }
 
-export function getRegisterFormItem(registerStep, cf) {
+export function getRegisterFormItem(registerStep, cf, refData = {}) {
     let toRet = [];
 
     for (var i in UserFormItem) {
         let item = UserFormItem[i];
         item = setAdditionalAttribute(item);
+
+        if (item.type == "select" && refData[item.name]) {
+            item.data = refData[item.name];
+        }
 
         // @kpt_validation
         if (item.isOnlyInCf) {

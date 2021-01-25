@@ -676,6 +676,8 @@ class AuthAPI {
 			let userId = data[User.ID];
 
 			// add first name and last name at single_input
+			addToSingleInput(data, user, "level_study_utm21");
+			addToSingleInput(data, user, "faculty_utm21");
 			addToSingleInput(data, user, Single.first_name);
 			addToSingleInput(data, user, Single.last_name);
 			addToSingleInput(data, user, Single.kpt); //@kpt_validation

@@ -7,7 +7,7 @@ import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
 import { register, getCF, getCFObj, getCfCustomMeta, getNoMatrixLabel } from "../redux/actions/auth-actions";
 import { RootPath, DocumentUrl, LandingUrl } from "../../config/app-config";
 import AvailabilityView from "./availability";
-import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import LoginPage from "./login";
 import {
@@ -17,6 +17,7 @@ import {
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
+import { Loader } from "../component/loader";
 
 export const ErrorMessage = {
   ID_UTM_NOT_VALID: (id_utm) => {
@@ -68,7 +69,9 @@ export default class SignUpPage extends React.Component {
       disableSubmit: false,
       success: false,
       user: null,
-      currentStep: 1
+      currentStep: 1,
+      loading: false,
+      refData: {},
     };
   }
   manageUserProfileComplete() {
@@ -85,8 +88,39 @@ export default class SignUpPage extends React.Component {
     this.defaultValues = {};
     this.defaultValues[User.CF] = this.CF;
 
+    this.loadRef();
     //this.formItems = getRegisterFormItem(1);
   }
+
+  loadRef() {
+    var toLoad = 0;
+    var loaded = 0;
+    var refData = {};
+    const finish = (k, data) => {
+      loaded++;
+      refData[k] = ["", ...data];
+      if (loaded >= toLoad) {
+        this.setState(prevState => {
+          refData = { ...prevState.refData, ...refData };
+          return { loading: false, refData: refData }
+        });
+      }
+    }
+
+    if (this.CF == "UTM21") {
+      toLoad = 2;
+      this.setState({ loading: true })
+      graphql(`query { refs(table_name:"faculty_utm21"){ val } } `).then(res => {
+        let vals = res.data.data.refs.map(d => d.val);
+        finish("faculty_utm21", vals);
+      })
+      graphql(`query { refs(table_name:"level_study_utm21"){ val } } `).then(res => {
+        let vals = res.data.data.refs.map(d => d.val);
+        finish("level_study_utm21", vals);
+      })
+    }
+  }
+
 
   //return string if there is error
   filterForm(d) {
@@ -428,30 +462,25 @@ export default class SignUpPage extends React.Component {
       }
 
       // @kpt_validation
-      let formItems = getRegisterFormItem(1, getCF());
+      let formItems = getRegisterFormItem(1, getCF(), this.state.refData);
 
       content = (
         <div>
           <h3>
             {lang(registrationTitle)}<br></br>
-            {/* Student Registration<br></br> */}
-            {/* Youth Registration<br></br> */}
           </h3>
-          {/* <a target="_blank" href={`${LandingUrl}#Companies`}>
-            Not A Student?
-          </a> */}
-          <Form
-            className="form-row"
-            items={formItems}
-            onSubmit={this.formOnSubmit}
-            defaultValues={this.defaultValues}
-            submitText={lang("Sign Me Up!")}
-            disableSubmit={this.state.disableSubmit}
-            contentBeforeSubmit={null}
-            error={this.state.error}
-          ></Form>
-
-
+          {this.state.loading ? <Loader></Loader> :
+            <Form
+              className="form-row"
+              items={formItems}
+              onSubmit={this.formOnSubmit}
+              defaultValues={this.defaultValues}
+              submitText={lang("Sign Me Up!")}
+              disableSubmit={this.state.disableSubmit}
+              contentBeforeSubmit={null}
+              error={this.state.error}
+            ></Form>
+          }
         </div>
       );
     }
