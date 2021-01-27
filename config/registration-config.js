@@ -85,7 +85,7 @@ const CustomConfig = {
         discard_popup: true,
         label: "Webinar",
         question: "Which webinar sessions are you interested in?",
-        question_sublabel: "You can choose more than one webinar session",
+        question_sublabel: "You will still need to RSVP once you are registered",
         icon: "microphone",
         list_title: null,
         discard_ref_from_default: true,
