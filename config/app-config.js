@@ -37,6 +37,7 @@ var ImageUrl = AssetUrl + "/asset/image";
 var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
+var StatisticUrl = SiteUrl + "/statistic";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
 var EmailPhpAdmin = ((isProd) ? Domain : "http://localhost:8085/cf-app/server") + `/php-api/email/email.php`;
@@ -113,6 +114,7 @@ module.exports = {
     FooterClass,
     IsDailyCoEnable,
     DailyCoCreateRoomUrl,
+    StatisticUrl,
     ZoomCreateRoomUrl,
     ZoomCheckMeetingExpiredUrl,
     IsGruveoEnable,

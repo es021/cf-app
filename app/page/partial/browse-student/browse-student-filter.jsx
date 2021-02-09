@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
-import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta } from "../../../redux/actions/auth-actions";
+import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta, isRoleOrganizer } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
 import { lang, isHasOtherLang, currentLang } from "../../../lib/lang";
@@ -106,12 +106,18 @@ export class BrowseStudentFilter extends React.Component {
             "interested_job_location",
             "where_in_malaysia", "skill"]
         // 6a. @custom_user_info_by_cf - order filter
+
         this.orderFilter = [
-            "like_job_post_only",
-            "interested_only",
-            "favourited_only",
-            "drop_resume_only",
             // "cf",
+            ...(isRoleOrganizer()
+                ? []
+                : [
+                    "like_job_post_only",
+                    "interested_only",
+                    "favourited_only",
+                    "drop_resume_only",
+                ]
+            ),
             "name",
             ...cfCustomFunnel({ action: 'get_keys_for_filter' }),
             ...originalByCfOrder

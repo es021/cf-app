@@ -85,6 +85,7 @@ import { lang, isHasOtherLang } from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
 import AdminMisc from "../page/admin-misc";
+import ManageVacancy from "../page/manage-vacancy";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -166,7 +167,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
+      disabled: !isRoleAdmin()
     },
     {
       url: "/manage-events",
@@ -179,7 +180,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
+      disabled: !isRoleAdmin()
     },
     {
       url: "/manage-cf",
@@ -192,17 +193,6 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleAdmin()
     },
-    // {
-    //   url: "/admin-zoom",
-    //   label: "Zoom API",
-    //   icon: "video-camera",
-    //   component: AdminZoom,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false,
-    //   disabled: !isRoleAdmin()
-    // },
     {
       // Admin Only
       url: "/admin-recruiter",
@@ -213,7 +203,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
+      disabled: !isRoleAdmin()
     },
     {
       // Admin Only
@@ -225,7 +215,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
+      disabled: !isRoleAdmin()
     },
     {
       // Admin Only
@@ -237,35 +227,66 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: false,
       hd_auth: false,
-      disabled: !isRoleAdmin() && !isRoleOrganizer()
+      disabled: !isRoleAdmin()
     },
-    // {
-    //   // Admin Only
-    //   url: "/students",
-    //   label: "All Students",
-    //   icon: "user",
-    //   component: AdminStudentPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false,
-    //   disabled: !isRoleAdmin()
-    // },
     // ###############################################################
-    // NOT AS IMPORTANT
-    // {
-    //   // Admin Only
-    //   url: "/students",
-    //   label: "Students",
-    //   icon: "user",
-    //   component: UsersPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false,
-    //   disabled: !isRoleAdmin() && !isRoleOrganizer()
-    // },
-
+    // ORGANIZER
+    {
+      url: "/org-current-event",
+      label: lang("Event"),
+      icon: "slack",
+      component: HallPage,
+      bar_app: true,
+      bar_auth: false,
+      // hd_app: IsRecruiterNewHall ? false : true,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
+      disabled: !isRoleOrganizer()
+    },
+    {
+      url: "/participant-listing",
+      label: "Participant Listing",
+      icon: "user",
+      component: BrowseStudent,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleOrganizer()
+    },
+    {
+      url: "/exhibitor-listing",
+      label: "Exhibitor Listing",
+      icon: "building",
+      component: ListCompanies,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleOrganizer()
+    },
+    {
+      url: "/job-positions",
+      label: "Job Positions",
+      icon: "suitcase",
+      component: ManageVacancy,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleOrganizer()
+    },
+    {
+      url: "/interviews",
+      label: "Interviews",
+      icon: "comments",
+      component: VolunteerScheduledInterview,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleOrganizer()
+    },
     // ###############################################################
     // VOLUNTEER
     {
@@ -279,18 +300,6 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleVolunteer() && !isRoleAdmin()
     },
-    // {
-    //   // Admin Only
-    //   url: "/live-feed",
-    //   label: "Live Feed",
-    //   icon: "commenting-o",
-    //   component: DashboardPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false,
-    //   disabled: !isRoleAdmin() && !isRoleOrganizer()
-    // },
     {
       // Admin Only
       url: "/analytics/:current",
@@ -317,18 +326,6 @@ function getMenuItem(COMING_SOON) {
       default_param: { current: "job-post-bundle" },
       disabled: !isRoleAdmin()
     },
-    // {
-    //   // Admin Only
-    //   url: "/support",
-    //   label: "Support",
-    //   icon: "comments",
-    //   component: SupportPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false,
-    //   disabled: !isRoleSupport()
-    // },
     {
       // Student Only
       url: "/edit-profile/:current",
@@ -452,19 +449,6 @@ function getMenuItem(COMING_SOON) {
       default_param: { current: "video-resume" },
       disabled: !isRoleStudent() || !IsOnVideoResume
     },
-    // {
-    //   // Student Only
-    //   url: "/edit-profile/:current",
-    //   label: "Add Skills",
-    //   icon: "star",
-    //   component: EditProfilePage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false,
-    //   default_param: { current: "skills" },
-    //   disabled: !isRoleStudent()
-    // },
     {
       // Student Only
       url: "/edit-profile/:current",
@@ -479,46 +463,6 @@ function getMenuItem(COMING_SOON) {
       //disabled: !isRoleStudent()
       disabled: IsNewHall
     },
-    // Remove For Eur
-    // {
-    //     url: "/career-fair",
-    //     label: "Career Fair",
-    //     icon: "suitcase",
-    //     component: HallPage,
-    //     bar_app: true,
-    //     bar_auth: false,
-    //     hd_app: true,
-    //     hd_auth: false,
-    //     // is not coming soon and one of the row then show = !disabled
-    //     disabled: isDisabled("career-fair", COMING_SOON)
-    // },
-
-    // {
-    //   url: "/my-activity/:current",
-    //   label: isRoleRec() ? "All Students" : "My Activity",
-    //   icon: isRoleRec() ? "users" : "list-ul",
-    //   component: ActivityPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false,
-    //   default_param: { current: isRoleRec() ? "student-listing" : "session" },
-    //   //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
-    //   // remove mmy activity from student
-    //   disabled: !isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
-    // },
-    // {
-    //   url: "/my-activity/:current",
-    //   label: "All Student",
-    //   icon: "address-book-o",
-    //   component: ActivityPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false,
-    //   default_param: { current: "all-student" },
-    //   disabled: !isRoleRec()
-    // },
     {
       url: "/company/:id/",
       label: lang("Company Profile"),
@@ -567,90 +511,6 @@ function getMenuItem(COMING_SOON) {
       default_param: { id: getAuthUser().rec_company, current: "vacancy" },
       disabled: !isRoleRec()
     },
-    // {
-    //   url: "/my-activity/:current",
-    //   label: lang("My Activity"),
-    //   icon: "list-ul",
-    //   component: ActivityPage,
-    //   bar_app: false,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false,
-    //   default_param: { current: "session" },
-    //   //disabled: (!isRoleRec() && !isRoleStudent()) || (isRoleStudent() && COMING_SOON) //for student disable first
-    //   // remove mmy activity from student
-    //   disabled: isRoleAdmin() || isRoleOrganizer() || isRoleRec() || (isRoleStudent() && COMING_SOON) //for student disable first
-    // },
-    // {
-    //   // Admin Only
-    //   url: "/auditorium-management",
-    //   // EUR FIX
-    //   label: "Manage Webinar",
-    //   //label: "Auditorium",
-    //   icon: "microphone",
-    //   component: AuditoriumManagement,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false,
-    //   disabled: !isRoleAdmin() && !isRoleOrganizer()
-    // },
-    // {
-    //   url: "/company-forum",
-    //   label: "Forum",
-    //   icon: "comments",
-    //   component: ForumPage,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false,
-    //   disabled: !isRoleRec()
-    // },
-    // {
-    //   url: "/overview",
-    //   label: "Overview",
-    //   icon: "desktop",
-    //   component: Overview,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: false,
-    //   hd_auth: false,
-    //   // EUR FIX
-    //   disabled: !isRoleAdmin()
-    //   //disabled: COMING_SOON
-    //   //,disabled: !isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()
-    // },
-    // {
-    //   url: "/about",
-    //   label: "About",
-    //   icon: "question",
-    //   component: null,
-    //   href: LandingUrl,
-    //   bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-    //   bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-    //   hd_app: true,
-    //   hd_auth: true
-    // },
-    // {
-    //     url: "/faq",
-    //     label: "FAQ",
-    //     icon: "question-circle",
-    //     component: FaqPage,
-    //     bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-    //     //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-    //     hd_app: true,
-    //     hd_auth: true
-    // },
-    // {
-    //     url: "/contact",
-    //     label: "Contact Us",
-    //     icon: "envelope",
-    //     component: ContactUsPage,
-    //     bar_app: false, //COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-    //     //bar_app: COMING_SOON && !(isRoleOrganizer() || isRoleAdmin()),
-    //     hd_app: true,
-    //     hd_auth: true
-    // },
     {
       url: "/login",
       label: lang("Login"),

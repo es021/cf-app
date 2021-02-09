@@ -310,6 +310,7 @@ fields["interested_list"] = {
 		current_user_id: __.Int, // to get is_seen
 		entity_id: __.Int,
 		is_interested: __.Int,
+		user_cf: __.String,
 		page: __.Int,
 		offset: __.Int
 	},
@@ -322,6 +323,7 @@ fields["interested_count"] = {
 	args: {
 		is_interested: __.Int,
 		entity: __.String,
+		user_cf: __.String,
 		entity_id: __.Int
 	},
 	resolve(parentValue, arg, context, info) {
@@ -1229,37 +1231,47 @@ fields["prescreen"] = {
 	}
 };
 
+var prescreenParam = {
+	company_id: __.Int,
+	student_id: __.Int,
+
+	// New SI Flow - used in user-query (to get more than one type)
+	status: __.String,
+	status_2: __.String,
+	status_3: __.String,
+	status_4: __.String,
+	status_5: __.String,
+
+	is_onsite_call: __.Int,
+	special_type: __.String,
+	page: __.Int,
+	offset: __.Int,
+	not_prescreen: __.Int,
+	order_by: __.String,
+	cf: __.String,
+
+	discard_removed: __.Boolean,
+	discard_removed_user_id: __.Int,
+
+	//search query
+	student_name: __.String,
+	student_email: __.String,
+	student_university: __.String
+}
 fields["prescreens"] = {
 	type: new GraphQLList(PrescreenType),
-	args: {
-		company_id: __.Int,
-		student_id: __.Int,
-
-		// New SI Flow - used in user-query (to get more than one type)
-		status: __.String,
-		status_2: __.String,
-		status_3: __.String,
-		status_4: __.String,
-		status_5: __.String,
-
-		is_onsite_call: __.Int,
-		special_type: __.String,
-		page: __.Int,
-		offset: __.Int,
-		not_prescreen: __.Int,
-		order_by: __.String,
-		cf: __.String,
-
-		discard_removed: __.Boolean,
-		discard_removed_user_id: __.Int,
-
-		//search query
-		student_name: __.String,
-		student_email: __.String,
-		student_university: __.String
-	},
+	args: prescreenParam,
 	resolve(parentValue, arg, context, info) {
 		return PrescreenExec.prescreens(arg, graphqlFields(info));
+	}
+};
+fields["prescreens_count"] = {
+	type: GraphQLInt,
+	args: prescreenParam,
+	resolve(parentValue, arg, context, info) {
+		return PrescreenExec.prescreens(arg, graphqlFields(info), {
+			count: true
+		});
 	}
 };
 

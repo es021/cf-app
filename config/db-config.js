@@ -450,18 +450,22 @@ const CompanyEnum = {
 			try {
 				privArrs = JSON.parse(privArrs);
 			} catch (err) {
-				console.error(
+				console.log(
 					"Error in parsing JSON in CompanyEnum.hasPriv()",
 					privArrs
 				);
 				return false;
 			}
 		}
-
-		if (privArrs.indexOf(priv) >= 0) {
-			return true;
-		} else {
-			return false;
+		try {
+			if (privArrs.indexOf(priv) >= 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		catch (err) {
+			return false
 		}
 	},
 
@@ -508,8 +512,8 @@ const Vacancy = {
 };
 
 const VacancyEnum = {
-	ENGINEERING : "Engineering",
-	NON_ENGINEERING : "Non Engineering",
+	ENGINEERING: "Engineering",
+	NON_ENGINEERING: "Non Engineering",
 	TYPE_FULL_TIME: "Full Time",
 	TYPE_FULL_TIME_AND_INTERN: "Full Time & Intern",
 	TYPE_INTERN: "Intern",

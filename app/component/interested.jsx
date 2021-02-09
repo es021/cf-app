@@ -114,6 +114,7 @@ export class InterestedUserList extends React.Component {
     return graphql(`query{ 
       interested_list(entity:"${this.props.entity}", 
       entity_id:${this.props.entity_id},
+      ${this.props.user_cf ? `user_cf:"${this.props.user_cf}",` : ""}
       current_user_id:${getAuthUser().ID},
       page: ${page},
       offset: ${offset},
@@ -133,6 +134,7 @@ export class InterestedUserList extends React.Component {
       action={this.props.export_action}
       text={<span>{lang("Download")} {lang("As Excel")}</span>}
       filter={{
+        user_cf: this.props.user_cf,
         title: this.props.export_title,
         entity: this.props.entity,
         entity_id: this.props.entity_id,
@@ -178,8 +180,9 @@ export class InterestedUserList extends React.Component {
 
   loadCount() {
     let q = `query{interested_count
-            (entity:"${this.props.entity}", 
-              entity_id:${this.props.entity_id}, is_interested:1) 
+            (entity:"${this.props.entity}",
+            ${this.props.user_cf ? `user_cf:"${this.props.user_cf}",` : ""} 
+            entity_id:${this.props.entity_id}, is_interested:1) 
             {total}}`;
     return graphql(q);
   }
@@ -212,6 +215,7 @@ export class InterestedUserList extends React.Component {
 
 InterestedUserList.propTypes = {
   entity: PropTypes.string,
+  user_cf: PropTypes.string,
   entity_id: PropTypes.number,
   title: PropTypes.string,
   export_title: PropTypes.string,
@@ -246,7 +250,11 @@ export class InterestedButton extends React.Component {
     if (this.props.isModeCount) {
       this.setState({ loading: true });
       let q = `query{ 
-        interested_count(entity:"${this.props.entity}", entity_id:${this.props.entity_id}, is_interested:1) 
+        interested_count(
+          entity:"${this.props.entity}", 
+          ${this.props.user_cf ? `user_cf:"${this.props.user_cf}",` : ""}
+          entity_id:${this.props.entity_id}, 
+          is_interested:1) 
         {
           total
         }
@@ -420,6 +428,7 @@ InterestedButton.propTypes = {
   isNonClickable: PropTypes.bool,
   ID: PropTypes.number,
   is_interested: PropTypes.number,
+  user_cf: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
   postOnClick: PropTypes.func

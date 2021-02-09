@@ -119,9 +119,9 @@ function graphql(q) {
 
 function graphqlAttr(...dbConfigArr) {
 	let r = "";
-	for(var conf of dbConfigArr){
-		for(var k in conf){
-			if(k == "TABLE"){
+	for (var conf of dbConfigArr) {
+		for (var k in conf) {
+			if (k == "TABLE") {
 				continue;
 			}
 
@@ -171,6 +171,13 @@ function postAxios(requestUrl, params, headers) {
 	}
 
 	return axios.post(requestUrl, JSON.stringify(params), config);
+}
+
+function postRequest(url, param) {
+	var config = {
+		proxy: false
+	}
+	return axios.post(url, param, config);
 }
 
 function deleteAxios(requestUrl, headers) {
@@ -279,6 +286,7 @@ module.exports = {
 	graphqlAttr,
 	graphql,
 	deleteAxios,
+	postRequest,
 	postAxios,
 	getAxios,
 	getStaticAxios,

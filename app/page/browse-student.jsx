@@ -4,7 +4,7 @@ import { BrowseStudentList } from "./partial/browse-student/browse-student-list"
 import { graphql } from "../../helper/api-helper";
 import { CompanyEnum } from "../../config/db-config";
 import { AppRoot, AppPath } from "../../config/app-config";
-import { isRoleRec, getAuthUser, getCF, getCompanyCf, isRoleAdmin } from "../redux/actions/auth-actions";
+import { isRoleRec, getAuthUser, getCF, getCompanyCf, isRoleAdmin, isRoleOrganizer } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
 import { _GET } from "../lib/util";
 import EmptyState from "../component/empty-state";
@@ -82,7 +82,37 @@ export class BrowseStudent extends React.Component {
     this.loadCompanyInfo();
   }
 
+  setComponentState({ name, cfs, privs = "" }) {
+    this.setState(prevState => {
+      let defaultFilterState = this.getDefaultFilterState(cfs);
+      let disabledFilter = null;
+      disabledFilter = {
+        cf: (v) => {
+          let toDisabled = cfs.indexOf(v) <= -1
+          return toDisabled;
+        }
+      }
+      let filterStr = createFilterStr(defaultFilterState, cfs, { isPageStudentListJobPost: this.isPageStudentListJobPost() });
+      return {
+        filterStr: filterStr,
+        defaultFilterState: defaultFilterState,
+        filterState: defaultFilterState,
+        disabledFilter: disabledFilter,
+        companyCF: cfs,
+        loading: false,
+        privs: privs,
+        companyName: name
+      };
+    });
+  }
+
   loadCompanyInfo() {
+    if (isRoleOrganizer()) {
+      this.setComponentState({
+        name: "Organizer", cfs: [getCF()], privs: null
+      })
+      return;
+    }
     this.setState({ loading: true })
     var q = `query {company(ID:${this.company_id}) { priviledge name cf } }`;
     graphql(q).then(res => {
@@ -92,33 +122,37 @@ export class BrowseStudent extends React.Component {
       console.log("companyCF", companyCF)
       var privs = res.data.data.company.priviledge;
       this.privs = privs;
-      this.setState(prevState => {
-        var companyName = res.data.data.company.name;
-        if (privs == null) {
-          privs = "";
-        }
+      var companyName = res.data.data.company.name;
+      this.setComponentState({
+        name: companyName, cfs: companyCF, privs: privs
+      })
 
+      // this.setState(prevState => {
+      //   var companyName = res.data.data.company.name;
+      //   if (privs == null) {
+      //     privs = "";
+      //   }
 
-        let defaultFilterState = this.getDefaultFilterState(companyCF);
-        let disabledFilter = null;
-        disabledFilter = {
-          cf: (v) => {
-            let toDisabled = companyCF.indexOf(v) <= -1
-            return toDisabled;
-          }
-        }
-        let filterStr = createFilterStr(defaultFilterState, companyCF, { isPageStudentListJobPost: this.isPageStudentListJobPost() });
-        return {
-          filterStr: filterStr,
-          defaultFilterState: defaultFilterState,
-          filterState: defaultFilterState,
-          disabledFilter: disabledFilter,
-          companyCF: companyCF,
-          loading: false,
-          privs: privs,
-          companyName: companyName
-        };
-      });
+      //   let defaultFilterState = this.getDefaultFilterState(companyCF);
+      //   let disabledFilter = null;
+      //   disabledFilter = {
+      //     cf: (v) => {
+      //       let toDisabled = companyCF.indexOf(v) <= -1
+      //       return toDisabled;
+      //     }
+      //   }
+      //   let filterStr = createFilterStr(defaultFilterState, companyCF, { isPageStudentListJobPost: this.isPageStudentListJobPost() });
+      //   return {
+      //     filterStr: filterStr,
+      //     defaultFilterState: defaultFilterState,
+      //     filterState: defaultFilterState,
+      //     disabledFilter: disabledFilter,
+      //     companyCF: companyCF,
+      //     loading: false,
+      //     privs: privs,
+      //     companyName: companyName
+      //   };
+      // });
     });
   }
 

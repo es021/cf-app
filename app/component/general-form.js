@@ -6,7 +6,7 @@ import obj2arg from "graphql-obj2arg";
 import Form, { toggleSubmit, checkDiff } from "./form";
 import List, { CustomList } from "./list";
 import ConfirmPopup from "../page/partial/popup/confirm-popup";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -39,6 +39,7 @@ class SearchForm extends React.Component {
         errorPosition="top"
         emptyOnSuccess={true}
         success={this.state.success}
+        contentTop={this.props.contentTop}
         contentBottom={this.props.contentBottom}
       ></Form>
     );
@@ -116,8 +117,7 @@ class GeneralForm extends React.Component {
       }
     }
 
-    var query = `mutation{${this.props.edit ? "edit" : "add"}_${
-      this.props.entity
+    var query = `mutation{${this.props.edit ? "edit" : "add"}_${this.props.entity
       } 
             (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
@@ -143,8 +143,7 @@ class GeneralForm extends React.Component {
         className="form-row"
         items={this.formItem}
         onSubmit={this.formOnSubmit}
-        submitText={`${this.props.edit ? lang("Edit") : lang("Add")} ${
-          this.props.entity_singular
+        submitText={`${this.props.edit ? lang("Edit") : lang("Add")} ${this.props.entity_singular
           }`}
         defaultValues={this.formDefault}
         btnColorClass={this.props.btnColorClass}
@@ -479,26 +478,43 @@ export default class GeneralFormPage extends React.Component {
 
     if (this.props.searchFormItem) {
       if (this.props.searchFormNonPopup) {
-        searchForm = (
-          <div className="form-flex search-form-flex">
-            <SearchForm
-              formItem={this.props.searchFormItem}
-              contentBottom={
-                <div style={{ marginTop: "7px" }}>
-                  {this.props.searchFormContentBottom}
-                  {resetFilterView}
+        searchForm =
+          <div className="container-fluid">
+            <div className="row form-flex search-form-flex">
+              <div className={`col-sm-${this.props.searchFormContentRight ? '9' : '12'} no-padding`}>
+                <div className="">
+                  <SearchForm
+                    formItem={this.props.searchFormItem}
+                    contentTop={
+                      <div style={{ marginBottom: "7px" }}>
+                        {this.props.searchFormContentTop}
+                      </div>
+                    }
+                    contentBottom={
+                      <div style={{ marginTop: "7px" }}>
+                        {this.props.searchFormContentBottom}
+                        {resetFilterView}
+                      </div>
+                    }
+                    formOnSubmit={d => {
+                      this.props.searchFormOnSubmit(d);
+                      this.onSuccessOperation("search");
+                      this.setState(prevState => {
+                        return { hasFilter: true };
+                      });
+                    }}
+                  ></SearchForm>
                 </div>
+              </div>
+              {this.props.searchFormContentRight
+                ? <div className="col-sm-3 no-padding">
+                  {this.props.searchFormContentRight}
+                </div>
+                : null
               }
-              formOnSubmit={d => {
-                this.props.searchFormOnSubmit(d);
-                this.onSuccessOperation("search");
-                this.setState(prevState => {
-                  return { hasFilter: true };
-                });
-              }}
-            ></SearchForm>
+            </div>
           </div>
-        );
+
       } else {
         searchForm = (
           <h4>
@@ -518,6 +534,7 @@ export default class GeneralFormPage extends React.Component {
         <div className="row">
           <div className="col-md-4">
             {this.props.dataTitle ? <h2>{lang(this.props.dataTitle)}</h2> : null}
+            {this.props.contentBelowTitle}
             {addForm}
             {searchForm}
             {this.props.contentBelowFilter}
@@ -532,6 +549,7 @@ export default class GeneralFormPage extends React.Component {
     return (
       <div>
         {this.props.dataTitle ? <h2>{lang(this.props.dataTitle)}</h2> : null}
+        {this.props.contentBelowTitle}
         {addForm}
         {searchForm}
         {this.props.contentBelowFilter}
@@ -543,10 +561,13 @@ export default class GeneralFormPage extends React.Component {
 
 GeneralFormPage.propTypes = {
   getExtraEditData: PropTypes.func,
+  searchFormContentRight: PropTypes.object,
   searchFormContentBottom: PropTypes.object,
+  searchFormContentTop: PropTypes.object,
   searchFormNonPopup: PropTypes.bool,
   hasResetFilter: PropTypes.bool,
   contentBelowFilter: PropTypes.obj,
+  contentBelowTitle: PropTypes.obj,
   entity: PropTypes.string.isRequired, // for table name
   entity_singular: PropTypes.string.isRequired, // for display
   searchFormItem: PropTypes.obj,
@@ -579,6 +600,7 @@ GeneralFormPage.defaultProps = {
   searchFormNonPopup: false,
   hasResetFilter: false,
   contentBelowFilter: null,
+  contentBelowTitle: null,
   searchFormItem: null,
   actionFirst: false,
   noMutation: false,

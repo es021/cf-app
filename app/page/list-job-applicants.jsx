@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { InterestedUserList } from "../component/interested";
 import { Loader } from "../component/loader";
 import { graphql } from "../../helper/api-helper";
+import { getCF, isRoleOrganizer } from "../redux/actions/auth-actions";
 
 export default class ListJobApplicants extends React.Component {
   constructor(props) {
@@ -40,8 +41,9 @@ export default class ListJobApplicants extends React.Component {
       v = <InterestedUserList
         export_action={"list_job_applicants"}
         export_title={title}
+        user_cf={isRoleOrganizer() ? getCF() : null}
         entity={"vacancies"}
-        title={<div></div>}
+        title={< div ></div >}
         entity_id={this.vacancyId}
       />
     }

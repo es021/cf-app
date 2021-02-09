@@ -650,6 +650,7 @@ export default class Form extends React.Component {
         className={this.props.className}
         onSubmit={this.onSubmit}
       >
+        {this.props.contentTop}
         {formSuccess}
         {this.props.errorPosition === "top" ? formError : null}
         <div className="form-item-container">{formItems}</div>

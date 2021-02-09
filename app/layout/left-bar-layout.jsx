@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import ProfileCard, { createImageElement } from '../component/profile-card.jsx';
-import { isAuthorized, getAuthUser, isRoleAdmin, isRoleRec } from '../redux/actions/auth-actions';
+import { isAuthorized, getAuthUser, isRoleAdmin, isRoleRec, isRoleOrganizer } from '../redux/actions/auth-actions';
 import { getWindowWidth } from '../lib/util';
 import { getPositionStr } from '../component/profile-card-img';
 import { RootPath } from '../../config/app-config';
@@ -10,7 +10,7 @@ import store from '../redux/store';
 import {lang} from '../lib/lang';
 
 export function isHasLeftBar() {
-    return isRoleAdmin() || isRoleRec();
+    return isRoleAdmin() || isRoleRec() || isRoleOrganizer();
     //return isRoleRec() && IsRecruiterNewHall;
 }
 

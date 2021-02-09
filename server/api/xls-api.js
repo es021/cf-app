@@ -1,10 +1,12 @@
-const { getAxiosGraphQLQuery } = require("../../helper/api-helper");
+const { getAxiosGraphQLQuery, postRequest } = require("../../helper/api-helper");
 const { Time } = require("../../app/lib/time");
 const { FilterNotObject } = require("../../config/xls-config")
 const axios = require("axios");
 const obj2arg = require("graphql-obj2arg");
 const { isCustomUserInfoOff } = require("../../config/registration-config");
 const { cfCustomFunnel } = require("../../config/cf-custom-config");
+const { addVacancyInfoIfNeeded } = require("../../config/vacancy-config");
+const { StatisticUrl } = require("../../config/app-config");
 
 class XLSApi {
   constructor() {
@@ -18,6 +20,110 @@ class XLSApi {
       "appointment_time"
     ];
   }
+
+  // filter in JSON object, return {filename, content}
+  export({ action, filter, cf, is_admin }) {
+    this.CF = cf;
+    if (FilterNotObject.indexOf(action) <= -1) {
+      if (filter !== "null") {
+        try {
+          filter = JSON.parse(filter);
+        } catch (err) {
+          return new Promise(err);
+        }
+      } else {
+        filter = {};
+      }
+    }
+
+    switch (action) {
+      // xls/students/{"cf":"USA"}
+      // filter == null, all cfs
+      case "students":
+        return this.students(filter.cf, filter.new_only);
+      // xls/prescreens/{"company_id":1}
+      // filter == null, all cfs
+      case "prescreens":
+        return this.prescreens(filter.company_id);
+      case "resume_drops":
+        return this.resume_drops(filter.company_id);
+      case "sessions":
+        return this.sessions(filter.company_id);
+      case "session_requests":
+        return this.session_requests(filter.company_id);
+      // case "student_listing":
+      //   return this.student_listing(filter);
+      case "browse_student":
+        return this.browse_student(filter, cf, is_admin);
+      case "all_student":
+        return this.all_student();
+      case "list_job_applicants":
+        return this.list_job_applicants(filter, cf, is_admin);
+      case "job_posts_by_cf":
+        return this.job_posts_by_cf(filter.cf);
+      case "job_posts_application_by_cf":
+        return this.job_posts_application_by_cf(filter.cf);
+    }
+  }
+
+  job_posts_by_cf(cf) {
+    var filename = `Job Posts`;
+    var query = `query{vacancies(cf:"${cf}", order_by:"company_id asc"){ 
+      ID title company{name} location application_url type 
+      ${addVacancyInfoIfNeeded(cf, "specialization")} updated_at 
+    }}`;
+
+    // 2. prepare props to generate table
+    const headers = null;
+
+    // 3. resctruct data to be in one level only
+    const restructData = data => {
+      var hasChildren = ["company"];
+
+      var newData = {};
+      for (var key in data) {
+        var d = data[key];
+        if (hasChildren.indexOf(key) >= 0) {
+          if (!d) {
+            d = { name: "-" }
+          }
+          for (var k in d) {
+            newData[`${key}_${k}`] = d[k];
+          }
+        } else {
+          newData[key] = d;
+        }
+      }
+      // newData = this.restructAppendTypeForStudent(newData, "company_");
+      return newData;
+    };
+
+    console.log("query", query)
+    // 4. fetch and return
+    return this.fetchAndReturn(
+      query,
+      "vacancies", // data field
+      filename,
+      headers,
+      null,
+      restructData
+      // renameTitle //renameTitle
+    );
+  }
+
+  job_posts_application_by_cf(cf) {
+    var filename = `Job Post Applications`;
+    const extractData = res => {
+      return res.data;
+    }
+    return this.fetchAndReturnPost({
+      url: StatisticUrl + "/vacancy-application",
+      param: { cf: cf },
+      extractData: extractData,
+      filename: filename,
+    });
+  }
+
 
   student_field(is_admin) {
     let customKeys = cfCustomFunnel({ action: 'get_keys_for_export' });
@@ -90,53 +196,16 @@ class XLSApi {
     return "";
   }
 
-  // filter in JSON object, return {filename, content}
-  export({ action, filter, cf, is_admin }) {
-    this.CF = cf;
-    if (FilterNotObject.indexOf(action) <= -1) {
-      if (filter !== "null") {
-        try {
-          filter = JSON.parse(filter);
-        } catch (err) {
-          return new Promise(err);
-        }
-      } else {
-        filter = {};
-      }
-    }
-
-
-    switch (action) {
-      // xls/students/{"cf":"USA"}
-      // filter == null, all cfs
-      case "students":
-        return this.students(filter.cf, filter.new_only);
-      // xls/prescreens/{"company_id":1}
-      // filter == null, all cfs
-      case "prescreens":
-        return this.prescreens(filter.company_id);
-      case "resume_drops":
-        return this.resume_drops(filter.company_id);
-      case "sessions":
-        return this.sessions(filter.company_id);
-      case "session_requests":
-        return this.session_requests(filter.company_id);
-      // case "student_listing":
-      //   return this.student_listing(filter);
-      case "browse_student":
-        return this.browse_student(filter, cf, is_admin);
-      case "all_student":
-        return this.all_student();
-      case "list_job_applicants":
-        return this.list_job_applicants(filter, cf, is_admin);
-    }
-  }
 
   list_job_applicants(filter, cf, is_admin) {
     console.log("filter", filter)
     var filename = `Student Listing`;
     var query = `query{
-        interested_list (entity:"${filter.entity}", entity_id:${filter.entity_id},is_interested : 1) 
+        interested_list (
+          entity:"${filter.entity}", 
+          entity_id:${filter.entity_id},
+          ${filter.user_cf ? `user_cf:"${filter.user_cf}",` : ""}
+          is_interested : 1) 
         {
           user{${this.student_field(is_admin)}}
         }
@@ -706,6 +775,38 @@ class XLSApi {
   //     return d;
   //   }
 
+  fetchSuccessHandler({
+    filename,
+    data,
+    headers = null,
+    rowHook = null,
+    restructData = null,
+    renameTitle = null,
+  }) {
+    if (renameTitle != null) {
+      // let datas = res.data.data[dataField];
+      if (data.length > 0) {
+        let dataIndex0 = data[0];
+        if (restructData !== null) {
+          dataIndex0 = restructData(dataIndex0);
+        }
+        filename = renameTitle(filename, dataIndex0);
+      }
+    }
+
+    var content = this.generateTable(
+      filename,
+      data,
+      headers,
+      rowHook,
+      restructData
+    );
+    return {
+      filename: filename,
+      content: content
+    };
+  }
+
   fetchAndReturn(
     query,
     dataField,
@@ -717,29 +818,43 @@ class XLSApi {
   ) {
     return getAxiosGraphQLQuery(query).then(
       res => {
-        if (renameTitle != null) {
-          let datas = res.data.data[dataField];
-          if (datas.length > 0) {
-            let dataIndex0 = datas[0];
-            if (restructData !== null) {
-              dataIndex0 = restructData(dataIndex0);
-            }
-            filename = renameTitle(filename, dataIndex0);
-          }
-        }
-
-        var content = this.generateTable(
+        let data = res.data.data[dataField];
+        return this.fetchSuccessHandler({
+          data,
           filename,
-          res.data.data[dataField],
           headers,
           rowHook,
-          restructData
-        );
+          restructData,
+          renameTitle
+        });
+      },
+      err => {
+        return err;
+      }
+    );
+  }
 
-        return {
-          filename: filename,
-          content: content
-        };
+  fetchAndReturnPost({
+    url,
+    param,
+    filename,
+    headers = null,
+    rowHook = null,
+    extractData = (res) => { res.data },
+    restructData = null,
+    renameTitle = null
+  }) {
+    return postRequest(url, param).then(
+      res => {
+        let data = extractData(res);
+        return this.fetchSuccessHandler({
+          data,
+          filename,
+          headers,
+          rowHook,
+          restructData,
+          renameTitle
+        });
       },
       err => {
         return err;

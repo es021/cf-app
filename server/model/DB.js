@@ -41,14 +41,21 @@ var DB = function (env) {
      */
 };
 
-DB.prototype.sanitize = function(param){
-    for(var k in param){
-        if(typeof param[k] === "string"){
-            param[k] = param[k].replaceAll("'","");
+DB.prototype.sanitize = function (param) {
+    for (var k in param) {
+        if (typeof param[k] === "string") {
+            param[k] = param[k].replaceAll("'", "");
         }
     }
     return param;
 }
+
+DB.prototype.prepare = function (sql, paramArray) {
+    // sql = "SELECT * FROM ?? WHERE ?? = ?";
+    // paramArray = ['_users', 'id', 60];
+    return Mysql.format(sql, paramArray);
+}
+
 
 /**** CF *******/
 DB.prototype.cfMapSelect = function (entity, entity_id, cf) {
@@ -134,7 +141,7 @@ DB.prototype.escStr = function (str) {
                 case "'":
                 case "\\":
                     return "\\" + char; // prepends a backslash to backslash, percent,
-                    // and double/single quotes
+                // and double/single quotes
                 case "%":
                     return "%";
             }
@@ -200,7 +207,7 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
         }
 
         if (entity !== null) {
-            delete(data["cf"]);
+            delete (data["cf"]);
 
             //only ID left, then return
             if (Object.keys(data).length == 1) {

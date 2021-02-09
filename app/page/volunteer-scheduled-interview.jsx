@@ -10,7 +10,9 @@ import {
   getAuthUser,
   isRoleVolunteer,
   isRoleAdmin,
-  getCFObj
+  getCFObj,
+  isRoleOrganizer,
+  getCF
 } from "../redux/actions/auth-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { ActivityType } from "../redux/actions/hall-actions";
@@ -18,6 +20,7 @@ import PropTypes from "prop-types";
 import { RootPath } from "../../config/app-config";
 import { Time } from "../lib/time";
 import GeneralFormPage from "../component/general-form";
+import { StatisticFigure } from "../component/statistic";
 import { createUserTitle } from "./users";
 import { emitHallActivity } from "../socket/socket-client";
 import Tooltip from "../component/tooltip";
@@ -26,6 +29,7 @@ import {
   createUserMajorList
 } from "./partial/popup/user-popup";
 import { createCompanyTitle } from "./admin-company";
+import { Loader } from "../component/loader";
 
 // included in my-activity for recruiter
 // add as form only in past session in my-activity
@@ -35,12 +39,16 @@ export default class VolunteerScheduledInterview extends React.Component {
     this.authUser = getAuthUser();
     this.search = {};
     this.state = {
-      key: 0
+      key: 0,
+      count: null,
+      loadingCount: true
     };
   }
 
   componentWillMount() {
     this.dataTitle = "Manage Scheduled Interview";
+
+    this.loadCount();
 
     this.successAddHandler = d => {
       //   if (this.props.formOnly) {
@@ -237,46 +245,68 @@ export default class VolunteerScheduledInterview extends React.Component {
           <label className={`label label-warning`}>On-site Call</label>
         ) : <label className={`label label-default`}>Virtual Call</label>;
 
-
-      return [
-        <td>{d.ID}</td>,
-        <td>{this.getButtonApproveSession(d)}<br></br>{this.getButtonEndSession(d)}</td>,
-        <td>{d.cf.join(", ")}</td>,
-        <td>
-          {createUserTitle(d.student, this.search.student)}
-          <br></br>
-          <b>{d.student.phone_number}</b>
-          <br></br>
-          <i>{d.student.university}</i>
-        </td>,
-        <td>{createCompanyTitle(d.company)}</td>,
-        <td>{status}</td>,
-        <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>,
-        <td>{onsite_call}</td>,
-        <td>{Time.getString(d[Prescreen.UPDATED_AT])}</td>,
-        <td>
-          <div style={{ width: "100px" }}>{d.join_url}</div>
-        </td>
-      ];
+      let studentInfo = <td>
+        {createUserTitle(d.student, this.search.student)}
+        <br></br>
+        <b>{d.student.phone_number}</b>
+        <br></br>
+        <i>{d.student.university}</i>
+      </td>;
+      let companyInfo = <td>{createCompanyTitle(d.company)}</td>;
+      let timeInfo = <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>;
+      return isRoleOrganizer()
+        ? [
+          <td>{d.ID}</td>,
+          studentInfo,
+          companyInfo,
+          timeInfo,
+          <td>{status}</td>,
+        ]
+        : [
+          <td>{d.ID}</td>,
+          <td>{this.getButtonApproveSession(d)}<br></br>{this.getButtonEndSession(d)}</td>,
+          <td>{d.cf.join(", ")}</td>,
+          studentInfo,
+          companyInfo,
+          <td>{status}</td>,
+          timeInfo,
+          <td>{onsite_call}</td>,
+          <td>{Time.getString(d[Prescreen.UPDATED_AT])}</td>,
+          <td>
+            <div style={{ width: "100px" }}>{d.join_url}</div>
+          </td>
+        ];
     };
 
-    this.tableHeader = (
-      <thead>
-        <tr>
-          <td>#</td>
-          <th>ID</th>
-          <th>Action</th>
-          <th>Career Fair</th>
-          <th>Student</th>
-          <th>Company</th>
-          <th>Status</th>
-          <th>Appointment Time</th>
-          <th>Is On-site Call?</th>
-          <th>Last Updated</th>
-          <th>Join Url</th>
-        </tr>
-      </thead>
-    );
+    this.tableHeader = isRoleOrganizer()
+      ? (
+        <thead>
+          <tr>
+            <th>Interview ID</th>
+            <th>Student</th>
+            <th>Company</th>
+            <th>Appointment Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+      )
+      : (
+        <thead>
+          <tr>
+            <td>#</td>
+            <th>Interview ID</th>
+            <th>Action</th>
+            <th>Career Fair</th>
+            <th>Student</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Appointment Time</th>
+            <th>Is On-site Call?</th>
+            <th>Last Updated</th>
+            <th>Join Url</th>
+          </tr>
+        </thead>
+      );
 
     //##########################################
     //  search
@@ -288,13 +318,17 @@ export default class VolunteerScheduledInterview extends React.Component {
         type: "text",
         placeholder: "Type student name or email"
       },
-      {
+
+    ];
+
+    if (!isRoleOrganizer()) {
+      this.searchFormItem.push({
         label: "Career Fair",
         name: "cf",
         type: "text",
         placeholder: "INTEL, MDEC, etc"
-      }
-    ];
+      })
+    }
 
     this.searchFormOnSubmit = d => {
       this.search = d;
@@ -310,14 +344,17 @@ export default class VolunteerScheduledInterview extends React.Component {
 
     //##########################################
     //  loadData
-    this.loadData = (page, offset) => {
-      var query = `query{
-                  prescreens(${this.searchParams}
+    /**
+     ${this.searchParams}
                   , not_prescreen:1
                   , page:${page}
                   , offset:${offset}
                   , order_by:"appointment_time desc, status asc"
-                  ) 
+                  ${isRoleOrganizer() ? `,cf: "${getCF()}"` : ""}
+     */
+    this.loadData = (page, offset) => {
+      var query = `query{
+                  prescreens(${this.getQueryParam({ page: page, offset: offset, isCount: false })}) 
                   {
                     cf
                     ID
@@ -431,6 +468,27 @@ export default class VolunteerScheduledInterview extends React.Component {
     }
   }
 
+  getQueryParam({ page, offset, isCount }) {
+    return `
+      , not_prescreen:1
+      ${!isCount ? `${this.searchParams}` : ''}
+      ${!isCount ? `, order_by:"appointment_time desc, status asc"` : ''}
+      ${page && offset ? `, page:${page}` : ""}
+      ${page && offset ? `, offset:${offset}` : ""}
+      ${isRoleOrganizer() ? `,cf: "${getCF()}"` : ""}`
+  }
+
+  loadCount() {
+    let q = `query{
+      prescreens_count(${this.getQueryParam({ isCount: true })})
+      
+    }`;
+    getAxiosGraphQLQuery(q).then(res => {
+      var count = res.data.data.prescreens_count;
+      this.setState({ count: count, loadingCount: false });
+    });
+  }
+
   getFormData(edit) {
     var ret = [
       { header: "Scheduled Session Form" },
@@ -447,21 +505,35 @@ export default class VolunteerScheduledInterview extends React.Component {
     return ret;
   }
 
+  getCountAndExport() {
+    if (!isRoleOrganizer()) {
+      return null;
+    }
+
+    if (this.state.loadingCount) {
+      return <Loader></Loader>
+    }
+    return <div className="container-fluid" style={{ margin: '32px 0px' }}>
+      <StatisticFigure title="Total Interviews" icon="comments" value={this.state.count} color="#469fec"></StatisticFigure>
+    </div>
+  }
+
   render() {
     return (
       <GeneralFormPage
         key={this.state.key}
+        isSearchOnLeft={isRoleOrganizer() ? true : false}
+        contentBelowTitle={this.getCountAndExport()}
         searchFormNonPopup={true}
-        dataTitle={this.dataTitle}
+        dataTitle={isRoleOrganizer() ? "Interviews" : this.dataTitle}
         noMutation={true}
         actionFirst={true}
-        canEdit={true}
+        canEdit={isRoleOrganizer() ? false : true}
         entity="prescreen"
         actionFirst={true}
         entity_singular="Scheduled Session"
         addButtonText="Add New"
         noMutation={true}
-        canEdit={true}
         dataOffset={20}
         searchFormItem={this.searchFormItem}
         searchFormOnSubmit={this.searchFormOnSubmit}

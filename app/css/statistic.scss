@@ -1,0 +1,49 @@
+.statistic {
+	background-color: white;
+	color: #686868;
+	padding: 10px;
+	text-align: right;
+	border-radius: 3px;
+	position: relative;
+	// max-width: 200px;
+	box-shadow: 1px 1px 4px -1px rgba(0, 0, 0, 0.4);
+	.st-icon {
+		box-shadow: 2px 2px 5px -1px rgba(0, 0, 0, 0.4);
+		position: absolute;
+		background-color: red;
+		color: white;
+		height: 60px;
+		width: 60px;
+		left: 10px;
+		top: -14px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 36px;
+		border-radius: 7px;
+	}
+	.st-body {
+		padding-left: 70px;
+		.st-title {
+			font-size: 14px;
+			opacity: 0.8;
+		}
+		.st-value {
+			font-size: 25px;
+			font-weight: bold;
+		}
+	}
+
+	.st-footer{
+		margin-top: 5px;
+		border-top : 1px solid #dfdede;
+		text-align: left;
+
+		.st-footer-link{
+			font-size: 11px;
+			margin:  0px !important;
+			padding: 0px 1px;
+			margin-top: 6px !important ;
+		}
+	}
+}

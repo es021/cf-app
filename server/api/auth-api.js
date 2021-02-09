@@ -84,9 +84,9 @@ class AuthAPI {
 			this.insertCfAfterLogin(user, cf);
 			return true;
 		}
-		// else if (role == UserEnum.ROLE_ORGANIZER) {
-		//   return user[User.CF].indexOf(cf) >= 0;
-		// }
+		else if (role == UserEnum.ROLE_ORGANIZER) {
+		  return user[User.CF].indexOf(cf) >= 0;
+		}
 		else if (role == UserEnum.ROLE_RECRUITER) {
 			if (user.company) {
 				return user.company.cf.indexOf(cf) >= 0;
@@ -96,7 +96,6 @@ class AuthAPI {
 		} else {
 			return (
 				role == UserEnum.ROLE_VOLUNTEER ||
-				role == UserEnum.ROLE_ORGANIZER ||
 				role == UserEnum.ROLE_ADMIN ||
 				role == UserEnum.ROLE_EDITOR ||
 				role == UserEnum.ROLE_SUPPORT

@@ -4,6 +4,9 @@ const { IsSeenEnum } = require("../../config/db-config.js");
 class InterestedExec {
   query(param, type) {
     let user_id = !param.user_id ? "1=1" : `user_id = '${param.user_id}'`;
+    var user_cf = (!param.user_cf) ? "1=1" :
+      `user_id IN (select m.entity_id from cf_map m where m.entity = "user" and cf = "${param.user_cf}" ) `;
+
     let entity = !param.entity ? "1=1" : `entity = '${param.entity}'`;
     let entity_id = !param.entity_id ? "1=1" : `entity_id = ${param.entity_id}`;
     let is_interested = !param.is_interested ? "1=1" : `is_interested = ${param.is_interested}`;
@@ -16,7 +19,7 @@ class InterestedExec {
     }
 
     var sql = `select ${select} from interested
-      where 1=1 and ${user_id} and ${entity} and ${entity_id} and ${is_interested} 
+      where 1=1 and ${user_cf} and ${user_id} and ${entity} and ${entity_id} and ${is_interested} 
       ${limit}`;
     return sql;
   }

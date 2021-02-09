@@ -20,26 +20,19 @@ const initializeAllRoute = function (app, root) {
     }
   };
 
-  // Facebook Route ----------------------------------------------------------------
-  /*
-    const {FBApi} = require('./fb-api');
-    app.post(root + '/fb/:action', function (req, res, next) {
-        var action = req.params.action;
-
-        switch (action) {
-            case 'get-feed':
-                FBApi.getFeed().then((response) => {
-                    console.log("from __route");
-                    console.log(response);
-                    routeResHandler(res, response);
-                });
-
-                break;
-        }
-
-
-    });
-    */
+  // Route For Daily Co -------------------------------------------------------------------
+  const { StatisticAPI } = require("./statistic-api");
+  app.post(root + "/statistic/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    StatisticAPI.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
 
   // Activity Route ----------------------------------------------------------------
   const { ZoomApi } = require('./zoom-api');
@@ -136,33 +129,6 @@ const initializeAllRoute = function (app, root) {
     });
   });
 
-  // Activity Route ----------------------------------------------------------------
-  // app.post(root + "/dropbox/:action", function(req, res, next) {
-  // 	var action = req.params.action;
-  // 	console.log("action", action);
-  // 	console.log(" req.body", req.body);
-
-  // 	switch (action) {
-  // 		case "upload":
-  // 			DropboxAPI.upload({
-  // 				dropboxPath: "/_upload/video.mp4",
-  // 				localPath: "note/note-test/video.mp4",
-  // 				finish: (err, result) => {
-  // 					console.log("err", err);
-  // 					console.log("result", result);
-  // 					if (err) {
-  // 						res.send(err);
-  // 					} else {
-  // 						res.send(result);
-  // 					}
-  // 				}
-  // 			});
-  // 			break;
-  // 		default:
-  // 			res.send("Action Invalid : " + action);
-  // 			break;
-  // 	}
-  // });
 
 
   // NexmoAPI Route ----------------------------------------------------------------
