@@ -371,8 +371,9 @@ class BrowseStudentExec {
 				}
 			}
 
+			// (CASE WHEN s.key_input = 'field_study_secondary' THEN 'field_study_main' ELSE s.key_input END) as _key
 			let toRet = `SELECT 
-			(CASE WHEN s.key_input = 'field_study_secondary' THEN 'field_study_main' ELSE s.key_input END) as _key
+			s.key_input as _key
 			, s.val as _val
 			, "" as _val_label
 			, COUNT(*) as _total 
@@ -523,7 +524,8 @@ class BrowseStudentExec {
 		let sunway_faculty = this.where(user_id, this.TABLE_SINGLE, "sunway_faculty", param.sunway_faculty);
 		let sunway_program = this.where(user_id, this.TABLE_SINGLE, "sunway_program", param.sunway_program);
 		let field_study_main = this.where(user_id, this.TABLE_SINGLE, "field_study_main", param.field_study_main);
-		let field_study_secondary = this.where(user_id, this.TABLE_SINGLE, "field_study_secondary", param.field_study_main);
+		let field_study_secondary = this.where(user_id, this.TABLE_SINGLE, "field_study_secondary", param.field_study_secondary);
+		// let field_study_secondary = this.where(user_id, this.TABLE_SINGLE, "field_study_secondary", param.field_study_main);
 		let id_unisza = this.where(user_id, this.TABLE_SINGLE, "id_unisza", param.id_unisza);
 		let unisza_faculty = this.where(user_id, this.TABLE_SINGLE, "unisza_faculty", param.unisza_faculty);
 		let unisza_course = this.where(user_id, this.TABLE_SINGLE, "unisza_course", param.unisza_course);
@@ -595,10 +597,13 @@ class BrowseStudentExec {
 			custom_multi_where += " AND " + this.where(user_id, this.TABLE_MULTI, k, param[k])
 		}
 
+		
+		// AND (${field_study_main} OR ${field_study_secondary})
 		return `1=1
 			${custom_single_where}
 			${custom_multi_where}
-			AND (${field_study_main} OR ${field_study_secondary})
+			AND ${field_study_main}
+			AND ${field_study_secondary}
 			AND ${id_unisza}
 			AND ${unisza_faculty}
 			AND ${unisza_course}

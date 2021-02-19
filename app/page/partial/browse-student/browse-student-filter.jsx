@@ -95,6 +95,7 @@ export class BrowseStudentFilter extends React.Component {
             "sunway_program",
             "university",
             "field_study_main", // @limit_field_of_study_2_before_deploy - uncomment
+            "field_study_secondary", // @limit_field_of_study_2_before_deploy - uncomment
             // "field_study", // @limit_field_of_study_2_before_deploy - comment
             "looking_for_position",
             "working_availability_from",
@@ -436,7 +437,8 @@ export class BrowseStudentFilter extends React.Component {
             university: lang("University"),
             country_study: lang("Country Of Study"),
             // field_study: lang("Field Of Study"), // @limit_field_of_study_2_before_deploy - comment 
-            field_study_main: lang("Field Of Study"), // @limit_field_of_study_2_before_deploy - uncomment 
+            field_study_main: lang("Main Field Of Study"), // @limit_field_of_study_2_before_deploy - uncomment 
+            field_study_secondary: lang("Seconday Field Of Study"), // @limit_field_of_study_2_before_deploy - uncomment 
             interested_job_location: lang("Preferred Job Location"),
             where_in_malaysia: lang("City/State In Malaysia"),
             looking_for_position: lang("Looking For"),

@@ -310,6 +310,7 @@ class PrimaryLayout extends React.Component {
     if (!isAuthorized()) {
       return (
         <div className={this.getClassName(false)}>
+          <BlockLoader />
           <HeaderLayout {...this.props} menuList={headerMenu} />
           <div className="content content-landing-page">
             <div id={this.pageId} className="main">{route}</div>

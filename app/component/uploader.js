@@ -160,7 +160,7 @@ export class Uploader extends React.Component {
 	// overflow: hidden;
 	// text-overflow: ellipsis;
 	render() {
-		return (<form>
+		return (<form className={this.props.formClass}>
 			<label>{this.props.label}</label>
 			<input name={this.props.name} style={{ width: this.props.width, overflow: "hidden", textOverflow: "ellipsis" }}
 				type="file"
@@ -176,6 +176,7 @@ Uploader.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	width: PropTypes.string,
+	formClass: PropTypes.string,
 	type: PropTypes.oneOf([FileType.IMG, FileType.DOC]),
 	required: PropTypes.bool,
 	onChange: PropTypes.func,

@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import InputMulti from "../../../component/input-multi";
 import InputSingle from "../../../component/input-single";
 import * as Reg from "../../../../config/registration-config";
-import { RefLocalOrOversea } from "../../../../config/db-config";
+import { UploadUrl } from '../../../../config/app-config.js';
+import { getAxiosGraphQLQuery } from '../../../../helper/api-helper';
+import * as layoutActions from "../../../redux/actions/layout-actions";
+
+import obj2arg from 'graphql-obj2arg';
+import { RefLocalOrOversea, DocLink } from "../../../../config/db-config";
 import {
   smoothScrollTo,
   focusOnInput,
@@ -10,9 +15,10 @@ import {
   removeClassEl
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
-import { isRoleStudent, isRoleRec, getCF, getNoMatrixLabel } from "../../../redux/actions/auth-actions";
+import { isRoleStudent, isRoleRec, getCF, getNoMatrixLabel, getAuthUser } from "../../../redux/actions/auth-actions";
 import { lang, isCurrentEnglish } from "../../../lib/lang";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
+import { FileType, Uploader, uploadFile } from "../../../component/uploader";
 
 export default class ManageUserProfile extends React.Component {
   constructor(props) {
@@ -26,6 +32,7 @@ export default class ManageUserProfile extends React.Component {
 
     this.SCROLL_OFFSET = -300;
     this.state = {
+      currentResume: null,
       isEmptyAndRequired: {},
       currentData: {}
     };
@@ -297,7 +304,7 @@ export default class ManageUserProfile extends React.Component {
           hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study) ||
             isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
-        ...cfCustomFunnel({ action: 'get_form_item', cf: cf, isRoleRec: isRoleRec, data : currentData }),
+        ...cfCustomFunnel({ action: 'get_form_item', cf: cf, isRoleRec: isRoleRec, data: currentData }),
         {
           // single
           label: lang("Faculty"),
@@ -734,6 +741,7 @@ export default class ManageUserProfile extends React.Component {
       removeClassEl(elLabel, "blink-required");
     }, 1200);
   }
+
   getDoneButton() {
     return (
       <div style={{ marginLeft: "7px" }}>
@@ -751,9 +759,26 @@ export default class ManageUserProfile extends React.Component {
               focusOnInput(firstEmpty);
               smoothScrollTo(firstEmpty, this.SCROLL_OFFSET);
               this.labelBlinkRequired(firstEmpty);
+            } else if (this.isHasUploadResume() && !this.state.currentResume) {
+              layoutActions.errorBlockLoader("Please upload your resume");
             } else {
-              if (this.props.completeHandler) {
-                this.props.completeHandler();
+              if (this.isHasUploadResume()) {
+                layoutActions.loadingBlockLoader("Uploading resume");
+                this.uploadFileAndSaveToDB({
+                  label: "Resume",
+                  user_id: this.props.user_id,
+                  file: this.state.currentResume,
+                  succes: () => {
+                    layoutActions.storeHideBlockLoader();
+                    if (this.props.completeHandler) {
+                      this.props.completeHandler();
+                    }
+                  }
+                })
+              } else {
+                if (this.props.completeHandler) {
+                  this.props.completeHandler();
+                }
               }
             }
           }}
@@ -762,6 +787,61 @@ export default class ManageUserProfile extends React.Component {
         </button>
       </div>
     );
+  }
+
+  getUploadResume() {
+    if (!this.isHasUploadResume()) {
+      return null;
+    }
+    var uploader = <Uploader
+      formClass="form-file-custom"
+      label={lang("Upload Your Resume *")} name="resume"
+      type={FileType.DOC}
+      onSuccess={(file) => {
+        this.setState(() => {
+          return { currentResume: file };
+        });
+      }}
+      onChange={(file) => {
+        this.setState(() => {
+          return { currentResume: file };
+        });
+      }}
+      onError={(err) => {
+
+      }}></Uploader>
+
+    return (<div>{this.MARGIN}{uploader}</div>);
+  }
+
+  isHasUploadResume() {
+    // return true;
+    let validCF = ["INTELDD21"];
+    return !this.props.isEdit && validCF.indexOf(getCF()) >= 0;
+  }
+
+  uploadFileAndSaveToDB({ label, user_id, file, succes, error }) {
+    let labelFileName = label.replaceAll(" ", "-");
+    var fileName = `${labelFileName}-${user_id}`;
+    uploadFile(file, FileType.DOC, fileName).then((res) => {
+      if (res.data.url !== null) {
+        let url = `${UploadUrl}/${res.data.url}`;
+        let d = {
+          user_id: user_id,
+          type: FileType.DOC,
+          label: label,
+          url: url,
+        }
+        var query = `mutation{ add_doc_link (${obj2arg(d, { noOuterBraces: true })}){ID}}`
+        getAxiosGraphQLQuery(query).then((res) => {
+          succes()
+        });
+      } else {
+        if (error) {
+          error()
+        }
+      }
+    });
   }
 
   getInputElement(d, i, isChildren = false) {
@@ -820,6 +900,8 @@ export default class ManageUserProfile extends React.Component {
       return this.getInputElement(d, i);
     });
 
+    // upload resume
+    view.push(this.getUploadResume());
     // done button
     view.push(this.getDoneButton());
 
