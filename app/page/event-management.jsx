@@ -4,13 +4,15 @@ import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 import GeneralFormPage from "../component/general-form";
 import {
-  getAuthUser,
+  getAuthUser, getCF, isRoleOrganizer,
   // getCF,
   // isRoleOrganizer,
   // isRoleAdmin,
   // isRoleRec
 } from "../redux/actions/auth-actions";
 import { getDataCareerFair } from "../component/form";
+import { createCompanyTitle } from "./admin-company";
+import { getEventAction } from "./view-helper/view-helper";
 
 // import PropTypes from "prop-types";
 // import { AppPath } from "../../config/app-config";
@@ -43,56 +45,60 @@ export default class EventManagement extends React.Component {
     // List data properties
     this.renderRow = d => {
       return [
-        <td>{d.ID}</td>,
+        isRoleOrganizer() ? null : <td>{d.ID}</td>,
         <td>
           <b>{d.title}</b>
           <small>
-            <ul className="normal">
-              <li>with {d.company.name}</li>
-            </ul>
+            {/* <ul className="normal"> */}
+            <li>with <b>{createCompanyTitle(d.company)}</b></li>
+            {/* </ul> */}
           </small>
         </td>,
-        <td style={{ maxWidth: "200px" }}>{JSON.stringify(d.cf)}</td>,
+        isRoleOrganizer() ? null : <td style={{ maxWidth: "200px" }}>{JSON.stringify(d.cf)}</td>,
         <td>
           <small>
             <ul className="normal">
-              <li>
-                <b>Type</b> : {d.type}
-              </li>
               <li>
                 <b>Start</b> : {Time.getString(d.start_time)}
               </li>
               <li>
                 <b>End</b> : {Time.getString(d.end_time)}
               </li>
+              {isRoleOrganizer() ? null : [<li>
+                <b>Type</b> : {d.type}
+              </li>,
               <li>
                 <b>Location</b> : {d.location}
-              </li>
+              </li>,
               <li>
                 <b>RSVP Link</b> : {d.url_rsvp}
-              </li>
+              </li>,
               <li>
                 <b>Join Link</b> : {d.url_join}
-              </li>
+              </li>,
               <li>
                 <b>Recorded Link</b> : {d.url_recorded}
-              </li>
+              </li>,
               <li>
                 <b>Description</b> : {d.description}
-              </li>
+              </li>]}
             </ul>
           </small>
-        </td>
+        </td>,
+        isRoleOrganizer() ? <td style={{ maxWidth: "200px" }}>{getEventAction(d, {isPopup:true})}</td> : null,
       ];
     };
 
     this.tableHeader = (
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Event</th>
-          <th>CF</th>
-          <th>Details</th>
+          {[
+            isRoleOrganizer() ? null : <th>ID</th>,
+            <th>Event</th>,
+            isRoleOrganizer() ? null : <th>CF</th>,
+            <th>Details</th>,
+            isRoleOrganizer() ? <th>Action</th> : null,
+          ]}
         </tr>
       </thead>
     );
@@ -121,15 +127,20 @@ export default class EventManagement extends React.Component {
       this.search = d;
       this.searchParams = "";
       if (d != null) {
-        this.searchParams += (d.title) ? `title:"${d.title}",` : "";
-        this.searchParams += (d.cf) ? `cf:"${d.cf}",` : "";
+        this.searchParams += (d.title) ? ` title:"${d.title}", ` : "";
+        this.searchParams += (d.cf) ? ` cf:"${d.cf}", ` : "";
       }
+
+
     };
 
     this.loadData = (page, offset) => {
+      if (isRoleOrganizer()) {
+        this.searchParams += ` cf:"${getCF()}", `;
+      }
       var query = `query{
                 events(${this.searchParams} page:${page},offset:${offset}) {
-                  cf
+                  ${isRoleOrganizer() ? "" : "cf"}
                   ID 
                   company_id
                   company{ID name img_url img_position img_size}
@@ -369,6 +380,9 @@ export default class EventManagement extends React.Component {
   render() {
     return (
       <GeneralFormPage
+        tableOnly={this.props.tableOnly}
+        noMutation={isRoleOrganizer()}
+        isHidePagingTop={isRoleOrganizer()}
         dataTitle="Event Management"
         entity="event"
         entity_singular="Event"

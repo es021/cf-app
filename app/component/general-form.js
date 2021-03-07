@@ -546,6 +546,9 @@ export default class GeneralFormPage extends React.Component {
       </div>
     }
 
+    if (this.props.tableOnly) {
+      return datas;
+    }
     return (
       <div>
         {this.props.dataTitle ? <h2>{lang(this.props.dataTitle)}</h2> : null}
@@ -593,7 +596,8 @@ GeneralFormPage.propTypes = {
   noMutation: PropTypes.bool, // disable add, edit and delete
   canEdit: PropTypes.bool, // bypass noMutation
   canAdd: PropTypes.bool, // bypass noMutation
-  formOnly: PropTypes.bool // formOnly
+  formOnly: PropTypes.bool, // formOnly
+  tableOnly: PropTypes.bool // formOnly
 };
 
 GeneralFormPage.defaultProps = {
@@ -613,7 +617,8 @@ GeneralFormPage.defaultProps = {
   forceDiff: [],
   acceptEmpty: [],
   formOnly: false,
-  tableHeader: null
+  tableHeader: null,
+  tableOnly: false
 };
 
 /////////////////////////////////////////////

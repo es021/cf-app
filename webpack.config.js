@@ -65,9 +65,10 @@ var plugins = [
 // Optimize and Minimize for Production
 if (isProd && !allowProdMap) {
     plugins = plugins.concat([
+        //new webpack.optimize.DedupePlugin(), //deprecated
+        //,new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        //new webpack.optimize.DedupePlugin(), //deprecated
         new webpack.optimize.UglifyJsPlugin({
             mangle: true,
             compress: {
@@ -81,11 +82,8 @@ if (isProd && !allowProdMap) {
                 comments: false
             },
             exclude: [/\.min\.js$/gi] // skip pre-minified libs
-        })
-        //,new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])
-
-        //need to configure express
-        , new CompressionPlugin({
+        }),
+        new CompressionPlugin({  //need to configure express
             asset: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,

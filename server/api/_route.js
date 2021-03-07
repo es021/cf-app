@@ -129,8 +129,6 @@ const initializeAllRoute = function (app, root) {
     });
   });
 
-
-
   // NexmoAPI Route ----------------------------------------------------------------
   const { NexmoAPI } = require("./nexmo-api");
   app.post(root + "/nexmo/:action", function (req, res, next) {

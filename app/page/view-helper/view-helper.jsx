@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import { AppPath, IsNewEventCard } from "../../../config/app-config"
 import { EventEnum } from "../../../config/db-config"
 import React from "react";
-import { isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
+import { isRoleOrganizer, isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
 import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
-import {lang} from "../../lib/lang";
+import { lang } from "../../lib/lang";
 
 export function animateHide(el, finishHandler) {
   el.className = el.className += " animate-hide";
@@ -69,76 +69,76 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
   // OLD EVENT CARD
   // - with location and interested
   if (!IsNewEventCard) {
-    className = "event-action";
-    let rsvpButton = (
-      <InterestedButton
-        customStyle={{
-          top: "3px",
-          left: "7px",
-          width: "max-content",
-        }}
-        customView={
-          ({
-            // loading,
-            isModeCount,
-            isModeAction,
-            like_count,
-            onClickModeCount,
-            is_interested,
-            onClickModeAction
-          }) => {
-            let r = null;
+    // className = "event-action";
+    // let rsvpButton = (
+    //   <InterestedButton
+    //     customStyle={{
+    //       top: "3px",
+    //       left: "7px",
+    //       width: "max-content",
+    //     }}
+    //     customView={
+    //       ({
+    //         // loading,
+    //         isModeCount,
+    //         isModeAction,
+    //         like_count,
+    //         onClickModeCount,
+    //         is_interested,
+    //         onClickModeAction
+    //       }) => {
+    //         let r = null;
 
-            if (isModeAction) {
-              if (d.is_ended) {
-                r = <div className="el-ended el-action-item">Event Ended</div>
-              } else {
-                if (is_interested) {
-                  r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
-                } else {
-                  r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
-                }
-              }
-            } else if (isModeCount) {
-              let mainText = `See RSVP List`;
-              r = (
-                <button
-                  className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
-                  onClick={() => { onClickModeCount(null, "RSVP List") }}>
-                  <i className="fa left fa-user"></i>{mainText}
-                </button>
-              );
-            }
-            return r
-          }
-        }
-        isModeCount={isRoleRec()}
-        isModeAction={isRoleStudent()}
-        finishHandler={is_interested => {
-          if (isRoleRec()) {
-            return;
-          } else if (isRoleStudent()) {
-            if (is_interested == 1) {
-              layoutActions.successBlockLoader(
-                <div>
-                  {lang("Successfully RSVP'ed for event")}
-                  <br></br>
-                  <b>{d.title}</b>
-                  <br></br>
-                  {lang("with")} {companyName}
-                </div>
-              );
-            }
-          }
-        }}
-        ID={d.interested.ID}
-        is_interested={d.interested.is_interested}
-        entity={"event"}
-        entity_id={d.ID}
-      ></InterestedButton>
-    );
+    //         if (isModeAction) {
+    //           if (d.is_ended) {
+    //             r = <div className="el-ended el-action-item">Event Ended</div>
+    //           } else {
+    //             if (is_interested) {
+    //               r = <div className="el-rsvped el-action-item" onClick={onClickModeAction}><i className="fa fa-check left"></i>Registered</div>
+    //             } else {
+    //               r = <div className="el-rsvp el-action-item" onClick={onClickModeAction}><i className="fa fa-plus left"></i>RSVP For Event</div>
+    //             }
+    //           }
+    //         } else if (isModeCount) {
+    //           let mainText = `See RSVP List`;
+    //           r = (
+    //             <button
+    //               className={`btn btn-sm btn-blue-light btn-round-5 btn-block btn-bold`}
+    //               onClick={() => { onClickModeCount(null, "RSVP List") }}>
+    //               <i className="fa left fa-user"></i>{mainText}
+    //             </button>
+    //           );
+    //         }
+    //         return r
+    //       }
+    //     }
+    //     isModeCount={isRoleRec()}
+    //     isModeAction={isRoleStudent()}
+    //     finishHandler={is_interested => {
+    //       if (isRoleRec()) {
+    //         return;
+    //       } else if (isRoleStudent()) {
+    //         if (is_interested == 1) {
+    //           layoutActions.successBlockLoader(
+    //             <div>
+    //               {lang("Successfully RSVP'ed for event")}
+    //               <br></br>
+    //               <b>{d.title}</b>
+    //               <br></br>
+    //               {lang("with")} {companyName}
+    //             </div>
+    //           );
+    //         }
+    //       }
+    //     }}
+    //     ID={d.interested.ID}
+    //     is_interested={d.interested.is_interested}
+    //     entity={"event"}
+    //     entity_id={d.ID}
+    //   ></InterestedButton>
+    // );
 
-    validActions.push(rsvpButton);
+    // validActions.push(rsvpButton);
 
   }
   // ###########################################################
@@ -202,7 +202,11 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
       }
     }
 
-    if (isRoleStudent()) {
+    if (isRoleOrganizer()) {
+      validActions = [
+        join, recorded, ended
+      ]
+    } else if (isRoleStudent()) {
       validActions = [
         join, rsvp, recorded, ended
       ]

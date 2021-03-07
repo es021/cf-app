@@ -487,6 +487,12 @@ export function createRecruiter(rec) {
     });
 }
 
+export function createOrganizer(rec) {
+    return axios.post(AppConfig.Api + "/auth/create-organizer", {
+        rec: rec
+    });
+}
+
 
 export function activateAccount(key, user_id) {
     return axios.post(AppConfig.Api + "/auth/activate-account", {

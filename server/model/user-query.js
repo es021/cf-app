@@ -29,6 +29,13 @@ const {
 
 // @login_by_student_id
 class UserQuery {
+	isRoleStudent(uid) {
+		return ` (select mm2.meta_value 
+			FROM wp_cf_usermeta mm2 
+			WHERE 1=1
+			AND mm2.user_id = ${uid} 
+			AND mm2.meta_key = "wp_cf_capabilities") = 'a:1:{s:7:"student";b:1;}'`;
+	}
 	selectMultiMain(table_name, user_id, {
 		isConcatVal,
 		isCountVal,

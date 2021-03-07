@@ -633,7 +633,9 @@ class BrowseStudentExec {
 			AND ${interested_job_location}
 			AND ${skill}
 			AND ${work_availability}
-			AND ${graduation}`;
+			AND ${graduation}
+			AND ${UserQuery.isRoleStudent(user_id)}
+			`;
 	}
 	// TODO
 	query(param, type) {

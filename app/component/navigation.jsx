@@ -86,11 +86,16 @@ import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
 import AdminMisc from "../page/admin-misc";
 import ManageVacancy from "../page/manage-vacancy";
+import OrganizerDashboard from "../page/organizer-dashboard";
+import OrganizersPage from "../page/admin-organizer";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
   if (isAuthorized()) {
-    if (isRoleRec() && IsRecruiterNewHall) {
+    if(isRoleOrganizer()){
+      homeComponent = OrganizerDashboard;
+    }
+    else if (isRoleRec() && IsRecruiterNewHall) {
       homeComponent = HallRecruiterPage;
     } else if (IsNewHall) {
       // new hall takde pegi page coming soon
@@ -199,6 +204,18 @@ function getMenuItem(COMING_SOON) {
       label: "Recruiters",
       icon: "black-tie",
       component: RecruiterPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin()
+    },
+    {
+      // Admin Only
+      url: "/admin-organizer",
+      label: "Organizers",
+      icon: "black-tie",
+      component: OrganizersPage,
       bar_app: true,
       bar_auth: false,
       hd_app: false,

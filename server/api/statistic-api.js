@@ -1,11 +1,36 @@
 const DB = require("../model/DB.js");
+const { UserQuery } = require("../model/user-query.js");
 
 class StatisticAPI {
     Main(action, param) {
         switch (action) {
             case "vacancy-application":
                 return this.vacancyApplication(param);
+            case "daily-registration":
+                return this.dailyRegistration(param);
         }
+    }
+    dailyRegistration(param) {
+        let cf = param.cf;
+
+        let q = `SELECT 
+        CONCAT(DATE_FORMAT(cm.created_at, '%Y-%m-%d'), "::", DATE_FORMAT(cm.created_at, '%b %d')) AS dt,
+        COUNT(*) as ttl
+        FROM cf_map cm
+        WHERE 1=1
+        AND cm.cf = ? 
+        AND cm.entity = 'user'
+        AND ${UserQuery.isRoleStudent("cm.entity_id")}
+        GROUP BY dt
+        ORDER BY dt asc`;
+
+        q = DB.prepare(q, [cf])
+        return DB.query(q).then(res => {
+            for(let i in res){
+                res[i]["dt"] = res[i]["dt"].split("::")[1];
+            }
+            return res;
+        })
     }
     vacancyApplication(param) {
         console.log("param", param)

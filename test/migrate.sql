@@ -1,4 +1,3 @@
-ALTER TABLE `vacancies` ADD `specialization` VARCHAR(700) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL AFTER `application_url`, ADD INDEX (`specialization`); 
 
 -- ##############################################################
 -- ##############################################################
@@ -6,6 +5,8 @@ ALTER TABLE `vacancies` ADD `specialization` VARCHAR(700) CHARACTER SET latin1 C
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
 -- ##############################################################
 -- ##############################################################
+ALTER TABLE `vacancies` ADD `specialization` VARCHAR(700) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL AFTER `application_url`, ADD INDEX (`specialization`); 
+
 CREATE TABLE `hall_lobby` (
   `ID` bigint(20) NOT NULL,
   `cf` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
