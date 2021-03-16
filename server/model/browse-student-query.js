@@ -189,11 +189,11 @@ class BrowseStudentExec {
 			}
 
 			let additional_where = "1=1";
-			// if (key == "looking_for_position") {
+			if (key == "looking_for_position") {
 				// additional_where = " s.val not like '%part%' ";
 				// additional_where = " s.val IN (select vv.val FROM ref_looking_for_position vv) ";
-				// additional_where = " (s.val = 'Full-Time' OR s.val = 'Internship') ";
-			// }
+				additional_where = " (s.val = 'Full-Time' OR s.val = 'Internship') ";
+			}
 
 			return `select 
 				'${key}' as _key 
