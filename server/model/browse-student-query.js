@@ -433,6 +433,8 @@ class BrowseStudentExec {
 
 		let where = this.getWhere("s.entity_id", param);
 
+		// UNION ALL
+		// 	${multiFilter("interested_job_location", where)}
 		// 4a. @custom_user_info_by_cf -- filter multi
 		let q = `SELECT * FROM (
 			${cfFilter(where)}
@@ -444,9 +446,6 @@ class BrowseStudentExec {
 			${multiFilter("skill", where)}
 			UNION ALL
 			${multiFilter("looking_for_position", where)}
-			UNION ALL
-			${multiFilter("interested_job_location", where)}
-			
 		) 
 		X ORDER BY X._key, X._val_label asc, X._val asc, X._total desc`;
 
