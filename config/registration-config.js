@@ -272,16 +272,16 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MONASH"];
             break;
         case Single.local_or_oversea_study:
-            onCf = ["INTEL"];
+            onCf = ["INTEL", "INTELDD21"];
             break;
         case Single.local_or_oversea_location:
-            onCf = ["INTEL"];
+            onCf = ["INTEL", "INTELDD21"];
             break;
         case Single.work_experience_year:
-            onCf = ["INTEL"];
+            onCf = ["INTEL", "INTELDD21"];
             break;
         case Single.gender:
-            onCf = ["INTEL"];
+            onCf = ["INTEL", "INTELDD21"];
             break;
         case Single.kpt:
             onCf = ["MDCW"];
@@ -312,7 +312,7 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW", "UNISZA"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
             break;
         case Single.university:
             offCf = ["UNISZA"];
@@ -330,7 +330,7 @@ const isCustomUserInfoOff = (cf, key) => {
             offCf = ["MONASH", "SUNWAY"];
             break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
+            offCf = ["MONASH", "SUNWAY", "INTEL","MDCW"];
             break;
         case Multi.interested_role:
             offCf = ["INTEL"];
