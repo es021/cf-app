@@ -539,9 +539,10 @@ class SocketServer {
     }
 
     if (!client) {
-      // only emit to all online students
+      // only emit to all online students and organizers
       for (var i in this.state.clients) {
-        if (this.state.clients[i].role === UserEnum.ROLE_STUDENT) {
+        let role = this.state.clients[i].role;
+        if (role === UserEnum.ROLE_STUDENT || role === UserEnum.ROLE_ORGANIZER) {
           this.emitToClient(
             this.state.clients[i],
             S2C.ONLINE_COMPANY,

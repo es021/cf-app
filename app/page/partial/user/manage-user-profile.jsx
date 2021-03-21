@@ -15,7 +15,7 @@ import {
   removeClassEl
 } from "../../../../app/lib/util";
 import PropTypes from "prop-types";
-import { isRoleStudent, isRoleRec, getCF, getNoMatrixLabel, getAuthUser } from "../../../redux/actions/auth-actions";
+import { isRoleStudent, isRoleRec, getCF, getNoMatrixLabel, getAuthUser, isRoleOrganizer } from "../../../redux/actions/auth-actions";
 import { lang, isCurrentEnglish } from "../../../lib/lang";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 import { FileType, Uploader, uploadFile } from "../../../component/uploader";
@@ -166,7 +166,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.monash_student_id,
           key_input: Reg.Single.monash_student_id,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.monash_student_id)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.monash_student_id)
         },
         {
           // single
@@ -176,7 +176,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.id_utm,
           key_input: Reg.Single.id_utm,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.id_utm)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.id_utm)
         },
         {
           // single
@@ -186,7 +186,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.id_unisza,
           key_input: Reg.Single.id_unisza,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.id_unisza)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.id_unisza)
         },
         {
           // single
@@ -196,7 +196,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.kpt,
           key_input: Reg.Single.kpt,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.kpt)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.kpt)
         },
         {
           // single
@@ -206,7 +206,7 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Single.birth_date,
           key_input: Reg.Single.birth_date,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.birth_date)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.birth_date)
         },
 
         {
@@ -221,7 +221,7 @@ export default class ManageUserProfile extends React.Component {
           ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.graduation_month)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.graduation_month)
         },
         {
           // defined multi choice
@@ -234,7 +234,7 @@ export default class ManageUserProfile extends React.Component {
           select_is_translate_label: true,
           ref_order_by: "ID ASC",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.looking_for_position)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.looking_for_position)
         },
         {
           // single
@@ -245,7 +245,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("Where are you studying/studied?"),
           ref_table_name: "local_or_oversea",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_study)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_study)
         },
         {
           // single
@@ -256,7 +256,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Malaysia",
           ref_table_name: "country",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.country_study)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.country_study)
         },
         {
           // single - university select Malaysia only
@@ -272,7 +272,7 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_val: 1, // Malaysia
           is_required: true,
           hidden: !RefLocalOrOversea.isMalaysia(local_or_oversea_study) ||
-            isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+            isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
         {
           // single - university free text without suggestion 
@@ -286,7 +286,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "university",
           is_required: true,
           hidden: !RefLocalOrOversea.isOversea(local_or_oversea_study)
-            || isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+            || isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
         {
           // single - university with suggestion
@@ -302,7 +302,7 @@ export default class ManageUserProfile extends React.Component {
           ref_filter_find_id: true, // kena ubah kat ref-query
           is_required: true,
           hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study) ||
-            isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+            isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
         },
         ...cfCustomFunnel({ action: 'get_form_item', cf: cf, isRoleRec: isRoleRec, data: currentData }),
         {
@@ -315,7 +315,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "unisza_faculty",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.unisza_faculty)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.unisza_faculty)
         },
         {
           // single
@@ -327,7 +327,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "unisza_course",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.unisza_course)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.unisza_course)
         },
         {
           // single
@@ -339,7 +339,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "current_semester",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.current_semester)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.current_semester)
         },
         {
           // single
@@ -351,7 +351,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "course_status",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.course_status)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.course_status)
         },
         {
           // single
@@ -364,7 +364,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "employment_status",
           ref_order_by: "ID asc",
           is_required: false,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.employment_status)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.employment_status)
         },
         {
           // single
@@ -376,7 +376,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "monash_school",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.monash_school)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.monash_school)
         },
         {
           // single
@@ -388,7 +388,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "sunway_faculty",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_faculty)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_faculty)
         },
         {
           // single
@@ -400,7 +400,7 @@ export default class ManageUserProfile extends React.Component {
           // input_placeholder: "Malaysia",
           ref_table_name: "sunway_program",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_program)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_program)
         },
         {
           // single select
@@ -416,7 +416,7 @@ export default class ManageUserProfile extends React.Component {
           // ref_table_name: Reg.customRef(cf, Reg.Single.qualification, "qualification"),
           ref_table_name: "qualification",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)
         },
         // {
         //   // free multi choice (location)
@@ -441,7 +441,7 @@ export default class ManageUserProfile extends React.Component {
           key_input: Reg.Single.field_study_main,
           ref_table_name: "field_study",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_main)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_main)
         },
         // @limit_field_of_study_2_before_deploy - uncomment
         {
@@ -454,7 +454,7 @@ export default class ManageUserProfile extends React.Component {
           key_input: Reg.Single.field_study_secondary,
           ref_table_name: "field_study",
           is_required: false,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_secondary)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_secondary)
         },
         // @limit_field_of_study_2_before_deploy - comment
         // {
@@ -469,7 +469,7 @@ export default class ManageUserProfile extends React.Component {
         //   list_title: null,
         //   ref_table_name: "field_study",
         //   is_required: true,
-        //   hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.field_study)
+        //   hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.field_study)
         // },
         {
           // single
@@ -480,7 +480,7 @@ export default class ManageUserProfile extends React.Component {
           sublabel: lang("CGPA, GPA, First Class, WAM, etc"),
           input_placeholder: lang("Type something here"),
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.grade)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.grade)
         },
         {
           // single
@@ -490,7 +490,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("What is your phone number?"),
           input_placeholder: "XXX-XXXXXXX",
           is_required: true,
-          hidden: false || Reg.isCustomUserInfoOff(cf, Reg.Single.phone_number)
+          hidden: false || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.phone_number)
         },
         {
           // single
@@ -504,7 +504,7 @@ export default class ManageUserProfile extends React.Component {
           ref_order_by: "ID asc",
           ref_table_name: "month",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.working_availability_month)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.working_availability_month)
         },
         {
           // single
@@ -515,7 +515,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("Where are you currently located?"),
           ref_table_name: "local_or_oversea",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_location)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_location)
         },
         {
           // single
@@ -527,7 +527,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "work_experience_year",
           ref_order_by: "ID asc",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.work_experience_year)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.work_experience_year)
         },
         {
           // single
@@ -538,7 +538,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("What is your gender?"),
           ref_table_name: "gender",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.gender)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.gender)
         },
         {
           // single select
@@ -550,7 +550,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "unemployment_period",
           ref_order_by: "ID asc",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.unemployment_period)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.unemployment_period)
         },
 
         {
@@ -567,7 +567,7 @@ export default class ManageUserProfile extends React.Component {
           suggestion_search_by_ref: "field_study", // ref suggestion by table refmap_suggestion
           suggestion_search_by_val: field_study, //  ref suggestion by table refmap_suggestion
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_role)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_role)
         },
         // {
         //   // select multi choice
@@ -592,7 +592,7 @@ export default class ManageUserProfile extends React.Component {
           input_placeholder: "Cyberjaya, Selangor",
           ref_table_name: "location_malaysia",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Single.where_in_malaysia)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.where_in_malaysia)
         },
         {
           // free multi choice (location)
@@ -607,7 +607,7 @@ export default class ManageUserProfile extends React.Component {
             : lang("Popular in your area"),
           ref_table_name: "location",
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_job_location)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_job_location)
         },
         {
           // free multi choice
@@ -623,7 +623,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "skill",
           ref_offset: 11,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.skill)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.skill)
         },
         {
           // free multi choice
@@ -636,7 +636,7 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "extracurricular",
           ref_offset: 11,
           is_required: true,
-          hidden: isRoleRec() || Reg.isCustomUserInfoOff(cf, Reg.Multi.extracurricular)
+          hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.extracurricular)
         },
         // {
         //   // single

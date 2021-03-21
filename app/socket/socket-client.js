@@ -69,10 +69,27 @@ function initOn() {
     });
 
     socketOn(S2C.ONLINE_USER, (data) => {
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
+        console.log("S2C.ONLINE_USER", data)
         setOnlineUsers(data);
     });
 
     socketOn(S2C.ONLINE_COMPANY, (data) => {
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
+        console.log("S2C.ONLINE_COMPANY", data)
         setOnlineCompanies(data);
     });
 

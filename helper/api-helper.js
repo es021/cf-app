@@ -54,6 +54,9 @@ axios.interceptors.response.use(response => {
 		//console.log("error from axios graphQLUrl");
 		console.log("Intercept GraphQL Error 1", response)
 		retErr = getGraphQlErrorMes(response.data.errors[0].message);
+		if(retErr.indexOf("ER_DUP_ENTRY") >= 0){
+			return;
+		}
 	}
 
 	if (retErr !== null) {

@@ -502,7 +502,8 @@ export default class CompanyPage extends Component {
     };
 
 
-    let isSubscribeOff = isCfFeatureOff(CFSMeta.FEATURE_SUBSCRIBE);
+    // let isSubscribeOff = isCfFeatureOff(CFSMeta.FEATURE_SUBSCRIBE);
+    let isSubscribeOff = true;
 
     return <div className="container-fluid">
       <div className="row" >

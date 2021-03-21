@@ -739,7 +739,7 @@ export class BrowseStudentFilter extends React.Component {
         }
 
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
-        return <ButtonExport asyncValidation={asyncValidation}
+        return <ButtonExport asyncValidation={isRoleOrganizer() ? null : asyncValidation}
             style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
             text={<span>{lang("Export")} <b>{lang("Searched Result")}</b> {lang("As Excel")}</span>}
             filter={filter} cf={getCF()}></ButtonExport>

@@ -20,7 +20,8 @@ import {
   isRedirectExternalHomeUrl,
   getCF,
   isRoleAdmin,
-  getAuthUser
+  getAuthUser,
+  isRoleOrganizer
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -77,6 +78,10 @@ class PrimaryLayout extends React.Component {
     // takleh panggil ni store action kat dalam componentWillMount
     //hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
 
+    if (isRoleOrganizer() || isRoleAdmin()) {
+      return;
+    }
+    
     hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
 
     socketOn(BOTH.CHAT_MESSAGE, (data) => {

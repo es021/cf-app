@@ -14,6 +14,8 @@ export default class InputMulti extends React.Component {
     // this.START_FETCH_LEN = 2;
 
     // fn binding
+    this.currentInsertValue = null;
+
     this.inputOnChange = this.inputOnChange.bind(this);
     this.continueOnClick = this.continueOnClick.bind(this);
     this.finishDbRequest = this.finishDbRequest.bind(this);
@@ -229,9 +231,14 @@ export default class InputMulti extends React.Component {
       });
   }
   insertDB(v, i) {
+    if (this.currentInsertValue == v) {
+      console.log("skip insert... already inserting", v);
+      return;
+    }
+
     let index = i;
     console.log("insertDB 1", index);
-
+    this.currentInsertValue = v;
     let ins = {
       table_name: this.props.table_name,
       entity: this.props.entity,
@@ -247,11 +254,13 @@ export default class InputMulti extends React.Component {
     }}`;
     graphql(q)
       .then(res => {
+        this.currentInsertValue = null;
         let d = res.data.data.add_multi;
         console.log("insertDB", index);
         this.finishDbRequest(index, d.ID, null, d.val);
       })
       .catch(err => {
+        this.currentInsertValue = null;
         console.log("catch err", err);
         this.finishDbRequest(index, null, err);
       });

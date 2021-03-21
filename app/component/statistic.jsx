@@ -12,8 +12,8 @@ export class StatisticFigure extends React.Component {
     return <div className="statistic">
       <div className="st-icon" style={{ background: this.props.color }}><i className={`fa fa-${this.props.icon}`}></i></div>
       <div className="st-body">
-        <div className="st-title">{this.props.title}</div>
-        <div className="st-value">{this.props.value}</div>
+        <div className="st-title" style={{ color: this.props.valueColor }}>{this.props.title}</div>
+        <div className="st-value" style={{ color: this.props.valueColor }}>{this.props.value}</div>
       </div>
       {
         !this.props.footer
@@ -27,6 +27,7 @@ export class StatisticFigure extends React.Component {
 StatisticFigure.propsType = {
   title: PropTypes.string,
   value: PropTypes.string,
+  valueColor: PropTypes.string,
   icon: PropTypes.string,
   color: PropTypes.string,
   footer: PropTypes.any,
