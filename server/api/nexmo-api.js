@@ -48,6 +48,12 @@ class NexmoAPI {
         finishHandler(text);
       })
     }
+    if (type == notificationConfig.Type.INTERVIEW_REMINDER_1DAY) {
+      this.loadCompanyName(param.company_id, (company_name) => {
+        let text = `Your interview with ${company_name} is in 24 hours. Please log in early at ${url} and click "Join Video Call" when prompted`
+        finishHandler(text);
+      })
+    }
   }
   loadCompanyName(company_id, finishHandler) {
     graphql(`query { company(ID : ${company_id}) { name } } `).then((res) => {
@@ -60,6 +66,7 @@ class NexmoAPI {
     console.log("user_id", user_id)
     console.log("type", type)
     console.log("param", param)
+    user_id = Number.parseInt(user_id);
 
     this.generateText(type, param, text => {
       if (to_number) {
@@ -91,6 +98,7 @@ class NexmoAPI {
     const from = 'Seeds';
     phoneNumber = this.fixPhoneNumber(phoneNumber)
     if (phoneNumber) {
+      console.log("send message", "____", phoneNumber, "____", text)
       nexmo.message.sendSms(from, phoneNumber, text);
       axios.post(AppConfig.Api + "/add-log", {
         event: LogEnum.EVENT_NEXMO_SMS,
@@ -98,6 +106,7 @@ class NexmoAPI {
         user_id: user_id
       });
       finishHandler("DONE");
+      console.log("done----")
     }
     finishHandler("Phone number invalid");
   }

@@ -174,6 +174,11 @@ vacancy-suggestion implementation
 do research
 
 ####################################################
+/var/www/notification-cf-app/lib/private.php
+/var/www/cf-app/server/secret/secret.js
+ad wordpress admin panel, -> setup for email 
+
+####################################################
 ssh root@104.131.105.183
 ssh root@159.65.10.64
 
