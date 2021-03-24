@@ -50,7 +50,7 @@ class NexmoAPI {
     }
     if (type == notificationConfig.Type.INTERVIEW_REMINDER_1DAY) {
       this.loadCompanyName(param.company_id, (company_name) => {
-        let text = `Your interview with ${company_name} is in 24 hours. Please log in early at ${url} and click "Join Video Call" when prompted`
+        let text = `You have an interview with ${company_name} tomorrow. Please log in early at ${url} and click "Join Video Call" when prompted`
         finishHandler(text);
       })
     }
