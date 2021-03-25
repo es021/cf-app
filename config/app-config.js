@@ -4,7 +4,7 @@ const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
 var IsNewEventCard = true;
-const IsDailyCoEnable = ALWAYS_TRUE;
+const IsDailyCoEnable = false;
 var IsOnVideoResume = ALWAYS_FALSE;
 var IsRecruiterNewHall = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
