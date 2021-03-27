@@ -14,6 +14,14 @@ const getByKey = (key, meta) => {
 }
 
 const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
+    if (action == "is_single") {
+        return CustomConfig[key].type === "single"
+    }
+
+    if (action == "is_multi") {
+        return CustomConfig[key].type === "multi"
+    }
+
     if (action == "get_key_student_line2") {
         if (CustomStudentCardInfo[cf]) {
             return CustomStudentCardInfo[cf].line2;
@@ -93,6 +101,7 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
         }
         return r;
     }
+
     if (action == "get_label_for_filter") {
         let r = {};
         for (var k in CustomConfig) {
@@ -151,6 +160,7 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
                     id: k,
                     key_input: k,
                     ref_table_name: getByKey(k, "ref_table_name"),
+                    ref_order_by: getByKey(k, "ref_order_by"),
                     is_required: getByKey(k, "is_required"),
                     hidden: isRoleRec ? isRoleRec() : false || isCustomUserInfoOff(cf, k)
                 });

@@ -97,6 +97,116 @@ const CustomConfig = {
         onCf: ["UTM21"],
         attr: `{val}`
     },
+
+    // ##############################################################
+    // CREATED FOR USM 21
+    // ##############################################################
+    id_usm: {
+        discard_filter: true,
+        is_required: true,
+        question: "Matric Number",
+        label: "Matric number",
+        icon: "slack",
+        input_type: "text",
+        type: "single",
+        onCf: ["USM21"]
+    },
+    usm_year_study: {
+        label: "Year Of Study",
+        question: "What is your year of study?",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "usm_year_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["USM21"]
+    },
+    usm_year: {
+        label: "Graduation Year",
+        question: "When is your graduation?",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "usm_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["USM21"]
+    },
+    // uni - KIV
+    // faculty - KIV
+    usm_course: {
+        label: "Course",
+        question: "What is your course?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "usm_course",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["USM21"]
+    },
+    usm_purpose: {
+        label: "Looking For",
+        question: "What are you looking for?",
+        icon: "star",
+        list_title: null,
+        table_name: "usm_purpose",
+        discard_ref_from_default: true,
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "usm_purpose",
+        is_required: true,
+        onCf: ["USM21"],
+        attr: `{val}`
+    },
+    usm_cgpa: {
+        label: "CGPA",
+        question: "What is your CGPA?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "usm_cgpa",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["USM21"]
+    },
+    usm_university: {
+        label: "University",
+        question: "Which university/college are you studying at?",
+        icon: "university",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "usm_university",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["USM21"]
+    },
+    usm_faculty: {
+        label: "Faculty",
+        question: "Which faculty/school are you in?",
+        icon: "university",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "usm_faculty",
+        ref_order_by: "ID asc",
+        onCf: ["USM21"]
+    },
+    job_category: {
+        label: "Looking For Job",
+        question: "What kind of job are you looking for?",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "job_category",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "job_category",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["USM21"],
+        attr: `{val}`
+    },
 }
 const CustomStudentCardInfo = {
     UTM21: {
@@ -202,6 +312,21 @@ const CustomOrder = {
         "field_study_utm21",
         "field_study_other_utm21",
         "webinar_utm21",
+    ],
+    USM21: [
+        Single.first_name,
+        Single.gender,
+        "id_usm",
+        Single.kpt,
+        "usm_year_study",
+        "usm_university",
+        "usm_faculty",
+        "usm_course",
+        "usm_year",
+        Single.phone_number,
+        "usm_purpose",
+        "usm_cgpa",
+        "job_category"
     ]
 }
 
@@ -281,10 +406,10 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["INTEL", "INTELDD21"];
             break;
         case Single.gender:
-            onCf = ["INTEL", "INTELDD21"];
+            onCf = ["USM21", "INTEL", "INTELDD21"];
             break;
         case Single.kpt:
-            onCf = ["MDCW"];
+            onCf = ["MDCW", "USM21"];
             break;
         case Single.id_utm:
             // @login_by_student_id
@@ -330,7 +455,7 @@ const isCustomUserInfoOff = (cf, key) => {
             offCf = ["MONASH", "SUNWAY"];
             break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY", "INTEL","MDCW"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
             break;
         case Multi.interested_role:
             offCf = ["INTEL"];

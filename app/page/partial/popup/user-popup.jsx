@@ -194,11 +194,11 @@ export default class UserPopup extends Component {
       additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
     }
 
-    console.log("additionalCustomCf",additionalCustomCf)
-    console.log("customKeys",customKeys)
-    console.log("additionalCustomCf",additionalCustomCf)
-    console.log("customKeys",customKeys)
-    console.log("additionalCustomCf",additionalCustomCf)
+    console.log("additionalCustomCf", additionalCustomCf)
+    console.log("customKeys", customKeys)
+    console.log("additionalCustomCf", additionalCustomCf)
+    console.log("customKeys", customKeys)
+    console.log("additionalCustomCf", additionalCustomCf)
 
     var query =
       this.props.role === UserEnum.ROLE_STUDENT
@@ -345,8 +345,8 @@ export default class UserPopup extends Component {
             value: d.rec_position ? (
               d.rec_position
             ) : (
-                <span className="text-muted">{lang("Position Not Specified")}</span>
-              )
+              <span className="text-muted">{lang("Position Not Specified")}</span>
+            )
           }
         );
       } else {
@@ -600,17 +600,24 @@ export default class UserPopup extends Component {
             continue;
           }
         }
+        if (cfCustomFunnel({ action: "is_multi", key: k })) {
+          continue
+        }
         if (!isCustomUserInfoOff(getCF(), k)) {
+          let v;
+          if (this.isValueEmpty(d[k])) {
+            v = notSpecifed
+          } else {
+            v = d[k]
+          }
           items.push({
             label: lang(cfCustomFunnel({ action: "get_label_by_key", key: k })),
             icon: cfCustomFunnel({ action: "get_icon_by_key", key: k }),
-            value: this.isValueEmpty(d[k]) ? notSpecifed : d[k]
+            value: v
           })
         }
       }
-
     }
-
     for (let index in items) {
       try {
         items[index].value = lang(items[index].value);
@@ -797,6 +804,7 @@ export default class UserPopup extends Component {
             title={this.getTitle("Interested Job Location", "map-marker")}
             body={interested_job_location}
           ></PageSection> : null}
+        {this.getCustomViewMulti(user, pageClassName)}
       </div>
     );
 
@@ -813,6 +821,39 @@ export default class UserPopup extends Component {
         right: rightBody
       };
     }
+  }
+
+  getCustomViewMulti(d, pageClassName) {
+    let ret = []
+    let customKey = cfCustomFunnel({ action: "get_keys_for_popup" });
+    for (let k of customKey) {
+      let discard_popup_on = cfCustomFunnel({ action: "get_discard_popup_on_by_key", key: k });
+      if (discard_popup_on) {
+        if (discard_popup_on(d)) {
+          continue;
+        }
+      }
+      if (cfCustomFunnel({ action: "is_single", key: k })) {
+        continue
+      }
+      if (!isCustomUserInfoOff(getCF(), k)) {
+        let list = <CustomList
+          alignCenter={false}
+          className="label"
+          items={d[k].map((d, i) => d.val)}
+        ></CustomList>
+        ret.push(<PageSection
+          className={pageClassName}
+          title={this.getTitle(
+            lang(cfCustomFunnel({ action: "get_label_by_key", key: k })),
+            cfCustomFunnel({ action: "get_icon_by_key", key: k })
+          )}
+          body={list}
+        ></PageSection>);
+      }
+    }
+
+    return ret
   }
 
   getBanner() {

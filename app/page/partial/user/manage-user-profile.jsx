@@ -208,7 +208,6 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.birth_date)
         },
-
         {
           // single
           type: "single",
@@ -222,6 +221,22 @@ export default class ManageUserProfile extends React.Component {
           ref_table_name: "month",
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.graduation_month)
+        },
+        {
+          // single
+          type: "single",
+          input_type: "select",
+          label: lang("When is your graduation year?"),
+          id: Reg.Single.graduation_year,
+          key_input: Reg.Single.graduation_year,
+          select_is_translate_label: true,
+          // select_use_id_as_value: true,
+          ref_order_by: "ID asc",
+          ref_table_name: "year",
+          is_required: true,
+          hidden: isRoleRec() || isRoleOrganizer()
+            || Reg.isCustomUserInfoOff(cf, Reg.Single.graduation_year) // year off
+            || !Reg.isCustomUserInfoOff(cf, Reg.Single.graduation_month) // month tak off
         },
         {
           // defined multi choice

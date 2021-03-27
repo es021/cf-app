@@ -4,11 +4,11 @@ const ALWAYS_TRUE = true;
 const ALWAYS_FALSE = false;
 
 var IsNewEventCard = true;
-const IsDailyCoEnable = false;
 var IsOnVideoResume = ALWAYS_FALSE;
 var IsRecruiterNewHall = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
 const IsGruveoEnable = ALWAYS_FALSE;
+const IsDailyCoEnable = ALWAYS_FALSE;
 
 // if (typeof location !== "undefined") {
 //     IsNewHall = location.href.indexOf("new=1") >= 0 ? true : false;
@@ -42,6 +42,14 @@ var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
 var EmailPhpAdmin = ((isProd) ? Domain : "http://localhost:8085/cf-app/server") + `/php-api/email/email.php`;
 const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
+
+function getTermsAndConditionUrl(cf) {
+    if (cf == "USM21") {
+        return "https://usmvirtualcareerfair2021.com/#tandc";
+    }
+
+    return TermsAndConditionUrl;
+}
 
 
 var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost:8085" : "http://localhost:80";
@@ -135,7 +143,8 @@ module.exports = {
     ImageUrl,
     IsNewHall,
     IsRecruiterNewHall,
-    AssetCustomUrl
+    AssetCustomUrl,
+    getTermsAndConditionUrl
 };
 
 

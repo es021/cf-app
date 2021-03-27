@@ -7,11 +7,11 @@ import {
 } from './db-config';
 import { ButtonLink } from '../app/component/buttons.jsx';
 import { getDataCareerFair } from '../app/component/form';
-import { DocumentUrl, TermsAndConditionUrl } from './app-config';
+import { DocumentUrl, getTermsAndConditionUrl } from './app-config';
 import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from './data-config';
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 import { lang } from '../app/lib/lang';
-import { getNoMatrixLabel } from '../app/redux/actions/auth-actions';
+import { getCF, getNoMatrixLabel } from '../app/redux/actions/auth-actions';
 export const TotalRegisterStep = 3;
 
 
@@ -300,7 +300,7 @@ export const UserFormItem = [
         type: "checkbox",
         data: [{
             key: "accepted",
-            label: <small>{lang("I agree to")} <a href={TermsAndConditionUrl} target="_blank">{lang("terms and conditions")}</a></small>
+            label: <small>{lang("I agree to")} <a href={getTermsAndConditionUrl(getCF())} target="_blank">{lang("terms and conditions")}</a></small>
         }],
         //required: true,,
         register: 1, editStudent: 0, editRec: 0
