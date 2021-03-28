@@ -446,8 +446,7 @@ export default class CompanyPage extends Component {
           </button>
         );
       } else if (isModeCount) {
-        let mainText = `Liked By ${like_count} Student${
-          like_count > 1 ? "s" : ""
+        let mainText = `Liked By ${like_count} Student${like_count > 1 ? "s" : ""
           }`;
         return (
           <ButtonAction
@@ -563,7 +562,7 @@ export default class CompanyPage extends Component {
               className="left"
               customTitle={this._title_("user", "About Us")}
               body={
-                <p
+                <p style={{ textAlign: 'justify' }}
                   dangerouslySetInnerHTML={getDangerousHtml(data.description)}
                 ></p>
               }
@@ -574,7 +573,8 @@ export default class CompanyPage extends Component {
           !data.more_info ? null : (
             <div className="cp-additional-info">
               <b>Additional Information</b><br></br>
-              <p dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}></p>
+              <p style={{ textAlign: 'justify' }}
+                dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}></p>
             </div>
           )
         }
