@@ -22,7 +22,7 @@ var root = isProd ? "/cf" : "";
 // ##################################################
 // console config
 if (isProd) {
-  console.log = function(mes) {
+  console.log = function (mes) {
     return;
   };
 }
@@ -40,17 +40,23 @@ app.use(
   })
 ); // support encoded bodies
 
-//allow CORS
-if (!isProd) {
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
+
+function allowCors(res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 }
+app.use(function (req, res, next) {
+  if (!isProd || req.url == "/external/check-iv-by-ics") {
+    allowCors(res, next);
+  } else {
+    next();
+  }
+});
+
 
 // intercept to serve compress file
 // this has to put before Express Middleware for serving static files
@@ -96,7 +102,7 @@ initializeAllRoute(app, root);
 
 const { template } = require("./server/html/template.js");
 
-app.get(root, function(req, res, next) {
+app.get(root, function (req, res, next) {
   //console.log("root");
   template("Test");
 
@@ -105,12 +111,12 @@ app.get(root, function(req, res, next) {
 
 // ###################################
 // FOR GRUVEO ************************
-app.get(root + "/video-call", function(req, res, next) {
+app.get(root + "/video-call", function (req, res, next) {
   var query = req.query;
   res.sendFile(__dirname + "/public/video-call.html");
 });
 
-app.post(root + "/video-call-auth", function(req, res, next) {
+app.post(root + "/video-call-auth", function (req, res, next) {
   req
     .pipe(crypto.createHmac("sha256", Secret.GRUVEO_SECRET))
     .pipe(new Base64Encode())
@@ -120,7 +126,7 @@ app.post(root + "/video-call-auth", function(req, res, next) {
 // FOR GRUVEO ************************
 // ###################################
 
-app.get("*", function(req, res, next) {
+app.get("*", function (req, res, next) {
   res.send(template(req.url));
   //res.sendFile(__dirname + '/public/index.html');
 });
@@ -132,14 +138,14 @@ app.listen(PORT, () => {
 
 
 /*
- 
+
  var user = {
  user_email: "zul2@gmail.com",
  user_pass: "1234",
  first_name: "John",
  major: "AAA"
  };
- 
+
  AuthAPI.register(user).then((response) => {
  console.log("/register");
  console.log(response);
@@ -148,6 +154,6 @@ app.listen(PORT, () => {
  } else {
  res.send(response);
  }
- 
+
  });
  */

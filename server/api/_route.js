@@ -35,6 +35,20 @@ const initializeAllRoute = function (app, root) {
   });
 
   // Activity Route ----------------------------------------------------------------
+  const { ExternalApi } = require('./external-api');
+  app.post(root + '/external/:action', function (req, res, next) {
+    var action = req.params.action;
+    switch (action) {
+      case 'check-iv-by-ic':
+        ExternalApi.checkIvByIc(req.body)
+          .then((response) => {
+            routeResHandler(res, response);
+          });
+        break;
+    }
+  });
+
+  // Activity Route ----------------------------------------------------------------
   const { ZoomApi } = require('./zoom-api');
   app.post(root + '/zoom/:action', function (req, res, next) {
     var action = req.params.action;
@@ -133,7 +147,7 @@ const initializeAllRoute = function (app, root) {
   const { NexmoAPI } = require("./nexmo-api");
   app.post(root + "/nexmo/:action", function (req, res, next) {
     var action = req.params.action;
-    console.log("nexmo api .....", action , req.body);
+    console.log("nexmo api .....", action, req.body);
     switch (action) {
       case "send-sms":
         NexmoAPI.sendSms(

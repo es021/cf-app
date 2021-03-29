@@ -1,0 +1,219 @@
+<div id="my-embed">
+    <form class="form-container">
+        <label for="ic"><b>Semak Waktu Temuduga</b></label>
+        <input id="inputIc" type="text" placeholder="Masukkan No Kad Pengenalan" name="ic">
+        <button id="semakButton" class="submitButton">SEMAK</button>
+    </form>
+
+    <div id="myModal" class="wzs21_modal">
+        <div class="wzs21_modal-content">
+            <div class="wzs21_modal-content-relative">
+                <!-- <span class="myModalClose">&times;</span> -->
+                <div id="myModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var inputIc = document.getElementById("inputIc");
+        var modal = document.getElementById("myModal");
+        var modalBody = document.getElementById("myModalBody");
+        // var modalClose = document.getElementsByClassName("myModalClose")[0];
+        var semakButton = document.getElementById("semakButton");
+        semakButton.addEventListener("click", function (event) {
+            event.preventDefault()
+            submit();
+        });
+        // modalClose.onclick = function () {
+        //     closeModal();
+        // }
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        function closeModal() {
+            modal.style.display = "none";
+        }
+        function openModal(ic, d) {
+            if (!d) {
+                modalBody.innerHTML = `Tiada rekod ditemui untuk carian <b>${ic}</b>`
+            } else {
+                modalBody.innerHTML = `
+                <div style="font-size:20px; margin-bottom:15px;"><b>${d["name"]}</b></div>
+                <div><b>Tarikh Temuduga</b> : ${d["iv_date"]}</div>
+                <div><b>Masa Temuduga</b> : ${d["iv_time"]}</div>
+                `
+            }
+            modal.style.display = "block";
+        }
+        function submit() {
+            let ic = inputIc.value;
+            console.log(ic);
+            if(!ic){
+                return;
+            }
+            var url = "http://localhost:4000/external/check-iv-by-ic";
+            var param = { "ic": ic }
+
+            var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+            var errRequest = null;
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    try {
+                        let res = JSON.parse(this.responseText);
+                        openModal(ic, res[0]);
+                    } catch (err) {
+                        errRequest = err.toString();
+                    }
+                }
+            };
+            xmlhttp.open("POST", url);
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(param));
+        }
+
+    </script>
+    <style>
+        /* body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        } */
+
+        #my-embed {
+            text-align: right;
+            display: flex;
+            font-family: 'Inconsolata', monospace;
+            justify-content: end;
+        }
+
+        .submitButton {
+            background-color: #555;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            width: 100%;
+        }
+
+        .form-popup {
+            display: none;
+            position: fixed;
+            margin: auto;
+            top: 0;
+            border: 3px solid #f1f1f1;
+            overflow: hidden;
+            z-index: 9;
+        }
+
+        .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+            text-align: center;
+        }
+
+        .form-container input[type=text],
+        .form-container input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        .form-container input[type=text]:focus,
+        .form-container input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        .form-container .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .form-container .cancel {
+            background-color: red;
+        }
+
+        .form-container .btn:hover,
+        .submitButton:hover {
+            opacity: 1;
+        }
+
+        .wzs21_modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* wzs21_modal Content/Box */
+        .wzs21_modal-content {
+            border-radius: 10px;
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+
+            /* Could be more or less, depending on screen size */
+        }
+
+        .wzs21_modal-content-relative {
+            min-height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #myModalBody {
+            font-size: 18px;
+            text-align: left;
+        }
+
+        /* The Close Button */
+        .myModalClose {
+            color: #aaa;
+            position: fixed;
+            top: 10;
+            right: 3;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .myModalClose:hover,
+        .myModalClose:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</div>
