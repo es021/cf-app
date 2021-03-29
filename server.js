@@ -21,11 +21,11 @@ var root = isProd ? "/cf" : "";
 
 // ##################################################
 // console config
-if (isProd) {
-  console.log = function (mes) {
-    return;
-  };
-}
+// if (isProd) {
+//   console.log = function (mes) {
+//     return;
+//   };
+// }
 
 // ##################################################
 //Use Career Fair Schema
@@ -50,6 +50,7 @@ function allowCors(res, next) {
   next();
 }
 app.use(function (req, res, next) {
+  console.log("req.url", req.url);
   if (!isProd || req.url.indexOf("/external/check-iv-by-ics") >= 0) {
     allowCors(res, next);
   } else {
