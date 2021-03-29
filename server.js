@@ -50,7 +50,7 @@ function allowCors(res, next) {
   next();
 }
 app.use(function (req, res, next) {
-  if (!isProd || req.url == "/external/check-iv-by-ics") {
+  if (!isProd || req.url.indexOf("/external/check-iv-by-ics") >= 0) {
     allowCors(res, next);
   } else {
     next();
