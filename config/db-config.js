@@ -699,12 +699,13 @@ const CFSMeta = {
 	ORGANIZATIONS: "organizations", // json object
 
 	// custom on/off features
-	FEATURE_COMPANY_BOOTH: "feature_company_booth",
+	FEATURE_STUDENT_COMPANY_BOOTH: "feature_student_company_booth",
+	FEATURE_STUDENT_JOB_POST: "feature_student_job_post",
 	FEATURE_SPONSOR: "feature_sponsor",
 	FEATURE_DROP_RESUME: "feature_drop_resume",
 	FEATURE_FEEDBACK: "feature_feedback",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
-	FEATURE_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
+	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
 	FEATURE_SUBSCRIBE: "feature_subscribe",
 
 	// custom text

@@ -139,7 +139,7 @@ class PrimaryLayout extends React.Component {
       organizations
       hall_cfg_onsite_call_use_group
   
-      feature_company_booth
+      feature_student_company_booth
       feature_sponsor
       
       text_header_title

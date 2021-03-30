@@ -507,7 +507,7 @@ export default class CompanyPage extends Component {
     return <div className="container-fluid">
       <div className="row" >
         {/* top full */}
-        {/* if (isCfFeatureOff(CFSMeta.FEATURE_COMPANY_BOOTH)) {
+        {/* if (isCfFeatureOff(CFSMeta.FEATURE_STUDENT_COMPANY_BOOTH)) {
       return null;
     } */}
 

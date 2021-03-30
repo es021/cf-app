@@ -314,6 +314,10 @@ export default class HallPage extends React.Component {
     </div>
   }
   getJobPost(backgroundColor) {
+    if (isCfFeatureOff(CFSMeta.FEATURE_STUDENT_JOB_POST) && isRoleStudent()) {
+      return null;
+    }
+
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title={lang("Job Posts")}
         icon="suitcase"
@@ -367,7 +371,7 @@ export default class HallPage extends React.Component {
     </div>
   }
   getCompanyBooth(backgroundColor) {
-    if (isCfFeatureOff(CFSMeta.FEATURE_COMPANY_BOOTH)) {
+    if (isCfFeatureOff(CFSMeta.FEATURE_STUDENT_COMPANY_BOOTH) && isRoleStudent()) {
       return null;
     }
 

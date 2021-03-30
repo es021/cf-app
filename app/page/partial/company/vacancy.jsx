@@ -201,7 +201,7 @@ export class VacancyList extends React.Component {
       for (var i in data) {
         let d = data[i];
 
-        if (isCfFeatureOff(CFSMeta.FEATURE_JOB_POST_FILTER_LOCATION)) {
+        if (isCfFeatureOff(CFSMeta.FEATURE_STUDENT_JOB_POST_FILTER_LOCATION)) {
           if (d._key == "location") {
             continue;
           }

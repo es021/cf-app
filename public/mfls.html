@@ -50,7 +50,7 @@
         function submit() {
             let ic = inputIc.value;
             console.log(ic);
-            if(!ic){
+            if (!ic) {
                 return;
             }
             var url = "https://seedsjobfairapp.com/cf/external/check-iv-by-ic";
@@ -92,9 +92,10 @@
         }
 
         .submitButton {
-            background-color: #555;
+            background-color: rgb(44, 146, 241);
             color: white;
             padding: 16px 20px;
+            font-weight: bold;
             border: none;
             cursor: pointer;
             opacity: 0.8;
@@ -112,10 +113,15 @@
         }
 
         .form-container {
-            max-width: 300px;
+            width: 100%;
             padding: 10px;
             background-color: white;
             text-align: center;
+        }
+
+        .form-container label {
+            font-size: 14px;
+            margin-bottom: 10px;
         }
 
         .form-container input[type=text],
