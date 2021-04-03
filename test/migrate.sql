@@ -1,7 +1,6 @@
 usm21.sql
 
 
-
 a.split("\n").map((d)=>{
   return `INSERT INTO wp_career_fair.ref_job_category (val) VALUES ('${d.trim()}');`
 }).join("\n");

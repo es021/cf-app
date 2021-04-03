@@ -173,10 +173,12 @@ vacancy-suggestion implementation
 (relevence?)
 do research
 
-####################################################
-/var/www/notification-cf-app/lib/private.php
-/var/www/cf-app/server/secret/secret.js
-ad wordpress admin panel, -> setup for email 
+## ##################################################
+sudo nano /var/www/notification-cf-app/lib/private.php
+sudo nano /var/www/cf-app/server/php-api/lib/secret.php
+# ad wordpress admin panel, -> setup for email
+https://seedsjobfairapp.com/career-fair/wp-admin/
+ 
 
 ####################################################
 ssh root@104.131.105.183

@@ -199,7 +199,7 @@ class XLSApi {
 
   list_job_applicants(filter, cf, is_admin) {
     console.log("filter", filter)
-    var filename = `Student Listing`;
+    var filename = `Participant Listing`;
     var query = `query{
         interested_list (
           entity:"${filter.entity}", 
@@ -253,7 +253,7 @@ class XLSApi {
     return this.browse_student(`role:"Student"`, true);
   }
   browse_student(filterStr, cf, is_admin) {
-    var filename = `Student Listing`;
+    var filename = `Participant Listing`;
     var query = `query{
       browse_student (${filterStr}) 
       {
@@ -297,7 +297,7 @@ class XLSApi {
     // const renameTitle = (originalTitle, dataIndex0) => {
     //   let toRet = originalTitle;
     //   if (typeof dataIndex0["company_name"] !== "undefined") {
-    //     toRet = `Student Listing - ${dataIndex0["company_name"]}`;
+    //     toRet = `Participant Listing - ${dataIndex0["company_name"]}`;
     //   }
     //   return toRet;
     // };
@@ -369,7 +369,7 @@ class XLSApi {
   //   for_rec = typeof for_rec === "undefined" ? false : for_rec;
 
   //   // 0. create filename
-  //   var filename = `Student Listing - Company ${cid}`;
+  //   var filename = `Participant Listing - Company ${cid}`;
 
   //   let queryParam = JSON.parse(JSON.stringify(filter));
   //   delete queryParam["for_rec"];
@@ -424,7 +424,7 @@ class XLSApi {
   //   const renameTitle = (originalTitle, dataIndex0) => {
   //     let toRet = originalTitle;
   //     if (typeof dataIndex0["company_name"] !== "undefined") {
-  //       toRet = `Student Listing - ${dataIndex0["company_name"]}`;
+  //       toRet = `Participant Listing - ${dataIndex0["company_name"]}`;
   //     }
   //     return toRet;
   //   };
@@ -480,8 +480,13 @@ class XLSApi {
       "looking_for_position",
       "interested_role",
       "interested_job_location",
-      ...cfCustomFunnel({ action: 'get_keys_multi' })
     ];
+
+    for (let customMulti of cfCustomFunnel({ action: 'get_keys_multi' })) {
+      if (!isCustomUserInfoOff(this.CF, customMulti)) {
+        multi_input.push(customMulti);
+      }
+    }
 
     for (var i in multi_input) {
       let key = multi_input[i];
