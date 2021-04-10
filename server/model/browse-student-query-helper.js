@@ -324,7 +324,7 @@ function fetchNewFilterAndUpdatePivot(newParam, where) {
 		let newResultStr = JSON.stringify(res);
 		let buff = new Buffer(newResultStr);
 		newResultStr = buff.toString('base64');
-		newResultStr = newResultStr.length + "";
+		// newResultStr = newResultStr.length + "";
 
 		let sqlInsert = `INSERT INTO pivot_student_filter (param, result) VALUES (?,?) ON DUPLICATE KEY UPDATE result = ?`
 		sqlInsert = DB.prepare(sqlInsert, [newParamStr, newResultStr, newResultStr]);
