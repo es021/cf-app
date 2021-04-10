@@ -2,7 +2,6 @@ const { isCustomUserInfoOff, Single } = require("../../config/registration-confi
 const { overrideLanguageTable } = require("./ref-query.js");
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 const DB = require("./DB.js");
-const e = require("express");
 
 const EMPTY_FILTER = `select 
 '' as _key 
@@ -320,11 +319,13 @@ function fetchNewFilterAndUpdatePivot(newParam, where) {
 	let newParamStr = JSON.stringify(newParam);
 	let sql = generateQuery(newParam, where);
 	return DB.query(sql).then(res => {
-		
+
 		// insert to pivot table
 		let newResultStr = JSON.stringify(res);
+		let buff = new Buffer(newResultStr);
+		newResultStr = buff.toString('base64');
+
 		let sqlInsert = `INSERT INTO pivot_student_filter (param, result) VALUES (?,?) ON DUPLICATE KEY UPDATE result = ?`
-		newResultStr = "uhuk ehek";
 		sqlInsert = DB.prepare(sqlInsert, [newParamStr, newResultStr, newResultStr]);
 		DB.query(sqlInsert)
 
@@ -342,7 +343,7 @@ function getNewParam(param) {
 
 function fetchFilter(where, param) {
 	let newParam = getNewParam(param);
-	if (param.override_pivot || true) {
+	if (param.override_pivot) {
 		return fetchNewFilterAndUpdatePivot(newParam, where)
 	}
 
@@ -352,7 +353,11 @@ function fetchFilter(where, param) {
 	// check in pivot table
 	return DB.query(sqlPivot).then(resPivot => {
 		try {
-			return JSON.parse(resPivot[0].result);
+			let str = resPivot[0].result;
+			let buff = new Buffer(str, 'base64');
+			str = buff.toString('ascii');
+			let toRet = JSON.parse(str);
+			return toRet;
 		}
 		// if not found fetch from main table
 		catch (err) {
