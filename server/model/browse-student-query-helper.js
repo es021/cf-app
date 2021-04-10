@@ -342,7 +342,7 @@ function getNewParam(param) {
 
 function fetchFilter(where, param) {
 	let newParam = getNewParam(param);
-	if (param.override_pivot) {
+	if (param.override_pivot || true) {
 		return fetchNewFilterAndUpdatePivot(newParam, where)
 	}
 
