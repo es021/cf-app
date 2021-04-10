@@ -536,6 +536,7 @@ fields["group_session_joins"] = {
 
 // 5. @custom_user_info_by_cf
 let argBrowseStudent = {
+	override_pivot: __.Boolean,
 	discard_filter: __.String,
 
 	lang: __.String,

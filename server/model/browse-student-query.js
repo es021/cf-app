@@ -9,7 +9,7 @@ const { isCustomUserInfoOff, Single } = require("../../config/registration-confi
 const { UserMeta, IsSeenEnum } = require("../../config/db-config.js");
 const { overrideLanguageTable } = require("./ref-query.js");
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
-
+const { fetchFilter } = require("./browse-student-query-helper");
 // all-type
 // mutation
 // root
@@ -145,17 +145,18 @@ class BrowseStudentExec {
 
 		return `(${from_sql} AND ${to_sql})`;
 	}
-	isDiscardFilter(param, filter) {
-		let toRet = false;
-		try {
-			if (param.discard_filter.indexOf(`::${filter}::`) >= 0) {
-				toRet = true;
-			}
-		} catch (err) { }
+	// isDiscardFilter(param, filter) {
+	// 	let toRet = false;
+	// 	try {
+	// 		if (param.discard_filter.indexOf(`::${filter}::`) >= 0) {
+	// 			toRet = true;
+	// 		}
+	// 	} catch (err) { }
 
-		// // console.log("isDiscardFilter", filter, toRet);
-		return toRet;
-	}
+	// 	// // console.log("isDiscardFilter", filter, toRet);
+	// 	return toRet;
+	// }
+	/** 
 	queryFilter(param) {
 		const currentCf = param.current_cf;
 
@@ -450,14 +451,12 @@ class BrowseStudentExec {
 		X ORDER BY X._key, X._val_label asc, X._val asc, X._total desc`;
 
 		// UNION ALL
-		// ${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
-
-
+		// ${multiFilter("field_study", where)
+		// @limit_field_of_study_2_before_deploy - comment }
 		q = overrideLanguageTable(q, param);
-
 		return q;
-
 	}
+	*/
 	whereDropResume(company_id, user_id, param) {
 		if (param === "1") {
 			let q = ` (select COUNT(rd.ID) FROM resume_drops rd 
@@ -598,7 +597,7 @@ class BrowseStudentExec {
 			custom_multi_where += " AND " + this.where(user_id, this.TABLE_MULTI, k, param[k])
 		}
 
-		
+
 		// AND (${field_study_main} OR ${field_study_secondary})
 		return `1=1
 			${custom_single_where}
@@ -643,10 +642,14 @@ class BrowseStudentExec {
 		let select = "";
 		let order = "";
 		let group = "";
-		if (this.isFilter(type)) {
-			return this.queryFilter(param);
 
-		} else if (this.isCount(type)) {
+		// if (this.isFilter(type)) {
+		// 	let where = this.getWhere("s.entity_id", param);
+		// 	return queryFilter(param, where);
+
+		// } else 
+
+		if (this.isCount(type)) {
 			select = `COUNT (DISTINCT u.ID) as total`;
 
 		} else {
@@ -713,16 +716,23 @@ class BrowseStudentExec {
 		return type == "count";
 	}
 	getHelper(type, param, field, extra = {}) {
-		var sql = this.query(param, type);
 		// // console.log("[BrowseStudentExec]", sql)
+
+		if (this.isFilter(type)) {
+			let where = this.getWhere("s.entity_id", param);
+			return fetchFilter(where, param);
+		}
+
+		var sql = this.query(param, type);
 		var toRet = DB.query(sql).then(res => {
 			if (this.isList(type)) {
 				return this.resList(res, field, param);
 			} else if (this.isCount(type)) {
 				return this.resCount(res);
-			} else if (this.isFilter(type)) {
-				return this.resFilter(res);
 			}
+			// else if (this.isFilter(type)) {
+			// 	return this.resFilter(res);
+			// }
 		});
 		return toRet;
 	}
