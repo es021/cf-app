@@ -206,7 +206,8 @@ export class BrowseStudent extends React.Component {
     } else {
       if (!this.isPageStudentListJobPost() && CompanyEnum.hasPriv(this.state.privs, CompanyEnum.PRIV.JOB_POSTING_ONLY)) {
         // redirect to student list job post
-        return <Redirect to={`${AppPath}/student-list-job-post`}></Redirect>
+        let url = isRoleAdmin() ? `student-list-job-post-admin/${this.company_id}` : 'student-list-job-post'
+        return <Redirect to={`${AppPath}/${url}`}></Redirect>
         // v = <EmptyState body={<div className="text-muted">Sorry. It seems that you have no access<br></br>to all student profiles yet.</div>}></EmptyState>
       } else {
         v = <div className="container-fluid">

@@ -335,10 +335,13 @@ function fetchNewFilterAndUpdatePivot(newParam, where) {
 }
 
 function getNewParam(param) {
-	let newParam = {
-		current_cf: param.current_cf,
-		discard_filter: param.discard_filter,
-	}
+	// let newParam = {
+	// 	current_cf: param.current_cf,
+	// 	discard_filter: param.discard_filter,
+	// }
+
+	let newParam = JSON.parse(JSON.stringify(param));
+	delete newParam["override_pivot"]
 	return newParam;
 }
 

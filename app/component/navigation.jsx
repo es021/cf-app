@@ -92,7 +92,7 @@ import OrganizersPage from "../page/admin-organizer";
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
   if (isAuthorized()) {
-    if(isRoleOrganizer()){
+    if (isRoleOrganizer()) {
       homeComponent = OrganizerDashboard;
     }
     else if (isRoleRec() && IsRecruiterNewHall) {
@@ -414,6 +414,18 @@ function getMenuItem(COMING_SOON) {
       // hd_app: true,
       hd_auth: false,
       disabled: !isRoleRec()
+    },
+    {
+      url: "/student-list-job-post-admin/:id",
+      label: lang("Student Listing"),
+      icon: "user",
+      component: BrowseStudent,
+      routeOnly: true,
+      bar_app: true,
+      bar_auth: true,
+      // hd_app: true,
+      hd_auth: true,
+      disabled: !isRoleAdmin()
     },
     {
       url: "/auditorium",

@@ -1,6 +1,21 @@
 const { graphql } = require("../../helper/api-helper");
 const DB = require("../model/DB");
+function getQueryParam(param) {
+    let ret = "";
+    // current_cf: "${param.current_cf}",
+    //     discard_filter: "${param.discard_filter}"
+    for (let k in param) {
+        let v = param[k];
+        if (typeof v === "string") {
+            ret += ` ,${k}:"${param[k]}" `
+        } else if (typeof v === "number") {
+            ret += ` ,${k}:${param[k]} `
+        }
+    }
 
+    return ret;
+}
+// */5 * * * * cd /var/www/cf-app && NODE_ENV=production nvm exec 8.9.1 node ./server/cron/update-pivot-student-filter.js
 function Main() {
     var toLoad = 0;
     var loaded = 0;
@@ -21,9 +36,8 @@ function Main() {
                 console.log(param);
                 let q = `query{ 
                     browse_student_filter( 
-                        override_pivot: true,
-                        current_cf:"${param.current_cf}", 
-                        discard_filter:"${param.discard_filter}" 
+                        override_pivot: true
+                        ${getQueryParam(param)}
                     ) 
                     { _key _val _total _val_label } 
                 }`;
