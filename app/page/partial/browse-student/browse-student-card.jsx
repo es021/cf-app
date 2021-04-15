@@ -13,7 +13,8 @@ import {
     isRoleStudent,
     getCF,
     getAuthUser,
-    isRoleAdmin
+    isRoleAdmin,
+    getCfCustomMeta
 } from "../../../redux/actions/auth-actions";
 import { ProfileListWide } from "../../../component/list";
 import { Time } from "../../../lib/time";
@@ -27,7 +28,8 @@ import {
     UserEnum,
     PrescreenEnum,
     CompanyEnum,
-    IsSeenEnum
+    IsSeenEnum,
+    CFSMeta
 } from "../../../../config/db-config";
 import { lang } from "../../../lib/lang";
 
@@ -314,7 +316,6 @@ export class BrowseStudentCard extends React.Component {
 
         const actionSchedule = <button
             onClick={() => {
-                console.log("Schedule Call");
                 if (canSchedule) {
                     openSIFormAnytime(d.student_id, this.props.company_id);
                     this.triggerIsSeen();
@@ -328,7 +329,7 @@ export class BrowseStudentCard extends React.Component {
             }}
             className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
             <i className="fa fa-video-camera left" />
-            {lang("Schedule Call")}
+            {lang(getCfCustomMeta(CFSMeta.TEXT_SCHEDULE_CALL, `Schedule Call`))}
         </button>
 
         // like button

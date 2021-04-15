@@ -6,7 +6,8 @@ import {
   DocLinkEnum,
   UserEnum,
   LogEnum,
-  PrescreenEnum
+  PrescreenEnum,
+  CFSMeta
 } from "../../../../config/db-config";
 import { getMonthLabel } from "../../../../config/data-config";
 import { ImgConfig, RootPath, IsOnVideoResume, AppPath } from "../../../../config/app-config";
@@ -20,7 +21,8 @@ import {
   getAuthUser,
   isRoleAdmin,
   getCF,
-  getNoMatrixLabel
+  getNoMatrixLabel,
+  getCfCustomMeta
 } from "../../../redux/actions/auth-actions";
 import CompanyPopup from "./company-popup";
 import { addLog } from "../../../redux/actions/other-actions";
@@ -977,7 +979,7 @@ export default class UserPopup extends Component {
         }}
       >
         <i className="fa fa-video-camera left" />
-        {lang("Schedule Call")}
+        {lang(getCfCustomMeta(CFSMeta.TEXT_SCHEDULE_CALL, `Schedule Call`))}
       </a>
     );
   }

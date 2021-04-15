@@ -52,6 +52,7 @@ EXPORT.Cfs = {
     feature_subscribe: __.String,
 
     // custom text
+    text_schedule_call: __.String,
     text_header_title: __.String,
     text_header_desc: __.String,
     text_student_entity_single: __.String,

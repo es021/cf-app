@@ -85,6 +85,7 @@ class CompaniesPage extends React.Component {
 
         if (d != null) {
             this.searchParams += this.searchParamGet("search_name", d.search_name);
+            this.searchParams += this.searchParamGet("cf", d.cf);
         }
         this.setState(prevState => {
             return { search: d };
@@ -104,12 +105,20 @@ class CompaniesPage extends React.Component {
             </tr>
         </thead>;
 
-        this.searchFormItem = [{
-            label: "Company Name",
-            name: "search_name",
-            type: "text",
-            placeholder: "Shell"
-        }];
+        this.searchFormItem = [
+            {
+                label: "Company Name",
+                name: "search_name",
+                type: "text",
+                placeholder: "Shell"
+            },
+            {
+                label: "Career Fair",
+                name: "cf",
+                type: "text",
+                placeholder: "USA"
+            },
+        ];
 
         this.addFormItem = [
             {

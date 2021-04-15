@@ -709,6 +709,7 @@ const CFSMeta = {
 	FEATURE_SUBSCRIBE: "feature_subscribe",
 
 	// custom text
+	TEXT_SCHEDULE_CALL: "text_schedule_call",
 	TEXT_HEADER_TITLE: "text_header_title",
 	TEXT_HEADER_DESC: "text_header_desc",
 	TEXT_STUDENT_ENTITY_SINGLE: "text_student_entity_single",

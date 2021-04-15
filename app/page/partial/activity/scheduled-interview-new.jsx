@@ -4,13 +4,15 @@ import {
   Prescreen,
   PrescreenEnum,
   Availability,
-  NotificationsEnum
+  NotificationsEnum,
+  CFSMeta
 } from "../../../../config/db-config";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import {
   getAuthUser,
   isRoleAdmin,
-  getCFObj
+  getCFObj,
+  getCfCustomMeta
 } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { ActivityType } from "../../../redux/actions/hall-actions";
@@ -110,9 +112,8 @@ export default class ScheduledInterviewNew extends React.Component {
       notiParam[Prescreen.APPNMENT_TIME] = d[Prescreen.APPNMENT_TIME];
       addNotification({
         user_id: this.props.student_id,
-        text: `<b>${
-          this.state.company.name
-        }</b> has scheduled a private session with you`,
+        text: `<b>${this.state.company.name
+          }</b> has scheduled a private session with you`,
         param: notiParam,
         type: NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION,
         img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
@@ -144,9 +145,8 @@ export default class ScheduledInterviewNew extends React.Component {
 
   successAddHandler() {
     var link = isRoleAdmin()
-      ? `${RootPath}/app/manage-company/${
-          this.props.company_id
-        }/scheduled-interview`
+      ? `${RootPath}/app/manage-company/${this.props.company_id
+      }/scheduled-interview`
       : `${RootPath}/app/my-activity/scheduled-session`;
 
     var mes = (
@@ -216,7 +216,7 @@ export default class ScheduledInterviewNew extends React.Component {
             {this.state.loadingSubmit ? (
               <i className="fa fa-spinner fa-pulse left" />
             ) : null}
-            Schedule Call
+            {getCfCustomMeta(CFSMeta.TEXT_SCHEDULE_CALL, `Schedule Call`)}
           </button>
         </div>
       );
