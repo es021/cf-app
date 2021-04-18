@@ -85,7 +85,7 @@ class AuthAPI {
 			return true;
 		}
 		else if (role == UserEnum.ROLE_ORGANIZER) {
-		  return user[User.CF].indexOf(cf) >= 0;
+			return user[User.CF].indexOf(cf) >= 0;
 		}
 		else if (role == UserEnum.ROLE_RECRUITER) {
 			if (user.company) {
@@ -249,21 +249,23 @@ class AuthAPI {
 
 
 		var user_query = `query{
-            user(user_email:"${email}", cf_to_check_id_utm:"${cf}"){
+            user:user(user_email:"${email}", cf_to_check_id_utm:"${cf}"){
                 ${field} company {cf name recruiters
                     {ID user_email first_name last_name}}
-            }}`;
+            }
+			cf:cf(name:"${cf}"){
+				name feature_student_login
+			}
+		}`;
 
-		console.log("user_query", user_query)
-		console.log("user_query", user_query)
-		console.log("user_query", user_query)
-		console.log("user_query", user_query)
 		return getAxiosGraphQLQuery(user_query).then(
 			(res) => {
-
 				var user = res.data.data.user;
-				console.log(user);
-				console.log(user);
+				var cfRes = res.data.data.cf;
+
+				if (user["role"] == "student" && cfRes["feature_student_login"] == "OFF") {
+					return AuthAPIErr.STUDENT_CANNOT_LOGIN;
+				}
 
 				if (user !== null) {
 					// check if in kpt exist

@@ -4,7 +4,7 @@ import Form, { toggleSubmit, getDataCareerFair } from "../component/form";
 import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
-import { register, getCF, getCFObj, getCfCustomMeta, getNoMatrixLabel } from "../redux/actions/auth-actions";
+import { register, getCF, getCFObj, getCfCustomMeta, getNoMatrixLabel, isCfFeatureOff } from "../redux/actions/auth-actions";
 import { RootPath, DocumentUrl, LandingUrl } from "../../config/app-config";
 import AvailabilityView from "./availability";
 import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
@@ -469,17 +469,20 @@ export default class SignUpPage extends React.Component {
           <h3>
             {lang(registrationTitle)}<br></br>
           </h3>
-          {this.state.loading ? <Loader></Loader> :
-            <Form
-              className="form-row"
-              items={formItems}
-              onSubmit={this.formOnSubmit}
-              defaultValues={this.defaultValues}
-              submitText={lang("Sign Me Up!")}
-              disableSubmit={this.state.disableSubmit}
-              contentBeforeSubmit={null}
-              error={this.state.error}
-            ></Form>
+          {this.state.loading
+            ? <Loader></Loader>
+            : isCfFeatureOff(CFSMeta.FEATURE_STUDENT_REGISTER)
+              ? <div>{lang("We are sorry. Registration for this event is currently closed.")}</div>
+              : <Form
+                className="form-row"
+                items={formItems}
+                onSubmit={this.formOnSubmit}
+                defaultValues={this.defaultValues}
+                submitText={lang("Sign Me Up!")}
+                disableSubmit={this.state.disableSubmit}
+                contentBeforeSubmit={null}
+                error={this.state.error}
+              ></Form>
           }
         </div>
       );
