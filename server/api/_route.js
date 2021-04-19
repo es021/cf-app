@@ -35,6 +35,26 @@ const initializeAllRoute = function (app, root) {
   });
 
   // Activity Route ----------------------------------------------------------------
+  const { CfsApi } = require("./other-api");
+  app.post(root + '/cf/:action', function (req, res, next) {
+    var action = req.params.action;
+    switch (action) {
+      case 'create':
+        CfsApi.create(req.body)
+          .then((response) => {
+            routeResHandler(res, response);
+          });
+        break;
+    }
+  });
+  app.post(root + "/get-all-cf", function (req, res, next) {
+    // active only
+    CfsApi.getAllCf().then(response => {
+      routeResHandler(res, response);
+    });
+  });
+
+  // Activity Route ----------------------------------------------------------------
   const { ExternalApi } = require('./external-api');
   app.post(root + '/external/:action', function (req, res, next) {
     var action = req.params.action;
@@ -135,13 +155,6 @@ const initializeAllRoute = function (app, root) {
     );
   });
 
-  const { CfsApi } = require("./other-api");
-  app.post(root + "/get-all-cf", function (req, res, next) {
-    // active only
-    CfsApi.getAllCf().then(response => {
-      routeResHandler(res, response);
-    });
-  });
 
   // NexmoAPI Route ----------------------------------------------------------------
   const { NexmoAPI } = require("./nexmo-api");

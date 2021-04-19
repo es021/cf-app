@@ -173,7 +173,7 @@
         }
 
         var lang_version = "lang-v7";
-        var app_version = "oejf-v2";
+        var app_version = "oejf-v3";
         var js_version = app_version;
         var css_version = app_version;
         MainLoadAsset(js_version, css_version, lang_version);
@@ -181,6 +181,7 @@
         // ###########################
         // TAWK - support widget
         let interval = setInterval(function () {
+            
             let cf = localStorage.getItem("current-cf")
             console.log("Set tawk", cf);
             if (cf != null) {

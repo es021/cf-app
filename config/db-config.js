@@ -682,7 +682,17 @@ const CFS = {
 // 1. @adding_cf_meta
 const CFSMeta = {
 	TABLE: "cfs_meta",
+
+
+	// ########################################################
 	TITLE: "title",
+	CAN_REGISTER: "can_register",
+	CAN_LOGIN: "can_login",
+	IMAGE_HEADER_ICON: "image_header_icon", // custom image
+	LINK_EXTERNAL_HOME: "link_external_home", // custom link
+	// ########################################################
+
+
 	WELCOME_TEXT: "welcome_text",
 	TITLE_LANDING: "title_landing",
 	BANNER: "banner",
@@ -691,8 +701,6 @@ const CFSMeta = {
 	END: "end",
 	TIME_STR: "time_str",
 	TIME_STR_MAS: "time_str_mas",
-	CAN_REGISTER: "can_register",
-	CAN_LOGIN: "can_login",
 	MAIL_CHIMP_LIST: "mail_chimp_list",
 	HALL_CFG_ONSITE_CALL_USE_GROUP: "hall_cfg_onsite_call_use_group",
 	IS_LOCAL: "is_local",
@@ -724,37 +732,11 @@ const CFSMeta = {
 	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer", // sign-up.jsx
 	TEXT_SALUTATION_RECRUITER: "text_salutation_recruiter", // hall-recruiter.jsx
 
-	// custom image
-	IMAGE_HEADER_ICON: "image_header_icon",
-
-	// custom link
-	LINK_EXTERNAL_HOME: "link_external_home",
 	LINK_EXTERNAL_FOLLOW: "link_external_follow",
 	LINK_EXTERNAL_FEEDBACK_STUDENT: "link_external_feedback_student",
 	LINK_EXTERNAL_FEEDBACK_REC: "link_external_feedback_rec",
 	LINK_GUIDE_STUDENT: "link_guide_student",
 	LINK_GUIDE_REC: "link_guide_rec",
-
-	// not really used
-	// FLAG: "flag",
-	// SCHEDULE: "schedule",
-	// OVERRIDE_COMING_SOON: "override_coming_soon",
-	// PAGE_URL: "page_url",
-	// PAGE_BANNER: "page_banner",
-	// TEST_START: "test_start",
-	// TEST_END: "test_end",
-	// LOGO: "logo",
-	// LOGO_HEIGHT_HALL: "logo_height_hall",
-	// LOGO_WIDTH_HALL: "logo_width_hall",
-	// LOGO_MARGIN_HALL: "logo_margin_hall",
-	// LOGO_HEIGHT: "logo_height",
-	// LOGO_WIDTH: "logo_width",
-	// LOGO_POSITION: "logo_position",
-	// LOGO_SIZE: "logo_size",
-
-	// CUSTOM_STYLE: "custom_style",
-	// CUSTOM_FEATURE: "custom_feature",
-
 };
 
 const CFSMetaObject = [

@@ -1,6 +1,7 @@
 const { getAxiosGraphQLQuery } = require('../../helper/api-helper');
 const axios = require('axios');
 const obj2arg = require('graphql-obj2arg');
+const DB = require('../model/DB.js');
 
 class MetaAPI {
     add(key, value, source) {
@@ -15,14 +16,27 @@ class MetaAPI {
 MetaAPI = new MetaAPI();
 
 class CfsApi {
-    getAllCf(){
+    getAllCf() {
         var query = `query{ cfs(is_active :1) { ID name country time }}`;
         return getAxiosGraphQLQuery(query).then((res) => {
             return res.data.data.cfs;
         }, (err) => {
             return err;
         });
-    } 
+    }
+    create(param) {
+        let cf = param.cf;
+        let sql = `INSERT INTO cfs 
+        (name,country,time,is_active,is_load,cf_order) 
+        VALUES (?, '', '18 - 22 July, 2020','1', '1', '8')`
+
+        sql = DB.prepare(sql, [cf]);
+        return DB.query(sql).then(res => {
+            return res;
+        }).catch(err => {
+            return JSON.stringify(err);
+        })
+    }
 }
 CfsApi = new CfsApi();
 

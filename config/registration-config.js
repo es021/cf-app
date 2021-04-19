@@ -388,10 +388,10 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MONASH"];
             break;
         case Single.sunway_faculty:
-            onCf = ["SUNWAY"];
+            onCf = ["SUNWAY", "SUNWAYGRD21"];
             break;
         case Single.sunway_program:
-            onCf = ["SUNWAY"];
+            onCf = ["SUNWAY", "SUNWAYGRD21"];
             break;
         case Single.monash_student_id:
             onCf = ["MONASH"];
@@ -437,7 +437,7 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
+            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
             break;
         case Single.university:
             offCf = ["UNISZA"];
@@ -449,13 +449,13 @@ const isCustomUserInfoOff = (cf, key) => {
             offCf = ["UNISZA"];
             break;
         case Single.where_in_malaysia:
-            offCf = ["MONASH", "SUNWAY", "INTEL"];
+            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21", "INTEL"];
             break;
         case Multi.field_study:
-            offCf = ["MONASH", "SUNWAY"];
+            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21"];
             break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
+            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21", "INTEL", "MDCW"];
             break;
         case Multi.interested_role:
             offCf = ["INTEL"];

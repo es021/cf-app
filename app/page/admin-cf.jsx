@@ -6,17 +6,24 @@ import UserPopup from './partial/popup/user-popup';
 
 //importing for list
 import List from '../component/list';
-import { getAxiosGraphQLQuery, graphql, graphqlAttr } from '../../helper/api-helper';
+import { getAxiosGraphQLQuery, graphql, graphqlAttr, postRequest } from '../../helper/api-helper';
 import { User, UserMeta, CFS, CFSMeta } from '../../config/db-config';
 import { Time } from '../lib/time';
 import { createUserTitle } from './users';
 import { createCompanyTitle } from './admin-company';
+import Form, { toggleSubmit } from '../component/form.js';
+import { SiteUrl } from '../../config/app-config.js';
 
 
 export default class AdminCf extends React.Component {
     constructor(props) {
         super(props);
-
+        this.formOnSubmit = this.formOnSubmit.bind(this);
+        this.state = {
+            error: null,
+            disableSubmit: false,
+            success: null,
+        };
         this.CfFormAttribute = this.getCfFormAttribute();
     }
 
@@ -32,15 +39,13 @@ export default class AdminCf extends React.Component {
         return r;
     }
     getCfFormAttribute() {
-        let r = [];
-        let obj = { ...CFS, ...CFSMeta }
+        let r = ["name"];
+        // ...CFS,
+        let obj = {  ...CFSMeta }
         for (var k in obj) {
-
             if (["TABLE", "ID", "TIME", "CREATED_AT", "UPDATED_AT"].indexOf(k) >= 0) {
                 continue;
             }
-
-
             r.push(obj[k]);
         }
 
@@ -105,6 +110,15 @@ export default class AdminCf extends React.Component {
 
     componentWillMount() {
         this.offset = 10;
+
+        this.addFormItem = [
+            {
+                name: "cf",
+                type: "text",
+                placeholder: "TEST",
+                required: true
+            },
+        ];
 
         //##########################################
         //  search
@@ -209,10 +223,32 @@ export default class AdminCf extends React.Component {
         this.forceDiff = ["name"];
     }
 
+    formOnSubmit(d) {
+        toggleSubmit(this, { error: null });
+        postRequest(SiteUrl + "/cf/create", { cf: d.cf }).then(res => {
+            var mes = `Successfully created career fair ${d.cf}`;
+            toggleSubmit(this, { error: null, success: mes });
+        }).catch(err => {
+            toggleSubmit(this, { error: JSON.stringify(err.response.data) });
+        })
+    }
+
     render() {
         document.setTitle("Career Fair");
-        return (<div><h3>Career Fair</h3>
-
+        return (<div>
+            <div>
+                <h4>Add New Career Fair</h4>
+                <Form className="form-row"
+                    items={this.addFormItem}
+                    onSubmit={this.formOnSubmit}
+                    submitText="Add Career Fair"
+                    disableSubmit={this.state.disableSubmit}
+                    error={this.state.error}
+                    errorPosition="top"
+                    emptyOnSuccess={true}
+                    success={this.state.success}></Form>
+            </div>
+            <h3>Career Fair</h3>
             <GeneralFormPage
                 acceptEmpty={this.acceptEmpty}
                 forceDiff={this.forceDiff}
