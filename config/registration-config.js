@@ -97,6 +97,20 @@ const CustomConfig = {
         onCf: ["UTM21"],
         attr: `{val}`
     },
+    sunway_purpose: {
+        label: "Looking For",
+        question: "What are you looking for?",
+        icon: "star",
+        list_title: null,
+        table_name: "sunway_purpose",
+        discard_ref_from_default: true,
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "sunway_purpose",
+        is_required: true,
+        onCf: ["SUNWAYGRD21"],
+        attr: `{val}`
+    },
 
     // ##############################################################
     // CREATED FOR USM 21
@@ -437,25 +451,28 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
+            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
             break;
         case Single.university:
-            offCf = ["UNISZA"];
+            offCf = ["UNISZA", "SUNWAYGRD21"];
             break;
         case Single.field_study_main:
-            offCf = ["UNISZA"];
+            offCf = ["UNISZA", "SUNWAYGRD21"];
             break;
         case Single.field_study_secondary:
-            offCf = ["UNISZA"];
+            offCf = ["UNISZA", "SUNWAYGRD21"];
             break;
         case Single.where_in_malaysia:
-            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21", "INTEL"];
+            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21", "INTEL"];
+            break;
+        case Multi.looking_for_position:
+            offCf = ["SUNWAYGRD21"];
             break;
         case Multi.field_study:
-            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21"];
+            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21"];
             break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY","SUNWAYGRD21", "INTEL", "MDCW"];
+            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21", "INTEL", "MDCW"];
             break;
         case Multi.interested_role:
             offCf = ["INTEL"];
