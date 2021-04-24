@@ -348,7 +348,7 @@ const CustomConfig = {
         icon: "suitcase",
         list_title: null,
         discard_ref_from_default: true,
-        table_name: "interested_job_location",
+        table_name: "d2w21_interested_job_location",
         type: "multi",
         input_type: "select",
         ref_table_name: "state",
