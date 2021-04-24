@@ -19,8 +19,6 @@ INSERT INTO wp_career_fair.ref_sunway_purpose (val) VALUES ('Others');
 
 
 
-
-
 TRUNCATE TABLE wp_career_fair.ref_sunway_faculty
 INSERT INTO wp_career_fair.ref_sunway_faculty (val) VALUES ('American Degree Transfer Program (ADTP)');
 INSERT INTO wp_career_fair.ref_sunway_faculty (val) VALUES ('School of Arts');
@@ -32,3 +30,6 @@ INSERT INTO wp_career_fair.ref_sunway_faculty (val) VALUES ('Sunway Diploma Stud
 INSERT INTO wp_career_fair.ref_sunway_faculty (val) VALUES ('Sunway TES Centre For Accountancy Excellence');
 INSERT INTO wp_career_fair.ref_sunway_faculty (val) VALUES ('Sunway University Business School');
 INSERT INTO wp_career_fair.ref_sunway_faculty (val) VALUES ('Victoria University Bachelor of Business Programme');
+
+
+

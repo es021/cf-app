@@ -3,6 +3,63 @@ const {
     UserMeta
 } = require('./db-config.js');
 
+
+var Single = {
+    first_name: "first_name",
+    last_name: "last_name",
+    country_study: "country_study",
+    university: "university",
+    qualification: "qualification",
+    graduation_month: "graduation_month",
+    graduation_year: "graduation_year",
+    working_availability_month: "working_availability_month",
+    working_availability_year: "working_availability_year",
+    where_in_malaysia: "where_in_malaysia",
+    grade: "grade",
+    phone_number: "phone_number",
+    //sponsor : "sponsor",
+    //description : "description",
+
+    // 1a. @custom_user_info_by_cf - single
+    unemployment_period: "unemployment_period",
+
+    field_study_main: "field_study_main",
+    field_study_secondary: "field_study_secondary",
+
+    kpt: "kpt", // @kpt_validation - add kt Single
+    id_utm: "id_utm", // @id_utm_validation - add kt Single
+
+    // UNISZA ------------------------------
+    id_unisza: "id_unisza",
+    unisza_faculty: "unisza_faculty", // ref table 
+    unisza_course: "unisza_course",// ref table
+    current_semester: "current_semester", // ref table
+    course_status: "course_status",// ref table
+    employment_status: "employment_status",// ref table
+    // UNISZA ------------------------------
+
+    birth_date: "birth_date",
+    monash_student_id: "monash_student_id",
+    monash_school: "monash_school",
+    sunway_faculty: "sunway_faculty",
+    sunway_program: "sunway_program",
+    local_or_oversea_study: "local_or_oversea_study",
+    local_or_oversea_location: "local_or_oversea_location",
+    gender: "gender",
+    work_experience_year: "work_experience_year",
+}
+
+var Multi = {
+    field_study: "field_study",
+    looking_for_position: "looking_for_position",
+    interested_role: "interested_role",
+    interested_job_location: "interested_job_location",
+    skill: "skill",
+    extracurricular: "extracurricular",
+    // 1b. @custom_user_info_by_cf - multi
+}
+
+
 function getIdLabelByCf(cf) {
     if (["UTM20"].indexOf(cf) >= 0) {
         return "Matrix No / UTM Acid ID";
@@ -221,86 +278,174 @@ const CustomConfig = {
         onCf: ["USM21"],
         attr: `{val}`
     },
-}
-const CustomStudentCardInfo = {
-    UTM21: {
-        line2: (d) => "faculty_utm21",
-        line3: (d) => {
-            if (d['field_study_utm21'] == OTHER_PLEASE_SPECIFY) {
-                return "field_study_other_utm21"
-            } else {
-                return "field_study_utm21"
-            }
-        }
-    }
-}
-
-var Single = {
-    first_name: "first_name",
-    last_name: "last_name",
-    country_study: "country_study",
-    university: "university",
-    qualification: "qualification",
-    graduation_month: "graduation_month",
-    graduation_year: "graduation_year",
-    working_availability_month: "working_availability_month",
-    working_availability_year: "working_availability_year",
-    where_in_malaysia: "where_in_malaysia",
-    grade: "grade",
-    phone_number: "phone_number",
-    //sponsor : "sponsor",
-    //description : "description",
-
-    // 1a. @custom_user_info_by_cf - single
-    unemployment_period: "unemployment_period",
-
-    field_study_main: "field_study_main",
-    field_study_secondary: "field_study_secondary",
-
-    kpt: "kpt", // @kpt_validation - add kt Single
-    id_utm: "id_utm", // @id_utm_validation - add kt Single
-
-    // UNISZA ------------------------------
-    id_unisza: "id_unisza",
-    unisza_faculty: "unisza_faculty", // ref table 
-    unisza_course: "unisza_course",// ref table
-    current_semester: "current_semester", // ref table
-    course_status: "course_status",// ref table
-    employment_status: "employment_status",// ref table
-    // UNISZA ------------------------------
-
-    birth_date: "birth_date",
-    monash_student_id: "monash_student_id",
-    monash_school: "monash_school",
-    sunway_faculty: "sunway_faculty",
-    sunway_program: "sunway_program",
-    local_or_oversea_study: "local_or_oversea_study",
-    local_or_oversea_location: "local_or_oversea_location",
-    gender: "gender",
-    work_experience_year: "work_experience_year",
-}
-
-var Multi = {
-    field_study: "field_study",
-    looking_for_position: "looking_for_position",
-    interested_role: "interested_role",
-    interested_job_location: "interested_job_location",
-    skill: "skill",
-    extracurricular: "extracurricular",
-    // 1b. @custom_user_info_by_cf - multi
-}
-
-// add extra from custom
-for (let k in CustomConfig) {
-    if (CustomConfig[k].type == "single") {
-        Single[k] = k;
-    }
-    if (CustomConfig[k].type == "multi") {
-        Multi[k] = k;
-    }
+    // ##############################################################
+    // CREATED FOR D2W21
+    // ##############################################################
+    full_name: {
+        discard_filter: true,
+        question: "Full Name (Per IC/Passport)",
+        label: "Full Name (Per IC/Passport)",
+        icon: "address-card",
+        input_type: "text",
+        type: "single",
+        onCf: ["D2W21"]
+    },
+    d2w21_resident: {
+        discard_popup_on: (d) => {
+            return d['d2w21_resident'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Place Of Resident",
+        question: "Place Of Resident",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "state_other",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_resident_other: {
+        discard_popup_on: (d) => {
+            return d['d2w21_resident'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Place Of Resident",
+        question: "Place Of Resident (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["D2W21"]
+    },
+    d2w21_qualification: {
+        discard_popup_on: (d) => {
+            return d['d2w21_qualification'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Highest Level Of Certificate",
+        question: "Highest Level Of Certificate",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w21_qualification",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_qualification_other: {
+        discard_popup_on: (d) => {
+            return d['d2w21_qualification'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Highest Level Of Certificate",
+        question: "Highest Level Of Certificate (Others)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["D2W21"]
+    },
+    d2w21_interested_job_location: {
+        label: "Interested Job Location",
+        question: "Where would you like to work in Malaysia?",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "interested_job_location",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "state",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W21"],
+        attr: `{val}`
+    },
+    d2w21_university: {
+        label: "University / Institution",
+        question: "University / Institution",
+        icon: "university",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w21_university",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_year_study: {
+        label: "Year Of Study",
+        question: "Year Of Study",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w21_year_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_field_study: {
+        label: "Field of Study",
+        question: "What is your field of study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w21_field_study",
+        is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_webinar: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "Webinar",
+        question: "Which webinar sessions are you interested in?",
+        question_sublabel: "You will still need to RSVP once you are registered",
+        icon: "microphone",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "d2w21_webinar",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "d2w21_webinar",
+        is_required: true,
+        onCf: ["D2W21"],
+        attr: `{val}`
+    },
+    d2w21_reference: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "Where did you hear about this event?",
+        question: "Where did you hear about this event?",
+        icon: "slack",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "d2w21_reference",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "d2w21_reference",
+        is_required: true,
+        onCf: ["D2W21"],
+        attr: `{val}`
+    },
 }
 
 const CustomOrder = {
+    D2W21: [
+        Single.first_name,
+        "full_name",
+        "phone_number",
+        "working_availability_month",
+        "d2w21_resident",
+        "d2w21_resident_other",
+        "graduation_month",
+        "looking_for_position",
+        "d2w21_university",
+        "d2w21_year_study",
+        "d2w21_field_study",
+        "d2w21_qualification",
+        "d2w21_qualification_other",
+        "d2w21_webinar",
+        "interested_role",
+        "d2w21_interested_job_location",
+        "skill",
+        "extracurricular",
+        "d2w21_reference",
+    ],
     MDCW: [
         Single.first_name,
         Single.kpt,
@@ -342,6 +487,29 @@ const CustomOrder = {
         "usm_cgpa",
         "job_category"
     ]
+}
+
+const CustomStudentCardInfo = {
+    UTM21: {
+        line2: (d) => "faculty_utm21",
+        line3: (d) => {
+            if (d['field_study_utm21'] == OTHER_PLEASE_SPECIFY) {
+                return "field_study_other_utm21"
+            } else {
+                return "field_study_utm21"
+            }
+        }
+    }
+}
+
+// add extra from custom
+for (let k in CustomConfig) {
+    if (CustomConfig[k].type == "single") {
+        Single[k] = k;
+    }
+    if (CustomConfig[k].type == "multi") {
+        Multi[k] = k;
+    }
 }
 
 const isInCustomOrder = (cf, key) => {
