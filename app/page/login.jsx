@@ -227,7 +227,7 @@ class LoginPage extends React.Component {
         var error = this.props.redux.error;
 
         switch (error) {
-            case AuthAPIErr.STUDENT_CANNOT_LOGIN:
+            case AuthAPIErr.USER_CANNOT_LOGIN:
                 error = <span>
                     {lang("Login for this event is currently closed.")}
                 </span>;

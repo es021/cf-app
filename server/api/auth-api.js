@@ -254,7 +254,7 @@ class AuthAPI {
                     {ID user_email first_name last_name}}
             }
 			cf:cf(name:"${cf}"){
-				name feature_student_login
+				name feature_student_login feature_recruiter_login
 			}
 		}`;
 
@@ -263,8 +263,11 @@ class AuthAPI {
 				var user = res.data.data.user;
 				var cfRes = res.data.data.cf;
 
-				if (user["role"] == "student" && cfRes["feature_student_login"] == "OFF") {
-					return AuthAPIErr.STUDENT_CANNOT_LOGIN;
+				if (user["role"] == UserEnum.ROLE_STUDENT && cfRes["feature_student_login"] == "OFF") {
+					return AuthAPIErr.USER_CANNOT_LOGIN;
+				}
+				if (user["role"] == UserEnum.ROLE_RECRUITER && cfRes["feature_recruiter_login"] == "OFF") {
+					return AuthAPIErr.USER_CANNOT_LOGIN;
 				}
 
 				if (user !== null) {
