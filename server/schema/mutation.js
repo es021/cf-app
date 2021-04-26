@@ -786,7 +786,7 @@ fields["edit_user"] = {
     id_utm: __.String,// @id_utm_validation
 
     user_email: __.String,
-    user_email: __.String,
+    user_login: __.String,
     user_pass: __.String,
     first_name: __.String,
     last_name: __.String,

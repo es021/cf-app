@@ -287,6 +287,10 @@ export default class SignUpPage extends React.Component {
               errorMsg = ErrorMessage.ID_UTM_NOT_VALID(d[UserMeta.ID_UTM]);
             }
 
+            if(errorMsg == AuthAPIErr.USERNAME_EXIST){
+              console.log("login trus?")
+            }
+
             toggleSubmit(this, { error: errorMsg });
 
           }

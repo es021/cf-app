@@ -54,7 +54,7 @@ axios.interceptors.response.use(response => {
 		//console.log("error from axios graphQLUrl");
 		console.log("Intercept GraphQL Error 1", response)
 		retErr = getGraphQlErrorMes(response.data.errors[0].message);
-		if(retErr.indexOf("ER_DUP_ENTRY") >= 0){
+		if (retErr.indexOf("ER_DUP_ENTRY") >= 0) {
 			return;
 		}
 	}
@@ -248,7 +248,7 @@ function postPhpAdmin(url, params, successInterceptor = null) {
 }
 
 // only in ajax_external -- response is fixed here
-function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = false) {
+function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = false, errorInterceptor = null) {
 
 	var params = {};
 	if (isDataInPost) {
@@ -263,7 +263,12 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 	};
 	return axios.post(AppConfig.WPAjaxApi, qs.stringify(params), config).then((res) => {
 		if (res.data.err) {
-			return res.data.err;
+			let errRet = res.data.err;
+			if (errorInterceptor !== null) {
+				return errorInterceptor(errRet);
+			} else {
+				return errRet;
+			}
 		} else {
 
 			var retData = res.data.data;
@@ -279,7 +284,12 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 			return retData;
 		}
 	}, (err) => {
-		return err.response.data;
+		let errRet = err.response.data;
+		if (errorInterceptor !== null) {
+			return errorInterceptor(errRet);
+		} else {
+			return errRet;
+		}
 	});
 }
 

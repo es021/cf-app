@@ -19,6 +19,8 @@ const AuthUserKey = ["ID",
 ];
 
 const AuthAPIErr = {
+	USERNAME_EXIST : "Sorry, that username already exists!",
+
 	WRONG_PASS: "WRONG_PASS",
 	INVALID_EMAIL: "INVALID_EMAIL",
 	NOT_ACTIVE: "NOT_ACTIVE",

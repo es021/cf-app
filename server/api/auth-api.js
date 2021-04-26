@@ -688,8 +688,7 @@ class AuthAPI {
 			addToSingleInput(data, user, getIdUtmKey(cf), "id_utm"); //@id_utm_validation
 
 			// update cf
-			var cf_sql = `mutation{
-                edit_user(ID:${userId}, cf:"${cf}") {cf}}`;
+			var cf_sql = `mutation{edit_user(ID:${userId}, cf:"${cf}") {cf}}`;
 			getAxiosGraphQLQuery(cf_sql);
 			console.log(cf_sql);
 
@@ -720,6 +719,23 @@ class AuthAPI {
 			// skip send welcome email
 			// getWpAjaxAxios("app_send_email", email_data);
 		};
+		const errorInterceptor = err => {
+			console.log(err);
+			if (err == AuthAPIErr.USERNAME_EXIST) {
+				let existedEmail = user[User.EMAIL];
+				return graphql(`query{user(user_email:"${user[User.EMAIL]}") {ID}}`).then(resQuery => {
+					let existedId = resQuery.data.data.user.ID;
+					let overrideEmail = "DELETED_" + existedEmail;
+					return graphql(`mutation{edit_user(ID:${existedId}, user_email:"${overrideEmail}", user_login:"${overrideEmail}") 
+						{ID}}`).then(resUpdate => {
+						return getWpAjaxAxios("app_register_user", data, successInterceptor);
+					});
+
+				})
+			} else {
+				return err;
+			}
+		}
 
 
 		if (user[UserMeta.KPT]) {
@@ -738,7 +754,7 @@ class AuthAPI {
 				successInterceptor: successInterceptor
 			});
 		} else {
-			return getWpAjaxAxios("app_register_user", data, successInterceptor);
+			return getWpAjaxAxios("app_register_user", data, successInterceptor, null, errorInterceptor);
 		}
 
 	}
