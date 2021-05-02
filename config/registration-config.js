@@ -358,6 +358,9 @@ const CustomConfig = {
         attr: `{val}`
     },
     d2w21_university: {
+        discard_popup_on: (d) => {
+            return d['d2w21_university'] == OTHER_PLEASE_SPECIFY;
+        },
         label: "University / Institution",
         question: "University / Institution",
         icon: "university",
@@ -366,6 +369,18 @@ const CustomConfig = {
         ref_table_name: "d2w21_university",
         ref_order_by: "ID asc",
         is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_university_other: {
+        discard_popup_on: (d) => {
+            return d['d2w21_university'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "University / Institution",
+        question: "University / Institution (Others)",
+        icon: "university",
+        type: "single",
+        input_type: "text",
+        is_required: false,
         onCf: ["D2W21"]
     },
     d2w21_year_study: {
@@ -380,13 +395,28 @@ const CustomConfig = {
         onCf: ["D2W21"]
     },
     d2w21_field_study: {
+        discard_popup_on: (d) => {
+            return d['d2w21_field_study'] == OTHER_PLEASE_SPECIFY;
+        },
         label: "Field of Study",
-        question: "What is your field of study",
+        question: "Field of Study",
         icon: "graduation-cap",
         type: "single",
         input_type: "select",
         ref_table_name: "d2w21_field_study",
         is_required: true,
+        onCf: ["D2W21"]
+    },
+    d2w21_field_study_other: {
+        discard_popup_on: (d) => {
+            return d['d2w21_field_study'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Field of Study",
+        question: "Field of Study (Others)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
         onCf: ["D2W21"]
     },
     d2w21_webinar: {
@@ -422,9 +452,64 @@ const CustomConfig = {
         onCf: ["D2W21"],
         attr: `{val}`
     },
+    // ################################################################
+    // sunwaygrad21
+    sunwaygrad21_program: {
+        label: "What is your programme?",
+        question: "Programme",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "sunwaygrad21_program",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["SUNWAYGRD21"]
+    },
+    resident_malaysia: {
+        discard_popup_on: (d) => {
+            return d['resident_malaysia'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Place Of Resident",
+        question: "Place Of Resident",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "state_other",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["SUNWAYGRD21"]
+    },
+    resident_malaysia_other: {
+        discard_popup_on: (d) => {
+            return d['resident_malaysia'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Place Of Resident",
+        question: "Place Of Resident (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["SUNWAYGRD21"]
+    },
 }
 
 const CustomOrder = {
+    SUNWAYGRD21: [
+        "first_name",
+        "graduation_month",
+        "sunway_purpose",
+        "sunway_faculty",
+        "sunwaygrad21_program",
+        "qualification",
+        "resident_malaysia",
+        "resident_malaysia_other",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "interested_job_location",
+        "skill",
+    ],
     D2W21: [
         Single.first_name,
         "full_name",
@@ -435,8 +520,10 @@ const CustomOrder = {
         "graduation_month",
         "looking_for_position",
         "d2w21_university",
+        "d2w21_university_other",
         "d2w21_year_study",
         "d2w21_field_study",
+        "d2w21_field_study_other",
         "d2w21_qualification",
         "d2w21_qualification_other",
         "d2w21_webinar",
@@ -570,10 +657,10 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MONASH"];
             break;
         case Single.sunway_faculty:
-            onCf = ["SUNWAY", "SUNWAYGRD21"];
+            onCf = ["SUNWAY"];
             break;
         case Single.sunway_program:
-            onCf = ["SUNWAY", "SUNWAYGRD21"];
+            onCf = ["SUNWAY"];
             break;
         case Single.monash_student_id:
             onCf = ["MONASH"];
@@ -619,28 +706,25 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
             break;
         case Single.university:
-            offCf = ["UNISZA", "SUNWAYGRD21"];
+            offCf = ["UNISZA"];
             break;
         case Single.field_study_main:
-            offCf = ["UNISZA", "SUNWAYGRD21"];
+            offCf = ["UNISZA"];
             break;
         case Single.field_study_secondary:
-            offCf = ["UNISZA", "SUNWAYGRD21"];
+            offCf = ["UNISZA"];
             break;
         case Single.where_in_malaysia:
-            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21", "INTEL"];
-            break;
-        case Multi.looking_for_position:
-            offCf = ["SUNWAYGRD21"];
+            offCf = ["MONASH", "SUNWAY", "INTEL"];
             break;
         case Multi.field_study:
-            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21"];
+            offCf = ["MONASH", "SUNWAY"];
             break;
         case Multi.extracurricular:
-            offCf = ["MONASH", "SUNWAY", "SUNWAYGRD21", "INTEL", "MDCW"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "MDCW"];
             break;
         case Multi.interested_role:
             offCf = ["INTEL"];
