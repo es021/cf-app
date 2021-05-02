@@ -455,8 +455,8 @@ const CustomConfig = {
     // ################################################################
     // sunwaygrad21
     sunwaygrad21_program: {
-        label: "What is your programme?",
-        question: "Programme",
+        label: "Programme",
+        question: "What is your programme?",
         icon: "graduation-cap",
         type: "single",
         input_type: "select",
