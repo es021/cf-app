@@ -44,6 +44,13 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
         }
         return r;
     }
+    // if (action == "is_key_discard_filter") {
+    //     try {
+    //         return CustomConfig[key].discard_filter === true;
+    //     } catch (err) {
+    //         return false;
+    //     }
+    // }
     if (action == "get_keys_for_popup") {
         let r = [];
         for (var k in CustomConfig) {

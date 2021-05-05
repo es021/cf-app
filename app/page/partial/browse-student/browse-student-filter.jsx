@@ -123,6 +123,9 @@ export class BrowseStudentFilter extends React.Component {
             ...cfCustomFunnel({ action: 'get_keys_for_filter' }),
             ...originalByCfOrder
         ];
+
+        console.log("orderFilter", JSON.parse(JSON.stringify(this.orderFilter)));
+
         // @browse_student_only_showing_one_cf
         // remove comment cf above to revert
 

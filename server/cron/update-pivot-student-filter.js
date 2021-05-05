@@ -18,6 +18,11 @@ function getQueryParam(param) {
 
 // */5 * * * * NODE_ENV=production /root/.nvm/versions/node/v8.9.1/bin/node /var/www/cf-app/server/cron/update-pivot-student-filter.js
 
+/*
+
+NODE_ENV=production /root/.nvm/versions/node/v8.9.1/bin/node /var/www/cf-app/server/cron/update-pivot-student-filter.js
+
+*/
 function Main() {
     var toLoad = 0;
     var loaded = 0;
