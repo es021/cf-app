@@ -12,11 +12,11 @@
     "build-local": "NODE_ENV=production-local webpack -p --progress",
     "serve": "NODE_ENV=production node server.js",
     "socket": "NODE_ENV=production node socket.js",
-    "dev:app": "set NODE_ENV=development-wp&& webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
-    "dev:server": "set NODE_ENV=development-wp&& nodemon server.js --ignore server/ignore/",
+    "dev:app": "set NODE_ENV=development-wp && export NODE_ENV=development-wp && webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
+    "dev:server": "set NODE_ENV=development-wp && export NODE_ENV=development-wp && nodemon server.js --ignore server/ignore/",
     "dev:cron": "set NODE_ENV=development-wp&& nodemon server/cron/update-pivot-student-filter.js --ignore server/ignore/",
     "dev:socket": "set NODE_ENV=development-wp&& nodemon socket.js --ignore server/ignore/",
-    "build": "set NODE_ENV=production&& webpack -p --progress"
+    "build": "set NODE_ENV=production && export NODE_ENV=production && webpack -p --progress"
   },
   "author": "",
   "license": "ISC",

@@ -19,6 +19,7 @@ var isProd = false;
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local") {
     isProd = true;
 }
+console.log("isProd", isProd);
 
 // create Entry --------------------------------------
 var buildDevEntryPoint = function (entryPoint) {
