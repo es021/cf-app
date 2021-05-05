@@ -263,14 +263,15 @@ class AuthAPI {
 				var user = res.data.data.user;
 				var cfRes = res.data.data.cf;
 
-				if (user["role"] == UserEnum.ROLE_STUDENT && cfRes["feature_student_login"] == "OFF") {
-					return AuthAPIErr.USER_CANNOT_LOGIN;
-				}
-				if (user["role"] == UserEnum.ROLE_RECRUITER && cfRes["feature_recruiter_login"] == "OFF") {
-					return AuthAPIErr.USER_CANNOT_LOGIN;
-				}
-
 				if (user !== null) {
+					
+					if (user["role"] == UserEnum.ROLE_STUDENT && cfRes["feature_student_login"] == "OFF") {
+						return AuthAPIErr.USER_CANNOT_LOGIN;
+					}
+					if (user["role"] == UserEnum.ROLE_RECRUITER && cfRes["feature_recruiter_login"] == "OFF") {
+						return AuthAPIErr.USER_CANNOT_LOGIN;
+					}
+
 					// check if in kpt exist
 					if (kpt && user.role == UserEnum.ROLE_STUDENT) {
 						// @kpt_validation - login - init

@@ -305,6 +305,7 @@ const CustomConfig = {
         onCf: ["D2W21"]
     },
     d2w21_resident_other: {
+        discard_filter: true,
         discard_popup_on: (d) => {
             return d['d2w21_resident'] != OTHER_PLEASE_SPECIFY;
         },
@@ -331,6 +332,7 @@ const CustomConfig = {
         onCf: ["D2W21"]
     },
     d2w21_qualification_other: {
+        discard_filter: true,
         discard_popup_on: (d) => {
             return d['d2w21_qualification'] != OTHER_PLEASE_SPECIFY;
         },
@@ -372,6 +374,7 @@ const CustomConfig = {
         onCf: ["D2W21"]
     },
     d2w21_university_other: {
+        discard_filter: true,
         discard_popup_on: (d) => {
             return d['d2w21_university'] != OTHER_PLEASE_SPECIFY;
         },
@@ -408,6 +411,7 @@ const CustomConfig = {
         onCf: ["D2W21"]
     },
     d2w21_field_study_other: {
+        discard_filter: true,
         discard_popup_on: (d) => {
             return d['d2w21_field_study'] != OTHER_PLEASE_SPECIFY;
         },
@@ -480,6 +484,7 @@ const CustomConfig = {
         onCf: ["SUNWAYGRD21"]
     },
     resident_malaysia_other: {
+        discard_filter: true,
         discard_popup_on: (d) => {
             return d['resident_malaysia'] != OTHER_PLEASE_SPECIFY;
         },

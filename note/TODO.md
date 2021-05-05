@@ -184,6 +184,9 @@ https://seedsjobfairapp.com/career-fair/wp-admin/
 ssh root@104.131.105.183
 ssh root@159.65.10.64
 
+grep CRON /var/log/syslog
+
+
 save-dev not found problem
 solution :
 npm cache verify
