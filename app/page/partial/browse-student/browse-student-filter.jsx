@@ -125,6 +125,8 @@ export class BrowseStudentFilter extends React.Component {
         ];
 
         console.log("orderFilter", JSON.parse(JSON.stringify(this.orderFilter)));
+        console.log("orderFilter", JSON.parse(JSON.stringify(this.orderFilter)));
+        console.log("orderFilter", JSON.parse(JSON.stringify(this.orderFilter)));
 
         // @browse_student_only_showing_one_cf
         // remove comment cf above to revert

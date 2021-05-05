@@ -253,7 +253,7 @@ export function getCF() {
     if (typeof ToReplaceCf[cf] !== "undefined") {
         cf = ToReplaceCf[cf];
     }
-    console.log("Current CF -> ", cf);
+    console.log("Current CF 2 -> ", cf);
 
     if (cf == null) {
         cf = getCurrentCfLocalStorage();
