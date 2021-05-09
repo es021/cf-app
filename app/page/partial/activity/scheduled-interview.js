@@ -11,7 +11,8 @@ import {
   getAuthUser,
   isRoleAdmin,
   getCFObj,
-  getCF
+  getCF,
+  isRoleRec
 } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { ActivityType } from "../../../redux/actions/hall-actions";
@@ -196,24 +197,24 @@ export class ScheduledInterview extends React.Component {
         <small>Click edit to set appointment time.</small>
       </span>
     ) : (
-        <span>
-          Scheduled Session
-          <Tooltip
-            left="-62px"
-            bottom="28px"
-            width="150px"
-            content={
-              <small>
-                {" "}
-                <i className="fa fa-question-circle"></i>
-              </small>
-            }
-            tooltip={
-              "Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"
-            }
-          ></Tooltip>
-        </span>
-      );
+      <span>
+        Scheduled Session
+        <Tooltip
+          left="-62px"
+          bottom="28px"
+          width="150px"
+          content={
+            <small>
+              {" "}
+              <i className="fa fa-question-circle"></i>
+            </small>
+          }
+          tooltip={
+            "Manage scheduled session from Next Round, Pre-Screen, Forum, Session Request and Resume Drop"
+          }
+        ></Tooltip>
+      </span>
+    );
 
     this.successAddHandler = d => {
       if (this.props.formOnly) {
@@ -462,6 +463,10 @@ export class ScheduledInterview extends React.Component {
       if (!edit) {
         d[Prescreen.COMPANY_ID] = this.props.company_id;
         d[Prescreen.COMPANY_ID] = Number.parseInt(d[Prescreen.COMPANY_ID]);
+
+        if (isRoleRec()) {
+          d[Prescreen.RECRUITER_ID] = this.authUser.ID;
+        }
       }
 
       //for create new

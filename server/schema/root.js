@@ -1235,6 +1235,7 @@ fields["prescreen"] = {
 var prescreenParam = {
 	company_id: __.Int,
 	student_id: __.Int,
+	recruiter_id: __.Int,
 
 	// New SI Flow - used in user-query (to get more than one type)
 	status: __.String,

@@ -513,7 +513,7 @@ class InterviewList extends React.Component {
       d.status == PrescreenEnum.STATUS_RESCHEDULE ? btnReschedule : null,
     ]
 
-    status = HallRecruiterHelper.getStatusElement(d, status_obj);
+    status = HallRecruiterHelper.getStatusElementSmall(d, status_obj);
 
     return {
       time: time,
@@ -553,6 +553,10 @@ class InterviewList extends React.Component {
         </div>
       );
 
+      var recruiter = d.recruiter ? (
+        <div className="text-muted text-truncate-1" style={{ fontSize: '12px' }}>scheduled by {d.recruiter.first_name}</div>
+      ) : null;
+
       var objRenderHelper = this.renderHelper(d, obj);
       var action = objRenderHelper.action;
       var time = objRenderHelper.time;
@@ -561,6 +565,7 @@ class InterviewList extends React.Component {
       let isOnline = isUserOnline(this.props.online_users, obj.ID);
       let avatar = (
         <ProfileCard
+
           type={PCType.STUDENT}
           customStyleParent={{ margin: "0px" }}
           className="with-border"
@@ -568,7 +573,7 @@ class InterviewList extends React.Component {
           img_url={obj.img_url}
           img_pos={obj.img_pos}
           img_size={obj.img_size}
-          img_dimension="50px"
+          img_dimension="44px"
         ></ProfileCard>
       );
 
@@ -579,21 +584,30 @@ class InterviewList extends React.Component {
       return <li
         className="lb-list-item text-left">
         <div className="container-fluid">
-          <div className="row" style={{ padding: "15px 10px" }}>
+          <div className="row" style={{ padding: "0px 10px" }}>
+            <div className="col-md-12 show-on-md-and-less" style={{ height: "15px" }}></div>
+            <div className="col-md-12 show-on-lg-and-more" style={{ height: "7px" }}></div>
             {/* avatar */}
-            <div className="col-md-1 padding-sm container-avatar">
+            {/* <div className="col-md-1 padding-sm container-avatar">
               {avatar}<div className="show-on-md-and-less">{title}</div>
-            </div>
+            </div> */}
             {/* name */}
-            <div className="col-md-2 padding-sm show-on-lg-and-more">
-              <div style={{ marginBottom: "8px", fontSize: "15px" }}>{title}</div>
+            <div className="col-md-3 padding-sm">
+              <div style={{ fontSize: "15px" }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ paddingRight: '10px' }}>{avatar}</div>
+                  <div >{title}{recruiter}</div>
+                </div>
+              </div>
             </div>
+            <div className="col-md-12 show-on-md-and-less" style={{ height: "8px" }}></div>
             {/* status */}
-            <div className="col-md-2 padding-sm">
-              <div style={{ marginBottom: "10px", fontSize: "12px" }}>{status}</div>
+            <div className="col-md-1 padding-sm">
+              <div style={{ fontSize: "12px" }}>{status}</div>
             </div>
+            <div className="col-md-12 show-on-md-and-less" style={{ height: "10px" }}></div>
             {/* time */}
-            <div className="col-md-2 padding-sm">
+            <div className="col-md-2 padding-sm text-center">
               <div style={{ marginBottom: "4px", fontSize: "13px" }}>{time}</div>
             </div>
             {/* interviewer */}
@@ -605,13 +619,18 @@ class InterviewList extends React.Component {
               <div style={{ marginBottom: "10px", fontSize: "13px" }}>{note}</div>
             </div>
             {/* action */}
-            <div className="col-md-2 padding-sm">
+            <div className="col-md-3 padding-sm">
               <div style={{
                 textAlign: "left", margin: "auto",
               }}>
-                {action}
+                <div className="btn-row-block" style={{ display: 'flex', alignItems: 'center' }}>
+                  {action}
+                </div>
+                {/* {action} */}
               </div>
             </div>
+            <div className="col-md-12 show-on-md-and-less" style={{ height: "15px" }}></div>
+            <div className="col-md-12 show-on-lg-and-more" style={{ height: "7px" }}></div>
           </div>
         </div>
 
@@ -625,11 +644,11 @@ class InterviewList extends React.Component {
         <div className="row" style={{ padding: "15px 10px" }}>
           <div className="col-md-1 padding-sm container-avatar">{_student_single()}</div>
           <div className="col-md-2 padding-sm show-on-lg-and-more"></div>
-          <div className="col-md-2 text-center padding-sm">Status</div>
-          <div className="col-md-2 padding-sm">Appointment Time</div>
+          <div className="col-md-1 text-center padding-sm">Status</div>
+          <div className="col-md-2 text-center padding-sm">Appointment Time</div>
           <div className="col-md-2 padding-sm">Interviewer</div>
-          <div className="col-md-2 padding-sm">Note</div>
-          <div className="col-md-2 padding-sm"></div>
+          <div className="col-md-1 padding-sm">Note</div>
+          <div className="col-md-3 padding-sm"></div>
         </div>
       </div>
     </li>

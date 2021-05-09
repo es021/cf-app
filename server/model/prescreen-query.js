@@ -25,6 +25,9 @@ class PrescreenQuery {
         var student_where = (typeof params.student_id === "undefined") ? "1=1" :
             `student_id = ${params.student_id}`;
 
+        var recruiter_where = (typeof params.recruiter_id === "undefined") ? "1=1" :
+            `recruiter_id = ${params.recruiter_id}`;
+
         var is_onsite_call_where = (typeof params.is_onsite_call === "undefined") ? "1=1" :
             `is_onsite_call = ${params.is_onsite_call}`;
 
@@ -80,7 +83,9 @@ class PrescreenQuery {
             typeof params.offset !== "undefined") ? DB.prepareLimit(params.page, params.offset) : "";
         var order_by = (typeof params.order_by === "undefined") ? "" : `ORDER BY ${params.order_by}`;
 
-        var sql = `from pre_screens ps where ${id_where} and ${student_where} 
+        var sql = `from pre_screens ps where ${id_where} 
+            and ${student_where} 
+            and ${recruiter_where} 
             and ${status_where} and ${com_where} 
             and ${search_user} and ${search_uni} and ${st_where}
             and ${not_ps_where} 
@@ -124,6 +129,13 @@ class PrescreenExec {
             for (var i in res) {
                 var student_id = res[i]["student_id"];
                 var company_id = res[i]["company_id"];
+                var recruiter_id = res[i]["recruiter_id"];
+
+                if (typeof field["recruiter"] !== "undefined") {
+                    res[i]["recruiter"] = UserExec.user({
+                        ID: recruiter_id
+                    }, field["recruiter"]);
+                }
 
                 if (typeof field["student"] !== "undefined") {
                     res[i]["student"] = UserExec.user({

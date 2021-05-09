@@ -1,65 +1,38 @@
 import React, { Component } from "react";
-import { Redirect, NavLink } from "react-router-dom";
 import Form, {
   toggleSubmit,
   checkDiff,
   getDataCareerFair
 } from "../component/form";
-import {
-  Session,
-  Prescreen,
-  PrescreenEnum,
-  UserMeta,
-  User,
-  Vacancy,
-  VacancyEnum,
-  UserEnum,
-  Skill
-} from "../../config/db-config";
+import { Uploader, FileType, uploadFile } from '../component/uploader';
+import * as layoutActions from "../redux/actions/layout-actions";
+
 import {
   Company,
   CompanyEnum,
-  DocLink,
-  DocLinkEnum
 } from "../../config/db-config";
 import { ButtonLink } from "../component/buttons.jsx";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import {
-  getCF,
   getAuthUser,
-  isRoleRec,
-  updateAuthUser,
   isRoleOrganizer,
   isRoleAdmin,
-  getCFObj
 } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
-import ProfileCard from "../component/profile-card.jsx";
-import { BANNER_HEIGHT, BANNER_WIDTH } from "../component/profile-card-img";
+import ProfileCard, { getStyleBannerObj } from "../component/profile-card.jsx";
 import SubNav from "../component/sub-nav";
-import List, { CustomList } from "../component/list";
-import * as layoutActions from "../redux/actions/layout-actions";
-import CompanyPopup from "./partial/popup/company-popup";
-import VacancyPopup from "./partial/popup/vacancy-popup";
-import { store } from "../redux/store";
 import DocLinkPage from "../component/doc-link-form.jsx";
-import { SimpleListItem } from "../component/list";
 import PropTypes from "prop-types";
-import { RootPath, AppPath } from "../../config/app-config";
-import { Time } from "../lib/time";
-import GeneralFormPage from "../component/general-form";
+import { RootPath, AppPath, UploadUrl } from "../../config/app-config";
 import Restricted from "./partial/static/restricted";
-import UserPopup from "./partial/popup/user-popup";
 import { SessionsList } from "./partial/activity/session";
 import { ResumeDrop } from "./partial/activity/resume-drop";
 
 import { StudentListing } from "./partial/activity/student-listing.jsx";
 import { ScheduledInterview } from "./partial/activity/scheduled-interview";
-import CompanyPage from "./company";
 import ManageTag from "./tag";
 import { lang } from "../lib/lang";
-import { addVacancyInfoIfNeeded, getVacancyType, isVacancyInfoNeeded } from "../../config/vacancy-config";
 import ManageVacancy from "./manage-vacancy";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
@@ -86,11 +59,21 @@ class AboutSubPage extends React.Component {
   constructor(props) {
     super(props);
     this.formOnSubmit = this.formOnSubmit.bind(this);
+
+    this.uploaderOnChange = this.uploaderOnChange.bind(this);
+    this.uploaderOnError = this.uploaderOnError.bind(this);
+    this.uploaderOnSuccess = this.uploaderOnSuccess.bind(this);
+    this.submitEditBanner = this.submitEditBanner.bind(this);
+
     this.state = {
       error: null,
       disableSubmit: false,
       init: true,
       data: null,
+
+      new_banner_error: null,
+      new_banner_file: null,
+      new_banner_data: null,
       success: null
     };
   }
@@ -129,6 +112,34 @@ class AboutSubPage extends React.Component {
     }
 
     return dataPriv;
+  }
+
+  getBanner() {
+    var data = this.state.data;
+    var style = getStyleBannerObj(
+      this.state.new_banner_data ? this.state.new_banner_data : data.banner_url,
+      data.banner_size,
+      data.banner_position,
+      null,
+      null
+    );
+    style.backgroundPosition = "center center";
+    style.backgroundSize = "cover";
+    style.height = "100%"
+
+    let styleContainer = {
+      margin: '10px 0px',
+      display: "inline-block",
+      width: "100%"
+    };
+    return [
+      <div style={{
+        ...styleContainer,
+        height: "200px"
+      }}>
+        <div className="banner" style={style}></div>
+      </div>,
+    ];
   }
 
   componentWillMount() {
@@ -367,6 +378,66 @@ class AboutSubPage extends React.Component {
     }
   }
 
+  uploaderOnChange(file) {
+    console.log("uploaderOnChange");
+    toggleSubmit(this, { new_banner_error: null, new_banner_file: null, new_banner_data: null, });
+  }
+
+  uploaderOnError(err) {
+    console.log("uploaderOnError");
+    toggleSubmit(this, { new_banner_error: err, new_banner_file: null, new_banner_data: null, });
+  }
+
+  uploaderOnSuccess(file) {
+    toggleSubmit(this, { new_banner_error: null });
+    var reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState(() => {
+        return { new_banner_data: e.target.result, new_banner_file: file, new_banner_error: null };
+      });
+    }
+    reader.readAsDataURL(file);
+  }
+
+
+  submitEditBanner(event) {
+    event.preventDefault();
+    if (this.state.new_banner_file !== null) {
+      var fileName = `banner-${this.company_id}`;
+      layoutActions.loadingBlockLoader();
+      uploadFile(this.state.new_banner_file, FileType.IMG, fileName).then((res) => {
+        let banner_url = res.data.url;
+        console.log("banner_url", banner_url);
+        if (banner_url !== null) {
+          let update = {}
+          update["ID"] = this.company_id;
+          update["banner_url"] = `${UploadUrl}/${banner_url}`;
+          update["banner_position"] = "center center";
+          update["banner_size"] = "cover";
+          let edit_query = `mutation{
+            edit_company(${obj2arg(update, { noOuterBraces: true })}) {
+                banner_url
+                banner_position
+                banner_size
+            }}`;
+          getAxiosGraphQLQuery(edit_query).then((res) => {
+            layoutActions.storeHideBlockLoader();
+            layoutActions.successBlockLoader(<div>
+              <br></br>
+              <b>Banner successfully updated.</b>
+            </div>)
+          }, (err) => {
+            layoutActions.storeHideBlockLoader();
+            layoutActions.errorBlockLoader(<div>
+              <br></br>
+              <b>{err.response.data}</b>
+            </div>)
+          });
+        }
+      });
+    }
+  }
+
   render() {
     var content = null;
     if (this.state.init) {
@@ -374,7 +445,7 @@ class AboutSubPage extends React.Component {
     } else {
       content = (
         <div>
-          <ProfileCard
+          {/* <ProfileCard
             type="banner"
             customStyleParent={{ margin: "auto" }}
             custom_width={BANNER_WIDTH + "px"}
@@ -383,9 +454,9 @@ class AboutSubPage extends React.Component {
             img_url={this.state.data.banner_url}
             img_pos={this.state.data.banner_position}
             img_size={this.state.data.banner_size}
-          ></ProfileCard>
+          ></ProfileCard> */}
 
-          <div style={{ marginTop: "-90px" }}>
+          <div style={{ marginTop: "" }}>
             <ProfileCard
               type="company"
               img_dimension={"130px"}
@@ -397,6 +468,23 @@ class AboutSubPage extends React.Component {
               img_pos={this.state.data.img_position}
               img_size={this.state.data.img_size}
             ></ProfileCard>
+            <div>
+              <form>
+                <div className="form-header">Banner</div>
+                <Uploader label={lang("Upload A New Banner")} name="banner"
+                  type={FileType.IMG} onSuccess={this.uploaderOnSuccess}
+                  onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
+                <div style={{ color: 'red' }}>{this.state.new_banner_error}</div>
+                <div>
+                  {this.getBanner()}
+                  {!this.state.new_banner_file ? null :
+                    <div className="text-center"><button className="btn btn-primary btn-sm" onClick={this.submitEditBanner}>Update Banner</button></div>
+                  }
+                  <br />
+                  <br />
+                </div>
+              </form>
+            </div>
             <Form
               className="form-row"
               items={this.formItems}

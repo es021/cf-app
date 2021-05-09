@@ -496,9 +496,133 @@ const CustomConfig = {
         is_required: false,
         onCf: ["SUNWAYGRD21"]
     },
+
+    // ################################################################
+    // oejf21
+    oejf21_field_study: {
+        label: "Field Of Study",
+        question: "What is your field of study?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf21_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"]
+    },
+    where_in_malaysia_select: {
+        label: "Place Of Resident",
+        question: "Where are you from in Malaysia?",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "state",
+        ref_order_by: "ID asc",
+        is_required: false,
+        onCf: ["OEJF21"]
+    },
+    oejf21_where_work: {
+        label: "Interested Job Location",
+        question: "Where would you like to work?",
+        icon: "map-marker",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "oejf21_where_work",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "oejf21_where_work",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"],
+        attr: `{val}`
+    },
+    oejf21_years_working: {
+        label: "Number of Years Working",
+        question: "Number of years working",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf21_years_working",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"]
+    },
+    age: {
+        label: "Age",
+        question: "How old are you?",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "age",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"]
+    },
+    race: {
+        label: "Race/Ethnicity",
+        question: "Race/Ethnicity",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "race",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"]
+    },
+    oejf21_industry: {
+        label: "Current Industry",
+        question: "Current Industry",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf21_industry",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"]
+    },
+    oejf21_reference: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "How did you know about us?",
+        question: "How did you know about us?",
+        icon: "slack",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "oejf21_reference",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "oejf21_reference",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"],
+        attr: `{val}`
+    },
 }
 
 const CustomOrder = {
+    OEJF21: [
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        "country_study",
+        "university",
+        "qualification",
+        "oejf21_field_study",
+        "grade",
+        "phone_number",
+        "age",
+        "gender",
+        "race",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia_select",
+        "oejf21_where_work",
+        "oejf21_years_working",
+        "oejf21_industry",
+        "skill",
+        "extracurricular",
+        "oejf21_reference"
+    ],
     SUNWAYGRD21: [
         "first_name",
         "graduation_month",

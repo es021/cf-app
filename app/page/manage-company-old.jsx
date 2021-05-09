@@ -5,8 +5,6 @@ import Form, {
   checkDiff,
   getDataCareerFair
 } from "../component/form";
-import { Uploader, uploadFile, FileType } from '../component/uploader';
-
 import {
   Session,
   Prescreen,
@@ -37,7 +35,7 @@ import {
   getCFObj
 } from "../redux/actions/auth-actions";
 import { Loader } from "../component/loader";
-import ProfileCard, { getStyleBannerObj } from "../component/profile-card.jsx";
+import ProfileCard from "../component/profile-card.jsx";
 import { BANNER_HEIGHT, BANNER_WIDTH } from "../component/profile-card-img";
 import SubNav from "../component/sub-nav";
 import List, { CustomList } from "../component/list";
@@ -88,11 +86,6 @@ class AboutSubPage extends React.Component {
   constructor(props) {
     super(props);
     this.formOnSubmit = this.formOnSubmit.bind(this);
-
-    this.uploaderOnChange = this.uploaderOnChange.bind(this);
-    this.uploaderOnError = this.uploaderOnError.bind(this);
-    this.uploaderOnSuccess = this.uploaderOnSuccess.bind(this);
-
     this.state = {
       error: null,
       disableSubmit: false,
@@ -136,30 +129,6 @@ class AboutSubPage extends React.Component {
     }
 
     return dataPriv;
-  }
-
-  getBanner() {
-    var data = this.state.data;
-    var style = getStyleBannerObj(
-      data.banner_url,
-      data.banner_size,
-      data.banner_position,
-      null,
-      null
-    );
-    style.backgroundPosition = "center center";
-    style.backgroundSize = "cover";
-    style.height = "100%"
-    console.log("style", style)
-    return <div style={{
-      margin: '10px 0px',
-      height: "200px",
-      display: "inline-block",
-      width: "100%"
-    }}>
-      <div className="banner" style={style}>
-      </div>
-    </div>;
   }
 
   componentWillMount() {
@@ -398,27 +367,6 @@ class AboutSubPage extends React.Component {
     }
   }
 
-  uploaderOnChange(file) {
-    console.log("uploaderOnChange");
-    toggleSubmit(this, { errorBanner: null, newBanner: null });
-  }
-
-  uploaderOnError(err) {
-    console.log("uploaderOnError");
-    toggleSubmit(this, { errorBanner: err, newBanner: null });
-  }
-
-  uploaderOnSuccess(file) {
-    toggleSubmit(this, { errorBanner: null });
-    var reader = new FileReader();
-    reader.onload = (e) => {
-      this.setState(() => {
-        return { newBannerUrl: "url(" + e.target.result + ")", newBanner: file, errorBanner: null };
-      });
-    }
-    reader.readAsDataURL(file);
-  }
-
   render() {
     var content = null;
     if (this.state.init) {
@@ -426,7 +374,7 @@ class AboutSubPage extends React.Component {
     } else {
       content = (
         <div>
-          {/* <ProfileCard
+          <ProfileCard
             type="banner"
             customStyleParent={{ margin: "auto" }}
             custom_width={BANNER_WIDTH + "px"}
@@ -435,9 +383,9 @@ class AboutSubPage extends React.Component {
             img_url={this.state.data.banner_url}
             img_pos={this.state.data.banner_position}
             img_size={this.state.data.banner_size}
-          ></ProfileCard> */}
+          ></ProfileCard>
 
-          <div style={{ marginTop: "" }}>
+          <div style={{ marginTop: "-90px" }}>
             <ProfileCard
               type="company"
               img_dimension={"130px"}
@@ -449,17 +397,6 @@ class AboutSubPage extends React.Component {
               img_pos={this.state.data.img_position}
               img_size={this.state.data.img_size}
             ></ProfileCard>
-            <div>
-              <form>
-                <div className="form-header">Banner</div>
-                <Uploader label={lang("Upload A New Banner")} name="banner"
-                  type={FileType.IMG} onSuccess={this.uploaderOnSuccess}
-                  onChange={this.uploaderOnChange} onError={this.uploaderOnError}></Uploader>
-                <div>
-                  {this.getBanner()}
-                </div>
-              </form>
-            </div>
             <Form
               className="form-row"
               items={this.formItems}

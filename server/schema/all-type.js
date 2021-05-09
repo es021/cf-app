@@ -526,6 +526,7 @@ const PrescreenType = new GraphQLObjectType({
 	fields: () => ({
 		ID: __.Int,
 		student_id: __.Int,
+		recruiter_id: __.Int,
 		company_id: __.Int,
 		status: __.String,
 		pic: __.String,
@@ -546,7 +547,8 @@ const PrescreenType = new GraphQLObjectType({
 		updated_by: __.Int,
 
 		student: __.IsType(UserType),
-		company: __.IsType(CompanyType)
+		company: __.IsType(CompanyType),
+		recruiter: __.IsType(UserType),
 	})
 });
 

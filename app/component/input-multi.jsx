@@ -179,6 +179,7 @@ export default class InputMulti extends React.Component {
           val
         }
       }`;
+      // console.log(qRef)
       graphql(qRef).then(res => {
         let fetched = res.data.data.refs;
         refList = fetched;
@@ -455,6 +456,7 @@ export default class InputMulti extends React.Component {
             onChoose={this.onChooseSuggestion}
             input_onChange={this.inputOnChange}
             table_name={this.props.ref_table_name}
+            order_by={this.props.ref_order_by}
             input_placeholder={this.props.input_placeholder}
           ></InputSuggestion>
         </div>

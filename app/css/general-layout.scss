@@ -3,19 +3,64 @@
 // ##################################
 // show
 
+// .show-on-lg-and-more {
+//   display: none;
+//   @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP + 1) {
+//     display: initial;
+//   }
+// }
+
+// .show-on-md-and-less {
+//   display: none;
+//   @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
+//     display: initial;
+//   }
+// }
+.text-truncate-1{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.text-truncate-2{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.text-truncate-3{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
 .show-on-lg-and-more {
   display: none;
   @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP + 1) {
-    display: initial;
+    display: block;
   }
 }
 
 .show-on-md-and-less {
   display: none;
   @media only screen and (max-width: $LAYOUT_MD_BOOTSTRAP) {
-    display: initial;
+    display: block;
   }
 }
+
+.btn-row-block{
+  .btn-block+.btn-block{
+    margin-top: 0 !important;
+    margin-left: 6px !important;
+  }
+  // .btn-block{
+  //   margin: 0px 3px;
+  // }
+}
+
 
 
 // ##################################

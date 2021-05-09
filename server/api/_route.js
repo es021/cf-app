@@ -582,6 +582,7 @@ const initializeAllRoute = function (app, root) {
                   }
                 });
               } else {
+                console.log("url",url);
                 res.status(200);
                 res.json({
                   url: url

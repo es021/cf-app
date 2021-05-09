@@ -11,6 +11,7 @@ import * as layoutAction from "../../../redux/actions/layout-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import { emitHallActivity } from "../../../socket/socket-client";
 import { lang } from "../../../lib/lang";
+import Tooltip from "../../../component/tooltip";
 
 
 // ##########################################################################################
@@ -18,14 +19,18 @@ import { lang } from "../../../lib/lang";
 
 export const Status = {
   STATUS_WAIT_CONFIRM: { color: "rgb(255, 169, 43)", text: "Pending", icon: "clock-o" },
-  STATUS_RESCHEDULE: { color: "rgb(17, 6, 26)", text: "Reschedule Requested", icon: "calendar" },
+  STATUS_RESCHEDULE: { color: "rgb(17, 6, 26)", text: "Reschedule", icon: "calendar" },
   STATUS_REJECTED: { color: "red", text: "Rejected", icon: "warning" },
   STATUS_APPROVED: { color: "#00ab1b", text: "Confirmed", icon: "check" },
   STATUS_ENDED: { color: "red", text: "Ended", icon: "times" },
   STATUS_STARTED: { color: "#0098e1", text: "Ongoing", icon: "dot-circle-o" },
 }
-export function getStatusElementIconClass(icon) {
-  return `status-icon fa fa-${icon} fa-2x left`
+export function getStatusElementIconClass(icon, small = false) {
+  if (small) {
+    return `status-icon fa fa-${icon} left`
+  } else {
+    return `status-icon fa fa-${icon} fa-2x left`
+  }
 }
 export function getStatusElementTextClass() {
   return "status-text"
@@ -33,7 +38,10 @@ export function getStatusElementTextClass() {
 export function getStatusElementId(ID) {
   return "interview-status-" + ID;
 }
-export function getStatusElement(d, status_obj) {
+export function getStatusElementSmall(d, status_obj) {
+  return getStatusElement(d, status_obj, true)
+}
+export function getStatusElement(d, status_obj, small = false) {
   return status_obj == null ? null :
     <div id={getStatusElementId(d.ID)}
       className="interview-status"
@@ -42,7 +50,7 @@ export function getStatusElement(d, status_obj) {
         fontSize: "12px",
         color: status_obj.color, fontWeight: "bold"
       }}>
-      <i className={getStatusElementIconClass(status_obj.icon)} ></i><br></br>
+      <i className={getStatusElementIconClass(status_obj.icon, small)} ></i><br></br>
       <span className={getStatusElementTextClass()}>{lang(status_obj.text)}</span>
       {d.status == PrescreenEnum.STATUS_RESCHEDULE && isRoleStudent()
         ? <span><br></br>{Time.getString(d.reschedule_time)}</span>
@@ -57,7 +65,7 @@ export function updateStatusViewToPending(ID) {
   let text = el.getElementsByClassName("status-text")[0];
 
   el.style.color = newStatus.color;
-  icon.className = getStatusElementIconClass(newStatus.icon)
+  icon.className = getStatusElementIconClass(newStatus.icon, true)
   text.innerHTML = newStatus.text;
 }
 
@@ -78,17 +86,30 @@ export function getNoteElement(d) {
         {
           name: fixedName,
           type: "textarea",
-          placeholder: "Write down your note..",
+          placeholder: "Note",
         }
       ]
     }}
     render={(val, loading, openEditPopup) => {
-      let notAssigned = <span className="text-muted"><i>{lang("Write down your note..")}</i></span>;
+      let notAssigned = <span className="text-muted"><i>{lang("Note")}</i></span>;
       let editing = <span className="text-muted"><i>{lang("Updating")} {lang(entity)}. {lang("Please Wait")}.</i></span>;
       let editIcon = <a className="btn-link-bright" onClick={openEditPopup}><i className="fa fa-edit left"></i></a>;
+
+      if (!loading && val) {
+        return <Tooltip
+          bottom={'1px'}
+          left={'-44px'}
+          width={'163px'}
+          alignCenter={true}
+          content={<div className="text-muted-dark text-truncate-2"><span>{editIcon}{val}</span></div>}
+          tooltip={val}
+        />
+      }
+
       return <div className="text-muted-dark">
-        {loading ? editing : <span>{editIcon}{!val ? notAssigned : val}</span>}
+        {loading ? editing : <span>{editIcon}{notAssigned}</span>}
       </div >
+
     }}
     query={(data, newVal) => {
       let upd = {
@@ -240,7 +261,8 @@ export function getPicElement(d, mutation_edit, entity) {
       ]
     }}
     render={(val, loading, openEditPopup) => {
-      let notAssigned = <span className="text-muted"><i>{lang(`No`)} {lang(entity)} {lang("Assigned")}</i></span>;
+      // let notAssigned = <span className="text-muted"><i>{lang(`No`)} {lang(entity)} {lang("Assigned")}</i></span>;
+      let notAssigned = <span className="text-muted"><i>{lang(entity)}</i></span>;
       let editing = <span className="text-muted"><i>{lang("Assigning")}{lang(entity)}. {lang("Please Wait")}.</i></span>;
 
       let content = null;
@@ -255,20 +277,38 @@ export function getPicElement(d, mutation_edit, entity) {
           {" : "}
           {loading ? editing : <span>{!val ? notAssigned : val}{editIcon}</span>}
         </small>;
+        return <div className="text-muted-dark">
+          {content}
+        </div >
       }
+
+
       // ##########################################
       // FOR PRESCREEN
       else if (mutation_edit == "edit_prescreen") {
         // val = [<b>{entity}</b>, " : ", val];
         let editIcon = <a className="btn-link-bright" onClick={openEditPopup}><i className="fa fa-edit left"></i></a>;
-        content = <div>
-          {loading ? editing : <span>{editIcon}{!val ? notAssigned : val}</span>}
-        </div>
+        // content = <div>
+        //   {loading ? editing : <span>{editIcon}{!val ? notAssigned : val}</span>}
+        // </div>
+        if (!loading && val) {
+          return <Tooltip
+            bottom={'1px'}
+            left={'-44px'}
+            width={'163px'}
+            alignCenter={true}
+            content={<div className="text-muted-dark text-truncate-2">
+              <span>{editIcon}{val}</span>
+            </div>}
+            tooltip={val}
+          />
+        }
+        return <div className="text-muted-dark text-truncate-2">
+          {loading ? editing : <span>{editIcon}{notAssigned}</span>}
+        </div >
       }
 
-      return <div className="text-muted-dark">
-        {content}
-      </div >
+
     }}
     query={(data, newVal) => {
       let upd = {

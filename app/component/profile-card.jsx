@@ -250,7 +250,7 @@ export default class ProfileCard extends React.Component {
 
     //online indicator
     var img_online_indicator = null;
-    if(this.props.isOnline){
+    if (this.props.isOnline) {
       img_online_indicator = (
         <div className={`${pc}online`}>
         </div>
@@ -281,15 +281,21 @@ export default class ProfileCard extends React.Component {
       onlineBar = <div className={`${pc}online-bar`}>Online</div>;
     }
 
+    var imageAndOnlineIdicator = <div className={`${pc}picture`} style={stylePicture}>
+      {img_ops}
+      {img_online_indicator}
+    </div>;
+
+    if (this.props.imageOnly) {
+      return imageAndOnlineIdicator;
+    }
+
     let body = [
       banner,
       onlineBar,
       this.props.header ? this.props.header : null,
       badge,
-      <div className={`${pc}picture`} style={stylePicture}>
-        {img_ops}
-        {img_online_indicator}
-      </div>,
+      imageAndOnlineIdicator,
       <div className={`${pc}title`}>{this.props.title}</div>,
       this.props.subtitle ? (
         <div className={`${pc}subtitle`}>{this.props.subtitle}</div>
@@ -340,7 +346,7 @@ export default class ProfileCard extends React.Component {
 }
 
 ProfileCard.propTypes = {
-  isOnline : PropTypes.bool,
+  isOnline: PropTypes.bool,
   custom_width: PropTypes.string,
   type: PropTypes.oneOf([PCType.STUDENT, PCType.RECRUITER, PCType.COMPANY])
     .isRequired,
@@ -352,6 +358,7 @@ ProfileCard.propTypes = {
   onClick: PropTypes.func,
   to: PropTypes.string,
 
+  imageOnly: PropTypes.bool,
   isShowOnlineBar: PropTypes.bool,
 
   addBanner: PropTypes.bool,
@@ -374,7 +381,8 @@ ProfileCard.propTypes = {
 };
 
 ProfileCard.defaultProps = {
-  isOnline : false,
+  imageOnly: false,
+  isOnline: false,
   isShowOnlineBar: false,
   addBanner: false,
   customStyle: null,

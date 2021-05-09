@@ -1,16 +1,19 @@
+
+ALTER TABLE `pre_screens` ADD `recruiter_id` BIGINT(20) NULL DEFAULT NULL AFTER `company_id`, ADD INDEX (`recruiter_id`);
+oejf21.sql
+
+
+-- ##############################################################
+-- ##############################################################
+a.split("\n").map((d)=>{
+  return `INSERT INTO ref_job_category (val) VALUES ('${d.trim()}');`
+}).join("\n");
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
 usm21.sql
 
-
-a.split("\n").map((d)=>{
-  return `INSERT INTO wp_career_fair.ref_job_category (val) VALUES ('${d.trim()}');`
-}).join("\n");
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `vacancies` ADD `specialization` VARCHAR(700) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL AFTER `application_url`, ADD INDEX (`specialization`); 
 
 CREATE TABLE `hall_lobby` (

@@ -1521,6 +1521,7 @@ fields["add_prescreen"] = {
   type: PrescreenType,
   args: {
     student_id: __.IntNonNull,
+    recruiter_id: __.Int,
     company_id: __.IntNonNull,
     status: __.StringNonNull,
     special_type: __.String,
