@@ -708,6 +708,8 @@ const CFSMeta = {
 	ORGANIZATIONS: "organizations", // json object
 
 	// custom on/off features
+	FEATURE_REC_EVENT_AND_WELCOME: "feature_rec_event_and_welcome",
+
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
 	FEATURE_STUDENT_LOGIN: "feature_student_login",
 	FEATURE_STUDENT_REGISTER: "feature_student_register",

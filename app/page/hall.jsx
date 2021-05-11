@@ -329,7 +329,6 @@ export default class HallPage extends React.Component {
     </div >
   }
   getEvents(backgroundColor) {
-    // for recruiter
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
       <ListRow title={lang("Events & Webinars")}
         icon="calendar"
@@ -409,13 +408,21 @@ export default class HallPage extends React.Component {
         {this.getJobPost("#eef0ee")}
       </div>
     } else if (this.isRecCurrentEvent()) {
-      v = <div className="hall-page">
-        {this.getGallery("#eef0ee")}
-        {this.getWelcomeAndSponsor(null)}
-        {this.getCompanyBooth("#eef0ee")}
-        {this.getEvents(null)}
-        {this.getJobPost("#eef0ee")}
-      </div>
+      if (isCfFeatureOff(CFSMeta.FEATURE_REC_EVENT_AND_WELCOME)) {
+        v = <div className="hall-page">
+          {this.getGallery(null)}
+          {this.getCompanyBooth("#eef0ee")}
+          {this.getJobPost(null)}
+        </div>
+      } else {
+        v = <div className="hall-page">
+          {this.getGallery("#eef0ee")}
+          {this.getWelcomeAndSponsor(null)}
+          {this.getCompanyBooth("#eef0ee")}
+          {this.getEvents(null)}
+          {this.getJobPost("#eef0ee")}
+        </div>
+      }
     }
     //  else if (isRoleRec()) {
     //   v = <div className="hall-page">

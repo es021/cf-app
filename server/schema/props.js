@@ -42,6 +42,8 @@ EXPORT.Cfs = {
     hall_cfg_onsite_call_use_group: __.Int,
 
     // custom on/off features
+    feature_rec_event_and_welcome: __.String,
+
     feature_recruiter_login: __.String,
     feature_student_login: __.String,
     feature_student_register: __.String,
