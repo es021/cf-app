@@ -339,21 +339,33 @@ export default class HallPage extends React.Component {
       ></ListRow>
     </div >
   }
-  getInterviewAndEvent(backgroundColor) {
+  getStudentInterviewHelper() {
+    return <ListRow title={lang("My Interviews")}
+      icon="video-camera"
+      backgroundColor={null}
+      containerStyle={{ padding: "20px 0px" }}
+      items={<ActivitySection type="row" limitLoad={4} type="row" isFullWidth={true} />}
+      see_more_text={lang("See More Interviews")}
+      see_more_onclick={() => {
+        // console.log(`${AppPath}/list-interviews`)
+        window.location = `${AppPath}/list-interviews`;
+      }}
+    ></ListRow>;
+  }
+  getStudentInterview(backgroundColor) {
+    return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
+      <div className="row main-width">
+        <div className="col-md-12">
+          {this.getStudentInterviewHelper()}
+        </div>
+      </div>
+    </div>
+  }
+  getStudentInterviewAndEvent(backgroundColor) {
     return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
       <div className="row main-width">
         <div className="col-md-6">
-          <ListRow title={lang("My Interviews")}
-            icon="video-camera"
-            backgroundColor={null}
-            containerStyle={{ padding: "20px 0px" }}
-            items={<ActivitySection type="row" limitLoad={4} type="row" isFullWidth={true} />}
-            see_more_text={lang("See More Interviews")}
-            see_more_onclick={() => {
-              // console.log(`${AppPath}/list-interviews`)
-              window.location = `${AppPath}/list-interviews`;
-            }}
-          ></ListRow>
+          {this.getStudentInterviewHelper()}
         </div>
         <div className="col-md-6">
           <ListRow title={lang("Events & Webinars")}
@@ -395,20 +407,32 @@ export default class HallPage extends React.Component {
 
     let v = null;
 
+    // ################################
+    // ################################
+    // STUDENT VIEW
     if (isRoleStudent()) {
-      v = <div className="hall-page">
-        {this.getGallery("#eef0ee")}
-        {/* {this.getTitle()}
-        {this.getSponsor("#e6e6e6")} */}
-        {this.getWelcomeAndSponsor(null)}
-        {this.getInterviewAndEvent("#eef0ee")}
-        {/* {this.getInterview("#eef0ee")} */}
-        {this.getCompanyBooth(null)}
-        {/* {this.getEvents("#eef0ee")} */}
-        {this.getJobPost("#eef0ee")}
-      </div>
-    } else if (this.isRecCurrentEvent()) {
-      if (isCfFeatureOff(CFSMeta.FEATURE_REC_EVENT_AND_WELCOME)) {
+      if (isCfFeatureOff(CFSMeta.FEATURE_EVENT_AND_WELCOME)) {
+        v = <div className="hall-page">
+          {this.getGallery("#eef0ee")}
+          {this.getStudentInterview(null)}
+          {this.getCompanyBooth("#eef0ee")}
+          {this.getJobPost(null)}
+        </div>
+      } else {
+        v = <div className="hall-page">
+          {this.getGallery("#eef0ee")}
+          {this.getWelcomeAndSponsor(null)}
+          {this.getStudentInterviewAndEvent("#eef0ee")}
+          {this.getCompanyBooth(null)}
+          {this.getJobPost("#eef0ee")}
+        </div>
+      }
+    }
+    // ################################
+    // ################################
+    // RECRUITER VIEW
+    else if (this.isRecCurrentEvent()) {
+      if (isCfFeatureOff(CFSMeta.FEATURE_EVENT_AND_WELCOME)) {
         v = <div className="hall-page">
           {this.getGallery(null)}
           {this.getCompanyBooth("#eef0ee")}
@@ -424,23 +448,23 @@ export default class HallPage extends React.Component {
         </div>
       }
     }
-    //  else if (isRoleRec()) {
-    //   v = <div className="hall-page">
-    //     {this.getGallery()}
-    //     {this.getTitle()}
-    //     {this.getSponsor()}
-    //     {this.getRecruiterAction(this.state)}
-    //     {this.getInterview("#eef0ee")}
-    //     {this.getEvents(null)}
-    //   </div>
-    // } 
+    // ################################
+    // ################################
+    // ADMIN / ORGANIZER VIEW
     else if (isRoleAdmin() || isRoleOrganizer()) {
-      v = <div className="hall-page">
-        {this.getGallery("#eef0ee")}
-        {this.getWelcomeAndSponsor(null)}
-        {this.getCompanyBooth("#eef0ee")}
-        {this.getEvents(null)}
-      </div>
+      if (isCfFeatureOff(CFSMeta.FEATURE_EVENT_AND_WELCOME)) {
+        v = <div className="hall-page">
+          {this.getGallery(null)}
+          {this.getCompanyBooth("#eef0ee")}
+        </div>
+      } else {
+        v = <div className="hall-page">
+          {this.getGallery("#eef0ee")}
+          {this.getWelcomeAndSponsor(null)}
+          {this.getCompanyBooth("#eef0ee")}
+          {this.getEvents(null)}
+        </div>
+      }
     }
 
     return v;
