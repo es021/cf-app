@@ -507,7 +507,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "oejf21_field_study",
         ref_order_by: "ID asc",
-        is_required: true,
+        is_required: false,
         onCf: ["OEJF21"]
     },
     where_in_malaysia_select: {
@@ -597,6 +597,50 @@ const CustomConfig = {
         onCf: ["OEJF21"],
         attr: `{val}`
     },
+    oejf21_qualification: {
+        discard_popup_on: (d) => {
+            return d['oejf21_qualification'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Qualification",
+        question: "What is your highest level of certificate?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf21_qualification",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"]
+    },
+    oejf21_qualification_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['oejf21_qualification'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Qualification",
+        question: "What is your highest level of certificate? (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["OEJF21"]
+    },
+    oejf21_interested_job: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "Interested Job Position",
+        question: "What types of jobs are you interested in?",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "oejf21_interested_job",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "oejf21_interested_job",
+        ref_order_by : "ID asc",
+        is_required: true,
+        onCf: ["OEJF21"],
+        attr: `{val}`
+    },
 }
 
 const CustomOrder = {
@@ -606,7 +650,9 @@ const CustomOrder = {
         "looking_for_position",
         "country_study",
         "university",
-        "qualification",
+        // "qualification",
+        "oejf21_qualification",
+        "oejf21_qualification_other",
         "oejf21_field_study",
         "grade",
         "phone_number",
@@ -614,13 +660,12 @@ const CustomOrder = {
         "gender",
         "race",
         "working_availability_month",
-        "interested_role",
+        "oejf21_interested_job",
         "where_in_malaysia_select",
         "oejf21_where_work",
         "oejf21_years_working",
         "oejf21_industry",
         "skill",
-        "extracurricular",
         "oejf21_reference"
     ],
     SUNWAYGRD21: [

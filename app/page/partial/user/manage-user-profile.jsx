@@ -127,8 +127,9 @@ export default class ManageUserProfile extends React.Component {
         input_type: "select",
         id: Reg.Single.working_availability_year,
         key_input: Reg.Single.working_availability_year,
-        ref_table_name: "year",
-        ref_filter_raw: "val >= 2020",
+        ref_table_name: "year_2020",
+        ref_order_by: "ID asc",
+        // ref_filter_raw: "val >= 2020 or val = 'Not Applicable' ",
         is_required: true,
         hidden: false
       }
@@ -575,7 +576,7 @@ export default class ManageUserProfile extends React.Component {
           table_name: Reg.Multi.interested_role,
           label: lang("What types of jobs are you interested in?"),
           // label: "What types of jobs will you be searching for?",
-          input_placeholder: lang("Web Developer, Graphic Design, etc"),
+          // input_placeholder: lang("Web Developer, Graphic Design, etc"),
           list_title: field_study ? lang(`Popular job for your field of study`) : "",
           // ref_table_name: isCurrentEnglish() ? "job_role" : "empty",
           ref_table_name: "job_role",
@@ -681,11 +682,11 @@ export default class ManageUserProfile extends React.Component {
 
     r = Reg.pickAndReorderByCf(cf, r);
 
-    // console.log("ALL FIELD KEY", r.map(d => {
-    //   if (!d.hidden) {
-    //     return d.id
-    //   }
-    // }));
+    console.log("ALL FIELD KEY", r.map(d => {
+      if (!d.hidden) {
+        return d.id
+      }
+    }));
 
     return r;
   }
