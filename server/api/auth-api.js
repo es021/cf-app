@@ -42,6 +42,8 @@ const MailChimp = {
 	ApiKey: Secret.MAIL_CHIMP_KEY
 };
 
+const DB = require("../model/DB.js");
+
 
 function getIdUtmTable(cf) {
 	let table = "ref_id_utm"; // UTM20
@@ -264,7 +266,7 @@ class AuthAPI {
 				var cfRes = res.data.data.cf;
 
 				if (user !== null) {
-					
+
 					if (user["role"] == UserEnum.ROLE_STUDENT && cfRes["feature_student_login"] == "OFF") {
 						return AuthAPIErr.USER_CANNOT_LOGIN;
 					}
@@ -727,11 +729,25 @@ class AuthAPI {
 				return graphql(`query{user(user_email:"${user[User.EMAIL]}") {ID}}`).then(resQuery => {
 					let existedId = resQuery.data.data.user.ID;
 					let overrideEmail = "DELETED_" + existedEmail;
-					return graphql(`mutation{edit_user(ID:${existedId}, user_email:"${overrideEmail}", user_login:"${overrideEmail}") 
-						{ID}}`).then(resUpdate => {
-						return getWpAjaxAxios("app_register_user", data, successInterceptor);
-					});
 
+					// TODO
+					let editQuery = `mutation{
+						edit_user(ID:${existedId}, user_email:"${overrideEmail}", user_login:"${overrideEmail}") {ID}
+					}`
+					return graphql(editQuery).then(resUpdate => {
+						if (existedId) {
+							let deleteQuery = "DELETE FROM cf_map WHERE entity = 'user' AND entity_id = ?";
+							deleteQuery = DB.prepare(deleteQuery, [existedId]);
+							console.log("deleteQuery",deleteQuery);
+							console.log("deleteQuery",deleteQuery);
+							console.log("deleteQuery",deleteQuery);
+							return DB.query(deleteQuery).then(resDelete => {
+								return getWpAjaxAxios("app_register_user", data, successInterceptor);
+							})
+						} else {
+							return getWpAjaxAxios("app_register_user", data, successInterceptor);
+						}
+					});
 				})
 			} else {
 				return err;

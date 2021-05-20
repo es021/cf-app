@@ -40,7 +40,11 @@ var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 var StatisticUrl = SiteUrl + "/statistic";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
-var EmailPhpAdmin = ((isProd) ? Domain : "http://localhost:8085/cf-app/server") + `/php-api/email/email.php`;
+
+// var PORT_DEV = "8085";
+var PORT_DEV = "80";
+
+var EmailPhpAdmin = ((isProd) ? Domain : `http://localhost:${PORT_DEV}/cf-app/server`) + `/php-api/email/email.php`;
 const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
 
 function getTermsAndConditionUrl(cf) {
@@ -52,7 +56,7 @@ function getTermsAndConditionUrl(cf) {
 }
 
 
-var RootUrl = (process.env.NODE_ENV === "development-wp") ? "http://localhost:8085" : "http://localhost:80";
+var RootUrl = (process.env.NODE_ENV === "development-wp") ? `http://localhost:${PORT_DEV}` : "http://localhost:80";
 if (isProd) {
     RootUrl = `https://seedsjobfairapp.com`;
 }
