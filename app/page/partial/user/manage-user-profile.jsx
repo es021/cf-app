@@ -785,7 +785,7 @@ export default class ManageUserProfile extends React.Component {
             } else if (this.isUploadResumeRequired() && this.isHasUploadResume() && !this.state.currentResume) {
               layoutActions.errorBlockLoader("Please upload your resume");
             } else {
-              if (this.isHasUploadResume()) {
+              if (this.isHasUploadResume() && this.state.currentResume) {
                 layoutActions.loadingBlockLoader("Uploading resume");
                 this.uploadFileAndSaveToDB({
                   label: "Resume",
