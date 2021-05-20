@@ -682,11 +682,11 @@ export default class ManageUserProfile extends React.Component {
 
     r = Reg.pickAndReorderByCf(cf, r);
 
-    console.log("ALL FIELD KEY", r.map(d => {
-      if (!d.hidden) {
-        return d.id
-      }
-    }));
+    // console.log("ALL FIELD KEY", r.map(d => {
+    //   if (!d.hidden) {
+    //     return d.id
+    //   }
+    // }));
 
     return r;
   }
