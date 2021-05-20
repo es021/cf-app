@@ -818,7 +818,7 @@ export default class ManageUserProfile extends React.Component {
     }
     var uploader = <Uploader
       formClass="form-file-custom"
-      label={lang("Upload Your Resume" + this.isUploadResumeRequired() ? " *" : "")}
+      label={lang(("Upload Your Resume") + (this.isUploadResumeRequired() ? " *" : ""))}
       name="resume"
       type={FileType.DOC}
       onSuccess={(file) => {
