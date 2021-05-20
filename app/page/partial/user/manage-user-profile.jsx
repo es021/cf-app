@@ -818,7 +818,8 @@ export default class ManageUserProfile extends React.Component {
     }
     var uploader = <Uploader
       formClass="form-file-custom"
-      label={lang("Upload Your Resume *")} name="resume"
+      label={lang("Upload Your Resume" + this.isUploadResumeRequired() ? " *" : "")}
+      name="resume"
       type={FileType.DOC}
       onSuccess={(file) => {
         this.setState(() => {
@@ -837,7 +838,7 @@ export default class ManageUserProfile extends React.Component {
     return (<div>{this.MARGIN}{uploader}</div>);
   }
 
-  isUploadResumeRequired(){
+  isUploadResumeRequired() {
     return ["INTELDD21"].indexOf(getCF()) >= 0;
   }
 
