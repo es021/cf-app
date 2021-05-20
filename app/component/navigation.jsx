@@ -443,7 +443,7 @@ function getMenuItem(COMING_SOON) {
     {
       // Student Only
       url: "/edit-profile/:current",
-      label: lang("Upload Document"),
+      label: lang("Upload Resume/Document"),
       icon: "file-text",
       component: EditProfilePage,
       bar_app: true,

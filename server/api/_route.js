@@ -320,6 +320,12 @@ const initializeAllRoute = function (app, root) {
     var filter = req.body.filter;
     var cf = req.body.cf;
     var is_admin = req.body.is_admin;
+    
+    
+    var cf_title = req.body.cf_title;
+    if (!cf_title) {
+      cf_title = "SeedsJobFair";
+    }
 
     // console.log('password', password)
     // console.log('action', action)
@@ -340,7 +346,7 @@ const initializeAllRoute = function (app, root) {
             );
             res.header(
               "Content-Disposition",
-              `attachement; filename="${response.filename} - SeedsJobFair.xls"`
+              `attachement; filename="${response.filename} - ${cf_title}.xls"`
             );
             res.send(response.content);
           },
@@ -582,7 +588,7 @@ const initializeAllRoute = function (app, root) {
                   }
                 });
               } else {
-                console.log("url",url);
+                console.log("url", url);
                 res.status(200);
                 res.json({
                   url: url

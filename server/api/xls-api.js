@@ -474,13 +474,19 @@ class XLSApi {
 
     let multi_input = [
       "interested_vacancies_by_company",
-      "extracurricular",
-      "field_study",
-      "skill",
-      "looking_for_position",
-      "interested_role",
-      "interested_job_location",
+      // "extracurricular",
+      // "field_study",
+      // "skill",
+      // "looking_for_position",
+      // "interested_role",
+      // "interested_job_location",
     ];
+    if (!isCustomUserInfoOff(this.CF, "extracurricular")) multi_input.push("extracurricular");
+    if (!isCustomUserInfoOff(this.CF, "field_study")) multi_input.push("field_study");
+    if (!isCustomUserInfoOff(this.CF, "skill")) multi_input.push("skill");
+    if (!isCustomUserInfoOff(this.CF, "looking_for_position")) multi_input.push("looking_for_position");
+    if (!isCustomUserInfoOff(this.CF, "interested_role")) multi_input.push("interested_role");
+    if (!isCustomUserInfoOff(this.CF, "interested_job_location")) multi_input.push("interested_job_location");
 
     for (let customMulti of cfCustomFunnel({ action: 'get_keys_multi' })) {
       if (!isCustomUserInfoOff(this.CF, customMulti)) {

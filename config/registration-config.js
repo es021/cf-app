@@ -636,7 +636,7 @@ const CustomConfig = {
         type: "multi",
         input_type: "select",
         ref_table_name: "oejf21_interested_job",
-        ref_order_by : "ID asc",
+        ref_order_by: "ID asc",
         is_required: true,
         onCf: ["OEJF21"],
         attr: `{val}`
@@ -1001,8 +1001,18 @@ const customRef = (cf, key, defaultRef) => {
     return defaultRef;
 }
 
+function isRequired(cf, key, defaultValue) {
+    if (key == "grade") {
+        if (["OEJF21"].indexOf(cf) >= 0) {
+            return false;
+        }
+    }
+
+    return defaultValue
+}
 
 module.exports = {
+    isRequired,
     getIdLabelByCf,
     CustomConfig,
     CustomStudentCardInfo,

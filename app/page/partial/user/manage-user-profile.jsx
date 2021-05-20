@@ -495,7 +495,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("What is your grade?"),
           sublabel: lang("CGPA, GPA, First Class, WAM, etc"),
           input_placeholder: lang("Type something here"),
-          is_required: true,
+          is_required: Reg.isRequired(cf, 'grade', true),
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.grade)
         },
         {
@@ -782,7 +782,7 @@ export default class ManageUserProfile extends React.Component {
               focusOnInput(firstEmpty);
               smoothScrollTo(firstEmpty, this.SCROLL_OFFSET);
               this.labelBlinkRequired(firstEmpty);
-            } else if (this.isHasUploadResume() && !this.state.currentResume) {
+            } else if (this.isUploadResumeRequired() && this.isHasUploadResume() && !this.state.currentResume) {
               layoutActions.errorBlockLoader("Please upload your resume");
             } else {
               if (this.isHasUploadResume()) {
@@ -837,9 +837,13 @@ export default class ManageUserProfile extends React.Component {
     return (<div>{this.MARGIN}{uploader}</div>);
   }
 
+  isUploadResumeRequired(){
+    return ["INTELDD21"].indexOf(getCF()) >= 0;
+  }
+
   isHasUploadResume() {
     // return true;
-    let validCF = ["INTELDD21"];
+    let validCF = ["INTELDD21", "OEJF21"];
     return !this.props.isEdit && validCF.indexOf(getCF()) >= 0;
   }
 
