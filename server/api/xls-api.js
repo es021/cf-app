@@ -10,7 +10,7 @@ const { StatisticUrl } = require("../../config/app-config");
 
 class XLSApi {
   constructor() {
-
+    this.globalHeaders = [];
     this.DateTime = [
       "created_at",
       "updated_at",
@@ -23,6 +23,7 @@ class XLSApi {
 
   // filter in JSON object, return {filename, content}
   export({ action, filter, cf, is_admin }) {
+    this.globalHeaders = [];
     this.CF = cf;
     if (FilterNotObject.indexOf(action) <= -1) {
       if (filter !== "null") {
@@ -770,6 +771,11 @@ class XLSApi {
       for (var i in datasAttr) {
         var key = label + "_" + (Number.parseInt(i) + 1);
         var d = datasAttr[i];
+
+        if (key.indexOf("attachment") >= 0 && this.globalHeaders.indexOf(key) <= -1) {
+          this.globalHeaders.push(key);
+        }
+
         newData[key] = renderCol(d);
       }
     }
@@ -948,6 +954,13 @@ class XLSApi {
       }
 
       rows += this.generateRow(i, d, rowHook);
+    }
+
+    // add global headers
+    for (let h of this.globalHeaders) {
+      if (headers.indexOf(h) <= -1) {
+        headers.push(h);
+      }
     }
 
     return `<table>${fileTitle} ${this.generateHeader(
