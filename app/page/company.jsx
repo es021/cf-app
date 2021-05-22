@@ -583,6 +583,10 @@ export default class CompanyPage extends Component {
   }
 
   getEvent(data) {
+    if(isCfFeatureOff(CFSMeta.FEATURE_EVENT_AND_WELCOME)){
+      return null;
+    }
+
     return <div>
       {this._title_("calendar", "Events & Webinar")}
       {isRecruiterCompany(this.ID)
