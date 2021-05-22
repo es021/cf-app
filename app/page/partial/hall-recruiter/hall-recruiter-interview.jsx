@@ -719,12 +719,20 @@ class HallRecruiterInterview extends React.Component {
     super(props);
     this.refresh = this.refresh.bind(this);
     this.onRemoveItem = this.onRemoveItem.bind(this);
+    this.authUser = getAuthUser();
+
     this.FILTER_TODAY = "FILTER_TODAY";
+    this.FILTER_MINE = "FILTER_MINE";
     this.COUNTS = {};
     this.FILTERS = [
       {
         key: this.FILTER_TODAY,
         label: lang("Show Today's Only"),
+        defaultChecked: false,
+      },
+      {
+        key: this.FILTER_MINE,
+        label: lang("My Interviews Only"),
         defaultChecked: false,
       },
       {
@@ -792,7 +800,7 @@ class HallRecruiterInterview extends React.Component {
   getFilterItem({ key, label, defaultChecked }) {
     let count = this.COUNTS[key];
     count = count ? count : 0;
-    if (key == this.FILTER_TODAY) {
+    if ([this.FILTER_TODAY, this.FILTER_MINE].indexOf(key) >= 0) {
       count = null
     } else {
       count = ` (${count}) `;
@@ -870,6 +878,12 @@ class HallRecruiterInterview extends React.Component {
         if (this.state[this.FILTER_TODAY]) {
           if (Time.isUnixToday(d.appointment_time)) {
             toRet = pushItem(toRet, d);
+          }
+        } else if (this.state[this.FILTER_MINE]) {
+          if (d.recruiter) {
+            if (this.authUser.user_email == d.recruiter.user_email) {
+              toRet = pushItem(toRet, d);
+            }
           }
         } else {
           toRet = pushItem(toRet, d);
@@ -956,7 +970,7 @@ class HallRecruiterInterview extends React.Component {
         icon={"video-camera"}
         title={
           <span>
-            {lang("My Interviews")}
+            {lang("Interview List")}
             {/* <small>{grandTotal > 0 ? ` (showing ${total}/${grandTotal}) ` : null}</small> */}
             {" "}
             <a onClick={this.refresh} className="btn-link text-bold">
