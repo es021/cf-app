@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
 import { getAuthUser } from "../redux/actions/auth-actions";
-import InputSuggestion from "./input-suggestion";
+import InputSuggestion, { PLEASE_SELECT } from "./input-suggestion";
 import PropTypes from "prop-types";
 import obj2arg from "graphql-obj2arg";
 
@@ -125,6 +125,9 @@ export default class InputSingle extends React.Component {
     }
   }
   sendDataToDb(v) {
+    if (this.isEmpty(v)) {
+      return;
+    }
     const doSend = () => {
       console.log("sendDataToDb", v);
 
@@ -166,8 +169,10 @@ export default class InputSingle extends React.Component {
   finishDbRequest(v) {
     this.triggerDoneHandler(v);
   }
-
   updateDB(ID, v) {
+    if (v == "" || v == null && v != PLEASE_SELECT) {
+      this.onChooseSuggestion(v);
+    }
     console.log("updateDB", ID, v);
     let upd = {
       ID: ID,
@@ -192,6 +197,9 @@ export default class InputSingle extends React.Component {
   }
   insertDB(v) {
     console.log("insertDB", v);
+    if (this.isEmpty(v)) {
+      return;
+    }
 
     let ins = {
       key_input: this.props.key_input,
@@ -226,7 +234,7 @@ export default class InputSingle extends React.Component {
     console.log("inputOnBlur", v);
     this.sendDataToDb(v);
   }
-  inputOnFocus(e) {}
+  inputOnFocus(e) { }
   inputOnChange(e) {
     let v = e.target.value;
     this.setState({ val: v });
@@ -246,6 +254,9 @@ export default class InputSingle extends React.Component {
 
   //   return true;
   // }
+  isEmpty(val) {
+    return val == PLEASE_SELECT || val == "" || val == null || typeof val === "undefined";
+  }
   isValueEmpty(val) {
     if (typeof val === "undefined") {
       val = this.state.val;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "../../helper/api-helper";
 import { lang, currentLang } from "../lib/lang";
 import { getAuthUser } from "../redux/actions/auth-actions";
-import InputSuggestion from "./input-suggestion";
+import InputSuggestion, { PLEASE_SELECT } from "./input-suggestion";
 import PropTypes from "prop-types";
 import obj2arg from "graphql-obj2arg";
 
@@ -55,7 +55,8 @@ export default class InputMulti extends React.Component {
   inputOnChange(e) {
     if (this.isSelect()) {
       let v = e.target.value;
-      if (v != "" && v != null) {
+      console.log("v", v);
+      if (v != "" && v != null && v != PLEASE_SELECT) {
         this.onChooseSuggestion(v);
       }
       e.target.value = "";
@@ -267,6 +268,9 @@ export default class InputMulti extends React.Component {
       });
   }
   onChooseSuggestion(v) {
+    console.log("v", v);
+    console.log("v", v);
+    console.log("v", v);
     let index = -1;
     let iInList = this.indexOfValInList(v);
     if (iInList <= -1) {

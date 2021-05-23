@@ -3,6 +3,9 @@ import { graphql } from "../../helper/api-helper";
 import PropTypes from "prop-types";
 import { lang, currentLang } from "../lib/lang";
 
+export const PLEASE_SELECT = "-- Please Select --";
+
+
 export default class InputSuggestion extends React.Component {
   constructor(props) {
     super(props);
@@ -328,6 +331,10 @@ export default class InputSuggestion extends React.Component {
           value = d.val;
         }
         let label = d.val;
+        if(!label){
+          label = PLEASE_SELECT;
+        }
+
         return (
           <option key={i} value={value}>
             {this.props.is_translate_label ? lang(label) : label}
