@@ -689,7 +689,8 @@ class BrowseStudentExec {
 			if (typeof field["student"] !== "undefined") {
 				res[i]["student"] = UserExec.user({
 					ID: student_id,
-					company_id: param.company_id
+					company_id: param.company_id,
+					cf_to_check_registration : param.cf,
 				},
 					field["student"]
 				);

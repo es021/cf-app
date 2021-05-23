@@ -139,6 +139,7 @@ class XLSApi {
       first_name
       last_name
       user_email
+      cf_registered_at
       doc_links {label url}
       ${additionalCustomCf}
       ${this.addIfValid("birth_date")}

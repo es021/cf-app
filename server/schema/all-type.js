@@ -152,6 +152,7 @@ const UserType = new GraphQLObjectType({
 			role: __.String,
 			cf: __.StringList,
 			user_registered: __.String,
+			cf_registered_at : __.String,
 
 			// @kpt_validation
 			kpt: __.String,

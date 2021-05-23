@@ -341,8 +341,22 @@ class UserQuery {
 				) as is_id_utm `
 		}
 
+		let cf_register_at_sel = "";
+		if(params["cf_to_check_registration"]){
+			cf_register_at_sel = `
+			, (
+				SELECT CONVERT_TZ(cm.created_at, '+08:00', 'SYSTEM')
+				FROM cf_map cm
+				WHERE 1=1
+				AND cm.cf = "${params["cf_to_check_registration"]}"
+				AND cm.entity = 'user'
+				AND cm.entity_id = u.ID
+			) as cf_registered_at
+			`
+		}
+
 		// @kpt_validation
-		var sql = `SELECT u.* ${meta_sel} ${is_kpt_jpa_sel} ${is_id_utm_sel}
+		var sql = `SELECT u.* ${meta_sel} ${is_kpt_jpa_sel} ${is_id_utm_sel} ${cf_register_at_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
 		   AND ${id_condition} AND ${meta_condition} AND ${kpt_condition} AND ${id_utm_condition}
            AND ${email_condition} AND ${role_condition} 
