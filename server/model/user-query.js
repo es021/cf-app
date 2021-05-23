@@ -345,7 +345,7 @@ class UserQuery {
 		if(params["cf_to_check_registration"]){
 			cf_register_at_sel = `
 			, (
-				SELECT CONVERT_TZ(cm.created_at, '+08:00', 'SYSTEM')
+				SELECT CONVERT_TZ(cm.created_at, 'SYSTEM', '+08:00')
 				FROM cf_map cm
 				WHERE 1=1
 				AND cm.cf = "${params["cf_to_check_registration"]}"
