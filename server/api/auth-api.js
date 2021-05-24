@@ -607,6 +607,10 @@ class AuthAPI {
 
 	//raw form from sign up page
 	register(user) {
+		console.log("user", user)
+		console.log("user", user)
+		console.log("user", user)
+		console.log("user", user)
 		//separate userdata and usermeta
 
 		//get cf
@@ -687,6 +691,7 @@ class AuthAPI {
 			addToSingleInput(data, user, "faculty_utm21");
 			addToSingleInput(data, user, Single.first_name);
 			addToSingleInput(data, user, Single.last_name);
+			addToSingleInput(data, user, Single.phone_number);
 			addToSingleInput(data, user, Single.kpt); //@kpt_validation
 			addToSingleInput(data, user, getIdUtmKey(cf), "id_utm"); //@id_utm_validation
 

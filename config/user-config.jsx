@@ -88,6 +88,14 @@ export const UserFormItem = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
+        label: lang("Phone Number"),
+        name: UserMeta.PHONE_NUMBER,
+        type: "phone_number",
+        placeholder: "XXXXXXXXXX",
+        //required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
         label: lang("Level Of Study"),
         name: "level_study_utm21",
         type: "select",
