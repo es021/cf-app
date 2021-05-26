@@ -51,7 +51,8 @@ const multiFilter = (param, key, where) => {
 	}
 
 	return `select 
-		'${key}' as _key 
+		'' as _order
+		, '${key}' as _key 
 		, s.val as _val
 		, "" as _val_label
 		, COUNT(s.ID) as _total 
@@ -70,7 +71,8 @@ const singleFilterWhereInMalaysia = (currentCf, param, where) => {
 	// (CASE WHEN r.city IS NOT NULL THEN concat(r.state, " - ", r.city)
 
 	return `SELECT 
-		s.key_input as _key
+		'' as _order
+		, s.key_input as _key
 		, r.val as _val
 		, r.state as _val_label
 		, COUNT(*) as _total 
@@ -219,7 +221,7 @@ const singleFilter = (currentCf, param, where) => {
 	let customKey = cfCustomFunnel({ action: "get_keys_single" })
 	let custom_single_filter = "";
 	for (let k of customKey) {
-		let ref = cfCustomFunnel({ key: k, action: "get_ref_table_by_key" })
+		let ref = cfCustomFunnel({ key: k, action: "get_ref_table_name_by_key" })
 		if (!isCustomUserInfoOff(currentCf, k)) {
 			custom_single_filter += `( 
 				s.key_input = "${k}"
@@ -230,7 +232,8 @@ const singleFilter = (currentCf, param, where) => {
 
 	// (CASE WHEN s.key_input = 'field_study_secondary' THEN 'field_study_main' ELSE s.key_input END) as _key
 	let toRet = `SELECT 
-	s.key_input as _key
+	(SELECT rr.ID FROM ref_oejf21_years_working rr WHERE rr.val = s.val) as _order
+	, s.key_input as _key
 	, s.val as _val
 	, "" as _val_label
 	, COUNT(*) as _total 
@@ -272,15 +275,18 @@ const singleFilter = (currentCf, param, where) => {
 		OR
 		${sunway_program}
 	)
+	AND s.val != ""
+	AND s.val != "-- Please Select --"
 	AND s.entity = 'user'
 	AND ${where}
-	group by _key, _val`;
+	group by _order, _key, _val
+	`;
 
 	//group by s.key_input, s.val`;
 
-	console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-	console.log(toRet)
-	console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+	// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+	// console.log(toRet)
+	// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 	return toRet;
 }
 
@@ -303,7 +309,7 @@ function generateQuery(param, where) {
 		UNION ALL
 		${multiFilter(param, "looking_for_position", where)}
 	) 
-	X ORDER BY X._key, X._val_label asc, X._val asc, X._total desc`;
+	X ORDER BY X._key, X._order asc, X._val_label asc, X._val asc, X._total desc`;
 
 	// UNION ALL
 	// ${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
@@ -350,7 +356,6 @@ function fetchFilter(where, param) {
 	if (param.override_pivot) {
 		return fetchNewFilterAndUpdatePivot(newParam, where)
 	}
-
 	let newParamStr = JSON.stringify(newParam);
 	let sqlPivot = `SELECT result FROM pivot_student_filter WHERE param = ?`;
 	sqlPivot = DB.prepare(sqlPivot, [newParamStr]);

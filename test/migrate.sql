@@ -1,10 +1,15 @@
+select * FROM cf_map  where cf = 'OEJF21' 
+and entity = 'user'
+and entity_id IN 
+(SELECT u.ID FROM wp_cf_users u where u.user_email like 'test%')
+
+
+-- ##############################################################
+-- ##############################################################
 
 ALTER TABLE `pre_screens` ADD `recruiter_id` BIGINT(20) NULL DEFAULT NULL AFTER `company_id`, ADD INDEX (`recruiter_id`);
 oejf21.sql
 
-
--- ##############################################################
--- ##############################################################
 a.split("\n").map((d)=>{
   return `INSERT INTO ref_job_category (val) VALUES ('${d.trim()}');`
 }).join("\n");

@@ -667,9 +667,9 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-		console.log(sql)
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log(sql)
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 		return sql;
 	}
 	// TODO
@@ -717,7 +717,8 @@ class BrowseStudentExec {
 		return type == "count";
 	}
 	getHelper(type, param, field, extra = {}) {
-		// // console.log("[BrowseStudentExec]", sql)
+		// console.log("[BrowseStudentExec]", sql)
+
 
 		if (this.isFilter(type)) {
 			let where = this.getWhere("s.entity_id", param);
