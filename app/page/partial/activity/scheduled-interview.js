@@ -16,7 +16,7 @@ import {
 } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { ActivityType } from "../../../redux/actions/hall-actions";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import { RootPath } from "../../../../config/app-config";
 import { Time } from "../../../lib/time";
 import GeneralFormPage from "../../../component/general-form";
@@ -31,6 +31,25 @@ import {
 import { lang } from "../../../lib/lang";
 import notificationConfig from "../../../../config/notification-config";
 
+export const getCfEndUnix = function () {
+  let cfObj = getCFObj();
+  let endDate = cfObj["end"];
+  if (endDate) {
+    endDate = Time.convertDBTimeToUnix(endDate);
+    return endDate;
+  }
+
+  return null;
+}
+
+export const getCfEndString = function () {
+  if (getCfEndUnix()) {
+    return Time.getString(getCfEndUnix())
+  }
+  return "";
+}
+
+
 export const appointmentTimeValidation = function (d) {
   if (
     d[Prescreen.APPNMENT_TIME + "_DATE"] ||
@@ -43,24 +62,34 @@ export const appointmentTimeValidation = function (d) {
       d[Prescreen.APPNMENT_TIME + "_TIME"]
     );
 
-    // ##################################################
-    // appointment time must be bigger than current time
-    //if (this.props.isFormStudentListing) {
     if (
       d[Prescreen.APPNMENT_TIME + "_DATE"] &&
       d[Prescreen.APPNMENT_TIME + "_TIME"]
     ) {
+
+      // ##################################################
+      // appointment time must be bigger than current time
       if (Time.getUnixTimestampNow() > toRet) {
         return `${Time.getString(toRet)} ${lang("is not a valid appointment time")}. ${lang("Please choose appointment time later than current time")}.`;
       }
+
+      // ##################################################
+      // appointment time must be less than event end data
+      if (!isRoleAdmin()) {
+        if (getCfEndUnix()) {
+          if (toRet > getCfEndUnix()) {
+            return `${Time.getString(toRet)} ${lang("is not a valid appointment time")}. ${lang("Please choose appointment time before the event ends")} (${getCfEndString()}).`;
+          }
+        }
+      }
+
     } else {
       return lang("Please fill in Appointment Time and Appointment Date");
     }
-    // }
 
     // ##################################################
     //appointment time must be only on the last day
-    // if (!isRoleAdmin()) {
+    // 
     //     var lastDay = Time.convertDBTimeToUnix(getCFObj().end);
     //     if (d[Prescreen.APPNMENT_TIME] < lastDay && d[Prescreen.SPECIAL_TYPE] == PrescreenEnum.ST_NEXT_ROUND) {
     //         return `Next Round interview only allowed to be scheduled on the last day of the Career Fair. Please change the appoinment date and time to be later than ${Time.getString(lastDay)}`;
@@ -96,7 +125,18 @@ export function openSIFormNew(student_id, company_id) {
   );
 }
 
+// MAIN
 export function openSIFormAnytime(student_id, company_id) {
+
+  if (getCfEndUnix()) {
+    if (Time.getUnixTimestampNow() > getCfEndUnix()) {
+      layoutActions.errorBlockLoader(
+        `${lang(`This event has ended on`)} ${getCfEndString()}. ${lang('Interview scheduling is not allowed anymore.')}`
+      );
+      return;
+    }
+  }
+
   if (!(student_id && isRoleAdmin())) {
     if (!(student_id && company_id)) {
       layoutActions.errorBlockLoader(
