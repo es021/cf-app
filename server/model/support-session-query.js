@@ -11,6 +11,10 @@ const {
     START_TOTAL_UNREAD_TIME
 } = require("./message-query");
 
+const {
+	UserQuery
+} = require("./user-query");
+
 class SupportSessionExec {
     getQueryByUserAndSupportId(user_id, support_id) {
         return `select ss.ID from ${SupportSession.TABLE} ss where ss.user_id = ${user_id} and ss.support_id = ${support_id}`;
@@ -33,6 +37,14 @@ class SupportSessionExec {
         select += ", mc.updated_at as last_message_time";
         // last_message
         select += ", m.message as last_message";
+        // last_send_by
+        select += `
+            , CONCAT(
+                (${UserQuery.selectSingleMain("m.recruiter_id", "first_name")}),
+                " ",
+                (${UserQuery.selectSingleMain("m.recruiter_id", "last_name")})
+            ) as last_rec_name
+        `;
 
 
         return `select ss.* ${select},

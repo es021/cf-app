@@ -15,7 +15,7 @@ import { Time } from "../../../lib/time";
 import obj2arg from "graphql-obj2arg";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import * as NotificationHelper from "../../../../helper/notification-helper";
-import { getCF, getOtherRecs, isRoleRec } from "../../../redux/actions/auth-actions";
+import { getCF, getOtherRecs, isRoleRec, getAuthUser } from "../../../redux/actions/auth-actions";
 import { ActivityType } from "../../../redux/actions/hall-actions";
 import { isCompanyOnline } from "../../../redux/actions/user-actions";
 import { addLog } from "../../../redux/actions/other-actions";
@@ -164,7 +164,7 @@ export function joinVideoCall(
   if (group_session_id !== null) {
     data.group_session_id = group_session_id;
   }
- 
+
 
   // 1. check if expired
   // const successInterceptorExpired = data => {
@@ -456,7 +456,7 @@ class Chat extends React.Component {
         if (mesData.type == this.JSON_ZOOM) {
           return (
             <div>
-              <small style={{color:"grey"}}><i>[AUTO MESSAGE]</i></small>
+              <small style={{ color: "grey" }}><i>[AUTO MESSAGE]</i></small>
               <br />
               I have created a video call session.{" "}
               <a
@@ -530,7 +530,9 @@ class Chat extends React.Component {
     )}",
                 user_1:${this.props.self_id}, user_2:${this.props.other_id}, 
                 page:${page},offset:${offset}){
-                id_message_number message has_read from_user_id created_at}}`;
+                id_message_number message has_read from_user_id created_at
+                recruiter { first_name last_name }
+              }}`;
 
     return getAxiosGraphQLQuery(query);
   }
@@ -544,14 +546,16 @@ class Chat extends React.Component {
     message,
     created_at,
     has_read = 1,
-    id_message_number = null
+    id_message_number = null,
+    recruiter = null
   ) {
     var mesObj = {
       from_user_id: from,
       message: message,
       created_at: created_at,
       has_read: has_read,
-      id_message_number: id_message_number
+      id_message_number: id_message_number,
+      recruiter: recruiter
     };
     var newData = this.renderList(mesObj, 0, true);
 
@@ -621,7 +625,8 @@ class Chat extends React.Component {
       sender_id: this.props.self_id,
       receiver_id: this.props.other_id,
       which_company: this.getWhichCompany("sender_id", "receiver_id"),
-      message: mes
+      message: mes,
+      recruiter_id: isRoleRec() ? getAuthUser().ID : null
     };
 
     // add to db
@@ -648,12 +653,18 @@ class Chat extends React.Component {
       // empty value
       this.chatInput.value = "";
 
+
+      let recruiter = {
+        first_name: getAuthUser().first_name,
+        last_name: getAuthUser().last_name,
+      }
       this.addChatToView(
         this.props.self_id,
         mes,
         Time.getUnixTimestampNow(),
         1,
-        id_message_number
+        id_message_number,
+        recruiter
       );
     });
 
@@ -1091,8 +1102,8 @@ class Chat extends React.Component {
     }
     // create date Item finish -----------------------
 
-    var itemClass =
-      d.from_user_id == this.props.self_id ? "self-item" : "other-item";
+    var isMyMessage = d.from_user_id == this.props.self_id;
+    var itemClass = isMyMessage ? "self-item" : "other-item";
     var chatItem = (
       <div className={`chat-item ${itemClass}`}>
         <p className="message">
@@ -1100,7 +1111,9 @@ class Chat extends React.Component {
           {/* <br></br>Has read - {d.has_read}
                 <br></br>Id - {d.id_message_number} */}
         </p>
-        <div className="timestamp">{Time.getStringShort(d.created_at)}</div>
+        <div className="timestamp">
+          {isMyMessage && isRoleRec() && d.recruiter ? <span>sent by {d.recruiter.first_name} {d.recruiter.last_name} &middot; </span> : null}
+          {Time.getStringShort(d.created_at)}</div>
         {/* {date} -  */}
       </div>
     );

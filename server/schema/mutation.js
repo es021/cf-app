@@ -636,6 +636,7 @@ fields["add_zoom_invite"] = {
 fields["add_message"] = {
   type: MessageType,
   args: {
+    recruiter_id : __.Int,
     sender_id: __.IntNonNull,
     receiver_id: __.IntNonNull,
     message: __.StringNonNull,
@@ -646,7 +647,8 @@ fields["add_message"] = {
       arg.sender_id,
       arg.receiver_id,
       arg.message,
-      arg.which_company
+      arg.which_company,
+      arg.recruiter_id
     ).then(function (res) {
       return res;
     });

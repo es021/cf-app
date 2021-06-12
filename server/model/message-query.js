@@ -58,16 +58,28 @@ class MessageExec {
   }
 
   getMessageHelper(params, field, extra = {}) {
+    const {
+      UserExec
+    } = require('./user-query.js');
+
+    if (
+      typeof field["recruiter"] !== "undefined"
+    ) {
+      field["recruiter_id"] = 1;
+    }
+
     var sql = this.getQuery(params, extra);
-    var toRet = DB.query(sql).then(function(res) {
-      /*
-            for (var i in res) {
-                // if (typeof field["company"] !== "undefined") {
-                //     var company_id = res[i]["company_id"];
-                //     res[i]["company"] = CompanyExec.company(company_id, field["company"]);
-                // }
-            }
-            */
+    var toRet = DB.query(sql).then(function (res) {
+
+      for (var i in res) {
+        if (typeof field["recruiter"] !== "undefined") {
+          var recruiter_id = res[i]["recruiter_id"];
+          res[i]["recruiter"] = UserExec.user({
+            ID: recruiter_id
+          }, field["recruiter"]);
+        }
+      }
+
       //// console.log(res);
       return res;
     });
@@ -75,7 +87,7 @@ class MessageExec {
     return toRet;
   }
 
-  insert(sender_id, receiver_id, message, which_company) {
+  insert(sender_id, receiver_id, message, which_company, recruiter_id) {
     var pre_id = this.getPreId(sender_id, receiver_id, which_company);
 
     // check if receiver_id is in support user id
@@ -108,7 +120,7 @@ class MessageExec {
             support_id: supportSupportId,
             message_count_id: pre_id
           };
-          DB.insert(SupportSession.TABLE, ss).then(res => {}, err => {});
+          DB.insert(SupportSession.TABLE, ss).then(res => { }, err => { });
         }
       });
     }
@@ -131,8 +143,12 @@ class MessageExec {
       var ins_mes = {
         id_message_number: id_message_number,
         message: message,
-        from_user_id: sender_id
+        from_user_id: sender_id,
+
       };
+      if (recruiter_id) {
+        ins_mes["recruiter_id"] = recruiter_id;
+      }
 
       return DB.insert("messages", ins_mes, "id_message_number").then(res => {
         // emit socket kat sini terus
@@ -152,14 +168,13 @@ class MessageExec {
     let company_id = params.company_id
       ? `id_message_number like '%company${params.company_id}:%' `
       : "1=1";
-    let discard_self = `from_user_id != ${
-      params.user_id ? params.user_id : params.company_id
-    }`;
+    let discard_self = `from_user_id != ${params.user_id ? params.user_id : params.company_id
+      }`;
 
     var sql = `SELECT count(*) AS total_unread FROM messages where 1=1 
             AND ${user_id} AND ${company_id} AND ${discard_self}
             AND has_read = 0 AND created_at > '${START_TOTAL_UNREAD_TIME}'`;
-    var toRet = DB.query(sql).then(function(res) {
+    var toRet = DB.query(sql).then(function (res) {
       return res[0];
     });
     return toRet;

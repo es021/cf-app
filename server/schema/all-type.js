@@ -152,7 +152,7 @@ const UserType = new GraphQLObjectType({
 			role: __.String,
 			cf: __.StringList,
 			user_registered: __.String,
-			cf_registered_at : __.String,
+			cf_registered_at: __.String,
 
 			// @kpt_validation
 			kpt: __.String,
@@ -489,6 +489,8 @@ const MessageType = new GraphQLObjectType({
 		from_user_id: __.Int,
 		message: __.String,
 		has_read: __.Int,
+		recruiter_id: __.Int,
+		recruiter: __.IsType(UserType),
 		created_at: __.String,
 		total_unread: __.Int
 	})
@@ -911,6 +913,9 @@ const SupportSessionType = new GraphQLObjectType({
 
 		// the message content
 		last_message: __.String,
+
+		// the message sender
+		last_rec_name: __.String,
 
 		total_unread: __.Int,
 

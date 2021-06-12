@@ -355,6 +355,7 @@ class CompanyChatInbox extends React.Component {
             created_at
             last_message_time
             last_message
+            last_rec_name
             total_unread
             ${field} ${fieldSupport}
           }}`;
@@ -553,10 +554,10 @@ class CompanyChatInbox extends React.Component {
         d.last_message != null ? (
           d.last_message
         ) : (
-            <small className="text-muted">
-              <i>{lang("Nothing To Show Here")}</i>
-            </small>
-          );
+          <small className="text-muted">
+            <i>{lang("Nothing To Show Here")}</i>
+          </small>
+        );
 
       try {
         if (body.indexOf(`MESSAGE_JSON{"type":"FILE"`) >= 0) {
@@ -579,6 +580,12 @@ class CompanyChatInbox extends React.Component {
           <div className="frm-count">{d.total_unread}</div>
         );
 
+      let lastSenderName = null;
+      if (d.last_rec_name && isRoleRec()) {
+        lastSenderName = d.last_rec_name.trim();
+      }
+
+
       view.push(
         <div
           key={key}
@@ -594,7 +601,7 @@ class CompanyChatInbox extends React.Component {
             <div className="frm-title">{title}</div>
             <p className={`frm-content ${isNew ? "fc-blue" : ""}`}>{body}</p>
             <div className="frm-timestamp">
-              {Time.getString(d.last_message_time)}
+              {lastSenderName ? <span>{lastSenderName} &middot; </span> : null}{Time.getString(d.last_message_time)}
             </div>
           </div>
         </div>
