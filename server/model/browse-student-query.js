@@ -466,6 +466,15 @@ class BrowseStudentExec {
 
 		return "1=1";
 	}
+	whereHasAttachment(user_id, param) {
+		if (param === "1") {
+			let q = ` ( select COUNT(dl.ID) FROM doc_link dl 
+			where dl.user_id = ${user_id}  AND dl.type = 'document' ) > 0`;
+			return q;
+		}
+
+		return "1=1";
+	}
 	whereLikeJobPost(company_id, user_id, param) {
 		let type = "job_post";
 		return this.whereShowInterest(company_id, user_id, param, type);
@@ -555,6 +564,7 @@ class BrowseStudentExec {
 		var show_interest = this.whereShowInterest(param.company_id, user_id, param.interested_only);
 		var like_job_post = this.whereLikeJobPost(param.company_id, user_id, param.like_job_post_only);
 		var drop_resume = this.whereDropResume(param.company_id, user_id, param.drop_resume_only);
+		var has_attachment = this.whereHasAttachment(user_id, param.with_attachment_only);
 
 		let work_availability = this.whereDateRange({
 			user_id: user_id,
@@ -623,6 +633,7 @@ class BrowseStudentExec {
 			AND ${current_cf}
 			AND ${like_job_post}
 			AND ${drop_resume}
+			AND ${has_attachment}
 			AND ${show_interest}
 			AND ${favourited}
 			AND ${cf}

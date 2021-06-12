@@ -117,6 +117,7 @@ export class BrowseStudentFilter extends React.Component {
                     "interested_only",
                     "favourited_only",
                     "drop_resume_only",
+                    "with_attachment_only",
                 ]
             ),
             "name",
@@ -182,7 +183,7 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>{lang("Show")} <b>{lang(`shortlisted ${_student_plural_lower()}`)}</b> {lang("only")}
+                    label: <div>{lang("Show all")} <b>{lang(`shortlisted ${_student_plural_lower()}`)}</b>
                         <Tooltip
                             bottom="13px"
                             left="-88px"
@@ -239,35 +240,54 @@ export class BrowseStudentFilter extends React.Component {
                     total: null
                 }]
             },
-            interested_only: {
+            with_attachment_only: {
                 // isRecOnly: true,
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>{lang("Show")} <b>{lang(`interested ${_student_plural_lower()}`)}</b> {lang("only")}
+                    label: <div>{lang("Show")} <b>{lang(`${_student_plural_lower()}`)}</b> with attachments only
                         <Tooltip
                             bottom="13px"
                             left="-90px"
                             width="200px"
                             alignCenter={true}
                             debug={false}
-                            content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
-                            tooltip={
-                                <div style={{ padding: "0px 5px" }} className="text-left">
-                                    <small>{lang(`${_student_plural()} that`)} :
-                                    <ol>
-                                            <li>{lang("Liked your company profile")}</li>
-                                            <li>{lang("Liked your job posts")}</li>
-                                            <li>{lang("RSVP'ed for your events")}</li>
-                                        </ol>
-                                    </small>
-                                </div>
-                            }
+                            content={null}
+                            tooltip={null}
                         ></Tooltip>
                     </div>,
                     total: null
                 }]
-            }
+            },
+            // interested_only: {
+            //     // isRecOnly: true,
+            //     title: "",
+            //     filters: [{
+            //         val: "1",
+            //         label: <div>{lang("Show")} <b>{lang(`interested ${_student_plural_lower()}`)}</b> {lang("only")}
+            //             <Tooltip
+            //                 bottom="13px"
+            //                 left="-90px"
+            //                 width="200px"
+            //                 alignCenter={true}
+            //                 debug={false}
+            //                 content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+            //                 tooltip={
+            //                     <div style={{ padding: "0px 5px" }} className="text-left">
+            //                         <small>{lang(`${_student_plural()} that`)} :
+            //                         <ol>
+            //                                 <li>{lang("Liked your company profile")}</li>
+            //                                 <li>{lang("Liked your job posts")}</li>
+            //                                 <li>{lang("RSVP'ed for your events")}</li>
+            //                             </ol>
+            //                         </small>
+            //                     </div>
+            //                 }
+            //             ></Tooltip>
+            //         </div>,
+            //         total: null
+            //     }]
+            // }
         }
     }
     loadFilter() {
@@ -590,10 +610,12 @@ export class BrowseStudentFilter extends React.Component {
         return toRet
     }
     getTotal(k, f) {
-        if (k == "cf") {
-            return "";
-        }
-        return f.total ? `(${f.total})` : ""
+        return "";
+        
+        // if (k == "cf") {
+        //     return "";
+        // }
+        // return f.total ? `(${f.total})` : ""
     }
     filterCheckbox(k, keyFilter) {
         let isStateShowMore = this.state[k + "show_more"] === true;
