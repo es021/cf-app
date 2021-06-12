@@ -15,6 +15,9 @@ a.dark:hover,
   color: lighten($COLOR_LINK, 20);
 }
 
+.btn-130{
+  max-width: 130px;
+}
 .btn {
   border-radius: 0 !important;
 }

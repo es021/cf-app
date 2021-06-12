@@ -288,6 +288,7 @@ const PrescreenEnum = {
 	STATUS_APPROVED: "2_Approved", // approve by student (tru email action)
 	STATUS_REJECTED: "3_Rejected", // reject by student (tru email action)
 	STATUS_ENDED: "4_Ended", // dh started and then dia expired dh video call
+	STATUS_CANCEL: "5_Cancel", // cancel by recruiter
 
 	// STATUS_PENDING: "Pending", // yang lama
 	// STATUS_DONE: "Done", // session created

@@ -262,6 +262,9 @@ class InterviewList extends React.Component {
     if (status === PrescreenEnum.STATUS_REJECTED) {
       mes += lang("Rejecting");
     }
+    if (status === PrescreenEnum.STATUS_CANCEL) {
+      mes += lang("Canceling");
+    }
 
     mes += ` ${lang("Scheduled Call with")} ${other_name} ?`;
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
@@ -293,6 +296,7 @@ class InterviewList extends React.Component {
 
     let btnJoinVCall = null;
     var btnStartVCall = null;
+    var btnCancelVCall = null;
     var btnRejoinVCall = null;
     var btnRemoveVCall = null;
     var btnEndVCall = null;
@@ -313,31 +317,20 @@ class InterviewList extends React.Component {
     }
 
     switch (d.status) {
+      // ########################################
       case PrescreenEnum.STATUS_WAIT_CONFIRM:
         status_obj = HallRecruiterHelper.Status.STATUS_WAIT_CONFIRM;
-        // status_text = "Pending";
-        // status_color = "rgb(255, 169, 43)";
-        // status_icon = "clock-o"
-
         break;
+      // ########################################
       case PrescreenEnum.STATUS_RESCHEDULE:
         status_obj = HallRecruiterHelper.Status.STATUS_RESCHEDULE;
         btnReschedule = HallRecruiterHelper.getRescheduleTimeElement(d);
-        // status_text = "Reschedule Requested";
-        // status_color = "rgb(17, 6, 26)";
-        // status_icon = "calendar"
-
         break;
+      // ########################################
       case PrescreenEnum.STATUS_REJECTED:
         status_obj = HallRecruiterHelper.Status.STATUS_REJECTED;
-        // status_text = "Rejected";
-        // status_color = "red";
-        // status_icon = "warning"
-
-        // removeEntity = Prescreen.TABLE;
-        // removeEntityId = d.ID;
-        // btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
         break;
+      // ########################################
       case PrescreenEnum.STATUS_APPROVED:
         if (
           d.is_onsite_call == 1 &&
@@ -366,30 +359,19 @@ class InterviewList extends React.Component {
               data-participant_id={obj.ID}
               data-id={d.ID}
               onClick={this.startVideoCallPreScreen.bind(this)}
-              className="btn btn-sm btn-green btn-round-5 btn-block btn-bold"
+              className="btn btn-sm btn-green btn-round-5 btn-block btn-bold btn-130"
             >
               <i className="fa fa-video-camera left"></i>{lang("Start Call")}
             </div>
           );
         }
-        // status_text = "Interview Accepted";
         status_obj = HallRecruiterHelper.Status.STATUS_APPROVED;
-        // status_text = "Confirmed";
-        // status_color = "#00ab1b";
-        // status_icon = "check"
-
         break;
+      // ########################################
       case PrescreenEnum.STATUS_ENDED:
-        // removeEntity = Prescreen.TABLE;
-        // removeEntityId = d.ID;
-        // btnRemoveVCall = this.getRemoveButton(removeEntity, removeEntityId);
-
-        // status_text = "Video Call Ended";
         status_obj = HallRecruiterHelper.Status.STATUS_ENDED;
-        // status_text = "Ended";
-        // status_color = "red";
-        // status_icon = "times"
         break;
+      // ########################################
       case PrescreenEnum.STATUS_STARTED:
         let isExpiredHandler = () => {
           var mes = (
@@ -416,38 +398,10 @@ class InterviewList extends React.Component {
         if (!d.is_expired && d.join_url != "" && d.join_url != null) {
           hasStart = true;
           status_obj = HallRecruiterHelper.Status.STATUS_STARTED;
-          // status_text = "Ongoing";
-          // status_color = "#0098e1";
-          // status_icon = "dot-circle-o";
         } else {
           time = getTimeStrNew(d, true);
-
-          // if (d.is_expired) {
-          //   time = getTimeStrNew(d, true);
-          // } else {
-          //   time = getTimeStrNew(d, false);
-          // }
         }
         if (hasStart) {
-          // bukak start url
-          // rejoinLink = <div>
-          //   <a
-          //     onClick={() =>
-          //       joinVideoCall(
-          //         d.join_url,
-          //         null,
-          //         isExpiredHandler,
-          //         null,
-          //         d.ID,
-          //         d.start_url
-          //       )
-          //     }
-          //     className="action btn-link"
-          //   >
-          //     <b><u>Click Here To Rejoin Video Call</u></b>
-          //   </a>
-          // </div>
-
           btnRejoinVCall = (
             <div
               id={d.ID}
@@ -463,7 +417,7 @@ class InterviewList extends React.Component {
                   d.start_url
                 )
               }
-              className="btn btn-sm btn-blue-light btn-bold btn-round-5 btn-block"
+              className="btn btn-sm btn-blue-light btn-bold btn-round-5 btn-block btn-130"
             >
               <i className="fa fa-sign-in left"></i>{lang("Join Call")}
             </div>
@@ -480,15 +434,35 @@ class InterviewList extends React.Component {
                   PrescreenEnum.STATUS_ENDED
                 );
               }}
-              className="btn btn-sm btn-red btn-bold btn-round-5 btn-block"
+              className="btn btn-sm btn-red btn-bold btn-round-5 btn-block btn-130"
             >
               <i className="fa fa-times left"></i>{lang("End Call")}
             </div>
           );
         }
-
+        break;
+      // ########################################
+      case PrescreenEnum.STATUS_CANCEL:
+        status_obj = HallRecruiterHelper.Status.STATUS_CANCEL;
         break;
     }
+
+    btnCancelVCall = (
+      <div
+        id={d.ID}
+        data-other_id={obj.ID}
+        data-other_name={obj.name}
+        onClick={e => {
+          this.confirmUpdatePrescreen(
+            e,
+            PrescreenEnum.STATUS_CANCEL
+          );
+        }}
+        className="btn btn-sm btn-default btn-bold btn-round-5 btn-block btn-130"
+      >
+        <i className="fa fa-times left"></i>{lang("Cancel Call")}
+      </div>
+    );
 
     // @new_flow_cancel_interview - buang remove button
     // add remove button for certain2 status
@@ -511,6 +485,7 @@ class InterviewList extends React.Component {
       d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null,
       d.status == PrescreenEnum.STATUS_ENDED || PrescreenEnum.STATUS_REJECTED ? btnRemoveVCall : null,
       d.status == PrescreenEnum.STATUS_RESCHEDULE ? btnReschedule : null,
+      [PrescreenEnum.STATUS_WAIT_CONFIRM, PrescreenEnum.STATUS_RESCHEDULE].indexOf(d.status) >= 0 ? btnCancelVCall : null,
     ]
 
     status = HallRecruiterHelper.getStatusElementSmall(d, status_obj);
@@ -644,7 +619,28 @@ class InterviewList extends React.Component {
         <div className="row" style={{ padding: "15px 10px" }}>
           <div className="col-md-1 padding-sm container-avatar">{_student_single()}</div>
           <div className="col-md-2 padding-sm show-on-lg-and-more"></div>
-          <div className="col-md-1 text-center padding-sm">Status</div>
+          <div className="col-md-1 text-center padding-sm">
+            <span style={{ marginRight: '6px' }}>Status</span>
+            <Tooltip
+              debug={false}
+              width={320}
+              left={30}
+              arrowPosition={"left"}
+              bottom={-119}
+              content={<i className="fa fa-question-circle"></i>}
+              tooltip={<div style={{ padding: '5px 0px' }}>
+                <ul>
+                  <li><b>Pending:</b> Candidate hasn't accepted the interview
+                    <li><b>Confirmed:</b> Candidate has accepted the interview</li>
+                    <li><b>Rejected:</b> Candidate rejected the interview</li>
+                    <li><b>Ended:</b> The interview has ended</li>
+                    <li><b>Reschedule:</b> The candidate requested for a new interview time</li>
+                    <li><b>Canceled:</b> The recruiter has cancelled the interview</li>
+                  </li>
+                </ul>
+              </div>}
+            ></Tooltip>
+          </div>
           <div className="col-md-2 text-center padding-sm">Appointment Time</div>
           <div className="col-md-2 padding-sm">Interviewer</div>
           <div className="col-md-1 padding-sm">Note</div>
@@ -764,7 +760,12 @@ class HallRecruiterInterview extends React.Component {
         key: PrescreenEnum.STATUS_REJECTED,
         label: lang("Rejected"),
         defaultChecked: true,
-      }
+      },
+      {
+        key: PrescreenEnum.STATUS_CANCEL,
+        label: lang("Canceled"),
+        defaultChecked: false,
+      },
     ]
 
     this.state = {

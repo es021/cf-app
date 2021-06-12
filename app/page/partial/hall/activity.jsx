@@ -813,6 +813,12 @@ class ActvityList extends React.Component {
       case PrescreenEnum.STATUS_APPROVED:
         statusObj = HallRecruiterHelper.Status.STATUS_APPROVED
         break;
+      case PrescreenEnum.STATUS_CANCEL:
+        statusObj = HallRecruiterHelper.Status.STATUS_CANCEL
+        hasRemove = true;
+        removeEntity = Prescreen.TABLE;
+        removeEntityId = d.ID;
+        break;
       case PrescreenEnum.STATUS_ENDED:
         statusObj = HallRecruiterHelper.Status.STATUS_ENDED
         // btnEndedVCall = (

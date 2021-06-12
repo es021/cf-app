@@ -48,7 +48,7 @@ class PrescreenQuery {
         // status, status_1, status_2, status_3, status_4, status_5, status_6
         let statusArr = `'ANYTHING'`;
         let noStatus = true;
-        for (var i = 0; i <= 6; i++) {
+        for (var i = 0; i <= 7; i++) {
             let statusKey = "status";
             statusKey += i == 0 ? "" : "_" + i;
             let statusItem = params[statusKey];

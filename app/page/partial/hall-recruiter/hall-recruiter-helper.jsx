@@ -24,6 +24,7 @@ export const Status = {
   STATUS_APPROVED: { color: "#00ab1b", text: "Confirmed", icon: "check" },
   STATUS_ENDED: { color: "red", text: "Ended", icon: "times" },
   STATUS_STARTED: { color: "#0098e1", text: "Ongoing", icon: "dot-circle-o" },
+  STATUS_CANCEL: { color: "red", text: "Canceled", icon: "calendar-times-o" },
 }
 export function getStatusElementIconClass(icon, small = false) {
   if (small) {
@@ -204,7 +205,7 @@ export function getAppointmentTimeElement(d, happeningIn, isButtonReschedule) {
         }
         return <div
           onClick={openEditPopup}
-          className="btn btn-sm btn-black btn-round-5 btn-block btn-bold"
+          className="btn btn-sm btn-black btn-round-5 btn-block btn-bold btn-130"
         >
           <i className="fa fa-calendar left"></i>{lang("Reschedule Call")}
         </div>

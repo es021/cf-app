@@ -879,10 +879,13 @@ class UserExec {
 						status_4: PrescreenEnum.STATUS_STARTED,
 						status_5: PrescreenEnum.STATUS_ENDED,
 						status_6: PrescreenEnum.STATUS_RESCHEDULE,
+						status_7: PrescreenEnum.STATUS_CANCEL,
 						// order_by: `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`,
 						discard_removed: true,
 						discard_removed_user_id: user_id
 					};
+					console.log("par",par)
+					console.log("par",par)
 					if (role === UserEnum.ROLE_STUDENT) {
 						par["student_id"] = user_id;
 						par["order_by"] = `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`
