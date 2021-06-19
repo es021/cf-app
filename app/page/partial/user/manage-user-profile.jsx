@@ -683,7 +683,7 @@ export default class ManageUserProfile extends React.Component {
     r = Reg.pickAndReorderByCf(cf, r);
 
     // console.log("ALL FIELD KEY", r.map(d => {
-    //   if (!d.hidden) {
+    //   if (d && !d.hidden) {
     //     return d.id
     //   }
     // }));
@@ -796,6 +796,10 @@ export default class ManageUserProfile extends React.Component {
                     if (this.props.completeHandler) {
                       this.props.completeHandler();
                     }
+                  },
+                  error: (err) => {
+                    layoutActions.storeHideBlockLoader();
+                    alert(`${err}`);
                   }
                 })
               } else {
@@ -826,50 +830,57 @@ export default class ManageUserProfile extends React.Component {
           return { currentResume: file };
         });
       }}
-      onChange={(file) => {
-        this.setState(() => {
-          return { currentResume: file };
-        });
-      }}
+      onChange={(event) => { }}
       onError={(err) => {
-
+        layoutActions.errorBlockLoader(err)
       }}></Uploader>
 
     return (<div>{this.MARGIN}{uploader}</div>);
   }
 
   isUploadResumeRequired() {
-    return ["INTELDD21"].indexOf(getCF()) >= 0;
+    return Reg.IsUploadResumeRequired.indexOf(getCF()) >= 0;
   }
 
   isHasUploadResume() {
     // return true;
-    let validCF = ["INTELDD21", "OEJF21"];
+    let validCF = Reg.IsHasUploadResume;
     return !this.props.isEdit && validCF.indexOf(getCF()) >= 0;
   }
 
   uploadFileAndSaveToDB({ label, user_id, file, succes, error }) {
     let labelFileName = label.replaceAll(" ", "-");
     var fileName = `${labelFileName}-${user_id}`;
-    uploadFile(file, FileType.DOC, fileName).then((res) => {
-      if (res.data.url !== null) {
-        let url = `${UploadUrl}/${res.data.url}`;
-        let d = {
-          user_id: user_id,
-          type: FileType.DOC,
-          label: label,
-          url: url,
+
+    try {
+      uploadFile(file, FileType.DOC, fileName).then((res) => {
+        if (res.data.url !== null) {
+          let url = `${UploadUrl}/${res.data.url}`;
+          let d = {
+            user_id: user_id,
+            type: FileType.DOC,
+            label: label,
+            url: url,
+          }
+          var query = `mutation{ add_doc_link (${obj2arg(d, { noOuterBraces: true })}){ID}}`
+          getAxiosGraphQLQuery(query).then((res) => {
+            succes()
+          });
+        } else {
+          if (error) {
+            error("Failed to upload resume")
+          }
         }
-        var query = `mutation{ add_doc_link (${obj2arg(d, { noOuterBraces: true })}){ID}}`
-        getAxiosGraphQLQuery(query).then((res) => {
-          succes()
-        });
-      } else {
+      }).catch((err => {
         if (error) {
-          error()
+          error(err)
         }
+      }));
+    } catch (err) {
+      if (error) {
+        error(err)
       }
-    });
+    }
   }
 
   getInputElement(d, i, isChildren = false) {
