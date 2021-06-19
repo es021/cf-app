@@ -368,6 +368,7 @@ export class BrowseStudentCard extends React.Component {
                 postOnClick={this.triggerIsSeen}
                 isBottom={true}
                 customUserId={this.props.company_id}
+               
                 isModeCount={false}
                 isModeAction={true}
                 isNonClickable={isRoleAdmin()}
@@ -376,6 +377,7 @@ export class BrowseStudentCard extends React.Component {
                 entity={"student_listing"}
                 entity_id={d.student.ID}
             ></InterestedButton>
+            // recruiter_id={getAuthUser().ID}
         );
 
         let doclinkView = createUserDocLinkList(

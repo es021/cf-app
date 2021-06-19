@@ -110,17 +110,18 @@ export class BrowseStudentFilter extends React.Component {
 
         this.orderFilter = [
             // "cf",
+            "name",
             ...(isRoleOrganizer()
                 ? []
                 : [
                     "like_job_post_only",
                     "interested_only",
                     "favourited_only",
+                    // "favourited_only_recruiter_id",
                     "drop_resume_only",
                     "with_attachment_only",
                 ]
             ),
-            "name",
             ...cfCustomFunnel({ action: 'get_keys_for_filter' }),
             ...originalByCfOrder
         ];
@@ -152,9 +153,9 @@ export class BrowseStudentFilter extends React.Component {
             loading: false,
             filters: {
                 "name": {
-                    title: lang("Name"),
+                    title: lang("Search by name or email"),
                     isText: true,
-                    placeholder: lang("Search by name")
+                    placeholder: lang("Name or email")
                 },
                 ...this.getDateStateObj("working_availability", "from", lang("Working Availability") + " " + lang("From")),
                 ...this.getDateStateObj("working_availability", "to", lang("Working Availability") + " " + lang("To")),
@@ -202,6 +203,30 @@ export class BrowseStudentFilter extends React.Component {
                     total: null
                 }]
             },
+            // favourited_only_recruiter_id: {
+            //     // isRecOnly: true,
+            //     title: "",
+            //     filters: [{
+            //         val: getAuthUser().ID,
+            //         label: <div>{lang("Show")} <b>{lang(`my shortlisted ${_student_plural_lower()}`)}</b> {lang("only")}
+            //             <Tooltip
+            //                 bottom="13px"
+            //                 left="-88px"
+            //                 width="200px"
+            //                 alignCenter={true}
+            //                 debug={false}
+            //                 content={<i style={{ marginLeft: "7px" }} className="fa fa-question-circle"></i>}
+            //                 tooltip={
+            //                     <div style={{ padding: "0px 5px" }} className="text-left">
+            //                         <small>{lang(`Click on grey shortlist button to shortlist ${_student_plural_lower()}`)}
+            //                         </small>
+            //                     </div>
+            //                 }
+            //             ></Tooltip>
+            //         </div>,
+            //         total: null
+            //     }]
+            // },
             like_job_post_only: {
                 // isRecOnly: true,
                 title: "",

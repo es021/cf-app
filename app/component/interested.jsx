@@ -254,7 +254,8 @@ export class InterestedButton extends React.Component {
           entity:"${this.props.entity}", 
           ${this.props.user_cf ? `user_cf:"${this.props.user_cf}",` : ""}
           entity_id:${this.props.entity_id}, 
-          is_interested:1) 
+          is_interested:1
+        ) 
         {
           total
         }
@@ -326,6 +327,9 @@ export class InterestedButton extends React.Component {
         entity:"${this.props.entity}",
         entity_id:${this.props.entity_id}
         ) {ID is_interested} }`;
+
+      
+        // ${this.props.recruiter_id ? `,recruiter_id:${this.props.recruiter_id}` : ''}
     }
 
     graphql(q).then(res => {
@@ -431,6 +435,7 @@ InterestedButton.propTypes = {
   user_cf: PropTypes.string,
   entity: PropTypes.string,
   entity_id: PropTypes.number,
+  // recruiter_id: PropTypes.number,
   postOnClick: PropTypes.func
 };
 

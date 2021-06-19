@@ -1,5 +1,7 @@
-ALTER TABLE `messages` ADD `created_by` BIGINT(20) UNSIGNED NULL AFTER `created_at`, 
-ADD INDEX (`created_by`);
+
+ALTER TABLE `interested` ADD `recruiter_id` BIGINT(20) UNSIGNED NULL AFTER `updated_at`;
+ALTER TABLE `wp_career_fair`.`interested` ADD INDEX (`recruiter_id`);
+ALTER TABLE `wp_career_fair`.`interested` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`, `entity`, `entity_id`, `recruiter_id`) USING BTREE;
 
 
 -- ##############################################################
@@ -12,6 +14,10 @@ a.split("\n").map((d)=>{
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
 -- ##############################################################
 -- ##############################################################
+
+ALTER TABLE `messages` ADD `created_by` BIGINT(20) UNSIGNED NULL AFTER `created_at`, 
+ADD INDEX (`created_by`);
+
 
 select * FROM cf_map  where cf = 'OEJF21' 
 and entity = 'user'

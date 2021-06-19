@@ -213,6 +213,7 @@ fields["add_interested"] = {
   type: InterestedType,
   args: {
     user_id: __.IntNonNull,
+    // recruiter_id: __.Int,
     entity: __.StringNonNull,
     entity_id: __.IntNonNull
   },

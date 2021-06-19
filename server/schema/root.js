@@ -545,8 +545,12 @@ let argBrowseStudent = {
 	current_user_id: __.Int, // to get is_seen
 	company_id: __.Int,
 
+
 	interested_only: __.String,
+
+	// favourited_only_recruiter_id: __.String,
 	favourited_only: __.String,
+	
 	like_job_post_only: __.String,
 	drop_resume_only: __.String,
 	with_attachment_only: __.String,

@@ -72,12 +72,29 @@ class UserQuery {
 	}
 	getSearchInterested(user_id, entity, entity_id, search_params) {
 		if (search_params === "1") {
-			let qIn = `select i.is_interested from interested i where i.entity = '${entity}' and i.entity_id = ${entity_id} and i.user_id = ${user_id}`;
+			let qIn = `select i.is_interested from interested i 
+				where i.entity = '${entity}' 
+				and i.entity_id = ${entity_id} 
+				and i.user_id = ${user_id}
+				`;
 			return ` 1 IN (${qIn})`;
 		} else {
 			return "1=1";
 		}
 	}
+	// getSearchInterested(user_id, entity, entity_id, search_params, recruiter_id = null) {
+	// 	if (search_params === "1") {
+	// 		let qIn = `select i.is_interested from interested i 
+	// 			where i.entity = '${entity}' 
+	// 			and i.entity_id = ${entity_id} 
+	// 			and i.user_id = ${user_id}
+	// 			${recruiter_id ? `and i.recruiter_id = ${recruiter_id}` : ''}
+	// 			`;
+	// 		return ` 1 IN (${qIn})`;
+	// 	} else {
+	// 		return "1=1";
+	// 	}
+	// }
 	getSearchGradeCategory(key_input, user_id, search_params) {
 		if (!search_params) {
 			return "1=1";
@@ -342,7 +359,7 @@ class UserQuery {
 		}
 
 		let cf_register_at_sel = "";
-		if(params["cf_to_check_registration"]){
+		if (params["cf_to_check_registration"]) {
 			cf_register_at_sel = `
 			, (
 				SELECT CONCAT( DATE_FORMAT( CONVERT_TZ( cm.created_at, 'SYSTEM', '+08:00'), '%Y-%m-%d %H:%i:%s'), " (MYT)")
@@ -884,8 +901,7 @@ class UserExec {
 						discard_removed: true,
 						discard_removed_user_id: user_id
 					};
-					console.log("par",par)
-					console.log("par",par)
+					
 					if (role === UserEnum.ROLE_STUDENT) {
 						par["student_id"] = user_id;
 						par["order_by"] = `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`

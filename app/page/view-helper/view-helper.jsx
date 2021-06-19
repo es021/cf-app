@@ -204,7 +204,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
 
     if (isRoleOrganizer()) {
       validActions = [
-        join, recorded, ended
+        join, rsvp, recorded, ended
       ]
     } else if (isRoleStudent()) {
       validActions = [
@@ -212,7 +212,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
       ]
     } else if (isRoleRec()) {
       validActions = [
-        join, recorded, ended
+        join, rsvp, recorded, ended
       ]
     }
   }

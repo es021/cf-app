@@ -85,13 +85,16 @@ class BrowseStudentExec {
 					if (key == "name") {
 
 						subQ = `select COUNT(s.ID) 
-						FROM single_input s
+						FROM single_input s, wp_cf_users uu
 						where 1=1
+						AND s.entity_id = uu.ID
 						AND 
 						(
 							(s.key_input = "first_name" AND s.val LIKE "%${val}%")
 							OR
 							(s.key_input = "last_name" AND s.val LIKE "%${val}%")
+							OR
+							(uu.user_email LIKE "%${val}%")
 						)
 						AND s.entity_id = ${user_id} 
 						AND s.entity = 'user'`;
@@ -561,6 +564,17 @@ class BrowseStudentExec {
 			param.favourited_only
 		);
 
+		console.log("param", param);
+
+		// var favourited_recruiter_id = UserQuery.getSearchInterested(
+		// 	param.company_id,
+		// 	"student_listing",
+		// 	user_id,
+		// 	param.favourited_only_recruiter_id ? "1" : "0",
+		// 	param.favourited_only_recruiter_id
+		// );
+
+
 		var show_interest = this.whereShowInterest(param.company_id, user_id, param.interested_only);
 		var like_job_post = this.whereLikeJobPost(param.company_id, user_id, param.like_job_post_only);
 		var drop_resume = this.whereDropResume(param.company_id, user_id, param.drop_resume_only);
@@ -609,6 +623,8 @@ class BrowseStudentExec {
 
 
 		// AND (${field_study_main} OR ${field_study_secondary})
+		// AND ${favourited_recruiter_id}
+
 		return `1=1
 			${custom_single_where}
 			${custom_multi_where}
@@ -701,7 +717,7 @@ class BrowseStudentExec {
 				res[i]["student"] = UserExec.user({
 					ID: student_id,
 					company_id: param.company_id,
-					cf_to_check_registration : param.cf,
+					cf_to_check_registration: param.cf,
 				},
 					field["student"]
 				);

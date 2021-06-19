@@ -693,6 +693,7 @@ const InterestedType = new GraphQLObjectType({
 		entity_id: __.String,
 		user_id: __.String,
 		is_interested: __.Int,
+		// recruiter_id: __.Int,
 		created_at: __.String,
 		updated_at: __.String,
 		user: __.IsType(UserType),
