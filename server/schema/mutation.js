@@ -314,7 +314,6 @@ fields["add_notification"] = {
   type: NotificationType,
   args: {
     user_id: __.IntNonNull,
-    text: __.StringNonNull,
     type: __.StringNonNull,
     param: __.String,
     cf: __.StringNonNull,

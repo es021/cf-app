@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import {
   Session,
   Prescreen,
-  PrescreenEnum
+  PrescreenEnum,
+  NotificationsEnum
 } from "../../../../config/db-config";
 import { getAxiosGraphQLQuery, graphql } from "../../../../helper/api-helper";
 import * as NotificationHelper from "../../../../helper/notification-helper";
@@ -30,6 +31,7 @@ import {
 } from "../popup/user-popup";
 import { lang } from "../../../lib/lang";
 import notificationConfig from "../../../../config/notification-config";
+import { addNotification } from "../../notifications";
 
 export const getCfEndUnix = function () {
   let cfObj = getCFObj();
@@ -175,7 +177,28 @@ export function openSIFormAnytime(student_id, company_id) {
         return false;
       },
       formOnly: true,
-      successAddHandlerExternal: data => {
+      successAddHandlerExternal: (data, res) => {
+        console.log("data from fe", data);
+        console.log("response from be", res);
+        // @noti
+        getAxiosGraphQLQuery(`query{company(ID:${company_id}) {name} }`).then(resCompany => {
+          let companyName = resCompany.data.data["company"]["name"];
+          NotificationHelper.addNotification({
+            user_id: student_id,
+            param: {
+              company_id: company_id,
+              company_name: companyName,
+              ps_id: res[Prescreen.ID],
+              unix_time: data[Prescreen.APPNMENT_TIME],
+            },
+            type: NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION,
+            img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
+            img_id: company_id
+          });
+        })
+
+
+        // @sms_noti
         NotificationHelper.sendSmsByUserId(
           student_id,
           notificationConfig.Type.COMPANY_SCHEDULE_INTERVIEW,
@@ -256,11 +279,13 @@ export class ScheduledInterview extends React.Component {
       </span>
     );
 
-    this.successAddHandler = d => {
+    // @form - successAddHandler
+    this.successAddHandler = (d, res) => {
       if (this.props.formOnly) {
         var link = isRoleAdmin()
           ? `${RootPath}/app/manage-company/${d.company_id}/scheduled-interview`
           : `${RootPath}/app/my-activity/scheduled-session`;
+
 
         var mes = (
           <div>
@@ -297,7 +322,7 @@ export class ScheduledInterview extends React.Component {
         layoutActions.successBlockLoader(mes);
 
         if (this.props.successAddHandlerExternal) {
-          this.props.successAddHandlerExternal(d);
+          this.props.successAddHandlerExternal(d, res);
         }
 
         // after success add scheduled interview

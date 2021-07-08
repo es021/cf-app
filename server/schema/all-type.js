@@ -86,7 +86,6 @@ const NotificationType = new GraphQLObjectType({
 		ttl: __.Int,
 		ID: __.Int,
 		user_id: __.Int,
-		text: __.String,
 		type: __.String,
 		param: __.String,
 		cf: __.String,

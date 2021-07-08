@@ -117,8 +117,9 @@ class GeneralForm extends React.Component {
       }
     }
 
-    var query = `mutation{${this.props.edit ? "edit" : "add"}_${this.props.entity
-      } 
+    var queryKey = `${this.props.edit ? "edit" : "add"}_${this.props.entity}`;
+    var query = `mutation{
+            ${queryKey}
             (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
     getAxiosGraphQLQuery(query).then(
@@ -128,7 +129,16 @@ class GeneralForm extends React.Component {
           : `${lang("Successfully Added New")} ${lang(this.Entity)}!`;
         toggleSubmit(this, { error: null, success: mes });
         if (this.props.onSuccessNew) {
-          this.props.onSuccessNew(d);
+          try {
+            res = res.data.data[queryKey]
+          } catch (err) {
+            res = {};
+          }
+          console.log("onSuccessNew", res);
+          console.log("onSuccessNew", res);
+          console.log("onSuccessNew", res);
+          console.log("onSuccessNew", res);
+          this.props.onSuccessNew(d, res);
         }
       },
       err => {
@@ -197,9 +207,11 @@ export default class GeneralFormPage extends React.Component {
     this.Entity = this.props.entity_singular;
   }
 
-  onSuccessOperation(action, data = null) {
+  onSuccessOperation(action, data = null, res = null) {
+
+    // @form - successAddHandler
     if (action == "add" && this.props.successAddHandler) {
-      this.props.successAddHandler(data);
+      this.props.successAddHandler(data, res);
     }
 
     layoutActions.storeHideFocusCard();
@@ -237,8 +249,9 @@ export default class GeneralFormPage extends React.Component {
         entity_singular: this.props.entity_singular,
         formItem: formItem,
         formDefault: this.props.newFormDefault,
-        onSuccessNew: d => {
-          this.onSuccessOperation("add", d);
+        // @form - onSuccessNew
+        onSuccessNew: (d, res) => {
+          this.onSuccessOperation("add", d, res);
         },
         formWillSubmit: this.props.formWillSubmit
       });
@@ -274,8 +287,8 @@ export default class GeneralFormPage extends React.Component {
             entity_singular: this.props.entity_singular,
             formItem: formItem,
             formDefault: res,
-            onSuccessNew: d => {
-              this.onSuccessOperation("edit", d);
+            onSuccessNew: (d, res) => {
+              this.onSuccessOperation("edit", d, res);
             },
             formWillSubmit: this.props.formWillSubmit,
             edit: res
@@ -452,8 +465,8 @@ export default class GeneralFormPage extends React.Component {
           </a>
         </h4>
       ) : (
-          this.getAddForm()
-        );
+        this.getAddForm()
+      );
     }
 
     // console.log("this.props.searchFormItem ", this.props.searchFormItem);
@@ -644,11 +657,11 @@ export const openEditPopup = function (
       entity_singular: entity_singular,
       formItem: formItem,
       formDefault: formDefault,
-      onSuccessNew: d => {
+      onSuccessNew: (d, res) => {
         if (closeOnSuccess) {
           layoutActions.storeHideFocusCard();
         }
-        onSuccess(d);
+        onSuccess(d, res);
       },
       formWillSubmit: willSubmit,
       edit: formDefault

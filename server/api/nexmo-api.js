@@ -8,6 +8,10 @@ const {
 } = require("../secret/secret");
 const axios = require('axios');
 const { LogEnum } = require('../../config/db-config');
+const isProd = (process.env.NODE_ENV === "production");
+
+const twilio = require('twilio');
+
 
 
 class NexmoAPI {
@@ -62,6 +66,7 @@ class NexmoAPI {
     });
   }
   sendSms(user_id, to_number, type, param, finishHandler) {
+
     console.log("SEND SMS")
     console.log("user_id", user_id)
     console.log("type", type)
@@ -70,11 +75,11 @@ class NexmoAPI {
 
     this.generateText(type, param, text => {
       if (to_number) {
-        this.nexmoSendSms(to_number, text, finishHandler, null);
+        this.twilioSendSms(to_number, text, finishHandler, null);
       } else if (user_id) {
         graphql(`query{ user (ID:${user_id}) { phone_number } }`).then(res => {
           let phoneNumber = res.data.data.user.phone_number;
-          this.nexmoSendSms(phoneNumber, text, finishHandler, user_id);
+          this.twilioSendSms(phoneNumber, text, finishHandler, user_id);
         })
       }
     })
@@ -90,6 +95,33 @@ class NexmoAPI {
   //   var loginUrl = `${Domain}/cf/auth/login/?cf=${cf}`;
   //   return ` Login at ${loginUrl} for more details.`;
   // }
+  twilioSendSms(phoneNumber, text, finishHandler, user_id = null) {
+    phoneNumber = this.fixPhoneNumber(phoneNumber);
+    if (phoneNumber) {
+      console.log("twilioSendSms :: send message", "____", phoneNumber, "____", text)
+      if (!isProd) {
+        console.log("skip SEND SMS")
+        return;
+      }
+
+      var client = new twilio(Secret.TWILIO_SID, Secret.TWILIO_TOKEN);
+      client.messages.create({
+        body: text,
+        to: phoneNumber,
+        from: Secret.TWILIO_NO
+      }).then((res) => {
+        axios.post(AppConfig.Api + "/add-log", {
+          event: LogEnum.EVENT_TWILIO_SMS,
+          data: JSON.stringify({ from: from, to: phoneNumber, text: text }),
+          user_id: user_id
+        });
+        console.log("done----")
+        finishHandler("DONE");
+      });
+    } else {
+      finishHandler("Phone number invalid");
+    }
+  }
   nexmoSendSms(phoneNumber, text, finishHandler, user_id = null) {
     const nexmo = new Nexmo({
       apiKey: Secret.NEXMO_API_KEY,
@@ -98,7 +130,12 @@ class NexmoAPI {
     const from = 'Seeds';
     phoneNumber = this.fixPhoneNumber(phoneNumber)
     if (phoneNumber) {
-      console.log("send message", "____", phoneNumber, "____", text)
+      console.log("nexmoSendSms send message", "____", phoneNumber, "____", text)
+      if (!isProd) {
+        console.log("skip SEND SMS")
+        return;
+      }
+      
       nexmo.message.sendSms(from, phoneNumber, text);
       axios.post(AppConfig.Api + "/add-log", {
         event: LogEnum.EVENT_NEXMO_SMS,
@@ -114,6 +151,9 @@ class NexmoAPI {
     try {
       if (phoneNumber[0] == "0") {
         phoneNumber = "6" + phoneNumber;
+      }
+      if (phoneNumber.indexOf("+") <= -1) {
+        phoneNumber = "+" + phoneNumber;
       }
       return phoneNumber
     } catch (err) {

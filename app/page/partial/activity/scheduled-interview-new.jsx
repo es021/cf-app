@@ -107,18 +107,6 @@ export default class ScheduledInterviewNew extends React.Component {
         this.updateAvailability(psId);
       });
 
-      let notiParam = {};
-      notiParam[Prescreen.ID] = psId;
-      notiParam[Prescreen.APPNMENT_TIME] = d[Prescreen.APPNMENT_TIME];
-      addNotification({
-        user_id: this.props.student_id,
-        text: `<b>${this.state.company.name
-          }</b> has scheduled a private session with you`,
-        param: notiParam,
-        type: NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION,
-        img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
-        img_id: this.props.company_id
-      });
     });
   }
   updateAvailability(psId) {

@@ -581,7 +581,8 @@ const LogEnum = {
 	EVENT_CLICK_CONNECT_WITH_ONSITE: "click_connect_with_onsite", // <empty>
 	EVENT_CLICK_GALLERY: "click_gallery", // data-> label, url, student_id, company_id
 	EVENT_RESCHEDULE_INTERVIEW: "reschedule_interview", // data-> ID, ... etc
-	EVENT_NEXMO_SMS: "nexmo_sms" // 
+	EVENT_NEXMO_SMS: "nexmo_sms", // 
+	EVENT_TWILIO_SMS: "twilio_sms" // 
 };
 
 const ZoomInvite = {
@@ -642,7 +643,6 @@ const Notifications = {
 	ID: "ID",
 	USER_ID: "user_id",
 	CF: "cf",
-	TEXT: "text",
 	TYPE: "type",
 	IS_READ: "is_read",
 	IMG_ENTITY: "img_entity",

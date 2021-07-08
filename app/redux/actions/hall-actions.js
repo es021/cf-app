@@ -61,6 +61,14 @@ function getIndependentQuery(oriQuery, types) {
                ttl
               }
             }`;
+
+
+            console.log("query",query);
+            console.log("query",query);
+            console.log("query",query);
+            console.log("query",query);
+            console.log("query",query);
+            console.log("query",query);
         }
     }
 

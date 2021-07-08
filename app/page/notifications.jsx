@@ -1,57 +1,20 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import List from "../component/list";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
-
 import { getAuthUser, getCF } from "../redux/actions/auth-actions";
 import * as layoutAction from "../redux/actions/layout-actions";
-import obj2arg from "graphql-obj2arg";
 import { createImageElement, PCType } from "../component/profile-card.jsx";
-import { emitHallActivity } from "../socket/socket-client";
-
-import { socketOn, emitLiveFeed } from "../socket/socket-client";
-import { BOTH } from "../../config/socket-config";
 import { NotificationsEnum, Prescreen } from "../../config/db-config";
 import * as hallAction from "../redux/actions/hall-actions";
-import { ActivitySingle } from "./partial/hall/activity";
+import { ActivitySingle } from "./partial/notifications/activity-single";
+
+// import { emitHallActivity } from "../socket/socket-client";
+// import PropTypes from "prop-types";
+// import { socketOn, emitLiveFeed } from "../socket/socket-client";
+// import { BOTH } from "../../config/socket-config";
 
 // require("../css/notification.scss");
-
-export function addNotification({
-  user_id,
-  param,
-  text,
-  type,
-  img_entity,
-  img_id,
-  successHandler
-}) {
-  if (typeof param !== "object") {
-    param = {};
-  }
-
-  let p = {
-    user_id: user_id,
-    cf: getCF(),
-    param: JSON.stringify(param),
-    text: text,
-    type: type,
-    img_entity,
-    img_id
-  };
-
-  var query = `mutation{
-    add_notification(${obj2arg(p, { noOuterBraces: true })}){
-      ID
-    }
-  }`;
-
-  getAxiosGraphQLQuery(query).then(res => {
-    successHandler(res.data.data.add_notification);
-    emitHallActivity(hallAction.ActivityType.NOTIFICATION_COUNT, user_id, null);
-  });
-}
 
 export class NotificationFeed extends React.Component {
   constructor(props) {
@@ -102,7 +65,7 @@ export class NotificationFeed extends React.Component {
             notifications(user_id:${this.authUser.ID}, 
             cf:"${this.cf}", 
             page:${page}, offset:${offset}){
-            ID text is_read type param created_at img_obj{img_pos img_url img_size} }}`;
+            ID is_read type param created_at img_obj{img_pos img_url img_size} }}`;
     // console.log("query",query)
     // console.log("query",query)
     // console.log("query",query)
@@ -167,8 +130,8 @@ export class NotificationFeed extends React.Component {
     switch (d.type) {
       case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
         if (param !== null) {
-          let preScreenId = param[Prescreen.ID];
-          layoutAction.storeUpdateFocusCard("Private Session", ActivitySingle, {
+          let preScreenId = param["ps_id"];
+          layoutAction.storeUpdateFocusCard("Scheduled Call", ActivitySingle, {
             id: preScreenId,
             type: hallAction.ActivityType.PRESCREEN
           });
@@ -177,14 +140,14 @@ export class NotificationFeed extends React.Component {
     }
   }
   getNotificationText(d) {
-    let toRet = d.text;
+    let toRet = '';
     let param = this.getParamObj(d);
 
     switch (d.type) {
       case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
         if (param !== null) {
-          toRet += ` on <u>${Time.getString(
-            param[Prescreen.APPNMENT_TIME]
+          toRet += `${param["company_name"]} scheduled a call with you on <u>${Time.getString(
+            param["unix_time"]
           )}</u> (your local time)`;
         }
         break;

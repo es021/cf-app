@@ -1,11 +1,18 @@
 
+-- drop column text at table notifications
+
+npm install twilio
+-- secret
+TWILIO_NO: "",
+TWILIO_SID : "",
+TWILIO_TOKEN : "",
+
+-- ##############################################################
+-- ##############################################################
+
 ALTER TABLE `interested` ADD `recruiter_id` BIGINT(20) UNSIGNED NULL AFTER `updated_at`;
 ALTER TABLE `wp_career_fair`.`interested` ADD INDEX (`recruiter_id`);
 ALTER TABLE `wp_career_fair`.`interested` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`, `entity`, `entity_id`, `recruiter_id`) USING BTREE;
-
-
--- ##############################################################
--- ##############################################################
 
 a.split("\n").map((d)=>{
   return `INSERT INTO ref_job_category (val) VALUES ('${d.trim()}');`

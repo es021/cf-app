@@ -136,18 +136,7 @@ function getMenuItem(COMING_SOON) {
   var homeComponent = getHomeComponent(COMING_SOON);
 
   var menuItem = [
-    // {
-    //   url: null,
-    //   label: "Notification",
-    //   icon: "bell",
-    //   component: homeComponent,
-    //   count_attr: "count_notification",
-    //   is_popup: true,
-    //   bar_app: true,
-    //   bar_auth: false,
-    //   hd_app: true,
-    //   hd_auth: false
-    // },
+
     {
       url: "/",
       label: lang("Home"),
@@ -380,6 +369,20 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
       //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
+    },
+    // @noti
+    {
+      url: null,
+      label: "Notification",
+      icon: "bell",
+      component: homeComponent,
+      count_attr: "count_notification",
+      is_popup: true,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
+      disabled: (!isRoleRec() && !isRoleStudent()),
     },
     {
       url: "/browse-student-company/:id",
@@ -971,6 +974,9 @@ export function getBar(
       }
 
       if (typeof countVal !== "undefined" && countVal != null && countVal > 0) {
+        if (countVal > 99) {
+          countVal = "99+";
+        }
         item_count = <div className="menu_count">{countVal}</div>;
       }
     }

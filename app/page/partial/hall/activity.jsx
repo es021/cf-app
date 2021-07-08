@@ -52,7 +52,7 @@ import { addLog } from "../../../redux/actions/other-actions";
 
 // require("../../../css/border-card.scss");
 
-class ActvityList extends React.Component {
+export class ActvityList extends React.Component {
   constructor(props) {
     super(props);
     this.openSIForm = this.openSIForm.bind(this);
@@ -98,6 +98,9 @@ class ActvityList extends React.Component {
           hallAction.storeLoadActivity([
             hallAction.ActivityType.GROUP_SESSION_JOIN
           ]);
+          if (this.props.onDoneAction) {
+            this.props.onDoneAction();
+          }
           layoutActions.storeHideBlockLoader();
 
           emitQueueStatus(
@@ -176,6 +179,9 @@ class ActvityList extends React.Component {
       activityActions.cancelQueue(id).then(
         res => {
           hallAction.storeLoadActivity([hallAction.ActivityType.QUEUE]);
+          if (this.props.onDoneAction) {
+            this.props.onDoneAction();
+          }
           layoutActions.storeHideBlockLoader();
 
           emitQueueStatus(company_id, this.authUser.ID, "cancelQueue");
@@ -216,6 +222,9 @@ class ActvityList extends React.Component {
         }
 
         hallAction.storeLoadActivity(toRefresh);
+        if (this.props.onDoneAction) {
+          this.props.onDoneAction();
+        }
         layoutActions.storeHideBlockLoader();
 
         //emitQueueStatus(company_id, this.authUser.ID, "cancelQueue");
@@ -264,6 +273,9 @@ class ActvityList extends React.Component {
       user_id: this.authUser.ID,
       bindedSuccessHandler: () => {
         hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+        if (this.props.onDoneAction) {
+          this.props.onDoneAction();
+        }
       }
     });
   }
@@ -318,6 +330,10 @@ class ActvityList extends React.Component {
             hallAction.ActivityType.SESSION,
             entity
           ]);
+
+          if (this.props.onDoneAction) {
+            this.props.onDoneAction();
+          }
         },
         err => {
           var m = "";
@@ -360,6 +376,9 @@ class ActvityList extends React.Component {
         var toRefresh = [hallAction.ActivityType.PRESCREEN];
         hallAction.storeLoadActivity(toRefresh);
         layoutActions.storeHideBlockLoader();
+        if (this.props.onDoneAction) {
+          this.props.onDoneAction();
+        }
 
         //emitQueueStatus(company_id, this.authUser.ID, "cancelQueue");
 
@@ -440,6 +459,9 @@ class ActvityList extends React.Component {
       render={(val, loading, openEditPopup) => {
         if (originalVal != val) {
           hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+          if (this.props.onDoneAction) {
+            this.props.onDoneAction();
+          }
         }
         return <div
           onClick={openEditPopup}
@@ -578,149 +600,6 @@ class ActvityList extends React.Component {
   }
 
   // return body n subtitle
-  // renderGroupSessionJoin(d, obj, title) {
-  //   // 2. subtitle and body
-  //   var subtitle = null;
-  //   //var crtSession = null;
-  //   var hasRemove = null;
-  //   var removeEntity = null;
-  //   var removeEntityId = null;
-  //   var body = null;
-
-  //   if (isRoleStudent()) {
-  //     // if (d.title != null && d.title != "") {
-  //     //   title = <small>{d.title}</small>;
-  //     // } else {
-  //     //   //title = <small>Group Session with {title}</small>;
-  //     // }
-  //     // title = <b>{title}</b>;
-
-  //     var hasStart = false;
-  //     //if (!d.is_expired && d.join_url != "" && d.join_url != null) {
-  //     if (Time.getUnixTimestampNow() >= d.start_time) {
-  //       hasStart = true;
-  //       //subtitle = "Video Call Has Started";
-  //       subtitle = this.getTimeStrNew(d.start_time, true);
-  //     } else {
-  //       if (d.is_canceled || d.is_expired) {
-  //         subtitle = this.getTimeStrNew(d.start_time, true);
-  //       } else {
-  //         subtitle = this.getTimeStrNew(d.start_time, false);
-  //       }
-  //     }
-
-  //     const isExpiredHandler = () => {
-  //       var mes = (
-  //         <div>
-  //           Unable to join.
-  //           <br />
-  //           This group session has ended.
-  //         </div>
-  //       );
-  //       layoutActions.errorBlockLoader(mes);
-  //       var q = `mutation {edit_group_session(ID:${d.ID}, is_expired:1){ID}}`;
-  //       getAxiosGraphQLQuery(q).then(res => {
-  //         hallAction.storeLoadActivity([
-  //           hallAction.ActivityType.GROUP_SESSION_JOIN
-  //         ]);
-  //       });
-  //     };
-
-  //     var btnJoin = (
-  //       <a
-  //         onClick={() => {
-  //           //joinVideoCall(d.join_url, null, isExpiredHandler, d.ID)
-  //           openLiveSession(d.company.ID);
-  //         }}
-  //         className="btn btn-sm btn-blue"
-  //       >
-  //         Join Video Call
-  //       </a>
-  //     );
-
-  //     const openNotificationStart_GS = () => {
-  //       // block loader to inform the video call has started
-  //       // if time updated is less than bufferMin
-  //       var bufferMin = 2;
-  //       var diff =
-  //         Time.getUnixTimestampNow() - Time.convertDBTimeToUnix(d.updated_at);
-  //       if (diff <= bufferMin * 60) {
-  //         var popupBody = (
-  //           <div>
-  //             <br />
-  //             Group session with
-  //             <br />
-  //             <b>{obj.name}</b>
-  //             <br />
-  //             has started
-  //             <br /> <br />
-  //             {btnJoin}
-  //           </div>
-  //         );
-  //         var notiId = `group-session-${d.ID}`;
-  //         showNotification(notiId, popupBody);
-  //       }
-  //     };
-  //     let isGsHasRemove = false;
-  //     if (d.is_canceled) {
-  //       body = (
-  //         <button disabled="disabled" className="btn btn-sm btn-danger">
-  //           Canceled
-  //         </button>
-  //       );
-  //       isGsHasRemove = true;
-  //     } else if (d.is_expired) {
-  //       body = (
-  //         <button disabled="disabled" className="btn btn-sm btn-danger">
-  //           Ended
-  //         </button>
-  //       );
-  //       isGsHasRemove = true;
-  //     } else {
-  //       if (hasStart) {
-  //         openNotificationStart_GS();
-  //         body = <div>{btnJoin}</div>;
-  //       } else {
-  //         body = (
-  //           <div
-  //             id={d.join_id}
-  //             data-company_id={obj.ID}
-  //             data-company_name={obj.name}
-  //             onClick={this.cancelJoinGroupSession.bind(this)}
-  //             className="btn btn-sm btn-primary"
-  //           >
-  //             Cancel RSVP
-  //           </div>
-  //         );
-  //       }
-  //     }
-
-  //     if (isGsHasRemove) {
-  //       hasRemove = true;
-  //       removeEntity = GroupSessionJoin.TABLE;
-  //       removeEntityId = d.join_id;
-  //     }
-  //   }
-
-  //   body = this.addRemoveButton(body, hasRemove, removeEntity, removeEntityId);
-
-  //   let topLabel = (
-  //     <div className="label label-success">
-  //       <i className="fa fa-users left" />
-  //       Live Session
-  //     </div>
-  //   );
-
-  //   return {
-  //     body: body,
-  //     subtitle: subtitle,
-  //     title: title,
-  //     topLabel: topLabel,
-  //     topLabelClass: "success"
-  //   };
-  // }
-
-  // return body n subtitle
   renderPreScreen(d, obj, title) {
     // 2. subtitle and body
     var time = null;
@@ -854,6 +733,9 @@ class ActvityList extends React.Component {
           })}){ID}}`;
           getAxiosGraphQLQuery(q).then(res => {
             hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+            if (this.props.onDoneAction) {
+              this.props.onDoneAction();
+            }
           });
         };
         var hasStart = false;
@@ -1031,6 +913,7 @@ class ActvityList extends React.Component {
 ActvityList.propTypes = {
   isFullWidth: PropTypes.bool,
   noBorderCard: PropTypes.bool,
+  onDoneAction: PropTypes.func,
   type: PropTypes.oneOf([
     hallAction.ActivityType.SESSION,
     hallAction.ActivityType.QUEUE,
@@ -1051,67 +934,6 @@ ActvityList.defaultProps = {
   subtitle: null
 };
 
-// ##################################################################################################################
-// ##################################################################################################################
-// ##################################################################################################################
-
-export class ActivitySingle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      data: {}
-    };
-  }
-  componentWillMount() {
-    this.loadData();
-  }
-  loadData() {
-    let entity = null;
-    switch (this.props.type) {
-      case hallAction.ActivityType.PRESCREEN:
-        entity = "prescreen";
-        break;
-    }
-    if (entity == null) {
-      this.setState(prevState => {
-        return { loading: false };
-      });
-    } else {
-      let q = ` query {${entity} (ID:${this.props.id
-        }){ ${hallAction.getActivityQueryAttr(this.props.type)} } }`;
-      getAxiosGraphQLQuery(q).then(res => {
-        this.setState(prevState => {
-          return { data: res.data.data[entity], loading: false };
-        });
-      });
-    }
-  }
-  render() {
-    let v = null;
-    if (this.state.loading) {
-      v = <Loader size="2" />;
-    } else {
-      let list = [this.state.data];
-      v = (
-        <ActvityList
-          bc_type="vertical"
-          online_users={{}}
-          fetching={false}
-          type={this.props.type}
-          title={null}
-          subtitle={null}
-          list={list}
-        />
-      );
-    }
-    return v;
-  }
-}
-ActivitySingle.propTypes = {
-  type: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired
-};
 
 // ##################################################################################################################
 // ##################################################################################################################
