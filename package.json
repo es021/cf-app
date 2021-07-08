@@ -67,7 +67,7 @@
     "socket.io-client": "^2.0.4",
     "twilio": "^3.65.0",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^3.1.11"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
