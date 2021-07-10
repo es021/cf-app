@@ -137,6 +137,13 @@ export default class SignUpPage extends React.Component {
       ) {
         return lang("You must agree to terms and condition before continuing.");
       }
+
+      if (
+        typeof d["accept-send-sms"] === "undefined" ||
+        d["accept-send-sms"][0] != "accepted"
+      ) {
+        return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
+      }
     }
 
     return 0;

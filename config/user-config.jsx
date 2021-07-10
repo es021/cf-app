@@ -312,6 +312,15 @@ export const UserFormItem = [
         }],
         //required: true,,
         register: 1, editStudent: 0, editRec: 0
+    }, {
+        label: null,
+        name: "accept-send-sms",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: <small>I agree to receive important notifications via SMS or WhatsApp messages</small>
+        }],
+        register: 1, editStudent: 0, editRec: 0
     }
 ];
 

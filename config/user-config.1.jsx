@@ -188,5 +188,14 @@ export const UserFormItem = [
             label: <small>I agree to <a href={`${DocumentUrl}/privacy-policy.pdf`} target="_blank">terms and conditions</a></small>
         }],
         required: true
+    }, {
+        label: null,
+        name: "accept-send-sms",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: <small>I agree to receive important notifications via SMS or WhatsApp messages</small>
+        }],
+        required: true
     }
 ];

@@ -731,8 +731,16 @@ class AuthAPI {
 			console.log(err);
 			if (err == AuthAPIErr.USERNAME_EXIST) {
 				let existedEmail = user[User.EMAIL];
-				return graphql(`query{user(user_email:"${user[User.EMAIL]}") {ID}}`).then(resQuery => {
+				return graphql(`query{user(user_email:"${user[User.EMAIL]}") {ID role}}`).then(resQuery => {
 					let existedId = resQuery.data.data.user.ID;
+					let existedRole = resQuery.data.data.user.role;
+					
+					// if not student return error
+					if(existedRole != UserEnum.ROLE_STUDENT){
+						return AuthAPIErr.USERNAME_EXIST;
+					}
+
+					// if student override profile
 					let overrideEmail = "DELETED_" + existedEmail;
 
 					// TODO
