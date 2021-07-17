@@ -85,7 +85,7 @@ export default class EventManagement extends React.Component {
             </ul>
           </small>
         </td>,
-        isRoleOrganizer() ? <td style={{ maxWidth: "200px" }}>{getEventAction(d, {isPopup:true})}</td> : null,
+        isRoleOrganizer() ? <td style={{ maxWidth: "200px" }}>{getEventAction(d, { isPopup: true })}</td> : null,
       ];
     };
 
@@ -135,7 +135,7 @@ export default class EventManagement extends React.Component {
     };
 
     this.loadData = (page, offset) => {
-      if (isRoleOrganizer()) {
+      if (isRoleOrganizer() && this.searchParams.indexOf("cf:") <= -1) {
         this.searchParams += ` cf:"${getCF()}", `;
       }
       var query = `query{
