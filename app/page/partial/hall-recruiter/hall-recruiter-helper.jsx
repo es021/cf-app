@@ -126,11 +126,11 @@ export function getNoteElement(d) {
 // ##########################################################################################
 // INTERVIEW APPOINTMENT TIME
 
-export function getRescheduleTimeElement(d) {
-  return getAppointmentTimeElement(d, undefined, true);
+export function getRescheduleTimeElement(d, finishHandler) {
+  return getAppointmentTimeElement(d, undefined, true, finishHandler);
 }
 
-export function getAppointmentTimeElement(d, happeningIn, isButtonReschedule) {
+export function getAppointmentTimeElement(d, happeningIn, isButtonReschedule, finishHandler) {
   var originalVal = d.appointment_time;
 
   return <InputEditable
@@ -146,6 +146,10 @@ export function getAppointmentTimeElement(d, happeningIn, isButtonReschedule) {
       layoutAction.successBlockLoader(<div>
         Appointment time successfully updated and the interview status has changed to <b>Pending</b>.
       </div>)
+
+      if (finishHandler) {
+        finishHandler(d.ID, dForm);
+      }
     }}
     formWillSubmit={(dForm) => {
       let res = appointmentTimeValidation(dForm);

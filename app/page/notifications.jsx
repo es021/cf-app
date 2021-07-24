@@ -5,7 +5,7 @@ import { Time } from "../lib/time";
 import { getAuthUser, getCF } from "../redux/actions/auth-actions";
 import * as layoutAction from "../redux/actions/layout-actions";
 import { createImageElement, PCType } from "../component/profile-card.jsx";
-import { NotificationsEnum, Prescreen } from "../../config/db-config";
+import { NotificationsEnum, Prescreen, PrescreenEnum } from "../../config/db-config";
 import * as hallAction from "../redux/actions/hall-actions";
 import { ActivitySingle } from "./partial/notifications/activity-single";
 
@@ -28,6 +28,11 @@ export class NotificationFeed extends React.Component {
     this.listComponentDidUpdate = this.listComponentDidUpdate.bind(this);
     this.renderList = this.renderList.bind(this);
     this.offset = 10;
+
+    this.COLOR_RED = "#ff5454";
+    this.COLOR_BLUE = "rgb(0, 152, 225)";
+    this.COLOR_GREEN = "rgb(47 201 47)";
+    this.COLOR_BLACK = "rgb(17, 6, 26)";
 
     this.rawData = {};
 
@@ -127,17 +132,28 @@ export class NotificationFeed extends React.Component {
 
     let d = this.rawData[id];
     let param = this.getParamObj(d);
-    switch (d.type) {
-      case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
-        if (param !== null) {
-          let preScreenId = param["ps_id"];
-          layoutAction.storeUpdateFocusCard("Scheduled Call", ActivitySingle, {
-            id: preScreenId,
-            type: hallAction.ActivityType.PRESCREEN
-          });
-        }
-        break;
+
+    if (d.type == NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION
+      || d.type == NotificationsEnum.TYPE_STATUS_SESSION_UPDATE) {
+      if (param !== null) {
+        let preScreenId = param["ps_id"];
+        layoutAction.storeUpdateFocusCard("Scheduled Call", ActivitySingle, {
+          id: preScreenId,
+          type: hallAction.ActivityType.PRESCREEN
+        });
+      }
     }
+    // switch (d.type) {
+    //   case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
+    //     if (param !== null) {
+    //       let preScreenId = param["ps_id"];
+    //       layoutAction.storeUpdateFocusCard("Scheduled Call", ActivitySingle, {
+    //         id: preScreenId,
+    //         type: hallAction.ActivityType.PRESCREEN
+    //       });
+    //     }
+    //     break;
+    // }
   }
   getNotificationText(d) {
     let toRet = '';
@@ -146,9 +162,19 @@ export class NotificationFeed extends React.Component {
     switch (d.type) {
       case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
         if (param !== null) {
-          toRet += `${param["company_name"]} scheduled a call with you on <u>${Time.getString(
+          toRet += `${param["company_name"]} <b>scheduled a new call</b> with you on <u>${Time.getString(
             param["unix_time"]
           )}</u> (your local time)`;
+        }
+        break;
+      case NotificationsEnum.TYPE_STATUS_SESSION_UPDATE:
+        if (param !== null) {
+          toRet += `${param["company_name"]} has <b>${this.getStatusAttribute("text", param["status"])}</b> a call with you`;
+          if (param["status"] == PrescreenEnum.STATUS_RESCHEDULE) {
+            toRet += ` to <u>${Time.getString(
+              param["unix_time"]
+            )}</u> (your local time)`
+          }
         }
         break;
     }
@@ -156,6 +182,36 @@ export class NotificationFeed extends React.Component {
     return toRet;
   }
 
+  getStatusAttribute(attr, status) {
+    let icon, color, text;
+
+
+    if (status == PrescreenEnum.STATUS_STARTED) {
+      icon = "dot-circle-o";
+      color = this.COLOR_BLUE;
+      text = "started";
+    } else if (status == PrescreenEnum.STATUS_CANCEL) {
+      icon = "times";
+      color = this.COLOR_RED;
+      text = "canceled";
+    } else if (status == PrescreenEnum.STATUS_ENDED) {
+      icon = "times";
+      color = this.COLOR_RED;
+      text = "ended";
+    } else if (status == PrescreenEnum.STATUS_RESCHEDULE) {
+      icon = "calendar";
+      color = this.COLOR_BLACK;
+      text = "rescheduled";
+    }
+
+
+    if (attr == "icon") return icon;
+    if (attr == "color") return color;
+    if (attr == "text") return text;
+
+    return "";
+
+  }
   renderList(d, i, isExtraData = false) {
     this.rawData[d.ID] = d;
 
@@ -172,21 +228,24 @@ export class NotificationFeed extends React.Component {
 
     let icon = "";
     let iconColor = "";
-    let blueColor = "#337ab7";
-    let greenColor = "#449d44";
 
     switch (d.type) {
       case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
         icon = "video-camera";
-        iconColor = greenColor;
+        iconColor = this.COLOR_GREEN;
+        break;
+      case NotificationsEnum.TYPE_STATUS_SESSION_UPDATE:
+        let param = this.getParamObj(d);
+        icon = this.getStatusAttribute("icon", param["status"]);
+        iconColor = this.getStatusAttribute("color", param["status"]);
         break;
       case NotificationsEnum.TYPE_REMIND_PRIVATE_SESSION:
         icon = "bell";
-        iconColor = blueColor;
+        iconColor = this.COLOR_BLUE;
         break;
       case NotificationsEnum.TYPE_REMIND_GROUP_SESSION:
         icon = "bell";
-        iconColor = blueColor;
+        iconColor = this.COLOR_BLUE;
         break;
     }
 

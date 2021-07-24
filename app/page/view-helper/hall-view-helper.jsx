@@ -33,7 +33,7 @@ export const TYPE_GROUP_SESSION = "TYPE_GROUP_SESSION";
 export const TYPE_PRIVATE_SESSION = "TYPE_PRIVATE_SESSION";
 
 export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
-  let id, start_time, to_trigger_ids, to_trigger_entity, fn_recDoStart_getQuery;
+  let id, start_time, to_trigger_ids, to_trigger_entity, fn_recDoStart_getQuery, query_entity;
 
   switch (type) {
     case TYPE_GROUP_SESSION:
@@ -47,7 +47,7 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
       to_trigger_ids = JSON.parse(to_trigger_ids);
 
       to_trigger_entity = hallAction.ActivityType.GROUP_SESSION_JOIN;
-
+      query_entity = "edit_group_session"
       fn_recDoStart_getQuery = (join_url, start_url) => {
         let updateData = {};
         updateData[GroupSession.ID] = id;
@@ -56,7 +56,7 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
         updateData[GroupSession.UPDATED_BY] = user_id;
 
         // update group session with join_url data
-        let query = `mutation { edit_group_session 
+        let query = `mutation { ${query_entity} 
                     (${obj2arg(updateData, { noOuterBraces: true })})
                     {ID}
                 }`;
@@ -83,11 +83,11 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
         updateData[Prescreen.JOIN_URL] = join_url;
         updateData[Prescreen.START_URL] = start_url;
         updateData[Prescreen.UPDATED_BY] = user_id;
-
+        query_entity = "edit_prescreen";
         // update group session with join_url data
-        let query = `mutation { edit_prescreen 
+        let query = `mutation { ${query_entity} 
                     (${obj2arg(updateData, { noOuterBraces: true })})
-                    {ID}
+                    {ID student_id company_id}
                 }`;
         return query;
       };
@@ -107,12 +107,14 @@ export function startVideoCall(e, { type, user_id, bindedSuccessHandler }) {
         emitHallActivity(to_trigger_entity, to_trigger_ids[i], null);
       }
       layoutActions.storeHideBlockLoader();
-      
+
       // window.open(start_url);
       let pre_screen_id = type == TYPE_PRIVATE_SESSION ? id : undefined;
       let group_session_id = type == TYPE_GROUP_SESSION ? id : undefined;
       joinVideoCall(join_url, null, null, group_session_id, pre_screen_id, start_url);
-      bindedSuccessHandler();
+      console.log("res", res);
+      res = res.data.data[query_entity];
+      bindedSuccessHandler(id, res);
     });
   };
 

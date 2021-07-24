@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
 import obj2arg from "graphql-obj2arg";
 import ProfileCard, { getImageObj, PCType } from "../../../component/profile-card.jsx";
+import * as NotificationHelper from "../../../../helper/notification-helper";
+
 import {
   Prescreen,
   PrescreenEnum,
@@ -14,7 +16,8 @@ import {
   EntityRemoved,
   GroupSessionJoin,
   LogEnum,
-  CFSMeta
+  CFSMeta,
+  NotificationsEnum
 } from "../../../../config/db-config";
 import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
@@ -196,8 +199,16 @@ class InterviewList extends React.Component {
     HallViewHelper.startVideoCall(e, {
       type: HallViewHelper.TYPE_PRIVATE_SESSION,
       user_id: this.authUser.ID,
-      bindedSuccessHandler: () => {
+      bindedSuccessHandler: (id, res) => {
         hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+
+        this.triggerNotificationStatusUpdate({
+          company_id: res.company_id,
+          student_id: res.student_id,
+          ps_id: id,
+          status: PrescreenEnum.STATUS_STARTED
+        });
+
       }
     });
   }
@@ -233,11 +244,48 @@ class InterviewList extends React.Component {
         var sid = isRoleStudent() ? null : res.student_id;
         var cid = isRoleRec() ? null : res.company_id;
         emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, cid);
+
+        // @noti
+        this.triggerNotificationStatusUpdate({
+          company_id: res.company_id,
+          student_id: res.student_id,
+          ps_id: id,
+          status: status
+        });
+
       },
       err => {
         layoutActions.errorBlockLoader(err);
       }
     );
+  }
+
+  triggerNotificationStatusUpdate({ company_id, student_id, ps_id, status, unix_time }) {
+    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+    getAxiosGraphQLQuery(`query{company(ID:${company_id}) {name} }`).then(resCompany => {
+      let companyName = resCompany.data.data["company"]["name"];
+
+      let param = {
+        company_id: company_id,
+        company_name: companyName,
+        ps_id: ps_id,
+        status: status,
+      };
+      if (unix_time) {
+        param.unix_time = unix_time;
+      }
+      
+      NotificationHelper.addNotification({
+        user_id: student_id,
+        param: param,
+        type: NotificationsEnum.TYPE_STATUS_SESSION_UPDATE,
+        img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
+        img_id: company_id
+      });
+    })
   }
 
   // for reject and cancel
@@ -324,7 +372,24 @@ class InterviewList extends React.Component {
       // ########################################
       case PrescreenEnum.STATUS_RESCHEDULE:
         status_obj = HallRecruiterHelper.Status.STATUS_RESCHEDULE;
-        btnReschedule = HallRecruiterHelper.getRescheduleTimeElement(d);
+        btnReschedule = HallRecruiterHelper.getRescheduleTimeElement(d, (id, res) => {
+          getAxiosGraphQLQuery(`query{
+            prescreen(ID : ${id}){
+              appointment_time student_id company_id
+            }
+          }`).then(resQ => {
+            resQ = resQ.data.data["prescreen"];
+            this.triggerNotificationStatusUpdate({
+              company_id: resQ.company_id,
+              student_id: resQ.student_id,
+              ps_id: id,
+              status: PrescreenEnum.STATUS_RESCHEDULE,
+              unix_time: resQ.appointment_time
+            });
+
+          });
+
+        });
         break;
       // ########################################
       case PrescreenEnum.STATUS_REJECTED:

@@ -267,18 +267,18 @@ export class ActvityList extends React.Component {
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
 
-  startVideoCallPreScreen(e) {
-    HallViewHelper.startVideoCall(e, {
-      type: HallViewHelper.TYPE_PRIVATE_SESSION,
-      user_id: this.authUser.ID,
-      bindedSuccessHandler: () => {
-        hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
-        if (this.props.onDoneAction) {
-          this.props.onDoneAction();
-        }
-      }
-    });
-  }
+  // startVideoCallPreScreen(e) {
+  //   HallViewHelper.startVideoCall(e, {
+  //     type: HallViewHelper.TYPE_PRIVATE_SESSION,
+  //     user_id: this.authUser.ID,
+  //     bindedSuccessHandler: () => {
+  //       hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
+  //       if (this.props.onDoneAction) {
+  //         this.props.onDoneAction();
+  //       }
+  //     }
+  //   });
+  // }
 
   createSession(e) {
     var invalid = activityActions.invalidSession();
