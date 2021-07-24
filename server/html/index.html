@@ -173,43 +173,33 @@
         }
 
         var lang_version = "lang-v7";
-        var app_version = "tarucjul21-v5";
+        var app_version = "tarucjul21-v66";
         var js_version = app_version;
         var css_version = app_version;
         MainLoadAsset(js_version, css_version, lang_version);
 
         // ###########################
         // TAWK - support widget
-        let interval = setInterval(function () {
+        // let interval = setInterval(function () {
             
-            let cf = localStorage.getItem("current-cf")
-            console.log("Set tawk", cf);
-            if (cf != null) {
-                if (cf != "USM21") {
-                    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-                    (function () {
-                        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-                        s1.async = true;
-                        s1.src = 'https://embed.tawk.to/5f153946a45e787d128bc0dd/default';
-                        s1.charset = 'UTF-8';
-                        s1.setAttribute('crossorigin', '*');
-                        s0.parentNode.insertBefore(s1, s0);
-                    })();
-                }
-                clearInterval(interval);
-            }
-        }, 1000)
-        // var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-        // (function () {
-        //     var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-        //     s1.async = true;
-        //     s1.src = 'https://embed.tawk.to/5f153946a45e787d128bc0dd/default';
-        //     s1.charset = 'UTF-8';
-        //     s1.setAttribute('crossorigin', '*');
-        //     s0.parentNode.insertBefore(s1, s0);
-        // })();
-        // TAWK - support widget
-        // ###########################
+        //     let cf = localStorage.getItem("current-cf")
+        //     console.log("Set tawk", cf);
+        //     if (cf != null) {
+        //         if (cf != "USM21") {
+        //             var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        //             (function () {
+        //                 var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        //                 s1.async = true;
+        //                 s1.src = 'https://embed.tawk.to/5f153946a45e787d128bc0dd/default';
+        //                 s1.charset = 'UTF-8';
+        //                 s1.setAttribute('crossorigin', '*');
+        //                 s0.parentNode.insertBefore(s1, s0);
+        //             })();
+        //         }
+        //         clearInterval(interval);
+        //     }
+        // }, 1000)
+
     </script>
 </body>
 

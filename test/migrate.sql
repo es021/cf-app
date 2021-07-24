@@ -618,11 +618,12 @@ ALTER TABLE `pre_screens` CHANGE `is_expired` `is_expired` SMALLINT(1) NOT NULL 
 -- ###############################
 -- copy cf meta
 INSERT INTO cfs_meta (cf_name, meta_key, meta_value)
-SELECT 'SHELL',
+SELECT 'SUNWAYGETHIRED21',
   meta_key,
   meta_value
 FROM cfs_meta
-where cf_name = 'IMPACT' -- ###############################
+where cf_name = 'SUNWAYGRD21' 
+-- ###############################
   -- change request
 ALTER TABLE `pre_screens`
 ADD `join_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL
