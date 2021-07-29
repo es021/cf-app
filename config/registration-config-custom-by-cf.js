@@ -80,7 +80,7 @@ const CustomConfig = {
         ref_table_name: "state_other",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["SUNWAYGRD21"]
+        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"]
     },
     resident_malaysia_other: {
         discard_filter: true,
@@ -93,7 +93,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["SUNWAYGRD21"]
+        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"]
     },
     where_in_malaysia_select: {
         label: "Place Of Resident",
@@ -205,7 +205,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "sunway_purpose",
         is_required: true,
-        onCf: ["SUNWAYGRD21"],
+        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"],
         attr: `{val}`
     },
     // ##############################################################
@@ -480,7 +480,7 @@ const CustomConfig = {
         ref_table_name: "sunwaygrad21_program",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["SUNWAYGRD21"]
+        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"]
     },
 
     // ################################################################
@@ -737,6 +737,22 @@ const CustomOrder = {
         "oejf21_reference"
     ],
     SUNWAYGRD21: [
+        "first_name",
+        "graduation_month",
+        "sunway_purpose",
+        "sunway_faculty",
+        "sunwaygrad21_program",
+        "qualification",
+        "resident_malaysia",
+        "resident_malaysia_other",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "interested_job_location",
+        "skill",
+    ],
+    SUNWAYGETHIRED21: [
         "first_name",
         "graduation_month",
         "sunway_purpose",
