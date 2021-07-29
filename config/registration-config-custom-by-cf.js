@@ -12,6 +12,15 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TARUCJUL21"]
     },
+    student_matrix_id: {
+        label: "Student ID / Matrix ID",
+        question: "Student ID / Matrix ID",
+        icon: "slack",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["SUNWAYGETHIRED21"]
+    },
     internship_date: {
         label: "Internship Date",
         question: "Internship Date",
@@ -754,6 +763,7 @@ const CustomOrder = {
     ],
     SUNWAYGETHIRED21: [
         "first_name",
+        "student_matrix_id",
         "graduation_month",
         "sunway_purpose",
         "sunway_faculty",
