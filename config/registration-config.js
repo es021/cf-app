@@ -396,7 +396,20 @@ function isRequired(cf, key, defaultValue) {
     return defaultValue
 }
 
+function getCustomLabel(key, cf) {
+    if (key == Single.qualification) {
+        if (cf == "SUNWAYGETHIRED21") {
+            return "What is your highest level of certificate once you graduate?";
+        }
+
+        return "What is your highest level of certificate?";
+    }
+
+    return "";
+}
+
 module.exports = {
+    getCustomLabel,
     isRequired,
     getIdLabelByCf,
     CustomConfig,

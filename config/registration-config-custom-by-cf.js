@@ -15,6 +15,7 @@ const CustomConfig = {
     student_matrix_id: {
         label: "Student ID / Matrix ID",
         question: "Student ID / Matrix ID",
+        question_sublabel: "Kindly put N/A if without Student ID",
         icon: "slack",
         type: "single",
         input_type: "text",
@@ -24,7 +25,7 @@ const CustomConfig = {
     internship_date: {
         label: "Internship Date",
         question: "Internship Date",
-        question_sublabel : "Leave blank if not applicable", 
+        question_sublabel: "Leave blank if not applicable",
         icon: "calendar",
         type: "single",
         input_type: "date",
@@ -89,7 +90,7 @@ const CustomConfig = {
         ref_table_name: "state_other",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"]
+        onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"]
     },
     resident_malaysia_other: {
         discard_filter: true,
@@ -102,7 +103,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"]
+        onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"]
     },
     where_in_malaysia_select: {
         label: "Place Of Resident",
@@ -214,7 +215,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "sunway_purpose",
         is_required: true,
-        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"],
+        onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"],
         attr: `{val}`
     },
     // ##############################################################
@@ -489,7 +490,7 @@ const CustomConfig = {
         ref_table_name: "sunwaygrad21_program",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["SUNWAYGRD21","SUNWAYGETHIRED21"]
+        onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"]
     },
 
     // ################################################################
@@ -630,7 +631,7 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TARUCJUL21"]
     },
-    
+
     tarucjul21_purpose: {
         label: "Looking For",
         question: "What are you looking for?",
@@ -694,6 +695,20 @@ const CustomConfig = {
         ref_order_by: "ID asc",
         is_required: true,
         onCf: ["TARUCJUL21"]
+    },
+
+    // ############################
+    // SUNWAYGETHIRED21
+    sunway_student_or_alumni: {
+        label: "Current Student / Alumni ?",
+        question: "Are you a current student or alumni?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no_other",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["SUNWAYGETHIRED21"]
     },
 }
 
@@ -764,6 +779,7 @@ const CustomOrder = {
     SUNWAYGETHIRED21: [
         "first_name",
         "student_matrix_id",
+        "sunway_student_or_alumni",
         "graduation_month",
         "sunway_purpose",
         "sunway_faculty",
