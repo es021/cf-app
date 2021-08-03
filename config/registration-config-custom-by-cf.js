@@ -699,6 +699,18 @@ const CustomConfig = {
 
     // ############################
     // SUNWAYGETHIRED21
+    sunway_campus: {
+        label: "Campus",
+        question: "Which campus are you studying in?",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "sunway_campus",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["SUNWAYGETHIRED21"]
+    },
+
     sunway_student_or_alumni: {
         label: "Current Student / Alumni ?",
         question: "Are you a current student or alumni?",
@@ -778,8 +790,9 @@ const CustomOrder = {
     ],
     SUNWAYGETHIRED21: [
         "first_name",
-        "student_matrix_id",
         "sunway_student_or_alumni",
+        "student_matrix_id",
+        "sunway_campus",
         "graduation_month",
         "sunway_purpose",
         "sunway_faculty",

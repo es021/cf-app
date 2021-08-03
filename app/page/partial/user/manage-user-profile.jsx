@@ -403,6 +403,7 @@ export default class ManageUserProfile extends React.Component {
           label: lang("Which school are you from?"),
           // input_placeholder: "Malaysia",
           ref_table_name: "sunway_faculty",
+          ref_order_by: "ID asc",
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.sunway_faculty)
         },
