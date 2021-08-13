@@ -82,8 +82,8 @@ const CustomConfig = {
         discard_popup_on: (d) => {
             return d['resident_malaysia'] == OTHER_PLEASE_SPECIFY;
         },
-        label: "Place Of Resident",
-        question: "Place Of Resident",
+        label: "Place Of Residence",
+        question: "Place Of Residence",
         icon: "map-marker",
         type: "single",
         input_type: "select",
@@ -97,8 +97,8 @@ const CustomConfig = {
         discard_popup_on: (d) => {
             return d['resident_malaysia'] != OTHER_PLEASE_SPECIFY;
         },
-        label: "Place Of Resident",
-        question: "Place Of Resident (Other)",
+        label: "Place Of Residence",
+        question: "Place Of Residence (Other)",
         icon: "map-marker",
         type: "single",
         input_type: "text",
@@ -106,7 +106,7 @@ const CustomConfig = {
         onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"]
     },
     where_in_malaysia_select: {
-        label: "Place Of Resident",
+        label: "Place Of Residence",
         question: "Where are you from in Malaysia?",
         icon: "map-marker",
         type: "single",
@@ -317,8 +317,8 @@ const CustomConfig = {
         discard_popup_on: (d) => {
             return d['d2w21_resident'] == OTHER_PLEASE_SPECIFY;
         },
-        label: "Place Of Resident",
-        question: "Place Of Resident",
+        label: "Place Of Residence",
+        question: "Place Of Residence",
         icon: "map-marker",
         type: "single",
         input_type: "select",
@@ -332,8 +332,8 @@ const CustomConfig = {
         discard_popup_on: (d) => {
             return d['d2w21_resident'] != OTHER_PLEASE_SPECIFY;
         },
-        label: "Place Of Resident",
-        question: "Place Of Resident (Other)",
+        label: "Place Of Residence",
+        question: "Place Of Residence (Other)",
         icon: "map-marker",
         type: "single",
         input_type: "text",
