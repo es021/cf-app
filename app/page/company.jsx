@@ -529,13 +529,15 @@ export default class CompanyPage extends Component {
         }
 
         {/* bottom right */}
-        <div className={`col-lg-${isSubscribeOff ? "12" : "6"} no-padding`}
-          style={{ padding: "5px" }}>
-          <button className="btn btn-sm btn-block btn-round-10 btn-red btn-bold"
-            onClick={btn_onClickChat}>
-            <i className="fa fa-comments left"></i>{lang("Chat With Us")}
-          </button>
-        </div>
+        {isCfFeatureOff(CFSMeta.FEATURE_CHAT) ? null :
+          <div className={`col-lg-${isSubscribeOff ? "12" : "6"} no-padding`}
+            style={{ padding: "5px" }}>
+            <button className="btn btn-sm btn-block btn-round-10 btn-red btn-bold"
+              onClick={btn_onClickChat}>
+              <i className="fa fa-comments left"></i>{lang("Chat With Us")}
+            </button>
+          </div>
+        }
       </div>
     </div>
 
@@ -583,12 +585,12 @@ export default class CompanyPage extends Component {
   }
 
   getEvent(data) {
-    if(isCfFeatureOff(CFSMeta.FEATURE_EVENT_AND_WELCOME)){
+    if (isCfFeatureOff(CFSMeta.FEATURE_EVENT)) {
       return null;
     }
 
     return <div>
-      {this._title_("calendar", "Events & Webinar")}
+      {this._title_("calendar", getCfCustomMeta(CFSMeta.TEXT_EVENT_WEBINAR, `Events & Webinars`))}
       {isRecruiterCompany(this.ID)
         ? <HallRecruiterEvent offset={3} isNoTitle={true} isNoMarginBottom={true} company_id={this.ID}></HallRecruiterEvent>
         : <EventList company_id={this.ID} isHidePagingTop={true} customOffset={4} listAlign="center" isFullWidth={true} />
@@ -909,9 +911,12 @@ export default class CompanyPage extends Component {
               <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getEvent(data)}
               </div>
-              <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
-                {this.getJobPost(data)}
-              </div>
+              {isCfFeatureOff(CFSMeta.FEATURE_STUDENT_JOB_POST) || isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST)
+                ? null
+                : <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                  {this.getJobPost(data)}
+                </div>
+              }
               <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getGallery(data)}
               </div>

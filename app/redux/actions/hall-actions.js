@@ -57,18 +57,16 @@ function getIndependentQuery(oriQuery, types) {
     if (types.length == 1 && types[0] == ActivityType.NOTIFICATION_COUNT) {
         if (typeof user_id !== "undefined") {
             query = `query{
-              notifications(user_id : ${user_id}, is_read:0, ttl:true){
+              notifications(user_id : ${user_id}, cf:"${getCF()}", is_read:0, ttl:true){
                ttl
               }
             }`;
-
-
             console.log("query",query);
-            console.log("query",query);
-            console.log("query",query);
-            console.log("query",query);
-            console.log("query",query);
-            console.log("query",query);
+            // console.log("query",query);
+            // console.log("query",query);
+            // console.log("query",query);
+            // console.log("query",query);
+            // console.log("query",query);
         }
     }
 

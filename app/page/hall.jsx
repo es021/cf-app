@@ -51,6 +51,7 @@ export default class HallPage extends React.Component {
     this.CFDetail = getCFObj();
     this.title = this.CFDetail.title;
     // this.title = <div dangerouslySetInnerHTML={{__html : this.title}}></div>
+    this.titleEventWebinar = getCfCustomMeta(CFSMeta.TEXT_EVENT_WEBINAR, `Events & Webinars`)
 
 
     this.authUser = getAuthUser();
@@ -72,6 +73,7 @@ export default class HallPage extends React.Component {
 
 
   componentDidMount() {
+
     if (isRoleRec()) {
       let company_id = getAuthUser().rec_company;
       let q = `query { group_sessions(${getGroupSessionQueryFilter(company_id)} ) 
@@ -166,16 +168,7 @@ export default class HallPage extends React.Component {
   //     </div>
   //   );
   // }
-  // getEventAndWebinar() {
-  //   return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-  //     <ListRow title="Events & Webinars"
-  //       backgroundColor={null}
-  //       items={<WebinarHall noBorderCard={true} limitLoad={4} />}
-  //       see_more_text="See More Events & Webinars"
-  //       see_more_to={`${AppPath}/list-events-webinars`}
-  //     ></ListRow>
-  //   </div >
-  // }
+
 
   // getRecruiterAction() {
   //   /**
@@ -330,22 +323,23 @@ export default class HallPage extends React.Component {
   }
   getEvents(backgroundColor) {
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title={lang("Events & Webinars")}
+      <ListRow title={lang(this.titleEventWebinar)}
         icon="calendar"
         backgroundColor={backgroundColor}
         items={<EventList limitLoad={4} isFullWidth={true} />}
-        see_more_text={lang("See More Events & Webinars")}
+        see_more_text={lang("See More " + this.titleEventWebinar)}
         see_more_to={`${AppPath}/list-events`}
       ></ListRow>
     </div >
   }
   getStudentInterviewHelper() {
-    return <ListRow title={lang("My Interviews")}
+    let title = getCfCustomMeta(CFSMeta.TEXT_MY_INTERVIEW, `My Interviews`);
+    return <ListRow title={lang(title)}
       icon="video-camera"
       backgroundColor={null}
       containerStyle={{ padding: "20px 0px" }}
       items={<ActivitySection type="row" limitLoad={4} type="row" isFullWidth={true} />}
-      see_more_text={lang("See More Interviews")}
+      see_more_text={lang("See More " + title)}
       see_more_onclick={() => {
         // console.log(`${AppPath}/list-interviews`)
         window.location = `${AppPath}/list-interviews`;
@@ -368,12 +362,12 @@ export default class HallPage extends React.Component {
           {this.getStudentInterviewHelper()}
         </div>
         <div className="col-md-6">
-          <ListRow title={lang("Events & Webinars")}
+          <ListRow title={lang(this.titleEventWebinar)}
             backgroundColor={null}
             icon="calendar"
             containerStyle={{ padding: "20px 0px" }}
             items={<EventList limitLoad={4} type="row" isFullWidth={true} />}
-            see_more_text={lang("See More Events & Webinars")}
+            see_more_text={lang("See More " + this.titleEventWebinar)}
             see_more_to={`${AppPath}/list-events`}
           ></ListRow>
         </div>
@@ -414,7 +408,10 @@ export default class HallPage extends React.Component {
       if (isCfFeatureOff(CFSMeta.FEATURE_EVENT_AND_WELCOME)) {
         v = <div className="hall-page">
           {this.getGallery("#eef0ee")}
-          {this.getStudentInterview(null)}
+          {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
+            ? this.getStudentInterview(null)
+            : this.getStudentInterviewAndEvent(null)
+          }
           {this.getCompanyBooth("#eef0ee")}
           {this.getJobPost(null)}
         </div>
@@ -422,7 +419,10 @@ export default class HallPage extends React.Component {
         v = <div className="hall-page">
           {this.getGallery("#eef0ee")}
           {this.getWelcomeAndSponsor(null)}
-          {this.getStudentInterviewAndEvent("#eef0ee")}
+          {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
+            ? this.getStudentInterview("#eef0ee")
+            : this.getStudentInterviewAndEvent("#eef0ee")
+          }
           {this.getCompanyBooth(null)}
           {this.getJobPost("#eef0ee")}
         </div>

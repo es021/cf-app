@@ -42,21 +42,31 @@ EXPORT.Cfs = {
     hall_cfg_onsite_call_use_group: __.Int,
 
     // custom on/off features
+    feature_student_list_iv_only: __.String,
     feature_event_and_welcome: __.String,
+    feature_event: __.String,
 
+    feature_recruiter_interested_student: __.String,
     feature_recruiter_login: __.String,
+    feature_recruiter_job_post: __.String,
+    
     feature_student_login: __.String,
     feature_student_register: __.String,
     feature_student_company_booth: __.String,
     feature_student_job_post: __.String,
     feature_sponsor: __.String,
     feature_drop_resume: __.String,
+    feature_chat: __.String,
     feature_feedback: __.String,
     feature_company_external_follow: __.String,
     feature_job_post_filter_location: __.String,
     feature_subscribe: __.String,
 
     // custom text
+
+    text_my_interview: __.String,
+    text_event_webinar: __.String,
+
     text_schedule_call: __.String,
     text_header_title: __.String,
     text_header_desc: __.String,
@@ -69,6 +79,7 @@ EXPORT.Cfs = {
     text_company_label_job_post: __.String,
     text_registration_disclaimer: __.String,
     text_salutation_recruiter: __.String,
+
 
     // custom image
     image_header_icon: __.String,

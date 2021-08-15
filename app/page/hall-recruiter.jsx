@@ -10,7 +10,8 @@ import {
   getCFObj,
   getAuthUser,
   loadCompanyPriv,
-  getCfCustomMeta
+  getCfCustomMeta,
+  isCfFeatureOff
 } from "../redux/actions/auth-actions";
 import { ButtonAction } from "../component/buttons";
 import InputEditable from "../component/input-editable";
@@ -223,21 +224,46 @@ export default class HallRecruiterPage extends React.Component {
             // subText={`See who's interested in ${this.authUser.company.name}`}
             subText={lang(`Browse all ${_student_plural_lower()}`)}
           />,
-          <ButtonAction
-            style={{ width: "350px", maxWidth: "70vw" }}
-            btnClass="btn-lg btn-blue"
-            // to={`${RootPath}/app/my-activity/student-listing`}
-            to={`${RootPath}/app/browse-student?interested_only=1`}
-            icon="user"
-            iconSize="3x"
-            mainText={lang(`Interested ${_student_plural()}`)}
-            // subText={`See who's interested in ${this.authUser.company.name}`}
-            subText={lang(`Browse ${_student_plural_lower()} interested in you`)}
-          />]
+          isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_INTERESTED_STUDENT) ? null :
+            <ButtonAction
+              style={{ width: "350px", maxWidth: "70vw" }}
+              btnClass="btn-lg btn-blue"
+              // to={`${RootPath}/app/my-activity/student-listing`}
+              to={`${RootPath}/app/browse-student?interested_only=1`}
+              icon="user"
+              iconSize="3x"
+              mainText={lang(`Interested ${_student_plural()}`)}
+              // subText={`See who's interested in ${this.authUser.company.name}`}
+              subText={lang(`Browse ${_student_plural_lower()} interested in you`)}
+            />
+          ]
         }
 
       </div >
     </div >
+  }
+
+  getJobEventSection() {
+    let job = <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>;
+    let event = <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>;
+    let isJobOff = isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST);
+    let isEventOff = isCfFeatureOff(CFSMeta.FEATURE_EVENT);
+    if (!isJobOff && !isEventOff) {
+      return [
+        <div className="col-md-6">{job}</div>,
+        <div className="col-md-6">{event}</div>
+      ];
+    } else if (isJobOff && !isEventOff) {
+      return [
+        <div className="col-md-6">{event}</div>
+      ];
+    } else if (!isJobOff && isEventOff) {
+      return [
+        <div className="col-md-6">{job}</div>
+      ];
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -258,20 +284,9 @@ export default class HallRecruiterPage extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-6">
-              <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>
-            </div>
-            <div className="col-md-6">
-              <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
-            </div>
+            {this.getJobEventSection()}
           </div>
-          {/* <div className="row">
-          <div className="col-md-12">
-            <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>
-          </div>
-        </div> */}
         </div>
-        {/* <DashboardFeed cf="USA19" type="recruiter"></DashboardFeed> */}
       </div>
     }
 

@@ -50,7 +50,7 @@ import { SupportPage } from "../page/support";
 import AnalyticPage from "../page/analytics";
 import { FeedbackForm } from "../page/partial/analytics/feedback";
 import { addLog } from "../redux/actions/other-actions";
-import { LogEnum } from "../../config/db-config";
+import { LogEnum, CFSMeta } from "../../config/db-config";
 import { LangPickerHeader } from "../page/lang-picker";
 import {
   isAuthorized,
@@ -64,7 +64,8 @@ import {
   isRoleVolunteer,
   getCF_externalHomeUrl,
   getCF_guideUrl,
-  getCF_hasGuideUrl
+  getCF_hasGuideUrl,
+  isCfFeatureOff
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -367,7 +368,8 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
-      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent())
+      disabled: !IsNewHall || (!isRoleRec() && !isRoleStudent()) || isCfFeatureOff(CFSMeta.FEATURE_CHAT)
+
       //disabled: COMING_SOON || !IsNewHall || (!isRoleRec() && !isRoleStudent())
     },
     // @noti

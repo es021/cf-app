@@ -712,15 +712,21 @@ const CFSMeta = {
 	ORGANIZATIONS: "organizations", // json object
 
 	// custom on/off features
-	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome",
+	FEATURE_STUDENT_LIST_IV_ONLY: "feature_student_list_iv_only",
 
+	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome", // just the container in home
+	FEATURE_EVENT  : "feature_event", // effect the specific event container in home and company profile
+
+	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
+	FEATURE_RECRUITER_JOB_POST: "feature_recruiter_job_post",
 	FEATURE_STUDENT_LOGIN: "feature_student_login",
 	FEATURE_STUDENT_REGISTER: "feature_student_register",
 	FEATURE_STUDENT_COMPANY_BOOTH: "feature_student_company_booth",
 	FEATURE_STUDENT_JOB_POST: "feature_student_job_post",
 	FEATURE_SPONSOR: "feature_sponsor",
 	FEATURE_DROP_RESUME: "feature_drop_resume",
+	FEATURE_CHAT: "feature_chat",
 	FEATURE_FEEDBACK: "feature_feedback",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
@@ -739,6 +745,9 @@ const CFSMeta = {
 	TEXT_COMPANY_LABEL_JOB_POST: "text_company_label_job_post", // vacancy.jsx
 	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer", // sign-up.jsx
 	TEXT_SALUTATION_RECRUITER: "text_salutation_recruiter", // hall-recruiter.jsx
+
+	TEXT_MY_INTERVIEW : "text_my_interview",
+	TEXT_EVENT_WEBINAR : "text_event_webinar",
 
 	LINK_EXTERNAL_FOLLOW: "link_external_follow",
 	LINK_EXTERNAL_FEEDBACK_STUDENT: "link_external_feedback_student",

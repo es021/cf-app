@@ -2,12 +2,12 @@
 
 import React from "react";
 import { createImageElement, PCType } from "../../../component/profile-card.jsx";
-import { getAuthUser, getCF, isRoleAdmin, isRecruiterCompany } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCF, isRoleAdmin, isRecruiterCompany, getCfCustomMeta } from "../../../redux/actions/auth-actions";
 import PropTypes from 'prop-types';
 
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { RootPath } from "../../../../config/app-config";
-import { EventEnum } from "../../../../config/db-config";
+import { CFSMeta } from "../../../../config/db-config";
 import { isRoleRec, isRoleStudent } from "../../../redux/actions/auth-actions";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import ListBoard from "../../../component/list-board";
@@ -21,7 +21,7 @@ import obj2arg from "graphql-obj2arg";
 
 import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { getEventAction, getEventTitle, getEventLocation } from "../../view-helper/view-helper.jsx";
-import {lang} from "../../../lib/lang.js";
+import { lang } from "../../../lib/lang.js";
 
 
 export default class HallRecruiterEvent extends React.Component {
@@ -231,7 +231,7 @@ export default class HallRecruiterEvent extends React.Component {
         // action_icon="plus"
         // action_text="Add New Job Post"
         // action_to={`manage-company/${this.props.company_id}/vacancy`}
-        title={lang("My Events")}
+        title={lang(getCfCustomMeta(CFSMeta.TEXT_EVENT_WEBINAR, `My Events`))}
         isNoTitle={this.props.isNoTitle}
         isNoMarginBottom={this.props.isNoMarginBottom}
         icon="calendar"

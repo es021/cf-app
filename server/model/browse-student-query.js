@@ -469,6 +469,29 @@ class BrowseStudentExec {
 
 		return "1=1";
 	}
+	whereHasIvWithCompany(cf, user_id, company_id) {
+		let q = ` CASE WHEN 
+			(
+				SELECT cmm.meta_value 
+				FROM cfs_meta cmm 
+				WHERE cmm.cf_name = "${cf}" 
+					AND cmm.meta_key = "feature_student_list_iv_only"
+			) = "ON"
+			THEN 
+				( select COUNT(ps.ID) FROM pre_screens ps 
+					where ps.student_id = ${user_id}  AND ps.company_id = ${company_id} 
+				) > 0
+			ELSE 1=1 END
+			`;
+
+		console.log("q", q);
+		console.log("q", q);
+		console.log("q", q);
+		console.log("q", q);
+		return q;
+
+		return "1=1";
+	}
 	whereHasAttachment(user_id, param) {
 		if (param === "1") {
 			let q = ` ( select COUNT(dl.ID) FROM doc_link dl 
@@ -580,6 +603,12 @@ class BrowseStudentExec {
 		var drop_resume = this.whereDropResume(param.company_id, user_id, param.drop_resume_only);
 		var has_attachment = this.whereHasAttachment(user_id, param.with_attachment_only);
 
+		let valueCF = param.cf;
+		if (!valueCF) {
+			valueCF = param.current_cf
+		}
+		var has_iv_with_company = this.whereHasIvWithCompany(valueCF, user_id, param.company_id);
+
 		let work_availability = this.whereDateRange({
 			user_id: user_id,
 			month_key: "working_availability_month",
@@ -650,6 +679,7 @@ class BrowseStudentExec {
 			AND ${like_job_post}
 			AND ${drop_resume}
 			AND ${has_attachment}
+			AND ${has_iv_with_company}
 			AND ${show_interest}
 			AND ${favourited}
 			AND ${cf}

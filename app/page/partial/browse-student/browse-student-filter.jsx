@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
-import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta, isRoleOrganizer } from "../../../redux/actions/auth-actions";
+import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta, isRoleOrganizer, isCfFeatureOff } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
 import { lang, isHasOtherLang, currentLang } from "../../../lib/lang";
@@ -114,11 +114,11 @@ export class BrowseStudentFilter extends React.Component {
             ...(isRoleOrganizer()
                 ? []
                 : [
-                    "like_job_post_only",
+                    isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST) ? "" : "like_job_post_only",
                     "interested_only",
                     "favourited_only",
                     // "favourited_only_recruiter_id",
-                    "drop_resume_only",
+                    isCfFeatureOff(CFSMeta.FEATURE_DROP_RESUME) ? "" : "drop_resume_only",
                     "with_attachment_only",
                 ]
             ),
@@ -317,14 +317,14 @@ export class BrowseStudentFilter extends React.Component {
     }
     loadFilter() {
         this.setState({ loading: true })
-        let param = `current_cf:"${getCF()}", discard_filter:"${this.discardFilter}"`;
+        let param = `current_cf:"${getCF()}", discard_filter:"${this.discardFilter}", company_id: ${this.props.company_id}`;
 
         // limit filter and count untuk initial filter je
         // for case page student list job post, dia akan filter sapa yang like job post je
         if (this.props.isPageStudentListJobPost) {
             let queryParam = this.props.getQueryParam({
                 filterStr: this.props.filterStr,
-                company_id: this.props.company_id,
+                // company_id: this.props.company_id,
                 noBracket: true,
             })
             param += ` , ${queryParam} `
@@ -636,7 +636,7 @@ export class BrowseStudentFilter extends React.Component {
     }
     getTotal(k, f) {
         return "";
-        
+
         // if (k == "cf") {
         //     return "";
         // }
