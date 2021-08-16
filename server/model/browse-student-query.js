@@ -470,7 +470,8 @@ class BrowseStudentExec {
 		return "1=1";
 	}
 	whereHasIvWithCompany(cf, user_id, company_id) {
-		let q = ` CASE WHEN 
+		if (cf && user_id && company_id) {
+			let q = ` CASE WHEN 
 			(
 				SELECT cmm.meta_value 
 				FROM cfs_meta cmm 
@@ -483,12 +484,12 @@ class BrowseStudentExec {
 				) > 0
 			ELSE 1=1 END
 			`;
-
-		console.log("q", q);
-		console.log("q", q);
-		console.log("q", q);
-		console.log("q", q);
-		return q;
+			console.log("q", q);
+			console.log("q", q);
+			console.log("q", q);
+			console.log("q", q);
+			return q;
+		}
 
 		return "1=1";
 	}

@@ -16,5 +16,6 @@ server/php-api/email/secret.php
 download-file.tar.gz
 download-file-main.sh
 download-file
+git-token.sh
 log
 create-bundle
