@@ -722,9 +722,55 @@ const CustomConfig = {
         is_required: true,
         onCf: ["SUNWAYGETHIRED21"]
     },
+
+    intel_is_intel_employee: {
+        label: "Is an active OR a former Intel employee?",
+        question: "Are you currently an active OR a former Intel employee?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["INTELDDSEPT21"]
+    },
+    has_attended_before: {
+        label: "Has attended previous Design & Development (D&D) Virtual Career Fairs?",
+        question: "Have you attended any of our previous Design & Development (D&D) Virtual Career Fairs?",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["INTELDDSEPT21"]
+    },
 }
 
 const CustomOrder = {
+    INTELDDSEPT21: [
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        "local_or_oversea_study",
+        "university",
+        "qualification",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        // "phone_number",
+        "working_availability_month",
+        "local_or_oversea_location",
+        "work_experience_year",
+        "gender",
+        "intel_is_intel_employee",
+        "has_attended_before",
+        // "interested_role",
+        // "where_in_malaysia",
+        // "interested_job_location",
+        // "skill",
+        // "extracurricular",
+    ],
     TARUCJUL21: [
         "first_name",
         "student_id",

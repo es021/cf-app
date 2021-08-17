@@ -891,7 +891,7 @@ export default class ManageUserProfile extends React.Component {
     let discardMargin = isChildren || isLastItem;
     if (d.type == "single") {
       return [
-        // <div>{d.id}</div>,
+        // <div>DEBUG : {d.id}</div>,
         <InputSingle
           {...d}
           index={i}
@@ -903,12 +903,13 @@ export default class ManageUserProfile extends React.Component {
           hideContinueButton={
             isChildren || this.isEdit() ? true : hideContinueButton
           }
-        ></InputSingle>,
+        ></InputSingle>
+        ,
         discardMargin ? null : this.MARGIN
       ];
     } else if (d.type == "multi") {
       return [
-        // <div>{d.id}</div>,
+        // <div>DEBUG : {d.id}</div>,
         <InputMulti
           {...d}
           index={i}
@@ -920,7 +921,8 @@ export default class ManageUserProfile extends React.Component {
           hideContinueButton={
             isChildren || this.isEdit() ? true : hideContinueButton
           }
-        ></InputMulti>,
+        ></InputMulti>
+        ,
         discardMargin ? null : this.MARGIN
       ];
     }

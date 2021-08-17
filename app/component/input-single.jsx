@@ -288,7 +288,7 @@ export default class InputSingle extends React.Component {
 
     return (
       <div id={this.props.id} className={className}>
-        <div className="si-label input-label">
+        <div className="si-label input-label" title={this.props.id}>
           {this.props.label}
           {this.props.is_required && !this.props.isChildren ? " *" : ""}
         </div>

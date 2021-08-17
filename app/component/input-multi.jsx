@@ -469,7 +469,7 @@ export default class InputMulti extends React.Component {
 
     return (
       <div id={this.props.id} className="input-multi">
-        <div className="mi-label input-label">
+        <div className="mi-label input-label" title={this.props.id}>
           {this.props.label}
           {this.props.is_required ? " *" : ""}
         </div>

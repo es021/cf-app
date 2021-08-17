@@ -5,8 +5,8 @@ const {
 
 const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 
-const IsUploadResumeRequired = ["INTELDD21", "TARUCJUL21"]
-const IsHasUploadResume = ["INTELDD21", "OEJF21", "TARUCJUL21"]
+const IsUploadResumeRequired = ["INTELDD21", "INTELDDSEPT21", "TARUCJUL21"]
+const IsHasUploadResume = ["INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21"]
 
 
 var Single = {
@@ -225,16 +225,16 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MONASH"];
             break;
         case Single.local_or_oversea_study:
-            onCf = ["INTEL", "INTELDD21"];
+            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21"];
             break;
         case Single.local_or_oversea_location:
-            onCf = ["INTEL", "INTELDD21"];
+            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21"];
             break;
         case Single.work_experience_year:
-            onCf = ["INTEL", "INTELDD21"];
+            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21"];
             break;
         case Single.gender:
-            onCf = ["USM21", "INTEL", "INTELDD21"];
+            onCf = ["USM21", "INTEL", "INTELDD21", "INTELDDSEPT21"];
             break;
         case Single.kpt:
             onCf = ["MDCW", "USM21"];
@@ -265,7 +265,7 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "MDCW", "UNISZA"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "INTELDDSEPT21", "MDCW", "UNISZA"];
             break;
         case Single.university:
             offCf = ["UNISZA"];
