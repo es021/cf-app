@@ -745,6 +745,23 @@ const CustomConfig = {
         is_required: true,
         onCf: ["INTELDDSEPT21"]
     },
+    intel_reference: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "Where do you hear about this event?",
+        question: "Where do you hear about this event?",
+        icon: "slack",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "intel_reference",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "intel_reference",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["INTELDDSEPT21"],
+        attr: `{val}`
+    },
 }
 
 const CustomOrder = {
@@ -765,6 +782,7 @@ const CustomOrder = {
         "gender",
         "intel_is_intel_employee",
         "has_attended_before",
+        "intel_reference",
         // "interested_role",
         // "where_in_malaysia",
         // "interested_job_location",
