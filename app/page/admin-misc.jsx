@@ -6,6 +6,7 @@ import AdminStudentPage from './admin-student';
 import AdminCompanyPriority from './admin-company-priority';
 import AdminRef from './admin-ref';
 import AdminJobPostBundle from './admin-job-post-bundle';
+import AdminCreateInterview from './admin-create-interview';
 
 // create sub page here
 export default class AdminMisc extends React.Component {
@@ -15,6 +16,11 @@ export default class AdminMisc extends React.Component {
                 label: "Create Job Post",
                 component: AdminJobPostBundle,
                 icon: "suitcase"
+            },
+            "interview": {
+                label: "Create Interview",
+                component: AdminCreateInterview,
+                icon: "play"
             },
             // "kpt-jpa": {
             //     label: "JPA's IC Dataset",

@@ -1012,7 +1012,8 @@ fields["company"] = {
 	type: CompanyType,
 	args: {
 		ID: __.IntNonNull,
-		user_id: __.Int
+		user_id: __.Int,
+		cf: __.String,
 	},
 	resolve(parentValue, arg, context, info) {
 		return CompanyExec.company(arg, graphqlFields(info));

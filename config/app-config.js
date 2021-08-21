@@ -38,6 +38,7 @@ var DocumentUrl = AssetUrl + "/asset/document";
 var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 var StatisticUrl = SiteUrl + "/statistic";
+var AdminUrl = SiteUrl + "/admin";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
 
@@ -143,6 +144,7 @@ module.exports = {
     AudioUrl,
     UploadUrl,
     AppConfig,
+    AdminUrl,
     ImgConfig,
     ImageUrl,
     IsNewHall,
