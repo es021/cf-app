@@ -25,6 +25,8 @@ export class BrowseStudent extends React.Component {
       if (this.props.match) {
         this.company_id = this.props.match.params.id;
       }
+    }else if(isRoleOrganizer()){
+      this.company_id = 1
     }
 
 
