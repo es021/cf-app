@@ -94,8 +94,8 @@ const singleFilterWhereInMalaysia = (currentCf, param, where) => {
 const getOrder = (type) => {
 	if (type == "single") {
 		return `
-			(SELECT rr.ID FROM ref_oejf21_years_working rr WHERE rr.val = s.val) as _order_1,
-			(SELECT rr.ID FROM ref_work_experience_year rr WHERE rr.val = s.val) as _order_2,
+			(SELECT LPAD(rr1.ID, 3, 0) FROM ref_oejf21_years_working rr1 WHERE rr1.val = s.val) as _order_1,
+			(SELECT LPAD(rr2.ID, 3, 0) FROM ref_work_experience_year rr2 WHERE rr2.val = s.val) as _order_2,
 		`;
 	}
 	if (type == "empty") {
@@ -311,9 +311,6 @@ const singleFilter = (currentCf, param, where) => {
 
 	//group by s.key_input, s.val`;
 
-	// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-	// console.log(toRet)
-	// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 	return toRet;
 }
 
@@ -345,6 +342,7 @@ function generateQuery(param, where) {
 	q = overrideLanguageTable(q, param);
 	q = q.replaceAll("AND 1=1\n", "");
 	q = q.replaceAll("AND 1=1", "");
+
 	return q;
 }
 
