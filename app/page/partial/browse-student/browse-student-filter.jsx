@@ -112,7 +112,7 @@ export class BrowseStudentFilter extends React.Component {
             // "cf",
             "name",
             ...(isRoleOrganizer()
-                ? []
+                ? ["with_attachment_only"]
                 : [
                     isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST) ? "" : "like_job_post_only",
                     "interested_only",
