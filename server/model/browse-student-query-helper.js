@@ -51,11 +51,12 @@ const multiFilter = (param, key, where) => {
 	}
 
 	return `select 
-		'' as _order
-		, '${key}' as _key 
-		, s.val as _val
-		, "" as _val_label
-		, COUNT(s.ID) as _total 
+		${getOrder("empty")}
+		'${key}' as _key, 
+		s.val as _val, 
+		"" as _val_label, 
+		COUNT(s.ID) as _total 
+		
 		from multi_${key} s
 		WHERE s.entity = 'user'
 		AND ${where}
@@ -71,11 +72,13 @@ const singleFilterWhereInMalaysia = (currentCf, param, where) => {
 	// (CASE WHEN r.city IS NOT NULL THEN concat(r.state, " - ", r.city)
 
 	return `SELECT 
-		'' as _order
-		, s.key_input as _key
-		, r.val as _val
-		, r.state as _val_label
-		, COUNT(*) as _total 
+	
+		${getOrder("empty")}
+		s.key_input as _key, 
+		r.val as _val, 
+		r.state as _val_label, 
+		COUNT(*) as _total 
+		
 		FROM single_input s, ref_city_state_country r
 		where 
 		1=1
@@ -86,6 +89,29 @@ const singleFilterWhereInMalaysia = (currentCf, param, where) => {
 		AND r.state IS NOT NULL
 		AND ${where}
 		group by s.key_input, s.val`;
+}
+
+const getOrder = (type) => {
+	if (type == "single") {
+		return `
+			(SELECT rr.ID FROM ref_oejf21_years_working rr WHERE rr.val = s.val) as _order_1,
+			(SELECT rr.ID FROM ref_work_experience_year rr WHERE rr.val = s.val) as _order_2,
+		`;
+	}
+	if (type == "empty") {
+		return `
+			'' as _order_1,
+			'' as _order_2,
+		`;
+	}
+	if (type == "group_by") {
+		return `_order_1, _order_2,`;
+	}
+	if (type == "final_order") {
+		return `X._order_1 asc, X._order_2 asc,`;
+	}
+
+
 }
 
 const singleFilter = (currentCf, param, where) => {
@@ -232,11 +258,12 @@ const singleFilter = (currentCf, param, where) => {
 
 	// (CASE WHEN s.key_input = 'field_study_secondary' THEN 'field_study_main' ELSE s.key_input END) as _key
 	let toRet = `SELECT 
-	(SELECT rr.ID FROM ref_oejf21_years_working rr WHERE rr.val = s.val) as _order
-	, s.key_input as _key
-	, s.val as _val
-	, "" as _val_label
-	, COUNT(*) as _total 
+	${getOrder('single')}
+	s.key_input as _key,
+	s.val as _val,
+	"" as _val_label,
+	COUNT(*) as _total 
+
 	FROM single_input s
 	where 
 	(
@@ -279,7 +306,7 @@ const singleFilter = (currentCf, param, where) => {
 	AND s.val != "-- Please Select --"
 	AND s.entity = 'user'
 	AND ${where}
-	group by _order, _key, _val
+	group by ${getOrder("group_by")} _key, _val
 	`;
 
 	//group by s.key_input, s.val`;
@@ -309,7 +336,7 @@ function generateQuery(param, where) {
 		UNION ALL
 		${multiFilter(param, "looking_for_position", where)}
 	) 
-	X ORDER BY X._key, X._order asc, X._val_label asc, X._val asc, X._total desc`;
+	X ORDER BY X._key, ${getOrder('final_order')} X._val_label asc, X._val asc, X._total desc`;
 
 	// UNION ALL
 	// ${multiFilter("field_study", where) /** @limit_field_of_study_2_before_deploy - comment */}
