@@ -76,6 +76,7 @@ export class BrowseStudentList extends React.Component {
                 student_id
                 student{
                     ${this.props.isPageStudentListJobPost ? " interested_vacancies_by_company {ID title} " : ""}
+                    student_note{ID note}
                     student_listing_interested{ID is_interested}
                     field_study_main field_study_secondary
                     ${cfCustomFunnel({ action: 'get_attr_by_cf', cf: getCF() }).join(" ")}

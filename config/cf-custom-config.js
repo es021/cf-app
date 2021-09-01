@@ -22,18 +22,34 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
         return CustomConfig[key].type === "multi"
     }
 
-    if (action == "get_key_student_line2") {
+    if (action.indexOf("get_key_student_line") >= 0) {
         if (CustomStudentCardInfo[cf]) {
-            return CustomStudentCardInfo[cf].line2;
+            // key string
+            if (action == "get_key_student_line2") {
+                return CustomStudentCardInfo[cf].line2;
+            }
+            if (action == "get_key_student_line3") {
+                return CustomStudentCardInfo[cf].line3;
+            }
+            if (action == "get_key_student_line4") {
+                return CustomStudentCardInfo[cf].line4;
+            }
+            // render function
+            if (action == "get_key_student_line2Render") {
+                return CustomStudentCardInfo[cf].line2Render;
+            }
+            if (action == "get_key_student_line3Render") {
+                return CustomStudentCardInfo[cf].line3Render;
+            }
+            if (action == "get_key_student_line4Render") {
+                return CustomStudentCardInfo[cf].line4Render;
+            }
         }
-        return "";
-    }
-    if (action == "get_key_student_line3") {
-        if (CustomStudentCardInfo[cf]) {
-            return CustomStudentCardInfo[cf].line3;
+        else {
+            return "";
         }
-        return "";
     }
+
     if (action == "get_keys_for_filter") {
         let r = [];
         for (var k in CustomConfig) {

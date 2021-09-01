@@ -89,6 +89,7 @@ import AdminMisc from "../page/admin-misc";
 import ManageVacancy from "../page/manage-vacancy";
 import OrganizerDashboard from "../page/organizer-dashboard";
 import OrganizersPage from "../page/admin-organizer";
+import { AnnouncementManagement } from "../page/announcement";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -288,6 +289,17 @@ function getMenuItem(COMING_SOON) {
       label: "Interviews",
       icon: "comments",
       component: VolunteerScheduledInterview,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleOrganizer()
+    },
+    {
+      url: "/announcements",
+      label: "Announcements",
+      icon: "bullhorn",
+      component: AnnouncementManagement,
       bar_app: true,
       bar_auth: false,
       hd_app: false,

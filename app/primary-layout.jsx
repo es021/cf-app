@@ -76,13 +76,19 @@ class PrimaryLayout extends React.Component {
 
   componentDidMount() {
     // takleh panggil ni store action kat dalam componentWillMount
-    
+
     if (isRoleOrganizer() || isRoleAdmin()) {
       return;
     }
-    
+
     hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
     hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
+
+    // pooling every 5 minutes
+    setInterval(() => {
+      console.log("reload notification count")
+      hallAction.storeLoadActivity(hallAction.ActivityType.NOTIFICATION_COUNT);
+    }, 5 * 60 * 1000)
 
     socketOn(BOTH.CHAT_MESSAGE, (data) => {
       hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);

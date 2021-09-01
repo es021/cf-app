@@ -8,23 +8,54 @@ class NotificationExec {
     getQuery(params) {
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `${Notifications.ID} = ${params.ID}`;
         var user_id_where = (typeof params.user_id === "undefined") ? "1=1" : `${Notifications.USER_ID} = ${params.user_id}`;
-        var is_read_where = (typeof params.is_read === "undefined") ? "1=1" : `${Notifications.IS_READ} = '${params.is_read}'`;
+        var user_role_where = (typeof params.user_role === "undefined") ? "1=1" : `${Notifications.USER_ROLE} = '${params.user_role}'`;
         var cf_where = (typeof params.cf === "undefined") ? "1=1" : `${Notifications.CF} = '${params.cf}'`;
         var order_by = "ORDER BY " + ((typeof params.order_by === "undefined") ? `${Notifications.CREATED_AT} desc` : `${params.order_by}`);
         var limit = DB.prepareLimit(params.page, params.offset);
 
+        var is_read_where = "1=1"
+        if (typeof params.user_role !== "undefined" && typeof params.is_read !== "undefined") {
+            is_read_where = `n.ID 
+                ${params.is_read == 1 ? 'IN' : 'NOT IN'}
+                (
+                    SELECT nrr.notification_id 
+                    FROM notifications_read_receipt nrr 
+                    WHERE nrr.notification_id = n.ID 
+                    AND nrr.user_id = ${params.user_id}
+                )`
+        }
 
-        let sqlBody = ` from ${Notifications.TABLE} 
+
+        let sqlBody = ` from ${Notifications.TABLE} n
             where ${id_where} 
-            and ${user_id_where} 
+            and (
+                ${user_id_where}
+                OR
+                ${user_role_where}
+            ) 
             and ${cf_where} 
             and ${is_read_where} `;
 
-        if(params.ttl == "1"){
-            return `select count(*) as ttl ${sqlBody}`;
+        let q = "";
+
+        if (params.ttl == "1") {
+            q = `select count(*) as ttl ${sqlBody}`;
+        } else {
+            q = `select n.*
+            ${params.user_id ? `
+            , (
+                SELECT COUNT(nrr.ID) 
+                FROM notifications_read_receipt nrr 
+                WHERE nrr.notification_id = n.ID 
+                AND nrr.user_id = ${params.user_id}
+                ) as is_read` : ``
+                } 
+            ${sqlBody} ${order_by} ${limit}`;
+
         }
 
-        return `select * ${sqlBody} ${order_by} ${limit}`;
+        console.log("q", q);
+        return q;
     }
 
     notifications(params, field, extra = {}) {

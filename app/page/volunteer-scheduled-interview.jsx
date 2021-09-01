@@ -30,6 +30,7 @@ import {
 } from "./partial/popup/user-popup";
 import { createCompanyTitle } from "./admin-company";
 import { Loader } from "../component/loader";
+import { confirmUpdatePrescreen } from "./partial/hall-recruiter/hall-recruiter-interview";
 
 // included in my-activity for recruiter
 // add as form only in past session in my-activity
@@ -223,6 +224,10 @@ export default class VolunteerScheduledInterview extends React.Component {
           labelClass = "danger";
           labelText = "Ended";
           break;
+        case PrescreenEnum.STATUS_CANCEL:
+          labelClass = "default";
+          labelText = "Canceled";
+          break;
         case PrescreenEnum.STATUS_WAIT_CONFIRM:
           labelClass = "warning";
           labelText = "Pending";
@@ -253,14 +258,30 @@ export default class VolunteerScheduledInterview extends React.Component {
         <i>{d.student.university}</i>
       </td>;
       let companyInfo = <td>{createCompanyTitle(d.company)}</td>;
+      let interviewerInfo = <td>{d.recruiter ? `${d.recruiter.first_name} ${d.recruiter.last_name}` : `-`}</td>
       let timeInfo = <td>{Time.getString(d[Prescreen.APPNMENT_TIME])}</td>;
+      let actions = <td><btn className="btn btn-xs btn-default"
+        id={d.ID}
+        data-other_id={d.student.ID}
+        data-other_name={d.student.first_name}
+        onClick={e => {
+          confirmUpdatePrescreen(
+            e,
+            PrescreenEnum.STATUS_CANCEL
+          );
+        }}>
+        Cancel
+        </btn>
+      </td>
       return isRoleOrganizer()
         ? [
           <td>{d.ID}</td>,
           studentInfo,
           companyInfo,
+          interviewerInfo,
           timeInfo,
           <td>{status}</td>,
+          actions,
         ]
         : [
           <td>{d.ID}</td>,
@@ -268,6 +289,7 @@ export default class VolunteerScheduledInterview extends React.Component {
           <td>{d.cf.join(", ")}</td>,
           studentInfo,
           companyInfo,
+          interviewerInfo,
           <td>{status}</td>,
           timeInfo,
           <td>{onsite_call}</td>,
@@ -285,8 +307,10 @@ export default class VolunteerScheduledInterview extends React.Component {
             <th>Interview ID</th>
             <th>Student</th>
             <th>Company</th>
+            <th>Interviewer</th>
             <th>Appointment Time</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
       )
@@ -299,6 +323,7 @@ export default class VolunteerScheduledInterview extends React.Component {
             <th>Career Fair</th>
             <th>Student</th>
             <th>Company</th>
+            <th>Interviewer</th>
             <th>Status</th>
             <th>Appointment Time</th>
             <th>Is On-site Call?</th>
@@ -362,6 +387,7 @@ export default class VolunteerScheduledInterview extends React.Component {
                     company{ID name cf}
                     status
                     special_type
+                    recruiter{first_name last_name}
                     is_onsite_call
                     appointment_time
                     join_url

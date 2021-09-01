@@ -40,7 +40,8 @@ const {
   TagType,
   CfsType,
   RefGeneral,
-  HallLobbyType
+  HallLobbyType,
+  AnnouncementType
 } = require("./all-type.js");
 
 //import all action for type
@@ -208,6 +209,38 @@ fields["delete_video"] = {
   }
 };
 
+
+/* multi_  ******************/
+fields["add_announcement"] = {
+  type: AnnouncementType,
+  args: {
+    cf: __.StringNonNull,
+    title: __.StringNonNull,
+    body: __.String,
+    created_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert("announcements", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+// fields["edit_announcement"] = {
+//   type: AnnouncementType,
+//   args: {
+//     ID: __.IntNonNull,
+//     title: __.String,
+//     body: __.String,
+//     updated_by: __.IntNonNull
+//   },
+//   resolve(parentValue, arg, context, info) {
+//     return DB.update("announcement", arg).then(function (res) {
+//       return res;
+//     });
+//   }
+// };
+
 /* multi_  ******************/
 fields["add_interested"] = {
   type: InterestedType,
@@ -315,10 +348,12 @@ fields["add_notification"] = {
   args: {
     user_id: __.IntNonNull,
     type: __.StringNonNull,
-    param: __.String,
     cf: __.StringNonNull,
-    img_entity: __.StringNonNull,
-    img_id: __.IntNonNull
+    
+    user_role: __.String,
+    param: __.String,
+    img_entity: __.String,
+    img_id: __.Int
   },
   resolve(parentValue, arg, context, info) {
     return DB.insert(Notifications.TABLE, arg).then(function (res) {
@@ -331,13 +366,20 @@ fields["edit_notification"] = {
   type: NotificationType,
   args: {
     ID: __.IntNonNull,
+    user_id: __.IntNonNull,
     is_read: __.Int
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Notifications.TABLE, arg).then(function (res) {
-        return res;
-      });
+      if (arg.is_read == 1) {
+        return DB.insert("notifications_read_receipt", {
+          notification_id: arg.ID,
+          user_id: arg.user_id,
+        }).then(function (res) {
+          return DB.getByID(Notifications.TABLE, arg.ID);
+        });
+      }
+
     } catch (err) {
       return {};
     }
@@ -636,7 +678,7 @@ fields["add_zoom_invite"] = {
 fields["add_message"] = {
   type: MessageType,
   args: {
-    recruiter_id : __.Int,
+    recruiter_id: __.Int,
     sender_id: __.IntNonNull,
     receiver_id: __.IntNonNull,
     message: __.StringNonNull,

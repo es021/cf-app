@@ -137,11 +137,65 @@ export default class ManageUserProfile extends React.Component {
 
     return r[id];
   }
+  getUniversityItem(cf, local_or_oversea_study, country) {
+    return [
+      {
+        // single - university with suggestion
+        // (tie with country)
+        type: "single",
+        id: Reg.Single.university,
+        key_input: Reg.Single.university,
+        label: lang("What is your university?"),
+        input_placeholder: "Universiti Malaya",
+        ref_table_name: "university",
+        ref_filter_column: "country_id",
+        ref_filter_val: country,
+        ref_filter_find_id: true, // kena ubah kat ref-query
+        is_required: true,
+        hidden:
+          !RefLocalOrOversea.isEmpty(local_or_oversea_study) || isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+      },
+      {
+        // single - university select Malaysia only
+        // (tie with local_or_oversea_study)
+        type: "single",
+        input_type: "select",
+        id: Reg.Single.university,
+        key_input: Reg.Single.university,
+        label: lang("Which university you are studying/studied?"),
+        sublabel: lang("In Malaysia"),
+        ref_table_name: "university",
+        ref_filter_column: "country_id",
+        ref_filter_val: 1, // Malaysia
+        is_required: true,
+        hidden: !RefLocalOrOversea.isMalaysia(local_or_oversea_study) ||
+          isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+      },
+      {
+        // single - university free text without suggestion 
+        // (tie with local_or_oversea_study)
+        type: "single",
+        id: Reg.Single.university,
+        key_input: Reg.Single.university,
+        label: lang("Which university you are studying/studied?"),
+        sublabel: lang("Oversea"),
+        input_placeholder: "",
+        ref_table_name: "university",
+        is_required: true,
+        hidden: !RefLocalOrOversea.isOversea(local_or_oversea_study)
+          || isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
+      },
+    ];
+
+  }
   // 2. @custom_user_info_by_cf
   getInputItems() {
     let field_study = this.getFieldStudyListStr();
     let country = this.state.currentData[Reg.Single.country_study];
     let local_or_oversea_study = this.state.currentData[Reg.Single.local_or_oversea_study];
+
+    console.log("local_or_oversea_study", local_or_oversea_study);
+
     let currentData = JSON.parse(JSON.stringify(this.state.currentData));
     let cf = getCF();
     let r = [];
@@ -274,52 +328,7 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.country_study)
         },
-        {
-          // single - university select Malaysia only
-          // (tie with local_or_oversea_study)
-          type: "single",
-          input_type: "select",
-          id: Reg.Single.university,
-          key_input: Reg.Single.university,
-          label: lang("Which university you are studying/studied?"),
-          sublabel: lang("In Malaysia"),
-          ref_table_name: "university",
-          ref_filter_column: "country_id",
-          ref_filter_val: 1, // Malaysia
-          is_required: true,
-          hidden: !RefLocalOrOversea.isMalaysia(local_or_oversea_study) ||
-            isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
-        },
-        {
-          // single - university free text without suggestion 
-          // (tie with local_or_oversea_study)
-          type: "single",
-          id: Reg.Single.university,
-          key_input: Reg.Single.university,
-          label: lang("Which university you are studying/studied?"),
-          sublabel: lang("Oversea"),
-          input_placeholder: "",
-          ref_table_name: "university",
-          is_required: true,
-          hidden: !RefLocalOrOversea.isOversea(local_or_oversea_study)
-            || isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
-        },
-        {
-          // single - university with suggestion
-          // (tie with country)
-          type: "single",
-          id: Reg.Single.university,
-          key_input: Reg.Single.university,
-          label: lang("What is your university?"),
-          input_placeholder: "Universiti Malaya",
-          ref_table_name: "university",
-          ref_filter_column: "country_id",
-          ref_filter_val: country,
-          ref_filter_find_id: true, // kena ubah kat ref-query
-          is_required: true,
-          hidden: !RefLocalOrOversea.isEmpty(local_or_oversea_study) ||
-            isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.university)
-        },
+        ...this.getUniversityItem(cf, local_or_oversea_study, country),
         ...cfCustomFunnel({ action: 'get_form_item', cf: cf, isRoleRec: isRoleRec, data: currentData }),
         {
           // single
@@ -719,7 +728,9 @@ export default class ManageUserProfile extends React.Component {
     smoothScrollTo(idToGo, this.SCROLL_OFFSET);
   }
   inputDoneHandler(id, meta) {
-    // console.log("inputDoneHandler", id, meta);
+    console.log("inputDoneHandler", id, meta);
+    console.log("inputDoneHandler", id, meta);
+    console.log("inputDoneHandler", id, meta);
 
     let data = null;
     let isEmptyAndRequired = false;

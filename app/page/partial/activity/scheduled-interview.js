@@ -32,6 +32,7 @@ import {
 import { lang } from "../../../lib/lang";
 import notificationConfig from "../../../../config/notification-config";
 import { addNotification } from "../../notifications";
+import obj2arg from 'graphql-obj2arg';
 
 export const getCfEndUnix = function () {
   let cfObj = getCFObj();
@@ -489,7 +490,9 @@ export class ScheduledInterview extends React.Component {
     //##########################################
     // form operation properties
     // hook before submit
-    this.formWillSubmit = (d, edit) => {
+    this.formWillSubmit = async (d, edit) => {
+
+
       if (d.status == PrescreenEnum.STATUS_PENDING) {
         if (
           d[Prescreen.APPNMENT_TIME + "_DATE"] ||
@@ -553,7 +556,27 @@ export class ScheduledInterview extends React.Component {
       delete d[Prescreen.APPNMENT_TIME + "_DATE"];
       delete d[Prescreen.APPNMENT_TIME + "_TIME"];
 
-      return d;
+      // check if already exist
+      let checkParam = {
+        student_id: d[Prescreen.STUDENT_ID],
+        company_id: d[Prescreen.COMPANY_ID],
+        appointment_time: d[Prescreen.APPNMENT_TIME],
+      }
+      return getAxiosGraphQLQuery(`
+      query{prescreens(${obj2arg(checkParam, { noOuterBraces: true })})
+        {ID}
+      }`
+      ).then(res => {
+        try {
+          if (res.data.data.prescreens[0].ID) {
+            return lang("This candidate already had another interview scheduled on the selected time. Please select a different time");
+          }
+        } catch (err) { }
+        
+        return d;
+      });
+
+
     };
 
     // date time need to be forced diff

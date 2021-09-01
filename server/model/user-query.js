@@ -621,6 +621,9 @@ class UserExec {
 			InterestedExec
 		} = require("./interested-query.js");
 		const {
+			UserNoteExec
+		} = require("./user-note-query.js");
+		const {
 			VacancyExec
 		} = require("./vacancy-query");
 		// const {
@@ -704,6 +707,16 @@ class UserExec {
 						entity_id: user_id
 					},
 						field["student_listing_interested"]
+					);
+				}
+
+				// student_note ****************************************************
+				if (typeof field["student_note"] !== "undefined") {
+					res[i]["student_note"] = UserNoteExec.single({
+						user_id: user_id,
+						company_id: params.company_id,
+					},
+						field["student_note"]
 					);
 				}
 
@@ -901,7 +914,7 @@ class UserExec {
 						discard_removed: true,
 						discard_removed_user_id: user_id
 					};
-					
+
 					if (role === UserEnum.ROLE_STUDENT) {
 						par["student_id"] = user_id;
 						par["order_by"] = `${Prescreen.STATUS} asc, ${Prescreen.APPNMENT_TIME} asc`

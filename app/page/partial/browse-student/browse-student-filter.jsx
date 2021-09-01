@@ -635,12 +635,12 @@ export class BrowseStudentFilter extends React.Component {
         return toRet
     }
     getTotal(k, f) {
-        return "";
+        // return "";
 
-        // if (k == "cf") {
-        //     return "";
-        // }
-        // return f.total ? `(${f.total})` : ""
+        if (k == "cf") {
+            return "";
+        }
+        return f.total ? `(${f.total})` : ""
     }
     filterCheckbox(k, keyFilter) {
         let isStateShowMore = this.state[k + "show_more"] === true;

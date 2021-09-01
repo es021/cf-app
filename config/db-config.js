@@ -531,7 +531,7 @@ const RefLocalOrOversea = {
 		return val == "In Malaysia"
 	},
 	isOversea: function (val) {
-		return val == "Oversea"
+		return val == "Overseas"
 	},
 	isEmpty: function (val) {
 		return !val;
@@ -642,6 +642,7 @@ const Notifications = {
 	TABLE: "notifications",
 	ID: "ID",
 	USER_ID: "user_id",
+	USER_ROLE: "user_role",
 	CF: "cf",
 	TYPE: "type",
 	IS_READ: "is_read",
@@ -654,11 +655,12 @@ const NotificationsEnum = {
 	TYPE_CREATE_PRIVATE_SESSION: "CREATE_PRIVATE_SESSION",
 	TYPE_STATUS_SESSION_UPDATE: "STATUS_SESSION_UPDATE",
 
+	TYPE_ANNOUNCEMENT_ORGANIZER: "ANNOUNCEMENT_ORGANIZER",
 	TYPE_REMIND_PRIVATE_SESSION: "REMIND_PRIVATE_SESSION",
 	TYPE_REMIND_GROUP_SESSION: "REMIND_GROUP_SESSION",
-	
+
 	IMG_ENTITY_USER: "user",
-	IMG_ENTITY_COMPANY: "company"
+	IMG_ENTITY_COMPANY: "company",
 };
 
 
@@ -715,7 +717,7 @@ const CFSMeta = {
 	FEATURE_STUDENT_LIST_IV_ONLY: "feature_student_list_iv_only",
 
 	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome", // just the container in home
-	FEATURE_EVENT  : "feature_event", // effect the specific event container in home and company profile
+	FEATURE_EVENT: "feature_event", // effect the specific event container in home and company profile
 
 	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
@@ -746,8 +748,8 @@ const CFSMeta = {
 	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer", // sign-up.jsx
 	TEXT_SALUTATION_RECRUITER: "text_salutation_recruiter", // hall-recruiter.jsx
 
-	TEXT_MY_INTERVIEW : "text_my_interview",
-	TEXT_EVENT_WEBINAR : "text_event_webinar",
+	TEXT_MY_INTERVIEW: "text_my_interview",
+	TEXT_EVENT_WEBINAR: "text_event_webinar",
 
 	LINK_EXTERNAL_FOLLOW: "link_external_follow",
 	LINK_EXTERNAL_FEEDBACK_STUDENT: "link_external_feedback_student",

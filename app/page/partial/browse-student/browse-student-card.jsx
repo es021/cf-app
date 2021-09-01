@@ -332,6 +332,23 @@ export class BrowseStudentCard extends React.Component {
             {lang(getCfCustomMeta(CFSMeta.TEXT_SCHEDULE_CALL, `Schedule Call`))}
         </button>
 
+        let actionAddNote = null
+        // let actionAddNote = <button
+        //     onClick={() => {
+        //         alert("open add note view");
+        //     }}
+        //     className={`btn btn-round-5 
+        //     btn-block btn-sm btn-warning 
+        //     text-bold ${d.student.student_note ? 'btn-warning' : 'btn-default'}`}>
+        //     <i className="fa fa-sticky-note left" />
+        //     {
+        //         d.student.student_note
+        //             ? lang(`View Note`)
+        //             : lang(`Add Note`)
+        //     }
+        // </button>
+
+
         // like button
         let actionShortlist = !this.props.isRec ? null : (
             <InterestedButton
@@ -368,7 +385,7 @@ export class BrowseStudentCard extends React.Component {
                 postOnClick={this.triggerIsSeen}
                 isBottom={true}
                 customUserId={this.props.company_id}
-               
+
                 isModeCount={false}
                 isModeAction={true}
                 isNonClickable={isRoleAdmin()}
@@ -407,12 +424,25 @@ export class BrowseStudentCard extends React.Component {
 
         let viewLine2 = null;
         let viewLine3 = null;
+        let viewLine4 = null;
+
         let customKeyLine2 = cfCustomFunnel({ action: "get_key_student_line2", cf: getCF() })
         let customKeyLine3 = cfCustomFunnel({ action: "get_key_student_line3", cf: getCF() })
+        let customKeyLine4 = cfCustomFunnel({ action: "get_key_student_line4", cf: getCF() })
+
+        let customRenderLine2 = cfCustomFunnel({ action: "get_key_student_line2Render", cf: getCF() })
+        let customRenderLine3 = cfCustomFunnel({ action: "get_key_student_line3Render", cf: getCF() })
+        let customRenderLine4 = cfCustomFunnel({ action: "get_key_student_line4Render", cf: getCF() })
+
         if (customKeyLine2) {
             customKeyLine2 = customKeyLine2(d.student);
-            if (d.student[customKeyLine2]) {
-                viewLine2 = <div><b>{d.student[customKeyLine2]}</b></div>
+            let v = d.student[customKeyLine2];
+            if (v) {
+                if (customRenderLine2) {
+                    viewLine2 = <div dangerouslySetInnerHTML={{ __html: customRenderLine2(v) }}></div>
+                } else {
+                    viewLine2 = <div><b>{v}</b></div>
+                }
             }
         } else {
             viewLine2 = <div>
@@ -422,11 +452,28 @@ export class BrowseStudentCard extends React.Component {
         }
         if (customKeyLine3) {
             customKeyLine3 = customKeyLine3(d.student);
-            if (d.student[customKeyLine3]) {
-                viewLine3 = <div className="text-muted"><i>{d.student[customKeyLine3]}</i></div>
+            let v = d.student[customKeyLine3];
+            if (v) {
+                if (customRenderLine3) {
+                    viewLine3 = <div dangerouslySetInnerHTML={{ __html: customRenderLine3(v) }}></div>
+                } else {
+                    viewLine3 = <div className="text-muted"><i>{v}</i></div>
+                }
             }
         } else {
             viewLine3 = fieldStudyView
+        }
+
+        if (customKeyLine4) {
+            customKeyLine4 = customKeyLine4(d.student);
+            let v = d.student[customKeyLine4];
+            if (v) {
+                if (customRenderLine4) {
+                    viewLine4 = <div dangerouslySetInnerHTML={{ __html: customRenderLine4(v) }}></div>
+                } else {
+                    viewLine4 = <div className="text-muted"><i>{v}</i></div>
+                }
+            }
         }
 
         let body = <div className="container-fluid">
@@ -438,11 +485,13 @@ export class BrowseStudentCard extends React.Component {
                     {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
                     {viewLine2}
                     {viewLine3}
+                    {viewLine4}
                 </div>
                 {this.props.isRec ?
                     <div className="col-md-3 center-on-md-and-less">
                         <div className="break-10-on-md-and-less"></div>
                         {actionSchedule}
+                        {actionAddNote}
                         {actionShortlist}
                         <div className="break-10-on-md-and-less"></div>
                     </div>

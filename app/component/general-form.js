@@ -72,7 +72,7 @@ class GeneralForm extends React.Component {
     this.formItem = this.props.formItem;
   }
 
-  formOnSubmit(d) {
+  async formOnSubmit(d) {
     toggleSubmit(this, { error: null });
 
     // empty field become null
@@ -109,12 +109,15 @@ class GeneralForm extends React.Component {
     // hook before submit to alter the data one last time
     if (this.props.formWillSubmit) {
       d = this.props.formWillSubmit(d, this.props.edit);
-
+      if (d.then) {
+        d = await d;
+      }
       //if error will return string
       if (typeof d === "string") {
         toggleSubmit(this, { error: d });
         return;
       }
+
     }
 
     var queryKey = `${this.props.edit ? "edit" : "add"}_${this.props.entity}`;
@@ -208,7 +211,9 @@ export default class GeneralFormPage extends React.Component {
   }
 
   onSuccessOperation(action, data = null, res = null) {
-
+    console.log("onSuccessOperation", data);
+    console.log("onSuccessOperation", data);
+    console.log("onSuccessOperation", data);
     // @form - successAddHandler
     if (action == "add" && this.props.successAddHandler) {
       this.props.successAddHandler(data, res);

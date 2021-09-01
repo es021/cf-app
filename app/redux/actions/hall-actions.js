@@ -54,12 +54,20 @@ function getIndependentQuery(oriQuery, types) {
     var user_id = getAuthUser().ID;
     var query = oriQuery;
     // untuk yang independent query
+    // TODO-notification
     if (types.length == 1 && types[0] == ActivityType.NOTIFICATION_COUNT) {
         if (typeof user_id !== "undefined") {
-            query = `query{
-              notifications(user_id : ${user_id}, cf:"${getCF()}", is_read:0, ttl:true){
-               ttl
-              }
+            query = `
+            query{
+                notifications(
+                    user_id : ${user_id}, 
+                    user_role : "${getAuthUser().role}"
+                    cf:"${getCF()}", 
+                    ${isRoleStudent() ? `` : ``}
+                    is_read:0, 
+                    ttl:true
+                )
+                {ttl}
             }`;
             console.log("query",query);
             // console.log("query",query);

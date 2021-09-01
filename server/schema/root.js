@@ -45,7 +45,8 @@ const {
 	CountType,
 	VideoType,
 	ZoomMeetingType,
-	TagType
+	TagType,
+	AnnouncementType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -180,6 +181,7 @@ const {
 	GraphQLNonNull
 } = require("graphql");
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
+const { AnnouncementExec } = require("../model/announcement-query.js");
 
 __.String;
 //------------------------------------------------------------------------------
@@ -429,6 +431,7 @@ fields["notifications"] = {
 	args: {
 		ID: __.Int,
 		user_id: __.Int,
+		user_role: __.String,
 		is_read: __.Int,
 		cf: __.String,
 		order_by: __.String,
@@ -438,6 +441,33 @@ fields["notifications"] = {
 	},
 	resolve(parentValue, arg, context, info) {
 		return NotificationExec.notifications(arg, graphqlFields(info));
+	}
+};
+
+/*******************************************/
+/* announcement ******************/
+fields["announcement"] = {
+	type: AnnouncementType,
+	args: {
+		ID: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return AnnouncementExec.announcements(arg, graphqlFields(info), { single: true });
+	}
+};
+
+fields["announcements"] = {
+	type: new GraphQLList(AnnouncementType),
+	args: {
+		ID: __.Int,
+		cf: __.String,
+		order_by: __.String,
+		page: __.Int,
+		offset: __.Int,
+		ttl: __.Boolean
+	},
+	resolve(parentValue, arg, context, info) {
+		return AnnouncementExec.announcements(arg, graphqlFields(info));
 	}
 };
 
@@ -550,7 +580,7 @@ let argBrowseStudent = {
 
 	// favourited_only_recruiter_id: __.String,
 	favourited_only: __.String,
-	
+
 	like_job_post_only: __.String,
 	drop_resume_only: __.String,
 	with_attachment_only: __.String,
@@ -1243,6 +1273,7 @@ var prescreenParam = {
 	company_id: __.Int,
 	student_id: __.Int,
 	recruiter_id: __.Int,
+	appointment_time : __.Int,
 
 	// New SI Flow - used in user-query (to get more than one type)
 	status: __.String,

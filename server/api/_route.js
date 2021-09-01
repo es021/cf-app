@@ -20,12 +20,26 @@ const initializeAllRoute = function (app, root) {
     }
   };
 
-  // Route For Daily Co -------------------------------------------------------------------
+  // -------------------------------------------------------------------
   const { AdminAPI } = require("./admin-api");
   app.post(root + "/admin/:action", function (req, res, next) {
     var action = req.params.action;
     var param = req.body;
     AdminAPI.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
+
+  // -------------------------------------------------------------------
+  const { OrganizerAPI } = require("./organizer-api");
+  app.post(root + "/organizer/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    OrganizerAPI.Main(action, param)
       .then(response => {
         routeResHandler(res, response);
       })

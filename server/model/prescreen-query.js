@@ -28,6 +28,9 @@ class PrescreenQuery {
         var recruiter_where = (typeof params.recruiter_id === "undefined") ? "1=1" :
             `recruiter_id = ${params.recruiter_id}`;
 
+        var appointment_time_where = (typeof params.appointment_time === "undefined") ? "1=1" :
+            `appointment_time = ${params.appointment_time}`;
+
         var is_onsite_call_where = (typeof params.is_onsite_call === "undefined") ? "1=1" :
             `is_onsite_call = ${params.is_onsite_call}`;
 
@@ -86,8 +89,12 @@ class PrescreenQuery {
         var sql = `from pre_screens ps where ${id_where} 
             and ${student_where} 
             and ${recruiter_where} 
-            and ${status_where} and ${com_where} 
-            and ${search_user} and ${search_uni} and ${st_where}
+            and ${appointment_time_where} 
+            and ${status_where} 
+            and ${com_where} 
+            and ${search_user} 
+            and ${search_uni} 
+            and ${st_where}
             and ${not_ps_where} 
             AND ${removed_where}
             AND ${cf_where}

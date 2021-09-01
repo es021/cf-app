@@ -25,6 +25,7 @@ export function addNotification({
 	user_id,
 	param,
 	type,
+	user_role,
 	img_entity,
 	img_id,
 	successHandler
@@ -44,9 +45,17 @@ export function addNotification({
 		cf: getCF(),
 		param: JSON.stringify(param),
 		type: type,
-		img_entity,
-		img_id
 	};
+
+	if (img_entity) {
+		p["img_entity"] = img_entity;
+	}
+	if (img_id) {
+		p["img_id"] = img_id;
+	}
+	if (user_role) {
+		p["user_role"] = user_role;
+	}
 
 	var query = `mutation{
 	  add_notification(${obj2arg(p, { noOuterBraces: true })}){
@@ -55,8 +64,12 @@ export function addNotification({
 	}`;
 
 	getAxiosGraphQLQuery(query).then(res => {
-		successHandler(res.data.data.add_notification);
-		emitHallActivity(hallAction.ActivityType.NOTIFICATION_COUNT, user_id, null);
+		if (successHandler) {
+			successHandler(res.data.data.add_notification);
+		}
+		if (user_id) {
+			emitHallActivity(hallAction.ActivityType.NOTIFICATION_COUNT, user_id, null);
+		}
 	});
 }
 

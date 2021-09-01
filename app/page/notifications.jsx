@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import List from "../component/list";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
-import { getAuthUser, getCF } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF, getCFObj } from "../redux/actions/auth-actions";
 import * as layoutAction from "../redux/actions/layout-actions";
-import { createImageElement, PCType } from "../component/profile-card.jsx";
-import { NotificationsEnum, Prescreen, PrescreenEnum } from "../../config/db-config";
+import ProfileCard, { createImageElement, PCType } from "../component/profile-card.jsx";
+import { NotificationsEnum, Prescreen, PrescreenEnum, CFSMeta } from "../../config/db-config";
 import * as hallAction from "../redux/actions/hall-actions";
 import { ActivitySingle } from "./partial/notifications/activity-single";
+import { ImgConfig, AssetCustomUrl } from "../../config/app-config";
+import { AnnouncementSingle } from "./partial/notifications/announcement-single";
 
 // import { emitHallActivity } from "../socket/socket-client";
 // import PropTypes from "prop-types";
@@ -31,6 +33,7 @@ export class NotificationFeed extends React.Component {
 
     this.COLOR_RED = "#ff5454";
     this.COLOR_BLUE = "rgb(0, 152, 225)";
+    this.COLOR_PURPLE = "rgb(230 91 255)";
     this.COLOR_GREEN = "rgb(47 201 47)";
     this.COLOR_BLACK = "rgb(17, 6, 26)";
 
@@ -66,8 +69,10 @@ export class NotificationFeed extends React.Component {
   // ##############################################################
   // function for list
   loadData(page, offset) {
+    // TODO-notification
     var query = `query{
             notifications(user_id:${this.authUser.ID}, 
+            user_role:"${getAuthUser().role}"
             cf:"${this.cf}", 
             page:${page}, offset:${offset}){
             ID is_read type param created_at img_obj{img_pos img_url img_size} }}`;
@@ -108,7 +113,7 @@ export class NotificationFeed extends React.Component {
       return;
     }
     var query = `mutation{
-      edit_notification(ID:${id}, is_read:1)
+      edit_notification(ID:${id}, user_id:${getAuthUser().ID}, is_read:1)
       { ID is_read }
     }`;
     getAxiosGraphQLQuery(query).then(res => {
@@ -142,6 +147,12 @@ export class NotificationFeed extends React.Component {
           type: hallAction.ActivityType.PRESCREEN
         });
       }
+    } else if (d.type == NotificationsEnum.TYPE_ANNOUNCEMENT_ORGANIZER) {
+      let announcementId = param["announcement_id"];
+      // todo - follow vacancy
+      layoutAction.storeUpdateFocusCard("Announcement", AnnouncementSingle, {
+        id: announcementId,
+      });
     }
     // switch (d.type) {
     //   case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
@@ -175,6 +186,11 @@ export class NotificationFeed extends React.Component {
               param["unix_time"]
             )}</u> (your local time)`
           }
+        }
+        break;
+      case NotificationsEnum.TYPE_ANNOUNCEMENT_ORGANIZER:
+        if (param !== null) {
+          toRet += `<b>Announcement</b> - ${param["title"]}`;
         }
         break;
     }
@@ -217,19 +233,47 @@ export class NotificationFeed extends React.Component {
 
     var isNew = d.is_read != "1";
 
-    let img = createImageElement(
-      d.img_obj.img_url,
-      d.img_obj.img_pos,
-      d.img_obj.img_size,
-      "50px",
-      "",
-      PCType.COMPANY
-    );
+    let img = null;
+    if (d.type == NotificationsEnum.TYPE_ANNOUNCEMENT_ORGANIZER) {
+      let img_url;
+      let cfObj = getCFObj();
+      if (cfObj[CFSMeta.IMAGE_HEADER_ICON]) {
+        img_url = AssetCustomUrl + cfObj[CFSMeta.IMAGE_HEADER_ICON]
+      } else {
+        img_url = ImgConfig.AppIcon;
+      }
+      img = <div className="profile-card">
+        <div
+          className="pc-picture"
+          style={{
+            backgroundImage: `url("${img_url}")`,
+            backgroundSize: `contain`,
+            backgroundPosition: `center`,
+            height: `50px`,
+            width: `50px`,
+          }}
+        />
+      </div>;
+
+    } else {
+      img = createImageElement(
+        d.img_obj.img_url,
+        d.img_obj.img_pos,
+        d.img_obj.img_size,
+        "50px",
+        "",
+        PCType.COMPANY
+      );
+    }
 
     let icon = "";
     let iconColor = "";
 
     switch (d.type) {
+      case NotificationsEnum.TYPE_ANNOUNCEMENT_ORGANIZER:
+        icon = "bullhorn";
+        iconColor = this.COLOR_PURPLE;
+        break;
       case NotificationsEnum.TYPE_CREATE_PRIVATE_SESSION:
         icon = "video-camera";
         iconColor = this.COLOR_GREEN;

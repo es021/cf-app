@@ -1,3 +1,57 @@
+ALTER TABLE `notifications` ADD `user_role` VARCHAR(50) 
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL 
+AFTER `user_id`, ADD INDEX (`user_role`);
+
+CREATE TABLE `wp_career_fair`.`notifications_read_receipt` 
+( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`notification_id` BIGINT(20) NOT NULL , `user_id` BIGINT(20) NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+PRIMARY KEY (`ID`), 
+INDEX (`notification_id`), INDEX (`user_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `notifications` DROP `is_read`;
+
+ALTER TABLE `notifications` CHANGE `img_entity` `img_entity` 
+VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL;
+
+ALTER TABLE `notifications` CHANGE `img_id` `img_id` BIGINT(20) NULL;
+
+
+CREATE TABLE `wp_career_fair`.`announcements` 
+( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`cf` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`title` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`body` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`created_by` BIGINT(20) NOT NULL , 
+PRIMARY KEY (`ID`), 
+INDEX (`cf`), 
+INDEX (`created_by`)
+) ENGINE = InnoDB;
+
+
+CREATE TABLE `wp_career_fair`.`user_note` 
+( `ID` BIGINT(20) NOT NULL AUTO_INCREMENT , 
+`user_id` BIGINT(20) NOT NULL , 
+`company_id` BIGINT(20) NOT NULL , 
+`note` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL ,
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP 
+NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`created_by` BIGINT(20) NOT NULL , 
+`updated_by` BIGINT(20) NULL , 
+PRIMARY KEY (`ID`), INDEX (`user_id`), 
+INDEX (`company_id`), INDEX (`created_by`), 
+INDEX (`updated_by`)) ENGINE = InnoDB;
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
 
 -- drop column text at table notifications
 
@@ -7,9 +61,6 @@ TWILIO_NO: "",
 TWILIO_SID : "",
 TWILIO_TOKEN : "",
 
--- ##############################################################
--- ##############################################################
-
 ALTER TABLE `interested` ADD `recruiter_id` BIGINT(20) UNSIGNED NULL AFTER `updated_at`;
 ALTER TABLE `wp_career_fair`.`interested` ADD INDEX (`recruiter_id`);
 ALTER TABLE `wp_career_fair`.`interested` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`, `entity`, `entity_id`, `recruiter_id`) USING BTREE;
@@ -17,10 +68,6 @@ ALTER TABLE `wp_career_fair`.`interested` DROP INDEX `user_id`, ADD UNIQUE `user
 a.split("\n").map((d)=>{
   return `INSERT INTO ref_job_category (val) VALUES ('${d.trim()}');`
 }).join("\n");
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 ALTER TABLE `messages` ADD `created_by` BIGINT(20) UNSIGNED NULL AFTER `created_at`, 
 ADD INDEX (`created_by`);

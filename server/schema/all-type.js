@@ -235,7 +235,7 @@ const UserType = new GraphQLObjectType({
 
 			video_resume: __.IsType(VideoType),
 			student_listing_interested: __.IsType(InterestedType),
-
+			student_note: __.IsType(UserNoteType),
 
 			// rec only
 			rec_company: __.Int,
@@ -700,6 +700,19 @@ const InterestedType = new GraphQLObjectType({
 	})
 });
 
+const UserNoteType = new GraphQLObjectType({
+	name: "UserNote",
+	fields: () => ({
+		ID: __.Int,
+		company_id: __.Int,
+		note : __.String,
+		created_at: __.String,
+		updated_at: __.String,
+		created_by: __.Int,
+		updated_by: __.Int,
+	})
+});
+
 const TagType = new GraphQLObjectType({
 	name: "Tag",
 	fields: () => ({
@@ -1039,9 +1052,23 @@ const ZoomMeetingType = new GraphQLObjectType({
 });
 
 
+const AnnouncementType = new GraphQLObjectType({
+	name: "Announcement",
+	fields: () => ({
+		ttl: __.Int,
+		ID: __.Int,
+		cf: __.String,
+		title: __.String,
+		body: __.String,
+		created_by: __.Int,
+		created_at: __.String,
+		creator: __.IsType(UserType)
+	})
+});
 
 
 module.exports = {
+	AnnouncementType,
 	DistinctType,
 	FilterType,
 	BrowseStudentType,

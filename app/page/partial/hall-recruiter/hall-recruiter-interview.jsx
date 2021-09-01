@@ -59,6 +59,110 @@ import { animateHide } from "../../view-helper/view-helper";
 import { _student_single } from "../../../redux/actions/text-action";
 import { lang } from "../../../lib/lang";
 
+export function confirmUpdatePrescreen(e, status) {
+  var other_name = e.currentTarget.dataset.other_name;
+  var id = e.currentTarget.id;
+  var user_id = getAuthUser().ID;
+
+  const confirmUpdate = () => {
+    updatePrescreen(id, user_id, status);
+  };
+
+  // create confirm message
+  var mes = "";
+  if (status === PrescreenEnum.STATUS_ENDED) {
+    mes += lang("Ending");
+  }
+  if (status === PrescreenEnum.STATUS_APPROVED) {
+    mes += lang("Approving");
+  }
+  if (status === PrescreenEnum.STATUS_REJECTED) {
+    mes += lang("Rejecting");
+  }
+  if (status === PrescreenEnum.STATUS_CANCEL) {
+    mes += lang("Canceling");
+  }
+
+  mes += ` ${lang("Scheduled Call with")} ${other_name} ?`;
+  layoutActions.confirmBlockLoader(mes, confirmUpdate);
+}
+
+export function updatePrescreen(id, user_id, status) {
+  layoutActions.loadingBlockLoader("Updating Scheduled Call Status..");
+
+  if (typeof id === "string") {
+    id = Number.parseInt(id);
+  }
+  if (typeof user_id === "string") {
+    user_id = Number.parseInt(user_id);
+  }
+
+  let upd = {};
+  upd[Prescreen.ID] = id;
+  upd[Prescreen.UPDATED_BY] = user_id;
+  upd[Prescreen.STATUS] = status;
+
+  let query = `mutation{edit_prescreen(${obj2arg(upd, {
+    noOuterBraces: true
+  })}) {ID student_id company_id}}`;
+
+  getAxiosGraphQLQuery(query).then(
+    data => {
+      let res = data.data.data.edit_prescreen;
+      var toRefresh = [hallAction.ActivityType.PRESCREEN];
+      hallAction.storeLoadActivity(toRefresh);
+      layoutActions.storeHideBlockLoader();
+
+      var sid = isRoleStudent() ? null : res.student_id;
+      var cid = isRoleRec() ? null : res.company_id;
+      emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, cid);
+
+      // @noti
+      triggerNotificationStatusUpdate({
+        company_id: res.company_id,
+        student_id: res.student_id,
+        ps_id: id,
+        status: status
+      });
+
+    },
+    err => {
+      layoutActions.errorBlockLoader(err);
+    }
+  );
+}
+
+export function triggerNotificationStatusUpdate({ company_id, student_id, ps_id, status, unix_time }) {
+
+  // console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  // console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  // console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  // console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+
+  getAxiosGraphQLQuery(`query{company(ID:${company_id}) {name} }`).then(resCompany => {
+    let companyName = resCompany.data.data["company"]["name"];
+
+    let param = {
+      company_id: company_id,
+      company_name: companyName,
+      ps_id: ps_id,
+      status: status,
+    };
+    if (unix_time) {
+      param.unix_time = unix_time;
+    }
+
+    NotificationHelper.addNotification({
+      user_id: student_id,
+      param: param,
+      type: NotificationsEnum.TYPE_STATUS_SESSION_UPDATE,
+      img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
+      img_id: company_id
+    });
+  })
+}
+
+
 // require("../../../css/border-card.scss");
 export function getTimeStrNew(d) {
   let unixtime = d.appointment_time;
@@ -116,10 +220,10 @@ export function getTimeStrNew(d) {
 class InterviewList extends React.Component {
   constructor(props) {
     super(props);
-    this.updatePrescreen = this.updatePrescreen.bind(this);
-    this.confirmUpdatePrescreen = this.confirmUpdatePrescreen.bind(
-      this
-    );
+    // this.updatePrescreen = this.updatePrescreen.bind(this);
+    // this.confirmUpdatePrescreen = this.confirmUpdatePrescreen.bind(
+    //   this
+    // );
     this.LIMIT_SHOW_LESS = this.props.limitShowLess;
     this.authUser = getAuthUser();
     this.state = {
@@ -202,7 +306,7 @@ class InterviewList extends React.Component {
       bindedSuccessHandler: (id, res) => {
         hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
 
-        this.triggerNotificationStatusUpdate({
+        triggerNotificationStatusUpdate({
           company_id: res.company_id,
           student_id: res.student_id,
           ps_id: id,
@@ -215,108 +319,108 @@ class InterviewList extends React.Component {
 
 
 
-  updatePrescreen(id, user_id, status) {
-    layoutActions.loadingBlockLoader("Updating Scheduled Call Status..");
+  // updatePrescreen(id, user_id, status) {
+  //   layoutActions.loadingBlockLoader("Updating Scheduled Call Status..");
 
-    if (typeof id === "string") {
-      id = Number.parseInt(id);
-    }
-    if (typeof user_id === "string") {
-      user_id = Number.parseInt(user_id);
-    }
+  //   if (typeof id === "string") {
+  //     id = Number.parseInt(id);
+  //   }
+  //   if (typeof user_id === "string") {
+  //     user_id = Number.parseInt(user_id);
+  //   }
 
-    let upd = {};
-    upd[Prescreen.ID] = id;
-    upd[Prescreen.UPDATED_BY] = user_id;
-    upd[Prescreen.STATUS] = status;
+  //   let upd = {};
+  //   upd[Prescreen.ID] = id;
+  //   upd[Prescreen.UPDATED_BY] = user_id;
+  //   upd[Prescreen.STATUS] = status;
 
-    let query = `mutation{edit_prescreen(${obj2arg(upd, {
-      noOuterBraces: true
-    })}) {ID student_id company_id}}`;
+  //   let query = `mutation{edit_prescreen(${obj2arg(upd, {
+  //     noOuterBraces: true
+  //   })}) {ID student_id company_id}}`;
 
-    getAxiosGraphQLQuery(query).then(
-      data => {
-        let res = data.data.data.edit_prescreen;
-        var toRefresh = [hallAction.ActivityType.PRESCREEN];
-        hallAction.storeLoadActivity(toRefresh);
-        layoutActions.storeHideBlockLoader();
+  //   getAxiosGraphQLQuery(query).then(
+  //     data => {
+  //       let res = data.data.data.edit_prescreen;
+  //       var toRefresh = [hallAction.ActivityType.PRESCREEN];
+  //       hallAction.storeLoadActivity(toRefresh);
+  //       layoutActions.storeHideBlockLoader();
 
-        var sid = isRoleStudent() ? null : res.student_id;
-        var cid = isRoleRec() ? null : res.company_id;
-        emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, cid);
+  //       var sid = isRoleStudent() ? null : res.student_id;
+  //       var cid = isRoleRec() ? null : res.company_id;
+  //       emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, cid);
 
-        // @noti
-        this.triggerNotificationStatusUpdate({
-          company_id: res.company_id,
-          student_id: res.student_id,
-          ps_id: id,
-          status: status
-        });
+  //       // @noti
+  //       this.triggerNotificationStatusUpdate({
+  //         company_id: res.company_id,
+  //         student_id: res.student_id,
+  //         ps_id: id,
+  //         status: status
+  //       });
 
-      },
-      err => {
-        layoutActions.errorBlockLoader(err);
-      }
-    );
-  }
+  //     },
+  //     err => {
+  //       layoutActions.errorBlockLoader(err);
+  //     }
+  //   );
+  // }
 
-  triggerNotificationStatusUpdate({ company_id, student_id, ps_id, status, unix_time }) {
-    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-    console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-    getAxiosGraphQLQuery(`query{company(ID:${company_id}) {name} }`).then(resCompany => {
-      let companyName = resCompany.data.data["company"]["name"];
+  // triggerNotificationStatusUpdate({ company_id, student_id, ps_id, status, unix_time }) {
+  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
+  //   getAxiosGraphQLQuery(`query{company(ID:${company_id}) {name} }`).then(resCompany => {
+  //     let companyName = resCompany.data.data["company"]["name"];
 
-      let param = {
-        company_id: company_id,
-        company_name: companyName,
-        ps_id: ps_id,
-        status: status,
-      };
-      if (unix_time) {
-        param.unix_time = unix_time;
-      }
-      
-      NotificationHelper.addNotification({
-        user_id: student_id,
-        param: param,
-        type: NotificationsEnum.TYPE_STATUS_SESSION_UPDATE,
-        img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
-        img_id: company_id
-      });
-    })
-  }
+  //     let param = {
+  //       company_id: company_id,
+  //       company_name: companyName,
+  //       ps_id: ps_id,
+  //       status: status,
+  //     };
+  //     if (unix_time) {
+  //       param.unix_time = unix_time;
+  //     }
+
+  //     NotificationHelper.addNotification({
+  //       user_id: student_id,
+  //       param: param,
+  //       type: NotificationsEnum.TYPE_STATUS_SESSION_UPDATE,
+  //       img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
+  //       img_id: company_id
+  //     });
+  //   })
+  // }
 
   // for reject and cancel
   // trigger from card view button
-  confirmUpdatePrescreen(e, status) {
-    var other_name = e.currentTarget.dataset.other_name;
-    var id = e.currentTarget.id;
-    var user_id = this.authUser.ID;
+  // confirmUpdatePrescreen(e, status) {
+  //   var other_name = e.currentTarget.dataset.other_name;
+  //   var id = e.currentTarget.id;
+  //   var user_id = this.authUser.ID;
 
-    const confirmUpdate = () => {
-      this.updatePrescreen(id, user_id, status);
-    };
+  //   const confirmUpdate = () => {
+  //     this.updatePrescreen(id, user_id, status);
+  //   };
 
-    // create confirm message
-    var mes = "";
-    if (status === PrescreenEnum.STATUS_ENDED) {
-      mes += lang("Ending");
-    }
-    if (status === PrescreenEnum.STATUS_APPROVED) {
-      mes += lang("Approving");
-    }
-    if (status === PrescreenEnum.STATUS_REJECTED) {
-      mes += lang("Rejecting");
-    }
-    if (status === PrescreenEnum.STATUS_CANCEL) {
-      mes += lang("Canceling");
-    }
+  //   // create confirm message
+  //   var mes = "";
+  //   if (status === PrescreenEnum.STATUS_ENDED) {
+  //     mes += lang("Ending");
+  //   }
+  //   if (status === PrescreenEnum.STATUS_APPROVED) {
+  //     mes += lang("Approving");
+  //   }
+  //   if (status === PrescreenEnum.STATUS_REJECTED) {
+  //     mes += lang("Rejecting");
+  //   }
+  //   if (status === PrescreenEnum.STATUS_CANCEL) {
+  //     mes += lang("Canceling");
+  //   }
 
-    mes += ` ${lang("Scheduled Call with")} ${other_name} ?`;
-    layoutActions.confirmBlockLoader(mes, confirmUpdate);
-  }
+  //   mes += ` ${lang("Scheduled Call with")} ${other_name} ?`;
+  //   layoutActions.confirmBlockLoader(mes, confirmUpdate);
+  // }
 
   // addRemoveButton(body, hasRemove, removeEntity, removeEntityId) {
   //   body = [
@@ -379,7 +483,7 @@ class InterviewList extends React.Component {
             }
           }`).then(resQ => {
             resQ = resQ.data.data["prescreen"];
-            this.triggerNotificationStatusUpdate({
+            triggerNotificationStatusUpdate({
               company_id: resQ.company_id,
               student_id: resQ.student_id,
               ps_id: id,
@@ -494,7 +598,7 @@ class InterviewList extends React.Component {
               data-other_id={obj.ID}
               data-other_name={obj.name}
               onClick={e => {
-                this.confirmUpdatePrescreen(
+                confirmUpdatePrescreen(
                   e,
                   PrescreenEnum.STATUS_ENDED
                 );
@@ -518,7 +622,7 @@ class InterviewList extends React.Component {
         data-other_id={obj.ID}
         data-other_name={obj.name}
         onClick={e => {
-          this.confirmUpdatePrescreen(
+          confirmUpdatePrescreen(
             e,
             PrescreenEnum.STATUS_CANCEL
           );

@@ -144,6 +144,16 @@ const CustomStudentCardInfo = {
             } else {
                 return "field_study_utm21"
             }
+        },
+    },
+    INTELDDSEPT21: {
+        line4: (d) => "has_attended_before",
+        line4Render: (v) => {
+            if (v == "Yes") {
+                return `<div style="margin-top: 10px; color:#eb76ff; font-size: 13px;">
+                        <b><i>Participated in Previous Event</i></b>
+                </div>`
+            } return "";
         }
     }
 }
@@ -176,12 +186,27 @@ const pickAndReorderByCf = (cf, r) => {
         let newR = [];
         let map = {}
         for (var i in r) {
-            map[r[i].id] = i;
+            let k = r[i].id;
+            if (!map[k]) {
+                map[k] = [];
+            }
+            map[k].push(i);
         }
 
+        console.log("order", order);
+        console.log("map", map);
+
         for (var id of order) {
-            newR.push(r[map[id]]);
+            let indexes = map[id];
+            console.log("indexes", indexes);
+
+            if (Array.isArray(indexes)) {
+                for (let i of indexes) {
+                    newR.push(r[i]);
+                }
+            }
         }
+        console.log("newR", newR);
         return newR;
 
     } else {
