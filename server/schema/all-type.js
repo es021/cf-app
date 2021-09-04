@@ -1051,6 +1051,19 @@ const ZoomMeetingType = new GraphQLObjectType({
 	})
 });
 
+const CompanyEmailType = new GraphQLObjectType({
+	name: "CompanyEmail",
+	fields: () => ({
+		ID: __.Int,
+		company_id: __.Int,
+		email: __.String,
+		created_at: __.String,
+		updated_at: __.String,
+		created_by: __.Int,
+		updated_by: __.Int,
+	})
+});
+
 
 const AnnouncementType = new GraphQLObjectType({
 	name: "Announcement",
@@ -1068,6 +1081,7 @@ const AnnouncementType = new GraphQLObjectType({
 
 
 module.exports = {
+	CompanyEmailType,
 	AnnouncementType,
 	DistinctType,
 	FilterType,
@@ -1118,6 +1132,7 @@ module.exports = {
 	VideoType,
 	TagType,
 	RefGeneral,
-	IsSeenType
+	IsSeenType,
+	UserNoteType
 	//, CFType
 };

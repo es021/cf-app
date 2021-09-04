@@ -711,7 +711,7 @@ class UserExec {
 				}
 
 				// student_note ****************************************************
-				if (typeof field["student_note"] !== "undefined") {
+				if (typeof field["student_note"] !== "undefined" && params.company_id) {
 					res[i]["student_note"] = UserNoteExec.single({
 						user_id: user_id,
 						company_id: params.company_id,

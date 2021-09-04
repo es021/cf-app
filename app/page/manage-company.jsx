@@ -34,6 +34,7 @@ import { ScheduledInterview } from "./partial/activity/scheduled-interview";
 import ManageTag from "./tag";
 import { lang } from "../lib/lang";
 import ManageVacancy from "./manage-vacancy";
+import ManageEmailNotification from "./manage-email-notification";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -538,6 +539,13 @@ export default class ManageCompanyPage extends React.Component {
         props: { company_id: this.company_id },
         // routeOnly: isRoleRec(),
         icon: "suitcase"
+      },
+      manage_email: {
+        label: "Manage Email Notification",
+        component: ManageEmailNotification,
+        props: { company_id: this.company_id },
+        // routeOnly: isRoleRec(),
+        icon: "envelope"
       },
       "tag": {
         label: "Manage Tags",

@@ -46,7 +46,8 @@ const {
 	VideoType,
 	ZoomMeetingType,
 	TagType,
-	AnnouncementType
+	AnnouncementType,
+	CompanyEmailType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -182,6 +183,7 @@ const {
 } = require("graphql");
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 const { AnnouncementExec } = require("../model/announcement-query.js");
+const { CompanyEmailExec } = require("../model/company-email-query.js");
 
 __.String;
 //------------------------------------------------------------------------------
@@ -584,6 +586,7 @@ let argBrowseStudent = {
 	like_job_post_only: __.String,
 	drop_resume_only: __.String,
 	with_attachment_only: __.String,
+	with_note_only: __.String,
 
 	current_cf: __.String,
 
@@ -962,6 +965,7 @@ fields["user"] = {
 	type: UserType,
 	args: {
 		ID: __.Int,
+		company_id: __.Int,
 		kpt: __.String, // @kpt_validation
 		id_utm: __.String, // @id_utm_validation
 		cf: __.String, // @id_utm_validation
@@ -1255,6 +1259,39 @@ fields["vacancies_distinct"] = {
 	}
 };
 
+
+/*******************************************/
+/* company_email ******************/
+fields["company_email"] = {
+	type: CompanyEmailType,
+	args: {
+		ID: __.Int,
+		user_id: __.Int
+	},
+	resolve(parentValue, arg, context, info) {
+		return CompanyEmailExec.single(arg, graphqlFields(info));
+	}
+};
+const company_email_param = {
+	company_id: __.Int,
+	page : __.Int,
+	offset : __.Int
+}
+fields["company_emails"] = {
+	type: new GraphQLList(CompanyEmailType),
+	args: company_email_param,
+	resolve(parentValue, arg, context, info) {
+		return CompanyEmailExec.list(arg, graphqlFields(info));
+	}
+};
+fields["company_emails_count"] = {
+	type: GraphQLInt,
+	args: company_email_param,
+	resolve(parentValue, arg, context, info) {
+		return CompanyEmailExec.count(arg, graphqlFields(info));
+	}
+};
+
 /*******************************************/
 /* resume_drop ******************/
 fields["prescreen"] = {
@@ -1273,7 +1310,7 @@ var prescreenParam = {
 	company_id: __.Int,
 	student_id: __.Int,
 	recruiter_id: __.Int,
-	appointment_time : __.Int,
+	appointment_time: __.Int,
 
 	// New SI Flow - used in user-query (to get more than one type)
 	status: __.String,

@@ -535,6 +535,18 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/manage-company/:id/:current",
+      label: lang("Manage Email Notification"),
+      icon: "envelope",
+      component: ManageCompanyPage,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
+      default_param: { id: getAuthUser().rec_company, current: "manage_email" },
+      disabled: !isRoleRec()
+    },
+    {
+      url: "/manage-company/:id/:current",
       component: ManageCompanyPage,
       bar_app: true,
       bar_auth: false,

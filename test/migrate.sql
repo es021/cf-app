@@ -1,3 +1,32 @@
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
+CREATE TABLE `company_emails` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `company_id` bigint(20) NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_by` bigint(20) NOT NULL,
+  `updated_by` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `company_emails`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `company_id` (`company_id`),
+  ADD KEY `email` (`email`),
+  ADD KEY `created_by` (`created_by`),
+  ADD KEY `updated_by` (`updated_by`);
+
+ALTER TABLE `company_emails`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `notifications` ADD `user_role` VARCHAR(50) 
 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL 
 AFTER `user_id`, ADD INDEX (`user_role`);
@@ -44,14 +73,6 @@ NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 PRIMARY KEY (`ID`), INDEX (`user_id`), 
 INDEX (`company_id`), INDEX (`created_by`), 
 INDEX (`updated_by`)) ENGINE = InnoDB;
-
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 -- drop column text at table notifications
 

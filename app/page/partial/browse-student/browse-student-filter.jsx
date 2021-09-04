@@ -120,6 +120,7 @@ export class BrowseStudentFilter extends React.Component {
                     // "favourited_only_recruiter_id",
                     isCfFeatureOff(CFSMeta.FEATURE_DROP_RESUME) ? "" : "drop_resume_only",
                     "with_attachment_only",
+                    "with_note_only",
                 ]
             ),
             ...cfCustomFunnel({ action: 'get_keys_for_filter' }),
@@ -270,7 +271,25 @@ export class BrowseStudentFilter extends React.Component {
                 title: "",
                 filters: [{
                     val: "1",
-                    label: <div>{lang("Show")} <b>{lang(`${_student_plural_lower()}`)}</b> with attachments only
+                    label: <div>{lang("Show")} {lang(`${_student_plural_lower()}`)} with <b>attachments</b> only
+                        <Tooltip
+                            bottom="13px"
+                            left="-90px"
+                            width="200px"
+                            alignCenter={true}
+                            debug={false}
+                            content={null}
+                            tooltip={null}
+                        ></Tooltip>
+                    </div>,
+                    total: null
+                }]
+            },
+            with_note_only: {
+                title: "",
+                filters: [{
+                    val: "1",
+                    label: <div>{lang("Show")} {lang(`${_student_plural_lower()}`)} with <b>note</b> only
                         <Tooltip
                             bottom="13px"
                             left="-90px"

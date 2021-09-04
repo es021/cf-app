@@ -85,7 +85,7 @@ export default class CompanyPage extends Component {
     this.isRec = getAuthUser().rec_company == this.ID || isRoleAdmin();
     this.FEEDBACK_LIMIT_SR = 3;
 
-    this.getRecs = this.getRecs.bind(this);
+    // this.getRecs = this.getRecs.bind(this);
     this.startQueue = this.startQueue.bind(this);
     // this.addSessionRequest = this.addSessionRequest.bind(this);
     this.getSubscribeOrFollowBtn = this.getSubscribeOrFollowBtn.bind(this);
@@ -117,14 +117,14 @@ export default class CompanyPage extends Component {
       getAuthUser().ID
     );
 
-    var rec_query = this.props.displayOnly
-      ? ""
-      : `recruiters{
-            first_name
-            last_name
-            rec_position
-            img_url img_pos img_size
-        }`;
+    // var rec_query = this.props.displayOnly
+    //   ? ""
+    //   : `recruiters{
+    //         first_name
+    //         last_name
+    //         rec_position
+    //         img_url img_pos img_size
+    //     }`;
 
     var query = `query {
               company(ID:${this.ID}, user_id:${this.authUser.ID}) {
@@ -145,15 +145,17 @@ export default class CompanyPage extends Component {
                 tags{label}
                 doc_links{ID label url type}
                 more_info
-                ${rec_query}
                 interested{ID is_interested}
-                vacancies{
-                    ID
-                    title
-                    type
-                    description
-                }
+                
             }}`;
+
+    // ${rec_query}
+    //   vacancies{
+    //     ID
+    //     title
+    //     type
+    //     description
+    // }
 
     getAxiosGraphQLQuery(query).then(res => {
       this.setState(prevState => {
@@ -271,62 +273,62 @@ export default class CompanyPage extends Component {
     return <VacancyList company_id={company_id} />;
   }
 
-  getRecs(list, rec_privacy) {
-    if (list == null || typeof list == "undefined") {
-      return null;
-    }
+  // getRecs(list, rec_privacy) {
+  //   if (list == null || typeof list == "undefined") {
+  //     return null;
+  //   }
 
-    if (list.length === 0) {
-      return <div className="text-muted">{lang("Nothing To Show Here")}</div>;
-    }
-    // console.log(rec_privacy);
-    // console.log(this.isRec);
-    if (rec_privacy && !this.isRec) {
-      return <div className="text-muted">This information is private</div>;
-    }
+  //   if (list.length === 0) {
+  //     return <div className="text-muted">{lang("Nothing To Show Here")}</div>;
+  //   }
+  //   // console.log(rec_privacy);
+  //   // console.log(this.isRec);
+  //   if (rec_privacy && !this.isRec) {
+  //     return <div className="text-muted">This information is private</div>;
+  //   }
 
-    var view = list.map((d, i) => {
-      var name = <div className="text-muted">Name Not Available</div>;
-      if (d.first_name != "" && d.last_name != "") {
-        name = (
-          <span>
-            {d.first_name}
-            <small> {d.last_name}</small>
-          </span>
-        );
-      }
+  //   var view = list.map((d, i) => {
+  //     var name = <div className="text-muted">Name Not Available</div>;
+  //     if (d.first_name != "" && d.last_name != "") {
+  //       name = (
+  //         <span>
+  //           {d.first_name}
+  //           <small> {d.last_name}</small>
+  //         </span>
+  //       );
+  //     }
 
-      if (d.rec_position == null) {
-        d.rec_position = (
-          <div className="text-muted">Position Not Available</div>
-        );
-      }
+  //     if (d.rec_position == null) {
+  //       d.rec_position = (
+  //         <div className="text-muted">Position Not Available</div>
+  //       );
+  //     }
 
-      return (
-        <ProfileListItem
-          title={name}
-          img_url={d.img_url}
-          img_pos={d.img_pos}
-          img_size={d.img_size}
-          subtitle={d.rec_position}
-          type="recruiter"
-          key={i}
-        />
-      );
-    });
+  //     return (
+  //       <ProfileListItem
+  //         title={name}
+  //         img_url={d.img_url}
+  //         img_pos={d.img_pos}
+  //         img_size={d.img_size}
+  //         subtitle={d.rec_position}
+  //         type="recruiter"
+  //         key={i}
+  //       />
+  //     );
+  //   });
 
-    return (
-      <div>
-        {!rec_privacy ? null : (
-          <div className="text-muted">
-            This information is private to others.
-            <br />
-          </div>
-        )}
-        {view}
-      </div>
-    );
-  }
+  //   return (
+  //     <div>
+  //       {!rec_privacy ? null : (
+  //         <div className="text-muted">
+  //           This information is private to others.
+  //           <br />
+  //         </div>
+  //       )}
+  //       {view}
+  //     </div>
+  //   );
+  // }
 
   joinGroupSessionOld(data) {
     if (data.group_url == "" || data.group_url == null) {

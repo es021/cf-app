@@ -35,6 +35,7 @@ import { lang } from "../../../lib/lang";
 
 import Tooltip from "../../../component/tooltip";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
+import { BrowseStudentNote } from "./browse-student-note";
 
 export class BrowseStudentCard extends React.Component {
     constructor(props) {
@@ -332,22 +333,12 @@ export class BrowseStudentCard extends React.Component {
             {lang(getCfCustomMeta(CFSMeta.TEXT_SCHEDULE_CALL, `Schedule Call`))}
         </button>
 
-        let actionAddNote = null
-        // let actionAddNote = <button
-        //     onClick={() => {
-        //         alert("open add note view");
-        //     }}
-        //     className={`btn btn-round-5 
-        //     btn-block btn-sm btn-warning 
-        //     text-bold ${d.student.student_note ? 'btn-warning' : 'btn-default'}`}>
-        //     <i className="fa fa-sticky-note left" />
-        //     {
-        //         d.student.student_note
-        //             ? lang(`View Note`)
-        //             : lang(`Add Note`)
-        //     }
-        // </button>
-
+        // let actionAddNote = null
+        let actionAddNote = isRoleRec()
+            ? <BrowseStudentNote
+                student_id={d.student.ID}
+                current_note={d.student.student_note}
+            /> : null;
 
         // like button
         let actionShortlist = !this.props.isRec ? null : (

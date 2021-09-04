@@ -41,7 +41,8 @@ const {
   CfsType,
   RefGeneral,
   HallLobbyType,
-  AnnouncementType
+  AnnouncementType,
+  UserNoteType
 } = require("./all-type.js");
 
 //import all action for type
@@ -349,7 +350,7 @@ fields["add_notification"] = {
     user_id: __.IntNonNull,
     type: __.StringNonNull,
     cf: __.StringNonNull,
-    
+
     user_role: __.String,
     param: __.String,
     img_entity: __.String,
@@ -1726,6 +1727,77 @@ fields["add_meta"] = {
     return DB.insert(Meta.TABLE, arg).then(function (res) {
       return res;
     });
+  }
+};
+
+
+/* user_note  ******************/
+fields["add_user_note"] = {
+  type: UserNoteType,
+  args: {
+    user_id: __.IntNonNull,
+    company_id: __.IntNonNull,
+    note: __.StringNonNull,
+    created_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert("user_note", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_user_note"] = {
+  type: UserNoteType,
+  args: {
+    ID: __.IntNonNull,
+    note: __.StringNonNull,
+    updated_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update("user_note", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+
+/* company_email  ******************/
+fields["add_company_email"] = {
+  type: UserNoteType,
+  args: {
+    company_id: __.IntNonNull,
+    email: __.StringNonNull,
+    created_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert("company_emails", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_company_email"] = {
+  type: UserNoteType,
+  args: {
+    ID: __.IntNonNull,
+    email: __.StringNonNull,
+    updated_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update("company_emails", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["delete_company_email"] = {
+  type: GraphQLInt,
+  args: {
+    ID: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.delete("company_emails", arg.ID);
   }
 };
 
