@@ -238,7 +238,6 @@ Go Live
 - Hall Gallery
     - video clickable
 #DONE - daily.co
-
     
 
 #Clean Up Recruiter Page
