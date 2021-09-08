@@ -150,7 +150,7 @@ const CustomStudentCardInfo = {
         line4: (d) => "has_attended_before",
         line4Render: (v) => {
             if (v == "Yes") {
-                return `<div style="margin-top: 10px; color:#eb76ff; font-size: 13px;">
+                return `<div style="margin-top: 10px; color:#FF0000; font-size: 13px;">
                         <b><i>Participated in Previous Event</i></b>
                 </div>`
             } return "";
