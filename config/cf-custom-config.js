@@ -34,6 +34,9 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
             if (action == "get_key_student_line4") {
                 return CustomStudentCardInfo[cf].line4;
             }
+            if (action == "get_key_student_line5") {
+                return CustomStudentCardInfo[cf].line5;
+            }
             // render function
             if (action == "get_key_student_line2Render") {
                 return CustomStudentCardInfo[cf].line2Render;
@@ -43,6 +46,9 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
             }
             if (action == "get_key_student_line4Render") {
                 return CustomStudentCardInfo[cf].line4Render;
+            }
+            if (action == "get_key_student_line5Render") {
+                return CustomStudentCardInfo[cf].line5Render;
             }
         }
         else {

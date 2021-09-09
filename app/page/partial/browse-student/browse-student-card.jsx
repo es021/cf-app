@@ -99,43 +99,22 @@ export class BrowseStudentCard extends React.Component {
 
         // create uni view
         // let uniView = this.notSpecifiedView("University");
-        let uniView = null;
-        if (d.student.university != null && d.student.university != "") {
-            uniView = <b>{d.student.university}</b>;
-        }
-
-        let placeView = null;
-        if (d.student.country_study != null && d.student.country_study != "") {
-            placeView = <span>, {d.student.country_study}</span>;
-        }
-
-
-        let fieldStudyView = null;
-        // @limit_field_of_study_2_before_deploy - comment
-        // let field_study = d.student.field_study;
-        // if (Array.isArray(field_study)) {
-        //     fieldStudyView = field_study.map((d, i) => {
-        //         if (i % 2 == 0) {
-        //             return <span>{d.val}</span>;
-        //         } else {
-        //             return <span>, {d.val}</span>;
-        //         }
-        //     });
-
-        //     if (field_study.length > 0) {
-        //         fieldStudyView = (
-        //             <i className="text-muted">
-        //                 {fieldStudyView}
-        //             </i>
-        //         );
-        //     }
+        // let uniView = null;
+        // if (d.student.university != null && d.student.university != "") {
+        //     uniView = <b>{d.student.university}</b>;
         // }
 
-        // @limit_field_of_study_2_before_deploy - uncomment 
-        fieldStudyView = <div className="text-muted">
-            <span>{d.student.field_study_main}</span>
-            {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
-        </div>
+        // let placeView = null;
+        // if (d.student.country_study != null && d.student.country_study != "") {
+        //     placeView = <span>, {d.student.country_study}</span>;
+        // }
+
+
+        // let fieldStudyView = null;
+        // fieldStudyView = <div className="text-muted">
+        //     <span>{d.student.field_study_main}</span>
+        //     {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
+        // </div>
 
 
 
@@ -413,60 +392,6 @@ export class BrowseStudentCard extends React.Component {
                 }}
             />;
 
-        let viewLine2 = null;
-        let viewLine3 = null;
-        let viewLine4 = null;
-
-        let customKeyLine2 = cfCustomFunnel({ action: "get_key_student_line2", cf: getCF() })
-        let customKeyLine3 = cfCustomFunnel({ action: "get_key_student_line3", cf: getCF() })
-        let customKeyLine4 = cfCustomFunnel({ action: "get_key_student_line4", cf: getCF() })
-
-        let customRenderLine2 = cfCustomFunnel({ action: "get_key_student_line2Render", cf: getCF() })
-        let customRenderLine3 = cfCustomFunnel({ action: "get_key_student_line3Render", cf: getCF() })
-        let customRenderLine4 = cfCustomFunnel({ action: "get_key_student_line4Render", cf: getCF() })
-
-        if (customKeyLine2) {
-            customKeyLine2 = customKeyLine2(d.student);
-            let v = d.student[customKeyLine2];
-            if (v) {
-                if (customRenderLine2) {
-                    viewLine2 = <div dangerouslySetInnerHTML={{ __html: customRenderLine2(v) }}></div>
-                } else {
-                    viewLine2 = <div><b>{v}</b></div>
-                }
-            }
-        } else {
-            viewLine2 = <div>
-                {uniView}
-                {placeView}
-            </div>;
-        }
-        if (customKeyLine3) {
-            customKeyLine3 = customKeyLine3(d.student);
-            let v = d.student[customKeyLine3];
-            if (v) {
-                if (customRenderLine3) {
-                    viewLine3 = <div dangerouslySetInnerHTML={{ __html: customRenderLine3(v) }}></div>
-                } else {
-                    viewLine3 = <div className="text-muted"><i>{v}</i></div>
-                }
-            }
-        } else {
-            viewLine3 = fieldStudyView
-        }
-
-        if (customKeyLine4) {
-            customKeyLine4 = customKeyLine4(d.student);
-            let v = d.student[customKeyLine4];
-            if (v) {
-                if (customRenderLine4) {
-                    viewLine4 = <div dangerouslySetInnerHTML={{ __html: customRenderLine4(v) }}></div>
-                } else {
-                    viewLine4 = <div className="text-muted"><i>{v}</i></div>
-                }
-            }
-        }
-
         let body = <div className="container-fluid">
             {isSeenView}
             <div className="row browse-student-card-body">
@@ -474,9 +399,10 @@ export class BrowseStudentCard extends React.Component {
                     {scheduledView ? <div style={{ marginBottom: "10px" }} className="bsc-scheduled"><u>{scheduledView}</u></div> : null}
                     <div className="bsc-title">{title}</div>
                     {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
-                    {viewLine2}
-                    {viewLine3}
-                    {viewLine4}
+                    {this.getViewLine(d, "2")}
+                    {this.getViewLine(d, "3")}
+                    {this.getViewLine(d, "4")}
+                    {this.getViewLine(d, "5")}
                 </div>
                 {this.props.isRec ?
                     <div className="col-md-3 center-on-md-and-less">
@@ -515,6 +441,54 @@ export class BrowseStudentCard extends React.Component {
         );
 
         return <div className="browse-student-card">{item}</div>;
+    }
+
+    getViewLine(d, key) {
+        let toRet = null
+
+        let customKeyLine = cfCustomFunnel({ action: `get_key_student_line${key}`, cf: getCF() })
+        let customRenderLine = cfCustomFunnel({ action: `get_key_student_line${key}Render`, cf: getCF() })
+
+        if (customKeyLine) {
+            customKeyLine = customKeyLine(d.student);
+            let v = d.student[customKeyLine];
+            if (v) {
+                if (customRenderLine) {
+                    toRet = <div dangerouslySetInnerHTML={{ __html: customRenderLine(v) }}></div>
+                } else {
+                    toRet = <div><b>{v}</b></div>
+                }
+            }
+        } else {
+            // default view on line 2
+            if (key == "2") {
+                let uniView = null;
+                if (d.student.university != null && d.student.university != "") {
+                    uniView = <b>{d.student.university}</b>;
+                }
+
+                let placeView = null;
+                if (d.student.country_study != null && d.student.country_study != "") {
+                    placeView = <span>, {d.student.country_study}</span>;
+                }
+
+                toRet = <div>
+                    {uniView}
+                    {placeView}
+                </div>
+            }
+            // default view on line 3
+            else if (key == "3") {
+                let fieldStudyView = null;
+                fieldStudyView = <div className="text-muted">
+                    <span>{d.student.field_study_main}</span>
+                    {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
+                </div>
+                toRet = fieldStudyView
+            }
+        }
+
+        return toRet;
     }
 }
 
