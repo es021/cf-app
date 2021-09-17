@@ -249,16 +249,20 @@ class AuthAPI {
 		});
 		field = field.slice(0, -1);
 
-
+		/**
+		 	recruiters
+			{ID user_email first_name last_name}
+		 */
 		var user_query = `query{
             user:user(user_email:"${email}", cf_to_check_id_utm:"${cf}"){
-                ${field} company {cf name recruiters
-                    {ID user_email first_name last_name}}
+                ${field} company {cf name}
             }
 			cf:cf(name:"${cf}"){
 				name feature_student_login feature_recruiter_login
 			}
 		}`;
+
+
 
 		return getAxiosGraphQLQuery(user_query).then(
 			(res) => {
@@ -734,9 +738,9 @@ class AuthAPI {
 				return graphql(`query{user(user_email:"${user[User.EMAIL]}") {ID role}}`).then(resQuery => {
 					let existedId = resQuery.data.data.user.ID;
 					let existedRole = resQuery.data.data.user.role;
-					
+
 					// if not student return error
-					if(existedRole != UserEnum.ROLE_STUDENT){
+					if (existedRole != UserEnum.ROLE_STUDENT) {
 						return AuthAPIErr.USERNAME_EXIST;
 					}
 
@@ -751,9 +755,9 @@ class AuthAPI {
 						if (existedId) {
 							let deleteQuery = "DELETE FROM cf_map WHERE entity = 'user' AND entity_id = ?";
 							deleteQuery = DB.prepare(deleteQuery, [existedId]);
-							console.log("deleteQuery",deleteQuery);
-							console.log("deleteQuery",deleteQuery);
-							console.log("deleteQuery",deleteQuery);
+							console.log("deleteQuery", deleteQuery);
+							console.log("deleteQuery", deleteQuery);
+							console.log("deleteQuery", deleteQuery);
 							return DB.query(deleteQuery).then(resDelete => {
 								return getWpAjaxAxios("app_register_user", data, successInterceptor);
 							})
