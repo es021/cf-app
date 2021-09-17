@@ -47,17 +47,40 @@ class SupportSessionExec {
         `;
 
 
-        return `select ss.* ${select},
+        // where mx.id_message_number like CONCAT(mc.id,':%') 
+        return `select 
+            ss.ID, 
+            ss.user_id, 
+            ss.support_id, 
+            ss.message_count_id, 
+            ss.created_at
+
+            ${select},
             
-            (select count(*) from messages mx 
-                where mx.id_message_number like CONCAT(mc.id,':%') 
-                AND mx.from_user_id != ${params.support_id ? params.support_id : params.user_id}
-                AND mx.has_read = 0
-                AND mx.created_at > '${START_TOTAL_UNREAD_TIME}') as total_unread
-            from ${SupportSession.TABLE} ss 
-                LEFT OUTER JOIN message_count mc on mc.id = ss.message_count_id
-                LEFT OUTER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
-            where ${support_id_where} AND ${user_id_where} ${order_by}`;
+            FROM ${SupportSession.TABLE} ss 
+                INNER JOIN message_count mc on mc.id = ss.message_count_id
+                INNER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
+                LEFT OUTER JOIN messages mx on  
+                    mx.id_message_number like CONCAT(mc.id,':%')
+                    AND mx.from_user_id != ${params.support_id ? params.support_id : params.user_id}
+                    AND mx.has_read = 0
+                    AND mx.created_at > '${START_TOTAL_UNREAD_TIME}'
+
+            WHERE 
+            ${support_id_where} AND ${user_id_where} 
+            ${order_by}
+        `;
+        // return `select ss.* ${select},
+            
+        //     (select count(*) from messages mx 
+        //         where mx.id_message_number = mc.id
+        //         AND mx.from_user_id != ${params.support_id ? params.support_id : params.user_id}
+        //         AND mx.has_read = 0
+        //         AND mx.created_at > '${START_TOTAL_UNREAD_TIME}') as total_unread
+        //     from ${SupportSession.TABLE} ss 
+        //         LEFT OUTER JOIN message_count mc on mc.id = ss.message_count_id
+        //         LEFT OUTER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
+        //     where ${support_id_where} AND ${user_id_where} ${order_by}`;
     }
 
     support_sessions(params, field, extra = {}) {
@@ -68,7 +91,7 @@ class SupportSessionExec {
             CompanyExec
         } = require('./company-query.js');
         var sql = this.getQuery(params);
-        //// console.log(sql);
+        console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
             for (var i in res) {
                 var user_id = res[i]["user_id"];

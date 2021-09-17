@@ -2,7 +2,7 @@ const DB = require("./DB.js");
 const { Message, SupportSession } = require("../../config/db-config");
 const { SupportUserID } = require("../../config/app-config");
 
-const START_TOTAL_UNREAD_TIME = "2019-06-01 00:00:00";
+const START_TOTAL_UNREAD_TIME = "2021-09-01 00:00:00";
 
 class MessageExec {
   getPreId(user_1, user_2, which_company) {
