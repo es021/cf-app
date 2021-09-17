@@ -57,6 +57,8 @@ class SupportSessionExec {
 
             ${select}
             
+            , COUNT(mx.id_message_number) as total_unread
+
             FROM ${SupportSession.TABLE} ss 
                 INNER JOIN message_count mc on mc.id = ss.message_count_id
                 INNER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
