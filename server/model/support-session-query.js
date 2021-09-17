@@ -56,7 +56,7 @@ class SupportSessionExec {
             ss.created_at
 
             ${select}
-            
+
             , COUNT(mx.id_message_number) as total_unread
 
             FROM ${SupportSession.TABLE} ss 
@@ -70,6 +70,9 @@ class SupportSessionExec {
 
             WHERE 
             ${support_id_where} AND ${user_id_where} 
+            
+            GROUP BY ss.ID, ss.user_id, ss.support_id, ss.message_count_id, ss.created_at, last_message_time, last_message, last_rec_name
+
             ${order_by}
         `;
         return toRet;
