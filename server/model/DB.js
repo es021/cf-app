@@ -20,7 +20,7 @@ var DB = function (env) {
         };
     } else if (env === "PROD") {
         config = {
-            connectionLimit: 100,
+            connectionLimit: 2000,
             host: Secret.DB_HOST,
             user: Secret.DB_USER,
             password: Secret.DB_PASS_PROD,
@@ -239,7 +239,10 @@ DB.prototype.update = function (table, data, ID_key = "ID") {
     }
 
     var sql = `UPDATE ${table} SET ${key_val} WHERE ${ID_key} = '${ID}'`;
-    //// console.log(sql);
+
+    console.log("==== update");
+    console.log(sql);
+    console.log("==== update");
     return this.query(sql).then(function (res) {
         return DB.getByID(table, ID, ID_key);
     });
