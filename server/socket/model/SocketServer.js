@@ -6,10 +6,13 @@ const { FileJSONProgress } = require("../../../helper/file-helper");
 const { S2C, C2S, BOTH } = require("../../../config/socket-config");
 const { UserEnum } = require("../../../config/db-config");
 
+
+
 class SocketServer {
   constructor(io, isProd) {
     this.io = io;
     this.isProd = isProd;
+
     this.state = {
       clients: [],
       // clients[custom_id][socket]
@@ -56,6 +59,17 @@ class SocketServer {
         this.initOn(client);
       });
     }
+
+
+    // // every 2 min trigger emit online user
+    var INTERVAL_EMIT_ONLINE_USER = 1 * 60 * 1000;
+    // INTERVAL_EMIT_ONLINE_USER = 1000;
+    setInterval(() => {
+      console.log("==============");
+      console.log("emit ONLINE_USER");
+      console.log("==============");
+      this.emitToAll(S2C.ONLINE_USER, this.state.online_clients);
+    }, INTERVAL_EMIT_ONLINE_USER)
   }
 
   initOn(client) {
@@ -220,7 +234,7 @@ class SocketServer {
       res => {
         client.emit(BOTH.PROGRESS, res);
       },
-      err => {}
+      err => { }
     );
   }
 
@@ -349,7 +363,7 @@ class SocketServer {
       if (!this.state.online_clients[data.id]) {
         this.state.online_clients[data.id] = 1;
         //this.online_clients[data.id] = data.role;
-        this.emitToAll(S2C.ONLINE_USER, this.state.online_clients);
+        // this.emitToAll(S2C.ONLINE_USER, this.state.online_clients);
       }
 
       //trigger by role
@@ -440,7 +454,7 @@ class SocketServer {
       delete this.state.online_clients[user_id];
     }
 
-    this.emitToAll(S2C.ONLINE_USER, this.state.online_clients, user_id);
+    // this.emitToAll(S2C.ONLINE_USER, this.state.online_clients, user_id);
 
     //this.printHeader("Client removed : " + user_id);
     //console.log(this.debug());
