@@ -34,7 +34,7 @@ function Main() {
         }
     }
 
-    DB.query("SELECT param FROM pivot_student_filter").then(res => {
+    DB.query("SELECT param FROM pivot_student_filter where is_active = 1").then(res => {
         toLoad = res.length;
         for (let r of res) {
             let param = r.param;
