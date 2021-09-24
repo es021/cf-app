@@ -20,7 +20,7 @@ var DB = function (env) {
         };
     } else if (env === "PROD") {
         config = {
-            connectionLimit: 2000,
+            connectionLimit: 500,
             host: Secret.DB_HOST,
             user: Secret.DB_USER,
             password: Secret.DB_PASS_PROD,
