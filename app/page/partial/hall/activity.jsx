@@ -898,11 +898,11 @@ export class ActvityList extends React.Component {
       });
 
       if (this.props.list.length === 0) {
-        body = (
-          <div className="text-muted">
-            <i>{lang("Nothing to show here")}</i>
-          </div>
-        );
+        return <div
+          className={`text-muted ${this.props.isCenter ? 'text-center' : 'text-left'}`}
+          style={{ padding: '10px 0px' }}>
+          <i>{lang("Nothing to show here")}</i>
+        </div>
       }
     }
 
@@ -911,6 +911,7 @@ export class ActvityList extends React.Component {
 }
 
 ActvityList.propTypes = {
+  isCenter: PropTypes.bool,
   isFullWidth: PropTypes.bool,
   noBorderCard: PropTypes.bool,
   onDoneAction: PropTypes.func,
@@ -1085,6 +1086,7 @@ class ActivitySection extends React.Component {
     // 5. view
     var ps_gs = (
       <ActvityList
+        isCenter={this.props.isCenter}
         view_type={this.props.type}
         isFullWidth={this.props.isFullWidth}
         limitLoad={this.props.limitLoad}
@@ -1107,6 +1109,7 @@ class ActivitySection extends React.Component {
 ActivitySection.defaultProps = {
   limitLoad: PropTypes.number,
   isFullWidth: PropTypes.bool,
+  isCenter: PropTypes.bool,
   type: PropTypes.string,
 }
 

@@ -469,6 +469,30 @@ class BrowseStudentExec {
 
 		return "1=1";
 	}
+	whereHasDropResumeWithCompany(cf, user_id, company_id) {
+		if (cf && user_id && company_id) {
+			let q = ` CASE WHEN 
+			(
+				SELECT cmm.meta_value 
+				FROM cfs_meta cmm 
+				WHERE cmm.cf_name = "${cf}" 
+					AND cmm.meta_key = "feature_student_list_resume_drop_only"
+			) = "ON"
+			THEN 
+				( 
+					select COUNT(rd.ID) FROM resume_drops rd 
+					where rd.company_id = ${company_id} 
+						AND rd.student_id = ${user_id} 
+						AND rd.cf="${cf}"
+				) > 0
+			ELSE 1=1 END
+			`;
+
+			return q;
+		}
+
+		return "1=1";
+	}
 	whereHasIvWithCompany(cf, user_id, company_id) {
 		if (cf && user_id && company_id) {
 			let q = ` CASE WHEN 
@@ -623,6 +647,7 @@ class BrowseStudentExec {
 			valueCF = param.current_cf
 		}
 		var has_iv_with_company = this.whereHasIvWithCompany(valueCF, user_id, param.company_id);
+		var has_resume_drop_with_company = this.whereHasDropResumeWithCompany(valueCF, user_id, param.company_id);
 
 		let work_availability = this.whereDateRange({
 			user_id: user_id,
@@ -696,6 +721,7 @@ class BrowseStudentExec {
 			AND ${has_attachment}
 			AND ${with_note_only}
 			AND ${has_iv_with_company}
+			AND ${has_resume_drop_with_company}
 			AND ${show_interest}
 			AND ${favourited}
 			AND ${cf}

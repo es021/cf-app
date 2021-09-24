@@ -90,6 +90,8 @@ import ManageVacancy from "../page/manage-vacancy";
 import OrganizerDashboard from "../page/organizer-dashboard";
 import OrganizersPage from "../page/admin-organizer";
 import { AnnouncementManagement } from "../page/announcement";
+import ListStudentGroupCall from "../page/list-student-group-call";
+import AdminManageGroupCall from "../page/admin-manage-group-call";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -313,6 +315,17 @@ function getMenuItem(COMING_SOON) {
       label: "Manage Scheduled Interview",
       icon: "building",
       component: VolunteerScheduledInterview,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleVolunteer() && !isRoleAdmin()
+    },
+    {
+      url: "/manage-group-call",
+      label: "Manage Group Call",
+      icon: "group",
+      component: AdminManageGroupCall,
       bar_app: true,
       bar_auth: false,
       hd_app: false,
@@ -642,6 +655,15 @@ function getMenuItem(COMING_SOON) {
       {
         url: "/list-interviews",
         component: ListInterviews,
+        bar_app: true,
+        bar_auth: true,
+        hd_app: true,
+        hd_auth: true,
+        routeOnly: true
+      },
+      {
+        url: "/list-group-call",
+        component: ListStudentGroupCall,
         bar_app: true,
         bar_auth: true,
         hd_app: true,

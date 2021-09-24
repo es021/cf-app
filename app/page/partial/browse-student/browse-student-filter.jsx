@@ -114,13 +114,15 @@ export class BrowseStudentFilter extends React.Component {
             ...(isRoleOrganizer()
                 ? ["with_attachment_only"]
                 : [
-                    isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST) ? "" : "like_job_post_only",
+                    isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST) ? "" :
+                        isCfFeatureOn(CFSMeta.FEATURE_STUDENT_LIST_RESUME_DROP_ONLY) ? "" : "like_job_post_only",
                     "interested_only",
                     "favourited_only",
                     // "favourited_only_recruiter_id",
-                    isCfFeatureOff(CFSMeta.FEATURE_DROP_RESUME) ? "" : "drop_resume_only",
+                    isCfFeatureOff(CFSMeta.FEATURE_DROP_RESUME) ? "" :
+                        isCfFeatureOn(CFSMeta.FEATURE_STUDENT_LIST_RESUME_DROP_ONLY) ? "" : "drop_resume_only",
                     "with_attachment_only",
-                    "with_note_only",
+                     "with_note_only",
                 ]
             ),
             ...cfCustomFunnel({ action: 'get_keys_for_filter' }),

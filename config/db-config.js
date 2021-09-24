@@ -548,6 +548,7 @@ const Skill = {
 const ResumeDrop = {
 	TABLE: "resume_drops",
 	ID: "ID",
+	CF: "cf",
 	DOC_LINKS: "doc_links",
 	STUDENT_ID: "student_id",
 	COMPANY_ID: "company_id",
@@ -715,12 +716,15 @@ const CFSMeta = {
 
 	// custom on/off features
 	FEATURE_STUDENT_LIST_IV_ONLY: "feature_student_list_iv_only",
+	FEATURE_STUDENT_LIST_RESUME_DROP_ONLY: "feature_student_list_resume_drop_only",
 
 	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome", // just the container in home
 	FEATURE_EVENT: "feature_event", // effect the specific event container in home and company profile
 
 	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
+	
+	FEATURE_GROUP_CALL: "feature_group_call",
 	FEATURE_RECRUITER_JOB_POST: "feature_recruiter_job_post",
 	FEATURE_STUDENT_LOGIN: "feature_student_login",
 	FEATURE_STUDENT_REGISTER: "feature_student_register",
@@ -733,6 +737,8 @@ const CFSMeta = {
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
 	FEATURE_SUBSCRIBE: "feature_subscribe",
+
+	LIMIT_DROP_RESUME: "limit_drop_resume",
 
 	// custom text
 	TEXT_SCHEDULE_CALL: "text_schedule_call",

@@ -1,4 +1,71 @@
 
+CREATE TABLE `wp_career_fair`.`group_call` 
+( `ID` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , 
+`company_id` BIGINT(20) UNSIGNED NOT NULL , 
+`appointment_time` BIGINT(20) UNSIGNED NOT NULL , 
+`url` VARCHAR(500) NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`created_by` BIGINT(20) UNSIGNED NOT NULL , 
+`updated_by` BIGINT(20) UNSIGNED NULL , 
+PRIMARY KEY (`id`), INDEX (`company_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `group_call` ADD `name` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL AFTER `company_id`;
+ALTER TABLE `group_call` ADD `is_canceled` TINYINT(1) NOT NULL DEFAULT '0' AFTER `url`, ADD INDEX (`is_canceled`);
+
+CREATE TABLE `wp_career_fair`.`group_call_user` 
+( `ID` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , 
+`group_call_id` BIGINT(20) UNSIGNED NOT NULL , 
+`user_id` BIGINT(20) UNSIGNED NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`created_by` BIGINT(20) UNSIGNED NOT NULL , 
+`updated_by` BIGINT(20) UNSIGNED NULL , 
+PRIMARY KEY (`ID`), 
+INDEX (`group_call_id`), INDEX (`user_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `group_call_user` ADD `is_removed` TINYINT(1) 
+NOT NULL DEFAULT '0' AFTER `user_id`, ADD INDEX (`is_removed`);
+
+ALTER TABLE `wp_career_fair`.`group_call_user` ADD UNIQUE (`group_call_id`, `user_id`, `is_removed`);
+
+-- cf_company_time_pick
+-- cf_company_time_pick
+CREATE TABLE `wp_career_fair`.`cf_company_time_pick` 
+( `ID` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , 
+`cf` VARCHAR(50) NOT NULL , 
+`company_id` BIGINT(20) NOT NULL , 
+`available_time` TEXT NOT NULL , 
+`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+`updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ PRIMARY KEY (`ID`), UNIQUE (`cf`, `company_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `group_call` ADD `cf` VARCHAR(50) NOT NULL DEFAULT '' AFTER `company_id`, ADD INDEX (`cf`);
+
+ALTER TABLE `resume_drops` ADD `cf` VARCHAR(50) NOT NULL DEFAULT '' AFTER `ID`, ADD INDEX (`cf`);
+
+
+-- REF
+-- utmiv21.sql
+
+
+-- UTMIV21
+-- UTMIV21
+-- UTMIV21
+
+-- feature_student_list_iv_only : OFF
+-- feature_student_list_resume_drop_only : ON
+-- feature_event : ON
+-- text_event_webinar : <EMPTY>
+-- feature_group_call : ON
+-- text_my_interview : My Private Call
+-- text_schedule_call : Schedule Private Call
+-- feature_recruiter_job_post : ON
+-- feature_student_job_post : ON
+-- feature_drop_resume : ON
+-- feature_chat : ON
+-- limit_drop_resume : 4
+
 
 -- ##############################################################
 -- ##############################################################
@@ -6,6 +73,7 @@
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
 -- ##############################################################
 -- ##############################################################
+ALTER TABLE `pivot_student_filter` ADD `is_active` TINYINT NOT NULL DEFAULT '1' AFTER `ID`, ADD INDEX (`is_active`);
 
 CREATE TABLE `company_emails` (
   `ID` bigint(20) UNSIGNED NOT NULL,

@@ -45,9 +45,12 @@ const {
 	CountType,
 	VideoType,
 	ZoomMeetingType,
+	GroupCallType,
+	GroupCallUserType,
 	TagType,
 	AnnouncementType,
-	CompanyEmailType
+	CompanyEmailType,
+	ResumeDropLimitByCfType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -184,6 +187,7 @@ const {
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 const { AnnouncementExec } = require("../model/announcement-query.js");
 const { CompanyEmailExec } = require("../model/company-email-query.js");
+const { GroupCallExec } = require("../model/group-call-query.js");
 
 __.String;
 //------------------------------------------------------------------------------
@@ -782,7 +786,10 @@ fields["support_sessions"] = {
 	type: new GraphQLList(SupportSessionType),
 	args: {
 		support_id: __.Int,
-		user_id: __.Int
+		user_id: __.Int,
+		offset: __.Int,
+		bigger_than_key: __.String,
+		smaller_than_key: __.String,
 	},
 	resolve(parentValue, arg, context, info) {
 		return SupportSessionExec.support_sessions(arg, graphqlFields(info));
@@ -1274,8 +1281,8 @@ fields["company_email"] = {
 };
 const company_email_param = {
 	company_id: __.Int,
-	page : __.Int,
-	offset : __.Int
+	page: __.Int,
+	offset: __.Int
 }
 fields["company_emails"] = {
 	type: new GraphQLList(CompanyEmailType),
@@ -1382,6 +1389,7 @@ fields["forum_replies"] = {
 
 /*******************************************/
 /* resume_drop ******************/
+
 // return limit if feedback is empty
 // return null if still not over limit or feedback is filled
 fields["resume_drops_limit"] = {
@@ -1391,6 +1399,19 @@ fields["resume_drops_limit"] = {
 	},
 	resolve(parentValue, arg, context, info) {
 		return ResumeDropExec.resume_drops_limit(arg, graphqlFields(info));
+	}
+};
+
+// if over limit, return limit
+// return null if still not over limit
+fields["resume_drops_limit_by_cf"] = {
+	type: ResumeDropLimitByCfType,
+	args: {
+		user_id: __.IntNonNull,
+		cf: __.StringNonNull,
+	},
+	resolve(parentValue, arg, context, info) {
+		return ResumeDropExec.resume_drops_limit_by_cf(arg, graphqlFields(info));
 	}
 };
 
@@ -1423,6 +1444,45 @@ fields["resume_drops"] = {
 		return ResumeDropExec.resume_drops(arg, graphqlFields(info));
 	}
 };
+
+
+
+/*******************************************/
+/* company_email ******************/
+fields["group_call"] = {
+	type: GroupCallType,
+	args: {
+		ID: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return GroupCallExec.single(arg, graphqlFields(info));
+	}
+};
+const group_call_param = {
+	company_id: __.Int,
+	is_canceled: __.Int,
+	cf: __.String,
+	order_by: __.String,
+	company_name: __.String,
+	user_id: __.Int,
+	page: __.Int,
+	offset: __.Int
+}
+fields["group_calls"] = {
+	type: new GraphQLList(GroupCallType),
+	args: group_call_param,
+	resolve(parentValue, arg, context, info) {
+		return GroupCallExec.list(arg, graphqlFields(info));
+	}
+};
+fields["group_calls_count"] = {
+	type: GraphQLInt,
+	args: group_call_param,
+	resolve(parentValue, arg, context, info) {
+		return GroupCallExec.count(arg, graphqlFields(info));
+	}
+};
+
 
 // ##############################################################
 // EXPORT TYPE

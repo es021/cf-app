@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import GroupCallList from "./partial/group-call/group-call-list";
 import HallRecruiterEvent from "./partial/hall-recruiter/hall-recruiter-event";
 import HallRecruiterInterview from "./partial/hall-recruiter/hall-recruiter-interview";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
@@ -11,7 +12,8 @@ import {
   getAuthUser,
   loadCompanyPriv,
   getCfCustomMeta,
-  isCfFeatureOff
+  isCfFeatureOff,
+  isCfFeatureOn
 } from "../redux/actions/auth-actions";
 import { ButtonAction } from "../component/buttons";
 import InputEditable from "../component/input-editable";
@@ -246,23 +248,35 @@ export default class HallRecruiterPage extends React.Component {
   getJobEventSection() {
     let job = <HallRecruiterJobPosts company_id={this.company_id}></HallRecruiterJobPosts>;
     let event = <HallRecruiterEvent company_id={this.company_id}></HallRecruiterEvent>;
+    let groupCall = <GroupCallList company_id={this.company_id}></GroupCallList>;
+
+    let isGroupCallOn = isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL);
     let isJobOff = isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST);
     let isEventOff = isCfFeatureOff(CFSMeta.FEATURE_EVENT);
-    if (!isJobOff && !isEventOff) {
-      return [
-        <div className="col-md-6">{job}</div>,
-        <div className="col-md-6">{event}</div>
-      ];
-    } else if (isJobOff && !isEventOff) {
-      return [
-        <div className="col-md-6">{event}</div>
-      ];
-    } else if (!isJobOff && isEventOff) {
-      return [
-        <div className="col-md-6">{job}</div>
-      ];
+
+    let toRet = [];
+
+
+    if (isGroupCallOn && !isJobOff && !isEventOff) {
+      toRet.push(<div className="col-lg-6">{groupCall}</div>)
+      toRet.push(<div className="col-lg-6">{job}{event}</div>)
+    } else if (isGroupCallOn) {
+      toRet.push(<div className="col-md-2"></div>)
+      toRet.push(<div className="col-md-8">{groupCall}</div>)
+      toRet.push(<div className="col-md-2"></div>)
     } else {
+      if (!isJobOff) {
+        toRet.push(<div className="col-md-6">{job}</div>)
+      }
+      if (!isEventOff) {
+        toRet.push(<div className="col-md-6">{event}</div>)
+      }
+    }
+
+    if (toRet.length == 0) {
       return null;
+    } else {
+      return toRet;
     }
   }
 

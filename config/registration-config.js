@@ -5,8 +5,8 @@ const {
 
 const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 
-const IsUploadResumeRequired = ["INTELDD21", "INTELDDSEPT21", "TARUCJUL21"]
-const IsHasUploadResume = ["INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21"]
+const IsUploadResumeRequired = ["INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "UTMIV21"]
+const IsHasUploadResume = ["INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "UTMIV21"]
 
 
 var Single = {

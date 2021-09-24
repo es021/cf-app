@@ -223,6 +223,7 @@ class CompanyChatInbox extends React.Component {
   constructor(props) {
     super(props);
     this.authUser = getAuthUser();
+    this.handleScroll = this.handleScroll.bind(this);
     this.getChatBox = this.getChatBox.bind(this);
     this.getChatList = this.getChatList.bind(this);
     this.changeChat = this.changeChat.bind(this);
@@ -238,16 +239,23 @@ class CompanyChatInbox extends React.Component {
       this.companyId = this.authUser.rec_company;
     }
 
+    this.smallestOrderKey = null;
+    this.biggestOrderKey = null;
+
     this.state = {
+      noMore: false,
+      loadingBottom: false,
+      loadingTop: false,
       loading: true,
-      sessions: [],
+      sessions: {},
       current_user: null,
-      newChat: []
+      newChat: [],
+
     };
   }
 
   componentWillMount() {
-    this.loadChatList();
+    this.loadChatList({});
 
     socketOn(BOTH.CHAT_MESSAGE, data => {
       var keyId = this.getKey(data.from_id);
@@ -262,7 +270,7 @@ class CompanyChatInbox extends React.Component {
         //   }
         //   return { newChat: newChat };
         // });
-        this.loadChatList();
+        this.loadChatList({ newer: true });
         return;
       }
 
@@ -290,6 +298,15 @@ class CompanyChatInbox extends React.Component {
         return { sessions: prevState.sessions };
       });
     });
+  }
+
+  handleScroll(e) {
+    let myDiv = e.currentTarget;
+    if (myDiv.offsetHeight + myDiv.scrollTop >= myDiv.scrollHeight) {
+      this.loadChatList({ older: true });
+      console.log("botom")
+      console.log("botom")
+    }
   }
 
   getEntityObj(data) {
@@ -333,23 +350,41 @@ class CompanyChatInbox extends React.Component {
     };
   }
 
-  loadChatList() {
-    let param = ``;
+  loadChatList({ newer, older }) {
+    if (newer && this.state.loadingTop) {
+      return
+    }
+    if (older && (this.state.loadingBottom || this.state.noMore)) {
+      return
+    }
+
+    const OFFSET = 8;
+
+    let param = ` offset:${OFFSET} `;
     let field = "";
     let fieldUser = `user { ID first_name last_name img_url img_pos img_size}`;
     let fieldSupport = `support { ID first_name last_name img_url img_pos img_size}`;
     let fieldCompany = `company { ID name img_url img_pos img_size}`;
 
     if (isRoleStudent()) {
-      param = `user_id:${this.userId}`;
+      param += ` user_id:${this.userId} `;
       field = `${fieldUser} ${fieldCompany}`;
     } else if (isRoleRec()) {
-      param = `support_id:${this.companyId}`;
+      param += ` support_id:${this.companyId} `;
       field = `${fieldUser}`;
     }
 
-    var query = `query{ support_sessions(${param}) {  
+    if (newer) {
+      param += ` bigger_than_key:"${this.biggestOrderKey}" `
+    }
+    if (older) {
+      param += ` smaller_than_key:"${this.smallestOrderKey}" `
+    }
+
+
+    var query = `query{ support_sessions( ${param} ) {  
             ID
+            order_key
             user_id
             support_id
             created_at
@@ -360,10 +395,21 @@ class CompanyChatInbox extends React.Component {
             ${field} ${fieldSupport}
           }}`;
 
+
+    let preLoadState = {}
+    if (newer) {
+      preLoadState.loadingTop = true;
+    }
+    if (older) {
+      preLoadState.loadingBottom = true;
+    }
+    this.setState(preLoadState);
+
     getAxiosGraphQLQuery(query).then(res => {
       this.setState(prevState => {
         var sessions = res.data.data.support_sessions;
-        var data = {};
+        var totalResponse = sessions.length;
+        var data = prevState.sessions;
         var current = null;
 
         for (var i in sessions) {
@@ -385,12 +431,22 @@ class CompanyChatInbox extends React.Component {
           current = prevState.current_user;
         }
 
-        return {
+        let toRet = {
           sessions: data,
           loading: false,
           current_user: current,
           newChat: []
         };
+        if (totalResponse < OFFSET) {
+          toRet.noMore = true;
+        }
+        if (newer) {
+          toRet.loadingTop = false;
+        }
+        if (older) {
+          toRet.loadingBottom = false;
+        }
+        return toRet;
       });
     });
   }
@@ -454,9 +510,12 @@ class CompanyChatInbox extends React.Component {
   }
 
   getOrderArr() {
+
+
     let toRet = [];
     let objectOrder = {};
     for (var key in this.state.sessions) {
+
       var d = this.state.sessions[key];
       let orderKey =
         "order" +
@@ -476,6 +535,28 @@ class CompanyChatInbox extends React.Component {
       let chatKey = this.getEntityKey(d);
       toRet.push(chatKey);
     }
+
+
+    /// set biggest and smallest order key
+    let smallestOrderKey = null;
+    let biggestOrderKey = null;
+    try {
+      smallestOrderKey = toRet[toRet.length - 1]
+      smallestOrderKey = this.state.sessions[smallestOrderKey]["order_key"];
+    } catch (err) {
+      smallestOrderKey = null;
+    }
+    try {
+      biggestOrderKey = toRet[0]
+      biggestOrderKey = this.state.sessions[biggestOrderKey]["order_key"];
+    } catch (err) {
+      biggestOrderKey = null;
+    }
+    console.log("smallestOrderKey", smallestOrderKey)
+    console.log("biggestOrderKey", biggestOrderKey)
+    this.smallestOrderKey = smallestOrderKey;
+    this.biggestOrderKey = biggestOrderKey;
+
 
     return toRet;
   }
@@ -598,6 +679,8 @@ class CompanyChatInbox extends React.Component {
           {countUnread}
           {imgView}
           <div className={`frm-body`}>
+            {/* DEBUG */}
+            {/* {d.order_key} */}
             <div className="frm-title">{title}</div>
             <p className={`frm-content ${isNew ? "fc-blue" : ""}`}>{body}</p>
             <div className="frm-timestamp">
@@ -657,14 +740,14 @@ class CompanyChatInbox extends React.Component {
       view = <Loader text={lang("Loading Chat List")} />;
     } else {
       view = [];
-      var newBtn =
-        this.state.newChat.length == 0 ? null : (
-          <b>
-            <a onClick={this.loadChatList}>
-              {this.state.newChat.length} {lang("New Chat")}
-            </a>
-          </b>
-        );
+      // var newBtn =
+      //   this.state.newChat.length == 0 ? null : (
+      //     <b>
+      //       <a onClick={() => { this.loadChatList({ newer: true }) }}>
+      //         {this.state.newChat.length} {lang("New Chat")}
+      //       </a>
+      //     </b>
+      //   );
 
       if (Object.keys(this.state.sessions).length <= 0) {
         view = this.getEmptyState();
@@ -690,6 +773,23 @@ class CompanyChatInbox extends React.Component {
         view.push(
           <div id="chat-list" className="container-fluid">
             <div className="row">
+
+              {/* DEBUG -============================= */}
+              {/* <div>
+                DEBUG
+                noMore : {this.state.noMore ? "true" : "false"}<br></br>
+                loadingTop : {this.state.loadingTop ? "true" : "false"}<br></br>
+                loadingBottom : {this.state.loadingBottom ? "true" : "false"}<br></br>
+                <a onClick={() => { this.loadChatList({ newer: true }) }}>
+                  {lang("Newer Chat")}
+                </a>
+                {" | "}
+                <a onClick={() => { this.loadChatList({ older: true }) }}>
+                  {lang("Older Chat")}
+                </a>
+              </div> */}
+              {/* DEBUG -============================= */}
+
               {/* <div className="cl-header col-md-12 no-padding">
                 <div className="clh-title">
                   <div className="clh-title-left">Inbox</div>
@@ -703,8 +803,9 @@ class CompanyChatInbox extends React.Component {
                     {lang("Inbox")}
                   </div>
                 </div>
-                <div className="cl-list">
+                <div className="cl-list" onScroll={this.handleScroll}>
                   {this.getChatList()}
+                  {this.state.loadingBottom ? <Loader></Loader> : null}
                 </div>
               </div>
               <div className="col-md-8 no-padding cl-column">

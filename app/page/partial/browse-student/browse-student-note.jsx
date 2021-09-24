@@ -36,8 +36,8 @@ export class BrowseStudentNote extends React.Component {
         });
       }}
       className={`btn btn-round-5 
-      btn-block btn-sm btn-warning 
-      text-bold ${hasNote ? 'btn-warning' : 'btn-default'}`}>
+      btn-block btn-sm
+      text-bold ${hasNote ? 'btn-warning' : 'btn-grey'}`}>
       <i className="fa fa-sticky-note left" />
       {
         hasNote

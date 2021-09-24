@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAuthUser, isCfFeatureOn } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF, getCfCustomMeta, isCfFeatureOn } from "../redux/actions/auth-actions";
 import {
   storeHideFocusCard,
   storeUpdateFocusCard
@@ -87,6 +87,7 @@ export default class ResumeDropPage extends React.Component {
     var data = {
       resume_drop: null,
       resume_drops_limit: null,
+      resume_drops_limit_by_cf: null,
       company: null,
       doc_links: null
     };
@@ -115,11 +116,19 @@ export default class ResumeDropPage extends React.Component {
     });
 
     //load if there is any resume_drops_limit
+    var query = `query{resume_drops_limit_by_cf(user_id:${user_id}, cf:"${getCF()}") {current limit_drop is_over_limit} }`;
+    getAxiosGraphQLQuery(query).then(res => {
+      data.resume_drops_limit_by_cf = res.data.data.resume_drops_limit_by_cf;
+      finishLoad();
+    });
+
     var query = `query{resume_drops_limit(user_id:${user_id})}`;
     getAxiosGraphQLQuery(query).then(res => {
       data.resume_drops_limit = res.data.data.resume_drops_limit;
       finishLoad();
     });
+
+
 
     // load document
     var query = `query{user(ID:${user_id}){ doc_links{ID label url} }}`;
@@ -136,8 +145,7 @@ export default class ResumeDropPage extends React.Component {
     });
 
     // load existing resume drop
-    var query = `query{resume_drop(student_id:${user_id}, company_id:${
-      this.company_id
+    var query = `query{resume_drop(student_id:${user_id}, company_id:${this.company_id
       }){
                     ID doc_links{ID label url} message updated_at}}`;
 
@@ -186,6 +194,7 @@ export default class ResumeDropPage extends React.Component {
     else {
       var ins = d;
       ins[ResumeDrop.DOC_LINKS] = doc_links;
+      ins[ResumeDrop.CF] = getCF();
       ins[ResumeDrop.STUDENT_ID] = getAuthUser().ID;
       ins[ResumeDrop.COMPANY_ID] = this.company_id;
       query = `mutation{add_resume_drop(${obj2arg(ins, {
@@ -213,7 +222,18 @@ export default class ResumeDropPage extends React.Component {
       }
     );
   }
+  getLimitByCfView() {
+    let limitByCf = this.state.data.resume_drops_limit_by_cf;
+    if (limitByCf.limit_drop) {
+      return <div style={{ padding: '20px 20px' }}>
+        <i>
+          ** You have <b>{limitByCf.limit_drop - limitByCf.current}</b> resume drop quota left **
+        </i>
+      </div>
+    }
 
+    return null;
+  }
   getWhatsNextView() {
     var actData = [
       {
@@ -261,8 +281,8 @@ export default class ResumeDropPage extends React.Component {
           {customMes}
         </p>
       ) : (
-          defaultMes
-        );
+        defaultMes
+      );
     let v = (
       <div>
         <h4 className="text-primary">Whats Next?</h4>
@@ -306,8 +326,18 @@ export default class ResumeDropPage extends React.Component {
 
       console.log("isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)", isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK));
 
+      if (!this.isEdit && this.state.data.resume_drops_limit_by_cf.is_over_limit == 1) {
+        return (
+          <div style={{ padding: '20px 30px' }}>
+            <h3>
+              Quota for resume drop reached.
+              <br></br>You can only drop to {this.state.data.resume_drops_limit_by_cf.limit_drop} companies
+            </h3>
+          </div>
+        );
+      }
       // @open_feedback_by_career_fair
-      if (isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK) && this.state.data.resume_drops_limit !== null && !this.isEdit) {
+      else if (isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK) && this.state.data.resume_drops_limit !== null && !this.isEdit) {
         // if (this.state.data.resume_drops_limit !== null && !this.isEdit) {
         view = (
           <div>
@@ -402,8 +432,8 @@ export default class ResumeDropPage extends React.Component {
         var title = this.props.company_id ? (
           <br />
         ) : (
-            <h4>{this.state.data.company.name}</h4>
-          );
+          <h4>{this.state.data.company.name}</h4>
+        );
 
         if (!this.props.company_id) {
           document.setTitle(`Resume Drop - ${this.state.data.company.name}`);
@@ -424,6 +454,7 @@ export default class ResumeDropPage extends React.Component {
             <div>
               {title}
               {checkboxForm}
+              {this.getLimitByCfView()}
             </div>
           );
         }

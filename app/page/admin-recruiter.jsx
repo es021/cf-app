@@ -98,7 +98,7 @@ export default class RecruitersPage extends React.Component {
     }
 
     componentWillMount() {
-        this.offset = 10;
+        this.offset = 5;
         this.tableHeader = <thead>
             <tr>
                 <th>ID</th>
@@ -239,7 +239,7 @@ export default class RecruitersPage extends React.Component {
                 dataTitle={this.dataTitle}
                 noMutation={true}
                 canEdit={true}
-                dataOffset={20}
+                dataOffset={this.offset}
                 getFormItemAsync={this.getFormItemAsync}
                 getEditFormDefault={this.getEditFormDefault}
                 entity_singular="Recruiter"

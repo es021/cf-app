@@ -42,7 +42,9 @@ const {
   RefGeneral,
   HallLobbyType,
   AnnouncementType,
-  UserNoteType
+  UserNoteType,
+  GroupCallType,
+  GroupCallUserType
 } = require("./all-type.js");
 
 //import all action for type
@@ -1664,6 +1666,7 @@ fields["add_resume_drop"] = {
   args: {
     student_id: __.IntNonNull,
     company_id: __.IntNonNull,
+    cf: __.StringNonNull,
     doc_links: __.StringNonNull,
     message: __.String
   },
@@ -1761,6 +1764,72 @@ fields["edit_user_note"] = {
   }
 };
 
+
+/* group_call_user  ******************/
+fields["add_group_call_user"] = {
+  type: GroupCallUserType,
+  args: {
+    group_call_id: __.IntNonNull,
+    user_id: __.IntNonNull,
+    created_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert("group_call_user", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_group_call_user"] = {
+  type: GroupCallUserType,
+  args: {
+    ID: __.IntNonNull,
+    is_removed: __.Int,
+    updated_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update("group_call_user", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+/* group_call  ******************/
+fields["add_group_call"] = {
+  type: GroupCallType,
+  args: {
+    company_id: __.IntNonNull,
+    name: __.StringNonNull,
+    cf: __.StringNonNull,
+    appointment_time: __.IntNonNull,
+    url: __.String,
+    created_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert("group_call", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_group_call"] = {
+  type: GroupCallType,
+  args: {
+    ID: __.IntNonNull,
+    
+    name: __.String,
+    appointment_time: __.Int,
+    url: __.String,
+    is_canceled: __.Int,
+
+    updated_by: __.IntNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update("group_call", arg).then(function (res) {
+      return res;
+    });
+  }
+};
 
 /* company_email  ******************/
 fields["add_company_email"] = {

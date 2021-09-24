@@ -1,6 +1,18 @@
 @import "define/mixin.scss";
 @import "define/variable.scss";
 
+
+.hover-green{
+  color: $COLOR-SEEDS;
+  cursor: pointer;
+}
+.hover-green:hover{
+  opacity: 0.6;
+}
+.hover-green:active{
+  opacity: 1;
+}
+
 a {
   cursor: pointer;
 }
@@ -14,6 +26,7 @@ a.dark:hover,
 .button-icon.dark:hover {
   color: lighten($COLOR_LINK, 20);
 }
+
 
 .btn-130{
   max-width: 130px;

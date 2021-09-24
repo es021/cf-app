@@ -30,7 +30,8 @@ import {
   isComingSoon,
   isRoleOrganizer,
   isCfFeatureOff,
-  getCfCustomMeta
+  getCfCustomMeta,
+  isCfFeatureOn
 } from "../redux/actions/auth-actions";
 import { HallGalleryView } from "./partial/hall/hall-gallery";
 import { setBodyFullWidth, unsetBodyFullWidth } from "../../helper/general-helper";
@@ -41,6 +42,8 @@ import { VacancyList } from "./partial/company/vacancy";
 import { EventList } from "./event-list";
 import { lang } from "../lib/lang";
 import { HallLobbyList } from "./partial/hall/hall-lobby";
+import GroupCallList from "./partial/group-call/group-call-list";
+import { GroupCallStudentList } from "./partial/group-call/group-call-student-list";
 
 // require("../css/hall.scss");
 
@@ -338,12 +341,35 @@ export default class HallPage extends React.Component {
       icon="video-camera"
       backgroundColor={null}
       containerStyle={{ padding: "20px 0px" }}
-      items={<ActivitySection type="row" limitLoad={4} type="row" isFullWidth={true} />}
+      items={<ActivitySection type="row" isCenter={false} limitLoad={4} type="row" isFullWidth={true} />}
       see_more_text={lang("See More " + title)}
       see_more_onclick={() => {
         // console.log(`${AppPath}/list-interviews`)
         window.location = `${AppPath}/list-interviews`;
       }}
+    ></ListRow>;
+  }
+  getStudentGroupCallHelper() {
+    let title = `My Group Call`;
+    return <ListRow title={lang(title)}
+      icon="group"
+      backgroundColor={null}
+      containerStyle={{ padding: "20px 0px" }}
+      items={<GroupCallStudentList isCenter={false} limitLoad={5} type="row" isFullWidth={true} />}
+      see_more_text={lang("See More " + title)}
+      see_more_onclick={() => {
+        window.location = `${AppPath}/list-group-call`;
+      }}
+    ></ListRow>;
+  }
+  getStudentEventHelper(backgroundColor) {
+    return <ListRow title={lang(this.titleEventWebinar)}
+      backgroundColor={backgroundColor}
+      icon="calendar"
+      containerStyle={{ padding: "20px 0px" }}
+      items={<EventList isCenter={false} limitLoad={4} type="row" isFullWidth={true} />}
+      see_more_text={lang("See More " + this.titleEventWebinar)}
+      see_more_to={`${AppPath}/list-events`}
     ></ListRow>;
   }
   getStudentInterview(backgroundColor) {
@@ -362,17 +388,25 @@ export default class HallPage extends React.Component {
           {this.getStudentInterviewHelper()}
         </div>
         <div className="col-md-6">
-          <ListRow title={lang(this.titleEventWebinar)}
-            backgroundColor={null}
-            icon="calendar"
-            containerStyle={{ padding: "20px 0px" }}
-            items={<EventList limitLoad={4} type="row" isFullWidth={true} />}
-            see_more_text={lang("See More " + this.titleEventWebinar)}
-            see_more_to={`${AppPath}/list-events`}
-          ></ListRow>
+          {this.getStudentEventHelper()}
         </div>
       </div>
-
+    </div>
+  }
+  getStudentInterviewGroupCallAndEvent(backgroundColor) {
+    return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
+      <div className="row main-width">
+        <div className="col-md-6">
+          {this.getStudentInterviewHelper()}
+          {this.getStudentEventHelper()}
+        </div>
+        <div className="col-md-6">
+          {this.getStudentGroupCallHelper()}
+        </div>
+        {/* <div className="col-md-6">
+          {this.getStudentEventHelper()}
+        </div> */}
+      </div>
     </div>
   }
   getCompanyBooth(backgroundColor) {
@@ -410,7 +444,9 @@ export default class HallPage extends React.Component {
           {this.getGallery("#eef0ee")}
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
             ? this.getStudentInterview(null)
-            : this.getStudentInterviewAndEvent(null)
+            : isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
+              ? this.getStudentInterviewGroupCallAndEvent(null)
+              : this.getStudentInterviewAndEvent(null)
           }
           {this.getCompanyBooth("#eef0ee")}
           {this.getJobPost(null)}
@@ -421,7 +457,9 @@ export default class HallPage extends React.Component {
           {this.getWelcomeAndSponsor(null)}
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
             ? this.getStudentInterview("#eef0ee")
-            : this.getStudentInterviewAndEvent("#eef0ee")
+            : isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
+              ? this.getStudentInterviewGroupCallAndEvent("#eef0ee")
+              : this.getStudentInterviewAndEvent("#eef0ee")
           }
           {this.getCompanyBooth(null)}
           {this.getJobPost("#eef0ee")}

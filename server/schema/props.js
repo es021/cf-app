@@ -43,11 +43,13 @@ EXPORT.Cfs = {
 
     // custom on/off features
     feature_student_list_iv_only: __.String,
+    feature_student_list_resume_drop_only: __.String,
     feature_event_and_welcome: __.String,
     feature_event: __.String,
 
     feature_recruiter_interested_student: __.String,
     feature_recruiter_login: __.String,
+    feature_group_call: __.String,
     feature_recruiter_job_post: __.String,
     
     feature_student_login: __.String,
@@ -61,6 +63,8 @@ EXPORT.Cfs = {
     feature_company_external_follow: __.String,
     feature_job_post_filter_location: __.String,
     feature_subscribe: __.String,
+    
+    limit_drop_resume: __.String,
 
     // custom text
 

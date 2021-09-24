@@ -15,9 +15,15 @@ export default class ListBoard extends React.Component {
     }
 
     renderList(d, i) {
-        return <div className="lb-list-item">
+        let v = <div className="lb-list-item">
             {this.props.renderList(d, i)}
         </div>
+
+        if (this.props.postRenderList) {
+            v = this.props.postRenderList(v, d, i);
+        }
+
+        return v
     }
 
     render() {
@@ -55,18 +61,24 @@ export default class ListBoard extends React.Component {
         // lb-action 
 
 
-        return <div className="list-board" style={{marginBottom : this.props.isNoMarginBottom ? "0px" : ""}}>
+        return <div className={`list-board ${this.props.isAlwaysWhite ? 'always-white' : ''}`}
+            style={{ marginBottom: this.props.isNoMarginBottom ? "0px" : "" }}>
             {/* title */}
             {this.props.isNoTitle ? null :
                 <div className="lb-title">
-                    <div className="container-fluid">
+                    <div className={this.props.isOnPopup ? "" : "container-fluid"}
+                        style={this.props.isOnPopup ? {
+                            padding: "0px 15px",
+                            paddingTop: "15px"
+                        } : {}}
+                    >
                         <div className="row">
                             <div className="col-md-8 no-padding lb-title-text">
                                 <i className={`fa fa-${this.props.icon} left`}></i>
                                 {this.props.title}
                             </div>
                             <div className="col-md-4 no-padding lb-title-action">
-                                {action}
+                                {action ? action : this.props.actionCustom}
                             </div>
                         </div>
                     </div>
@@ -81,10 +93,15 @@ export default class ListBoard extends React.Component {
 }
 ListBoard.propTypes = {
     isNoTitle: PropTypes.bool,
+    isOnPopup: PropTypes.bool,
+    isAlwaysWhite: PropTypes.bool,
+    postRenderList: PropTypes.func,
     isNoMarginBottom: PropTypes.bool,
 };
 
 ListBoard.defaultProps = {
+    isAlwaysWhite: false,
+    isOnPopup: false,
     isNoTitle: false,
     isNoMarginBottom: false,
 };

@@ -1113,7 +1113,7 @@ class Chat extends React.Component {
         </p>
         <div className="timestamp">
           {isMyMessage && isRoleRec() && d.recruiter ? <span>sent by {d.recruiter.first_name} {d.recruiter.last_name} &middot; </span> : null}
-          {Time.getStringShort(d.created_at)}</div>
+          {Time.getString(d.created_at)}</div>
         {/* {date} -  */}
       </div>
     );

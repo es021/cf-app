@@ -122,9 +122,10 @@ export default class List extends React.Component {
             let emptyView =
               this.props.emptyMessage != null && typeof this.props.emptyMessage !== "undefined"
                 ? this.props.emptyMessage :
-                lang("Nothing To Show Here");
+                lang("Nothing to show here");
             var empty = this.props.showEmpty ? (
-              <div style={{ width: "100%" }} className="text-muted text-center list-empty-text">
+              <div style={{ width: "100%", padding: '10px 0px', fontStyle: 'italic' }}
+                className={`text-muted list-empty-text ${this.props.isCenter ? 'text-center' : 'text-left'}`}>
                 {emptyView}
               </div>
             ) : null;
@@ -246,16 +247,16 @@ export default class List extends React.Component {
       dataContent = this.state.empty ? (
         this.state.listItem
       ) : (
-          <div className=" table-responsive">
-            <table
-              ref={this.props.listRef}
-              className={`${this.getListClass()} table table-striped table-bordered table-hover table-condensed text-left`}
-            >
-              {this.props.tableHeader}
-              <tbody>{this.state.listItem}</tbody>
-            </table>
-          </div>
-        );
+        <div className=" table-responsive">
+          <table
+            ref={this.props.listRef}
+            className={`${this.getListClass()} table table-striped table-bordered table-hover table-condensed text-left`}
+          >
+            {this.props.tableHeader}
+            <tbody>{this.state.listItem}</tbody>
+          </table>
+        </div>
+      );
     } else {
       dataContent = this.state.listItem;
     }
@@ -292,8 +293,8 @@ export default class List extends React.Component {
     var loading = this.props.customLoading ? (
       this.props.customLoading
     ) : (
-        <Loader isCenter={true} size="2" text="Loading.."></Loader>
-      );
+      <Loader isCenter={true} size="2" text="Loading.."></Loader>
+    );
 
     var topView = null;
     var bottomView = null;
@@ -475,7 +476,8 @@ List.propTypes = {
   // page config
   pageClass: PropTypes.string,
   divClass: PropTypes.string,
-  showEmpty: PropTypes.bool
+  showEmpty: PropTypes.bool,
+  isCenter: PropTypes.bool,
 };
 
 List.defaultProps = {
@@ -489,7 +491,8 @@ List.defaultProps = {
   totalCount: null,
   listClass: "",
   listRef: null,
-  showEmpty: true
+  showEmpty: true,
+  isCenter: true,
 };
 
 /*******************************************************************************************/
@@ -636,8 +639,8 @@ export class ProfileListWide extends Component {
           {this.props.is_no_image ? (
             <div style={{ marginRight: "15px" }}></div>
           ) : (
-              <div className={`${className}-item col-md-2`}>{imgView}</div>
-            )}
+            <div className={`${className}-item col-md-2`}>{imgView}</div>
+          )}
           <div className={`${className}-item col-md-${contentSize}`}>
             <div className="item-main">
               <h4>{this.props.title}</h4>
@@ -827,13 +830,13 @@ export class CustomList extends Component {
         <div style={styleText}>{text}</div>
       </NavLink>
     ) : (
-        <a href={d.url} target="blank">
-          <div style={style} className="icon-circle">
-            <i className={`fa fa-${d.icon}`}></i>
-            <div style={styleText}>{text}</div>
-          </div>
-        </a>
-      );
+      <a href={d.url} target="blank">
+        <div style={style} className="icon-circle">
+          <i className={`fa fa-${d.icon}`}></i>
+          <div style={styleText}>{text}</div>
+        </div>
+      </a>
+    );
 
     var onClick = d.onClick ? d.onClick : this.props.onClick;
     var content = (
@@ -884,7 +887,9 @@ export class CustomList extends Component {
       if (typeof this.props.emptyMessage !== "undefined") {
         return <div style={emptyStyle} className="text-muted">{this.props.emptyMessage}</div>;
       } else {
-        return <div style={emptyStyle} className="text-muted">{lang("Nothing To Show Here")}</div>;
+        return <div style={emptyStyle} className="text-muted">
+          {lang("Nothing To Show Here")}
+        </div>;
       }
     }
 

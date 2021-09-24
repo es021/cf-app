@@ -50,11 +50,11 @@ class BlockLoader extends React.Component {
         if (state.loading !== null) {
             view = <Loader size="3" text={state.loading}></Loader>;
         } else if (state.success !== null) {
-            view = <div><h4 className="text-success">{lang("Success")}!</h4>{state.success}</div>;
+            view = <div><h3 className="text-success"><b>{lang("Success")}</b></h3>{state.success}</div>;
         } else if (state.error !== null) {
-            view = <div><h4 className="text-danger">{lang("Request Failed")}</h4>{state.error}</div>;
+            view = <div><h3 className="text-danger"><b>{lang("Request Failed")}</b></h3>{state.error}</div>;
         } else if (state.confirm !== null) {
-            view = <div><h4 className="text-primary">{state.confirm.title}</h4></div>;
+            view = <div><h4 className="text-primary"><b>{state.confirm.title}</b></h4></div>;
         } else if (state.custom !== null) {
             var title = (typeof state.custom.title !== "string")
                 ? state.custom.title
@@ -67,7 +67,7 @@ class BlockLoader extends React.Component {
 
         if (state.success !== null || state.error !== null) {
             var close = <div onClick={() => store.dispatch(layoutActions.hideBlockLoader())}
-                className="btn btn-sm btn-primary">
+                className="btn btn-sm btn-default">
                 {lang("CLOSE")}
             </div>;
             action = <div><br></br>

@@ -410,6 +410,10 @@ export default class CompanyPage extends Component {
 
   openResumeDrop() {
     var data = this.state.data;
+
+    // check resume drop count here
+    // TODO
+
     layoutActions.storeUpdateFocusCard(
       `Resume Drop - ${data.name}`,
       ResumeDropPopup,

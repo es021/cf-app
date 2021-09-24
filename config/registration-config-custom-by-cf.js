@@ -12,6 +12,15 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TARUCJUL21"]
     },
+    matric_no: {
+        label: "Matric No",
+        question: "Matric No",
+        icon: "slack",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["UTMIV21"]
+    },
     student_matrix_id: {
         label: "Student ID / Matrix ID",
         question: "Student ID / Matrix ID",
@@ -126,6 +135,37 @@ const CustomConfig = {
         ref_order_by: "val asc",
         is_required: true,
         onCf: ["TARUCJUL21"]
+    },
+    // ##############################################################
+    // UTMIV21
+    program_utmiv21: {
+        label: "Academic Programme",
+        question: "Academic Programme",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: [ "UTMIV21"]
+    },
+    level_of_study_utmiv21: {
+        label: "Level Of Study",
+        question: "Level Of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "level_of_study_utmiv21",
+        is_required: true,
+        onCf: [ "UTMIV21"]
+    },
+    faculty_utmiv21: {
+        label: "Faculty",
+        question: "Which faculty are you in?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "faculty_utmiv21",
+        is_required: true,
+        onCf: ["UTM21", "UTMIV21"]
     },
     // ##############################################################
     // UTM21
@@ -765,6 +805,13 @@ const CustomConfig = {
 }
 
 const CustomOrder = {
+    UTMIV21: [
+        "first_name",
+        "matric_no",
+        "level_of_study_utmiv21",
+        "program_utmiv21",
+        "faculty_utmiv21",
+    ],
     INTELDDSEPT21: [
         "first_name",
         "looking_for_position",

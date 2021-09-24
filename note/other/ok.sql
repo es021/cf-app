@@ -1,232 +1,28 @@
-SELECT * FROM (
-                SELECT 
+select 
+ss.ID , ss.user_id, ss.support_id, ss.message_count_id, ss.created_at
+, mc.updated_at as last_message_time
+, m.message as last_message
+        , CONCAT(
+                (select s.val from single_input s where s.entity_id = m.recruiter_id 
+                and s.entity = 'user' 
+                and s.key_input = 'first_name'),
+                " ",
+                (select s.val from single_input s where s.entity_id = m.recruiter_id 
+                and s.entity = 'user' 
+                and s.key_input = 'last_name')
+            ) as last_rec_name
+        
+, COUNT(mx.id_message_number) as ttl
 
-                        (SELECT rr1.ID FROM ref_oejf21_years_working rr1 WHERE rr1.val = s.val) as _order_1,
-                        (SELECT rr2.ID FROM ref_work_experience_year rr2 WHERE rr2.val = s.val) as _order_2,
+from support_sessions ss 
+INNER JOIN message_count mc on mc.id = ss.message_count_id
+INNER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
+LEFT OUTER JOIN messages mx on  
+                mx.id_message_number like CONCAT(mc.id,':%')
+                AND mx.from_user_id != 2046
+                AND mx.has_read = 0
+                AND mx.created_at > '2021-09-01 00:00:00'
+where 1=1 AND ss.support_id = 2046
 
-        s.key_input as _key,
-        s.val as _val,
-        "" as _val_label,
-        COUNT(*) as _total 
-
-        FROM single_input s
-        where 
-        (
-                ( 
-                                s.key_input = "intel_is_intel_employee"
-                                AND s.val IN (select r.val from ref_yes_no r)
-                        ) OR ( 
-                                s.key_input = "has_attended_before"
-                                AND s.val IN (select r.val from ref_yes_no r)
-                        ) OR 
-                1=0
-                OR
-                1=0
-                OR
-                1=0
-                OR
-                1=0
-                OR
-                1=0
-                OR
-                ( 
-                        s.key_input = "field_study_secondary"
-                                AND
-                        s.val IN (select r.val from ref_field_study r)
-                )
-                OR
-                ( 
-                                s.key_input = "field_study_main"
-                                        AND
-                                s.val IN (select r.val from ref_field_study r)
-                        )
-                OR
-                ( 
-                                s.key_input = "gender"
-                                        AND
-                                s.val IN (select r.val from ref_gender r)
-                        ) 
-                OR 
-                ( 
-                                s.key_input = "work_experience_year"
-                                        AND
-                                s.val IN (select r.val from ref_work_experience_year r)
-                        ) 
-                OR 
-                1=0 
-                OR 
-                1=0
-                OR 
-                1=0
-                OR
-                ( 
-                        s.key_input = "local_or_oversea_study"
-                        AND
-                        s.val IN (select r.val from ref_local_or_oversea r)
-                )
-                OR
-                ( 
-                        s.key_input = "local_or_oversea_location"
-                        AND
-                        s.val IN (select r.val from ref_local_or_oversea r)
-                )
-                OR
-                1=0
-                OR
-                1=0
-                OR
-                1=0
-        )
-        AND s.val != ""
-        AND s.val != "-- Please Select --"
-        AND s.entity = 'user'
-                                                                                                                                                                 AND ( 'INTELDDSEPT21' IN (select ms.cf from cf_map ms 
-                where ms.entity = 'user'
-                and ms.entity_id = s.entity_id) )
-                                                                                AND  CASE WHEN 
-                        (
-                                SELECT cmm.meta_value 
-                                FROM cfs_meta cmm 
-                                WHERE cmm.cf_name = "INTELDDSEPT21" 
-                                        AND cmm.meta_key = "feature_student_list_iv_only"
-                        ) = "ON"
-                        THEN 
-                                ( select COUNT(ps.ID) FROM pre_screens ps 
-                                        where ps.student_id = s.entity_id  AND ps.company_id = 1 
-                                ) > 0
-                        ELSE 1=1 END
-
-                                                                                AND (1=1 )
-                        AND (1=1 )
-                        AND  (select mm2.meta_value 
-                        FROM wp_cf_usermeta mm2 
-                        WHERE 1=1
-                        AND mm2.user_id = s.entity_id 
-                        AND mm2.meta_key = "wp_cf_capabilities") = 'a:1:{s:7:"student";b:1;}'
-
-        group by _order_1, _order_2, _key, _val
-
-                UNION ALL
-                SELECT 
-
-
-                        '' as _order_1,
-                        '' as _order_2,
-
-                s.key_input as _key, 
-                r.val as _val, 
-                r.state as _val_label, 
-                COUNT(*) as _total 
-
-                FROM single_input s, ref_city_state_country r
-                where 
-                1=1
-                AND s.key_input = "where_in_malaysia"
-                AND s.val = r.val
-                AND s.entity = 'user'
-                AND r.city IS NULL
-                AND r.state IS NOT NULL
-                                                                                                                                                                 AND ( 'INTELDDSEPT21' IN (select ms.cf from cf_map ms 
-                where ms.entity = 'user'
-                and ms.entity_id = s.entity_id) )
-                                                                                AND  CASE WHEN 
-                        (
-                                SELECT cmm.meta_value 
-                                FROM cfs_meta cmm 
-                                WHERE cmm.cf_name = "INTELDDSEPT21" 
-                                        AND cmm.meta_key = "feature_student_list_iv_only"
-                        ) = "ON"
-                        THEN 
-                                ( select COUNT(ps.ID) FROM pre_screens ps 
-                                        where ps.student_id = s.entity_id  AND ps.company_id = 1 
-                                ) > 0
-                        ELSE 1=1 END
-
-                                                                                AND (1=1 )
-                        AND (1=1 )
-                        AND  (select mm2.meta_value 
-                        FROM wp_cf_usermeta mm2 
-                        WHERE 1=1
-                        AND mm2.user_id = s.entity_id 
-                        AND mm2.meta_key = "wp_cf_capabilities") = 'a:1:{s:7:"student";b:1;}'
-
-                group by s.key_input, s.val
-                UNION ALL
-                select 
-
-                        '' as _order_1,
-                        '' as _order_2,
-
-                'skill' as _key, 
-                s.val as _val, 
-                "" as _val_label, 
-                COUNT(s.ID) as _total 
-
-                from multi_skill s
-                WHERE s.entity = 'user'
-                                                                                                                                                                 AND ( 'INTELDDSEPT21' IN (select ms.cf from cf_map ms 
-                where ms.entity = 'user'
-                and ms.entity_id = s.entity_id) )
-                                                                                AND  CASE WHEN 
-                        (
-                                SELECT cmm.meta_value 
-                                FROM cfs_meta cmm 
-                                WHERE cmm.cf_name = "INTELDDSEPT21" 
-                                        AND cmm.meta_key = "feature_student_list_iv_only"
-                        ) = "ON"
-                        THEN 
-                                ( select COUNT(ps.ID) FROM pre_screens ps 
-                                        where ps.student_id = s.entity_id  AND ps.company_id = 1 
-                                ) > 0
-                        ELSE 1=1 END
-
-                                                                                AND (1=1 )
-                        AND (1=1 )
-                        AND  (select mm2.meta_value 
-                        FROM wp_cf_usermeta mm2 
-                        WHERE 1=1
-                        AND mm2.user_id = s.entity_id 
-                        AND mm2.meta_key = "wp_cf_capabilities") = 'a:1:{s:7:"student";b:1;}'
-
-                                GROUP BY s.val
-                UNION ALL
-                select 
-
-                        '' as _order_1,
-                        '' as _order_2,
-
-                'looking_for_position' as _key, 
-                s.val as _val, 
-                "" as _val_label, 
-                COUNT(s.ID) as _total 
-
-                from multi_looking_for_position s
-                WHERE s.entity = 'user'
-                                                                                                                                                                 AND ( 'INTELDDSEPT21' IN (select ms.cf from cf_map ms 
-                where ms.entity = 'user'
-                and ms.entity_id = s.entity_id) )
-                                                                                AND  CASE WHEN 
-                        (
-                                SELECT cmm.meta_value 
-                                FROM cfs_meta cmm 
-                                WHERE cmm.cf_name = "INTELDDSEPT21" 
-                                        AND cmm.meta_key = "feature_student_list_iv_only"
-                        ) = "ON"
-                        THEN 
-                                ( select COUNT(ps.ID) FROM pre_screens ps 
-                                        where ps.student_id = s.entity_id  AND ps.company_id = 1 
-                                ) > 0
-                        ELSE 1=1 END
-
-                                                                                AND (1=1 )
-                        AND (1=1 )
-                        AND  (select mm2.meta_value 
-                        FROM wp_cf_usermeta mm2 
-                        WHERE 1=1
-                        AND mm2.user_id = s.entity_id 
-                        AND mm2.meta_key = "wp_cf_capabilities") = 'a:1:{s:7:"student";b:1;}'
-
-                AND  (s.val = 'Full-Time' OR s.val = 'Internship') 
-                GROUP BY s.val
-        ) 
-        X ORDER BY X._key, X._order_1 asc, X._order_2 asc, X._val_label asc, X._val asc, X._total desc
+GROUP BY ss.ID, ss.user_id, ss.support_id, ss.message_count_id, ss.created_at, last_message_time, last_message, last_rec_name
+ORDER BY mc.updated_at desc, ss.created_at desc

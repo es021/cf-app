@@ -16,6 +16,8 @@ import {
   isRoleRec
 } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
+import * as hallAction from "../../../redux/actions/hall-actions";
+
 import { ActivityType } from "../../../redux/actions/hall-actions";
 import PropTypes, { func } from "prop-types";
 import { RootPath } from "../../../../config/app-config";
@@ -307,6 +309,9 @@ export class ScheduledInterview extends React.Component {
           mes = (
             <div>
               {lang("New private call has been successfully scheduled. View call at")}{" "}
+              {/* <a href={`${RootPath}/app/`}>
+                {lang("Home Page")}
+              </a> */}
               <NavLink
                 onClick={() => {
                   layoutActions.storeHideBlockLoader();
@@ -314,7 +319,8 @@ export class ScheduledInterview extends React.Component {
                 to={`${RootPath}/app/`}
               >
                 {lang("Home Page")}
-              </NavLink>{" "}
+              </NavLink>
+              {" "}
               {lang("under Interview section.")}
             </div>
           );
@@ -330,6 +336,7 @@ export class ScheduledInterview extends React.Component {
         // emit to student only
         // emit to reload scheduled interview
         emitHallActivity(ActivityType.PRESCREEN, d.student_id);
+        hallAction.storeLoadActivity(ActivityType.PRESCREEN);
       }
     };
 
@@ -572,7 +579,7 @@ export class ScheduledInterview extends React.Component {
             return lang("This candidate already had another interview scheduled on the selected time. Please select a different time");
           }
         } catch (err) { }
-        
+
         return d;
       });
 

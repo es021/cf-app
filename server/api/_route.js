@@ -21,6 +21,21 @@ const initializeAllRoute = function (app, root) {
   };
 
   // -------------------------------------------------------------------
+  const { TimePickerAPI } = require("./time-picker-api");
+  app.post(root + "/time-picker/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    TimePickerAPI.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
+
+
+  // -------------------------------------------------------------------
   const { AdminAPI } = require("./admin-api");
   app.post(root + "/admin/:action", function (req, res, next) {
     var action = req.params.action;
@@ -348,8 +363,8 @@ const initializeAllRoute = function (app, root) {
     var filter = req.body.filter;
     var cf = req.body.cf;
     var is_admin = req.body.is_admin;
-    
-    
+
+
     var cf_title = req.body.cf_title;
     if (!cf_title) {
       cf_title = "SeedsJobFair";

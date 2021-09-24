@@ -31,6 +31,15 @@ class SupportSessionExec {
         var user_id_where = (typeof params.user_id === "undefined") ? "1=1" :
             `ss.${SupportSession.USER_ID} = ${params.user_id}`;
 
+
+        var bigger_than_key = (!params.bigger_than_key) ? "1=1" :
+            `CONCAT(mc.updated_at, "::", ss.ID) > "${params.bigger_than_key}" `;
+
+        var smaller_than_key = (!params.smaller_than_key) ? "1=1" :
+            `CONCAT(mc.updated_at, "::", ss.ID) < "${params.smaller_than_key}" `;
+
+        var limit = DB.prepareLimit(1, params.offset);
+
         var order_by = "ORDER BY mc.updated_at desc, ss.created_at desc";
         var select = "";
         // last_message_time
@@ -53,7 +62,9 @@ class SupportSessionExec {
             ss.user_id, 
             ss.support_id, 
             ss.message_count_id, 
-            ss.created_at
+            ss.created_at,
+
+            CONCAT(mc.updated_at, "::", ss.ID) as order_key
 
             ${select}
 
@@ -69,16 +80,18 @@ class SupportSessionExec {
                     AND mx.created_at > '${START_TOTAL_UNREAD_TIME}'
 
             WHERE 
-            ${support_id_where} AND ${user_id_where} 
+            ${support_id_where} AND ${user_id_where} AND ${bigger_than_key} AND ${smaller_than_key}
             
             GROUP BY ss.ID, ss.user_id, ss.support_id, ss.message_count_id, ss.created_at, last_message_time, last_message, last_rec_name
 
             ${order_by}
+
+            ${limit}
         `;
         return toRet;
 
         // return `select ss.* ${select},
-            
+
         //     (select count(*) from messages mx 
         //         where mx.id_message_number = mc.id
         //         AND mx.from_user_id != ${params.support_id ? params.support_id : params.user_id}

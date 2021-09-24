@@ -35,6 +35,7 @@ import ManageTag from "./tag";
 import { lang } from "../lib/lang";
 import ManageVacancy from "./manage-vacancy";
 import ManageEmailNotification from "./manage-email-notification";
+import ManageCompanyAvailableTime from "./partial/company/manage-company-available-time";
 
 const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 
@@ -573,6 +574,14 @@ export default class ManageCompanyPage extends React.Component {
     };
 
     if (isRoleAdmin()) {
+      item["available-time"] = {
+        label: "Manage Available Time",
+        component: ManageCompanyAvailableTime,
+        props: {
+          company_id: this.company_id
+        },
+        icon: "clock-o"
+      };
       item["student-listing"] = {
         label: "Student Listing",
         component: StudentListing,

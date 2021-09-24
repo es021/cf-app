@@ -27,6 +27,16 @@ const {
 	SkillExec
 } = require("./skill-query.js");
 
+const RoleMetaValue = {
+	student: `a:1:{s:7:"student";b:1;}`,
+	recruiter: `a:1:{s:9:"recruiter";b:1;}`,
+	administrator: `a:1:{s:13:"administrator";b:1;}`,
+	editor: `a:1:{s:6:"editor";b:1;}`,
+	support: `a:1:{s:7:"support";b:1;}`,
+	volunteer: `a:1:{s:9:"volunteer";b:1;}`,
+	organizer: `a:1:{s:9:"organizer";b:1;}`,
+}
+
 // @login_by_student_id
 class UserQuery {
 	isRoleStudent(uid) {
@@ -273,11 +283,19 @@ class UserQuery {
 				`(${this.selectSingleMain("u.ID", getIdUtmKey(params.cf))}) = '${params.id_utm}' ` :
 				`1=1`;
 
+
+		// TODO
 		var role_condition =
 			typeof params.role !== "undefined" ?
-				`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role
-				}%' ` :
+				`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) = '${RoleMetaValue[params.role]}' ` :
 				`1=1`;
+
+		// var role_condition =
+		// 	typeof params.role !== "undefined" ?
+		// 		`(${this.selectMetaMain("u.ID", UserMeta.ROLE)}) LIKE '%${params.role
+		// 		}%' ` :
+		// 		`1=1`;
+
 		var order_by =
 			typeof params.order_by !== "undefined" ?
 				`order by u.${params.order_by}` :
@@ -380,9 +398,9 @@ class UserQuery {
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;
 
-		// // console.log(sql);
-		// // console.log(sql);
-		// // console.log(sql);
+		// console.log(sql);
+		// console.log(sql);
+		// console.log(sql);
 
 		return sql;
 	}

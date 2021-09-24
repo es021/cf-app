@@ -127,6 +127,7 @@ class CompaniesPage extends React.Component {
                 placeholder: "Company Name",
                 required: true
             }];
+
     }
 
     formOnSubmit(d) {
@@ -162,9 +163,6 @@ class CompaniesPage extends React.Component {
                 cf
                 type
                 sponsor_only
-                recruiters{
-                    ID user_email
-                }
                 priviledge
             }
         }`);
@@ -216,22 +214,8 @@ class CompaniesPage extends React.Component {
                     {CompanyEnum.getTypeStr(d.type)}
                 </td>);
             }
-            // else if (key == "status") {
-            //     row.push(<td>
-            //         <small>
-            //             <ul className="normal">
-            //                 <li>{(d.status)}</li>
-            //                 {(d.sponsor_only) ? <li>Sponsor Only</li> : null}
-            //                 {(d.accept_prescreen) ? <li>Accept Prescreen</li> : null}
-            //             </ul>
-            //         </small>
-            //     </td>);
-            // } 
-            else if (key == "recruiters") {
-                recs = d[key].map((rec, i) => {
-                    return <li>{`${rec.user_email} (${rec.ID})`}</li>;
-                });
-            } else if (key == "cf") {
+          
+            else if (key == "cf") {
                 var privs = d["priviledge"];
                 privs = CompanyEnum.parsePrivs(privs);
                 privs = privs.map((_d, i) => {
@@ -256,34 +240,40 @@ class CompaniesPage extends React.Component {
             else {
                 row.push(<td>{d[key]}</td>);
             }
+
         }
 
-        // {d.accept_prescreen ? <ButtonExport action="prescreens" text="Prescreens"
-        //         filter={{ company_id: d.ID }}></ButtonExport> : null}
-        //export data
-        // row.push(<td className="text-center">
-        //     <ButtonExport action="student_listing" text="Student Listing"
-        //         filter={{ company_id: d.ID, cf: getCF() }}></ButtonExport>
-        //     {/* <ButtonExport action="prescreens" text="Prescreens"
-        //         filter={{ company_id: d.ID }}></ButtonExport> */}
-        //     {/* <ButtonExport action="resume_drops" text="Resume Drops"
-        //         filter={{ company_id: d.ID }}></ButtonExport> */}
-        //     {/* <ButtonExport action="sessions" text="Past Sessions"
-        //         filter={{ company_id: d.ID }}></ButtonExport> */}
-        //     {/* <ButtonExport action="session_requests" text="Session Request"
-        //         filter={{ company_id: d.ID }}></ButtonExport> */}
-        // </td>);
 
         // student listing
         row.push(<td><NavLink className="btn btn-gray btn-round-5" to={`${AppPath}/browse-student-company/${d.ID}`}>View Student Listing</NavLink></td>)
 
-        //recruiter
-        row.push(<td>
-            <ul>{recs}</ul>
-        </td>);
+        // see recruiter
+        row.push(<td><a onClick={() => {
+            layoutActions.loadingBlockLoader();
+            let q = `query{
+                company(ID:${d.ID}) {
+                recruiters {ID user_email} 
+                }
+            }`;
+            getAxiosGraphQLQuery(q).then(res => {
+                console.log("Data", res);
+                let rec = res.data.data.company.recruiters;
+                let v = [];
+                if (rec.length <= 0) {
+                    v = [<i><br></br>No recruiter added<br></br>to this company yet</i>]
+                } else {
+                    for (let r of rec) {
+                        v.push(<li>{r.user_email} ({r.ID})</li>);
+                    }
+                }
+                layoutActions.customBlockLoader("Recruiters", null, null, null, false, <ul>{v}</ul>);
+            })
+        }}>See Recruiters</a></td>);
 
         return row;
     };
+
+
 
     getDataFromRes(res) {
         return res.data.data.companies;

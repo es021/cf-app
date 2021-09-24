@@ -9,6 +9,7 @@
   word-break: break-all !important;
 }
 
+
 html {
   scroll-behavior: smooth;
   height: 100%;
@@ -147,6 +148,11 @@ footer {
 
   //     }
   // }
+}
+
+
+table.table-striped{
+  background: whitesmoke ;
 }
 
 /**Layout for Small Size 360px */

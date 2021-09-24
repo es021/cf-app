@@ -41,7 +41,59 @@ class ResumeDropQuery {
 ResumeDropQuery = new ResumeDropQuery();
 const RD_LIMIT = 3;
 class ResumeDropExec {
+    resume_drops_limit_by_cf(param, field) {
+        var sql = `SELECT
+        (select count(*) from resume_drops r where r.student_id = ? and r.cf = ?) as current,
+        (select m.meta_value from cfs_meta m where m.meta_key = 'limit_drop_resume' and m.cf_name = ?) as limit_drop
+        `;
+        sql = DB.prepare(sql, [param.user_id, param.cf, param.cf]);
 
+        return DB.query(sql).then(res => {
+            let current = null;
+            let limit_drop = null;
+            let is_over_limit = 0;
+
+            console.log("is_over_limit", is_over_limit);
+            console.log("is_over_limit", is_over_limit);
+            console.log("is_over_limit", is_over_limit);
+
+            try {
+                current = res[0].current;
+                current = Number.parseInt(current);
+            } catch (err) { }
+
+            try {
+                limit_drop = res[0].limit_drop;
+                limit_drop = Number.parseInt(limit_drop);
+            } catch (err) { }
+
+            if (isNaN(current)) {
+                current = null;
+            }
+            if (isNaN(limit_drop)) {
+                limit_drop = null;
+            }
+
+            console.log("current", current);
+            console.log("limit_drop", limit_drop);
+
+            if (current && !isNaN(current) && limit_drop && !isNaN(limit_drop)) {
+                if (current >= limit_drop) {
+                    is_over_limit = 1;
+                }
+            }
+
+
+            console.log("is_over_limit", is_over_limit);
+
+            return {
+                current: current,
+                limit_drop: limit_drop,
+                is_over_limit: is_over_limit
+            };
+        });
+
+    }
     /*******************************************/
     /* resume_drops_limit ******************/
     // return limit if feedback is empty

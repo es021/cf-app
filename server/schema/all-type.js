@@ -705,7 +705,7 @@ const UserNoteType = new GraphQLObjectType({
 	fields: () => ({
 		ID: __.Int,
 		company_id: __.Int,
-		note : __.String,
+		note: __.String,
 		created_at: __.String,
 		updated_at: __.String,
 		created_by: __.Int,
@@ -731,12 +731,22 @@ const ResumeDropType = new GraphQLObjectType({
 		ID: __.Int,
 		student_id: __.Int,
 		company_id: __.Int,
+		cf: __.String,
 		message: __.String,
 		created_at: __.String,
 		updated_at: __.String,
 		doc_links: __.ListOf(DocLinkType),
 		student: __.IsType(UserType),
 		company: __.IsType(CompanyType)
+	})
+});
+
+const ResumeDropLimitByCfType = new GraphQLObjectType({
+	name: "ResumeDropLimitByCf",
+	fields: () => ({
+		current: __.Int,
+		limit_drop: __.Int,
+		is_over_limit: __.Int,
 	})
 });
 
@@ -919,6 +929,9 @@ const SupportSessionType = new GraphQLObjectType({
 		ID: __.Int,
 		user_id: __.Int,
 		support_id: __.Int,
+
+		order_key: __.String,
+
 		message_count_id: __.String,
 
 		// the updated time in message count id
@@ -1064,6 +1077,43 @@ const CompanyEmailType = new GraphQLObjectType({
 	})
 });
 
+const GroupCallType = new GraphQLObjectType({
+	name: "GroupCall",
+	fields: () => ({
+		ID: __.Int,
+		company_id: __.Int,
+		name: __.String,
+		cf: __.String,
+		appointment_time: __.Int,
+		url: __.String,
+		is_canceled: __.Int,
+
+		company: __.IsType(CompanyType),
+		user_count: __.Int,
+		users: __.ListOf(GroupCallUserType),
+
+
+		created_at: __.String,
+		updated_at: __.String,
+		created_by: __.Int,
+		updated_by: __.Int,
+	})
+});
+
+const GroupCallUserType = new GraphQLObjectType({
+	name: "GroupCallUser",
+	fields: () => ({
+		ID: __.Int,
+		group_call_id: __.Int,
+		user_id: __.Int,
+		user: __.IsType(UserType),
+		created_at: __.String,
+		updated_at: __.String,
+		created_by: __.Int,
+		updated_by: __.Int,
+	})
+});
+
 
 const AnnouncementType = new GraphQLObjectType({
 	name: "Announcement",
@@ -1095,6 +1145,7 @@ module.exports = {
 	ZoomMeetingType,
 	ZoomInviteType,
 	CompanyType,
+	ResumeDropLimitByCfType,
 	QueueType,
 	MessageType,
 	PrescreenType,
@@ -1133,6 +1184,8 @@ module.exports = {
 	TagType,
 	RefGeneral,
 	IsSeenType,
-	UserNoteType
+	UserNoteType,
+	GroupCallType,
+	GroupCallUserType
 	//, CFType
 };

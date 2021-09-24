@@ -1,29 +1,22 @@
 import React, { PropTypes } from "react";
-import { NavLink } from "react-router-dom";
-import GeneralFormPage from "../../../component/general-form";
 import { InterestedButton } from "../../../component/interested";
 import BannerFloat from "../../../component/banner-float";
 import { addIsSeen } from "../../../component/is-seen";
-import { ButtonExport } from "../../../component/buttons.jsx";
-
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import {
-    isComingSoon,
     isRoleRec,
-    isRoleStudent,
     getCF,
     getAuthUser,
     isRoleAdmin,
-    getCfCustomMeta
+    getCfCustomMeta,
+    isCfFeatureOn
 } from "../../../redux/actions/auth-actions";
-import { ProfileListWide } from "../../../component/list";
 import { Time } from "../../../lib/time";
 import { createUserTitle } from "../../users";
 import {
     openSIFormAnytime
 } from "../../partial/activity/scheduled-interview";
 import { createUserDocLinkList } from "../popup/user-popup";
-import { RootPath } from "../../../../config/app-config";
 import {
     UserEnum,
     PrescreenEnum,
@@ -36,6 +29,7 @@ import { lang } from "../../../lib/lang";
 import Tooltip from "../../../component/tooltip";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 import { BrowseStudentNote } from "./browse-student-note";
+import { openPopupScheduleGroupCall } from "../group-call/group-call-helper";
 
 export class BrowseStudentCard extends React.Component {
     constructor(props) {
@@ -312,6 +306,19 @@ export class BrowseStudentCard extends React.Component {
             {lang(getCfCustomMeta(CFSMeta.TEXT_SCHEDULE_CALL, `Schedule Call`))}
         </button>
 
+        const actionScheduleGroupCall =
+            isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
+                ? <button
+                    onClick={() => {
+                        openPopupScheduleGroupCall(this.props.company_id, d.student_id);
+                        this.triggerIsSeen();
+                    }}
+                    className="btn btn-round-5 btn-block btn-sm btn-red text-bold">
+                    <i className="fa fa-users left" />
+                    {lang(`Add To Group Call`)}
+                </button>
+                : null;
+
         // let actionAddNote = null
         let actionAddNote = isRoleRec()
             ? <BrowseStudentNote
@@ -395,7 +402,7 @@ export class BrowseStudentCard extends React.Component {
         let body = <div className="container-fluid">
             {isSeenView}
             <div className="row browse-student-card-body">
-                <div className="col-md-9">
+                <div className="col-md-8">
                     {scheduledView ? <div style={{ marginBottom: "10px" }} className="bsc-scheduled"><u>{scheduledView}</u></div> : null}
                     <div className="bsc-title">{title}</div>
                     {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
@@ -405,11 +412,25 @@ export class BrowseStudentCard extends React.Component {
                     {this.getViewLine(d, "5")}
                 </div>
                 {this.props.isRec ?
-                    <div className="col-md-3 center-on-md-and-less">
+                    <div className="col-md-4 center-on-md-and-less">
                         <div className="break-10-on-md-and-less"></div>
                         {actionSchedule}
-                        {actionAddNote}
-                        {actionShortlist}
+                        {actionScheduleGroupCall}
+                        <div className="row" style={{ marginTop: '5px', padding: '0px 15px' }}>
+                            {actionAddNote
+                                ? [
+                                    <div className="col-xs-6 no-padding" style={{ paddingRight: '2.5px' }}>
+                                        {actionAddNote}
+                                    </div>,
+                                    <div className="col-xs-6  no-padding" style={{ paddingLeft: '2.5px' }}>
+                                        {actionShortlist}
+                                    </div>
+                                ]
+                                : <div className="col-xs-12  no-padding">
+                                    {actionShortlist}
+                                </div>
+                            }
+                        </div>
                         <div className="break-10-on-md-and-less"></div>
                     </div>
                     : null}
