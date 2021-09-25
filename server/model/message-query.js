@@ -142,6 +142,7 @@ class MessageExec {
       var id_message_number = `${pre_id}:${res.count}`;
       var ins_mes = {
         id_message_number: id_message_number,
+        id_message : pre_id,
         message: message,
         from_user_id: sender_id,
 

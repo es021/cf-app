@@ -1,4 +1,17 @@
 
+ALTER TABLE `messages` ADD `id_message` VARCHAR(100) 
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci
+NULL AFTER `id_message_number`, ADD INDEX (`id_message`);
+
+UPDATE `messages` SET id_message = SUBSTRING_INDEX(id_message_number, ":", 2)
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
 CREATE TABLE `wp_career_fair`.`group_call` 
 ( `ID` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , 
 `company_id` BIGINT(20) UNSIGNED NOT NULL , 
@@ -66,13 +79,6 @@ ALTER TABLE `resume_drops` ADD `cf` VARCHAR(50) NOT NULL DEFAULT '' AFTER `ID`, 
 -- feature_chat : ON
 -- limit_drop_resume : 4
 
-
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `pivot_student_filter` ADD `is_active` TINYINT NOT NULL DEFAULT '1' AFTER `ID`, ADD INDEX (`is_active`);
 
 CREATE TABLE `company_emails` (

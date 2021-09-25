@@ -74,7 +74,7 @@ class SupportSessionExec {
                 INNER JOIN message_count mc on mc.id = ss.message_count_id
                 INNER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
                 LEFT OUTER JOIN messages mx on  
-                    mx.id_message_number like CONCAT(mc.id,':%')
+                    mx.id_message = mc.id
                     AND mx.from_user_id != ${params.support_id ? params.support_id : params.user_id}
                     AND mx.has_read = 0
                     AND mx.created_at > '${START_TOTAL_UNREAD_TIME}'
