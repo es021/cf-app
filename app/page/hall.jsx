@@ -450,6 +450,8 @@ export default class HallPage extends React.Component {
 
     let v = null;
 
+    console.log("isCfFeatureOff(CFSMeta.FEATURE_EVENT)", isCfFeatureOff(CFSMeta.FEATURE_EVENT))
+    console.log("isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)", isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL))
     // ################################
     // ################################
     // STUDENT VIEW
@@ -458,10 +460,10 @@ export default class HallPage extends React.Component {
         v = <div className="hall-page">
           {this.getGallery("#eef0ee")}
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
-            ? this.getStudentInterview(null)
-            : isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
+            ? isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
               ? this.getStudentInterviewGroupCall(null)
-              : this.getStudentInterviewAndEvent(null)
+              : this.getStudentInterview(null)
+            : this.getStudentInterviewAndEvent(null)
           }
           {this.getCompanyBooth("#eef0ee")}
           {this.getJobPost(null)}
@@ -471,10 +473,10 @@ export default class HallPage extends React.Component {
           {this.getGallery("#eef0ee")}
           {this.getWelcomeAndSponsor(null)}
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
-            ? this.getStudentInterview("#eef0ee")
-            : isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
+            ? isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
               ? this.getStudentInterviewGroupCall("#eef0ee")
-              : this.getStudentInterviewAndEvent("#eef0ee")
+              : this.getStudentInterview("#eef0ee")
+            : this.getStudentInterviewAndEvent("#eef0ee")
           }
           {this.getCompanyBooth(null)}
           {this.getJobPost("#eef0ee")}
