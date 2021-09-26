@@ -494,7 +494,7 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: true,
       hd_auth: false,
-      disabled: !isRoleStudent()
+      disabled: !isRoleStudent() || isCfFeatureOff(CFSMeta.FEATURE_STUDENT_JOB_POST)
     },
     {
       // Student Only
