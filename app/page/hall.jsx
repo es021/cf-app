@@ -393,6 +393,21 @@ export default class HallPage extends React.Component {
       </div>
     </div>
   }
+  getStudentInterviewGroupCall(backgroundColor) {
+    return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
+      <div className="row main-width">
+        <div className="col-md-6">
+          {this.getStudentInterviewHelper()}
+        </div>
+        <div className="col-md-6">
+          {this.getStudentGroupCallHelper()}
+        </div>
+        {/* <div className="col-md-6">
+          {this.getStudentEventHelper()}
+        </div> */}
+      </div>
+    </div>
+  }
   getStudentInterviewGroupCallAndEvent(backgroundColor) {
     return <div className="container-fluid" style={{ backgroundColor: backgroundColor }}>
       <div className="row main-width">
@@ -445,7 +460,7 @@ export default class HallPage extends React.Component {
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
             ? this.getStudentInterview(null)
             : isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
-              ? this.getStudentInterviewGroupCallAndEvent(null)
+              ? this.getStudentInterviewGroupCall(null)
               : this.getStudentInterviewAndEvent(null)
           }
           {this.getCompanyBooth("#eef0ee")}
@@ -458,7 +473,7 @@ export default class HallPage extends React.Component {
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
             ? this.getStudentInterview("#eef0ee")
             : isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
-              ? this.getStudentInterviewGroupCallAndEvent("#eef0ee")
+              ? this.getStudentInterviewGroupCall("#eef0ee")
               : this.getStudentInterviewAndEvent("#eef0ee")
           }
           {this.getCompanyBooth(null)}

@@ -720,6 +720,7 @@ const CFSMeta = {
 
 	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome", // just the container in home
 	FEATURE_EVENT: "feature_event", // effect the specific event container in home and company profile
+	FEATURE_EVENT_STUDENT: "feature_event_student", // effect the specific event container in home and company profile
 
 	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",

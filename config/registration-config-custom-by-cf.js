@@ -12,15 +12,6 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TARUCJUL21"]
     },
-    matric_no: {
-        label: "Matric No",
-        question: "Matric No",
-        icon: "slack",
-        type: "single",
-        input_type: "text",
-        is_required: true,
-        onCf: ["UTMIV21"]
-    },
     student_matrix_id: {
         label: "Student ID / Matrix ID",
         question: "Student ID / Matrix ID",
@@ -807,7 +798,7 @@ const CustomConfig = {
 const CustomOrder = {
     UTMIV21: [
         "first_name",
-        "matric_no",
+        "id_utm",
         "level_of_study_utmiv21",
         "program_utmiv21",
         "faculty_utmiv21",

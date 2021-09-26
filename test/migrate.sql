@@ -1,3 +1,27 @@
+CREATE TABLE `wp_career_fair`.`ref_id_utmiv21` 
+( 
+  `ID` INT NOT NULL AUTO_INCREMENT , 
+  `val` VARCHAR(50)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
+
+INSERT INTO wp_career_fair.ref_id_utmiv21 (val) VALUES ('TEST1'); 
+INSERT INTO wp_career_fair.ref_id_utmiv21 (val) VALUES ('TEST2'); 
+INSERT INTO wp_career_fair.ref_id_utmiv21 (val) VALUES ('TEST3'); 
+
+-- UTMIV21
+
+UPDATE cfs_meta SET meta_value = 'OFF' WHERE meta_key = 'feature_student_job_post' and cf_name = 'UTMIV21';
+UPDATE cfs_meta SET meta_value = 'OFF' WHERE meta_key = 'feature_recruiter_job_post' and cf_name = 'UTMIV21';
+UPDATE cfs_meta SET meta_value = 'OFF' WHERE meta_key = 'feature_event' and cf_name = 'UTMIV21';
+INSERT INTO cfs_meta (meta_value,meta_key,cf_name) VALUES 
+( 'OFF', 'feature_event_student','UTMIV21' );
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
 
 ALTER TABLE `messages` ADD `id_message` VARCHAR(100) 
 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci
@@ -5,12 +29,6 @@ NULL AFTER `id_message_number`, ADD INDEX (`id_message`);
 
 UPDATE `messages` SET id_message = SUBSTRING_INDEX(id_message_number, ":", 2)
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 CREATE TABLE `wp_career_fair`.`group_call` 
 ( `ID` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , 

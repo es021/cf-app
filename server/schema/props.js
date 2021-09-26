@@ -46,6 +46,7 @@ EXPORT.Cfs = {
     feature_student_list_resume_drop_only: __.String,
     feature_event_and_welcome: __.String,
     feature_event: __.String,
+    feature_event_student: __.String,
 
     feature_recruiter_interested_student: __.String,
     feature_recruiter_login: __.String,

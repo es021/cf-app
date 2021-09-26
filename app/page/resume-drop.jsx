@@ -251,7 +251,7 @@ export default class ResumeDropPage extends React.Component {
         text: (
           <span>
             You will be <b>notified through email</b> if you are selected for
-            1-1 session
+            an interview.
           </span>
         )
       }

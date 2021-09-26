@@ -260,6 +260,9 @@ export default class HallRecruiterPage extends React.Component {
     if (isGroupCallOn && !isJobOff && !isEventOff) {
       toRet.push(<div className="col-lg-6">{groupCall}</div>)
       toRet.push(<div className="col-lg-6">{job}{event}</div>)
+    } else if (isGroupCallOn && !isEventOff) {
+      toRet.push(<div className="col-lg-6">{groupCall}</div>)
+      toRet.push(<div className="col-lg-6">{event}</div>)
     } else if (isGroupCallOn) {
       toRet.push(<div className="col-md-2"></div>)
       toRet.push(<div className="col-md-8">{groupCall}</div>)

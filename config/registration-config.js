@@ -72,6 +72,9 @@ function getIdLabelByCf(cf) {
     if (["UTM21"].indexOf(cf) >= 0) {
         return "Matrix No / UTM Acid ID (For Unemployed Graduands Only)";
     }
+    if (["UTMIV21"].indexOf(cf) >= 0) {
+        return "Matrix No / UTM Acid ID";
+    }
     if (cf == "UMT") {
         return "Matrix No";
     }
@@ -89,6 +92,10 @@ const CustomConfig = {
         onCf: ["UTM21"]
     },
 };
+
+const CustomDiscardEditProfile = {
+    UTMIV21: ["id_utm"]
+}
 
 const CustomOrder = {
     ...RegConfigCustomByCf.CustomOrder,
@@ -186,8 +193,14 @@ const isInCustomOrder = (cf, key) => {
 
 const pickAndReorderByCf = (cf, r) => {
     let order = null;
+    let discardEditProfile = [];
+
     if (CustomOrder[cf]) {
         order = CustomOrder[cf];
+    }
+
+    if (CustomDiscardEditProfile[cf]) {
+        discardEditProfile = CustomDiscardEditProfile[cf];
     }
 
     if (order) {
@@ -210,7 +223,14 @@ const pickAndReorderByCf = (cf, r) => {
 
             if (Array.isArray(indexes)) {
                 for (let i of indexes) {
-                    newR.push(r[i]);
+                    let item = r[i];
+                    let id = item["id"];
+
+                    if (discardEditProfile.indexOf(id) >= 0) {
+                        continue;
+                    }
+
+                    newR.push(item);
                 }
             }
         }
@@ -274,7 +294,7 @@ const isCustomUserInfoOff = (cf, key) => {
             break;
         case Single.id_utm:
             // @login_by_student_id
-            onCf = ["UTM20", "UTM21", "UMT"];
+            onCf = ["UTM20", "UTM21", "UMT", "UTMIV21"];
             break;
         case Single.id_unisza:
             onCf = ["UNISZA"];
@@ -356,7 +376,7 @@ const isDoJpaKptValidation = (cf) => {
 // @id_utm_validation - SET_CF_HERE
 // @login_by_student_id
 const isDoIdUtmValidation = (cf) => {
-    let valid = ["UTM20", "UTM21", "UMT"];
+    let valid = ["UTM20", "UTM21", "UMT", "UTMIV21"];
     return valid.indexOf(cf) >= 0;
 }
 
