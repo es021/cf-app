@@ -380,6 +380,13 @@ const isDoIdUtmValidation = (cf) => {
     return valid.indexOf(cf) >= 0;
 }
 
+const getContactEmailForInvalidIdUtm = (cf) => {
+    switch (cf) {
+        case "UTMIV21": return "norazwa@utm.my";
+    }
+    return "graduates@seedsjobfair.com";
+}
+
 const RequiredFieldStudent = [
     UserMeta.FIRST_NAME,
     UserMeta.LAST_NAME,
@@ -471,6 +478,7 @@ module.exports = {
     customRef,
     isDoJpaKptValidation, // @kpt_validation
     isDoIdUtmValidation, // @id_utm_validation
+    getContactEmailForInvalidIdUtm,
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,

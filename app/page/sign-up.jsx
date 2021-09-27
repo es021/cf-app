@@ -18,13 +18,16 @@ import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
 import { Loader } from "../component/loader";
+import { getContactEmailForInvalidIdUtm } from "../../config/registration-config";
 
 export const ErrorMessage = {
   ID_UTM_NOT_VALID: (id_utm) => {
+    let contactEmail = getContactEmailForInvalidIdUtm(getCF());
     return <div>
       Sorry, we couldn't find your {getNoMatrixLabel()} (<b>{id_utm}</b>)! Email us at{" "}
       {/* <a href="mailto:azreen.nasir@talentcorp.com.my">azreen.nasir@talentcorp.com.my</a>, */}
-      <a href="mailto:graduates@seedsjobfair.com">graduates@seedsjobfair.com</a>
+      {/* <a href="mailto:graduates@seedsjobfair.com">graduates@seedsjobfair.com</a> */}
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
       <br></br>
     </div>
   },
@@ -294,7 +297,7 @@ export default class SignUpPage extends React.Component {
               errorMsg = ErrorMessage.ID_UTM_NOT_VALID(d[UserMeta.ID_UTM]);
             }
 
-            if(errorMsg == AuthAPIErr.USERNAME_EXIST){
+            if (errorMsg == AuthAPIErr.USERNAME_EXIST) {
               console.log("login trus?")
             }
 
