@@ -52,7 +52,18 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "UTMIV21"]
+    },
+    nationality: {
+        label: "Nationality",
+        question: "Nationality",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "nationality",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["UTMIV21"]
     },
     job_category: {
         label: "Looking For Job",
@@ -74,9 +85,10 @@ const CustomConfig = {
         question: "Full Name (Per IC/Passport)",
         label: "Full Name (Per IC/Passport)",
         icon: "address-card",
+        is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21","UTMIV21"]
     },
     resident_malaysia: {
         discard_popup_on: (d) => {
@@ -356,7 +368,7 @@ const CustomConfig = {
         ref_table_name: "state_other",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_resident_other: {
         discard_filter: true,
@@ -369,7 +381,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_qualification: {
         discard_popup_on: (d) => {
@@ -383,7 +395,7 @@ const CustomConfig = {
         ref_table_name: "d2w21_qualification",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_qualification_other: {
         discard_filter: true,
@@ -396,7 +408,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_interested_job_location: {
         label: "Interested Job Location",
@@ -410,7 +422,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21"],
+        onCf: ["D2W21", "D2WRL21"],
         attr: `{val}`
     },
     d2w21_university: {
@@ -425,7 +437,7 @@ const CustomConfig = {
         ref_table_name: "d2w21_university",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_university_other: {
         discard_filter: true,
@@ -438,7 +450,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_year_study: {
         label: "Year Of Study",
@@ -449,7 +461,7 @@ const CustomConfig = {
         ref_table_name: "d2w21_year_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_field_study: {
         discard_popup_on: (d) => {
@@ -462,7 +474,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_field_study",
         is_required: true,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_field_study_other: {
         discard_filter: true,
@@ -475,7 +487,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W21"]
+        onCf: ["D2W21", "D2WRL21"]
     },
     d2w21_webinar: {
         discard_filter: true,
@@ -491,7 +503,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_webinar",
         is_required: true,
-        onCf: ["D2W21"],
+        onCf: ["D2W21", "D2WRL21"],
         attr: `{val}`
     },
     d2w21_reference: {
@@ -507,7 +519,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_reference",
         is_required: true,
-        onCf: ["D2W21"],
+        onCf: ["D2W21", "D2WRL21"],
         attr: `{val}`
     },
     // ################################################################
@@ -799,6 +811,9 @@ const CustomOrder = {
     UTMIV21: [
         "first_name",
         "id_utm",
+        "full_name",
+        "race",
+        "nationality",
         "level_of_study_utmiv21",
         "program_utmiv21",
         "faculty_utmiv21",
@@ -908,6 +923,29 @@ const CustomOrder = {
         "interested_role",
         "interested_job_location",
         "skill",
+    ],
+    D2WRL21: [
+        "first_name",
+        "full_name",
+        "phone_number",
+        "working_availability_month",
+        "d2w21_resident",
+        "d2w21_resident_other",
+        "graduation_month",
+        "looking_for_position",
+        "d2w21_university",
+        "d2w21_university_other",
+        "d2w21_year_study",
+        "d2w21_field_study",
+        "d2w21_field_study_other",
+        "d2w21_qualification",
+        "d2w21_qualification_other",
+        // "d2w21_webinar",
+        "interested_role",
+        "d2w21_interested_job_location",
+        "skill",
+        "extracurricular",
+        "d2w21_reference",
     ],
     D2W21: [
         "first_name",
