@@ -904,7 +904,7 @@ export default class ManageUserProfile extends React.Component {
     let discardMargin = isChildren || isLastItem;
     if (d.type == "single") {
       return [
-        <div>DEBUG : {d.id}</div>,
+        // <div>DEBUG : {d.id}</div>,
         <InputSingle
           {...d}
           index={i}
@@ -922,7 +922,7 @@ export default class ManageUserProfile extends React.Component {
       ];
     } else if (d.type == "multi") {
       return [
-        <div>DEBUG : {d.id}</div>,
+        // <div>DEBUG : {d.id}</div>,
         <InputMulti
           {...d}
           index={i}
