@@ -615,7 +615,8 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.where_in_malaysia,
           key_input: Reg.Single.where_in_malaysia,
-          label: lang("Where are you from in Malaysia?"),
+          label: lang("Where are you from?"),
+          // label: lang("Where are you from in Malaysia?"),
           input_placeholder: "Cyberjaya, Selangor",
           ref_table_name: "location_malaysia",
           is_required: true,
@@ -627,7 +628,8 @@ export default class ManageUserProfile extends React.Component {
           id: Reg.Multi.interested_job_location,
           table_name: Reg.Multi.interested_job_location,
           location_suggestion: Reg.Multi.interested_job_location,
-          label: lang("Where would you like to work in Malaysia?"),
+          label: lang("Where would you like to work?"),
+          // label: lang("Where would you like to work in Malaysia?"),
           input_placeholder: "Cyberjaya, Selangor",
           list_title: field_study
             ? lang(`Popular location for your field of study`)
@@ -902,7 +904,7 @@ export default class ManageUserProfile extends React.Component {
     let discardMargin = isChildren || isLastItem;
     if (d.type == "single") {
       return [
-        // <div>DEBUG : {d.id}</div>,
+        <div>DEBUG : {d.id}</div>,
         <InputSingle
           {...d}
           index={i}
@@ -920,7 +922,7 @@ export default class ManageUserProfile extends React.Component {
       ];
     } else if (d.type == "multi") {
       return [
-        // <div>DEBUG : {d.id}</div>,
+        <div>DEBUG : {d.id}</div>,
         <InputMulti
           {...d}
           index={i}

@@ -10,7 +10,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TAYLORS21"]
     },
     student_matrix_id: {
         label: "Student ID / Matrix ID",
@@ -88,7 +88,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21","UTMIV21"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21"]
     },
     resident_malaysia: {
         discard_popup_on: (d) => {
@@ -148,7 +148,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: [ "UTMIV21"]
+        onCf: ["UTMIV21"]
     },
     level_of_study_utmiv21: {
         label: "Level Of Study",
@@ -158,7 +158,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "level_of_study_utmiv21",
         is_required: true,
-        onCf: [ "UTMIV21"]
+        onCf: ["UTMIV21"]
     },
     faculty_utmiv21: {
         label: "Faculty",
@@ -805,9 +805,78 @@ const CustomConfig = {
         onCf: ["INTELDDSEPT21"],
         attr: `{val}`
     },
+    // TAYLORS21
+    taylors21_programme: {
+        discard_popup_on: (d) => {
+            return d['taylors21_programme'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Programme",
+        question: "What is your programme name?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "taylors21_programme",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TAYLORS21"]
+    },
+    taylors21_programme_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['taylors21_programme'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Programme",
+        question: "What is your programme name? (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["TAYLORS21"]
+    },
 }
 
+const Default = [
+    "first_name",
+    "graduation_month",
+    "looking_for_position",
+    "country_study",
+    "university",
+    "student_id",
+    "qualification",
+    "field_study_main",
+    "field_study_secondary",
+    "grade",
+    "phone_number",
+    "working_availability_month",
+    "interested_role",
+    "where_in_malaysia",
+    "interested_job_location",
+    "skill",
+    "extracurricular",
+];
 const CustomOrder = {
+    TAYLORS21: [
+        "student_id",
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        "country_study",
+        "qualification",
+        "taylors21_programme",
+        "taylors21_programme_other",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
+
+
     UTMIV21: [
         "first_name",
         "id_utm",

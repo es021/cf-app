@@ -179,7 +179,7 @@ ALTER TABLE `wp_career_fair`.`interested` ADD INDEX (`recruiter_id`);
 ALTER TABLE `wp_career_fair`.`interested` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`, `entity`, `entity_id`, `recruiter_id`) USING BTREE;
 
 a.split("\n").map((d)=>{
-  return `INSERT INTO ref_job_category (val) VALUES ('${d.trim()}');`
+  return `INSERT INTO ref_taylors21_programme (val) VALUES ('${d.trim()}');`
 }).join("\n");
 
 ALTER TABLE `messages` ADD `created_by` BIGINT(20) UNSIGNED NULL AFTER `created_at`, 
