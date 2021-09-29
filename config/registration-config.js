@@ -380,11 +380,26 @@ const isDoIdUtmValidation = (cf) => {
     return valid.indexOf(cf) >= 0;
 }
 
-const getContactEmailForInvalidIdUtm = (cf) => {
-    switch (cf) {
-        case "UTMIV21": return "norazwa@utm.my";
-    }
+const idUtmInvalid_customEmail = (cf) => {
+    // switch (cf) {
+    //     case "UTMIV21": return "norazwa@utm.my";
+    // }
     return "graduates@seedsjobfair.com";
+}
+
+const idUtmInvalid_customHtml = (id, id_label, cf) => {
+
+    switch (cf) {
+        case "UTMIV21":
+            let url = "https://forms.gle/KKjyMR6vUiuBYf4j9";
+            return `<div>
+                Sorry, we couldn't find your ${id_label} (<b>${id}</b>)! Open 
+                <a href="${url}" target="_blank">${url}</a> to submit your ${id_label}
+                <br></br>
+            </div>`
+    }
+
+    return null;
 }
 
 const RequiredFieldStudent = [
@@ -478,7 +493,8 @@ module.exports = {
     customRef,
     isDoJpaKptValidation, // @kpt_validation
     isDoIdUtmValidation, // @id_utm_validation
-    getContactEmailForInvalidIdUtm,
+    idUtmInvalid_customHtml,
+    idUtmInvalid_customEmail,
     Single, Multi,
     RequiredFieldStudent,
     RequiredFieldRecruiter,
