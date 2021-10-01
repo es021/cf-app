@@ -1,31 +1,68 @@
+SELECT X.* FROM (select 
+c.name as company, 
+
+'Individual Call' as type,
+p.ID as call_id,
+
+CONCAT( (select s.val from single_input s where s.entity = "user" 
+and s.entity_id = u.ID and s.key_input = "first_name"), " ", 
+(select s.val from single_input s where s.entity = "user" and s.entity_id = u.ID 
+and s.key_input = "last_name") ) as student_name, 
+
+-- matrix no
+(select s.val from single_input s where s.entity = "user" and s.entity_id = u.ID 
+and s.key_input = "id_utm") as matrix_no,
+
+u.user_email as student_email, 
+convert_tz(from_unixtime(p.appointment_time), '+00:00', '+08:00') as interview_time, 
+p.status as interview_status 
+
+from pre_screens p, companies c, wp_cf_users u 
+
+where p.company_id = c.ID 
+
+and p.student_id = u.ID 
+
+and u.ID IN (select m.entity_id from cf_map m 
+where m.entity = "user" and m.entity_id = u.ID and m.cf = "UTMIV21" ) 
+
+and c.ID IN (select m.entity_id from cf_map m where m.entity = "company" 
+and m.entity_id = c.ID and m.cf = "UTMIV21" ) 
+
+
+UNION ALL
+
 select 
-ss.ID , ss.user_id, ss.support_id, ss.message_count_id, ss.created_at
-, mc.updated_at as last_message_time
-, m.message as last_message
-        , CONCAT(
-                (select s.val from single_input s where s.entity_id = m.recruiter_id 
-                and s.entity = 'user' 
-                and s.key_input = 'first_name'),
-                " ",
-                (select s.val from single_input s where s.entity_id = m.recruiter_id 
-                and s.entity = 'user' 
-                and s.key_input = 'last_name')
-            ) as last_rec_name
-        
-, COUNT(mx.id_message_number) as total_unread
+c.name as company, 
 
-from support_sessions ss 
-INNER JOIN message_count mc on mc.id = ss.message_count_id
-INNER JOIN messages m on m.id_message_number = CONCAT(mc.id,':',mc.count)
-LEFT OUTER JOIN messages mx on  
--- HERE
-                mx.id_message = mc.id
-                AND mx.from_user_id != 2046
-                AND mx.has_read = 0
-                AND mx.created_at > '2021-09-01 00:00:00'
-where 1=1 AND ss.support_id = 2046
+'Group Call' as type,
+g.ID as call_id,
 
-GROUP BY ss.ID, ss.user_id, ss.support_id, ss.message_count_id, ss.created_at, last_message_time, last_message, last_rec_name
-ORDER BY mc.updated_at desc, ss.created_at desc
+CONCAT( (select s.val from single_input s where s.entity = "user" 
+and s.entity_id = u.ID and s.key_input = "first_name"), " ", 
+(select s.val from single_input s where s.entity = "user" and s.entity_id = u.ID 
+and s.key_input = "last_name") ) as student_name, 
 
-limit 0, 8
+-- matrix no
+(select s.val from single_input s where s.entity = "user" and s.entity_id = u.ID 
+and s.key_input = "id_utm") as matrix_no,
+
+u.user_email as student_email, 
+convert_tz(from_unixtime(g.appointment_time), '+00:00', '+08:00') as interview_time, 
+(CASE 
+WHEN g.is_canceled = 1 THEN 'Canceled'
+WHEN g.url IS NOT NULL THEN 'Has Link'
+ELSE '' END
+)
+as interview_status 
+
+from group_call_user gcu, group_call g, companies c, wp_cf_users u 
+
+where  1=1
+AND g.ID = gcu.group_call_id
+AND g.cf = 'UTMIV21'
+AND gcu.user_id = u.ID
+AND g.company_id = c.ID 
+) as X
+
+order by X.company, X.type desc, X.interview_time

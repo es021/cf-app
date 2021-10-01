@@ -6,6 +6,16 @@ const {
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 
+const IS_SERVER = typeof alert === "undefined";
+
+const getAgent = () => {
+	if (IS_SERVER) {
+		return new https.Agent({
+			rejectUnauthorized: false
+		});
+	}
+}
+
 const getGraphQlErrorMes = (rawMes) => {
 	let mes = "";
 	let customMes = null
@@ -106,7 +116,7 @@ function getAxiosGraphQLQuery(queryString) {
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-		proxy: false,
+		proxy: false, httpsAgent: getAgent(),
 		params: {
 			query: queryString,
 			variables: null
@@ -137,7 +147,7 @@ function graphqlAttr(...dbConfigArr) {
 
 function getStaticAxios(filename, version = null) {
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 
 	var url = `${StaticUrl}/${filename}`;
@@ -159,14 +169,14 @@ function getAxios(requestUrl, params, headers) {
 		method: 'get',
 		params: params,
 		headers: headers,
-		proxy: false,
+		proxy: false, httpsAgent: getAgent(),
 		url: requestUrl
 	})
 }
 
 function postAxios(requestUrl, params, headers) {
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 
 	if (typeof headers !== "undefined") {
@@ -178,14 +188,14 @@ function postAxios(requestUrl, params, headers) {
 
 function postRequest(url, param) {
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	}
 	return axios.post(url, param, config);
 }
 
 function deleteAxios(requestUrl, headers) {
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 
 	if (typeof headers !== "undefined") {
@@ -199,7 +209,7 @@ function getPHPApiAxios(script, params) {
 	var requestUrl = AppConfig.PHPApi + `${script}.php`;
 	console.log(requestUrl);
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 	return axios.post(requestUrl, qs.stringify(params), config);
 }
@@ -208,7 +218,7 @@ function getPHPNotificationApiAxios(script, params) {
 	var requestUrl = AppConfig.PHPNotificationApi + `${script}.php`;
 	console.log(requestUrl);
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 	return axios.post(requestUrl, qs.stringify(params), config);
 }
@@ -217,7 +227,7 @@ function getPHPNotificationApiAxios(script, params) {
 // only in ajax_external -- response is fixed here
 function postPhpAdmin(url, params, successInterceptor = null) {
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 	return axios.post(url, qs.stringify(params), config).then((res) => {
 		console.log("postPhpAdmin success");
@@ -259,7 +269,7 @@ function getWpAjaxAxios(action, data, successInterceptor = null, isDataInPost = 
 	params["action"] = action;
 
 	var config = {
-		proxy: false
+		proxy: false, httpsAgent: getAgent()
 	};
 	return axios.post(AppConfig.WPAjaxApi, qs.stringify(params), config).then((res) => {
 		if (res.data.err) {
