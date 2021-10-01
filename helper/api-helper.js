@@ -1,4 +1,5 @@
 const axios = require('axios');
+const https = require('https');
 const {
 	AppConfig,
 	StaticUrl
@@ -9,11 +10,11 @@ const graphQLUrl = AppConfig.Api + "/graphql?";
 const IS_SERVER = typeof alert === "undefined";
 
 const getAgent = () => {
-	// if (IS_SERVER) {
-	// 	return new https.Agent({
-	// 		rejectUnauthorized: false
-	// 	});
-	// }
+	if (IS_SERVER && https) {
+		return new https.Agent({
+			rejectUnauthorized: false
+		});
+	}
 }
 
 const getGraphQlErrorMes = (rawMes) => {
@@ -116,12 +117,15 @@ function getAxiosGraphQLQuery(queryString) {
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-		proxy: false, httpsAgent: getAgent(),
+		proxy: false,
+		httpsAgent: getAgent(),
 		params: {
 			query: queryString,
 			variables: null
 		}
 	};
+
+	console.log(config);
 
 	return axios.post(graphQLUrl, {}, config);
 }
