@@ -9,11 +9,11 @@ const graphQLUrl = AppConfig.Api + "/graphql?";
 const IS_SERVER = typeof alert === "undefined";
 
 const getAgent = () => {
-	if (IS_SERVER) {
-		return new https.Agent({
-			rejectUnauthorized: false
-		});
-	}
+	// if (IS_SERVER) {
+	// 	return new https.Agent({
+	// 		rejectUnauthorized: false
+	// 	});
+	// }
 }
 
 const getGraphQlErrorMes = (rawMes) => {
