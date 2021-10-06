@@ -576,8 +576,6 @@ const CustomConfig = {
         is_required: true,
         onCf: ["OEJF21"]
     },
-
-
     oejf21_industry: {
         label: "Current Industry",
         question: "Current Industry",
@@ -833,6 +831,112 @@ const CustomConfig = {
         is_required: false,
         onCf: ["TAYLORS21"]
     },
+    // ####################
+    // WCC21
+    age_group: {
+        label: "Age Group",
+        question: "Age Group",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "age_group",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_iam: {
+        discard_popup_on: (d) => {
+            return d['wcc_iam'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "I am",
+        question: "I am",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_iam",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_iam_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['wcc_iam'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "I am",
+        question: "I am (Other)",
+        icon: "slack",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["WCC21"]
+    },
+    wcc_work_experience: {
+        label: "Year of Work Experience",
+        question: "How many years of work experience do you have?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_work_experience",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_location: {
+        label: "Geographical Location",
+        question: "Geographical Location",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "state",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_graduate_year: {
+        label: "Graduate Year",
+        question: "In which year did you graduate?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_graduate_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_field_study: {
+        label: "Field Of Study",
+        question: "What is your main field of study?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_looking_for: {
+        label: "Looking For",
+        question: "What are you looking for?",
+        icon: "star",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_looking_for",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
+    wcc_job_level: {
+        label: "Interested Job Level",
+        question: "What level of jobs are you looking for?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_job_level",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC21"]
+    },
 }
 
 const Default = [
@@ -855,6 +959,20 @@ const Default = [
     "extracurricular",
 ];
 const CustomOrder = {
+    WCC21: [
+        "first_name",
+        "age_group",
+        "wcc_iam",
+        "wcc_iam_other",
+        "wcc_location",
+        "wcc_graduate_year",
+        "qualification",
+        "wcc_field_study",
+        "wcc_work_experience",
+        "wcc_looking_for",
+        "wcc_job_level",
+        "working_availability_month",
+    ],
     TAYLORS21: [
         "student_id",
         "first_name",
@@ -875,8 +993,6 @@ const CustomOrder = {
         "skill",
         "extracurricular",
     ],
-
-
     UTMIV21: [
         "first_name",
         "id_utm",
