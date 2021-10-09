@@ -1,3 +1,13 @@
+
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
+
 CREATE TABLE `wp_career_fair`.`ref_id_utmiv21` 
 ( 
   `ID` INT NOT NULL AUTO_INCREMENT , 
@@ -16,12 +26,6 @@ UPDATE cfs_meta SET meta_value = 'OFF' WHERE meta_key = 'feature_event' and cf_n
 INSERT INTO cfs_meta (meta_value,meta_key,cf_name) VALUES 
 ( 'OFF', 'feature_event_student','UTMIV21' );
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 
 ALTER TABLE `messages` ADD `id_message` VARCHAR(100) 
 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci

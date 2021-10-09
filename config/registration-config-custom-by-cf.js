@@ -864,7 +864,7 @@ const CustomConfig = {
             return d['wcc_iam'] != OTHER_PLEASE_SPECIFY;
         },
         label: "I am",
-        question: "I am (Other)",
+        question: "If Others, please state below",
         icon: "slack",
         type: "single",
         input_type: "text",

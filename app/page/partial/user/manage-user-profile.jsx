@@ -439,6 +439,7 @@ export default class ManageUserProfile extends React.Component {
           label: Reg.getCustomLabel(Reg.Single.qualification, cf),
           input_placeholder: lang("Type something here"),
           select_is_translate_label: true,
+          ref_order_by: "ID asc",
           // ref_table_name: "qualification",
           // ref_table_name: Reg.customRef(cf, Reg.Single.qualification, "qualification"),
           ref_table_name: "qualification",
