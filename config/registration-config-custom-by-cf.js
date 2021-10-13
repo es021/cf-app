@@ -10,7 +10,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: ["TARUCJUL21", "TAYLORS21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TAYLORS21"]
     },
     student_matrix_id: {
         label: "Student ID / Matrix ID",
@@ -30,7 +30,7 @@ const CustomConfig = {
         type: "single",
         input_type: "date",
         is_required: false,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
     age: {
         label: "Age",
@@ -126,7 +126,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "TARUCJUL21"]
+        onCf: ["OEJF21", "TARUCJUL21", "TARUCNOV21"]
     },
     country_study_select: {
         label: "Country Of Study",
@@ -137,7 +137,7 @@ const CustomConfig = {
         ref_table_name: "country",
         ref_order_by: "val asc",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
     // ##############################################################
     // UTMIV21
@@ -659,7 +659,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_current_year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
     tarucjul21_current_semester: {
         label: "Current Semester Of Study",
@@ -670,7 +670,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_current_semester",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
 
     tarucjul21_purpose: {
@@ -684,7 +684,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "tarucjul21_purpose",
         is_required: true,
-        onCf: ["TARUCJUL21"],
+        onCf: ["TARUCJUL21", "TARUCNOV21"],
         attr: `{val}`
     },
     tarucjul21_interested_intern_location: {
@@ -699,7 +699,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21"],
+        onCf: ["TARUCJUL21", "TARUCNOV21"],
         attr: `{val}`
     },
 
@@ -713,7 +713,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_programme",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
     tarucjul21_faculty: {
         label: "Faculty",
@@ -724,7 +724,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_faculty",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
     tarucjul21_campus: {
         label: "Campus",
@@ -735,7 +735,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_campus",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21"]
     },
 
     // ############################
@@ -937,6 +937,28 @@ const CustomConfig = {
         is_required: true,
         onCf: ["WCC21"]
     },
+    jpastar_status: {
+        label: "Current Status",
+        question: "What is your current status?",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "jpastar_status",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["JPASTAR21"]
+    },
+    jpastar_looking_for: {
+        label: "Looking For",
+        question: "What are you looking for?",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "jpastar_looking_for",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["JPASTAR21"]
+    },
 }
 
 const Default = [
@@ -958,7 +980,40 @@ const Default = [
     "skill",
     "extracurricular",
 ];
+
 const CustomOrder = {
+    JPASTAR21: [
+        "first_name",
+        "graduation_month",
+        "jpastar_status",
+        /*
+        select
+        - Employed
+        - Unemployed
+        - Further Studies
+        */
+        "jpastar_looking_for",
+        /*
+        select
+        - Full time
+        - Internship
+        - Webinar
+        - Others
+        */
+        "country_study",
+        "university",
+        "qualification",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
     WCC21: [
         "first_name",
         "age_group",
@@ -1026,6 +1081,29 @@ const CustomOrder = {
         // "interested_job_location",
         // "skill",
         // "extracurricular",
+    ],
+    TARUCNOV21: [
+        "first_name",
+        "student_id",
+        "graduation_month",
+        "tarucjul21_purpose",
+        "internship_date",
+        "country_study_select",
+        "university",
+        "tarucjul21_current_year",
+        "tarucjul21_current_semester",
+        "tarucjul21_programme",
+        "tarucjul21_faculty",
+        "tarucjul21_campus",
+        "qualification",
+        "field_study_main",
+        "grade",
+        // "phone_number",
+        "interested_role",
+        "where_in_malaysia_select",
+        "tarucjul21_interested_intern_location",
+        "skill",
+        "extracurricular"
     ],
     TARUCJUL21: [
         "first_name",
