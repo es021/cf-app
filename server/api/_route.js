@@ -6,6 +6,7 @@ const path = require("path");
 const { UploadUrl } = require("../../config/app-config");
 const { FileJSONProgress } = require("../../helper/file-helper");
 const { graphql } = require("../../helper/api-helper");
+const contentDisposition = require('content-disposition');
 
 const initializeAllRoute = function (app, root) {
   // server error in node server no need to be return to client
@@ -389,7 +390,7 @@ const initializeAllRoute = function (app, root) {
             );
             res.header(
               "Content-Disposition",
-              `attachement; filename="${response.filename} - ${cf_title}.xls"`
+              contentDisposition(`${response.filename} - ${cf_title}.xls`)
             );
             res.send(response.content);
           },
