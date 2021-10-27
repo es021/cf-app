@@ -75,7 +75,7 @@ function getIdLabelByCf(cf) {
     if (["UTMIV21"].indexOf(cf) >= 0) {
         return "Matrix No / UTM Acid ID";
     }
-    if (cf == "UMT") {
+    if (cf == "UMT" || cf == "UMT21") {
         return "Matrix No";
     }
 }
@@ -91,10 +91,19 @@ const CustomConfig = {
         type: "single",
         onCf: ["UTM21"]
     },
+    id_umt: {
+        discard_form: true,
+        discard_filter: true,
+        label: getIdLabelByCf("UMT21"),
+        icon: "slack",
+        type: "single",
+        onCf: ["UMT21"]
+    },
 };
 
 const CustomDiscardEditProfile = {
-    UTMIV21: ["id_utm"]
+    UTMIV21: ["id_utm"],
+    UMT21: ["id_utm"],
 }
 
 const CustomOrder = {
@@ -376,7 +385,7 @@ const isDoJpaKptValidation = (cf) => {
 // @id_utm_validation - SET_CF_HERE
 // @login_by_student_id
 const isDoIdUtmValidation = (cf) => {
-    let valid = ["UTM20", "UTM21", "UMT", "UTMIV21"];
+    let valid = ["UTM20", "UTM21", "UMT", "UMT21", "UTMIV21"];
     return valid.indexOf(cf) >= 0;
 }
 

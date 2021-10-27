@@ -53,7 +53,7 @@ function getIdUtmTable(cf) {
 	if (cf == "UTM21") {
 		table = "ref_id_utm21";
 	}
-	if (cf == "UMT") {
+	if (cf == "UMT" || cf == "UMT21") {
 		table = "ref_id_umt";
 	}
 	if (cf == "UTMIV21") {
@@ -69,7 +69,7 @@ function getIdUtmKey(cf) {
 	if (cf == "UTM21") {
 		key = "id_utm21";
 	}
-	if (cf == "UMT") {
+	if (cf == "UMT" || cf == "UMT21") {
 		key = "id_umt";
 	}
 	return key
