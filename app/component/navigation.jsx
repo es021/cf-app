@@ -92,6 +92,7 @@ import OrganizersPage from "../page/admin-organizer";
 import { AnnouncementManagement } from "../page/announcement";
 import ListStudentGroupCall from "../page/list-student-group-call";
 import AdminManageGroupCall from "../page/admin-manage-group-call";
+import CompanyDashboard from "../page/company-dashboard";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -547,6 +548,19 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       disabled: !isRoleRec()
     },
+    // REMOVE FIRST
+    // {
+    //   url: "/rec-analytics",
+    //   label: lang("Analytics"),
+    //   icon: "bar-chart",
+    //   component: CompanyDashboard,
+    //   bar_app: true,
+    //   bar_auth: false,
+    //   // hd_app: IsRecruiterNewHall ? false : true,
+    //   hd_app: isHasLeftBar() ? false : true,
+    //   hd_auth: false,
+    //   disabled: !isRoleRec()
+    // },
     {
       url: "/manage-company/:id/:current",
       label: lang("Manage Email Notification"),
