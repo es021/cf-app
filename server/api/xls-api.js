@@ -64,7 +64,34 @@ class XLSApi {
         return this.job_posts_by_cf(filter.cf);
       case "job_posts_application_by_cf":
         return this.job_posts_application_by_cf(filter.cf);
+      case "rec_analytic":
+        return this.rec_analytic(filter);
     }
+  }
+
+  rec_analytic(param) {
+    var filename = ``;
+    if(param.is_export_job_application){
+      filename = `Job Applications`;
+    }
+    if(param.is_export_interviews){
+      filename = `Interviews`;
+    }
+    if(param.is_export_profile_visit){
+      filename = `Profile Visits`;
+    }
+
+    const extractData = res => {
+      return res.data;
+    }
+
+    return this.fetchAndReturnPost({
+      url: StatisticUrl + "/company-statistic-count",
+      param: param,
+      extractData: extractData,
+      filename: filename,
+    });
+
   }
 
   job_posts_by_cf(cf) {
