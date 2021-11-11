@@ -89,7 +89,10 @@ class StatisticAPI {
         let qJob = `
         SELECT 
         ${is_export_job_application
-                ? `i.user_id, u.user_email, v.ID as vacancy_id, v.title as vacancy_title, DATE_FORMAT(i.updated_at, '%Y-%m-%d %H:%i:%s')  as applied_on`
+                ? `
+                    i.user_id, u.user_email, v.ID as vacancy_id, v.title as vacancy_title, 
+                    DATE_FORMAT(convert_tz(i.updated_at, '+00:00', '+08:00'), '%Y-%m-%d %H:%i:%s')  as applied_on
+                `
                 : `COUNT(i.ID) as ttl `
             }
         FROM interested i, vacancies v, wp_cf_users u
@@ -123,15 +126,15 @@ class StatisticAPI {
                     " ",
                     (${UserQuery.selectSingleMain("u.ID", "last_name")})
                 ) as user_name,
-                DATE_FORMAT(l.created_at, '%Y-%m-%d')  as date_visit,  
-                DATE_FORMAT(l.created_at, '%H:%i:%s')  as time_visit
+                DATE_FORMAT(convert_tz(l.created_at, '+00:00', '+08:00'), '%Y-%m-%d')  as date_visit,  
+                DATE_FORMAT(convert_tz(l.created_at, '+00:00', '+08:00'), '%H:%i:%s')  as time_visit
             `;
         }
         else if (is_graph_profile_visit) {
             qVisitSelect = `
                 CONCAT( 
-                    DATE_FORMAT(l.created_at, '%Y-%m-%d-%H'), "::", 
-                    DATE_FORMAT(l.created_at, '%b %d - %l%p')
+                    DATE_FORMAT(convert_tz(l.created_at, '+00:00', '+08:00'), '%Y-%m-%d-%H'), "::", 
+                    DATE_FORMAT(convert_tz(l.created_at, '+00:00', '+08:00'), '%b %d - %l%p')
                 ) AS dt,
                 COUNT(l.id) as ttl
             `;
