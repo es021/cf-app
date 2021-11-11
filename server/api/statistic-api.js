@@ -152,18 +152,19 @@ class StatisticAPI {
                 and m.entity = "user" 
                 
                 and l.user_id = m.entity_id 
-                and l.data like "/company/%" 
+                and l.data IN ("/company/${company_id}", "/company/${company_id}/")
                 and l.event = "open_page" 
                 
-                and m.cf = ?
-                and SUBSTRING(l.data, 10, 9) = ?  
+                and m.cf = ? 
                 and l.created_at >= FROM_UNIXTIME(?) 
                 and l.created_at <= FROM_UNIXTIME(?) 
 
                 ${is_graph_profile_visit ? "GROUP BY dt" : ""}
 
-                ORDER BY ${is_graph_profile_visit ? "l.created_at ASC" : "l.created_at DESC"}
+                ORDER BY ${is_graph_profile_visit ? "dt ASC" : "l.created_at DESC"}
             `;
+
+            //and SUBSTRING(l.data, 10, 9) = ? 
 
         qVisits = DB.prepare(qVisits, [
             cf,
