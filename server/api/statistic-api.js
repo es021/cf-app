@@ -168,7 +168,6 @@ class StatisticAPI {
 
         qVisits = DB.prepare(qVisits, [
             cf,
-            company_id,
             cf_start,
             cf_end
         ]);
