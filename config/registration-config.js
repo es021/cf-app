@@ -91,14 +91,14 @@ const CustomConfig = {
         type: "single",
         onCf: ["UTM21"]
     },
-    id_umt: {
-        discard_form: true,
-        discard_filter: true,
-        label: getIdLabelByCf("UMT21"),
-        icon: "slack",
-        type: "single",
-        onCf: ["UMT21"]
-    },
+    // id_umt: {
+    //     discard_form: true,
+    //     discard_filter: true,
+    //     label: getIdLabelByCf("UMT21"),
+    //     icon: "slack",
+    //     type: "single",
+    //     onCf: ["UMT21"]
+    // },
 };
 
 const CustomDiscardEditProfile = {
@@ -303,7 +303,7 @@ const isCustomUserInfoOff = (cf, key) => {
             break;
         case Single.id_utm:
             // @login_by_student_id
-            onCf = ["UTM20", "UTM21", "UMT", "UTMIV21"];
+            onCf = ["UTM20", "UTM21", "UMT", "UTMIV21", "UMT21"]; //  "UMT21",
             break;
         case Single.id_unisza:
             onCf = ["UNISZA"];
@@ -385,7 +385,7 @@ const isDoJpaKptValidation = (cf) => {
 // @id_utm_validation - SET_CF_HERE
 // @login_by_student_id
 const isDoIdUtmValidation = (cf) => {
-    let valid = ["UTM20", "UTM21", "UMT", "UMT21", "UTMIV21"];
+    let valid = ["UTM20", "UTM21", "UMT", "UTMIV21"]; // "UMT21"
     return valid.indexOf(cf) >= 0;
 }
 
