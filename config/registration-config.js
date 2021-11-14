@@ -91,14 +91,14 @@ const CustomConfig = {
         type: "single",
         onCf: ["UTM21"]
     },
-    // id_umt: {
-    //     discard_form: true,
-    //     discard_filter: true,
-    //     label: getIdLabelByCf("UMT21"),
-    //     icon: "slack",
-    //     type: "single",
-    //     onCf: ["UMT21"]
-    // },
+    id_umt: {
+        discard_form: true,
+        discard_filter: true,
+        label: getIdLabelByCf("UMT21"),
+        icon: "slack",
+        type: "single",
+        onCf: ["UMT21"]
+    },
 };
 
 const CustomDiscardEditProfile = {
