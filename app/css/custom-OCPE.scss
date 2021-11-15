@@ -1,0 +1,225 @@
+@import "define/mixin.scss";
+
+// $COLOR_BACK_DARK: #66000f;
+// $COLOR_BACK_DARK_LIGHT: #9f505c;
+// $COLOR_BACK: #ff0000;
+// $COLOR_BACK: #a81128;
+
+$COLOR_BACK:  #040404;
+$COLOR_FORE_1: #fef301;
+$COLOR_FORE_2: white;
+
+// #############################################
+// #############################################
+// LANDING PAGE SPECIFIC
+// body.landing-page {
+//   .primary-layout.cf-CIMB {
+//     .content-landing-page {
+//       background: rgba(0, 0, 0, 0.35) !important;
+//     }
+//   }
+// }
+
+.primary-layout.cf-OCPE21 {
+  // #############################################
+  // #############################################
+  // HEADER
+  $COLOR_HEADER: $COLOR_BACK;
+  
+  $COLOR_HEADER_TITLE: $COLOR_FORE_1;
+  $COLOR_HEADER_SUBTITLE: $COLOR_FORE_2;
+
+  $COLOR_HEADER_LINK_ACTIVE: $COLOR_FORE_1;
+  $COLOR_HEADER_LINK: $COLOR_FORE_2;
+
+  header {
+    .img {
+      padding : 10px 7px;
+    }
+
+    background: $COLOR_HEADER;
+    .title {
+      color: $COLOR_HEADER_TITLE;
+      small {
+        color: $COLOR_HEADER_SUBTITLE;
+      }
+    }
+    .menu,
+    .menu-small,
+    .menu-small-new {
+      a {
+        color: $COLOR_HEADER_LINK;
+      }
+      a:hover {
+        color: $COLOR_HEADER_LINK_ACTIVE;
+      }
+    }
+
+    .menu {
+      ul {
+        .active {
+          color: $COLOR_HEADER_LINK_ACTIVE;
+        }
+      }
+    }
+
+    .menu-small {
+      ul {
+        background: $COLOR_HEADER;
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // FOCUS-CARD
+  #focus-card {
+    .fc-header {
+      color: $COLOR_BACK;
+      border-bottom: 2px solid $COLOR_BACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // COMPANY PAGE
+  .company-page {
+    .cp-body {
+      .cp-additional-info {
+        border: solid $COLOR_BACK 1px;
+      }
+      .cp-quick-link {
+        .cp-quick-link-item {
+          background: #e7e7e7;
+          color: $COLOR_BACK;
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGE SECTION
+  .page-sec {
+    .page-sec-title {
+      color: $COLOR_BACK;
+    }
+  }
+  .page-sec.left {
+    .page-sec-title {
+      border-bottom: none;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // LEFT BAR
+  &.with-left-bar {
+    left_bar {
+      .lbar-content {
+        .left_bar_nav {
+          ul a.active li,
+          ul li:hover,
+          ul li:active {
+            background-color: $COLOR_BACK;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // TITLE
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $COLOR_BACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // PAGING
+  .paging {
+    .pg-btn {
+      color: $COLOR_BACK;
+    }
+    .pg-btn:hover,
+    .pg-btn.active {
+      background: $COLOR_BACK;
+    }
+    .pg-page {
+      color: $COLOR_BACK;
+    }
+  }
+  // #############################################
+  // #############################################
+  // LIST BOARD
+
+  .list-board {
+    @include button_color_outline("btn-green-outline", $COLOR_BACK);
+
+    .lb-title {
+      color: $COLOR_BACK;
+    }
+    .lb-list-header {
+      border-bottom: 1px solid $COLOR_BACK;
+    }
+  }
+
+  // #############################################
+  // #############################################
+  // CHAT
+  // #chat {
+  //   .chat-input {
+  //     button {
+  //       color: white;
+  //       background-color: #1d1d5b;
+  //     }
+
+  //     button:hover {
+  //       background-color: darken(#1d1d5b, 10);
+  //     }
+
+  //     button:active {
+  //       background-color: #1d1d5b;
+  //     }
+  //   }
+
+  //   .chat-box .other-item {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+  // #chat-list {
+  //   .cl-header {
+  //     background-color: #1d1d5b;
+  //   }
+  // }
+
+  // #############################################
+  // #############################################
+  // BUTTON
+
+  // text, background, border
+  @include custom_btn_default("success", $COLOR_BACK, white, $COLOR_BACK);
+  @include custom_btn_focus("success", $COLOR_BACK, #f8f1f1, $COLOR_BACK);
+  @include custom_btn_active("success", $COLOR_BACK, white, $COLOR_BACK);
+
+  @include custom_btn_default("default", $COLOR_BACK, white, $COLOR_BACK);
+  @include custom_btn_focus("default", $COLOR_BACK, #f8f1f1, $COLOR_BACK);
+  @include custom_btn_active("default", $COLOR_BACK, white, $COLOR_BACK);
+
+  @include custom_btn_default("primary", white, $COLOR_BACK, $COLOR_BACK);
+  @include custom_btn_focus("primary", white, darken($COLOR_BACK, 10), $COLOR_BACK);
+  @include custom_btn_active("primary", white, $COLOR_BACK, $COLOR_BACK);
+
+  @include custom_btn_default("blue", white, $COLOR_BACK, $COLOR_BACK);
+  @include custom_btn_focus("blue", white, darken($COLOR_BACK, 10), $COLOR_BACK);
+  @include custom_btn_active("blue", white, $COLOR_BACK, $COLOR_BACK);
+}

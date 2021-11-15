@@ -3,6 +3,30 @@ const OTHER_PLEASE_SPECIFY = 'Others (Please specify in field below)';
 const CustomConfig = {
     // ##############################################################
     // GENERAL
+    interested_job_location_my_sg: {
+        label: "Interested Job Location",
+        question: "Where would you like to work in Malaysia?",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "interested_job_location_my_sg",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "interested_job_location_my_sg",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OCPE21"],
+        attr: `{val}`
+    },
+    current_position: {
+        label: "Current Position",
+        question: "Current Position",
+        icon: "suitcase",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["OCPE21"]
+    },
     student_id: {
         label: "Student ID",
         question: "Student ID",
@@ -52,7 +76,7 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "UTMIV21"]
+        onCf: ["OEJF21", "UTMIV21", "OCPE21"]
     },
     nationality: {
         label: "Nationality",
@@ -126,7 +150,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "TARUCJUL21", "TARUCNOV21"]
+        onCf: ["OEJF21", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
     },
     country_study_select: {
         label: "Country Of Study",
@@ -585,7 +609,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_industry",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OCPE21"]
     },
     oejf21_reference: {
         discard_filter: true,
@@ -616,7 +640,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_qualification",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OCPE21"]
     },
     oejf21_qualification_other: {
         discard_filter: true,
@@ -629,7 +653,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OCPE21"]
     },
     oejf21_interested_job: {
         discard_filter: true,
@@ -842,7 +866,7 @@ const CustomConfig = {
         ref_table_name: "age_group",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "OCPE21"]
     },
     wcc_iam: {
         discard_popup_on: (d) => {
@@ -959,6 +983,57 @@ const CustomConfig = {
         is_required: true,
         onCf: ["JPASTAR21"]
     },
+
+    /// OCPE ####################
+    ocpe_graduation: {
+        label: "Graduation Year",
+        question: "When is your graduation date?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "ocpe_graduation",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OCPE21"]
+    },
+    ocpe_work_availability: {
+        label: "Work Availability",
+        question: "When will you be available to work?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "ocpe_work_availability",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OCPE21"]
+    },
+    ocpe_work_experience: {
+        label: "Year of Work Experience",
+        question: "How many years of work experience do you have?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "ocpe_work_experience",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OCPE21"]
+    },
+    ocpe_reference: {
+        discard_filter: true,
+        discard_popup: true,
+        label: "How did you know about us?",
+        question: "How did you know about us?",
+        icon: "slack",
+        list_title: null,
+        discard_ref_from_default: true,
+        type: "single",
+        input_type: "select",
+        ref_table_name: "ocpe_reference",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OCPE21"],
+        attr: `{val}`
+    },
 }
 
 const Default = [
@@ -982,24 +1057,72 @@ const Default = [
 ];
 
 const CustomOrder = {
+    OCPE21: [
+        "first_name",
+        "ocpe_graduation",
+        // 1. 2016-2021
+        // 2. 2010-2015
+        // 3. 2009-2014
+        // 4. 2003-2008
+        // 5. 1997-2002
+        // 6. 1991-1996
+        // 7. 1985-1990
+        // 8. 1979-1984
+        // 9. Other
+
+        "looking_for_position",
+        "country_study",
+        "university",
+        "oejf21_qualification",
+        "oejf21_qualification_other",
+        "age_group",
+        "gender",
+        "race",
+        "ocpe_work_availability",
+        // Dec/21
+        // Jan/22
+        // Feb/22
+        // Mar/22
+        // Apr/22
+        // May/22
+        // Jun/22
+        // Jul/22
+        // Aug/22
+        // Sep/22
+        // Oct/22
+        // Nov/22
+        // Dec/22
+
+        "where_in_malaysia_select",
+        "interested_job_location_my_sg",
+        "ocpe_work_experience",
+        // 1. 0-2 years
+        // 2. 3-5 years
+        // 3. 6-10 years
+        // 4. 11-15 years
+        // 5. More than 16 years
+
+        "oejf21_industry",
+        "current_position",
+        "ocpe_reference",
+        // Event
+        // e-Poster
+        // Email
+        // Facebook
+        // Friend
+        // Instagram
+        // LinkedIn
+        // Radio
+        // WhatsApp
+        // Phone Call
+        // Others
+
+    ],
     JPASTAR21: [
         "first_name",
         "graduation_month",
         "jpastar_status",
-        /*
-        select
-        - Employed
-        - Unemployed
-        - Further Studies
-        */
         "jpastar_looking_for",
-        /*
-        select
-        - Full time
-        - Internship
-        - Webinar
-        - Others
-        */
         "country_study",
         "university",
         "qualification",
