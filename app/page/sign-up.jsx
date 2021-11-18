@@ -131,11 +131,15 @@ export default class SignUpPage extends React.Component {
 
   //return string if there is error
   filterForm(d) {
+
     if (this.state.currentStep == 1) {
-      //check if both password is same
-      // if (d[User.PASSWORD] !== d[`${User.PASSWORD}-confirm`]) {
-      //     return "Password not same";
-      // }
+
+      // check if format phone number is okay
+      if (typeof d["phone_number"] !== "undefined") {
+        if (!d["phone_number"].match(/^!*(\d!*){10,}$/)) {
+          return lang(`Invalid phone number : ${d["phone_number"]}. Use format XXXXXXXXXX`);
+        }
+      }
 
       // check if policy accepted
       if (

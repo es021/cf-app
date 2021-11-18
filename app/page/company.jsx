@@ -606,7 +606,7 @@ export default class CompanyPage extends Component {
 
   getJobPost(data) {
     return <div>
-      {this._title_("suitcase", "Job Post Opportunity")}
+      {this._title_("suitcase", getCfCustomMeta(CFSMeta.TEXT_JOB_POST, "Job Post Opportunity"))}
       {isRecruiterCompany(this.ID)
         ? <HallRecruiterJobPosts offset={4} isNoTitle={true} isNoMarginBottom={true} company_id={this.ID}></HallRecruiterJobPosts>
         : <VacancyList listClass="flex-wrap-center text-left" offset={4} isHidePagingTop={true} isFullWidth={true} filterByCf={true} isListAll={true} company_id={this.ID} />

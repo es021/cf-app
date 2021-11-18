@@ -71,7 +71,7 @@ EXPORT.Cfs = {
 
     text_my_interview: __.String,
     text_event_webinar: __.String,
-
+    text_job_post: __.String,
     text_schedule_call: __.String,
     text_header_title: __.String,
     text_header_desc: __.String,

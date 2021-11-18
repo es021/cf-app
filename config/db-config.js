@@ -742,6 +742,7 @@ const CFSMeta = {
 	LIMIT_DROP_RESUME: "limit_drop_resume",
 
 	// custom text
+	TEXT_JOB_POST: "text_job_post",
 	TEXT_SCHEDULE_CALL: "text_schedule_call",
 	TEXT_HEADER_TITLE: "text_header_title",
 	TEXT_HEADER_DESC: "text_header_desc",
