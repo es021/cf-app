@@ -8,6 +8,7 @@ import Form, {
 import {
   Vacancy,
   VacancyEnum,
+  CFSMeta,
 } from "../../config/db-config";
 import { getAxiosGraphQLQuery, postRequest } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
@@ -16,6 +17,7 @@ import {
   getAuthUser,
   isRoleRec,
   isRoleOrganizer,
+  getCfCustomMeta,
 } from "../redux/actions/auth-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import VacancyPopup from "./partial/popup/vacancy-popup";
@@ -191,7 +193,7 @@ export default class ManageVacancy extends React.Component {
     // @custom_vacancy_info
     this.getFormItem = edit => {
       return [
-        { header: "Job Post Form" },
+        { header: `${getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job Post")} Form` },
         {
           label: "Title",
           name: Vacancy.TITLE,
@@ -343,10 +345,10 @@ export default class ManageVacancy extends React.Component {
         isSearchOnLeft={isRoleOrganizer() ? true : false}
         contentBelowTitle={this.getCountAndExport()}
         noMutation={isRoleOrganizer()}
-        dataTitle="Job Posts"
+        dataTitle={getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job Posts")}
         entity="vacancy"
-        entity_singular="Job Post"
-        addButtonText="Add New Job Post"
+        entity_singular={getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job Post")}
+        addButtonText={`Add New ${getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job Post")}`}
         dataOffset={20}
         tableHeader={this.tableHeader}
         newFormDefault={this.newFormDefault}
