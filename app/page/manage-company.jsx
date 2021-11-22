@@ -294,6 +294,7 @@ class AboutSubPage extends React.Component {
           label: "Description",
           name: Company.DESCRIPTION,
           type: "textarea",
+          // type: "richtext",
           rows: 6,
           placeholder: "Tell more about your company"
         },
@@ -301,6 +302,7 @@ class AboutSubPage extends React.Component {
           label: "Additional Information",
           name: Company.MORE_INFO,
           type: "textarea",
+          // type: "richtext",
           rows: 6,
           placeholder:
             "Anything you might want the student to know about the company. Upcoming events, benefits. culture, etc."
@@ -334,6 +336,7 @@ class AboutSubPage extends React.Component {
   }
 
   formOnSubmit(d) {
+    console.log(d, d);
     var err = this.filterForm(d);
     if (err === 0) {
       toggleSubmit(this, { error: null, success: null });

@@ -9,6 +9,8 @@ import { getAuthUser, getCF } from '../redux/actions/auth-actions';
 import EventManagement from './event-management';
 import { Loader } from '../component/loader';
 import { ButtonExport } from '../component/buttons';
+import { getCfEndUnix, isPastCfEnd } from './partial/activity/scheduled-interview';
+import { Time } from '../lib/time';
 var Chart = require('chart.js');
 // import CanvasJSReact from '../lib/canvasjs/canvasjs.react';
 // const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -68,6 +70,11 @@ class OrganizerDashboard extends React.Component {
 
 
     getOnlineUserCount() {
+        // todo
+        if (isPastCfEnd()) {
+            return 0;
+        }
+
         let count = 0;
         for (var uid in this.props.online_users) {
             uid = Number.parseInt(uid);
@@ -425,7 +432,7 @@ class OrganizerDashboard extends React.Component {
                 <div className="col-sm-12" style={{ marginBottom: '45px' }}>
                     <h2 className="text-left" style={{ marginBottom: '25px' }}><b>Participant Registrations</b>
                         <br></br>
-                        <div  style={{ marginTop :'5px' }}>
+                        <div style={{ marginTop: '5px' }}>
                             <ButtonExport
                                 style={{ margin: "5px" }} btnClass="green btn-bold btn-round-5" action="browse_student"
                                 text={<span>Download Participants Data</span>}

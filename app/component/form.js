@@ -5,7 +5,9 @@ import { ButtonLink } from "./buttons.jsx";
 import { ImgConfig } from "../../config/app-config";
 import { getAllCF } from "../redux/actions/auth-actions";
 import InputSuggestion from "./input-suggestion";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 // require('../css/form.scss');
 
@@ -475,6 +477,23 @@ export default class Form extends React.Component {
           );
         });
         break;
+      case "richtext":
+        item = <ReactQuill
+          placeholder={d.placeholder}
+          theme="snow" value={defaultVal} onChange={(v) => {
+            this.form[d.name] = {
+              value: v,
+              type: d.type,
+              name: d.name,
+              required: d.required,
+              disabled: d.disabled,
+              hidden: d.hidden,
+            };
+            if (d.onChange) {
+              d.onChange(v);
+            }
+          }} />
+        break;
       default:
         //onChange={this.onChange}
         item = (
@@ -596,18 +615,18 @@ export default class Form extends React.Component {
           {lang(d.header)}
         </div>
       ) : (
-          <div className="form-item">
-            {lang(label)}
-            {lang(sublabel)}
-            <div className={formClass} key={i}>
-              <div className="form-input">
-                {this.renderItem(d)}
-                {this.addMultiple(d)}
-              </div>
-              {this.getWarning(d)}
+        <div className="form-item">
+          {lang(label)}
+          {lang(sublabel)}
+          <div className={formClass} key={i}>
+            <div className="form-input">
+              {this.renderItem(d)}
+              {this.addMultiple(d)}
             </div>
+            {this.getWarning(d)}
           </div>
-        );
+        </div>
+      );
     });
 
     // 2. form submit ---------

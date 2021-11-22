@@ -6,6 +6,56 @@ var Time = function () {
     // this.ALTERNATE_TIMEZONE = "America/Sitka";
 };
 
+Time.prototype.MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+Time.prototype.getMonthShort = function (v) {
+    if (!v) {
+        return "";
+    }
+    if (typeof v === "string") {
+        v = Number.parseInt(v);
+    }
+    return this.MONTHS[v - 1];
+}
+
+// in = Nov 13 2021 16:20:00 GMT +0800 (+08)
+// out = 2021-11-13T16:20
+Time.prototype.timestampToDateTimeInput = function (v) {
+    if (v && typeof v === "string") {
+        v = this.convertDBTimeToUnix(v);
+        var date = new Date(v * 1000);
+        let y = date.getFullYear();
+        let m = (date.getMonth() + 1).toString().padStart(2, "0");
+        let d = date.getDate().toString().padStart(2, "0")
+        let h = date.getHours().toString().padStart(2, "0")
+        let min = date.getMinutes().toString().padStart(2, "0");
+        let r = `${y}-${m}-${d}T${h}:${min}`;
+        return r;
+    }
+
+    return "";
+}
+
+// in = 2021-11-13T16:20
+// out = Nov 13 2021 16:20:00 GMT +0800 (+08)
+Time.prototype.dateTimeInputToTimestamp = function (v) {
+    //console.log(v);
+    if (typeof v === "string") {
+        v = v.split("T");
+
+        let y = v[0].split("-")[0];
+        let m = v[0].split("-")[1];
+        let d = v[0].split("-")[2];
+        d = Number.parseInt(d);
+
+        let r = `${this.getMonthShort(m)} ${d} ${y} ${v[1]}:00 GMT +0800 (+08)`;
+
+        //console.log(r);
+        return r;
+    }
+    return "";
+}
+
 Time.prototype.getDateDay = function (unixtimestamp) {
     if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
         return "";

@@ -11,6 +11,7 @@ import { Loader } from '../component/loader';
 import { ButtonExport } from '../component/buttons';
 import { Time } from '../lib/time';
 import { lang } from '../lib/lang';
+import { isPastCfEnd } from './partial/activity/scheduled-interview';
 
 var Chart = require('chart.js');
 // import CanvasJSReact from '../lib/canvasjs/canvasjs.react';
@@ -81,6 +82,10 @@ class CompanyDashboard extends React.Component {
 
 
     getOnlineUserCount() {
+        if (isPastCfEnd()) {
+            return 0;
+        }
+
         let count = 0;
         for (var uid in this.props.online_users) {
             uid = Number.parseInt(uid);

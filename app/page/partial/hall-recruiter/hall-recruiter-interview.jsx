@@ -25,7 +25,7 @@ import { Time } from "../../../lib/time";
 import { showNotification } from "../../../lib/notification";
 import { RootPath } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
-import { getAuthUser, getCFObj } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCfCustomMeta, getCFObj } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";
 import UserPopup, { createUserDocLinkList } from "../popup/user-popup";
 import {
@@ -722,7 +722,7 @@ class InterviewList extends React.Component {
       );
 
 
-      let pic = HallRecruiterHelper.getPicElement(d, "edit_prescreen", lang("Interviewer"));
+      let pic = HallRecruiterHelper.getPicElement(d, "edit_prescreen", lang(getCfCustomMeta(CFSMeta.TEXT_INTERVIEWER_REC, "Interviewer")));
       let note = HallRecruiterHelper.getNoteElement(d);
       // renderList
       return <li
@@ -786,8 +786,8 @@ class InterviewList extends React.Component {
       className="lb-list-header text-left">
       <div className="container-fluid">
         <div className="row" style={{ padding: "15px 10px" }}>
-          <div className="col-md-1 padding-sm container-avatar">{_student_single()}</div>
-          <div className="col-md-2 padding-sm show-on-lg-and-more"></div>
+          <div className="col-md-2 padding-sm container-avatar">{_student_single()}</div>
+          <div className="col-md-1 padding-sm show-on-lg-and-more"></div>
           <div className="col-md-1 text-center padding-sm">
             <span style={{ marginRight: '6px' }}>Status</span>
             <Tooltip
@@ -811,7 +811,8 @@ class InterviewList extends React.Component {
             ></Tooltip>
           </div>
           <div className="col-md-2 text-center padding-sm">Appointment Time</div>
-          <div className="col-md-2 padding-sm">Interviewer</div>
+          <div className="col-md-2 padding-sm">{lang(getCfCustomMeta(CFSMeta.TEXT_INTERVIEWER_REC, "Interviewer"))}</div>
+
           <div className="col-md-1 padding-sm">Note</div>
           <div className="col-md-3 padding-sm"></div>
         </div>
@@ -897,7 +898,7 @@ class HallRecruiterInterview extends React.Component {
       },
       {
         key: this.FILTER_MINE,
-        label: lang("My Interviews Only"),
+        label: lang(`My ${getCfCustomMeta(CFSMeta.TEXT_INTERVIEW_REC, "Interview")} Only`),
         defaultChecked: false,
       },
       {
@@ -1135,12 +1136,12 @@ class HallRecruiterInterview extends React.Component {
       <ListBoard
         key={JSON.stringify(this.state)}
         action_icon="plus"
-        action_text={lang("Schedule New Interview")}
+        action_text={lang(`Schedule New ${lang(getCfCustomMeta(CFSMeta.TEXT_INTERVIEW_REC, "Interview"))}`)}
         action_to={`browse-student`}
         icon={"video-camera"}
         title={
           <span>
-            {lang("Interview List")}
+            {lang(getCfCustomMeta(CFSMeta.TEXT_INTERVIEW_REC, "Interview") + " List")}
             {/* <small>{grandTotal > 0 ? ` (showing ${total}/${grandTotal}) ` : null}</small> */}
             {" "}
             <a onClick={this.refresh} className="btn-link text-bold">

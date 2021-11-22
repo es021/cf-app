@@ -742,6 +742,7 @@ const CFSMeta = {
 	LIMIT_DROP_RESUME: "limit_drop_resume",
 
 	// custom text
+	TEXT_JOB_POST_REC : "text_job_post_rec",
 	TEXT_JOB_POST: "text_job_post",
 	TEXT_SCHEDULE_CALL: "text_schedule_call",
 	TEXT_HEADER_TITLE: "text_header_title",
@@ -756,6 +757,8 @@ const CFSMeta = {
 	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer", // sign-up.jsx
 	TEXT_SALUTATION_RECRUITER: "text_salutation_recruiter", // hall-recruiter.jsx
 
+	TEXT_INTERVIEW_REC : "text_interview_rec",
+	TEXT_INTERVIEWER_REC : "text_interviewer_rec",
 	TEXT_MY_INTERVIEW: "text_my_interview",
 	TEXT_EVENT_WEBINAR: "text_event_webinar",
 

@@ -52,6 +52,7 @@ export default class ListBoard extends React.Component {
                 offset={this.props.offset}
             />
         }
+        let isActionLong = this.props.action_text && this.props.action_text.length > 30;
         let action = !this.props.action_text
             ? null
             : <NavLink className="btn btn-md btn-round-5 btn-green-outline btn-bold" to={AppPath + "/" + this.props.action_to}>
@@ -77,7 +78,7 @@ export default class ListBoard extends React.Component {
                                 <i className={`fa fa-${this.props.icon} left`}></i>
                                 {this.props.title}
                             </div>
-                            <div className="col-md-4 no-padding lb-title-action">
+                            <div className={`col-md-${isActionLong ? "12" : "4"} no-padding lb-title-action`}>
                                 {action ? action : this.props.actionCustom}
                             </div>
                         </div>

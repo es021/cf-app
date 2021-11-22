@@ -2,14 +2,14 @@
 
 import React from "react";
 import { createImageElement, PCType } from "../../../component/profile-card.jsx";
-import { getAuthUser, getCF, isRoleAdmin } from "../../../redux/actions/auth-actions";
+import { getAuthUser, getCF, getCfCustomMeta, isRoleAdmin } from "../../../redux/actions/auth-actions";
 import * as layoutActions from "../../../redux/actions/layout-actions";
 import { isRoleRec, isRoleStudent } from "../../../redux/actions/auth-actions";
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import ListBoard from "../../../component/list-board";
 import VacancyPopup from "../popup/vacancy-popup";
 import { InterestedButton } from "../../../component/interested.jsx";
-import { EmptyCard } from "../../../component/card.jsx";
+import {  CFSMeta } from "../../../../config/db-config";
 import PropTypes from 'prop-types';
 import {lang} from "../../../lib/lang.js";
 
@@ -167,9 +167,10 @@ export default class HallRecruiterJobPosts extends React.Component {
         isNoMarginBottom={this.props.isNoMarginBottom}
 
         action_icon="plus"
-        action_text={lang("Add / Edit Job Post")}
+        action_text={lang(`Add / Edit ${getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job Posts")}`)}
         action_to={`manage-company/${this.props.company_id}/vacancy`}
         title={lang("Job Posts")}
+        title={getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job Posts")}
         icon="suitcase"
         appendText={"Load More"}
         loadData={this.loadData}

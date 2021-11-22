@@ -36,6 +36,14 @@ import notificationConfig from "../../../../config/notification-config";
 import { addNotification } from "../../notifications";
 import obj2arg from 'graphql-obj2arg';
 
+export const isPastCfEnd = function () {
+  let nowUnix = Time.getUnixTimestampNow();
+  let endUnix = getCfEndUnix();
+  if (endUnix) {
+    return nowUnix >= endUnix;
+  }
+  return false;
+}
 export const getCfEndUnix = function () {
   let cfObj = getCFObj();
   let endDate = cfObj["end"];

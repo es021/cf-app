@@ -41,7 +41,7 @@ export default class AdminCf extends React.Component {
     getCfFormAttribute() {
         let r = ["name"];
         // ...CFS,
-        let obj = {  ...CFSMeta }
+        let obj = { ...CFSMeta }
         for (var k in obj) {
             if (["TABLE", "ID", "TIME", "CREATED_AT", "UPDATED_AT"].indexOf(k) >= 0) {
                 continue;
@@ -59,13 +59,16 @@ export default class AdminCf extends React.Component {
         if (["organizations"].indexOf(name) >= 0) {
             return "textarea"
         }
+        if (["start", "end"].indexOf(name) >= 0) {
+            return "datetime-local"
+        }
         return "text";
     }
     formSublabel(name) {
-        if (name == "start" || name == "end") {
-            return <div>Please follow the following format :<br></br>
-                <b>Jul 18 2019 10:00:00 GMT +0800 (+08)</b></div>;
-        }
+        // if (name == "start" || name == "end") {
+        //     return <div>Please follow the following format :<br></br>
+        //         <b>Jul 18 2019 10:00:00 GMT +0800 (+08)</b></div>;
+        // }
 
         if (["is_active", "is_load", "can_register", "can_login", "hall_cfg_onsite_call_use_group", "is_local"].indexOf(name) >= 0) {
             return <div>Accepted value : <b>1</b> or <b>0</b></div>;
@@ -216,11 +219,27 @@ export default class AdminCf extends React.Component {
             }}`;
 
             return getAxiosGraphQLQuery(query).then((res) => {
-                return res.data.data.cf;
+                let r = res.data.data.cf;
+                r["start"] = Time.timestampToDateTimeInput(r["start"]);
+                r["end"] = Time.timestampToDateTimeInput(r["end"]);
+                return r;
             });
         }
 
         this.forceDiff = ["name"];
+    }
+
+    formEditWillSubmit(d, edit) {
+        if (typeof d["start"] !== "undefined") {
+            d["start"] = Time.dateTimeInputToTimestamp(d["start"]);
+        }
+        if (typeof d["end"] !== "undefined") {
+            d["end"] = Time.dateTimeInputToTimestamp(d["end"]);
+        }
+
+        console.log("edit", edit);
+        console.log("d", d);
+        return d;
     }
 
     formOnSubmit(d) {
@@ -252,6 +271,7 @@ export default class AdminCf extends React.Component {
             <GeneralFormPage
                 acceptEmpty={this.acceptEmpty}
                 forceDiff={this.forceDiff}
+                formWillSubmit={this.formEditWillSubmit}
                 getExtraEditData={this.getExtraEditData}
                 dataTitle={this.dataTitle}
                 noMutation={true}
