@@ -1032,8 +1032,9 @@ const CustomConfig = {
         ref_order_by: "ID asc",
         is_required: true,
         onCf: ["OCPE21"],
-        attr: `{val}`
+        // attr: `{val}`
     },
+
 }
 
 const Default = [
