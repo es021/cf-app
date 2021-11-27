@@ -4,7 +4,7 @@ import { VacancyList } from "./partial/company/vacancy";
 import { lang } from "../lib/lang";
 import { AppPath } from "../../config/app-config";
 import { NavLink } from "react-router-dom";
-import { isCfFeatureOff } from "../redux/actions/auth-actions";
+import { getCfCustomMeta, isCfFeatureOff } from "../redux/actions/auth-actions";
 import { CFSMeta } from "../../config/db-config";
 
 export default class ListJobApplied extends React.Component {
@@ -17,14 +17,14 @@ export default class ListJobApplied extends React.Component {
       ? null
       : <div className="text-left" style={{ fontSize: "17px", marginBottom: "15px" }}>
         <NavLink to={`${AppPath}/list-job-posts`}>
-          {lang("Go to All Job Posts")}
+          {lang(`Go to All ${getCfCustomMeta(CFSMeta.TEXT_JOB_POST, "Job Posts")}`)}
           <i className="fa fa-long-arrow-right right"></i>
         </NavLink>
       </div>;
 
     return <div >
       <h1 className="text-bold text-left">
-        <i className="fa fa-check-square-o left"></i>{lang("Jobs Applied")}
+        <i className="fa fa-check-square-o left"></i>{lang(`${getCfCustomMeta(CFSMeta.TEXT_JOB_POST, "Jobs")} Applied`)}
       </h1>
       {goToAllJobPost}
       <VacancyList isFullWidth={true} isSearchOnLeft={true} isEnableSearch={true} offset={9}

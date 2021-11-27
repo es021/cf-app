@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { VacancyList } from "./partial/company/vacancy";
 import { lang } from "../lib/lang";
 import { AppPath } from "../../config/app-config";
+import { CFSMeta } from "../../config/db-config";
 import { NavLink } from "react-router-dom";
-import { isRoleStudent } from "../redux/actions/auth-actions";
+import { getCfCustomMeta, isRoleStudent } from "../redux/actions/auth-actions";
 export default class ListJobPosts extends React.Component {
   constructor(props) {
     super(props);
@@ -13,12 +14,12 @@ export default class ListJobPosts extends React.Component {
   render() {
     return <div >
       <h1 className="text-bold text-left">
-        <i className="fa fa-suitcase left"></i>{lang("Job Posts")}
+        <i className="fa fa-suitcase left"></i>{lang(`${getCfCustomMeta(CFSMeta.TEXT_JOB_POST, "Job Posts")}`)}
       </h1>
       {isRoleStudent()
         ? <div className="text-left" style={{ fontSize: "17px", marginBottom: "15px" }}>
           <NavLink to={`${AppPath}/list-job-applied`}>
-            {lang("Go to Jobs Applied")}
+            {lang(`Go to ${getCfCustomMeta(CFSMeta.TEXT_JOB_POST, "Jobs")} Applied`)}
             <i className="fa fa-long-arrow-right right"></i>
           </NavLink>
         </div>

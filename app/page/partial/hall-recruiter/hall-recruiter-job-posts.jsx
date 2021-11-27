@@ -9,9 +9,9 @@ import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
 import ListBoard from "../../../component/list-board";
 import VacancyPopup from "../popup/vacancy-popup";
 import { InterestedButton } from "../../../component/interested.jsx";
-import {  CFSMeta } from "../../../../config/db-config";
+import { CFSMeta } from "../../../../config/db-config";
 import PropTypes from 'prop-types';
-import {lang} from "../../../lib/lang.js";
+import { lang } from "../../../lib/lang.js";
 
 export default class HallRecruiterJobPosts extends React.Component {
   constructor(props) {
@@ -138,7 +138,7 @@ export default class HallRecruiterJobPosts extends React.Component {
           {d.title}
         </div>
         <div className="location">{d.location}</div>
-        <div className="type">{d.type ? d.type + " Job" : null}</div>
+        <div className="type">{d.type ? d.type + " " + getCfCustomMeta(CFSMeta.TEXT_JOB_POST_CARD, "Job") : null}</div>
       </div>
     );
 

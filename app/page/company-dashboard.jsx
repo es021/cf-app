@@ -3,9 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { AppPath, StatisticUrl } from '../../config/app-config';
+import { CFSMeta } from '../../config/db-config';
 import { graphql, postRequest } from '../../helper/api-helper';
 import { StatisticFigure } from '../component/statistic';
-import { getAuthUser, getCF, getCFObj } from '../redux/actions/auth-actions';
+import { getAuthUser, getCF, getCfCustomMeta, getCFObj } from '../redux/actions/auth-actions';
 import EventManagement from './event-management';
 import { Loader } from '../component/loader';
 import { ButtonExport } from '../component/buttons';
@@ -165,7 +166,7 @@ class CompanyDashboard extends React.Component {
         <div className="col-sm-4 col-lg-4" style={this.getStatisticClass()}>
             <StatisticFigure
                 title="Total Profile Visit" icon="building"
-                value={this.state.countVisitor}
+                value={this.state.countVisitor ? this.state.countVisitor : "0"}
                 color="rgb(255, 97, 62)"
                 footer={<a className="link st-footer-link">
                     <ButtonExport isOverrideBtnClass={true}
@@ -186,7 +187,7 @@ class CompanyDashboard extends React.Component {
         </div>,
         <div className="col-sm-4 col-lg-4" style={this.getStatisticClass()}>
             <StatisticFigure
-                title="Total Job Applications" icon="suitcase"
+                title={`Total ${getCfCustomMeta(CFSMeta.TEXT_JOB_POST_REC, "Job")} Applications`} icon="suitcase"
                 value={this.state.countJobApplication}
                 color="#a44ba2"
                 footer={<a className="link st-footer-link">
@@ -207,7 +208,7 @@ class CompanyDashboard extends React.Component {
         </div>,
         <div className="col-sm-4 col-lg-4" style={this.getStatisticClass()}>
             <StatisticFigure
-                title="Total Interviews" icon="comments"
+                title={`Total ${getCfCustomMeta(CFSMeta.TEXT_INTERVIEW_REC, "Interviews")}`} icon="comments"
                 value={this.state.countInterview}
                 color="rgb(255, 173, 16)"
                 footer={<a className="link st-footer-link">

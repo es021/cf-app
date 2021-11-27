@@ -65,7 +65,8 @@ import {
   getCF_externalHomeUrl,
   getCF_guideUrl,
   getCF_hasGuideUrl,
-  isCfFeatureOff
+  isCfFeatureOff,
+  getCfCustomMeta
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -488,7 +489,7 @@ function getMenuItem(COMING_SOON) {
     {
       // Student Only
       url: "/list-job-applied",
-      label: lang("Jobs Applied"),
+      label: lang(`${getCfCustomMeta(CFSMeta.TEXT_JOB_POST_CARD, "Jobs")} Applied`),
       icon: "check-square-o ",
       component: ListJobApplied,
       bar_app: true,

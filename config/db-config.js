@@ -743,6 +743,7 @@ const CFSMeta = {
 
 	// custom text
 	TEXT_JOB_POST_REC : "text_job_post_rec",
+	TEXT_JOB_POST_CARD : "text_job_post_card",
 	TEXT_JOB_POST: "text_job_post",
 	TEXT_SCHEDULE_CALL: "text_schedule_call",
 	TEXT_HEADER_TITLE: "text_header_title",

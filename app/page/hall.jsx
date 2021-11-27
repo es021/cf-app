@@ -315,7 +315,7 @@ export default class HallPage extends React.Component {
     }
 
     return <div style={{ marginTop: "25px" }} className="col-md-12 no-padding">
-      <ListRow title={lang("Job Posts")}
+      <ListRow title={lang(getCfCustomMeta(CFSMeta.TEXT_JOB_POST, "Job Post"))}
         icon="suitcase"
         backgroundColor={backgroundColor}
         items={<VacancyList limitLoad={4} filterByCf={true} isListAll={true} listClass="flex-wrap-center text-left" />}

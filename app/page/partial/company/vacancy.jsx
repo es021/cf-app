@@ -345,7 +345,7 @@ export class VacancyList extends React.Component {
         <div className="img">{img}</div>
         {title}
         <div className="location">{d.location}</div>
-        <div className="type">{d.type ? d.type + " Job" : null}</div>
+        <div className="type">{d.type ? d.type + " " + getCfCustomMeta(CFSMeta.TEXT_JOB_POST_CARD, "Job") : null}</div>
       </div>
     );
 
