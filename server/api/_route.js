@@ -204,7 +204,7 @@ const initializeAllRoute = function (app, root) {
   const { NexmoAPI } = require("./nexmo-api");
   app.post(root + "/nexmo/:action", function (req, res, next) {
     var action = req.params.action;
-    console.log("nexmo api .....", action, req.body);
+    console.log("#########################################");
     switch (action) {
       case "send-sms":
         NexmoAPI.sendSms(

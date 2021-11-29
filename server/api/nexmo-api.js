@@ -58,6 +58,12 @@ class NexmoAPI {
         finishHandler(text);
       })
     }
+    if (type == notificationConfig.Type.INTERVIEW_PENDING_REMINDER_1DAY) {
+      this.loadCompanyName(param.company_id, (company_name) => {
+        let text = `You have a pending interview with ${company_name} tomorrow - ${param.appointment_time_str}. Please log in at ${url} to accept the interview`
+        finishHandler(text);
+      })
+    }
   }
   loadCompanyName(company_id, finishHandler) {
     graphql(`query { company(ID : ${company_id}) { name } } `).then((res) => {
@@ -72,13 +78,15 @@ class NexmoAPI {
     console.log("type", type)
     console.log("param", param)
     user_id = Number.parseInt(user_id);
-
+  
     this.generateText(type, param, text => {
       if (to_number) {
         this.twilioSendSms(to_number, text, finishHandler, null);
       } else if (user_id) {
+
         graphql(`query{ user (ID:${user_id}) { phone_number } }`).then(res => {
           let phoneNumber = res.data.data.user.phone_number;
+          console.log("phoneNumber", user_id, phoneNumber)
           this.twilioSendSms(phoneNumber, text, finishHandler, user_id);
         })
       }
@@ -101,6 +109,7 @@ class NexmoAPI {
       console.log("twilioSendSms :: send message", "____", phoneNumber, "____", text)
       if (!isProd) {
         console.log("skip SEND SMS")
+        finishHandler("skip SEND SMS");
         return;
       }
 
@@ -149,6 +158,14 @@ class NexmoAPI {
   }
   fixPhoneNumber(phoneNumber) {
     try {
+      if(!phoneNumber){
+        return null;
+      }
+
+      if(isNaN(Number.parseInt(phoneNumber))){
+        return null;
+      }
+
       if (phoneNumber[0] == "0") {
         phoneNumber = "6" + phoneNumber;
       }

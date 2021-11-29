@@ -125,7 +125,7 @@ function getAxiosGraphQLQuery(queryString) {
 		}
 	};
 
-	console.log(config);
+	// console.log(config);
 
 	return axios.post(graphQLUrl, {}, config);
 }
@@ -211,7 +211,7 @@ function deleteAxios(requestUrl, headers) {
 
 function getPHPApiAxios(script, params) {
 	var requestUrl = AppConfig.PHPApi + `${script}.php`;
-	console.log(requestUrl);
+	// console.log(requestUrl);
 	var config = {
 		proxy: false, httpsAgent: getAgent()
 	};
@@ -220,7 +220,7 @@ function getPHPApiAxios(script, params) {
 
 function getPHPNotificationApiAxios(script, params) {
 	var requestUrl = AppConfig.PHPNotificationApi + `${script}.php`;
-	console.log(requestUrl);
+	// console.log(requestUrl);
 	var config = {
 		proxy: false, httpsAgent: getAgent()
 	};
