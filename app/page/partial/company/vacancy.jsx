@@ -86,6 +86,7 @@ export class VacancyList extends React.Component {
       }
 
       return `
+        order_by:"c.name asc",
         ${this.searchParams}
         ${show_applied_only}
         ${cf_param}

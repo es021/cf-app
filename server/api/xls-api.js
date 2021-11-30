@@ -71,13 +71,13 @@ class XLSApi {
 
   rec_analytic(param) {
     var filename = ``;
-    if(param.is_export_job_application){
+    if (param.is_export_job_application) {
       filename = `Job Applications`;
     }
-    if(param.is_export_interviews){
+    if (param.is_export_interviews) {
       filename = `Interviews`;
     }
-    if(param.is_export_profile_visit){
+    if (param.is_export_profile_visit) {
       filename = `Profile Visits`;
     }
 
@@ -281,6 +281,11 @@ class XLSApi {
   all_student() {
     return this.browse_student(`role:"Student"`, true);
   }
+  removeCfName(k) {
+    k = k.replace("oejf21_", "");
+    k = k.replace("ocpe_", "");
+    return k;
+  }
   browse_student(filterStr, cf, is_admin) {
     var filename = `Participant Listing`;
     var query = `query{
@@ -306,18 +311,23 @@ class XLSApi {
 
     // 3. resctruct data to be in one level only
     const restructData = data => {
+      console.log("data", data);
       var hasChildren = ["student"];
       var newData = {};
       for (var key in data) {
         var d = data[key];
         if (hasChildren.indexOf(key) >= 0) {
           for (var k in d) {
+            k = this.removeCfName(k);
             newData[`${key}_${k}`] = d[k];
           }
         } else {
+          key = this.removeCfName(key);
           newData[key] = d;
         }
       }
+
+      console.log("newData", newData);
       newData = this.restructAppendTypeForStudent(newData, "student_");
       return newData;
     };

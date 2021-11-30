@@ -66,6 +66,8 @@ EXPORT.Cfs = {
     feature_subscribe: __.String,
     
     limit_drop_resume: __.String,
+    
+    offset_load_company: __.String,
 
     // custom text
 

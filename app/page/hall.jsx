@@ -289,17 +289,19 @@ export default class HallPage extends React.Component {
         {/* LOBBY ------------------------------------------------------------------------- */}
         <HallLobbyList isListNoMargin={true} limitLoad={100} listAlign="center" />
         {/* EVENT ------------------------------------------------------------------------- */}
-        <div className="text-center" style={{ marginBottom: "25px" }}>
-          <h3><small>{lang("Current / Upcoming Event")} : </small></h3>
-          <EventList isListNoMargin={true} limitLoad={2} listAlign="center" />
-          <div className="text-right">
-            <b>
-              <NavLink to={`${AppPath}/list-events`}>
-                {lang("See More Events")}{" "}<i className="fa fa-long-arrow-right"></i>
-              </NavLink>
-            </b>
+        {isCfFeatureOff(CFSMeta.FEATURE_EVENT_STUDENT) ? null
+          : <div className="text-center" style={{ marginBottom: "25px" }}>
+            <h3><small>{lang("Current / Upcoming Event")} : </small></h3>
+            <EventList isListNoMargin={true} limitLoad={2} listAlign="center" />
+            <div className="text-right">
+              <b>
+                <NavLink to={`${AppPath}/list-events`}>
+                  {lang("See More Events")}{" "}<i className="fa fa-long-arrow-right"></i>
+                </NavLink>
+              </b>
+            </div>
           </div>
-        </div>
+        }
         <SponsorList
           title={false}
           part_com={false}
@@ -432,12 +434,17 @@ export default class HallPage extends React.Component {
     let companyEntitySingle = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_SINGLE, "Company")
     let companyEntityPlural = getCfCustomMeta(CFSMeta.TEXT_COMPANY_ENTITY_PLURAL, "Companies")
     let companyProfileTerm = getCfCustomMeta(CFSMeta.TEXT_COMPANY_PROFILE_TERM, "Profiles")
+    let offsetCompany = getCfCustomMeta(CFSMeta.OFFSET_LOAD_COMPANY, 3)
+    offsetCompany = Number.parseInt(offsetCompany);
+    if (isNaN(offsetCompany)) {
+      offsetCompany = 3;
+    }
 
     return <div className="col-md-12 no-padding">
       <ListRow title={lang(`${companyEntitySingle} ${companyProfileTerm}`)}
         icon="building-o"
         backgroundColor={backgroundColor}
-        items={<CompaniesSection {...this.props} limitLoad={3} />}
+        items={<CompaniesSection {...this.props} limitLoad={offsetCompany} />}
         see_more_text={lang(`See More ${companyEntitySingle} ${companyProfileTerm}`)}
         see_more_to={`${AppPath}/list-companies`}
       ></ListRow>

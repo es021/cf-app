@@ -741,6 +741,8 @@ const CFSMeta = {
 
 	LIMIT_DROP_RESUME: "limit_drop_resume",
 
+	OFFSET_LOAD_COMPANY: "offset_load_company",
+
 	// custom text
 	TEXT_JOB_POST_REC : "text_job_post_rec",
 	TEXT_JOB_POST_CARD : "text_job_post_card",
