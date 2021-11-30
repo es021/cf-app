@@ -810,73 +810,6 @@ export default class CompanyPage extends Component {
         />
       );
 
-      // var rightBody = (
-      //   <div>
-      //     {!this.isRecThisCompany()
-      //       ? null
-      //       : this.getSubscribeBtn({ fontSize: "15px", width: "100%" })}
-      //   </div>
-      // );
-
-      // var maxHeight = this.SECTION_MAX_HEIGHT;
-      // var leftBody = (
-      //   <div>
-      //     <div>
-      //       {actionBox}
-      //       {doc_link == null ? null : (
-      //         <PageSection
-      //           canToggle={this.props.canToggle}
-      //           className="left"
-      //           title="Gallery"
-      //           body={doc_link}
-      //         />
-      //       )}
-      //       {data.description == "" ? null : (
-      //         <PageSection
-      //           maxHeight={maxHeight}
-      //           canToggle={this.props.canToggle}
-      //           className="left"
-      //           title="About"
-      //           body={
-      //             <p
-      //               dangerouslySetInnerHTML={getDangerousHtml(data.description)}
-      //             ></p>
-      //           }
-      //         />
-      //       )}
-      //       <PageSection
-      //         canToggle={this.props.canToggle}
-      //         initShow={true}
-      //         className="left"
-      //         title="Job Opportunity"
-      //         body={vacancies}
-      //       />
-      //       {data.more_info == "" ? null : (
-      //         <PageSection
-      //           maxHeight={maxHeight}
-      //           canToggle={this.props.canToggle}
-      //           className="left"
-      //           title="Additional Information"
-      //           //body={<p>{data.more_info}</p>}
-      //           body={
-      //             <p
-      //               dangerouslySetInnerHTML={getDangerousHtml(data.more_info)}
-      //             ></p>
-      //           }
-      //         />
-      //       )}
-      //       {recs === null ? null : (
-      //         <PageSection
-      //           canToggle={this.props.canToggle}
-      //           className="left"
-      //           title="Recruiters"
-      //           body={recs}
-      //         />
-      //       )}
-      //     </div>
-      //   </div>
-      // );
-
       view =
         <div className="company-page">
           <ValidationStudentAction
@@ -928,22 +861,6 @@ export default class CompanyPage extends Component {
               </div>
             </div>
           </div>
-
-          {/* {this.getBanner()} */}
-          {/* <div className="main-width main-width-lg container-fluid">
-              <div className="row">
-                <div
-                  style={{ padding: "20px" }}
-                  className="col-md-3 com-pop-left"
-                >
-                  <div className="com-pop-pic">{profilePic}</div>
-                  {rightBody}
-                </div>
-                <div style={{ padding: "20px" }} className="col-md-9">
-                  {leftBody}
-                </div>
-              </div>
-            </div> */}
         </div>
     }
 

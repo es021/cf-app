@@ -100,7 +100,8 @@
     }
     .cp-header-avatar {
       @media only screen and (min-width: $LAYOUT_MD_BOOTSTRAP) {
-        height: 400px;
+        // height: 400px;
+        min-height: 400px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
