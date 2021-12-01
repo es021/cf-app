@@ -60,21 +60,28 @@ class BrowseStudentExec {
 	getSqlIn(val) {
 		let arr = val.split(this.DELIMITER);
 
+		let params = [];
+
 		let r = "";
 		for (var i in arr) {
 			if (arr[i] != "") {
-				r += `'${arr[i]}'`;
+				params.push(arr[i]);
+				r += `?`;
 				r += ",";
 			}
 		}
-
+		
 		// remove the last comma
 		r = r.substr(0, r.length - 1);
+		
+		r = `(${r})`;
 
-
-		return `(${r})`;
+		r = DB.prepare(r, params);
+		
+		return r;
 	}
 	where(user_id, table_type, key, val) {
+		// todo
 		if (typeof val === "undefined" || val == "" || val == null) {
 			return "1=1";
 		} else {
@@ -83,7 +90,7 @@ class BrowseStudentExec {
 			switch (table_type) {
 				case this.TABLE_SINGLE:
 					if (key == "name") {
-
+						
 						subQ = `select COUNT(s.ID) 
 						FROM single_input s, wp_cf_users uu
 						where 1=1
