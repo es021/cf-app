@@ -126,7 +126,7 @@ class XLSApi {
       return newData;
     };
 
-    console.log("query", query)
+    // console.log("query", query)
     // 4. fetch and return
     return this.fetchAndReturn(
       query,
@@ -159,6 +159,7 @@ class XLSApi {
     for (var k of customKeys) {
       additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
     }
+    // console.log("student_field", additionalCustomCf);
     // 8. @custom_user_info_by_cf
     return `
       ID
@@ -227,7 +228,7 @@ class XLSApi {
 
 
   list_job_applicants(filter, cf, is_admin) {
-    console.log("filter", filter)
+    // console.log("filter", filter)
     var filename = `Participant Listing`;
     var query = `query{
         interested_list (
@@ -282,6 +283,7 @@ class XLSApi {
     return this.browse_student(`role:"Student"`, true);
   }
   removeCfName(k) {
+    // console.log(k);
     k = k.replace("oejf21_", "");
     k = k.replace("ocpe_", "");
     return k;
@@ -294,6 +296,8 @@ class XLSApi {
           student{${this.student_field(is_admin)}}
       }
     } `;
+
+    // console.log("query",query);
 
     // first_name last_name user_email phone_number
     // grade university country_study where_in_malaysia
@@ -311,15 +315,16 @@ class XLSApi {
 
     // 3. resctruct data to be in one level only
     const restructData = data => {
-      console.log("data", data);
+      // // console.log("data", data);
       var hasChildren = ["student"];
       var newData = {};
       for (var key in data) {
         var d = data[key];
         if (hasChildren.indexOf(key) >= 0) {
           for (var k in d) {
+            let v = d[k];
             k = this.removeCfName(k);
-            newData[`${key}_${k}`] = d[k];
+            newData[`${key}_${k}`] = v;
           }
         } else {
           key = this.removeCfName(key);
@@ -327,7 +332,7 @@ class XLSApi {
         }
       }
 
-      console.log("newData", newData);
+      // // console.log("newData", newData);
       newData = this.restructAppendTypeForStudent(newData, "student_");
       return newData;
     };
@@ -413,11 +418,11 @@ class XLSApi {
   //   let queryParam = JSON.parse(JSON.stringify(filter));
   //   delete queryParam["for_rec"];
 
-  //   // console.log("queryParam",queryParam)
-  //   // console.log("queryParam",queryParam)
-  //   // console.log("queryParam",queryParam)
-  //   // console.log("queryParam",queryParam)
-  //   // console.log("queryParam",queryParam)
+  //   // // console.log("queryParam",queryParam)
+  //   // // console.log("queryParam",queryParam)
+  //   // // console.log("queryParam",queryParam)
+  //   // // console.log("queryParam",queryParam)
+  //   // // console.log("queryParam",queryParam)
   //   // 1. create query
   //   var query = `query{
   //           student_listing(${obj2arg(queryParam, {
