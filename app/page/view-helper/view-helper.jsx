@@ -9,6 +9,13 @@ import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
 import { lang } from "../../lib/lang";
 
+export function getHtmlView(txt) {
+  if (typeof txt === "string") {
+    txt = txt.replaceAll("\n", "<br>");
+    return <span dangerouslySetInnerHTML={{ __html: txt }}></span>;
+  }
+  return txt;
+}
 export function animateHide(el, finishHandler) {
   el.className = el.className += " animate-hide";
   el.style.opacity = 0;

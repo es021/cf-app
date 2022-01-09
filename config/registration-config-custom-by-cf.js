@@ -1035,6 +1035,40 @@ const CustomConfig = {
         // attr: `{val}`
     },
 
+    uorm_looking_for: {
+        label: "Looking For",
+        question: "What are you looking for?",
+        icon: "slack",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "uorm_looking_for",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "jpastar_looking_for",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["UORM22"],
+        attr: `{val}`
+    },
+
+    reference_1: {
+        label: "Reference 1",
+        question: "Reference 1",
+        icon: "address-card",
+        type: "single",
+        input_type: "textarea",
+        is_required: true,
+        onCf: ["UORM22"]
+    },
+    reference_2: {
+        label: "Reference 2",
+        question: "Reference 2",
+        icon: "address-card",
+        type: "single",
+        input_type: "textarea",
+        is_required: true,
+        onCf: ["UORM22"]
+    },
 }
 
 const Default = [
@@ -1058,6 +1092,27 @@ const Default = [
 ];
 
 const CustomOrder = {
+    UORM22: [
+        "first_name",
+        "graduation_month",
+        "uorm_looking_for",
+        "country_study",
+        "university",
+        "student_id",
+        "qualification",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+        "reference_1",
+        "reference_2"
+    ],
     OCPE21: [
         "first_name",
         "ocpe_graduation",

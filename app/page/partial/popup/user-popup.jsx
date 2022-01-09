@@ -625,7 +625,7 @@ export default class UserPopup extends Component {
         items[index].value = lang(items[index].value);
       } catch (err) { }
     }
-    return <CustomList className="icon" items={items}></CustomList>;
+    return <CustomList className="icon" items={items} renderHtml={true}></CustomList>;
   }
 
   getWorkAvailable(m, y, notSpecifed) {

@@ -8,6 +8,7 @@ import ProfileCard, { PCType } from "./profile-card.jsx";
 import { Page } from "react-facebook";
 import Paging from "./paging.jsx";
 import { lang } from "../lib/lang.js";
+import { getHtmlView } from "../page/view-helper/view-helper.jsx";
 
 // require("../css/list.scss");
 
@@ -869,7 +870,11 @@ export class CustomList extends Component {
             {d.label}
           </div>
         ) : null}
-        {d.value ? <div className="cli-value">{d.value}</div> : null}
+        {d.value ? <div className="cli-value">
+          {this.props.renderHtml
+            ? getHtmlView(d.value)
+            : d.value
+          }</div> : null}
       </li>
     );
   }
@@ -951,6 +956,7 @@ export class CustomList extends Component {
 
 CustomList.propTypes = {
   // specifically for iconLink
+  renderHtml: PropTypes.bool,
   il_text_width: PropTypes.string,
   il_dimension: PropTypes.string,
   il_font: PropTypes.string,
