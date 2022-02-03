@@ -1139,7 +1139,6 @@ const CustomOrder = {
         "intelmm22_current_organization",
         "gender",
         "intel_is_intel_employee",
-        // "has_attended_before",
         "intel_reference",
     ],
     UORM22: [
@@ -1166,16 +1165,6 @@ const CustomOrder = {
     OCPE21: [
         "first_name",
         "ocpe_graduation",
-        // 1. 2016-2021
-        // 2. 2010-2015
-        // 3. 2009-2014
-        // 4. 2003-2008
-        // 5. 1997-2002
-        // 6. 1991-1996
-        // 7. 1985-1990
-        // 8. 1979-1984
-        // 9. Other
-
         "looking_for_position",
         "country_study",
         "university",
@@ -1185,44 +1174,12 @@ const CustomOrder = {
         "gender",
         "race",
         "ocpe_work_availability",
-        // Dec/21
-        // Jan/22
-        // Feb/22
-        // Mar/22
-        // Apr/22
-        // May/22
-        // Jun/22
-        // Jul/22
-        // Aug/22
-        // Sep/22
-        // Oct/22
-        // Nov/22
-        // Dec/22
-
         "where_in_malaysia_select",
         "interested_job_location_my_sg",
         "ocpe_work_experience",
-        // 1. 0-2 years
-        // 2. 3-5 years
-        // 3. 6-10 years
-        // 4. 11-15 years
-        // 5. More than 16 years
-
         "oejf21_industry",
         "current_position",
         "ocpe_reference",
-        // Event
-        // e-Poster
-        // Email
-        // Facebook
-        // Friend
-        // Instagram
-        // LinkedIn
-        // Radio
-        // WhatsApp
-        // Phone Call
-        // Others
-
     ],
     JPASTAR21: [
         "first_name",

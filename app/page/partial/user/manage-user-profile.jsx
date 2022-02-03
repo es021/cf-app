@@ -145,7 +145,7 @@ export default class ManageUserProfile extends React.Component {
         type: "single",
         id: Reg.Single.university,
         key_input: Reg.Single.university,
-        label: lang("What is your university?"),
+        label: lang("What is the name of your university?"),
         input_placeholder: "Universiti Malaya",
         ref_table_name: "university",
         ref_filter_column: "country_id",
@@ -312,7 +312,7 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.local_or_oversea_study,
           key_input: Reg.Single.local_or_oversea_study,
-          label: lang("Where are you studying/studied?"),
+          label: lang("Where are/have you studying/studied?"),
           ref_table_name: "local_or_oversea",
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_study)
@@ -540,7 +540,7 @@ export default class ManageUserProfile extends React.Component {
           input_type: "select",
           id: Reg.Single.local_or_oversea_location,
           key_input: Reg.Single.local_or_oversea_location,
-          label: lang("Where are you currently located?"),
+          label: lang("Where are you currently located now?"),
           ref_table_name: "local_or_oversea",
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.local_or_oversea_location)
