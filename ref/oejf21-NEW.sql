@@ -1,5 +1,25 @@
 -- ##################################
 
+CREATE TABLE `ref_year_latest` 
+( 
+  `ID` INT NOT NULL AUTO_INCREMENT , 
+  `val` VARCHAR(700)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
+
+INSERT INTO ref_year_latest (val) VALUES ('Not Applicable'); 
+INSERT INTO ref_year_latest (val) VALUES ('2022'); 
+INSERT INTO ref_year_latest (val) VALUES ('2023'); 
+INSERT INTO ref_year_latest (val) VALUES ('2024'); 
+INSERT INTO ref_year_latest (val) VALUES ('2025'); 
+INSERT INTO ref_year_latest (val) VALUES ('2026'); 
+INSERT INTO ref_year_latest (val) VALUES ('2027'); 
+INSERT INTO ref_year_latest (val) VALUES ('2028'); 
+INSERT INTO ref_year_latest (val) VALUES ('2029'); 
+INSERT INTO ref_year_latest (val) VALUES ('2030'); 
+
+
+-- ##################################
+
 CREATE TABLE `ref_year_2020` 
 ( 
   `ID` INT NOT NULL AUTO_INCREMENT , 

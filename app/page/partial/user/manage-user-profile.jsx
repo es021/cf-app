@@ -127,7 +127,7 @@ export default class ManageUserProfile extends React.Component {
         input_type: "select",
         id: Reg.Single.working_availability_year,
         key_input: Reg.Single.working_availability_year,
-        ref_table_name: "year_2020",
+        ref_table_name: "year_latest",
         ref_order_by: "ID asc",
         // ref_filter_raw: "val >= 2020 or val = 'Not Applicable' ",
         is_required: true,

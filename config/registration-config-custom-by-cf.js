@@ -1069,6 +1069,36 @@ const CustomConfig = {
         is_required: true,
         onCf: ["UORM22"]
     },
+
+    intelmm22_work_experience_year: {
+        label: "Year Of Work Experience In Related Field",
+        question: "How many years of relevant working experiences in Manufacturing/Engineering/Information Technology (IT)/Finance/Facilities/Site Services field?",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "work_experience_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["INTELMM22"]
+    },
+    intelmm22_current_position: {
+        label: "Current Position Title",
+        question: "What is your current position title? (if applicable)",
+        icon: "suitcase",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["INTELMM22"]
+    },
+    intelmm22_current_organization: {
+        label: "Current Organization",
+        question: "What is your current organization? (if applicable) ",
+        icon: "building",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["INTELMM22"]
+    },
 }
 
 const Default = [
@@ -1096,18 +1126,20 @@ const CustomOrder = {
         "first_name",
         "looking_for_position",
         "qualification",
-        "local_or_oversea_study",
-        "university",
         "local_or_oversea_location",
+        "university",
+        "local_or_oversea_study",
         "graduation_month",
         "field_study_main",
         "field_study_secondary",
         "grade",
         "working_availability_month",
-        "work_experience_year",
+        "intelmm22_work_experience_year",
+        "intelmm22_current_position",
+        "intelmm22_current_organization",
         "gender",
         "intel_is_intel_employee",
-        "has_attended_before",
+        // "has_attended_before",
         "intel_reference",
     ],
     UORM22: [

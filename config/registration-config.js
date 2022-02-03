@@ -163,16 +163,16 @@ const CustomStudentCardInfo = {
         },
     },
     INTELMM22: {
-        line4: (d) => "has_attended_before",
+        // line4: (d) => "has_attended_before",
+        // line4Render: (v) => {
+        //     if (v == "Yes") {
+        //         return `<div style="margin: 5px 0px; color:#b600ff; font-size: 13px;">
+        //                 <b><i>Participated in Previous Event</i></b>
+        //         </div>`
+        //     } return "";
+        // },
+        line4: (d) => "intel_is_intel_employee",
         line4Render: (v) => {
-            if (v == "Yes") {
-                return `<div style="margin: 5px 0px; color:#b600ff; font-size: 13px;">
-                        <b><i>Participated in Previous Event</i></b>
-                </div>`
-            } return "";
-        },
-        line5: (d) => "intel_is_intel_employee",
-        line5Render: (v) => {
             if (v == "Yes") {
                 return `<div style="margin: 5px 0px; color:#FF0000; font-size: 13px;">
                         <b><i>An Active/former Intel Employee</i></b>
