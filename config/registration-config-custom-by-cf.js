@@ -797,7 +797,7 @@ const CustomConfig = {
         ref_table_name: "yes_no",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["INTELDDSEPT21"]
+        onCf: ["INTELDDSEPT21", "INTELMM22"]
     },
     has_attended_before: {
         label: "Has attended previous Design & Development (D&D) Virtual Career Fairs?",
@@ -808,7 +808,7 @@ const CustomConfig = {
         ref_table_name: "yes_no",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["INTELDDSEPT21"]
+        onCf: ["INTELDDSEPT21", "INTELMM22"]
     },
     intel_reference: {
         discard_filter: true,
@@ -824,7 +824,7 @@ const CustomConfig = {
         ref_table_name: "intel_reference",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["INTELDDSEPT21"],
+        onCf: ["INTELDDSEPT21", "INTELMM22"],
         attr: `{val}`
     },
     // TAYLORS21
@@ -1092,6 +1092,24 @@ const Default = [
 ];
 
 const CustomOrder = {
+    INTELMM22: [
+        "first_name",
+        "looking_for_position",
+        "qualification",
+        "local_or_oversea_study",
+        "university",
+        "local_or_oversea_location",
+        "graduation_month",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "working_availability_month",
+        "work_experience_year",
+        "gender",
+        "intel_is_intel_employee",
+        "has_attended_before",
+        "intel_reference",
+    ],
     UORM22: [
         "first_name",
         "graduation_month",
@@ -1248,18 +1266,12 @@ const CustomOrder = {
         "field_study_main",
         "field_study_secondary",
         "grade",
-        // "phone_number",
         "working_availability_month",
         "work_experience_year",
         "gender",
         "intel_is_intel_employee",
         "has_attended_before",
         "intel_reference",
-        // "interested_role",
-        // "where_in_malaysia",
-        // "interested_job_location",
-        // "skill",
-        // "extracurricular",
     ],
     TARUCNOV21: [
         "first_name",

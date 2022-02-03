@@ -5,8 +5,8 @@ const {
 
 const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 
-const IsUploadResumeRequired = ["INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
-const IsHasUploadResume = ["OCPE21","INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
+const IsUploadResumeRequired = ["INTELDD21", "INTELDDSEPT21", "INTELMM22", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
+const IsHasUploadResume = ["OCPE21","INTELDD21", "INTELDDSEPT21", "INTELMM22", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
 
 
 var Single = {
@@ -162,6 +162,24 @@ const CustomStudentCardInfo = {
             }
         },
     },
+    INTELMM22: {
+        line4: (d) => "has_attended_before",
+        line4Render: (v) => {
+            if (v == "Yes") {
+                return `<div style="margin: 5px 0px; color:#b600ff; font-size: 13px;">
+                        <b><i>Participated in Previous Event</i></b>
+                </div>`
+            } return "";
+        },
+        line5: (d) => "intel_is_intel_employee",
+        line5Render: (v) => {
+            if (v == "Yes") {
+                return `<div style="margin: 5px 0px; color:#FF0000; font-size: 13px;">
+                        <b><i>An Active/former Intel Employee</i></b>
+                </div>`
+            } return "";
+        }
+    },
     INTELDDSEPT21: {
         line4: (d) => "has_attended_before",
         line4Render: (v) => {
@@ -287,16 +305,16 @@ const isCustomUserInfoOff = (cf, key) => {
             onCf = ["MONASH"];
             break;
         case Single.local_or_oversea_study:
-            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21"];
+            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21", "INTELMM22"];
             break;
         case Single.local_or_oversea_location:
-            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21"];
+            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21", "INTELMM22"];
             break;
         case Single.work_experience_year:
-            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21"];
+            onCf = ["INTEL", "INTELDD21", "INTELDDSEPT21", "INTELMM22"];
             break;
         case Single.gender:
-            onCf = ["USM21", "INTEL", "INTELDD21", "INTELDDSEPT21"];
+            onCf = ["USM21", "INTEL", "INTELDD21", "INTELDDSEPT21", "INTELMM22"];
             break;
         case Single.kpt:
             onCf = ["MDCW", "USM21"];
@@ -327,7 +345,7 @@ const isCustomUserInfoOff = (cf, key) => {
         // ###############
         // by default is ON
         case Single.country_study:
-            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "INTELDDSEPT21", "MDCW", "UNISZA"];
+            offCf = ["MONASH", "SUNWAY", "INTEL", "INTELDD21", "INTELDDSEPT21", "INTELMM22", "MDCW", "UNISZA"];
             break;
         case Single.university:
             offCf = ["UNISZA"];
