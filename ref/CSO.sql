@@ -118,8 +118,20 @@ CREATE TABLE `wp_career_fair`.`ref_cso_field_to_work`
 PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
 
 INSERT INTO ref_cso_field_to_work (val) VALUES ('哲学类 Philosophy'); 
-INSERT INTO ref_cso_field_to_work (val) VALUES (''); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('历史学类 History'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('文学类 Literature'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('艺术学类 Arts'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('教育学类 Education'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('法学类 Laws'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('经济学类 Economics'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('管理学类 Management'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('理学类 Science'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('工学类 Engineering'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('农学类 Agriculture'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('医学类 Medicine'); 
+INSERT INTO ref_cso_field_to_work (val) VALUES ('军事学类 Military Science'); 
 INSERT INTO ref_cso_field_to_work (val) VALUES ('其他 Others'); 
+
 
 
 -- ##############################################################################################################
