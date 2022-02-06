@@ -1,5 +1,6 @@
 
 const OTHER_PLEASE_SPECIFY = 'Others (Please specify in field below)';
+const OTHER_CHINA = '其他 Others';
 const CustomConfig = {
     // ##############################################################
     // GENERAL
@@ -1099,29 +1100,334 @@ const CustomConfig = {
         is_required: false,
         onCf: ["INTELMM22"]
     },
+
+    // CSO ----------
+    cso_full_name: {
+        discard_filter: true,
+        question: "英文姓名  Name as per NRIC",
+        label: "英文姓名  Name as per NRIC",
+        icon: "address-card",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["CSOVCF22"]
+    },
+    cso_gender: {
+        label: "性别 Gender",
+        question: "性别 Gender",
+        icon: "transgender-alt",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_gender",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+    cso_wechat: {
+        discard_filter: true,
+        question: "微信号 Wechat ID",
+        label: "微信号 Wechat ID",
+        icon: "mobile",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["CSOVCF22"]
+    },
+    cso_ic: {
+        discard_filter: true,
+        question: "身份证号码 NRIC Number  （*仅用于证书制作 for certificate use）",
+        label: "身份证号码 NRIC Number",
+        icon: "slack",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["CSOVCF22"]
+    },
+    cso_province: {
+        discard_popup_on: (d) => {
+            return d['cso_province'] == OTHER_CHINA;
+        },
+        question: "省份 Province",
+        label: "省份 Province",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_province",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+    cso_province_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['cso_province'] != OTHER_CHINA;
+        },
+        label: "省份 Province",
+        question: "省份 Province (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["CSOVCF22"]
+    },
+    cso_university: {
+        discard_filter: true,
+        question: "大学名称 University Name",
+        label: "大学名称 University Name",
+        icon: "graduation-cap",
+        input_placeholder: "北京大学 Peking University",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["CSOVCF22"]
+    },
+    cso_major_field_study: {
+        discard_filter: true,
+        question: "就读学院与专业 Major field of study",
+        label: "就读学院与专业 Major field of study",
+        input_placeholder: "经济学院-金融学 School of Economics - Finance)",
+        icon: "graduation-cap",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["CSOVCF22"]
+    },
+    cso_field_study: {
+        discard_popup_on: (d) => {
+            return d['cso_field_study'] == OTHER_CHINA;
+        },
+        question: "就读学科方向 Field of study",
+        label: "就读学科方向 Field of study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+    cso_field_study_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['cso_field_study'] != OTHER_CHINA;
+        },
+        label: "就读学科方向 Field of study",
+        question: "就读学科方向 Field of study (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["CSOVCF22"]
+    },
+    cso_grade: {
+        discard_popup_on: (d) => {
+            return d['cso_grade'] == OTHER_CHINA;
+        },
+        question: "年级 Grade",
+        label: "年级 Grade",
+        icon: "align-center",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_grade",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+    cso_grade_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['cso_grade'] != OTHER_CHINA;
+        },
+        label: "年级 Grade",
+        question: "年级 Grade (Other)",
+        icon: "align-center",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["CSOVCF22"]
+    },
+
+    // 
+    cso_year_grad: {
+        discard_popup_on: (d) => {
+            return d['cso_year_grad'] == OTHER_CHINA;
+        },
+        question: "预计毕业年份 Year of Graduation",
+        label: "预计毕业年份 Year of Graduation",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_year_grad",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+    cso_year_grad_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['cso_year_grad'] != OTHER_CHINA;
+        },
+        label: "预计毕业年份 Year of Graduation",
+        question: "预计毕业年份 Year of Graduation (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["CSOVCF22"]
+    },
+
+    // 有意参与的活动 Interested activity -- KIV
+    // 有意参与的活动 Interested activity -- KIV
+    // 有意参与的活动 Interested activity -- KIV
+    //  -- KIV
+    cso_activity: {
+        label: "有意参与的活动 Interested activity",
+        question: "有意参与的活动 Interested activity",
+        icon: "list-alt",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "cso_activity",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "cso_activity",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"],
+        attr: `{val}`
+    },
+    //
+    cso_field_to_work: {
+        discard_popup_on: (d) => {
+            return d['cso_field_to_work'] == OTHER_CHINA;
+        },
+        question: "您未来有意就业的领域是 The field you want to work in in the future",
+        label: "您未来有意就业的领域是 The field you want to work in in the future",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_field_to_work",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+    cso_field_to_work_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['cso_field_to_work'] != OTHER_CHINA;
+        },
+        label: "您未来有意就业的领域是 The field you want to work in in the future",
+        question: "您未来有意就业的领域是 The field you want to work in in the future (Other)",
+        icon: "suitcase",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["CSOVCF22"]
+    },
+
+    cso_plan_after_grad: {
+        label: "您希望毕业后的去向是 Where do you want to go after graduation",
+        question: "您希望毕业后的去向是 Where do you want to go after graduation",
+        icon: "paper-plane",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_plan_after_grad",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+
+    cso_employ_intention: {
+        label: "未来的就业意向 Future employment intentions",
+        question: "未来的就业意向（按重视程度依次排序）Future employment intentions (in order of importance)",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "cso_employ_intention",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "cso_employ_intention",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"],
+        attr: `{val}`
+    },
+
+    cso_salary: {
+        label: "您预期的月薪是 Your expected monthly salary",
+        question: "您预期的月薪是 Your expected monthly salary",
+        icon: "money",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "cso_salary",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"]
+    },
+
+    cso_career_priority: {
+        label: "在择业时，您最看重的是 When choosing a career, what do you value most",
+        question: "在择业时，您最看重的是（按重视程度依次排序）When choosing a career, what do you value most (in order of importance)",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "cso_career_priority",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "cso_career_priority",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["CSOVCF22"],
+        attr: `{val}`
+    },
+
 }
 
-const Default = [
-    "first_name",
-    "graduation_month",
-    "looking_for_position",
-    "country_study",
-    "university",
-    "student_id",
-    "qualification",
-    "field_study_main",
-    "field_study_secondary",
-    "grade",
-    "phone_number",
-    "working_availability_month",
-    "interested_role",
-    "where_in_malaysia",
-    "interested_job_location",
-    "skill",
-    "extracurricular",
-];
+// const Default = [
+//     "first_name",
+//     "graduation_month",
+//     "looking_for_position",
+//     "country_study",
+//     "university",
+//     "student_id",
+//     "qualification",
+//     "field_study_main",
+//     "field_study_secondary",
+//     "grade",
+//     "phone_number",
+//     "working_availability_month",
+//     "interested_role",
+//     "where_in_malaysia",
+//     "interested_job_location",
+//     "skill",
+//     "extracurricular",
+// ];
 
 const CustomOrder = {
+    CSOVCF22: [
+        "first_name",
+        "cso_full_name",
+        "cso_wechat",
+        "cso_gender",
+        "cso_ic",
+        "cso_province",
+        "cso_province_other",
+        "cso_university",
+        "cso_major_field_study",
+        "cso_field_study",
+        "cso_field_study_other",
+        "cso_grade",
+        "cso_grade_other",
+        "cso_year_grad",
+        "cso_year_grad_other",
+        "cso_activity",
+        "cso_field_to_work",
+        "cso_field_to_work_other",
+        "cso_plan_after_grad",
+        "cso_employ_intention",
+        "cso_salary",
+        "cso_career_priority",
+
+    ],
     INTELMM22: [
         "first_name",
         "looking_for_position",

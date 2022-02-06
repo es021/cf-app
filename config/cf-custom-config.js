@@ -183,6 +183,7 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
                     type: getByKey(k, "type"),
                     sublabel: getByKey(k, "question_sublabel"),
                     input_type: getByKey(k, "input_type"),
+                    input_placeholder: getByKey(k, "input_placeholder"),
                     table_name: getByKey(k, "table_name"),
                     list_title: getByKey(k, "list_title"),
                     discard_ref_from_default: getByKey(k, "discard_ref_from_default"),
