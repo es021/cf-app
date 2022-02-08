@@ -800,6 +800,17 @@ const CustomConfig = {
         is_required: true,
         onCf: ["INTELDDSEPT21", "INTELMM22"]
     },
+    intel_is_accept_offer: {
+        label: "Has accepted any offer from Intel (past two months)?",
+        question: "Did you accept any offer of employment from Intel prior to signing up for this career fair (within the past two months)?",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["INTELMM22"]
+    },
     has_attended_before: {
         label: "Has attended previous Design & Development (D&D) Virtual Career Fairs?",
         question: "Have you attended any of our previous Design & Development (D&D) Virtual Career Fairs?",
@@ -1445,6 +1456,7 @@ const CustomOrder = {
         "intelmm22_current_organization",
         "gender",
         "intel_is_intel_employee",
+        "intel_is_accept_offer",
         "intel_reference",
     ],
     UORM22: [
