@@ -352,6 +352,13 @@ export default class Form extends React.Component {
     var item = null;
     var formClass = "form-control input-sm";
     switch (d.type) {
+      case "custom":
+        item = (
+          <div>
+            {this.props.renderCustomItem(d.key)}
+          </div>
+        )
+        break;
       case "input_suggestion":
         item = (
           <div>

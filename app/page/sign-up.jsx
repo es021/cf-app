@@ -5,11 +5,14 @@ import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
 //import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
 //import { ButtonLink } from '../component/buttons.jsx';
 import { register, getCF, getCFObj, getCfCustomMeta, getNoMatrixLabel, isCfFeatureOff } from "../redux/actions/auth-actions";
-import { RootPath, DocumentUrl, LandingUrl } from "../../config/app-config";
+import { RootPath, DocumentUrl, LandingUrl, UploadUrl } from "../../config/app-config";
 import AvailabilityView from "./availability";
 import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import LoginPage from "./login";
+import * as Reg from "../../config/registration-config";
+import * as layoutActions from "../redux/actions/layout-actions";
+
 import {
   getRegisterFormItem,
   TotalRegisterStep
@@ -19,6 +22,7 @@ import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
 import { Loader } from "../component/loader";
 import { idUtmInvalid_customHtml, idUtmInvalid_customEmail } from "../../config/registration-config";
+import { FileType, Uploader, uploadFile } from "../component/uploader";
 
 export const ErrorMessage = {
   ID_UTM_NOT_VALID: (id_utm) => {
@@ -70,6 +74,7 @@ export default class SignUpPage extends React.Component {
     this.manageUserProfileComplete = this.manageUserProfileComplete.bind(this);
     this.userId = 0;
     this.state = {
+      currentResume: null,
       completed: false,
       confirmed: false,
       error: null,
@@ -141,6 +146,12 @@ export default class SignUpPage extends React.Component {
         }
       }
 
+
+      // check if resume uploaded
+      if (this.isUploadResumeRequired() && this.isHasUploadResume() && !this.state.currentResume) {
+        return "Please upload your resume";
+      }
+
       // check if policy accepted
       if (
         typeof d["accept-policy"] === "undefined" ||
@@ -155,6 +166,7 @@ export default class SignUpPage extends React.Component {
       ) {
         return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
       }
+
     }
 
     return 0;
@@ -168,6 +180,40 @@ export default class SignUpPage extends React.Component {
     return false;
   }
 
+  uploadFileAndSaveToDB({ label, user_id, file, succes, error }) {
+    let labelFileName = label.replaceAll(" ", "-");
+    var fileName = `${labelFileName}-${user_id}`;
+
+    try {
+      uploadFile(file, FileType.DOC, fileName).then((res) => {
+        if (res.data.url !== null) {
+          let url = `${UploadUrl}/${res.data.url}`;
+          let d = {
+            user_id: user_id,
+            type: FileType.DOC,
+            label: label,
+            url: url,
+          }
+          var query = `mutation{ add_doc_link (${obj2arg(d, { noOuterBraces: true })}){ID}}`
+          getAxiosGraphQLQuery(query).then((res) => {
+            succes()
+          });
+        } else {
+          if (error) {
+            error("Failed to upload resume")
+          }
+        }
+      }).catch((err => {
+        if (error) {
+          error(err)
+        }
+      }));
+    } catch (err) {
+      if (error) {
+        error(err)
+      }
+    }
+  }
 
   // @id_utm_validation
   getIdUtmErrorValidation(id_utm) {
@@ -180,6 +226,7 @@ export default class SignUpPage extends React.Component {
   formOnSubmit(d) {
     console.log("sign up", d);
     var err = this.filterForm(d);
+
 
     if (err === 0) {
       toggleSubmit(this, { error: null });
@@ -259,6 +306,8 @@ export default class SignUpPage extends React.Component {
         d[User.CF] = this.CF;
         d[UserMeta.USER_STATUS] = UserEnum.STATUS_NOT_ACT;
 
+
+
         // Step 1 - Basic Info go to registration
         // cf is set in this function
         register(d).then(
@@ -266,6 +315,21 @@ export default class SignUpPage extends React.Component {
             this.userId = res.data[User.ID];
             console.log(res.data);
             d[User.ID] = res.data[User.ID];
+
+            // upload resume
+
+            if (this.isHasUploadResume() && this.state.currentResume) {
+              // layoutActions.loadingBlockLoader("Uploading resume");
+              this.uploadFileAndSaveToDB({
+                label: "Resume",
+                user_id: d[User.ID],
+                file: this.state.currentResume,
+                succes: () => { },
+                error: (err) => { }
+              })
+            }
+
+
             // toggleSubmit(this, { user: d, success: true });
             this.setState(prevState => {
               let newState = {
@@ -414,6 +478,40 @@ export default class SignUpPage extends React.Component {
     );
   }
 
+  isUploadResumeRequired() {
+    return Reg.IsUploadResumeRequired_FirstSignupPage.indexOf(getCF()) >= 0;
+  }
+
+  isHasUploadResume() {
+    // return true;
+    let validCF = Reg.IsHasUploadResume_FirstSignupPage;
+    return !this.props.isEdit && validCF.indexOf(getCF()) >= 0;
+  }
+
+  getUploadResume() {
+    // if (!this.isHasUploadResume()) {
+    //   return null;
+    // }
+    var uploader = <Uploader
+      label={lang(("Upload Your Resume") + (this.isUploadResumeRequired() ? " *" : ""))}
+      name="resume"
+      type={FileType.DOC}
+      onSuccess={(file) => {
+        this.setState(() => {
+          return { currentResume: file };
+        });
+      }}
+      onChange={(event) => { }}
+      onError={(err) => {
+        layoutActions.errorBlockLoader(err)
+      }}></Uploader>
+
+    return (<div>
+      {uploader}
+      <br></br>
+    </div>);
+  }
+
   getDisclaimerView() {
     let disclaimerView = null;
     let disclaimer = getCfCustomMeta(CFSMeta.TEXT_REGISTRATION_DISCLAIMER, "");
@@ -496,6 +594,10 @@ export default class SignUpPage extends React.Component {
             : isCfFeatureOff(CFSMeta.FEATURE_STUDENT_REGISTER)
               ? <div>{lang("We are sorry. Registration for this event is currently closed.")}</div>
               : <Form
+                renderCustomItem={(key) => {
+                  if (key == "resume" && this.isHasUploadResume()) return this.getUploadResume();
+                  return null;
+                }}
                 className="form-row"
                 items={formItems}
                 onSubmit={this.formOnSubmit}

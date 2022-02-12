@@ -294,7 +294,8 @@ export const UserFormItem = [
         //required: false,
         sublabel: "This information will not be displayed in your profile.",
         register: 3, editStudent: 1, editRec: 0
-    }, {
+    },
+    {
         label: "Description",
         name: UserMeta.DESCRIPTION,
         type: "textarea",
@@ -302,7 +303,13 @@ export const UserFormItem = [
         //required: false,
         rows: 5,
         register: 3, editStudent: 1, editRec: 0
-    }, {
+    },
+    {
+        type: "custom",
+        key : "resume",
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
         label: null,
         name: "accept-policy",
         type: "checkbox",
