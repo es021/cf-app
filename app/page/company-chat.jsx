@@ -345,7 +345,7 @@ class CompanyChatInbox extends React.Component {
         };
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error here");
     }
     return {
       ...data,
@@ -411,6 +411,7 @@ class CompanyChatInbox extends React.Component {
     getAxiosGraphQLQuery(query).then(res => {
       this.setState(prevState => {
         var sessions = res.data.data.support_sessions;
+        console.log("sessions", sessions);
         var totalResponse = sessions.length;
         var data = prevState.sessions;
         var current = null;
@@ -419,14 +420,15 @@ class CompanyChatInbox extends React.Component {
           var d = sessions[i];
           d = this.getEntityObj(d);
           var uid = d.entity.ID;
-
-          // init to the first one in list
-          // taknak initialize
-          if (i == 0 && false) {
-            current = this.getKey(uid);
+          if (uid) {
+            // init to the first one in list
+            // taknak initialize
+            if (i == 0 && false) {
+              current = this.getKey(uid);
+            }
+            // to restrain order
+            data[this.getKey(uid)] = d;
           }
-          // to restrain order
-          data[this.getKey(uid)] = d;
         }
 
         // if loaded from chat socket trigger
