@@ -311,39 +311,42 @@ class CompanyChatInbox extends React.Component {
 
   getEntityObj(data) {
     let entity = {};
-    if (data.support_id == SupportUserID) {
-      entity = {
-        _type: "user",
-        ID: data.support.ID,
-        first_name: data.support.first_name,
-        last_name: data.support.last_name,
-        img_url: data.support.img_url,
-        img_pos: data.support.img_pos,
-        img_size: data.support.img_size
-      };
-    } else if (isRoleRec()) {
-      entity = {
-        _type: "user",
-        ID: data.user.ID,
-        first_name: data.user.first_name,
-        last_name: data.user.last_name,
-        img_url: data.user.img_url,
-        img_pos: data.user.img_pos,
-        img_size: data.user.img_size
-      };
-    } else if (isRoleStudent()) {
-      entity = {
-        _type: "company",
-        ID: data.company.ID,
-        first_name: data.company.name,
-        name: data.company.name, // needed to create company title link
-        last_name: "",
-        img_url: data.company.img_url,
-        img_pos: data.company.img_pos,
-        img_size: data.company.img_size
-      };
+    try {
+      if (data.support_id == SupportUserID) {
+        entity = {
+          _type: "user",
+          ID: data.support.ID,
+          first_name: data.support.first_name,
+          last_name: data.support.last_name,
+          img_url: data.support.img_url,
+          img_pos: data.support.img_pos,
+          img_size: data.support.img_size
+        };
+      } else if (isRoleRec()) {
+        entity = {
+          _type: "user",
+          ID: data.user.ID,
+          first_name: data.user.first_name,
+          last_name: data.user.last_name,
+          img_url: data.user.img_url,
+          img_pos: data.user.img_pos,
+          img_size: data.user.img_size
+        };
+      } else if (isRoleStudent()) {
+        entity = {
+          _type: "company",
+          ID: data.company.ID,
+          first_name: data.company.name,
+          name: data.company.name, // needed to create company title link
+          last_name: "",
+          img_url: data.company.img_url,
+          img_pos: data.company.img_pos,
+          img_size: data.company.img_size
+        };
+      }
+    } catch (err) {
+      console.error(err);
     }
-
     return {
       ...data,
       entity: entity
