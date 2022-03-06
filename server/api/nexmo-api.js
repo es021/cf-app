@@ -64,6 +64,12 @@ class NexmoAPI {
         finishHandler(text);
       })
     }
+    if (type == notificationConfig.Type.INTERVIEW_PENDING_REMINDER_2DAY) {
+      this.loadCompanyName(param.company_id, (company_name) => {
+        let text = `You have a pending interview with ${company_name} in 2 days - ${param.appointment_time_str}. Please log in at ${url} to accept the interview`
+        finishHandler(text);
+      })
+    }
   }
   loadCompanyName(company_id, finishHandler) {
     graphql(`query { company(ID : ${company_id}) { name } } `).then((res) => {
