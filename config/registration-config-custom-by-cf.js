@@ -1391,6 +1391,82 @@ const CustomConfig = {
         attr: `{val}`
     },
 
+    airbus_looking_for: {
+        label: "Looking For",
+        question: "What are you looking for?",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "airbus_looking_for",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["AIRBUS22"]
+    },
+    airbus_willing_in_sepang: {
+        label: "Willing To Work in Sepang, KLIA area ?",
+        question: "Are you willing to work in Sepang, KLIA area?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["AIRBUS22"]
+    },
+    airbus_core_competency: {
+        label: "Core Competencies",
+        question: "What are your core competencies?",
+        icon: "star",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["AIRBUS22"]
+    },
+    airbus_salary: {
+        label: "Expected/Current Salary",
+        question: "What is your expected and current salary?",
+        icon: "money",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["AIRBUS22"]
+    },
+    airbus_willing_on_shift: {
+        label: "Willing To Work On Shifts?",
+        question: "Are you able to work on shifts (weekends, night shifts, public holidays)?",
+        icon: "clock-o",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["AIRBUS22"]
+    },
+    airbus_experience: {
+        label: "Working Experiences",
+        question: "What working experiences do you have?",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "airbus_experience",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "airbus_experience",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["AIRBUS22"],
+        attr: `{val}`
+    },
+    airbus_experience_other: {
+        label: "Other Working Experiences",
+        question: "Working Experiences (Other please specifiy here)",
+        icon: "suitcase",
+        type: "single",
+        input_type: "textarea",
+        is_required: false,
+        onCf: ["AIRBUS22"]
+    },
+
 }
 
 // const Default = [
@@ -1414,6 +1490,20 @@ const CustomConfig = {
 // ];
 
 const CustomOrder = {
+    AIRBUS22: [
+        "first_name",
+        "graduation_month",
+        "airbus_looking_for",
+        "qualification",
+        "field_study_main",
+        "working_availability_month",
+        "airbus_willing_in_sepang",
+        "airbus_core_competency",
+        "airbus_salary",
+        "airbus_willing_on_shift",
+        "airbus_experience",
+        "airbus_experience_other",
+    ],
     CSOVCF22: [
         "first_name",
         "cso_full_name",
