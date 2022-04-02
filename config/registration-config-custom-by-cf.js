@@ -35,7 +35,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21", "TAYLORS21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TAYLORS21", "TAYLORS22"]
     },
     student_matrix_id: {
         label: "Student ID / Matrix ID",
@@ -852,7 +852,7 @@ const CustomConfig = {
         ref_table_name: "taylors21_programme",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TAYLORS21"]
+        onCf: ["TAYLORS21", "TAYLORS22"]
     },
     taylors21_programme_other: {
         discard_filter: true,
@@ -865,7 +865,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["TAYLORS21"]
+        onCf: ["TAYLORS21", "TAYLORS22"]
     },
     // ####################
     // WCC21
@@ -1490,6 +1490,26 @@ const CustomConfig = {
 // ];
 
 const CustomOrder = {
+    TAYLORS22: [
+        "student_id",
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        "country_study",
+        "qualification",
+        "taylors21_programme",
+        "taylors21_programme_other",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
     AIRBUS22: [
         "first_name",
         "graduation_month",
