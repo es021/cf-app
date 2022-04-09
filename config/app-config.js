@@ -8,7 +8,7 @@ var IsOnVideoResume = ALWAYS_FALSE;
 var IsRecruiterNewHall = ALWAYS_TRUE;
 var IsNewHall = ALWAYS_TRUE;
 const IsGruveoEnable = ALWAYS_FALSE;
-const IsDailyCoEnable = ALWAYS_FALSE;
+const IsDailyCoEnable = true;
 
 // if (typeof location !== "undefined") {
 //     IsNewHall = location.href.indexOf("new=1") >= 0 ? true : false;
