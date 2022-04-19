@@ -1349,7 +1349,7 @@ const CustomConfig = {
 
     cso_employ_intention: {
         label: "未来的就业意向 Future employment intentions",
-        question: "未来的就业意向（按重视程度依次排序）Future employment intentions (in order of importance)",
+        question: "未来的就业意向 Future employment intentions",
         icon: "suitcase",
         list_title: null,
         discard_ref_from_default: true,
@@ -1377,7 +1377,7 @@ const CustomConfig = {
 
     cso_career_priority: {
         label: "在择业时，您最看重的是 When choosing a career, what do you value most",
-        question: "在择业时，您最看重的是（按重视程度依次排序）When choosing a career, what do you value most (in order of importance)",
+        question: "在择业时，您最看重的是 When choosing a career, what do you value most",
         icon: "suitcase",
         list_title: null,
         discard_ref_from_default: true,
