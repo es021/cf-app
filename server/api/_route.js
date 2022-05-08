@@ -198,6 +198,15 @@ const initializeAllRoute = function (app, root) {
       }
     );
   });
+  app.post(root + "/add-event-log", function (req, res, next) {
+    console.log(req.body)
+
+    LogApi.addEventLog(req.body).then(
+      response => {
+        routeResHandler(res, response);
+      }
+    );
+  });
 
 
   // NexmoAPI Route ----------------------------------------------------------------

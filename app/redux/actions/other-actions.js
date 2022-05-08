@@ -13,6 +13,14 @@ import {
 // import {Time} from "../../lib/time";
 
 
+export function addEventLog(data) {
+    let user_id = getAuthUser().ID;
+    return axios.post(AppConfig.Api + "/add-event-log", {
+        ...data,
+        user_id: user_id
+    });
+}
+
 export function addLog(event, data = null, user_id = null) {
     if (user_id == null) {
         user_id = getAuthUser().ID;

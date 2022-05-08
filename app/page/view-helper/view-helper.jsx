@@ -8,6 +8,7 @@ import { isRoleOrganizer, isRoleRec, isRoleStudent } from "../../redux/actions/a
 import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
 import { lang } from "../../lib/lang";
+import { addEventLog } from "../../redux/actions/other-actions";
 
 export function getHtmlView(txt) {
   if (typeof txt === "string") {
@@ -169,23 +170,54 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
 
     let breakElement = isPopup ? " " : <br></br>;
     if (d.url_rsvp && !Time.isPast(fiveMinBeforeStart)) {
-      rsvp = <div><a target="_blank" className="btn btn-sm btn-blue-light text-bold btn-block btn-round-5" href={d.url_rsvp}>
+      rsvp = <div><a
+        onClick={() => {
+          window.open(d.url_rsvp, "_blank")
+          addEventLog({
+            action: "rsvp",
+            event_id: d.ID,
+            company_id: d.company_id,
+          })
+        }}
+        className="btn btn-sm btn-blue-light text-bold btn-block btn-round-5"
+      >
         <i className="fa fa-plus left"></i>
         RSVP
         </a>
       </div>;
     }
     if (d.url_join && Time.isBetween(fiveMinBeforeStart, d.end_time)) {
-      join = <div><a target="_blank" className="btn btn-sm btn-green btn-block text-bold btn-round-5" href={d.url_join}>
-        <i className="fa fa-sign-in left"></i>
-        {lang("Join")}
-      </a>
+      join = <div>
+        <a
+          onClick={() => {
+            window.open(d.url_join, "_blank")
+            addEventLog({
+              action: "join",
+              event_id: d.ID,
+              company_id: d.company_id,
+            })
+          }}
+          className="btn btn-sm btn-green btn-block text-bold btn-round-5"
+        >
+          <i className="fa fa-sign-in left"></i>
+          {lang("Join")}
+        </a>
       </div>;
     }
     if (Time.isPast(d.end_time)) {
       if (d.url_recorded) {
         recorded = <div>
-          <a target="_blank" className="btn btn-sm btn-red btn-block text-bold btn-round-5" href={d.url_recorded}>
+          <a
+            onClick={() => {
+              window.open(d.url_recorded, "_blank")
+              addEventLog({
+                action: "watch_recorded",
+                event_id: d.ID,
+                company_id: d.company_id,
+              })
+            }}
+            className="btn btn-sm btn-red btn-block text-bold btn-round-5"
+          >
             <i className="fa fa-play-circle left"></i>
             <div className="show-on-lg-and-more">
               {lang("Watch")}{breakElement}{lang("Recorded")}

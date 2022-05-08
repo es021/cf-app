@@ -41,6 +41,14 @@ class CfsApi {
 CfsApi = new CfsApi();
 
 class LogApi {
+    addEventLog(param) {
+        return DB.insert("event_logs", {
+            action: param.action,
+            user_id: param.user_id,
+            event_id: param.event_id,
+            company_id: param.company_id,
+        });
+    }
     add(event, data = null, user_id = null) {
         var param = { event: event };
         if (data != null) {
