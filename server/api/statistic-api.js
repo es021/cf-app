@@ -13,7 +13,39 @@ class StatisticAPI {
                 return this.dailyRegistration(param);
             case "company-statistic-count":
                 return this.companyStatisticCount(param);
+            case "event-webinar-log":
+                return this.eventWebinarLog(param);
         }
+    }
+    eventWebinarLog(param) {
+        let event_id = param.event_id;
+
+        let q = `select 
+        c.ID as company_id, 
+        c.name as company_name, 
+        e.ID as event_id, 
+        e.title as event_name, 
+        el.action, 
+        el.user_id as student_id, 
+        u.user_email as student_email, 
+        UNIX_TIMESTAMP(el.created_at) as created_at 
+        
+        from events e, event_logs el, companies c, wp_cf_users u 
+        
+        where 1=1 
+        and e.ID = ?
+        and u.ID = el.user_id 
+        and e.ID = el.event_id 
+        and c.ID = el.company_id 
+        
+        order by c.ID, e.ID, el.action
+        `;
+
+        q = DB.prepare(q, [event_id]);
+
+        return DB.query(q).then(res => {
+            return res;
+        })
     }
     companyStatisticCount(param) {
         let cf = param.cf
@@ -25,15 +57,7 @@ class StatisticAPI {
         let is_export_interviews = param.is_export_interviews;
         let is_export_profile_visit = param.is_export_profile_visit;
 
-
-   
         let is_graph_profile_visit = param.is_graph_profile_visit;
-        console.log("is_graph_profile_visit",is_graph_profile_visit);
-        console.log("is_graph_profile_visit",is_graph_profile_visit);
-        console.log("is_graph_profile_visit",is_graph_profile_visit);
-        console.log("is_graph_profile_visit",is_graph_profile_visit);
-        console.log("is_graph_profile_visit",is_graph_profile_visit);
-        console.log("is_graph_profile_visit",is_graph_profile_visit);
 
         let promises = [];
 
@@ -138,7 +162,7 @@ class StatisticAPI {
                 ) AS dt,
                 COUNT(l.id) as ttl
             `;
-        } else{
+        } else {
             qVisitSelect = `COUNT(l.id) as ttl`;
         }
 
@@ -167,7 +191,7 @@ class StatisticAPI {
                 ORDER BY ${is_graph_profile_visit ? "dt ASC" : "l.created_at DESC"}
             `;
 
-            //and SUBSTRING(l.data, 10, 9) = ? 
+        //and SUBSTRING(l.data, 10, 9) = ? 
 
         qVisits = DB.prepare(qVisits, [
             cf,
@@ -175,7 +199,7 @@ class StatisticAPI {
             cf_end
         ]);
 
-        console.log("qVisits",qVisits);
+        console.log("qVisits", qVisits);
 
         if (is_graph_profile_visit) {
             return DB.query(qVisits).then(res => {

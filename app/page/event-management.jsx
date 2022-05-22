@@ -13,6 +13,7 @@ import {
 import { getDataCareerFair } from "../component/form";
 import { createCompanyTitle } from "./admin-company";
 import { getEventAction } from "./view-helper/view-helper";
+import { ButtonExport } from "../component/buttons";
 
 // import PropTypes from "prop-types";
 // import { AppPath } from "../../config/app-config";
@@ -86,6 +87,16 @@ export default class EventManagement extends React.Component {
           </small>
         </td>,
         isRoleOrganizer() ? <td style={{ maxWidth: "200px" }}>{getEventAction(d, { isPopup: true })}</td> : null,
+        isRoleOrganizer() ? <td style={{ maxWidth: "150px" }}>{<ButtonExport
+          btnClass="green btn-bold btn-round-5 btn-block"
+          action="event_webinar_log"
+          text={<span>Download Activity Log</span>}
+          filter={{
+            cf: this.cf,
+            event_name: d.title,
+            event_id: d.ID,
+          }} ></ButtonExport>
+        }</td> : null,
       ];
     };
 
@@ -97,7 +108,7 @@ export default class EventManagement extends React.Component {
             <th>Event</th>,
             isRoleOrganizer() ? null : <th>CF</th>,
             <th>Details</th>,
-            isRoleOrganizer() ? <th>Action</th> : null,
+            isRoleOrganizer() ? <th colSpan={2}>Action</th> : null,
           ]}
         </tr>
       </thead>

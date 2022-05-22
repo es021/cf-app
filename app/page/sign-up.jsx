@@ -73,6 +73,7 @@ export default class SignUpPage extends React.Component {
     this.formOnSubmit = this.formOnSubmit.bind(this);
     this.manageUserProfileComplete = this.manageUserProfileComplete.bind(this);
     this.userId = 0;
+    this.formItemKeys = [];
     this.state = {
       currentResume: null,
       completed: false,
@@ -165,6 +166,20 @@ export default class SignUpPage extends React.Component {
         d["accept-send-sms"][0] != "accepted"
       ) {
         return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
+      }
+
+      if (
+        this.formItemKeys.indexOf("accept-pdpa") >= 0 &&
+        (typeof d["accept-pdpa"] === "undefined" || d["accept-pdpa"][0] != "accepted")
+      ) {
+        return lang("You must agree to Personal Data Protection Act before continuing.");
+      }
+
+      if (
+        this.formItemKeys.indexOf("accept-tcrep") >= 0 &&
+        (typeof d["accept-tcrep"] === "undefined" || d["accept-tcrep"][0] != "accepted")
+      ) {
+        return lang("You must agree to TalentCorp terms and condition before continuing.");
       }
 
     }
@@ -583,6 +598,7 @@ export default class SignUpPage extends React.Component {
 
       // @kpt_validation
       let formItems = getRegisterFormItem(1, getCF(), this.state.refData);
+      this.formItemKeys = formItems.map((d) => d.name);
 
       content = (
         <div>

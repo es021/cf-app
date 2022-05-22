@@ -116,6 +116,7 @@ if (!isProd) {
     // FooterClass = "app-hidden";
 }
 
+
 module.exports = {
     Domain,
     isProd,

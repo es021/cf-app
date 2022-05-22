@@ -306,7 +306,7 @@ export const UserFormItem = [
     },
     {
         type: "custom",
-        key : "resume",
+        key: "resume",
         register: 1, editStudent: 0, editRec: 0
     },
     {
@@ -319,7 +319,8 @@ export const UserFormItem = [
         }],
         //required: true,,
         register: 1, editStudent: 0, editRec: 0
-    }, {
+    },
+    {
         label: null,
         name: "accept-send-sms",
         type: "checkbox",
@@ -328,7 +329,34 @@ export const UserFormItem = [
             label: <small>I agree to receive important notifications via SMS or WhatsApp messages</small>
         }],
         register: 1, editStudent: 0, editRec: 0
-    }
+    },
+    {
+        label: null,
+        name: "accept-pdpa",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: <small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for Talent Corporation Malaysia Berhad (TalentCorp) to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited for administrative purposes in connection with MyHeart-REP CaFe 2022</small>
+        }],
+        isOnlyInCf: (cf) => {
+            return ["TCREP22"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: null,
+        name: "accept-tcrep",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: <small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in MyHeart-REP CaFe 2022</small>
+        }],
+        isOnlyInCf: (cf) => {
+            return ["TCREP22"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+
 ];
 
 

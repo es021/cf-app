@@ -66,9 +66,27 @@ class XLSApi {
         return this.job_posts_application_by_cf(filter.cf);
       case "rec_analytic":
         return this.rec_analytic(filter);
+      case "event_webinar_log":
+        return this.event_webinar_log(filter);
     }
   }
+  event_webinar_log(param) {
+    var filename = `Event Activity - ${param.event_name}`;
 
+    const extractData = res => {
+      return res.data;
+    }
+
+    return this.fetchAndReturnPost({
+      url: StatisticUrl + "/event-webinar-log",
+      param: {
+        event_id: param.event_id
+      },
+      extractData: extractData,
+      filename: filename,
+    });
+
+  }
   rec_analytic(param) {
     var filename = ``;
     if (param.is_export_job_application) {

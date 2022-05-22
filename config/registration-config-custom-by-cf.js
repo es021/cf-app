@@ -113,7 +113,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21", "UTMIV21"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22"]
     },
     resident_malaysia: {
         discard_popup_on: (d) => {
@@ -1467,6 +1467,203 @@ const CustomConfig = {
         onCf: ["AIRBUS22"]
     },
 
+
+
+
+    // TCREP
+    // TCREP
+    gender_mf: {
+        label: "Gender",
+        question: "Gender",
+        icon: "transgender-alt",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "gender_mf",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    nationality_country: {
+        label: "Nationality",
+        question: "Nationality",
+        icon: "map-marker",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "nationality_country",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_ic: {
+        discard_filter: true,
+        question: "IC Number",
+        question_sublabel: "Do not put dash (-)",
+        label: "IC Number",
+        icon: "slack",
+        is_required: true,
+        input_type: "number",
+        type: "single",
+        onCf: ["TCREP22"]
+    },
+    tcrep_country_residence: {
+        question: "Country of Residence Abroad",
+        label: "Country of Residence Abroad",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "nationality_country",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    linkedin: {
+        discard_filter: true,
+        question: "LinkedIn Profile",
+        question_sublabel: "https://www.linkedin.com/in/xxxxxxx",
+        label: "LinkedIn Profile",
+        icon: "slack",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["TCREP22"]
+    },
+    address: {
+        discard_filter: true,
+        question: "Current Address",
+        label: "Current Address",
+        icon: "map-marker",
+        is_required: true,
+        input_type: "textarea",
+        type: "single",
+        onCf: ["TCREP22"]
+    },
+    tcrep_employ_status: {
+        question: "Current Employment Status",
+        label: "Current Employment Status",
+        icon: "info",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_employ_status",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_employ_role: {
+        question: "Current Employment Role",
+        label: "Current Employment Role",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_employ_role",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+
+    current_company: {
+        discard_filter: true,
+        question: "Current Company Name",
+        label: "Current Company Name",
+        icon: "building",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["TCREP22"]
+    },
+
+    tcrep_employ_industry: {
+        question: "Current Employment Industry",
+        label: "Current Employment Industry",
+        icon: "slack",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_employ_industry",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_qualification: {
+        discard_popup_on: (d) => {
+            return d['tcrep_qualification'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Academic Qualification",
+        question: "Academic Qualification",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_qualification",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_qualification_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['tcrep_qualification'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Academic Qualification",
+        question: "Academic Qualification (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["TCREP22"]
+    },
+    tcrep_field_study: {
+        question: "Latest Field of Study",
+        label: "Latest Field of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_received_job_offer: {
+        question: "Have you received an employment offer from a company based in Malaysia?",
+        label: "Have you received an employment offer from a company based in Malaysia?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_interested_opportunity_info: {
+        discard_filter: true,
+        question: "What kind of information would you be interested in knowing about employment opportunities?",
+        label: "What kind of information would you be interested in knowing about employment opportunities?",
+        icon: "info",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["TCREP22"]
+    },
+    tcrep_explore_diff: {
+        question: "Would you be open to exploring employment opportunities in a different industry?",
+        label: "Would you be open to exploring employment opportunities in a different industry?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_preferred_job_location: {
+        question: "Please state your preferred location for employment in Malaysia",
+        label: "Please state your preferred location for employment in Malaysia",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_preferred_job_location",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
 }
 
 // const Default = [
@@ -1490,6 +1687,31 @@ const CustomConfig = {
 // ];
 
 const CustomOrder = {
+    TCREP22: [
+        "full_name",
+        "gender_mf",
+        "nationality_country",
+        "tcrep_ic",
+        // email
+        // contact no
+        "tcrep_country_residence",
+        // resume
+        "linkedin",
+        "address",
+        "tcrep_employ_status",
+        "tcrep_employ_role",
+        "current_company",
+        "tcrep_employ_industry",
+        "tcrep_qualification",
+        "tcrep_qualification_other",
+        "tcrep_field_study",
+        "tcrep_received_job_offer",
+        "tcrep_interested_opportunity_info",
+        "tcrep_explore_diff",
+        "tcrep_preferred_job_location",
+
+
+    ],
     TAYLORS22: [
         "student_id",
         "first_name",

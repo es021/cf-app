@@ -93,6 +93,30 @@ for (var i in scss) {
   require("./css/" + scss[i] + ".scss");
 }
 
+
+if (window) {
+  window.generateRefSql = (table_name, raw_data) => {
+    let r = raw_data.split("\n").map((d) => {
+      return `INSERT INTO ${table_name} (val) VALUES ('${d.trim().replace("'","\\'")}');`
+    }).join("\n");
+
+    r = `
+DROP TABLE IF EXISTS wp_career_fair.${table_name};
+
+CREATE TABLE wp_career_fair.${table_name} 
+( 
+  ID INT NOT NULL AUTO_INCREMENT , 
+  val VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL ,
+  PRIMARY KEY (ID), UNIQUE(val), INDEX (val)
+) ENGINE = InnoDB;
+
+${r}
+`
+
+    console.log(r)
+  }
+}
+
 import AuthorizedRoute from "./component/authorize-route";
 import { RootPath } from "../config/app-config";
 const App = () => (
