@@ -1,3 +1,27 @@
+DROP TABLE IF EXISTS `wp_career_fair`.`ref_tcrep_child_current_edu`;
+CREATE TABLE `wp_career_fair`.`ref_tcrep_child_current_edu` 
+( 
+  `ID` INT NOT NULL AUTO_INCREMENT , 
+  `val` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
+INSERT INTO ref_tcrep_child_current_edu (val) VALUES ('Not Applicable'); 
+INSERT INTO ref_tcrep_child_current_edu (val) VALUES ('Preschool'); 
+INSERT INTO ref_tcrep_child_current_edu (val) VALUES ('Primary'); 
+INSERT INTO ref_tcrep_child_current_edu (val) VALUES ('Secondary'); 
+INSERT INTO ref_tcrep_child_current_edu (val) VALUES ('Tertiary'); 
+
+
+
+DROP TABLE IF EXISTS `wp_career_fair`.`ref_yes_no_na`;
+CREATE TABLE `wp_career_fair`.`ref_yes_no_na` 
+( 
+  `ID` INT NOT NULL AUTO_INCREMENT , 
+  `val` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL ,
+PRIMARY KEY (`ID`), UNIQUE(`val`), INDEX (`val`)) ENGINE = InnoDB;
+INSERT INTO ref_yes_no_na (val) VALUES ('Yes'); 
+INSERT INTO ref_yes_no_na (val) VALUES ('No'); 
+INSERT INTO ref_yes_no_na (val) VALUES ('N/A'); 
+
 DROP TABLE IF EXISTS `wp_career_fair`.`ref_gender_mf`;
 CREATE TABLE `wp_career_fair`.`ref_gender_mf` 
 ( 

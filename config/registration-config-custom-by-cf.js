@@ -1664,6 +1664,39 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TCREP22"]
     },
+    tcrep_child_edu: {
+        question: "Are you interested in knowing more about the education needs for your children",
+        label: "Are you interested in knowing more about the education needs for your children",
+        icon: "child",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no_na",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_child_current_edu: {
+        question: "If yes, please state your children’s current level of education",
+        question_sublabel: "If no or n/a, please select 'Not Applicable'",
+        label: "If yes, please state your children’s current level of education",
+        icon: "child",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_child_current_edu",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["TCREP22"]
+    },
+    tcrep_question_for_company: {
+        discard_filter: true,
+        question: "Drop a question you would like to ask our participating companies?",
+        label: "Drop a question you would like to ask our participating companies?",
+        icon: "question-circle",
+        is_required: true,
+        input_type: "textarea",
+        type: "single",
+        onCf: ["TCREP22"]
+    },
 }
 
 // const Default = [
@@ -1709,6 +1742,9 @@ const CustomOrder = {
         "tcrep_interested_opportunity_info",
         "tcrep_explore_diff",
         "tcrep_preferred_job_location",
+        "tcrep_child_edu",
+        "tcrep_child_current_edu",
+        "tcrep_question_for_company",
 
 
     ],
