@@ -26,10 +26,12 @@ class StatisticAPI {
         e.ID as event_id, 
         e.title as event_name, 
         el.action, 
-        el.user_id as student_id, 
-        u.user_email as student_email, 
+        el.user_id as participant_id, 
+        (${UserQuery.selectSingleMain("u.ID", "first_name")}) as participant_first_name,
+        (${UserQuery.selectSingleMain("u.ID", "last_name")}) as participant_last_name,
+        u.user_email as participant_email, 
+        (${UserQuery.selectSingleMain("u.ID", "tcrep_question_for_company")}) as participant_question_for_company,
         UNIX_TIMESTAMP(el.created_at) as created_at 
-        
         from events e, event_logs el, companies c, wp_cf_users u 
         
         where 1=1 
