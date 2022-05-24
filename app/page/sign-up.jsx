@@ -142,8 +142,8 @@ export default class SignUpPage extends React.Component {
 
       // check if format phone number is okay
       if (typeof d["phone_number"] !== "undefined") {
-        if (!d["phone_number"].match(/^!*(\d!*){10,}$/)) {
-          return lang(`Invalid phone number : ${d["phone_number"]}. Use format XXXXXXXXXX`);
+        if (!d["phone_number"].replace("+","").match(/^!*(\d!*){10,}$/)) {
+          return lang(`Invalid phone number : ${d["phone_number"]}. Use format XXXXXXXXXX or +XXXXXXXXXX`);
         }
       }
 
@@ -165,7 +165,8 @@ export default class SignUpPage extends React.Component {
         typeof d["accept-send-sms"] === "undefined" ||
         d["accept-send-sms"][0] != "accepted"
       ) {
-        return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
+        // return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
+        return lang("You must agree to receive important notifications from this event");
       }
 
       if (

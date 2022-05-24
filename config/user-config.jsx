@@ -89,6 +89,7 @@ export const UserFormItem = [
     },
     {
         label: lang("Phone Number"),
+        sublabel : "Please include Country Code",
         name: UserMeta.PHONE_NUMBER,
         type: "phone_number",
         placeholder: "XXXXXXXXXX",
@@ -326,7 +327,8 @@ export const UserFormItem = [
         type: "checkbox",
         data: [{
             key: "accepted",
-            label: <small>I agree to receive important notifications via SMS or WhatsApp messages</small>
+            // label: <small>I agree to receive important notifications via SMS or WhatsApp messages</small>
+            label: <small>I agree to receive important notifications from this event</small>
         }],
         register: 1, editStudent: 0, editRec: 0
     },
