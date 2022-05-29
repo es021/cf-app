@@ -52,6 +52,9 @@ $SUB_COLOR:  #2C8ACA;
       ul {
         .active {
           color: $COLOR_HEADER_LINK_ACTIVE;
+          li{
+            border-bottom-color: $COLOR_HEADER_LINK_ACTIVE;
+          }
         }
       }
     }

@@ -128,6 +128,8 @@ export class HallGalleryView extends React.Component {
         img_size
         img_pos
         video_url
+        click_url
+        is_open_new_tab
       }
     }`;
 
@@ -410,6 +412,13 @@ export class HallGalleryView extends React.Component {
       // console.log(curClass);
       // console.log(id);
       if (curClass.indexOf(CENTER) >= 0) {
+        if (d.click_url) {
+          if (d.is_open_new_tab == 1) {
+            window.open(d.click_url, "_blank")
+          } else {
+            window.location = d.click_url
+          }
+        }
         return;
       } else if (curClass.indexOf(LEFT_2) >= 0) {
         this.prevOnClick();
@@ -575,7 +584,7 @@ export class ManageHallGallery extends React.Component {
 
     this.DATA_CF = getDataCareerFair();
     this.FIELD_SELECT =
-      "ID cf is_active item_order title description type img_url img_pos img_size video_url";
+      "ID cf is_active item_order title description type img_url img_pos img_size video_url click_url is_open_new_tab";
     this.offset = 20;
     this.tableHeader = (
       <thead>
@@ -692,7 +701,20 @@ export class ManageHallGallery extends React.Component {
             label: "Video Url",
             name: HallGallery.VIDEO_URL,
             type: "text"
-          }
+          },
+          {
+            label: "Click Url",
+            sublabel: "Only applicable to image",
+            name: HallGallery.CLICK_URL,
+            type: "text"
+          },
+          {
+            label: "Click Open New Tab?",
+            sublabel: "Only applicable to image",
+            name: HallGallery.IS_OPEN_NEW_TAB,
+            type: "radio",
+            data: [{ key: 1, label: "Yes" }, { key: 0, label: "No" }],
+          },
         ]
       );
 
@@ -728,7 +750,7 @@ export class ManageHallGallery extends React.Component {
 
     this.renderRow = (d, i) => {
       var row = [];
-      var discard = ["img_pos", "img_size", "video_url"];
+      var discard = ["img_pos", "img_size", "video_url", "click_url", "is_open_new_tab"];
       for (var key in d) {
         if (discard.indexOf(key) >= 0) {
           continue;
@@ -746,6 +768,13 @@ export class ManageHallGallery extends React.Component {
             </li>,
             <li>
               <br></br>
+              <b>Click Url</b> : <span>{d.click_url}</span>
+            </li>,
+            <li>
+              <b>Click Open New Tab?</b> : <span>{d.is_open_new_tab}</span>
+            </li>,
+            <li>
+              <br></br>
               <b>Video Url</b> : <span>{d.video_url}</span>
             </li>,
           ];
@@ -759,8 +788,8 @@ export class ManageHallGallery extends React.Component {
             d.is_active == "0" ? (
               <label className="label label-danger">Not Active</label>
             ) : (
-                <label className="label label-success">Active</label>
-              );
+              <label className="label label-success">Active</label>
+            );
           row.push(<td className="text-center">{is_active}</td>);
         } else {
           row.push(<td>{d[key]}</td>);
@@ -776,6 +805,8 @@ export class ManageHallGallery extends React.Component {
       HallGallery.IS_ACTIVE,
       HallGallery.TYPE,
       HallGallery.VIDEO_URL,
+      HallGallery.CLICK_URL,
+      HallGallery.IS_OPEN_NEW_TAB,
       HallGallery.IMG_URL,
       HallGallery.IMG_POS,
       HallGallery.IMG_SIZE
@@ -788,7 +819,7 @@ export class ManageHallGallery extends React.Component {
         }
       }
 
-      var parseInt = [HallGallery.IS_ACTIVE];
+      var parseInt = [HallGallery.IS_ACTIVE, HallGallery.IS_OPEN_NEW_TAB];
 
       for (var i in parseInt) {
         if (typeof d[parseInt[i]] === "string") {

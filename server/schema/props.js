@@ -47,7 +47,8 @@ EXPORT.Cfs = {
     feature_event_and_welcome: __.String,
     feature_event: __.String,
     feature_event_student: __.String,
-
+    feature_event_show_all_for_student: __.String,
+    
     feature_recruiter_interested_student: __.String,
     feature_recruiter_login: __.String,
     feature_group_call: __.String,
@@ -94,6 +95,7 @@ EXPORT.Cfs = {
 
     // custom image
     image_header_icon: __.String,
+    image_header_icon_full: __.String,
 
     // custom link
     link_external_feedback_student: __.String,

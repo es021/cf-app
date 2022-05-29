@@ -1038,6 +1038,8 @@ const HallGalleryType = new GraphQLObjectType({
 		img_size: __.String,
 		img_pos: __.String,
 		video_url: __.String,
+		click_url: __.String,
+		is_open_new_tab: __.Int,
 		created_at: __.String,
 		created_by: __.Int,
 		updated_at: __.String,

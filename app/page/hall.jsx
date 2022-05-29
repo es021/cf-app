@@ -302,6 +302,13 @@ export default class HallPage extends React.Component {
             </div>
           </div>
         }
+        {isCfFeatureOn(CFSMeta.FEATURE_EVENT_SHOW_ALL_FOR_STUDENT)
+          ? <div className="text-center" style={{ marginBottom: "25px" }}>
+            <h3>{lang(this.titleEventWebinar)}</h3>
+            <EventList isListNoMargin={true} limitLoad={999999} listAlign="center" />
+          </div>
+          : null
+        }
         <SponsorList
           title={false}
           part_com={false}
@@ -479,7 +486,7 @@ export default class HallPage extends React.Component {
         v = <div className="hall-page">
           {this.getGallery("#eef0ee")}
           {this.getWelcomeAndSponsor(null)}
-          {isCfFeatureOff(CFSMeta.FEATURE_EVENT)
+          {isCfFeatureOff(CFSMeta.FEATURE_EVENT) || isCfFeatureOn(CFSMeta.FEATURE_EVENT_SHOW_ALL_FOR_STUDENT)
             ? isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
               ? this.getStudentInterviewGroupCall("#eef0ee")
               : this.getStudentInterview("#eef0ee")

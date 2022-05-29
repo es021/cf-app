@@ -15,7 +15,7 @@ import { showLeftBar, isHasLeftBar } from "./left-bar-layout";
 import { createImageElement } from "../component/profile-card.jsx";
 import { NavLink } from "react-router-dom";
 import LeftBarLayout from "./left-bar-layout";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 export default class HeaderLayout extends React.Component {
   constructor(props) {
@@ -31,6 +31,7 @@ export default class HeaderLayout extends React.Component {
 
     if (cfObj[CFSMeta.LINK_EXTERNAL_HOME] && !isAuthorized()) this.iconUrl = cfObj[CFSMeta.LINK_EXTERNAL_HOME]
     if (cfObj[CFSMeta.IMAGE_HEADER_ICON]) this.icon = AssetCustomUrl + cfObj[CFSMeta.IMAGE_HEADER_ICON]
+    if (cfObj[CFSMeta.IMAGE_HEADER_ICON_FULL]) this.icon = cfObj[CFSMeta.IMAGE_HEADER_ICON_FULL]
     if (cfObj[CFSMeta.TEXT_HEADER_TITLE]) this.title = cfObj[CFSMeta.TEXT_HEADER_TITLE]
     if (cfObj[CFSMeta.TEXT_HEADER_DESC]) this.desc = cfObj[CFSMeta.TEXT_HEADER_DESC]
 
@@ -65,42 +66,46 @@ export default class HeaderLayout extends React.Component {
 
     return (
       <header className={HeaderClass}>
-        <div className="img">
-          {this.iconUrl ?
-            <a target="_blank" href={this.iconUrl}>
-              <img src={this.icon} />
-            </a>
-            : <NavLink to={`${RootPath}/app`}>
-              <img src={this.icon} />
-            </NavLink>
-          }
-        </div>
-        <div className="title">
-          <b>{this.title}</b>
-          {/* <b>{AppConfig.Name}</b> */}
-          <br />
-          <small>{lang(this.desc)}</small>
-        </div>
-        <div className="menu">{this.props.menuList}</div>
-
-        {isHasLeftBar()
-          ? <div className="menu-small-new">
-            <ButtonIcon size="lg" icon="bars" onClick={() => {
-              showLeftBar()
-            }} />
-            {/* <div className="menu-hide-show">
+        <div className="header-row">
+          <div className="img">
+            {this.iconUrl ?
+              <a target="_blank" href={this.iconUrl}>
+                <img src={this.icon} />
+              </a>
+              : <NavLink to={`${RootPath}/app`}>
+                <img src={this.icon} />
+              </NavLink>
+            }
+          </div>
+          <div className="title">
+            <b>{this.title}</b>
+            {/* <b>{AppConfig.Name}</b> */}
+            <br />
+            <small>{lang(this.desc)}</small>
+          </div>
+          {isHasLeftBar()
+            ? <div className="menu-small-new">
+              <ButtonIcon size="lg" icon="bars" onClick={() => {
+                showLeftBar()
+              }} />
+              {/* <div className="menu-hide-show">
               <LeftBarLayout menuList={this.props.sideMenuList}></LeftBarLayout>
             </div> */}
-          </div>
-          :
-          // this one will only show the header
-          <div className="menu-small">
-            <ButtonIcon size="lg" icon="bars" />
-            {this.props.menuList}
-          </div>
-        }
+            </div>
+            :
+            // this one will only show the header
+            <div className="menu-small">
+              <ButtonIcon size="lg" icon="bars" />
+              {this.props.menuList}
+            </div>
+          }
+          {userIcon}
+        </div>
 
-        {userIcon}
+        <div className="header-row">
+          <div className="menu">{this.props.menuList}</div>
+        </div>
+
       </header>
     );
   }

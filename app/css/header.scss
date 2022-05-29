@@ -1,16 +1,25 @@
 @import "define/variable.scss";
 $MENU_SMALL_WIDTH: 130px;
 
-header {
+header{
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  z-index: 10;
+  // box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+}
+header .header-row {
   text-align: left;
   display: flex;
   align-items: center;
-  z-index: 10;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); // logo
+  // box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); // logo
+  
+  .profile-card{
+    margin : 0px 5px !important;
+  }
 
   .img {
     height: 100%;
-    margin-left: 30px;
     margin-right: 2px;
     padding: 10px 2px;
 
@@ -21,7 +30,8 @@ header {
 
   .title {
     color: $COLOR_HEADER_TITLE;
-    line-height: 15px;
+    line-height: 20px;
+    font-size: 18px;
     flex-grow: 2;
 
     small {
@@ -32,11 +42,11 @@ header {
   .menu_count {
     color: white;
     background: #f62626;
-    font-size: 10px;
+    font-size: 13px;
     border-radius: 100%;
     margin-left: 5px;
-    height: 18px;
-    width: 18px;
+    height: 22px;
+    width: 22px;
     font-weight: bold;
     text-align: center;
     float: right;
@@ -49,6 +59,7 @@ header {
   .menu,
   .menu-small, 
   .menu-small-new {
+    font-size: 17px;
     // flex-grow: 2;
     padding: 0 10px;
 
@@ -76,10 +87,26 @@ header {
       flex-flow: row wrap;
       justify-content: flex-end;
 
+      li{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding : 0px 7px;
+        padding-top : 5px;
+        padding-bottom: 12px;
+
+        i.fa{
+          font-size: 20px;
+          padding-right: 5px;
+        }
+      }
       .active {
         //border-bottom: $COLOR_HEADER_LINK solid 2px;
         font-weight: bold;
         color: $COLOR_HEADER_LINK_ACTIVE;
+        li{
+          border-bottom: 3px solid $COLOR_HEADER_LINK_ACTIVE;
+        }
       }
 
       a {
@@ -136,8 +163,12 @@ header {
 
 @media only screen and (max-width: $LAYOUT_LG) {
   //Change Menu to button
-  header {
+  header .header-row{
     .menu {
+      display: none;
+    }
+
+    .profile-card{
       display: none;
     }
 
@@ -150,8 +181,12 @@ header {
 
 @media only screen and (max-width: $LAYOUT_SM) {
   //Change Menu to button
-  header {
+  header .header-row{
     .title {
+      display: none;
+    }
+
+    .profile-card{
       display: none;
     }
 

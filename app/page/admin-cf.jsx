@@ -69,6 +69,9 @@ export default class AdminCf extends React.Component {
         //     return <div>Please follow the following format :<br></br>
         //         <b>Jul 18 2019 10:00:00 GMT +0800 (+08)</b></div>;
         // }
+        if (["image_header_icon_full"].indexOf(name) >= 0) {
+            return <div>Requirements: <br></br>Height is between 50px - 60px. <br></br>Background is transparent. <br></br>Format is png.</div>;
+        }
 
         if (["is_active", "is_load", "can_register", "can_login", "hall_cfg_onsite_call_use_group", "is_local"].indexOf(name) >= 0) {
             return <div>Accepted value : <b>1</b> or <b>0</b></div>;

@@ -461,6 +461,8 @@ fields["add_hall_gallery"] = {
     img_pos: __.String,
     img_size: __.String,
     video_url: __.String,
+    click_url: __.String,
+    is_open_new_tab: __.Int,
     created_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
@@ -484,6 +486,8 @@ fields["edit_hall_gallery"] = {
     img_pos: __.String,
     img_size: __.String,
     video_url: __.String,
+    click_url: __.String,
+    is_open_new_tab: __.Int,
     updated_by: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {

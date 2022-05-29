@@ -697,6 +697,7 @@ const CFSMeta = {
 	CAN_REGISTER: "can_register",
 	CAN_LOGIN: "can_login",
 	IMAGE_HEADER_ICON: "image_header_icon", // custom image
+	IMAGE_HEADER_ICON_FULL: "image_header_icon_full", // custom image
 	LINK_EXTERNAL_HOME: "link_external_home", // custom link
 	// ########################################################
 
@@ -721,6 +722,7 @@ const CFSMeta = {
 	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome", // just the container in home
 	FEATURE_EVENT: "feature_event", // effect the specific event container in home and company profile
 	FEATURE_EVENT_STUDENT: "feature_event_student", // effect the specific event container in home and company profile
+	FEATURE_EVENT_SHOW_ALL_FOR_STUDENT: "feature_event_show_all_for_student", 
 
 	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
@@ -839,6 +841,8 @@ const HallGallery = {
 	IMG_POS: "img_pos",
 	IMG_SIZE: "img_size",
 	VIDEO_URL: "video_url",
+	CLICK_URL: "click_url",
+	IS_OPEN_NEW_TAB: "is_open_new_tab",
 	CREATED_BY: "created_by",
 	UPDATED_BY: "updated_by"
 };
