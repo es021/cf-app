@@ -14,7 +14,7 @@ export default class ListCompanies extends React.Component {
     let profileTerm = getCfCustomMeta(CFSMeta.TEXT_COMPANY_PROFILE_TERM, "Profiles");
     return <div >
       <h1>{companySingle} {profileTerm}</h1>
-      <CompaniesSection {...this.props} offset={12} />
+      <CompaniesSection {...this.props} offset={15} />
     </div >
   }
 }
