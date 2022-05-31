@@ -1,6 +1,9 @@
 @import "define/mixin.scss";
 $MAIN_COLOR:   #293885;
 $SUB_COLOR:  #2C8ACA;
+$HEADER_MAIN: white;
+$HEADER_SUB: #adbfc8;
+$HEADER_COLOR : #4550ac;
 
 // #############################################
 // #############################################
@@ -17,13 +20,13 @@ $SUB_COLOR:  #2C8ACA;
   // #############################################
   // #############################################
   // HEADER
-  $COLOR_HEADER: white;
+  $COLOR_HEADER: $HEADER_COLOR;
 
-  $COLOR_HEADER_TITLE: $MAIN_COLOR;
-  $COLOR_HEADER_LINK_ACTIVE: $MAIN_COLOR;
+  $COLOR_HEADER_TITLE: $HEADER_MAIN;
+  $COLOR_HEADER_LINK_ACTIVE: $HEADER_MAIN;
   
-  $COLOR_HEADER_LINK: $SUB_COLOR;
-  $COLOR_HEADER_SUBTITLE: $SUB_COLOR;
+  $COLOR_HEADER_LINK: $HEADER_SUB;
+  $COLOR_HEADER_SUBTITLE: $HEADER_SUB;
 
   header {
     .img {

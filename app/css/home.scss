@@ -6,6 +6,8 @@ body.landing-page {
   // background-attachment: fixed !important;
 
   header {
+    box-shadow: 1px 0px 7px 4px rgba(0, 0, 0, 0.4);
+
     transition: background-color 0.3s ease;
     transition: color 0.3s ease;
   }
