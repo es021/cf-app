@@ -110,6 +110,36 @@ axios.interceptors.response.use(response => {
 	return Promise.reject(error);
 });
 
+function postAxiosGraphQLQuery(queryString) {
+
+	var config = {
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': `application/json`
+		},
+		proxy: false,
+		httpsAgent: getAgent(),
+	};
+
+	// return fetch(graphQLUrl.replace("?", ""), {
+	// 	method: `post`,
+	// 	headers: {
+	// 		'Content-Type': `application/json`,
+	// 		'Accept': `application/json`
+	// 	},
+	// 	body: JSON.stringify({
+	// 		query: queryString
+	// 	})
+	// })
+	// 	.then(response => response.json())
+	// 	.then(response => console.log(response));
+
+	return axios.post(
+		graphQLUrl.replace("?", ""),
+		JSON.stringify({ query: queryString }),
+		config
+	);
+}
 
 function getAxiosGraphQLQuery(queryString) {
 
@@ -317,6 +347,7 @@ module.exports = {
 	postAxios,
 	getAxios,
 	getStaticAxios,
+	postAxiosGraphQLQuery,
 	getAxiosGraphQLQuery,
 	getPHPApiAxios,
 	getPHPNotificationApiAxios,

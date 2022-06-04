@@ -43,14 +43,17 @@ app.use(
 
 function allowCors(res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+  // res.header("Access-Control-Max-Age", "86400");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
 }
+
+
 app.use(function (req, res, next) {
-  // console.log("req.url", req.url);
   if (!isProd || req.url.indexOf("/external/check-iv-by-ic") >= 0) {
     allowCors(res, next);
   } else {
@@ -89,6 +92,7 @@ app.get(root + '/asset/*', function (req, res, next) {
 
 // Express Middleware for serving static files
 app.use(express.static(path.join(__dirname, "public")));
+
 
 // Graphql route
 app.use(

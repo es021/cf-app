@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import * as layoutActions from "../redux/actions/layout-actions";
-import { getAxiosGraphQLQuery } from "../../helper/api-helper";
+import { getAxiosGraphQLQuery, postAxiosGraphQLQuery } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import Form, { toggleSubmit, checkDiff } from "./form";
 import List, { CustomList } from "./list";
@@ -125,6 +125,7 @@ class GeneralForm extends React.Component {
             ${queryKey}
             (${obj2arg(d, { noOuterBraces: true })}){ID}}`;
 
+    // postAxiosGraphQLQuery(query).then(
     getAxiosGraphQLQuery(query).then(
       res => {
         var mes = this.props.edit
