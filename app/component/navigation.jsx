@@ -405,6 +405,7 @@ function getMenuItem(COMING_SOON) {
       label: "Notification",
       icon: "bell",
       component: homeComponent,
+      id: "notification",
       count_attr: "count_notification",
       is_popup: true,
       bar_app: true,
@@ -1060,6 +1061,7 @@ export function getBar(
     if (d.is_popup == true) {
       return (
         <a
+          className={d.id ? "menu-" + d.id : null}
           data-label={d.label}
           data-is_popup={"1"}
           key={i}

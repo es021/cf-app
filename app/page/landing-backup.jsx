@@ -62,7 +62,7 @@ export default class LandingPage extends React.Component {
             <div style={{ boxShadow: "5px 5px 8px -1px rgba(0,0,0,0.5)" }}
                 className="item-small btn-group btn-group-justified">
                 <NavLink to={`${RootPath}/auth/sign-up`} className="btn btn-lg btn-success">
-                    <i className="fa fa-user left"></i>Student</NavLink>
+                    <i className="fa fa-user left"></i>Participant</NavLink>
                 <a target="blank" href={`${LandingUrl}#Companies`} className="btn btn-lg btn-danger">
                     <i className="fa fa-suitcase left"></i>Recruiter</a>
             </div>

@@ -95,7 +95,7 @@ class UsersPage extends React.Component {
         <tr>
           <th>ID</th>
           <th>CF</th>
-          <th>Student</th>
+          <th>Participant</th>
           <th>Phone Number</th>
           <th>University</th>
           <th>Major & Minor</th>
@@ -218,7 +218,7 @@ class UsersPage extends React.Component {
     document.setTitle("Students");
     return (
       <div>
-        <h3>Students</h3>
+        <h3>Participants</h3>
         <small>
           <ButtonExport
             text="All Students"

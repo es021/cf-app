@@ -485,8 +485,10 @@ export default class HallPage extends React.Component {
         </div>
       } else {
         v = <div className="hall-page">
-          {this.getGallery("#eef0ee")}
-          {this.getWelcomeAndSponsor(null)}
+          {isCfFeatureOn(CFSMeta.FEATURE_SHOW_HALL_GALLERY_SECOND)
+            ? [this.getWelcomeAndSponsor("#eef0ee"), this.getGallery(null)]
+            : [this.getGallery("#eef0ee"), this.getWelcomeAndSponsor(null)]
+          }
           {isCfFeatureOff(CFSMeta.FEATURE_EVENT) || isCfFeatureOn(CFSMeta.FEATURE_EVENT_SHOW_ALL_FOR_STUDENT)
             ? isCfFeatureOn(CFSMeta.FEATURE_GROUP_CALL)
               ? this.getStudentInterviewGroupCall("#eef0ee")
@@ -529,8 +531,10 @@ export default class HallPage extends React.Component {
         </div>
       } else {
         v = <div className="hall-page">
-          {this.getGallery("#eef0ee")}
-          {this.getWelcomeAndSponsor(null)}
+          {isCfFeatureOn(CFSMeta.FEATURE_SHOW_HALL_GALLERY_SECOND)
+            ? [this.getWelcomeAndSponsor("#eef0ee"), this.getGallery(null)]
+            : [this.getGallery("#eef0ee"), this.getWelcomeAndSponsor(null)]
+          }
           {this.getCompanyBooth("#eef0ee")}
           {this.getEvents(null)}
         </div>

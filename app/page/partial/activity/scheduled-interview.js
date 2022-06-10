@@ -382,7 +382,7 @@ export class ScheduledInterview extends React.Component {
         <tr>
           <td>#</td>
           <th>ID</th>
-          <th>Student</th>
+          <th>Participant</th>
           <th>Major</th>
           <th>Minor</th>
           <th>University</th>

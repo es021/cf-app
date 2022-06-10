@@ -114,7 +114,7 @@ export class SessionsList extends React.Component {
         this.tableHeader = <thead>
             <tr>
                 <th>Action</th>
-                {this.props.isRec ? <th>Student</th> : <th>Company</th>}
+                {this.props.isRec ? <th>Participant</th> : <th>Company</th>}
                 {this.props.isRec ? <th>Notes</th> : null}
                 {this.props.isRec ? <th>Ratings</th> : null}
                 {this.props.isRec ? <th>Major</th> : null}

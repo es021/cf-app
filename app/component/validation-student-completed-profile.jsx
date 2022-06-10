@@ -53,14 +53,24 @@ export default class ValidationStudentCompletedProfile extends React.Component {
     });
   }
 
+  hideNotificationMenu() {
+    let els = document.getElementsByClassName("menu-notification")
+    for (let e of els) {
+      e.style.display = "none"
+    }
+  }
+
+  isExceptionPage() {
+    if (location.href.indexOf(AppPath + `/edit-profile/profile`) >= 0 || location.href.indexOf(AppPath + `/edit-profile/doc-link`) >= 0) {
+      return true;
+    }
+    return false;
+  }
   isHideBlockPopup() {
     if (!isCfFeatureOn(CFSMeta.FEATURE_POPUP_BLOCK_INCOMPLETE_PROFILE)) {
       return true;
     }
     if (!isRoleStudent()) {
-      return true;
-    }
-    if (location.href.indexOf(AppPath + `/edit-profile/profile`) >= 0 || location.href.indexOf(AppPath + `/edit-profile/doc-link`) >= 0) {
       return true;
     }
     return false;
@@ -70,6 +80,8 @@ export default class ValidationStudentCompletedProfile extends React.Component {
     if (this.isHideBlockPopup()) {
       return <div></div>
     }
+
+
     var closeBlockLoader = false;
     var view = <div />;
     if (this.state.loading) {
@@ -111,7 +123,12 @@ export default class ValidationStudentCompletedProfile extends React.Component {
     if (closeBlockLoader) {
       storeHideBlockLoader();
     } else {
-      customBlockLoader(view, undefined, undefined, undefined, true);
+      this.hideNotificationMenu();
+      if (this.isExceptionPage()) {
+        storeHideBlockLoader();
+      } else {
+        customBlockLoader(view, undefined, undefined, undefined, true);
+      }
     }
 
     return <div />;

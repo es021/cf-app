@@ -102,7 +102,7 @@ export default class RecruitersPage extends React.Component {
         this.tableHeader = <thead>
             <tr>
                 <th>ID</th>
-                <th>Student</th>
+                <th>Participant</th>
                 <th>Company</th>
                 <th>Position</th>
                 <th>Registered At</th>

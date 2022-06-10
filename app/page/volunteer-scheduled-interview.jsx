@@ -305,7 +305,7 @@ export default class VolunteerScheduledInterview extends React.Component {
         <thead>
           <tr>
             <th>Interview ID</th>
-            <th>Student</th>
+            <th>Participant</th>
             <th>Company</th>
             <th>Interviewer</th>
             <th>Appointment Time</th>
@@ -321,7 +321,7 @@ export default class VolunteerScheduledInterview extends React.Component {
             <th>Interview ID</th>
             <th>Action</th>
             <th>Career Fair</th>
-            <th>Student</th>
+            <th>Participant</th>
             <th>Company</th>
             <th>Interviewer</th>
             <th>Status</th>
