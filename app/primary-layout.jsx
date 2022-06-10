@@ -21,7 +21,8 @@ import {
   getCF,
   isRoleAdmin,
   getAuthUser,
-  isRoleOrganizer
+  isRoleOrganizer,
+  isRoleStudent
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -44,6 +45,7 @@ import * as hallAction from "./redux/actions/hall-actions";
 import { setCurrentCfLocalStorage } from "./redux/reducer/auth-reducer";
 
 import * as layoutActions from "./redux/actions/layout-actions";
+import ValidationStudentCompletedProfile from "./component/validation-student-completed-profile";
 
 
 //state is from redux reducer
@@ -250,6 +252,10 @@ class PrimaryLayout extends React.Component {
   }
   render() {
 
+    if (isRoleStudent()) {
+      // alert("hi")
+    }
+
     // redirect to /nocf/ if cf is null
     // if (getCF() == null) {
     //   let prev = "";
@@ -324,7 +330,9 @@ class PrimaryLayout extends React.Component {
           <BlockLoader />
           <HeaderLayout {...this.props} menuList={headerMenu} />
           <div className="content content-landing-page">
-            <div id={this.pageId} className="main">{route}</div>
+            <div id={this.pageId} className="main">
+              {route}
+            </div>
           </div>
           <FooterLayout {...this.props} />
         </div>
@@ -343,6 +351,7 @@ class PrimaryLayout extends React.Component {
           <SupportChat />
           <BlockLoader />
           <HeaderLayout {...this.props} sideMenuList={sideMenu} menuList={headerMenu} />
+          <ValidationStudentCompletedProfile />
           {this.getLeftBar(sideMenu)}
           <div className="content">
             <div id={this.pageId} className="main">{route}</div>

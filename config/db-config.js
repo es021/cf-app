@@ -727,6 +727,7 @@ const CFSMeta = {
 	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
 	
+	FEATURE_POPUP_BLOCK_INCOMPLETE_PROFILE: "feature_popup_block_incomplete_profile",
 	FEATURE_GROUP_CALL: "feature_group_call",
 	FEATURE_RECRUITER_JOB_POST: "feature_recruiter_job_post",
 	FEATURE_STUDENT_LOGIN: "feature_student_login",

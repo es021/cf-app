@@ -245,6 +245,7 @@ const UserType = new GraphQLObjectType({
 			// DERIVED ATTRIBUTE -
 			is_active: __.Boolean,
 			is_profile_completed: __.Boolean,
+			is_profile_custom_order_completed: __.Boolean,
 			is_kpt_jpa: __.Boolean, // @kpt_validation
 			is_id_utm: __.Boolean, // @id_utm_validation
 		};

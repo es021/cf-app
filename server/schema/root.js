@@ -978,6 +978,7 @@ fields["user"] = {
 		cf: __.String, // @id_utm_validation
 		cf_to_check_id_utm: __.String, // @id_utm_validation
 		cf_to_check_registration: __.String, // @id_utm_validation
+		cf_to_check_profile_complete: __.String, // @id_utm_validation
 		user_email: __.String
 	},
 	resolve(parentValue, arg, context, info) {

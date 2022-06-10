@@ -462,6 +462,7 @@ export default class HallPage extends React.Component {
   render() {
     document.setTitle("Career Fair");
 
+
     let v = null;
 
     console.log("isCfFeatureOff(CFSMeta.FEATURE_EVENT)", isCfFeatureOff(CFSMeta.FEATURE_EVENT))

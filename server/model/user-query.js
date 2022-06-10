@@ -26,6 +26,7 @@ const {
 const {
 	SkillExec
 } = require("./skill-query.js");
+const { CustomOrder, CustomConfig } = require("../../config/registration-config-custom-by-cf.js");
 
 const RoleMetaValue = {
 	student: `a:1:{s:7:"student";b:1;}`,
@@ -663,11 +664,16 @@ class UserExec {
 			field["user_status"] = 1;
 		}
 
-		// if (field["is_profile_completed"] !== "undefined") {
-		//   for (var i in RequiredFieldStudent) {
-		//     field[RequiredFieldStudent[i]] = 1;
-		//   }
-		// }
+		if (field["is_profile_custom_order_completed"] !== "undefined") {
+			let cf = params["cf_to_check_profile_complete"]
+			try {
+				if (CustomOrder[cf]) {
+					for (var k of CustomOrder[cf]) {
+						field[k] = 1;
+					}
+				}
+			} catch (err) { }
+		}
 
 		var isSingle = type === "single";
 		var sql = "";
@@ -736,6 +742,28 @@ class UserExec {
 					},
 						field["student_note"]
 					);
+				}
+
+				// is_profile_custom_order_completed ****************************************************
+				if (field["is_profile_custom_order_completed"] !== "undefined") {
+					res[i]["is_profile_custom_order_completed"] = true;
+					// kalau ada yang required tak isi trus false
+					let cf = params["cf_to_check_profile_complete"]
+					try {
+						if (CustomOrder[cf]) {
+							for (var k of CustomOrder[cf]) {
+								// check is required or not 
+								if (CustomConfig[k]["is_required"]) {
+									var reqVal = res[i][k];
+									if (reqVal == null || reqVal == "") {
+										console.log(k, reqVal);
+										res[i]["is_profile_custom_order_completed"] = false;
+										break;
+									}
+								}
+							}
+						}
+					} catch (err) { }
 				}
 
 				// is_profile_completed ****************************************************
