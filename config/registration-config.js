@@ -244,22 +244,17 @@ const pickAndReorderByCf = (cf, r) => {
             map[k].push(i);
         }
 
-        console.log("order", order);
-        console.log("map", map);
-
         for (var id of order) {
             let indexes = map[id];
-            console.log("indexes", indexes);
 
             if (Array.isArray(indexes)) {
                 for (let i of indexes) {
                     let item = r[i];
+                    console.log("item", item);
                     let id = item["id"];
-
                     if (discardEditProfile.indexOf(id) >= 0) {
                         continue;
                     }
-
                     newR.push(item);
                 }
             }

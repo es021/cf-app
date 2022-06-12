@@ -94,8 +94,22 @@ export default class ManageUserProfile extends React.Component {
 
     return field_study;
   }
-  getInputChildren(id) {
-    let r = {};
+  getInputChildren(id, childrenOf) {
+    let r = {
+    };
+
+    // TODO HERE
+    for (let item of childrenOf) {
+      if (item["children_of"] == id) {
+        if (!r[id]) {
+          r[id] = []
+        }
+        r[id].push(item);
+      }
+    }
+
+    console.log("childrenOf", childrenOf);
+
     r[Reg.Single.first_name] = [
       {
         // single
@@ -107,6 +121,19 @@ export default class ManageUserProfile extends React.Component {
         hidden: false
       }
     ];
+    // r["d2w2_intern_start_month"] = [
+    //   {
+    //     // single
+    //     type: "single",
+    //     input_type: "select",
+    //     id: "d2w2_intern_start_year",
+    //     key_input: "d2w2_intern_start_year",
+    //     ref_table_name: "year",
+    //     ref_order_by: "ID desc",
+    //     is_required: true,
+    //     hidden: false
+    //   }
+    // ];
     r[Reg.Single.graduation_month] = [
       {
         // single
@@ -941,15 +968,35 @@ export default class ManageUserProfile extends React.Component {
       ];
     }
   }
+
+  filterInputItems(items) {
+    let formItems = [];
+    let childrenOf = [];
+
+    for (let d of items) {
+      if (d.children_of) {
+        childrenOf.push(d);
+      } else {
+        formItems.push(d);
+      }
+    }
+
+    return {
+      formItems, childrenOf
+    }
+  }
+
   render() {
-    let view = this.getInputItems().map((d, i) => {
+    let items = this.getInputItems();
+    let { formItems, childrenOf } = this.filterInputItems(items)
+    let view = formItems.map((d, i) => {
       if (!d) {
         return null;
       }
       if (d.hidden) {
         return null;
       }
-      let children = this.getInputChildren(d.id);
+      let children = this.getInputChildren(d.id, childrenOf);
       if (children && children.length >= 0) {
         d.children = [];
         for (var k in children) {

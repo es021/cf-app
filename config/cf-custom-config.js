@@ -189,6 +189,7 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
                     discard_ref_from_default: getByKey(k, "discard_ref_from_default"),
                     id: k,
                     key_input: k,
+                    children_of: getByKey(k, "children_of"),
                     ref_table_name: getByKey(k, "ref_table_name"),
                     ref_order_by: getByKey(k, "ref_order_by"),
                     is_required: getByKey(k, "is_required"),

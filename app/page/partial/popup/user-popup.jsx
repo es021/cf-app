@@ -605,6 +605,8 @@ export default class UserPopup extends Component {
         if (cfCustomFunnel({ action: "is_multi", key: k })) {
           continue
         }
+
+        // TODO HERE --- 
         if (!isCustomUserInfoOff(getCF(), k)) {
           let v;
           if (this.isValueEmpty(d[k])) {

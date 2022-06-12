@@ -77,7 +77,7 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "UTMIV21", "OCPE21"]
+        onCf: ["OEJF21", "UTMIV21", "OCPE21", "D2W2K22"]
     },
     nationality: {
         label: "Nationality",
@@ -113,7 +113,17 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22"]
+    },
+    ic_number: {
+        discard_filter: true,
+        question: "IC Number",
+        label: "IC Number",
+        icon: "slack",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["D2W2K22"]
     },
     resident_malaysia: {
         discard_popup_on: (d) => {
@@ -153,6 +163,7 @@ const CustomConfig = {
         is_required: true,
         onCf: ["OEJF21", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
     },
+
     country_study_select: {
         label: "Country Of Study",
         question: "Where are you studying",
@@ -544,7 +555,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_reference",
         is_required: true,
-        onCf: ["D2W21", "D2WRL21"],
+        onCf: ["D2W21", "D2WRL21", "D2W2K22"],
         attr: `{val}`
     },
     // ################################################################
@@ -1481,7 +1492,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "D2W2K22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1527,6 +1538,16 @@ const CustomConfig = {
         input_type: "text",
         type: "single",
         onCf: ["TCREP22"]
+    },
+    home_address: {
+        discard_filter: true,
+        question: "Home Address",
+        label: "Home Address",
+        icon: "map-marker",
+        is_required: true,
+        input_type: "textarea",
+        type: "single",
+        onCf: ["D2W2K22"]
     },
     address: {
         discard_filter: true,
@@ -1697,6 +1718,127 @@ const CustomConfig = {
         type: "single",
         onCf: ["TCREP22"]
     },
+
+    d2w2_current_resident: {
+        discard_popup_on: (d) => {
+            return d['current_resident'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Current Resident",
+        question: "Current Resident",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_state",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_current_resident_other: {
+        discard_popup_on: (d) => {
+            return d['current_resident'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Current Resident",
+        question: "Current Resident (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_university: {
+        label: "University/Institution",
+        question: "University/Institution",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_university",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_year_of_study: {
+        label: "Year Of Study",
+        question: "Year Of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_year_of_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_level_of_study: {
+        label: "Level Of Study",
+        question: "Level Of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_level_of_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_field_of_study: {
+        label: "Field Of Study",
+        question: "Field Of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_field_of_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_intern_start_month:
+    {
+        label: "When Your Internship Started",
+        question: "When Your Internship Started",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "month",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_intern_start_year:
+    {
+        children_of: "d2w2_intern_start_month",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_intern_duration:
+    {
+        label: "Duration for Your Internship",
+        question: "Duration for Your Internship",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_intern_duration",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_reference: {
+        label: "Interested Job Location",
+        question: "Where would you like to work in Malaysia?",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "interested_job_location_my_sg",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "interested_job_location_my_sg",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OCPE21"],
+        attr: `{val}`
+    },
 }
 
 // const Default = [
@@ -1721,6 +1863,27 @@ const CustomConfig = {
 
 
 const CustomOrder = {
+    D2W2K22: [
+        "full_name",
+        "ic_number",
+        "gender_mf",
+        "race",
+        "home_address",
+        "d2w2_current_resident",
+        "d2w2_current_resident_other",
+        "d2w2_university",
+        "d2w2_year_of_study",
+        "d2w2_level_of_study",
+        "d2w2_field_of_study",
+        "d2w2_intern_start_month",
+        "d2w2_intern_start_year",
+        "d2w2_intern_duration",
+        "graduation_month",
+        "d2w21_reference",
+
+
+
+    ],
     TCREP22: [
         "full_name",
         "gender_mf",
