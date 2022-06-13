@@ -109,6 +109,7 @@ export default class SignUpPage extends React.Component {
     var toLoad = 0;
     var loaded = 0;
     var refData = {};
+
     const finish = (k, data) => {
       loaded++;
       refData[k] = ["", ...data];
@@ -120,8 +121,22 @@ export default class SignUpPage extends React.Component {
       }
     }
 
+    let formItems = getRegisterFormItem(1, getCF());
+    for (let f of formItems) {
+      if (f.loadRef) {
+        if (!this.state.loading) {
+          this.setState({ loading: true })
+        }
+        toLoad++;
+        graphql(`query { refs(table_name:"${f.loadRef}", order_by:"ID asc"){ val } } `).then(res => {
+          let vals = res.data.data.refs.map(d => d.val);
+          finish(f.name, vals);
+        })
+      }
+    }
+
     if (this.CF == "UTM21") {
-      toLoad = 2;
+      toLoad += 2;
       this.setState({ loading: true })
       graphql(`query { refs(table_name:"faculty_utm21"){ val } } `).then(res => {
         let vals = res.data.data.refs.map(d => d.val);
@@ -142,7 +157,7 @@ export default class SignUpPage extends React.Component {
 
       // check if format phone number is okay
       if (typeof d["phone_number"] !== "undefined") {
-        if (!d["phone_number"].replace("+","").match(/^!*(\d!*){10,}$/)) {
+        if (!d["phone_number"].replace("+", "").match(/^!*(\d!*){10,}$/)) {
           return lang(`Invalid phone number : ${d["phone_number"]}. Use format XXXXXXXXXX or +XXXXXXXXXX`);
         }
       }

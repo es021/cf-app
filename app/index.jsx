@@ -95,6 +95,29 @@ for (var i in scss) {
 
 
 if (window) {
+
+  window.generateExportSql = (cf, fields) => {
+      let q = fields.map(d=>{
+        return `
+,(select s.val from single_input s where s.entity_id = u.ID
+and s.entity = 'user' 
+and s.key_input = '${d}') as ${d}
+`
+      }).join("\n")
+
+      let ret = `
+select 
+u.ID as user_id, u.user_email, u.updated_at as last_updated
+${q}
+from  wp_cf_users u 
+where 1=1 
+and u.ID IN (select m.entity_id from cf_map m where m.entity = "user" and m.entity_id = u.ID and m.cf = "${cf}" ) 
+order by u.ID, u.updated_at
+`
+
+      console.log(ret);
+  }
+
   window.generateRefSql = (table_name, raw_data) => {
     let r = raw_data.split("\n").map((d) => {
       return `INSERT IGNORE INTO ref_${table_name} (val) VALUES ('${d.trim().replace("'","\\'")}');`

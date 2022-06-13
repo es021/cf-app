@@ -43,6 +43,7 @@ const MailChimp = {
 };
 
 const DB = require("../model/DB.js");
+const { CustomRegistrationConfig } = require("../../config/registration-config-custom-by-cf");
 
 
 function getIdUtmTable(cf) {
@@ -253,7 +254,7 @@ class AuthAPI {
 		field = field.slice(0, -1);
 
 		/**
-		 	recruiters
+			  recruiters
 			{ID user_email first_name last_name}
 		 */
 		var user_query = `query{
@@ -693,6 +694,12 @@ class AuthAPI {
 		const successInterceptor = data => {
 			let userId = data[User.ID];
 
+			for (let item of CustomRegistrationConfig) {
+				if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
+					addToSingleInput(data, user, item.name);
+				}
+			}
+			
 			// add first name and last name at single_input
 			addToSingleInput(data, user, "level_study_utm21");
 			addToSingleInput(data, user, "faculty_utm21");

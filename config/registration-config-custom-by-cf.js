@@ -2265,7 +2265,73 @@ const CustomOrder = {
     ],
 };
 
+const CustomRegistrationConfig = [
+    // TCREP22
+    // TCREP22
+    {
+        label: "Gender",
+        name: "gender_mf",
+        type: "select",
+        loadRef: "gender_mf",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "TCREP22"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Country of Residence Abroad",
+        name: "tcrep_country_residence",
+        type: "select",
+        loadRef: "nationality_country",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "TCREP22"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Academic Qualification",
+        name: "tcrep_qualification",
+        type: "select",
+        loadRef: "tcrep_qualification",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "TCREP22"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Current Employment Role",
+        name: "tcrep_employ_role",
+        type: "select",
+        loadRef: "tcrep_employ_role",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "TCREP22"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Current Employment Industry",
+        name: "tcrep_employ_industry",
+        type: "select",
+        loadRef: "tcrep_employ_industry",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "TCREP22"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+]
+
 module.exports = {
     CustomConfig,
-    CustomOrder
+    CustomOrder,
+    CustomRegistrationConfig,
 };

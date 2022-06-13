@@ -460,7 +460,9 @@ const RequiredFieldStudent = [
     //UserMeta.DESCRIPTION,
 
     "level_study_utm21",
-    "faculty_utm21"
+    "faculty_utm21",
+
+    
 ];
 
 const RequiredFieldRecruiter = [

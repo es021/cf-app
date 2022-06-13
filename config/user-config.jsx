@@ -12,6 +12,7 @@ import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 import { lang } from '../app/lib/lang';
 import { getCF, getNoMatrixLabel } from '../app/redux/actions/auth-actions';
+import { CustomRegistrationConfig } from "./registration-config-custom-by-cf";
 export const TotalRegisterStep = 3;
 
 
@@ -89,7 +90,7 @@ export const UserFormItem = [
     },
     {
         label: lang("Phone Number"),
-        sublabel : "Please include Country Code",
+        sublabel: "Please include Country Code",
         name: UserMeta.PHONE_NUMBER,
         type: "phone_number",
         placeholder: "XXXXXXXXXX",
@@ -310,6 +311,7 @@ export const UserFormItem = [
         key: "resume",
         register: 1, editStudent: 0, editRec: 0
     },
+    ...CustomRegistrationConfig,
     {
         label: null,
         name: "accept-policy",
@@ -364,11 +366,13 @@ export const UserFormItem = [
 
 function setAdditionalAttribute(item) {
     if (typeof item.name !== "undefined") {
-        if (RequiredFieldStudent.indexOf(item.name) >= 0 ||
-            RequiredFieldRecruiter.indexOf(item.name) >= 0) {
-            item.required = true;
-        } else {
-            item.required = false;
+        if (typeof item.required === "undefined") {
+            if (RequiredFieldStudent.indexOf(item.name) >= 0 ||
+                RequiredFieldRecruiter.indexOf(item.name) >= 0) {
+                item.required = true;
+            } else {
+                item.required = false;
+            }
         }
     }
 
