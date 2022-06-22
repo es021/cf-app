@@ -1,5 +1,9 @@
 
 const OTHER_PLEASE_SPECIFY = 'Others (Please specify in field below)';
+
+const OTHER_UNI_OVERSEA = 'Others (Overseas University)';
+const OTHER_UNI_LOCAL = 'Others (Local University)';
+
 const OTHER_CHINA = '其他 Others';
 const CustomConfig = {
     // ##############################################################
@@ -1746,6 +1750,9 @@ const CustomConfig = {
         onCf: ["D2W2K22"]
     },
     d2w2_university: {
+        discard_popup_on: (d) => {
+            return [OTHER_UNI_OVERSEA, OTHER_UNI_LOCAL].indexOf(d['d2w2_university']) >= 0;
+        },
         label: "University/Institution",
         question: "University/Institution",
         icon: "graduation-cap",
@@ -1754,6 +1761,18 @@ const CustomConfig = {
         ref_table_name: "d2w2_university",
         ref_order_by: "ID asc",
         is_required: true,
+        onCf: ["D2W2K22"]
+    },
+    d2w2_university_other: {
+        discard_popup_on: (d) => {
+            return [OTHER_UNI_OVERSEA, OTHER_UNI_LOCAL].indexOf(d['d2w2_university']) <= -1;
+        },
+        label: "University/Institution",
+        question: "University/Institution (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
         onCf: ["D2W2K22"]
     },
     d2w2_year_of_study: {
@@ -1872,6 +1891,7 @@ const CustomOrder = {
         "d2w2_current_resident",
         "d2w2_current_resident_other",
         "d2w2_university",
+        "d2w2_university_other",
         "d2w2_year_of_study",
         "d2w2_level_of_study",
         "d2w2_field_of_study",
@@ -1880,9 +1900,6 @@ const CustomOrder = {
         "d2w2_intern_duration",
         "graduation_month",
         "d2w21_reference",
-
-
-
     ],
     TCREP22: [
         "full_name",
