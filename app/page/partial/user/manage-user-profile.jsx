@@ -542,7 +542,7 @@ export default class ManageUserProfile extends React.Component {
           type: "single",
           id: Reg.Single.phone_number,
           key_input: Reg.Single.phone_number,
-          label: lang("What is your phone number?"),
+          label: lang("What is your mobile phone number?"),
           input_placeholder: "XXX-XXXXXXX",
           is_required: true,
           hidden: false || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.phone_number)

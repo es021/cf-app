@@ -82,7 +82,7 @@ import HallRecruiterPage from "../page/hall-recruiter";
 import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
-import { _student_plural } from "../redux/actions/text-action";
+import { _student_plural, _student_single } from "../redux/actions/text-action";
 import { lang, isHasOtherLang } from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
@@ -257,7 +257,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/participant-listing",
-      label: "Participant Listing",
+      label: `${_student_single()} Listing`,
       icon: "user",
       component: BrowseStudent,
       bar_app: true,

@@ -30,7 +30,16 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: ["OCPE21"]
+        onCf: ["OCPE21", "OEJF22"]
+    },
+    personal_email: {
+        label: "Personal Email Address",
+        question: "Personal Email Address",
+        icon: "email",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["OEJF22"]
     },
     student_id: {
         label: "Student ID",
@@ -70,7 +79,7 @@ const CustomConfig = {
         ref_table_name: "age",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OEJF22"]
     },
     race: {
         label: "Race/Ethnicity",
@@ -81,7 +90,7 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "UTMIV21", "OCPE21", "D2W2K22"]
+        onCf: ["OEJF21", "OEJF22", "UTMIV21", "OCPE21", "D2W2K22"]
     },
     nationality: {
         label: "Nationality",
@@ -163,9 +172,9 @@ const CustomConfig = {
         type: "single",
         input_type: "select",
         ref_table_name: "state",
-        ref_order_by: "ID asc",
+        ref_order_by: "val asc",
         is_required: true,
-        onCf: ["OEJF21", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
     },
 
     country_study_select: {
@@ -587,12 +596,11 @@ const CustomConfig = {
         ref_table_name: "oejf21_field_study",
         ref_order_by: "ID asc",
         is_required: false,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OEJF22"]
     },
-
     oejf21_where_work: {
         label: "Interested Job Location",
-        question: "Where would you like to work?",
+        question: "Where would you like to work in Malaysia?",
         icon: "map-marker",
         list_title: null,
         discard_ref_from_default: true,
@@ -600,9 +608,24 @@ const CustomConfig = {
         type: "multi",
         input_type: "select",
         ref_table_name: "oejf21_where_work",
+        ref_order_by: "val asc",
+        is_required: true,
+        onCf: ["OEJF21", "OEJF22"],
+        attr: `{val}`
+    },
+    oejf21_where_work_oversea: {
+        label: "Interested Job Location (Oversea)",
+        question: "Where would you like to work in oversea?",
+        icon: "map-marker",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "oejf21_where_work_oversea",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "oejf21_where_work_oversea",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"],
+        onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
     },
     oejf21_years_working: {
@@ -614,7 +637,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_years_working",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OEJF22"]
     },
     oejf21_industry: {
         label: "Current Industry",
@@ -625,7 +648,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_industry",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "OCPE21"]
     },
     oejf21_reference: {
         discard_filter: true,
@@ -641,13 +664,13 @@ const CustomConfig = {
         ref_table_name: "oejf21_reference",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"],
+        onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
     },
     oejf21_qualification: {
-        discard_popup_on: (d) => {
-            return d['oejf21_qualification'] == OTHER_PLEASE_SPECIFY;
-        },
+        // discard_popup_on: (d) => {
+        //     return d['oejf21_qualification'] == OTHER_PLEASE_SPECIFY;
+        // },
         label: "Qualification",
         question: "What is your highest level of certificate?",
         icon: "graduation-cap",
@@ -656,7 +679,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_qualification",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "OCPE21"]
     },
     oejf21_qualification_other: {
         discard_filter: true,
@@ -669,7 +692,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["OEJF21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "OCPE21"]
     },
     oejf21_interested_job: {
         discard_filter: true,
@@ -685,7 +708,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_interested_job",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"],
+        onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
     },
     // ################################################################
@@ -1858,6 +1881,53 @@ const CustomConfig = {
         onCf: ["OCPE21"],
         attr: `{val}`
     },
+
+    oejf22_grad_month:
+    {
+        label: "Graduation Date",
+        question: "When is your graduation date?",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_grad_month",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+    oejf22_grad_year:
+    {
+        children_of: "oejf22_grad_month",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_grad_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+    oejf22_work_availability_month:
+    {
+        label: "Graduation Date",
+        question: "When will you be available to work?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_grad_month",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+    oejf22_work_availability_year:
+    {
+        children_of: "oejf22_work_availability_month",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_work_availability_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
 }
 
 // const Default = [
@@ -1882,6 +1952,31 @@ const CustomConfig = {
 
 
 const CustomOrder = {
+    OEJF22: [
+        "first_name",
+        "personal_email",
+        "current_position",
+        "oejf22_grad_month",
+        "oejf22_grad_year",
+        "looking_for_position",
+        "country_study",
+        "university",
+        "oejf21_qualification",
+        "oejf21_field_study",
+        "phone_number",
+        "age",
+        "gender",
+        "race",
+        "oejf22_work_availability_month",
+        "oejf22_work_availability_year",
+        "oejf21_interested_job",
+        "where_in_malaysia_select",
+        "oejf21_where_work",
+        "oejf21_where_work_oversea",
+        "oejf21_years_working",
+        "oejf21_industry",
+        "oejf21_reference"
+    ],
     D2W2K22: [
         "full_name",
         "ic_number",
