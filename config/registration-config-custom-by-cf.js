@@ -1879,8 +1879,6 @@ const CustomConfig = {
 //     "skill",
 //     "extracurricular",
 // ];
-
-
 const CustomOrder = {
     D2W2K22: [
         "full_name",

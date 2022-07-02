@@ -120,17 +120,18 @@ export default class InputSuggestion extends React.Component {
   //   }
   // }
   onBlur(e) {
-    if (!this.isSelect()) {
-      let firstSuggestion = null;
-      try {
-        if (this.state.suggestion.length == 1) {
-          firstSuggestion = this.state.suggestion[0];
-          let v = firstSuggestion.val.capitalizeAll();
-          this.onClickSuggestion(null, v);
-        }
-      } catch (err) {
+    if (!this.isSelect() && this.props.is_multi) {
+      this.ref.value = "";
+      // let firstSuggestion = null;
+      // try {
+      //   if (this.state.suggestion.length == 1) {
+      //     firstSuggestion = this.state.suggestion[0];
+      //     let v = firstSuggestion.val.capitalizeAll();
+      //     this.onClickSuggestion(null, v);
+      //   }
+      // } catch (err) {
 
-      }
+      // }
     }
 
 
@@ -187,90 +188,113 @@ export default class InputSuggestion extends React.Component {
   }
   fetchDataset() {
     this.setState({ loading: true });
-    if (!this.props.table_name) {
+    if (!this.props.table_name && !this.props.dataset_source) {
       return;
     }
 
-    /**
-     * let q = `query{ 
-          refs(
-            table_name :"${this.props.table_name}", 
-            filter_column : "${this.props.filter_column}"
-            filter_val : "${this.props.filter_val}"
-            filter_find_id : ${this.props.filter_find_id}
-            val:"${v}", page:1, offset:10
+    if (this.props.dataset_source) {
+      let q = `query{ 
+        global_dataset(
+          source :"${this.props.dataset_source}", 
+          order_by : "${this.props.order_by}",
           ) {
-            val
+            ID val source
           }
         }`;
-     */
 
-    for (var i in this.props.table_name) {
+      graphql(q).then(res => {
+        this.setState({ dataset: res.data.data.global_dataset });
+      });
+    } else {
+
+      // for (var i in this.props.table_name) {
       // @query_refs
       let q = `query{ 
-        refs(
-          lang:"${currentLang()}",
-          table_name :"${this.props.table_name}", 
-          order_by : "${this.props.order_by}",
-          filter_raw : "${this.props.filter_raw}",
-          filter_column : "${this.props.filter_column}",
-          filter_val : "${this.props.filter_val}",
-          filter_find_id : ${this.props.filter_find_id}
-        ) {
-          ID val table_name
-        }
-      }`;
+          refs(
+            lang:"${currentLang()}",
+            table_name :"${this.props.table_name}", 
+            order_by : "${this.props.order_by}",
+            filter_raw : "${this.props.filter_raw}",
+            filter_column : "${this.props.filter_column}",
+            filter_val : "${this.props.filter_val}",
+            filter_find_id : ${this.props.filter_find_id}
+            ) {
+              ID val table_name
+            }
+          }`;
 
       graphql(q).then(res => {
         this.setState({ dataset: res.data.data.refs });
       });
     }
+    // }
+  }
+  finishFetchSuggestion(suggestion, v) {
+    this.setState(prevState => {
+      if (suggestion.length == 0) {
+        suggestion.push({ val: v });
+      } else {
+        let inserted = [];
+
+        // filter same val
+        let filteredSuggestion = [];
+        for (var i in suggestion) {
+          let d = suggestion[i];
+          let val = d.val;
+          if (inserted.indexOf(val) >= 0) {
+            continue;
+          } else {
+            inserted.push(val);
+            filteredSuggestion.push(d);
+          }
+        }
+        suggestion = filteredSuggestion;
+      }
+
+      return { suggestion: suggestion, showSuggestion: true };
+    });
   }
   fetchSuggestion(v) {
-    if (!this.props.table_name) {
+    if (!this.props.table_name && !this.props.dataset_source) {
       return;
     }
 
-    // @query_refs
-    let q = `query{ 
-          refs(
-            lang:"${currentLang()}",
-            table_name :"${this.props.table_name}", 
-            filter_column : "${this.props.filter_column}"
-            filter_val : "${this.props.filter_val}"
-            filter_find_id : ${this.props.filter_find_id}
-            val:"${v}", page:1, offset:10
+    if (this.props.dataset_source) {
+      // @query_refs
+      let q = `query{ 
+        global_dataset(
+          source :"${this.props.dataset_source}", 
+          val:"${v}", page:1, offset:10
           ) {
             val
           }
         }`;
 
-    graphql(q).then(res => {
-      this.setState(prevState => {
-        let suggestion = res.data.data.refs;
-        if (suggestion.length == 0) {
-          suggestion.push({ val: v });
-        } else {
-          let inserted = [];
-
-          // filter same val
-          let filteredSuggestion = [];
-          for (var i in suggestion) {
-            let d = suggestion[i];
-            let val = d.val;
-            if (inserted.indexOf(val) >= 0) {
-              continue;
-            } else {
-              inserted.push(val);
-              filteredSuggestion.push(d);
-            }
-          }
-          suggestion = filteredSuggestion;
-        }
-
-        return { suggestion: suggestion, showSuggestion: true };
+      graphql(q).then(res => {
+        let suggestion = res.data.data.global_dataset;
+        this.finishFetchSuggestion(suggestion, v)
       });
-    });
+
+    } else if (this.props.table_name) {
+      // @query_refs
+      let q = `query{ 
+        refs(
+          lang:"${currentLang()}",
+          table_name :"${this.props.table_name}", 
+          filter_column : "${this.props.filter_column}"
+          filter_val : "${this.props.filter_val}"
+          filter_find_id : ${this.props.filter_find_id}
+          val:"${v}", page:1, offset:10
+          ) {
+            val
+          }
+        }`;
+
+      graphql(q).then(res => {
+        let suggestion = res.data.data.refs;
+        this.finishFetchSuggestion(suggestion, v)
+      });
+    }
   }
   getIconView() {
     let v = null;
@@ -334,7 +358,7 @@ export default class InputSuggestion extends React.Component {
           value = d.val;
         }
         let label = d.val;
-        if(!label){
+        if (!label) {
           label = PLEASE_SELECT;
         }
 
@@ -421,6 +445,8 @@ export default class InputSuggestion extends React.Component {
 }
 
 InputSuggestion.propTypes = {
+  dataset_source: PropTypes.string,
+  is_multi: PropTypes.bool,
   is_in_normal_form: PropTypes.bool,
   order_by: PropTypes.string,
   use_id_as_value: PropTypes.bool,

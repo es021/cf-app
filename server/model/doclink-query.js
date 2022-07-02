@@ -1,23 +1,25 @@
 const DB = require('./DB.js');
-const {DocLink} = require('../../config/db-config');
+const { DocLink } = require('../../config/db-config');
 
 class DocLinkQuery {
-    getDocLink(params) {
+    getDocLink(params, extra = {}) {
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `${DocLink.ID} = ${params.ID}`;
         var user_where = (typeof params.user_id === "undefined") ? "1=1" : `${DocLink.USER_ID} = ${params.user_id}`;
         var com_where = (typeof params.company_id === "undefined") ? "1=1" : `${DocLink.COMPANY_ID} = '${params.company_id}'`;
         var type_where = (typeof params.type === "undefined") ? "1=1" : `${DocLink.TYPE} = '${params.type}'`;
         var order_by = "ORDER BY " + ((typeof params.order_by === "undefined") ? `${DocLink.UPDATED_AT} desc` : `${params.order_by}`);
 
-        return `select * from ${DocLink.TABLE} where ${id_where} and ${user_where} and ${com_where} and ${type_where} ${order_by}`;
+        let selectField = extra.selectField ? extra.selectField.join(",") : "*";
+
+        return `select ${selectField} from ${DocLink.TABLE} where ${id_where} and ${user_where} and ${com_where} and ${type_where} ${order_by}`;
     }
 }
 
 DocLinkQuery = new DocLinkQuery();
 
 class DocLinkExec {
-    doc_links(params, field, extra={}) {
-        var sql = DocLinkQuery.getDocLink(params);
+    doc_links(params, field, extra = {}) {
+        var sql = DocLinkQuery.getDocLink(params, extra);
         //// console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
 
@@ -34,6 +36,6 @@ class DocLinkExec {
 
 DocLinkExec = new DocLinkExec();
 
-module.exports = {DocLinkQuery, DocLinkExec};
+module.exports = { DocLinkQuery, DocLinkExec };
 
 

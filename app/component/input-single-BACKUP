@@ -255,7 +255,6 @@ export default class InputSingle extends React.Component {
   //   return true;
   // }
   isEmpty(val) {
-    console.log("isEmpty", val)
     return val == PLEASE_SELECT || val == "" || val == null || typeof val === "undefined";
   }
   isValueEmpty(val) {
@@ -299,48 +298,26 @@ export default class InputSingle extends React.Component {
           </div>
         ) : null}
         <div className="si-input">
-          {this.props.dataset_source
-            ? <InputSuggestion
-              order_by={this.props.dataset_order_by}
-              dataset_source={this.props.dataset_source}
-              use_id_as_value={this.props.select_use_id_as_value}
-              is_translate_label={this.props.select_is_translate_label}
-              input_type={this.props.input_type}
-              icon_loading={this.state.loading}
-              icon_done={this.state.done_update}
-              icon_is_required={this.state.show_is_required}
-              input_onChange={this.inputOnChange}
-              input_onBlur={this.inputOnBlur}
-              input_onFocus={this.inputOnFocus}
-              input_val={this.state.val}
-              input_placeholder={this.props.input_placeholder}
-              onChoose={this.onChooseSuggestion}
-              filter_raw={this.props.ref_filter_raw}
-              filter_column={this.props.ref_filter_column}
-              filter_val={this.props.ref_filter_val}
-              filter_find_id={this.props.ref_filter_find_id}
-            ></InputSuggestion>
-            : <InputSuggestion
-              order_by={this.props.ref_order_by}
-              use_id_as_value={this.props.select_use_id_as_value}
-              is_translate_label={this.props.select_is_translate_label}
-              input_type={this.props.input_type}
-              icon_loading={this.state.loading}
-              icon_done={this.state.done_update}
-              icon_is_required={this.state.show_is_required}
-              input_onChange={this.inputOnChange}
-              input_onBlur={this.inputOnBlur}
-              input_onFocus={this.inputOnFocus}
-              input_val={this.state.val}
-              input_placeholder={this.props.input_placeholder}
-              onChoose={this.onChooseSuggestion}
-              table_name={this.props.ref_table_name}
-              filter_raw={this.props.ref_filter_raw}
-              filter_column={this.props.ref_filter_column}
-              filter_val={this.props.ref_filter_val}
-              filter_find_id={this.props.ref_filter_find_id}
-            ></InputSuggestion>}
-
+          <InputSuggestion
+            order_by={this.props.ref_order_by}
+            use_id_as_value={this.props.select_use_id_as_value}
+            is_translate_label={this.props.select_is_translate_label}
+            input_type={this.props.input_type}
+            icon_loading={this.state.loading}
+            icon_done={this.state.done_update}
+            icon_is_required={this.state.show_is_required}
+            input_onChange={this.inputOnChange}
+            input_onBlur={this.inputOnBlur}
+            input_onFocus={this.inputOnFocus}
+            input_val={this.state.val}
+            input_placeholder={this.props.input_placeholder}
+            onChoose={this.onChooseSuggestion}
+            table_name={this.props.ref_table_name}
+            filter_raw={this.props.ref_filter_raw}
+            filter_column={this.props.ref_filter_column}
+            filter_val={this.props.ref_filter_val}
+            filter_find_id={this.props.ref_filter_find_id}
+          ></InputSuggestion>
         </div>
 
         <div className="si-footer">
@@ -361,13 +338,8 @@ InputSingle.propTypes = {
   doneHandler: PropTypes.func,
   continueOnClick: PropTypes.func,
   is_required: PropTypes.bool,
-
-  dataset_source: PropTypes.string,
-  dataset_order_by: PropTypes.string,
-
   ref_table_name: PropTypes.string,
   ref_order_by: PropTypes.string,
-
   key_val: PropTypes.string,
   input_placeholder: PropTypes.string,
   entity: PropTypes.string,

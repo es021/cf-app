@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
-import { getAxiosGraphQLQuery, graphql, postRequest } from "../../../../helper/api-helper";
+import { getAxiosGraphQLQuery, graphql } from "../../../../helper/api-helper";
 import {
   DocLinkEnum,
   UserEnum,
@@ -10,7 +10,7 @@ import {
   CFSMeta
 } from "../../../../config/db-config";
 import { getMonthLabel } from "../../../../config/data-config";
-import { ImgConfig, RootPath, IsOnVideoResume, AppPath, UserUrl } from "../../../../config/app-config";
+import { ImgConfig, RootPath, IsOnVideoResume, AppPath } from "../../../../config/app-config";
 import { CompanyEnum } from "../../../../config/db-config";
 import ProfileCard from "../../../component/profile-card.jsx";
 import PageSection from "../../../component/page-section";
@@ -33,7 +33,6 @@ import { openSIFormAnytime } from "../../partial/activity/scheduled-interview";
 import { isCustomUserInfoOff, Single, Multi } from "../../../../config/registration-config";
 import { lang } from "../../../lib/lang";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
-import UserFieldHelper from "../../../../helper/user-field-helper";
 export function createUserMajorList(major) {
   var r = null;
 
@@ -161,6 +160,8 @@ export default class UserPopup extends Component {
           };
         });
       });
+    } else {
+      this.setState({ loading: false })
     }
   }
 
@@ -195,22 +196,67 @@ export default class UserPopup extends Component {
       additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
     }
 
-    if (this.props.role === UserEnum.ROLE_STUDENT) {
+    console.log("additionalCustomCf", additionalCustomCf)
+    console.log("customKeys", customKeys)
+    console.log("additionalCustomCf", additionalCustomCf)
+    console.log("customKeys", customKeys)
+    console.log("additionalCustomCf", additionalCustomCf)
 
-      postRequest(UserUrl + '/get-detail', {
-        user_id: id,
-        fieldSingle: UserFieldHelper.getFieldSingle(getCF()),
-        fieldMulti: UserFieldHelper.getFieldMulti(getCF()),
-        isIncludeDocLink: true,
-      }).then(res => {
-        console.log("Res", res);
-        this.setState(() => {
-          return { data: res.data, loading: false };
-        });
-      })
-    } else {
-      var query =
-        `query {
+    var query =
+      this.props.role === UserEnum.ROLE_STUDENT
+        ? `query {
+              user(ID:${id}) {
+                ID
+                user_email
+                img_url
+                img_pos
+                img_size
+                role
+                degree_level
+                first_name
+                last_name
+                ${additionalCustomCf}
+                ${this.addIfValid("birth_date")}
+                ${this.addIfValid("kpt")}
+                ${this.addIfValid("id_utm")}
+                ${this.addIfValid("country_study")}
+                ${this.addIfValid("gender")}
+                ${this.addIfValid("work_experience_year")}
+                ${this.addIfValid("id_unisza")}
+                ${this.addIfValid("unisza_faculty")}
+                ${this.addIfValid("unisza_course")}
+                ${this.addIfValid("current_semester")}
+                ${this.addIfValid("course_status")}
+                ${this.addIfValid("employment_status")}
+                university
+                qualification
+                graduation_month
+                graduation_year
+                working_availability_month
+                working_availability_year
+                grade
+                where_in_malaysia
+                phone_number
+                sponsor
+                description
+                ${this.addIfValid("local_or_oversea_study")}
+                ${this.addIfValid("local_or_oversea_location")}
+                ${this.addIfValid("monash_student_id")}
+                ${this.addIfValid("field_study_main")}
+                ${this.addIfValid("field_study_secondary")}
+                ${this.addIfValid("monash_school")}
+                ${this.addIfValid("sunway_faculty")}
+                ${this.addIfValid("sunway_program")}
+                ${this.addIfValid("skill", "{val}")}
+                ${this.addIfValid("extracurricular", "{val}")}
+                ${this.addIfValid("field_study", "{val}")}
+                ${this.addIfValid("looking_for_position", "{val}")}
+                ${this.addIfValid("interested_role", "{val}")}
+                ${this.addIfValid("interested_job_location", "{val}")}
+                doc_links{label url type}
+                ${IsOnVideoResume ? "video_resume {ID url}" : ""}
+            }}`
+        : `query {
               user(ID:${id}) {
                 ID
                 user_email
@@ -226,13 +272,13 @@ export default class UserPopup extends Component {
                 company{name}
             }}`;
 
-      getAxiosGraphQLQuery(query).then(res => {
-        this.setState(() => {
-          return { data: res.data.data.user };
-        });
-        this.loadCompanyPriv();
+    getAxiosGraphQLQuery(query).then(res => {
+      this.setState(() => {
+        return { data: res.data.data.user };
       });
-    }
+
+      this.loadCompanyPriv();
+    });
   }
 
   isValueEmpty(val) {
@@ -315,21 +361,265 @@ export default class UserPopup extends Component {
     }
 
     if (d.role === UserEnum.ROLE_STUDENT) {
-      // NEW DYNAMIC HERE
-      let popupItems = UserFieldHelper.getPopupItems(getCF(), "single");
-      for (let p of popupItems) {
-        let k = p.id;
-        let v;
-        if (this.isValueEmpty(d[k])) {
-          v = notSpecifed
-        } else {
-          v = d[k]
-        }
+      items.push({
+        label: lang("Phone Number"),
+        icon: "phone",
+        value: this.isValueEmpty(d.phone_number) ? notSpecifed : d.phone_number
+      });
+
+      // field_study --------------------------------
+      // items.push({
+      //   label: "Field Of Study",
+      //   icon: "graduation-cap",
+      //   value: this.isValueEmpty(d.field_study)
+      //     ? notSpecifed
+      //     : this.createListForMulti(d.field_study)
+      // });
+
+      // 7b. @custom_user_info_by_cf -display single
+
+      if (!isCustomUserInfoOff(getCF(), Single.kpt)) {
         items.push({
-          label: lang(p.label),
-          icon: p.icon,
-          value: v
+          label: lang("IC Number"),
+          icon: "slack",
+          value: this.isValueEmpty(d.kpt) ? notSpecifed : d.kpt
         })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.id_utm)) {
+        items.push({
+          label: lang(getNoMatrixLabel()),
+          icon: "slack",
+          value: this.isValueEmpty(d.id_utm) ? notSpecifed : d.id_utm
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.id_unisza)) {
+        items.push({
+          label: lang("Matrix Number"),
+          icon: "slack",
+          value: this.isValueEmpty(d.id_unisza) ? notSpecifed : d.id_unisza
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.birth_date)) {
+        items.push({
+          label: lang("Date Of Birth"),
+          icon: "birthday-cake",
+          value: this.isValueEmpty(d.birth_date) ? notSpecifed : d.birth_date
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.monash_student_id)) {
+        items.push({
+          label: lang("Student ID"),
+          icon: "slack",
+          value: this.isValueEmpty(d.monash_student_id) ? notSpecifed : d.monash_student_id
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.local_or_oversea_study)) {
+        items.push({
+          label: lang("Study Place"),
+          icon: "university",
+          value: this.isValueEmpty(d.local_or_oversea_study) ? notSpecifed : d.local_or_oversea_study
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.unisza_faculty)) {
+        items.push({
+          label: lang("Faculty"),
+          icon: "university",
+          value: this.isValueEmpty(d.unisza_faculty) ? notSpecifed : d.unisza_faculty
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.monash_school)) {
+        items.push({
+          label: lang("School"),
+          icon: "university",
+          value: this.isValueEmpty(d.monash_school) ? notSpecifed : d.monash_school
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.sunway_faculty)) {
+        items.push({
+          label: lang("School"),
+          icon: "university",
+          value: this.isValueEmpty(d.sunway_faculty) ? notSpecifed : d.sunway_faculty
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.unisza_course)) {
+        items.push({
+          label: lang("Study Course"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.unisza_course) ? notSpecifed : d.unisza_course
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.current_semester)) {
+        items.push({
+          label: lang("Current Semester"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.current_semester) ? notSpecifed : d.current_semester
+        })
+      }
+      if (!isCustomUserInfoOff(getCF(), Single.course_status)) {
+        items.push({
+          label: lang("Course Status"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.course_status) ? notSpecifed : d.course_status
+        })
+      }
+      if (!isCustomUserInfoOff(getCF(), Single.employment_status)) {
+        items.push({
+          label: lang("Employment Status"),
+          icon: "suitcase",
+          value: this.isValueEmpty(d.employment_status) ? notSpecifed : d.employment_status
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.sunway_program)) {
+        items.push({
+          label: lang("Programme"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.sunway_program) ? notSpecifed : d.sunway_program
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.university)) {
+        items.push({
+          label: lang("University"),
+          icon: "university",
+          value: this.isValueEmpty(d.university) ? notSpecifed : d.university
+        });
+      }
+
+
+      // @limit_field_of_study_2_before_deploy - uncomment 
+      if (!isCustomUserInfoOff(getCF(), Single.field_study_main)) {
+        items.push({
+          label: lang("Field of Study - Main"),
+          icon: "star",
+          value: this.isValueEmpty(d.field_study_main) ? notSpecifed : d.field_study_main
+        });
+      }
+
+      // @limit_field_of_study_2_before_deploy - uncomment 
+      if (!isCustomUserInfoOff(getCF(), Single.field_study_secondary)) {
+        items.push({
+          label: lang("Field of Study - Secondary"),
+          icon: "star",
+          value: this.isValueEmpty(d.field_study_secondary) ? notSpecifed : d.field_study_secondary
+        });
+      }
+
+
+      if (!isCustomUserInfoOff(getCF(), Single.qualification)) {
+        items.push({
+          label: lang("Highest Certificate"),
+          icon: "graduation-cap",
+          value: this.isValueEmpty(d.qualification) ? notSpecifed : d.qualification
+        });
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.graduation_month)) {
+        items.push({
+          label: lang("Expected Graduation"),
+          icon: "calendar",
+          value: this.isValueEmpty(d.graduation_month)
+            ? notSpecifed
+            : `${d.graduation_month} ${d.graduation_year}`
+        });
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.working_availability_month)) {
+        items.push({
+          label: lang("Working Availability"),
+          icon: "calendar",
+          value: this.isValueEmpty(d.working_availability_month)
+            ? notSpecifed
+            : `${d.working_availability_month} ${d.working_availability_year}`
+        });
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.local_or_oversea_location)) {
+        items.push({
+          label: lang("Currently Located"),
+          icon: "map-marker",
+          value: this.isValueEmpty(d.local_or_oversea_location) ? notSpecifed : d.local_or_oversea_location
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.gender)) {
+        items.push({
+          label: lang("Gender"),
+          icon: "intersex",
+          value: this.isValueEmpty(d.gender) ? notSpecifed : d.gender
+        })
+      }
+      if (!isCustomUserInfoOff(getCF(), Single.work_experience_year)) {
+        items.push({
+          label: lang("Relevant Working Experience"),
+          icon: "suitcase",
+          value: this.isValueEmpty(d.work_experience_year) ? notSpecifed : d.work_experience_year
+        })
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Multi.looking_for_position)) {
+        items.push({
+          label: lang("Looking For"),
+          icon: "search",
+          value: this.isValueEmpty(d.looking_for_position)
+            ? notSpecifed
+            : this.createListForMulti(d.looking_for_position)
+        });
+      }
+
+
+      if (!isCustomUserInfoOff(getCF(), Single.grade)) {
+        items.push({
+          label: lang("Grade / CGPA"),
+          icon: "book",
+          value: this.isValueEmpty(d.grade) ? notSpecifed : d.grade
+        });
+      }
+
+      if (!isCustomUserInfoOff(getCF(), Single.where_in_malaysia)) {
+        items.push({
+          label: lang("City/State In Malaysia"),
+          icon: "map-marker",
+          value: this.isValueEmpty(d.where_in_malaysia) ? notSpecifed : d.where_in_malaysia
+        })
+      }
+
+      let customKey = cfCustomFunnel({ action: "get_keys_for_popup" });
+      for (let k of customKey) {
+        let discard_popup_on = cfCustomFunnel({ action: "get_discard_popup_on_by_key", key: k });
+        if (discard_popup_on) {
+          if (discard_popup_on(d)) {
+            continue;
+          }
+        }
+        if (cfCustomFunnel({ action: "is_multi", key: k })) {
+          continue
+        }
+
+        // TODO HERE --- 
+        if (!isCustomUserInfoOff(getCF(), k)) {
+          let v;
+          if (this.isValueEmpty(d[k])) {
+            v = notSpecifed
+          } else {
+            v = d[k]
+          }
+          items.push({
+            label: lang(cfCustomFunnel({ action: "get_label_by_key", key: k })),
+            icon: cfCustomFunnel({ action: "get_icon_by_key", key: k }),
+            value: v
+          })
+        }
       }
     }
     for (let index in items) {
@@ -397,7 +687,7 @@ export default class UserPopup extends Component {
       </div>
     ) : null;
 
-    var doc_link = user.doc_links ? createUserDocLinkList(user.doc_links, this.id, false) : null;
+    var doc_link = createUserDocLinkList(user.doc_links, this.id, false);
 
     // 7c. @custom_user_info_by_cf - disply multi
 
@@ -410,7 +700,7 @@ export default class UserPopup extends Component {
     //   ></CustomList>
     // ) : null;
 
-    const interested_role = !isCustomUserInfoOff(getCF(), "interested_role") && user.interested_role ? (
+    const interested_role = !isCustomUserInfoOff(getCF(), "interested_role") ? (
       <CustomList
         alignCenter={false}
         className="label"
@@ -418,7 +708,7 @@ export default class UserPopup extends Component {
       ></CustomList>
     ) : null;
 
-    const skill = !isCustomUserInfoOff(getCF(), "skill") && user.skill ? (
+    const skill = !isCustomUserInfoOff(getCF(), "skill") ? (
       <CustomList
         alignCenter={false}
         className="label"
@@ -426,7 +716,7 @@ export default class UserPopup extends Component {
       ></CustomList>
     ) : null;
 
-    const extracurricular = !isCustomUserInfoOff(getCF(), "extracurricular") && user.extracurricular ? (
+    const extracurricular = !isCustomUserInfoOff(getCF(), "extracurricular") ? (
       <CustomList
         alignCenter={false}
         className="label"
@@ -434,7 +724,7 @@ export default class UserPopup extends Component {
       ></CustomList>
     ) : null;
 
-    const interested_job_location = !isCustomUserInfoOff(getCF(), "interested_job_location") && user.interested_job_location ? (
+    const interested_job_location = !isCustomUserInfoOff(getCF(), "interested_job_location") ? (
       <CustomList
         alignCenter={false}
         className="label"
@@ -465,7 +755,7 @@ export default class UserPopup extends Component {
 
 
 
-        {!isCustomUserInfoOff(getCF(), "extracurricular") && extracurricular ?
+        {!isCustomUserInfoOff(getCF(), "extracurricular") ?
           <PageSection
             className={pageClassName}
             title={this.getTitle("Organization / Extracurricular Activities", "podcast")}
@@ -482,25 +772,6 @@ export default class UserPopup extends Component {
         ) : null}
       </div>
     );
-
-    let multiViewElements = [];
-    let popupItem = UserFieldHelper.getPopupItems(getCF(), "multi");
-    for (let p of popupItem) {
-      if (user[p.id] && Array.isArray(user[p.id])) {
-        multiViewElements.push(
-          <PageSection
-            className={pageClassName}
-            title={this.getTitle(p.label, p.icon)}
-            body={<CustomList
-              alignCenter={false}
-              className="label"
-              items={user[p.id].map((d, i) => d.val)}
-            />}
-          />
-        )
-      }
-    }
-
     var rightBody = (
       <div>
         {(IsOnVideoResume && user.video_resume != null && user.video_resume.url) ? (
@@ -510,13 +781,34 @@ export default class UserPopup extends Component {
             body={createVideoDropbox(user.video_resume.url)}
           ></PageSection>
         ) : null}
-        {doc_link ?
+
+        <PageSection
+          className={pageClassName}
+          title={this.getTitle("Attachments", "file-text")}
+          body={doc_link}
+        ></PageSection>
+
+        {!isCustomUserInfoOff(getCF(), "skill") ?
           <PageSection
             className={pageClassName}
-            title={this.getTitle("Attachments", "file-text")}
-            body={doc_link}
+            title={this.getTitle("Skills", "star")}
+            body={skill}
           ></PageSection> : null}
-        {multiViewElements}
+
+        {!isCustomUserInfoOff(getCF(), "interested_role") ?
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Interested Job Position", "suitcase")}
+            body={interested_role}
+          ></PageSection> : null}
+
+        {!isCustomUserInfoOff(getCF(), "interested_job_location") ?
+          <PageSection
+            className={pageClassName}
+            title={this.getTitle("Interested Job Location", "map-marker")}
+            body={interested_job_location}
+          ></PageSection> : null}
+        {this.getCustomViewMulti(user, pageClassName)}
       </div>
     );
 

@@ -322,12 +322,12 @@ fields["add_multi"] = {
   },
   resolve(parentValue, arg, context, info) {
     let param = {
+      key_input : arg.table_name,
       entity: arg.entity,
       entity_id: arg.entity_id,
       val: arg.val
     };
-    let table_name = "multi_" + arg.table_name;
-    return DB.insert(table_name, param).then(function (res) {
+    return DB.insert("multi_input", param).then(function (res) {
       return res;
     });
   }
@@ -340,8 +340,7 @@ fields["delete_multi"] = {
     ID: __.IntNonNull
   },
   resolve(parentValue, arg, context, info) {
-    let table_name = "multi_" + arg.table_name;
-    return DB.delete(table_name, arg.ID);
+    return DB.delete("multi_input", arg.ID);
   }
 };
 

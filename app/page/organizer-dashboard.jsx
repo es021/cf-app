@@ -11,6 +11,7 @@ import { Loader } from '../component/loader';
 import { ButtonExport } from '../component/buttons';
 import { getCfEndUnix, isPastCfEnd } from './partial/activity/scheduled-interview';
 import { Time } from '../lib/time';
+import { _student_plural, _student_single } from '../redux/actions/text-action';
 var Chart = require('chart.js');
 // import CanvasJSReact from '../lib/canvasjs/canvasjs.react';
 // const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -127,18 +128,18 @@ class OrganizerDashboard extends React.Component {
     getStatisticView() {
         return [<div className="col-sm-4 col-lg-3" style={this.getStatisticClass()}>
             <StatisticFigure
-                title="Total Participants"
+                title={`Total ${_student_plural()}`}
                 icon="users"
                 value={this.state.countParticipant}
                 color="#469fec"
                 footer={<NavLink className="link st-footer-link" to={AppPath + "/participant-listing"}>
-                    <b>View All Participants &#10230;</b>
+                    <b>View All {_student_plural()} &#10230;</b>
                 </NavLink>}
             ></StatisticFigure>
         </div>,
         <div className="col-sm-4 col-lg-3" style={this.getStatisticClass()}>
             <StatisticFigure
-                title="Online Participants"
+                title={`Online ${_student_plural()}`}
                 icon="users"
                 value={this.state.loadingCfUsers ? '-' : this.getOnlineUserCount()}
                 valueColor="#3bb44a"
@@ -430,12 +431,12 @@ class OrganizerDashboard extends React.Component {
             </div>
             <div className="container-fluid">
                 <div className="col-sm-12" style={{ marginBottom: '45px' }}>
-                    <h2 className="text-left" style={{ marginBottom: '25px' }}><b>Participant Registrations</b>
+                    <h2 className="text-left" style={{ marginBottom: '25px' }}><b>{_student_single()} Registrations</b>
                         <br></br>
                         <div style={{ marginTop: '5px' }}>
                             <ButtonExport
                                 style={{ margin: "5px" }} btnClass="green btn-bold btn-round-5" action="browse_student"
-                                text={<span>Download Participants Data</span>}
+                                text={<span>Download {_student_plural()} Data</span>}
                                 filter={`cf:"${getCF()}", company_id:null`} cf={getCF()}></ButtonExport>
                         </div>
                     </h2>

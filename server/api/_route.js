@@ -64,6 +64,20 @@ const initializeAllRoute = function (app, root) {
       });
   });
 
+  // Route For User -------------------------------------------------------------------
+  const { UserAPI } = require("./user-api");
+  app.post(root + "/user/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    UserAPI.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
+
   // Route For Daily Co -------------------------------------------------------------------
   const { StatisticAPI } = require("./statistic-api");
   app.post(root + "/statistic/:action", function (req, res, next) {

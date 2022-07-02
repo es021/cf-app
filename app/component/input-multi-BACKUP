@@ -160,49 +160,7 @@ export default class InputMulti extends React.Component {
       }
     };
 
-    // if(this.props.global_dataset){
-    //   let qRef = `query{
-    //     global_dataset(
-    //       source :"${props.global_dataset}",
-    //       order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}",
-    //       page:1, offset:${props.ref_offset},
-    //       location_suggestion :"${props.location_suggestion}",
-    //       category :"${props.ref_category}",
-    //       search_by_ref :"${props.suggestion_search_by_ref}",
-    //       search_by_val : "${props.suggestion_search_by_val}"
-    //     ){
-    //       ID
-    //       val
-    //     }
-    //   }`;
-    //   // console.log(qRef)
-    //   graphql(qRef).then(res => {
-    //     let fetched = res.data.data.refs;
-    //     refList = fetched;
-    //     finish();
-    //   });
-    // }
-
-    if (this.props.dataset_source && this.props.dataset_suggestion_offset && this.props.dataset_show_suggestion) {
-      let qRef = `query{
-        global_dataset(
-          source :"${props.dataset_source}",
-          order_by:"${props.dataset_order_by ? props.dataset_order_by : "RAND ()"}",
-          page:1, 
-          offset:${props.dataset_suggestion_offset}
-        ){
-          ID
-          val
-        }
-      }`;
-      // console.log(qRef)
-      graphql(qRef).then(res => {
-        let fetched = res.data.data.global_dataset;
-        refList = fetched;
-        finish();
-      });
-
-    } else if (this.props.discard_ref_from_default === false && props.ref_table_name) {
+    if (this.props.discard_ref_from_default === false) {
       // list of suggestion from ref
       // @query_refs
       let qRef = `query{
@@ -228,8 +186,6 @@ export default class InputMulti extends React.Component {
         refList = fetched;
         finish();
       });
-    } else {
-      finish();
     }
 
     // list of selected item in multi
@@ -498,27 +454,15 @@ export default class InputMulti extends React.Component {
     if (!this.props.hideInputSuggestion) {
       inputSuggestion = (
         <div className="mi-input">
-          {this.props.dataset_source ?
-            <InputSuggestion
-              is_multi={true}
-              input_type={this.props.input_type}
-              onChoose={this.onChooseSuggestion}
-              input_onChange={this.inputOnChange}
-              dataset_source={this.props.dataset_source}
-              order_by={this.props.ref_order_by}
-              input_placeholder={this.props.input_placeholder}
-            ></InputSuggestion>
-            : <InputSuggestion
-              is_multi={true}
-              input_type={this.props.input_type}
-              select_is_translate_label={this.props.is_translate_label}
-              onChoose={this.onChooseSuggestion}
-              input_onChange={this.inputOnChange}
-              table_name={this.props.ref_table_name}
-              order_by={this.props.ref_order_by}
-              input_placeholder={this.props.input_placeholder}
-            ></InputSuggestion>}
-
+          <InputSuggestion
+            input_type={this.props.input_type}
+            select_is_translate_label={this.props.is_translate_label}
+            onChoose={this.onChooseSuggestion}
+            input_onChange={this.inputOnChange}
+            table_name={this.props.ref_table_name}
+            order_by={this.props.ref_order_by}
+            input_placeholder={this.props.input_placeholder}
+          ></InputSuggestion>
         </div>
       );
     }
@@ -551,12 +495,6 @@ InputMulti.propTypes = {
   doneHandler: PropTypes.func,
   continueOnClick: PropTypes.func,
   table_name: PropTypes.string,
-
-  dataset_source: PropTypes.string,
-  dataset_order_by: PropTypes.string,
-  dataset_suggestion_offset: PropTypes.number,
-  dataset_show_suggestion: PropTypes.bool,
-
   ref_table_name: PropTypes.string,
   ref_order_by: PropTypes.string,
   input_placeholder: PropTypes.string,

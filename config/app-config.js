@@ -39,6 +39,7 @@ var AudioUrl = AssetUrl + "/asset/audio";
 var DailyCoCreateRoomUrl = SiteUrl + "/daily-co/create-room";
 var StatisticUrl = SiteUrl + "/statistic";
 var AdminUrl = SiteUrl + "/admin";
+var UserUrl = SiteUrl + "/user";
 var ZoomCreateRoomUrl = SiteUrl + "/zoom/create-meeting";
 var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
 
@@ -141,6 +142,7 @@ module.exports = {
     AppPath,
     StaticUrl,
     SupportUserID,
+    UserUrl,
     SiteUrl,
     AudioUrl,
     UploadUrl,

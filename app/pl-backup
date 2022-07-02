@@ -56,7 +56,7 @@ class PrimaryLayout extends React.Component {
     };
   }
 
-  componentWillMount() {
+  WillMount() {
     initSocket();
     this.loadCf();
   }

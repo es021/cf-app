@@ -1,3 +1,15 @@
+-- new table
+global_dataset
+multi_input
+
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+
+
 feature_event_student : OFF 
 feature_event_show_all_for_student : ON
 
@@ -5,12 +17,6 @@ ALTER TABLE `hall_gallery` ADD `click_url` TEXT CHARACTER SET utf8mb4 COLLATE ut
 ALTER TABLE `hall_gallery` ADD `is_open_new_tab` TINYINT(1) NULL DEFAULT NULL AFTER `click_url`;
 
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `single_input` CHANGE `val` `val` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 
 

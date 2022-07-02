@@ -122,7 +122,7 @@ export default class SignUpPage extends React.Component {
       }
     }
 
-    let formItems = UserFieldHelper.getRegistrationItems(getCF());
+    let formItems = getRegisterFormItem(1, getCF());
     for (let f of formItems) {
       if (f.loadRef) {
         if (!this.state.loading) {
@@ -450,6 +450,40 @@ export default class SignUpPage extends React.Component {
     });
   }
 
+  // getPostRegisterViewOld(user) {
+  //     let content = null;
+  //     let formItems = getRegisterFormItem(this.state.currentStep);
+  //     let completeView = this.state.currentStep > TotalRegisterStep
+  //         ?
+  //         <div>
+  //             <h3>Congratulation! You Have Completed Your Profile</h3>
+  //             <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
+  //         </div>
+  //         :
+  //         <div>
+  //             <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
+  //             <Form className="form-row"
+  //                 items={formItems}
+  //                 onSubmit={this.formOnSubmit}
+  //                 defaultValues={{}}
+  //                 submitText='Submit'
+  //                 disableSubmit={this.state.disableSubmit}
+  //                 error={this.state.error}>
+  //             </Form>
+  //         </div>
+
+  //     content = <div>
+  //         <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
+  //         Your account has been successfully created<br></br>
+  //         Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
+  //         You can do it at <b>Upload Document</b>
+  //         {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
+  //             <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
+  //             <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
+  //         {completeView}
+  //     </div>
+  //     return content;
+  // }
   getPostRegisterView(user) {
     return (
       <div
@@ -487,6 +521,9 @@ export default class SignUpPage extends React.Component {
   }
 
   getUploadResume() {
+    // if (!this.isHasUploadResume()) {
+    //   return null;
+    // }
     var uploader = <Uploader
       label={lang(("Upload Your Resume") + (this.isUploadResumeRequired() ? " *" : ""))}
       name="resume"
@@ -577,7 +614,7 @@ export default class SignUpPage extends React.Component {
       }
 
       // @kpt_validation
-      let formItems = UserFieldHelper.getRegistrationItems(getCF(), this.state.refData);
+      let formItems = getRegisterFormItem(1, getCF(), this.state.refData);
       this.formItemKeys = formItems.map((d) => d.name);
 
       content = (
