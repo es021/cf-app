@@ -662,7 +662,7 @@ const CustomConfig = {
         type: "multi",
         input_type: "select",
         ref_table_name: "oejf21_reference",
-        ref_order_by: "ID asc",
+        ref_order_by: "val asc",
         is_required: true,
         onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
