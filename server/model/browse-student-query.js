@@ -773,9 +773,9 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-		console.log(sql)
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log(sql)
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 		return sql;
 	}
 	// TODO
