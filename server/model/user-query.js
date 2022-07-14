@@ -26,7 +26,7 @@ const {
 const {
 	SkillExec
 } = require("./skill-query.js");
-const { CustomOrder, CustomConfig } = require("../../config/registration-config-custom-by-cf.js");
+const { CustomOrder, CustomConfig, DefaultCustomOrder } = require("../../config/registration-config-custom-by-cf.js");
 
 const RoleMetaValue = {
 	student: `a:1:{s:7:"student";b:1;}`,
@@ -665,7 +665,7 @@ class UserExec {
 		}
 
 		if (field["is_profile_custom_order_completed"] !== "undefined") {
-			let cf = params["cf_to_check_profile_complete"]
+			console.log("CustomOrder", CustomOrder)
 			try {
 				if (CustomOrder[cf]) {
 					for (var k of CustomOrder[cf]) {
@@ -752,8 +752,11 @@ class UserExec {
 					try {
 						if (CustomOrder[cf]) {
 							for (var k of CustomOrder[cf]) {
+								console.log("k", k);
+								console.log("CustomConfig[k]", CustomConfig[k])
 								// check is required or not 
-								if (CustomConfig[k]["is_required"]) {
+								if ((CustomConfig[k] && CustomConfig[k]["is_required"]) ||
+									(!CustomConfig[k] && DefaultCustomOrder.indexOf(k) >= 0)) {
 									var reqVal = res[i][k];
 									if (reqVal == null || reqVal == "") {
 										console.log(k, reqVal);

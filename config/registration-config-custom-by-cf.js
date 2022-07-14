@@ -1930,28 +1930,45 @@ const CustomConfig = {
     },
 }
 
-// const Default = [
-//     "first_name",
-//     "graduation_month",
-//     "looking_for_position",
-//     "country_study",
-//     "university",
-//     "student_id",
-//     "qualification",
-//     "field_study_main",
-//     "field_study_secondary",
-//     "grade",
-//     "phone_number",
-//     "working_availability_month",
-//     "interested_role",
-//     "where_in_malaysia",
-//     "interested_job_location",
-//     "skill",
-//     "extracurricular",
-// ];
+const DefaultCustomOrder = [
+    "first_name",
+    "graduation_month",
+    "looking_for_position",
+    "country_study",
+    "university",
+    "student_id",
+    "qualification",
+    "field_study_main",
+    "field_study_secondary",
+    "grade",
+    "phone_number",
+    "working_availability_month",
+    "interested_role",
+    "where_in_malaysia",
+    "interested_job_location",
+    "skill",
+    "extracurricular",
+];
 
 
 const CustomOrder = {
+    TARUCAUG22: [
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        "country_study",
+        "university",
+        "qualification",
+        "field_study_main",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
     OEJF22: [
         "first_name",
         "personal_email",
@@ -2444,6 +2461,7 @@ const CustomRegistrationConfig = [
 
 module.exports = {
     CustomConfig,
+    DefaultCustomOrder,
     CustomOrder,
     CustomRegistrationConfig,
 };
