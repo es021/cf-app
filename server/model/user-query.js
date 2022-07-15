@@ -664,9 +664,10 @@ class UserExec {
 			field["user_status"] = 1;
 		}
 
-		if (field["is_profile_custom_order_completed"] !== "undefined") {
+		if (field["is_profile_custom_order_completed"] !== "undefined" && params["cf_to_check_profile_complete"]) {
 			console.log("CustomOrder", CustomOrder)
 			try {
+				let cf = params["cf_to_check_profile_complete"];
 				if (CustomOrder[cf]) {
 					for (var k of CustomOrder[cf]) {
 						field[k] = 1;
@@ -675,6 +676,7 @@ class UserExec {
 			} catch (err) { }
 		}
 
+		console.log("field,", field)
 		var isSingle = type === "single";
 		var sql = "";
 		if (isSingle) {
@@ -752,11 +754,12 @@ class UserExec {
 					try {
 						if (CustomOrder[cf]) {
 							for (var k of CustomOrder[cf]) {
+								console.log("cf", cf);
 								console.log("k", k);
-								console.log("CustomConfig[k]", CustomConfig[k])
+								console.log("CustomOrder[cf]", CustomOrder[cf])
 								// check is required or not 
 								if ((CustomConfig[k] && CustomConfig[k]["is_required"]) ||
-									(!CustomConfig[k] && DefaultCustomOrder.indexOf(k) >= 0)) {
+									(!CustomConfig[k] && CustomOrder[cf].indexOf(k) >= 0)) {
 									var reqVal = res[i][k];
 									if (reqVal == null || reqVal == "") {
 										console.log(k, reqVal);
