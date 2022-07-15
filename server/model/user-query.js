@@ -38,6 +38,13 @@ const RoleMetaValue = {
 	organizer: `a:1:{s:9:"organizer";b:1;}`,
 }
 
+function isPromise(p) {
+	if (typeof p === 'object' && typeof p.then === 'function') {
+		return true;
+	}
+	return false;
+}
+
 // @login_by_student_id
 class UserQuery {
 	isRoleStudent(uid) {
@@ -605,7 +612,7 @@ class UserExec {
 			}
 		});
 	}
-	getUserHelper(type, params, field, metaCons) {
+	async getUserHelper(type, params, field, metaCons) {
 		const {
 			CompanyExec
 		} = require("./company-query.js");
@@ -665,7 +672,6 @@ class UserExec {
 		}
 
 		if (field["is_profile_custom_order_completed"] !== "undefined" && params["cf_to_check_profile_complete"]) {
-			console.log("CustomOrder", CustomOrder)
 			try {
 				let cf = params["cf_to_check_profile_complete"];
 				if (CustomOrder[cf]) {
@@ -687,7 +693,7 @@ class UserExec {
 
 		// // console.log("[UserExec]", sql);
 
-		var toRet = DB.query(sql).then(function (res) {
+		var toRet = await DB.query(sql).then(function (res) {
 			for (var i in res) {
 				var user_id = res[i]["ID"];
 				var company_id = res[i]["rec_company"];
@@ -746,31 +752,7 @@ class UserExec {
 					);
 				}
 
-				// is_profile_custom_order_completed ****************************************************
-				if (field["is_profile_custom_order_completed"] !== "undefined") {
-					res[i]["is_profile_custom_order_completed"] = true;
-					// kalau ada yang required tak isi trus false
-					let cf = params["cf_to_check_profile_complete"]
-					try {
-						if (CustomOrder[cf]) {
-							for (var k of CustomOrder[cf]) {
-								console.log("cf", cf);
-								console.log("k", k);
-								console.log("CustomOrder[cf]", CustomOrder[cf])
-								// check is required or not 
-								if ((CustomConfig[k] && CustomConfig[k]["is_required"]) ||
-									(!CustomConfig[k] && CustomOrder[cf].indexOf(k) >= 0)) {
-									var reqVal = res[i][k];
-									if (reqVal == null || reqVal == "") {
-										console.log(k, reqVal);
-										res[i]["is_profile_custom_order_completed"] = false;
-										break;
-									}
-								}
-							}
-						}
-					} catch (err) { }
-				}
+
 
 				// is_profile_completed ****************************************************
 				if (field["is_profile_completed"] !== "undefined") {
@@ -1029,6 +1011,49 @@ class UserExec {
 				return res;
 			}
 		});
+
+
+		// CHECK IF REQUIRED
+		if (field["is_profile_custom_order_completed"] !== "undefined") {
+			if (!Array.isArray(toRet)) {
+				toRet = [toRet];
+			}
+			for (var i in toRet) {
+				toRet[i]["is_profile_custom_order_completed"] = true;
+				// kalau ada yang required tak isi trus false
+				let cf = params["cf_to_check_profile_complete"]
+				try {
+					if (CustomOrder[cf]) {
+						for (var k of CustomOrder[cf]) {
+							// console.log("cf", cf);
+							// console.log("k", k);
+							// console.log("CustomOrder[cf]", CustomOrder[cf])
+							// check is required or not 
+							if ((CustomConfig[k] && CustomConfig[k]["is_required"]) ||
+								(!CustomConfig[k] && CustomOrder[cf].indexOf(k) >= 0)) {
+								var reqVal = toRet[i][k];
+								if (isPromise(reqVal)) {
+									try {
+										reqVal = await reqVal;
+										if (reqVal.length <= 0) {
+											toRet[i]["is_profile_custom_order_completed"] = false;
+											break;
+										}
+									} catch (err) { }
+								} else if (reqVal == null || reqVal == "") {
+									console.log(k, reqVal);
+									toRet[i]["is_profile_custom_order_completed"] = false;
+									break;
+								}
+							}
+						}
+					}
+					if (type == "single") {
+						toRet = toRet[0];
+					}
+				} catch (err) { }
+			}
+		}
 
 		return toRet;
 	}
