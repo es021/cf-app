@@ -1019,38 +1019,40 @@ class UserExec {
 				toRet = [toRet];
 			}
 			for (var i in toRet) {
-				toRet[i]["is_profile_custom_order_completed"] = true;
-				// kalau ada yang required tak isi trus false
-				let cf = params["cf_to_check_profile_complete"]
 				try {
-					if (CustomOrder[cf]) {
-						for (var k of CustomOrder[cf]) {
-							// console.log("cf", cf);
-							// console.log("k", k);
-							// console.log("CustomOrder[cf]", CustomOrder[cf])
-							// check is required or not 
-							if ((CustomConfig[k] && CustomConfig[k]["is_required"]) ||
-								(!CustomConfig[k] && CustomOrder[cf].indexOf(k) >= 0)) {
-								var reqVal = toRet[i][k];
-								if (isPromise(reqVal)) {
-									try {
-										reqVal = await reqVal;
-										if (reqVal.length <= 0) {
-											toRet[i]["is_profile_custom_order_completed"] = false;
-											break;
-										}
-									} catch (err) { }
-								} else if (reqVal == null || reqVal == "") {
-									console.log(k, reqVal);
-									toRet[i]["is_profile_custom_order_completed"] = false;
-									break;
+					toRet[i]["is_profile_custom_order_completed"] = true;
+					// kalau ada yang required tak isi trus false
+					let cf = params["cf_to_check_profile_complete"]
+					try {
+						if (CustomOrder[cf]) {
+							for (var k of CustomOrder[cf]) {
+								// console.log("cf", cf);
+								// console.log("k", k);
+								// console.log("CustomOrder[cf]", CustomOrder[cf])
+								// check is required or not 
+								if ((CustomConfig[k] && CustomConfig[k]["is_required"]) ||
+									(!CustomConfig[k] && CustomOrder[cf].indexOf(k) >= 0)) {
+									var reqVal = toRet[i][k];
+									if (isPromise(reqVal)) {
+										try {
+											reqVal = await reqVal;
+											if (reqVal.length <= 0) {
+												toRet[i]["is_profile_custom_order_completed"] = false;
+												break;
+											}
+										} catch (err) { }
+									} else if (reqVal == null || reqVal == "") {
+										console.log(k, reqVal);
+										toRet[i]["is_profile_custom_order_completed"] = false;
+										break;
+									}
 								}
 							}
 						}
-					}
-					if (type == "single") {
-						toRet = toRet[0];
-					}
+						if (type == "single") {
+							toRet = toRet[0];
+						}
+					} catch (err) { }
 				} catch (err) { }
 			}
 		}
