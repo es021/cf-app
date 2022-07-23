@@ -299,9 +299,10 @@ export function getPicElement(d, mutation_edit, entity) {
         // </div>
         if (!loading && val) {
           return <Tooltip
-            bottom={'1px'}
-            left={'-44px'}
+            bottom={'-5px'}
+            left={'50px'}
             width={'163px'}
+            noArrow={true}
             alignCenter={true}
             content={<div className="text-muted-dark text-truncate-2">
               <span>{editIcon}{val}</span>
