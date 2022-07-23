@@ -302,10 +302,13 @@ class CompanyChatInbox extends React.Component {
 
   handleScroll(e) {
     let myDiv = e.currentTarget;
-    if (myDiv.offsetHeight + myDiv.scrollTop >= myDiv.scrollHeight) {
+    let OFFSET = 20;
+    // console.log("myDiv.offsetHeight + myDiv.scrollTop", myDiv.offsetHeight + myDiv.scrollTop);
+    // console.log("myDiv.scrollHeight", myDiv.scrollHeight);
+    if (myDiv.offsetHeight + myDiv.scrollTop >= (myDiv.scrollHeight - OFFSET)) {
       this.loadChatList({ older: true });
-      console.log("botom")
-      console.log("botom")
+      // console.log("botom")
+      // console.log("botom")
     }
   }
 
