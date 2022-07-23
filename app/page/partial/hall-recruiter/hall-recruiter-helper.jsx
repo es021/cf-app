@@ -98,9 +98,10 @@ export function getNoteElement(d) {
 
       if (!loading && val) {
         return <Tooltip
-          bottom={'1px'}
-          left={'-44px'}
+          bottom={'0px'}
+          left={'80px'}
           width={'163px'}
+          arrowPosition={'top'}
           alignCenter={true}
           content={<div className="text-muted-dark text-truncate-2"><span>{editIcon}{val}</span></div>}
           tooltip={val}
