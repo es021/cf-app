@@ -916,7 +916,7 @@ const CustomConfig = {
         ref_table_name: "age_group",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21", "OCPE21"]
+        onCf: ["WCC21", "WCC22", "OCPE21"]
     },
     wcc_iam: {
         discard_popup_on: (d) => {
@@ -930,7 +930,7 @@ const CustomConfig = {
         ref_table_name: "wcc_iam",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_iam_other: {
         discard_filter: true,
@@ -943,7 +943,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_work_experience: {
         label: "Year of Work Experience",
@@ -954,7 +954,7 @@ const CustomConfig = {
         ref_table_name: "wcc_work_experience",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_location: {
         label: "Geographical Location",
@@ -965,7 +965,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_graduate_year: {
         label: "Graduate Year",
@@ -976,7 +976,7 @@ const CustomConfig = {
         ref_table_name: "wcc_graduate_year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_field_study: {
         label: "Field Of Study",
@@ -987,7 +987,7 @@ const CustomConfig = {
         ref_table_name: "wcc_field_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_looking_for: {
         label: "Looking For",
@@ -998,7 +998,7 @@ const CustomConfig = {
         ref_table_name: "wcc_looking_for",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_job_level: {
         label: "Interested Job Level",
@@ -1009,7 +1009,7 @@ const CustomConfig = {
         ref_table_name: "wcc_job_level",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     jpastar_status: {
         label: "Current Status",
@@ -2178,6 +2178,20 @@ const CustomOrder = {
         "interested_job_location",
         "skill",
         "extracurricular",
+    ],
+    WCC22: [
+        "first_name",
+        "age_group",
+        "wcc_iam",
+        "wcc_iam_other",
+        "wcc_location",
+        "wcc_graduate_year",
+        "qualification",
+        "wcc_field_study",
+        "wcc_work_experience",
+        "wcc_looking_for",
+        "wcc_job_level",
+        "working_availability_month",
     ],
     WCC21: [
         "first_name",
