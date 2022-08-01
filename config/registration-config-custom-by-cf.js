@@ -81,6 +81,15 @@ const CustomConfig = {
         is_required: true,
         onCf: ["OEJF21", "OEJF22"]
     },
+    age_no: {
+        label: "Age",
+        question: "Age",
+        icon: "calendar",
+        type: "single",
+        input_type: "number",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
     race: {
         label: "Race/Ethnicity",
         question: "Race/Ethnicity",
@@ -137,6 +146,16 @@ const CustomConfig = {
         input_type: "text",
         type: "single",
         onCf: ["D2W2K22"]
+    },
+    national_id_no: {
+        discard_filter: true,
+        question: "National Identification Number",
+        label: "National Identification Number",
+        icon: "slack",
+        is_required: true,
+        input_type: "number",
+        type: "single",
+        onCf: ["WCC22"]
     },
     resident_malaysia: {
         discard_popup_on: (d) => {
@@ -1519,7 +1538,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22", "D2W2K22"]
+        onCf: ["TCREP22", "D2W2K22", "WCC22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1928,6 +1947,137 @@ const CustomConfig = {
         is_required: true,
         onCf: ["OEJF22"]
     },
+
+
+    wcc22_emp_status: {
+        question: "Employment Status",
+        label: "Employment Status",
+        icon: "info",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_employ_status",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_location: {
+        discard_popup_on: (d) => {
+            return d['discard_popup_on'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Geographical Location",
+        question: "Geographical Location",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_state",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_country: {
+        discard_popup_on: (d) => {
+            return d['wcc22_country'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Country",
+        question: "If you selected others, please select country",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "country",
+        ref_order_by: "ID asc",
+        is_required: false,
+        onCf: ["WCC22"]
+    },
+    wcc22_qualification: {
+        discard_popup_on: (d) => {
+            return d['wcc22_qualification'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Academic Qualification",
+        question: "Academic Qualification",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_qualification",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_qualification_other: {
+        discard_popup_on: (d) => {
+            return d['wcc22_qualification'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Academic Qualification",
+        question: "Academic Qualification (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["WCC22"]
+    },
+    wcc22_field_study: {
+        label: "Main Field of Study",
+        question: "Main Field of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_work_experience: {
+        label: "Total Work Experience",
+        question: "Total Work Experience",
+        icon: "suitcase",
+        type: "single",
+        input_type: "number",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_current_role: {
+        label: "Current Employment Role",
+        question: "Current Employment Role",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_current_role",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_current_industry: {
+        label: "Current Employment Industry",
+        question: "Current Employment Industry",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_current_industry",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_preferred_emp: {
+        label: "Preferred Type of Employment",
+        question: "Preferred Type of Employment",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_preferred_emp",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_job_level: {
+        label: "Preferred Job Level",
+        question: "Preferred Job Level",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_job_level",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
 }
 
 const DefaultCustomOrder = [
@@ -1952,6 +2102,33 @@ const DefaultCustomOrder = [
 
 
 const CustomOrder = {
+
+    WCC22: [
+        "first_name",
+        "gender_mf",
+        "national_id_no",
+        "age_no",
+        "wcc22_emp_status",
+        "wcc22_location",
+        "wcc22_country",
+        "wcc22_qualification",
+        "wcc22_qualification_other",
+        "wcc22_field_study", // need import data
+        "wcc_graduate_year",
+        "wcc22_work_experience",
+        "wcc22_current_role", // need import data
+        "wcc22_current_industry",
+
+        "wcc22_preferred_emp",
+        "wcc22_job_level",
+        "working_availability_month",
+        // "wcc_iam",
+        // "wcc_iam_other",
+        // "wcc_location",
+        // "qualification",
+        // "wcc_field_study",
+        // "wcc_work_experience",
+    ],
     TARUCAUG22: [
         "first_name",
         "graduation_month",
@@ -2178,20 +2355,6 @@ const CustomOrder = {
         "interested_job_location",
         "skill",
         "extracurricular",
-    ],
-    WCC22: [
-        "first_name",
-        "age_group",
-        "wcc_iam",
-        "wcc_iam_other",
-        "wcc_location",
-        "wcc_graduate_year",
-        "qualification",
-        "wcc_field_study",
-        "wcc_work_experience",
-        "wcc_looking_for",
-        "wcc_job_level",
-        "working_availability_month",
     ],
     WCC21: [
         "first_name",
