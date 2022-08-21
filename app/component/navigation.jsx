@@ -94,6 +94,7 @@ import { AnnouncementManagement } from "../page/announcement";
 import ListStudentGroupCall from "../page/list-student-group-call";
 import AdminManageGroupCall from "../page/admin-manage-group-call";
 import CompanyDashboard from "../page/company-dashboard";
+import AdminCfQuery from "../page/admin-cf-query";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -187,6 +188,18 @@ function getMenuItem(COMING_SOON) {
       label: "Manage Career Fair",
       icon: "slack",
       component: AdminCf,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin()
+    },
+    {
+      url: "/cf-query/:cf/:start/:end",
+      label: "Cf Query",
+      icon: "slack",
+      component: AdminCfQuery,
+      routeOnly: true,
       bar_app: true,
       bar_auth: false,
       hd_app: false,

@@ -99,7 +99,7 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OEJF22", "UTMIV21", "OCPE21", "D2W2K22"]
+        onCf: ["OEJF21", "OEJF22", "UTMIV21", "OCPE21", "D2W2K22", "D2WOCT22"]
     },
     nationality: {
         label: "Nationality",
@@ -135,7 +135,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22", "D2WOCT22"]
     },
     ic_number: {
         discard_filter: true,
@@ -145,7 +145,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     national_id_no: {
         discard_filter: true,
@@ -183,6 +183,33 @@ const CustomConfig = {
         input_type: "text",
         is_required: false,
         onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"]
+    },
+    nationality_select: {
+        discard_popup_on: (d) => {
+            return d['nationality_select'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Nationality",
+        question: "Nationality",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "nationality",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2WOCT22"]
+    },
+    nationality_select_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['nationality_select'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Nationality",
+        question: "Nationality (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["D2WOCT22"]
     },
     where_in_malaysia_select: {
         label: "Place Of Residence",
@@ -587,7 +614,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_reference",
         is_required: true,
-        onCf: ["D2W21", "D2WRL21", "D2W2K22"],
+        onCf: ["D2W21", "D2WRL21", "D2W2K22", "D2WOCT22"],
         attr: `{val}`
     },
     // ################################################################
@@ -1538,7 +1565,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22", "D2W2K22", "WCC22"]
+        onCf: ["TCREP22", "D2W2K22", "D2WOCT22", "WCC22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1593,7 +1620,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "textarea",
         type: "single",
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     address: {
         discard_filter: true,
@@ -1777,7 +1804,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_current_resident_other: {
         discard_popup_on: (d) => {
@@ -1789,7 +1816,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_university: {
         discard_popup_on: (d) => {
@@ -1803,7 +1830,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_university",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_university_other: {
         discard_popup_on: (d) => {
@@ -1815,7 +1842,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_year_of_study: {
         label: "Year Of Study",
@@ -1826,7 +1853,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_year_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_level_of_study: {
         label: "Level Of Study",
@@ -1837,7 +1864,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_level_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_field_of_study: {
         label: "Field Of Study",
@@ -1848,7 +1875,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_field_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_intern_start_month:
     {
@@ -1860,7 +1887,7 @@ const CustomConfig = {
         ref_table_name: "month",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_intern_start_year:
     {
@@ -1871,7 +1898,7 @@ const CustomConfig = {
         ref_table_name: "year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_intern_duration:
     {
@@ -1883,7 +1910,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_intern_duration",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_reference: {
         label: "Interested Job Location",
@@ -2078,6 +2105,17 @@ const CustomConfig = {
         is_required: true,
         onCf: ["WCC22"]
     },
+    msaj_prefecture: {
+        label: "Which part of Japan are you residing?",
+        question: "Which part of Japan are you residing?",
+        icon: "map-markder",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "msaj_prefecture",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MSAJ22"]
+    },
 }
 
 const DefaultCustomOrder = [
@@ -2102,7 +2140,26 @@ const DefaultCustomOrder = [
 
 
 const CustomOrder = {
-
+    MSAJ22: [
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        // "country_study",
+        "phone_number",
+        "msaj_prefecture",
+        "university",
+        "student_id",
+        "qualification",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
     WCC22: [
         "first_name",
         "gender_mf",
@@ -2170,6 +2227,27 @@ const CustomOrder = {
         "oejf21_years_working",
         "oejf21_industry",
         "oejf21_reference"
+    ],
+    D2WOCT22: [
+        "full_name",
+        "ic_number",
+        "gender_mf",
+        "race",
+        "nationality_select",
+        "nationality_select_other",
+        "home_address",
+        "d2w2_current_resident",
+        "d2w2_current_resident_other",
+        "d2w2_university",
+        "d2w2_university_other",
+        "d2w2_year_of_study",
+        "d2w2_level_of_study",
+        "d2w2_field_of_study",
+        "d2w2_intern_start_month",
+        "d2w2_intern_start_year",
+        "d2w2_intern_duration",
+        "graduation_month",
+        "d2w21_reference",
     ],
     D2W2K22: [
         "full_name",

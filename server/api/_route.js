@@ -37,6 +37,20 @@ const initializeAllRoute = function (app, root) {
 
 
   // -------------------------------------------------------------------
+  const { CfQueryAPI } = require("./cf-query-api");
+  app.post(root + "/cf-query/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    CfQueryAPI.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
+
+  // -------------------------------------------------------------------
   const { AdminAPI } = require("./admin-api");
   app.post(root + "/admin/:action", function (req, res, next) {
     var action = req.params.action;
