@@ -29,9 +29,11 @@ const CfQueryType = {
             let sql = `SELECT c.name, u.user_email, COUNT(l.ID) as total_click, 
                 MIN(convert_tz(l.created_at, '+00:00', '+08:00')) as first_click 
                 FROM logs l, cf_map m, wp_cf_users u, companies c 
-                where 1=1 and SUBSTRING(l.data, 10, 9) = c.ID and u.ID = l.user_id 
+                where 1=1 
+                and SUBSTRING(REPLACE(l.data, "/" ,""), 8) = c.ID 
+                and u.ID = l.user_id 
                 and l.event = "open_page" 
-                and l.data like "company%" 
+                and (l.data like "company%" OR l.data like "/company%")
                 and u.user_email not like "test%" 
                 and l.user_id = m.entity_id and m.entity = "user" and m.cf = ?
                 and c.ID in (select entity_id from cf_map where entity = "company" and cf = ?) 

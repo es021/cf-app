@@ -2179,6 +2179,7 @@ const CustomOrder = {
         "wcc22_preferred_emp",
         "wcc22_job_level",
         "working_availability_month",
+        "working_availability_year",
         // "wcc_iam",
         // "wcc_iam_other",
         // "wcc_location",
