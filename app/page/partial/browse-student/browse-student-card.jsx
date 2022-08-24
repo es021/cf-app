@@ -25,6 +25,7 @@ import {
     CFSMeta
 } from "../../../../config/db-config";
 import { lang } from "../../../lib/lang";
+import UserFieldHelper from "../../../../helper/user-field-helper";
 
 import Tooltip from "../../../component/tooltip";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
@@ -76,44 +77,7 @@ export class BrowseStudentCard extends React.Component {
         );
     }
 
-    render() {
-        var i = this.props.index;
-        var d = this.props.data;
-        // var search = this.props.search;
-
-        var title = createUserTitle(
-            d.student,
-            this.props.search,
-            true, // hideEmail
-            undefined, // nameBreakLine
-            { companyPrivs: this.props.privs, company_id: this.props.company_id }, // otherPropForPopup
-            true, // isFocusUnderline
-            this.triggerIsSeen // postOnClick
-        );
-
-        // create uni view
-        // let uniView = this.notSpecifiedView("University");
-        // let uniView = null;
-        // if (d.student.university != null && d.student.university != "") {
-        //     uniView = <b>{d.student.university}</b>;
-        // }
-
-        // let placeView = null;
-        // if (d.student.country_study != null && d.student.country_study != "") {
-        //     placeView = <span>, {d.student.country_study}</span>;
-        // }
-
-
-        // let fieldStudyView = null;
-        // fieldStudyView = <div className="text-muted">
-        //     <span>{d.student.field_study_main}</span>
-        //     {d.student.field_study_secondary ? <span>, {d.student.field_study_secondary}</span> : null}
-        // </div>
-
-
-
-
-
+    getStudentInfoView(d) {
         let lookingForView = [];
         for (var i in d.student.looking_for_position) {
             let lfp = d.student.looking_for_position[i];
@@ -156,6 +120,52 @@ export class BrowseStudentCard extends React.Component {
             lookingForView = null;
         }
 
+        let customCardItem = UserFieldHelper.getCardItems(getCF())
+
+        let customView = [];
+
+        for (let c of customCardItem) {
+            let v = d.student[c.id];
+            if (
+                (c.only_when && v == c.only_when) ||
+                (!c.only_when && v)
+            )
+                customView.push(
+                    <div
+                        style={{
+                            fontWeight: c.bold ? 'bold' : '',
+                            fontStyle: c.italic ? 'italic' : '',
+                            color: c.color
+                        }}>
+                        {v}
+                    </div>
+                )
+        }
+
+        return <div>
+            {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
+            {customView}
+            {/* {this.getViewLine(d, "2")}
+            {this.getViewLine(d, "3")}
+            {this.getViewLine(d, "4")}
+            {this.getViewLine(d, "5")} */}
+        </div >
+    }
+
+    render() {
+        var i = this.props.index;
+        var d = this.props.data;
+        // var search = this.props.search;
+
+        var title = createUserTitle(
+            d.student,
+            this.props.search,
+            true, // hideEmail
+            undefined, // nameBreakLine
+            { companyPrivs: this.props.privs, company_id: this.props.company_id }, // otherPropForPopup
+            true, // isFocusUnderline
+            this.triggerIsSeen // postOnClick
+        );
 
         var scheduledView = null;
         if (d.student.prescreens_for_student_listing
@@ -185,108 +195,11 @@ export class BrowseStudentCard extends React.Component {
             );
         }
 
-        // let studentInfo = (
-        //     <div style={{ lineHeight: "17px" }}>
-        //         {scheduledView}
-        //         {labelView}
-        //         {uniView}
-        //         {placeView}
-        //         {fieldStudyView}
-        //     </div>
-        // );
-
-        // var styleToggler = { marginLeft: "-12px", marginBottom: "-10px" };
-        // var description = null;
-        // if (d.student.description !== null && d.student.description != "") {
-        //     if (!this.state.isShowMore) {
-        //         description = (
-        //             <div style={styleToggler}>
-        //                 <a onClick={this.toggleShowMore} className="btn btn-link">
-        //                     See More About This Student ...
-        //       </a>
-        //             </div>
-        //         );
-        //     } else {
-        //         description = (
-        //             <p style={{ marginTop: "7px" }}>
-        //                 <b>
-        //                     <u>{lang("About")} {d.student.first_name}</u>
-        //                 </b>
-        //                 <br />
-        //                 <small>{d.student.description}</small>
-        //                 <br />
-        //                 <div style={styleToggler}>
-        //                     <a onClick={this.toggleShowMore} className="btn btn-link">
-        //                         {lang("See Less")}
-        //                     </a>
-        //                 </div>
-        //             </p>
-        //         );
-        //     }
-        // }
-
-        // var details = (
-        //     <div >
-        //         {studentInfo}
-        //         <div style={{ marginTop: "8px" }}>
-        //             {createUserDocLinkList(
-        //                 d.student.doc_links,
-        //                 d.student_id,
-        //                 false,
-        //                 false,
-        //                 false,
-        //                 true
-        //             )}
-        //         </div>
-        //         {description}
-        //     </div>
-        // );
-
-        // action Start Chat
-        // const action_disabled = !this.props.isRec;
-        // const isNavLink = true;
-        // var canSchedule = CompanyEnum.hasPriv(
-        //     this.props.privs,
-        //     CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
-        // );
-        // const action_handler = [
-        //     () => { },
-        //     () => {
-        //         console.log("Schedule Call");
-        //         if (canSchedule) {
-        //             openSIFormAnytime(d.student_id, this.props.company_id);
-        //         } else {
-        //             // EUR FIX
-        //             // See Availability
-        //             layoutActions.errorBlockLoader(
-        //                 "Opps.. It seems that you don't have privilege to schedule private session yet"
-        //             );
-        //         }
-        //     }
-        // ];
-        // const action_color = ["blue", "success"]
-        // const action_text = [
-        //     <small>
-        //         <i className="fa fa-comment left" />
-        //         Start Chat
-        //     </small>,
-        //     <small>
-        //         <i className="fa fa-video-camera left" />
-        //         Schedule Call
-        //     </small>
-        // ];
-        // const action_to = [`${RootPath}/app/student-chat/${d.student.ID}`, null];
 
         var canSchedule = CompanyEnum.hasPriv(
             this.props.privs,
             CompanyEnum.PRIV.SCHEDULE_PRIVATE_SESSION
         );
-
-        // const actionChat = <NavLink to={`${RootPath}/app/student-chat/${d.student.ID}`}
-        //     className="btn btn-round-5 btn-block btn-sm btn-blue-light text-bold">
-        //     <i className="fa fa-comment left" />
-        //     {lang("Start Chat")}
-        // </NavLink>
 
         const actionSchedule = <button
             onClick={() => {
@@ -329,13 +242,6 @@ export class BrowseStudentCard extends React.Component {
         // like button
         let actionShortlist = !this.props.isRec ? null : (
             <InterestedButton
-                // tooltipObj={{
-                //     left: "-36px",
-                //     bottom: "26px",
-                //     width: "97px",
-                //     tooltip: "Shortlist student",
-                //     debug: false
-                // }}
                 customView={
                     ({
                         loading,
@@ -405,11 +311,7 @@ export class BrowseStudentCard extends React.Component {
                 <div className="col-md-8">
                     {scheduledView ? <div style={{ marginBottom: "10px" }} className="bsc-scheduled"><u>{scheduledView}</u></div> : null}
                     <div className="bsc-title">{title}</div>
-                    {lookingForView ? <div style={{ margin: "10px 0px" }} className="bsc-looking-for">{lookingForView}</div> : null}
-                    {this.getViewLine(d, "2")}
-                    {this.getViewLine(d, "3")}
-                    {this.getViewLine(d, "4")}
-                    {this.getViewLine(d, "5")}
+                    {this.getStudentInfoView(d)}
                 </div>
                 {this.props.isRec ?
                     <div className="col-md-4 center-on-md-and-less">

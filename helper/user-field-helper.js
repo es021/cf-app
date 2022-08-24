@@ -27,7 +27,62 @@ class UserFieldHelper {
         }
         return r;
     }
+    getDefaultUserConfig(cf) {
+        return [
+            // first name
+            {
+                id: "first_name",
+                type: "single",
+                question: {
+                    input_type: "text",
+                    input_placeholder: "John",
+                    label: "Name",
+                    is_required: true,
+                    // sublabel: "sublabel",
+                },
+                // popup: {
+                //     label: "Test Parent",
+                //     icon: "suitcase",
+                // }
+            },
+            // last name
+            {
+                id: "last_name",
+                type: "single",
+                question: {
+                    children_of: "first_name",
+                    input_type: "text",
+                    input_placeholder: "Doe",
+                    is_required: true,
+                },
+                // popup: {
+                //     label: "Test Children",
+                //     icon: "suitcase",
+                // }
+            },
+            // phone
+            {
+                id: "phone_number",
+                type: "single",
+                question: {
+                    label: "Phone Number",
+                    input_type: "text",
+                    input_placeholder: "XXX-XXXXXXXX",
+                    is_required: true,
+                },
+                popup: {
+                    label: "Phone Number",
+                    icon: "phone",
+                }
+            },
+        ]
+    }
+    async getUserConfigFromDb(cf, DB) {
+        // let res = await DB.query();
+        // TODO
 
+        return Promise.resolve(this.getUserConfig(cf));
+    }
     getUserConfig(cf) {
         let r = [
             // single text
@@ -44,7 +99,14 @@ class UserFieldHelper {
                 popup: {
                     label: "Test Parent",
                     icon: "suitcase",
-                }
+                },
+                card: {
+                    order: 1,
+                    bold: true,
+                    italic: false,
+                    color: "",
+                    only_when: "" // only show when value is this
+                },
             },
             // single children of
             {
@@ -59,7 +121,14 @@ class UserFieldHelper {
                 popup: {
                     label: "Test Children",
                     icon: "suitcase",
-                }
+                },
+                card: {
+                    order: 2,
+                    bold: false,
+                    italic: true,
+                    color: "grey",
+                    only_when: null //
+                },
             },
             // single textarea
             {
@@ -91,7 +160,7 @@ class UserFieldHelper {
                 popup: {
                     label: "label test_number",
                     icon: "suitcase",
-                }
+                },
             },
             // single select
             {
@@ -109,6 +178,32 @@ class UserFieldHelper {
                 },
                 popup: {
                     label: "label test_single_select",
+                    icon: "suitcase",
+                },
+                filter: {
+                    type: "checkbox",
+                    title: "Filter Title",
+                    dataset_source: "test_source",
+                }
+            },
+            {
+                id: "test_single_other",
+                type: "single",
+                question: {
+                    input_type: "text",
+                    label: "test_single_other (other)",
+                    sublabel: "test_single_other (other)",
+                    // input_placeholder: "multi_test",
+                    is_required: false,
+
+                    // select dataset
+                    // dataset_source: "test_source",
+                    // dataset_order_by: "val asc",
+                    // dataset_show_suggestion: false,
+                    // dataset_suggestion_offset: 10,
+                },
+                popup: {
+                    label: "label test_single_other",
                     icon: "suitcase",
                 }
             },
@@ -134,6 +229,7 @@ class UserFieldHelper {
                     icon: "suitcase",
                 }
             },
+
             // multi text
             {
                 id: "multi_test_text",
@@ -156,21 +252,55 @@ class UserFieldHelper {
             },
         ];
 
-        return r;
+        return [...this.getDefaultUserConfig(), ...r];
     }
-    getPopupItems(cf, type) {
-        const DefaultPopupItems = [
-            {
-                id: "phone_number",
-                label: "Phone Number",
-                icon: "phone",
+    getFilterItemTitleObject(cf) {
+        let toRet = {};
+        let config = this.getUserConfig(cf);
+        for (let configObj of config) {
+            if (configObj.filter) {
+                toRet[configObj.id] = configObj.filter["title"]
             }
-        ]
-        let toRet = [...DefaultPopupItems];
+        }
+        return toRet;
+    }
+    async getFilterItems(cf, DB) {
+        let toRet = [];
+        let config = await this.getUserConfigFromDb(cf, DB);
+        for (let configObj of config) {
+            if (configObj.filter) {
+                let toPush = {
+                    id: configObj.id,
+                    ...configObj.filter,
+                };
+                toRet.push(toPush)
+            }
+        }
+        return toRet;
+    }
+    getCardItems(cf) {
+        let toRet = [];
         let config = this.getUserConfig(cf);
 
         for (let configObj of config) {
-            if (type == configObj.type) {
+            if (configObj.card) {
+                let toPush = {
+                    id: configObj.id,
+                    ...configObj.card,
+                };
+                toRet.push(toPush)
+            }
+        }
+        toRet.sort((a, b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
+
+        return toRet;
+    }
+    getPopupItems(cf, type) {
+        let toRet = [];
+        let config = this.getUserConfig(cf);
+
+        for (let configObj of config) {
+            if (type == configObj.type && configObj.popup) {
                 let toPush = {
                     id: configObj.id,
                     ...configObj.popup,
@@ -254,7 +384,7 @@ class UserFieldHelper {
                     sublabel: item.sublabel,
                     type: item.input_type,
                     placeholder: item.input_placeholder,
-                    loadRef : item.dataset_source
+                    loadRef: item.dataset_source
                 };
                 if (item.input_type == "select" && refData[item.id]) {
                     toPush["data"] = refData[item.id];

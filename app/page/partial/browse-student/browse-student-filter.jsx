@@ -11,6 +11,7 @@ import { CFSMeta } from "../../../../config/db-config";
 import { _student_plural_lower, _student_plural } from "../../../redux/actions/text-action";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 import { isInCustomOrder } from "../../../../config/registration-config";
+import UserFieldHelper from "../../../../helper/user-field-helper";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
@@ -122,9 +123,10 @@ export class BrowseStudentFilter extends React.Component {
                     isCfFeatureOff(CFSMeta.FEATURE_DROP_RESUME) ? "" :
                         isCfFeatureOn(CFSMeta.FEATURE_STUDENT_LIST_RESUME_DROP_ONLY) ? "" : "drop_resume_only",
                     "with_attachment_only",
-                     "with_note_only",
+                    "with_note_only",
                 ]
             ),
+            ...Object.keys(UserFieldHelper.getFilterItemTitleObject(getCF())),
             ...cfCustomFunnel({ action: 'get_keys_for_filter' }),
             ...originalByCfOrder
         ];
@@ -517,6 +519,7 @@ export class BrowseStudentFilter extends React.Component {
             unemployment_period: lang("Unemployment Period"),
             local_or_oversea_study: lang("Study Place"),
             local_or_oversea_location: lang("Currently Located"),
+            ...UserFieldHelper.getFilterItemTitleObject(getCF()),
         }[key];
     }
 
@@ -576,8 +579,6 @@ export class BrowseStudentFilter extends React.Component {
 
     // todo
     filterText(k, keyFilter, placeholder) {
-        console.log("k", k)
-        console.log("keyFilter", keyFilter)
         return <div>
             {this._title(keyFilter.title)}
             <input

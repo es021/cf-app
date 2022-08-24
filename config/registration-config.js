@@ -5,8 +5,8 @@ const {
 
 const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 
-const IsUploadResumeRequired = ["INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
-const IsHasUploadResume = ["OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
+const IsUploadResumeRequired = ["TARUCAUG22", "INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
+const IsHasUploadResume = ["TARUCAUG22", "OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
 
 const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22"]
 const IsHasUploadResume_FirstSignupPage = ["INTELMM22"]
@@ -352,7 +352,7 @@ const isCustomUserInfoOff = (cf, key) => {
             offCf = ["UNISZA"];
             break;
         case Single.field_study_secondary:
-            offCf = ["UNISZA"];
+            offCf = ["UNISZA", "TARUCAUG22"];
             break;
         case Single.where_in_malaysia:
             offCf = ["MONASH", "SUNWAY", "INTEL"];
@@ -462,7 +462,7 @@ const RequiredFieldStudent = [
     "level_study_utm21",
     "faculty_utm21",
 
-    
+
 ];
 
 const RequiredFieldRecruiter = [

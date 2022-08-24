@@ -12,7 +12,8 @@ import { Time } from '../lib/time';
 import { createUserTitle } from './users';
 import { createCompanyTitle } from './admin-company';
 import Form, { toggleSubmit } from '../component/form.js';
-import { SiteUrl } from '../../config/app-config.js';
+import { SiteUrl, AppPath } from '../../config/app-config.js';
+import { NavLink } from 'react-router-dom';
 
 
 export default class AdminCf extends React.Component {
@@ -156,26 +157,43 @@ export default class AdminCf extends React.Component {
 
         this.tableHeader = <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Order</th>
+                <th>Info</th>
                 <th>Details</th>
             </tr>
         </thead>;
 
         this.renderRow = (d, i) => {
             var row = [];
+            let infoColumn = [];
             let detailColumn = [];
-
             for (var key in d) {
                 if (key == "ID" || key == "name" || key == "cf_order") {
-                    row.push(<td>{d[key]}</td>);
+                    infoColumn.push(<div><b>{key}</b> : {d[key]}</div>);
+
+                    if (key == "cf_order") {
+                        let start = Time.timestampToDateTimeInput(d["start"]);
+                        if(start){
+                            start = start.split("T")[0]
+                        }
+                        let end = Time.timestampToDateTimeInput(d["end"]);
+                        if(start){
+                            end = end.split("T")[0]
+                        }
+                        infoColumn.push(<div><br></br><b>
+                            <NavLink
+                                to={`${AppPath}/cf-query/${d['name']}/${start}/${end}`}>
+                                Open Career Fair Query
+                            </NavLink></b>
+                        </div>
+                        );
+                    }
                 } else {
                     detailColumn.push(<div><b>{key}</b> : {d[key]}</div>)
                 }
             }
 
-            row.push(<td>{detailColumn}</td>);
+            row.push(<td>{infoColumn}</td>);
+            row.push(<td width="100px">{detailColumn}</td>);
 
             return row;
         }

@@ -515,10 +515,6 @@ class BrowseStudentExec {
 				) > 0
 			ELSE 1=1 END
 			`;
-			console.log("q", q);
-			console.log("q", q);
-			console.log("q", q);
-			console.log("q", q);
 			return q;
 		}
 
@@ -612,10 +608,6 @@ class BrowseStudentExec {
 		let current_semester = this.where(user_id, this.TABLE_SINGLE, "current_semester", param.current_semester);
 		let course_status = this.where(user_id, this.TABLE_SINGLE, "course_status", param.course_status);
 		let employment_status = this.where(user_id, this.TABLE_SINGLE, "employment_status", param.employment_status);
-
-
-		console.log("field_study_main", field_study_main);
-		console.log("field_study_secondary", field_study_secondary);
 
 		// 4d. @custom_user_info_by_cf - where multi
 		// @limit_field_of_study_2_before_deploy - comment
@@ -773,9 +765,9 @@ class BrowseStudentExec {
 			${order}
 			${limit}`;
 
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
-		console.log(sql)
-		console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+		// console.log(sql)
+		// console.log("++++++++++++++++++++++++++++++++++++++++++++++");
 		return sql;
 	}
 	// TODO

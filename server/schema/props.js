@@ -71,6 +71,7 @@ EXPORT.Cfs = {
     limit_drop_resume: __.String,
     
     offset_load_company: __.String,
+    offset_load_company_listing: __.String,
 
     // custom text
 

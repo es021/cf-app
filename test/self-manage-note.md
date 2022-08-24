@@ -9,3 +9,11 @@
 - user popup
 - filter student listing
 - export sql
+
+
+tables
+---------
+- single_input
+- multi_input
+- global_dataset
+- cf_config

@@ -4,6 +4,7 @@ const { DocLink } = require('../../config/db-config');
 class DocLinkQuery {
     getDocLink(params, extra = {}) {
         var id_where = (typeof params.ID === "undefined") ? "1=1" : `${DocLink.ID} = ${params.ID}`;
+        var label_where = (typeof params.label === "undefined") ? "1=1" : `${DocLink.LABEL} = '${params.label}'`;
         var user_where = (typeof params.user_id === "undefined") ? "1=1" : `${DocLink.USER_ID} = ${params.user_id}`;
         var com_where = (typeof params.company_id === "undefined") ? "1=1" : `${DocLink.COMPANY_ID} = '${params.company_id}'`;
         var type_where = (typeof params.type === "undefined") ? "1=1" : `${DocLink.TYPE} = '${params.type}'`;

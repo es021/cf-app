@@ -30,7 +30,16 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: ["OCPE21"]
+        onCf: ["OCPE21", "OEJF22"]
+    },
+    personal_email: {
+        label: "Personal Email Address",
+        question: "Personal Email Address",
+        icon: "email",
+        type: "single",
+        input_type: "text",
+        is_required: true,
+        onCf: ["OEJF22"]
     },
     student_id: {
         label: "Student ID",
@@ -70,7 +79,16 @@ const CustomConfig = {
         ref_table_name: "age",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OEJF22"]
+    },
+    age_no: {
+        label: "Age",
+        question: "Age",
+        icon: "calendar",
+        type: "single",
+        input_type: "number",
+        is_required: true,
+        onCf: ["WCC22"]
     },
     race: {
         label: "Race/Ethnicity",
@@ -81,7 +99,7 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "UTMIV21", "OCPE21", "D2W2K22"]
+        onCf: ["OEJF21", "OEJF22", "UTMIV21", "OCPE21", "D2W2K22", "D2WOCT22"]
     },
     nationality: {
         label: "Nationality",
@@ -117,7 +135,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22", "D2WOCT22"]
     },
     ic_number: {
         discard_filter: true,
@@ -127,7 +145,17 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
+    },
+    national_id_no: {
+        discard_filter: true,
+        question: "National Identification Number",
+        label: "National Identification Number",
+        icon: "slack",
+        is_required: true,
+        input_type: "number",
+        type: "single",
+        onCf: ["WCC22"]
     },
     resident_malaysia: {
         discard_popup_on: (d) => {
@@ -156,6 +184,33 @@ const CustomConfig = {
         is_required: false,
         onCf: ["SUNWAYGRD21", "SUNWAYGETHIRED21"]
     },
+    nationality_select: {
+        discard_popup_on: (d) => {
+            return d['nationality_select'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Nationality",
+        question: "Nationality",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "nationality",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2WOCT22"]
+    },
+    nationality_select_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['nationality_select'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Nationality",
+        question: "Nationality (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["D2WOCT22"]
+    },
     where_in_malaysia_select: {
         label: "Place Of Residence",
         question: "Where are you from in Malaysia?",
@@ -163,9 +218,9 @@ const CustomConfig = {
         type: "single",
         input_type: "select",
         ref_table_name: "state",
-        ref_order_by: "ID asc",
+        ref_order_by: "val asc",
         is_required: true,
-        onCf: ["OEJF21", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
     },
 
     country_study_select: {
@@ -559,7 +614,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_reference",
         is_required: true,
-        onCf: ["D2W21", "D2WRL21", "D2W2K22"],
+        onCf: ["D2W21", "D2WRL21", "D2W2K22", "D2WOCT22"],
         attr: `{val}`
     },
     // ################################################################
@@ -587,12 +642,11 @@ const CustomConfig = {
         ref_table_name: "oejf21_field_study",
         ref_order_by: "ID asc",
         is_required: false,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OEJF22"]
     },
-
     oejf21_where_work: {
         label: "Interested Job Location",
-        question: "Where would you like to work?",
+        question: "Where would you like to work in Malaysia?",
         icon: "map-marker",
         list_title: null,
         discard_ref_from_default: true,
@@ -600,9 +654,24 @@ const CustomConfig = {
         type: "multi",
         input_type: "select",
         ref_table_name: "oejf21_where_work",
+        ref_order_by: "val asc",
+        is_required: true,
+        onCf: ["OEJF21", "OEJF22"],
+        attr: `{val}`
+    },
+    oejf21_where_work_oversea: {
+        label: "Interested Job Location (Oversea)",
+        question: "Where would you like to work in oversea?",
+        icon: "map-marker",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "oejf21_where_work_oversea",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "oejf21_where_work_oversea",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"],
+        onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
     },
     oejf21_years_working: {
@@ -614,7 +683,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_years_working",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"]
+        onCf: ["OEJF21", "OEJF22"]
     },
     oejf21_industry: {
         label: "Current Industry",
@@ -625,7 +694,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_industry",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "OCPE21"]
     },
     oejf21_reference: {
         discard_filter: true,
@@ -639,15 +708,15 @@ const CustomConfig = {
         type: "multi",
         input_type: "select",
         ref_table_name: "oejf21_reference",
-        ref_order_by: "ID asc",
+        ref_order_by: "val asc",
         is_required: true,
-        onCf: ["OEJF21"],
+        onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
     },
     oejf21_qualification: {
-        discard_popup_on: (d) => {
-            return d['oejf21_qualification'] == OTHER_PLEASE_SPECIFY;
-        },
+        // discard_popup_on: (d) => {
+        //     return d['oejf21_qualification'] == OTHER_PLEASE_SPECIFY;
+        // },
         label: "Qualification",
         question: "What is your highest level of certificate?",
         icon: "graduation-cap",
@@ -656,7 +725,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_qualification",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "OCPE21"]
     },
     oejf21_qualification_other: {
         discard_filter: true,
@@ -669,7 +738,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["OEJF21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "OCPE21"]
     },
     oejf21_interested_job: {
         discard_filter: true,
@@ -685,7 +754,7 @@ const CustomConfig = {
         ref_table_name: "oejf21_interested_job",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21"],
+        onCf: ["OEJF21", "OEJF22"],
         attr: `{val}`
     },
     // ################################################################
@@ -893,7 +962,7 @@ const CustomConfig = {
         ref_table_name: "age_group",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21", "OCPE21"]
+        onCf: ["WCC21", "WCC22", "OCPE21"]
     },
     wcc_iam: {
         discard_popup_on: (d) => {
@@ -907,7 +976,7 @@ const CustomConfig = {
         ref_table_name: "wcc_iam",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_iam_other: {
         discard_filter: true,
@@ -920,7 +989,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_work_experience: {
         label: "Year of Work Experience",
@@ -931,7 +1000,7 @@ const CustomConfig = {
         ref_table_name: "wcc_work_experience",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_location: {
         label: "Geographical Location",
@@ -942,7 +1011,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_graduate_year: {
         label: "Graduate Year",
@@ -953,7 +1022,7 @@ const CustomConfig = {
         ref_table_name: "wcc_graduate_year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_field_study: {
         label: "Field Of Study",
@@ -964,7 +1033,7 @@ const CustomConfig = {
         ref_table_name: "wcc_field_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_looking_for: {
         label: "Looking For",
@@ -975,7 +1044,7 @@ const CustomConfig = {
         ref_table_name: "wcc_looking_for",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     wcc_job_level: {
         label: "Interested Job Level",
@@ -986,7 +1055,7 @@ const CustomConfig = {
         ref_table_name: "wcc_job_level",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["WCC21"]
+        onCf: ["WCC21", "WCC22"]
     },
     jpastar_status: {
         label: "Current Status",
@@ -1496,7 +1565,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22", "D2W2K22"]
+        onCf: ["TCREP22", "D2W2K22", "D2WOCT22", "WCC22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1551,7 +1620,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "textarea",
         type: "single",
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     address: {
         discard_filter: true,
@@ -1735,7 +1804,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_current_resident_other: {
         discard_popup_on: (d) => {
@@ -1747,7 +1816,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_university: {
         discard_popup_on: (d) => {
@@ -1761,7 +1830,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_university",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_university_other: {
         discard_popup_on: (d) => {
@@ -1773,7 +1842,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_year_of_study: {
         label: "Year Of Study",
@@ -1784,7 +1853,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_year_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_level_of_study: {
         label: "Level Of Study",
@@ -1795,7 +1864,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_level_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_field_of_study: {
         label: "Field Of Study",
@@ -1806,7 +1875,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_field_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_intern_start_month:
     {
@@ -1818,7 +1887,7 @@ const CustomConfig = {
         ref_table_name: "month",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_intern_start_year:
     {
@@ -1829,7 +1898,7 @@ const CustomConfig = {
         ref_table_name: "year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_intern_duration:
     {
@@ -1841,7 +1910,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_intern_duration",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22"]
+        onCf: ["D2W2K22", "D2WOCT22"]
     },
     d2w2_reference: {
         label: "Interested Job Location",
@@ -1858,28 +1927,329 @@ const CustomConfig = {
         onCf: ["OCPE21"],
         attr: `{val}`
     },
+
+    oejf22_grad_month:
+    {
+        label: "Graduation Date",
+        question: "When is your graduation date?",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_grad_month",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+    oejf22_grad_year:
+    {
+        children_of: "oejf22_grad_month",
+        icon: "calendar",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_grad_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+    oejf22_work_availability_month:
+    {
+        label: "Graduation Date",
+        question: "When will you be available to work?",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_grad_month",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+    oejf22_work_availability_year:
+    {
+        children_of: "oejf22_work_availability_month",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "oejf22_work_availability_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["OEJF22"]
+    },
+
+
+    wcc22_emp_status: {
+        question: "Employment Status",
+        label: "Employment Status",
+        icon: "info",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc_employ_status",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_location: {
+        discard_popup_on: (d) => {
+            return d['discard_popup_on'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Geographical Location",
+        question: "Geographical Location",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_state",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_country: {
+        discard_popup_on: (d) => {
+            return d['wcc22_country'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Country",
+        question: "If you selected others, please select country",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "country",
+        ref_order_by: "ID asc",
+        is_required: false,
+        onCf: ["WCC22"]
+    },
+    wcc22_qualification: {
+        discard_popup_on: (d) => {
+            return d['wcc22_qualification'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Academic Qualification",
+        question: "Academic Qualification",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_qualification",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_qualification_other: {
+        discard_popup_on: (d) => {
+            return d['wcc22_qualification'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Academic Qualification",
+        question: "Academic Qualification (Other)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["WCC22"]
+    },
+    wcc22_field_study: {
+        label: "Main Field of Study",
+        question: "Main Field of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_work_experience: {
+        label: "Total Work Experience",
+        question: "Total Work Experience",
+        icon: "suitcase",
+        type: "single",
+        input_type: "number",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_current_role: {
+        label: "Current Employment Role",
+        question: "Current Employment Role",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_current_role",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_current_industry: {
+        label: "Current Employment Industry",
+        question: "Current Employment Industry",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_current_industry",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_preferred_emp: {
+        label: "Preferred Type of Employment",
+        question: "Preferred Type of Employment",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_preferred_emp",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    wcc22_job_level: {
+        label: "Preferred Job Level",
+        question: "Preferred Job Level",
+        icon: "suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "wcc22_job_level",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["WCC22"]
+    },
+    msaj_prefecture: {
+        label: "Which part of Japan are you residing?",
+        question: "Which part of Japan are you residing?",
+        icon: "map-markder",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "msaj_prefecture",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MSAJ22"]
+    },
 }
 
-// const Default = [
-//     "first_name",
-//     "graduation_month",
-//     "looking_for_position",
-//     "country_study",
-//     "university",
-//     "student_id",
-//     "qualification",
-//     "field_study_main",
-//     "field_study_secondary",
-//     "grade",
-//     "phone_number",
-//     "working_availability_month",
-//     "interested_role",
-//     "where_in_malaysia",
-//     "interested_job_location",
-//     "skill",
-//     "extracurricular",
-// ];
+const DefaultCustomOrder = [
+    "first_name",
+    "graduation_month",
+    "looking_for_position",
+    "country_study",
+    "university",
+    "student_id",
+    "qualification",
+    "field_study_main",
+    "field_study_secondary",
+    "grade",
+    "phone_number",
+    "working_availability_month",
+    "interested_role",
+    "where_in_malaysia",
+    "interested_job_location",
+    "skill",
+    "extracurricular",
+];
+
+
 const CustomOrder = {
+    MSAJ22: [
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        // "country_study",
+        "phone_number",
+        "msaj_prefecture",
+        "university",
+        "student_id",
+        "qualification",
+        "field_study_main",
+        "field_study_secondary",
+        "grade",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
+    WCC22: [
+        "first_name",
+        "gender_mf",
+        "national_id_no",
+        "age_no",
+        "wcc22_emp_status",
+        "wcc22_location",
+        "wcc22_country",
+        "wcc22_qualification",
+        "wcc22_qualification_other",
+        "wcc22_field_study", // need import data
+        "wcc_graduate_year",
+        "wcc22_work_experience",
+        "wcc22_current_role", // need import data
+        "wcc22_current_industry",
+
+        "wcc22_preferred_emp",
+        "wcc22_job_level",
+        "working_availability_month",
+        "working_availability_year",
+        // "wcc_iam",
+        // "wcc_iam_other",
+        // "wcc_location",
+        // "qualification",
+        // "wcc_field_study",
+        // "wcc_work_experience",
+    ],
+    TARUCAUG22: [
+        "first_name",
+        "graduation_month",
+        "looking_for_position",
+        "country_study",
+        "university",
+        "qualification",
+        "field_study_main",
+        "grade",
+        "phone_number",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia",
+        "interested_job_location",
+        "skill",
+        "extracurricular",
+    ],
+    OEJF22: [
+        "first_name",
+        "personal_email",
+        "current_position",
+        "oejf22_grad_month",
+        "oejf22_grad_year",
+        "looking_for_position",
+        "country_study",
+        "university",
+        "oejf21_qualification",
+        "oejf21_field_study",
+        "phone_number",
+        "age",
+        "gender",
+        "race",
+        "oejf22_work_availability_month",
+        "oejf22_work_availability_year",
+        "oejf21_interested_job",
+        "where_in_malaysia_select",
+        "oejf21_where_work",
+        "oejf21_where_work_oversea",
+        "oejf21_years_working",
+        "oejf21_industry",
+        "oejf21_reference"
+    ],
+    D2WOCT22: [
+        "full_name",
+        "ic_number",
+        "gender_mf",
+        "race",
+        "nationality_select",
+        "nationality_select_other",
+        "home_address",
+        "d2w2_current_resident",
+        "d2w2_current_resident_other",
+        "d2w2_university",
+        "d2w2_university_other",
+        "d2w2_year_of_study",
+        "d2w2_level_of_study",
+        "d2w2_field_of_study",
+        "d2w2_intern_start_month",
+        "d2w2_intern_start_year",
+        "d2w2_intern_duration",
+        "graduation_month",
+        "d2w21_reference",
+    ],
     D2W2K22: [
         "full_name",
         "ic_number",
@@ -2347,6 +2717,7 @@ const CustomRegistrationConfig = [
 
 module.exports = {
     CustomConfig,
+    DefaultCustomOrder,
     CustomOrder,
     CustomRegistrationConfig,
 };

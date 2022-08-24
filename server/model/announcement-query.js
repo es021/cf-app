@@ -20,7 +20,7 @@ class AnnouncementExec {
             q = `select * ${sqlBody} ${order_by} ${limit}`;
         }
 
-        console.log("q", q);
+        // console.log("q", q);
         return q;
     }
 

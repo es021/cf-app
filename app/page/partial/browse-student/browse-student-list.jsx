@@ -1,9 +1,11 @@
 import React, { PropTypes } from "react";
 import List from "../../../component/list";
-import { graphql } from "../../../../helper/api-helper";
+import { graphql, postRequest } from "../../../../helper/api-helper";
 import { BrowseStudentCard } from "./browse-student-card";
 import { getCfTitle, isRoleRec, isRoleAdmin, getCF } from "../../../redux/actions/auth-actions";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
+import { UserUrl } from "../../../../config/app-config";
+import UserFieldHelper from "../../../../helper/user-field-helper";
 
 export class BrowseStudentList extends React.Component {
     constructor(props) {
@@ -79,14 +81,19 @@ export class BrowseStudentList extends React.Component {
                     student_note{ID note}
                     student_listing_interested{ID is_interested}
                     field_study_main field_study_secondary
-                    ${cfCustomFunnel({ action: 'get_attr_by_cf', cf: getCF() }).join(" ")}
                     prescreens_for_student_listing{status appointment_time}
-                    university country_study available_month available_year
-                    ID first_name last_name user_email description 
+                    university country_study
+                    ID first_name last_name user_email 
                     doc_links {type label url} field_study{val} looking_for_position{val}
           }}} `;
 
-        return graphql(query);
+        return postRequest(UserUrl + '/get-data-for-listing', {
+            query_graphql: query,
+            customField: UserFieldHelper.getCardItems(getCF()).map(d => d.id),
+        }).then(res => {
+            console.log("Res", res);
+            return res;
+        })
     }
 
     getDataFromRes(res) {

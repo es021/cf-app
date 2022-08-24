@@ -82,7 +82,7 @@ import HallRecruiterPage from "../page/hall-recruiter";
 import { isHasLeftBar, hideLeftBar } from "../layout/left-bar-layout";
 import { ChooseCfPage } from "./choose-cf";
 import ListJobApplicants from "../page/list-job-applicants";
-import { _student_plural } from "../redux/actions/text-action";
+import { _student_plural, _student_single } from "../redux/actions/text-action";
 import { lang, isHasOtherLang } from "../lib/lang";
 import AdminStudentPage from "../page/admin-student";
 import ListJobApplied from "../page/list-job-applied";
@@ -94,6 +94,7 @@ import { AnnouncementManagement } from "../page/announcement";
 import ListStudentGroupCall from "../page/list-student-group-call";
 import AdminManageGroupCall from "../page/admin-manage-group-call";
 import CompanyDashboard from "../page/company-dashboard";
+import AdminCfQuery from "../page/admin-cf-query";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -194,6 +195,18 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleAdmin()
     },
     {
+      url: "/cf-query/:cf/:start/:end",
+      label: "Cf Query",
+      icon: "slack",
+      component: AdminCfQuery,
+      routeOnly: true,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      disabled: !isRoleAdmin()
+    },
+    {
       // Admin Only
       url: "/admin-recruiter",
       label: "Recruiters",
@@ -257,7 +270,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: "/participant-listing",
-      label: "Participant Listing",
+      label: `${_student_single()} Listing`,
       icon: "user",
       component: BrowseStudent,
       bar_app: true,

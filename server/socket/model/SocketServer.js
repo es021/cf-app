@@ -70,6 +70,13 @@ class SocketServer {
       console.log("==============");
       this.emitToAll(S2C.ONLINE_USER, this.state.online_clients);
     }, INTERVAL_EMIT_ONLINE_USER)
+
+    setInterval(() => {
+      console.log("==============");
+      console.log("emit ONLINE_COMPANY");
+      console.log("==============");
+      this.emitToAll(S2C.ONLINE_COMPANY, this.state.online_company);
+    }, INTERVAL_EMIT_ONLINE_USER)
   }
 
   initOn(client) {
@@ -379,6 +386,9 @@ class SocketServer {
           this.state.clients[data.id]
         );
         this.updateEmitQueue(C2S.JOIN, this.state.clients[data.id]);
+      } else if ([UserEnum.ROLE_ORGANIZER, UserEnum.ROLE_ADMIN].indexOf(data.role) >= 0) {
+        this.emitToClient(this.state.clients[data.id], S2C.ONLINE_COMPANY, this.state.online_company);
+        this.emitToClient(this.state.clients[data.id], S2C.ONLINE_USER, this.state.online_clients);
       }
 
       //previously this is trigger only to page session

@@ -1,7 +1,9 @@
 const { isCustomUserInfoOff, Single } = require("../../config/registration-config");
 const { overrideLanguageTable } = require("./ref-query.js");
+const UserFieldHelper = require("../../helper/user-field-helper.js");
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 const DB = require("./DB.js");
+const isProd = process.env.NODE_ENV === "production";
 
 const EMPTY_FILTER = `select 
 '' as _key 
@@ -113,6 +115,7 @@ const getOrder = (type) => {
 
 
 }
+
 
 const singleFilter = (currentCf, param, where) => {
 	let university = isCustomUserInfoOff(currentCf, Single.university) ||
@@ -314,20 +317,62 @@ const singleFilter = (currentCf, param, where) => {
 	return toRet;
 }
 
-function generateQuery(param, where) {
+async function filterCustom(currentCf, param, where) {
+	let filter = await UserFieldHelper.getFilterItems(currentCf, DB);
+
+	console.log("filter", filter)
+		? "1=0"
+		: `( 
+		s.key_input = "local_or_oversea_location"
+		AND
+		s.val IN (select r.val from ref_local_or_oversea r)
+	)`
+	let whereArray = [];
+	for (let f of filter) {
+		whereArray.push(`
+			( 
+				s.key_input = "${f.id}"
+				AND
+				s.val IN (select r.val from global_dataset r WHERE r.source = '${f.dataset_source}')
+			)
+		`);
+	}
+
+	let q = `
+		SELECT 
+		${getOrder('single')}
+		s.key_input as _key,
+		s.val as _val,
+		"" as _val_label,
+		COUNT(*) as _total 
+
+		FROM single_input s
+		where 
+		${whereArray.length > 0
+				? `(${whereArray.join(" OR ")})`
+				: '1=0'
+			}
+		AND s.val != ""
+		AND s.val != "-- Please Select --"
+		AND s.entity = 'user'
+		AND ${where}
+		group by ${getOrder("group_by")} _key, _val
+	`
+	
+	return q;
+}
+
+async function generateQuery(param, where) {
 	const currentCf = param.current_cf;
-	// let where = this.getWhere("s.entity_id", param);
 
-	// UNION ALL
-	// 	${multiFilter("interested_job_location", where)}
-	// 4a. @custom_user_info_by_cf -- filter multi
 
-	// ${cfFilter(currentCf, where)}
+	// ${singleFilterWhereInMalaysia(currentCf, param, where)}
 	// 	UNION ALL
+
+	let custom = await filterCustom(currentCf, param, where)
 	let q = `SELECT * FROM (
+		${custom ? ` ${custom} UNION ALL ` : ''}
 		${singleFilter(currentCf, param, where)}
-		UNION ALL
-		${singleFilterWhereInMalaysia(currentCf, param, where)}
 		UNION ALL
 		${multiFilter(param, "skill", where)}
 		UNION ALL
@@ -346,11 +391,25 @@ function generateQuery(param, where) {
 	return q;
 }
 
-function fetchNewFilterAndUpdatePivot(newParam, where) {
+async function fetchNewFilterAndUpdatePivot(newParam, where) {
 	let newParamStr = JSON.stringify(newParam);
-	let sql = generateQuery(newParam, where);
-	return DB.query(sql).then(res => {
+	let sql = await generateQuery(newParam, where);
+	console.log("--------------")
+	console.log("--------------")
+	console.log("--------------")
+	console.log(sql)
+	console.log("--------------")
+	console.log("--------------")
+	console.log("--------------")
 
+	return DB.query(sql).then(res => {
+		console.log("--------------")
+	console.log("--------------")
+	console.log("--------------")
+	console.log(res)
+	console.log("--------------")
+	console.log("--------------")
+	console.log("--------------")
 		// insert to pivot table
 		let newResultStr = JSON.stringify(res);
 		let buff = new Buffer(newResultStr);
@@ -378,7 +437,8 @@ function getNewParam(param) {
 
 function fetchFilter(where, param) {
 	let newParam = getNewParam(param);
-	if (param.override_pivot) {
+	if (param.override_pivot || !isProd) {
+		console.log("override pivot")
 		return fetchNewFilterAndUpdatePivot(newParam, where)
 	}
 	let newParamStr = JSON.stringify(newParam);

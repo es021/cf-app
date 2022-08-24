@@ -3,6 +3,7 @@ const { UserQuery } = require("../model/user-query.js");
 const {
     UserMeta,
 } = require("../../config/db-config.js");
+const { graphql } = require("../../helper/api-helper.js");
 
 class UserAPI {
     Main(action, param) {
@@ -10,6 +11,8 @@ class UserAPI {
         switch (action) {
             case "get-detail":
                 return this.getDetail(param);
+            case "get-data-for-listing":
+                return this.getDataForListing(param);
         }
     }
     getRealField(k) {
@@ -24,7 +27,62 @@ class UserAPI {
         }
         return k;
     }
+    async getDataForListing(param) {
+        let query_graphql = param.query_graphql
+        let customField = param.customField
 
+        query_graphql = query_graphql.replaceAll("\n", " ");
+
+        let res = await graphql(query_graphql)
+        res = res.data.data.browse_student;
+
+        if (customField && Array.isArray(customField) && customField.length > 0) {
+            let mapUidIndex = {}
+            let user_ids = res.map((d, index) => {
+                mapUidIndex[d.student_id] = index;
+                return d.student_id;
+            });
+            let q = `select 
+                u.ID,
+                ${customField.map(d => `(${UserQuery.selectSingleMain("u.ID", this.getRealField(d))}) as ${d}`).join(",")}
+                from  wp_cf_users u 
+                where 1=1 and u.ID IN (${user_ids.join(",")})
+            `;
+            let customData = await DB.query(q)
+            for (let cf of customData) {
+                let index = mapUidIndex[cf.ID];
+                let toAppend = { ...cf }
+                delete toAppend["ID"];
+
+                res[index]["student"] = {
+                    ...res[index]["student"],
+                    ...toAppend
+                }
+            }
+        }
+
+        return Promise.resolve({
+            data: {
+                browse_student: res
+            }
+        });
+        // var query = `query{
+        //     browse_student ${query_param}
+        //     {
+        //         is_seen { ID is_seen }
+        //         student_id
+        //         student{
+        //             ${this.props.isPageStudentListJobPost ? " interested_vacancies_by_company {ID title} " : ""}
+        //             student_note{ID note}
+        //             student_listing_interested{ID is_interested}
+        //             field_study_main field_study_secondary
+        //             prescreens_for_student_listing{status appointment_time}
+        //             university country_study
+        //             ID first_name last_name user_email 
+        //             doc_links {type label url} field_study{val} looking_for_position{val}
+        //   }}} `;
+
+    }
     getDetail(param) {
         let user_id = param.user_id;
 

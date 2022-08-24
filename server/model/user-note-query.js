@@ -30,9 +30,9 @@ class UserNoteExec {
   }
   getHelper(type, param, field, extra = {}) {
     var sql = this.query(param, type);
-    console.log("sql", sql);
+    // console.log("sql", sql);
     var toRet = DB.query(sql).then(res => {
-      console.log("res", res);
+      // console.log("res", res);
       if (this.isSingle(type)) {
         return res[0];
       } else if (this.isList(type)) {

@@ -53,8 +53,6 @@ class NotificationExec {
             ${sqlBody} ${order_by} ${limit}`;
 
         }
-
-        console.log("q", q);
         return q;
     }
 

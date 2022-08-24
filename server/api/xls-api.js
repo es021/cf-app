@@ -23,6 +23,7 @@ class XLSApi {
 
   // filter in JSON object, return {filename, content}
   export({ action, filter, cf, is_admin }) {
+    console.log(action, filter, cf)
     this.globalHeaders = [];
     this.CF = cf;
     if (FilterNotObject.indexOf(action) <= -1) {
@@ -208,18 +209,18 @@ class XLSApi {
       ${this.addIfValid("current_semester")}
       ${this.addIfValid("course_status")}
       ${this.addIfValid("employment_status")}
-      graduation_month 
-      graduation_year
-      working_availability_month 
-      working_availability_year
+      ${this.addIfValid("graduation_month")}
+      ${this.addIfValid("graduation_year")}
+      ${this.addIfValid("working_availability_month")}
+      ${this.addIfValid("working_availability_year")}
       ${this.addIfValid("local_or_oversea_location")}
       ${this.addIfValid("gender")}
       ${this.addIfValid("work_experience_year")}
-      grade 
-      phone_number 
-      sponsor
+      ${this.addIfValid("grade")}
+      ${this.addIfValid("phone_number")}
+      ${this.addIfValid("sponsor")}
       ${this.addIfValid("where_in_malaysia")}
-      interested_vacancies_by_company{ title }
+      ${this.addIfValid("interested_vacancies_by_company", "{title}")}
       ${this.addIfValid("description")}
       ${this.addIfValid("user_registered")}
       ${this.addIfValid("video_resume", "{url}")}
@@ -303,6 +304,7 @@ class XLSApi {
   removeCfName(k) {
     // console.log(k);
     k = k.replace("oejf21_", "");
+    k = k.replace("oejf22_", "");
     k = k.replace("ocpe_", "");
     return k;
   }
@@ -315,25 +317,12 @@ class XLSApi {
       }
     } `;
 
-    // console.log("query",query);
-
-    // first_name last_name user_email phone_number
-    // grade university country_study where_in_malaysia
-    // graduation_month graduation_year  
-    // working_availability_month working_availability_year
-    // qualification
-    // description 
-    // interested_vacancies_by_company{ title }
-    // doc_links {type label url} 
-    // field_study{val} 
-    // looking_for_position{val}
-
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
     const restructData = data => {
-      // // console.log("data", data);
+      console.log("data", data);
       var hasChildren = ["student"];
       var newData = {};
       for (var key in data) {
@@ -517,24 +506,25 @@ class XLSApi {
     return toRet;
   }
   restructAppendTypeForStudent(newData, preKey = "") {
-    newData = this.restructAppendType({
-      data: newData,
-      key: preKey + "video_resume",
-      label: "video resume",
-      renderCol: d => {
-        return `<a href="${d.url}">${d.url}</a><br>`;
-      }
-    });
-    newData = this.restructAppendType({
-      data: newData,
-      key: preKey + "doc_links",
-      label: "attachment",
-      renderCol: d => {
-        return `<a href="${d.url}">${d.label}</a><br>`;
-      }
-    });
+    // newData = this.restructAppendType({
+    //   data: newData,
+    //   key: preKey + "video_resume",
+    //   label: "video resume",
+    //   renderCol: d => {
+    //     return `<a href="${d.url}">${d.url}</a><br>`;
+    //   }
+    // });
+    // newData = this.restructAppendType({
+    //   data: newData,
+    //   key: preKey + "doc_links",
+    //   label: "attachment",
+    //   renderCol: d => {
+    //     return `<a href="${d.url}">${d.label}</a><br>`;
+    //   }
+    // });
 
     let multi_input = [
+      "doc_links",
       "interested_vacancies_by_company",
       // "extracurricular",
       // "field_study",
@@ -552,9 +542,10 @@ class XLSApi {
 
     for (let customMulti of cfCustomFunnel({ action: 'get_keys_multi' })) {
       if (!isCustomUserInfoOff(this.CF, customMulti)) {
-        multi_input.push(customMulti);
+        multi_input.push(this.removeCfName(customMulti));
       }
     }
+    console.log("multi_input", multi_input)
 
     for (var i in multi_input) {
       let key = multi_input[i];
@@ -562,16 +553,19 @@ class XLSApi {
       let multiArr = newData[key];
       let multiStr = "";
 
+      let isDocLink = key.indexOf("doc_links") >= 0;
       if (Array.isArray(multiArr)) {
         multiArr.map((d, j) => {
           let toRet = "";
-          if (j > 0) {
+          if (j > 0 && !isDocLink) {
             toRet += " | ";
           }
 
           let v = d.val;
           if (key.indexOf("interested_vacancies_by_company") >= 0) {
             v = d.title;
+          } else if (isDocLink) {
+            v = `<a href="${d.url}">${d.label}</a><br>`;
           }
 
           multiStr += `${toRet}${v}`;
@@ -581,6 +575,8 @@ class XLSApi {
         newData[key] = "-";
       }
     }
+
+    console.log("newData", newData);
 
     newData = this.restructChangeHeaderForStudent(newData, preKey);
 
@@ -781,7 +777,6 @@ class XLSApi {
               graduation_year
               available_month
               available_year
-              sponsor
               description
               user_status
               doc_links {label url} }}`;
