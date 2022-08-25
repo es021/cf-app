@@ -1792,6 +1792,17 @@ const CustomConfig = {
         onCf: ["TCREP22"]
     },
 
+    d2w2_looking_for: {
+        label: "Looking for",
+        question: "Are you looking for a job or internship?",
+        icon: "map-suitcase",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_looking_for",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["D2WOCT22"]
+    },
     d2w2_current_resident: {
         discard_popup_on: (d) => {
             return d['current_resident'] == OTHER_PLEASE_SPECIFY;
@@ -2237,6 +2248,7 @@ const CustomOrder = {
         "nationality_select",
         "nationality_select_other",
         "home_address",
+        "d2w2_looking_for",
         "d2w2_current_resident",
         "d2w2_current_resident_other",
         "d2w2_university",
