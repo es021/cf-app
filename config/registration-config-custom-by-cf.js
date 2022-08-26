@@ -2132,6 +2132,7 @@ const CustomConfig = {
 const DefaultCustomOrder = [
     "first_name",
     "graduation_month",
+    "graduation_year",
     "looking_for_position",
     "country_study",
     "university",
@@ -2142,6 +2143,7 @@ const DefaultCustomOrder = [
     "grade",
     "phone_number",
     "working_availability_month",
+    "working_availability_year",
     "interested_role",
     "where_in_malaysia",
     "interested_job_location",
@@ -2154,6 +2156,7 @@ const CustomOrder = {
     MSAJ22: [
         "first_name",
         "graduation_month",
+        "graduation_year",
         "looking_for_position",
         // "country_study",
         "phone_number",
@@ -2165,6 +2168,7 @@ const CustomOrder = {
         "field_study_secondary",
         "grade",
         "working_availability_month",
+        "working_availability_year",
         "interested_role",
         "where_in_malaysia",
         "interested_job_location",
@@ -2201,6 +2205,7 @@ const CustomOrder = {
     TARUCAUG22: [
         "first_name",
         "graduation_month",
+        "graduation_year",
         "looking_for_position",
         "country_study",
         "university",
@@ -2209,6 +2214,7 @@ const CustomOrder = {
         "grade",
         "phone_number",
         "working_availability_month",
+        "working_availability_year",
         "interested_role",
         "where_in_malaysia",
         "interested_job_location",
