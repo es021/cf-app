@@ -6,7 +6,31 @@ class AdminAPI {
         switch (action) {
             case "create-iv-bundle":
                 return this.createIvBundle(param);
+            case "create-ref-table":
+                return this.createRefTable(param);
         }
+    }
+    async createRefTable(param) {
+        let data = param.data;
+        let ref_name = param.ref_name;
+        data = JSON.parse(data);
+        let table_name = `ref_${ref_name}`
+
+        await DB.query(`DROP TABLE IF EXISTS ${DB.escStr(table_name)}`);
+        await DB.query(`CREATE TABLE ${DB.escStr(table_name)} 
+        (
+            ID INT NOT NULL AUTO_INCREMENT, 
+            val VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+            PRIMARY KEY (ID), UNIQUE(val), INDEX (val)
+        ) ENGINE = InnoDB`);
+        let res = await DB.insertMulti({
+            table: table_name,
+            dataRow: data
+        })
+        if (res.serverStatus == 2) {
+            return Promise.resolve({ success: true })
+        }
+        return Promise.reject(res);
     }
     createIvBundle(param) {
         console.log("param", param)

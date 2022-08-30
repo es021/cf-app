@@ -99,7 +99,7 @@ const CustomConfig = {
         ref_table_name: "race",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OEJF22", "UTMIV21", "OCPE21", "D2W2K22", "D2WOCT22"]
+        onCf: ["OEJF21", "OEJF22", "UTMIV21", "OCPE21", "D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     nationality: {
         label: "Nationality",
@@ -135,7 +135,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22", "D2WOCT22"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     ic_number: {
         discard_filter: true,
@@ -145,7 +145,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     national_id_no: {
         discard_filter: true,
@@ -196,7 +196,7 @@ const CustomConfig = {
         ref_table_name: "nationality",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2WOCT22"]
+        onCf: ["D2WOCT22", "VCFEE22"]
     },
     nationality_select_other: {
         discard_filter: true,
@@ -209,7 +209,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2WOCT22"]
+        onCf: ["D2WOCT22", "VCFEE22"]
     },
     where_in_malaysia_select: {
         label: "Place Of Residence",
@@ -614,7 +614,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "d2w21_reference",
         is_required: true,
-        onCf: ["D2W21", "D2WRL21", "D2W2K22", "D2WOCT22"],
+        onCf: ["D2W21", "D2WRL21", "D2W2K22", "D2WOCT22", "VCFEE22"],
         attr: `{val}`
     },
     // ################################################################
@@ -884,6 +884,7 @@ const CustomConfig = {
         is_required: true,
         onCf: ["INTELDDSEPT21", "INTELMM22"]
     },
+
     intel_is_accept_offer: {
         label: "Has accepted any offer from Intel (past two months)?",
         question: "Did you accept any offer of employment from Intel prior to signing up for this career fair (within the past two months)?",
@@ -1565,7 +1566,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22", "D2W2K22", "D2WOCT22", "WCC22"]
+        onCf: ["TCREP22", "D2W2K22", "D2WOCT22", "VCFEE22", "WCC22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1620,7 +1621,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "textarea",
         type: "single",
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     address: {
         discard_filter: true,
@@ -1801,7 +1802,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_looking_for",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2WOCT22"]
+        onCf: ["D2WOCT22", "VCFEE22"]
     },
     d2w2_current_resident: {
         discard_popup_on: (d) => {
@@ -1815,7 +1816,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_current_resident_other: {
         discard_popup_on: (d) => {
@@ -1827,8 +1828,9 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
+
     d2w2_university: {
         discard_popup_on: (d) => {
             return [OTHER_UNI_OVERSEA, OTHER_UNI_LOCAL].indexOf(d['d2w2_university']) >= 0;
@@ -1841,7 +1843,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_university",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_university_other: {
         discard_popup_on: (d) => {
@@ -1853,7 +1855,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_year_of_study: {
         label: "Year Of Study",
@@ -1864,7 +1866,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_year_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_level_of_study: {
         label: "Level Of Study",
@@ -1875,7 +1877,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_level_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_field_of_study: {
         label: "Field Of Study",
@@ -1886,7 +1888,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_field_of_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_intern_start_month:
     {
@@ -1898,7 +1900,7 @@ const CustomConfig = {
         ref_table_name: "month",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_intern_start_year:
     {
@@ -1909,7 +1911,7 @@ const CustomConfig = {
         ref_table_name: "year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_intern_duration:
     {
@@ -1921,7 +1923,7 @@ const CustomConfig = {
         ref_table_name: "d2w2_intern_duration",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W2K22", "D2WOCT22"]
+        onCf: ["D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     d2w2_reference: {
         label: "Interested Job Location",
@@ -2127,6 +2129,88 @@ const CustomConfig = {
         is_required: true,
         onCf: ["MSAJ22"]
     },
+    vcfee_first_job_improvement: {
+        label: "Area(s) of Improvement You Need",
+        question: "What are the area(s) of improvement do you think you need to land your first job? (Select top 5)",
+        icon: "suitcase",
+        list_title: null,
+        discard_ref_from_default: true,
+        table_name: "vcfee_first_job_improvement",
+        type: "multi",
+        input_type: "select",
+        ref_table_name: "vcfee_first_job_improvement",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["VCFEE22"],
+        attr: `{val}`
+    },
+    vcfee_nationality: {
+        label: "Nationality",
+        question: "Nationality",
+        icon: "map-marker",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "vcfee_nationality",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["VCFEE22"]
+    },
+    vcfee_preferred_job_hometown: {
+
+        //     8. 
+        // 1. Only one answer
+        // 2. Drop-down menu
+        // 3. Answer choice
+        //     1. Hometown
+        //     2. Outside Hometown
+        label: "Preferred Job Location",
+        question: "Do you prefer working in your hometown or outside of your hometown?",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "vcfee_preferred_job_hometown",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["VCFEE22"]
+    },
+    vcfee_preferred_job_location: {
+        discard_popup_on: (d) => {
+            return d['vcfee_preferred_job_location'] == OTHER_PLEASE_SPECIFY;
+        },
+        label: "Preferred Job State",
+        question: "Which state company do you prefer to work with?",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "d2w2_state",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["VCFEE22"]
+    },
+    vcfee_preferred_job_location_other: {
+        discard_popup_on: (d) => {
+            return d['vcfee_preferred_job_location'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Preferred Job State",
+        question: "Which state company do you prefer to work with? (Other)",
+        icon: "map-marker",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["VCFEE22"]
+    },
+    vcfee_job_scope: {
+        label: "Do you prefer working based on the scope of your study or not?",
+        question: "Do you prefer working based on the scope of your study or not?",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "yes_no",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["VCFEE22"]
+    },
 }
 
 const DefaultCustomOrder = [
@@ -2151,8 +2235,30 @@ const DefaultCustomOrder = [
     "extracurricular",
 ];
 
-
 const CustomOrder = {
+    VCFEE22: [
+        "full_name",
+        "ic_number",
+        "gender_mf",
+        "race",
+        "vcfee_nationality",
+        "phone_number",
+        "home_address",
+        "d2w2_current_resident",
+        "d2w2_current_resident_other",
+        "d2w2_looking_for",
+        "d2w2_university",
+        "d2w2_level_of_study",
+        "d2w2_field_of_study",
+        "graduation_month",
+        "graduation_year",
+        "d2w21_reference",
+        "vcfee_preferred_job_hometown",
+        "vcfee_preferred_job_location",
+        "vcfee_preferred_job_location_other",
+        "vcfee_job_scope",
+        "vcfee_first_job_improvement",
+    ],
     MSAJ22: [
         "first_name",
         "graduation_month",
