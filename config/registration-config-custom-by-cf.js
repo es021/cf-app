@@ -2248,6 +2248,7 @@ const CustomOrder = {
         "d2w2_current_resident_other",
         "d2w2_looking_for",
         "d2w2_university",
+        "d2w2_year_of_study",
         "d2w2_level_of_study",
         "d2w2_field_of_study",
         "graduation_month",
