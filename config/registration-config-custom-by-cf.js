@@ -2211,6 +2211,18 @@ const CustomConfig = {
         is_required: true,
         onCf: ["VCFEE22"]
     },
+
+    vcfee_employ_status: {
+        question: "What is your employment status",
+        label: "Employment Status",
+        icon: "info",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "vcfee_employ_status",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["VCFEE22"]
+    },
 }
 
 const DefaultCustomOrder = [
@@ -2253,6 +2265,7 @@ const CustomOrder = {
         "d2w2_field_of_study",
         "graduation_month",
         "graduation_year",
+        "vcfee_employ_status",
         "d2w21_reference",
         "vcfee_preferred_job_hometown",
         "vcfee_preferred_job_location",
