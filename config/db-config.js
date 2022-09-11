@@ -264,6 +264,7 @@ const Prescreen = {
 	ID: "ID",
 	PIC: "pic",
 	NOTE: "note",
+	CANCEL_REASON : "cancel_reason",
 	STUDENT_ID: "student_id",
 	RECRUITER_ID: "recruiter_id",
 	COMPANY_ID: "company_id",

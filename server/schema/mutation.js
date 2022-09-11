@@ -1594,6 +1594,7 @@ fields["edit_prescreen"] = {
     ID: __.IntNonNull,
     updated_by: __.IntNonNull,
     status: __.String,
+    cancel_reason : __.String,
     special_type: __.String,
     join_url: __.String,
     pic: __.String,

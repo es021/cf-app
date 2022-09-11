@@ -58,14 +58,70 @@ import * as HallRecruiterHelper from "./hall-recruiter-helper";
 import { animateHide } from "../../view-helper/view-helper";
 import { _student_single } from "../../../redux/actions/text-action";
 import { lang } from "../../../lib/lang";
+import Form from "../../../component/form";
 
-export function confirmUpdatePrescreen(e, status) {
-  var other_name = e.currentTarget.dataset.other_name;
-  var id = e.currentTarget.id;
+
+export function getViewCancelReason(d) {
+  if (!d["cancel_reason"]) {
+    return null;
+  }
+  console.log("d", d)
+  return (
+    <button
+      onClick={e => {
+        let cancel_reason = e.currentTarget.dataset.cancel_reason;
+        let v = <div><b>Cancellation Reason / Remark</b><br></br><br></br>"{cancel_reason}"</div>
+        layoutActions.customViewBlockLoader("", v);
+      }}
+      data-cancel_reason={d["cancel_reason"]}
+      className="btn btn-sm btn-grey btn-round-5 btn-block"
+    >
+      <i className="fa fa-info-circle left"></i>
+      {lang("View Cancel Reason")}
+    </button>
+  );
+}
+
+export function openPopupCancelReason(onDone) {
+  // let defaultValues = {};
+  // defaultValues[this.FIX_FORM_NAME] = this.state.val;
+
+  // create focus card
+  let focusCardClass = "popup-input-editable";
+  let focusCardProps = {
+    className: "form-row",
+    items: [
+      {
+        label: "Leave a note for the candidate",
+        sublabel: "Please write down your reason for cancellation",
+        name: "cancel_reason",
+        type: "textarea",
+        required: true,
+        rows: 10
+      }
+    ],
+    // defaultValues: defaultValues,
+    onSubmit: (d) => {
+      layoutActions.storeHideFocusCard();
+      onDone(d["cancel_reason"])
+    },
+    submitText: "Confirm"
+  };
+
+  // open focus card
+  layoutActions.storeUpdateFocusCard("Canceling Interview",
+    Form, focusCardProps, focusCardClass
+  );
+
+}
+
+export function confirmUpdatePrescreen(e, status, cancel_reason = null, _other_name = null, _id = null) {
+  var other_name = e ? e.currentTarget.dataset.other_name : _other_name;
+  var id = e ? e.currentTarget.id : _id;
   var user_id = getAuthUser().ID;
 
   const confirmUpdate = () => {
-    updatePrescreen(id, user_id, status);
+    updatePrescreen(id, user_id, status, cancel_reason);
   };
 
   // create confirm message
@@ -87,7 +143,7 @@ export function confirmUpdatePrescreen(e, status) {
   layoutActions.confirmBlockLoader(mes, confirmUpdate);
 }
 
-export function updatePrescreen(id, user_id, status) {
+export function updatePrescreen(id, user_id, status, cancel_reason = null) {
   layoutActions.loadingBlockLoader("Updating Scheduled Call Status..");
 
   if (typeof id === "string") {
@@ -101,6 +157,9 @@ export function updatePrescreen(id, user_id, status) {
   upd[Prescreen.ID] = id;
   upd[Prescreen.UPDATED_BY] = user_id;
   upd[Prescreen.STATUS] = status;
+  if (cancel_reason) {
+    upd[Prescreen.CANCEL_REASON] = cancel_reason;
+  }
 
   let query = `mutation{edit_prescreen(${obj2arg(upd, {
     noOuterBraces: true
@@ -454,6 +513,7 @@ class InterviewList extends React.Component {
     var btnEndVCall = null;
     var btnAcceptReject = null;
     var btnReschedule = null;
+    var btnViewCancelReason = null;
 
 
     time = getTimeStrNew(d);
@@ -622,10 +682,24 @@ class InterviewList extends React.Component {
         data-other_id={obj.ID}
         data-other_name={obj.name}
         onClick={e => {
-          confirmUpdatePrescreen(
-            e,
-            PrescreenEnum.STATUS_CANCEL
-          );
+          var other_name = e.currentTarget.dataset.other_name;
+          var id = e.currentTarget.id;
+          if (d.status == PrescreenEnum.STATUS_APPROVED) {
+            openPopupCancelReason((cancel_reason) => {
+              confirmUpdatePrescreen(
+                null,
+                PrescreenEnum.STATUS_CANCEL,
+                cancel_reason,
+                other_name,
+                id
+              );
+            })
+          } else {
+            confirmUpdatePrescreen(
+              e,
+              PrescreenEnum.STATUS_CANCEL
+            );
+          }
         }}
         className="btn btn-sm btn-default btn-bold btn-round-5 btn-block btn-130"
       >
@@ -640,10 +714,12 @@ class InterviewList extends React.Component {
       // PrescreenEnum.STATUS_RESCHEDULE,
       // PrescreenEnum.STATUS_APPROVED,
       PrescreenEnum.STATUS_ENDED,
-      PrescreenEnum.STATUS_REJECTED
+      PrescreenEnum.STATUS_REJECTED,
     ].indexOf(d.status) >= 0) {
       btnRemoveVCall = this.getRemoveButton(d);
     }
+
+    btnViewCancelReason = getViewCancelReason(d);
 
     // finalize action
     action = [
@@ -652,9 +728,10 @@ class InterviewList extends React.Component {
       btnEndVCall,
       d.status == PrescreenEnum.STATUS_WAIT_CONFIRM ? btnAcceptReject : null,
       d.status == PrescreenEnum.STATUS_STARTED ? btnJoinVCall : null,
+      d.status == PrescreenEnum.STATUS_CANCEL ? btnViewCancelReason : null,
       d.status == PrescreenEnum.STATUS_ENDED || PrescreenEnum.STATUS_REJECTED ? btnRemoveVCall : null,
       d.status == PrescreenEnum.STATUS_RESCHEDULE ? btnReschedule : null,
-      [PrescreenEnum.STATUS_WAIT_CONFIRM, PrescreenEnum.STATUS_RESCHEDULE].indexOf(d.status) >= 0 ? btnCancelVCall : null,
+      [PrescreenEnum.STATUS_WAIT_CONFIRM, PrescreenEnum.STATUS_RESCHEDULE, PrescreenEnum.STATUS_APPROVED].indexOf(d.status) >= 0 ? btnCancelVCall : null,
     ]
 
     status = HallRecruiterHelper.getStatusElementSmall(d, status_obj);
