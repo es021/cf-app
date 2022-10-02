@@ -66,7 +66,8 @@ import {
   getCF_guideUrl,
   getCF_hasGuideUrl,
   isCfFeatureOff,
-  getCfCustomMeta
+  getCfCustomMeta,
+  isCfFeatureOn
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -95,6 +96,10 @@ import ListStudentGroupCall from "../page/list-student-group-call";
 import AdminManageGroupCall from "../page/admin-manage-group-call";
 import CompanyDashboard from "../page/company-dashboard";
 import AdminCfQuery from "../page/admin-cf-query";
+import AdminQrCheckIn from "../page/admin-qr-check-in";
+import { MyQrCode } from "../page/my-qr-code";
+
+const QR_CHECK_IN_LABEL = "My QR Code";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -205,6 +210,18 @@ function getMenuItem(COMING_SOON) {
       hd_app: false,
       hd_auth: false,
       disabled: !isRoleAdmin()
+    },
+    {
+      url: "/qr-check-in/:code",
+      label: "Qr Check In",
+      icon: "slack",
+      component: AdminQrCheckIn,
+      routeOnly: true,
+      bar_app: true,
+      bar_auth: true,
+      hd_app: true,
+      hd_auth: true,
+      disabled: false
     },
     {
       // Admin Only
@@ -385,6 +402,19 @@ function getMenuItem(COMING_SOON) {
       hd_auth: false,
       default_param: { current: "profile" },
       disabled: !isRoleStudent()
+    },
+    {
+      url: null,
+      label: QR_CHECK_IN_LABEL,
+      icon: "qrcode",
+      component: homeComponent,
+      id: "qr_check_in",
+      is_popup: true,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
+      disabled: (!isRoleStudent() || !isCfFeatureOn(CFSMeta.FEATURE_QR_CHECK_IN)),
     },
     {
       url: "/browse-student",
@@ -1026,11 +1056,17 @@ export function getBar(
       let is_popup = e.currentTarget.dataset.is_popup;
       if (is_popup == "1") {
         let component = null;
+        let popupClassName = null;
         if (label == "Notification") {
+          popupClassName = "no-margin";
           component = NotificationFeed;
         }
+        if (label == QR_CHECK_IN_LABEL) {
+          popupClassName = "no-margin";
+          component = MyQrCode;
+        }
         if (component != null) {
-          layoutActions.storeUpdateFocusCard(label, component, {}, "no-margin");
+          layoutActions.storeUpdateFocusCard(label, component, {}, popupClassName);
         } else {
           alert("popup component is null");
         }

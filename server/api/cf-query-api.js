@@ -2,6 +2,26 @@ const DB = require("../model/DB.js");
 const { getAxiosGraphQLQuery, } = require('../../helper/api-helper');
 
 const CfQueryType = {
+    qr_check_in: {
+        key: "qr_check_in",
+        label: "QR Check In",
+        sql: (cf, start, end) => {
+            let sql = `
+                select 
+                u.ID as user_id, u.user_email, 
+                (${DB.selectUserName("u.ID")}) as user_name,
+                (${DB.selectDateTime("qc.created_at")}) as scan_time,
+                (${DB.selectUserName("qc.logged_in_user_id")}) as scanned_by
+                FROM  wp_cf_users u, qr_check_in qc, qr_img qi
+                WHERE 1=1 
+                AND qi.cf = ?
+                AND qi.user_id = u.ID
+                AND qc.qr_id = qi.ID
+                ORDER BY qc.created_at DESC
+            `;
+            return DB.prepare(sql, [cf]);
+        }
+    },
     shortlisted: {
         key: "shortlisted",
         label: "Shortlisted",
@@ -134,11 +154,7 @@ const CfQueryType = {
         sql: (cf, start, end) => {
             let sql = `
             select c.name as company, 
-            CONCAT( (select s.val from single_input s where s.entity = "user" 
-            and s.entity_id = u.ID and s.key_input = "first_name"), 
-            " ", 
-            (select s.val from single_input s where s.entity = "user" 
-            and s.entity_id = u.ID and s.key_input = "last_name") ) as student_name, 
+            (${DB.selectUserName("u.ID")}) as student_name,
             u.user_email as student_email, 
             convert_tz(from_unixtime(p.appointment_time), '+00:00', '+08:00') as interview_time, 
             p.status as interview_status 

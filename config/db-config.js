@@ -739,6 +739,7 @@ const CFSMeta = {
 	FEATURE_SPONSOR: "feature_sponsor",
 	FEATURE_DROP_RESUME: "feature_drop_resume",
 	FEATURE_CHAT: "feature_chat",
+	FEATURE_QR_CHECK_IN : "feature_qr_check_in",
 	FEATURE_FEEDBACK: "feature_feedback",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",

@@ -182,41 +182,41 @@ DB.prototype.insert = function (table, data, ID_key = "ID", onDuplicate = null) 
 DB.prototype.insertMulti = function ({ table, dataRow, isIgnore = false, onDuplicate = null }) {
     let keyMaster = "";
     let valMaster = "";
-  
+
     let index = 0;
     for (let data of dataRow) {
-      var key = "(";
-      var val = "(";
-      for (var k in data) {
-        key += `${k},`;
-        if (data[k] === null) {
-          val += `NULL,`
-        } else {
-          val += `'${this.escStr(data[k])}',`;
+        var key = "(";
+        var val = "(";
+        for (var k in data) {
+            key += `${k},`;
+            if (data[k] === null) {
+                val += `NULL,`
+            } else {
+                val += `'${this.escStr(data[k])}',`;
+            }
+            // val += `'${data[k]}',`;
         }
-        // val += `'${data[k]}',`;
-      }
-      key = key.substring(-1, key.length - 1) + ")";
-      val = val.substring(-1, val.length - 1) + ")";
-  
-      if (index > 0) {
-        valMaster += ", "
-      }
-      valMaster += val
-      keyMaster = key;
-      index++;
+        key = key.substring(-1, key.length - 1) + ")";
+        val = val.substring(-1, val.length - 1) + ")";
+
+        if (index > 0) {
+            valMaster += ", "
+        }
+        valMaster += val
+        keyMaster = key;
+        index++;
     }
-  
+
     var sql = `INSERT ${isIgnore ? 'IGNORE' : ''} INTO ${table} ${keyMaster} VALUES ${valMaster}`;
-  
+
     if (onDuplicate !== null) {
-      sql += ` ON DUPLICATE KEY UPDATE ${onDuplicate}`;
+        sql += ` ON DUPLICATE KEY UPDATE ${onDuplicate}`;
     }
-  
+
     return this.query(sql).then((res) => {
-      return res;
+        return res;
     });
-  };
+};
 
 DB.prototype.update = function (table, data, ID_key = "ID") {
     var DB = this;
@@ -306,6 +306,18 @@ DB.prototype.delete = function (table, ID, ID_key = "ID") {
 
 DB.prototype.selectAllCount = function () {
     return "COUNT(*) as total";
+};
+DB.prototype.selectDateTime = function (datetime) {
+    return `DATE_FORMAT(${datetime}, "%M %d, %Y - %h:%i %p")`;
+};
+DB.prototype.selectUserName = function (user_id) {
+    return `CONCAT( 
+        (select s.val from single_input s where s.entity = "user" 
+            and s.entity_id = ${user_id} and s.key_input = "first_name"), 
+        " ", 
+        (select s.val from single_input s where s.entity = "user" 
+            and s.entity_id = ${user_id} and s.key_input = "last_name")
+    ) `
 };
 
 DB.prototype.prepareLimit = function (page, offset) {

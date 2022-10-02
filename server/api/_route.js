@@ -79,6 +79,20 @@ const initializeAllRoute = function (app, root) {
   });
 
   // Route For Daily Co -------------------------------------------------------------------
+  const { QrAPI } = require("./qr-api");
+  app.post(root + "/qr/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    QrAPI.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
+
+  // Route For Daily Co -------------------------------------------------------------------
   const { StatisticAPI } = require("./statistic-api");
   app.post(root + "/statistic/:action", function (req, res, next) {
     var action = req.params.action;
