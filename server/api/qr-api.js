@@ -2,13 +2,12 @@ const DB = require("../model/DB.js");
 const { UserQuery } = require("../model/user-query.js");
 const { graphql } = require("../../helper/api-helper");
 const { Time } = require("../../app/lib/time.js");
-// var QRCode = require('qrcode')
+var QRCode = require('qrcode')
 const fs = require("fs");
 const path = require("path");
 const { AppConfig } = require("../../config/app-config.js");
 const { url } = require("inspector");
 const pwd = process.env.PWD ? process.env.PWD : process.env.INIT_CWD;
-var QRCode = null;
 class QrAPI {
     Main(action, param) {
 
