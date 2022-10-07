@@ -1154,6 +1154,7 @@ fields["add_vacancy"] = {
     specialization: __.String,
     requirement: __.String,
     application_url: __.String,
+    open_position: __.Int,
     ref_city: __.Int,
     ref_state: __.Int,
     ref_country: __.Int
@@ -1177,6 +1178,7 @@ fields["edit_vacancy"] = {
     description: __.String,
     requirement: __.String,
     application_url: __.String,
+    open_position: __.Int,
     ref_city: __.Int,
     ref_state: __.Int,
     ref_country: __.Int

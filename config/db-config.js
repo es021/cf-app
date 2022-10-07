@@ -510,6 +510,7 @@ const Vacancy = {
 	TYPE: "type",
 	SPECIALIZATION: "specialization",
 	APPLICATION_URL: "application_url",
+	OPEN_POSITION : "open_position",
 	UPDATED_AT: "updated_at",
 	CREATED_BY: "created_by"
 };

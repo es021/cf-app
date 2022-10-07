@@ -102,6 +102,7 @@ export default class ManageVacancy extends React.Component {
           <div><b>Type</b> : {d.type}</div>,
           <div><b>Location</b> : {d.location}</div>,
           <div><b>Application Url</b> : {d.application_url}</div>,
+          <div><b>Open Position</b> : {d.open_position}</div>,
           isVacancyInfoNeeded(getCF(), "specialization") ?
             <div><b>Specialization</b> : {d.specialization}</div>
             : null
@@ -140,11 +141,13 @@ export default class ManageVacancy extends React.Component {
 
     this.loadData = (page, offset) => {
 
+    this.forceDiff = ["open_position"]
+    this.acceptEmpty = ["open_position"]
 
       // @custom_vacancy_info
       var query = `query{vacancies(${this.getQueryParam({ page: page, offset: offset, isCount: false })})
             { 
-              ID title location application_url type updated_at 
+              ID title location application_url open_position type updated_at 
               ${isRoleOrganizer() ? `company {ID name}` : ""}
               ${addVacancyInfoIfNeeded(getCF(), "specialization")} 
             }
@@ -174,6 +177,7 @@ export default class ManageVacancy extends React.Component {
                   requirement
                   type
                   application_url
+                  open_position
                   location
                   ${addVacancyInfoIfNeeded(getCF(), "specialization")}
                 }
@@ -238,16 +242,21 @@ export default class ManageVacancy extends React.Component {
           hidden: !isVacancyInfoNeeded(getCF(), Vacancy.SPECIALIZATION),
         },
         {
-          label: "Application Url",
-          name: Vacancy.APPLICATION_URL,
-          type: "text"
-        },
-        {
           label: "Location",
           name: "location",
           type: "input_suggestion",
           table_name: "location",
           required: true
+        },
+        {
+          label: "Application Url",
+          name: Vacancy.APPLICATION_URL,
+          type: "text"
+        },
+        {
+          label: "Open Position",
+          name: Vacancy.OPEN_POSITION,
+          type: "number"
         },
         {
           label: "Description",
@@ -357,6 +366,8 @@ export default class ManageVacancy extends React.Component {
         renderRow={this.renderRow}
         getDataFromRes={this.getDataFromRes}
         loadData={this.loadData}
+        forceDiff={this.forceDiff}
+        acceptEmpty={this.acceptEmpty}
         formWillSubmit={this.formWillSubmit}
       ></GeneralFormPage>
     );

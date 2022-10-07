@@ -33,6 +33,7 @@ export default class HallRecruiterJobPosts extends React.Component {
                 title
                 type
                 location 
+                open_position
                 interested{ID is_interested}
         }}`);
   }
@@ -139,6 +140,9 @@ export default class HallRecruiterJobPosts extends React.Component {
         </div>
         <div className="location">{d.location}</div>
         <div className="type">{d.type ? d.type + " " + getCfCustomMeta(CFSMeta.TEXT_JOB_POST_CARD, "Job") : null}</div>
+        {!d.open_position ? null :
+          <small className="location text-muted"><i>{d.open_position} open position{d.open_position > 1 ? 's' : ''}</i></small>
+        }
       </div>
     );
 
