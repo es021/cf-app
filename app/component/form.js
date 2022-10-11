@@ -448,7 +448,9 @@ export default class Form extends React.Component {
                   defaultValue={defaultVal}
                   ref={v => (this.form[name] = v)}
                 />
-                {data.label}
+                {typeof data.label === "string" ?
+                  <span dangerouslySetInnerHTML={{ __html: data.label }}></span>
+                  : data.label}
               </label>
             </div>
           );

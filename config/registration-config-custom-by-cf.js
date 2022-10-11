@@ -135,7 +135,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "D2W2K22", "D2WOCT22", "VCFEE22"]
+        onCf: ["D2W21", "D2WRL21", "UTMIV21", "TCREP22", "MYHEARTCAFE2022", "D2W2K22", "D2WOCT22", "VCFEE22"]
     },
     ic_number: {
         discard_filter: true,
@@ -1566,7 +1566,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22", "D2W2K22", "D2WOCT22", "VCFEE22", "WCC22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022", "D2W2K22", "D2WOCT22", "VCFEE22", "WCC22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1589,7 +1589,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "number",
         type: "single",
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_country_residence: {
         question: "Country of Residence Abroad",
@@ -1600,7 +1600,7 @@ const CustomConfig = {
         ref_table_name: "nationality_country",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     linkedin: {
         discard_filter: true,
@@ -1611,7 +1611,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     home_address: {
         discard_filter: true,
@@ -1642,7 +1642,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_employ_status",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_employ_role: {
         question: "Current Employment Role",
@@ -1653,7 +1653,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_employ_role",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
 
     current_company: {
@@ -1664,9 +1664,18 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
-
+    myheart_university: {
+        discard_filter: true,
+        question: "University",
+        label: "University",
+        icon: "graduation-cap",
+        is_required: true,
+        input_type: "text",
+        type: "single",
+        onCf: ["MYHEARTCAFE2022"]
+    },
     tcrep_employ_industry: {
         question: "Current Employment Industry",
         label: "Current Employment Industry",
@@ -1676,7 +1685,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_employ_industry",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_qualification: {
         discard_popup_on: (d) => {
@@ -1690,7 +1699,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_qualification",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_qualification_other: {
         discard_filter: true,
@@ -1703,7 +1712,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_field_study: {
         question: "Latest Field of Study",
@@ -1714,7 +1723,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_field_study",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_received_job_offer: {
         question: "Have you received an employment offer from a company based in Malaysia?",
@@ -1725,7 +1734,7 @@ const CustomConfig = {
         ref_table_name: "yes_no",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_interested_opportunity_info: {
         discard_filter: true,
@@ -1735,7 +1744,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_explore_diff: {
         question: "Would you be open to exploring employment opportunities in a different industry?",
@@ -1746,7 +1755,7 @@ const CustomConfig = {
         ref_table_name: "yes_no",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_preferred_job_location: {
         question: "Please state your preferred location for employment in Malaysia",
@@ -1757,7 +1766,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_preferred_job_location",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_child_edu: {
         question: "Are you interested in knowing more about the education needs for your children",
@@ -2248,6 +2257,41 @@ const DefaultCustomOrder = [
 ];
 
 const CustomOrder = {
+    MYHEARTCAFE2022: [
+        // 
+        // 
+        // "tcrep_ic",
+        // "tcrep_country_residence",
+        // "address",
+        // ,
+        // ,
+        // ,
+        // 
+        // ,
+        // "tcrep_child_edu",
+        // "tcrep_child_current_edu",
+        // "tcrep_question_for_company",
+
+        "full_name",
+        "current_company",
+        "tcrep_received_job_offer",
+        "tcrep_interested_opportunity_info",
+        "tcrep_explore_diff",
+        "tcrep_preferred_job_location",
+        "linkedin",
+
+        "gender_mf",
+        "nationality_country",
+        "tcrep_ic",
+        "tcrep_country_residence",
+        "tcrep_qualification",
+        "tcrep_qualification_other",
+        "tcrep_field_study",
+        "myheart_university",
+        "tcrep_employ_status",
+        "tcrep_employ_role",
+        "tcrep_employ_industry"
+    ],
     VCFEE22: [
         "full_name",
         "ic_number",
@@ -2432,8 +2476,6 @@ const CustomOrder = {
         "tcrep_child_edu",
         "tcrep_child_current_edu",
         "tcrep_question_for_company",
-
-
     ],
     TAYLORS22: [
         "student_id",
@@ -2798,7 +2840,30 @@ const CustomRegistrationConfig = [
         loadRef: "gender_mf",
         data: [],
         isOnlyInCf: (cf) => {
-            return cf == "TCREP22"
+            return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+
+    {
+        label: "Nationality",
+        name: "nationality_country",
+        type: "select",
+        loadRef: "nationality_country",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "MYHEARTCAFE2022"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "IC Number",
+        name: "tcrep_ic",
+        type: "number",
+        isOnlyInCf: (cf) => {
+            return cf == "MYHEARTCAFE2022"
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -2810,7 +2875,7 @@ const CustomRegistrationConfig = [
         loadRef: "nationality_country",
         data: [],
         isOnlyInCf: (cf) => {
-            return cf == "TCREP22"
+            return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -2822,7 +2887,41 @@ const CustomRegistrationConfig = [
         loadRef: "tcrep_qualification",
         data: [],
         isOnlyInCf: (cf) => {
-            return cf == "TCREP22"
+            return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Latest Field of Study",
+        name: "tcrep_field_study",
+        type: "select",
+        loadRef: "tcrep_field_study",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MYHEARTCAFE2022"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "University",
+        name: "myheart_university",
+        type: "text",
+        isOnlyInCf: (cf) => {
+            return cf == "MYHEARTCAFE2022"
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Current Employment Status",
+        name: "tcrep_employ_status",
+        type: "select",
+        loadRef: "tcrep_employ_status",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return cf == "MYHEARTCAFE2022"
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -2834,7 +2933,7 @@ const CustomRegistrationConfig = [
         loadRef: "tcrep_employ_role",
         data: [],
         isOnlyInCf: (cf) => {
-            return cf == "TCREP22"
+            return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -2846,16 +2945,81 @@ const CustomRegistrationConfig = [
         loadRef: "tcrep_employ_industry",
         data: [],
         isOnlyInCf: (cf) => {
-            return cf == "TCREP22"
+            return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
     },
 ]
 
+const CustomRegistrationTermsAndConditionConfig = [
+    {
+        label: null,
+        name: "accept-pdpa",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for Talent Corporation Malaysia Berhad (TalentCorp) to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited for administrative purposes in connection with MyHeart-REP CaFe 2022</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["TCREP22"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: null,
+        name: "accept-tcrep",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in MyHeart-REP CaFe 2022</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["TCREP22"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    /////////////////////////////
+    {
+        label: null,
+        name: "accept-myheart",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited for administrative purposes in connection with <b>MyHeart CaFe</b>.</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["MYHEARTCAFE2022"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: null,
+        name: "accept-myheart-pdpa",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in <b>MyHeart CaFe</b>.</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["MYHEARTCAFE2022"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+]
+
+const CustomRegistrationTermsAndConditionError = {
+    "accept-pdpa": "You must agree to Personal Data Protection Act before continuing.",
+    "accept-tcrep": "You must agree to TalentCorp terms and condition before continuing.",
+    "accept-myheart": "You must agree to TalentCorp terms and condition before continuing.",
+    "accept-myheart-pdpa": "You must agree to Personal Data Protection Act before continuing.",
+};
+
 module.exports = {
     CustomConfig,
     DefaultCustomOrder,
     CustomOrder,
     CustomRegistrationConfig,
+    CustomRegistrationTermsAndConditionError,
+    CustomRegistrationTermsAndConditionConfig,
 };

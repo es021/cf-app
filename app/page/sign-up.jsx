@@ -14,6 +14,9 @@ import * as Reg from "../../config/registration-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 
 import {
+  CustomRegistrationTermsAndConditionError
+} from "../../config/registration-config-custom-by-cf";
+import {
   getRegisterFormItem,
   TotalRegisterStep
 } from "../../config/user-config";
@@ -184,20 +187,14 @@ export default class SignUpPage extends React.Component {
         return lang("You must agree to receive important notifications from this event");
       }
 
-      if (
-        this.formItemKeys.indexOf("accept-pdpa") >= 0 &&
-        (typeof d["accept-pdpa"] === "undefined" || d["accept-pdpa"][0] != "accepted")
-      ) {
-        return lang("You must agree to Personal Data Protection Act before continuing.");
+      for (let k in CustomRegistrationTermsAndConditionError) {
+        if (
+          this.formItemKeys.indexOf(k) >= 0 &&
+          (typeof d[k] === "undefined" || d[k][0] != "accepted")
+        ) {
+          return lang(CustomRegistrationTermsAndConditionError[k]);
+        }
       }
-
-      if (
-        this.formItemKeys.indexOf("accept-tcrep") >= 0 &&
-        (typeof d["accept-tcrep"] === "undefined" || d["accept-tcrep"][0] != "accepted")
-      ) {
-        return lang("You must agree to TalentCorp terms and condition before continuing.");
-      }
-
     }
 
     return 0;

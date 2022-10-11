@@ -12,7 +12,7 @@ import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 import { lang } from '../app/lib/lang';
 import { getCF, getNoMatrixLabel } from '../app/redux/actions/auth-actions';
-import { CustomRegistrationConfig } from "./registration-config-custom-by-cf";
+import { CustomRegistrationConfig, CustomRegistrationTermsAndConditionConfig } from "./registration-config-custom-by-cf";
 export const TotalRegisterStep = 3;
 
 
@@ -334,32 +334,7 @@ export const UserFormItem = [
         }],
         register: 1, editStudent: 0, editRec: 0
     },
-    {
-        label: null,
-        name: "accept-pdpa",
-        type: "checkbox",
-        data: [{
-            key: "accepted",
-            label: <small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for Talent Corporation Malaysia Berhad (TalentCorp) to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited for administrative purposes in connection with MyHeart-REP CaFe 2022</small>
-        }],
-        isOnlyInCf: (cf) => {
-            return ["TCREP22"].indexOf(cf) >= 0;
-        },
-        register: 1, editStudent: 0, editRec: 0
-    },
-    {
-        label: null,
-        name: "accept-tcrep",
-        type: "checkbox",
-        data: [{
-            key: "accepted",
-            label: <small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in MyHeart-REP CaFe 2022</small>
-        }],
-        isOnlyInCf: (cf) => {
-            return ["TCREP22"].indexOf(cf) >= 0;
-        },
-        register: 1, editStudent: 0, editRec: 0
-    },
+    ...CustomRegistrationTermsAndConditionConfig,
 
 ];
 
