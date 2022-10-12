@@ -8,8 +8,8 @@ const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 const IsUploadResumeRequired = ["TARUCAUG22", "INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
 const IsHasUploadResume = ["MYHEARTCAFE2022", "D2WOCT22", "TARUCAUG22", "OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
 
-const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22"]
-const IsHasUploadResume_FirstSignupPage = ["INTELMM22"]
+const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22", "MARAVCF22"]
+const IsHasUploadResume_FirstSignupPage = ["INTELMM22", "MARAVCF22"]
 
 
 var Single = {

@@ -1566,7 +1566,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22", "MYHEARTCAFE2022", "D2W2K22", "D2WOCT22", "VCFEE22", "WCC22"]
+        onCf: ["TCREP22", "MYHEARTCAFE2022", "MARAVCF22", "D2W2K22", "D2WOCT22", "VCFEE22", "WCC22"]
     },
     nationality_country: {
         label: "Nationality",
@@ -1578,7 +1578,7 @@ const CustomConfig = {
         ref_table_name: "nationality_country",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TCREP22"]
+        onCf: ["TCREP22", "MARAVCF22",]
     },
     tcrep_ic: {
         discard_filter: true,
@@ -1601,6 +1601,17 @@ const CustomConfig = {
         ref_order_by: "ID asc",
         is_required: true,
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
+    },
+    mara_country_study: {
+        question: "Country of Study",
+        label: "Country of Study",
+        icon: "map-marker",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "nationality_country",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MARAVCF22"]
     },
     linkedin: {
         discard_filter: true,
@@ -1674,7 +1685,7 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
-        onCf: ["MYHEARTCAFE2022"]
+        onCf: ["MYHEARTCAFE2022", "MARAVCF22"]
     },
     tcrep_employ_industry: {
         question: "Current Employment Industry",
@@ -1724,6 +1735,17 @@ const CustomConfig = {
         ref_order_by: "ID asc",
         is_required: true,
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
+    },
+    mara_field_study: {
+        question: "Field of Study",
+        label: "Field of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "tcrep_field_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MARAVCF22"]
     },
     tcrep_received_job_offer: {
         question: "Have you received an employment offer from a company based in Malaysia?",
@@ -2232,6 +2254,73 @@ const CustomConfig = {
         is_required: true,
         onCf: ["VCFEE22"]
     },
+
+    mara_grad_year:
+    {
+        question: "Year of Graduation",
+        label: "Year of Graduation",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "mara_grad_year",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MARAVCF22"]
+    },
+    mara_year_study:
+    {
+        discard_popup_on: (d) => {
+            return d['mara_year_study'] == OTHER_PLEASE_SPECIFY;
+        },
+        question: "Year of Study",
+        label: "Year of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "mara_year_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MARAVCF22"]
+    },
+    mara_year_study_other: {
+        discard_popup_on: (d) => {
+            return d['mara_year_study'] != OTHER_PLEASE_SPECIFY;
+        },
+        question: "Year of Study (Other)",
+        label: "Year of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["MARAVCF22"]
+    },
+    mara_level_study:
+    {
+        discard_popup_on: (d) => {
+            return d['mara_level_study'] == OTHER_PLEASE_SPECIFY;
+        },
+        question: "Level of Study",
+        label: "Level of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "select",
+        ref_table_name: "mara_level_study",
+        ref_order_by: "ID asc",
+        is_required: true,
+        onCf: ["MARAVCF22"]
+    },
+    mara_level_study_other: {
+        discard_popup_on: (d) => {
+            return d['mara_level_study'] != OTHER_PLEASE_SPECIFY;
+        },
+        question: "Level of Study (Other)",
+        label: "Level of Study",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["MARAVCF22"]
+    },
 }
 
 const DefaultCustomOrder = [
@@ -2257,21 +2346,20 @@ const DefaultCustomOrder = [
 ];
 
 const CustomOrder = {
+    MARAVCF22: [
+        "first_name",
+        "gender_mf",
+        "nationality_country",
+        "mara_grad_year",
+        "mara_country_study",
+        "myheart_university",
+        "mara_year_study",
+        "mara_year_study_other",
+        "mara_level_study",
+        "mara_level_study_other",
+        "mara_field_study",
+    ],
     MYHEARTCAFE2022: [
-        // 
-        // 
-        // "tcrep_ic",
-        // "tcrep_country_residence",
-        // "address",
-        // ,
-        // ,
-        // ,
-        // 
-        // ,
-        // "tcrep_child_edu",
-        // "tcrep_child_current_edu",
-        // "tcrep_question_for_company",
-
         "full_name",
         "current_company",
         "tcrep_received_job_offer",
@@ -2840,7 +2928,20 @@ const CustomRegistrationConfig = [
         loadRef: "gender_mf",
         data: [],
         isOnlyInCf: (cf) => {
-            return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
+            return ["TCREP22", "MYHEARTCAFE2022", "MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+
+    {
+        label: "Year of Graduation",
+        name: "mara_grad_year",
+        type: "select",
+        loadRef: "mara_grad_year",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -2853,7 +2954,7 @@ const CustomRegistrationConfig = [
         loadRef: "nationality_country",
         data: [],
         isOnlyInCf: (cf) => {
-            return cf == "MYHEARTCAFE2022"
+            return ["MYHEARTCAFE2022", "MARAVCF22"].indexOf(cf) >= 0
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -2893,6 +2994,18 @@ const CustomRegistrationConfig = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
+        label: "Country of Study",
+        name: "mara_country_study",
+        type: "select",
+        loadRef: "nationality_country",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
         label: "Latest Field of Study",
         name: "tcrep_field_study",
         type: "select",
@@ -2909,7 +3022,65 @@ const CustomRegistrationConfig = [
         name: "myheart_university",
         type: "text",
         isOnlyInCf: (cf) => {
-            return cf == "MYHEARTCAFE2022"
+            return ["MYHEARTCAFE2022", "MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Year of Study",
+        name: "mara_year_study",
+        type: "select",
+        loadRef: "mara_year_study",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Year of Study (Other)",
+        name: "mara_year_study_other",
+        type: "text",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: false,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Level of Study",
+        name: "mara_level_study",
+        type: "select",
+        loadRef: "mara_level_study",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Level of Study (Other)",
+        name: "mara_level_study_other",
+        type: "text",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
+        },
+        required: false,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Field of Study",
+        name: "mara_field_study",
+        type: "select",
+        loadRef: "tcrep_field_study",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0
         },
         required: true,
         register: 1, editStudent: 0, editRec: 0
@@ -3006,6 +3177,33 @@ const CustomRegistrationTermsAndConditionConfig = [
         },
         register: 1, editStudent: 0, editRec: 0
     },
+    /////////////////////////////
+    {
+        label: null,
+        name: "accept-mara",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited to administrative purposes in connection with <b>TalentCorp-NAMSA Virtual Career Fair 2022</b>.</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: null,
+        name: "accept-mara-share",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in <b>TalentCorp-NAMSA Virtual Career Fair 2022</b>.</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["MARAVCF22"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
 ]
 
 const CustomRegistrationTermsAndConditionError = {
@@ -3013,6 +3211,8 @@ const CustomRegistrationTermsAndConditionError = {
     "accept-tcrep": "You must agree to TalentCorp terms and condition before continuing.",
     "accept-myheart": "You must agree to TalentCorp terms and condition before continuing.",
     "accept-myheart-pdpa": "You must agree to Personal Data Protection Act before continuing.",
+    "accept-mara": "You must agree to all TalentCorp terms and condition before continuing.",
+    "accept-mara-share": "You must agree to all TalentCorp terms and condition before continuing.",
 };
 
 module.exports = {

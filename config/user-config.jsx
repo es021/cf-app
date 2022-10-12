@@ -306,12 +306,12 @@ export const UserFormItem = [
         rows: 5,
         register: 3, editStudent: 1, editRec: 0
     },
+    ...CustomRegistrationConfig,
     {
         type: "custom",
         key: "resume",
         register: 1, editStudent: 0, editRec: 0
     },
-    ...CustomRegistrationConfig,
     {
         label: null,
         name: "accept-policy",
