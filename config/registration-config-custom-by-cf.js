@@ -3038,7 +3038,7 @@ const CustomRegistrationConfig = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
-        label: "Academic Qualification",
+        label: "Highest Academic Qualification",
         name: "tcrep_qualification",
         type: "select",
         loadRef: "tcrep_qualification",
@@ -3062,7 +3062,7 @@ const CustomRegistrationConfig = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
-        label: "Latest Field of Study",
+        label: "Field of Study",
         name: "tcrep_field_study",
         type: "select",
         loadRef: "tcrep_field_study",
@@ -3166,6 +3166,17 @@ const CustomRegistrationConfig = [
         register: 1, editStudent: 0, editRec: 0
     },
     {
+        label: "Current Employment Role (Other)",
+        name: "tcrep_employ_role_other",
+        type: "text",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MYHEARTCAFE2022"].indexOf(cf) >= 0
+        },
+        required: false,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
         label: "Current Employment Industry",
         name: "tcrep_employ_industry",
         type: "select",
@@ -3175,6 +3186,17 @@ const CustomRegistrationConfig = [
             return ["TCREP22", "MYHEARTCAFE2022"].indexOf(cf) >= 0
         },
         required: true,
+        register: 1, editStudent: 0, editRec: 0
+    },
+    {
+        label: "Current Employment Industry (Other)",
+        name: "tcrep_employ_industry_other",
+        type: "text",
+        data: [],
+        isOnlyInCf: (cf) => {
+            return ["MYHEARTCAFE2022"].indexOf(cf) >= 0
+        },
+        required: false,
         register: 1, editStudent: 0, editRec: 0
     },
 ]
