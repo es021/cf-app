@@ -473,20 +473,6 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.qualification)
         },
-        // {
-        //   // free multi choice (location)
-        //   type: "multi",
-        //   id: Reg.Multi.field_study,
-        //   table_name: Reg.Multi.field_study,
-        //   label: "What is your field of study?",
-        //   input_placeholder: "Computer Science",
-        //   list_title: null,
-        //   ref_table_name: "major",
-        //   ref_category: "computer-and-information-sciences", // ref suggestion by category
-        //   is_required: true,
-        //   hidden: false
-        // },
-        // @limit_field_of_study_2_before_deploy - uncomment
         {
           // single
           type: "single",
@@ -511,21 +497,6 @@ export default class ManageUserProfile extends React.Component {
           is_required: false,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Single.field_study_secondary)
         },
-        // @limit_field_of_study_2_before_deploy - comment
-        // {
-        //   // select multi choice
-        //   type: "multi",
-        //   input_type: "select",
-        //   id: Reg.Multi.field_study,
-        //   table_name: Reg.Multi.field_study,
-        //   discard_ref_from_default: true,
-        //   label: lang("What is your field of study?"),
-        //   sublabel: lang("You can choose more than one field of study"),
-        //   list_title: null,
-        //   ref_table_name: "field_study",
-        //   is_required: true,
-        //   hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.field_study)
-        // },
         {
           // single
           type: "single",
@@ -624,20 +595,6 @@ export default class ManageUserProfile extends React.Component {
           is_required: true,
           hidden: isRoleRec() || isRoleOrganizer() || Reg.isCustomUserInfoOff(cf, Reg.Multi.interested_role)
         },
-        // {
-        //   // select multi choice
-        //   type: "multi",
-        //   input_type: "select",
-        //   id: Reg.Multi.interested_role,
-        //   table_name: Reg.Multi.interested_role,
-        //   discard_ref_from_default: true,
-        //   label: "What types of jobs will you be searching for?",
-        //   sublabel : "You can choose more than one job",
-        //   list_title: null,
-        //   ref_table_name: "field_study",
-        //   is_required: true,
-        //   hidden: false
-        // },
         {
           // single
           type: "single",
@@ -721,7 +678,7 @@ export default class ManageUserProfile extends React.Component {
       ]
     );
 
-    r = Reg.pickAndReorderByCf(cf, r);
+    r = Reg.pickAndReorderByCf(cf, r, {isEdit : this.props.isEdit});
 
     // console.log("ALL FIELD KEY", r.map(d => {
     //   if (d && !d.hidden) {

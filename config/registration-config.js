@@ -109,6 +109,7 @@ const CustomDiscardEditProfile = {
     UMT21: ["id_utm"],
 }
 
+
 const CustomOrder = {
     ...RegConfigCustomByCf.CustomOrder,
     MDCW: [
@@ -221,9 +222,12 @@ const isInCustomOrder = (cf, key) => {
     return CustomOrder[cf].indexOf(key) >= 0;
 }
 
-const pickAndReorderByCf = (cf, r) => {
+const pickAndReorderByCf = (cf, r, { isEdit = false }) => {
     let order = null;
     let discardEditProfile = [];
+
+    // isEdit = false;
+
 
     if (CustomOrder[cf]) {
         order = CustomOrder[cf];
@@ -233,6 +237,7 @@ const pickAndReorderByCf = (cf, r) => {
         discardEditProfile = CustomDiscardEditProfile[cf];
     }
 
+    // console.log(r);
     if (order) {
         let newR = [];
         let map = {}
@@ -250,7 +255,13 @@ const pickAndReorderByCf = (cf, r) => {
             if (Array.isArray(indexes)) {
                 for (let i of indexes) {
                     let item = r[i];
-                    console.log("item", item);
+
+                    if (!isEdit) {
+                        if (item.only_in_edit_mode && item.only_in_edit_mode.indexOf(cf) >= 0) {
+                            continue;
+                        }
+                    }
+                    // console.log("item", item);
                     let id = item["id"];
                     if (discardEditProfile.indexOf(id) >= 0) {
                         continue;

@@ -1566,6 +1566,7 @@ const CustomConfig = {
         ref_table_name: "gender_mf",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["TCREP22", "MYHEARTCAFE2022", "MARAVCF22", "D2W2K22", "D2WOCT22", "VCFEE22", "WCC22"]
     },
     nationality_country: {
@@ -1578,6 +1579,7 @@ const CustomConfig = {
         ref_table_name: "nationality_country",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["TCREP22", "MARAVCF22",]
     },
     tcrep_ic: {
@@ -1611,6 +1613,7 @@ const CustomConfig = {
         ref_table_name: "nationality_country",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
     linkedin: {
@@ -1655,7 +1658,21 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
+    // tcrep_employ_role: {
+    //     question: "Current Employment Role",
+    //     label: "Current Employment Role",
+    //     icon: "suitcase",
+    //     type: "single",
+    //     input_type: "select",
+    //     ref_table_name: "tcrep_employ_role",
+    //     ref_order_by: "ID asc",
+    //     is_required: true,
+    //     onCf: ["TCREP22", "MYHEARTCAFE2022"]
+    // },
     tcrep_employ_role: {
+        discard_popup_on: (d) => {
+            return d['tcrep_employ_role'] == OTHER_PLEASE_SPECIFY;
+        },
         question: "Current Employment Role",
         label: "Current Employment Role",
         icon: "suitcase",
@@ -1666,10 +1683,23 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
-
+    tcrep_employ_role_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['tcrep_employ_role'] != OTHER_PLEASE_SPECIFY;
+        },
+        question: "Current Employment Role (Other)",
+        label: "Current Employment Role",
+        icon: "suitcase",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["MYHEARTCAFE2022"]
+    },
     current_company: {
         discard_filter: true,
         question: "Current Company Name",
+        question_sublabel: "Please type NA if not available",
         label: "Current Company Name",
         icon: "building",
         is_required: true,
@@ -1685,9 +1715,13 @@ const CustomConfig = {
         is_required: true,
         input_type: "text",
         type: "single",
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MYHEARTCAFE2022", "MARAVCF22"]
     },
     tcrep_employ_industry: {
+        discard_popup_on: (d) => {
+            return d['tcrep_employ_industry'] == OTHER_PLEASE_SPECIFY;
+        },
         question: "Current Employment Industry",
         label: "Current Employment Industry",
         icon: "slack",
@@ -1698,12 +1732,25 @@ const CustomConfig = {
         is_required: true,
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
+    tcrep_employ_industry_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['tcrep_employ_industry'] != OTHER_PLEASE_SPECIFY;
+        },
+        question: "Current Employment Industry (Other)",
+        label: "Current Employment Industry",
+        icon: "slack",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["MYHEARTCAFE2022"]
+    },
     tcrep_qualification: {
         discard_popup_on: (d) => {
             return d['tcrep_qualification'] == OTHER_PLEASE_SPECIFY;
         },
-        label: "Academic Qualification",
-        question: "Academic Qualification",
+        label: "Highest Academic Qualification",
+        question: "Highest Academic Qualification",
         icon: "graduation-cap",
         type: "single",
         input_type: "select",
@@ -1717,8 +1764,8 @@ const CustomConfig = {
         discard_popup_on: (d) => {
             return d['tcrep_qualification'] != OTHER_PLEASE_SPECIFY;
         },
-        label: "Academic Qualification",
-        question: "Academic Qualification (Other)",
+        label: "Highest Academic Qualification",
+        question: "Highest Academic Qualification (Other)",
         icon: "graduation-cap",
         type: "single",
         input_type: "text",
@@ -1726,8 +1773,8 @@ const CustomConfig = {
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
     },
     tcrep_field_study: {
-        question: "Latest Field of Study",
-        label: "Latest Field of Study",
+        question: "Field of Study",
+        label: "Field of Study",
         icon: "graduation-cap",
         type: "single",
         input_type: "select",
@@ -1745,6 +1792,7 @@ const CustomConfig = {
         ref_table_name: "tcrep_field_study",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
     tcrep_received_job_offer: {
@@ -1761,9 +1809,10 @@ const CustomConfig = {
     tcrep_interested_opportunity_info: {
         discard_filter: true,
         question: "What kind of information would you be interested in knowing about employment opportunities?",
+        question_sublabel: "Optional",
         label: "What kind of information would you be interested in knowing about employment opportunities?",
         icon: "info",
-        is_required: true,
+        is_required: false,
         input_type: "text",
         type: "single",
         onCf: ["TCREP22", "MYHEARTCAFE2022"]
@@ -2265,6 +2314,7 @@ const CustomConfig = {
         ref_table_name: "mara_grad_year",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
     mara_year_study:
@@ -2280,6 +2330,7 @@ const CustomConfig = {
         ref_table_name: "mara_year_study",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
     mara_year_study_other: {
@@ -2292,6 +2343,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
     mara_level_study:
@@ -2307,6 +2359,7 @@ const CustomConfig = {
         ref_table_name: "mara_level_study",
         ref_order_by: "ID asc",
         is_required: true,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
     mara_level_study_other: {
@@ -2319,6 +2372,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: false,
+        only_in_edit_mode: ["MARAVCF22"],
         onCf: ["MARAVCF22"]
     },
 }
@@ -2378,7 +2432,9 @@ const CustomOrder = {
         "myheart_university",
         "tcrep_employ_status",
         "tcrep_employ_role",
-        "tcrep_employ_industry"
+        "tcrep_employ_role_other",
+        "tcrep_employ_industry",
+        "tcrep_employ_industry_other",
     ],
     VCFEE22: [
         "full_name",
@@ -3214,9 +3270,13 @@ const CustomRegistrationTermsAndConditionError = {
     "accept-mara": "You must agree to all TalentCorp terms and condition before continuing.",
     "accept-mara-share": "You must agree to all TalentCorp terms and condition before continuing.",
 };
+function isNoProfileSetupPostSignUp(cf) {
+    return ["MARAVCF22"].indexOf(cf) >= 0;
+}
 
 module.exports = {
     CustomConfig,
+    isNoProfileSetupPostSignUp,
     DefaultCustomOrder,
     CustomOrder,
     CustomRegistrationConfig,

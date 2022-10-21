@@ -14,7 +14,7 @@ import * as Reg from "../../config/registration-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 
 import {
-  CustomRegistrationTermsAndConditionError
+  CustomRegistrationTermsAndConditionError, isNoProfileSetupPostSignUp
 } from "../../config/registration-config-custom-by-cf";
 import {
   getRegisterFormItem,
@@ -496,7 +496,7 @@ export default class SignUpPage extends React.Component {
             {lang("Let's complete your profile and get you noticed by recruiters!")}
           </small>
         </h1>
-        <div style={{ marginTop: "20vh" }}></div>
+        <div style={{ marginTop: "20vh" }}></div>,
         <ManageUserProfile
           completeHandler={this.manageUserProfileComplete}
           user_id={user.ID}
@@ -588,7 +588,11 @@ export default class SignUpPage extends React.Component {
       };
     }
 
-    if (this.state.completed || DEBUG_COMPLETED) {
+    if (
+      this.state.completed ||
+      DEBUG_COMPLETED ||
+      (this.state.success && isNoProfileSetupPostSignUp(this.CF))
+    ) {
       return (
         <div>
           <h3>{lang("Congratulation! You Have Completed Your Profile")}</h3>
