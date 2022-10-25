@@ -3262,7 +3262,7 @@ const CustomRegistrationTermsAndConditionConfig = [
         type: "checkbox",
         data: [{
             key: "accepted",
-            label: `<small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited to administrative purposes in connection with <b>TalentCorp-NAMSA Virtual Career Fair 2022</b>.</small>`
+            label: `<small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited to administrative purposes in connection with <b>TalentCorp-MARA Virtual Career Fair 2022</b>.</small>`
         }],
         isOnlyInCf: (cf) => {
             return ["MARAVCF22"].indexOf(cf) >= 0;
@@ -3275,7 +3275,7 @@ const CustomRegistrationTermsAndConditionConfig = [
         type: "checkbox",
         data: [{
             key: "accepted",
-            label: `<small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in <b>TalentCorp-NAMSA Virtual Career Fair 2022</b>.</small>`
+            label: `<small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in <b>TalentCorp-MARA Virtual Career Fair 2022</b>.</small>`
         }],
         isOnlyInCf: (cf) => {
             return ["MARAVCF22"].indexOf(cf) >= 0;
