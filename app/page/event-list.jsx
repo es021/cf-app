@@ -188,7 +188,12 @@ export class EventList extends React.Component {
           <div className="col-md-10">{details}</div>
         </div>
         <div className="row">
-          <div className="col-md-12"><hr style={{ marginTop: '15px', marginBottom : '10px' }}></hr></div>
+          <div className="col-md-12"><hr style={{
+            marginTop: '15px', marginBottom: '10px',
+            marginLeft: this.props.type == 'row' ? '15px' : '',
+            marginRight: this.props.type == 'row' ? '15px' : '',
+          }}></hr>
+          </div>
           <div className="col-md-12" style={{ padding: '0px 30px' }}>{action}</div>
         </div>
       </div >
