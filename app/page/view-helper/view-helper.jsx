@@ -69,7 +69,7 @@ export function getEventLocation(d) {
 }
 
 
-export function getEventAction(d, { isPopup, companyName } = {}) {
+export function getEventAction(d, { isPopup, companyName, isRowLayout = false } = {}) {
   let className = "";
   let validActions = []
 
@@ -153,7 +153,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
   // NEW EVENT CARD
   // - url_rsvp , url_join, url_recorded
   else {
-    className = "event-action-new"
+    className = isRowLayout ? "event-action-new-row" : "event-action-new"
     let rsvp = null;
     let join = null;
     let recorded = null;
@@ -168,7 +168,8 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
       fiveMinBeforeStart = d.start_time
     }
 
-    let breakElement = isPopup ? " " : <br></br>;
+    // let breakElement = isPopup ? " " : <br></br>;
+    let breakElement = " ";
     if (d.url_rsvp && !Time.isPast(fiveMinBeforeStart)) {
       rsvp = <div><a
         onClick={() => {
@@ -179,7 +180,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
             company_id: d.company_id,
           })
         }}
-        className="btn btn-sm btn-blue-light text-bold btn-block btn-round-5"
+        className="btn btn-sm btn-blue-light text-bold btn-round-5"
       >
         <i className="fa fa-plus left"></i>
         RSVP
@@ -197,7 +198,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
               company_id: d.company_id,
             })
           }}
-          className="btn btn-sm btn-green btn-block text-bold btn-round-5"
+          className="btn btn-sm btn-green text-bold btn-round-5"
         >
           <i className="fa fa-sign-in left"></i>
           {lang("Join")}
@@ -216,7 +217,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
                 company_id: d.company_id,
               })
             }}
-            className="btn btn-sm btn-red btn-block text-bold btn-round-5"
+            className="btn btn-sm btn-red text-bold btn-round-5"
           >
             <i className="fa fa-play-circle left"></i>
             <div className="show-on-lg-and-more">
@@ -229,7 +230,7 @@ export function getEventAction(d, { isPopup, companyName } = {}) {
         </div>;
       } else {
         ended = <div>
-          <a className="btn btn-sm btn-gray btn-disabled btn-block text-bold btn-round-5">
+          <a className="btn btn-sm btn-gray btn-disabled text-bold btn-round-5">
             <div className="show-on-lg-and-more">
               {lang("Event")}{breakElement}{lang("Ended")}
             </div>

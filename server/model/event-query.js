@@ -25,7 +25,11 @@ class EventExec {
             limit = "";
         } else {
             order_by = `order by ` + ((typeof params.order_by !== "undefined") ? `${params.order_by}` : `is_ended asc, offset_from_now asc, start_time asc`);
-            select = "(CASE WHEN UNIX_TIMESTAMP() > end_time THEN 1 ELSE 0 END) as is_ended, ABS(start_time - UNIX_TIMESTAMP()) as offset_from_now,  e.*";
+            select = `
+                (CASE WHEN UNIX_TIMESTAMP() > end_time THEN 1 ELSE 0 END) as is_ended, 
+                ABS(start_time - UNIX_TIMESTAMP()) as offset_from_now,  
+                e.*
+            `;
             limit = DB.prepareLimit(params.page, params.offset);
         }
 
