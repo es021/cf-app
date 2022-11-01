@@ -30,8 +30,8 @@ try {
   hasLocalStorageSupport = false;
 }
 
-export function setCurrentCfLocalStorage(cf){
-  if(cf == "" || cf == null || typeof cf === "undefined"){
+export function setCurrentCfLocalStorage(cf) {
+  if (cf == "" || cf == null || typeof cf === "undefined") {
     return;
   }
   if (!hasLocalStorageSupport) {
@@ -40,12 +40,12 @@ export function setCurrentCfLocalStorage(cf){
   window.localStorage.setItem(CURRENT_CF_LOCAL_STORAGE, cf);
 }
 
-export function getCurrentCfLocalStorage(){
+export function getCurrentCfLocalStorage() {
   if (!hasLocalStorageSupport) {
     return null;
   }
   let cf = window.localStorage.getItem(CURRENT_CF_LOCAL_STORAGE);
-  if(cf == "" || cf == null || typeof cf === "undefined"){
+  if (cf == "" || cf == null || typeof cf === "undefined") {
     return null;
   }
 
@@ -108,6 +108,14 @@ function fixCFAuth(auth, cf = null) {
       auth["cf"] = getCF;
     }
   }
+
+
+  if (location.href.indexOf("qr-check-in") >= 0) {
+    if (auth["cf"] == null) {
+      auth["cf"] = "TEST";
+    }
+  }
+
 
   // if still null get default
   // if (auth["cf"] == null) {
@@ -186,7 +194,7 @@ export default function authReducer(state = auth, action) {
     case authActions.DO_LOGOUT: {
       clearAuthLocalStorage();
       // setAuthLocalStorage({cf : state.cf, user: {}, isAuthorized : false});
-      let toRet =  getNewState(state, fixCFAuth(authReducerInitState, state.cf));
+      let toRet = getNewState(state, fixCFAuth(authReducerInitState, state.cf));
       return toRet;
     }
     case authActions.DO_LOGIN + "_PENDING": {

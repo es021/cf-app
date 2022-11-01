@@ -2,12 +2,16 @@
 global_dataset
 multi_input
 
+qr_check_in
+qr_img
+
 -- ##############################################################
 -- ##############################################################
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
 -- ##############################################################
 -- ##############################################################
+ALTER TABLE `pre_screens` ADD `cancel_reason` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL DEFAULT NULL AFTER `note`;
 
 
 feature_event_student : OFF 

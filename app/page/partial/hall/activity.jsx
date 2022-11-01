@@ -49,6 +49,7 @@ import * as HallRecruiterHelper from "../hall-recruiter/hall-recruiter-helper";
 import { lang } from "../../../lib/lang";
 import InputEditable from "../../../component/input-editable";
 import { addLog } from "../../../redux/actions/other-actions";
+import { getViewCancelReason } from "../hall-recruiter/hall-recruiter-interview";
 
 // require("../../../css/border-card.scss");
 
@@ -84,6 +85,23 @@ export class ActvityList extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+
+  getSendMessageButton(d) {
+    return (
+      <NavLink
+        style={{ marginTop: "0px", marginBottom : "0px" ,marginLeft: '5px' }}
+        to={`${RootPath}/app/company-chat/${d.company_id}`}
+      ><button
+
+        data-company_id={d["company_id"]}
+        className="btn btn-sm btn-grey btn-round-5 btn-block"
+      >
+          <i className="fa fa-comments left"></i>
+          {lang("Send Message")}
+        </button></NavLink>
+    );
   }
 
   cancelJoinGroupSession(e) {
@@ -612,6 +630,7 @@ export class ActvityList extends React.Component {
     var btnStartVCall = null;
     // var btnEndedVCall = null;
     var btnAcceptRescheduleReject = null;
+    let btnViewCancelReasonSendMessage = null
 
     if (
       d.status == PrescreenEnum.STATUS_REJECTED ||
@@ -693,10 +712,17 @@ export class ActvityList extends React.Component {
         statusObj = HallRecruiterHelper.Status.STATUS_APPROVED
         break;
       case PrescreenEnum.STATUS_CANCEL:
-        statusObj = HallRecruiterHelper.Status.STATUS_CANCEL
-        hasRemove = true;
-        removeEntity = Prescreen.TABLE;
-        removeEntityId = d.ID;
+        // statusObj = HallRecruiterHelper.Status.STATUS_CANCEL
+        // hasRemove = true;
+        // removeEntity = Prescreen.TABLE;
+        // removeEntityId = d.ID;
+        btnViewCancelReasonSendMessage = <div>
+          <div style={{ paddingBottom: "5px", color: "red" }}>Interview Canceled</div>
+          <div className="flex-center">
+            {getViewCancelReason(d)}
+            {this.getSendMessageButton(d)}
+          </div>
+        </div>
         break;
       case PrescreenEnum.STATUS_ENDED:
         statusObj = HallRecruiterHelper.Status.STATUS_ENDED
@@ -803,6 +829,9 @@ export class ActvityList extends React.Component {
     }
     if (d.status == PrescreenEnum.STATUS_STARTED) {
       action.push(btnJoinVCall);
+    }
+    if (d.status == PrescreenEnum.STATUS_CANCEL) {
+      action.push(btnViewCancelReasonSendMessage);
     }
 
     // action = this.addRemoveButton(action, hasRemove, removeEntity, removeEntityId);

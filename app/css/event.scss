@@ -19,16 +19,20 @@ $BLUE_CODE: #1569e0;
 }
 
 .event-list {
- 
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
   width: 500px;
   max-width: 70vw;
+  // max-width: 700px;
   overflow: hidden;
   // display: flex;
   background: white;
 
   &.type-card {
-    border-radius: 7px;
+    border-radius: 10px;
     margin: 5px 10px;
+    // margin: auto;
     margin-bottom: 20px;
     box-shadow: $CARD_SHADOW;
   }
@@ -40,7 +44,7 @@ $BLUE_CODE: #1569e0;
     }
   }
 
-  padding: 15px 10px;
+  padding: 15px 0px;
   position: relative;
 
   .el-image {
@@ -158,6 +162,19 @@ $BLUE_CODE: #1569e0;
     margin-bottom: 10px;
   }
 }
+
+.event-action-new-row{
+  display: flex;
+  justify-content: flex-end;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 150px;
+  }
+}
+
 .event-action {
   right: 10px;
   top: 10px;

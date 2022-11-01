@@ -106,6 +106,7 @@ export default class VacancyPage extends React.Component {
                 title
                 description
                 requirement
+                open_position
                 type
                 application_url
                 ${addVacancyInfoIfNeeded(getCF(), "specialization")} 
@@ -180,6 +181,12 @@ export default class VacancyPage extends React.Component {
             <span>
               <i className="fa fa-star left"></i>
               {vacan.type}
+            </span>
+          ),
+          !vacan.open_position ? null : (
+            <span>
+              <i className="fa fa-suitcase left"></i>
+              {vacan.open_position} Open Position{vacan.open_position > 1 ? 's' : ''}
             </span>
           ),
           !vacan.location ? null : (

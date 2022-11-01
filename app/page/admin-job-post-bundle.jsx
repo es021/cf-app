@@ -25,6 +25,7 @@ class CreateBundle extends React.Component {
             URL: 5,
             DESC: 6,
             REQ: 7,
+            OPEN_POSITION: 8,
         }
         this.state = {
             isTestCompany: false,
@@ -97,7 +98,15 @@ class CreateBundle extends React.Component {
         }
         return str;
     }
+    reformatToInteger(str) {
+        str = str.trim();
+        let r = Number.parseInt(str);
+        if(isNaN(r)){
+            return null;
+        }
 
+        return r;
+    }
     reformatTypeDescRec(str) {
         if (!str) {
             return str
@@ -148,7 +157,7 @@ class CreateBundle extends React.Component {
             type,
             location,
             specialization,
-            url, desc,
+            url, desc, openPosition,
             req;
 
         let r = row.split(this.COLUMN_SEPARATOR);
@@ -162,6 +171,7 @@ class CreateBundle extends React.Component {
         type = this.fixType(type);
         url = typeof this.Index.URL !== "number" ? this.Index.URL : r[this.Index.URL];
         companyId = typeof this.Index.COMPANY_ID !== "number" ? this.Index.COMPANY_ID : r[this.Index.COMPANY_ID];
+        openPosition = typeof this.Index.OPEN_POSITION !== "number" ? this.Index.OPEN_POSITION : r[this.Index.OPEN_POSITION];
 
         url = url ? url : "";
         companyId = companyId ? companyId.trim() : companyId;
@@ -176,6 +186,7 @@ class CreateBundle extends React.Component {
         specialization = this.reformatGeneral(specialization);
         desc = this.reformatGeneral(desc);
         req = this.reformatGeneral(req);
+        openPosition = this.reformatGeneral(openPosition);
 
 
         // specific
@@ -185,7 +196,9 @@ class CreateBundle extends React.Component {
         type = this.reformatTypeDescRec(type);
         desc = this.reformatTypeDescRec(desc);
         req = this.reformatTypeDescRec(req);
+        openPosition = this.reformatToInteger(openPosition);
 
+        console.log("openPosition",openPosition)
 
         // console.log(title)
         // console.log(location)
@@ -208,6 +221,7 @@ class CreateBundle extends React.Component {
             specialization: specialization,
             url: url,
             desc: desc,
+            openPosition: openPosition,
             req: req
         };
     }
@@ -226,6 +240,7 @@ class CreateBundle extends React.Component {
                 d[Vacancy.COMPANY_ID] = isTestCompany ? this.TEST_COMPANY_ID : obj.companyId;
                 d[Vacancy.TITLE] = obj.title;
                 d[Vacancy.TYPE] = obj.type;
+                d[Vacancy.OPEN_POSITION] = obj.openPosition;
                 d[Vacancy.LOCATION] = obj.location;
                 d[Vacancy.SPECIALIZATION] = obj.specialization;
                 d[Vacancy.APPLICATION_URL] = obj.url;
@@ -236,7 +251,7 @@ class CreateBundle extends React.Component {
                 if (typeof d[Vacancy.COMPANY_ID] === "string") {
                     d[Vacancy.COMPANY_ID] = Number.parseInt(d[Vacancy.COMPANY_ID]);
                 }
-                
+
                 total++;
                 console.log("total", total);
                 let q = `mutation { 
@@ -274,6 +289,7 @@ class CreateBundle extends React.Component {
             <br></br><b>Application Url</b><br></br>{this.COLUMN_SEPARATOR}
             <br></br><b>Description</b><br></br>{this.COLUMN_SEPARATOR}
             <br></br><b>Requirement</b><br></br>{this.ROW_SEPARATOR}
+            <br></br><b>Open Position</b><br></br>{this.ROW_SEPARATOR}
             <br></br>
             <br></br>
             <b> <a href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2021/01/Example-Job-Post-Bundle-Upload.xlsx" target="_blank">

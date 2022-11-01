@@ -185,6 +185,7 @@ const cfCustomFunnel = ({ action, cf, key, isRoleRec, data }) => {
                     input_type: getByKey(k, "input_type"),
                     input_placeholder: getByKey(k, "input_placeholder"),
                     table_name: getByKey(k, "table_name"),
+                    only_in_edit_mode: getByKey(k, "only_in_edit_mode"),
                     list_title: getByKey(k, "list_title"),
                     discard_ref_from_default: getByKey(k, "discard_ref_from_default"),
                     id: k,

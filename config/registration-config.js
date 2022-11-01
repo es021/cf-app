@@ -6,10 +6,10 @@ const {
 const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 
 const IsUploadResumeRequired = ["TARUCAUG22", "INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
-const IsHasUploadResume = ["TARUCAUG22", "OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
+const IsHasUploadResume = ["MYHEARTCAFE2022", "D2WOCT22", "TARUCAUG22", "OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
 
-const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22"]
-const IsHasUploadResume_FirstSignupPage = ["INTELMM22"]
+const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22", "MARAVCF22"]
+const IsHasUploadResume_FirstSignupPage = ["INTELMM22", "MARAVCF22"]
 
 
 var Single = {
@@ -108,6 +108,7 @@ const CustomDiscardEditProfile = {
     UTMIV21: ["id_utm"],
     UMT21: ["id_utm"],
 }
+
 
 const CustomOrder = {
     ...RegConfigCustomByCf.CustomOrder,
@@ -221,9 +222,12 @@ const isInCustomOrder = (cf, key) => {
     return CustomOrder[cf].indexOf(key) >= 0;
 }
 
-const pickAndReorderByCf = (cf, r) => {
+const pickAndReorderByCf = (cf, r, { isEdit = false }) => {
     let order = null;
     let discardEditProfile = [];
+
+    // isEdit = false;
+
 
     if (CustomOrder[cf]) {
         order = CustomOrder[cf];
@@ -233,6 +237,7 @@ const pickAndReorderByCf = (cf, r) => {
         discardEditProfile = CustomDiscardEditProfile[cf];
     }
 
+    // console.log(r);
     if (order) {
         let newR = [];
         let map = {}
@@ -250,7 +255,13 @@ const pickAndReorderByCf = (cf, r) => {
             if (Array.isArray(indexes)) {
                 for (let i of indexes) {
                     let item = r[i];
-                    console.log("item", item);
+
+                    if (!isEdit) {
+                        if (item.only_in_edit_mode && item.only_in_edit_mode.indexOf(cf) >= 0) {
+                            continue;
+                        }
+                    }
+                    // console.log("item", item);
                     let id = item["id"];
                     if (discardEditProfile.indexOf(id) >= 0) {
                         continue;

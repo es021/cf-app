@@ -16,7 +16,7 @@ import {
   // isRoleRec
 } from "../redux/actions/auth-actions";
 import { getEventTitle, getEventAction, getEventLocation } from "./view-helper/view-helper";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 export class EventList extends React.Component {
   constructor(props) {
@@ -83,7 +83,7 @@ export class EventList extends React.Component {
           url_rsvp
           start_time
           end_time
-
+          description
           location
           interested{ID is_interested}
         }
@@ -136,108 +136,30 @@ export class EventList extends React.Component {
       textAlign: "left"
     };
 
-    // let companyName = isRoleRec() ? (
-    //   d.company.name
-    // ) : (
-    //     <NavLink to={`${AppPath}/company/${d.company.ID}`}>
-    //       {d.company.name}
-    //     </NavLink>
-    //   );
+
     let companyName = d.company.name;
-
-    // Display Time
-    // ToogleTimezone
-    // const createBody = timeStr => {
-    //   return timeStr;
-    // };
-    // const createView = (body, toggler) => {
-    //   return (
-    //     <div className="el-time">
-    //       {body} {toggler}
-    //     </div>
-    //   );
-    // };
-    // const createCustomToggler = (isDefaultTime, onClick) => {
-    //   return <div className="el-toggle-timezone" onClick={onClick}>{" "}Toggle Timezone {isDefaultTime}</div>
-    // }
-    // let time = (
-    //   <ToogleTimezone
-    //     createCustomToggler={createCustomToggler}
-    //     createDefaultTime={(unix, timezone) => {
-    //       return (
-    //         <div><i className="fa fa-clock-o left"></i> {Time.getDate(unix)} {Time.getStringShort(unix)} ({timezone}) </div>
-    //       );
-    //     }}
-    //     createAlternateTime={(unix, timezone) => {
-    //       return (
-    //         <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(unix)} {Time.getStringShortMas(unix)} ({timezone})</div>
-    //       );
-    //     }}
-    //     unixtimestamp={d.start_time}
-    //     createBody={createBody}
-    //     createView={createView}
-    //   />
-    // );
-    // let time = <div><i className="fa fa-clock-o left"></i> {Time.getDateMas(d.start_time)} {Time.getStringShortMas(d.start_time)} (MYT)</div>;
+    // , <span className="text-muted">{" (" + lang("local time") + ")"}</span>
     let notSpecified = <i className="text-muted">{lang("Not Speficied")}</i>;
-
-    let time = d.start_time ? [Time.getString(d.start_time), <span className="text-muted">{" (" + lang("local time") + ")"}</span>] : notSpecified;
-
-    // let locationText = <div className="el-location-text">{d.location}</div>
-    // let location = <div className="el-location">
-    //   <i className="fa fa-map-marker left" style={{ marginRight: "12px" }}></i>
-    //   {!d.location
-    //     ? notSpecified
-    //     : <span>
-    //       {
-    //         d.type == EventEnum.TYPE_VIRTUAL
-    //           ? <b><a target="_blank" href={d.location}>{locationText}</a></b> // location jadi url utk virtual
-    //           : locationText // location biasa untuk physical
-    //       }
-    //     </span>
-    //   }
-    // </div>
+    let start_time = d.start_time ? [<span className="text-muted">Start : </span>, Time.getString(d.start_time)] : notSpecified;
+    let end_time = d.end_time ? [<span className="text-muted">End : </span>, Time.getString(d.end_time)] : notSpecified;
 
     let title = <div className="el-title">{getEventTitle(d)}</div>
     let details = (
       <div className="el-details" style={detailStyle}>
         <b>{title}</b>
-        <span style={{ fontWeight: "normal" }}><i className="text-muted fa fa-clock-o left"></i>{time}</span>
+        <div style={{ fontWeight: "normal" }}><i className="text-muted fa fa-clock-o left"></i>{start_time}</div>
+        <div style={{ fontWeight: "normal" }}><i className="text-muted fa fa-clock-o left"></i>{end_time}</div>
         {getEventLocation(d)}
+        {d.description ?
+          <div className="text-muted" style={{ marginTop: '10px', textAlign: "justify" }}>
+            {d.description}
+          </div>
+          : null
+        }
       </div>
     );
 
-    // var action_disabled = true;
-    // var action_link = "";
-    // var action_text = "";
-    // var action_color = "";
-    // if (d.recorded_link != null && d.recorded_link != "") {
-    //   // Has Recorded Video
-    //   action_disabled = false;
-    //   action_link = d.recorded_link;
-    //   action_text = (
-    //     <span>
-    //       <i className="fa fa-play-circle" />
-    //       <br />
-    //       Watch
-    //     </span>
-    //   );
-    //   action_color = "danger";
-    // } else if (d.link != null && d.link != "") {
-    //   // Has Join Link
-    //   action_disabled = false;
-    //   action_link = d.link;
-    //   action_text = (
-    //     <span>
-    //       <i className="fa fa-sign-in" />
-    //       <br />
-    //       Join Now
-    //     </span>
-    //   );
-    //   action_color = "success";
-    // }
-
-    let action = getEventAction(d, { companyName: companyName });
+    let action = getEventAction(d, { companyName: companyName, isRowLayout: true });
     let viewStyle = {
       position: "relative",
     }
@@ -245,19 +167,36 @@ export class EventList extends React.Component {
       viewStyle["width"] = "100%";
     }
 
+    // let v = (
+    //   <div className={`event-list type-${this.props.type}`} style={viewStyle}>
+    //     <div className="container-fluid">
+    //       <div className="row">
+    //         <div className="col-md-2">{img}</div>
+    //         <div className="break-15-on-md-and-less"></div>
+    //         <div className="col-md-7">{details}</div>
+    //         <div className="break-15-on-md-and-less"></div>
+    //         {IsNewEventCard ? <div className="col-md-3">{action}</div> : action}
+
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
     let v = (
       <div className={`event-list type-${this.props.type}`} style={viewStyle}>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-2">{img}</div>
-            <div className="break-15-on-md-and-less"></div>
-            <div className="col-md-7">{details}</div>
-            <div className="break-15-on-md-and-less"></div>
-            {IsNewEventCard ? <div className="col-md-3">{action}</div> : action}
-
-          </div>
+        <div className="row" style={{ padding: '0px 30px' }}>
+          <div className="col-md-2">{img}</div>
+          <div className="col-md-10">{details}</div>
         </div>
-      </div>
+        <div className="row">
+          <div className="col-md-12"><hr style={{
+            marginTop: '15px', marginBottom: '10px',
+            marginLeft: this.props.type == 'row' ? '15px' : '',
+            marginRight: this.props.type == 'row' ? '15px' : '',
+          }}></hr>
+          </div>
+          <div className="col-md-12" style={{ padding: '0px 30px' }}>{action}</div>
+        </div>
+      </div >
     );
     return v;
   }

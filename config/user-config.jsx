@@ -12,7 +12,7 @@ import { Month, Year, Sponsor, MasState, Country, StudyField, DegreeLevel } from
 import registrationConfig, { RequiredFieldStudent, RequiredFieldRecruiter } from './registration-config';
 import { lang } from '../app/lib/lang';
 import { getCF, getNoMatrixLabel } from '../app/redux/actions/auth-actions';
-import { CustomRegistrationConfig } from "./registration-config-custom-by-cf";
+import { CustomRegistrationConfig, CustomRegistrationTermsAndConditionConfig } from "./registration-config-custom-by-cf";
 export const TotalRegisterStep = 3;
 
 
@@ -132,18 +132,18 @@ export const UserFormItem = [
         placeholder: "HR Manager",
         register: 0, editStudent: 0, editRec: 1
     },
-    {
-        header: "A Little More About Yourself",
-        register: 2, editStudent: 0, editRec: 0
-    },
-    {
-        label: lang("Phone Number"),
-        name: UserMeta.PHONE_NUMBER,
-        type: "text",
-        placeholder: "XXX-XXXXXXX",
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    },
+    // {
+    //     header: "A Little More About Yourself",
+    //     register: 2, editStudent: 0, editRec: 0
+    // },
+    // {
+    //     label: lang("Phone Number"),
+    //     name: UserMeta.PHONE_NUMBER,
+    //     type: "text",
+    //     placeholder: "XXX-XXXXXXX",
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
     // {
     //     label: "Gender",
     //     name: UserMeta.GENDER,
@@ -151,18 +151,18 @@ export const UserFormItem = [
     //     data: ["", UserEnum.GENDER_MALE, UserEnum.GENDER_FEMALE],
     //     //required: true,
     // register:1, editStudent: 1, editRec: 0 },
-    {
-        header: "Where Do You Reside In Malaysia?",
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        label: "State",
-        name: UserMeta.MAS_STATE,
-        type: "select",
-        data: MasState,
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    },
+    // {
+    //     header: "Where Do You Reside In Malaysia?",
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "State",
+    //     name: UserMeta.MAS_STATE,
+    //     type: "select",
+    //     data: MasState,
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
     // {
     //     label: "Postcode",
     //     name: UserMeta.MAS_POSTCODE,
@@ -170,112 +170,112 @@ export const UserFormItem = [
     //     //required: true,,
     //     placeholder: "20050"
     // register:1, editStudent: 1, editRec: 1 },
-    {
-        header: "Degree Related Information",
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Degree Level",
-        name: UserMeta.DEGREE_LEVEL,
-        type: "select",
-        data: DegreeLevel,
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Field Of Study",
-        name: UserMeta.STUDY_FIELD,
-        type: "select",
-        data: StudyField,
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Major",
-        name: UserMeta.MAJOR,
-        type: "text",
-        multiple: true,
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    }, {
-        label: "Minor",
-        name: UserMeta.MINOR,
-        type: "text",
-        multiple: true,
-        //required: false,
-        register: 2, editStudent: 1, editRec: 0
-    }, {
-        label: "University",
-        name: UserMeta.UNIVERSITY,
-        type: "text",
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Where Is Your University Located?",
-        name: UserMeta.STUDY_PLACE,
-        type: "select",
-        data: Country,
-        //required: true,
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Current Grade",
-        name: UserMeta.CGPA,
-        type: "text",
-        //step: "0.01",
-        //min: "0",
-        //required: false,
-        sublabel: "Based On Your Grading System",
-        // sublabel: <ButtonLink label="Don't Use CGPA system?"
-        //     target='_blank'
-        //     href="https://www.foreigncredits.com/resources/gpa-calculator/">
-        // </ButtonLink>
-        register: 2, editStudent: 1, editRec: 0
-    }, {
-        label: "Expected Graduation",
-        name: UserMeta.GRADUATION_MONTH,
-        type: "select",
-        data: Month,
-        //required: true,,
-        register: 2, editStudent: 1, editRec: 0
-    }, {
-        label: null,
-        name: UserMeta.GRADUATION_YEAR,
-        type: "select",
-        data: Year,
-        //required: true,,
-        register: 2, editStudent: 1, editRec: 0
-    },
-    {
-        header: "Future Employment Information",
-        register: 3, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Looking For",
-        name: UserMeta.LOOKING_FOR,
-        type: "select",
-        data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
-        //required: true,
-        register: 3, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Work Availability Date",
-        //sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
-        name: UserMeta.AVAILABLE_MONTH,
-        type: "select",
-        data: Array(...Month),
-        //required: true,
-        register: 3, editStudent: 1, editRec: 0
-    },
-    {
-        label: null,
-        name: UserMeta.AVAILABLE_YEAR,
-        type: "select",
-        data: Array(...Year),
-        //required: true,
-        register: 3, editStudent: 1, editRec: 0
-    },
+    // {
+    //     header: "Degree Related Information",
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Degree Level",
+    //     name: UserMeta.DEGREE_LEVEL,
+    //     type: "select",
+    //     data: DegreeLevel,
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Field Of Study",
+    //     name: UserMeta.STUDY_FIELD,
+    //     type: "select",
+    //     data: StudyField,
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Major",
+    //     name: UserMeta.MAJOR,
+    //     type: "text",
+    //     multiple: true,
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // }, {
+    //     label: "Minor",
+    //     name: UserMeta.MINOR,
+    //     type: "text",
+    //     multiple: true,
+    //     //required: false,
+    //     register: 2, editStudent: 1, editRec: 0
+    // }, {
+    //     label: "University",
+    //     name: UserMeta.UNIVERSITY,
+    //     type: "text",
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Where Is Your University Located?",
+    //     name: UserMeta.STUDY_PLACE,
+    //     type: "select",
+    //     data: Country,
+    //     //required: true,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Current Grade",
+    //     name: UserMeta.CGPA,
+    //     type: "text",
+    //     //step: "0.01",
+    //     //min: "0",
+    //     //required: false,
+    //     sublabel: "Based On Your Grading System",
+    //     // sublabel: <ButtonLink label="Don't Use CGPA system?"
+    //     //     target='_blank'
+    //     //     href="https://www.foreigncredits.com/resources/gpa-calculator/">
+    //     // </ButtonLink>
+    //     register: 2, editStudent: 1, editRec: 0
+    // }, {
+    //     label: "Expected Graduation",
+    //     name: UserMeta.GRADUATION_MONTH,
+    //     type: "select",
+    //     data: Month,
+    //     //required: true,,
+    //     register: 2, editStudent: 1, editRec: 0
+    // }, {
+    //     label: null,
+    //     name: UserMeta.GRADUATION_YEAR,
+    //     type: "select",
+    //     data: Year,
+    //     //required: true,,
+    //     register: 2, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     header: "Future Employment Information",
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Looking For",
+    //     name: UserMeta.LOOKING_FOR,
+    //     type: "select",
+    //     data: ["", UserEnum.LOOK_FOR_FULL_TIME, UserEnum.LOOK_FOR_INTERN],
+    //     //required: true,
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Work Availability Date",
+    //     //sublabel: "Select 'Available To Start Anytime' for both field below if you are ready to work anytime.",
+    //     name: UserMeta.AVAILABLE_MONTH,
+    //     type: "select",
+    //     data: Array(...Month),
+    //     //required: true,
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: null,
+    //     name: UserMeta.AVAILABLE_YEAR,
+    //     type: "select",
+    //     data: Array(...Year),
+    //     //required: true,
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
     // {
     //     label: "Are You Willing To Relocate?",
     //     name: UserMeta.RELOCATE,
@@ -284,34 +284,34 @@ export const UserFormItem = [
     //     //required: true,
     //     register: 3, editStudent: 1, editRec: 0
     // },
-    {
-        header: "Additional Information",
-        register: 3, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Sponsor",
-        name: UserMeta.SPONSOR,
-        type: "select",
-        data: Sponsor,
-        //required: false,
-        sublabel: "This information will not be displayed in your profile.",
-        register: 3, editStudent: 1, editRec: 0
-    },
-    {
-        label: "Description",
-        name: UserMeta.DESCRIPTION,
-        type: "textarea",
-        placeholder: "Tell More About Yourself",
-        //required: false,
-        rows: 5,
-        register: 3, editStudent: 1, editRec: 0
-    },
+    // {
+    //     header: "Additional Information",
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Sponsor",
+    //     name: UserMeta.SPONSOR,
+    //     type: "select",
+    //     data: Sponsor,
+    //     //required: false,
+    //     sublabel: "This information will not be displayed in your profile.",
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
+    // {
+    //     label: "Description",
+    //     name: UserMeta.DESCRIPTION,
+    //     type: "textarea",
+    //     placeholder: "Tell More About Yourself",
+    //     //required: false,
+    //     rows: 5,
+    //     register: 3, editStudent: 1, editRec: 0
+    // },
+    ...CustomRegistrationConfig,
     {
         type: "custom",
         key: "resume",
         register: 1, editStudent: 0, editRec: 0
     },
-    ...CustomRegistrationConfig,
     {
         label: null,
         name: "accept-policy",
@@ -334,32 +334,7 @@ export const UserFormItem = [
         }],
         register: 1, editStudent: 0, editRec: 0
     },
-    {
-        label: null,
-        name: "accept-pdpa",
-        type: "checkbox",
-        data: [{
-            key: "accepted",
-            label: <small>I hereby certify that the information contained herein is true and accurate to the best of my knowledge. I hereby consent for Talent Corporation Malaysia Berhad (TalentCorp) to collect, store, process and use my personal data contained herein in accordance with the <b>Personal Data Protection Act 2010</b> for the purpose it was collected, which includes but is not limited for administrative purposes in connection with MyHeart-REP CaFe 2022</small>
-        }],
-        isOnlyInCf: (cf) => {
-            return ["TCREP22"].indexOf(cf) >= 0;
-        },
-        register: 1, editStudent: 0, editRec: 0
-    },
-    {
-        label: null,
-        name: "accept-tcrep",
-        type: "checkbox",
-        data: [{
-            key: "accepted",
-            label: <small>I also consent for <b>Talent Corporation Malaysia Berhad (TalentCorp)</b> to share my details to companies participating in MyHeart-REP CaFe 2022</small>
-        }],
-        isOnlyInCf: (cf) => {
-            return ["TCREP22"].indexOf(cf) >= 0;
-        },
-        register: 1, editStudent: 0, editRec: 0
-    },
+    ...CustomRegistrationTermsAndConditionConfig,
 
 ];
 
@@ -415,7 +390,7 @@ export function getEditProfileFormItem(type) {
     return toRet;
 }
 
-export function getRegisterFormItem(registerStep, cf, refData = {}) {
+export function getRegisterFormItem(cf, refData = {}) {
     let toRet = [];
 
     for (var i in UserFormItem) {
@@ -432,10 +407,13 @@ export function getRegisterFormItem(registerStep, cf, refData = {}) {
                 continue;
             }
         }
-
-        if (item.register == registerStep) {
+        if(item.register == 1){
             toRet.push(item);
         }
+
+        // if (item.register == registerStep) {
+        //     toRet.push(item);
+        // }
     }
 
     return toRet;

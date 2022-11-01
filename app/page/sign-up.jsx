@@ -14,6 +14,9 @@ import * as Reg from "../../config/registration-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 
 import {
+  CustomRegistrationTermsAndConditionError, isNoProfileSetupPostSignUp
+} from "../../config/registration-config-custom-by-cf";
+import {
   getRegisterFormItem,
   TotalRegisterStep
 } from "../../config/user-config";
@@ -103,7 +106,6 @@ export default class SignUpPage extends React.Component {
     this.defaultValues[User.CF] = this.CF;
 
     this.loadRef();
-    //this.formItems = getRegisterFormItem(1);
   }
 
   loadRef() {
@@ -152,6 +154,27 @@ export default class SignUpPage extends React.Component {
 
 
   //return string if there is error
+  transformCheckboxData(formData) {
+    console.log("pre transformCheckboxData", formData);
+    let formItems = getRegisterFormItem(getCF());
+
+    for (let d of formItems) {
+      let key = d["name"];
+      let v;
+      try {
+        v = formData[key][0] == "accepted";
+      } catch (err) { }
+      if (!v) {
+        v = false;
+      }
+      if (d["type"] == "checkbox") {
+        formData[key] = v ? 1 : 0;
+      }
+    }
+    console.log("post transformCheckboxData", formData);
+
+    return formData;
+  }
   filterForm(d) {
 
     if (this.state.currentStep == 1) {
@@ -185,20 +208,14 @@ export default class SignUpPage extends React.Component {
         return lang("You must agree to receive important notifications from this event");
       }
 
-      if (
-        this.formItemKeys.indexOf("accept-pdpa") >= 0 &&
-        (typeof d["accept-pdpa"] === "undefined" || d["accept-pdpa"][0] != "accepted")
-      ) {
-        return lang("You must agree to Personal Data Protection Act before continuing.");
+      for (let k in CustomRegistrationTermsAndConditionError) {
+        if (
+          this.formItemKeys.indexOf(k) >= 0 &&
+          (typeof d[k] === "undefined" || d[k][0] != "accepted")
+        ) {
+          return lang(CustomRegistrationTermsAndConditionError[k]);
+        }
       }
-
-      if (
-        this.formItemKeys.indexOf("accept-tcrep") >= 0 &&
-        (typeof d["accept-tcrep"] === "undefined" || d["accept-tcrep"][0] != "accepted")
-      ) {
-        return lang("You must agree to TalentCorp terms and condition before continuing.");
-      }
-
     }
 
     return 0;
@@ -258,7 +275,8 @@ export default class SignUpPage extends React.Component {
   formOnSubmit(d) {
     console.log("sign up", d);
     var err = this.filterForm(d);
-
+    d = this.transformCheckboxData(d);
+    // return;
 
     if (err === 0) {
       toggleSubmit(this, { error: null });
@@ -466,7 +484,7 @@ export default class SignUpPage extends React.Component {
             {lang("Let's complete your profile and get you noticed by recruiters!")}
           </small>
         </h1>
-        <div style={{ marginTop: "20vh" }}></div>
+        <div style={{ marginTop: "20vh" }}></div>,
         <ManageUserProfile
           completeHandler={this.manageUserProfileComplete}
           user_id={user.ID}
@@ -555,7 +573,11 @@ export default class SignUpPage extends React.Component {
       };
     }
 
-    if (this.state.completed || DEBUG_COMPLETED) {
+    if (
+      this.state.completed ||
+      DEBUG_COMPLETED ||
+      (this.state.success && isNoProfileSetupPostSignUp(this.CF))
+    ) {
       return (
         <div>
           <h3>{lang("Congratulation! You Have Completed Your Profile")}</h3>

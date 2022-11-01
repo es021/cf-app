@@ -264,6 +264,7 @@ const Prescreen = {
 	ID: "ID",
 	PIC: "pic",
 	NOTE: "note",
+	CANCEL_REASON : "cancel_reason",
 	STUDENT_ID: "student_id",
 	RECRUITER_ID: "recruiter_id",
 	COMPANY_ID: "company_id",
@@ -509,6 +510,7 @@ const Vacancy = {
 	TYPE: "type",
 	SPECIALIZATION: "specialization",
 	APPLICATION_URL: "application_url",
+	OPEN_POSITION : "open_position",
 	UPDATED_AT: "updated_at",
 	CREATED_BY: "created_by"
 };
@@ -738,6 +740,7 @@ const CFSMeta = {
 	FEATURE_SPONSOR: "feature_sponsor",
 	FEATURE_DROP_RESUME: "feature_drop_resume",
 	FEATURE_CHAT: "feature_chat",
+	FEATURE_QR_CHECK_IN : "feature_qr_check_in",
 	FEATURE_FEEDBACK: "feature_feedback",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",

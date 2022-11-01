@@ -7,11 +7,17 @@ import AdminCompanyPriority from './admin-company-priority';
 import AdminRef from './admin-ref';
 import AdminJobPostBundle from './admin-job-post-bundle';
 import AdminCreateInterview from './admin-create-interview';
+import AdminCreateRefTable from './admin-create-ref-table';
 
 // create sub page here
 export default class AdminMisc extends React.Component {
     componentWillMount() {
         this.item = {
+            "create-ref-table": {
+                label: "Create Ref Table",
+                component: AdminCreateRefTable,
+                icon: "table"
+            },
             "job-post-bundle": {
                 label: "Create Job Post",
                 component: AdminJobPostBundle,

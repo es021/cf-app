@@ -1153,6 +1153,7 @@ fields["add_vacancy"] = {
     specialization: __.String,
     requirement: __.String,
     application_url: __.String,
+    open_position: __.Int,
     ref_city: __.Int,
     ref_state: __.Int,
     ref_country: __.Int
@@ -1176,6 +1177,7 @@ fields["edit_vacancy"] = {
     description: __.String,
     requirement: __.String,
     application_url: __.String,
+    open_position: __.Int,
     ref_city: __.Int,
     ref_state: __.Int,
     ref_country: __.Int
@@ -1593,6 +1595,7 @@ fields["edit_prescreen"] = {
     ID: __.IntNonNull,
     updated_by: __.IntNonNull,
     status: __.String,
+    cancel_reason : __.String,
     special_type: __.String,
     join_url: __.String,
     pic: __.String,

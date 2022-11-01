@@ -165,6 +165,7 @@ export class VacancyList extends React.Component {
                 ID
                 title
                 type
+                open_position
                 location 
                 application_url
                 company{ img_url, img_position, img_size }
@@ -271,63 +272,6 @@ export class VacancyList extends React.Component {
       );
     }
 
-
-    // let isModeCount = this.isRecThisCompany();
-    // let isModeAction = isRoleStudent();
-
-    // let interestedBtn = (
-    //   <InterestedButton
-    //     isModeCount={isModeCount}
-    //     isModeAction={isModeAction}
-    //     is_interested={d.interested.is_interested}
-    //     ID={d.interested.ID}
-    //     entity={"vacancies"}
-    //     entity_id={d.ID}
-    //     tooltipObj={{
-    //       arrowPosition: "right",
-    //       left: "-110px",
-    //       bottom: "-2px",
-    //       width: "97px",
-    //       tooltip: "Show Interest",
-    //       debug: false
-    //     }}
-    //   ></InterestedButton>
-    // );
-
-    // let interestedBtn = (
-    //   <InterestedButton
-    //     customStyle={{
-    //       top: "3px",
-    //       left: "7px",
-    //       width: "max-content",
-    //     }}
-    //     customView={
-    //       ({
-    //         loading,
-    //         is_interested,
-    //         onClickModeAction
-    //       }) => {
-    //         let r = null;
-    //         if (loading) {
-    //           r = <div className="action-item action-loading"><i className="fa fa-spinner fa-pulse left"></i>Loading</div>
-    //         } else if (is_interested) {
-    //           r = <div className="action-item action-done" onClick={onClickModeAction}><i className="fa fa-check left"></i>Applied</div>
-    //         } else {
-    //           r = <div className="action-item action-not-done" onClick={onClickModeAction}><i className="fa fa-plus left"></i>Apply</div>
-    //         }
-    //         return <div className="action">{r}</div>
-    //       }
-    //     }
-
-    //     isModeCount={isModeCount}
-    //     isModeAction={isModeAction}
-    //     is_interested={d.interested.is_interested}
-    //     ID={d.interested.ID}
-    //     entity={"vacancies"}
-    //     entity_id={d.ID}
-    //   ></InterestedButton>
-    // );
-
     let title = (this.search["title"]) ? d.title.focusSubstring(this.search["title"], "<u>", "</u>") : d.title;
     title = (
       <div
@@ -347,6 +291,9 @@ export class VacancyList extends React.Component {
         {title}
         <div className="location">{d.location}</div>
         <div className="type">{d.type ? d.type + " " + getCfCustomMeta(CFSMeta.TEXT_JOB_POST_CARD, "Job") : null}</div>
+        {!d.open_position ? null :
+          <small className="location text-muted"><i>{d.open_position} open position{d.open_position > 1 ? 's' : ''}</i></small>
+        }
       </div>
     );
 

@@ -88,6 +88,7 @@ export function getNoteElement(d) {
           name: fixedName,
           type: "textarea",
           placeholder: "Note",
+          rows: "10",
         }
       ]
     }}
