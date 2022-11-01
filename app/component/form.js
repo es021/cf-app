@@ -355,7 +355,7 @@ export default class Form extends React.Component {
       case "custom":
         item = (
           <div>
-            {this.props.renderCustomItem(d.key)}
+            {this.props.renderCustomItem(d.name)}
           </div>
         )
         break;

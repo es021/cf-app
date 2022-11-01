@@ -98,6 +98,8 @@ export default class SignUpPage extends React.Component {
     this.CF = getCF();
     this.CFObj = getCFObj();
 
+    this.FORM_ITEMS = UserFieldHelper.getRegistrationItems(getCF());
+
     if (!this.CFObj.can_register) {
       return;
     }
@@ -105,7 +107,29 @@ export default class SignUpPage extends React.Component {
     this.defaultValues = {};
     this.defaultValues[User.CF] = this.CF;
 
+    this.isHasUploadResume = false;
+    this.isUploadResumeRequired = false;
+    this.computeResumeIndicator();
+    
     this.loadRef();
+  }
+
+  computeResumeIndicator() {
+    if (!this.props.isEdit) {
+      let isHas = false;
+      let isRequired = false;
+      for (let d of this.FORM_ITEMS) {
+        if (d.is_resume) {
+          isHas = true;
+          if (d.is_resume_required) {
+            isRequired = true;
+          }
+          break;
+        }
+      }
+      this.isHasUploadResume = isHas;
+      this.isUploadResumeRequired = isRequired;
+    }
   }
 
   loadRef() {
@@ -125,8 +149,7 @@ export default class SignUpPage extends React.Component {
     }
 
 
-    let formItems = UserFieldHelper.getRegistrationItems(getCF());
-    for (let f of formItems) {
+    for (let f of this.FORM_ITEMS) {
       if (f.loadRef) {
         if (!this.state.loading) {
           this.setState({ loading: true })
@@ -155,10 +178,8 @@ export default class SignUpPage extends React.Component {
 
 
   //return string if there is error
-  transformCheckboxData(formData, formItems) {
-    console.log("pre transformCheckboxData", formData);
-
-    for (let d of formItems) {
+  transformCheckboxData(formData,) {
+    for (let d of this.FORM_ITEMS) {
       let key = d["name"];
       let v;
       try {
@@ -171,11 +192,9 @@ export default class SignUpPage extends React.Component {
         formData[key] = v ? 1 : 0;
       }
     }
-    console.log("post transformCheckboxData", formData);
-
     return formData;
   }
-  filterForm(d, formItems) {
+  filterForm(d) {
 
     if (this.state.currentStep == 1) {
 
@@ -187,17 +206,14 @@ export default class SignUpPage extends React.Component {
       }
 
       // check if resume uploaded
-      if (this.isUploadResumeRequired() && this.isHasUploadResume() && !this.state.currentResume) {
+      if (this.isUploadResumeRequired && this.isHasUploadResume && !this.state.currentResume) {
         return "Please upload your resume";
       }
 
-      for (let f of formItems) {
-        if (f.is_accept_checkbox && f.required) {
-          if (
-            typeof d[f.name] === "undefined" ||
-            d[f.name][0] != "accepted"
-          ) {
-            return d.required_error;
+      for (let f of this.FORM_ITEMS) {
+        if (f.is_accept_checkbox && f.required_error) {
+          if (d[f.name] != 1) {
+            return f.required_error;
           }
         }
       }
@@ -283,11 +299,8 @@ export default class SignUpPage extends React.Component {
   }
 
   formOnSubmit(d) {
-    console.log("sign up", d);
-    let formItems = UserFieldHelper.getRegistrationItems(getCF());
-    var err = this.filterForm(d, formItems);
-    d = this.transformCheckboxData(d, formItems);
-    // return;
+    d = this.transformCheckboxData(d);
+    var err = this.filterForm(d);
 
     if (err === 0) {
       toggleSubmit(this, { error: null });
@@ -379,7 +392,7 @@ export default class SignUpPage extends React.Component {
 
             // upload resume
 
-            if (this.isHasUploadResume() && this.state.currentResume) {
+            if (this.isHasUploadResume && this.state.currentResume) {
               // layoutActions.loadingBlockLoader("Uploading resume");
               this.uploadFileAndSaveToDB({
                 label: "Resume",
@@ -505,19 +518,9 @@ export default class SignUpPage extends React.Component {
     );
   }
 
-  isUploadResumeRequired() {
-    return Reg.IsUploadResumeRequired_FirstSignupPage.indexOf(getCF()) >= 0;
-  }
-
-  isHasUploadResume() {
-    // return true;
-    let validCF = Reg.IsHasUploadResume_FirstSignupPage;
-    return !this.props.isEdit && validCF.indexOf(getCF()) >= 0;
-  }
-
   getUploadResume() {
     var uploader = <Uploader
-      label={lang(("Upload Your Resume") + (this.isUploadResumeRequired() ? " *" : ""))}
+      label={lang(("Upload Your Resume") + (this.isUploadResumeRequired ? " *" : ""))}
       name="resume"
       type={FileType.DOC}
       onSuccess={(file) => {
@@ -623,8 +626,8 @@ export default class SignUpPage extends React.Component {
             : isCfFeatureOff(CFSMeta.FEATURE_STUDENT_REGISTER)
               ? <div>{lang("We are sorry. Registration for this event is currently closed.")}</div>
               : <Form
-                renderCustomItem={(key) => {
-                  if (key == "resume" && this.isHasUploadResume()) return this.getUploadResume();
+                renderCustomItem={(name) => {
+                  if (name == "resume" && this.isHasUploadResume) return this.getUploadResume();
                   return null;
                 }}
                 className="form-row"

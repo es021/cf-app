@@ -7,6 +7,7 @@
 - check on resume upload on register and profile
 - check on accept terms and condition checkbox on register
 - check on excel export config
+- check on flow to only allow pre-set student id or IC number able to register
 
 - create interface for admin to manage the configuration
   - create Database and API to store this configuration

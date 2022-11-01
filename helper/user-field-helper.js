@@ -137,6 +137,8 @@ class UserFieldHelper {
                     placeholder: item.input_placeholder,
                     loadRef: item.dataset_source,
                     required: item.required,
+                    is_resume : item.is_resume,
+                    is_resume_required : item.is_resume_required,
                     is_accept_checkbox: item.is_accept_checkbox,
                     required_error: item.required_error,
                 };

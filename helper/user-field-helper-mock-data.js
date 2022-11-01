@@ -102,6 +102,15 @@ const UserConfigDefault = [
         }
     },
     {
+        id: "resume",
+        register: {
+            position: "bottom",
+            input_type: "custom",
+            is_resume: true,
+            is_resume_required: true,
+        }
+    },
+    {
         id: "accept_policy",
         register: {
             position: "bottom",
@@ -112,8 +121,7 @@ const UserConfigDefault = [
                 key: "accepted",
                 label: `<small>I agree to <a href="${getTermsAndConditionUrl()}" target="_blank">terms and conditions</a></small>`
             }],
-            required: true,
-            required_error: "pls accept_policy"
+            required_error: "You must agree to terms and condition before continuing."
         }
     },
     {
@@ -127,8 +135,7 @@ const UserConfigDefault = [
                 key: "accepted",
                 label: `<small>I agree to receive important notifications from this event</small>`
             }],
-            required: true,
-            required_error: "pls accept_send_sms"
+            required_error: "You must agree to receive important notifications from this event."
         }
     },
 ]

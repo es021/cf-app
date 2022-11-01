@@ -694,25 +694,39 @@ class AuthAPI {
 		const successInterceptor = data => {
 			let userId = data[User.ID];
 
-			for (let item of CustomRegistrationConfig) {
-				if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
-					addToSingleInput(data, user, item.name);
-				}
-			}
-			for (let item of CustomRegistrationTermsAndConditionConfig) {
-				if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
-					addToSingleInput(data, user, item.name);
+			for (let keyUser in user) {
+				if ([
+					"ID",
+					"activation_key",
+					"user_email",
+					"user_login",
+					"user_pass",
+					"user_status",
+					"cf"
+				].indexOf(keyUser) <= -1) {
+					addToSingleInput(data, user, keyUser);
 				}
 			}
 
-			// add first name and last name at single_input
-			addToSingleInput(data, user, "level_study_utm21");
-			addToSingleInput(data, user, "faculty_utm21");
-			addToSingleInput(data, user, Single.first_name);
-			addToSingleInput(data, user, Single.last_name);
-			addToSingleInput(data, user, Single.phone_number);
-			addToSingleInput(data, user, Single.kpt); //@kpt_validation
-			addToSingleInput(data, user, getIdUtmKey(cf), "id_utm"); //@id_utm_validation
+			// for (let item of CustomRegistrationConfig) {
+			// 	if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
+			// 		addToSingleInput(data, user, item.name);
+			// 	}
+			// }
+			// for (let item of CustomRegistrationTermsAndConditionConfig) {
+			// 	if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
+			// 		addToSingleInput(data, user, item.name);
+			// 	}
+			// }
+
+			// // add first name and last name at single_input
+			// addToSingleInput(data, user, "level_study_utm21");
+			// addToSingleInput(data, user, "faculty_utm21");
+			// addToSingleInput(data, user, Single.first_name);
+			// addToSingleInput(data, user, Single.last_name);
+			// addToSingleInput(data, user, Single.phone_number);
+			// addToSingleInput(data, user, Single.kpt); //@kpt_validation
+			// addToSingleInput(data, user, getIdUtmKey(cf), "id_utm"); //@id_utm_validation
 
 			// update cf
 			var cf_sql = `mutation{edit_user(ID:${userId}, cf:"${cf}") {cf}}`;
