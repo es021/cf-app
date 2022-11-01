@@ -1,3 +1,25 @@
+
+## #######################################################################
+## #######################################################################
+## #######################################################################
+## #######################################################################
+## SELF MANAGE - TODO
+- check on resume upload on register and profile
+- check on accept terms and condition checkbox on register
+- check on excel export config
+
+- create interface for admin to manage the configuration
+  - create Database and API to store this configuration
+  - manage config
+  - manage dataset for the config
+
+
+## #######################################################################
+## #######################################################################
+## #######################################################################
+## #######################################################################
+
+
 <!-- field_study_main -->
 SELECT MIN(ID) FROM `multi_field_study` where entity = 'user' group by entity_id, entity
 

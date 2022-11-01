@@ -41,7 +41,7 @@ export default class ManageUserProfile extends React.Component {
   }
   async componentWillMount() {
     this.setState({
-      inputItems: UserFieldHelper.getQuestionItems(getCF())
+      inputItems: UserFieldHelper.getProfileItems(getCF())
     })
   }
   isEdit() {

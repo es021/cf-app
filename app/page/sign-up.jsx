@@ -124,6 +124,7 @@ export default class SignUpPage extends React.Component {
       }
     }
 
+
     let formItems = UserFieldHelper.getRegistrationItems(getCF());
     for (let f of formItems) {
       if (f.loadRef) {
@@ -154,9 +155,8 @@ export default class SignUpPage extends React.Component {
 
 
   //return string if there is error
-  transformCheckboxData(formData) {
+  transformCheckboxData(formData, formItems) {
     console.log("pre transformCheckboxData", formData);
-    let formItems = getRegisterFormItem(getCF());
 
     for (let d of formItems) {
       let key = d["name"];
@@ -175,7 +175,7 @@ export default class SignUpPage extends React.Component {
 
     return formData;
   }
-  filterForm(d) {
+  filterForm(d, formItems) {
 
     if (this.state.currentStep == 1) {
 
@@ -186,36 +186,46 @@ export default class SignUpPage extends React.Component {
         }
       }
 
-
       // check if resume uploaded
       if (this.isUploadResumeRequired() && this.isHasUploadResume() && !this.state.currentResume) {
         return "Please upload your resume";
       }
 
-      // check if policy accepted
-      if (
-        typeof d["accept-policy"] === "undefined" ||
-        d["accept-policy"][0] != "accepted"
-      ) {
-        return lang("You must agree to terms and condition before continuing.");
-      }
-
-      if (
-        typeof d["accept-send-sms"] === "undefined" ||
-        d["accept-send-sms"][0] != "accepted"
-      ) {
-        // return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
-        return lang("You must agree to receive important notifications from this event");
-      }
-
-      for (let k in CustomRegistrationTermsAndConditionError) {
-        if (
-          this.formItemKeys.indexOf(k) >= 0 &&
-          (typeof d[k] === "undefined" || d[k][0] != "accepted")
-        ) {
-          return lang(CustomRegistrationTermsAndConditionError[k]);
+      for (let f of formItems) {
+        if (f.is_accept_checkbox && f.required) {
+          if (
+            typeof d[f.name] === "undefined" ||
+            d[f.name][0] != "accepted"
+          ) {
+            return d.required_error;
+          }
         }
       }
+
+      // check if policy accepted
+      // if (
+      //   typeof d["accept-policy"] === "undefined" ||
+      //   d["accept-policy"][0] != "accepted"
+      // ) {
+      //   return lang("You must agree to terms and condition before continuing.");
+      // }
+
+      // if (
+      //   typeof d["accept-send-sms"] === "undefined" ||
+      //   d["accept-send-sms"][0] != "accepted"
+      // ) {
+      //   // return lang("You must agree to receive important notifications via SMS or WhatsApp messages");
+      //   return lang("You must agree to receive important notifications from this event");
+      // }
+
+      // for (let k in CustomRegistrationTermsAndConditionError) {
+      //   if (
+      //     this.formItemKeys.indexOf(k) >= 0 &&
+      //     (typeof d[k] === "undefined" || d[k][0] != "accepted")
+      //   ) {
+      //     return lang(CustomRegistrationTermsAndConditionError[k]);
+      //   }
+      // }
     }
 
     return 0;
@@ -274,8 +284,9 @@ export default class SignUpPage extends React.Component {
 
   formOnSubmit(d) {
     console.log("sign up", d);
-    var err = this.filterForm(d);
-    d = this.transformCheckboxData(d);
+    let formItems = UserFieldHelper.getRegistrationItems(getCF());
+    var err = this.filterForm(d, formItems);
+    d = this.transformCheckboxData(d, formItems);
     // return;
 
     if (err === 0) {
