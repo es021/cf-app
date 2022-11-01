@@ -43,7 +43,7 @@ const MailChimp = {
 };
 
 const DB = require("../model/DB.js");
-const { CustomRegistrationConfig } = require("../../config/registration-config-custom-by-cf");
+const { CustomRegistrationConfig, CustomRegistrationTermsAndConditionConfig } = require("../../config/registration-config-custom-by-cf");
 
 
 function getIdUtmTable(cf) {
@@ -207,7 +207,7 @@ class AuthAPI {
 				}
 			},
 			err => {
-				console.log("Error Auth Api getPHPApiAxios");
+				// // console.log("Error Auth Api getPHPApiAxios");
 				return err.response.data;
 			}
 		);
@@ -313,7 +313,7 @@ class AuthAPI {
 				}
 			},
 			err => {
-				console.log("Error Auth Api getAxiosGraphQLQuery", err.response.data);
+				// console.log("Error Auth Api getAxiosGraphQLQuery", err.response.data);
 				return err.response.data;
 			}
 		);
@@ -469,10 +469,10 @@ class AuthAPI {
 	// reset with token and user id
 	password_reset_token(new_password, token, user_id) {
 		var user_query = `query{password_reset(user_id:${user_id},token:"${token}"){ID is_expired}}`;
-		//console.log(user_query);
+		//// console.log(user_query);
 		return getAxiosGraphQLQuery(user_query).then(res => {
 			var password_reset = res.data.data.password_reset;
-			console.log(res.data);
+			// console.log(res.data);
 			if (password_reset == null) {
 				return AuthAPIErr.TOKEN_INVALID;
 			} else if (password_reset.is_expired) {
@@ -561,16 +561,16 @@ class AuthAPI {
 							type: "RESET_PASSWORD"
 						};
 
-						console.log("email_data", email_data)
+						// console.log("email_data", email_data)
 						postPhpAdmin(EmailPhpAdmin, email_data, data => {
-							console.log("postPhpAdmin finish")
-							console.log(data);
+							// console.log("postPhpAdmin finish")
+							// console.log(data);
 						});
 						return {
 							status: 1,
 						};
 
-						// console.log("send_email", email_data);
+						// // console.log("send_email", email_data);
 						// getWpAjaxAxios("app_send_email", email_data);
 						// return {
 						// 	status: 1
@@ -615,10 +615,10 @@ class AuthAPI {
 
 	//raw form from sign up page
 	register(user) {
-		console.log("user", user)
-		console.log("user", user)
-		console.log("user", user)
-		console.log("user", user)
+		// console.log("user", user)
+		// console.log("user", user)
+		// console.log("user", user)
+		// console.log("user", user)
 		//separate userdata and usermeta
 
 		//get cf
@@ -643,11 +643,11 @@ class AuthAPI {
       }`).then((res) => {
 
 				let mail_chimp_list = res.data.data.cf["mail_chimp_list"];
-				console.log("mail_chimp_list", mail_chimp_list);
+				// console.log("mail_chimp_list", mail_chimp_list);
 
 				let listId = mail_chimp_list == "local" ? MailChimp.ListIdLocal : MailChimp.ListId;
 				let url = `https://us16.api.mailchimp.com/3.0/lists/${listId}/members`;
-				console.log("url", url);
+				// console.log("url", url);
 
 				let params = {
 					email_address: email,
@@ -664,10 +664,10 @@ class AuthAPI {
 
 				postAxios(url, params, headers)
 					.then(res => {
-						console.log("[addToMailChimp success]", res);
+						// console.log("[addToMailChimp success]", res);
 					})
 					.catch(error => {
-						console.log("[addToMailChimp error]", error);
+						// console.log("[addToMailChimp error]", error);
 					});
 			});
 
@@ -676,7 +676,7 @@ class AuthAPI {
 
 		const addToSingleInput = (data, user, key, overrideKey) => {
 			// console.log("--------------------------------")
-			// console.log("addToSingleInput", data, user, key, overrideKey)
+			// console.log("addToSingleInput key", key)
 
 			let userId = data[User.ID];
 			var q = `mutation{
@@ -685,9 +685,9 @@ class AuthAPI {
                 entity_id:${userId}
                 val:"${overrideKey ? user[overrideKey] : user[key]}"
 				) { ID }}`;
-			// console.log("--------------------------------")
-			// console.log(q);
-			// console.log("--------------------------------")
+			// // console.log("--------------------------------")
+			// // console.log(q);
+			// // console.log("--------------------------------")
 			getAxiosGraphQLQuery(q);
 		};
 
@@ -699,7 +699,12 @@ class AuthAPI {
 					addToSingleInput(data, user, item.name);
 				}
 			}
-			
+			for (let item of CustomRegistrationTermsAndConditionConfig) {
+				if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
+					addToSingleInput(data, user, item.name);
+				}
+			}
+
 			// add first name and last name at single_input
 			addToSingleInput(data, user, "level_study_utm21");
 			addToSingleInput(data, user, "faculty_utm21");
@@ -712,7 +717,7 @@ class AuthAPI {
 			// update cf
 			var cf_sql = `mutation{edit_user(ID:${userId}, cf:"${cf}") {cf}}`;
 			getAxiosGraphQLQuery(cf_sql);
-			console.log(cf_sql);
+			// console.log(cf_sql);
 
 			//send Email here
 			var act_link = this.createActivationLink(
@@ -731,7 +736,7 @@ class AuthAPI {
 				type: "STUDENT_REGISTRATION"
 			};
 
-			console.log("send STUDENT_REGISTRATION email", email_data);
+			// console.log("send STUDENT_REGISTRATION email", email_data);
 			addToMailChimp(
 				user[User.EMAIL],
 				user[UserMeta.FIRST_NAME],
@@ -742,7 +747,7 @@ class AuthAPI {
 			// getWpAjaxAxios("app_send_email", email_data);
 		};
 		const errorInterceptor = err => {
-			console.log(err);
+			// // console.log(err);
 			if (err == AuthAPIErr.USERNAME_EXIST) {
 				let existedEmail = user[User.EMAIL];
 				return graphql(`query{user(user_email:"${user[User.EMAIL]}") {ID role}}`).then(resQuery => {
@@ -765,9 +770,9 @@ class AuthAPI {
 						if (existedId) {
 							let deleteQuery = "DELETE FROM cf_map WHERE entity = 'user' AND entity_id = ?";
 							deleteQuery = DB.prepare(deleteQuery, [existedId]);
-							console.log("deleteQuery", deleteQuery);
-							console.log("deleteQuery", deleteQuery);
-							console.log("deleteQuery", deleteQuery);
+							// // console.log("deleteQuery", deleteQuery);
+							// // console.log("deleteQuery", deleteQuery);
+							// // console.log("deleteQuery", deleteQuery);
 							return DB.query(deleteQuery).then(resDelete => {
 								return getWpAjaxAxios("app_register_user", data, successInterceptor);
 							})

@@ -105,7 +105,6 @@ export default class SignUpPage extends React.Component {
     this.defaultValues[User.CF] = this.CF;
 
     this.loadRef();
-    //this.formItems = getRegisterFormItem(1);
   }
 
   loadRef() {
@@ -124,7 +123,7 @@ export default class SignUpPage extends React.Component {
       }
     }
 
-    let formItems = getRegisterFormItem(1, getCF());
+    let formItems = getRegisterFormItem(getCF());
     for (let f of formItems) {
       if (f.loadRef) {
         if (!this.state.loading) {
@@ -154,6 +153,27 @@ export default class SignUpPage extends React.Component {
 
 
   //return string if there is error
+  transformCheckboxData(formData) {
+    console.log("pre transformCheckboxData", formData);
+    let formItems = getRegisterFormItem(getCF());
+
+    for (let d of formItems) {
+      let key = d["name"];
+      let v;
+      try {
+        v = formData[key][0] == "accepted";
+      } catch (err) { }
+      if (!v) {
+        v = false;
+      }
+      if (d["type"] == "checkbox") {
+        formData[key] = v ? 1 : 0;
+      }
+    }
+    console.log("post transformCheckboxData", formData);
+
+    return formData;
+  }
   filterForm(d) {
 
     if (this.state.currentStep == 1) {
@@ -254,7 +274,8 @@ export default class SignUpPage extends React.Component {
   formOnSubmit(d) {
     console.log("sign up", d);
     var err = this.filterForm(d);
-
+    d = this.transformCheckboxData(d);
+    // return;
 
     if (err === 0) {
       toggleSubmit(this, { error: null });
@@ -446,40 +467,6 @@ export default class SignUpPage extends React.Component {
     });
   }
 
-  // getPostRegisterViewOld(user) {
-  //     let content = null;
-  //     let formItems = getRegisterFormItem(this.state.currentStep);
-  //     let completeView = this.state.currentStep > TotalRegisterStep
-  //         ?
-  //         <div>
-  //             <h3>Congratulation! You Have Completed Your Profile</h3>
-  //             <LoginPage defaultLogin={user[User.EMAIL]} title={<h4>Login Now</h4>}></LoginPage>
-  //         </div>
-  //         :
-  //         <div>
-  //             <h3>Complete Your Profile - Step {this.state.currentStep} out of {TotalRegisterStep}</h3>
-  //             <Form className="form-row"
-  //                 items={formItems}
-  //                 onSubmit={this.formOnSubmit}
-  //                 defaultValues={{}}
-  //                 submitText='Submit'
-  //                 disableSubmit={this.state.disableSubmit}
-  //                 error={this.state.error}>
-  //             </Form>
-  //         </div>
-
-  //     content = <div>
-  //         <h3>Welcome {user[UserMeta.FIRST_NAME]} !  <i className="fa fa-smile-o"></i></h3>
-  //         Your account has been successfully created<br></br>
-  //         Don't forget to <b>upload your resume</b> when you are logged in!<br></br>
-  //         You can do it at <b>Upload Document</b>
-  //         {/* Please check your email (<b>{user[User.EMAIL]}</b>) for the activation link.
-  //             <br></br>If you did not received any email, contact us at <b>innovaseedssolutions@gmail.com</b>
-  //             <br></br><small><i>** The email might take a few minutes to arrive **</i></small> */}
-  //         {completeView}
-  //     </div>
-  //     return content;
-  // }
   getPostRegisterView(user) {
     return (
       <div
@@ -614,7 +601,7 @@ export default class SignUpPage extends React.Component {
       }
 
       // @kpt_validation
-      let formItems = getRegisterFormItem(1, getCF(), this.state.refData);
+      let formItems = getRegisterFormItem(getCF(), this.state.refData);
       this.formItemKeys = formItems.map((d) => d.name);
 
       content = (

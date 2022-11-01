@@ -3204,7 +3204,7 @@ const CustomRegistrationConfig = [
 const CustomRegistrationTermsAndConditionConfig = [
     {
         label: null,
-        name: "accept-pdpa",
+        name: "accept_pdpa",
         type: "checkbox",
         data: [{
             key: "accepted",
@@ -3217,7 +3217,7 @@ const CustomRegistrationTermsAndConditionConfig = [
     },
     {
         label: null,
-        name: "accept-tcrep",
+        name: "accept_tcrep",
         type: "checkbox",
         data: [{
             key: "accepted",
@@ -3231,7 +3231,7 @@ const CustomRegistrationTermsAndConditionConfig = [
     /////////////////////////////
     {
         label: null,
-        name: "accept-myheart",
+        name: "accept_myheart",
         type: "checkbox",
         data: [{
             key: "accepted",
@@ -3244,7 +3244,7 @@ const CustomRegistrationTermsAndConditionConfig = [
     },
     {
         label: null,
-        name: "accept-myheart-pdpa",
+        name: "accept_myheart_pdpa",
         type: "checkbox",
         data: [{
             key: "accepted",
@@ -3255,10 +3255,23 @@ const CustomRegistrationTermsAndConditionConfig = [
         },
         register: 1, editStudent: 0, editRec: 0
     },
+    {
+        label: null,
+        name: "accept_tc_promo_event",
+        type: "checkbox",
+        data: [{
+            key: "accepted",
+            label: `<small>I want to receive future promotions on similar events by TalentCorp.</small>`
+        }],
+        isOnlyInCf: (cf) => {
+            return ["MYHEARTCAFE2022"].indexOf(cf) >= 0;
+        },
+        register: 1, editStudent: 0, editRec: 0
+    },
     /////////////////////////////
     {
         label: null,
-        name: "accept-mara",
+        name: "accept_mara",
         type: "checkbox",
         data: [{
             key: "accepted",
@@ -3271,7 +3284,7 @@ const CustomRegistrationTermsAndConditionConfig = [
     },
     {
         label: null,
-        name: "accept-mara-share",
+        name: "accept_mara_share",
         type: "checkbox",
         data: [{
             key: "accepted",
@@ -3285,12 +3298,12 @@ const CustomRegistrationTermsAndConditionConfig = [
 ]
 
 const CustomRegistrationTermsAndConditionError = {
-    "accept-pdpa": "You must agree to Personal Data Protection Act before continuing.",
-    "accept-tcrep": "You must agree to TalentCorp terms and condition before continuing.",
-    "accept-myheart": "You must agree to TalentCorp terms and condition before continuing.",
-    "accept-myheart-pdpa": "You must agree to Personal Data Protection Act before continuing.",
-    "accept-mara": "You must agree to all TalentCorp terms and condition before continuing.",
-    "accept-mara-share": "You must agree to all TalentCorp terms and condition before continuing.",
+    "accept_pdpa": "You must agree to Personal Data Protection Act before continuing.",
+    "accept_tcrep": "You must agree to TalentCorp terms and condition before continuing.",
+    "accept_myheart": "You must agree to TalentCorp terms and condition before continuing.",
+    "accept_myheart_pdpa": "You must agree to Personal Data Protection Act before continuing.",
+    "accept_mara": "You must agree to all TalentCorp terms and condition before continuing.",
+    "accept_mara_share": "You must agree to all TalentCorp terms and condition before continuing.",
 };
 function isNoProfileSetupPostSignUp(cf) {
     return ["MARAVCF22"].indexOf(cf) >= 0;
