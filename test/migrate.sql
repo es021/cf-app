@@ -1,13 +1,15 @@
+-- ##############################################################
+-- ##############################################################
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
+-- ##############################################################
+-- ##############################################################
+ALTER TABLE `interested` ADD `application_status` 
+VARCHAR(50) NULL DEFAULT NULL AFTER `is_interested`, ADD INDEX (`application_status`);
 
 qr_check_in
 qr_img
 
--- ##############################################################
--- ##############################################################
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
--- ##############################################################
--- ##############################################################
 ALTER TABLE `pre_screens` ADD `cancel_reason` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL DEFAULT NULL AFTER `note`;
 
 

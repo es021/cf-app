@@ -94,8 +94,9 @@ const CfQueryType = {
             let sql = `
                 select i.user_id, u.user_email, 
                 v.ID as vacancy_id, v.title as vacancy_title, 
-                c.ID as company_id, c.name as company_name, 
-                i.updated_at as applied_at 
+                c.ID as company_id, c.name as company_name,
+                i.application_status, 
+                i.created_at as applied_at 
                 
                 from vacancies v , 
                 companies c, interested i, 

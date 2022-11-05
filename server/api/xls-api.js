@@ -247,16 +247,19 @@ class XLSApi {
 
 
   list_job_applicants(filter, cf, is_admin) {
-    // console.log("filter", filter)
+    console.log("filter", filter)
+    let is_include_status = filter.is_include_status;
     var filename = `Participant Listing`;
     var query = `query{
         interested_list (
           entity:"${filter.entity}", 
           entity_id:${filter.entity_id},
           ${filter.user_cf ? `user_cf:"${filter.user_cf}",` : ""}
-          is_interested : 1) 
+          is_interested : 1
+          ) 
         {
           user{${this.student_field(is_admin)}}
+          ${is_include_status ? 'application_status' : ''}
         }
       } `;
 
