@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { InterestedUserList } from "../component/interested";
 import { Loader } from "../component/loader";
 import { graphql } from "../../helper/api-helper";
-import { getCF, isCfFeatureOn, isRoleOrganizer } from "../redux/actions/auth-actions";
+import { getCF, isCfFeatureOn, isRoleOrganizer, isRoleRec } from "../redux/actions/auth-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import Form from "../component/form";
 import { CFSMeta } from "../../config/db-config";
@@ -40,6 +40,9 @@ export default class ListJobApplicants extends React.Component {
     })
   }
   openUpdateStatusPopup(d, postUpdate) {
+    if (!isRoleRec()) {
+      return;
+    }
     layoutActions.customViewBlockLoader(`Application Status for ${d.user.first_name}`,
       <div>
         <br></br>
@@ -113,12 +116,15 @@ export default class ListJobApplicants extends React.Component {
               style={{ marginTop: "4px" }}>
               <label
                 onClick={() => {
+                  if (!isRoleRec()) {
+                    return;
+                  }
                   this.openUpdateStatusPopup(d);
                   setTimeout(() => {
                     layoutActions.storeHideFocusCard();
                   }, 100);
                 }}
-                className={`label label-default clickable`}
+                className={`label label-default ${isRoleRec() ? 'clickable' : ''}`}
               >
                 {d.application_status}
               </label>
@@ -126,7 +132,7 @@ export default class ListJobApplicants extends React.Component {
             : null
         }}
         onClosePopup={(d, i) => {
-          if (!this.IsFeatureOnUpdateStatus || d.application_status) {
+          if (!this.IsFeatureOnUpdateStatus || d.application_status || !isRoleRec()) {
             return true;
           }
           this.openUpdateStatusPopup(d, () => {

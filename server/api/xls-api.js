@@ -13,6 +13,8 @@ class XLSApi {
     this.globalHeaders = [];
     this.DateTime = [
       "created_at",
+      "applied_at",
+      "status_updated_at",
       "updated_at",
       "started_at",
       "ended_at",
@@ -63,6 +65,8 @@ class XLSApi {
         return this.list_job_applicants(filter, cf, is_admin);
       case "job_posts_by_cf":
         return this.job_posts_by_cf(filter.cf);
+      case "job_posts_application_by_cf_with_status":
+        return this.job_posts_application_by_cf_with_status(filter.cf);
       case "job_posts_application_by_cf":
         return this.job_posts_application_by_cf(filter.cf);
       case "rec_analytic":
@@ -156,6 +160,21 @@ class XLSApi {
       restructData
       // renameTitle //renameTitle
     );
+  }
+
+  job_posts_application_by_cf_with_status(cf) {
+    var filename = `Job Post Applicant Status`;
+    const extractData = res => {
+      return res.data;
+    }
+    return this.fetchAndReturnPost({
+      url: StatisticUrl + "/vacancy-application",
+      param: {
+        cf: cf, is_with_status: true,
+      },
+      extractData: extractData,
+      filename: filename,
+    });
   }
 
   job_posts_application_by_cf(cf) {
@@ -947,7 +966,7 @@ class XLSApi {
   }
 
   defaultRowHook(k, d) {
-
+    console.log("defaultRowHook",k, d);
     let isDateTime = false;
     for (var i in this.DateTime) {
       if (k.indexOf(this.DateTime[i]) >= 0) {

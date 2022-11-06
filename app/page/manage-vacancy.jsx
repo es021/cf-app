@@ -18,6 +18,7 @@ import {
   isRoleRec,
   isRoleOrganizer,
   getCfCustomMeta,
+  isCfFeatureOn,
 } from "../redux/actions/auth-actions";
 import * as layoutActions from "../redux/actions/layout-actions";
 import VacancyPopup from "./partial/popup/vacancy-popup";
@@ -39,11 +40,16 @@ export default class ManageVacancy extends React.Component {
     this.company_id = this.props.company_id;
     this.user_id = authUser.ID;
 
+    this.IsFeatureApplicationStatusOn = isCfFeatureOn(CFSMeta.FEATURE_UPDATE_JOB_APPLICATION_STATUS);
     this.state = {
       countJobPost: null,
-      countApplication: null,
       loadingCountJobPost: true,
+
+      countApplication: null,
       loadingCountApplication: true,
+
+      countApplicantStatus: null,
+      loadingCountApplicantStatus: this.IsFeatureApplicationStatusOn ? true : false,
     }
   }
 
@@ -141,8 +147,8 @@ export default class ManageVacancy extends React.Component {
 
     this.loadData = (page, offset) => {
 
-    this.forceDiff = ["open_position"]
-    this.acceptEmpty = ["open_position"]
+      this.forceDiff = ["open_position"]
+      this.acceptEmpty = ["open_position"]
 
       // @custom_vacancy_info
       var query = `query{vacancies(${this.getQueryParam({ page: page, offset: offset, isCount: false })})
@@ -297,7 +303,10 @@ export default class ManageVacancy extends React.Component {
       this.setState({ countJobPost: count, loadingCountJobPost: false });
     });
 
-    postRequest(StatisticUrl + "/vacancy-application", { cf: getCF(), is_count: true }).then(res => {
+    postRequest(StatisticUrl + "/vacancy-application", {
+      cf: getCF(),
+      is_count: true
+    }).then(res => {
       var count = "N/A"
       try {
         count = res.data.total;
@@ -305,6 +314,21 @@ export default class ManageVacancy extends React.Component {
       }
       this.setState({ countApplication: count, loadingCountApplication: false });
     })
+
+    if (this.IsFeatureApplicationStatusOn) {
+      postRequest(StatisticUrl + "/vacancy-application", {
+        cf: getCF(),
+        is_with_status: true,
+        is_count: true
+      }).then(res => {
+        var count = "N/A"
+        try {
+          count = res.data.total;
+        } catch (err) {
+        }
+        this.setState({ countApplicantStatus: count, loadingCountApplicantStatus: false });
+      })
+    }
   }
 
 
@@ -313,7 +337,7 @@ export default class ManageVacancy extends React.Component {
       return null;
     }
 
-    if (this.state.loadingCountJobPost && this.state.loadingCountApplication) {
+    if (this.state.loadingCountJobPost && this.state.loadingCountApplication && this.state.loadingCountApplicantStatus) {
       return <Loader></Loader>
     }
     return [<div className="container-fluid" style={{ margin: '32px 0px' }}>
@@ -344,7 +368,25 @@ export default class ManageVacancy extends React.Component {
           }}></ButtonExport>}
       >
       </StatisticFigure>
-    </div>]
+    </div>,
+    !this.IsFeatureApplicationStatusOn
+      ? null
+      : <div className="container-fluid" style={{ margin: '32px 0px' }}>
+        <StatisticFigure title="Job Applicant Status"
+          icon="check"
+          value={this.state.countApplicantStatus}
+          color="rgb(186 79 212)"
+          footer={<ButtonExport
+            btnClass="link st-footer-link"
+            action="job_posts_application_by_cf_with_status"
+            text={`Download Applicant Status List`}
+            filter={{
+              cf: getCF(),
+            }}></ButtonExport>}
+        >
+        </StatisticFigure>
+      </div>
+    ]
   }
 
 
