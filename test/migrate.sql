@@ -1,9 +1,4 @@
--- new table
-global_dataset
-multi_input
 
-qr_check_in
-qr_img
 
 -- ##############################################################
 -- ##############################################################
@@ -12,7 +7,12 @@ qr_img
 -- ##############################################################
 -- ##############################################################
 ALTER TABLE `pre_screens` ADD `cancel_reason` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL DEFAULT NULL AFTER `note`;
+-- new table
+global_dataset
+multi_input
 
+qr_check_in
+qr_img
 
 feature_event_student : OFF 
 feature_event_show_all_for_student : ON
