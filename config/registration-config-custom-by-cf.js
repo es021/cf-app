@@ -213,7 +213,7 @@ const CustomConfig = {
     },
     where_in_malaysia_select: {
         label: "Place Of Residence",
-        question: "Where are you from in Malaysia?",
+        question: "Where are you from?",
         icon: "map-marker",
         type: "single",
         input_type: "select",
@@ -507,7 +507,7 @@ const CustomConfig = {
     },
     d2w21_interested_job_location: {
         label: "Interested Job Location",
-        question: "Where would you like to work in Malaysia?",
+        question: "Where would you like to work?",
         icon: "suitcase",
         list_title: null,
         discard_ref_from_default: true,
@@ -517,7 +517,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21", "D2WRL21"],
+        onCf: ["D2W21", "D2WRL21", "TARUCNOV22"],
         attr: `{val}`
     },
     d2w21_university: {
@@ -2583,14 +2583,20 @@ const CustomOrder = {
         "tarucjul21_programme",
         "tarucjul21_programme_other",
 
+        "grade",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia_select",
+        "d2w21_interested_job_location",
+        "skill",
+        "extracurricular"
+
         // "tarucjul21_purpose",
         // "internship_date",
         // "country_study_select",
         // "university",
         // "field_study_main",
-        // "grade",
         // // "phone_number",
-        // "interested_role",
         // "where_in_malaysia_select",
         // "tarucjul21_interested_intern_location",
         // "skill",
