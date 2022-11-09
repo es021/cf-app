@@ -218,7 +218,7 @@ const CustomConfig = {
         type: "single",
         input_type: "select",
         ref_table_name: "state",
-        ref_order_by: "val asc",
+        ref_order_by: "ID asc",
         is_required: true,
         onCf: ["OEJF21", "OEJF22", "TARUCJUL21", "TARUCNOV21", "TARUCNOV22", "OCPE21"]
     },
