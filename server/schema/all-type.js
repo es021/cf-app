@@ -60,7 +60,18 @@ const MultiType = new GraphQLObjectType({
 });
 
 const GlobalDatasetType = new GraphQLObjectType({
-	name: "GlobalDataset",
+	name: "GlobalDatasetType",
+	fields: () => ({
+		ID: __.Int,
+		cf: __.String,
+		source: __.String,
+		name: __.String,
+		created_by: __.String,
+		created_at: __.String,
+	})
+});
+const GlobalDatasetItemType = new GraphQLObjectType({
+	name: "GlobalDatasetItem",
 	fields: () => ({
 		ID: __.Int,
 		source: __.String,
@@ -1186,6 +1197,7 @@ module.exports = {
 	GroupSessionJoinType,
 	CfsType,
 	GlobalDatasetType,
+	GlobalDatasetItemType,
 	EntityRemovedType,
 	NotificationType,
 	HallGalleryType,

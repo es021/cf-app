@@ -107,6 +107,20 @@ const initializeAllRoute = function (app, root) {
   });
 
   // Route For Daily Co -------------------------------------------------------------------
+  const { DatasetDatapointApi } = require("./dataset-datapoint-api");
+  app.post(root + "/dataset-datapoint/:action", function (req, res, next) {
+    var action = req.params.action;
+    var param = req.body;
+    DatasetDatapointApi.Main(action, param)
+      .then(response => {
+        routeResHandler(res, response);
+      })
+      .catch(error => {
+        routeResHandler(res, error);
+      });
+  });
+
+  // Route For Daily Co -------------------------------------------------------------------
   const { StatisticAPI } = require("./statistic-api");
   app.post(root + "/statistic/:action", function (req, res, next) {
     var action = req.params.action;

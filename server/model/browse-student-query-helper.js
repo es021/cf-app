@@ -333,7 +333,7 @@ async function filterCustom(currentCf, param, where) {
 			( 
 				s.key_input = "${f.id}"
 				AND
-				s.val IN (select r.val from global_dataset r WHERE r.source = '${f.dataset_source}')
+				s.val IN (select r.val from global_dataset_item r WHERE r.source = '${f.dataset_source}')
 			)
 		`);
 	}

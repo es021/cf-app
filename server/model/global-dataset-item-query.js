@@ -1,18 +1,19 @@
 const DB = require("./DB.js");
 
-class GlobalDatasetExec {
+class GlobalDatasetItemExec {
 	query(param) {
 		param = DB.sanitize(param);
 
-		let ID = !param.ID ? "1=1" : ` ID = '${param.ID}' `;
-		let cf = !param.cf ? "1=1" : ` cf = '${param.cf}' `;
-		let search = !param.search ? "1=1" : ` (name like '%${param.search}%' or cf like '%${param.search}%') `;
+		let ID = !param.ID ? "1=1" : ` ID = ${param.ID}`;
+		let source = !param.source ? "1=1" : ` source = '${param.source}' `;
+		let val = !param.val ? "1=1" : ` val like '%${param.val}%' `;
+		let order_by = !param.order_by ? "" : `ORDER BY ${param.order_by}`;
 		var limit = DB.prepareLimit(param.page, param.offset);
 
 		let sql = `
-			select * from global_dataset where 1=1
-			and ${ID} and ${cf} and ${search}
-			ORDER BY created_at DESC
+			select * from global_dataset_item where 1=1
+			and ${ID} and ${val} and ${source}
+			${order_by}
 			${limit}
 		`;
 
@@ -43,7 +44,7 @@ class GlobalDatasetExec {
 	}
 }
 
-GlobalDatasetExec = new GlobalDatasetExec();
+GlobalDatasetItemExec = new GlobalDatasetItemExec();
 module.exports = {
-	GlobalDatasetExec,
+	GlobalDatasetItemExec,
 };

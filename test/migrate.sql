@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> master
 -- ##############################################################
 -- ##############################################################
 -- BELOW THIS LINE DAH MIGRATE KE PRODUCTION
@@ -17,7 +14,7 @@ qr_img
 
 ALTER TABLE `pre_screens` ADD `cancel_reason` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NULL DEFAULT NULL AFTER `note`;
 -- new table
-global_dataset
+global_dataset_item
 multi_input
 
 qr_check_in

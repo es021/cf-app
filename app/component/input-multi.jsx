@@ -160,32 +160,9 @@ export default class InputMulti extends React.Component {
       }
     };
 
-    // if(this.props.global_dataset){
-    //   let qRef = `query{
-    //     global_dataset(
-    //       source :"${props.global_dataset}",
-    //       order_by:"${props.ref_order_by ? props.ref_order_by : "RAND ()"}",
-    //       page:1, offset:${props.ref_offset},
-    //       location_suggestion :"${props.location_suggestion}",
-    //       category :"${props.ref_category}",
-    //       search_by_ref :"${props.suggestion_search_by_ref}",
-    //       search_by_val : "${props.suggestion_search_by_val}"
-    //     ){
-    //       ID
-    //       val
-    //     }
-    //   }`;
-    //   // console.log(qRef)
-    //   graphql(qRef).then(res => {
-    //     let fetched = res.data.data.refs;
-    //     refList = fetched;
-    //     finish();
-    //   });
-    // }
-
     if (this.props.dataset_source && this.props.dataset_suggestion_offset && this.props.dataset_show_suggestion) {
       let qRef = `query{
-        global_dataset(
+        global_dataset_item(
           source :"${props.dataset_source}",
           order_by:"${props.dataset_order_by ? props.dataset_order_by : "RAND ()"}",
           page:1, 
@@ -197,7 +174,7 @@ export default class InputMulti extends React.Component {
       }`;
       // console.log(qRef)
       graphql(qRef).then(res => {
-        let fetched = res.data.data.global_dataset;
+        let fetched = res.data.data.global_dataset_item;
         refList = fetched;
         finish();
       });

@@ -44,7 +44,9 @@ const {
   AnnouncementType,
   UserNoteType,
   GroupCallType,
-  GroupCallUserType
+  GroupCallUserType,
+  GlobalDatasetType,
+  GlobalDatasetItemType
 } = require("./all-type.js");
 
 //import all action for type
@@ -112,6 +114,7 @@ const {
   // GraphQLList,
   // GraphQLNonNull
 } = require("graphql");
+const { generateId, makeSnakeCase } = require("../../helper/general-helper.js");
 
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
@@ -333,7 +336,7 @@ fields["add_multi"] = {
   },
   resolve(parentValue, arg, context, info) {
     let param = {
-      key_input : arg.table_name,
+      key_input: arg.table_name,
       entity: arg.entity,
       entity_id: arg.entity_id,
       val: arg.val
@@ -926,6 +929,87 @@ fields["edit_cf"] = {
     );
   }
 };
+
+/*******************************************/
+/* global_dataset ******************/
+fields["add_global_dataset"] = {
+  type: GlobalDatasetType,
+  args: {
+    cf: __.StringNonNull,
+    name: __.StringNonNull,
+    created_by: __.Int,
+  },
+  resolve(parentValue, arg, context, info) {
+    arg["source"] = `${makeSnakeCase(arg["name"])}_${arg["cf"]}_${generateId(6)}`;
+    arg["source"] = arg["source"].toLowerCase();
+    return DB.insert("global_dataset", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_global_dataset"] = {
+  type: GlobalDatasetType,
+  args: {
+    ID: __.IntNonNull,
+    name: __.StringNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update("global_dataset", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+fields["delete_global_dataset"] = {
+  type: GraphQLInt,
+  args: {
+    ID: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.delete("global_dataset", arg.ID);
+  }
+};
+
+
+
+
+/*******************************************/
+/* global_dataset_item ******************/
+fields["add_bundle_global_dataset_item"] = {
+  type: GraphQLInt,
+  args: {
+    source: __.StringNonNull,
+    val: __.StringNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.insert("global_dataset_item", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+
+fields["edit_global_dataset_item"] = {
+  type: GlobalDatasetItemType,
+  args: {
+    ID: __.IntNonNull,
+    val: __.StringNonNull,
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.update("global_dataset_item", arg).then(function (res) {
+      return res;
+    });
+  }
+};
+fields["delete_global_dataset_item"] = {
+  type: GraphQLInt,
+  args: {
+    ID: __.IntNonNull
+  },
+  resolve(parentValue, arg, context, info) {
+    return DB.delete("global_dataset_item", arg.ID);
+  }
+};
+
 
 /*******************************************/
 /* doc_link ******************/

@@ -90,6 +90,9 @@ export function previousFocusCard() {
         });
     };
 }
+export function storePreviousFocusCard() {
+    store.dispatch(previousFocusCard());
+}
 
 export const UPDATE_FOCUS_CARD = "UPDATE_FOCUS_CARD";
 export function updateFocusCard(title, component, props, className = "", onClose = null) {
@@ -137,9 +140,6 @@ export function hideFocusCard() {
     };
 }
 
-export function storeHideFocusCard() {
-    store.dispatch(hideFocusCard());
-}
 
 export function storeUpdateFocusCard(title, component, props, className = "", onClose = null) {
     store.dispatch(updateFocusCard(title, component, props, className, onClose));

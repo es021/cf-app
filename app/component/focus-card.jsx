@@ -123,7 +123,7 @@ FocusCard.propTypes = {
     component: PropTypes.func,
     props: PropTypes.object,
     show: PropTypes.bool,
-    className: PropTypes.oneOf(["small"])
+    className: PropTypes.oneOf(["small", "no-margin"])
 };
 
 

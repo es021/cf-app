@@ -103,7 +103,6 @@ export default class Form extends React.Component {
 
     this.hasInit = false;
   }
-
   onBlur(event) {
     var name = event.target.name;
     if (Object.keys(this.state.warning).length > 0) {

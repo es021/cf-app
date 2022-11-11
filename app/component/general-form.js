@@ -33,7 +33,7 @@ class SearchForm extends React.Component {
             <i className="fa fa-search left"></i>{lang("Search")}
           </span>
         }
-        btnColorClass={"success btn-lg"}
+        btnColorClass={"success"}
         disableSubmit={this.state.disableSubmit}
         error={this.state.error}
         errorPosition="top"
@@ -220,7 +220,14 @@ export default class GeneralFormPage extends React.Component {
       this.props.successAddHandler(data, res);
     }
 
-    layoutActions.storeHideFocusCard();
+    if (this.props.isOnFocusCard) {
+      layoutActions.storePreviousFocusCard();
+      if (action == "delete") {
+        layoutActions.storePreviousFocusCard();
+      }
+    } else {
+      layoutActions.storeHideFocusCard();
+    }
     // this is how to update the child component use state keyy
     // damnnn
     this.setState(prevState => {
@@ -395,7 +402,7 @@ export default class GeneralFormPage extends React.Component {
 
       var action = null;
       var row = [];
-      if (!this.props.noMutation) {
+      if (!this.props.noMutation || (this.props.canEdit && this.props.canDelete)) {
         action = (
           <td className="text-right">
             {editAct}
@@ -588,6 +595,7 @@ GeneralFormPage.propTypes = {
   searchFormContentTop: PropTypes.object,
   searchFormNonPopup: PropTypes.bool,
   hasResetFilter: PropTypes.bool,
+  isOnFocusCard: PropTypes.bool,
   contentBelowFilter: PropTypes.obj,
   contentBelowTitle: PropTypes.obj,
   entity: PropTypes.string.isRequired, // for table name
@@ -614,6 +622,7 @@ GeneralFormPage.propTypes = {
   actionFirst: PropTypes.bool,
   noMutation: PropTypes.bool, // disable add, edit and delete
   canEdit: PropTypes.bool, // bypass noMutation
+  canDelete: PropTypes.bool, // bypass noMutation
   canAdd: PropTypes.bool, // bypass noMutation
   formOnly: PropTypes.bool, // formOnly
   tableOnly: PropTypes.bool // formOnly
@@ -622,12 +631,14 @@ GeneralFormPage.propTypes = {
 GeneralFormPage.defaultProps = {
   searchFormNonPopup: false,
   hasResetFilter: false,
+  isOnFocusCard: false,
   contentBelowFilter: null,
   contentBelowTitle: null,
   searchFormItem: null,
   actionFirst: false,
   noMutation: false,
   canEdit: false,
+  canDelete: false,
   canAdd: false,
   dataOffset: 10,
   showAddForm: false,

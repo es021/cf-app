@@ -98,6 +98,7 @@ import CompanyDashboard from "../page/company-dashboard";
 import AdminCfQuery from "../page/admin-cf-query";
 import AdminQrCheckIn from "../page/admin-qr-check-in";
 import { MyQrCode } from "../page/my-qr-code";
+import AdminDatapointDataset from "../page/admin-datapoint-dataset";
 
 const QR_CHECK_IN_LABEL = "My QR Code";
 
@@ -339,6 +340,19 @@ function getMenuItem(COMING_SOON) {
       hd_app: false,
       hd_auth: false,
       disabled: !isRoleOrganizer()
+    },
+    {
+      // Admin Only
+      url: "/dataset-datapoint/:current",
+      label: "Dataset & Datapoint",
+      icon: "bar-chart",
+      component: AdminDatapointDataset,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: false,
+      hd_auth: false,
+      default_param: { current: "dataset" },
+      disabled: !isRoleAdmin() && !!isRoleAdmin()
     },
     // ###############################################################
     // VOLUNTEER

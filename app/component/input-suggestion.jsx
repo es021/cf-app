@@ -194,7 +194,7 @@ export default class InputSuggestion extends React.Component {
 
     if (this.props.dataset_source) {
       let q = `query{ 
-        global_dataset(
+        global_dataset_item(
           source :"${this.props.dataset_source}", 
           order_by : "${this.props.order_by}",
           ) {
@@ -203,7 +203,7 @@ export default class InputSuggestion extends React.Component {
         }`;
 
       graphql(q).then(res => {
-        this.setState({ dataset: res.data.data.global_dataset });
+        this.setState({ dataset: res.data.data.global_dataset_item });
       });
     } else {
 
@@ -262,7 +262,7 @@ export default class InputSuggestion extends React.Component {
     if (this.props.dataset_source) {
       // @query_refs
       let q = `query{ 
-        global_dataset(
+        global_dataset_item(
           source :"${this.props.dataset_source}", 
           val:"${v}", page:1, offset:10
           ) {
@@ -271,7 +271,7 @@ export default class InputSuggestion extends React.Component {
         }`;
 
       graphql(q).then(res => {
-        let suggestion = res.data.data.global_dataset;
+        let suggestion = res.data.data.global_dataset_item;
         this.finishFetchSuggestion(suggestion, v)
       });
 

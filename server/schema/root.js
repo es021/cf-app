@@ -12,6 +12,7 @@ const {
 	PrescreenType,
 	SessionType,
 	GlobalDatasetType,
+	GlobalDatasetItemType,
 	SessionRatingType,
 	SessionNoteType,
 	MessageType,
@@ -127,6 +128,9 @@ const {
 const {
 	GlobalDatasetExec
 } = require("../model/global-dataset-query.js");
+const {
+	GlobalDatasetItemExec
+} = require("../model/global-dataset-item-query.js");
 const {
 	QsPopupExec
 } = require("../model/qs-popup-query.js");
@@ -316,14 +320,30 @@ fields["refs"] = {
 fields["global_dataset"] = {
 	type: new GraphQLList(GlobalDatasetType),
 	args: {
-		source: __.StringNonNull,
+		ID: __.Int,
+		cf: __.String,
+		search: __.String,
+		page: __.Int,
+		offset: __.Int,
+	},
+	resolve(parentValue, arg, context, info) {
+		return GlobalDatasetExec.list(arg, graphqlFields(info));
+	}
+};
+/*******************************************/
+/* global_dataset_item ******************/
+fields["global_dataset_item"] = {
+	type: new GraphQLList(GlobalDatasetItemType),
+	args: {
+		ID: __.Int,
+		source: __.String,
 		val : __.String,
 		page: __.Int,
 		offset: __.Int,
 		order_by: __.String,
 	},
 	resolve(parentValue, arg, context, info) {
-		return GlobalDatasetExec.list(arg, graphqlFields(info));
+		return GlobalDatasetItemExec.list(arg, graphqlFields(info));
 	}
 };
 

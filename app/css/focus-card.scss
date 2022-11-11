@@ -112,10 +112,15 @@ $banner_height: 130px;
     // }
   }
 
-  .#{$fc}body {
-  }
 }
 
+#focus-card.body-no-margin {
+  .#{$fc}body {
+    .container-fluid {
+      margin-top:0px !important;
+    }
+  }
+}
 #focus-card.no-margin {
   .#{$fc}content {
     .#{$fc}body {

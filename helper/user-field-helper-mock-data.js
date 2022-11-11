@@ -284,7 +284,7 @@ const UserConfigByCf = [
             // select dataset
             dataset_source: "test_source",
             dataset_order_by: "val asc",
-            dataset_show_suggestion: false,
+            dataset_show_suggestion: true,
             dataset_suggestion_offset: 10,
         },
         popup: {
