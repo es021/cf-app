@@ -11,10 +11,15 @@ import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
 
 
-export function openUserPopup(d) {
-  layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name, UserPopup, {
-    id: d.ID,
-  });
+export function openUserPopup(d, onClose) {
+  console.log("openUserPopup", onClose)
+  layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name,
+    UserPopup,
+    {
+      id: d.ID,
+    },
+    "",
+    onClose);
 }
 
 export function createUserTitle(

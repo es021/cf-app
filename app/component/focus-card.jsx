@@ -6,7 +6,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import { store } from '../redux/store';
 import { ButtonIcon } from './buttons.jsx';
 import PropTypes from 'prop-types';
-import {lang} from '../lib/lang';
+import { lang } from '../lib/lang';
 
 // require("../css/focus-card.scss");
 
@@ -36,6 +36,17 @@ class FocusCard extends React.Component {
 
     componentWillMount() {
         //console.log("componentWillMount", "focus");
+    }
+
+    closePopup() {
+        var focus = this.props.focusCard;
+        if (focus.onClose) {
+            let isClose = focus.onClose();
+            if (!isClose) {
+                return;
+            }
+        }
+        store.dispatch(layoutActions.hideFocusCard());
     }
 
 
@@ -83,7 +94,9 @@ class FocusCard extends React.Component {
                     {prevBtn}
                     <div className={`${fc}close-btn`}>
                         <ButtonIcon
-                            onClick={() => store.dispatch(layoutActions.hideFocusCard())}
+                            onClick={() => {
+                                this.closePopup();
+                            }}
                             size="18px" icon="close"></ButtonIcon>
                     </div>
                     <div className={`${fc}title`}>
@@ -94,8 +107,11 @@ class FocusCard extends React.Component {
                     {component}
                 </div>
             </div>
-            <div onClick={() => store.dispatch(layoutActions.hideFocusCard())}
-                className={`${fc}background`}></div>
+            <div className={`${fc}background`}
+                onClick={() => {
+                    this.closePopup();
+                }}
+            ></div>
         </div>);
     }
 }
@@ -103,6 +119,7 @@ class FocusCard extends React.Component {
 
 FocusCard.propTypes = {
     title: PropTypes.string,
+    onClose: PropTypes.func,
     component: PropTypes.func,
     props: PropTypes.object,
     show: PropTypes.bool,

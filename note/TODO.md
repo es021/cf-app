@@ -203,10 +203,6 @@ sudo nano /var/www/cf-app/server/php-api/lib/secret.php
 https://seedsjobfairapp.com/career-fair/wp-admin/
  
 
-####################################################
-ssh root@104.131.105.183
-ssh root@159.65.10.64
-
 grep CRON /var/log/syslog
 
 

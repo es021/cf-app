@@ -742,6 +742,7 @@ const CFSMeta = {
 	FEATURE_CHAT: "feature_chat",
 	FEATURE_QR_CHECK_IN : "feature_qr_check_in",
 	FEATURE_FEEDBACK: "feature_feedback",
+	FEATURE_UPDATE_JOB_APPLICATION_STATUS : "feature_update_job_application_status",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
 	FEATURE_SUBSCRIBE: "feature_subscribe",

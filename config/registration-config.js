@@ -5,11 +5,11 @@ const {
 
 const RegConfigCustomByCf = require("./registration-config-custom-by-cf");
 
-const IsUploadResumeRequired = ["TARUCAUG22", "INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
-const IsHasUploadResume = ["MYHEARTCAFE2022", "D2WOCT22", "TARUCAUG22", "OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
+const IsUploadResumeRequired = ["TARUCAUG22", "TARUCNOV22", "INTELDD21", "INTELDDSEPT21", "TARUCJUL21", "TARUCNOV21", "UTMIV21"]
+const IsHasUploadResume = ["MARAVCF22", "MYHEARTCAFE2022", "D2WOCT22", "TARUCAUG22", "TARUCNOV22", "OCPE21", "INTELDD21", "INTELDDSEPT21", "OEJF21", "TARUCJUL21", "TARUCNOV21", "UTMIV21", "TCREP22"]
 
-const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22", "MARAVCF22"]
-const IsHasUploadResume_FirstSignupPage = ["INTELMM22", "MARAVCF22"]
+const IsUploadResumeRequired_FirstSignupPage = ["INTELMM22"]
+const IsHasUploadResume_FirstSignupPage = ["INTELMM22"]
 
 
 var Single = {
@@ -363,7 +363,7 @@ const isCustomUserInfoOff = (cf, key) => {
             offCf = ["UNISZA"];
             break;
         case Single.field_study_secondary:
-            offCf = ["UNISZA", "TARUCAUG22"];
+            offCf = ["UNISZA", "TARUCAUG22", "TARUCNOV22"];
             break;
         case Single.where_in_malaysia:
             offCf = ["MONASH", "SUNWAY", "INTEL"];

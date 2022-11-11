@@ -705,6 +705,7 @@ const InterestedType = new GraphQLObjectType({
 		user_id: __.String,
 		is_interested: __.Int,
 		// recruiter_id: __.Int,
+		application_status: __.String,
 		created_at: __.String,
 		updated_at: __.String,
 		user: __.IsType(UserType),

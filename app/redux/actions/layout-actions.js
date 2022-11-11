@@ -92,7 +92,7 @@ export function previousFocusCard() {
 }
 
 export const UPDATE_FOCUS_CARD = "UPDATE_FOCUS_CARD";
-export function updateFocusCard(title, component, props, className = "") {
+export function updateFocusCard(title, component, props, className = "", onClose = null) {
     return function (dispatch) {
         dispatch({
             type: UPDATE_FOCUS_CARD,
@@ -101,6 +101,7 @@ export function updateFocusCard(title, component, props, className = "") {
                 component: component,
                 props: props,
                 show: true,
+                onClose: onClose,
                 className: className
             }
         });
@@ -140,6 +141,6 @@ export function storeHideFocusCard() {
     store.dispatch(hideFocusCard());
 }
 
-export function storeUpdateFocusCard(title, component, props, className = "") {
-    store.dispatch(updateFocusCard(title, component, props, className));
+export function storeUpdateFocusCard(title, component, props, className = "", onClose = null) {
+    store.dispatch(updateFocusCard(title, component, props, className, onClose));
 }

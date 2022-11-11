@@ -55,6 +55,7 @@ EXPORT.Cfs = {
     feature_recruiter_job_post: __.String,
 
     feature_qr_check_in: __.String,
+    feature_update_job_application_status: __.String,
     
     feature_show_hall_gallery_second: __.String,
     feature_popup_block_incomplete_profile: __.String,

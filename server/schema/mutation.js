@@ -264,11 +264,22 @@ fields["edit_interested"] = {
   type: InterestedType,
   args: {
     ID: __.IntNonNull,
-    is_interested: __.IntNonNull
+    is_interested: __.Int,
+    application_status: __.String,
   },
   resolve(parentValue, arg, context, info) {
     try {
-      return DB.update(Interested.TABLE, arg).then(function (res) {
+      console.log("arg", arg);
+
+      let param = { ID: arg.ID }
+      if (arg.application_status) {
+        param["application_status"] = arg.application_status
+      } else {
+        param["is_interested"] = arg.is_interested
+      }
+      console.log("param", param);
+
+      return DB.update(Interested.TABLE, param).then(function (res) {
         return res;
       });
     } catch (err) {
@@ -1595,7 +1606,7 @@ fields["edit_prescreen"] = {
     ID: __.IntNonNull,
     updated_by: __.IntNonNull,
     status: __.String,
-    cancel_reason : __.String,
+    cancel_reason: __.String,
     special_type: __.String,
     join_url: __.String,
     pic: __.String,
@@ -1822,7 +1833,7 @@ fields["edit_group_call"] = {
   type: GroupCallType,
   args: {
     ID: __.IntNonNull,
-    
+
     name: __.String,
     appointment_time: __.Int,
     url: __.String,

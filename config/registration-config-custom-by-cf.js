@@ -48,7 +48,7 @@ const CustomConfig = {
         type: "single",
         input_type: "text",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21", "TAYLORS21", "TAYLORS22"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22", "TAYLORS21", "TAYLORS22"]
     },
     student_matrix_id: {
         label: "Student ID / Matrix ID",
@@ -68,7 +68,7 @@ const CustomConfig = {
         type: "single",
         input_type: "date",
         is_required: false,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
     age: {
         label: "Age",
@@ -213,14 +213,14 @@ const CustomConfig = {
     },
     where_in_malaysia_select: {
         label: "Place Of Residence",
-        question: "Where are you from in Malaysia?",
+        question: "Where are you from?",
         icon: "map-marker",
         type: "single",
         input_type: "select",
         ref_table_name: "state",
-        ref_order_by: "val asc",
+        ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["OEJF21", "OEJF22", "TARUCJUL21", "TARUCNOV21", "OCPE21"]
+        onCf: ["OEJF21", "OEJF22", "TARUCJUL21", "TARUCNOV21", "TARUCNOV22", "OCPE21"]
     },
 
     country_study_select: {
@@ -232,7 +232,7 @@ const CustomConfig = {
         ref_table_name: "country",
         ref_order_by: "val asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
     // ##############################################################
     // UTMIV21
@@ -507,7 +507,7 @@ const CustomConfig = {
     },
     d2w21_interested_job_location: {
         label: "Interested Job Location",
-        question: "Where would you like to work in Malaysia?",
+        question: "Where would you like to work?",
         icon: "suitcase",
         list_title: null,
         discard_ref_from_default: true,
@@ -517,7 +517,7 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["D2W21", "D2WRL21"],
+        onCf: ["D2W21", "D2WRL21", "TARUCNOV22"],
         attr: `{val}`
     },
     d2w21_university: {
@@ -768,7 +768,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_current_year",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
     tarucjul21_current_semester: {
         label: "Current Semester Of Study",
@@ -779,7 +779,7 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_current_semester",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
 
     tarucjul21_purpose: {
@@ -793,7 +793,7 @@ const CustomConfig = {
         input_type: "select",
         ref_table_name: "tarucjul21_purpose",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"],
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"],
         attr: `{val}`
     },
     tarucjul21_interested_intern_location: {
@@ -808,22 +808,65 @@ const CustomConfig = {
         ref_table_name: "state",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"],
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"],
         attr: `{val}`
     },
 
     //        
     tarucjul21_programme: {
+        discard_popup_on: (d) => {
+            return d['tarucjul21_programme'] == OTHER_PLEASE_SPECIFY;
+        },
         label: "Programme Name",
-        question: "What is your Programme name?",
+        question: "What programme of study are you in?",
         icon: "graduation-cap",
         type: "single",
         input_type: "select",
         ref_table_name: "tarucjul21_programme",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
+    tarucjul21_programme_other: {
+        discard_filter: true,
+        discard_popup_on: (d) => {
+            return d['tarucjul21_programme'] != OTHER_PLEASE_SPECIFY;
+        },
+        label: "Programme Name (Other)",
+        question: "What programme of study are you in? (Others)",
+        icon: "graduation-cap",
+        type: "single",
+        input_type: "text",
+        is_required: false,
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
+    },
+    // d2w21_field_study: {
+    //     discard_popup_on: (d) => {
+    //         return d['d2w21_field_study'] == OTHER_PLEASE_SPECIFY;
+    //     },
+    //     label: "Field of Study",
+    //     question: "Field of Study",
+    //     icon: "graduation-cap",
+    //     type: "single",
+    //     input_type: "select",
+    //     ref_table_name: "d2w21_field_study",
+    //     is_required: true,
+    //     onCf: ["D2W21", "D2WRL21"]
+    // },
+    // d2w21_field_study_other: {
+    //     discard_filter: true,
+    //     discard_popup_on: (d) => {
+    //         return d['d2w21_field_study'] != OTHER_PLEASE_SPECIFY;
+    //     },
+    //     label: "Field of Study",
+    //     question: "Field of Study (Others)",
+    //     icon: "graduation-cap",
+    //     type: "single",
+    //     input_type: "text",
+    //     is_required: false,
+    //     onCf: ["D2W21", "D2WRL21"]
+    // },
+
     tarucjul21_faculty: {
         label: "Faculty",
         question: "What faculty are you in?",
@@ -833,18 +876,18 @@ const CustomConfig = {
         ref_table_name: "tarucjul21_faculty",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
     tarucjul21_campus: {
         label: "Campus",
-        question: "Which TAR UC campus are you from?",
+        question: "Which campus are you from?",
         icon: "map-marker",
         type: "single",
         input_type: "select",
         ref_table_name: "tarucjul21_campus",
         ref_order_by: "ID asc",
         is_required: true,
-        onCf: ["TARUCJUL21", "TARUCNOV21"]
+        onCf: ["TARUCJUL21", "TARUCNOV21", "TARUCNOV22"]
     },
 
     // ############################
@@ -2529,6 +2572,36 @@ const CustomOrder = {
         "skill",
         "extracurricular",
     ],
+    TARUCNOV22: [
+        "first_name",
+        "tarucjul21_current_year",
+        "tarucjul21_current_semester",
+        "graduation_month",
+        "tarucjul21_campus",
+        "qualification",
+        "tarucjul21_faculty",
+        "tarucjul21_programme",
+        "tarucjul21_programme_other",
+
+        "grade",
+        "working_availability_month",
+        "interested_role",
+        "where_in_malaysia_select",
+        "d2w21_interested_job_location",
+        "skill",
+        "extracurricular"
+
+        // "tarucjul21_purpose",
+        // "internship_date",
+        // "country_study_select",
+        // "university",
+        // "field_study_main",
+        // // "phone_number",
+        // "where_in_malaysia_select",
+        // "tarucjul21_interested_intern_location",
+        // "skill",
+        // "extracurricular"
+    ],
     OEJF22: [
         "first_name",
         "personal_email",
@@ -2821,29 +2894,7 @@ const CustomOrder = {
         "has_attended_before",
         "intel_reference",
     ],
-    TARUCNOV21: [
-        "first_name",
-        "student_id",
-        "graduation_month",
-        "tarucjul21_purpose",
-        "internship_date",
-        "country_study_select",
-        "university",
-        "tarucjul21_current_year",
-        "tarucjul21_current_semester",
-        "tarucjul21_programme",
-        "tarucjul21_faculty",
-        "tarucjul21_campus",
-        "qualification",
-        "field_study_main",
-        "grade",
-        // "phone_number",
-        "interested_role",
-        "where_in_malaysia_select",
-        "tarucjul21_interested_intern_location",
-        "skill",
-        "extracurricular"
-    ],
+
     TARUCJUL21: [
         "first_name",
         "student_id",

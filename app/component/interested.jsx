@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { getAuthUser, getCF, isRoleAdmin } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF, isCfFeatureOn, isRoleAdmin } from "../redux/actions/auth-actions";
 import { graphql } from "../../helper/api-helper";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { Loader } from "./loader";
@@ -11,9 +11,10 @@ import Tooltip from "../component/tooltip";
 import { addIsSeen } from "../component/is-seen";
 import BannerFloat from "../component/banner-float";
 import { AppPath } from "../../config/app-config";
-import { IsSeenEnum } from "../../config/db-config";
+import { IsSeenEnum, CFSMeta } from "../../config/db-config";
 import { lang } from "../lib/lang";
 import { ButtonExport } from "./buttons";
+import { Time } from "../lib/time";
 
 class InterestedUserCard extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class InterestedUserCard extends React.Component {
     try {
       is_seen = this.props.data.is_seen.is_seen == 1;
     } catch (err) { }
+
 
     this.state = {
       is_seen: is_seen,
@@ -66,16 +68,21 @@ class InterestedUserCard extends React.Component {
     // @new_student_tag_before_deploy (remove line below)
     // isSeenView = null;
 
-    let viewProfileButton = <a className="btn-link"
-      onClick={() => {
-        this.triggerIsSeen();
-        openUserPopup(d.user)
-      }}>
-      <b><small>View Profile</small></b>
-    </a>;
+    // let viewProfileButton = <a className="btn-link"
+    //   onClick={() => {
+    //     this.triggerIsSeen();
+    //     openUserPopup(d.user, this.props.onClosePopup)
+    //   }}>
+    //   <b><small>View Profile</small></b>
+    // </a>;
 
     return (
       <div
+        className="clickable-shadow"
+        onClick={() => {
+          this.triggerIsSeen();
+          openUserPopup(d.user, this.props.onClosePopup)
+        }}
         style={{
           background: "white",
           borderRadius: "10px", margin: "20px",
@@ -91,7 +98,9 @@ class InterestedUserCard extends React.Component {
           <div>{img}</div>
           <div className="text-left" style={{ marginLeft: "10px" }}>
             <div><b>{d.user.first_name}</b>{" "}{d.user.last_name}</div>
-            <div> {viewProfileButton}</div>
+            {/* <div> {viewProfileButton}</div> */}
+            <div className="text-muted"><small>Applied on {Time.getString(d.created_at)}</small></div>
+            {this.props.getFooter != null ? this.props.getFooter(d) : null}
           </div>
         </div>
       </div>
@@ -107,6 +116,7 @@ export class InterestedUserList extends React.Component {
     this.getCountFromRes = this.getCountFromRes.bind(this);
     this.authUser = getAuthUser();
     this.offset = 8;
+
   }
 
   loadData(page, offset) {
@@ -120,6 +130,9 @@ export class InterestedUserList extends React.Component {
       offset: ${offset},
       is_interested : 1
       ){
+      ID
+      created_at
+      application_status
       is_seen { ID is_seen }
       user_id
       user{ID first_name last_name img_url img_pos img_size}}}`);
@@ -138,45 +151,23 @@ export class InterestedUserList extends React.Component {
         title: this.props.export_title,
         entity: this.props.entity,
         entity_id: this.props.entity_id,
+        is_include_status : isCfFeatureOn(CFSMeta.FEATURE_UPDATE_JOB_APPLICATION_STATUS)
       }} cf={getCF()} is_admin={isRoleAdmin() ? "1" : "0"}></ButtonExport>
   }
 
   componentWillMount() { }
 
   renderList(d, i) {
-    return <InterestedUserCard data={d}></InterestedUserCard>
-    // let img = createImageElement(
-    //   d.user.img_url,
-    //   d.user.img_pos,
-    //   d.user.img_size,
-    //   "50px",
-    //   "",
-    //   PCType.STUDENT
-    // );
-
-    // // let action = <div>
-    // //   <button>Schedule Call</button>
-    // //   <button>Chat Now</button>
-    // // </div>
-    // return (
-    //   <div
-    //     className="flex-center"
-    //     style={{ background: "white", padding: "0px 18px", borderRadius: "10px", margin: "10px", width: "400px", justifyContent: "flex-start" }}
-    //   >
-    //     <div>{img}</div>
-    //     <div className="text-left" style={{ marginLeft: "10px" }}>
-    //       {/* <b>{createUserTitle(d.user, {}, true, true)}</b> */}
-    //       <div><b>{d.user.first_name}</b>{" "}{d.user.last_name}</div>
-    //       <div><a className="btn-link" onClick={() => { openUserPopup(d.user) }}><b><small>View Profile</small></b></a></div>
-    //     </div>
-    //   </div>
-    // );
+    return <InterestedUserCard
+      getFooter={this.props.getFooter}
+      onClosePopup={() => {
+        return this.props.onClosePopup(d, i);
+      }} data={d}></InterestedUserCard>
   }
 
   getDataFromRes(res) {
     return res.data.data.interested_list;
   }
-
 
   loadCount() {
     let q = `query{interested_count
@@ -197,6 +188,7 @@ export class InterestedUserList extends React.Component {
         <h3 className="text-left">{title}</h3>
         {this.getButtonExport()}
         <List
+          renderKey={this.props.renderKey}
           loadCount={this.loadCount}
           getCountFromRes={this.getCountFromRes}
           // isHidePagingTop={true}
@@ -216,10 +208,13 @@ export class InterestedUserList extends React.Component {
 InterestedUserList.propTypes = {
   entity: PropTypes.string,
   user_cf: PropTypes.string,
+  renderKey: PropTypes.string,
   entity_id: PropTypes.number,
   title: PropTypes.string,
   export_title: PropTypes.string,
-  export_action: PropTypes.bool
+  export_action: PropTypes.bool,
+  getFooter: PropTypes.func,
+  onClosePopup: PropTypes.func,
 };
 
 InterestedUserList.defaultProps = {
@@ -328,8 +323,8 @@ export class InterestedButton extends React.Component {
         entity_id:${this.props.entity_id}
         ) {ID is_interested} }`;
 
-      
-        // ${this.props.recruiter_id ? `,recruiter_id:${this.props.recruiter_id}` : ''}
+
+      // ${this.props.recruiter_id ? `,recruiter_id:${this.props.recruiter_id}` : ''}
     }
 
     graphql(q).then(res => {
@@ -375,11 +370,11 @@ export class InterestedButton extends React.Component {
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
-              <div onClick={this.onClickModeCount}>
-                <i className={`fa fa-${this.icon} left`}></i>
-                {this.state.count}
-              </div>
-            )}
+            <div onClick={this.onClickModeCount}>
+              <i className={`fa fa-${this.icon} left`}></i>
+              {this.state.count}
+            </div>
+          )}
         </div>
       );
     } else if (this.props.isModeAction) {
@@ -408,8 +403,8 @@ export class InterestedButton extends React.Component {
           {this.state.loading ? (
             <i className="fa fa-spinner fa-pulse"></i>
           ) : (
-              iconLike
-            )}
+            iconLike
+          )}
         </div>
       );
     }

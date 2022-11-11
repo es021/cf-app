@@ -57,9 +57,15 @@ export default class List extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.renderKey != this.props.renderKey) {
+      this.load();
+      console.log("renderKey changed",  this.props.renderKey);
+      console.log("renderKey changed",  this.props.renderKey);
+    }
+
     if (this.props.componentDidUpdate) {
-      this.props.componentDidUpdate(this.isAppend);
+      this.props.componentDidUpdate(this.isAppend, prevProps);
     }
 
     // kalau siap append, fetching_append akan jadi false
@@ -452,6 +458,7 @@ List.propTypes = {
   customLoading: PropTypes.element,
   customEmpty: PropTypes.element,
   listClass: PropTypes.string,
+  renderKey: PropTypes.string,
   listAlign: PropTypes.string,
   listRef: PropTypes.object,
   limitPaging: PropTypes.number, // total count for the list

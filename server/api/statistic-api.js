@@ -270,19 +270,29 @@ class StatisticAPI {
     vacancyApplication(param) {
         console.log("param", param)
         let is_count = param.is_count;
+        let is_with_status = param.is_with_status;
         let cf = param.cf;
 
         let select = "";
         let order_by = ""
+        let where = "";
+
+        
         if (is_count) {
             select = `COUNT(*) as total`
         } else {
             select = `
             i.user_id, u.user_email, v.ID as vacancy_id, 
             v.title as vacancy_title, c.ID as company_id, c.name as company_name, 
-            i.updated_at as applied_at 
+            UNIX_TIMESTAMP(i.created_at) as applied_at 
             `;
-            order_by = `ORDER BY i.user_id, c.ID, i.updated_at`;
+            order_by = `ORDER BY i.user_id, c.ID, i.created_at`;
+        }
+
+
+        if(is_with_status){
+            where += ` AND i.application_status IS NOT NULL AND i.application_status != '' ` 
+            select += ` , i.application_status , UNIX_TIMESTAMP(i.updated_at) as status_updated_at `
         }
 
         let q = `SELECT ${select}
@@ -297,10 +307,12 @@ class StatisticAPI {
             ( select m.entity_id from cf_map m where m.entity = "company" 
             and m.entity_id = v.company_id and m.cf = ? ) 
         and v.company_id = c.ID 
+        ${where}
         ${order_by}`;
 
         q = DB.prepare(q, [cf, cf])
         return DB.query(q).then(res => {
+            console.log(res);
             if (is_count) {
                 return res[0];
             }
