@@ -22,11 +22,12 @@ import {
   isRoleAdmin,
   getAuthUser,
   isRoleOrganizer,
-  isRoleStudent
+  isRoleStudent,
+  setLocalStorageCfDatapointConfig
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
-import { LogEnum, CFSMetaObject, CFS, CFSMeta } from "../config/db-config";
+import { LogEnum, CFSMetaObject, CFS, CFSMeta, CFSMetaDiscardLoad } from "../config/db-config";
 import { IsRecruiterNewHall, RootPath } from "../config/app-config";
 
 import * as Navigation from "./component/navigation.jsx";
@@ -44,7 +45,6 @@ import { BOTH } from '../config/socket-config';
 import * as hallAction from "./redux/actions/hall-actions";
 import { setCurrentCfLocalStorage } from "./redux/reducer/auth-reducer";
 
-import * as layoutActions from "./redux/actions/layout-actions";
 import ValidationStudentCompletedProfile from "./component/validation-student-completed-profile";
 
 
@@ -98,100 +98,49 @@ class PrimaryLayout extends React.Component {
 
   }
 
-  loadCf() {
-    // schedule
-    // override_coming_soon
-    // page_url
-    // page_banner
-    /**
-    logo
-    flag
-    logo_height_hall
-    logo_width_hall
-    logo_margin_hall
-    logo_height
-    logo_width
-    logo_position
-    logo_size
-    test_start
-    test_end
-    
-     * Organizer
-      Collaborator
-      Powered
-      University
-     */
+  async loadCf() {
+    let metas = {};
+    for (let k in CFSMeta) {
+      if (CFSMetaDiscardLoad.indexOf(CFSMeta[k]) <= -1) {
+        metas[k] = CFSMeta[k]
+      }
+    }
 
-
-    /**
-     ID
-      name
-      country
-      time
-      is_active
-      created_at
-      updated_at
-      title
-      title_landing
-      welcome_text
-      
-      banner
-      banner_pos    
-      start
-      end
-      is_local
-      time_str
-      time_str_mas
-      can_login
-      can_register
-      organizations
-      hall_cfg_onsite_call_use_group
-  
-      feature_student_company_booth
-      feature_sponsor
-      
-      text_header_title
-      text_header_desc
-      text_student_entity_single
-      text_student_entity_plural
-  
-      image_header_icon
-      
-      link_external_home
-     */
-
-
-    var query = `query{cfs(is_load:1)
-      { ${graphqlAttr(CFS, CFSMeta)} } }`;
-
-    graphql(query).then(res => {
-      var cfs = res.data.data.cfs;
-      let attrObj = CFSMetaObject;
-      for (var i in cfs) {
-        for (var cfKey in cfs[i]) {
-          if (attrObj.indexOf(cfKey) >= 0) {
-            let val = cfs[i][cfKey];
-            if (val != null) {
-              try {
-                val = JSON.parse(val);
-              } catch (err) {
-                console.log(`err in parsing ${cfKey} for`, cfs[i]);
-                val = null;
-              }
+    let resAll = await Promise.all([
+      graphql(`query{cfs(is_load:1){${graphqlAttr(CFS, metas)}}}`),
+      graphql(`query{cf(name:"${getCF()}"){datapoint_config}}`)
+    ]);
+    let res = resAll[0];
+    var cfs = res.data.data.cfs;
+    let attrObj = CFSMetaObject;
+    for (var i in cfs) {
+      for (var cfKey in cfs[i]) {
+        if (attrObj.indexOf(cfKey) >= 0) {
+          let val = cfs[i][cfKey];
+          if (val != null) {
+            try {
+              val = JSON.parse(val);
+            } catch (err) {
+              console.log(`err in parsing ${cfKey} for`, cfs[i]);
+              val = null;
             }
-            cfs[i][cfKey] = val;
           }
+          cfs[i][cfKey] = val;
         }
       }
+    }
+    setLocalStorageCf(cfs);
 
-      console.log(cfs);
-      setLocalStorageCf(cfs);
+    let resDatapoint = resAll[1];
+    try {
+      resDatapoint = resDatapoint.data.data.cf.datapoint_config;
+      setLocalStorageCfDatapointConfig(resDatapoint);
+    } catch (err) { }
 
-      this.setState(prevState => {
-        return {
-          loadingCf: false,
-        };
-      });
+    this.setState(prevState => {
+      return {
+        loadingCf: false,
+      };
     });
   }
   setPageId() {

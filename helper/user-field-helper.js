@@ -1,7 +1,13 @@
+const { graphql } = require("./api-helper");
 const { UserConfigByCf, UserConfigDefault } = require("./user-field-helper-mock-data");
-
+const { LOCAL_STORAGE_CF_DATAPOINT_CONFIG } = require("../config/app-config");
 class UserFieldHelper {
     constructor() {
+        // this.ResumeSetting = {
+        //     YesRequired: "yes_required",
+        //     YesOptional: "yes_optional",
+        //     No: "no",
+        // }
         this.FieldType = {
             TEXT: "TEXT",
             SELECT: "SELECT",
@@ -10,7 +16,29 @@ class UserFieldHelper {
         }
     }
     getUserConfig(cf) {
-        return [...UserConfigDefault, ...UserConfigByCf];
+        let configByCf;
+        try {
+            configByCf = localStorage.getItem(LOCAL_STORAGE_CF_DATAPOINT_CONFIG);
+            configByCf = JSON.parse(configByCf);
+            configByCf = JSON.parse(configByCf);
+        } catch (err) {
+            configByCf = [];
+        }
+        configByCf = configByCf ? configByCf : [];
+
+        return [...UserConfigDefault, ...configByCf];
+    }
+    async getUserConfigFromDb(cf) {
+        let configByCf = await graphql(`query{cf(name:"${cf}"){datapoint_config}}`)
+        try {
+            configByCf = configByCf.data.data.cf.datapoint_config;
+            configByCf = JSON.parse(configByCf)
+        } catch (err) {
+            configByCf = [];
+        }
+        console.log("configByCf", configByCf);
+        console.log("configByCf", configByCf);
+        return Promise.resolve([...UserConfigDefault, ...configByCf]);
     }
     getFieldSingle(cf) {
         let fields = this.getUserConfig(cf)
@@ -33,12 +61,6 @@ class UserFieldHelper {
         return r;
     }
 
-    async getUserConfigFromDb(cf, DB) {
-        // let res = await DB.query();
-        // TODO
-
-        return Promise.resolve(this.getUserConfig(cf));
-    }
     getFilterItemTitleObject(cf) {
         let toRet = {};
         let config = this.getUserConfig(cf);
@@ -49,16 +71,18 @@ class UserFieldHelper {
         }
         return toRet;
     }
-    async getFilterItems(cf, DB) {
+    async getFilterItems(cf, DB, type) {
         let toRet = [];
-        let config = await this.getUserConfigFromDb(cf, DB);
+        let config = await this.getUserConfigFromDb(cf);
         for (let configObj of config) {
             if (configObj.filter) {
-                let toPush = {
-                    id: configObj.id,
-                    ...configObj.filter,
-                };
-                toRet.push(toPush)
+                if (type == configObj.type) {
+                    let toPush = {
+                        id: configObj.id,
+                        ...configObj.filter,
+                    };
+                    toRet.push(toPush)
+                }
             }
         }
         return toRet;
@@ -135,10 +159,13 @@ class UserFieldHelper {
                     type: item.input_type,
                     data: item.data,
                     placeholder: item.input_placeholder,
-                    loadRef: item.dataset_source,
+                    loadRef: item.dataset_ref,
+                    loadRefOrderBy: item.dataset_order_by,
+                    loadSource: item.dataset_source,
+                    loadSourceOrderBy: item.dataset_order_by,
                     required: item.required,
-                    is_resume : item.is_resume,
-                    is_resume_required : item.is_resume_required,
+                    is_resume: item.is_resume,
+                    is_resume_required: item.is_resume_required,
                     is_accept_checkbox: item.is_accept_checkbox,
                     required_error: item.required_error,
                 };

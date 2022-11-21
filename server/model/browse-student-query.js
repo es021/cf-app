@@ -10,45 +10,13 @@ const { UserMeta, IsSeenEnum } = require("../../config/db-config.js");
 const { overrideLanguageTable } = require("./ref-query.js");
 const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 const { fetchFilter } = require("./browse-student-query-helper");
-// all-type
-// mutation
-// root
 
-/**
-
-query{
-  browse_student(
-	working_availability_year_to:"2034",
-	company_id : 12,
-	favourited_only :"1",
-	page :1,
-	offset :10,
-	  interested_job_location : "Cyberjaya, Selangor::Drawing",
-	skill : "Coding::Drawing",
-	cf:"NZL::UK"
-  ) {
-	student_id
-	student {
-	interested_job_location {val}
-	  skill {
-		val
-	  }
-	  working_availability_year
-	  working_availability_month
-	  user_email
-			first_name 
-	  last_name
-	  cf
-	}
-  } 
-}
-
- */
 
 class BrowseStudentExec {
 	constructor() {
 		this.TABLE_SINGLE = "TABLE_SINGLE";
 		this.TABLE_MULTI = "TABLE_MULTI";
+		this.TABLE_MULTI_NEW = "TABLE_MULTI_NEW";
 		this.DELIMITER = "::";
 	}
 
@@ -70,14 +38,14 @@ class BrowseStudentExec {
 				r += ",";
 			}
 		}
-		
+
 		// remove the last comma
 		r = r.substr(0, r.length - 1);
-		
+
 		r = `(${r})`;
 
 		r = DB.prepare(r, params);
-		
+
 		return r;
 	}
 	where(user_id, table_type, key, val) {
@@ -90,7 +58,7 @@ class BrowseStudentExec {
 			switch (table_type) {
 				case this.TABLE_SINGLE:
 					if (key == "name") {
-						
+
 						subQ = `select COUNT(s.ID) 
 						FROM single_input s, wp_cf_users uu
 						where 1=1
@@ -116,6 +84,15 @@ class BrowseStudentExec {
 						AND s.entity = 'user'`;
 					}
 
+					break;
+				case this.TABLE_MULTI_NEW:
+					subQ = `select COUNT(s.ID) 
+						FROM multi_input s
+						where 1=1
+						AND s.key_input = "${key}"
+						AND s.val IN ${inWhere}
+						AND s.entity_id = ${user_id} 
+						AND s.entity = 'user'`;
 					break;
 				case this.TABLE_MULTI:
 					subQ = `select COUNT(m.val) from multi_${key} m 
@@ -624,16 +601,6 @@ class BrowseStudentExec {
 			param.favourited_only
 		);
 
-		console.log("param", param);
-
-		// var favourited_recruiter_id = UserQuery.getSearchInterested(
-		// 	param.company_id,
-		// 	"student_listing",
-		// 	user_id,
-		// 	param.favourited_only_recruiter_id ? "1" : "0",
-		// 	param.favourited_only_recruiter_id
-		// );
-
 
 		var show_interest = this.whereShowInterest(param.company_id, user_id, param.interested_only);
 		var like_job_post = this.whereLikeJobPost(param.company_id, user_id, param.like_job_post_only);
@@ -678,20 +645,36 @@ class BrowseStudentExec {
 
 		// AND ${field_study /** @limit_field_of_study_2_before_deploy - comment */}
 		// 4e. @custom_user_info_by_cf -- where set
-		let single_keys = cfCustomFunnel({ action: "get_keys_single" });
+
 		let custom_single_where = "";
+		let custom_multi_where = "";
+
+		let single_keys = cfCustomFunnel({ action: "get_keys_single" });
 		for (let k of single_keys) {
 			custom_single_where += " AND " + this.where(user_id, this.TABLE_SINGLE, k, param[k])
 		}
 		let multi_keys = cfCustomFunnel({ action: "get_keys_multi" });
-		let custom_multi_where = "";
 		for (let k of multi_keys) {
 			custom_multi_where += " AND " + this.where(user_id, this.TABLE_MULTI, k, param[k])
 		}
 
 
-		// AND (${field_study_main} OR ${field_study_secondary})
-		// AND ${favourited_recruiter_id}
+		try {
+			let customFilterSingle = param["custom_filter_single"];
+			customFilterSingle = JSON.parse(customFilterSingle);
+			for (let k in customFilterSingle) {
+				custom_single_where += " AND " + this.where(user_id, this.TABLE_SINGLE, k, customFilterSingle[k])
+			}
+		} catch (err) { }
+
+		try {
+			let customFilterMulti = param["custom_filter_multi"];
+			customFilterMulti = JSON.parse(customFilterMulti);
+			for (let k in customFilterMulti) {
+				custom_multi_where += " AND " + this.where(user_id, this.TABLE_MULTI_NEW, k, customFilterMulti[k])
+			}
+		} catch (err) { }
+
 
 		return `1=1
 			${custom_single_where}
@@ -737,15 +720,11 @@ class BrowseStudentExec {
 	}
 	// TODO
 	query(param, type) {
+
 		let select = "";
 		let order = "";
 		let group = "";
 
-		// if (this.isFilter(type)) {
-		// 	let where = this.getWhere("s.entity_id", param);
-		// 	return queryFilter(param, where);
-
-		// } else 
 
 		if (this.isCount(type)) {
 			select = `COUNT (DISTINCT u.ID) as total`;

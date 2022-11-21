@@ -106,11 +106,18 @@ class UserAPI {
         }
 
 
+        let select = "";
+        if (fieldMeta.length > 0) {
+            select += ` ${fieldMeta.map(d => `(${UserQuery.selectMetaMain("u.ID", this.getRealField(d))}) as ${d}`).join(",")}, `
+        }
+        if (fieldSingle.length > 0) {
+            select += ` ${fieldSingle.map(d => `(${UserQuery.selectSingleMain("u.ID", this.getRealField(d))}) as ${d}`).join(",")}, `
+        }
         let q = `select 
+            ${select}
             "student" as role,
-            u.user_email,
-            ${fieldMeta.map(d => `(${UserQuery.selectMetaMain("u.ID", this.getRealField(d))}) as ${d}`).join(",")},
-            ${fieldSingle.map(d => `(${UserQuery.selectSingleMain("u.ID", this.getRealField(d))}) as ${d}`).join(",")}
+            u.user_email
+            
             from  wp_cf_users u 
             where 1=1 
             and u.ID = ?
@@ -127,6 +134,7 @@ class UserAPI {
         } = require("../model/doclink-query.js");
 
         return DB.query(q).then(res => {
+            console.log("res", res);
             res = res[0];
 
             let promises = [];

@@ -596,7 +596,7 @@ export default class Form extends React.Component {
       // a. label ------
       var label = null;
 
-      if (d.label != null && d.hidden !== true && d.hideLabel !== true) {
+      if (d.label != null && d.hidden !== true && d.hideLabel !== true && !d.is_resume && !d.is_accept_checkbox) {
         label = (
           <div className="form-label">
             {lang(d.label)}

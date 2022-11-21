@@ -12,7 +12,7 @@ import obj2arg from "graphql-obj2arg";
 import LoginPage from "./login";
 import * as Reg from "../../config/registration-config";
 import * as layoutActions from "../redux/actions/layout-actions";
-
+import PropTypes from "prop-types";
 import {
   CustomRegistrationTermsAndConditionError, isNoProfileSetupPostSignUp
 } from "../../config/registration-config-custom-by-cf";
@@ -110,7 +110,7 @@ export default class SignUpPage extends React.Component {
     this.isHasUploadResume = false;
     this.isUploadResumeRequired = false;
     this.computeResumeIndicator();
-    
+
     this.loadRef();
   }
 
@@ -150,13 +150,33 @@ export default class SignUpPage extends React.Component {
 
 
     for (let f of this.FORM_ITEMS) {
+      console.log("f", f);
       if (f.loadRef) {
         if (!this.state.loading) {
           this.setState({ loading: true })
         }
         toLoad++;
-        graphql(`query { refs(table_name:"${f.loadRef}", order_by:"ID asc"){ val } } `).then(res => {
+        graphql(`query { refs(
+          table_name:"${f.loadRef}", 
+          order_by:"${f.loadRefOrderBy ? f.loadRefOrderBy : 'val asc'}"
+          ){ val } } `
+        ).then(res => {
           let vals = res.data.data.refs.map(d => d.val);
+          finish(f.name, vals);
+        })
+      } else if (f.loadSource) {
+        if (!this.state.loading) {
+          this.setState({ loading: true })
+        }
+        toLoad++;
+        graphql(`query { 
+            global_dataset_item
+            (
+              source:"${f.loadSource}",
+              order_by:"${f.loadSourceOrderBy ? f.loadSourceOrderBy : 'val asc'}"
+              ){ val }}`
+        ).then(res => {
+          let vals = res.data.data.global_dataset_item.map(d => d.val);
           finish(f.name, vals);
         })
       }
@@ -635,7 +655,7 @@ export default class SignUpPage extends React.Component {
                 onSubmit={this.formOnSubmit}
                 defaultValues={this.defaultValues}
                 submitText={lang("Sign Me Up!")}
-                disableSubmit={this.state.disableSubmit}
+                disableSubmit={this.state.disableSubmit || this.props.isPreview}
                 contentBeforeSubmit={null}
                 error={this.state.error}
               ></Form>
@@ -647,3 +667,8 @@ export default class SignUpPage extends React.Component {
     return content;
   }
 }
+
+
+SignUpPage.propTypes = {
+  isPreview: PropTypes.bool,
+};

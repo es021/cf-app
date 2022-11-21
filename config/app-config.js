@@ -48,6 +48,7 @@ var PORT_DEV = "80";
 
 var EmailPhpAdmin = ((isProd) ? Domain : `http://localhost:${PORT_DEV}/cf-app/server`) + `/php-api/email/email.php`;
 const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
+const IconsPdfUrl = `${DocumentUrl}/IconsForSeedsJobFair.pdf`;
 
 function getTermsAndConditionUrl(cf) {
     if (cf == "USM21") {
@@ -118,8 +119,14 @@ if (!isProd) {
     // FooterClass = "app-hidden";
 }
 
+const LOCAL_STORAGE_CF = "cf-seeds-job-fair";
+const LOCAL_STORAGE_CF_DATAPOINT_CONFIG = "cf-datapoint-config-seeds-job-fair";
+
 
 module.exports = {
+    LOCAL_STORAGE_CF,
+    LOCAL_STORAGE_CF_DATAPOINT_CONFIG,
+    IconsPdfUrl,
     Domain,
     isProd,
     EmailPhpAdmin,

@@ -75,7 +75,8 @@ EXPORT.Cfs = {
     
     offset_load_company: __.String,
     offset_load_company_listing: __.String,
-
+    
+    datapoint_config: __.String,
     // custom text
 
     text_my_interview: __.String,

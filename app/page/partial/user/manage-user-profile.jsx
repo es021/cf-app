@@ -115,7 +115,7 @@ export default class ManageUserProfile extends React.Component {
       }
     }
 
-    console.log("childrenOf", childrenOf);
+    // console.log("childrenOf", childrenOf);
 
     r[Reg.Single.first_name] = [
       {
@@ -193,10 +193,6 @@ export default class ManageUserProfile extends React.Component {
     smoothScrollTo(idToGo, this.SCROLL_OFFSET);
   }
   inputDoneHandler(id, meta) {
-    console.log("inputDoneHandler", id, meta);
-    console.log("inputDoneHandler", id, meta);
-    console.log("inputDoneHandler", id, meta);
-
     let data = null;
     let isEmptyAndRequired = false;
     if (meta.type == "single") {
@@ -244,6 +240,9 @@ export default class ManageUserProfile extends React.Component {
   }
 
   getDoneButton() {
+    if(this.props.isPreview){
+      return null;
+    }
     return (
       <div style={{ marginLeft: "7px" }}>
         <br></br>
@@ -463,5 +462,6 @@ ManageUserProfile.propTypes = {
   contentBeforeSubmit: PropTypes.object,
   user_id: PropTypes.number.isRequired,
   completeHandler: PropTypes.func,
-  isEdit: PropTypes.bool
+  isEdit: PropTypes.bool,
+  isPreview: PropTypes.bool
 };

@@ -210,7 +210,6 @@ export class BrowseStudent extends React.Component {
         // redirect to student list job post
         let url = isRoleAdmin() ? `student-list-job-post-admin/${this.company_id}` : 'student-list-job-post'
         return <Redirect to={`${AppPath}/${url}`}></Redirect>
-        // v = <EmptyState body={<div className="text-muted">Sorry. It seems that you have no access<br></br>to all student profiles yet.</div>}></EmptyState>
       } else {
         v = <div className="container-fluid">
           <div className="row">
@@ -221,7 +220,6 @@ export class BrowseStudent extends React.Component {
             </div>
           </div>
           <div className="row">
-            {/* <div className="col-lg-1"></div> */}
             <div className="col-lg-4">
               <BrowseStudentFilter
                 isPageStudentListJobPost={this.isPageStudentListJobPost()}

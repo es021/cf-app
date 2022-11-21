@@ -234,39 +234,29 @@ class CFExec {
 		var userMetaVal = Object.keys(CFSMeta).map(function (key) {
 			return CFSMeta[key];
 		});
-
+		let hasUpdateMain = false;
+		let hasUpdateMeta = false;
 		for (var k in arg) {
 			var v = arg[k];
-
-			//change key here
-			//handle for image props
-			// if (k === "img_url") {
-			// 	k = CFSMeta.IMG_URL;
-			// }
-			// if (k === "img_size") {
-			// 	k = CFSMeta.IMG_SIZE;
-			// }
-			// if (k === "img_pos") {
-			// 	k = CFSMeta.IMG_POS;
-			// }
-
-			if (userVal.indexOf(k) > -1) {
+			if (userVal.indexOf(k) >= 0 && k != "name") {
+				hasUpdateMain = true;
 				updateCf[k] = v;
 			}
-
-			if (userMetaVal.indexOf(k) > -1) {
+			if (userMetaVal.indexOf(k) >= 0) {
+				hasUpdateMeta = true;
 				updateCfMeta[k] = v;
 			}
 		}
 
-		// //update both
-		// // console.log("update both");
+		console.log("updateCf", updateCf)
+		console.log("updateCfMeta", updateCfMeta)
 		let idKey = "name";
-		// // console.log("here");
-		// // console.log("here");
-		// // console.log("here");
-		return DB.update(CFS.TABLE, updateCf, idKey).then(res => {
-			if (Object.keys(updateCfMeta).length >= 1) {
+		if (!hasUpdateMain && hasUpdateMeta) {
+			return this.updateCfMeta(name, updateCfMeta);
+		}
+
+		return DB.update(CFS.TABLE, { name: name, ...updateCf }, idKey).then(res => {
+			if (hasUpdateMeta) {
 				return this.updateCfMeta(name, updateCfMeta);
 			} else {
 				return res;

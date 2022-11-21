@@ -7,7 +7,7 @@ import UserPopup from './partial/popup/user-popup';
 //importing for list
 import List from '../component/list';
 import { getAxiosGraphQLQuery, graphql, graphqlAttr, postRequest } from '../../helper/api-helper';
-import { User, UserMeta, CFS, CFSMeta } from '../../config/db-config';
+import { User, UserMeta, CFS, CFSMeta, CFSMetaDiscardLoad } from '../../config/db-config';
 import { Time } from '../lib/time';
 import { createUserTitle } from './users';
 import { createCompanyTitle } from './admin-company';
@@ -109,7 +109,7 @@ export default class AdminCf extends React.Component {
         return false;
     }
     formDisabled(name) {
-        if (["name"].indexOf(name) >= 0) {
+        if (["name", "datapoint_config"].indexOf(name) >= 0) {
             return true;
         }
         return false;
@@ -149,8 +149,14 @@ export default class AdminCf extends React.Component {
 
 
         this.loadData = (page, offset) => {
+            let metas = {};
+            for (let k in CFSMeta) {
+                if (CFSMetaDiscardLoad.indexOf(CFSMeta[k]) <= -1) {
+                    metas[k] = CFSMeta[k]
+                }
+            }
             return graphql(`query{cfs(${this.searchParams} is_load:1, page:${page}, offset:${offset}, order_by:"cf_order desc")
-                { ${graphqlAttr(CFS, CFSMeta)} } }`);
+                { ${graphqlAttr(CFS, metas)} } }`);
         };
 
 
@@ -172,11 +178,11 @@ export default class AdminCf extends React.Component {
 
                     if (key == "cf_order") {
                         let start = Time.timestampToDateTimeInput(d["start"]);
-                        if(start){
+                        if (start) {
                             start = start.split("T")[0]
                         }
                         let end = Time.timestampToDateTimeInput(d["end"]);
-                        if(start){
+                        if (start) {
                             end = end.split("T")[0]
                         }
                         infoColumn.push(<div><br></br><b>

@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import SubNav from '../component/sub-nav';
+import AdminDatapoint from './admin-datapoint';
 import AdminDataset from './admin-dataset';
+import AdminPreviewProfile from './admin-preview-profile';
+import AdminPreviewRegistration from './admin-preview-registration';
 
 
 // create sub page here
@@ -11,12 +14,22 @@ export default class AdminDatapointDataset extends React.Component {
             "dataset": {
                 label: "Dataset",
                 component: AdminDataset,
-                icon: "file-text-o"
+                icon: "list"
             }
             , "datapoint": {
-                label: "Datapoint",
-                component: AdminDataset,
-                icon: "file-text-o"
+                label: "Participant Datapoint",
+                component: AdminDatapoint,
+                icon: "wpforms"
+            }
+            , "preview_registration": {
+                label: "Registration Preview",
+                component: AdminPreviewRegistration,
+                icon: "sign-in"
+            }
+            , "preview_profile": {
+                label: "Profile Setup Preview",
+                component: AdminPreviewProfile,
+                icon: "user"
             }
         };
     }

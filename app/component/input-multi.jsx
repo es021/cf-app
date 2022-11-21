@@ -482,7 +482,7 @@ export default class InputMulti extends React.Component {
               onChoose={this.onChooseSuggestion}
               input_onChange={this.inputOnChange}
               dataset_source={this.props.dataset_source}
-              order_by={this.props.ref_order_by}
+              order_by={this.props.dataset_order_by}
               input_placeholder={this.props.input_placeholder}
             ></InputSuggestion>
             : <InputSuggestion

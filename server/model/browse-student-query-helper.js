@@ -20,7 +20,7 @@ function isDiscardFilter(param, filter) {
 		}
 	} catch (err) { }
 
-	// // console.log("isDiscardFilter", filter, toRet);
+	// // // console.log("isDiscardFilter", filter, toRet);
 	return toRet;
 }
 const cfFilter = (currentCf, where) => {
@@ -317,16 +317,10 @@ const singleFilter = (currentCf, param, where) => {
 	return toRet;
 }
 
-async function filterCustom(currentCf, param, where) {
-	let filter = await UserFieldHelper.getFilterItems(currentCf, DB);
 
-	console.log("filter", filter)
-		? "1=0"
-		: `( 
-		s.key_input = "local_or_oversea_location"
-		AND
-		s.val IN (select r.val from ref_local_or_oversea r)
-	)`
+async function filterCustom(currentCf, type, param, where) {
+	let filter = await UserFieldHelper.getFilterItems(currentCf, DB, type);
+	console.log("filterCustom", type, filter)
 	let whereArray = [];
 	for (let f of filter) {
 		whereArray.push(`
@@ -346,19 +340,20 @@ async function filterCustom(currentCf, param, where) {
 		"" as _val_label,
 		COUNT(*) as _total 
 
-		FROM single_input s
+		FROM ${type}_input s
 		where 
 		${whereArray.length > 0
-				? `(${whereArray.join(" OR ")})`
-				: '1=0'
-			}
+			? `(${whereArray.join(" OR ")})`
+			: '1=0'
+		}
 		AND s.val != ""
 		AND s.val != "-- Please Select --"
 		AND s.entity = 'user'
 		AND ${where}
 		group by ${getOrder("group_by")} _key, _val
 	`
-	
+
+	console.log(q);
 	return q;
 }
 
@@ -369,9 +364,12 @@ async function generateQuery(param, where) {
 	// ${singleFilterWhereInMalaysia(currentCf, param, where)}
 	// 	UNION ALL
 
-	let custom = await filterCustom(currentCf, param, where)
+	let customSingle = await filterCustom(currentCf, "single", param, where)
+	let customMulti = await filterCustom(currentCf, "multi", param, where)
+
 	let q = `SELECT * FROM (
-		${custom ? ` ${custom} UNION ALL ` : ''}
+		${customSingle ? ` ${customSingle} UNION ALL ` : ''}
+		${customMulti ? ` ${customMulti} UNION ALL ` : ''}
 		${singleFilter(currentCf, param, where)}
 		UNION ALL
 		${multiFilter(param, "skill", where)}
@@ -394,22 +392,22 @@ async function generateQuery(param, where) {
 async function fetchNewFilterAndUpdatePivot(newParam, where) {
 	let newParamStr = JSON.stringify(newParam);
 	let sql = await generateQuery(newParam, where);
-	console.log("--------------")
-	console.log("--------------")
-	console.log("--------------")
-	console.log(sql)
-	console.log("--------------")
-	console.log("--------------")
-	console.log("--------------")
+	// console.log("--------------")
+	// console.log("--------------")
+	// console.log("--------------")
+	// console.log(sql)
+	// console.log("--------------")
+	// console.log("--------------")
+	// console.log("--------------")
 
 	return DB.query(sql).then(res => {
-		console.log("--------------")
-	console.log("--------------")
-	console.log("--------------")
-	console.log(res)
-	console.log("--------------")
-	console.log("--------------")
-	console.log("--------------")
+		// console.log("--------------")
+		// console.log("--------------")
+		// console.log("--------------")
+		// console.log(res)
+		// console.log("--------------")
+		// console.log("--------------")
+		// console.log("--------------")
 		// insert to pivot table
 		let newResultStr = JSON.stringify(res);
 		let buff = new Buffer(newResultStr);
@@ -438,7 +436,7 @@ function getNewParam(param) {
 function fetchFilter(where, param) {
 	let newParam = getNewParam(param);
 	if (param.override_pivot || !isProd) {
-		console.log("override pivot")
+		// console.log("override pivot")
 		return fetchNewFilterAndUpdatePivot(newParam, where)
 	}
 	let newParamStr = JSON.stringify(newParam);

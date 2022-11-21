@@ -10,6 +10,8 @@ class GlobalDatasetItemExec {
 		let order_by = !param.order_by ? "" : `ORDER BY ${param.order_by}`;
 		var limit = DB.prepareLimit(param.page, param.offset);
 
+		console.log("source", source)
+		console.log("order_by", order_by)
 		let sql = `
 			select * from global_dataset_item where 1=1
 			and ${ID} and ${val} and ${source}

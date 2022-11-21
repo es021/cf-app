@@ -96,22 +96,25 @@ const UserConfigDefault = [
         register: {
             label: "Gender",
             input_type: "select",
-            dataset_source: "gender_mf",
+            dataset_ref: "gender_mf",
+            dataset_order_by: "val DESC",
             data: [],
             required: true,
         }
     },
-    {
-        id: "resume",
-        register: {
-            position: "bottom",
-            input_type: "custom",
-            is_resume: true,
-            is_resume_required: true,
-        }
-    },
+    // {
+    //     id: "resume",
+    //     type: "resume",
+    //     register: {
+    //         position: "bottom",
+    //         input_type: "custom",
+    //         is_resume: true,
+    //         is_resume_required: true,
+    //     }
+    // },
     {
         id: "accept_policy",
+        type: "accept_checkbox",
         register: {
             position: "bottom",
             is_accept_checkbox: true,
@@ -126,6 +129,7 @@ const UserConfigDefault = [
     },
     {
         id: "accept_send_sms",
+        type: "accept_checkbox",
         register: {
             position: "bottom",
             is_accept_checkbox: true,
@@ -141,6 +145,48 @@ const UserConfigDefault = [
 ]
 
 const UserConfigByCf = [
+    {
+        id: "resume",
+        type: "resume",
+        register: {
+            label : "Resume",
+            position: "bottom",
+            input_type: "custom",
+            is_resume: true,
+            is_resume_required: true,
+        }
+    },
+    {
+        id: "accept_cf_custom",
+        type: "accept_checkbox",
+        register: {
+            position: "bottom",
+            is_accept_checkbox: true,
+            label: "Terms 1",
+            input_type: "checkbox",
+            data: [{
+                key: "accepted",
+                label: `<small>CUSTOM - I agree to receive important notifications from this event</small>`
+            }],
+            required_error: "CUSTOM - You must agree to receive important notifications from this event."
+        }
+    },
+    {
+        id: "accept_cf_custom_2",
+        type: "accept_checkbox",
+        register: {
+            position: "bottom",
+            is_accept_checkbox: true,
+            label: "Terms 2",
+            input_type: "checkbox",
+            data: [{
+                key: "accepted",
+                label: `<small>CUSTOM - I agree to receive important notifications from this event</small>`
+            }],
+            required_error: "CUSTOM - You must agree to receive important notifications from this event."
+        }
+    },
+    
     // single text
     {
         id: "test",
@@ -229,6 +275,14 @@ const UserConfigByCf = [
     {
         id: "test_single_select",
         type: "single",
+        register: {
+            label: "Test For Register Select",
+            sublabel: "",
+            input_type: "select",
+            required: true,
+            dataset_source: "test_source",
+            dataset_order_by: "val ASC",
+        },
         profile: {
             input_type: "select",
             label: "test_single_select",
@@ -276,14 +330,14 @@ const UserConfigByCf = [
         type: "multi",
         profile: {
             input_type: "select",
-            label: "multi_test label",
+            label: "lalalalla",
             sublabel: "multi_test sublabel",
             input_placeholder: "multi_test",
             is_required: true,
 
             // select dataset
             dataset_source: "test_source",
-            dataset_order_by: "val asc",
+            dataset_order_by: "created_at desc",
             dataset_show_suggestion: true,
             dataset_suggestion_offset: 10,
         },
@@ -313,6 +367,7 @@ const UserConfigByCf = [
             icon: "suitcase",
         }
     },
+   
 ];
 
 

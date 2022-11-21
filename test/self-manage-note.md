@@ -16,4 +16,3 @@ tables
 - single_input
 - multi_input
 - global_dataset_item
-- cf_config

@@ -7,7 +7,9 @@ import {
 import {
     AppConfig,
     TestUser,
-    OverrideComingSoonUser
+    OverrideComingSoonUser,
+    LOCAL_STORAGE_CF,
+    LOCAL_STORAGE_CF_DATAPOINT_CONFIG
 } from '../../../config/app-config';
 import {
     AuthUserKey
@@ -43,7 +45,44 @@ import { getIdLabelByCf } from "../../../config/registration-config";
 //const CF_DEFAULT = "UK";
 const CF_DEFAULT = "MDEC";
 
-const LOCAL_STORAGE_CF = "cf-seeds-job-fair";
+
+export function setLocalStorageCfDatapointConfig(v) {
+    let objStr = JSON.stringify(v);
+    localStorage.setItem(LOCAL_STORAGE_CF_DATAPOINT_CONFIG, objStr);
+}
+
+export function getDatapointConfig() {
+    let toRet;
+    try {
+        toRet = localStorage.getItem(LOCAL_STORAGE_CF_DATAPOINT_CONFIG);
+        toRet = JSON.parse(toRet);
+        toRet = JSON.parse(toRet);
+    } catch (err) {
+        toRet = [];
+    }
+    return toRet ? toRet : [];
+}
+export function getDatapointConfigIdSingle() {
+    let all = getDatapointConfig();
+    let r = [];
+    for (let a of all) {
+        if (a.type == "single") {
+            r.push(a.id);
+        }
+    }
+    return r;
+}
+export function getDatapointConfigIdMulti() {
+    let all = getDatapointConfig();
+    let r = [];
+    for (let a of all) {
+        if (a.type == "multi") {
+            r.push(a.id);
+        }
+    }
+    return r;
+}
+
 export function setLocalStorageCf(cfArr) {
     let cfObj = {};
     for (var i in cfArr) {
@@ -87,13 +126,6 @@ export function getLocalStorageCfJsonObject(key, defaultReturn) {
         }
 
         toRet[cfName] = obj;
-        // for (var i in CFSMetaOrg) {
-        //     let attr = [CFSMetaOrg[i]]
-        //     toRet[cfName][attr] = allCf[cfName][attr];
-        //     if(toRet[cfName][attr] == null){
-        //         toRet[cfName][attr] = [];
-        //     }
-        // }
     }
     return toRet;
 }
@@ -185,6 +217,11 @@ export function loadCompanyPriv(cid, success) {
 export function getCFObj() {
     let CareerFair = getLocalStorageCf();
     return CareerFair[getCF()];
+}
+
+export function getAllCfKey() {
+    let CareerFair = getLocalStorageCf();
+    return Object.keys(CareerFair).sort();
 }
 
 export function getCfCustomMeta(key, defaultVal) {

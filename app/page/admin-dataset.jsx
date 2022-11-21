@@ -18,7 +18,7 @@ import { getAuthUser, getCF, isRoleAdmin, isRoleOrganizer } from '../redux/actio
 import AdminDatasetItemList from './admin-dataset-item-list.jsx';
 
 
-export default class AdminCf extends React.Component {
+export default class AdminDataset extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);

@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { graphql } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
-import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta, isRoleOrganizer, isCfFeatureOff } from "../../../redux/actions/auth-actions";
+import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta, isRoleOrganizer, isCfFeatureOff, getDatapointConfig, getDatapointConfigIdSingle, getDatapointConfigIdMulti } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
 import { lang, isHasOtherLang, currentLang } from "../../../lib/lang";
@@ -18,7 +18,14 @@ export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }
     validCf = Array.isArray(validCf) ? validCf : []
 
     let r = "";
+    let customSingle = {};
+    let customMulti = {};
     let filterExist = {};
+
+    let customIdSingle = getDatapointConfigIdSingle();
+    let customIdMulti = getDatapointConfigIdMulti();
+
+
     for (var k in filterObj) {
 
         if (isPageStudentListJobPost) {
@@ -39,12 +46,26 @@ export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }
         combineVal = combineVal.substr(0, combineVal.length - 2);
 
         if (combineVal != "") {
-            r += ` ${k}:"${combineVal}",`;
+            if (customIdSingle.indexOf(k) >= 0) {
+                customSingle[k] = combineVal;
+            } else if (customIdMulti.indexOf(k) >= 0) {
+                customMulti[k] = combineVal;
+            } else {
+                r += ` ${k}:"${combineVal}",`;
+            }
         }
     }
+
+
     // buang , yg last
     r = r.substr(0, r.length - 1);
 
+    if (Object.keys(customSingle).length > 0) {
+        r += ` custom_filter_single:${JSON.stringify(JSON.stringify(customSingle))} `
+    }
+    if (Object.keys(customMulti).length > 0) {
+        r += ` custom_filter_multi:${JSON.stringify(JSON.stringify(customMulti))} `
+    }
 
     // add required filter (cf, event)
     // even user tak pilih pun kita kena filter jugak
@@ -64,8 +85,6 @@ export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }
         }
     }
 
-    console.log("filterExist", filterExist);
-    console.log("createFilterStr", filterObj, r);
     return r;
 
 }

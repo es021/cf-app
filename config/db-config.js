@@ -264,7 +264,7 @@ const Prescreen = {
 	ID: "ID",
 	PIC: "pic",
 	NOTE: "note",
-	CANCEL_REASON : "cancel_reason",
+	CANCEL_REASON: "cancel_reason",
 	STUDENT_ID: "student_id",
 	RECRUITER_ID: "recruiter_id",
 	COMPANY_ID: "company_id",
@@ -510,7 +510,7 @@ const Vacancy = {
 	TYPE: "type",
 	SPECIALIZATION: "specialization",
 	APPLICATION_URL: "application_url",
-	OPEN_POSITION : "open_position",
+	OPEN_POSITION: "open_position",
 	UPDATED_AT: "updated_at",
 	CREATED_BY: "created_by"
 };
@@ -724,11 +724,11 @@ const CFSMeta = {
 	FEATURE_EVENT_AND_WELCOME: "feature_event_and_welcome", // just the container in home
 	FEATURE_EVENT: "feature_event", // effect the specific event container in home and company profile
 	FEATURE_EVENT_STUDENT: "feature_event_student", // effect the specific event container in home and company profile
-	FEATURE_EVENT_SHOW_ALL_FOR_STUDENT: "feature_event_show_all_for_student", 
+	FEATURE_EVENT_SHOW_ALL_FOR_STUDENT: "feature_event_show_all_for_student",
 
 	FEATURE_RECRUITER_INTERESTED_STUDENT: "feature_recruiter_interested_student",
 	FEATURE_RECRUITER_LOGIN: "feature_recruiter_login",
-	
+
 	FEATURE_SHOW_HALL_GALLERY_SECOND: "feature_show_hall_gallery_second",
 	FEATURE_POPUP_BLOCK_INCOMPLETE_PROFILE: "feature_popup_block_incomplete_profile",
 	FEATURE_GROUP_CALL: "feature_group_call",
@@ -740,9 +740,9 @@ const CFSMeta = {
 	FEATURE_SPONSOR: "feature_sponsor",
 	FEATURE_DROP_RESUME: "feature_drop_resume",
 	FEATURE_CHAT: "feature_chat",
-	FEATURE_QR_CHECK_IN : "feature_qr_check_in",
+	FEATURE_QR_CHECK_IN: "feature_qr_check_in",
 	FEATURE_FEEDBACK: "feature_feedback",
-	FEATURE_UPDATE_JOB_APPLICATION_STATUS : "feature_update_job_application_status",
+	FEATURE_UPDATE_JOB_APPLICATION_STATUS: "feature_update_job_application_status",
 	FEATURE_COMPANY_EXTERNAL_FOLLOW: "feature_company_external_follow",
 	FEATURE_STUDENT_JOB_POST_FILTER_LOCATION: "feature_job_post_filter_location",
 	FEATURE_SUBSCRIBE: "feature_subscribe",
@@ -753,8 +753,8 @@ const CFSMeta = {
 	OFFSET_LOAD_COMPANY_LISTING: "offset_load_company_listing",
 
 	// custom text
-	TEXT_JOB_POST_REC : "text_job_post_rec",
-	TEXT_JOB_POST_CARD : "text_job_post_card",
+	TEXT_JOB_POST_REC: "text_job_post_rec",
+	TEXT_JOB_POST_CARD: "text_job_post_card",
 	TEXT_JOB_POST: "text_job_post",
 	TEXT_SCHEDULE_CALL: "text_schedule_call",
 	TEXT_HEADER_TITLE: "text_header_title",
@@ -769,8 +769,8 @@ const CFSMeta = {
 	TEXT_REGISTRATION_DISCLAIMER: "text_registration_disclaimer", // sign-up.jsx
 	TEXT_SALUTATION_RECRUITER: "text_salutation_recruiter", // hall-recruiter.jsx
 
-	TEXT_INTERVIEW_REC : "text_interview_rec",
-	TEXT_INTERVIEWER_REC : "text_interviewer_rec",
+	TEXT_INTERVIEW_REC: "text_interview_rec",
+	TEXT_INTERVIEWER_REC: "text_interviewer_rec",
 	TEXT_MY_INTERVIEW: "text_my_interview",
 	TEXT_EVENT_WEBINAR: "text_event_webinar",
 
@@ -779,7 +779,10 @@ const CFSMeta = {
 	LINK_EXTERNAL_FEEDBACK_REC: "link_external_feedback_rec",
 	LINK_GUIDE_STUDENT: "link_guide_student",
 	LINK_GUIDE_REC: "link_guide_rec",
+
+	DATAPOINT_CONFIG: "datapoint_config",
 };
+const CFSMetaDiscardLoad = [CFSMeta.DATAPOINT_CONFIG]
 
 const CFSMetaObject = [
 	CFSMeta.SCHEDULE,
@@ -927,6 +930,7 @@ module.exports = {
 	GroupSessionJoin,
 	CFS,
 	CFSMeta,
+	CFSMetaDiscardLoad,
 	CFSMetaObject,
 	// CFSMetaOrg,
 	EntityRemoved,

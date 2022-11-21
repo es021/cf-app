@@ -1118,7 +1118,7 @@ export function getBar(
       </li>
     );
 
-    console.log("d.has_external_url", d.has_external_url);
+    // console.log("d.has_external_url", d.has_external_url);
 
     // handle for normal url or popup
     if (d.is_popup == true) {
@@ -1148,7 +1148,7 @@ export function getBar(
       );
     }
     else {
-      console.log("d", d);
+      // console.log("d", d);
 
       return (
         <NavLink
