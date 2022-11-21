@@ -1623,7 +1623,7 @@ const CustomConfig = {
         ref_order_by: "ID asc",
         is_required: true,
         only_in_edit_mode: ["MARAVCF22"],
-        onCf: ["TCREP22", "MARAVCF22",]
+        onCf: ["TCREP22", "MARAVCF22", "MYHEARTCAFE2022"]
     },
     tcrep_ic: {
         discard_filter: true,
