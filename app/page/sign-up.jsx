@@ -647,7 +647,7 @@ export default class SignUpPage extends React.Component {
               ? <div>{lang("We are sorry. Registration for this event is currently closed.")}</div>
               : <Form
                 renderCustomItem={(name) => {
-                  if (name == "resume" && this.isHasUploadResume) return this.getUploadResume();
+                  if ((name == "resume" || name.indexOf("_resume_") >= 0) && this.isHasUploadResume) return this.getUploadResume();
                   return null;
                 }}
                 className="form-row"

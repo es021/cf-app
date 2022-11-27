@@ -126,6 +126,7 @@ export function storeUpdateProps(props) {
     store.dispatch(updateProps(props));
 }
 
+
 export function hideFocusCard() {
     return function (dispatch) {
         dispatch({
@@ -140,6 +141,9 @@ export function hideFocusCard() {
     };
 }
 
+export function storeHideFocusCard(props) {
+    store.dispatch(hideFocusCard(props));
+}
 
 export function storeUpdateFocusCard(title, component, props, className = "", onClose = null) {
     store.dispatch(updateFocusCard(title, component, props, className, onClose));

@@ -7,22 +7,25 @@ import { IconsPdfUrl } from "../../config/app-config";
 import UserFieldHelper from '../../helper/user-field-helper.js';
 import * as layoutActions from "../redux/actions/layout-actions";
 
-// const DatapointTypeRegister = {
-//     Text: "text",
-//     Textarea: "textarea",
-//     Select: "select",
-//     Number: "number",
-//     Resume: "resume",
-//     AcceptCheckbox: "accept_checkbox"
-// }
-
 export default class AdminDatapoint extends React.Component {
     constructor(props) {
         super(props);
+        this.IS_DEBUG = false;
 
         this.ConfigComponents = ["register", "profile", "popup", "card", "filter"]
         let config = getDatapointConfig()
         this.OriginalConfig = JSON.parse(JSON.stringify(config))
+        this.YES_NO_DATASET = [
+            { text: "", value: "" },
+            {
+                text: "Yes",
+                value: true,
+            },
+            {
+                text: "No",
+                value: false,
+            },
+        ];
         for (let i in config) {
             for (let c of this.ConfigComponents) {
                 // always has a popup obj
@@ -35,6 +38,7 @@ export default class AdminDatapoint extends React.Component {
         }
         this.state = {
             loading: true,
+            viewKey: 0,
             cf: getCF(),
             config: config,
             dataset: []
@@ -73,56 +77,74 @@ export default class AdminDatapoint extends React.Component {
                 v = cObj["register"]["label"];
                 if (!v) v = cObj["popup"]["label"];
                 if (!v) v = cObj["filter"]["title"];
-            }
-            if (key == "terms") {
+            }/////////////////////////////////
+            else if (key == "terms") {
                 try {
                     v = cObj["register"]["data"][0]["label"];
                 } catch (err) {
                     v = "";
                 }
-            }
-            if (key == "terms_error") {
+            }/////////////////////////////////
+            else if (key == "terms_error") {
                 v = cObj["register"]["required_error"];
-            }
-            if (key == "question") {
+            }/////////////////////////////////
+            else if (key == "question") {
                 v = cObj["profile"]["label"];
-            }
-            if (key == "question_hint") {
+            } /////////////////////////////////
+            else if (key == "question_hint") {
                 v = cObj["profile"]["sublabel"];
-            }
-            if (key == "question_placeholder") {
+            }/////////////////////////////////
+            else if (key == "parent_input") {
+                v = cObj["profile"]["children_of"];
+            }/////////////////////////////////
+            else if (key == "question_placeholder") {
                 v = cObj["register"]["input_placeholder"];
                 if (!v) v = cObj["profile"]["input_placeholder"];
-            }
-            if (key == "question_type") {
+            }/////////////////////////////////
+            else if (key == "question_type") {
                 v = cObj["register"]["input_type"];
                 if (!v) v = cObj["profile"]["input_type"];
-            }
-            if (key == "question_dataset") {
+            }/////////////////////////////////
+            else if (key == "question_dataset") {
                 v = cObj["register"]["dataset_source"];
                 if (!v) v = cObj["profile"]["dataset_source"];
                 if (!v) v = cObj["filter"]["dataset_source"];
-            }
-            if (key == "question_dataset_order") {
+            }/////////////////////////////////
+            else if (key == "question_dataset_order") {
                 v = cObj["register"]["dataset_order_by"];
                 if (!v) v = cObj["profile"]["dataset_order_by"];
-            }
-            if (key == "is_required") {
-                v = cObj["register"]["required"];
-                if (!v) v = cObj["profile"]["is_required"];
-            }
-            if (key == "is_resume_required") {
-                v = cObj["register"]["is_resume_required"];
-            }
-            // if (key == "filter_type") {
-            //     v = cObj["filter"]["type"];
-            // }
-            if (key == "icon") {
+            }/////////////////////////////////
+            else if (key == "icon") {
                 v = cObj["popup"]["icon"];
+            }/////////////////////////////////
+            else if (key == "is_required") {
+                v = cObj["register"]["required"];
+                if (v == null || typeof v === "undefined") v = cObj["profile"]["is_required"];
+                return v;
+            }/////////////////////////////////
+            else if (key == "is_resume_required") {
+                v = cObj["register"]["is_resume_required"];
+                return v;
+            }/////////////////////////////////
+            else if (["bold", "italic"].indexOf(key) >= 0) {
+                v = cObj["card"][key];
+                return v;
+            }/////////////////////////////////
+            else if (key == "order") {
+                v = cObj["card"]["order"];
+                return v;
+            }/////////////////////////////////
+            else if (key == "color") {
+                v = cObj["card"]["color"];
+                return v;
             }
+
+
             if (!v) {
                 return cObj[key];
             }
+
+
             return v;
         } catch (err) {
             return null;
@@ -142,6 +164,18 @@ export default class AdminDatapoint extends React.Component {
                 cObj["popup"]["label"] = v;
                 cObj["filter"]["title"] = v;
                 cObj["filter"]["type"] = "checkbox";
+                ///////////////////////////////////////
+            } else if (key == "order") {
+                cObj["card"]["order"] = v;
+                ///////////////////////////////////////
+            } else if (key == "bold") {
+                cObj["card"]["bold"] = v;
+                ///////////////////////////////////////
+            } else if (key == "italic") {
+                cObj["card"]["italic"] = v;
+                ///////////////////////////////////////
+            } else if (key == "color") {
+                cObj["card"]["color"] = v;
                 ///////////////////////////////////////
             } else if (key == "terms") {
                 cObj["register"]["position"] = "bottom";
@@ -183,7 +217,7 @@ export default class AdminDatapoint extends React.Component {
                 cObj["profile"]["is_required"] = v;
                 ///////////////////////////////////////
             } else if (key == "is_resume_required") {
-                cObj["register"]["position"] = "bottom";
+                cObj["register"]["position"] = "top";
                 cObj["register"]["input_type"] = "custom";
                 cObj["register"]["is_resume"] = true;
                 cObj["register"]["is_resume_required"] = v;
@@ -191,6 +225,9 @@ export default class AdminDatapoint extends React.Component {
             }
             else if (key == "icon") {
                 cObj["popup"]["icon"] = v;
+                ///////////////////////////////////////
+            } else if (key == "parent_input") {
+                cObj["profile"]["children_of"] = v;
                 ///////////////////////////////////////
             } else {
                 cObj[key] = v;
@@ -217,10 +254,26 @@ export default class AdminDatapoint extends React.Component {
     isTypeAcceptCheckbox(index) {
         return this.state.config[index]["type"] == "accept_checkbox"
     }
+    getSingleInputDataset(currentIndex) {
+        let r = [];
+        for (let index in this.state.config) {
+            if (index == currentIndex) continue;
+            if (this.isTypeSingle(index)) {
+                let c = this.state.config[index];
+                r.push({
+                    text: this.currentValue(index, "label"),
+                    value: c.id
+                });
+            }
+        }
+        return r;
+    }
     renderItem() {
         return this.state.config.map((d, index) => {
 
             let checkboxs = [];
+            // const IS_HAS_PARENT_INPUT = this.currentValue(index, "parent_input");
+            const IS_HAS_PARENT_INPUT = false;
 
             if (this.isTypeSingle(index) || this.isTypeResume(index) || this.isTypeAcceptCheckbox(index)) {
                 checkboxs.push(
@@ -244,23 +297,30 @@ export default class AdminDatapoint extends React.Component {
             if (this.isTypeSingle(index) || this.isTypeMulti(index)) {
                 checkboxs.push(
                     this.inputCheckbox({
-                        label: "Participant Detail Popup",
+                        label: "Participant's Detail Popup",
                         key: "has_popup",
                         index: index,
                     }),
+                );
+
+            }
+            if (this.isTypeSingle(index)) {
+                checkboxs.push(
                     this.inputCheckbox({
-                        label: "Participant Listing Filter (Only for question type 'Select')",
-                        key: "has_filter",
+                        label: "Participant Listing's Card",
+                        key: "has_card",
                         index: index,
                     }),
-                );
-                // checkboxs.push(
-                    // this.inputCheckbox({
-                    //     label: "Participant Listing Card (Coming Soon)",
-                    //     key: "has_card",
-                    //     index: index,
-                    // }),
-                // )
+                )
+            }
+            if (this.isTypeSingle(index) || this.isTypeMulti(index)) {
+                checkboxs.push(
+                    this.inputCheckbox({
+                        label: "Participant Listing's Filter",
+                        sublabel: "(Only for question type 'Select')",
+                        key: "has_filter",
+                        index: index,
+                    }));
             }
 
             let items = []
@@ -283,43 +343,38 @@ export default class AdminDatapoint extends React.Component {
                     }))
                 }
 
+                // if (this.isTypeSingle(index)) {
+                //     items.push(this.inputSelect({
+                //         required: false,
+                //         label: "Parent Input",
+                //         key: "parent_input",
+                //         index: index,
+                //         dataset: [
+                //             { text: "", value: "" },
+                //             ...this.getSingleInputDataset(index),
+                //         ]
+                //     }))
+                // }
+
                 if (this.isTypeResume(index)) {
                     items.push(this.inputSelect({
                         required: true,
                         label: "Is Resume Mandatory?",
                         key: "is_resume_required",
+                        is_bool: true,
                         index: index,
-                        dataset: [
-                            { text: "", value: "" },
-                            {
-                                text: "Yes",
-                                value: true,
-                            },
-                            {
-                                text: "No",
-                                value: false,
-                            },
-                        ]
+                        dataset: this.YES_NO_DATASET
                     }))
                 }
-
-                if (this.isTypeSingle(index) || this.isTypeMulti(index)) {
+                if (this.isTypeSingle(index) || this.isTypeMulti(index) || IS_HAS_PARENT_INPUT) {
+                    items.push(this.subheader("Question Setting"));
                     items.push(this.inputSelect({
                         required: true,
                         label: "Is Mandatory?",
                         key: "is_required",
+                        is_bool: true,
                         index: index,
-                        dataset: [
-                            { text: "", value: "" },
-                            {
-                                text: "Yes",
-                                value: true,
-                            },
-                            {
-                                text: "No",
-                                value: false,
-                            },
-                        ]
+                        dataset: this.YES_NO_DATASET
                     }))
                     items.push(this.inputText({
                         required: true,
@@ -386,6 +441,48 @@ export default class AdminDatapoint extends React.Component {
                                 { text: "Create Time - Descending", value: "created_at desc" },
                             ]
                         }))
+                        if (this.isTypeSingle(index)) {
+                            items.push(this.inputSelect({
+                                required: true,
+                                label: "Has Other Field?",
+                                key: "is_has_other",
+                                index: index,
+                                is_bool: true,
+                                dataset: this.YES_NO_DATASET,
+                                onChange: (v) => {
+                                    this.updateConfig(index, "is_has_other", v);
+                                    if (v) {
+                                        this.setState((prevState) => {
+                                            let otherLabel = this.currentValue(index, "label") + " (Other)"
+                                            let otherQuestion = this.currentValue(index, "question") + " (Other)"
+                                            prevState.config.splice(index + 1, 0, {
+                                                type: "single",
+                                                has_register: this.currentValue(index, "has_register"),
+                                                has_profile: this.currentValue(index, "has_profile"),
+                                                has_popup: this.currentValue(index, "has_popup"),
+                                                popup: {
+                                                    label: otherLabel,
+                                                    icon: this.currentValue(index, "icon"),
+                                                },
+                                                register: {
+                                                    required: false,
+                                                    label: otherLabel,
+                                                    input_type: "text",
+                                                },
+                                                profile: {
+                                                    is_required: false,
+                                                    label: otherQuestion,
+                                                    input_type: "text",
+                                                }
+                                            });
+                                            return {
+                                                config: [...prevState.config], viewKey: prevState.viewKey + 1
+                                            }
+                                        })
+                                    }
+                                },
+                            }))
+                        }
                     }
                     // if (this.isHas(index, "filter")) {
                     //     items.push(this.inputSelect({
@@ -399,95 +496,163 @@ export default class AdminDatapoint extends React.Component {
                     //     }))
                     // }
 
-                    if (this.isHas(index, "popup")) {
+                    if (this.isHas(index, "card")) {
+                        items.push(this.subheader("Card Setting"));
                         items.push(this.inputText({
                             required: true,
-                            label: "Icon at Popup",
+                            label: "Order Number",
+                            placeholder: "1, 2, 3",
+                            key: "order",
+                            index: index,
+                        }))
+                        items.push(this.inputText({
+                            required: true,
+                            label: "(Styling) Color",
+                            placeholder: "green, #000000",
+                            color: this.currentValue(index, "color"),
+                            key: "color",
+                            index: index,
+                        }))
+                        items.push(this.inputSelect({
+                            required: true,
+                            is_bool: true,
+                            label: "(Styling) Is Bold?",
+                            key: "bold",
+                            index: index,
+                            dataset: this.YES_NO_DATASET
+                        }))
+                        items.push(this.inputSelect({
+                            required: true,
+                            is_bool: true,
+                            label: "(Styling) Is Italic?",
+                            key: "italic",
+                            index: index,
+                            dataset: this.YES_NO_DATASET
+                        }))
+                    }
+
+                    if (this.isHas(index, "popup")) {
+                        items.push(this.subheader("Popup Setting"));
+                        items.push(this.inputText({
+                            required: true,
+                            label: "Icon In Popup",
                             key: "icon",
                             icon: this.currentValue(index, "icon"),
                             index: index,
                             footer: <div className="text-right">
-                                <a href={IconsPdfUrl} target="_blank">Copy and paste icon name from this list</a>
+                                Copy and paste icon name from{" "}<a href={IconsPdfUrl} target="_blank"><u>this list</u></a>
                             </div>,
                         }))
                     }
+
                 }
 
 
             }
 
+
+            let body = <div className="row">
+                <div className="col-xs-12 col-md-6">
+                    {/* LABEL & TYPE */}
+                    {/* LABEL & TYPE */}
+                    {this.inputText({
+                        required: true,
+                        label: "Label",
+                        key: "label",
+                        index: index,
+                    })}
+                    {this.inputSelect({
+                        required: true,
+                        label: "Type",
+                        key: "type",
+                        index: index,
+                        onChange: (v) => {
+                            this.updateConfig(index, "type", v)
+                        },
+                        dataset: [
+                            { text: "", value: "" },
+                            {
+                                text: "Single Input",
+                                value: "single",
+                            },
+                            {
+                                text: "Multi Input",
+                                value: "multi",
+                            },
+                            {
+                                text: "Resume Upload",
+                                value: "resume",
+                            },
+                            {
+                                text: "Checkbox Term & Condition",
+                                value: "accept_checkbox",
+                            },
+                        ]
+                    })}
+                    {/* CHECKBOXS */}
+                    {/* CHECKBOXS */}
+                    {this.currentValue(index, "type")
+                        ? <div>
+                            <div style={{ padding: '0px 5px', paddingTop: '25px' }}>
+                                <b>
+                                    <u>Select where you want this datapoint to appear *</u>
+                                </b>
+                            </div>
+                            <div style={{ padding: '0px 10px' }}>
+                                {checkboxs}
+                            </div>
+                        </div>
+                        : null
+                    }
+                </div>
+                <div className="col-xs-12 col-md-6">
+                    {items}
+                </div>
+                <div className="col-xs-12">
+                    <br></br>
+                    {this.renderAddNewDatapoint({ isInner: true, index: index })}
+                </div>
+                {this.IS_DEBUG ? this.debugItem(index, d) : null}
+            </div>;
+
             return this.wrapWithCard(
                 this.currentValue(index, "label"),
-                <div className="row">
-                    <div className="col-xs-6">
-                        {/* LABEL & TYPE */}
-                        {/* LABEL & TYPE */}
-                        {this.inputText({
-                            required: true,
-                            label: "Label",
-                            key: "label",
-                            index: index,
-                        })}
-                        {this.inputSelect({
-                            required: true,
-                            label: "Type",
-                            key: "type",
-                            index: index,
-                            onChange: (v) => {
-                                // let current = this.currentValue(index, "type");
-                                // let isReset = false;
-                                // if (current == "single" || current == "multi") {
-                                //     if (v != "single" && v != "multi") {
-                                //         isReset = true;
-                                //     }
-                                // }
-                                // else if (current == "resume" || current == "accept_checkbox") {
-                                //     isReset = true;
-                                // }
-                                // if (isReset) {
-                                //     this.setState((prevState) => {
-                                //         let cObj = prevState.config[index];
-                                //         for (let c of this.ConfigComponents) {
-                                //             cObj[c] = {};
-                                //         }
-                                //         prevState.config[index] = cObj;
-                                //         return { config: prevState.config }
-                                //     })
-                                // }
-                                this.updateConfig(index, "type", v)
-                            },
-                            dataset: [
-                                { text: "", value: "" },
-                                {
-                                    text: "Single Input",
-                                    value: "single",
-                                },
-                                {
-                                    text: "Multi Input",
-                                    value: "multi",
-                                },
-                                {
-                                    text: "Resume Upload",
-                                    value: "resume",
-                                },
-                                {
-                                    text: "Checkbox Term & Condition",
-                                    value: "accept_checkbox",
-                                },
-                            ]
-                        })}
-                        {/* CHECKBOXS */}
-                        {/* CHECKBOXS */}
-                        <div style={{ padding: '0px 5px', paddingTop: '15px' }}>Select where you want this datapoint to appear *</div>
-                        <div style={{ padding: '0px 10px' }}>
-                            {checkboxs}
-                        </div>
-                    </div>
-                    <div className="col-xs-6">
-                        {items}
-                    </div>
-                    {this.debugItem(index, d)}
-                </div>
+                body,
+                {
+                    id: "config_item_" + index,
+                    onClickSort: (direction) => {
+                        let newIndex = direction == "top" ? index - 1 : index + 1;
+                        this.setState((prevState) => {
+                            if (newIndex < 0) {
+                                return;
+                            }
+                            if (newIndex >= prevState.config.length) {
+                                return;
+                            }
+                            let c = { ...prevState.config[index] };
+                            // swap
+                            prevState.config[index] = { ...prevState.config[newIndex] };
+                            prevState.config[newIndex] = c;
+                            return { config: [...prevState.config], viewKey: prevState.viewKey + 1 };
+                        })
+
+                        setTimeout(() => {
+                            var scrollDiv = document.getElementById("config_item_" + newIndex).offsetTop;
+                            scrollDiv -= 116;
+                            window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
+                        }, 100)
+                    },
+                    onClickRemove: () => {
+                        layoutActions.confirmBlockLoader("Are you sure you want to remove this item?", () => {
+                            this.setState((prevState) => {
+                                prevState.config.splice(index, 1);
+                                return { config: [...prevState.config], viewKey: prevState.viewKey + 1 };
+                            })
+                            layoutActions.storeHideBlockLoader();
+                        });
+
+                    }
+                }
             );
         });
     }
@@ -513,13 +678,18 @@ export default class AdminDatapoint extends React.Component {
         </div>
     }
 
-    wrapWithCard(title, body) {
-        return <div style={{
-            padding: '20px 0px',
-        }}>
+    wrapWithCard(title, body, options = {}) {
+        const { onClickRemove, onClickSort, id } = options;
+        return <div
+            id={id}
+            style={{
+                padding: '10px 0px',
+            }}>
             <div style={{
-                padding: '10px 10px',
+                padding: '15px 15px',
                 background: "white",
+                position: "relative",
+                border: "1px solid #d5d5d5",
             }}>
                 {!title ? null :
                     <div className="row">
@@ -531,11 +701,46 @@ export default class AdminDatapoint extends React.Component {
                     </div>
                 }
                 {body}
+                {onClickRemove
+                    ? <i
+                        className="fa fa-close clickable"
+                        onClick={() => { onClickRemove() }}
+                        style={{
+                            fontSize: "23px",
+                            color: "red",
+                            position: "absolute",
+                            top: "5px",
+                            right: "7px",
+                        }}></i>
+                    : null
+                }
+                {onClickSort
+                    ? <i
+                        className="fa fa-angle-double-up clickable btn-link-bright"
+                        onClick={() => { onClickSort('top') }}
+                        style={{
+                            fontSize: "28px",
+                            position: "absolute",
+                            top: "32px",
+                            right: "7px",
+                        }}></i>
+                    : null}
+                {onClickSort
+                    ? <i
+                        className="fa fa-angle-double-down clickable btn-link-bright"
+                        onClick={() => { onClickSort('bottom') }}
+                        style={{
+                            fontSize: "28px",
+                            position: "absolute",
+                            top: "59px",
+                            right: "7px",
+                        }}></i>
+                    : null}
             </div>
         </div>;
     }
     inputCheckbox({
-        label, index, key, onChange, defaultChecked
+        label, sublabel, index, key, onChange, defaultChecked
     }) {
         let refKey = `ref_checkbox_${index}_${key}`;
 
@@ -551,6 +756,9 @@ export default class AdminDatapoint extends React.Component {
                             this.updateConfig(index, key, v)
                             this.updateConfig(index, "label", this.currentValue(index, "label"));
                             this.updateConfig(index, "question_dataset", this.currentValue(index, "question_dataset"));
+                            this.setState((prevState) => {
+                                return { viewKey: prevState.viewKey + 1 }
+                            })
                         }
                     }}
                     ref={r => {
@@ -558,16 +766,33 @@ export default class AdminDatapoint extends React.Component {
                     }}
                     defaultChecked={defaultChecked ? defaultChecked : this.currentValue(index, key)}
                 />
-                {label}
+                {label}{" "}
+                <small className="text-muted">{sublabel}</small>
             </label>
         </span>
     }
-
-    inputText({ label, required, index, icon, key, footer }) {
+    subheader(text) {
+        return <tr>
+            <div style={{ paddingTop: '5px', paddingBottom: '', textDecoration: "underline" }}>
+                <b>{text}</b>
+            </div>
+        </tr>
+    }
+    inputText({ label, required, index, icon, color, key, footer, placeholder }) {
         let refKey = `ref_text_${index}_${key}`;
         return <tr>
             <td style={{ padding: '5px 10px' }}>
                 {label}{required ? ' *' : ''}
+                {color
+                    ? <span style={{
+                        paddingLeft: '16px',
+                        background: color,
+                        marginLeft: '10px',
+                        borderRadius: '5px',
+                    }}>
+                    </span>
+                    : null
+                }
                 {icon
                     ? <span style={{ paddingLeft: '10px' }}>
                         <i className={"fa fa-" + icon}></i>
@@ -577,6 +802,7 @@ export default class AdminDatapoint extends React.Component {
             </td>
             <td style={{ minWidth: '300px' }}>
                 <input
+                    placeholder={placeholder}
                     style={{ width: '100%' }}
                     onChange={() => {
                         this.updateConfig(index, key, this[refKey].value)
@@ -616,7 +842,7 @@ export default class AdminDatapoint extends React.Component {
             </div>
         </div >
     }
-    inputSelect({ required, label, index, key, dataset = [], defaultValue = null, onChange, footer }) {
+    inputSelect({ required, is_bool, label, index, key, dataset = [], defaultValue = null, onChange, footer }) {
         let refKey = `ref_select_${index}_${key}`;
         return <tr>
             <td style={{ padding: '5px 10px' }}>{label}{required ? ' *' : ''}</td>
@@ -624,6 +850,9 @@ export default class AdminDatapoint extends React.Component {
                 <select style={{ height: '26px', width: '100%' }}
                     onChange={() => {
                         let v = this[refKey].value
+                        if (is_bool) {
+                            v = v == "true" ? true : false;
+                        }
                         if (onChange) {
                             onChange(v);
                         } else {
@@ -646,21 +875,21 @@ export default class AdminDatapoint extends React.Component {
         </tr>
     }
 
-    getChangeCfTagSelect() {
-        return this.inputSelect({
-            label: "Select Event Tag",
-            key: "select_event_tag",
-            defaultValue: getCF(),
-            onChange: (v) => {
-                this.setState({
-                    cf: v
-                })
-            },
-            dataset: getAllCfKey().map(d => {
-                return { text: d, value: d }
-            }),
-        })
-    }
+    // getChangeCfTagSelect() {
+    //     return this.inputSelect({
+    //         label: "Select Event Tag",
+    //         key: "select_event_tag",
+    //         defaultValue: getCF(),
+    //         onChange: (v) => {
+    //             this.setState({
+    //                 cf: v
+    //             })
+    //         },
+    //         dataset: getAllCfKey().map(d => {
+    //             return { text: d, value: d }
+    //         }),
+    //     })
+    // }
     generateId(label, type) {
         label = makeSnakeCase(label);
         return `${label}_${type}_${Date.now()}`;
@@ -700,9 +929,6 @@ export default class AdminDatapoint extends React.Component {
                     }
                 }
 
-                console.log("toSave", toSave);
-                console.log("toSave", toSave);
-                console.log("toSave", toSave);
 
                 let r = JSON.stringify(JSON.stringify(toSave));
                 layoutActions.loadingBlockLoader();
@@ -717,23 +943,43 @@ export default class AdminDatapoint extends React.Component {
                 })
             }}
             className="btn btn-lg btn-success">
-            Save
+            Save Changes
         </div>
     }
-    renderAddNewDatapoint() {
-        return this.wrapWithCard(
-            null,
-            <div className="clickable"
-                onClick={() => {
+    renderAddNewDatapoint(options = {}) {
+        const { isInner, index } = options;
+        let body =
+            <div
+
+                style={{
+                    color: "green",
+                    paddingTop: isInner ? '' : '5px',
+                    fontWeight: "bold",
+                    fontSize: isInner ? '' : '20px'
+                }}>
+                <span className="clickable" onClick={() => {
                     this.setState((prevState) => {
+                        if (isInner) {
+                            prevState.config.splice(index + 1, 0, {});
+                        } else {
+                            prevState.config.push({});
+                        }
                         return {
-                            config: [...prevState.config, {}]
+                            config: [...prevState.config], viewKey: prevState.viewKey + 1
                         }
                     })
-                }}
-                style={{ color: "green", fontWeight: "bold" }}>
-                <i className="fa fa-plus"></i>{" "}Add New Datapoint
-            </div>
+                }}>
+                    <i className="fa fa-plus"></i>
+                    {" "}
+                    {isInner ? 'Add Item Below' : 'Add Item'}
+                </span>
+            </div>;
+        if (isInner) {
+            return body;
+        }
+        return this.wrapWithCard(
+            null,
+            body
         );
     }
 
@@ -747,17 +993,21 @@ export default class AdminDatapoint extends React.Component {
                     <h2 className="text-left" style={{ fontWeight: "bold" }}>
                         Participant Datapoint for {this.state.cf}
                     </h2>
-                    <div>{this.getChangeCfTagSelect()}</div>
+                    {/* <div>{this.getChangeCfTagSelect()}</div> */}
                     <br></br>
                     {this.state.config.length > 3 ? this.renderSaveBtn() : null}
-                    {this.renderItem()}
+                    <div key={this.state.viewKey}>
+                        {this.renderItem()}
+                    </div>
                     {this.renderAddNewDatapoint()}
                     {this.renderSaveBtn()}
 
-                    <hr></hr>
-                    <div>
-                        {JSON.stringify(this.OriginalConfig)}
-                    </div>
+                    {/* <hr></hr> */}
+                    {/* {this.IS_DEBUG ?
+                        <pre>
+                            {JSON.stringify(this.state.config).replaceAll(",", ",\n").replaceAll(":{", ":\n{")}
+                        </pre> : null
+                    } */}
                 </div>
             }
         </div>);

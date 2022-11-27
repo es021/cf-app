@@ -121,7 +121,9 @@ export class BrowseStudentCard extends React.Component {
         }
 
         let customCardItem = UserFieldHelper.getCardItems(getCF())
-
+        // console.log("customCardItem",customCardItem)
+        // console.log("customCardItem",customCardItem)
+        // console.log("customCardItem",customCardItem)
         let customView = [];
 
         for (let c of customCardItem) {
