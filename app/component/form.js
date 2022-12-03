@@ -620,11 +620,11 @@ export default class Form extends React.Component {
       }
 
       return d.header ? (
-        <div className="form-header" key={i}>
+        <div className={"form-header " + this.props.headerClassName} key={i}>
           {lang(d.header)}
         </div>
       ) : (
-        <div className="form-item">
+        <div className={"form-item " + this.props.itemClassName} >
           {lang(label)}
           {lang(sublabel)}
           <div className={formClass} key={i}>
@@ -646,7 +646,7 @@ export default class Form extends React.Component {
     }
 
     var formSubmit = (
-      <div className="form-submit">
+      <div className={"form-submit " + this.props.headerClassName}>
         <button
           type="submit"
           className={`btn btn-md btn-${this.props.btnColorClass}`}
@@ -701,6 +701,8 @@ Form.propTypes = {
   disableSubmit: PropTypes.bool.isRequired,
   submitText: PropTypes.string,
   btnColorClass: PropTypes.string,
+  itemClassName: PropTypes.string,
+  headerClassName: PropTypes.string,
   defaultValues: PropTypes.object,
   errorPosition: PropTypes.oneOf(["top"]),
   error: PropTypes.string,

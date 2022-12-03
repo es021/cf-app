@@ -15,7 +15,6 @@ import Form, { toggleSubmit } from '../component/form.js';
 import { SiteUrl, AppPath } from '../../config/app-config.js';
 import { NavLink } from 'react-router-dom';
 
-
 export default class AdminCf extends React.Component {
     constructor(props) {
         super(props);
@@ -172,11 +171,11 @@ export default class AdminCf extends React.Component {
 
                     if (key == "cf_order") {
                         let start = Time.timestampToDateTimeInput(d["start"]);
-                        if(start){
+                        if (start) {
                             start = start.split("T")[0]
                         }
                         let end = Time.timestampToDateTimeInput(d["end"]);
-                        if(start){
+                        if (start) {
                             end = end.split("T")[0]
                         }
                         infoColumn.push(<div><br></br><b>
@@ -208,10 +207,28 @@ export default class AdminCf extends React.Component {
         // create form add new default
         this.getFormItem = (edit) => {
 
-            var ret = [{ header: "Career Fair Form" }];
+            var ret = [{ header: "General Info" }];
 
+            let addedHeader = {};
             for (var attr of this.CfFormAttribute) {
                 let name = attr;
+
+                if (name.indexOf("feature_") == 0 && !addedHeader["feature_"]) {
+                    addedHeader["feature_"] = true;
+                    ret.push({ header: "Feature ON or OFF" });
+                }
+                if (name.indexOf("text_") == 0 && !addedHeader["text_"]) {
+                    addedHeader["text_"] = true;
+                    ret.push({ header: "Text Custom Label" });
+                }
+                if (name.indexOf("link_") == 0 && !addedHeader["link_"]) {
+                    addedHeader["link_"] = true;
+                    ret.push({ header: "Link URL Setting" });
+                }
+                if (name.indexOf("time_") == 0 && !addedHeader["time_"]) {
+                    addedHeader["time_"] = true;
+                    ret.push({ header: "Other Setting" });
+                }
 
                 ret.push({
                     label: name,
@@ -290,6 +307,9 @@ export default class AdminCf extends React.Component {
             </div>
             <h3>Career Fair</h3>
             <GeneralFormPage
+                headerClassName="col-sm-12"
+                itemClassName="col-sm-6"
+                formClassName="form-admin-cf"
                 acceptEmpty={this.acceptEmpty}
                 forceDiff={this.forceDiff}
                 formWillSubmit={this.formEditWillSubmit}
