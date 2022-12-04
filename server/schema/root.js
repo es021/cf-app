@@ -1396,7 +1396,8 @@ fields["forum_replies"] = {
 fields["resume_drops_limit"] = {
 	type: GraphQLString,
 	args: {
-		user_id: __.IntNonNull
+		user_id: __.IntNonNull,
+		is_job_apply : __.Int,
 	},
 	resolve(parentValue, arg, context, info) {
 		return ResumeDropExec.resume_drops_limit(arg, graphqlFields(info));
