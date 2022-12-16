@@ -1,17 +1,20 @@
+THEME
+--------
+<!-- color template -->
+<!-- custom icon -->
 
-
-- first page of registration
--- can upload resume or not
+REGISTRATION FIELD
+------------------------
+-- at admin Participant Datapoint setup, mybe boleh tunjuk apa yg dh default ada, first_name, last_name, email , etc (UserConfigDefault)
 -- only certain student id is allowed to register/login
--- terms and condition
+<!-- -- can upload resume or not -->
+<!-- -- terms and condition -->
+<!-- - manage user profile -->
+<!-- - user popup -->
+<!-- - filter student listing -->
+<!-- - export sql -->
 
-- manage user profile
-- user popup
-- filter student listing
-- export sql
-
-
-tables
+NEW TABLES
 ---------
 - single_input
 - multi_input

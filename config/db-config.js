@@ -705,7 +705,11 @@ const CFSMeta = {
 	OFFSET_LOAD_COMPANY_LISTING: "offset_load_company_listing",
 	IMAGE_HEADER_ICON: "image_header_icon", // custom image
 	IMAGE_HEADER_ICON_FULL: "image_header_icon_full", // custom image
-	
+
+	COLOR_THEME: "color_theme",
+	COLOR_HEADER_BACKGROUND: "color_header_background",
+	COLOR_HEADER_MAIN: "color_header_main",
+	COLOR_HEADER_SUB: "color_header_sub",
 
 	LINK_EXTERNAL_HOME: "link_external_home", // custom link
 	LINK_EXTERNAL_FOLLOW: "link_external_follow",

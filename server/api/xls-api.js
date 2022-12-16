@@ -7,6 +7,7 @@ const { isCustomUserInfoOff } = require("../../config/registration-config");
 const { cfCustomFunnel } = require("../../config/cf-custom-config");
 const { addVacancyInfoIfNeeded } = require("../../config/vacancy-config");
 const { StatisticUrl } = require("../../config/app-config");
+const { UserAPI } = require("./user-api");
 
 class XLSApi {
   constructor() {
@@ -24,10 +25,10 @@ class XLSApi {
   }
 
   // filter in JSON object, return {filename, content}
-  export({ action, filter, cf, is_admin }) {
-    console.log(action, filter, cf)
+  async export({ action, filter, cf, is_admin }) {
     this.globalHeaders = [];
     this.CF = cf;
+
     if (FilterNotObject.indexOf(action) <= -1) {
       if (filter !== "null") {
         try {
@@ -192,64 +193,69 @@ class XLSApi {
 
 
   student_field(is_admin) {
-    let customKeys = cfCustomFunnel({ action: 'get_keys_for_export' });
-    let additionalCustomCf = "";
-    for (var k of customKeys) {
-      additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
-    }
-    // console.log("student_field", additionalCustomCf);
-    // 8. @custom_user_info_by_cf
-    return `
-      ID
-      ${is_admin == "1" ? "cf" : ""}
-      first_name
-      last_name
-      user_email
-      cf_registered_at
+    return `ID 
+      ${is_admin == "1" ? "cf" : ""} 
+      user_email 
       doc_links {label url}
-      ${additionalCustomCf}
-      ${this.addIfValid("birth_date")}
-      ${this.addIfValid("kpt")}
-      ${this.addIfValid("id_utm21")}
-      ${this.addIfValid("id_utm")}
-      ${this.addIfValid("id_unisza")}
-      ${this.addIfValid("local_or_oversea_study")}
-      ${this.addIfValid("country_study")}
-      ${this.addIfValid("monash_student_id")}
-      ${this.addIfValid("monash_school")}
-      ${this.addIfValid("sunway_faculty")}
-      ${this.addIfValid("sunway_program")}
-      ${this.addIfValid("university")}
-      ${this.addIfValid("field_study_main")}
-      ${this.addIfValid("field_study_secondary")}
-      ${this.addIfValid("qualification")}
-      ${this.addIfValid("unisza_faculty")}
-      ${this.addIfValid("unisza_course")}
-      ${this.addIfValid("current_semester")}
-      ${this.addIfValid("course_status")}
-      ${this.addIfValid("employment_status")}
-      ${this.addIfValid("graduation_month")}
-      ${this.addIfValid("graduation_year")}
-      ${this.addIfValid("working_availability_month")}
-      ${this.addIfValid("working_availability_year")}
-      ${this.addIfValid("local_or_oversea_location")}
-      ${this.addIfValid("gender")}
-      ${this.addIfValid("work_experience_year")}
-      ${this.addIfValid("grade")}
-      ${this.addIfValid("phone_number")}
-      ${this.addIfValid("sponsor")}
-      ${this.addIfValid("where_in_malaysia")}
-      ${this.addIfValid("interested_vacancies_by_company", "{title}")}
-      ${this.addIfValid("description")}
-      ${this.addIfValid("user_registered")}
-      ${this.addIfValid("video_resume", "{url}")}
-      ${this.addIfValid("extracurricular", "{val}")}
-      ${this.addIfValid("skill", "{val}")}
-      ${this.addIfValid("field_study", "{val}")}
-      ${this.addIfValid("looking_for_position", "{val}")}
-      ${this.addIfValid("interested_role", "{val}")}
-      ${this.addIfValid("interested_job_location", "{val}")}
-  `;
+      interested_vacancies_by_company {title}
+    `;
+    // let customKeys = cfCustomFunnel({ action: 'get_keys_for_export' });
+    // let additionalCustomCf = "";
+    // for (var k of customKeys) {
+    //   additionalCustomCf += ` ${this.addIfValid(k, cfCustomFunnel({ action: 'get_attr_by_key', key: k }))} `;
+    // }
+    // 8. @custom_user_info_by_cf
+    //   return `
+    //     ID
+    //     ${is_admin == "1" ? "cf" : ""}
+    //     first_name
+    //     last_name
+    //     user_email
+    //     cf_registered_at
+    //     doc_links {label url}
+    //     ${additionalCustomCf}
+    //     ${this.addIfValid("birth_date")}
+    //     ${this.addIfValid("kpt")}
+    //     ${this.addIfValid("id_utm21")}
+    //     ${this.addIfValid("id_utm")}
+    //     ${this.addIfValid("id_unisza")}
+    //     ${this.addIfValid("local_or_oversea_study")}
+    //     ${this.addIfValid("country_study")}
+    //     ${this.addIfValid("monash_student_id")}
+    //     ${this.addIfValid("monash_school")}
+    //     ${this.addIfValid("sunway_faculty")}
+    //     ${this.addIfValid("sunway_program")}
+    //     ${this.addIfValid("university")}
+    //     ${this.addIfValid("field_study_main")}
+    //     ${this.addIfValid("field_study_secondary")}
+    //     ${this.addIfValid("qualification")}
+    //     ${this.addIfValid("unisza_faculty")}
+    //     ${this.addIfValid("unisza_course")}
+    //     ${this.addIfValid("current_semester")}
+    //     ${this.addIfValid("course_status")}
+    //     ${this.addIfValid("employment_status")}
+    //     ${this.addIfValid("graduation_month")}
+    //     ${this.addIfValid("graduation_year")}
+    //     ${this.addIfValid("working_availability_month")}
+    //     ${this.addIfValid("working_availability_year")}
+    //     ${this.addIfValid("local_or_oversea_location")}
+    //     ${this.addIfValid("gender")}
+    //     ${this.addIfValid("work_experience_year")}
+    //     ${this.addIfValid("grade")}
+    //     ${this.addIfValid("phone_number")}
+    //     ${this.addIfValid("sponsor")}
+    //     ${this.addIfValid("where_in_malaysia")}
+    //     ${this.addIfValid("interested_vacancies_by_company", "{title}")}
+    //     ${this.addIfValid("description")}
+    //     ${this.addIfValid("user_registered")}
+    //     ${this.addIfValid("video_resume", "{url}")}
+    //     ${this.addIfValid("extracurricular", "{val}")}
+    //     ${this.addIfValid("skill", "{val}")}
+    //     ${this.addIfValid("field_study", "{val}")}
+    //     ${this.addIfValid("looking_for_position", "{val}")}
+    //     ${this.addIfValid("interested_role", "{val}")}
+    //     ${this.addIfValid("interested_job_location", "{val}")}
+    // `;
   }
 
   addIfValid(studentField, attrList = "") {
@@ -266,7 +272,6 @@ class XLSApi {
 
 
   list_job_applicants(filter, cf, is_admin) {
-    console.log("filter", filter)
     let is_include_status = filter.is_include_status;
     var filename = `Participant Listing`;
     var query = `query{
@@ -281,6 +286,10 @@ class XLSApi {
           ${is_include_status ? 'application_status' : ''}
         }
       } `;
+
+    const postQuery = async data => {
+      return await this.postQueryForStudentField("user", cf, data);
+    }
 
     // 2. prepare props to generate table
     const headers = null;
@@ -317,7 +326,8 @@ class XLSApi {
       headers,
       null,
       restructData,
-      renameTitle //renameTitle
+      renameTitle, //renameTitle
+      postQuery
     );
   }
   all_student() {
@@ -330,6 +340,27 @@ class XLSApi {
     k = k.replace("ocpe_", "");
     return k;
   }
+  async postQueryForStudentField(key, cf, data) {
+    let user_ids = data.map(d => {
+      return d[key]["ID"];
+    })
+
+    let res = await UserAPI.Main("get-data-for-xls", {
+      cf: cf,
+      user_ids: user_ids
+    })
+    console.log("res", res)
+    for (let i in data) {
+      let d = data[i];
+      let id = d[key]["ID"]
+      data[i] = {
+        ...d,
+        ...res[id]
+      }
+    }
+    return data;
+  }
+  // TODO
   browse_student(filterStr, cf, is_admin) {
     var filename = `Participant Listing`;
     var query = `query{
@@ -339,12 +370,15 @@ class XLSApi {
       }
     } `;
 
+    const postQuery = async data => {
+      return await this.postQueryForStudentField("student", cf, data);
+    }
+
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
     const restructData = data => {
-      console.log("data", data);
       var hasChildren = ["student"];
       var newData = {};
       for (var key in data) {
@@ -366,16 +400,9 @@ class XLSApi {
       return newData;
     };
 
-    // 3. rename title use company name
-    // const renameTitle = (originalTitle, dataIndex0) => {
-    //   let toRet = originalTitle;
-    //   if (typeof dataIndex0["company_name"] !== "undefined") {
-    //     toRet = `Participant Listing - ${dataIndex0["company_name"]}`;
-    //   }
-    //   return toRet;
-    // };
 
     // 4. fetch and return
+    // TODO
     return this.fetchAndReturn(
       query,
       "browse_student",
@@ -383,7 +410,8 @@ class XLSApi {
       headers,
       null,
       restructData,
-      null//renameTitle
+      null, //renameTitle
+      postQuery
     );
   }
 
@@ -400,6 +428,10 @@ class XLSApi {
               created_at
             }
           }`;
+
+    const postQuery = async data => {
+      return await this.postQueryForStudentField("student", cf, data);
+    }
 
     // 2. prepare props to generate table
     const headers = null;
@@ -428,91 +460,12 @@ class XLSApi {
       filename,
       headers,
       null,
-      restructData
+      restructData,
+      null,
+      postQuery
     );
   }
 
-  //EUR FIX
-  // student_listing(filter) {
-  //   let cid = filter.company_id;
-  //   let cf = filter.cf;
-  //   let for_rec = filter.for_rec;
-
-  //   // debug
-  //   for_rec = typeof for_rec === "undefined" ? false : for_rec;
-
-  //   // 0. create filename
-  //   var filename = `Participant Listing - Company ${cid}`;
-
-  //   let queryParam = JSON.parse(JSON.stringify(filter));
-  //   delete queryParam["for_rec"];
-
-  //   // // console.log("queryParam",queryParam)
-  //   // // console.log("queryParam",queryParam)
-  //   // // console.log("queryParam",queryParam)
-  //   // // console.log("queryParam",queryParam)
-  //   // // console.log("queryParam",queryParam)
-  //   // 1. create query
-  //   var query = `query{
-  //           student_listing(${obj2arg(queryParam, {
-  //     noOuterBraces: true
-  //   })}) {
-  //             student{${this.student_field()}}
-  //             company{name}
-  //           }
-  //         }`;
-
-  //   // 2. prepare props to generate table
-  //   const headers = null;
-
-  //   // 3. resctruct data to be in one level only
-  //   const restructData = data => {
-  //     var hasChildren = ["student", "company"];
-  //     var newData = {};
-  //     for (var key in data) {
-  //       var d = data[key];
-  //       if (hasChildren.indexOf(key) >= 0) {
-  //         for (var k in d) {
-  //           newData[`${key}_${k}`] = d[k];
-  //         }
-  //       } else {
-  //         newData[key] = d;
-  //       }
-  //     }
-
-  //     newData = this.restructAppendTypeForStudent(newData, "student_");
-
-  //     // removed some data for recruiter
-  //     if (for_rec) {
-  //       var toRemoved = ["student_ID", "created_at"];
-  //       for (var i in toRemoved) {
-  //         delete newData[toRemoved[i]];
-  //       }
-  //     }
-
-  //     return newData;
-  //   };
-
-  //   // 3. rename title use company name
-  //   const renameTitle = (originalTitle, dataIndex0) => {
-  //     let toRet = originalTitle;
-  //     if (typeof dataIndex0["company_name"] !== "undefined") {
-  //       toRet = `Participant Listing - ${dataIndex0["company_name"]}`;
-  //     }
-  //     return toRet;
-  //   };
-
-  //   // 4. fetch and return
-  //   return this.fetchAndReturn(
-  //     query,
-  //     "student_listing",
-  //     filename,
-  //     headers,
-  //     null,
-  //     restructData,
-  //     renameTitle
-  //   );
-  // }
   restructChangeHeaderForStudent(data, preKey = "") {
     let toRet = {};
     for (var k in data) {
@@ -528,47 +481,24 @@ class XLSApi {
     return toRet;
   }
   restructAppendTypeForStudent(newData, preKey = "") {
-    // newData = this.restructAppendType({
-    //   data: newData,
-    //   key: preKey + "video_resume",
-    //   label: "video resume",
-    //   renderCol: d => {
-    //     return `<a href="${d.url}">${d.url}</a><br>`;
-    //   }
-    // });
-    // newData = this.restructAppendType({
-    //   data: newData,
-    //   key: preKey + "doc_links",
-    //   label: "attachment",
-    //   renderCol: d => {
-    //     return `<a href="${d.url}">${d.label}</a><br>`;
-    //   }
-    // });
+    // return newData;
+    // TODO - for multi
 
     let multi_input = [
       "doc_links",
       "interested_vacancies_by_company",
-      // "extracurricular",
-      // "field_study",
-      // "skill",
-      // "looking_for_position",
-      // "interested_role",
-      // "interested_job_location",
     ];
-    if (!isCustomUserInfoOff(this.CF, "extracurricular")) multi_input.push("extracurricular");
-    if (!isCustomUserInfoOff(this.CF, "field_study")) multi_input.push("field_study");
-    if (!isCustomUserInfoOff(this.CF, "skill")) multi_input.push("skill");
-    if (!isCustomUserInfoOff(this.CF, "looking_for_position")) multi_input.push("looking_for_position");
-    if (!isCustomUserInfoOff(this.CF, "interested_role")) multi_input.push("interested_role");
-    if (!isCustomUserInfoOff(this.CF, "interested_job_location")) multi_input.push("interested_job_location");
-
-    for (let customMulti of cfCustomFunnel({ action: 'get_keys_multi' })) {
-      if (!isCustomUserInfoOff(this.CF, customMulti)) {
-        multi_input.push(this.removeCfName(customMulti));
-      }
-    }
-    console.log("multi_input", multi_input)
-
+    // if (!isCustomUserInfoOff(this.CF, "extracurricular")) multi_input.push("extracurricular");
+    // if (!isCustomUserInfoOff(this.CF, "field_study")) multi_input.push("field_study");
+    // if (!isCustomUserInfoOff(this.CF, "skill")) multi_input.push("skill");
+    // if (!isCustomUserInfoOff(this.CF, "looking_for_position")) multi_input.push("looking_for_position");
+    // if (!isCustomUserInfoOff(this.CF, "interested_role")) multi_input.push("interested_role");
+    // if (!isCustomUserInfoOff(this.CF, "interested_job_location")) multi_input.push("interested_job_location");
+    // for (let customMulti of cfCustomFunnel({ action: 'get_keys_multi' })) {
+    //   if (!isCustomUserInfoOff(this.CF, customMulti)) {
+    //     multi_input.push(this.removeCfName(customMulti));
+    //   }
+    // }
     for (var i in multi_input) {
       let key = multi_input[i];
       key = preKey + key;
@@ -597,11 +527,7 @@ class XLSApi {
         newData[key] = "-";
       }
     }
-
-    console.log("newData", newData);
-
     newData = this.restructChangeHeaderForStudent(newData, preKey);
-
     return newData;
   }
 
@@ -619,6 +545,11 @@ class XLSApi {
               updated_at
             }
           }`;
+
+    const postQuery = async data => {
+      return await this.postQueryForStudentField("student", cf, data);
+    }
+
 
     // 2. prepare props to generate table
     const headers = null;
@@ -647,7 +578,9 @@ class XLSApi {
       filename,
       headers,
       null,
-      restructData
+      restructData,
+      null,
+      postQuery
     );
   }
 
@@ -668,6 +601,10 @@ class XLSApi {
               updated_by
             }
           }`;
+
+    const postQuery = async data => {
+      return await this.postQueryForStudentField("student", cf, data);
+    }
 
     // 2. prepare props to generate table
     const headers = null;
@@ -696,7 +633,9 @@ class XLSApi {
       filename,
       headers,
       null,
-      restructData
+      restructData,
+      null,
+      postQuery
     );
   }
 
@@ -716,6 +655,10 @@ class XLSApi {
               ended_at
             }
           }`;
+
+    const postQuery = async data => {
+      return await this.postQueryForStudentField("student", cf, data);
+    }
 
     // 2. prepare props to generate table
     const headers = null;
@@ -767,7 +710,9 @@ class XLSApi {
       filename,
       headers,
       rowHook,
-      restructData
+      restructData,
+      null,
+      postQuery
     );
   }
 
@@ -909,11 +854,15 @@ class XLSApi {
     headers = null,
     rowHook = null,
     restructData = null,
-    renameTitle = null
+    renameTitle = null,
+    postQuery = null,
   ) {
     return getAxiosGraphQLQuery(query).then(
-      res => {
+      async (res) => {
         let data = res.data.data[dataField];
+        if (postQuery) {
+          data = await postQuery(data);
+        }
         return this.fetchSuccessHandler({
           data,
           filename,
@@ -966,7 +915,6 @@ class XLSApi {
   }
 
   defaultRowHook(k, d) {
-    console.log("defaultRowHook",k, d);
     let isDateTime = false;
     for (var i in this.DateTime) {
       if (k.indexOf(this.DateTime[i]) >= 0) {

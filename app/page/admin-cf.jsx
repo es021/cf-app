@@ -227,6 +227,10 @@ export default class AdminCf extends React.Component {
                     addedHeader["text_"] = true;
                     ret.push({ header: "Text Custom Label" });
                 }
+                if (name.indexOf("color_") == 0 && !addedHeader["color_"]) {
+                    addedHeader["color_"] = true;
+                    ret.push({ header: "Color Theme Setting" });
+                }
                 if (name.indexOf("link_") == 0 && !addedHeader["link_"]) {
                     addedHeader["link_"] = true;
                     ret.push({ header: "Link URL Setting" });

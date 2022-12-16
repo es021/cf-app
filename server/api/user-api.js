@@ -4,6 +4,7 @@ const {
     UserMeta,
 } = require("../../config/db-config.js");
 const { graphql } = require("../../helper/api-helper.js");
+const UserFieldHelper = require("../../helper/user-field-helper");
 
 class UserAPI {
     Main(action, param) {
@@ -13,6 +14,8 @@ class UserAPI {
                 return this.getDetail(param);
             case "get-data-for-listing":
                 return this.getDataForListing(param);
+            case "get-data-for-xls":
+                return this.getDataForXls(param);
         }
     }
     getRealField(k) {
@@ -26,6 +29,62 @@ class UserAPI {
             return UserMeta.IMG_POS;
         }
         return k;
+    }
+    async getDataForXls(param) {
+        let cf = param.cf;
+        let user_ids = param.user_ids;
+
+        let fields = await UserFieldHelper.getStudentFieldForXls(cf);
+        let singleFields = fields.single;
+        let multiFields = fields.multi;
+
+        let querySingle = `select 
+            u.ID,
+            ${singleFields.map(d => `(${UserQuery.selectSingleMain("u.ID", this.getRealField(d.id))}) as "${d.label}"`).join(",")}
+            from  wp_cf_users u 
+            where 1=1 and u.ID IN (${user_ids.join(",")})
+        `;
+
+        let queryMulti = `
+			select 
+            GROUP_CONCAT(val SEPARATOR ' | ') as val,
+            key_input,
+            entity_id as user_id 
+            from multi_input 
+            where 1=1
+			and entity = "user" 
+            and entity_id IN (${user_ids.join(",")}) 
+            and key_input IN (${multiFields.map(d => `"${d.id}"`).join(",")})
+            GROUP BY user_id, key_input
+		`;
+
+        let singleData = await DB.query(querySingle);
+        let multiData = await DB.query(queryMulti);
+
+        let toRet = {};
+        for (let d of singleData) {
+            let id = d["ID"]
+            delete d["ID"];
+            toRet[id] = d
+        }
+
+
+        let multiFieldMap = {};
+        for (let m of multiFields) {
+            multiFieldMap[m.id] = m.label;
+        }
+
+        for (let d of multiData) {
+            let user_id = d["user_id"]
+            let key = multiFieldMap[d["key_input"]];
+            if (!toRet[user_id]) {
+                toRet[user_id] = {};
+            }
+            toRet[user_id][key] = d["val"];
+        }
+
+        return Promise.resolve(toRet)
+        
     }
     async getDataForListing(param) {
         let query_graphql = param.query_graphql

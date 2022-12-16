@@ -99,6 +99,11 @@ EXPORT.Cfs = {
     text_registration_disclaimer: __.String,
     text_salutation_recruiter: __.String,
 
+    //color
+    color_theme: __.String,
+    color_header_background: __.String,
+    color_header_main: __.String,
+    color_header_sub: __.String,
 
     // custom image
     image_header_icon: __.String,

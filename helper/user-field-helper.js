@@ -1,5 +1,5 @@
 const { graphql } = require("./api-helper");
-const { UserConfigByCf, UserConfigDefault } = require("./user-field-helper-mock-data");
+const { UserConfigDefault } = require("./user-field-helper-default");
 const { LOCAL_STORAGE_CF_DATAPOINT_CONFIG } = require("../config/app-config");
 class UserFieldHelper {
     constructor() {
@@ -36,8 +36,6 @@ class UserFieldHelper {
         } catch (err) {
             configByCf = [];
         }
-        console.log("configByCf", configByCf);
-        console.log("configByCf", configByCf);
         return Promise.resolve([...UserConfigDefault, ...configByCf]);
     }
     getFieldSingle(cf) {
@@ -70,6 +68,48 @@ class UserFieldHelper {
             }
         }
         return toRet;
+    }
+    getLabelFromConfig(cObj) {
+        let v;
+        if (cObj["register"])
+            v = cObj["register"]["label"];
+
+        if (!v && cObj["popup"])
+            v = cObj["popup"]["label"];
+
+        if (!v && cObj["filter"])
+            v = cObj["filter"]["title"];
+
+        if (!v) {
+            v = cObj.id;
+        }
+        return v;
+    }
+    async getStudentFieldForXls(cf) {
+        let rSingle = [];
+        let rMulti = [];
+        let config = await this.getUserConfigFromDb(cf);
+        for (let c of config) {
+            if (["user_email", "user_pass", "accept_policy", "accept_send_sms"].indexOf(c.id) >= 0) {
+                continue;
+            }
+            if (c.type == "single") {
+                rSingle.push({
+                    id: c.id,
+                    label: this.getLabelFromConfig(c)
+                });
+            }
+            if (c.type == "multi") {
+                rMulti.push({
+                    id: c.id,
+                    label: this.getLabelFromConfig(c)
+                });
+            }
+        }
+        return {
+            single: rSingle,
+            multi: rMulti,
+        };
     }
     async getFilterItems(cf, DB, type) {
         let toRet = [];

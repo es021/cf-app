@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 //import { render } from "react-dom";
-import {
-  BrowserRouter,
-  Route,
-  NavLink,
-  Switch,
-  Redirect
-} from "react-router-dom";
+// import {
+//   BrowserRouter,
+//   Route,
+//   NavLink,
+//   Switch,
+//   Redirect
+// } from "react-router-dom";
 import { getAxiosGraphQLQuery, graphql, graphqlAttr } from "../helper/api-helper";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -23,7 +23,8 @@ import {
   getAuthUser,
   isRoleOrganizer,
   isRoleStudent,
-  setLocalStorageCfDatapointConfig
+  setLocalStorageCfDatapointConfig,
+  getCFObj
 } from "./redux/actions/auth-actions";
 
 import { addLog } from "./redux/actions/other-actions";
@@ -78,6 +79,7 @@ class PrimaryLayout extends React.Component {
 
   componentDidMount() {
     // takleh panggil ni store action kat dalam componentWillMount
+    this.updateTheme();
 
     if (isRoleOrganizer() || isRoleAdmin()) {
       return;
@@ -96,6 +98,24 @@ class PrimaryLayout extends React.Component {
       hallAction.storeLoadActivity(hallAction.ActivityType.INBOX_COUNT);
     });
 
+  }
+
+  updateTheme() {
+    let cfObj = getCFObj();
+
+    var r = document.querySelector(':root');
+    if (cfObj[CFSMeta.COLOR_THEME]) {
+      r.style.setProperty('--theme-color', cfObj[CFSMeta.COLOR_THEME]);
+    }
+    if (cfObj[CFSMeta.COLOR_HEADER_BACKGROUND]) {
+      r.style.setProperty('--header-bg-color', cfObj[CFSMeta.COLOR_HEADER_BACKGROUND]);
+    }
+    if (cfObj[CFSMeta.COLOR_HEADER_MAIN]) {
+      r.style.setProperty('--header-main-color', cfObj[CFSMeta.COLOR_HEADER_MAIN]);
+    }
+    if (cfObj[CFSMeta.COLOR_HEADER_SUB]) {
+      r.style.setProperty('--header-sub-color', cfObj[CFSMeta.COLOR_HEADER_SUB]);
+    }
   }
 
   async loadCf() {
@@ -179,7 +199,7 @@ class PrimaryLayout extends React.Component {
 
   getClassName(isAuthorized) {
     let cf = getCF();
-    let r = `primary-layout cf-${cf}`;
+    let r = `primary-layout custom-theme cf-${cf}`;
     if (!isAuthorized) {
       r += " landing-page";
     } else {
@@ -204,24 +224,6 @@ class PrimaryLayout extends React.Component {
     if (isRoleStudent()) {
       // alert("hi")
     }
-
-    // redirect to /nocf/ if cf is null
-    // if (getCF() == null) {
-    //   let prev = "";
-    //   if (this.props.location.state) {
-    //     prev = this.props.location.state.from.pathname;
-    //   } else {
-    //     prev = this.props.location.pathname;
-    //   }
-    //   prev = prev.replace("/app", "");
-    //   prev = prev.replace("/auth", "");
-    //   if (prev[0] != "/") {
-    //     prev = "/" + prev;
-    //   }
-    //   console.log("redirect to nocf", prev);
-    //   return <Redirect to={`${RootPath}/nocf${prev}`}></Redirect>
-    // }
-
 
     // save current cf to local storage
     // resolve issue when auth.cf set to null after logout

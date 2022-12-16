@@ -74,19 +74,19 @@ let scss = [
   "banner-float",
 
   // kena letak bawah skali
-  "custom-CIMB",
-  "custom-IMPACT",
-  "custom-INTEL",
-  "custom-JPATC",
-  "custom-MDCW",
-  "custom-MICRON",
-  "custom-MONASH",
-  "custom-MSAJ",
-  "custom-SHELL",
-  "custom-SUNWAY",
-  "custom-TARUC",
-  "custom-UTM20",
-  "custom-MASAF",
+  // "custom-CIMB",
+  // "custom-IMPACT",
+  // "custom-INTEL",
+  // "custom-JPATC",
+  // "custom-MDCW",
+  // "custom-MICRON",
+  // "custom-MONASH",
+  // "custom-MSAJ",
+  // "custom-SHELL",
+  // "custom-SUNWAY",
+  // "custom-TARUC",
+  // "custom-UTM20",
+  // "custom-MASAF",
 ];
 
 for (var i in scss) {

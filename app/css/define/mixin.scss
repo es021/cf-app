@@ -95,6 +95,7 @@
   .btn-#{$type}.focus,
   .btn-#{$type}:focus,
   .btn-#{$type}:hover {
+    opacity: 0.75;
     color: $color;
     background-color: $back;
     border-color: $border;
@@ -105,6 +106,7 @@
   .btn-#{$type}.active,
   .btn-#{$type}:active,
   .open > .dropdown-toggle.btn-#{$type} {
+    opacity: 1;
     color: $color;
     background-color: $back;
     border-color: $border;
