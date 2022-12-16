@@ -61,11 +61,11 @@ export function openFeedbackBlockRec_deprecated() {
 
 
 // for students
-export function feedbackStudent() {
+export function feedbackStudent(purpose = "drop more resume") {
     let externalLink = getCfCustomMeta(CFSMeta.LINK_EXTERNAL_FEEDBACK_STUDENT, null);
     return <div>
         {lang("Your feedback is very valuable to us.")}
-        <br></br>{lang("Please answer a short feedback questions to drop more resume.")}
+        <br></br>{lang(`Please answer a short feedback questions to ${purpose}.`)}
         <br></br><br></br>
         {externalLink ? getExternalFeedbackBtn(externalLink)
             : <NavLink onClick={() => {

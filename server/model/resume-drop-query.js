@@ -31,6 +31,7 @@ class ResumeDropQuery {
         var { UserQuery } = require('./user-query.js');
         var sql = `select 
             (select count(*) from resume_drops r where r.student_id = ${user_id}) as ttl_resume
+            , (select count(*) from interested i where i.user_id = ${user_id} and i.entity = 'vacancies' and i.is_interested = 1) as ttl_job_apply
             , (${UserQuery.selectMetaMain(user_id, "feedback")}) as feedback
             , (${UserQuery.selectMetaMain(user_id, "has_feedback_external")}) as has_feedback_external `;
 
@@ -39,7 +40,8 @@ class ResumeDropQuery {
 }
 
 ResumeDropQuery = new ResumeDropQuery();
-const RD_LIMIT = 3;
+const RESUME_DROP_LIMIT = 3;
+const JOB_APPLY_LIMIT = 2;
 class ResumeDropExec {
     resume_drops_limit_by_cf(param, field) {
         var sql = `SELECT
@@ -100,16 +102,24 @@ class ResumeDropExec {
     // return null if still not over limit or feedback is filled
     resume_drops_limit(params, field, extra = {}) {
         var sql = ResumeDropQuery.getResumeDropError(params.user_id);
+        let is_job_apply = params.is_job_apply == 1;
+
+        const LIMIT = is_job_apply ? JOB_APPLY_LIMIT : RESUME_DROP_LIMIT;
+
         //// console.log(sql);
         var toRet = DB.query(sql).then(function (res) {
+            var ttl_job_apply = res[0].ttl_job_apply;
             var ttl_resume = res[0].ttl_resume;
+
+            var ttl = is_job_apply ? ttl_job_apply : ttl_resume;
+
             var feedback = res[0].feedback;
             var has_feedback_external = res[0].has_feedback_external;
             var err = null;
-            if (ttl_resume >= RD_LIMIT
+            if (ttl >= LIMIT
                 && (feedback == null || feedback == "")
                 && (has_feedback_external == null || has_feedback_external == "")) {
-                err = RD_LIMIT;
+                err = LIMIT;
             }
             // // console.log("err", err)
             return err;

@@ -53,6 +53,24 @@ form {
   }
 }
 
+
+// admin-cf
+.form-admin-cf{
+  width: 100% !important;
+  max-width: none !important;
+  padding : 20px 20px;
+  .form-item{
+    min-height: 81px;
+  }
+  .form-header {
+    border-bottom: none !important;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+}
+
 .form-flex {
   .form-row {
     max-width: none;

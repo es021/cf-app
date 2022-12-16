@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Loader } from "../component/loader";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
-import { DocLinkEnum, LogEnum } from "../../config/db-config";
+import { DocLinkEnum, LogEnum, CFSMeta } from "../../config/db-config";
 import ProfileCard from "../component/profile-card.jsx";
 import PageSection from "../component/page-section";
 import { CustomList } from "../component/list";
@@ -11,21 +11,41 @@ import NotFoundPage from "./not-found";
 import { AppConfig, RootPath, SiteUrl } from "../../config/app-config";
 import { NavLink } from "react-router-dom";
 import { addLog } from "../redux/actions/other-actions";
-import { getAuthUser, getCF, isRoleStudent } from "../redux/actions/auth-actions";
+import { getAuthUser, getCF, isCfFeatureOn, isRoleStudent } from "../redux/actions/auth-actions";
 import { InterestedButton } from "../component/interested";
 import { getHrefValidUrl, getCompanyTitle } from "./view-helper/view-helper";
 import { lang } from "../lib/lang";
 import { addVacancyInfoIfNeeded, isVacancyInfoNeeded } from "../../config/vacancy-config";
+import * as layoutActions from "../redux/actions/layout-actions";
+import { feedbackStudent } from "./partial/analytics/feedback";
 
 function applyOnClick(obj, onClickModeAction) {
-  console.log("obj", obj);
-  let url = obj.application_url;
-  if (url) {
-    url = getHrefValidUrl(url);
-    window.open(url, "_blank");
+
+  const doApply = () => {
+    let url = obj.application_url;
+    if (url) {
+      url = getHrefValidUrl(url);
+      window.open(url, "_blank");
+    }
+    if (onClickModeAction) {
+      onClickModeAction();
+    }
   }
-  if (onClickModeAction) {
-    onClickModeAction();
+
+  if (isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)) {
+    layoutActions.loadingBlockLoader();
+    var query = `query{resume_drops_limit(user_id:${getAuthUser().ID}, is_job_apply:1)}`;
+    getAxiosGraphQLQuery(query).then(res => {
+      layoutActions.storeHideBlockLoader();
+      let jobApplyLimit = res.data.data.resume_drops_limit;
+      if (jobApplyLimit == null) {
+        doApply();
+      } else {
+        layoutActions.customBlockLoader("We'd welcome your feedback", null, null, null, false, <div>{feedbackStudent("apply for more job")}</div>)
+      }
+    });
+  } else {
+    doApply();
   }
 }
 

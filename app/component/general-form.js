@@ -154,7 +154,9 @@ class GeneralForm extends React.Component {
   render() {
     var form = (
       <Form
-        className="form-row"
+        className={"form-row " + this.props.formClassName}
+        headerClassName={this.props.headerClassName}
+        itemClassName={this.props.itemClassName}
         items={this.formItem}
         onSubmit={this.formOnSubmit}
         submitText={`${this.props.edit ? lang("Edit") : lang("Add")} ${this.props.entity_singular
@@ -174,6 +176,9 @@ class GeneralForm extends React.Component {
 }
 
 GeneralForm.propTypes = {
+  headerClassName: PropTypes.string,
+  itemClassName: PropTypes.string,
+  formClassName: PropTypes.string,
   entity: PropTypes.string.isRequired,
   entity_singular: PropTypes.string.isRequired,
   formItem: PropTypes.array.isRequired,
@@ -239,6 +244,9 @@ export default class GeneralFormPage extends React.Component {
   getAddForm() {
     return (
       <GeneralForm
+        headerClassName={this.props.headerClassName}
+        itemClassName={this.props.itemClassName}
+        formClassName={this.props.formClassName}
         emptyMessage={this.props.emptyMessage}
         entity={this.props.entity}
         entity_singular={this.props.entity_singular}
@@ -255,6 +263,9 @@ export default class GeneralFormPage extends React.Component {
   addPopup() {
     const generateForm = formItem => {
       layoutActions.storeUpdateFocusCard(`${lang("Add")} ${this.Entity}`, GeneralForm, {
+        headerClassName: this.props.headerClassName,
+        itemClassName: this.props.itemClassName,
+        formClassName: this.props.formClassName,
         emptyMessage: this.props.emptyMessage,
         discardDiff: this.props.discardDiff,
         forceDiff: this.props.forceDiff,
@@ -292,6 +303,9 @@ export default class GeneralFormPage extends React.Component {
           `${lang("Editing")} ${this.Entity} #${id}`,
           GeneralForm,
           {
+            headerClassName: this.props.headerClassName,
+            itemClassName: this.props.itemClassName,
+            formClassName: this.props.formClassName,
             emptyMessage: this.props.emptyMessage,
             discardDiff: this.props.discardDiff,
             forceDiff: this.props.forceDiff,
@@ -589,6 +603,9 @@ export default class GeneralFormPage extends React.Component {
 }
 
 GeneralFormPage.propTypes = {
+  itemClassName: PropTypes.string,
+  headerClassName: PropTypes.string,
+  formClassName: PropTypes.string,
   getExtraEditData: PropTypes.func,
   searchFormContentRight: PropTypes.object,
   searchFormContentBottom: PropTypes.object,
@@ -667,6 +684,9 @@ export const openEditPopup = function (
     `${lang("Editing")} ${entity_singular} #${id}`,
     GeneralForm,
     {
+      headerClassName: this.props.headerClassName,
+      itemClassName: this.props.itemClassName,
+      formClassName: this.props.formClassName,
       emptyMessage: this.props.emptyMessage,
       forceDiff: [],
       dicardDiff: [],
