@@ -16,6 +16,6 @@ REGISTRATION FIELD
 
 NEW TABLES
 ---------
-- single_input
 - multi_input
+- global_dataset
 - global_dataset_item
