@@ -59,6 +59,8 @@ const rejectPromiseError = function (responseObj, errMes) {
 
 // Add a response interceptor
 axios.interceptors.response.use(response => {
+	console.log("HERE0", response);
+
 	//graphql can return error in response as well
 	var retErr = null;
 	if (response.config.url == graphQLUrl && response.data.errors) {
@@ -77,6 +79,8 @@ axios.interceptors.response.use(response => {
 	return response;
 
 }, error => {
+	console.log("HERE1", error);
+	console.log("HERE1", error.response.data);
 	var retErr = null;
 	try {
 		// error in query -- getAxiosGraphQLQuery
@@ -100,6 +104,10 @@ axios.interceptors.response.use(response => {
 		}
 
 		retErr = `[Server Error] ${retErr}`;
+	}
+
+	if (!retErr) {
+		retErr = error.response.data.toString();
 	}
 
 	if (retErr !== null) {

@@ -235,6 +235,10 @@ export default class GeneralFormPage extends React.Component {
     }
     // this is how to update the child component use state keyy
     // damnnn
+    this.reloadList();
+  }
+
+  reloadList() {
     this.setState(prevState => {
       return { key: prevState.key + 1 };
     });
@@ -419,6 +423,9 @@ export default class GeneralFormPage extends React.Component {
       if (!this.props.noMutation || (this.props.canEdit && this.props.canDelete)) {
         action = (
           <td className="text-right">
+            {!this.props.customAction ? null :
+              this.props.customAction({ id: d.ID, actionClass: actionClass, extra: extra})
+            }
             {editAct}
             {" | "}
             {delAct}
@@ -637,6 +644,7 @@ GeneralFormPage.propTypes = {
   forceDiff: PropTypes.array, // by default during edit, if there is no changes the param will not be sent to backend
   acceptEmpty: PropTypes.array, // for edit, accept empty value.. used in auditorium
   actionFirst: PropTypes.bool,
+  customAction: PropTypes.any,
   noMutation: PropTypes.bool, // disable add, edit and delete
   canEdit: PropTypes.bool, // bypass noMutation
   canDelete: PropTypes.bool, // bypass noMutation
@@ -653,6 +661,7 @@ GeneralFormPage.defaultProps = {
   contentBelowTitle: null,
   searchFormItem: null,
   actionFirst: false,
+  customAction: null,
   noMutation: false,
   canEdit: false,
   canDelete: false,

@@ -115,6 +115,7 @@ const {
   // GraphQLNonNull
 } = require("graphql");
 const { generateId, makeSnakeCase } = require("../../helper/general-helper.js");
+const { GlobalDatasetExec } = require("../model/global-dataset-query.js");
 
 //------------------------------------------------------------------------------
 // START CREATE FIELDS
@@ -940,8 +941,9 @@ fields["add_global_dataset"] = {
     created_by: __.Int,
   },
   resolve(parentValue, arg, context, info) {
-    arg["source"] = `${makeSnakeCase(arg["name"])}_${arg["cf"]}_${generateId(6)}`;
-    arg["source"] = arg["source"].toLowerCase();
+    arg["source"] = GlobalDatasetExec.generateSourceFromName(arg["name"], arg["cf"])
+    // arg["source"] = `${makeSnakeCase(arg["name"])}_${arg["cf"]}_${generateId(6)}`;
+    // arg["source"] = arg["source"].toLowerCase();
     return DB.insert("global_dataset", arg).then(function (res) {
       return res;
     });

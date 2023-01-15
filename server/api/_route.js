@@ -20,6 +20,9 @@ const initializeAllRoute = function (app, root) {
       res.send(response);
     }
   };
+  const routeErrHandler = (res, error) => {
+    res.status(400).send(error);
+  };
 
   // -------------------------------------------------------------------
   const { TimePickerAPI } = require("./time-picker-api");
@@ -31,7 +34,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -46,7 +49,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -60,7 +63,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -74,7 +77,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -88,7 +91,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -102,7 +105,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -116,7 +119,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -130,7 +133,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        routeErrHandler(res, error);
       });
   });
 
@@ -216,7 +219,7 @@ const initializeAllRoute = function (app, root) {
             routeResHandler(res, response);
           })
           .catch(error => {
-            routeResHandler(res, error);
+            routeErrHandler(res, error);
           });
         break;
       case "delete-room":
@@ -226,11 +229,11 @@ const initializeAllRoute = function (app, root) {
             routeResHandler(res, response);
           })
           .catch(error => {
-            routeResHandler(res, error);
+            routeErrHandler(res, error);
           });
         break;
       default:
-        routeResHandler(res, "Action Not Valid");
+        routeErrHandler(res, "Action Not Valid");
         break;
     }
   });

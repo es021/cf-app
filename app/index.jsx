@@ -72,6 +72,8 @@ let scss = [
   "label",
   "choose-cf",
   "banner-float",
+  // "spacing",
+  "tailwind",
 
   // kena letak bawah skali
   // "custom-CIMB",

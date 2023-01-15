@@ -1,34 +1,36 @@
 import React, { PropTypes } from 'react';
-import { ButtonLink } from '../component/buttons.jsx';
 import GeneralFormPage from '../component/general-form';
 import * as layoutActions from '../redux/actions/layout-actions';
-import UserPopup from './partial/popup/user-popup';
-
 //importing for list
-import List from '../component/list';
 import { getAxiosGraphQLQuery, graphql, graphqlAttr, postRequest } from '../../helper/api-helper';
-import { User, UserMeta, CFS, CFSMeta } from '../../config/db-config';
-import { Time } from '../lib/time';
-import { createUserTitle } from './users';
-import { createCompanyTitle } from './admin-company';
 import Form, { toggleSubmit } from '../component/form.js';
-import { SiteUrl, AppPath } from '../../config/app-config.js';
-import { NavLink } from 'react-router-dom';
 import { getAuthUser, getCF, isRoleAdmin, isRoleOrganizer } from '../redux/actions/auth-actions.jsx';
 import AdminDatasetItemList from './admin-dataset-item-list.jsx';
+import { lang } from "../lib/lang";
+import { topRightCloseButton } from './view-helper/view-helper';
+import { SiteUrl } from '../../config/app-config.js';
 
 
 export default class AdminDataset extends React.Component {
     constructor(props) {
         super(props);
         this.formOnSubmit = this.formOnSubmit.bind(this);
+
         this.state = {
+            generalFormPageKey: 0,
             error: null,
             disableSubmit: false,
             success: null,
         };
     }
     componentWillMount() {
+        this.getExtraEditData = (d) => {
+            let r = {};
+            r["data-name"] = d.name;
+            r["data-cf"] = d.cf;
+            r["data-source"] = d.source;
+            return r;
+        }
         this.offset = 10;
         this.addFormItem = [
             {
@@ -150,6 +152,76 @@ export default class AdminDataset extends React.Component {
             })
     }
 
+    getCustomAction({ id, actionClass, extra }) {
+        return <span><a
+            className={actionClass} id={id} {...extra}
+            onClick={(e) => {
+                const id = e.currentTarget.id;
+                let curElement = e.currentTarget;
+                let originalData = curElement.dataset;
+                // console.log("curElement.dataset", curElement.dataset)
+                layoutActions.customPopup(
+                    <div>
+                        {topRightCloseButton(() => {
+                            layoutActions.storeHideBlockLoader();
+                        })}
+                        <div className="text-left text-3xl pb-8">
+                            {lang("Duplicating dataset")} <b>{originalData.name}</b>
+                        </div>
+                        <Form
+                            className="form-row"
+                            items={[
+                                {
+                                    label: "New Dataset Name",
+                                    name: "name",
+                                    type: "text",
+                                    required: true,
+                                }
+                            ]}
+                            headerClassName="text-right"
+                            defaultValues={{ name: `${originalData.name} (Copy)` }}
+                            onSubmit={(d) => {
+                                console.log(d)
+                                let name = d.name;
+                                layoutActions.loadingBlockLoader();
+                                postRequest(SiteUrl + "/dataset-datapoint/duplicate-dataset",
+                                    {
+                                        name: name,
+                                        from_source: originalData.source,
+                                        cf: getCF(),
+                                        created_by : getAuthUser().ID
+                                    }
+                                ).then(res => {
+                                    layoutActions.storeHideBlockLoader();
+                                    layoutActions.customPopupSmall(<div>
+                                        <h3 className="font-bold text-green-500">Success</h3>
+                                        Dataset successfully duplicated.<br></br>
+                                        Please refresh this page.
+                                        <div className="pt-8">
+                                            <button className="btn btn-primary" onClick={() => {
+                                                layoutActions.closePopup();
+                                                location.reload();
+                                            }}>Refresh Page</button>
+                                        </div>
+                                    </div>)
+                                    // this.setState((prev) => {
+                                    //     return { generalFormPageKey: prev.generalFormPageKey + 1 }
+                                    // })
+                                }).catch(err => {
+                                    layoutActions.storeHideBlockLoader();
+                                    alert(err.toString());
+                                })
+                            }}
+                            submitText="Duplicate"
+                        ></Form>
+
+                    </div>
+                );
+            }}>
+            {lang("Duplicate")}
+        </a>{" | "}</span>;
+    }
+
     render() {
         document.setTitle("Datapoint & Dataset");
         return (<div>
@@ -168,10 +240,13 @@ export default class AdminDataset extends React.Component {
             <br></br>
             <h3>Dataset</h3>
             <GeneralFormPage
+                key={this.state.generalFormPageKey}
                 formWillSubmit={this.formEditWillSubmit}
                 dataOffset={this.offset}
                 noMutation={true}
+                customAction={this.getCustomAction}
                 canEdit={true}
+                getExtraEditData={this.getExtraEditData}
                 canDelete={true}
                 getFormItem={this.getFormItem}
                 getEditFormDefault={this.getEditFormDefault}

@@ -10,6 +10,15 @@ import { InterestedButton } from "../../component/interested.jsx";
 import { lang } from "../../lib/lang";
 import { addEventLog } from "../../redux/actions/other-actions";
 
+export function topRightCloseButton(onClick) {
+  return <i
+    onClick={() => {
+      onClick();
+    }}
+    className="fa fa-close float-top-right clickable"
+    style={{ color: 'red', fontSize: '20px' }}>
+  </i>
+}
 export function getHtmlView(txt) {
   if (typeof txt === "string") {
     txt = txt.replaceAll("\n", "<br>");

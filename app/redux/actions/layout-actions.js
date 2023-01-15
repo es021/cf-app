@@ -43,6 +43,7 @@ export function loadingBlockLoader(m) {
     updateBlockLoader(m, null, null, null, null);
 }
 
+
 export function successBlockLoader(m) {
     updateBlockLoader(null, m, null, null, null);
 }
@@ -59,6 +60,15 @@ export function confirmBlockLoader(title, yesHandler, noHandler) {
     }, null);
 }
 
+export function closePopup() {
+    storeHideBlockLoader();
+}
+export function customPopup(view) {
+    customBlockLoader(null, null, null, null, true, view);
+}
+export function customPopupSmall(view) {
+    customBlockLoader(null, null, null, null, true, view, true);
+}
 export function customBlockLoader(title, actionText, actionHandler, href, noClose = false, customView = null, small = false) {
     updateBlockLoader(null, null, null, null, {
         title: title,

@@ -1,6 +1,11 @@
 const DB = require("./DB.js");
-
+const { generateId, makeSnakeCase } = require("../../helper/general-helper");
 class GlobalDatasetExec {
+	generateSourceFromName(name, cf) {
+		let s = `${makeSnakeCase(name)}_${cf}_${generateId(6)}`;
+		s = s.toLowerCase();
+		return s
+	}
 	query(param) {
 		param = DB.sanitize(param);
 

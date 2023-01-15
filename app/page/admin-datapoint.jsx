@@ -567,6 +567,7 @@ export default class AdminDatapoint extends React.Component {
                         key: "type",
                         index: index,
                         onChange: (v) => {
+                            this.resetCheckbox(index);
                             this.updateConfig(index, "type", v)
                         },
                         dataset: [
@@ -738,6 +739,16 @@ export default class AdminDatapoint extends React.Component {
                     : null}
             </div>
         </div>;
+    }
+    resetCheckbox(index) {
+        this.updateConfig(index, "has_register", false)
+        this.updateConfig(index, "has_profile", false)
+        this.updateConfig(index, "has_popup", false)
+        this.updateConfig(index, "has_card", false)
+        this.updateConfig(index, "has_filter", false)
+        this.setState((prevState) => {
+            return { viewKey: prevState.viewKey + 1 }
+        })
     }
     inputCheckbox({
         label, sublabel, index, key, onChange, defaultChecked
