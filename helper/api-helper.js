@@ -2,7 +2,8 @@ const axios = require('axios');
 const https = require('https');
 const {
 	AppConfig,
-	StaticUrl
+	StaticUrl,
+	isProd
 } = require('../config/app-config');
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
@@ -79,8 +80,6 @@ axios.interceptors.response.use(response => {
 	return response;
 
 }, error => {
-	console.log("HERE1", error);
-	console.log("HERE1", error.response.data);
 	var retErr = null;
 	try {
 		// error in query -- getAxiosGraphQLQuery
@@ -106,7 +105,7 @@ axios.interceptors.response.use(response => {
 		retErr = `[Server Error] ${retErr}`;
 	}
 
-	if (!retErr) {
+	if (!isProd && !retErr) {
 		retErr = error.response.data.toString();
 	}
 

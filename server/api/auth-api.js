@@ -615,11 +615,6 @@ class AuthAPI {
 
 	//raw form from sign up page
 	register(user) {
-		// console.log("user", user)
-		// console.log("user", user)
-		// console.log("user", user)
-		// console.log("user", user)
-		//separate userdata and usermeta
 
 		//get cf
 		var cf = user[User.CF];
@@ -674,26 +669,37 @@ class AuthAPI {
 
 		};
 
-		const addToSingleInput = (data, user, key, overrideKey) => {
-			// console.log("--------------------------------")
-			// console.log("addToSingleInput key", key)
+		// const addToSingleInput = (data, user, key, overrideKey) => {
+		// 	// console.log("--------------------------------")
+		// 	// console.log("addToSingleInput key", key)
+		// 	if(Array.isArray(data)){
+		// 		DB.insertMulti({
+		// 			table: SingleInput.TABLE,
+		// 			dataRow : data,
+		// 			isIgnore : true,
+		// 		}).then(function (res) {
+		// 			return res;
+		// 		  });
+		// 	}
 
-			let userId = data[User.ID];
-			var q = `mutation{
-                add_single(key_input:"${key}", 
-                entity:"user", 
-                entity_id:${userId}
-                val:"${overrideKey ? user[overrideKey] : user[key]}"
-				) { ID }}`;
-			// // console.log("--------------------------------")
-			// // console.log(q);
-			// // console.log("--------------------------------")
-			getAxiosGraphQLQuery(q);
-		};
+		// 	let userId = data[User.ID];
+		// 	var q = `mutation{
+		//         add_single(key_input:"${key}", 
+		//         entity:"user", 
+		//         entity_id:${userId}
+		//         val:"${overrideKey ? user[overrideKey] : user[key]}"
+		// 		) { ID }}`;
+		// 	// // console.log("--------------------------------")
+		// 	// // console.log(q);
+		// 	// // console.log("--------------------------------")
+		// 	getAxiosGraphQLQuery(q);
+		// };
 
 		const successInterceptor = data => {
 			let userId = data[User.ID];
 
+
+			let toInsertData = [];
 			for (let keyUser in user) {
 				if ([
 					"ID",
@@ -704,29 +710,25 @@ class AuthAPI {
 					"user_status",
 					"cf"
 				].indexOf(keyUser) <= -1) {
-					addToSingleInput(data, user, keyUser);
+					toInsertData.push({
+						key_input: keyUser,
+						entity: "user",
+						entity_id: userId,
+						val: user[keyUser],
+					})
 				}
 			}
+			if (toInsertData.length > 0) {
+				DB.insertMulti({
+					table: "single_input",
+					dataRow: toInsertData,
+					isIgnore: true,
+				}).then(function (res) {
+					return res;
+				});
+			}
 
-			// for (let item of CustomRegistrationConfig) {
-			// 	if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
-			// 		addToSingleInput(data, user, item.name);
-			// 	}
-			// }
-			// for (let item of CustomRegistrationTermsAndConditionConfig) {
-			// 	if (item.isOnlyInCf && item.isOnlyInCf(cf)) {
-			// 		addToSingleInput(data, user, item.name);
-			// 	}
-			// }
 
-			// // add first name and last name at single_input
-			// addToSingleInput(data, user, "level_study_utm21");
-			// addToSingleInput(data, user, "faculty_utm21");
-			// addToSingleInput(data, user, Single.first_name);
-			// addToSingleInput(data, user, Single.last_name);
-			// addToSingleInput(data, user, Single.phone_number);
-			// addToSingleInput(data, user, Single.kpt); //@kpt_validation
-			// addToSingleInput(data, user, getIdUtmKey(cf), "id_utm"); //@id_utm_validation
 
 			// update cf
 			var cf_sql = `mutation{edit_user(ID:${userId}, cf:"${cf}") {cf}}`;
