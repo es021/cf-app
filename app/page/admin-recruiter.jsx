@@ -12,7 +12,8 @@ import { Time } from '../lib/time';
 import { createUserTitle } from './users';
 import { createCompanyTitle } from './admin-company';
 import { createRecruiter } from '../redux/actions/auth-actions.jsx';
-
+import { toastError } from "../../helper/general-helper"
+import { Loader } from '../component/loader.js';
 class CreateRecruiter extends React.Component {
     constructor(props) {
         super(props);
@@ -85,7 +86,11 @@ class CreateRecruiter extends React.Component {
             <b>Paste table here:</b><br></br>
             companyId   |   userName   |   email   |   firstName   |   password<br></br>
             <textarea style={{ width: "100%" }} ref={v => (this.text_create_recruiter = v)} rows="20"></textarea><br></br><br></br>
-            <button onClick={() => { this.onClickCreateRecruiter(true) }} className="btn btn-md btn-round-5 btn-blue-light">Preview</button><br></br><br></br>
+            <button onClick={() => {
+                // toastError("i12hjo 123o12j3912 3o123 nni1o23n 1;231 2i3o1;2 31i23o 123io123 1io23 1i2o")
+                this.onClickCreateRecruiter(true);
+            }}
+                className="btn btn-md btn-round-5 btn-blue-light">Preview</button><br></br><br></br>
             <div dangerouslySetInnerHTML={{ __html: this.state.preview }}></div>
             <button disabled={!this.state.preview} onClick={() => { this.onClickCreateRecruiter() }} className="btn btn-md btn-round-5 btn-green">Create Bundle</button>
         </div>
@@ -95,9 +100,31 @@ class CreateRecruiter extends React.Component {
 export default class RecruitersPage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            loading: true,
+            companies: [],
+        }
+    }
+
+    loadCompanies() {
+        var query = `query{
+            companies(order_by:"c.name asc"){
+              ID name
+            }
+          }`
+
+        return getAxiosGraphQLQuery(query)
+            .then((res) => {
+                var companies = res.data.data.companies.map((d, i) => {
+                    return { key: d.ID, label: d.name };
+                });
+                this.setState({ companies: companies, loading: false })
+            });
     }
 
     componentWillMount() {
+        this.loadCompanies();
         this.offset = 5;
         this.tableHeader = <thead>
             <tr>
@@ -129,6 +156,10 @@ export default class RecruitersPage extends React.Component {
             }
         };
 
+        this.formWillSubmit = (d, edit) => {
+            d[User.REC_COMPANY_ID] = Number.parseInt(d[UserMeta.REC_COMPANY]);
+            return d;
+        };
 
         this.loadData = (page, offset) => {
             return getAxiosGraphQLQuery(`
@@ -163,7 +194,10 @@ export default class RecruitersPage extends React.Component {
                     if (d.rec_company == -1) {
                         row.push(<td><span className="text-muted">Not Specified</span></td>);
                     } else {
-                        row.push(<td>{createCompanyTitle(d.company)}</td>);
+                        row.push(<td>
+                            <div>{createCompanyTitle(d.company)}</div>
+                            <div className="text-muted text-sm"># {d.rec_company}</div>
+                        </td>);
                     }
                 } else {
                     row.push(<td>{d[key]}</td>);
@@ -177,42 +211,62 @@ export default class RecruitersPage extends React.Component {
         }
 
 
+        this.getFormItem = (edit) => {
+            var ret = [{ header: "Recruiter Form" }];
+            //for create only
+            ret.push(...[{
+                name: User.ID,
+                type: "number",
+                required: true,
+                hidden: true,
+                disabled: true
+            },
+            {
+                label: "Select Company For This Recruiter",
+                name: UserMeta.REC_COMPANY,
+                type: "select",
+                required: true,
+                data: Array({ key: -1, label: "No Company" }, ...this.state.companies)
+            }]);
+
+            return ret;
+        }
         // props for edit
         // create form add new default
-        this.getFormItemAsync = (edit) => {
-            var query = `query{
-                companies(order_by:"c.name asc"){
-                  ID name
-                }
-              }`
+        // this.getFormItemAsync = (edit) => {
+        //     var query = `query{
+        //         companies(order_by:"c.name asc"){
+        //           ID name
+        //         }
+        //       }`
 
-            return getAxiosGraphQLQuery(query)
-                .then((res) => {
-                    var companies = res.data.data.companies.map((d, i) => {
-                        return { key: d.ID, label: d.name };
-                    });
+        //     return getAxiosGraphQLQuery(query)
+        //         .then((res) => {
+        //             var companies = res.data.data.companies.map((d, i) => {
+        //                 return { key: d.ID, label: d.name };
+        //             });
 
 
-                    var ret = [{ header: "Recruiter Form" }];
-                    //for create only
-                    ret.push(...[{
-                        name: User.ID,
-                        type: "number",
-                        required: true,
-                        hidden: true,
-                        disabled: true
-                    },
-                    {
-                        label: "Select Company For This Recruiter",
-                        name: UserMeta.REC_COMPANY,
-                        type: "select",
-                        required: true,
-                        data: Array({ key: -1, label: "No Company" }, ...companies)
-                    }]);
+        //             var ret = [{ header: "Recruiter Form" }];
+        //             //for create only
+        //             ret.push(...[{
+        //                 name: User.ID,
+        //                 type: "number",
+        //                 required: true,
+        //                 hidden: true,
+        //                 disabled: true
+        //             },
+        //             {
+        //                 label: "Select Company For This Recruiter",
+        //                 name: UserMeta.REC_COMPANY,
+        //                 type: "select",
+        //                 required: true,
+        //                 data: Array({ key: -1, label: "No Company" }, ...this.state.companies)
+        //             }]);
 
-                    return ret;
-                });
-        }
+        //             return ret;
+        //         });
+        // }
 
 
         this.getEditFormDefault = (ID) => {
@@ -233,6 +287,9 @@ export default class RecruitersPage extends React.Component {
 
     render() {
         document.setTitle("Recruiters");
+        if (this.state.loading) {
+            return <Loader />;
+        }
         return (<div><h3>Recruiters</h3>
             <button className="btn btn-sm btn-round-5 btn-green" onClick={() => { this.openCreateRecPopup() }}>Create New Recruiter</button>
             <GeneralFormPage
@@ -240,10 +297,11 @@ export default class RecruitersPage extends React.Component {
                 noMutation={true}
                 canEdit={true}
                 dataOffset={this.offset}
-                getFormItemAsync={this.getFormItemAsync}
+                getFormItem={this.getFormItem}
                 getEditFormDefault={this.getEditFormDefault}
                 entity_singular="Recruiter"
                 entity="user"
+                formWillSubmit={this.formWillSubmit}
                 searchFormItem={this.searchFormItem}
                 searchFormOnSubmit={this.searchFormOnSubmit}
                 tableHeader={this.tableHeader}

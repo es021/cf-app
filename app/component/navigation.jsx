@@ -67,7 +67,8 @@ import {
   getCF_hasGuideUrl,
   isCfFeatureOff,
   getCfCustomMeta,
-  isCfFeatureOn
+  isCfFeatureOn,
+  getUserId
 } from "../redux/actions/auth-actions";
 import { NotificationFeed } from "../page/notifications";
 import { ManageHallGallery } from "../page/partial/hall/hall-gallery";
@@ -99,8 +100,10 @@ import AdminCfQuery from "../page/admin-cf-query";
 import AdminQrCheckIn from "../page/admin-qr-check-in";
 import { MyQrCode } from "../page/my-qr-code";
 import AdminDatapointDataset from "../page/admin-datapoint-dataset";
+import QrScan from "../page/qr-scan";
+import HybridEventDashboard from "../page/hybrid-event-dashboard";
 
-const QR_CHECK_IN_LABEL = "My QR Code";
+const MY_QR_CODE_LABEL = "My QR Code";
 
 function getHomeComponent(COMING_SOON) {
   var homeComponent = null;
@@ -213,6 +216,18 @@ function getMenuItem(COMING_SOON) {
       disabled: !isRoleAdmin()
     },
     {
+      url: "/qr-scan/:code",
+      label: "Qr Scan",
+      icon: "slack",
+      component: QrScan,
+      routeOnly: true,
+      bar_app: true,
+      bar_auth: true,
+      hd_app: true,
+      hd_auth: true,
+      disabled: false
+    },
+    {
       url: "/qr-check-in/:code",
       label: "Qr Check In",
       icon: "slack",
@@ -285,6 +300,17 @@ function getMenuItem(COMING_SOON) {
       hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
       disabled: !isRoleOrganizer()
+    },
+    {
+      url: "/hybrid-event-dashboard",
+      label: lang("Hybrid Event Dasboard"),
+      icon: "qrcode",
+      component: HybridEventDashboard,
+      bar_app: true,
+      bar_auth: false,
+      hd_app: isHasLeftBar() ? false : true,
+      hd_auth: false,
+      disabled: ((!isRoleAdmin() && !isRoleOrganizer()) || !isCfFeatureOn(CFSMeta.FEATURE_HYBRID_EVENT_DASHBOARD)),
     },
     {
       url: "/participant-listing",
@@ -419,7 +445,7 @@ function getMenuItem(COMING_SOON) {
     },
     {
       url: null,
-      label: QR_CHECK_IN_LABEL,
+      label: MY_QR_CODE_LABEL,
       icon: "qrcode",
       component: homeComponent,
       id: "qr_check_in",
@@ -1071,16 +1097,18 @@ export function getBar(
       if (is_popup == "1") {
         let component = null;
         let popupClassName = null;
+        let props = {};
         if (label == "Notification") {
           popupClassName = "no-margin";
           component = NotificationFeed;
         }
-        if (label == QR_CHECK_IN_LABEL) {
+        if (label == MY_QR_CODE_LABEL) {
           popupClassName = "no-margin";
           component = MyQrCode;
+          props["user_id"] = getUserId();
         }
         if (component != null) {
-          layoutActions.storeUpdateFocusCard(label, component, {}, popupClassName);
+          layoutActions.storeUpdateFocusCard(label, component, props, popupClassName);
         } else {
           alert("popup component is null");
         }

@@ -20,9 +20,9 @@ const initializeAllRoute = function (app, root) {
       res.send(response);
     }
   };
-  // const routeResHandler = (res, error) => {
-  //   res.status(400).send(error);
-  // };
+  const returnError = (req, res, error) => {
+    res.status(400).send(req.url + " - " + error.toString());
+  };
 
   // -------------------------------------------------------------------
   const { TimePickerAPI } = require("./time-picker-api");
@@ -34,7 +34,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -49,7 +49,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -63,7 +63,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -77,7 +77,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -91,7 +91,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -105,7 +105,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -119,7 +119,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 
@@ -133,7 +133,7 @@ const initializeAllRoute = function (app, root) {
         routeResHandler(res, response);
       })
       .catch(error => {
-        routeResHandler(res, error);
+        returnError(req, res, error);
       });
   });
 

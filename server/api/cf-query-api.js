@@ -12,11 +12,12 @@ const CfQueryType = {
                 (${DB.selectUserName("u.ID")}) as user_name,
                 (${DB.selectDateTime("qc.created_at")}) as scan_time,
                 (${DB.selectUserName("qc.logged_in_user_id")}) as scanned_by
-                FROM  wp_cf_users u, qr_check_in qc, qr_img qi
+                FROM  wp_cf_users u, qr_scan qc, qr_img qi
                 WHERE 1=1 
                 AND qi.cf = ?
                 AND qi.user_id = u.ID
                 AND qc.qr_id = qi.ID
+                AND qc.purpose = "check-in"
                 ORDER BY qc.created_at DESC
             `;
             return DB.prepare(sql, [cf]);

@@ -1,7 +1,7 @@
 import * as layoutActions from "../../redux/actions/layout-actions";
 import EventPopup from "../partial/popup/event-popup";
 import { NavLink } from "react-router-dom";
-import { AppPath, IsNewEventCard } from "../../../config/app-config"
+import { AppPath, IsNewEventCard, RootPath } from "../../../config/app-config"
 import { EventEnum } from "../../../config/db-config"
 import React from "react";
 import { isRoleOrganizer, isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
@@ -9,6 +9,26 @@ import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
 import { lang } from "../../lib/lang";
 import { addEventLog } from "../../redux/actions/other-actions";
+
+export function getRedirectFrom(_this) {
+  const defaultPath = `${RootPath}/app/`;
+  try {
+    console.log("redirect1 this.props.location.state.from", _this.props.location.state.from);
+  } catch (err) { console.log("redirect this.props.location.state.from", err); }
+  var from = {};
+  if (typeof _this.props.location !== "undefined" && typeof _this.props.location.state !== "undefined") {
+    from = _this.props.location.state.from;
+  } else {
+    from = { pathname: defaultPath };
+  }
+  if (from.pathname == `${RootPath}/app/logout`) {
+    from.pathname = defaultPath;
+  }
+  return from;
+}
+export function getRedirectLocation(_this, redirect) {
+  return { state: { from: redirect } };
+}
 
 export function topRightCloseButton(onClick) {
   return <i
@@ -76,7 +96,6 @@ export function getEventLocation(d) {
     {location}
   </small>
 }
-
 
 export function getEventAction(d, { isPopup, companyName, isRowLayout = false } = {}) {
   let className = "";

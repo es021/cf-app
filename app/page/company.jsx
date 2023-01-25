@@ -19,6 +19,7 @@ import {
   isCfFeatureOn,
   getCfCustomMeta,
   getCF,
+  isRoleOrganizer,
 } from "../redux/actions/auth-actions";
 import { LogEnum, DocLinkEnum, CFSMeta } from "../../config/db-config";
 import * as activityActions from "../redux/actions/activity-actions";
@@ -54,6 +55,8 @@ import { EventList } from "./event-list";
 import HallRecruiterJobPosts from "./partial/hall-recruiter/hall-recruiter-job-posts";
 import { lang } from "../lib/lang";
 import RestrictedPage from "./restricted";
+import { MyQrCode } from "./my-qr-code";
+import { isFileTypeImage } from "../component/uploader";
 
 export default class CompanyPage extends Component {
   constructor(props) {
@@ -70,7 +73,7 @@ export default class CompanyPage extends Component {
       isRestricted: false,
     };
 
-    this.SECTION_MAX_HEIGHT = 143;
+    this.SECTION_MAX_HEIGHT = 500;
     this.SECTION_MARGIN_BOTTOM = "60px";
     this.SECTION_TITLE_MARGIN_BOTTOM = "20px";
     this.ID = null;
@@ -614,6 +617,9 @@ export default class CompanyPage extends Component {
       }
     </div>
   }
+  isImage(url) {
+    return isFileTypeImage(url);
+  }
   isUrlYoutube(url) {
     return (url.containText("youtube") && url.containText("?v=")) || url.containText("youtu.be");
   }
@@ -659,7 +665,14 @@ export default class CompanyPage extends Component {
       if (this.isGallery(d)) {
         count++;
         let item = null;
-        if (d.type == DocLinkEnum.TYPE_DOC) {
+        if (this.isImage(d.url)) {
+          item = <a href={d.url} target="_blank">
+            <div className="clickable" style={{
+              height: '200px',
+              backgroundImage: "url(" + d.url + ")", backgroundPosition: "center center", backgroundSize: "cover"
+            }}></div>
+          </a>
+        } else if (d.type == DocLinkEnum.TYPE_DOC) {
           item = <iframe src={d.url} frameBorder="0" />;
         } else if (this.isUrlYoutube(d.url)) {
           item = getYoutubeIframe(d.url);
@@ -742,6 +755,16 @@ export default class CompanyPage extends Component {
         {list}
       </div>
     );
+  }
+  getQrCode() {
+    if (this.isRecThisCompany() || isRoleOrganizer()) {
+      return <div className="cp-quick-link">
+        <b><i className="fa fa-qrcode left"></i>{lang("Qr Code")}</b><br></br>
+        <div className="text-center">
+          <MyQrCode company_id={this.ID} />
+        </div>
+      </div>
+    }
   }
   getQuickLink(data) {
     let doc_links = data.doc_links;
@@ -840,14 +863,30 @@ export default class CompanyPage extends Component {
           <div className="container-fluid cp-body" >
             <div className="row">
               <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
-                {this.getAboutUs(data)}
+                <div style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                  {this.getAboutUs(data)}
+                </div>
+                <div style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                  {this.getEvent(data)}
+                </div>
+                {isCfFeatureOff(CFSMeta.FEATURE_STUDENT_JOB_POST) || isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST)
+                  ? null
+                  : <div style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                    {this.getJobPost(data)}
+                  </div>
+                }
+                <div style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+                  {this.getGallery(data)}
+                </div>
               </div>
               <div className="col-md-4 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getTag(data)}
                 <div style={{ height: "25px" }}></div>
                 {this.getQuickLink(data)}
+                <div style={{ height: "25px" }}></div>
+                {this.getQrCode()}
               </div>
-              <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
+              {/* <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getEvent(data)}
               </div>
               {isCfFeatureOff(CFSMeta.FEATURE_STUDENT_JOB_POST) || isCfFeatureOff(CFSMeta.FEATURE_RECRUITER_JOB_POST)
@@ -858,7 +897,7 @@ export default class CompanyPage extends Component {
               }
               <div className="col-md-8 no-padding-small" style={{ marginBottom: this.SECTION_MARGIN_BOTTOM }}>
                 {this.getGallery(data)}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

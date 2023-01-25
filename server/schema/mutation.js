@@ -890,6 +890,7 @@ fields["edit_user"] = {
     // rec only
     company_id: __.Int,
     rec_position: __.String,
+    rec_company_id: __.Int,
     rec_company: __.String,
     wp_cf_capabilities: __.String,
   },

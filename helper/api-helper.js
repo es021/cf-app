@@ -7,7 +7,7 @@ const {
 } = require('../config/app-config');
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
-
+const { toast } = require("./general-helper");
 const IS_SERVER = typeof alert === "undefined";
 
 const getAgent = () => {
@@ -46,13 +46,15 @@ const rejectPromiseError = function (responseObj, errMes) {
 		//maybe log this error in db?
 		if (typeof alert !== "undefined") {
 			//in browser
-			alert(errMes);
+			toast({ text: errMes, type: "error", position: "bottom-center" })
+			// alert(errMes);
 		} else {
 			// in node server
 			console.error(errMes);
 		}
 
 		return Promise.reject(responseObj);
+		// return Promise.reject(errMes);
 	}
 
 	return false;
@@ -60,8 +62,6 @@ const rejectPromiseError = function (responseObj, errMes) {
 
 // Add a response interceptor
 axios.interceptors.response.use(response => {
-	console.log("HERE0", response);
-
 	//graphql can return error in response as well
 	var retErr = null;
 	if (response.config.url == graphQLUrl && response.data.errors) {

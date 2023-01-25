@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import List from "../component/list";
 import { getAxiosGraphQLQuery, postRequest } from "../../helper/api-helper";
 import { Time } from "../lib/time";
-import { getAuthUser, getCF, getCFObj } from "../redux/actions/auth-actions";
+import { getCF, getCFObj, getCompanyId, getUserId, isRoleRec, isRoleStudent } from "../redux/actions/auth-actions";
 import * as layoutAction from "../redux/actions/layout-actions";
 import ProfileCard, { createImageElement, PCType } from "../component/profile-card.jsx";
 import { NotificationsEnum, Prescreen, PrescreenEnum, CFSMeta } from "../../config/db-config";
@@ -11,6 +11,7 @@ import { ActivitySingle } from "./partial/notifications/activity-single";
 import { ImgConfig, AssetCustomUrl, SiteUrl, UploadUrl } from "../../config/app-config";
 import { AnnouncementSingle } from "./partial/notifications/announcement-single";
 import { Loader } from "../component/loader";
+import PropTypes from "prop-types";
 
 // import { emitHallActivity } from "../socket/socket-client";
 // import PropTypes from "prop-types";
@@ -22,7 +23,6 @@ import { Loader } from "../component/loader";
 export class MyQrCode extends React.Component {
   constructor(props) {
     super(props);
-    this.authUser = getAuthUser();
     this.cf = getCF();
     this.state = {
       data: null,
@@ -31,10 +31,17 @@ export class MyQrCode extends React.Component {
   }
 
   componentDidMount() {
-    postRequest(SiteUrl + "/qr/create-for-check-in",
-      { user_id: this.authUser.ID, cf: this.cf }
-    ).then(res => {
-      console.log("ReS", res);
+    let param = { cf: this.cf };
+    let url = ""
+    if (this.props.user_id) {
+      url = "/qr/create-for-user"
+      param["user_id"] = this.props.user_id;
+    }
+    if (this.props.company_id) {
+      url = "/qr/create-for-company"
+      param["company_id"] = this.props.company_id;
+    }
+    postRequest(SiteUrl + url, param).then(res => {
       this.setState({ data: res.data, loading: false, });
     }).catch(err => {
       this.setState({ error: err.toString(), loading: false, });
@@ -52,24 +59,39 @@ export class MyQrCode extends React.Component {
     link.remove();
   }
 
+
+
   render() {
     let v = null;
     if (this.state.loading) {
       v = <Loader />
     } else {
-      v = <div style={{ padding: '40px 0px' }}>
-        <img src={UploadUrl + "/" + this.state.data.url} height="300px" />
-        <div>
-          <br></br>
-          Show this QR code when you arrived at the physical event.
-          <br></br>
-          <br></br>
+      v = <div style={{ padding: this.props.user_id ? '40px 0px' : '' }}>
+        {/* <div className="pb-4">
+          {this.state.data.scan_url}
+          <i className="fa fa-copy ml-3 clickable text-blue-500" onClick={() => {
+            let c = this.state.data.scan_url;
+            navigator.clipboard.writeText(c);
+          }}></i>
+        </div> */}
+        <img src={UploadUrl + "/" + this.state.data.url} height="300px" className="rounded-3xl" />
+
+        <div className={`${this.props.user_id ? 'pt-6' : 'pt-1 pb-3'} px-10`}>
           <a href={UploadUrl + "/" + this.state.data.url} target="_blank" download>
             <button className="btn btn-lg btn-round-10 btn-green btn-bold">
               Download
             </button>
           </a>
+
           <br></br>
+          {this.props.user_id
+            ? <div className="text-left pt-10 text-gray-500">
+              ** Show this QR code to check in at the physical event. **
+                <br></br>
+                ** You can also let the exhibitors scan your QR code to share your profile and resume with them. **
+              </div>
+            : null
+          }
         </div>
       </div>
     }
@@ -81,4 +103,8 @@ export class MyQrCode extends React.Component {
   }
 }
 
-MyQrCode.propTypes = {};
+
+MyQrCode.propTypes = {
+  company_id: PropTypes.number,
+  user_id: PropTypes.number,
+};

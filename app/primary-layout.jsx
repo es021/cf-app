@@ -42,11 +42,11 @@ import BlockLoader from "./component/block-loader.jsx";
 import { initSocket, socketOn } from "./socket/socket-client";
 import { BOTH } from '../config/socket-config';
 
-
 import * as hallAction from "./redux/actions/hall-actions";
 import { setCurrentCfLocalStorage } from "./redux/reducer/auth-reducer";
 
 import ValidationStudentCompletedProfile from "./component/validation-student-completed-profile";
+
 
 
 //state is from redux reducer

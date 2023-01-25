@@ -274,6 +274,9 @@ class UserQuery {
 		var id_condition =
 			typeof params.ID !== "undefined" ? `u.ID = ${params.ID}` : `1=1`;
 
+		var rec_company_id_condition =
+			typeof params.rec_company_id !== "undefined" ? `u.rec_company_id = ${params.rec_company_id}` : `1=1`;
+
 		var email_condition =
 			typeof params.user_email !== "undefined" ?
 				`u.user_email = '${params.user_email}'` :
@@ -401,7 +404,7 @@ class UserQuery {
 		// @kpt_validation
 		var sql = `SELECT u.* ${meta_sel} ${is_kpt_jpa_sel} ${is_id_utm_sel} ${cf_register_at_sel}
            FROM wp_cf_users u WHERE 1=1 ${this.getSearchQuery(params)}
-		   AND ${id_condition} AND ${meta_condition} AND ${kpt_condition} AND ${id_utm_condition}
+		   AND ${id_condition} AND ${rec_company_id_condition} AND ${meta_condition} AND ${kpt_condition} AND ${id_utm_condition}
            AND ${email_condition} AND ${role_condition} 
            AND ${cf_where} AND ${new_only_where}
            ${order_by} ${limit} `;

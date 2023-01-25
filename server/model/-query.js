@@ -3,37 +3,43 @@ const DB = require("./DB.js");
 // all-type
 // mutation
 // root
+// __Exec replace with <>
 
 class __Exec {
-  // TODO
+
   query(param, type) {
+    // TODO
     let tableName = "";
+
+    // TODO
     let user_id = !param.user_id ? "1=1" : `user_id = '${param.user_id}'`;
     let entity = !param.entity ? "1=1" : `entity = '${param.entity}'`;
     let entity_id = !param.entity_id ? "1=1" : `entity_id = ${param.entity_id}`;
 
+    // TODO
+    let where = `${user_id} and ${entity} and ${entity_id}`
+
+    // TODO
+    var order_by = ""; // "ORDER BY created_at DESC"
+
     var limit = DB.prepareLimit(param.page, param.offset);
-    let select = "*";
-    if (this.isCount(type)) {
-      select = DB.selectAllCount();
-    }
-    var sql = `select ${select} from ${tableName}
-    where 1=1 and ${user_id} and ${entity} and ${entity_id} 
+    let select = this.isCount(type) ? "COUNT(*) as total" : "*";
+    var sql = `SELECT ${select} FROM ${tableName}
+    WHERE ${where}
+    ${order_by}
     ${limit}`;
     return sql;
   }
-  // TODO
   resSingle(res) {
     return res[0];
   }
-  // TODO
   resCount(res) {
-    return res[0];
+    return res[0]["total"];
   }
-  // TODO
   resList(res, field) {
     const { UserExec } = require("./user-query.js");
     for (var i in res) {
+      // TODO
       if (typeof field["user"] !== "undefined") {
         var user_id = res[i]["user_id"];
         res[i]["user"] = UserExec.user({ ID: user_id }, field["user"]);

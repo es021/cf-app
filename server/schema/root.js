@@ -52,7 +52,9 @@ const {
 	TagType,
 	AnnouncementType,
 	CompanyEmailType,
-	ResumeDropLimitByCfType
+	ResumeDropLimitByCfType,
+	QrCheckInType,
+	QrScanType
 } = require("./all-type.js");
 
 const graphqlFields = require("graphql-fields");
@@ -196,6 +198,8 @@ const { cfCustomFunnel } = require("../../config/cf-custom-config.js");
 const { AnnouncementExec } = require("../model/announcement-query.js");
 const { CompanyEmailExec } = require("../model/company-email-query.js");
 const { GroupCallExec } = require("../model/group-call-query.js");
+const { QrCheckInExec } = require("../model/qr-check-in-query.js");
+const { QrScanExec } = require("../model/qr-scan-query.js");
 
 __.String;
 //------------------------------------------------------------------------------
@@ -337,7 +341,7 @@ fields["global_dataset_item"] = {
 	args: {
 		ID: __.Int,
 		source: __.String,
-		val : __.String,
+		val: __.String,
 		page: __.Int,
 		offset: __.Int,
 		order_by: __.String,
@@ -611,7 +615,7 @@ fields["group_session_joins"] = {
 // 5. @custom_user_info_by_cf
 let argBrowseStudent = {
 	override_pivot: __.Boolean,
-	
+
 	custom_filter_single: __.String,
 	custom_filter_multi: __.String,
 
@@ -1032,6 +1036,7 @@ fields["users"] = {
 	type: new GraphQLList(UserType),
 	args: {
 		role: __.String,
+		rec_company_id: __.Int,
 		page: __.Int,
 		offset: __.Int,
 		order_by: __.String,
@@ -1439,7 +1444,7 @@ fields["resume_drops_limit"] = {
 	type: GraphQLString,
 	args: {
 		user_id: __.IntNonNull,
-		is_job_apply : __.Int,
+		is_job_apply: __.Int,
 	},
 	resolve(parentValue, arg, context, info) {
 		return ResumeDropExec.resume_drops_limit(arg, graphqlFields(info));
@@ -1527,6 +1532,47 @@ fields["group_calls_count"] = {
 	}
 };
 
+/*******************************************/
+/* qr_check_in ******************/
+var qrCheckInParam = {
+	cf: __.StringNonNull,
+}
+fields["qr_check_ins"] = {
+	type: new GraphQLList(QrCheckInType),
+	args: qrCheckInParam,
+	resolve(parentValue, arg, context, info) {
+		return QrCheckInExec.list(arg, graphqlFields(info));
+	}
+};
+fields["qr_check_ins_count"] = {
+	type: GraphQLInt,
+	args: qrCheckInParam,
+	resolve(parentValue, arg, context, info) {
+		return QrCheckInExec.count(arg, graphqlFields(info));
+	}
+};
+/*******************************************/
+/* qr_scan ******************/
+var qrCheckInParam = {
+	cf: __.StringNonNull,
+	type: __.StringNonNull,
+	company_id : __.Int,
+	scanned_by_company_id : __.Int,
+}
+fields["qr_scans"] = {
+	type: new GraphQLList(QrScanType),
+	args: qrCheckInParam,
+	resolve(parentValue, arg, context, info) {
+		return QrScanExec.list(arg, graphqlFields(info));
+	}
+};
+fields["qr_scans_count"] = {
+	type: GraphQLInt,
+	args: qrCheckInParam,
+	resolve(parentValue, arg, context, info) {
+		return QrScanExec.count(arg, graphqlFields(info));
+	}
+};
 
 // ##############################################################
 // EXPORT TYPE

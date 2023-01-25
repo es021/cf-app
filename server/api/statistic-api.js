@@ -11,12 +11,30 @@ class StatisticAPI {
                 return this.vacancyApplication(param);
             case "daily-registration":
                 return this.dailyRegistration(param);
+            case "hourly-qr-check-in":
+                return this.hourlyQrCheckIn(param);
             case "company-statistic-count":
                 return this.companyStatisticCount(param);
             case "event-webinar-log":
                 return this.eventWebinarLog(param);
+
         }
     }
+    // countForHybridEvent(param){
+    //     let cf = param.cf;
+    //     let company_id = param.company_id;
+
+
+    //     // - Total number of check-in
+    //     // - Total number of company profile QR scanned
+    //     // - Total number of visitor QR scanned by exhibitors
+
+    //     // - Total number of check-in
+    //     // - Total number of this particular exhibitor profile QR scanned (unique by user)
+    //     // - Total number of visitor QR scanned by this exhibitor
+
+
+    // }
     eventWebinarLog(param) {
         let event_id = param.event_id;
 
@@ -245,6 +263,78 @@ class StatisticAPI {
             return toRet;
         });
     }
+    hourlyQrCheckIn(param) {
+        let cf = param.cf;
+        // CONCAT(DATE_FORMAT(c.created_at, '%Y-%m-%d-%H'), "::", DATE_FORMAT(c.created_at, '%e/%d-%l%p')) AS dt,
+        let q = `SELECT 
+        CONCAT(DATE_FORMAT(c.created_at, '%Y-%c-%d-%H')) AS dt,
+        COUNT(*) as ttl
+        FROM qr_check_in c
+        WHERE 1=1
+        AND c.cf = ? 
+        GROUP BY dt
+        ORDER BY dt asc`;
+
+        const getLabel = (_date, prevDate) => {
+            let h = _date.getHours();
+            let pm_am = "";
+            if (h >= 12) {
+                pm_am = "PM";
+                if (h >= 13) {
+                    h -= 12;
+                }
+            } else {
+                pm_am = "AM";
+                if(h == 0){
+                    h = 12;
+                }
+            }
+            return `${_date.getDate()}/${_date.getMonth()}-${h}${pm_am}`
+        }
+        q = DB.prepare(q, [cf])
+        return DB.query(q).then(res => {
+            let toReturn = [];
+            let map = {}
+
+            for (let r of res) {
+                map[r["dt"]] = r["ttl"]
+            }
+
+            let min = res[0]["dt"];
+            let max = res[res.length - 1]["dt"];
+
+            let current = min;
+            let currentDate = null;
+            let index = 0;
+
+            while (current != max) {
+                let year = Number.parseInt(current.split("-")[0]);
+                let month = Number.parseInt(current.split("-")[1]);
+                let day = Number.parseInt(current.split("-")[2]);
+                let hour = Number.parseInt(current.split("-")[3]);
+                let date = new Date(year, month, day, hour)
+                toReturn.push({
+                    dt: getLabel(date),
+                    ttl: map[current] ? map[current] : 0
+                })
+
+                date.setHours(date.getHours() + 1);
+
+                currentDate = date;
+                current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+
+                index++;
+                if (index > 100) {
+                    break;
+                }
+            }
+            toReturn.push({
+                dt: getLabel(currentDate),
+                ttl: map[current] ? map[current] : 0
+            })
+            return toReturn;
+        })
+    }
     dailyRegistration(param) {
         let cf = param.cf;
 
@@ -277,7 +367,7 @@ class StatisticAPI {
         let order_by = ""
         let where = "";
 
-        
+
         if (is_count) {
             select = `COUNT(*) as total`
         } else {
@@ -290,8 +380,8 @@ class StatisticAPI {
         }
 
 
-        if(is_with_status){
-            where += ` AND i.application_status IS NOT NULL AND i.application_status != '' ` 
+        if (is_with_status) {
+            where += ` AND i.application_status IS NOT NULL AND i.application_status != '' `
             select += ` , i.application_status , UNIX_TIMESTAMP(i.updated_at) as status_updated_at `
         }
 

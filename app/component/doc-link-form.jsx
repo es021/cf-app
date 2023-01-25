@@ -14,7 +14,7 @@ import { store } from '../redux/store';
 import {
     _GET
 } from '../lib/util';
-import {lang} from '../lib/lang';
+import { lang } from '../lib/lang';
 
 function hasDocLabel(dl, label, isExact) {
     isExact = typeof isExact === "undefined" ? false : isExact;
@@ -274,7 +274,7 @@ class DocLinkForm extends React.Component {
 
         var uploader = (this.props.type === DocLinkEnum.TYPE_DOC && !this.props.edit)
             ? <Uploader label={lang("Upload Document")} name="new-document"
-                type={FileType.DOC} onSuccess={this.uploaderOnSuccess}
+                type={this.props.isAllowImage ? FileType.IMG_AND_DOC : FileType.DOC} onSuccess={this.uploaderOnSuccess}
                 onChange={this.uploaderOnChange}
                 onError={this.uploaderOnError}></Uploader>
             : null;
@@ -299,7 +299,8 @@ DocLinkForm.propTypes = {
     edit: PropTypes.obj,
     entity: PropTypes.oneOf(["user", "company"]).isRequired,
     type: PropTypes.oneOf([DocLinkEnum.TYPE_DOC, DocLinkEnum.TYPE_LINK]).isRequired,
-    onSuccessNew: PropTypes.func
+    onSuccessNew: PropTypes.func,
+    isAllowImage: PropTypes.bool
 };
 
 
@@ -431,11 +432,13 @@ export default class DocLinkPage extends React.Component {
 
         var titleList = ((this.props.entity == "user") ? "My " : "") + "Document & Link";
         titleList = lang(titleList);
-        
+
         return <div className="row container-fluid">
             <div className="col-sm-6">
-                <h3 className="left">{lang("Add New Document")}</h3>
-                <DocLinkForm id={this.props.id} onSuccessNew={this.refresh} type={DocLinkEnum.TYPE_DOC} entity={this.props.entity}></DocLinkForm>
+                <h3 className="left">{lang(`Add New Document ${this.props.isAllowImage ? '/ Image' :''}`)}</h3>
+                <DocLinkForm id={this.props.id} onSuccessNew={this.refresh}
+                    isAllowImage={this.props.isAllowImage}
+                    type={DocLinkEnum.TYPE_DOC} entity={this.props.entity}></DocLinkForm>
             </div>
             <div className="col-sm-6">
                 <h3 className="left">{lang("Add New Link")}</h3>
@@ -454,6 +457,10 @@ export default class DocLinkPage extends React.Component {
 
 DocLinkPage.propTypes = {
     id: PropTypes.number.isRequired,
+    isAllowImage: PropTypes.bool,
     entity: PropTypes.oneOf(["user", "company"]).isRequired
 }
 
+DocLinkPage.defaultProps = {
+    isAllowImage: false,
+}

@@ -162,43 +162,38 @@ export default class AdminCf extends React.Component {
 
         this.tableHeader = <thead>
             <tr>
-                <th>Info</th>
-                <th>Details</th>
+                <th>Event</th>
+                <th>Tools</th>
+                {/* <th>Details</th> */}
             </tr>
         </thead>;
 
         this.renderRow = (d, i) => {
             var row = [];
-            let infoColumn = [];
-            let detailColumn = [];
-            for (var key in d) {
-                if (key == "ID" || key == "name" || key == "cf_order") {
-                    infoColumn.push(<div><b>{key}</b> : {d[key]}</div>);
-
-                    if (key == "cf_order") {
-                        let start = Time.timestampToDateTimeInput(d["start"]);
-                        if (start) {
-                            start = start.split("T")[0]
-                        }
-                        let end = Time.timestampToDateTimeInput(d["end"]);
-                        if (start) {
-                            end = end.split("T")[0]
-                        }
-                        infoColumn.push(<div><br></br><b>
-                            <NavLink
-                                to={`${AppPath}/cf-query/${d['name']}/${start}/${end}`}>
-                                Open Career Fair Query
-                            </NavLink></b>
-                        </div>
-                        );
-                    }
-                } else {
-                    detailColumn.push(<div><b>{key}</b> : {d[key]}</div>)
-                }
+            let actionColumn = []
+            let start = Time.timestampToDateTimeInput(d["start"]);
+            if (start) {
+                start = start.split("T")[0]
             }
+            let end = Time.timestampToDateTimeInput(d["end"]);
+            if (start) {
+                end = end.split("T")[0]
+            }
+            actionColumn.push(<div><b>
+                <NavLink
+                    to={`${AppPath}/cf-query/${d['name']}/${start}/${end}`}>
+                    Career Fair Query
+                    </NavLink></b>
+            </div>
+            );
 
-            row.push(<td>{infoColumn}</td>);
-            row.push(<td width="100px">{detailColumn}</td>);
+            row.push(<td>
+                <h5 className="mt-0 pt-2 pb-2 mb-0"><b>{d["name"]}</b></h5>
+                <div><b>Title</b> : {d["title"] ? d["title"] : "-"}</div>
+                <div><b>Start</b> : {d["start"] && d["start"].indexOf("undefined") <= -1 ? Time.getString(d["start"]) : "-"}</div>
+                <div><b>End</b> : {d["end"] && d["end"].indexOf("undefined") <= -1 ? Time.getString(d["end"]) : "-"}</div>
+            </td>);
+            row.push(<td>{actionColumn}</td>);
 
             return row;
         }

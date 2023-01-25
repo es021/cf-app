@@ -433,6 +433,14 @@ export function isRoleVolunteer() {
     return getAuthUser().role === UserEnum.ROLE_VOLUNTEER;
 }
 
+export function getUserId() {
+    return getAuthUser().ID;
+}
+
+export function getCompanyId() {
+    return isRoleRec() ? getAuthUser().rec_company : null;
+}
+
 export function isRoleRec() {
     return getAuthUser().role === UserEnum.ROLE_RECRUITER;
 }

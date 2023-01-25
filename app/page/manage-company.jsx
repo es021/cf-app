@@ -46,7 +46,7 @@ const PageUrl = `${RootPath}/app/manage-company/vacancy`;
 class CompanyDocLink extends React.Component {
   render() {
     return (
-      <DocLinkPage entity="company" id={this.props.company_id}></DocLinkPage>
+      <DocLinkPage entity="company" id={this.props.company_id} isAllowImage={true}></DocLinkPage>
     );
   }
 }

@@ -155,12 +155,17 @@ DB.prototype.getByID = function (table, ID, ID_key = "ID") {
         return res[0];
     });
 };
-
+DB.prototype.selectTimestampToUnix = function (timestamp_column) {
+    return `UNIX_TIMESTAMP(${timestamp_column})`;
+  }
 DB.prototype.insert = function (table, data, ID_key = "ID", onDuplicate = null) {
     var DB = this;
     var key = "(";
     var val = "(";
     for (var k in data) {
+        if (data[k] == null || typeof data[k] === "undefined") {
+            continue;
+        }
         key += `${k},`;
         val += `'${this.escStr(data[k])}',`;
     }

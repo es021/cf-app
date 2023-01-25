@@ -1,4 +1,18 @@
 
+-- DROP TABLE
+qr_* at prod
+
+-- NEW TABLE 
+qr_* from dev
+
+-- NEW PACKAGE
+npm install ip --save
+
+-- ALTER TABLE
+ALTER TABLE `wp_cf_users` ADD `rec_company_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `ID`, ADD INDEX (`rec_company_id`);
+
+-- migrate data
+rec_company_id in table users from meta
 
 -- ##############################################################
 -- ##############################################################

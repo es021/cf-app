@@ -44,6 +44,7 @@
     "graphql-fields": "^1.0.2",
     "graphql-obj2arg": "^0.1.0",
     "history": "^4.7.2",
+    "ip": "^1.1.8",
     "jsonwebtoken": "^8.1.0",
     "mysql": "^2.15.0",
     "nexmo": "^2.9.1",
@@ -67,6 +68,7 @@
     "redux-thunk": "^2.2.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
+    "toastify-js": "^1.12.0",
     "twilio": "^3.65.0",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"

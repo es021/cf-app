@@ -87,11 +87,14 @@
 
             // load css -------------------------------------------------------------------------
             // https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
-            var cssToLoad = [ASSET_ROOT + "/css/loading.css"
+            var cssToLoad = [
+                ASSET_ROOT + "/css/loading.css"
                 , ASSET_ROOT + "/lib/font-awesome-4.7.0/css/font-awesome.min.css"
                 , ASSET_ROOT + "/lib/bootstrap-3.3.7/bootstrap.min.css"
                 //, ASSET_ROOT + "/css/vendors.bundle.css"
-                , ASSET_ROOT + "/css/main.bundle.css"];
+                , ASSET_ROOT + "/css/main.bundle.css",
+                , ASSET_ROOT + "/lib/toastify/toastify.css",
+            ];
 
             cssToLoad.map(function (d, i) {
                 var callback = null;
@@ -108,8 +111,9 @@
             // load Javascript -------------------------------------------------------------------------
             //var jsToLoad = [ASSET_ROOT + "/js/vendors.bundle.js", ASSET_ROOT + "/js/main.bundle.js"];
             var jsToLoad = [
-                ASSET_ROOT + "/js/main.bundle.js"
-                , ASSET_ROOT + "/lang/malay.js" //@enable_lang
+                ASSET_ROOT + "/js/main.bundle.js",
+                ASSET_ROOT + "/lib/toastify/toastify.js",
+                ASSET_ROOT + "/lang/malay.js" //@enable_lang
             ];
 
             var jsLoaded = 0;

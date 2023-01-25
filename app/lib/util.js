@@ -204,7 +204,7 @@ String.prototype.focusSubstring = function (substring, wrapStart = "<b>", wrapEn
 
 import { getCF } from "../redux/actions/auth-actions";
 document.setTitle = function (title) {
-  document.title = `self-manage | ${getCF()} | ${title}`;
+  document.title = `${getCF()} | ${title}`;
 };
 
 // #############################################################

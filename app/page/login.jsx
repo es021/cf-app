@@ -18,6 +18,7 @@ import { getCF, isCookieEnabled } from '../redux/actions/auth-actions';
 import { lang } from '../lib/lang';
 import { ErrorMessage } from './sign-up';
 import * as layoutActions from "../redux/actions/layout-actions";
+import { getRedirectFrom, getRedirectLocation } from './view-helper/view-helper';
 
 //state is from redux reducer
 // with multiple objects
@@ -204,23 +205,28 @@ class LoginPage extends React.Component {
 
     render() {
         document.setTitle("Login");
-        const defaultPath = `${RootPath}/app/`;
 
-        console.log("from login render");
-        console.log("this.props.location", this.props.location);
-        var from = {};
-        if (typeof this.props.location !== "undefined" && typeof this.props.location.state !== "undefined") {
-            from = this.props.location.state.from;
-        } else {
-            from = { pathname: defaultPath };
-        }
-        console.log("from", from);
+        // const defaultPath = `${RootPath}/app/`;
+        // console.log("redirect this.props.location", this.props.location);
+        // try {
+        //     console.log("redirect this.props.location.state.from", this.props.location.state.from);
+        // } catch (err) { console.log("redirect this.props.location.state.from", err); }
+        
+        // var from = {};
+        // if (typeof this.props.location !== "undefined" && typeof this.props.location.state !== "undefined") {
+        //     from = this.props.location.state.from;
+        // } else {
+        //     from = { pathname: defaultPath };
+        // }
+        // console.log("from", from);
 
 
         //handle from logout
-        if (from.pathname == `${RootPath}/app/logout`) {
-            from.pathname = defaultPath;
-        }
+        // if (from.pathname == `${RootPath}/app/logout`) {
+        //     from.pathname = defaultPath;
+        // }
+
+        let from  = getRedirectFrom(this);
 
         var redirectToReferrer = this.props.redux.isAuthorized;
         var fetching = this.props.redux.fetching;
@@ -295,14 +301,10 @@ class LoginPage extends React.Component {
             redirectToReferrer = false;
         }
 
-        console.log("redirectToReferrer", redirectToReferrer);
-
         // if authorized redirect to from
         if (redirectToReferrer) {
             console.log("redirect to", from.pathname)
-
             this.showGoogleChromeWarning();
-
             return (
                 <Redirect to={from} />
             );

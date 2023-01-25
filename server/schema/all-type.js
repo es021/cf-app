@@ -258,7 +258,8 @@ const UserType = new GraphQLObjectType({
 			student_note: __.IsType(UserNoteType),
 
 			// rec only
-			rec_company: __.Int,
+			rec_company_id: __.Int, // stored in main table
+			rec_company: __.Int, // store in meta table (slower query)
 			rec_position: __.String,
 			company: __.IsType(CompanyType),
 
@@ -1155,8 +1156,55 @@ const AnnouncementType = new GraphQLObjectType({
 	})
 });
 
+const QrCheckInType = new GraphQLObjectType({
+	name: "QrCheckIn",
+	fields: () => ({
+		ID: __.Int,
+		cf: __.String,
+		user_id: __.Int,
+		checked_in_by: __.Int,
+		created_at: __.String,
+		user: __.IsType(UserType),
+		checked_in_by_user: __.IsType(UserType),
+	})
+});
+const QrImgType = new GraphQLObjectType({
+	name: "QrImg",
+	fields: () => ({
+		ID: __.Int,
+		cf: __.String,
+		code: __.String,
+		type: __.String,
+		url: __.String,
+		scan_url: __.String,
+		user_id: __.Int,
+		company_id: __.Int,
+		created_at: __.String,
+		updated_at: __.String,
+		user: __.IsType(UserType),
+		company: __.IsType(CompanyType),
+	})
+});
+
+const QrScanType = new GraphQLObjectType({
+	name: "QrScan",
+	fields: () => ({
+		ID: __.Int,
+		qr_id: __.Int,
+		logged_in_user_id: __.Int,
+		logged_in_cf: __.String,
+		ip_address: __.String,
+		created_at: __.String,
+		qr: __.IsType(QrImgType),
+		logged_in_user: __.IsType(UserType),
+	})
+});
+
 
 module.exports = {
+	QrScanType,
+	QrImgType,
+	QrCheckInType,
 	CompanyEmailType,
 	AnnouncementType,
 	DistinctType,

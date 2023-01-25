@@ -586,7 +586,7 @@ class AuthAPI {
 	createRecruiter(rec) {
 		var rec_company = rec[UserMeta.REC_COMPANY];
 		var first_name = rec[UserMeta.FIRST_NAME];
-
+		// 1816	NewRec	newrec123@yopmail.com	NewRec	123	
 		var userdata = rec;
 		var usermeta = rec;
 		var data = {};
@@ -602,6 +602,7 @@ class AuthAPI {
 			var cf_sql = `mutation{
 				edit_user(ID:${user_id}, 
 				rec_company:"${rec_company}", 
+				rec_company_id:${rec_company},
 				wp_cf_capabilities: "recruiter") {rec_company}}`;
 			getAxiosGraphQLQuery(cf_sql)
 			getAxiosGraphQLQuery(`mutation{

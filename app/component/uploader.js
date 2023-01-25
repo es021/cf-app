@@ -9,6 +9,7 @@ import {
 
 // to divide in server folder directory
 export const FileType = {
+	IMG_AND_DOC: "image_document",
 	IMG: "image",
 	DOC: "document",
 	VIDEO: "video",
@@ -34,6 +35,31 @@ export function uploadFile(file, type, name, extraParam = {}, onUploadProgress) 
 	return axios.post(`${AppConfig.Api}/upload/${type}/${name}`, data, config);
 }
 
+export const FILE_TYPE_IMG = ["jpeg", "jpg", "png"];
+export const FILE_TYPE_DOC = ["pdf"];
+export const FILE_TYPE_VIDEO = [
+	"m4v",
+	"mov",
+	"quicktime", // mov will resolve to quicktime
+	"mp4",
+	// "flv", "x-flv" // not supported
+	// "avi", // not supported
+	//"wmv", // not supported
+	// "x-ms-wmv" // not supported
+];
+
+export function isFileTypeImage(url) {
+	let ext = null;
+	if (url.indexOf(".") >= 0) {
+		ext = url.split(".")
+		ext = ext[ext.length - 1];
+		ext = ext.toLowerCase();
+	}
+	console.log("ext", ext)
+
+	return FILE_TYPE_IMG.indexOf(ext) >= 0;
+}
+
 export class Uploader extends React.Component {
 	constructor(props) {
 		super(props);
@@ -41,18 +67,6 @@ export class Uploader extends React.Component {
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.validateUpload = this.validateUpload.bind(this);
-		this.VALID_IMG = ["jpeg", "jpg", "png"];
-		this.VALID_DOC = ["pdf"];
-		this.VALID_VIDEO = [
-			"m4v",
-			"mov",
-			"quicktime", // mov will resolve to quicktime
-			"mp4",
-			// "flv", "x-flv" // not supported
-			// "avi", // not supported
-			//"wmv", // not supported
-			// "x-ms-wmv" // not supported
-		];
 		this.form = {};
 
 		this.MAX_SIZE = 5; // in MB
@@ -66,14 +80,17 @@ export class Uploader extends React.Component {
 		var allowable_format;
 		let maxSize = this.MAX_SIZE;
 		switch (this.props.type) {
+			case FileType.IMG_AND_DOC:
+				allowable_format = [...FILE_TYPE_IMG, ...FILE_TYPE_DOC];
+				break
 			case FileType.IMG:
-				allowable_format = this.VALID_IMG;
+				allowable_format = FILE_TYPE_IMG;
 				break;
 			case FileType.DOC:
-				allowable_format = this.VALID_DOC;
+				allowable_format = FILE_TYPE_DOC;
 				break;
 			case FileType.VIDEO:
-				allowable_format = this.VALID_VIDEO;
+				allowable_format = FILE_TYPE_VIDEO;
 				maxSize = this.MAX_SIZE_VIDEO;
 				break;
 			case FileType.CUSTOM:

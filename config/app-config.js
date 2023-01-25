@@ -75,6 +75,7 @@ const AppConfig = {
     Name: `Virtual Career Fair ${(new Date()).getYear() + 1900}`,
     Desc: "Powered by Seeds",
     Url: (isProd || isProdLocal) ? PHPApi : "http://localhost:8080",
+    WebAppUrl: isProd ? `${RootUrl}/cf/app` : "http://localhost:8080/app",
     WebAuthUrl: isProd ? `${RootUrl}/cf/auth` : "http://localhost:8080/auth",
     Api: SiteUrl,
     PHPApi: PHPApi,
