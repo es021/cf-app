@@ -26,7 +26,7 @@ class HybridEventDashboard extends React.Component {
             countCompanyScanned: "-",
             countUserScanned: "-",
             dataHourlyQrCheckIn: null,
-
+            dataHourlyExhibitorScanned: null,
             cfUsers: [],
             loadingCfUsers: true,
             cfCompanies: [],
@@ -49,9 +49,8 @@ class HybridEventDashboard extends React.Component {
             this.setState({ countUserScanned: res.data.data.qr_scans_count })
         })
         this.loadChartQrCheckIn();
+        this.loadChartExhibitorScanned();
     }
-
-
     getOnlineUserCount() {
         // todo
         if (isPastCfEnd()) {
@@ -151,9 +150,77 @@ class HybridEventDashboard extends React.Component {
             this.renderChartQrCheckIn();
         })
     }
+    loadChartExhibitorScanned() {
+        postRequest(StatisticUrl + "/hourly-company-scanned", {
+            cf: getCF(),
+            company_id: isRoleRec() ? getCompanyId() : null
+        }).then(res => {
+            this.setState({ dataHourlyExhibitorScanned: res.data });
+            this.renderChartExhibitorScanned();
+        })
+    }
 
+    renderChartExhibitorScanned() {
+        var element = document.getElementById('chartExhibitorScanned');
+        if (!element) {
+            setTimeout(() => {
+                this.renderChartExhibitorScanned();
+            }, 1000)
+        }
+
+        let dataLabel = [];
+        let dataSet = [];
+
+        for (let d of this.state.dataHourlyExhibitorScanned) {
+            dataLabel.push(d.dt);
+            dataSet.push(d.ttl);
+        }
+        let data = {
+            labels: dataLabel,
+            datasets: [
+                {
+                    label: '# of Exhibitor\'s QR Scanned',
+                    data: dataSet,
+                    fill: false,
+                    backgroundColor: '#469fec',
+                    borderColor: 'rgb(130, 197, 255)',
+                },
+            ],
+        }
+
+        let options = {
+            elements: {
+                line: {
+                    tension: 0
+                }
+            },
+            bezierCurve: false,
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                            userCallback: function (label, index, labels) {
+                                // when the floored value is the same as the value we have a whole number
+                                if (Math.floor(label) === label) {
+                                    return label;
+                                }
+
+                            },
+                        }
+                    },
+                ],
+            },
+        }
+
+        new Chart(element, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
     renderChartQrCheckIn() {
-        var element = document.getElementById('myChart');
+        var element = document.getElementById('chartQrCheckIn');
         if (!element) {
             setTimeout(() => {
                 this.renderChartQrCheckIn();
@@ -211,11 +278,17 @@ class HybridEventDashboard extends React.Component {
             options: options
         });
     }
-    chartRegistration() {
+    chartQrCheckIn() {
         if (!this.state.dataHourlyQrCheckIn) {
             return <Loader></Loader>
         }
-        return <div style={{ paddingRight: '' }}><canvas id="myChart" width="auto" height="100"></canvas></div>
+        return <div style={{ paddingRight: '' }}><canvas id="chartQrCheckIn" width="auto" height="100"></canvas></div>
+    }
+    chartExhibitorScanned() {
+        if (!this.state.dataHourlyExhibitorScanned) {
+            return <Loader></Loader>
+        }
+        return <div style={{ paddingRight: '' }}><canvas id="chartExhibitorScanned" width="auto" height="100"></canvas></div>
     }
     render() {
         document.setTitle("Hybrid Event Dashboard");
@@ -228,18 +301,31 @@ class HybridEventDashboard extends React.Component {
                     <h2 className="text-left" style={{ marginBottom: '25px' }}><b>{_student_single()} Check In</b>
                         <br></br>
                         <div style={{ marginTop: '5px' }}>
+                            ---:::: (put in listing page, from statistic)
                             <ButtonExport
                                 style={{ margin: "5px" }} btnClass="green btn-bold btn-round-5" action="browse_student"
-                                text={<span>Download {_student_plural()} Data</span>}
+                                text={<span>Download Data </span>}
                                 filter={`cf:"${getCF()}", company_id:null`} cf={getCF()}></ButtonExport>
                         </div>
                     </h2>
-                    {this.chartRegistration()}
+                    {this.chartQrCheckIn()}
                 </div>
-                {/* <div className="col-sm-12" style={{ marginBottom: '45px' }}>
-                    <h2 className="text-left" style={{ marginBottom: '25px' }}><b>Events & Webinars</b></h2>
-                    <EventManagement tableOnly={true}></EventManagement>
-                </div> */}
+            </div>
+            <div className="container-fluid">
+                <div className="col-sm-12" style={{ marginBottom: '45px' }}>
+                    <h2 className="text-left" style={{ marginBottom: '25px' }}><b>Exhibitor Profile QR Scanned</b>
+                        <br></br>
+                        <div style={{ marginTop: '5px' }}>
+                        ---:::: (put in listing page, from statistic)
+
+                            <ButtonExport
+                                style={{ margin: "5px" }} btnClass="green btn-bold btn-round-5" action="browse_student"
+                                text={<span>Download Data</span>}
+                                filter={`cf:"${getCF()}", company_id:null`} cf={getCF()}></ButtonExport>
+                        </div>
+                    </h2>
+                    {this.chartExhibitorScanned()}
+                </div>
             </div>
         </div>
     }

@@ -13,6 +13,8 @@ class StatisticAPI {
                 return this.dailyRegistration(param);
             case "hourly-qr-check-in":
                 return this.hourlyQrCheckIn(param);
+            case "hourly-company-scanned":
+                return this.hourlyCompanyScanned(param);
             case "company-statistic-count":
                 return this.companyStatisticCount(param);
             case "event-webinar-log":
@@ -263,6 +265,91 @@ class StatisticAPI {
             return toRet;
         });
     }
+
+    _hourlyLabel = (_date) => {
+        let h = _date.getHours();
+        let pm_am = "";
+        if (h >= 12) {
+            pm_am = "PM";
+            if (h >= 13) {
+                h -= 12;
+            }
+        } else {
+            pm_am = "AM";
+            if (h == 0) {
+                h = 12;
+            }
+        }
+        return `${_date.getDate()}/${_date.getMonth()}-${h}${pm_am}`
+    }
+    hourlyCompanyScanned(param) {
+        let cf = param.cf;
+        let company_id = param.company_id;
+
+        let where = " AND i.cf = ? ";
+        let whereParam = [cf];
+
+        if (company_id) {
+            where += " AND i.company_id = ? "
+            whereParam.push(company_id)
+        }
+
+        let q = `SELECT 
+        CONCAT(DATE_FORMAT(s.created_at, '%Y-%c-%d-%H')) AS dt,
+        COUNT(*) as ttl
+        FROM qr_scan s, qr_img i
+        WHERE 1=1
+        AND i.ID = s.qr_id
+        AND i.type = 'company'
+        ${where}
+        GROUP BY dt
+        ORDER BY dt asc`;
+
+        q = DB.prepare(q, whereParam);
+        return DB.query(q).then(res => {
+            let toReturn = [];
+            let map = {}
+
+            for (let r of res) {
+                map[r["dt"]] = r["ttl"]
+            }
+
+            let min = res[0]["dt"];
+            let max = res[res.length - 1]["dt"];
+
+            let current = min;
+            let currentDate = null;
+            let index = 0;
+
+            while (current != max) {
+                let year = Number.parseInt(current.split("-")[0]);
+                let month = Number.parseInt(current.split("-")[1]);
+                let day = Number.parseInt(current.split("-")[2]);
+                let hour = Number.parseInt(current.split("-")[3]);
+                let date = new Date(year, month, day, hour)
+                toReturn.push({
+                    dt: this._hourlyLabel(date),
+                    ttl: map[current] ? map[current] : 0
+                })
+
+                date.setHours(date.getHours() + 1);
+
+                currentDate = date;
+                current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+
+                index++;
+                if (index > 100) {
+                    break;
+                }
+            }
+            toReturn.push({
+                dt: this._hourlyLabel(currentDate),
+                ttl: map[current] ? map[current] : 0
+            })
+            return toReturn;
+        })
+
+    }
     hourlyQrCheckIn(param) {
         let cf = param.cf;
         // CONCAT(DATE_FORMAT(c.created_at, '%Y-%m-%d-%H'), "::", DATE_FORMAT(c.created_at, '%e/%d-%l%p')) AS dt,
@@ -275,22 +362,7 @@ class StatisticAPI {
         GROUP BY dt
         ORDER BY dt asc`;
 
-        const getLabel = (_date, prevDate) => {
-            let h = _date.getHours();
-            let pm_am = "";
-            if (h >= 12) {
-                pm_am = "PM";
-                if (h >= 13) {
-                    h -= 12;
-                }
-            } else {
-                pm_am = "AM";
-                if(h == 0){
-                    h = 12;
-                }
-            }
-            return `${_date.getDate()}/${_date.getMonth()}-${h}${pm_am}`
-        }
+
         q = DB.prepare(q, [cf])
         return DB.query(q).then(res => {
             let toReturn = [];
@@ -314,7 +386,7 @@ class StatisticAPI {
                 let hour = Number.parseInt(current.split("-")[3]);
                 let date = new Date(year, month, day, hour)
                 toReturn.push({
-                    dt: getLabel(date),
+                    dt: this._hourlyLabel(date),
                     ttl: map[current] ? map[current] : 0
                 })
 
@@ -329,7 +401,7 @@ class StatisticAPI {
                 }
             }
             toReturn.push({
-                dt: getLabel(currentDate),
+                dt: this._hourlyLabel(currentDate),
                 ttl: map[current] ? map[current] : 0
             })
             return toReturn;
