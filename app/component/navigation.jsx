@@ -102,6 +102,9 @@ import { MyQrCode } from "../page/my-qr-code";
 import AdminDatapointDataset from "../page/admin-datapoint-dataset";
 import QrScan from "../page/qr-scan";
 import HybridEventDashboard from "../page/hybrid-event-dashboard";
+import HybridCheckInList from "../page/hybrid-check-in-list";
+import HybridExhibitorScannedList from "../page/hybrid-exhibitor-scanned-list";
+import HybridVisitorScannedList from "../page/hybrid-visitor-scanned-list";
 
 const MY_QR_CODE_LABEL = "My QR Code";
 
@@ -310,7 +313,43 @@ function getMenuItem(COMING_SOON) {
       bar_auth: false,
       hd_app: isHasLeftBar() ? false : true,
       hd_auth: false,
+      disabled: ((!isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()) || !isCfFeatureOn(CFSMeta.FEATURE_HYBRID_EVENT_DASHBOARD)),
+    },
+    {
+      url: "/hybrid-check-in-list",
+      // label: lang("Hybrid Event Dasboard"),
+      // icon: "qrcode",
+      component: HybridCheckInList,
+      routeOnly: true,
+      bar_app: false,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
       disabled: ((!isRoleAdmin() && !isRoleOrganizer()) || !isCfFeatureOn(CFSMeta.FEATURE_HYBRID_EVENT_DASHBOARD)),
+    },
+    {
+      url: "/hybrid-exhibitor-scanned-list",
+      // label: lang("Hybrid Event Dasboard"),
+      // icon: "qrcode",
+      component: HybridExhibitorScannedList,
+      routeOnly: true,
+      bar_app: false,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: ((!isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()) || !isCfFeatureOn(CFSMeta.FEATURE_HYBRID_EVENT_DASHBOARD)),
+    },
+    {
+      url: "/hybrid-visitor-scanned-list",
+      // label: lang("Hybrid Event Dasboard"),
+      // icon: "qrcode",
+      component: HybridVisitorScannedList,
+      routeOnly: true,
+      bar_app: false,
+      bar_auth: false,
+      hd_app: true,
+      hd_auth: false,
+      disabled: ((!isRoleAdmin() && !isRoleOrganizer() && !isRoleRec()) || !isCfFeatureOn(CFSMeta.FEATURE_HYBRID_EVENT_DASHBOARD)),
     },
     {
       url: "/participant-listing",

@@ -21,11 +21,11 @@ class QrScanExec {
     let whereParam = [cf, type];
 
     if (company_id) {
-      where += ` i.company_id = ?  `
+      where += ` AND i.company_id = ?  `
       whereParam.push(company_id);
     }
     if (scanned_by_company_id) {
-      where += ` u.rec_company_id = ? `
+      where += ` AND u.rec_company_id = ? `
       whereParam.push(scanned_by_company_id);
     }
 
@@ -52,11 +52,20 @@ class QrScanExec {
   }
   resList(res, field) {
     const { UserExec } = require("./user-query.js");
+    const { QrImgExec } = require("./qr-img-query.js");
     for (var i in res) {
       // TODO
+      if (typeof field["logged_in_user"] !== "undefined") {
+        var logged_in_user_id = res[i]["logged_in_user_id"];
+        res[i]["logged_in_user"] = UserExec.user({ ID: logged_in_user_id }, field["logged_in_user"]);
+      }
       if (typeof field["user"] !== "undefined") {
         var user_id = res[i]["user_id"];
         res[i]["user"] = UserExec.user({ ID: user_id }, field["user"]);
+      }
+      if (typeof field["qr"] !== "undefined") {
+        var qr_id = res[i]["qr_id"];
+        res[i]["qr"] = QrImgExec.single({ ID: qr_id }, field["qr"]);
       }
     }
     return res;

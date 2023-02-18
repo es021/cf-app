@@ -12,6 +12,9 @@ import { ButtonExport } from '../component/buttons';
 import { getCfEndUnix, isPastCfEnd } from './partial/activity/scheduled-interview';
 import { Time } from '../lib/time';
 import { _student_plural, _student_single } from '../redux/actions/text-action';
+import HybridStatisticCheckIn from './partial/hybrid/hybrid-statistic-check-in';
+import HybridStatisticExhibitorScanned from './partial/hybrid/hybrid-statistic-exhibitor-scanned';
+import HybridStatisticVisitorScanned from './partial/hybrid/hybrid-statistic-visitior-scanned';
 var Chart = require('chart.js');
 // import CanvasJSReact from '../lib/canvasjs/canvasjs.react';
 // const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -22,9 +25,6 @@ class HybridEventDashboard extends React.Component {
         this.user_id = getAuthUser().id;
         this.cf = getCF();
         this.state = {
-            countCheckin: "-",
-            countCompanyScanned: "-",
-            countUserScanned: "-",
             dataHourlyQrCheckIn: null,
             dataHourlyExhibitorScanned: null,
             cfUsers: [],
@@ -34,70 +34,13 @@ class HybridEventDashboard extends React.Component {
         };
     }
 
-    // componentDidMount() {
-    //     this.renderChartQrCheckIn();
-    // }
-
     componentWillMount() {
-        graphql(`query{ qr_check_ins_count ( cf:"${this.cf}") }`).then(res => {
-            this.setState({ countCheckin: res.data.data.qr_check_ins_count })
-        })
-        graphql(`query{ qr_scans_count (cf:"${this.cf}", type:"company" ${isRoleRec() ? `, company_id:${getCompanyId()}` : ``} ) }`).then(res => {
-            this.setState({ countCompanyScanned: res.data.data.qr_scans_count })
-        })
-        graphql(`query{ qr_scans_count (cf:"${this.cf}", type:"user" ${isRoleRec() ? `, scanned_by_company_id:${getCompanyId()}` : ``} ) }`).then(res => {
-            this.setState({ countUserScanned: res.data.data.qr_scans_count })
-        })
-        this.loadChartQrCheckIn();
+        if (!isRoleRec()) {
+            this.loadChartQrCheckIn();
+        }
         this.loadChartExhibitorScanned();
     }
-    getOnlineUserCount() {
-        // todo
-        if (isPastCfEnd()) {
-            return 0;
-        }
 
-        let count = 0;
-        for (var uid in this.props.online_users) {
-            uid = Number.parseInt(uid);
-            let isOnline = this.props.online_users[uid];
-            if (
-                this.state.cfUsers.indexOf(uid) >= 0 &&
-                isOnline == 1 &&
-                uid != getAuthUser().ID
-            ) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-    getOnlineCompanyCount() {
-        // this.props.online_companies : {"12":{"137":"Online"}}
-
-        let count = 0;
-        for (var cid in this.props.online_companies) {
-            let isRecOnline = false;
-            cid = Number.parseInt(cid);
-            let recObj = this.props.online_companies[cid];
-            if (recObj) {
-                for (var recId in recObj) {
-                    if (recObj[recId] == "Online") {
-                        isRecOnline = true;
-                        break;
-                    }
-                }
-            }
-            if (
-                this.state.cfCompanies.indexOf(cid) >= 0 &&
-                isRecOnline
-            ) {
-                count++;
-            }
-        }
-
-        return count;
-    }
 
     getStatisticClass() {
         return {
@@ -108,38 +51,27 @@ class HybridEventDashboard extends React.Component {
 
     getStatisticView() {
         return [
-            <div className="col-sm-4 col-lg-3" style={this.getStatisticClass()}>
-                <StatisticFigure
-                    title={`Check In`}
-                    icon="sign-in"
-                    value={this.state.countCheckin}
-                    color="#469fec"
-                    footer={<NavLink className="link st-footer-link" to={AppPath + "/participant-listing"}>
+            isRoleRec() ? null : <div className="col-sm-4 col-lg-3" style={this.getStatisticClass()}>
+                <HybridStatisticCheckIn
+                    footer={<NavLink className="link st-footer-link" to={AppPath + "/hybrid-check-in-list"}>
                         <b>View All Check In &#10230;</b>
                     </NavLink>}
-                ></StatisticFigure>
+                />
             </div>,
             <div className="col-sm-4 col-lg-3" style={this.getStatisticClass()}>
-                <StatisticFigure
-                    title={isRoleRec() ? `Your Profile QR Scanned` : `Exhibitor QR Scanned`}
-                    icon="building"
-                    value={this.state.countCompanyScanned}
-                    color="rgb(255, 97, 62)"
-                    footer={<NavLink className="link st-footer-link" to={AppPath + "/participant-listing"}>
+                <HybridStatisticExhibitorScanned
+                    footer={<NavLink className="link st-footer-link" to={AppPath + "/hybrid-exhibitor-scanned-list"}>
                         <b>View All Scan Record &#10230;</b>
                     </NavLink>}
-                ></StatisticFigure>
+                />
             </div>,
             <div className="col-sm-4 col-lg-3" style={this.getStatisticClass()}>
-                <StatisticFigure
-                    title={isRoleRec() ? `${_student_single()} Scanned By You` : `${_student_single()} QR Scanned`}
-                    icon="users"
-                    value={this.state.countUserScanned}
-                    color="#a44ba2"
-                    footer={<NavLink className="link st-footer-link" to={AppPath + "/participant-listing"}>
+                <HybridStatisticVisitorScanned
+                    footer={<NavLink className="link st-footer-link" to={AppPath + "/hybrid-visitor-scanned-list"}>
                         <b>View All Scan Record &#10230;</b>
                     </NavLink>}
-                ></StatisticFigure>
+                />
+
             </div>,
         ]
     }
@@ -179,7 +111,7 @@ class HybridEventDashboard extends React.Component {
             labels: dataLabel,
             datasets: [
                 {
-                    label: '# of Exhibitor\'s QR Scanned',
+                    label: '# of scans',
                     data: dataSet,
                     fill: false,
                     backgroundColor: '#469fec',
@@ -238,7 +170,7 @@ class HybridEventDashboard extends React.Component {
             labels: dataLabel,
             datasets: [
                 {
-                    label: '# of Check Ins',
+                    label: '# of check ins',
                     data: dataSet,
                     fill: false,
                     backgroundColor: '#469fec',
@@ -296,33 +228,21 @@ class HybridEventDashboard extends React.Component {
             <div style={{ margin: '32px 0px', justifyContent: 'center', display: 'flex', flexWrap: 'wrap' }}>
                 {this.getStatisticView()}
             </div>
-            <div className="container-fluid">
-                <div className="col-sm-12" style={{ marginBottom: '45px' }}>
-                    <h2 className="text-left" style={{ marginBottom: '25px' }}><b>{_student_single()} Check In</b>
-                        <br></br>
-                        <div style={{ marginTop: '5px' }}>
-                            ---:::: (put in listing page, from statistic)
-                            <ButtonExport
-                                style={{ margin: "5px" }} btnClass="green btn-bold btn-round-5" action="browse_student"
-                                text={<span>Download Data </span>}
-                                filter={`cf:"${getCF()}", company_id:null`} cf={getCF()}></ButtonExport>
-                        </div>
-                    </h2>
-                    {this.chartQrCheckIn()}
+            {isRoleRec() ? null :
+                <div className="container-fluid">
+                    <div className="col-sm-12" style={{ marginBottom: '45px' }}>
+                        <h2 className="text-left" style={{ marginBottom: '25px' }}><b>{_student_single()} Check In</b>
+                        </h2>
+                        {this.chartQrCheckIn()}
+                    </div>
                 </div>
-            </div>
+            }
             <div className="container-fluid">
                 <div className="col-sm-12" style={{ marginBottom: '45px' }}>
-                    <h2 className="text-left" style={{ marginBottom: '25px' }}><b>Exhibitor Profile QR Scanned</b>
-                        <br></br>
-                        <div style={{ marginTop: '5px' }}>
-                        ---:::: (put in listing page, from statistic)
-
-                            <ButtonExport
-                                style={{ margin: "5px" }} btnClass="green btn-bold btn-round-5" action="browse_student"
-                                text={<span>Download Data</span>}
-                                filter={`cf:"${getCF()}", company_id:null`} cf={getCF()}></ButtonExport>
-                        </div>
+                    <h2 className="text-left" style={{ marginBottom: '25px' }}>
+                        <b>
+                            {isRoleRec() ? "Your Profile QR Scanned" : "Exhibitor's QR Scanned"}
+                        </b>
                     </h2>
                     {this.chartExhibitorScanned()}
                 </div>
