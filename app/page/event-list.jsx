@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import List from "../component/list";
-import { EventEnum } from "../../config/db-config";
+import { CFSMeta } from "../../config/db-config";
 import { IsNewEventCard } from "../../config/app-config";
 import { getAxiosGraphQLQuery } from "../../helper/api-helper";
 import { Time } from "../lib/time";
@@ -9,7 +9,7 @@ import ProfileCard from "../component/profile-card.jsx";
 import * as layoutActions from "../redux/actions/layout-actions";
 import { InterestedButton } from "../component/interested";
 import {
-  getAuthUser, isRoleStudent, getCF, isRoleRec,
+  getAuthUser, isRoleStudent, getCF, isRoleRec, isCfFeatureOn,
   // getCF,
   // isRoleOrganizer,
   // isRoleAdmin,
@@ -17,6 +17,7 @@ import {
 } from "../redux/actions/auth-actions";
 import { getEventTitle, getEventAction, getEventLocation } from "./view-helper/view-helper";
 import { lang } from "../lib/lang";
+import { MyQrCode } from "./my-qr-code";
 
 export class EventList extends React.Component {
   constructor(props) {
@@ -115,6 +116,8 @@ export class EventList extends React.Component {
   //   });
   // }
 
+
+
   renderList(d, i, isExtraData = false) {
     let img = (
       <div className="el-image">
@@ -194,11 +197,37 @@ export class EventList extends React.Component {
             marginRight: this.props.type == 'row' ? '15px' : '',
           }}></hr>
           </div>
-          <div className="col-md-12" style={{ padding: '0px 30px' }}>{action}</div>
+          <div className="col-md-12" style={{ padding: '0px 30px' }}>
+            <div className="flex-center">
+              <div className="col-md-6 text-left">
+                {this.qrCodeLink(d)}
+              </div>
+              <div className="col-md-6 text-right">
+                {action}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div >
     );
     return v;
+  }
+
+  qrCodeLink(d) {
+    if (isCfFeatureOn(CFSMeta.FEATURE_QR_EVENT_WEBINAR)) {
+      return <div className="cp-quick-link">
+        <b onClick={() => {
+          layoutActions.storeUpdateFocusCard(`QR Code - ${d.title}`,
+            MyQrCode,
+            { event_id: d.ID },
+            "small",
+          );
+        }}>
+          <a><i className="fa fa-qrcode left"></i>{lang("Show QR Code")}</a>
+        </b>
+      </div>
+    }
   }
 
   render() {

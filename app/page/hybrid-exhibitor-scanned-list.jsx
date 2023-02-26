@@ -92,10 +92,12 @@ export default class HybridExhibitorScannedList extends React.Component {
         return <div className="container-fluid" style={{ margin: '32px 0px' }}>
             <HybridStatisticExhibitorScanned footer={<ButtonExport
                 btnClass="link st-footer-link font-bold"
-                action="job_posts_by_cf"
+                action="hybrid_scanned_list"
                 text={`Download Data`}
                 filter={{
                     cf: getCF(),
+                    type: "exhibitor",
+                    company_id: isRoleRec() ? getCompanyId() : null
                 }}></ButtonExport>} />
         </div>;
     }

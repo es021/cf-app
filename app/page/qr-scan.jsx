@@ -12,6 +12,7 @@ import * as layoutActions from '../redux/actions/layout-actions';
 import { getUnixTimestampNow } from '../../helper/general-helper';
 import { Time } from "../lib/time";
 import { openUserPopup } from './users';
+import EventPopup from './partial/popup/event-popup';
 
 export default class QrScan extends React.Component {
     constructor(props) {
@@ -53,8 +54,16 @@ export default class QrScan extends React.Component {
     isTypeCompany() {
         return this.state.data && this.state.data["qr_type"] == "company";
     }
+    isTypeEvent() {
+        return this.state.data && this.state.data["qr_type"] == "event";
+    }
     getBodyCompany() {
         return <div>redirect to company page</div>
+    }
+    getBodyEvent() {
+        let data = this.state.data;
+        // return <div>{JSON.stringify(data)}</div>;
+        return <EventPopup id={data["qr_event_id"]} />
     }
     getBodyUser() {
         let data = this.state.data;
@@ -124,6 +133,7 @@ export default class QrScan extends React.Component {
     getBody() {
         if (this.isTypeUser()) return this.getBodyUser();
         if (this.isTypeCompany()) return this.getBodyCompany();
+        if (this.isTypeEvent()) return this.getBodyEvent();
         return null;
     }
 

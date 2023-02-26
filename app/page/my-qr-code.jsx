@@ -41,6 +41,10 @@ export class MyQrCode extends React.Component {
       url = "/qr/create-for-company"
       param["company_id"] = this.props.company_id;
     }
+    if (this.props.event_id) {
+      url = "/qr/create-for-event"
+      param["event_id"] = this.props.event_id;
+    }
     postRequest(SiteUrl + url, param).then(res => {
       this.setState({ data: res.data, loading: false, });
     }).catch(err => {
@@ -66,17 +70,10 @@ export class MyQrCode extends React.Component {
     if (this.state.loading) {
       v = <Loader />
     } else {
-      v = <div style={{ padding: this.props.user_id ? '40px 0px' : '' }}>
-        {/* <div className="pb-4">
-          {this.state.data.scan_url}
-          <i className="fa fa-copy ml-3 clickable text-blue-500" onClick={() => {
-            let c = this.state.data.scan_url;
-            navigator.clipboard.writeText(c);
-          }}></i>
-        </div> */}
+      v = <div className={this.props.event_id ? 'pt-6' : ''} style={{ padding: this.props.user_id ? '40px 0px' : '' }}>
         <img src={UploadUrl + "/" + this.state.data.url} height="300px" className="rounded-3xl" />
 
-        <div className={`${this.props.user_id ? 'pt-6' : 'pt-1 pb-3'} px-10`}>
+        <div className={`${this.props.user_id || this.props.event_id ? 'pt-6' : 'pt-2 pb-3'} px-10`}>
           <a href={UploadUrl + "/" + this.state.data.url} target="_blank" download>
             <button className="btn btn-lg btn-round-10 btn-green btn-bold">
               Download
@@ -106,5 +103,6 @@ export class MyQrCode extends React.Component {
 
 MyQrCode.propTypes = {
   company_id: PropTypes.number,
+  event_id: PropTypes.number,
   user_id: PropTypes.number,
 };

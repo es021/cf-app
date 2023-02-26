@@ -740,6 +740,7 @@ const CFSMeta = {
 	FEATURE_DROP_RESUME: "feature_drop_resume",
 	FEATURE_CHAT: "feature_chat",
 	FEATURE_QR_CHECK_IN: "feature_qr_check_in",
+	FEATURE_QR_EVENT_WEBINAR: "feature_qr_event_webinar",
 	FEATURE_HYBRID_EVENT_DASHBOARD: "feature_hybrid_event_dashboard",
 	FEATURE_FEEDBACK: "feature_feedback",
 	FEATURE_UPDATE_JOB_APPLICATION_STATUS: "feature_update_job_application_status",

@@ -104,7 +104,7 @@ export default class HybridCheckInList extends React.Component {
         return <div className="container-fluid" style={{ margin: '32px 0px' }}>
             <HybridStatisticCheckIn footer={<ButtonExport
                 btnClass="link st-footer-link font-bold"
-                action="job_posts_by_cf"
+                action="hybrid_check_in"
                 text={`Download Data`}
                 filter={{
                     cf: getCF(),

@@ -18,6 +18,8 @@ class QrAPI {
                 return this.create({ ...param, type: "user" });
             case "create-for-company":
                 return this.create({ ...param, type: "company" });
+            case "create-for-event":
+                return this.create({ ...param, type: "event" });
             // case "create-for-check-in":
             //     return this.create({ ...param, type: "check-in" });
             case "scan":
@@ -56,6 +58,7 @@ class QrAPI {
                 i.url as img_url,
                 i.cf,
                 i.user_id, 
+                i.event_id, 
                 i.company_id,
                 i.type as qr_type,
                 ${DB.selectTimestampToUnix('c.created_at')} as checked_in_at
@@ -79,12 +82,16 @@ class QrAPI {
 
             let user_id = sqlRes["user_id"];
             let company_id = sqlRes["company_id"];
+            let event_id = sqlRes["event_id"];
 
             let toReturn = {
                 cf: sqlRes["cf"],
                 qr_id: sqlRes["qr_id"],
                 qr_type: sqlRes["qr_type"],
                 qr_img_url: sqlRes["img_url"],
+            }
+            if (event_id) {
+                toReturn["qr_event_id"] = event_id;
             }
             if (user_id) {
                 toReturn["checked_in_at"] = sqlRes["checked_in_at"];
@@ -100,18 +107,6 @@ class QrAPI {
                 }
 
                 toReturn["user"] = user;
-                // .then(res => {
-                //     let user = res.data.data.user;
-                //     return {
-                //         user: user,
-                //         cf: sqlRes["cf"],
-                //         qr_id: sqlRes["qr_id"],
-                //     };
-                // }).catch(err => {
-                //     reject("Error fetching user info");
-                // })
-                // resolve(user);
-
             }
             resolve(toReturn);
         });
@@ -138,6 +133,7 @@ class QrAPI {
     async create(param) {
         let user_id = param.user_id;
         let company_id = param.company_id;
+        let event_id = param.event_id;
         let type = param.type;
         let cf = param.cf;
 
@@ -160,6 +156,10 @@ class QrAPI {
                 wherePartial += "AND company_id = ?"
                 whereParam.push(company_id);
             }
+            if (event_id) {
+                wherePartial += "AND event_id = ?"
+                whereParam.push(event_id);
+            }
 
             let sqlCheck = `SELECT url, scan_url FROM qr_img WHERE 1=1 ${wherePartial} AND type = ? AND cf = ?`;
             sqlCheck = DB.prepare(sqlCheck, [...whereParam, type, cf]);
@@ -176,7 +176,7 @@ class QrAPI {
 
             QRCode.toDataURL(scan_url, {
                 quality: 0.3,
-                width: 300,
+                width: 500,
                 color: {
                     dark: '#011012FF',  // foreground
                     light: '#fcfcfcFF' // background
@@ -195,6 +195,7 @@ class QrAPI {
                         type: type,
                         user_id: user_id,
                         company_id: company_id,
+                        event_id: event_id,
                         cf: cf,
                     })
                     resolve({ url: img_url, scan_url: scan_url });

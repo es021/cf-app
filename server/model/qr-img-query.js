@@ -27,6 +27,7 @@ class QrImgExec {
   resolveRow(r, field) {
     const { UserExec } = require("./user-query.js");
     const { CompanyExec } = require("./company-query.js");
+    const { EventExec } = require("./event-query.js");
     if (typeof field["user"] !== "undefined") {
       var user_id = r["user_id"];
       console.log("user_id", user_id)
@@ -36,6 +37,10 @@ class QrImgExec {
       var company_id = r["company_id"];
       console.log("company_id", company_id)
       r["company"] = CompanyExec.company(company_id, field["company"]);
+    }
+    if (typeof field["event"] !== "undefined") {
+      var event_id = r["event_id"];
+      r["event"] = EventExec.events(event_id, field["event"], { single: true });
     }
     return r;
   }

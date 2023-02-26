@@ -44,6 +44,10 @@ class XLSApi {
     switch (action) {
       // xls/students/{"cf":"USA"}
       // filter == null, all cfs
+      case "hybrid_check_in":
+        return this.hybrid_check_in(filter.cf);
+      case "hybrid_scanned_list":
+        return this.hybrid_scanned_list(filter.cf, filter.type, filter.company_id);
       case "students":
         return this.students(filter.cf, filter.new_only);
       // xls/prescreens/{"company_id":1}
@@ -716,6 +720,101 @@ class XLSApi {
     );
   }
 
+  hybrid_scanned_list(cf, type, company_id) {
+    const isTypeExhibitor = type == "exhibitor"
+    const isTypeVisitor = type == "visitor"
+
+    var filename = "";
+    let param = `cf:"${cf}"`
+
+    if (isTypeExhibitor) {
+      filename = company_id ? `Your Profile QR Scanned - ${cf}` : `Exhibitor's QR Scanned - ${cf}`;
+      param += `
+        type:"company" 
+        ${company_id ? `company_id:${company_id}` : ``}
+      `
+    } else if (isTypeVisitor) {
+      filename = company_id ? `Visitor's QR Scanned By You - ${cf}` : `Visitor's QR Scanned - ${cf}`;
+      param += `
+        type:"user" 
+        ${company_id ? `scanned_by_company_id:${company_id}` : ``}
+      `
+    }
+
+    var query = `query{
+        qr_scans(${param})
+        { 
+            ID qr_id
+            qr{ url user{ ID first_name last_name user_email } company{ ID name } }
+            logged_in_user{ ID first_name last_name role }
+            created_at,
+        }
+    }`;
+    const headers = null;
+    const restructData = data => {
+      console.log("data", data)
+      let r = {
+        qr_profile_id: data.qr.user && data.qr.user.ID
+          ? `${data.qr.user.ID}`
+          : `${data.qr.company.ID}`,
+        qr_profile: data.qr.user && data.qr.user.ID
+          ? `${data.qr.user.first_name} ${data.qr.user.last_name}`
+          : `${data.qr.company.name}`,
+      }
+      if (isTypeVisitor) {
+        r["qr_profile_email"] = data.qr.user && data.qr.user.ID
+          ? `${data.qr.user.user_email}`
+          : ``;
+      }
+
+      r = {
+        ...r,
+        scanned_by: data.logged_in_user ? `${data.logged_in_user.first_name} ${data.logged_in_user.last_name}` : `-`,
+        scanned_by_role: data.logged_in_user ? `${data.logged_in_user.role}` : `-`,
+        scanned_at: data.created_at
+      }
+      return r;
+    };
+    return this.fetchAndReturn(
+      query,
+      "qr_scans",
+      filename,
+      headers,
+      null,
+      restructData
+    );
+  }
+  hybrid_check_in(cf) {
+    var filename = `Visitor Check In Record - ${cf}`;
+    var query = `query{
+      qr_check_ins(cf:"${cf}")
+      { 
+          user {ID first_name last_name user_email},
+          checked_in_by_user {first_name last_name},
+          created_at
+      }
+    }`;
+    const headers = null;
+    const restructData = data => {
+      console.log("data", data)
+      let r = {
+        user_id: data.user.ID,
+        user_email: data.user.user_email,
+        user_name: `${data.user.first_name} ${data.user.last_name}`,
+        checked_in_by: data.checked_in_by_user ? `${data.checked_in_by_user.first_name} ${data.checked_in_by_user.last_name}` : `-`,
+        checked_in_at: data.created_at
+      }
+      return r;
+    };
+    return this.fetchAndReturn(
+      query,
+      "qr_check_ins",
+      filename,
+      headers,
+      null,
+      restructData
+    );
+  }
   students(cf, new_only) {
     // 0. create filename
     var filename = `Student Data ${cf}`;

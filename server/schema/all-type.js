@@ -1179,10 +1179,12 @@ const QrImgType = new GraphQLObjectType({
 		scan_url: __.String,
 		user_id: __.Int,
 		company_id: __.Int,
+		event_id: __.Int,
 		created_at: __.String,
 		updated_at: __.String,
 		user: __.IsType(UserType),
 		company: __.IsType(CompanyType),
+		event: __.IsType(EventType),
 	})
 });
 
