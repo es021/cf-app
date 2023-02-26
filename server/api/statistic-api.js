@@ -266,7 +266,7 @@ class StatisticAPI {
         });
     }
 
-    _hourlyLabel = (_date) => {
+    _hourlyLabel(_date) {
         let h = _date.getHours();
         let pm_am = "";
         if (h >= 12) {
