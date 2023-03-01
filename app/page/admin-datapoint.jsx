@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { getAllCfKey, getAuthUser, getCF, getDatapointConfig, isRoleAdmin, isRoleOrganizer, setLocalStorageCfDatapointConfig } from '../redux/actions/auth-actions.jsx';
-import { graphql } from '../../helper/api-helper.js';
+import { graphql, postRequest } from '../../helper/api-helper.js';
 import { makeSnakeCase } from '../../helper/general-helper.js';
 import { Loader } from '../component/loader.js';
-import { IconsPdfUrl } from "../../config/app-config";
+import { IconsPdfUrl, SiteUrl } from "../../config/app-config";
 import UserFieldHelper from '../../helper/user-field-helper.js';
 import * as layoutActions from "../redux/actions/layout-actions";
 
@@ -941,17 +941,29 @@ export default class AdminDatapoint extends React.Component {
                 }
 
 
-                let r = JSON.stringify(JSON.stringify(toSave));
+                let r = JSON.stringify(toSave);
                 layoutActions.loadingBlockLoader();
-                graphql(`mutation{
-                    edit_cf(name:"${this.state.cf}", datapoint_config:${r}){name}
-                }`).then(res => {
+                postRequest(SiteUrl + "/dataset-datapoint/update-datapoint-config", {
+                    cf: this.state.cf,
+                    datapoint_config: r
+                }).then(res => {
                     setLocalStorageCfDatapointConfig(toSave);
                 }).catch(err => {
 
                 }).finally(() => {
                     layoutActions.storeHideBlockLoader();
                 })
+
+                // let r = JSON.stringify(JSON.stringify(toSave));
+                // graphql(`mutation{
+                //     edit_cf(name:"${this.state.cf}", datapoint_config:${r}){name}
+                // }`).then(res => {
+                //     setLocalStorageCfDatapointConfig(toSave);
+                // }).catch(err => {
+
+                // }).finally(() => {
+                //     layoutActions.storeHideBlockLoader();
+                // })
             }}
             className="btn btn-lg btn-success">
             Save Changes
