@@ -417,7 +417,7 @@ function getMenuItem(COMING_SOON) {
       hd_app: false,
       hd_auth: false,
       default_param: { current: "dataset" },
-      disabled: !isRoleAdmin() && !!isRoleAdmin()
+      disabled: !isRoleAdmin()
     },
     // ###############################################################
     // VOLUNTEER
