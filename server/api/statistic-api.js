@@ -267,7 +267,7 @@ class StatisticAPI {
     }
 
     _hourlyLabel(_date) {
-        if (!date) {
+        if (!_date) {
             return "";
         }
         let h = _date.getHours();
