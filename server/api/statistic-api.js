@@ -298,7 +298,7 @@ class StatisticAPI {
         }
 
         let q = `SELECT 
-        CONCAT(DATE_FORMAT(s.created_at, '%Y-%c-%d-%H')) AS dt,
+        CONCAT(DATE_FORMAT(DATE_ADD(s.created_at, INTERVAL 8 HOUR), '%Y-%c-%d-%H')) AS dt,
         COUNT(*) as ttl
         FROM qr_scan s, qr_img i
         WHERE 1=1
@@ -368,7 +368,7 @@ class StatisticAPI {
         let cf = param.cf;
         // CONCAT(DATE_FORMAT(c.created_at, '%Y-%m-%d-%H'), "::", DATE_FORMAT(c.created_at, '%e/%d-%l%p')) AS dt,
         let q = `SELECT 
-        CONCAT(DATE_FORMAT(c.created_at, '%Y-%c-%d-%H')) AS dt,
+        CONCAT(DATE_FORMAT(DATE_ADD(c.created_at, INTERVAL 8 HOUR), '%Y-%c-%d-%H')) AS dt,
         COUNT(*) as ttl
         FROM qr_check_in c
         WHERE 1=1
