@@ -322,16 +322,12 @@ class StatisticAPI {
                 let max = res[res.length - 1]["dt"];
 
                 let current = min;
-                let currentDate = new Date();
+                let currentDate = this._getDateObj(current);
                 let index = 0;
 
                 while (current != max) {
                     try {
-                        let year = Number.parseInt(current.split("-")[0]);
-                        let month = Number.parseInt(current.split("-")[1]);
-                        let day = Number.parseInt(current.split("-")[2]);
-                        let hour = Number.parseInt(current.split("-")[3]);
-                        let date = new Date(year, month, day, hour)
+                        let date = this._getDateObj(current);
                         toReturn.push({
                             dt: this._hourlyLabel(date),
                             ttl: map[current] ? map[current] : 0
@@ -358,6 +354,15 @@ class StatisticAPI {
             return toReturn;
         })
 
+    }
+    // text : %Y-%m-%d-%H
+    // eg: 2021-01-03-15
+    _getDateObj(text){
+        let year = Number.parseInt(text.split("-")[0]);
+        let month = Number.parseInt(text.split("-")[1]);
+        let day = Number.parseInt(text.split("-")[2]);
+        let hour = Number.parseInt(text.split("-")[3]);
+        return new Date(year, month, day, hour)
     }
     hourlyQrCheckIn(param) {
         let cf = param.cf;
@@ -388,15 +393,11 @@ class StatisticAPI {
                 let max = res[res.length - 1]["dt"];
 
                 let current = min;
-                let currentDate = new Date();
+                let currentDate = this._getDateObj(current);
                 let index = 0;
 
                 while (current != max) {
-                    let year = Number.parseInt(current.split("-")[0]);
-                    let month = Number.parseInt(current.split("-")[1]);
-                    let day = Number.parseInt(current.split("-")[2]);
-                    let hour = Number.parseInt(current.split("-")[3]);
-                    let date = new Date(year, month, day, hour)
+                    let date = this._getDateObj(current);
                     toReturn.push({
                         dt: this._hourlyLabel(date),
                         ttl: map[current] ? map[current] : 0
