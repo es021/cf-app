@@ -267,6 +267,9 @@ class StatisticAPI {
     }
 
     _hourlyLabel(_date) {
+        if (!date) {
+            return "";
+        }
         let h = _date.getHours();
         let pm_am = "";
         if (h >= 12) {
@@ -323,24 +326,30 @@ class StatisticAPI {
                 let index = 0;
 
                 while (current != max) {
-                    let year = Number.parseInt(current.split("-")[0]);
-                    let month = Number.parseInt(current.split("-")[1]);
-                    let day = Number.parseInt(current.split("-")[2]);
-                    let hour = Number.parseInt(current.split("-")[3]);
-                    let date = new Date(year, month, day, hour)
-                    toReturn.push({
-                        dt: this._hourlyLabel(date),
-                        ttl: map[current] ? map[current] : 0
-                    })
+                    try {
 
-                    date.setHours(date.getHours() + 1);
 
-                    currentDate = date;
-                    current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+                        let year = Number.parseInt(current.split("-")[0]);
+                        let month = Number.parseInt(current.split("-")[1]);
+                        let day = Number.parseInt(current.split("-")[2]);
+                        let hour = Number.parseInt(current.split("-")[3]);
+                        let date = new Date(year, month, day, hour)
+                        toReturn.push({
+                            dt: this._hourlyLabel(date),
+                            ttl: map[current] ? map[current] : 0
+                        })
 
-                    index++;
-                    if (index > 100) {
-                        break;
+                        date.setHours(date.getHours() + 1);
+
+                        currentDate = date;
+                        current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+
+                        index++;
+                        if (index > 100) {
+                            break;
+                        }
+                    } catch (err) {
+
                     }
                 }
                 toReturn.push({
