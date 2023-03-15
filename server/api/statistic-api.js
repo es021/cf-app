@@ -322,13 +322,11 @@ class StatisticAPI {
                 let max = res[res.length - 1]["dt"];
 
                 let current = min;
-                let currentDate = null;
+                let currentDate = new Date();
                 let index = 0;
 
                 while (current != max) {
                     try {
-
-
                         let year = Number.parseInt(current.split("-")[0]);
                         let month = Number.parseInt(current.split("-")[1]);
                         let day = Number.parseInt(current.split("-")[2]);
@@ -390,7 +388,7 @@ class StatisticAPI {
                 let max = res[res.length - 1]["dt"];
 
                 let current = min;
-                let currentDate = null;
+                let currentDate = new Date();
                 let index = 0;
 
                 while (current != max) {
