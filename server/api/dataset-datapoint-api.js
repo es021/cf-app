@@ -11,7 +11,20 @@ class DatasetDatapointApi {
                 return this.addDatasetItemBundle(param);
             case "duplicate-dataset":
                 return this.duplicateDataset(param);
+            case "update-datapoint-config":
+                return this.updateDatapointConfig(param);
         }
+    }
+    updateDatapointConfig(param) {
+        let cf = param.cf;
+        let datapoint_config = param.datapoint_config;
+
+        let sql = `UPDATE cfs_meta SET meta_value = ? WHERE cf_name = ? AND meta_key = "datapoint_config" `;
+
+        sql = DB.prepare(sql, [datapoint_config, cf]);
+        console.log("sql", sql);
+
+        return DB.query(sql);
     }
     duplicateDataset(param) {
         let cf = param.cf;
