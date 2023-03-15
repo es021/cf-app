@@ -314,38 +314,40 @@ class StatisticAPI {
                 map[r["dt"]] = r["ttl"]
             }
 
-            let min = res[0]["dt"];
-            let max = res[res.length - 1]["dt"];
+            if (res.length > 0) {
+                let min = res[0]["dt"];
+                let max = res[res.length - 1]["dt"];
 
-            let current = min;
-            let currentDate = null;
-            let index = 0;
+                let current = min;
+                let currentDate = null;
+                let index = 0;
 
-            while (current != max) {
-                let year = Number.parseInt(current.split("-")[0]);
-                let month = Number.parseInt(current.split("-")[1]);
-                let day = Number.parseInt(current.split("-")[2]);
-                let hour = Number.parseInt(current.split("-")[3]);
-                let date = new Date(year, month, day, hour)
+                while (current != max) {
+                    let year = Number.parseInt(current.split("-")[0]);
+                    let month = Number.parseInt(current.split("-")[1]);
+                    let day = Number.parseInt(current.split("-")[2]);
+                    let hour = Number.parseInt(current.split("-")[3]);
+                    let date = new Date(year, month, day, hour)
+                    toReturn.push({
+                        dt: this._hourlyLabel(date),
+                        ttl: map[current] ? map[current] : 0
+                    })
+
+                    date.setHours(date.getHours() + 1);
+
+                    currentDate = date;
+                    current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+
+                    index++;
+                    if (index > 100) {
+                        break;
+                    }
+                }
                 toReturn.push({
-                    dt: this._hourlyLabel(date),
+                    dt: this._hourlyLabel(currentDate),
                     ttl: map[current] ? map[current] : 0
                 })
-
-                date.setHours(date.getHours() + 1);
-
-                currentDate = date;
-                current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
-
-                index++;
-                if (index > 100) {
-                    break;
-                }
             }
-            toReturn.push({
-                dt: this._hourlyLabel(currentDate),
-                ttl: map[current] ? map[current] : 0
-            })
             return toReturn;
         })
 
@@ -372,38 +374,42 @@ class StatisticAPI {
                 map[r["dt"]] = r["ttl"]
             }
 
-            let min = res[0]["dt"];
-            let max = res[res.length - 1]["dt"];
+            if (res.length > 0) {
 
-            let current = min;
-            let currentDate = null;
-            let index = 0;
 
-            while (current != max) {
-                let year = Number.parseInt(current.split("-")[0]);
-                let month = Number.parseInt(current.split("-")[1]);
-                let day = Number.parseInt(current.split("-")[2]);
-                let hour = Number.parseInt(current.split("-")[3]);
-                let date = new Date(year, month, day, hour)
+                let min = res[0]["dt"];
+                let max = res[res.length - 1]["dt"];
+
+                let current = min;
+                let currentDate = null;
+                let index = 0;
+
+                while (current != max) {
+                    let year = Number.parseInt(current.split("-")[0]);
+                    let month = Number.parseInt(current.split("-")[1]);
+                    let day = Number.parseInt(current.split("-")[2]);
+                    let hour = Number.parseInt(current.split("-")[3]);
+                    let date = new Date(year, month, day, hour)
+                    toReturn.push({
+                        dt: this._hourlyLabel(date),
+                        ttl: map[current] ? map[current] : 0
+                    })
+
+                    date.setHours(date.getHours() + 1);
+
+                    currentDate = date;
+                    current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+
+                    index++;
+                    if (index > 100) {
+                        break;
+                    }
+                }
                 toReturn.push({
-                    dt: this._hourlyLabel(date),
+                    dt: this._hourlyLabel(currentDate),
                     ttl: map[current] ? map[current] : 0
                 })
-
-                date.setHours(date.getHours() + 1);
-
-                currentDate = date;
-                current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
-
-                index++;
-                if (index > 100) {
-                    break;
-                }
             }
-            toReturn.push({
-                dt: this._hourlyLabel(currentDate),
-                ttl: map[current] ? map[current] : 0
-            })
             return toReturn;
         })
     }
