@@ -81,7 +81,7 @@ class PrimaryLayout extends React.Component {
     // takleh panggil ni store action kat dalam componentWillMount
     this.updateTheme();
 
-    if (isRoleOrganizer() || isRoleAdmin()) {
+    if (isRoleOrganizer() || isRoleAdmin() || !isAuthorized()) {
       return;
     }
 
@@ -102,7 +102,6 @@ class PrimaryLayout extends React.Component {
 
   updateTheme() {
     let cfObj = getCFObj();
-
     var r = document.querySelector(':root');
     if (cfObj[CFSMeta.COLOR_THEME]) {
       r.style.setProperty('--theme-color', cfObj[CFSMeta.COLOR_THEME]);

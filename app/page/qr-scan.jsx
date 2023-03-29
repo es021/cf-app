@@ -163,9 +163,9 @@ export default class QrScan extends React.Component {
                         redirect = _GET("redirect")
                     }
                     // console.log("redirect1 2", redirect)
-                    if (cf != getCF()) {
-                        window.location = `${location.pathname}?cf=AIRBUS&redirect=${redirect}`
-                    }
+                    // if (cf != getCF()) {
+                    //     window.location = `${location.pathname}?cf=TEST&redirect=${redirect}`
+                    // }
                     v = <div>
                         <h3>Scanning Qr Code</h3>
                         <img src={UploadUrl + "/" + this.state.data.qr_img_url} height="300px" />
