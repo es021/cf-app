@@ -35,8 +35,9 @@ class AuthorizedRoute extends React.Component {
             let redirectPathname = `${RootPath}/auth`
 
             let pathname = this.props.location.pathname;
+            console.log("pathname",pathname)
             if (pathname.indexOf("/app/qr-scan/") >= 0) {
-                redirectPathname = `${RootPath.replace("/cf", "/")}${pathname.replace("/app/", "/auth/")}`
+                redirectPathname = `${pathname.replace("/app/", "/auth/")}`
             }
             to = { pathname: redirectPathname, state: { from: this.props.location } };
             return (<Redirect to={to} />);
