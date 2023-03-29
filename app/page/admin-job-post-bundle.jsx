@@ -292,7 +292,7 @@ class CreateBundle extends React.Component {
             <br></br><b>Open Position</b><br></br>{this.ROW_SEPARATOR}
             <br></br>
             <br></br>
-            <b> <a href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2021/01/Example-Job-Post-Bundle-Upload.xlsx" target="_blank">
+            <b> <a href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2021/01/Example-Job-Post-Bundle-Upload.xlsx" target="_blank">
                 See Excel Example</a>
             </b>
             <br></br>

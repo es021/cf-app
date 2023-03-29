@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 //importing for list
 import { postRequest } from '../../helper/api-helper';
-import { isProd, SiteUrl, UploadUrl } from '../../config/app-config.js';
+import { isProd, SiteUrl, UploadUrl, RootPath } from '../../config/app-config.js';
 import { Loader } from '../component/loader.js';
 import ProfileCard from '../component/profile-card.jsx';
 import { getAuthUser, isAuthorized, getCF, isRoleOrganizer, isRoleAdmin, getUserId } from '../redux/actions/auth-actions.jsx';
@@ -58,6 +58,10 @@ export default class QrScan extends React.Component {
         return this.state.data && this.state.data["qr_type"] == "event";
     }
     getBodyCompany() {
+        let data = this.state.data;
+        console.log("Data", data)
+        let company_id = data["qr_company_id"];
+        window.location = `${RootPath}/auth/company/${company_id}`;
         return <div>redirect to company page</div>
     }
     getBodyEvent() {

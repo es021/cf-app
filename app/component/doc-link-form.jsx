@@ -408,20 +408,25 @@ export default class DocLinkPage extends React.Component {
     }
 
     render() {
-
+        let maxWidth = "300px"
         var items = (this.state.data.length <= 0)
             ? <div className="text-muted">{lang("Nothing To Show Here")}</div>
             : this.state.data.map((d, i) => {
                 //var title = <a target='_blank' href={`${d.url}`}>{d.label}</a>;
                 //var onEdit = {label: d.label, id: d.ID, onClick: this.editPopup.bind(this)};
                 var icon = (d.type === DocLinkEnum.TYPE_DOC) ? "file-text" : "link";
-                return <span><i className={`fa left fa-${icon}`}></i>
-                    <a target='_blank' href={`${d.url}`}>{`${d.label} `}</a>
-                    <span className="badge" id={d.ID} label={d.label}
-                        onClick={this.editPopup.bind(this)}><i className="fa fa-edit"></i></span>
-                    <span className="badge" id={d.ID} label={d.label}
-                        onClick={this.deletePopup.bind(this)}><i className="fa fa-times"></i></span>
-                </span>;
+                return <div className="flex align-center content-center">
+                    <i className={`fa left fa-${icon}`}></i>
+                    <div className="pr-3" >
+                        <a target='_blank' href={`${d.url}`}>
+                            <div style={{ maxWidth: maxWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}>{`${d.label} `} </div>
+                        </a>
+                    </div>
+                    <div className="badge" id={d.ID} label={d.label}
+                        onClick={this.editPopup.bind(this)}><i className="fa fa-edit"></i></div>
+                    <div className="badge" id={d.ID} label={d.label}
+                        onClick={this.deletePopup.bind(this)}><i className="fa fa-times"></i></div>
+                </div>;
             });
 
 
@@ -435,7 +440,7 @@ export default class DocLinkPage extends React.Component {
 
         return <div className="row container-fluid">
             <div className="col-sm-6">
-                <h3 className="left">{lang(`Add New Document ${this.props.isAllowImage ? '/ Image' :''}`)}</h3>
+                <h3 className="left">{lang(`Add New Document ${this.props.isAllowImage ? '/ Image' : ''}`)}</h3>
                 <DocLinkForm id={this.props.id} onSuccessNew={this.refresh}
                     isAllowImage={this.props.isAllowImage}
                     type={DocLinkEnum.TYPE_DOC} entity={this.props.entity}></DocLinkForm>

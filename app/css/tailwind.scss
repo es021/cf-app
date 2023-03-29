@@ -42,10 +42,6 @@
   margin-bottom: 0px
 }
 
-.ml-3 {
-  margin-left: 0.75rem
-}
-
 .mt-10 {
   margin-top: 2.5rem
 }
@@ -102,6 +98,10 @@
   flex-wrap: wrap
 }
 
+.content-center {
+  align-content: center
+}
+
 .break-all {
   word-break: break-all
 }
@@ -143,10 +143,6 @@
   padding-top: 0.75rem
 }
 
-.pb-4 {
-  padding-bottom: 1rem
-}
-
 .pt-6 {
   padding-top: 1.5rem
 }
@@ -173,6 +169,10 @@
 
 .pb-6 {
   padding-bottom: 1.5rem
+}
+
+.pt-1 {
+  padding-top: 0.25rem
 }
 
 .text-left {
@@ -214,10 +214,6 @@
 
 .text-green-500 {
   color: #22c55e
-}
-
-.text-blue-500 {
-  color: #3b82f6
 }
 
 .text-gray-500 {

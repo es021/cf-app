@@ -138,7 +138,7 @@ class CreateBundle extends React.Component {
             {headerFormat}<br></br>
             <br></br>
             <b>
-                <a href="http://seedsjobfairapp.com/career-fair/wp-content/uploads/2021/08/Interview-Cf-Example.xlsx" target="_blank">
+                <a href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2021/08/Interview-Cf-Example.xlsx" target="_blank">
                     See Excel Example</a>
             </b>
             <br></br>

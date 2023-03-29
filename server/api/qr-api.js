@@ -93,6 +93,9 @@ class QrAPI {
             if (event_id) {
                 toReturn["qr_event_id"] = event_id;
             }
+            if (company_id) {
+                toReturn["qr_company_id"] = company_id;
+            }
             if (user_id) {
                 toReturn["checked_in_at"] = sqlRes["checked_in_at"];
 
