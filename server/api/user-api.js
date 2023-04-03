@@ -44,8 +44,12 @@ class UserAPI {
             from  wp_cf_users u 
             where 1=1 and u.ID IN (${user_ids.join(",")})
         `;
+        let singleData = await DB.query(querySingle);
 
-        let queryMulti = `
+
+        let multiData = [];
+        if (multiFields.length > 0) {
+            let queryMulti = `
 			select 
             GROUP_CONCAT(val SEPARATOR ' | ') as val,
             key_input,
@@ -57,9 +61,9 @@ class UserAPI {
             and key_input IN (${multiFields.map(d => `"${d.id}"`).join(",")})
             GROUP BY user_id, key_input
 		`;
-
-        let singleData = await DB.query(querySingle);
-        let multiData = await DB.query(queryMulti);
+            console.log("sql", queryMulti)
+            multiData = await DB.query(queryMulti);
+        }
 
         let toRet = {};
         for (let d of singleData) {
@@ -84,7 +88,7 @@ class UserAPI {
         }
 
         return Promise.resolve(toRet)
-        
+
     }
     async getDataForListing(param) {
         let query_graphql = param.query_graphql
