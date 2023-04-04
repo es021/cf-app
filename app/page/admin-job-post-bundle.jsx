@@ -99,13 +99,16 @@ class CreateBundle extends React.Component {
         return str;
     }
     reformatToInteger(str) {
-        str = str.trim();
-        let r = Number.parseInt(str);
-        if(isNaN(r)){
+        if (str) {
+            str = str.trim();
+            let r = Number.parseInt(str);
+            if (isNaN(r)) {
+                return null;
+            }
+            return r;
+        } else {
             return null;
         }
-
-        return r;
     }
     reformatTypeDescRec(str) {
         if (!str) {
@@ -198,7 +201,7 @@ class CreateBundle extends React.Component {
         req = this.reformatTypeDescRec(req);
         openPosition = this.reformatToInteger(openPosition);
 
-        console.log("openPosition",openPosition)
+        console.log("openPosition", openPosition)
 
         // console.log(title)
         // console.log(location)
