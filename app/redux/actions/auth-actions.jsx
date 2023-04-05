@@ -297,7 +297,7 @@ export function getCF() {
     }
 
     if(!cf){
-        return "TEST";
+        return "TARUMTHYBRID23";
     }
     return cf;
 }

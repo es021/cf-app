@@ -36,13 +36,15 @@ export default class QrScan extends React.Component {
         ).then(res => {
             console.log("ReS", res);
             this.setState({ data: res.data, loading: false });
-            postRequest(SiteUrl + "/qr/scan",
-                {
-                    qr_id: this.state.data.qr_id,
-                    user_id: getAuthUser() ? getAuthUser().ID : null,
-                    cf: getCF(),
-                }
-            )
+            if (isAuthorized()) {
+                postRequest(SiteUrl + "/qr/scan",
+                    {
+                        qr_id: this.state.data.qr_id,
+                        user_id: getAuthUser() ? getAuthUser().ID : null,
+                        cf: getCF(),
+                    }
+                )
+            }
         }).catch(err => {
             this.setState({ error: err.toString(), loading: false, });
         })
