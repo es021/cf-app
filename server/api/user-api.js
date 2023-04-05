@@ -179,6 +179,7 @@ class UserAPI {
         let q = `select 
             ${select}
             "student" as role,
+            u.ID,
             u.user_email
             
             from  wp_cf_users u 
