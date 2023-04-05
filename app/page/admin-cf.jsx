@@ -176,7 +176,7 @@ export default class AdminCf extends React.Component {
                 start = start.split("T")[0]
             }
             let end = Time.timestampToDateTimeInput(d["end"]);
-            if (start) {
+            if (start && end) {
                 end = end.split("T")[0]
             }
             actionColumn.push(<div><b>

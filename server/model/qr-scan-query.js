@@ -1,3 +1,4 @@
+const { _getCfStartEnd } = require("../../helper/api-helper.js");
 const DB = require("./DB.js");
 
 // all-type
@@ -10,6 +11,8 @@ class QrScanExec {
   query(param, queryType) {
     let cf = param.cf;
     let type = param.type;
+    let start = param.start;
+    let end = param.end;
     let company_id = param.company_id;
     let scanned_by_company_id = param.scanned_by_company_id;
 
@@ -19,6 +22,15 @@ class QrScanExec {
       AND i.type = ?
     `
     let whereParam = [cf, type];
+
+    if (start && end) {
+      where += ` AND s.created_at >= '${start}' AND s.created_at <= '${end}' `
+    }
+
+    // let { start, end } = await _getCfStartEnd(DB, cf)
+    // if (start && end) {
+    //   where += ` AND s.created_at >= '${start}' AND s.created_at <= '${end}' `
+    // }
 
     if (company_id) {
       where += ` AND i.company_id = ?  `
@@ -41,7 +53,7 @@ class QrScanExec {
     ${limit}`;
 
     sql = DB.prepare(sql, whereParam);
-    console.log("sql",sql)
+    console.log("sql", sql)
     return sql;
   }
   resSingle(res) {

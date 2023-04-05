@@ -4,12 +4,27 @@ import { NavLink } from "react-router-dom";
 import { AppPath, IsNewEventCard, RootPath } from "../../../config/app-config"
 import { EventEnum } from "../../../config/db-config"
 import React from "react";
-import { isRoleOrganizer, isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
+import { getCFObj, isRoleOrganizer, isRoleRec, isRoleStudent } from "../../redux/actions/auth-actions";
 import { Time } from "../../lib/time";
 import { InterestedButton } from "../../component/interested.jsx";
 import { lang } from "../../lib/lang";
 import { addEventLog } from "../../redux/actions/other-actions";
 
+export function getCurrentCfStartEnd() {
+  let start = Time.timestampToDateTimeInput(getCFObj()["start"]);
+  if (start) {
+    start = start.split("T")[0]
+    start += " 00:00:00"
+
+  }
+  let end = Time.timestampToDateTimeInput(getCFObj()["end"]);
+  if (end) {
+    end = end.split("T")[0]
+    end += " 23:59:59"
+  }
+
+  return { start, end }
+}
 export function getRedirectFrom(_this) {
   const defaultPath = `${RootPath}/app/`;
   try {
@@ -212,7 +227,7 @@ export function getEventAction(d, { isPopup, companyName, isRowLayout = false } 
       >
         <i className="fa fa-plus left"></i>
         RSVP
-        </a>
+      </a>
       </div>;
     }
     if (d.url_join && Time.isBetween(fiveMinBeforeStart, d.end_time)) {

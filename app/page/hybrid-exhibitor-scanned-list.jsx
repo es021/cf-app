@@ -15,6 +15,7 @@ import { createUserTitle } from "./users";
 import { _student_single } from "../redux/actions/text-action";
 import { createCompanyTitle } from "./admin-company";
 import HybridStatisticExhibitorScanned from "./partial/hybrid/hybrid-statistic-exhibitor-scanned";
+import { getCurrentCfStartEnd } from "./view-helper/view-helper";
 
 export default class HybridExhibitorScannedList extends React.Component {
     constructor(props) {
@@ -43,7 +44,7 @@ export default class HybridExhibitorScannedList extends React.Component {
                             {
                                 isScannedByStudent
                                     ? createUserTitle(d.logged_in_user)
-                                    : d.logged_in_user && d.logged_in_user.first_name ? `${d.logged_in_user.first_name} ${d.logged_in_user.last_name}` : ''
+                                    : d.logged_in_user && d.logged_in_user.first_name ? `${d.logged_in_user.first_name} ${d.logged_in_user.last_name ? d.logged_in_user.last_name : ''}` : ''
                             }
                         </div>
                         <div className="text-muted">
@@ -66,10 +67,13 @@ export default class HybridExhibitorScannedList extends React.Component {
         </thead>;
 
         this.loadData = (page, offset) => {
+            let { start, end } = getCurrentCfStartEnd()
             // @custom_vacancy_info
             var query = `query{
                 qr_scans(
                     cf:"${getCF()}"
+                    start:"${start}"
+                    end:"${end}"
                     type:"company" 
                     ${isRoleRec() ? `company_id:${getCompanyId()}` : ``}
                     page:${page} 
@@ -89,6 +93,7 @@ export default class HybridExhibitorScannedList extends React.Component {
         };
     }
     getCountAndExport() {
+        let { start, end } = getCurrentCfStartEnd();
         return <div className="container-fluid" style={{ margin: '32px 0px' }}>
             <HybridStatisticExhibitorScanned footer={<ButtonExport
                 btnClass="link st-footer-link font-bold"
@@ -96,6 +101,8 @@ export default class HybridExhibitorScannedList extends React.Component {
                 text={`Download Data`}
                 filter={{
                     cf: getCF(),
+                    start: start,
+                    end: end,
                     type: "exhibitor",
                     company_id: isRoleRec() ? getCompanyId() : null
                 }}></ButtonExport>} />

@@ -47,7 +47,7 @@ class XLSApi {
       case "hybrid_check_in":
         return this.hybrid_check_in(filter.cf);
       case "hybrid_scanned_list":
-        return this.hybrid_scanned_list(filter.cf, filter.type, filter.company_id);
+        return this.hybrid_scanned_list(filter.cf, filter.start, filter.end, filter.type, filter.company_id);
       case "students":
         return this.students(filter.cf, filter.new_only);
       // xls/prescreens/{"company_id":1}
@@ -720,12 +720,12 @@ class XLSApi {
     );
   }
 
-  hybrid_scanned_list(cf, type, company_id) {
+  hybrid_scanned_list(cf, start, end, type, company_id) {
     const isTypeExhibitor = type == "exhibitor"
     const isTypeVisitor = type == "visitor"
 
     var filename = "";
-    let param = `cf:"${cf}"`
+    let param = `start:"${start}" end:"${end}" cf:"${cf}"`
 
     if (isTypeExhibitor) {
       filename = company_id ? `Your Profile QR Scanned - ${cf}` : `Exhibitor's QR Scanned - ${cf}`;

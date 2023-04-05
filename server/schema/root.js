@@ -1536,8 +1536,8 @@ fields["group_calls_count"] = {
 /* qr_check_in ******************/
 var qrCheckInParam = {
 	cf: __.StringNonNull,
-	page : __.Int,
-	offset : __.Int,
+	page: __.Int,
+	offset: __.Int,
 }
 fields["qr_check_ins"] = {
 	type: new GraphQLList(QrCheckInType),
@@ -1558,10 +1558,12 @@ fields["qr_check_ins_count"] = {
 var qrCheckInParam = {
 	cf: __.StringNonNull,
 	type: __.StringNonNull,
-	company_id : __.Int,
-	scanned_by_company_id : __.Int,
-	page : __.Int,
-	offset : __.Int,
+	start: __.StringNonNull,
+	end: __.StringNonNull,
+	company_id: __.Int,
+	scanned_by_company_id: __.Int,
+	page: __.Int,
+	offset: __.Int,
 }
 fields["qr_scans"] = {
 	type: new GraphQLList(QrScanType),

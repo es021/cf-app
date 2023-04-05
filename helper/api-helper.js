@@ -8,6 +8,7 @@ const {
 const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 const { toast } = require("./general-helper");
+const { Time } = require('../app/lib/time');
 const IS_SERVER = typeof alert === "undefined";
 
 const getAgent = () => {
@@ -16,6 +17,28 @@ const getAgent = () => {
 			rejectUnauthorized: false
 		});
 	}
+}
+
+const _getCfStartEnd = async (DB, cf) => {
+	let res = await Promise.all([
+		DB.query(DB.prepare(`SELECT meta_value as v FROM cfs_meta where meta_key = 'start' AND cf_name = ?`, [cf])),
+		DB.query(DB.prepare(`SELECT meta_value as v FROM cfs_meta where meta_key = 'end' AND cf_name = ?`, [cf])),
+	]);
+	let start = null;
+	let end = null;
+	try {
+		start = res[0][0]["v"]
+		start = Time.timestampToDateTimeInput(start);
+		start = start.split("T")[0]
+		start += " 00:00:00"
+	} catch (err) { }
+	try {
+		end = res[1][0]["v"]
+		end = Time.timestampToDateTimeInput(end);
+		end = end.split("T")[0]
+		end += " 23:59:59"
+	} catch (err) { }
+	return { start, end }
 }
 
 const getGraphQlErrorMes = (rawMes) => {
@@ -358,5 +381,6 @@ module.exports = {
 	getAxiosGraphQLQuery,
 	getPHPApiAxios,
 	getPHPNotificationApiAxios,
-	getWpAjaxAxios
+	getWpAjaxAxios,
+	_getCfStartEnd
 };

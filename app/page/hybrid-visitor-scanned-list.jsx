@@ -16,6 +16,7 @@ import { createUserTitle } from "./users";
 import { _student_single } from "../redux/actions/text-action";
 import HybridStatisticVisitorScanned from "./partial/hybrid/hybrid-statistic-visitior-scanned";
 import { createCompanyTitle } from "./admin-company";
+import { getCurrentCfStartEnd } from "./view-helper/view-helper";
 
 export default class HybridVisitorScannedList extends React.Component {
     constructor(props) {
@@ -46,11 +47,12 @@ export default class HybridVisitorScannedList extends React.Component {
                         ? createUserTitle(d.logged_in_user)
                         : <div>
                             <div>
-                                {d.logged_in_user.first_name} {d.logged_in_user.last_name}
+                                {d.logged_in_user && d.logged_in_user.first_name ? d.logged_in_user.first_name : ""}
+                                {d.logged_in_user && d.logged_in_user.last_name ? d.logged_in_user.last_name : ""}
                             </div>
                             <div className="text-muted">
                                 <small>
-                                    {d.logged_in_user.role.capitalize()}
+                                    {d.logged_in_user && d.logged_in_user.role ? d.logged_in_user.role.capitalize() : ''}
                                 </small>
                             </div>
                         </div>
@@ -69,9 +71,12 @@ export default class HybridVisitorScannedList extends React.Component {
 
         this.loadData = (page, offset) => {
             // @custom_vacancy_info
+            let { start, end } = getCurrentCfStartEnd();
             var query = `query{
                 qr_scans(
                     cf:"${getCF()}"
+                    start:"${start}"
+                    end:"${end}"
                     type:"user" 
                     ${isRoleRec() ? `scanned_by_company_id:${getCompanyId()}` : ``}
                     page:${page} 
@@ -91,6 +96,8 @@ export default class HybridVisitorScannedList extends React.Component {
         };
     }
     getCountAndExport() {
+        let { start, end } = getCurrentCfStartEnd();
+
         return <div className="container-fluid" style={{ margin: '32px 0px' }}>
             <HybridStatisticVisitorScanned footer={<ButtonExport
                 btnClass="link st-footer-link font-bold"
@@ -98,6 +105,8 @@ export default class HybridVisitorScannedList extends React.Component {
                 text={`Download Data`}
                 filter={{
                     cf: getCF(),
+                    start: start,
+                    end: end,
                     type: "visitor",
                     company_id: isRoleRec() ? getCompanyId() : null
                 }}></ButtonExport>} />

@@ -3,8 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { AppPath } from '../../../../config/app-config';
 import { graphql } from '../../../../helper/api-helper';
 import { StatisticFigure } from '../../../component/statistic';
-import { getCF, getCompanyId, isRoleRec } from '../../../redux/actions/auth-actions';
+import { getCF, getCFObj, getCompanyId, isRoleRec } from '../../../redux/actions/auth-actions';
 import { _student_plural, _student_single } from '../../../redux/actions/text-action';
+import { Time } from '../../../lib/time';
+import { getCurrentCfStartEnd } from '../../view-helper/view-helper';
 
 export default class HybridStatisticExhibitorScanned extends React.Component {
     constructor(props) {
@@ -15,7 +17,8 @@ export default class HybridStatisticExhibitorScanned extends React.Component {
         };
     }
     componentWillMount() {
-        graphql(`query{ qr_scans_count (cf:"${this.cf}", type:"company" ${isRoleRec() ? `, company_id:${getCompanyId()}` : ``} ) }`).then(res => {
+        let {start, end} = getCurrentCfStartEnd();
+        graphql(`query{qr_scans_count (start:"${start}", end:"${end}", cf:"${this.cf}", type:"company" ${isRoleRec() ? `, company_id:${getCompanyId()}` : ``} ) }`).then(res => {
             this.setState({ countCompanyScanned: res.data.data.qr_scans_count })
         })
     }

@@ -1,6 +1,6 @@
 const DB = require("../model/DB.js");
 const { UserQuery } = require("../model/user-query.js");
-const { graphql } = require("../../helper/api-helper");
+const { graphql, _getCfStartEnd } = require("../../helper/api-helper");
 const { Time } = require("../../app/lib/time.js");
 
 class StatisticAPI {
@@ -285,12 +285,21 @@ class StatisticAPI {
         }
         return `${_date.getDate()}/${_date.getMonth()}-${h}${pm_am}`
     }
-    hourlyCompanyScanned(param) {
+
+    async hourlyCompanyScanned(param) {
+
         let cf = param.cf;
         let company_id = param.company_id;
 
         let where = " AND i.cf = ? ";
         let whereParam = [cf];
+
+        let { start, end } = await _getCfStartEnd(DB, cf)
+        if (start && end) {
+            where += ` AND s.created_at >= '${start}' AND s.created_at <= '${end}' `
+        }
+        // let where = "";
+        // let whereParam = [];
 
         if (company_id) {
             where += " AND i.company_id = ? "
@@ -357,7 +366,7 @@ class StatisticAPI {
     }
     // text : %Y-%m-%d-%H
     // eg: 2021-01-03-15
-    _getDateObj(text){
+    _getDateObj(text) {
         let year = Number.parseInt(text.split("-")[0]);
         let month = Number.parseInt(text.split("-")[1]);
         let day = Number.parseInt(text.split("-")[2]);
