@@ -24,7 +24,7 @@ class QrScanExec {
     let whereParam = [cf, type];
 
     if (start && end) {
-      where += ` AND s.created_at >= '${start}' AND s.created_at <= '${end}' `
+      where += ` AND DATE_ADD(s.created_at, INTERVAL 8 HOUR) BETWEEN '${start}' AND '${end}' `
     }
 
     // let { start, end } = await _getCfStartEnd(DB, cf)

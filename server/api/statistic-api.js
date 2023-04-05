@@ -296,7 +296,7 @@ class StatisticAPI {
 
         let { start, end } = await _getCfStartEnd(DB, cf)
         if (start && end) {
-            where += ` AND s.created_at >= '${start}' AND s.created_at <= '${end}' `
+            where += ` AND DATE_ADD(s.created_at, INTERVAL 8 HOUR) BETWEEN '${start}' AND '${end}' `
         }
         // let where = "";
         // let whereParam = [];
@@ -318,13 +318,28 @@ class StatisticAPI {
         ORDER BY dt asc`;
 
         q = DB.prepare(q, whereParam);
+
         return DB.query(q).then(res => {
+            // res = [
+            //     {
+            //         dt: "2023-4-05-09", ttl: "3",
+            //     },
+            //     {
+            //         dt: "2023-4-05-10", ttl: "31",
+            //     },
+            //     {
+            //         dt: "2023-4-05-11", ttl: "10",
+            //     }
+            // ]
+
             let toReturn = [];
             let map = {}
 
             for (let r of res) {
                 map[r["dt"]] = r["ttl"]
             }
+
+            // console.log("map", map)
 
             if (res.length > 0) {
                 let min = res[0]["dt"];
@@ -333,8 +348,9 @@ class StatisticAPI {
                 let current = min;
                 let currentDate = this._getDateObj(current);
                 let index = 0;
-
+                // console.log("current11", current)
                 while (current != max) {
+                    // console.log("current", index, current)
                     try {
                         let date = this._getDateObj(current);
                         toReturn.push({
@@ -342,17 +358,19 @@ class StatisticAPI {
                             ttl: map[current] ? map[current] : 0
                         })
 
+                        // console.log("date1", date, current)
                         date.setHours(date.getHours() + 1);
-
+                        
                         currentDate = date;
-                        current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`
+                        current = `${date.getFullYear()}-${date.getMonth()}-${date.getDate().toString().padStart(2, "0")}-${date.getHours().toString().padStart(2, "0")}`
+                        // console.log("date2", date, current)
 
                         index++;
                         if (index > 100) {
                             break;
                         }
                     } catch (err) {
-
+                        break;
                     }
                 }
                 toReturn.push({
