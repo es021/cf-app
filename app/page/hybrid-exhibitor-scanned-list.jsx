@@ -43,7 +43,7 @@ export default class HybridExhibitorScannedList extends React.Component {
                             {
                                 isScannedByStudent
                                     ? createUserTitle(d.logged_in_user)
-                                    : `${d.logged_in_user.first_name} ${d.logged_in_user.last_name}`
+                                    : d.logged_in_user ? `${d.logged_in_user.first_name} ${d.logged_in_user.last_name}` : ''
                             }
                         </div>
                         <div className="text-muted">
