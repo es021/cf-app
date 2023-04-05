@@ -48,7 +48,7 @@ export default class HybridExhibitorScannedList extends React.Component {
                         </div>
                         <div className="text-muted">
                             <small>
-                                {isScannedByStudent ? _student_single() : d.logged_in_user.role.capitalize()}
+                                {isScannedByStudent ? _student_single() : d.logged_in_user && d.logged_in_user.role ? d.logged_in_user.role.capitalize() : ''}
                             </small>
                         </div>
                     </div>
