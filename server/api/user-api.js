@@ -34,6 +34,10 @@ class UserAPI {
         let cf = param.cf;
         let user_ids = param.user_ids;
 
+        if (user_ids.length <= 0) {
+            return Promise.resolve({})
+        }
+
         let fields = await UserFieldHelper.getStudentFieldForXls(cf);
         let singleFields = fields.single;
         let multiFields = fields.multi;
@@ -105,21 +109,23 @@ class UserAPI {
                 mapUidIndex[d.student_id] = index;
                 return d.student_id;
             });
-            let q = `select 
+            if (user_ids.length > 0) {
+                let q = `select 
                 u.ID,
                 ${customField.map(d => `(${UserQuery.selectSingleMain("u.ID", this.getRealField(d))}) as ${d}`).join(",")}
                 from  wp_cf_users u 
                 where 1=1 and u.ID IN (${user_ids.join(",")})
             `;
-            let customData = await DB.query(q)
-            for (let cf of customData) {
-                let index = mapUidIndex[cf.ID];
-                let toAppend = { ...cf }
-                delete toAppend["ID"];
+                let customData = await DB.query(q)
+                for (let cf of customData) {
+                    let index = mapUidIndex[cf.ID];
+                    let toAppend = { ...cf }
+                    delete toAppend["ID"];
 
-                res[index]["student"] = {
-                    ...res[index]["student"],
-                    ...toAppend
+                    res[index]["student"] = {
+                        ...res[index]["student"],
+                        ...toAppend
+                    }
                 }
             }
         }
