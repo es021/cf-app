@@ -66,6 +66,8 @@ export default class AdminDatapoint extends React.Component {
         try {
 
             let config = JSON.parse(JSON.stringify(this.state.config));
+
+            console.log("config",config)
             let cObj = config[index];
             for (let c of this.ConfigComponents) {
                 if (!cObj[c]) {
@@ -77,6 +79,7 @@ export default class AdminDatapoint extends React.Component {
                 v = cObj["register"]["label"];
                 if (!v) v = cObj["popup"]["label"];
                 if (!v) v = cObj["filter"]["title"];
+                if (!v) v = cObj["profile"]["title"];
             }/////////////////////////////////
             else if (key == "terms") {
                 try {
@@ -162,6 +165,7 @@ export default class AdminDatapoint extends React.Component {
             if (key == "label") {
                 cObj["register"]["label"] = v;
                 cObj["popup"]["label"] = v;
+                cObj["profile"]["title"] = v;
                 cObj["filter"]["title"] = v;
                 cObj["filter"]["type"] = "checkbox";
                 ///////////////////////////////////////

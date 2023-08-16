@@ -16,6 +16,7 @@ export default class InputMulti extends React.Component {
     // fn binding
     this.currentInsertValue = null;
 
+    this.inputOnBlur = this.inputOnBlur.bind(this);
     this.inputOnChange = this.inputOnChange.bind(this);
     this.continueOnClick = this.continueOnClick.bind(this);
     this.finishDbRequest = this.finishDbRequest.bind(this);
@@ -52,11 +53,23 @@ export default class InputMulti extends React.Component {
   isSelect() {
     return this.props.input_type == "select";
   }
+  isText() {
+    return this.props.input_type == "text";
+  }
   inputOnChange(e) {
     if (this.isSelect()) {
       let v = e.target.value;
       console.log("v", v);
       if (v != "" && v != null && v != PLEASE_SELECT) {
+        this.onChooseSuggestion(v);
+      }
+      e.target.value = "";
+    }
+  }
+  inputOnBlur(e, name, v) {
+    if (this.isText()) {
+      console.log("v", v);
+      if (v != "" && v != null) {
         this.onChooseSuggestion(v);
       }
       e.target.value = "";
@@ -491,6 +504,7 @@ export default class InputMulti extends React.Component {
               select_is_translate_label={this.props.is_translate_label}
               onChoose={this.onChooseSuggestion}
               input_onChange={this.inputOnChange}
+              input_onBlur={this.inputOnBlur}
               table_name={this.props.ref_table_name}
               order_by={this.props.ref_order_by}
               input_placeholder={this.props.input_placeholder}

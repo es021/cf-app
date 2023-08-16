@@ -120,7 +120,9 @@ export default class InputSuggestion extends React.Component {
   //   }
   // }
   onBlur(e) {
+    let v = null;
     if (!this.isSelect() && this.props.is_multi) {
+      v = this.ref.value
       this.ref.value = "";
       // let firstSuggestion = null;
       // try {
@@ -138,7 +140,7 @@ export default class InputSuggestion extends React.Component {
     this.closeSuggestionList();
 
     if (this.props.input_onBlur) {
-      this.props.input_onBlur(e, this.props.name);
+      this.props.input_onBlur(e, this.props.name, v);
     }
   }
   onFocus(e) {
