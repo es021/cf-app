@@ -122,7 +122,7 @@ const UserConfigDefault = [
             input_type: "checkbox",
             data: [{
                 key: "accepted",
-                label: `<small>I agree to <a href="${getTermsAndConditionUrl()}" target="_blank">terms and conditions</a></small>`
+                label: `<div>I agree to website's <a href="${getTermsAndConditionUrl()}" target="_blank">terms and conditions</a></div>`
             }],
             required_error: "You must agree to terms and condition before continuing."
         }
@@ -137,7 +137,7 @@ const UserConfigDefault = [
             input_type: "checkbox",
             data: [{
                 key: "accepted",
-                label: `<small>I agree to receive important notifications from this event</small>`
+                label: `<div>I agree to receive important notifications from this event</div>`
             }],
             required_error: "You must agree to receive important notifications from this event."
         }

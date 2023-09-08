@@ -1,25 +1,16 @@
 import React, { Component } from "react";
-//import { Redirect, NavLink } from 'react-router-dom';
-import Form, { toggleSubmit, getDataCareerFair } from "../component/form";
+import Form, { toggleSubmit } from "../component/form";
 import { UserMeta, User, UserEnum, CFSMeta } from "../../config/db-config";
-//import { Month, Year, Sponsor, MasState, Country } from '../../config/data-config';
-//import { ButtonLink } from '../component/buttons.jsx';
 import { register, getCF, getCFObj, getCfCustomMeta, getNoMatrixLabel, isCfFeatureOff } from "../redux/actions/auth-actions";
-import { RootPath, DocumentUrl, LandingUrl, UploadUrl } from "../../config/app-config";
-import AvailabilityView from "./availability";
+import { UploadUrl } from "../../config/app-config";
 import { getAxiosGraphQLQuery, graphql } from "../../helper/api-helper";
 import obj2arg from "graphql-obj2arg";
 import LoginPage from "./login";
-import * as Reg from "../../config/registration-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import PropTypes from "prop-types";
 import {
-  CustomRegistrationTermsAndConditionError, isNoProfileSetupPostSignUp
+  isNoProfileSetupPostSignUp
 } from "../../config/registration-config-custom-by-cf";
-import {
-  getRegisterFormItem,
-  TotalRegisterStep
-} from "../../config/user-config";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import { AuthAPIErr } from "../../config/auth-config";
 import { lang } from "../lib/lang";
@@ -46,7 +37,7 @@ export const ErrorMessage = {
   ID_UTM_ALREADY_EXIST: (id_utm) => {
     return <div>
       {getNoMatrixLabel()} (<b>{id_utm}</b>) is already registered to other account in our system. Please login with the registered account to continue.
-  </div>
+    </div>
   },
   JPA_OVER_LIMIT: () => {
     return <div>
@@ -67,7 +58,7 @@ export const ErrorMessage = {
   KPT_ALREADY_EXIST: (kpt) => {
     return <div>
       IC number (<b>{kpt}</b>) is already registered to other account in our system. Please login with the registered account to continue.
-  </div>
+    </div>
   }
 }
 
@@ -614,7 +605,7 @@ export default class SignUpPage extends React.Component {
     ) {
       return (
         <div>
-          <h3>{lang("Congratulation! You Have Completed Your Profile")}</h3>
+          <h3>{lang("Congratulations. You Have Completed Your Profile")}</h3>
           <LoginPage
             defaultLogin={user[User.EMAIL]}
             title={<h4>{lang("Login Now")}</h4>}

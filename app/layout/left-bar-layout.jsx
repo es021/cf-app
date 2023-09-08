@@ -106,7 +106,7 @@ export default class LeftBarLayout extends React.Component {
                                 <i><NavLink
                                     onClick={() => hideLeftBar()}
                                     className="btn-link"
-                                    to={`${RootPath}/app/edit-profile/profile`}>{lang("Edit Profile")}</NavLink></i>
+                                    to={`${RootPath}/app/edit-profile/profile`}>{lang("My Profile")}</NavLink></i>
                             </small>
 
                         </div>

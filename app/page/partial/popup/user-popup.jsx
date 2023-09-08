@@ -586,8 +586,10 @@ export default class UserPopup extends Component {
       ? ImgConfig.DefUserBanner
       : data.banner_url;
     var style = {
+      height: '150px',
       backgroundImage: "url(" + data.banner_url + ")",
-      backgroundSize: isInvalid(data.banner_size) ? "" : data.banner_size,
+      backgroundSize: isInvalid(data.banner_size) ? "cover" : data.banner_size,
+      backgroundRepeat: 'no-repeat',
       backgroundPosition: isInvalid(data.banner_position)
         ? "center center"
         : data.banner_position
@@ -695,24 +697,27 @@ export default class UserPopup extends Component {
   }
 
   render() {
+
+    const isStudent = this.props.role == UserEnum.ROLE_STUDENT;
+    const isRecruiter = this.props.role == UserEnum.ROLE_RECRUITER;
+
     var id = null;
     var user = this.state.data;
     var view = null;
     if (this.state.loading) {
       view = <Loader size="3" text={lang("Loading Student Information...")}></Loader>;
     } else {
-      var userBody =
-        this.props.role === UserEnum.ROLE_STUDENT
-          ? this.getStudentBody(user)
-          : this.getRecruiterBody(user);
+      var userBody = isStudent
+        ? this.getStudentBody(user)
+        : this.getRecruiterBody(user);
 
-      var actionForRec = (
+      var actionForRec = isStudent ? (
         <div style={{ marginTop: "10px", marginBottom: "18px" }}>
           {this.getStartChat(user)}
           {/* <span style={{ padding: "0px 5px" }}></span> */}
           {this.getScheduleCall(user)}
         </div>
-      );
+      ) : null;
 
       var profilePic = (
         <div>
@@ -733,12 +738,13 @@ export default class UserPopup extends Component {
         </div>
       );
 
+
       if (
-        this.props.role === UserEnum.ROLE_STUDENT &&
+        (isStudent || isRecruiter) &&
         !this.props.isSessionPage
       ) {
         view = (
-          <div>
+          <div className={this.props.isOnPage ? 'border border-solid border-slate-300 rounded-xl overflow-hidden mx-3 mt-10 my-6' : null}>
             {this.getBanner()}
             <div className="container-fluid">
               <div className="row">
@@ -757,8 +763,12 @@ export default class UserPopup extends Component {
                     {profilePic}
                   </div>
                 </div>
-                <div className="col-md-6">{userBody.left}</div>
-                <div className="col-md-6">{userBody.right}</div>
+                {isStudent ?
+                  [
+                    <div className={`col-md-6 ${this.props.isOnPage ? 'px-10' : ''}`}>{userBody.left}</div>,
+                    <div className={`col-md-6 ${this.props.isOnPage ? 'px-10' : ''}`}>{userBody.right}</div>
+                  ]
+                  : <div className={`col-md-12 ${this.props.isOnPage ? 'px-10 pb-10' : ''}`}>{userBody}</div>}
               </div>
             </div>
           </div>
@@ -789,10 +799,12 @@ UserPopup.propTypes = {
   role: PropTypes.string,
   companyPrivs: PropTypes.object,
   company_id: PropTypes.number,
-  isSessionPage: PropTypes.bool
+  isSessionPage: PropTypes.bool,
+  isOnPage: PropTypes.bool,
 };
 
 UserPopup.defaultProps = {
   role: UserEnum.ROLE_STUDENT,
-  isSessionPage: false
+  isSessionPage: false,
+  isOnPage: false,
 };

@@ -37,7 +37,7 @@ import LogoutPage from "../page/logout";
 import ManageUserProfile from "./partial/user/manage-user-profile";
 import UploaderVideo from "../component/uploader-video";
 import { createVideoDropbox } from "./partial/popup/user-popup";
-import {lang} from "../lib/lang";
+import { lang } from "../lib/lang";
 
 class StudentVideoResume extends React.Component {
   constructor(props) {
@@ -226,8 +226,8 @@ class Skills extends React.Component {
     var skills = this.state.loading ? (
       <Loader size="2" text="Loading skills.."></Loader>
     ) : (
-        <div className="text-muted">{lang("Nothing To Show Here")}</div>
-      );
+      <div className="text-muted">{lang("Nothing To Show Here")}</div>
+    );
     if (!this.state.loading && this.state.skills.length > 0) {
       var skillItems = this.state.skills.map((d, i) => {
         return (
@@ -438,15 +438,25 @@ class EditProfile extends React.Component {
 
 export default class EditProfilePage extends React.Component {
   componentWillMount() {
-    this.item = {
-      profile: {
-        label: "My Profile",
-        component: EditProfile,
-        icon: "user"
-      }
+    const authUser = getAuthUser();
+    this.item = {};
+
+    this.item["profile"] = {
+      label: "My Profile",
+      component: UserPopup,
+      props: {
+        id: authUser.ID,
+        role: authUser.role,
+        isOnPage: true,
+      },
+      icon: "user"
     };
 
-    const authUser = getAuthUser();
+    this.item["edit"] = {
+      label: "Edit Profile",
+      component: EditProfile,
+      icon: "pencil"
+    };
 
     if (isRoleStudent()) {
       this.item["doc-link"] = {
@@ -485,17 +495,17 @@ export default class EditProfilePage extends React.Component {
       icon: "lock"
     };
 
-    this.item["view"] = {
-      label: "View Profile",
-      onClick: () => {
-        layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {
-          id: authUser.ID,
-          role: authUser.role
-        });
-      },
-      component: null,
-      icon: "eye"
-    };
+    // this.item["view_old"] = {
+    //   label: "View Profile Old",
+    //   onClick: () => {
+    //     layoutActions.storeUpdateFocusCard("My Profile", UserPopup, {
+    //       id: authUser.ID,
+    //       role: authUser.role
+    //     });
+    //   },
+    //   component: null,
+    //   icon: "eye"
+    // };
 
     this.item["logout"] = {
       label: "Logout",

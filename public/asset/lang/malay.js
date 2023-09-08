@@ -201,7 +201,7 @@ var LANG_MALAY = {
     "Register As Student": "Daftar Sebagai Pelajar",
     "WELCOME TO": "SELAMAT DATANG KE",
     "You must agree to terms and condition before continuing.": "Anda perlu bersetuju dengan terma dan syarat sebelum meneruskan pendaftaran.",
-    "Congratulation! You Have Completed Your Profile": "Tahniah! Anda telah melengkapkan profil anda.",
+    "Congratulations. You Have Completed Your Profile": "Tahniah! Anda telah melengkapkan profil anda.",
     "Login Now": "Log Masuk Sekarang",
     "Student Registration": "Pendaftaran Pelajar",
     "Sign Me Up!": "Daftar",

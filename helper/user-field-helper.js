@@ -196,6 +196,7 @@ class UserFieldHelper {
                     name: item.id,
                     label: item.label,
                     sublabel: item.sublabel,
+                    hint: item.hint,
                     type: item.input_type,
                     data: item.data,
                     placeholder: item.input_placeholder,

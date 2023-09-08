@@ -47,7 +47,8 @@ var ZoomCheckMeetingExpiredUrl = SiteUrl + "/zoom/is-expired";
 var PORT_DEV = "80";
 
 var EmailPhpAdmin = ((isProd) ? Domain : `http://localhost:${PORT_DEV}/cf-app/server`) + `/php-api/email/email.php`;
-const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
+// const TermsAndConditionUrl = `${DocumentUrl}/privacy-policy-2020-2.pdf`;
+const TermsAndConditionUrl = `${DocumentUrl}/Privacy_Policy_for_Virtual_Career_Fair_2023.pdf`;
 const IconsPdfUrl = `${DocumentUrl}/IconsForSeedsJobFair.pdf`;
 
 function getTermsAndConditionUrl(cf) {

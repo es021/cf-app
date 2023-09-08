@@ -65,9 +65,30 @@ export default class AdminDatapoint extends React.Component {
     currentValue(index, key) {
         try {
 
+            let has_register = false;
+            let has_profile = false;
+            let has_popup = false;
+            let has_filter = false;
+            if (["has_register", "has_profile", "has_popup", "has_filter"].indexOf(key) <= -1) {
+                has_register = this.currentValue(index, "has_register");
+                has_profile = this.currentValue(index, "has_profile");
+                has_popup = this.currentValue(index, "has_popup");
+                has_filter = this.currentValue(index, "has_filter");
+            }
+
+
             let config = JSON.parse(JSON.stringify(this.state.config));
 
-            console.log("config",config)
+            if (index == 0 && key == "question") {
+                console.log(index, key,)
+                console.log("has_register", has_register)
+                console.log("has_profile", has_profile)
+                console.log("has_popup", has_popup)
+                console.log("has_filter", has_filter)
+                console.log("config", config)
+            }
+
+
             let cObj = config[index];
             for (let c of this.ConfigComponents) {
                 if (!cObj[c]) {
@@ -76,10 +97,10 @@ export default class AdminDatapoint extends React.Component {
             }
             let v;
             if (key == "label") {
-                v = cObj["register"]["label"];
-                if (!v) v = cObj["popup"]["label"];
-                if (!v) v = cObj["filter"]["title"];
-                if (!v) v = cObj["profile"]["title"];
+                if (has_register) v = cObj["register"]["label"];
+                if (!v && has_popup) v = cObj["popup"]["label"];
+                if (!v && has_filter) v = cObj["filter"]["title"];
+                if (!v && has_profile) v = cObj["profile"]["title"];
             }/////////////////////////////////
             else if (key == "terms") {
                 try {
@@ -92,36 +113,38 @@ export default class AdminDatapoint extends React.Component {
                 v = cObj["register"]["required_error"];
             }/////////////////////////////////
             else if (key == "question") {
-                v = cObj["profile"]["label"];
+                if (has_register) v = cObj["register"]["label"];
+                if (!v && has_profile) v = cObj["profile"]["label"];
             } /////////////////////////////////
             else if (key == "question_hint") {
-                v = cObj["profile"]["sublabel"];
+                if (has_register) v = cObj["register"]["sublabel"];
+                if (!v && has_profile) v = cObj["profile"]["sublabel"];
             }/////////////////////////////////
             else if (key == "parent_input") {
                 v = cObj["profile"]["children_of"];
             }/////////////////////////////////
             else if (key == "question_placeholder") {
-                v = cObj["register"]["input_placeholder"];
-                if (!v) v = cObj["profile"]["input_placeholder"];
+                if (has_register) v = cObj["register"]["input_placeholder"];
+                if (!v && has_profile) v = cObj["profile"]["input_placeholder"];
             }/////////////////////////////////
             else if (key == "question_type") {
-                v = cObj["register"]["input_type"];
-                if (!v) v = cObj["profile"]["input_type"];
+                if (has_register) v = cObj["register"]["input_type"];
+                if (!v && has_profile) v = cObj["profile"]["input_type"];
             }/////////////////////////////////
             else if (key == "question_dataset") {
-                v = cObj["register"]["dataset_source"];
-                if (!v) v = cObj["profile"]["dataset_source"];
-                if (!v) v = cObj["filter"]["dataset_source"];
+                if (has_register) v = cObj["register"]["dataset_source"];
+                if (!v && has_profile) v = cObj["profile"]["dataset_source"];
+                if (!v && has_filter) v = cObj["filter"]["dataset_source"];
             }/////////////////////////////////
             else if (key == "question_dataset_order") {
-                v = cObj["register"]["dataset_order_by"];
-                if (!v) v = cObj["profile"]["dataset_order_by"];
+                if (has_register) v = cObj["register"]["dataset_order_by"];
+                if (!v && has_profile) v = cObj["profile"]["dataset_order_by"];
             }/////////////////////////////////
             else if (key == "icon") {
                 v = cObj["popup"]["icon"];
             }/////////////////////////////////
             else if (key == "is_required") {
-                v = cObj["register"]["required"];
+                if (has_register) v = cObj["register"]["required"];
                 if (v == null || typeof v === "undefined") v = cObj["profile"]["is_required"];
                 return v;
             }/////////////////////////////////
@@ -195,8 +218,10 @@ export default class AdminDatapoint extends React.Component {
                 ///////////////////////////////////////
             } else if (key == "question") {
                 cObj["profile"]["label"] = v;
+                cObj["register"]["label"] = v;
                 ///////////////////////////////////////
             } else if (key == "question_hint") {
+                cObj["register"]["sublabel"] = v;
                 cObj["profile"]["sublabel"] = v;
                 ///////////////////////////////////////
             } else if (key == "question_placeholder") {
