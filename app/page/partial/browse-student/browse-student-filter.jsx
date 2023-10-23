@@ -377,6 +377,8 @@ export class BrowseStudentFilter extends React.Component {
             param += ` , lang:"${currentLang()}" `;
         }
 
+        param = param.replace("company_id : undefined,", "");
+
         let q = `query{
             browse_student_filter( ${param} ) {
               _key
