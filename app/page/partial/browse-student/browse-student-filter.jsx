@@ -856,6 +856,8 @@ export class BrowseStudentFilter extends React.Component {
 
             try {
                 let res = await postRequest(UserUrl + '/download-resume', {
+                    user_id: getAuthUser().ID,
+                    cf: getCF(),
                     query_graphql: query,
                 })
                 layoutActions.storeHideBlockLoader();
