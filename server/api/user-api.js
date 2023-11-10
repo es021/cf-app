@@ -134,9 +134,11 @@ class UserAPI {
                     fs.mkdirSync(gatherDirPath);
                 }
 
+                let resumeCount = list.length;
                 for (let r of list) {
                     fs.copyFile(r.path, `${gatherDirPath}/${r.filename}`, (err) => {
                         if (err) {
+                            resumeCount--;
                             console.log("error for", r.url);
                         }
                     });
@@ -144,9 +146,9 @@ class UserAPI {
 
                 const cmdZip = `cd ${downloadResumeRoot} && zip -r ${gatherDirName}.zip ${gatherDirName}`
 
-                let url = `${downloadResumeRoot}/${gatherDirName}.zip`
-                url = url.split("/public/")
-                url = `${Domain}/public/${url[1]}`
+                let zipUrl = `${downloadResumeRoot}/${gatherDirName}.zip`
+                zipUrl = zipUrl.split("/public/")
+                zipUrl = `${Domain}/public/${zipUrl[1]}`
 
                 exec(cmdZip, (error, stdout, stderr) => {
                     if (gatherDirPath && gatherDirPath.indexOf(gatherDirName) >= 0) {
@@ -156,7 +158,7 @@ class UserAPI {
                     if (error) {
                         reject(error);
                     } else {
-                        resolve(url);
+                        resolve({ zipUrl, zipPath: `${gatherDirPath}.zip`, resumeCount });
                     }
                 });
 
@@ -166,7 +168,9 @@ class UserAPI {
         });
     }
     async dowloadResume(param) {
-        let query_graphql = param.query_graphql
+        let { query_graphql, user_id, cf } = param;
+
+
         query_graphql = query_graphql.replaceAll("\n", " ");
         let res = await graphql(query_graphql)
         res = res.data.data.browse_student;
@@ -213,7 +217,14 @@ class UserAPI {
             };
         } else {
             try {
-                const zipUrl = await this.gatherAndZipResume(toDownload)
+                const { zipUrl, zipPath, resumeCount } = await this.gatherAndZipResume(toDownload)
+                DB.insert("download_resume", {
+                    user_id,
+                    cf,
+                    resume_count: resumeCount,
+                    url: zipUrl,
+                    path: zipPath
+                })
                 toRet = {
                     url: zipUrl
                 };
