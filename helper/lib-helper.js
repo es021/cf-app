@@ -5,4 +5,3 @@ String.prototype.replaceAll = function (search, replacement, ignoreCase = false)
     var target = this;
     return target.replace(new RegExp(search, `${i}g`), replacement);
 };
-

@@ -1,17 +1,18 @@
 import React, { PropTypes } from "react";
-import { graphql } from "../../../../helper/api-helper";
+import { graphql, postRequest } from "../../../../helper/api-helper";
 import { Loader } from "../../../component/loader";
 import Tooltip from "../../../component/tooltip";
 import { isCfLocal, getCF, getAuthUser, isCfFeatureOn, getCfCustomMeta, isRoleOrganizer, isCfFeatureOff, getDatapointConfig, getDatapointConfigIdSingle, getDatapointConfigIdMulti } from "../../../redux/actions/auth-actions";
 import { ButtonExport } from '../../../component/buttons.jsx';
 import { getExternalFeedbackBtn } from '../../../page/partial/analytics/feedback';
 import { lang, isHasOtherLang, currentLang } from "../../../lib/lang";
-import { customBlockLoader } from "../../../redux/actions/layout-actions";
+import * as layoutActions from "../../../redux/actions/layout-actions";
 import { CFSMeta } from "../../../../config/db-config";
 import { _student_plural_lower, _student_plural } from "../../../redux/actions/text-action";
 import { cfCustomFunnel } from "../../../../config/cf-custom-config";
 import { isInCustomOrder } from "../../../../config/registration-config";
 import UserFieldHelper from "../../../../helper/user-field-helper";
+import { UserUrl } from "../../../../config/app-config.js";
 
 
 export function createFilterStr(filterObj, validCf, { isPageStudentListJobPost }) {
@@ -804,38 +805,87 @@ export class BrowseStudentFilter extends React.Component {
             return { key: prevState.key + 1 }
         })
     }
+    checkIfFeedbackValid(validHandler) {
+        var q = `query {has_feedback(user_id: ${getAuthUser().ID}) }`;
+        graphql(q).then((res) => {
+            let alreadyHasFeedback = res.data.data.has_feedback
+            let isFeatureOff = !isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)
+            let externalUrl = getCfCustomMeta(CFSMeta.LINK_EXTERNAL_FEEDBACK_REC, null);
+            if (alreadyHasFeedback || isFeatureOff || !externalUrl) {
+                validHandler();
+            } else {
+                var body = <div>
+                    <h3 style={{ color: "#286090" }}>
+                        {/* {lang("Help Us To Improve")} */}
+                        {lang("Your feedback is very valuable to us.")}
+                        <br></br>
+                        <small>
+                            {lang("Please answer a short feedback questions to continue.")}
+                        </small>
+                    </h3>
+                    {getExternalFeedbackBtn(externalUrl)}
+                </div>;
+                layoutActions.customBlockLoader(body, "Open Feedback Form", null, null, true);
+            }
+        });
+    }
     getButtonExport() {
-        const asyncValidation = (validHandler) => {
-            var q = `query {has_feedback(user_id: ${getAuthUser().ID}) }`;
-            graphql(q).then((res) => {
-                let alreadyHasFeedback = res.data.data.has_feedback
-                let isFeatureOff = !isCfFeatureOn(CFSMeta.FEATURE_FEEDBACK)
-                let externalUrl = getCfCustomMeta(CFSMeta.LINK_EXTERNAL_FEEDBACK_REC, null);
-                if (alreadyHasFeedback || isFeatureOff || !externalUrl) {
-                    validHandler();
-                } else {
-                    var body = <div>
-                        <h3 style={{ color: "#286090" }}>
-                            {/* {lang("Help Us To Improve")} */}
-                            {lang("Your feedback is very valuable to us.")}
-                            <br></br>
-                            <small>
-                                {lang("Please answer a short feedback questions to continue.")}
-                            </small>
-                        </h3>
-                        {getExternalFeedbackBtn(externalUrl)}
-                    </div>;
-                    customBlockLoader(body, "Open Feedback Form", null, null, true);
-                    // customBlockLoader(body, "Open Feedback Form", null, `${RootPath}/app/feedback/recruiter`, true);
-                }
-            });
-        }
-
         let filter = this.props.filterStr + `, company_id : ${this.props.company_id}`
-        return <ButtonExport asyncValidation={isRoleOrganizer() ? null : asyncValidation}
+        return <ButtonExport asyncValidation={isRoleOrganizer() ? null : this.checkIfFeedbackValid}
             style={{ margin: "5px" }} btnClass="gray btn-round-5" action="browse_student"
             text={<span>{lang("Export")} <b>{lang("Searched Result")}</b> {lang("As Excel")}</span>}
             filter={filter} cf={getCF()}></ButtonExport>
+    }
+    getButtonDownloadResume() {
+
+        const startDownload = async () => {
+            layoutActions.loadingBlockLoader("Downloading resume. This process might take while. Please do not close this window.");
+            var query = `
+            query{
+                browse_student ${this.props.getQueryParam({
+                filterStr: `${this.props.filterStr}, with_resume_only: "1"`,
+                company_id: this.props.company_id
+            })} 
+                {
+                    student{
+                        ID first_name last_name user_email 
+                        doc_links_resume {url}
+                    }
+                }
+            } `;
+
+            try {
+                let res = await postRequest(UserUrl + '/download-resume', {
+                    query_graphql: query,
+                })
+                layoutActions.storeHideBlockLoader();
+                res = res.data
+                if (res.error) {
+                    throw res.error;
+                } else if (res.is_no_resume) {
+                    throw "There is no resume in your current searched result"
+                } else if (res.url) {
+                    window.open(res.url, "_blank");
+                }
+            } catch (err) {
+                layoutActions.storeHideBlockLoader();
+                layoutActions.errorBlockLoader(`Failed to download resume. ${err.toString()}`)
+            }
+        }
+        return (<a style={{ margin: "5px" }}
+            className="btn btn-sm btn-gray btn-round-5"
+            onClick={() => {
+                if (isRoleOrganizer()) {
+                    startDownload()
+                } else {
+                    this.checkIfFeedbackValid(() => {
+                        startDownload()
+                    })
+                }
+            }}>
+            <i className="fa fa-download left"></i>
+            <span>{lang("Download")} <b>{lang("Searched Result")}</b> {lang("Resume")}</span>
+        </a>);
     }
     render() {
         let v = null;
@@ -854,9 +904,12 @@ export class BrowseStudentFilter extends React.Component {
                     <i className="fa fa-times left"></i>
                     {lang("Reset Filter")}
                 </button>
-                {this.getButtonExport()}
             </div>;
-            btnAction = this._section(btnAction);
+            let btnActionExportDownload = <div className="text-left">
+                {this.getButtonExport()}
+                {this.getButtonDownloadResume()}
+            </div>;
+            btnAction = [this._section(btnAction), this._section(btnActionExportDownload)];
 
             v = <div key={this.state.key}>
                 {this.header()}

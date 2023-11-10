@@ -5,7 +5,12 @@ const {
 } = require("../../config/db-config.js");
 const { graphql } = require("../../helper/api-helper.js");
 const UserFieldHelper = require("../../helper/user-field-helper");
-
+const { Domain } = require("../../config/app-config.js");
+const { Secret } = require("../secret/secret.js");
+const fs = require("fs");
+const path = require("path");
+const { generateRandomString } = require("../../helper/general-helper.js");
+const { exec } = require("child_process");
 class UserAPI {
     Main(action, param) {
 
@@ -14,6 +19,8 @@ class UserAPI {
                 return this.getDetail(param);
             case "get-data-for-listing":
                 return this.getDataForListing(param);
+            case "download-resume":
+                return this.dowloadResume(param);
             case "get-data-for-xls":
                 return this.getDataForXls(param);
         }
@@ -93,6 +100,127 @@ class UserAPI {
 
         return Promise.resolve(toRet)
 
+    }
+    async gatherAndZipResume(list) {
+        return new Promise(function (resolve, reject) {
+            try {
+                let pwd = process.env.PWD ? process.env.PWD : process.env.INIT_CWD;
+
+                const gatherDirName = `seedsjobfair_resume_${generateRandomString(10).toLowerCase()}`;
+                let downloadResumeRoot = path.join(pwd, `public/upload/download_resume`);
+
+                // create type dir
+                if (!fs.existsSync(downloadResumeRoot)) {
+                    fs.mkdirSync(downloadResumeRoot);
+                }
+
+                // create year dir
+                let d = new Date();
+                let y = d.getYear() + 1900;
+                downloadResumeRoot += `/${y}`;
+                if (!fs.existsSync(downloadResumeRoot)) {
+                    fs.mkdirSync(downloadResumeRoot);
+                }
+
+                // create month dir
+                let m = d.getMonth() + 1;
+                downloadResumeRoot += `/${m}`;
+                if (!fs.existsSync(downloadResumeRoot)) {
+                    fs.mkdirSync(downloadResumeRoot);
+                }
+
+                const gatherDirPath = `${downloadResumeRoot}/${gatherDirName}`;
+                if (!fs.existsSync(gatherDirPath)) {
+                    fs.mkdirSync(gatherDirPath);
+                }
+
+                for (let r of list) {
+                    fs.copyFile(r.path, `${gatherDirPath}/${r.filename}`, (err) => {
+                        if (err) {
+                            console.log("error for", r.url);
+                        }
+                    });
+                }
+
+                const cmdZip = `cd ${downloadResumeRoot} && zip -r ${gatherDirName}.zip ${gatherDirName}`
+
+                let url = `${downloadResumeRoot}/${gatherDirName}.zip`
+                url = url.split("/public/")
+                url = `${Domain}/public/${url[1]}`
+
+                exec(cmdZip, (error, stdout, stderr) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(url);
+                    }
+                });
+
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+    async dowloadResume(param) {
+        let query_graphql = param.query_graphql
+        query_graphql = query_graphql.replaceAll("\n", " ");
+        let res = await graphql(query_graphql)
+        res = res.data.data.browse_student;
+
+        let toDownload = [];
+        for (let r of res) {
+            const student = r["student"]
+            for (let i in student["doc_links_resume"]) {
+                try {
+                    i = Number.parseInt(i)
+                    let url = student["doc_links_resume"][i].url
+                    let path = url.replace(Domain, Secret.SERVER_ROOT_DIR)
+
+                    let filename = `${student.first_name} ${student.last_name} ${student.ID} ${i + 1}.pdf`
+
+                    var nameWithoutExt = filename;
+                    let fileExt = null;
+                    if (filename.indexOf(".") >= 1) {
+                        fileExt = filename.split(".").pop();
+                        if (fileExt) {
+                            fileExt = "." + fileExt;
+                        } else {
+                            fileExt = "";
+                        }
+                        if (nameWithoutExt) {
+                            nameWithoutExt = nameWithoutExt.replace(fileExt, "");
+                        }
+                    }
+                    let cleanName = nameWithoutExt.replace(/[^a-zA-Z0-9]/g, "_");
+                    cleanName = cleanName.replace(/^_+|_+(?=_|$)/g, "");
+                    filename = `${cleanName.toUpperCase()}${fileExt}`;
+
+                    toDownload.push({
+                        filename, path, url,
+                    });
+                } catch (err) { }
+            }
+        }
+
+        let toRet = {}
+        if (toDownload.length <= 0) {
+            toRet = {
+                is_no_resume: true,
+            };
+        } else {
+            try {
+                const zipUrl = await this.gatherAndZipResume(toDownload)
+                toRet = {
+                    url: zipUrl
+                };
+            } catch (err) {
+                toRet = {
+                    error: err.toString()
+                };
+            }
+        }
+
+        return Promise.resolve(toRet);
     }
     async getDataForListing(param) {
         let query_graphql = param.query_graphql

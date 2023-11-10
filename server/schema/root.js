@@ -636,6 +636,7 @@ let argBrowseStudent = {
 	like_job_post_only: __.String,
 	drop_resume_only: __.String,
 	with_attachment_only: __.String,
+	with_resume_only : __.String,
 	with_note_only: __.String,
 
 	current_cf: __.String,

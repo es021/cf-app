@@ -519,6 +519,15 @@ class BrowseStudentExec {
 
 		return "1=1";
 	}
+	whereHasResume(user_id, param) {
+		if (param === "1") {
+			let q = `${user_id} = ( select dl.user_id FROM doc_link dl 
+			where dl.user_id = ${user_id}  AND dl.type = 'document' AND dl.label = 'Resume' limit 0,1 )`;
+			return q;
+		}
+
+		return "1=1";
+	}
 	whereLikeJobPost(company_id, user_id, param) {
 		let type = "job_post";
 		return this.whereShowInterest(company_id, user_id, param, type);
@@ -606,6 +615,7 @@ class BrowseStudentExec {
 		var like_job_post = this.whereLikeJobPost(param.company_id, user_id, param.like_job_post_only);
 		var drop_resume = this.whereDropResume(param.company_id, user_id, param.drop_resume_only);
 		var has_attachment = this.whereHasAttachment(user_id, param.with_attachment_only);
+		var has_resume = this.whereHasResume(user_id, param.with_resume_only);
 		var with_note_only = this.whereHasNote(param.company_id, user_id, param.with_note_only);
 
 		let valueCF = param.cf;
@@ -701,6 +711,7 @@ class BrowseStudentExec {
 			AND ${like_job_post}
 			AND ${drop_resume}
 			AND ${has_attachment}
+			AND ${has_resume}
 			AND ${with_note_only}
 			AND ${has_iv_with_company}
 			AND ${has_resume_drop_with_company}

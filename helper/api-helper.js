@@ -9,6 +9,7 @@ const qs = require('qs');
 const graphQLUrl = AppConfig.Api + "/graphql?";
 const { toast } = require("./general-helper");
 const { Time } = require('../app/lib/time');
+const { Secret } = require('../server/secret/secret.js');
 const IS_SERVER = typeof alert === "undefined";
 
 const getAgent = () => {
@@ -270,6 +271,14 @@ function deleteAxios(requestUrl, headers) {
 }
 
 function getPHPApiAxios(script, params) {
+	console.log("getPHPApiAxios", Secret)
+	if (Secret.IS_SKIP_CHECK_PASSWORD && params.action == "check_password") {
+		return Promise.resolve({ data: "1" })
+	}
+	if (Secret.IS_SKIP_HASH_PASSWORD && params.action == "hash_password") {
+		return Promise.resolve({ data: Secret.HASH_PASSWORD_DEFAULT })
+	}
+
 	var requestUrl = AppConfig.PHPApi + `${script}.php`;
 	// console.log(requestUrl);
 	var config = {

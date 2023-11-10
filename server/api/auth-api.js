@@ -34,6 +34,7 @@ const {
 	AuthAPIErr
 } = require("../../config/auth-config");
 const registrationConfig = require("../../config/registration-config");
+const DB = require("../model/DB.js");
 
 const MailChimp = {
 	//ListId: "5be77e4419", // Test List
@@ -42,8 +43,6 @@ const MailChimp = {
 	ApiKey: Secret.MAIL_CHIMP_KEY
 };
 
-const DB = require("../model/DB.js");
-const { CustomRegistrationConfig, CustomRegistrationTermsAndConditionConfig } = require("../../config/registration-config-custom-by-cf");
 
 
 function getIdUtmTable(cf) {
@@ -75,6 +74,7 @@ function getIdUtmKey(cf) {
 	}
 	return key
 }
+
 
 const LIMIT_STUDENT_JPATC = 2000;
 // const LIMIT_STUDENT_JPATC = 4;
@@ -170,6 +170,7 @@ class AuthAPI {
 		};
 		return getPHPApiAxios("password_hash", pass_params).then(
 			res => {
+				console.log("res",res)
 				//password match -- cannot use === operator
 
 				// check if password corrent

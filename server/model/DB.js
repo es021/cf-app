@@ -9,6 +9,7 @@ const {
 } = require('../secret/secret.js');
 
 var DB = function (env) {
+    console.log("env",env)
     var config = {};
     if (env === "DEV") {
         config = {
@@ -29,7 +30,6 @@ var DB = function (env) {
     }
 
     this.con = Mysql.createPool(config);
-
     /*
      this.con.connect(function (err) {
      if (err) {

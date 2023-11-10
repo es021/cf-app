@@ -998,6 +998,17 @@ class UserExec {
 					);
 				}
 
+				// doc_links_resume ****************************************************
+				if (typeof field["doc_links_resume"] !== "undefined") {
+					res[i]["doc_links_resume"] = DocLinkExec.doc_links({
+						label: "Resume",
+						user_id: user_id,
+						order_by: "label"
+					},
+						field["doc_links_resume"]
+					);
+				}
+
 				// skills ****************************************************
 				if (typeof field["skills"] !== "undefined") {
 					res[i]["skills"] = SkillExec.skills({
