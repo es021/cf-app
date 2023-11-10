@@ -149,6 +149,10 @@ class UserAPI {
                 url = `${Domain}/public/${url[1]}`
 
                 exec(cmdZip, (error, stdout, stderr) => {
+                    if (gatherDirPath && gatherDirPath.indexOf(gatherDirName) >= 0) {
+                        console.log("DELETING FOLDER", gatherDirPath)
+                        exec(`rm -r ${gatherDirPath}`)
+                    }
                     if (error) {
                         reject(error);
                     } else {
