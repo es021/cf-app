@@ -5,7 +5,6 @@ import { Loader } from "../../../component/loader";
 import ProfileCard from "../../../component/profile-card.jsx";
 import { ButtonLink } from "../../../component/buttons.jsx";
 import { ProfileListItem } from "../../../component/list";
-import { RootPath, IsGruveoEnable } from "../../../../config/app-config";
 import { NavLink } from "react-router-dom";
 import { getAuthUser, getCF } from "../../../redux/actions/auth-actions";
 import { ActivityAPIErr } from "../../../../server/api/activity-api";

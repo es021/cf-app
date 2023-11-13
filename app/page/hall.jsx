@@ -5,7 +5,6 @@ import { ButtonArrowAction, ButtonAction } from "../component/buttons.jsx";
 import { NavLink } from "react-router-dom";
 import { getGroupSessionQueryFilter } from "./partial/hall/live-session";
 import PageSection from "../component/page-section";
-import { GroupSessionView } from "./partial/hall/group-session";
 import CompaniesSection from "./partial/hall/companies";
 import ForumPage from "./forum";
 import {
@@ -350,7 +349,7 @@ export default class HallPage extends React.Component {
       icon="video-camera"
       backgroundColor={null}
       containerStyle={{ padding: "20px 0px" }}
-      items={<ActivitySection type="row" isCenter={false} limitLoad={4} type="row" isFullWidth={true} />}
+      items={<ActivitySection type="row" isCenter={false} limitLoad={4} isFullWidth={true} />}
       see_more_text={lang("See More " + title)}
       see_more_onclick={() => {
         // console.log(`${AppPath}/list-interviews`)

@@ -8,9 +8,10 @@ import axios from 'axios';
 import List, { ProfileListItem } from "../../../component/list";
 import {
   getAxiosGraphQLQuery,
-  getWpAjaxAxios
+  getWpAjaxAxios,
+  postAxios
 } from "../../../../helper/api-helper";
-import { UploadUrl, SiteUrl, IsGruveoEnable, ZoomCreateRoomUrl, ZoomCheckMeetingExpiredUrl } from "../../../../config/app-config";
+import { UploadUrl, SiteUrl, IsGruveoEnable, ZoomCheckMeetingExpiredUrl, DailyCoCreateRoomUrl } from "../../../../config/app-config";
 import { Time } from "../../../lib/time";
 import obj2arg from "graphql-obj2arg";
 import * as layoutActions from "../../../redux/actions/layout-actions";
@@ -34,13 +35,7 @@ import { Uploader, uploadFile, FileType } from '../../../component/uploader';
 import { lang } from "../../../lib/lang";
 import notificationConfig from "../../../../config/notification-config";
 
-//import { ButtonLink } from '../../../component/buttons.jsx';
-//import UserPopup from '../popup/user-popup';
-//import { Redirect, NavLink } from 'react-router-dom';
 
-// require("../../../css/chat.scss");
-
-// New Gruveo
 export function isGruveoLink(join_url) {
   const isGruveo = join_url.indexOf("video-call?room_code") >= 0;
   return isGruveo;
@@ -125,7 +120,6 @@ export function joinVideoCall(
   let windowId = join_url;
   let windowParam = `scrollbars=no,resizable=no,status=no,location=no, toolbar=no,menubar=no,
                 width=600,height=400,left=100,top=100`;
-  console.log("opening window with id", windowId);
   if (start_url != null) {
     windowPopup = window.open(start_url, windowId, windowParam);
   } else {
@@ -165,30 +159,6 @@ export function joinVideoCall(
     data.group_session_id = group_session_id;
   }
 
-
-  // 1. check if expired
-  // const successInterceptorExpired = data => {
-  //   if (data == 1) {
-  //     windowPopup.close();
-  //     layoutActions.errorBlockLoader("This Video Call Session Has Expired.");
-  //     hasError = true;
-  //     if (expiredHandler != null) {
-  //       expiredHandler();
-  //     }
-  //   } else {
-  //     closeBlockLoader();
-  //   }
-  // };
-  // getWpAjaxAxios(
-  //   "wzs21_zoom_ajax",
-  //   {
-  //     query: "is_meeting_expired",
-  //     ...data
-  //   },
-  //   successInterceptorExpired,
-  //   true
-  // );
-
   axios.post(ZoomCheckMeetingExpiredUrl, data)
     .then(data => {
       data = data.data;
@@ -212,34 +182,6 @@ export function joinVideoCall(
     .catch(err => {
       closeBlockLoader();
     });
-
-  // 2. check if recruiter not ready
-  // if (isJoin) {
-  //   const successInterceptorStatus = data => {
-  //     let recNotReady = false;
-  //     if (data.status == 0 && typeof data.error === "undefined") {
-  //       recNotReady = true;
-  //     }
-  //     if (recNotReady) {
-  //       windowPopup.close();
-  //       layoutActions.errorBlockLoader(
-  //         "Recruiter is not ready yet. Please try again in a few minutes"
-  //       );
-  //       hasError = true;
-  //     } else {
-  //       closeBlockLoader();
-  //     }
-  //   };
-  //   getWpAjaxAxios(
-  //     "wzs21_zoom_ajax",
-  //     {
-  //       query: "get_meeting_status",
-  //       ...data
-  //     },
-  //     successInterceptorStatus,
-  //     true
-  //   );
-  // }
 }
 
 class ChatFileUploader extends React.Component {
@@ -350,10 +292,6 @@ class Chat extends React.Component {
     this.parseMessageJSON = this.parseMessageJSON.bind(this);
     this.parseMessageHTML = this.parseMessageHTML.bind(this);
 
-    // this.createVideoCall = this.createVideoCall.bind(this);
-    // this.getStartVideoCallForm = this.getStartVideoCallForm.bind(this);
-    // this.inviteForPanelInterview = this.inviteForPanelInterview.bind(this);
-
     this.renderList = this.renderList.bind(this);
     this.componentDidUpdateList = this.componentDidUpdateList.bind(this);
     this.getChatInput = this.getChatInput.bind(this);
@@ -378,13 +316,7 @@ class Chat extends React.Component {
   }
 
   componentWillUnmount() {
-    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-    // console.log("componentWillUnmount", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-
     this.unmounted = true;
-    // socketOff(BOTH.CHAT_MESSAGE);
   }
 
   componentWillMount() {
@@ -392,15 +324,7 @@ class Chat extends React.Component {
 
     socketOn(BOTH.CHAT_MESSAGE, data => {
       if (Navigation.isPageMyInbox()) {
-        // console.log("this.props", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-        // console.log("this.unmounted",this.unmounted)
-        // console.log("this.props", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-        // console.log("this.props", this.props.other_data.first_name +" "+ this.props.other_data.last_name)
-        // console.log("this.props.other_id",this.props.other_id);
-        // console.log("data.from_id",data.from_id);
         if (this.props.other_id == data.from_id && !this.unmounted) {
-          // console.log("update done");
-          // console.log("update done");
           this.addChatToView(
             data.from_id,
             data.message,
@@ -595,10 +519,6 @@ class Chat extends React.Component {
         let company_id = this.props.self_id;
         let user_id = this.props.other_id
 
-        /**
-         DELETE FROM `messages` where id_message_number like 'company12:user136:%';
-         DELETE FROM `message_count` where id = 'company12:user136';
-         */
         NotificationHelper.sendSmsByUserId(
           user_id,
           notificationConfig.Type.COMPANY_START_CHAT,
@@ -667,226 +587,8 @@ class Chat extends React.Component {
         recruiter
       );
     });
-
-    // // add to socket
-    // // todos
-    // emitChatMessage(this.props.self_id, this.props.other_id, this.props.is_company_other, mes, Time.getUnixTimestampNow());
-
-    // // empty value
-    // this.chatInput.value = "";
-
-    // this.addChatToView(this.props.self_id, mes, Time.getUnixTimestampNow(), 1);
   }
 
-  // inviteForPanelInterview(recs, zoom_meeting_id, join_url) {
-  //   // this.props.session_id;
-  //   console.log(recs);
-  //   for (var i in recs) {
-  //     var key = recs[i].split("::");
-  //     var user_id = Number.parseInt(key[0]);
-  //     var user_email = key[1];
-
-  //     // 1. send email to rec id
-  //     console.log("send invitaion email to", user_email);
-
-  //     // 2. add to tabel zoom_invites
-  //     var add = {
-  //       user_id: user_id,
-  //       zoom_meeting_id: zoom_meeting_id,
-  //       join_url: join_url,
-  //       session_id: this.props.session_id,
-  //       host_id: this.props.self_id,
-  //       participant_id: this.props.other_id
-  //     };
-
-  //     var add_query = `mutation{add_zoom_invite(${obj2arg(add, {
-  //       noOuterBraces: true
-  //     })}) 
-  //               {ID}}`;
-
-  //     getAxiosGraphQLQuery(add_query).then(res => {
-  //       emitHallActivity(ActivityType.ZOOM_INVITE, user_id);
-  //     });
-  //   }
-  // }
-
-  // getStartVideoCallFormWithInvite(zoom_data) {
-  //   var listRecs = [];
-  //   getOtherRecs().map((d, i) => {
-  //     if (this.props.self_id == d.ID) {
-  //       return false;
-  //     }
-  //     listRecs.push({ key: `${d.ID}::${d.user_email}`, label: d.user_email });
-  //   });
-
-  //   var items =
-  //     this.props.can_do_multiple && listRecs.length > 0
-  //       ? [
-  //         {
-  //           label: "Invite other recruiters to join (optional)",
-  //           type: "checkbox",
-  //           name: "recs",
-  //           data: listRecs
-  //         }
-  //       ]
-  //       : [];
-
-  //   var onSubmit = data => {
-  //     if (this.props.can_do_multiple) {
-  //       this.inviteForPanelInterview(
-  //         data.recs,
-  //         zoom_data.id,
-  //         zoom_data.join_url
-  //       );
-  //     }
-
-  //     layoutActions.storeHideBlockLoader();
-  //     this.sendChat(
-  //       this.createMessageJSON(this.JSON_ZOOM, { join_url: zoom_data.join_url })
-  //     );
-  //     window.open(zoom_data.start_url);
-  //   };
-
-  //   return (
-  //     <Form
-  //       items={items}
-  //       onSubmit={onSubmit}
-  //       btnColorClass="blue"
-  //       submitText="Start Video Call"
-  //     />
-  //   );
-  // }
-
-  /**
-   *
-   * @param {join_url, start_url} videoCallData
-   */
-  // getStartVideoCallForm(videoCallData) {
-  //   var onSubmit = data => {
-  //     layoutActions.storeHideBlockLoader();
-  //     this.sendChat(
-  //       this.createMessageJSON(this.JSON_ZOOM, {
-  //         join_url: videoCallData.join_url
-  //       })
-  //     );
-  //     window.open(videoCallData.start_url);
-  //   };
-
-  //   var items = [];
-  //   return (
-  //     <Form
-  //       items={items}
-  //       onSubmit={onSubmit}
-  //       btnColorClass="blue"
-  //       submitText="Start Video Call"
-  //     />
-  //   );
-  // }
-
-  // createVideoCall() {
-  //   addLogCreateCall({ isZoom: true, session_id: this.props.session_id });
-
-  //   if (this.props.disableChat) {
-  //     layoutActions.errorBlockLoader(
-  //       "Session Has Expired. Unable To Create Video Call Session"
-  //     );
-  //     return;
-  //   }
-
-  //   layoutActions.loadingBlockLoader(
-  //     "Creating Video Call Session. Please Do Not Close Window."
-  //   );
-
-  //   const successInterceptor = data => {
-  //     /*
-  //           {"uuid":"bou80/LrR6a0cmDKC4V5aA=="
-  //           ,"id":646923659,"host_id":"-9e--206RFiZFE0hSh-RPQ"
-  //           ,"topic":"Let's start a video call."
-  //           ,"password":"","h323_password":""
-  //           ,"status":0,"option_jbh":false
-  //           ,"option_start_type":"video"
-  //           ,"option_host_video":true,"option_participants_video":true
-  //           ,"option_cn_meeting":false,"option_enforce_login":false
-  //           ,"option_enforce_login_domains":"","option_in_meeting":false
-  //           ,"option_audio":"both","option_alternative_hosts":""
-  //           ,"option_use_pmi":false,"type":1,"start_time":""
-  //           ,"duration":0,"timezone":"America/Los_Angeles"
-  //           ,"start_url":"https://zoom.us/s/646923659?zpk=NcbawuQ7mSE9jfEBdcGMfwxumZzC21eWgm2v6bQ9S6k.AwckNGQwMWY3NWQtNDZhMC00MzU2LTg0M2MtNGVlNWI1MmUzOWY5Fi05ZS0tMjA2UkZpWkZFMGhTaC1SUFEWLTllLS0yMDZSRmlaRkUwaFNoLVJQURJ0ZXN0LnJlY0BnbWFpbC5jb21jAHBTRm01T3I3ZVprU0RGczJCeVRFTlZ5N1k0cE1Zcm5scFF5R3pQZ2RLQjY4LkJnUWdVMDVMU1U1cGNFVmpWeTlESzB0NVVGRm5SbWx3YnpNNFRFNVdWSGxZWjJrQUFBd3pRMEpCZFc5cFdWTXpjejBBAAAWcDF2Skd0YUJRV3k0WC15NzVGRmVtQQIBAQA"
-  //           ,"join_url":"https://zoom.us/j/646923659","created_at":"2018-01-31T02:08:02Z"}
-  //           */
-
-  //     if (data == null || data == "" || typeof data != "object") {
-  //       layoutActions.errorBlockLoader(
-  //         "Failed to create video call session. Please check your internet connection"
-  //       );
-  //       return;
-  //     }
-
-  //     console.log("success createVideoCall", data);
-  //     var body = (
-  //       <div>
-  //         <h4 className="text-primary">
-  //           Successfully Created Video Call Session
-  //         </h4>
-  //         {this.getStartVideoCallForm(data)}
-  //       </div>
-  //     );
-  //     layoutActions.customBlockLoader(body, null, null, null);
-  //     // layoutActions.customBlockLoader("Successfully Created Video Call Session"
-  //     //     , "Start Video Call", () => {
-
-  //     //         if (this.props.can_do_multiple) {
-
-  //     //         }
-
-  //     //         this.sendChat(this.createMessageJSON(this.JSON_ZOOM, { join_url: data.join_url }));
-  //     //         window.open(data.start_url);
-  //     //     }, null);
-  //   };
-
-  //   var data = {
-  //     query: "create_meeting",
-  //     host_id: this.props.self_id,
-  //     session_id: this.props.session_id
-  //   };
-
-  //   getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
-  // }
-
-  // New Gruveo
-  // createVideoCallGruveo() {
-  //   if (this.props.disableChat) {
-  //     layoutActions.errorBlockLoader(
-  //       "Session Has Expired. Unable To Create Video Call Session"
-  //     );
-  //     return;
-  //   }
-
-  //   let url = createGruveoLink(this.props.session_id);
-  //   addLogCreateCall({
-  //     isGruveo: true,
-  //     session_id: this.props.session_id,
-  //     url: url
-  //   });
-
-  //   layoutActions.loadingBlockLoader(
-  //     "Creating Video Call Session. Please Do Not Close Window."
-  //   );
-
-  //   var data = {
-  //     start_url: url,
-  //     join_url: url
-  //   };
-  //   var body = (
-  //     <div>
-  //       <h4 className="text-primary">
-  //         Successfully Created Video Call Session
-  //       </h4>
-  //       {this.getStartVideoCallForm(data)}
-  //     </div>
-  //   );
-  //   layoutActions.customBlockLoader(body, null, null, null);
-  // }
 
   getChatHeader() {
     if (this.props.is_hide_header) {
@@ -902,12 +604,6 @@ class Chat extends React.Component {
       </span>
     );
     var title = label;
-    /*
-        var title = (!this.props.isRec) ? label
-            : <ButtonLink
-                onClick={() => layoutActions.storeUpdateFocusCard(d.first_name + " " + d.last_name, UserPopup, { id: d.ID })}
-                label={label}>
-            </ButtonLink>;*/
 
     var status = null;
     if (this.props.is_company_other) {
@@ -930,37 +626,7 @@ class Chat extends React.Component {
       />
     );
 
-    // action -------
-    // var action = [];
-    // // New Gruveo
-    // if (this.props.isRec) {
-    //   // Remove Gruveo
-    //   if (IsGruveoEnable) {
-    //     action.push(
-    //       <a
-    //         onClick={() => this.createVideoCallGruveo()}
-    //         className="action-item"
-    //       >
-    //         <i className="fa fa-video-camera left" />
-    //         <small>Call With Chrome</small>
-    //       </a>
-    //     );
-    //     action.push(<small>{"   |   "}</small>);
-    //     action.push(
-    //       <a onClick={() => this.createVideoCall()} className="action-item">
-    //         <small>Call With Zoom</small>
-    //       </a>
-    //     );
-    //   } else {
-    //     action.push(
-    //       <a onClick={() => this.createVideoCall()} className="action-item">
-    //         <i className="fa fa-video-camera left" />
-    //         <small>Start Video Call</small>
-    //       </a>
-    //     );
-    //   }
-    // }
-
+   
     return (
       <div className="chat-header">
         <div className="ch-info">{info}</div>
@@ -986,45 +652,41 @@ class Chat extends React.Component {
       "Creating Video Call Session. Please Do Not Close Window."
     );
 
-    let postData = {
-      host_id: this.props.self_id,
-      chat_user_id: this.props.other_id,
-      // isSkipLocalCreate: true
-    }
-
-    axios.post(ZoomCreateRoomUrl, postData)
+    postAxios(DailyCoCreateRoomUrl, {})
       .then(data => {
         data = data.data;
-        console.log("ZoomCreateRoomUrl", data);
+        console.log("DailyCoCreateRoomUrl", data);
         if (data == null || data == "" || typeof data != "object") {
           layoutActions.errorBlockLoader(
             "Failed to create video call session. Please check your internet connection"
           );
           return;
         }
-
-        let startUrl = data.start_url;
-        let joinUrl = data.join_url;
-
-        this.sendChat(
-          this.createMessageJSON(this.JSON_ZOOM, { join_url: joinUrl })
+        var body = (
+          <div>
+            <h4 className="text-primary">
+              Successfully Created Video Call Session
+            </h4>
+            <br />
+            <a
+              className="btn btn-green btn-round-10 btn-lg"
+              onClick={() => {
+                this.sendChat(
+                  this.createMessageJSON(this.JSON_ZOOM, { join_url: data.url })
+                );
+                joinVideoCall(data.url, this.props.session_id);
+                layoutActions.storeHideBlockLoader();
+              }}
+            >
+              Start Video Call
+            </a>
+          </div>
         );
-        window.open(startUrl, "_blank");
-        layoutActions.storeHideBlockLoader();
-
-        // var body = (
-        //   <div>
-        //     <h4 className="text-primary">
-        //       Successfully Created Video Call Session
-        //             </h4>
-        //   </div>
-        // );
-        // layoutActions.customBlockLoader(body, null, null, null);
+        layoutActions.customBlockLoader(body, null, null, null);
 
       })
       .catch(err => {
-        console.log("ZoomCreateRoomUrl", err);
-        console.log("ZoomCreateRoomUrl", err.data);
+        console.log("DailyCoCreateRoomUrl", err);
         layoutActions.errorBlockLoader(
           "Failed to create video call session. Please check your internet connection"
         );

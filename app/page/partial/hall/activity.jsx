@@ -44,7 +44,6 @@ import { isRoleRec, isRoleStudent } from "../../../redux/actions/auth-actions";
 import { joinVideoCall } from "../session/chat";
 
 import { getAxiosGraphQLQuery } from "../../../../helper/api-helper";
-import * as HallViewHelper from "../../view-helper/hall-view-helper";
 import * as HallRecruiterHelper from "../hall-recruiter/hall-recruiter-helper";
 import { lang } from "../../../lib/lang";
 import InputEditable from "../../../component/input-editable";
@@ -285,18 +284,6 @@ export class ActvityList extends React.Component {
     layoutActions.confirmBlockLoader(mes, confirmUpdate);
   }
 
-  // startVideoCallPreScreen(e) {
-  //   HallViewHelper.startVideoCall(e, {
-  //     type: HallViewHelper.TYPE_PRIVATE_SESSION,
-  //     user_id: this.authUser.ID,
-  //     bindedSuccessHandler: () => {
-  //       hallAction.storeLoadActivity([hallAction.ActivityType.PRESCREEN]);
-  //       if (this.props.onDoneAction) {
-  //         this.props.onDoneAction();
-  //       }
-  //     }
-  //   });
-  // }
 
   createSession(e) {
     var invalid = activityActions.invalidSession();

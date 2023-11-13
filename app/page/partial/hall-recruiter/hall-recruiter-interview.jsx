@@ -376,120 +376,6 @@ class InterviewList extends React.Component {
     });
   }
 
-
-
-  // updatePrescreen(id, user_id, status) {
-  //   layoutActions.loadingBlockLoader("Updating Scheduled Call Status..");
-
-  //   if (typeof id === "string") {
-  //     id = Number.parseInt(id);
-  //   }
-  //   if (typeof user_id === "string") {
-  //     user_id = Number.parseInt(user_id);
-  //   }
-
-  //   let upd = {};
-  //   upd[Prescreen.ID] = id;
-  //   upd[Prescreen.UPDATED_BY] = user_id;
-  //   upd[Prescreen.STATUS] = status;
-
-  //   let query = `mutation{edit_prescreen(${obj2arg(upd, {
-  //     noOuterBraces: true
-  //   })}) {ID student_id company_id}}`;
-
-  //   getAxiosGraphQLQuery(query).then(
-  //     data => {
-  //       let res = data.data.data.edit_prescreen;
-  //       var toRefresh = [hallAction.ActivityType.PRESCREEN];
-  //       hallAction.storeLoadActivity(toRefresh);
-  //       layoutActions.storeHideBlockLoader();
-
-  //       var sid = isRoleStudent() ? null : res.student_id;
-  //       var cid = isRoleRec() ? null : res.company_id;
-  //       emitHallActivity(hallAction.ActivityType.PRESCREEN, sid, cid);
-
-  //       // @noti
-  //       this.triggerNotificationStatusUpdate({
-  //         company_id: res.company_id,
-  //         student_id: res.student_id,
-  //         ps_id: id,
-  //         status: status
-  //       });
-
-  //     },
-  //     err => {
-  //       layoutActions.errorBlockLoader(err);
-  //     }
-  //   );
-  // }
-
-  // triggerNotificationStatusUpdate({ company_id, student_id, ps_id, status, unix_time }) {
-  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-  //   console.log("triggerNotificationStatusUpdate", company_id, student_id, ps_id, status);
-  //   getAxiosGraphQLQuery(`query{company(ID:${company_id}) {name} }`).then(resCompany => {
-  //     let companyName = resCompany.data.data["company"]["name"];
-
-  //     let param = {
-  //       company_id: company_id,
-  //       company_name: companyName,
-  //       ps_id: ps_id,
-  //       status: status,
-  //     };
-  //     if (unix_time) {
-  //       param.unix_time = unix_time;
-  //     }
-
-  //     NotificationHelper.addNotification({
-  //       user_id: student_id,
-  //       param: param,
-  //       type: NotificationsEnum.TYPE_STATUS_SESSION_UPDATE,
-  //       img_entity: NotificationsEnum.IMG_ENTITY_COMPANY,
-  //       img_id: company_id
-  //     });
-  //   })
-  // }
-
-  // for reject and cancel
-  // trigger from card view button
-  // confirmUpdatePrescreen(e, status) {
-  //   var other_name = e.currentTarget.dataset.other_name;
-  //   var id = e.currentTarget.id;
-  //   var user_id = this.authUser.ID;
-
-  //   const confirmUpdate = () => {
-  //     this.updatePrescreen(id, user_id, status);
-  //   };
-
-  //   // create confirm message
-  //   var mes = "";
-  //   if (status === PrescreenEnum.STATUS_ENDED) {
-  //     mes += lang("Ending");
-  //   }
-  //   if (status === PrescreenEnum.STATUS_APPROVED) {
-  //     mes += lang("Approving");
-  //   }
-  //   if (status === PrescreenEnum.STATUS_REJECTED) {
-  //     mes += lang("Rejecting");
-  //   }
-  //   if (status === PrescreenEnum.STATUS_CANCEL) {
-  //     mes += lang("Canceling");
-  //   }
-
-  //   mes += ` ${lang("Scheduled Call with")} ${other_name} ?`;
-  //   layoutActions.confirmBlockLoader(mes, confirmUpdate);
-  // }
-
-  // addRemoveButton(body, hasRemove, removeEntity, removeEntityId) {
-  //   body = [
-  //     this.getRemoveButton(hasRemove, removeEntity, removeEntityId),
-  //     body
-  //   ]
-
-  //   return body;
-  // }
-
   // return action n subtitle
   renderHelper(d, obj) {
     var action = null;
@@ -498,12 +384,6 @@ class InterviewList extends React.Component {
     var time = null;
 
     var status_obj = null;
-    // var status_text = null;
-    // var status_color = null;
-    // var status_icon = null;
-
-    var removeEntity = null;
-    var removeEntityId = null;
 
     let btnJoinVCall = null;
     var btnStartVCall = null;
@@ -710,9 +590,6 @@ class InterviewList extends React.Component {
     // @new_flow_cancel_interview - buang remove button
     // add remove button for certain2 status
     if ([
-      // PrescreenEnum.STATUS_WAIT_CONFIRM,
-      // PrescreenEnum.STATUS_RESCHEDULE,
-      // PrescreenEnum.STATUS_APPROVED,
       PrescreenEnum.STATUS_ENDED,
       PrescreenEnum.STATUS_REJECTED,
     ].indexOf(d.status) >= 0) {
@@ -933,12 +810,7 @@ class InterviewList extends React.Component {
 
     return <div className="hall-recruiter-interview" style={{
       paddingBottom: "10px 0px",
-      // borderBottom: "40px solid #f5f5f5"
     }}>
-      {/* <div className="text-left lb-subtitle">
-        <i className={`fa left fa-${this.props.icon}`}></i>
-        {this.props.title} ({this.props.list.length})
-      </div> */}
       <div className="show-on-lg-and-more">{this.getHeader()}</div>
       {body}
       {btnToggleShowMore}
@@ -1138,14 +1010,6 @@ class HallRecruiterInterview extends React.Component {
         }
       }
 
-      // by this.FILTER_TODAY
-      // if (Time.isUnixToday(d.appointment_time)) {
-      //   counts[this.FILTER_TODAY]++;
-      //   if (this.state[this.FILTER_TODAY]) {
-      //     toRet = pushItem(toRet, d);
-      //   }
-      // }
-
     }
 
     this.COUNTS = counts;
@@ -1160,33 +1024,6 @@ class HallRecruiterInterview extends React.Component {
   }
   render() {
     var d = this.props.activity;
-
-    // 3. list
-    // let listActive = [];
-    // let listPending = [];
-    // let listEnded = [];
-    // for (var i in d.prescreens) {
-
-    //   let newObj = d.prescreens[i];
-    //   newObj._type = hallAction.ActivityType.PRESCREEN;
-
-    //   switch (newObj.status) {
-    //     case PrescreenEnum.STATUS_WAIT_CONFIRM:
-    //       listPending.push(newObj);
-    //       break;
-    //     case PrescreenEnum.STATUS_ENDED:
-    //       listEnded.push(newObj);
-    //       break;
-    //     case PrescreenEnum.STATUS_REJECTED:
-    //       listEnded.push(newObj);
-    //       break;
-    //     default:
-    //       listActive.push(newObj);
-    //       break;
-    //   }
-
-    // }
-
 
     // 4. fetching
     let fetching = d.fetching.prescreens;

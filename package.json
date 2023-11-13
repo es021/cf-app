@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
+    "@zoomus/websdk": "^2.18.0",
     "axios": "^0.17.0",
     "babel-preset-modern-browsers": "^10.0.1",
     "bcrypt": "^5.1.1",

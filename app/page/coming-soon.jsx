@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SponsorList from './partial/static/sponsor-list';
 import { getCF, getCFObj, isRoleStudent, isRoleRec, getAuthUser } from '../redux/actions/auth-actions';
-import { storeLoadActivity , ActivityType} from '../redux/actions/hall-actions';
+import { storeLoadActivity, ActivityType } from '../redux/actions/hall-actions';
 import { errorBlockLoader, storeHideBlockLoader } from '../redux/actions/layout-actions';
 import { Time } from '../lib/time';
 import PropTypes from 'prop-types';
@@ -16,7 +16,6 @@ import { RootPath, IsNewHall } from '../../config/app-config';
 import { createCompanyTitle } from './admin-company';
 import CompaniesSection from './partial/hall/companies';
 import HallPage from './hall';
-import HallPageOld from './hall-old';
 
 
 export function getCFTimeDetail(date, time, time_mas) {
@@ -233,7 +232,7 @@ export default class ComingSoonPage extends React.Component {
     }
 
     componentWillMount() {
-        if(isRoleStudent()){
+        if (isRoleStudent()) {
             storeLoadActivity(ActivityType.GROUP_SESSION_JOIN);
 
         }
@@ -259,13 +258,13 @@ export default class ComingSoonPage extends React.Component {
                         <div>
                             Get reviewed early!<br></br>
                             Submit and receive confirmation for special time slot with recruiters if you are selected.
-                    </div>
+                        </div>
                     </div>
                     <div style={{ maxWidth: "400px", margin: "auto" }}>
                         <h3>Join Group Session</h3>
                         <div>
                             Don’t forget to keep checking for<br></br>new group session time slots to join!
-                    </div>
+                        </div>
                     </div>
                     <br></br>
                 </div>
@@ -279,12 +278,7 @@ export default class ComingSoonPage extends React.Component {
 
         let recHall = null;
         if (isRoleRec()) {
-            if(IsNewHall){
-                recHall = <HallPage isPreEvent={true}></HallPage> 
-            }else{
-                recHall = <HallPageOld isPreEvent={true}></HallPageOld> 
-            }
-            //recHall = <HallPage isPreEvent={true}></HallPage> 
+            recHall = <HallPage isPreEvent={true}></HallPage>
         }
 
         return (<div>

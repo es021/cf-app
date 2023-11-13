@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/" />
+    <link rel="icon"
+        href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-32x32.png"
+        sizes="32x32" />
+    <link rel="icon"
+        href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-192x192.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed"
+        href="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-180x180.png" />
+    <meta name="msapplication-TileImage"
+        content="https://seedsjobfairapp.com/career-fair/wp-content/uploads/2018/12/cropped-cropped-logo-270x270.png" />
+
+    <!-- Dependencies for client view and component view -->
+    <script src="https://source.zoom.us/2.18.0/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/2.18.0/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/2.18.0/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/2.18.0/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/2.18.0/lib/vendor/lodash.min.js"></script>
+
+    <!-- Choose between the client view or component view: -->
+
+    <!-- CDN for client view -->
+    <script defer src="https://source.zoom.us/zoom-meeting-2.18.0.min.js"></script>
+
+    <!-- CDN for component view -->
+    <script defer src="https://source.zoom.us/zoom-meeting-embedded-2.18.0.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.18.0/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/2.18.0/css/react-select.css" />
+    <title>Video Call - SeedsJobFair</title>
+</head>
+
+<body>
+    <div id="zmmtg-root"></div>
+    <div id="aria-notify-area"></div>
+    <!-- <div id="sjf-wrapper">
+        <div id="sjf-embed"></div>
+    </div> -->
+</body>
+
+</html>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        background: #edf2f6;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #sjf-wrapper {
+        width: 100%;
+        max-width: 927px;
+    }
+</style>
+
+<!-- ################################################################### -->
+<script>
+
+
+    function _GET(parameterName) {
+        var result = null,
+            tmp = [];
+        var items = location.search.substr(1).split("&");
+        for (var index = 0; index < items.length; index++) {
+            tmp = items[index].split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+    }
+
+    function init() {
+        const interval = window.setInterval(() => {
+            console.log("try init")
+            try {
+                window.ZoomMtg.setZoomJSLib('https://source.zoom.us/2.18.0/lib', '/av')
+                // loads WebAssembly assets
+                window.ZoomMtg.preLoadWasm()
+                window.ZoomMtg.prepareWebSDK()
+                // loads language files, also passes any error messages to the ui
+                window.ZoomMtg.i18n.load('en-US')
+                window.ZoomMtg.i18n.reload('en-US')
+                console.log("success")
+                clearInterval(interval);
+            } catch (err) {
+                console.log("err", err)
+            }
+        }, 1000)
+    }
+
+    // var IS_PROD = window.location.href.indexOf("localhost") <= -1;
+    // // var CLIENT_ID = "demo";
+    // var CLIENT_ID = "gHYXQ8cDaPN2";
+    // var AUTH_URL = IS_PROD ? "cf/video-call-auth" : '/video-call-auth';
+    // // var ROOM_ID = "seedsjobfair";
+    // var ROOM_ID = _GET("room_code");
+    // var DIV_EMBED_ID = "sjf-embed";
+    // var DIV_WRAPPER_ID = "sjf-wrapper";
+    // var COLOR = "398439";
+    // var DIMENSION_RATIO = 1.45
+    // var wrapper = document.getElementById(DIV_WRAPPER_ID)
+    // var embed;
+
+    // function onResizeBody() {
+    //     //console.log("wrapper", wrapper)
+    //     var width = window.innerWidth ||
+    //         document.documentElement.clientWidth ||
+    //         document.body.clientWidth;
+
+    //     var height = window.innerHeight ||
+    //         document.documentElement.clientHeight ||
+    //         document.body.clientHeight;
+
+    //     let maxWidth = height * DIMENSION_RATIO;
+    //     wrapper.style.width = maxWidth;
+    // }
+
+    // function init() {
+    //     var tag = document.createElement("script");
+    //     tag.src = "https://www.gruveo.com/embed-api/";
+    //     var firstScriptTag = document.getElementsByTagName("script")[0];
+    //     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    //     onResizeBody();
+    // }
+
+    // function onGruveoEmbedAPIReady() {
+    //     embed = new Gruveo.Embed(DIV_EMBED_ID, {
+    //         responsive: 1,
+    //         embedParams: {
+    //             clientid: CLIENT_ID,
+    //             color: COLOR
+    //         }
+    //     });
+
+    //     embed
+    //         .on("error", onEmbedError)
+    //         .on("requestToSignApiAuthToken", onEmbedRequestToSignApiAuthToken)
+    //         .on("ready", onEmbedReady)
+    //         .on("stateChange", onEmbedStateChange);
+    // }
+
+    // function onEmbedError(e) {
+    //     alert("Received error " + e.error + ".");
+    // }
+
+    // function onEmbedRequestToSignApiAuthToken(e) {
+    //     // The below assumes that you have a server-side signer endpoint at /signer,
+    //     // where you pass e.token in the body of a POST request.
+    //     fetch(AUTH_URL, {
+    //         method: 'POST',
+    //         body: e.token,
+    //     })
+    //         .then(function (res) {
+    //             console.log("res", res);
+    //             if (res.status !== 200) {
+    //                 return;
+    //             }
+
+    //             res.text().then(function (text) {
+    //                 console.log("text", text)
+    //                 embed.authorize(text);
+    //             });
+    //         });
+    // }
+
+    // function onEmbedReady(e) {
+    //     embed.call(ROOM_ID, true);
+    // }
+
+    // function onEmbedStateChange(e) {
+    //     if (e.state == "call") {
+    //         setTimeout(function () {
+    //             console.log("10 seconds have passed");
+    //         }, 10000);
+    //     }
+    // }
+
+    init();
+</script>

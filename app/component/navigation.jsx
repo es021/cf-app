@@ -1,52 +1,42 @@
 import React, { Component } from "react";
 
 import {
-  BrowserRouter,
   Route,
   NavLink,
   Switch,
-  Redirect
 } from "react-router-dom";
 
-import { LandingUrl, IsNewHall, IsRecruiterNewHall, IsOnVideoResume } from "../../config/app-config";
+import { IsNewHall, IsRecruiterNewHall, IsOnVideoResume } from "../../config/app-config";
 import * as layoutActions from "../redux/actions/layout-actions";
 import LandingPage from "../page/landing";
 import VolunteerScheduledInterview from "../page/volunteer-scheduled-interview";
 import LoginPage from "../page/login";
 import SignUpPage from "../page/sign-up";
-import AboutPage from "../page/about";
 import LogoutPage from "../page/logout";
-import UsersPage from "../page/users";
-import AdminZoom from "../page/admin-zoom";
 import CompaniesPage from "../page/admin-company";
 import RecruiterPage from "../page/admin-recruiter";
 import AdminCf from "../page/admin-cf";
 import HallPage from "../page/hall";
-import HallPageOld from "../page/hall-old";
 import ActAccountPage from "../page/activate-account";
 import EditProfilePage from "../page/edit-profile";
 import ManageCompanyPage from "../page/manage-company";
 import CompanyPage from "../page/company";
-import ActivityPage from "../page/activity";
 import ResumeDropPage from "../page/resume-drop";
 import VacancyPage from "../page/vacancy";
 import ExternalActionPage from "../page/external-action";
 import SessionPage from "../page/session";
-import { FaqPage, AllowCookiePage, ContactUsPage } from "../page/static";
+import { AllowCookiePage, ContactUsPage } from "../page/static";
 import CompanyChatInbox, {
   CompanyChatStarter,
   StudentChatStarter
 } from "../page/company-chat";
 import NotFoundPage from "../page/not-found";
 import ComingSoonPage from "../page/coming-soon";
-import { AuditoriumFeed, AuditoriumManagement } from "../page/auditorium.jsx";
-import DashboardPage from "../page/dashboard";
+import { AuditoriumFeed } from "../page/auditorium.jsx";
 import TimeConverterPage from "../page/time-converter";
 import PasswordResetPage from "../page/password-reset";
 import PasswordForgotPage from "../page/password-forgot";
 import ForumPage from "../page/forum";
-import { Overview } from "../page/overview";
-import { SupportPage } from "../page/support";
 import AnalyticPage from "../page/analytics";
 import { FeedbackForm } from "../page/partial/analytics/feedback";
 import { addLog } from "../redux/actions/other-actions";
@@ -58,9 +48,7 @@ import {
   isRoleRec,
   getAuthUser,
   isRoleOrganizer,
-  isRoleSupport,
   isRoleAdmin,
-  isComingSoon,
   isRoleVolunteer,
   getCF_externalHomeUrl,
   getCF_guideUrl,
@@ -116,20 +104,12 @@ function getHomeComponent(COMING_SOON) {
     }
     else if (isRoleRec() && IsRecruiterNewHall) {
       homeComponent = HallRecruiterPage;
-    } else if (IsNewHall) {
+    } else {
       // new hall takde pegi page coming soon
       if (isRoleStudent()) homeComponent = HallPage;
       else if (isRoleRec()) homeComponent = HallPage;
       else if (isRoleAdmin()) homeComponent = HallPage;
       else if (isRoleVolunteer()) homeComponent = VolunteerScheduledInterview;
-    } else {
-      if (COMING_SOON) {
-        var homeComponent = ComingSoonPage;
-      } else {
-        if (isRoleStudent()) homeComponent = HallPageOld;
-        else if (isRoleRec()) homeComponent = HallPageOld;
-        else if (isRoleAdmin()) homeComponent = CompaniesPage;
-      }
     }
   } else {
     homeComponent = LandingPage;

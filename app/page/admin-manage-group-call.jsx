@@ -1,36 +1,17 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { Prescreen, PrescreenEnum, CFSMeta } from "../../config/db-config";
 import {
   getAxiosGraphQLQuery,
-  getPHPNotificationApiAxios,
-  graphql
 } from "../../helper/api-helper";
 import {
   getAuthUser,
-  isRoleVolunteer,
-  isRoleAdmin,
-  getCFObj,
   isRoleOrganizer,
-  getCF
 } from "../redux/actions/auth-actions";
-import * as layoutActions from "../redux/actions/layout-actions";
-import { ActivityType } from "../redux/actions/hall-actions";
 import PropTypes from "prop-types";
-import { RootPath } from "../../config/app-config";
 import { Time } from "../lib/time";
 import GeneralFormPage from "../component/general-form";
 import { StatisticFigure } from "../component/statistic";
-import { createUserTitle } from "./users";
-import { emitHallActivity } from "../socket/socket-client";
-import Tooltip from "../component/tooltip";
-import {
-  createUserDocLinkList,
-  createUserMajorList
-} from "./partial/popup/user-popup";
 import { createCompanyTitle } from "./admin-company";
 import { Loader } from "../component/loader";
-import { confirmUpdatePrescreen } from "./partial/hall-recruiter/hall-recruiter-interview";
 
 // included in my-activity for recruiter
 // add as form only in past session in my-activity
@@ -264,7 +245,6 @@ export default class AdminManageGroupCall extends React.Component {
         canEdit={true}
         actionFirst={true}
         entity="group_call"
-        actionFirst={true}
         entity_singular="Group Call"
         addButtonText="Add New"
         noMutation={true}

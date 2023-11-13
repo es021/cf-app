@@ -24,10 +24,6 @@ import { StatisticFigure } from "../component/statistic";
 import { createUserTitle } from "./users";
 import { emitHallActivity } from "../socket/socket-client";
 import Tooltip from "../component/tooltip";
-import {
-  createUserDocLinkList,
-  createUserMajorList
-} from "./partial/popup/user-popup";
 import { createCompanyTitle } from "./admin-company";
 import { Loader } from "../component/loader";
 import { confirmUpdatePrescreen } from "./partial/hall-recruiter/hall-recruiter-interview";
@@ -556,10 +552,8 @@ export default class VolunteerScheduledInterview extends React.Component {
         actionFirst={true}
         canEdit={isRoleOrganizer() ? false : true}
         entity="prescreen"
-        actionFirst={true}
         entity_singular="Scheduled Session"
         addButtonText="Add New"
-        noMutation={true}
         dataOffset={20}
         searchFormItem={this.searchFormItem}
         searchFormOnSubmit={this.searchFormOnSubmit}

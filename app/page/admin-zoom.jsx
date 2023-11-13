@@ -30,7 +30,6 @@ export default class AdminZoom extends React.Component {
         axios.post(ZoomCreateRoomUrl, postData)
             .then(data => {
                 data = data.data;
-                console.log("ZoomCreateRoomUrl", data);
                 if (data == null || data == "" || typeof data != "object") {
                     layoutActions.errorBlockLoader(
                         "Failed to create video call session. Please check your internet connection"
@@ -50,8 +49,6 @@ export default class AdminZoom extends React.Component {
                 this.setState({ createData: data });
             })
             .catch(err => {
-                console.log("ZoomCreateRoomUrl", err);
-                console.log("ZoomCreateRoomUrl", err.data);
                 layoutActions.errorBlockLoader(
                     "Failed to create video call session. Please check your internet connection"
                 );

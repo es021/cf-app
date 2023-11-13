@@ -167,7 +167,7 @@ class ZoomApi {
 
     }
     createMeeting(param) {
-        //console.log("param", param);
+        console.log("createMeeting", param);
 
         return this.custCreateUser().then((userData) => {
             let userId = userData.id;
@@ -187,8 +187,6 @@ class ZoomApi {
                 this.getHeaders()
             ).then((res) => {
                 let meetingData = res.data;
-                // console.log("meetingData", meetingData);
-
                 if(param.isSkipLocalCreate){
                     return meetingData;
                 }

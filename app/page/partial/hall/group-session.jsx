@@ -5,24 +5,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { Loader } from "../../../component/loader";
-import { GeneralForm } from "../../../component/general-form";
 import ProfileCard from "../../../component/profile-card.jsx";
 import {
-  CompanyEnum,
-  UserEnum,
-  PrescreenEnum,
-  SessionRequestEnum,
+
   GroupSession,
   GroupSessionJoin
 } from "../../../../config/db-config";
-import { ButtonLink } from "../../../component/buttons.jsx";
-import { ProfileListItem } from "../../../component/list";
-import { RootPath, IsGruveoEnable } from "../../../../config/app-config";
-import { NavLink } from "react-router-dom";
 import { getAuthUser } from "../../../redux/actions/auth-actions";
-import { ActivityAPIErr } from "../../../../server/api/activity-api";
 import {
-  emitQueueStatus,
   emitHallActivity
 } from "../../../socket/socket-client";
 import Form, { toggleSubmit } from "../../../component/form";
@@ -32,15 +22,11 @@ import * as activityActions from "../../../redux/actions/activity-actions";
 import * as hallAction from "../../../redux/actions/hall-actions";
 import { createUserTitle2Line } from "../../users";
 
-import { openSIAddForm, isNormalSI } from "../activity/scheduled-interview";
 import Tooltip from "../../../component/tooltip";
-
-import { isRoleRec, isRoleStudent } from "../../../redux/actions/auth-actions";
 import {
   joinVideoCall,
   addLogCreateCall,
   createGruveoLink,
-  isGruveoLink
 } from "../session/chat.jsx";
 
 import * as layoutActions from "../../../redux/actions/layout-actions";
@@ -56,7 +42,6 @@ import obj2arg from "graphql-obj2arg";
 import ValidationStudentAction, {
   ValidationSource
 } from "../../../component/validation-student-action";
-import CompanyPopup from "../popup/company-popup";
 
 import * as HallViewHelper from "../../view-helper/hall-view-helper";
 
@@ -206,9 +191,8 @@ class GroupSessionClass extends React.Component {
       return { loading: true };
     });
 
-    var q = `query { group_sessions(company_id:${
-      this.props.company_id
-    }, discard_expired:true, discard_canceled:true)
+    var q = `query { group_sessions(company_id:${this.props.company_id
+      }, discard_expired:true, discard_canceled:true)
         { ID
           start_time 
           is_expired
@@ -319,7 +303,7 @@ class GroupSessionClass extends React.Component {
       );
 
       var studentName = null;
-      var onClickJoiner = () => {};
+      var onClickJoiner = () => { };
       if (this.props.forRec) {
         studentName = dj.first_name + " " + dj.last_name;
         onClickJoiner = () =>
@@ -382,9 +366,8 @@ class GroupSessionClass extends React.Component {
           const isExpiredHandler = () => {
             var mes = <div>This group session has ended.</div>;
             layoutActions.errorBlockLoader(mes);
-            var q = `mutation {edit_group_session(ID:${
-              d.ID
-            }, is_expired:1){ID}}`;
+            var q = `mutation {edit_group_session(ID:${d.ID
+              }, is_expired:1){ID}}`;
             getAxiosGraphQLQuery(q).then(res => {
               this.loadData();
             });
@@ -676,13 +659,6 @@ class GroupSessionClass extends React.Component {
       });
     };
 
-    const confirmCreateWithGruveo = () => {
-      let url = createGruveoLink(id, true);
-      addLogCreateCall({ isGruveo: true, group_session_id: id, url: url });
-      recDoStart(url, url);
-      window.open(url);
-    };
-
     const confirmCreateWithZoom = () => {
       addLogCreateCall({ isZoom: true, group_session_id: id });
 
@@ -690,23 +666,6 @@ class GroupSessionClass extends React.Component {
         "Creating Video Call Session. Please Do Not Close Window."
       );
       const successInterceptor = data => {
-        /*
-                {"uuid":"bou80/LrR6a0cmDKC4V5aA=="
-                ,"id":646923659,"host_id":"-9e--206RFiZFE0hSh-RPQ"
-                ,"topic":"Let's start a video call."
-                ,"password":"","h323_password":""
-                ,"status":0,"option_jbh":false
-                ,"option_start_type":"video"
-                ,"option_host_video":true,"option_participants_video":true
-                ,"option_cn_meeting":false,"option_enforce_login":false
-                ,"option_enforce_login_domains":"","option_in_meeting":false
-                ,"option_audio":"both","option_alternative_hosts":""
-                ,"option_use_pmi":false,"type":1,"start_time":""
-                ,"duration":0,"timezone":"America/Los_Angeles"
-                ,"start_url":"https://zoom.us/s/646923659?zpk=NcbawuQ7mSE9jfEBdcGMfwxumZzC21eWgm2v6bQ9S6k.AwckNGQwMWY3NWQtNDZhMC00MzU2LTg0M2MtNGVlNWI1MmUzOWY5Fi05ZS0tMjA2UkZpWkZFMGhTaC1SUFEWLTllLS0yMDZSRmlaRkUwaFNoLVJQURJ0ZXN0LnJlY0BnbWFpbC5jb21jAHBTRm01T3I3ZVprU0RGczJCeVRFTlZ5N1k0cE1Zcm5scFF5R3pQZ2RLQjY4LkJnUWdVMDVMU1U1cGNFVmpWeTlESzB0NVVGRm5SbWx3YnpNNFRFNVdWSGxZWjJrQUFBd3pRMEpCZFc5cFdWTXpjejBBAAAWcDF2Skd0YUJRV3k0WC15NzVGRmVtQQIBAQA"
-                ,"join_url":"https://zoom.us/j/646923659","created_at":"2018-01-31T02:08:02Z"}
-                */
-
         if (data == null || data == "" || typeof data != "object") {
           layoutActions.errorBlockLoader(
             "Failed to create video call session. Please check your internet connection"
@@ -745,39 +704,8 @@ class GroupSessionClass extends React.Component {
       getWpAjaxAxios("wzs21_zoom_ajax", data, successInterceptor, true);
     };
 
-    // New Gruveo
-    // choose between zoom or chrome
     const recConfirmCreate = () => {
-      if (IsGruveoEnable) {
-        let width = "100px";
-        let v = (
-          <div>
-            <br />
-            <div
-              onClick={() => {
-                confirmCreateWithGruveo();
-              }}
-              style={{ width: width }}
-              className="btn btn-blue"
-            >
-              Chrome
-            </div>
-
-            <div
-              onClick={() => {
-                confirmCreateWithZoom();
-              }}
-              style={{ width: width }}
-              className="btn btn-blue"
-            >
-              Zoom
-            </div>
-          </div>
-        );
-        layoutActions.customViewBlockLoader("Create Video Call With", v);
-      } else {
-        confirmCreateWithZoom();
-      }
+      confirmCreateWithZoom();
     };
 
     // open confirmation if time now is less than start time
