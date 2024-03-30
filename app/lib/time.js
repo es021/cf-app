@@ -164,6 +164,48 @@ Time.prototype.getDateTime = function (unixtimestamp, format12H) {
 }
 
 // timezone : MYT, EST
+Time.prototype.getCurrentDateInputDifferentTimezone = function (unixtimestamp, timezone) {
+    //Time.getStringWithTimezone("now", "MYT")
+
+    var TZ = {
+        MYT: +8,
+        EST: -5,
+        EDT: -4
+    }
+
+    if (unixtimestamp <= 0 || unixtimestamp === null || unixtimestamp === "") {
+        return "";
+    }
+
+    if (unixtimestamp === "now") {
+        unixtimestamp = this.getUnixTimestampNow();
+    }
+
+    if (typeof unixtimestamp === "string") {
+        if (Number.isNaN(Number.parseInt(unixtimestamp))) {
+            unixtimestamp = this.convertDBTimeToUnix(unixtimestamp);
+        }
+    }
+
+    var d = new Date();
+    var defaultOffset = d.getTimezoneOffset() / 60;
+    var offset = defaultOffset + TZ[timezone];
+    unixtimestamp = unixtimestamp + (offset * 60 * 60);
+
+    // Convert UTC time to GMT+8
+    let malaysiaDate = new Date(unixtimestamp * 1000);
+
+    let year = malaysiaDate.getFullYear();
+    let month = String(malaysiaDate.getMonth() + 1).padStart(2, '0');
+    let day = String(malaysiaDate.getDate()).padStart(2, '0');
+
+    // Format the date as YYYY-MM-DD
+    let formattedDate = year + '-' + month + '-' + day;
+
+    return formattedDate;
+}
+
+// timezone : MYT, EST
 Time.prototype.getStringWithTimezone = function (unixtimestamp, timezone) {
     //Time.getStringWithTimezone("now", "MYT")
 

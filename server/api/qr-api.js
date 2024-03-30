@@ -52,6 +52,7 @@ class QrAPI {
         let code = param.code;
 
         return new Promise(async (resolve, reject) => {
+            const todayDate =  Time.getCurrentDateInputDifferentTimezone(Date.now()/1000, "MYT")
             let sql = `
                 SELECT 
                 i.ID as qr_id, 
@@ -63,11 +64,15 @@ class QrAPI {
                 i.type as qr_type,
                 ${DB.selectTimestampToUnix('c.created_at')} as checked_in_at
                  
-                FROM qr_img i LEFT OUTER JOIN qr_check_in c ON c.cf = i.cf AND c.user_id = i.user_id
+                FROM qr_img i 
+                LEFT OUTER JOIN qr_check_in c ON c.cf = i.cf AND c.user_id = i.user_id AND ${DB.filterDateMalaysia("c.created_at", todayDate)}
+                
                 WHERE 1=1
                 AND i.code = ? 
             `;
+
             sql = DB.prepare(sql, [code]);
+            
             let sqlRes = await DB.query(sql).then(res => {
                 try {
                     return res[0]

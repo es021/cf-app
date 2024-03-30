@@ -9,7 +9,7 @@ const {
 } = require('../secret/secret.js');
 
 var DB = function (env) {
-    console.log("env",env)
+    console.log("env", env)
     var config = {};
     if (env === "DEV") {
         config = {
@@ -157,7 +157,7 @@ DB.prototype.getByID = function (table, ID, ID_key = "ID") {
 };
 DB.prototype.selectTimestampToUnix = function (timestamp_column) {
     return `UNIX_TIMESTAMP(${timestamp_column})`;
-  }
+}
 DB.prototype.insert = function (table, data, ID_key = "ID", onDuplicate = null) {
     var DB = this;
     var key = "(";
@@ -324,6 +324,10 @@ DB.prototype.selectUserName = function (user_id) {
             and s.entity_id = ${user_id} and s.key_input = "last_name")
     ) `
 };
+
+DB.prototype.filterDateMalaysia = function (columnTimestamp, dateWithDash) {
+    return `${columnTimestamp} >= CONVERT_TZ('${dateWithDash} 00:00:00', '+08:00', '+00:00') AND ${columnTimestamp} <= CONVERT_TZ('${dateWithDash} 23:59:59', '+08:00', '+00:00')`
+}
 
 DB.prototype.prepareLimit = function (page, offset) {
     var start = (page - 1) * offset;
