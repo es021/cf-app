@@ -161,7 +161,6 @@ class XLSApi {
       return newData;
     };
 
-    // console.log("query", query)
     // 4. fetch and return
     return this.fetchAndReturn(
       query,
@@ -344,7 +343,6 @@ class XLSApi {
     return this.browse_student(`role:"Student"`, true);
   }
   removeCfName(k) {
-    // console.log(k);
     k = k.replace("oejf21_", "");
     k = k.replace("oejf22_", "");
     k = k.replace("ocpe_", "");
@@ -359,7 +357,6 @@ class XLSApi {
       cf: cf,
       user_ids: user_ids,
     });
-    console.log("res", res);
     for (let i in data) {
       let d = data[i];
       let id = d[key]["ID"];
@@ -405,7 +402,6 @@ class XLSApi {
         }
       }
 
-      // // console.log("newData", newData);
       newData = this.restructAppendTypeForStudent(newData, "student_");
       return newData;
     };
@@ -757,7 +753,6 @@ class XLSApi {
     }`;
     const headers = null;
     const restructData = (data) => {
-      console.log("data", data);
       let r = {
         qr_profile_id:
           data.qr.user && data.qr.user.ID
@@ -806,7 +801,6 @@ class XLSApi {
     }`;
     const headers = null;
     const restructData = (data) => {
-      console.log("data", data);
       let r = {
         user_id: data.user.ID,
         user_email: data.user.user_email,
