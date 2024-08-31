@@ -206,6 +206,7 @@ class XLSApi {
     return `ID 
       ${is_admin == "1" ? "cf" : ""} 
       user_email 
+      cf_registered_at
       doc_links {label url}
       interested_vacancies_by_company {title}
     `;
