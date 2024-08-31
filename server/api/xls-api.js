@@ -1,6 +1,9 @@
-const { getAxiosGraphQLQuery, postRequest } = require("../../helper/api-helper");
+const {
+  getAxiosGraphQLQuery,
+  postRequest,
+} = require("../../helper/api-helper");
 const { Time } = require("../../app/lib/time");
-const { FilterNotObject } = require("../../config/xls-config")
+const { FilterNotObject } = require("../../config/xls-config");
 const axios = require("axios");
 const obj2arg = require("graphql-obj2arg");
 const { isCustomUserInfoOff } = require("../../config/registration-config");
@@ -20,7 +23,7 @@ class XLSApi {
       "started_at",
       "ended_at",
       "user_registered",
-      "appointment_time"
+      "appointment_time",
     ];
   }
 
@@ -47,7 +50,13 @@ class XLSApi {
       case "hybrid_check_in":
         return this.hybrid_check_in(filter.cf);
       case "hybrid_scanned_list":
-        return this.hybrid_scanned_list(filter.cf, filter.start, filter.end, filter.type, filter.company_id);
+        return this.hybrid_scanned_list(
+          filter.cf,
+          filter.start,
+          filter.end,
+          filter.type,
+          filter.company_id
+        );
       case "students":
         return this.students(filter.cf, filter.new_only);
       // xls/prescreens/{"company_id":1}
@@ -83,19 +92,18 @@ class XLSApi {
   event_webinar_log(param) {
     var filename = `Event Activity - ${param.event_name}`;
 
-    const extractData = res => {
+    const extractData = (res) => {
       return res.data;
-    }
+    };
 
     return this.fetchAndReturnPost({
       url: StatisticUrl + "/event-webinar-log",
       param: {
-        event_id: param.event_id
+        event_id: param.event_id,
       },
       extractData: extractData,
       filename: filename,
     });
-
   }
   rec_analytic(param) {
     var filename = ``;
@@ -109,9 +117,9 @@ class XLSApi {
       filename = `Profile Visits`;
     }
 
-    const extractData = res => {
+    const extractData = (res) => {
       return res.data;
-    }
+    };
 
     return this.fetchAndReturnPost({
       url: StatisticUrl + "/company-statistic-count",
@@ -119,7 +127,6 @@ class XLSApi {
       extractData: extractData,
       filename: filename,
     });
-
   }
 
   job_posts_by_cf(cf) {
@@ -133,7 +140,7 @@ class XLSApi {
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["company"];
 
       var newData = {};
@@ -141,7 +148,7 @@ class XLSApi {
         var d = data[key];
         if (hasChildren.indexOf(key) >= 0) {
           if (!d) {
-            d = { name: "-" }
+            d = { name: "-" };
           }
           for (var k in d) {
             newData[`${key}_${k}`] = d[k];
@@ -169,13 +176,14 @@ class XLSApi {
 
   job_posts_application_by_cf_with_status(cf) {
     var filename = `Job Post Applicant Status`;
-    const extractData = res => {
+    const extractData = (res) => {
       return res.data;
-    }
+    };
     return this.fetchAndReturnPost({
       url: StatisticUrl + "/vacancy-application",
       param: {
-        cf: cf, is_with_status: true,
+        cf: cf,
+        is_with_status: true,
       },
       extractData: extractData,
       filename: filename,
@@ -184,9 +192,9 @@ class XLSApi {
 
   job_posts_application_by_cf(cf) {
     var filename = `Job Post Applications`;
-    const extractData = res => {
+    const extractData = (res) => {
       return res.data;
-    }
+    };
     return this.fetchAndReturnPost({
       url: StatisticUrl + "/vacancy-application",
       param: { cf: cf },
@@ -194,7 +202,6 @@ class XLSApi {
       filename: filename,
     });
   }
-
 
   student_field(is_admin) {
     return `ID 
@@ -274,7 +281,6 @@ class XLSApi {
     return "";
   }
 
-
   list_job_applicants(filter, cf, is_admin) {
     let is_include_status = filter.is_include_status;
     var filename = `Participant Listing`;
@@ -287,19 +293,19 @@ class XLSApi {
           ) 
         {
           user{${this.student_field(is_admin)}}
-          ${is_include_status ? 'application_status' : ''}
+          ${is_include_status ? "application_status" : ""}
         }
       } `;
 
-    const postQuery = async data => {
+    const postQuery = async (data) => {
       return await this.postQueryForStudentField("user", cf, data);
-    }
+    };
 
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["user"];
       var newData = {};
       for (var key in data) {
@@ -345,22 +351,22 @@ class XLSApi {
     return k;
   }
   async postQueryForStudentField(key, cf, data) {
-    let user_ids = data.map(d => {
+    let user_ids = data.map((d) => {
       return d[key]["ID"];
-    })
+    });
 
     let res = await UserAPI.Main("get-data-for-xls", {
       cf: cf,
-      user_ids: user_ids
-    })
-    console.log("res", res)
+      user_ids: user_ids,
+    });
+    console.log("res", res);
     for (let i in data) {
       let d = data[i];
-      let id = d[key]["ID"]
+      let id = d[key]["ID"];
       data[i] = {
         ...d,
-        ...res[id]
-      }
+        ...res[id],
+      };
     }
     return data;
   }
@@ -374,15 +380,15 @@ class XLSApi {
       }
     } `;
 
-    const postQuery = async data => {
+    const postQuery = async (data) => {
       return await this.postQueryForStudentField("student", cf, data);
-    }
+    };
 
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["student"];
       var newData = {};
       for (var key in data) {
@@ -403,7 +409,6 @@ class XLSApi {
       newData = this.restructAppendTypeForStudent(newData, "student_");
       return newData;
     };
-
 
     // 4. fetch and return
     // TODO
@@ -433,15 +438,15 @@ class XLSApi {
             }
           }`;
 
-    const postQuery = async data => {
+    const postQuery = async (data) => {
       return await this.postQueryForStudentField("student", cf, data);
-    }
+    };
 
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["student", "company"];
       var newData = {};
       for (var key in data) {
@@ -488,10 +493,7 @@ class XLSApi {
     // return newData;
     // TODO - for multi
 
-    let multi_input = [
-      "doc_links",
-      "interested_vacancies_by_company",
-    ];
+    let multi_input = ["doc_links", "interested_vacancies_by_company"];
     // if (!isCustomUserInfoOff(this.CF, "extracurricular")) multi_input.push("extracurricular");
     // if (!isCustomUserInfoOff(this.CF, "field_study")) multi_input.push("field_study");
     // if (!isCustomUserInfoOff(this.CF, "skill")) multi_input.push("skill");
@@ -550,16 +552,15 @@ class XLSApi {
             }
           }`;
 
-    const postQuery = async data => {
+    const postQuery = async (data) => {
       return await this.postQueryForStudentField("student", cf, data);
-    }
-
+    };
 
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["student", "company"];
       var newData = {};
       for (var key in data) {
@@ -606,15 +607,15 @@ class XLSApi {
             }
           }`;
 
-    const postQuery = async data => {
+    const postQuery = async (data) => {
       return await this.postQueryForStudentField("student", cf, data);
-    }
+    };
 
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["student", "company"];
       var newData = {};
       for (var key in data) {
@@ -660,15 +661,15 @@ class XLSApi {
             }
           }`;
 
-    const postQuery = async data => {
+    const postQuery = async (data) => {
       return await this.postQueryForStudentField("student", cf, data);
-    }
+    };
 
     // 2. prepare props to generate table
     const headers = null;
 
     // 3. resctruct data to be in one level only
-    const restructData = data => {
+    const restructData = (data) => {
       var hasChildren = ["student", "company"];
       var newData = {};
       for (var key in data) {
@@ -721,24 +722,28 @@ class XLSApi {
   }
 
   hybrid_scanned_list(cf, start, end, type, company_id) {
-    const isTypeExhibitor = type == "exhibitor"
-    const isTypeVisitor = type == "visitor"
+    const isTypeExhibitor = type == "exhibitor";
+    const isTypeVisitor = type == "visitor";
 
     var filename = "";
-    let param = `start:"${start}" end:"${end}" cf:"${cf}"`
+    let param = `start:"${start}" end:"${end}" cf:"${cf}"`;
 
     if (isTypeExhibitor) {
-      filename = company_id ? `Your Profile QR Scanned - ${cf}` : `Exhibitor's QR Scanned - ${cf}`;
+      filename = company_id
+        ? `Your Profile QR Scanned - ${cf}`
+        : `Exhibitor's QR Scanned - ${cf}`;
       param += `
         type:"company" 
         ${company_id ? `company_id:${company_id}` : ``}
-      `
+      `;
     } else if (isTypeVisitor) {
-      filename = company_id ? `Visitor's QR Scanned By You - ${cf}` : `Visitor's QR Scanned - ${cf}`;
+      filename = company_id
+        ? `Visitor's QR Scanned By You - ${cf}`
+        : `Visitor's QR Scanned - ${cf}`;
       param += `
         type:"user" 
         ${company_id ? `scanned_by_company_id:${company_id}` : ``}
-      `
+      `;
     }
 
     var query = `query{
@@ -751,28 +756,33 @@ class XLSApi {
         }
     }`;
     const headers = null;
-    const restructData = data => {
-      console.log("data", data)
+    const restructData = (data) => {
+      console.log("data", data);
       let r = {
-        qr_profile_id: data.qr.user && data.qr.user.ID
-          ? `${data.qr.user.ID}`
-          : `${data.qr.company.ID}`,
-        qr_profile: data.qr.user && data.qr.user.ID
-          ? `${data.qr.user.first_name} ${data.qr.user.last_name}`
-          : `${data.qr.company.name}`,
-      }
+        qr_profile_id:
+          data.qr.user && data.qr.user.ID
+            ? `${data.qr.user.ID}`
+            : `${data.qr.company.ID}`,
+        qr_profile:
+          data.qr.user && data.qr.user.ID
+            ? `${data.qr.user.first_name} ${data.qr.user.last_name}`
+            : `${data.qr.company.name}`,
+      };
       if (isTypeVisitor) {
-        r["qr_profile_email"] = data.qr.user && data.qr.user.ID
-          ? `${data.qr.user.user_email}`
-          : ``;
+        r["qr_profile_email"] =
+          data.qr.user && data.qr.user.ID ? `${data.qr.user.user_email}` : ``;
       }
 
       r = {
         ...r,
-        scanned_by: data.logged_in_user ? `${data.logged_in_user.first_name} ${data.logged_in_user.last_name}` : `-`,
-        scanned_by_role: data.logged_in_user ? `${data.logged_in_user.role}` : `-`,
-        scanned_at: data.created_at
-      }
+        scanned_by: data.logged_in_user
+          ? `${data.logged_in_user.first_name} ${data.logged_in_user.last_name}`
+          : `-`,
+        scanned_by_role: data.logged_in_user
+          ? `${data.logged_in_user.role}`
+          : `-`,
+        scanned_at: data.created_at,
+      };
       return r;
     };
     return this.fetchAndReturn(
@@ -795,15 +805,17 @@ class XLSApi {
       }
     }`;
     const headers = null;
-    const restructData = data => {
-      console.log("data", data)
+    const restructData = (data) => {
+      console.log("data", data);
       let r = {
         user_id: data.user.ID,
         user_email: data.user.user_email,
         user_name: `${data.user.first_name} ${data.user.last_name}`,
-        checked_in_by: data.checked_in_by_user ? `${data.checked_in_by_user.first_name} ${data.checked_in_by_user.last_name}` : `-`,
-        checked_in_at: data.created_at
-      }
+        checked_in_by: data.checked_in_by_user
+          ? `${data.checked_in_by_user.first_name} ${data.checked_in_by_user.last_name}`
+          : `-`,
+        checked_in_at: data.created_at,
+      };
       return r;
     };
     return this.fetchAndReturn(
@@ -854,7 +866,7 @@ class XLSApi {
       return d;
     };
 
-    const restructData = data => {
+    const restructData = (data) => {
       return this.restructAppendTypeForStudent(data);
     };
 
@@ -894,7 +906,10 @@ class XLSApi {
         var key = label + "_" + (Number.parseInt(i) + 1);
         var d = datasAttr[i];
 
-        if (key.indexOf("attachment") >= 0 && this.globalHeaders.indexOf(key) <= -1) {
+        if (
+          key.indexOf("attachment") >= 0 &&
+          this.globalHeaders.indexOf(key) <= -1
+        ) {
           this.globalHeaders.push(key);
         }
 
@@ -942,7 +957,7 @@ class XLSApi {
     );
     return {
       filename: filename,
-      content: content
+      content: content,
     };
   }
 
@@ -954,7 +969,7 @@ class XLSApi {
     rowHook = null,
     restructData = null,
     renameTitle = null,
-    postQuery = null,
+    postQuery = null
   ) {
     return getAxiosGraphQLQuery(query).then(
       async (res) => {
@@ -968,10 +983,10 @@ class XLSApi {
           headers,
           rowHook,
           restructData,
-          renameTitle
+          renameTitle,
         });
       },
-      err => {
+      (err) => {
         return err;
       }
     );
@@ -983,12 +998,14 @@ class XLSApi {
     filename,
     headers = null,
     rowHook = null,
-    extractData = (res) => { res.data },
+    extractData = (res) => {
+      res.data;
+    },
     restructData = null,
-    renameTitle = null
+    renameTitle = null,
   }) {
     return postRequest(url, param).then(
-      res => {
+      (res) => {
         let data = extractData(res);
         return this.fetchSuccessHandler({
           data,
@@ -996,10 +1013,10 @@ class XLSApi {
           headers,
           rowHook,
           restructData,
-          renameTitle
+          renameTitle,
         });
       },
-      err => {
+      (err) => {
         return err;
       }
     );
@@ -1097,5 +1114,5 @@ class XLSApi {
 XLSApi = new XLSApi();
 
 module.exports = {
-  XLSApi
+  XLSApi,
 };
